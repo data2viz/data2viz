@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page 1</title>
+    <script src="require.js"></script>
+</head>
+<body>
+<div class="test"></div>
+
+<div class="titi"></div>
+<div class="titi"></div>
+<div class="titi"></div>
+<div class="titi"></div>
+<div class="titi"></div>
+<div class="titi"></div>
+<div class="titi"></div>
+<div class="titi"></div>
+<div class="titi"></div>
+<div class="titi"></div>
+
+
+<script>
+    require.config({
+        baseUrl: "out",
+        paths: {"kotlin": "lib/kotlin"}
+    });
+    require(['selection'],
+        function (selection) {
+            selection.selectAllDivTiti();
+        });
+</script>
+</body>
+</html>
