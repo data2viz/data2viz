@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page 1</title>
+    <script src="../require.js"></script>
+    <style>
+        .testResult.success > .resultDescription {
+            background-color: #59fff3;
+        }
+        .testResult.fail > .resultDescription {
+            background-color: #ff2b4b;
+        }
+    </style>
+</head>
+<body>
+<div class="test"></div>
+
+<script>
+    require.config({
+        baseUrl: ".",
+        paths: {"kotlin": "lib/kotlin"}
+    });
+    require(['tests'],
+        function (tests) {
+            tests.executeAll();
+        });
+</script>
+</body>
+</html>

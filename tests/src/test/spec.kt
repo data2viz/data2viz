@@ -1,0 +1,59 @@
+package test
+
+import test.matchers.Matchers
+
+abstract class TestBase : Matchers {
+    val tests = mutableListOf<TestCase>()
+
+    // this should live in some matchers class, but can't inline in an interface :(
+    inline fun <reified T> shouldThrow(thunk: () -> Any?): T {
+        val e = try {
+            thunk()
+            null
+        } catch (e: Throwable) {
+            e
+        }
+
+        val exceptionClassName = T::class.simpleName
+
+        if (e == null)
+            throw AssertionError("Expected exception ${T::class.simpleName} but no exception was thrown")
+        else if (e::class.simpleName != exceptionClassName)
+            throw AssertionError("Expected exception ${T::class.simpleName} but ${e::class.simpleName} was thrown")
+        else
+            return e as T
+    }
+}
+
+open class StringSpec : TestBase() {
+
+    operator fun String.invoke(test: () -> Unit): TestCase {
+        val tc = TestCase(name = this, test = test)
+        tests.add(tc)
+        return tc
+    }
+}
+
+class TestCase(var name: String, val test: () -> Unit) {
+    fun execute() =
+            try {
+                test()
+                TestResult.OK(name)
+            } catch (e: Throwable) {
+                TestResult.KO(name, e.message)
+            }
+}
+
+sealed class TestResult(val name: String) {
+
+    abstract fun result():String
+
+
+    class OK(name: String): TestResult(name) {
+        override fun result() = "success"
+    }
+
+    class KO(name: String, val message: String?): TestResult(name) {
+        override fun result() = "fail"
+    }
+}
