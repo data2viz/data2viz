@@ -6,6 +6,9 @@ import test.matchers.have
 
 fun executeAll() {
     htmlExecution(
+
+            InterpolateTests(),
+
             ExceptionMatchers(),
             StringMatchers(),
             IntMatchers(),
