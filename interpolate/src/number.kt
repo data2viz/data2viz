@@ -1,3 +1,5 @@
 
 
-fun interpolateNumber(a:Int, b:Int) = {t:Double -> a.toDouble() + t * (b-a) }
+fun interpolateNumber(a:Number, b:Number) = {t:Double -> a.toDouble() + t * (b.toDouble() - a.toDouble()) }
+
+//fun uninterpolaleNumber(a:Number, b: Number) =

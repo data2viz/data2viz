@@ -1,4 +1,10 @@
-fun interpolateNumberTest():Color {
-    val x = interpolateNumber(10, 20)
-    return Color(x(0.2).toInt(), 2, 3)
+import test.StringSpec
+
+class InterpolateTests: StringSpec(){
+    init {
+        "interpolate" {
+            val x = interpolateNumber(10, 20)
+            x(0.2) shouldBe 12.0
+        }
+    }
 }
