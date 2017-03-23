@@ -10,5 +10,7 @@
     <orderEntry type="jdk" jdkName="1.8.0.25" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaScript" level="project" />
+    <orderEntry type="module" module-name="tests" />
+    <orderEntry type="module" module-name="core" />
   </component>
 </module>
