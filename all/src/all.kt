@@ -3,7 +3,7 @@ import test.htmlExecution
 
 fun executeAll() {
     htmlExecution(
-            InterpolateTests(),
+            EaseTests(),
             ExceptionMatchers(),
             StringMatchers(),
             IntMatchers(),
