@@ -39,21 +39,12 @@ class TestCase(var name: String, val test: () -> Unit) {
             try {
                 test()
                 TestResult.OK(name)
-            } catch (e: Throwable) {
+            } catch (e: AssertionError) {
                 TestResult.KO(name, e.message)
             }
 }
 
 sealed class TestResult(val name: String) {
-
-    abstract fun result():String
-
-
-    class OK(name: String): TestResult(name) {
-        override fun result() = "success"
-    }
-
-    class KO(name: String, val message: String?): TestResult(name) {
-        override fun result() = "fail"
-    }
+    class OK(name: String): TestResult(name)
+    class KO(name: String, val message: String?): TestResult(name)
 }
