@@ -18,5 +18,6 @@
     <orderEntry type="module" module-name="tests" />
     <orderEntry type="module" module-name="timer" />
     <orderEntry type="module" module-name="transition" />
+    <orderEntry type="module" module-name="axis" />
   </component>
 </module>

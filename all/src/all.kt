@@ -3,6 +3,7 @@ import test.htmlExecution
 
 fun executeAll() {
     htmlExecution(
+            AxisTests(),
             ViridisTests(),
             EaseTests(),
             ExceptionMatchers(),
