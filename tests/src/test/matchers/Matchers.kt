@@ -27,6 +27,14 @@ interface Matchers : StringMatchers,
     fun fail(msg: String): Nothing = throw AssertionError(msg)
 
     infix fun Double.shouldBe(other: Double): Unit = ToleranceMatcher(other, 0.0).test(this)
+
+    infix fun Iterable<Double>.shouldBe(other: Iterable<Double>) {
+        if(this.count() != other.count())
+            throw AssertionError(this.toString() + " doesn't have the same size as $other" )
+        this.zip(other).forEach {
+            ToleranceMatcher(it.second, 0.0000001).test(it.first)
+        }
+    }
     infix fun <T> T.shouldBe(any: Any?): Unit = shouldEqual(any)
     infix fun <T> T.shouldEqual(any: Any?): Unit {
         when (any) {
