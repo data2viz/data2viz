@@ -1,4 +1,5 @@
 import org.w3c.dom.Element
+import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.js.Date
 import kotlin.js.Math
@@ -10,16 +11,23 @@ fun svgPerfs() {
 
     val nbElements = 2500
 
-    val fps = select("#fps span")!!
+    val fps = document.querySelector("#fps span")!!
 
-    select("#num span")?.textContent = nbElements.toString()
+    document.querySelector("#num span")?.textContent = nbElements.toString()
 
-    val svg = select("svg") {
+    val svg = document.querySelector("svg")!!.apply {
         setAttribute("width", "$width")
         setAttribute("height", "$height")
-    }!!
+    }
 
     val circles = Array(nbElements, { Circle() })
+
+    fun Element.append(name:String, init:Element.() -> Unit): Element {
+        val element = document.createElementNS(this.namespaceURI, name)
+        appendChild(element)
+        init(element)
+        return element
+    }
 
     val g  = svg.append("g") {
         circles.forEach {
