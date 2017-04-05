@@ -8,17 +8,17 @@ import kotlin.browser.document
 
 fun select(selectors: String, init: Selection.() -> Unit = {}): Selection {
     val elements = document.querySelector(selectors)?.let { arrayOf(it) } ?: emptyArray()
-    return Selection(arrayOf(Group(elements, document.documentElement!!)), arrayOf(document.documentElement!!), init)
+    return Selection(arrayOf(Group(elements, document.documentElement!!)), init)
 }
 
 fun selectAll(selectors: String, init: Selection.() -> Unit = {}): Selection {
     val elements = document.querySelectorAll(selectors).asList().map { it as Element }.toTypedArray()
-    return Selection(arrayOf(Group(elements, document.documentElement!!)), arrayOf(document.documentElement!!), init)
+    return Selection(arrayOf(Group(elements, document.documentElement!!)), init)
 }
 
-fun <D> selectAllAndBind(selectors: String, data: Iterable<D>, init: SelectionWithData<D>.() -> Unit): SelectionWithData<D> {
+fun <D> selectAllAndBind(selectors: String, data: Iterable<D>, init: SelectionWithData<D>.() -> Unit = {}): SelectionWithData<D> {
     val elements = document.querySelectorAll(selectors).asList().map { it as Element }.toTypedArray()
-    return SelectionWithData(arrayOf(Group(elements, document.documentElement!!)), arrayOf(document.documentElement!!), data, init)
+    return SelectionWithData(arrayOf(Group(elements, document.documentElement!!)) as Array<Group?>, data, init)
 }
 
 fun Element.append(elementName: String, init: Element.() -> Unit = {}): Element {
@@ -28,34 +28,30 @@ fun Element.append(elementName: String, init: Element.() -> Unit = {}): Element 
 }
 
 
-class Group(val elements : Array<Element>, val parentNode: Element)
+open class Group(val elements : Array<Element>, val parentNode: Element)
+class GroupAndData<D>(elements: Array<Element>, parentNode: Element, val data: Iterable<D>): Group(elements, parentNode) {
 
-open class Selection(val groups: Array<Group>, val parents: Array<Element>, init: Selection.() -> Unit) {
+}
+
+open class Selection(val groups: Array<Group?>, init: Selection.() -> Unit) {
     init {
         init()
     }
 
-    fun selectAll(selectors: String){
-        for (group in groups) {
+    fun selectAll(selectors: String, init: Selection.() -> Unit = {}): Selection {
+        val subSelection = mutableListOf<Group>()
+        for (group in groups.filterNotNull()) {
             for (element in group.elements) {
-                element.querySelectorAll(selectors)
+                val elements = element.querySelectorAll(selectors).asList().map { it as Element }.toTypedArray()
+                subSelection.add(Group(elements, element))
             }
         }
+        return Selection(subSelection.toTypedArray(), init)
     }
-
-//    fun select(selectors: String, init: Selection.() -> Unit = {}):Selection{
-//
-//    }
-//
-//    fun selectAll(selectors: String, init: Selection.() -> Unit = {}): Selection {
-//        val group = document.querySelectorAll(selectors).asList().map { it as Element
-// }.toTypedArray()
-//        return Selection(arrayOf(group), arrayOf(document.documentElement!!), init)
-//    }
 
 
     fun style(propertyName: String, propertyValue: String) {
-        for (group in groups) {
+        for (group in groups.filterNotNull()) {
             for (element in group.elements) {
                 (element as HTMLElement).style.setProperty(propertyName, propertyValue)
             }
@@ -63,7 +59,7 @@ open class Selection(val groups: Array<Group>, val parents: Array<Element>, init
     }
 
     fun style(propertyName: String, propertyfromIndex: (Int) -> String) {
-        for (group in groups) {
+        for (group in groups.filterNotNull()) {
             for (element in group.elements.withIndex()) {
                 ((element.value) as HTMLElement).style.setProperty(propertyName, propertyfromIndex(element.index))
             }
@@ -72,11 +68,30 @@ open class Selection(val groups: Array<Group>, val parents: Array<Element>, init
 }
 
 
-class SelectionWithData<D>(groups: Array<Group>, parents: Array<Element>, data: Iterable<D>, init: SelectionWithData<D>.() -> Unit) :
-        Selection(groups, parents, {}) {
+class SelectionWithData<D>(groups: Array<Group?>, data: Iterable<D>, init: SelectionWithData<D>.() -> Unit) :
+        Selection(groups, {}) {
 
     init {
+        val datas = data.toList()
+        console.log(data)
+        for ((i, group) in groups.withIndex()) {
+            if(group != null){
+                console.log(group)
+                group.parentNode.asDynamic().__data__ = datas[i]
+            } else {
+                TODO()
+            }
+        }
         init()
+    }
+
+    fun bindByIndex(parentNode: Element, group: Group, data: Array<D>){
+        val dataLength = data.size
+        for (i in 0..dataLength-1){
+            if(group.elements[i] != null){
+
+            }
+        }
     }
 
     fun enter(enteringFunction: Element.(D) -> Unit) {
