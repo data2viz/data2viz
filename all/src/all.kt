@@ -1,10 +1,11 @@
+import io.data2viz.selection.SelectionTests
 import test.htmlExecution
 
 
 fun executeAll() {
     htmlExecution(
+            SelectionTests(),
             TicksTests(),
-            AxisTests(),
             ViridisTests(),
             EaseTests(),
             ExceptionMatchers(),
