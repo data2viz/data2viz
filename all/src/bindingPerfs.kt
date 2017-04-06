@@ -19,8 +19,9 @@ fun bindingPerfs() {
 
     val count = 2500
     val creationTime = time {
+        val svg = DomUtils.body.querySelector("svg")!!
         (1..count).forEach {
-            DomUtils.body.append("div") {
+            svg.append("g") {
                 asDynamic().__data__ = it
             }
         }
@@ -29,7 +30,7 @@ fun bindingPerfs() {
     console.log("$count éléments créés en ${creationTime.time} ms")
 
     val selectionTime = time {
-        DomUtils.body.querySelectorAll("div").asList().filter {
+        DomUtils.body.querySelectorAll("g").asList().filter {
             (it.asDynamic().__data__ as Int) % 2 == 0
         }.size
     }
