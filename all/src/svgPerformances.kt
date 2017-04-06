@@ -29,17 +29,21 @@ fun svgPerfs() {
         return element
     }
 
+    val creationTime = Date().getTime()
+
     val g  = svg.append("g") {
         circles.forEach {
             val svgCircle = this@append.append("circle") {
                 setAttribute("cx", "10")
                 setAttribute("cy", "10")
-                setAttribute("fill", "#555")
+                setAttribute("stroke", "#555")
+                setAttribute("fill", "#fff")
                 setAttribute("r", "1")
             }
             it.element = svgCircle
         }
     }
+    console.log("creation time ${Date().getTime() - creationTime} ms")
 
     val x = { domain: Double -> 96.0 * domain + 480 }
     val y = { domain: Double -> 50.0 * domain + 250 }
