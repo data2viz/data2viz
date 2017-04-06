@@ -1,9 +1,6 @@
-import io.data2viz.selection.SelectionTests
 import io.data2viz.selection.append
 import org.w3c.dom.asList
 import test.DomUtils
-import test.htmlExecution
-import kotlin.browser.document
 import kotlin.js.Date
 
 
