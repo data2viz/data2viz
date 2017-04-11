@@ -16,3 +16,5 @@ fun executeAll() {
             TestCollectionMatchers()
     )
 }
+
+fun svgPerfs()  = io.data2viz.samples.perfs.svgPerfs()
