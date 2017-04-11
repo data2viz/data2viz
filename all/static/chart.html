@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>SVG/D3 Performance Test</title>
+<style>
+    svg {
+        position: absolute;
+        top: 0;
+    }
+</style>
+<script src="../require.js"></script>
+<div style="font-size: 22px; position:absolute;z-index:2;">
+    <div id="num">Number of points: <span>?</span></div>
+    <div id="fps">FPS: <span>?</span></div>
+</div>
+<body>
+<svg></svg>
+<script>
+    require.config({
+        baseUrl: ".",
+        paths: {"kotlin": "lib/kotlin"}
+    });
+    require(['all'],
+        function (all) {
+            all.chart();
+        });
+</script>
+</body>
+</html>
