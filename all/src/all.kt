@@ -4,6 +4,7 @@ import test.htmlExecution
 
 fun executeAll() {
     htmlExecution(
+            ColorTests(),
             SelectionTests(),
             TicksTests(),
             ViridisTests(),
