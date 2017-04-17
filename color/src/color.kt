@@ -1,11 +1,12 @@
 
+val String.color: Color
+    get():Color {
+        val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
+        if(!this.matches(regex)) error("Conversion of string to color works for encoded colors like #12abCD")
+        return  Color(this.substring(1).toInt(16))
+    }
 
-private val hexStr = "0123456789abcdef"
-
-class Color {
-
-    var _alpha: Float = 1.0f
-    var rgb = 0xffffff
+class Color (var rgb:Int = 0xffffff, var _alpha: Float = 1.0f) {
 
     var r:Int
         get() = (rgb shr 16) and 0xff
@@ -45,13 +46,8 @@ class Color {
     }
 
     val rgbHex: String
-        get() {
-            return "#" +
-                    hexStr[(rgb shr 20) and 0xf] +
-                    hexStr[(rgb shr 16) and 0xf] +
-                    hexStr[(rgb shr 12) and 0xf] +
-                    hexStr[(rgb shr 8) and 0xf] +
-                    hexStr[(rgb shr 4) and 0xf] +
-                    hexStr[rgb and 0xf]
-        }
+        get() =  "#${rgb.toString(16)}"
+
+    fun Int.toString(radix: Int) = asDynamic().toString(radix)
 }
+

@@ -29,7 +29,8 @@ class ColorTests: StringSpec(){
         }
 
         "string to color" {
-//            "#000".color
+            "#0b0b0b".color.rgb shouldBe 0x0b0b0b
+            "#0b0b0b".color.r shouldBe 11
         }
     }
 
