@@ -14,7 +14,7 @@ class EncodedGradient(colorsAsString: String) {
         (0..((this.length / 6) - 1)).map { '#' + substring(6 * it, 6 * it + 6) }
     }
 
-    fun color(x: Double) = colors[Math.floor(x * colors.size)
+    fun color(percent: Double) = colors[Math.floor(percent * colors.size)
             .coerceAtLeast(0)
             .coerceAtMost(colors.size - 1)]
 }
