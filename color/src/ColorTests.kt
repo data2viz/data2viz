@@ -1,15 +1,12 @@
-import EncodedGradient.Companion.inferno
-import EncodedGradient.Companion.magma
-import EncodedGradient.Companion.plasma
-import EncodedGradient.Companion.viridis
+import io.data2viz.color.Color
+import io.data2viz.color.color
+import io.data2viz.color.colors.black
 import test.StringSpec
-import test.matchers.be
-import kotlin.browser.document
 
 class ColorTests: StringSpec(){
 
     init {
-        "color defaults" {
+        "io.data2viz.color.getColor defaults" {
             val color = Color()
             color.rgb shouldBe 0xffffff
             color.r shouldBe 255
@@ -28,9 +25,13 @@ class ColorTests: StringSpec(){
             color.rgbHex shouldBe "#ababab"
         }
 
-        "string to color" {
+        "string to io.data2viz.color.getColor" {
             "#0b0b0b".color.rgb shouldBe 0x0b0b0b
             "#0b0b0b".color.r shouldBe 11
+        }
+
+        "color to hex should be 7 char" {
+            black.rgbHex shouldBe "#000000"
         }
     }
 
