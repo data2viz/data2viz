@@ -18,6 +18,6 @@ fun executeAll() {
     )
 }
 
-fun svgPerfs()  = io.data2viz.samples.perfs.svgPerfs()
-fun chart()  = io.data2viz.samples.chart.chart()
+fun svgPerfs() = io.data2viz.samples.perfs.svgPerfs()
+fun chart()    = io.data2viz.samples.chart.chart()
 fun animate()  = io.data2viz.samples.animate.animate()
