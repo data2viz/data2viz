@@ -43,6 +43,13 @@ fun chart() {
 
         g {
             transform {
+                translate(47,10)
+            }
+            Axis(listOf(1,2,3)).buildIn(this)
+        }
+
+        g {
+            transform {
                 translate(margin.left, margin.top)
             }
 
@@ -87,8 +94,36 @@ fun chart() {
 
 
 class Axis (var values:List<Any>) {
-    fun build(parent: ParentElement ){
-        parent.rect {  }
+    fun buildIn(parent: ParentElement ){
+
+        (0..10).forEach {
+            val data = 20 * it
+            parent.g {
+                transform { translate(0, 210 - data) }
+                line (x2 = -6 )
+                text {
+                    style {
+                        setStyle("text-anchor", "end")
+                    }
+                    x = - 9
+                    y = 0
+                    setAttribute("dy", ".32em")
+                    text = data.toString()
+                }
+            }
+        }
+
+        parent.path {
+            strokeWidth = "1"
+            stroke = black
+            shape {
+                moveTo(-6)
+                horizontalDeltaTo(0)
+                verticalLineDeltaTo(210)
+                horizontalDeltaTo(-6)
+            }
+            setAttribute("fill", "none" )
+        }
     }
 }
 
@@ -187,12 +222,26 @@ fun svg(init: SVGElement.() -> Unit = {}): SVGElement {
 @SvgTagMarker
 class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, ParentElement
 
+
+
 @SvgTagMarker
 class GroupElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, HasPosition, ParentElement, Transformable
 
+@SvgTagMarker
+class PathElement(override val element: Element) : ElementWrapper, HasStroke, HasFill {
+
+    fun shape(init: Path.() -> Unit){
+        val path = Path()
+        init(path)
+        setAttribute("d", path.toCommand())
+    }
+}
+
+
+
 
 @SvgTagMarker
-class TextElement(override val element: Element) : HasText, ElementWrapper, HasFill, Transformable, HasStyle {
+class TextElement(override val element: Element) : HasText, HasPosition, ElementWrapper, HasFill, Transformable, HasStyle {
     override var text: String?
         get() = element.textContent
         set(value) {
@@ -220,6 +269,16 @@ interface ParentElement : ElementWrapper {
         element.append(rect.element)
     }
 
+    fun line(x1: Number = 0, y1: Number = 0, x2:Number = 0, y2:Number = 0, stroke:Color = black) {
+        element.append(svg.createSVGElement("line").apply {
+            setAttribute("x1", "$x1")
+            setAttribute("y1", "$y1")
+            setAttribute("x2", "$x2")
+            setAttribute("y2", "$y2")
+            setAttribute("stroke", "$stroke")
+        })
+    }
+
     fun g(init: GroupElement.() -> Unit) {
         val g = svg.g()
         init(g)
@@ -230,6 +289,12 @@ interface ParentElement : ElementWrapper {
         val t = svg.text()
         init(t)
         element.append(t.element)
+    }
+
+    fun path(init:PathElement.() -> Unit){
+        val p = svg.path()
+        init(p)
+        element.append(p.element)
     }
 
 }
@@ -307,10 +372,26 @@ class svg {
                 }
 
         fun g() = GroupElement(createSVGElement("g"))
+        fun path() = PathElement(createSVGElement("path"))
         fun text() = TextElement(createSVGElement("text"))
     }
 }
 
+
+class Path() {
+    private val commands = mutableListOf<String>()
+    fun moveTo(x: Number = 0, y: Number = 0)        {commands.add("M $x $y")}
+    fun moveDeltaTo(dx: Number = 0, dy: Number = 0) {commands.add("m $dx $dy")}
+    fun lineTo(x: Number = 0, y: Number = 0)        {commands.add("L $x $y")}
+    fun lineDeltaTo(dx: Number = 0, dy: Number = 0) {commands.add("l $dx $dy")}
+    fun horizontalTo(x: Number = 0)                 {commands.add("H $x")}
+    fun horizontalDeltaTo(dx: Number = 0)           {commands.add("H $dx")}
+    fun verticalLineTo(y: Number = 0)               {commands.add("V $y")}
+    fun verticalLineDeltaTo(dy: Number = 0)         {commands.add("v $dy")}
+    fun closePath()                                 {commands.add("Z")}
+
+    fun toCommand() = commands.joinToString(separator = " ")
+}
 
 class Transform() {
     private val commands = mutableMapOf<String, String>()
@@ -340,13 +421,11 @@ class Transform() {
 
 class Style() {
     private val styles = mutableMapOf<String, String>()
-    fun fontFamily(name: String) {
-        styles.put("font-family", "font-family: $name")
-    }
 
-    fun fontSize(size: String) {
-        styles.put("font-size", "font-size: $size")
-    }
+    fun setStyle(property: String, value: String) = styles.put(property, "$property: $value")
+
+    fun fontFamily(name: String) { setStyle("font-family", name) }
+    fun fontSize(size: String)   { setStyle("font-size", size) }
 
     fun toAttribute(): String = styles.values.joinToString("; ")
 }
