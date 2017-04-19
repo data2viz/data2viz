@@ -15,24 +15,24 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
     var r: Int
         get() = (rgb shr 16) and 0xff
         set(value) {
-            if (value > 255) error("r should be less or equal to 255")
-            if (value < 0) error("r should be greater or equal to 0")
+            require(value  < 256) {"r should be less or equal to 255"}
+            require(value  > -1) {"r should be greater or equal to 0"}
             rgb = (rgb and 0x00ffff) + (value shl 16)
         }
 
     var g: Int
         get() = (rgb shr 8) and 0xff
         set(value) {
-            if (value > 255) error("g should be less or equal to 255")
-            if (value < 0) error("g should be greater or equal to 0")
+            require(value  < 256) {"g should be less or equal to 255"}
+            require(value  > -1) {"g should be greater or equal to 0"}
             rgb = (rgb and 0xff00ff) + (value shl 8)
         }
 
     var b: Int
         get() = rgb and 0xff
         set(value) {
-            if (value > 255) error("b should be less or equal to 255")
-            if (value < 0) error("b should be greater or equal to 0")
+            require(value  < 256) {"b should be less or equal to 255"}
+            require(value  > -1) {"b should be greater or equal to 0"}
             rgb = (rgb and 0xffff00) + value
         }
 
@@ -58,7 +58,10 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
                 ((rgb shr 4) and 0xf).toString(16) +
                 (rgb  and 0xf).toString(16)
 
-    fun Int.toString(radix: Int) = asDynamic().toString(radix)
+    @Suppress("UnsafeCastFromDynamic")
+    fun Int.toString(radix: Int):String = asDynamic().toString(radix)
+
+    override fun toString() = if(alpha.toFloat() < 1.0) "rgba($r,$g,$b,$alpha)" else rgbHex
 }
 
 object colors {
