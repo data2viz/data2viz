@@ -36,9 +36,6 @@ fun animate() {
 
                 transition(500, easeFunction) {
                     width = this@svg.width
-//                    onEnd {
-//                        this@rect.remove()
-//                    }
                 }
             }
         }
