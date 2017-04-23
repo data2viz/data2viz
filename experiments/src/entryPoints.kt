@@ -1,9 +1,11 @@
 import io.data2viz.interpolate.EaseTests
+import io.data2viz.interpolate.NumberTests
 import test.htmlExecution
 
 
 fun allTests() {
     htmlExecution(
+            NumberTests(),
             ColorTests(),
             TicksTests(),
             ViridisTests(),
