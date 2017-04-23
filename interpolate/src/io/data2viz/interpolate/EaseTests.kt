@@ -1,17 +1,11 @@
 package io.data2viz.interpolate
 
-import io.data2viz.interpolate.identity
-import io.data2viz.interpolate.*
+import namespace
 import test.StringSpec
 import kotlin.browser.document
 
 class EaseTests : StringSpec() {
     init {
-        "interpolate" {
-            val x = interpolateNumber(10, 20)
-            x(0.2) shouldBe 12.0
-        }
-
         "io.data2viz.interpolate.identity"  { testAndGraph() }
         "quad"      { testAndGraph(::quad) }
         "cubicIn"   { testAndGraph(::cubicIn) }
