@@ -6,7 +6,7 @@ import io.data2viz.color.colors.black
 import io.data2viz.color.colors.steelblue
 import io.data2viz.color.colors.white
 import io.data2viz.color.rgba
-import io.data2viz.experiments.animate.uninterpolate
+import io.data2viz.interpolate.uninterpolate
 import io.data2viz.svg.Margins
 import io.data2viz.svg.svg
 import kotlin.browser.window
@@ -129,7 +129,7 @@ class Animation(duration:Int, delay: Int, val timeFunction:(Double) -> Double){
                 currentTime > endTime -> { blocksOfAnimation.forEach { it(1.0) } }
                 else -> {
                     window.requestAnimationFrame {
-                        blocksOfAnimation.forEach { it(timeFunction(time(currentTime))) }
+                        blocksOfAnimation.forEach { it(timeFunction(time(currentTime).toDouble())) }
                         animate()
                     }
                 }

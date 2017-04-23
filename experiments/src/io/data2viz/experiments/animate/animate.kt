@@ -40,8 +40,6 @@ fun animate() {
 
 //------------   API test -----------------------
 
-fun uninterpolate(start:Double, end: Double) :(Double) -> Double = {y -> (y-start)/(end-start)}
-
 fun svg(init: SVGElement.() -> Unit = {}): Selection<SVGElement> {
     var svgElement = document.querySelector("svg")
     if (svgElement == null){
@@ -198,7 +196,7 @@ class RectElement(override val element: Element) : ElementWrapper {
             }
 
             window.requestAnimationFrame {
-                width = widthTransition(timeFunction(time(currentTime)))
+                width = widthTransition(timeFunction(time(currentTime).toDouble()))
                 animate()
             }
         }
