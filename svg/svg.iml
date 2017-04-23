@@ -10,9 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaScript" level="project" />
-    <orderEntry type="module" module-name="tests" />
-    <orderEntry type="module" module-name="core" />
-    <orderEntry type="module" module-name="svg" />
     <orderEntry type="module" module-name="color" />
+    <orderEntry type="module" module-name="core" />
   </component>
 </module>

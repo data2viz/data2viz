@@ -86,5 +86,18 @@ class SelectionTests : StringSpec() {
 //            console.log(one)
 //            one.asDynamic().__data__ as String shouldBe "one"
         }
+
+        "chart" {
+
+//            var graph:Element? = null
+//
+//            select("body") {
+//               append("svg"){
+//                   attr("width", "1000")
+//                   attr("height", "250")
+//                   append("g")
+//               }
+//            }
+        }
     }
 }

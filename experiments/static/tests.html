@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="require.js"></script>
+    <style>
+
+        body {
+            font-family: Lato, Helvetica, sans-serif;
+        }
+
+        .testResult {
+            margin: 20px 0 10px;
+        }
+
+        .resultDescription {
+            border-radius: 4px;
+            padding: 2px 10px;
+            margin-right: 20px;
+            color: white;
+        }
+        .testResult.OK > .resultDescription {
+            background-color: #12b36e;
+        }
+        .testResult.KO > .resultDescription {
+            background-color: #ff2b4b;
+        }
+
+        .error {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="test"></div>
+
+<script>
+    require.config({
+        baseUrl: ".",
+        paths: {"kotlin": "lib/kotlin"}
+    });
+    require(['experiments'],
+        function (experiments) {
+            experiments.allTests();
+        });
+</script>
+</body>
+</html>
