@@ -10,6 +10,16 @@ val String.color: Color
 
 fun rgba(r: Number, g: Number, b: Number, a: Number) = Color().apply { rgba(r, g, b, a) }
 
+
+/**
+ * Implementation of Color as an rgb integer and an alpha channel.
+ *
+ * Provides conversion with hex string notation.
+ *
+ * Todo: add HSLA management and conversions.
+ * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
+ */
 class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
 
     var r: Int
