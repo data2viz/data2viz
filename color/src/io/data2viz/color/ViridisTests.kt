@@ -1,7 +1,10 @@
-import EncodedGradient.Companion.inferno
-import EncodedGradient.Companion.magma
-import EncodedGradient.Companion.plasma
-import EncodedGradient.Companion.viridis
+package io.data2viz.color
+
+import io.data2viz.color.EncodedGradient
+import io.data2viz.color.EncodedGradient.Companion.inferno
+import io.data2viz.color.EncodedGradient.Companion.magma
+import io.data2viz.color.EncodedGradient.Companion.plasma
+import io.data2viz.color.EncodedGradient.Companion.viridis
 import test.StringSpec
 import kotlin.browser.document
 
@@ -26,7 +29,7 @@ class ViridisTests: StringSpec(){
                     (0..399).forEach {
                         appendChild(
                                 node("rect").apply {
-                                    setAttribute("fill", gradient.color(it.toDouble()/400))
+                                    setAttribute("fill", gradient.color(it.toDouble()/400).rgbHex)
                                     setAttribute("x", "${it}")
                                     setAttribute("y", "0")
                                     setAttribute("width", "1")

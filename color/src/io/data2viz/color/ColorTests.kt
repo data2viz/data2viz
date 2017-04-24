@@ -1,5 +1,5 @@
-import io.data2viz.color.Color
-import io.data2viz.color.color
+package io.data2viz.color
+
 import io.data2viz.color.colors.black
 import test.StringSpec
 
