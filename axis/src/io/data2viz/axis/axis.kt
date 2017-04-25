@@ -3,14 +3,21 @@ package io.data2viz.axis
 
 import io.data2viz.color.colors.black
 import io.data2viz.svg.ParentElement
+import io.data2viz.core.ticks
 
-class Axis (var values:List<Any>) {
+
+/**
+ * Implementation of Axis. This version is only display a vertical axis on the left
+ * (labels on the left of the axis).
+ * Todo implement orientations (top, right, botton, left).
+ */
+class Axis (val min: Number, val max: Number, val scale: (Number) -> Number) {
     fun appendTo(parent: ParentElement){
 
-        (0..10).forEach {
-            val data = 20 * it
+        val ticks = ticks(min, max, 10)
+        ticks.forEach { tick ->
             parent.g {
-                transform { translate(0, 210 - data) }
+                transform { translate(y = this@Axis.scale(tick)) }
                 line (x2 = -6 )
                 text {
                     style {
@@ -21,7 +28,7 @@ class Axis (var values:List<Any>) {
                     x = - 9
                     y = 0
                     setAttribute("dy", ".32em")
-                    text = data.toString()
+                    text = tick.toString()
                 }
             }
         }
@@ -29,10 +36,10 @@ class Axis (var values:List<Any>) {
         parent.path {
             strokeWidth = "1"
             stroke = black
-            shape {
-                moveTo(-6)
+            path {
+                moveTo(-6, scale(max))
                 horizontalDeltaTo(0)
-                verticalLineDeltaTo(210)
+                verticalLineDeltaTo(scale(min))
                 horizontalDeltaTo(-6)
             }
             fill
