@@ -1,5 +1,6 @@
 import io.data2viz.color.ColorTests
 import io.data2viz.color.ViridisTests
+import io.data2viz.core.TicksTests
 import io.data2viz.interpolate.EaseTests
 import io.data2viz.interpolate.NumberTests
 import io.data2viz.test.*

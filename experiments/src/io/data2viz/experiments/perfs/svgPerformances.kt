@@ -1,5 +1,6 @@
 package io.data2viz.experiments.perfs
 
+import io.data2viz.core.namespace
 import org.w3c.dom.Element
 import kotlin.browser.document
 import kotlin.browser.window

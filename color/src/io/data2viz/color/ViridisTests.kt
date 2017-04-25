@@ -4,6 +4,7 @@ import io.data2viz.color.EncodedGradient.Companion.inferno
 import io.data2viz.color.EncodedGradient.Companion.magma
 import io.data2viz.color.EncodedGradient.Companion.plasma
 import io.data2viz.color.EncodedGradient.Companion.viridis
+import io.data2viz.core.namespace
 import io.data2viz.test.StringSpec
 import kotlin.browser.document
 

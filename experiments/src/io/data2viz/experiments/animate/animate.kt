@@ -3,7 +3,7 @@ package io.data2viz.experiments.animate
 import io.data2viz.interpolate.*
 import io.data2viz.interpolate.identity
 import io.data2viz.interpolate.interpolateNumber
-import namespace
+import io.data2viz.core.namespace
 import org.w3c.dom.Element
 import kotlin.browser.document
 import kotlin.browser.window

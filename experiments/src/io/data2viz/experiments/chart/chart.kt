@@ -52,8 +52,7 @@ fun chart() {
             transform {
                 translate(47,10)
             }
-//            scale.axis()
-            Axis(listOf(1, 2, 3)).appendTo(this)
+            Axis(0, maxValue, yScale).appendTo(this)
         }
 
         g {
