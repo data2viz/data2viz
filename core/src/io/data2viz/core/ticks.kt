@@ -1,3 +1,5 @@
+package io.data2viz.core
+
 import kotlin.js.Math
 
 val e10 = Math.sqrt(50.0)
