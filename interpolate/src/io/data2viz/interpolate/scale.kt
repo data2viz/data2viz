@@ -8,7 +8,7 @@ data class DomainToViz<out A, out B>(
         val viz: B
 )
 
-infix fun <A, B> A.to(that: B): DomainToViz<A, B> = DomainToViz(this, that)
+infix fun <A, B> A.linkedTo(that: B): DomainToViz<A, B> = DomainToViz(this, that)
 
 class scale {
 
@@ -17,12 +17,13 @@ class scale {
         fun pointsToPoints(start: DomainToViz<Point, Point>, end: DomainToViz<Point, Point>) =
                 { pt: Point ->
                     Point(
-                            doublesToDoubles(start.domain.x to start.viz.x, end.domain.x to end.viz.x)(pt.x),
-                            doublesToDoubles(start.domain.y to start.viz.y, end.domain.y to end.viz.y)(pt.y))
+                            numberToNumber(start.domain.x linkedTo start.viz.x, end.domain.x linkedTo end.viz.x)(pt.x),
+                            numberToNumber(start.domain.y linkedTo start.viz.y, end.domain.y linkedTo end.viz.y)(pt.y))
                 }
 
-        fun doublesToDoubles(start: DomainToViz<Double, Double>, end: DomainToViz<Double, Double>) =
-                { domain: Double -> domain * (end.viz - start.viz) / (end.domain - start.domain) + start.viz }
+        fun numberToNumber(start: DomainToViz<Number, Number>, end: DomainToViz<Number, Number>): (Number) -> Number =
+                { domain: Number -> interpolateNumber(start.viz, end.viz).invoke(
+                        uninterpolate(start.domain, end.domain).invoke(domain).toDouble()) }
 
     }
 }

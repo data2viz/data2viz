@@ -15,6 +15,13 @@ class NumberTests : StringSpec() {
         }
 
 
+        "scale linear" {
+            val domainToViz  = scale.linear.numberToNumber(
+                    10 linkedTo 100,
+                    20 linkedTo 200)
+
+            domainToViz(12) shouldBe 120
+        }
 
     }
 
