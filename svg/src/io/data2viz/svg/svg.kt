@@ -157,10 +157,6 @@ class TextElement(override val element: Element) : HasText, HasPosition, Element
 @SvgTagMarker
 class SVGElement(override var element: Element) : Has2D, ParentElement, ElementWrapper {
 
-    var margins: Margins = Margins()
-        set(value) {
-            element
-        }
 }
 
 interface ParentElement : ElementWrapper {
