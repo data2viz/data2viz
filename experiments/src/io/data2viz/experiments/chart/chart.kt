@@ -28,12 +28,16 @@ fun chart() {
     val margin = Margins(10, 10, 10, 50)
 
     val totalWidth = graphWidth + margin.horizontalMargins
-    val totalHeight = maxValue + margin.verticalMargins
+    val totalHeight = 400
 
     val xLoc = { i: Int -> i * (barPadding + barWidth) }
-    val yScale = scale.linear.numberToNumber(
-            0 linkedTo 210,
+    val yLoc = scale.linear.numberToNumber(
+            0 linkedTo (totalHeight - margin.verticalMargins),
             maxValue linkedTo 0
+    )
+    val yScale = scale.linear.numberToNumber(
+            0 linkedTo 0,
+            maxValue linkedTo totalHeight - margin.verticalMargins
     )
 
     svg {
@@ -52,7 +56,7 @@ fun chart() {
             transform {
                 translate(47,10)
             }
-            Axis(0, maxValue, yScale).appendTo(this)
+            Axis(0, maxValue, yLoc).appendTo(this)
         }
 
         g {
@@ -72,12 +76,12 @@ fun chart() {
                     val animate = animate(1000, index * 40)
 
                     transform {
-                        translate(xLoc(index), yScale(0))
+                        translate(xLoc(index), yLoc(0))
                     }
 
                     animate { time ->
                         transform {
-                            translate(xLoc(index), yScale(time * data))
+                            translate(xLoc(index), yLoc(time * data))
                         }
                     }
 
@@ -86,7 +90,7 @@ fun chart() {
                         fill = steelblue
                         height = 0
                         animate { time ->
-                            height = data * time
+                            height = time * yScale(data).toDouble()
                         }
                     }
                     text {
