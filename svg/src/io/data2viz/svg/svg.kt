@@ -5,6 +5,7 @@ import io.data2viz.color.color
 import io.data2viz.color.colors.black
 import io.data2viz.core.Point
 import io.data2viz.math.Angle
+import io.data2viz.core.namespace
 import org.w3c.dom.Element
 import kotlin.browser.document
 
@@ -135,7 +136,7 @@ class GroupElement(override val element: Element) : ElementWrapper, HasStroke, H
 @SvgTagMarker
 class PathElement(override val element: Element) : ElementWrapper, HasStroke, HasFill {
 
-    fun shape(init: Path.() -> Unit){
+    fun path(init: Path.() -> Unit){
         val path = Path()
         init(path)
         setAttribute("d", path.toCommand())
