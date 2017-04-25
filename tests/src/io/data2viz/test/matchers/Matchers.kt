@@ -1,4 +1,4 @@
-package test.matchers
+package io.data2viz.test.matchers
 
 
 interface Keyword
@@ -28,24 +28,24 @@ interface Matchers : StringMatchers,
 
     infix fun Double.shouldBe(other: Double): Unit = ToleranceMatcher(other, 0.0).test(this)
 
-    infix fun Iterable<Double>.shouldBe(other: Iterable<Double>) {
+    infix fun <N:Number, T:Number >  Iterable<N>.shouldBe(other: Iterable<T>) {
         if(this.count() != other.count())
-            throw AssertionError(this.toString() + " doesn't have the same size as $other" )
+            throw AssertionError("$this doesn't have the same size as $other" )
         this.zip(other).forEach {
-            ToleranceMatcher(it.second, 0.0000001).test(it.first)
+            ToleranceMatcher(it.second.toDouble(), 1e-6).test(it.first.toDouble())
         }
     }
     infix fun <T> T.shouldBe(any: Any?): Unit = shouldEqual(any)
     infix fun <T> T.shouldEqual(any: Any?): Unit {
         when (any) {
-            is test.matchers.Matcher<*> -> (any as Matcher<T>).test(this)
+            is Matcher<*> -> (any as Matcher<T>).test(this)
             else -> {
                 if (this == null && any != null)
-                    throw AssertionError(this.toString() + " did not equal $any")
+                    throw AssertionError("$this did not equal $any")
                 if (this != null && any == null)
-                    throw AssertionError(this.toString() + " did not equal $any")
+                    throw AssertionError("$this did not equal $any")
                 if (this != any)
-                    throw AssertionError(this.toString() + " did not equal $any")
+                    throw AssertionError("$this did not equal $any")
             }
         }
     }

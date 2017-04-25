@@ -1,6 +1,6 @@
 package io.data2viz.interpolate
 
-import test.StringSpec
+import io.data2viz.test.StringSpec
 
 class NumberTests : StringSpec() {
     init {

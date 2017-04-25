@@ -1,7 +1,7 @@
 package io.data2viz.interpolate
 
+import io.data2viz.test.StringSpec
 import namespace
-import test.StringSpec
 import kotlin.browser.document
 
 class EaseTests : StringSpec() {

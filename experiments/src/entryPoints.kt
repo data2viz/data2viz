@@ -2,7 +2,7 @@ import io.data2viz.color.ColorTests
 import io.data2viz.color.ViridisTests
 import io.data2viz.interpolate.EaseTests
 import io.data2viz.interpolate.NumberTests
-import test.htmlExecution
+import io.data2viz.test.*
 
 
 fun allTests() {

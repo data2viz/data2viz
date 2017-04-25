@@ -1,6 +1,5 @@
-package test.matchers
+package io.data2viz.test.matchers
 
-import test.matchers.Matcher
 import kotlin.js.Math
 
 interface DoubleMatchers {

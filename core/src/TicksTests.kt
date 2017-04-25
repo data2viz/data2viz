@@ -1,4 +1,4 @@
-import test.StringSpec
+import io.data2viz.test.StringSpec
 
 class TicksTests: StringSpec(){
     init {

@@ -1,4 +1,4 @@
-package test
+package io.data2viz.test
 
 import org.w3c.dom.Element
 import kotlin.browser.document

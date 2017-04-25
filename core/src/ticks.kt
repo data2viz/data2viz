@@ -3,14 +3,13 @@ import kotlin.js.Math
 val e10 = Math.sqrt(50.0)
 val e5 = Math.sqrt(10.0)
 val e2 = Math.sqrt(2.0)
-
 val ln10:Double by lazy { Math.log(10.0) }
 
-fun ticks(start:Double, stop: Double, count :Int): List<Double> {
-    val step = tickStep(start, stop, count);
+fun ticks(start:Number, stop: Number, count :Int): List<Number> {
+    val step = tickStep(start.toDouble(), stop.toDouble(), count);
     return range(
-            Math.ceil(start / step) * step,
-            Math.floor(stop / step) * step + step / 2, // inclusive
+            Math.ceil(start.toDouble() / step) * step,
+            Math.floor(stop.toDouble() / step) * step + step / 2, // inclusive
             step
     )
 }
@@ -29,4 +28,3 @@ fun range (start:Double, stop:Double, step: Double = 1.0): List<Double> {
     val n = Math.max(0, Math.ceil((stop - start) / step))
     return  (0..n-1).map { start + it*step }
 }
-

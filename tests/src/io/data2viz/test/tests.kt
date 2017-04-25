@@ -1,6 +1,6 @@
-import test.StringSpec
-import test.matchers.be
-import test.matchers.have
+package io.data2viz.test
+
+import io.data2viz.test.matchers.*
 
 class ExceptionMatchers : StringSpec(){
     init {
@@ -18,6 +18,10 @@ class DoubleMatchers: StringSpec(){
 
         "double should be plusOrMinus" {
             1.1 shouldBe (1.11 plusOrMinus 0.011)
+        }
+
+        "listOfNumber" {
+            listOf(1.0, 2.0) shouldBe listOf(1.000_000_1, 2.000_000_1)
         }
     }
 }

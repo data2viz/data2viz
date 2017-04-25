@@ -1,8 +1,8 @@
 package io.data2viz.experiments
 
+import io.data2viz.test.DomUtils
 import org.w3c.dom.Element
 import org.w3c.dom.asList
-import test.DomUtils
 import kotlin.browser.document
 import kotlin.js.Date
 

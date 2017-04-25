@@ -1,7 +1,7 @@
 package io.data2viz.color
 
 import io.data2viz.color.colors.black
-import test.StringSpec
+import io.data2viz.test.StringSpec
 
 class ColorTests: StringSpec(){
 

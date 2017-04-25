@@ -1,6 +1,7 @@
-package test
+package io.data2viz.test
 
-import test.matchers.Matchers
+import io.data2viz.test.matchers.Matchers
+
 
 abstract class TestBase : Matchers {
     val tests = mutableListOf<TestCase>()

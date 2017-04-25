@@ -1,11 +1,10 @@
 package io.data2viz.color
 
-import io.data2viz.color.EncodedGradient
 import io.data2viz.color.EncodedGradient.Companion.inferno
 import io.data2viz.color.EncodedGradient.Companion.magma
 import io.data2viz.color.EncodedGradient.Companion.plasma
 import io.data2viz.color.EncodedGradient.Companion.viridis
-import test.StringSpec
+import io.data2viz.test.StringSpec
 import kotlin.browser.document
 
 class ViridisTests: StringSpec(){

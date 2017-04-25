@@ -1,4 +1,4 @@
-package test.matchers
+package io.data2viz.test.matchers
 
 interface StringMatchers {
 

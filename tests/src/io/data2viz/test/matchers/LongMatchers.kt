@@ -1,23 +1,23 @@
-package test.matchers
+package io.data2viz.test.matchers
 
-interface IntMatchers {
+interface LongMatchers {
 
-  infix fun BeWrapper<Int>.gt(expected: Int): Unit {
+  infix fun BeWrapper<Long>.gt(expected: Long): Unit {
     if (value <= expected)
       throw AssertionError("$value is not greater than $expected")
   }
 
-  infix fun BeWrapper<Int>.lt(expected: Int): Unit {
+  infix fun BeWrapper<Long>.lt(expected: Long): Unit {
     if (value >= expected)
       throw AssertionError("$value is not less than $expected")
   }
 
-  infix fun BeWrapper<Int>.gte(expected: Int): Unit {
+  infix fun BeWrapper<Long>.gte(expected: Long): Unit {
     if (value < expected)
       throw AssertionError("$value is not greater than or equal to $expected")
   }
 
-  infix fun BeWrapper<Int>.lte(expected: Int): Unit {
+  infix fun BeWrapper<Long>.lte(expected: Long): Unit {
     if (value > expected)
       throw AssertionError("$value is not less than or equal to $expected")
   }

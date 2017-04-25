@@ -6,6 +6,8 @@ import io.data2viz.color.colors.black
 import io.data2viz.color.colors.steelblue
 import io.data2viz.color.colors.white
 import io.data2viz.color.rgba
+import io.data2viz.interpolate.linkedTo
+import io.data2viz.interpolate.scale
 import io.data2viz.interpolate.uninterpolate
 import io.data2viz.svg.Margins
 import io.data2viz.svg.svg
@@ -29,7 +31,10 @@ fun chart() {
     val totalHeight = maxValue + margin.verticalMargins
 
     val xLoc = { i: Int -> i * (barPadding + barWidth) }
-    val yLoc = { d: Int -> maxValue - d }
+    val yScale = scale.linear.numberToNumber(
+            0 linkedTo 210,
+            maxValue linkedTo 0
+    )
 
     svg {
         width = totalWidth
@@ -47,6 +52,7 @@ fun chart() {
             transform {
                 translate(47,10)
             }
+//            scale.axis()
             Axis(listOf(1, 2, 3)).appendTo(this)
         }
 
@@ -67,12 +73,12 @@ fun chart() {
                     val animate = animate(1000, index * 40)
 
                     transform {
-                        translate(xLoc(index), totalHeight - margin.verticalMargins )
+                        translate(xLoc(index), yScale(0))
                     }
 
                     animate { time ->
                         transform {
-                            translate(xLoc(index), maxValue - time * data)
+                            translate(xLoc(index), yScale(time * data))
                         }
                     }
 

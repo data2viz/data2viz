@@ -1,4 +1,4 @@
-package test
+package io.data2viz.test
 
 import kotlin.browser.document
 import kotlin.browser.window
