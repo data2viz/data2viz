@@ -1,29 +1,15 @@
 # README #
 
-This project goal is to provide a data visualization for several platform: browser, jvm, android, ...
-
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+data2viz is a data visualization library for several platform:browser, jvm, android, ... It relies on kotlin which
+ compiles on these platforms.
 
-### How do I get set up? ###
+data2viz proposes to develop data visualizations through a completely typed DSL. It simplifies the programmation by 
+helping developer with IDE’s suggestions based on the current context.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
 
-### Contribution guidelines ###
+### Current status ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+data2viz is in its early age. It should not be used in production now. We are experimenting various DSL
+ implementations. DSL should be validated after having implemented all the use cases which will take few months.
