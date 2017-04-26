@@ -48,4 +48,22 @@ property of type `Color`. It can be created from a call on `rgb`, `rgba`, `hsl`,
  (`steelblue`, `grey`,... ).
 
 In any case, due to the strong typed language used, any error will be notified during the 
-compilation phase. 
+compilation phase.
+
+<a href="https://data2viz.github.io/data2viz/chart.html">
+ <img src="https://data2viz.github.io/data2viz/img/chart.png" width="300">
+ <br>a sample with axis, animation, scaling, ... 
+</a>
+
+### Tests
+Currently tests are executed as a single html page containing all tests. The modules
+`tests` contains source taken from kotlintest framework for kotlin.js execution.
+
+You can display the test page on your browser by clicking the following image. 
+
+<a href="https://data2viz.github.io/data2viz/tests.html">
+ <img src="https://data2viz.github.io/data2viz/img/data2viz.tests.png" width="300">
+</a>
+
+## Inspirations
+d3js, kotlinx.html, kotlintest
