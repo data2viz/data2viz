@@ -7,6 +7,7 @@ import io.data2viz.core.Point
 import io.data2viz.math.Angle
 import io.data2viz.core.namespace
 import org.w3c.dom.Element
+import org.w3c.dom.events.Event
 import kotlin.browser.document
 
 
@@ -16,6 +17,7 @@ internal fun rect(width: Double = 10.0, height: Double = 10.0) =
             this.height = width
         }
 
+internal fun circle()= CircleElement(createSVGElement("circle"))
 internal fun g()    = GroupElement(createSVGElement("g"))
 internal fun path() = PathElement(createSVGElement("path"))
 internal fun text() = TextElement(createSVGElement("text"))
@@ -79,6 +81,7 @@ interface ElementWrapper : AccessByAttributes {
     }
 
     override fun getAttribute(name: String) = element.getAttribute(name)
+
 }
 
 
@@ -126,7 +129,18 @@ fun svg(init: SVGElement.() -> Unit = {}): SVGElement {
 }
 
 @SvgTagMarker
-class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, ParentElement
+class CircleElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, HasCenter, HasRadius, ParentElement {
+    fun  on(eventName: String, block: CircleElement.(Event) -> Unit) {
+        element.addEventListener(type = eventName, callback = { event -> block(this, event)})
+    }
+}
+
+@SvgTagMarker
+class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, ParentElement {
+    fun  on(eventName: String, block: RectElement.(Event) -> Unit) {
+        element.addEventListener(type = eventName, callback = { event -> block(this, event)})
+    }
+}
 
 
 
@@ -161,6 +175,12 @@ class SVGElement(override var element: Element) : Has2D, ParentElement, ElementW
 }
 
 interface ParentElement : ElementWrapper {
+
+    fun circle(init: CircleElement.() -> Unit) {
+        val circle = circle()
+        init(circle)
+        element.append(circle.element)
+    }
 
     fun rect(init: RectElement.() -> Unit) {
         val rect = rect()
@@ -232,6 +252,26 @@ interface HasPosition : AccessByAttributes {
         get() = getAttribute("y")?.toFloat() ?: 0f
         set(value) {
             setAttribute("y", value.toString())
+        }
+}
+
+interface HasCenter : AccessByAttributes {
+    var cx: Number
+        get() = getAttribute("cx")?.toFloat() ?: 0f
+        set(value) {
+            setAttribute("cx", value.toString())
+        }
+    var cy: Number
+        get() = getAttribute("cy")?.toFloat() ?: 0f
+        set(value) {
+            setAttribute("cy", value.toString())
+        }
+}
+interface HasRadius : AccessByAttributes {
+    var r: Number
+        get() = getAttribute("r")?.toFloat() ?: 0f
+        set(value) {
+            setAttribute("r", value.toString())
         }
 }
 
