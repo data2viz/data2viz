@@ -2,26 +2,27 @@
 
 ### What is this repository for? ###
 
-data2viz is a data visualization library for several platform: browser, jvm, android, ... It relies on kotlin which
- compiles on these platforms.
+data2viz is a data visualization library which targets several platform: browser, jvm, android, ... It relies on 
+kotlin which offers advanced language paradigms and can compile to different platforms.
 
-data2viz proposes to develop data visualizations through a completely typed DSL. It simplifies the programmation by 
-helping developer with IDE’s suggestions based on the current context.
+data2viz proposes to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
+ visualizations by helping developer with IDE’s suggestions based on the current context.
 
 ### Current status ###
 
 data2viz is in its early age. It should not be used in production now. We are experimenting various DSL
- implementations. DSL will be validated after having implemented all the use cases which will take few months.
+ implementations. DSL will be validated after having implemented all the use cases. It should last few months.
 
 ### Some DSL samples  
 
-The internal DSL allow the creation of datavisualization using hierarchical 
-code that should be easy to understand
+The internal DSL allows to create data visualization using hierarchical 
+code that should be easy to understand.
 
 ```kotlin
 g {
     transform {
         translate(margin.left, margin.top)
+        rotate(20.deg)
     }
     
     rect {
@@ -42,7 +43,7 @@ Having a typed DSL, the IDE proposes accurate suggestions depending on the posit
 
 The `rect {` code opens a block for adding a rectangle and configure it. Its width
 height, and fill color are defined using an affectation. Again, having a strong DSL
-allow to benefit from the IDE assistance to choose the correct values. `fill` is a
+allows to benefit from the IDE assistance to choose the correct values. `fill` is a
 property of type `Color`. It can be created from a call on `rgb`, `rgba`, `hsl`, `hsla` functions
  or converted from an hex string. `"#ab1212".col()` or just by referencing a CSS color 
  (`steelblue`, `grey`,... ).
