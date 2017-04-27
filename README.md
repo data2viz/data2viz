@@ -52,7 +52,7 @@ In any case, due to the strong typed language used, any error will be notified d
 compilation phase.
 
 <a href="https://data2viz.github.io/data2viz/chart.html">
- <img src="https://data2viz.github.io/data2viz/img/chart.png" width="300">
+ <img src="http://data2viz.io/img/chart.png" width="300">
  <br>a sample with axis, animation, scaling, ... 
 </a>
 
@@ -63,7 +63,7 @@ Currently tests are executed as a single html page containing all tests. The mod
 You can display the test page on your browser by clicking the following image. 
 
 <a href="https://data2viz.github.io/data2viz/tests.html">
- <img src="https://data2viz.github.io/data2viz/img/data2viz.tests.png" width="300">
+ <img src="http://data2viz.io/img/data2viz.tests.png" width="300">
 </a>
 
 ## Inspirations
