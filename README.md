@@ -8,10 +8,11 @@ kotlin which offers advanced language paradigms and can compile to different pla
 data2viz proposes to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
  visualizations by helping developer with IDE’s suggestions based on the current context.
 
-### Current status ###
+### Current status
 
 data2viz is in its early age. It should not be used in production now. We are experimenting various DSL
  implementations. DSL will be validated after having implemented all the use cases. It should last few months.
+
 
 ### Some DSL samples  
 
@@ -76,6 +77,18 @@ You can display the test page on your browser by clicking the following image.
 <a href="http://data2viz.io/dist/tests.html" target="_blank">
  <img src="http://data2viz.io/img/data2viz.tests.png" width="300">
 </a>
+
+
+### How can I use it?
+
+Remember: you should not use it in production now.  But, if you want to try it
+ you have to clone this repository, open the project from idea and then 
+ compile it, run and start from the experiments module.
+  
+There is still a lot of work to do on the build and packaging part. As 
+kotlin.js is fairly new, all the tools haven't been released yet. Working 
+on the packaging and distribution process is not our current priority as 
+it will evolve during the next months. 
 
 ## Inspirations
 d3js, kotlinx.html, kotlintest
