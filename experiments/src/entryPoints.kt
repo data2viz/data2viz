@@ -1,5 +1,5 @@
 import io.data2viz.color.ColorTests
-import io.data2viz.color.ViridisTests
+import io.data2viz.color.EncodedColorsTests
 import io.data2viz.core.TicksTests
 import io.data2viz.interpolate.EaseTests
 import io.data2viz.interpolate.NumberTests
@@ -11,7 +11,7 @@ fun allTests() {
             NumberTests(),
             ColorTests(),
             TicksTests(),
-            ViridisTests(),
+            EncodedColorsTests(),
             EaseTests(),
             ExceptionMatchers(),
             StringMatchers(),
