@@ -38,17 +38,19 @@ class Path() {
     fun verticalLineDeltaTo(dy: Number = 0)         {commands.add("v $dy")}
     fun closePath()                                 {commands.add("Z")}
 
-    fun toCommand() = commands.joinToString(separator = " ")
+    internal fun toCommand() = commands.joinToString(separator = " ")
 }
 
 class Transform() {
     private val commands = mutableMapOf<String, String>()
+    fun translate(newPoint: Point) { commands.put("translate", "translate(${newPoint.x}, ${newPoint.y})") }
     fun translate(x: Number = 0, y: Number = 0) { commands.put("translate", "translate($x, $y)") }
     fun scale(x: Number = 1, y: Number = x) { commands.put("scale", "scale($x, $y)") }
     fun skewX(a: Number) { commands.put("skewX", "skewX($a)") }
     fun skewY(a: Number) { commands.put("skewY", "skewX($a)") }
-    fun rotate(angle: Angle, x: Number = 0, y: Number = 0) { commands.put("rotate", "rotate(${angle.deg}, $x, $y") }
-    fun toCommand(): String = commands.values.joinToString(" ")
+    fun rotate(angle: Angle, x: Number = 0, y: Number = 0) { commands.put("rotate", "rotate(${angle.deg}, $x, $y)") }
+
+    internal fun toCommand(): String = commands.values.joinToString(" ")
 }
 
 class Style() {
@@ -60,10 +62,8 @@ class Style() {
     fun toAttribute(): String = styles.values.joinToString("; ")
 }
 
-
 @DslMarker
 annotation class SvgTagMarker
-
 
 interface AccessByAttributes {
     fun setAttribute(name: String, value: String?)
@@ -83,7 +83,6 @@ interface ElementWrapper : AccessByAttributes {
     override fun getAttribute(name: String) = element.getAttribute(name)
 
 }
-
 
 interface HasFill : AccessByAttributes {
     var fill: Color?
@@ -129,14 +128,14 @@ fun svg(init: SVGElement.() -> Unit = {}): SVGElement {
 }
 
 @SvgTagMarker
-class CircleElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, HasCenter, HasRadius, ParentElement {
+class CircleElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, HasCenter, HasRadius, ParentElement, Transformable {
     fun  on(eventName: String, block: CircleElement.(Event) -> Unit) {
         element.addEventListener(type = eventName, callback = { event -> block(this, event)})
     }
 }
 
 @SvgTagMarker
-class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, ParentElement {
+class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, ParentElement, Transformable {
     fun  on(eventName: String, block: RectElement.(Event) -> Unit) {
         element.addEventListener(type = eventName, callback = { event -> block(this, event)})
     }
@@ -167,19 +166,18 @@ class TextElement(override val element: Element) : HasText, HasPosition, Element
 }
 
 /**
- * The root of an SVG visualization
+ * The root of a SVG visualization
  */
 @SvgTagMarker
-class SVGElement(override var element: Element) : Has2D, ParentElement, ElementWrapper {
-
-}
+class SVGElement(override var element: Element) : Has2D, ParentElement, ElementWrapper
 
 interface ParentElement : ElementWrapper {
 
-    fun circle(init: CircleElement.() -> Unit) {
+    fun circle(init: CircleElement.() -> Unit):CircleElement {
         val circle = circle()
         init(circle)
         element.append(circle.element)
+        return circle
     }
 
     fun rect(init: RectElement.() -> Unit) {
