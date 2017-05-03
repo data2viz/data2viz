@@ -56,6 +56,17 @@ compilation phase.
  <br>a sample with axis, animation, scaling, ... 
 </a>
 
+### Performances
+
+Even if current dist files are not optimized/minified you can try to 
+[load this page](http://data2viz.io/dist/svgperfs.html) 
+ to see how svg element manipulations from data2viz perform on your browser.
+ 
+<a href="http://data2viz.io/dist/svgperfs.html">
+ <img src="http://data2viz.io/img/perfs.png" width="300">
+</a>
+ 
+
 ### Tests
 Currently tests are executed as a single html page containing all tests. The modules
 `tests` contains source taken from kotlintest framework for kotlin.js execution.
