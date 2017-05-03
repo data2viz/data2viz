@@ -1,5 +1,6 @@
 package io.data2viz.experiments.perfs
 
+import io.data2viz.color.EncodedColors.Companion.category10
 import io.data2viz.color.colors
 import io.data2viz.core.Point
 import io.data2viz.core.Speed
@@ -34,10 +35,10 @@ fun svgPerfs() {
 
     fun render() {
         if(fpsCalculator.curFps > 24){
-            circles +=  Array(10, { RandomParticule() }).map { particule ->
+            circles +=  Array(10, { RandomParticule() }).mapIndexed { index, particule ->
                 viz.circle {
                     stroke = colors.grey
-                    fill = colors.lightgray
+                    fill = category10.colors[index]
                     datum(particule)
                 }
             }
