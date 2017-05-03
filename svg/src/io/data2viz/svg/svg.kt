@@ -180,10 +180,33 @@ interface ParentElement : ElementWrapper {
         return circle
     }
 
-    fun rect(init: RectElement.() -> Unit) {
+    fun rect(init: RectElement.() -> Unit): RectElement {
         val rect = rect()
         init(rect)
         element.append(rect.element)
+        return rect
+    }
+
+
+    fun g(init: GroupElement.() -> Unit): GroupElement {
+        val g = g()
+        init(g)
+        element.append(g.element)
+        return g
+    }
+
+    fun text(init: TextElement.() -> Unit): TextElement {
+        val t = text()
+        init(t)
+        element.append(t.element)
+        return t
+    }
+
+    fun path(init:PathElement.() -> Unit): PathElement {
+        val p = path()
+        init(p)
+        element.append(p.element)
+        return p
     }
 
     fun line(x1: Number = 0, y1: Number = 0, x2:Number = 0, y2:Number = 0, stroke:Color = black) {
@@ -194,24 +217,6 @@ interface ParentElement : ElementWrapper {
             setAttribute("y2", "$y2")
             setAttribute("stroke", "$stroke")
         })
-    }
-
-    fun g(init: GroupElement.() -> Unit) {
-        val g = g()
-        init(g)
-        element.append(g.element)
-    }
-
-    fun text(init: TextElement.() -> Unit) {
-        val t = text()
-        init(t)
-        element.append(t.element)
-    }
-
-    fun path(init:PathElement.() -> Unit){
-        val p = path()
-        init(p)
-        element.append(p.element)
     }
 
 }
