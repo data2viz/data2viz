@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/axis/axis.iml" filepath="$PROJECT_DIR$/axis/axis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/color/color.iml" filepath="$PROJECT_DIR$/color/color.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/docs/docs.iml" filepath="$PROJECT_DIR$/docs/docs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/experiments/experiments.iml" filepath="$PROJECT_DIR$/experiments/experiments.iml" />
+      <module fileurl="file://$PROJECT_DIR$/interpolate/interpolate.iml" filepath="$PROJECT_DIR$/interpolate/interpolate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/selection/selection.iml" filepath="$PROJECT_DIR$/selection/selection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/svg/svg.iml" filepath="$PROJECT_DIR$/svg/svg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/tests.iml" filepath="$PROJECT_DIR$/tests/tests.iml" />
+    </modules>
+  </component>
+</project>
