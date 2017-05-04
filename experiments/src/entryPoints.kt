@@ -1,6 +1,7 @@
 import io.data2viz.color.ColorTests
 import io.data2viz.color.EncodedColorsTests
 import io.data2viz.core.TicksTests
+import io.data2viz.dsv.DsvTests
 import io.data2viz.interpolate.EaseTests
 import io.data2viz.interpolate.NumberTests
 import io.data2viz.test.*
@@ -8,6 +9,7 @@ import io.data2viz.test.*
 
 fun allTests() {
     htmlExecution(
+            DsvTests(),
             NumberTests(),
             ColorTests(),
             TicksTests(),
