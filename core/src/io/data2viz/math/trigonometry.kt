@@ -11,6 +11,9 @@ val THETA_EPS = THETA - EPS
 val DEG_TO_RAD = PI / 180
 val RAD_TO_DEG = 180 / PI
 
+val Number.deg:Angle
+    get() = Angle(toDouble())
+
 class Angle(val deg: Double){
     val cos:Double
         get() = Math.cos(deg)
