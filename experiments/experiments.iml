@@ -17,5 +17,6 @@
     <orderEntry type="module" module-name="tests" />
     <orderEntry type="module" module-name="axis" />
     <orderEntry type="module" module-name="core" />
+    <orderEntry type="module" module-name="dsv" />
   </component>
 </module>

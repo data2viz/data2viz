@@ -23,8 +23,21 @@ class DsvTests : StringSpec() {
             csv.parseRows("a\nb") shouldBe listOf(listOf("a"), listOf("b"))
             csv.parseRows("a\r\nb") shouldBe listOf(listOf("a"), listOf("b"))
             csv.parseRows("a,b\n1,2") shouldBe listOf(listOf("a","b"), listOf("1", "2"))
-//            dsv.parseRows("a,b,c\n")[0] shouldBe listOf("a", "b", "c")
         }
+
+        "csv.parseRows parses quotes values" {
+            csv.parseRows("\"1\",2,3") shouldBe listOf(listOf("1", "2", "3"))
+            csv.parseRows("\"hello\"") shouldBe listOf(listOf("hello"))
+            csv.parseRows("\"\"\"hello\"\"\"") shouldBe listOf(listOf("\"hello\""))
+        }
+
+        "csv.parseRows parses quoted values with newlines" {
+            csv.parseRows("\"new\nline\"") shouldBe listOf(listOf("new\nline"))
+            csv.parseRows("\"new\rline\"") shouldBe listOf(listOf("new\rline"))
+            csv.parseRows("\"new\r\nline\"") shouldBe listOf(listOf("new\r\nline"))
+        }
+
+
     }
 
 }

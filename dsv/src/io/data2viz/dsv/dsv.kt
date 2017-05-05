@@ -3,16 +3,13 @@ package io.data2viz.dsv
 import io.data2viz.dsv.Dsv.Token.*
 
 
-
 class Dsv(val delimiterCode: Char = ',') {
-
 
     sealed class Token {
         class EOF : Token()
         class EOL : Token()
         class TextToken(val content: String) : Token()
     }
-
 
     fun parse() {}
     fun parseRows(text: String): MutableList<List<String>> {
@@ -21,28 +18,50 @@ class Dsv(val delimiterCode: Char = ',') {
         val N = text.length
         var I = 0
         var n = 0
+        val EOL = EOL()
         var eol = false
+        val regexp by lazy { Regex("\"\"") }
 
         fun token(): Token {
             if (I >= N) return EOF()
             if (eol) {
                 eol = false
-                return EOL()
+                return EOL
             }
 
             val j = I
             var c: Char
 
-            //todo quotes
+            if (text[j] == '"') {
+                var i = j
+                while (i++ < N) {
+                    if (text[i] == '"') {
+                        if (text[i + 1] != '"') break
+                        ++i
+                    }
+                }
+                I = i + 2
+                c = text[i + 1]
+                if (c == '\r') {
+                    eol = true
+                    if (text[i + 2] == '\n') ++I
+                } else if (c == '\n') eol = true
+                return TextToken(text.substring(j + 1, i).replace(regexp, "\""))
 
-            //common case: find next delimiter or newline
+            }
+
             while (I < N) {
                 var k = 1
                 c = text[I++]
-                println(c)
-                if (c == '\n') { eol = true }
-                else if (c == '\r') { eol = true; if (text[I] == '\n') { ++I; ++k } }
-                else if (c != delimiterCode) { continue }
+                if (c == '\n') {
+                    eol = true
+                } else if (c == '\r') {
+                    eol = true; if (text[I] == '\n') {
+                        ++I; ++k
+                    }
+                } else if (c != delimiterCode) {
+                    continue
+                }
                 return TextToken(text.substring(j, I - k))
             }
 
