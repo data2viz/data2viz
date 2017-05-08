@@ -18,5 +18,6 @@
     <orderEntry type="module" module-name="axis" />
     <orderEntry type="module" module-name="core" />
     <orderEntry type="module" module-name="dsv" />
+    <orderEntry type="module" module-name="request" />
   </component>
 </module>
