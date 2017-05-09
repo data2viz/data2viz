@@ -6,6 +6,7 @@ import io.data2viz.interpolate.scale
 import io.data2viz.math.deg
 import io.data2viz.request.*
 import io.data2viz.svg.Margins
+import io.data2viz.svg.TextAnchor
 import io.data2viz.svg.svg
 
 
@@ -91,11 +92,9 @@ fun walkingDead() {
 
                                 text {
                                     text = episode.USViewers.toString()
-                                    style {
-                                        setAttribute("text-anchor", "start")
-                                    }
-                                    setAttribute("dx", "10")
-                                    setAttribute("dy", "-10")
+                                    textAnchor = TextAnchor.start
+                                    dx = 10
+                                    dy = -10
                                     fill = colors.white
                                     transform {
                                         rotate(90.deg)

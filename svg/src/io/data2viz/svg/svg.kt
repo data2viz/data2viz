@@ -6,6 +6,7 @@ import io.data2viz.color.colors.black
 import io.data2viz.core.Point
 import io.data2viz.math.Angle
 import io.data2viz.core.namespace
+import io.data2viz.math.deg
 import org.w3c.dom.Element
 import org.w3c.dom.events.Event
 import kotlin.browser.document
@@ -156,14 +157,26 @@ class PathElement(override val element: Element) : ElementWrapper, HasStroke, Ha
     }
 }
 
+enum class TextAnchor {
+    start, middle, end, inherit
+}
+
 @SvgTagMarker
-class TextElement(override val element: Element) : HasText, HasPosition, ElementWrapper, HasFill, Transformable, HasStyle {
+class TextElement(override val element: Element) : HasText, HasPosition, HasOffset, ElementWrapper, HasFill, Transformable, HasStyle {
     override var text: String?
         get() = element.textContent
         set(value) {
             element.textContent = value
         }
+
+    var textAnchor: TextAnchor
+        get() = getAttribute("text-anchor")?.let { TextAnchor.valueOf(it) } ?: TextAnchor.inherit
+        set(value) {
+            setAttribute("text-anchor", value.name)
+        }
+
 }
+
 
 /**
  * The root of a SVG visualization
@@ -255,6 +268,19 @@ interface HasPosition : AccessByAttributes {
         get() = getAttribute("y")?.toFloat() ?: 0f
         set(value) {
             setAttribute("y", value.toString())
+        }
+}
+
+interface HasOffset : AccessByAttributes {
+    var dx: Number
+        get() = getAttribute("dx")?.toFloat() ?: 0f
+        set(value) {
+            setAttribute("dx", value.toString())
+        }
+    var dy: Number
+        get() = getAttribute("dy")?.toFloat() ?: 0f
+        set(value) {
+            setAttribute("dy", value.toString())
         }
 }
 
