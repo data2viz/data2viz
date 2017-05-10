@@ -26,6 +26,7 @@ fun allTests() {
 
 fun bindingPerfs() = io.data2viz.experiments.bindingPerfs()
 fun chart()    = io.data2viz.experiments.chart.chart()
+fun fantasyMap()    = io.data2viz.experiments.fantasymap.buildFantasyMap()
 fun svgPerfs() = io.data2viz.experiments.perfs.svgPerfs()
 fun jsPerfs() = io.data2viz.experiments.perfs.jsPerfs()
 fun walking()    = io.data2viz.experiments.walking.walkingDead()
