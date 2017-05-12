@@ -19,5 +19,6 @@
     <orderEntry type="module" module-name="core" />
     <orderEntry type="module" module-name="dsv" />
     <orderEntry type="module" module-name="request" />
+    <orderEntry type="module" module-name="selection" />
   </component>
 </module>
