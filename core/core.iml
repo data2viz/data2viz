@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../out" />
     <output-test url="file://$MODULE_DIR$/../out" />
     <exclude-output />
@@ -9,7 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="KotlinJavaScript" level="project" />
     <orderEntry type="module" module-name="tests" />
+    <orderEntry type="library" name="KotlinJavaScript" level="project" />
   </component>
 </module>

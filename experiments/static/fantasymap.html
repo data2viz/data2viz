@@ -53,7 +53,7 @@
 
     function redraw() {
         var diagram = voronoi(sites),
-            links = diagram.links(),
+            //links = diagram.links(),
             polygons = diagram.polygons();
 
         context.clearRect(0, 0, width, height);
@@ -84,6 +84,8 @@
         context.fill();
         context.strokeStyle = "#000";
         context.stroke();
+
+
 
         return polygons;
     }
