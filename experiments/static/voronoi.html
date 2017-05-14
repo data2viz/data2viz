@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<style>
+    svg {
+        position: absolute;
+        top: 0;
+    }
+</style>
+<script src="https://d3js.org/d3-voronoi.v1.js"></script>
+<script>
+
+    var voronoi = d3.voronoi();
+    var data = [
+        [20, 30],
+        [25, 32],
+        [44, 29]
+    ];
+
+    console.log(voronoi(data).polygons());
+    console.log(voronoi(data).triangles());
+
+</script>
+
+<script src="require.js"></script>
+<body>
+<script>
+    require.config({
+        baseUrl: ".",
+        paths: {"kotlin": "lib/kotlin"}
+    });
+    require(['experiments'],
+        function (all) {
+            all.voronoi();
+        });
+</script>
+</body>
+</html>

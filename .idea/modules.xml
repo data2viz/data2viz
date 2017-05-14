@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/selection/selection.iml" filepath="$PROJECT_DIR$/selection/selection.iml" />
       <module fileurl="file://$PROJECT_DIR$/svg/svg.iml" filepath="$PROJECT_DIR$/svg/svg.iml" />
       <module fileurl="file://$PROJECT_DIR$/tests/tests.iml" filepath="$PROJECT_DIR$/tests/tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/voronoi/voronoi.iml" filepath="$PROJECT_DIR$/voronoi/voronoi.iml" />
     </modules>
   </component>
 </project>
