@@ -14,6 +14,7 @@ import io.data2viz.color.colors.saddlebrown
 import io.data2viz.color.colors.sandybrown
 import io.data2viz.color.colors.white
 import io.data2viz.core.Point
+import io.data2viz.svg.SVGElement
 import io.data2viz.svg.svg
 import kotlin.js.Math
 
@@ -238,94 +239,25 @@ fun doMap(params: Params) {
 
 
 
-    triangles.forEachIndexed { triangleIndex, triangle ->
-        val tri: Array<Edge> = emptyArray()
-        var totalX: Double = 0.0
-        var totalY: Double = 0.0
-        triangle.forEachIndexed { index, point ->
-            val origin = point.toPoint3D()
-            val end: Point3D
-            if (index >= triangle.size - 1) {
-                end = triangle[0].toPoint3D()
-            } else {
-                end = triangle[index + 1].toPoint3D()
-            }
-            val edge = Edge(origin, end)
-            tri[index] = edge
-            totalX += origin.x
-            totalY += origin.y
-        }
-
-        mesh.geoFaces[triangleIndex] = GeoFace(tri, Point(totalX / 3, totalY / 3))
-    }
+    makeMesh(triangles)
 
     var cycles: Int = 0
 
-    // 18'400 pour 12K sites
-    triangles.forEachIndexed { faceIndex1, tri1 ->
-        tri1.forEachIndexed { edgeIndex1, tri1Vertex ->
-            //            var foundVertices:Int = 0
-            var found = false
-            var faceIndex2 = faceIndex1 + 1
-            while (!found && faceIndex2 < triangles.size) {
-                val tri2 = triangles.get(faceIndex2)
-                tri2.forEachIndexed { edgeIndex2, tri2Vertex ->
-                    cycles++
-                    if (tri1Vertex[0] == tri2Vertex[0] && tri1Vertex[1] == tri2Vertex[1]) {
+    // 29646 ms pour 16K sites
+    //findAdjacents(triangles)
 
-                        var nextVertex1 = tri1[0]
-                        if (edgeIndex1 < tri1.size - 1) nextVertex1 = tri1[edgeIndex1 + 1]
+    // 65363 ms pour 16K sites
+    //findAdjacent2()
 
-                        var previousVertex2 = tri2[tri2.size - 1]
-                        if (edgeIndex2 > 0) previousVertex2 = tri2[edgeIndex2 - 1]
-
-                        if (nextVertex1[0] == previousVertex2[0] && nextVertex1[1] == previousVertex2[1]) {
-//                          mesh.geoFaces.get(faceIndex1).triangle.get(edgeIndex1).adjacents.add(mesh.geoFaces.get(faceIndex2))
-                            val adjacents = mesh.geoFaces[faceIndex1].triangle[edgeIndex1].adjacents
-                            adjacents[adjacents.size] = mesh.geoFaces[faceIndex2]
-                            found = true
-                        }
-                    }
-                }
-                faceIndex2++
-            }
-        }
-    }
-
-
-    // 27" pour 12K sites
-    // données stockées en ARRAYLIST 34 secondes
-    // données stockées en ARRAY parcours AVEC FOREACH 10 secondes
-    // données stockées en ARRAY parcours SANS FOREACH 9 secondes
-    // données stockées en ARRAY parcours avec point de sortie 9 secondes (moitié moins de boucles)
-    /*for (faceIndex1 in 0..mesh.geoFaces.size - 1) {
-        val geoFace1 = mesh.geoFaces[faceIndex1]
-        for (edgeIndex1 in 0..geoFace1.triangle.size - 1) {
-            val edge1 = geoFace1.triangle[edgeIndex1]
-            var found = false;
-            var faceIndex2 = faceIndex1 + 1
-            while (!found && faceIndex2 < mesh.geoFaces.size) {
-                val geoFace2 = mesh.geoFaces.get(faceIndex2)
-                for (edgeIndex2 in 0..geoFace2.triangle.size - 1) {
-                    cycles++
-                    val edge2 = geoFace2.triangle[edgeIndex2]
-                    if (edge1.origin.x == edge2.end.x && edge1.end.x == edge2.origin.x
-                            && edge1.origin.y == edge2.end.y && edge1.end.y == edge2.origin.y) {
-
-                        val adj = mesh.geoFaces.get(faceIndex1).triangle.get(edgeIndex1).adjacents
-                        adj[adj.size] = mesh.geoFaces.get(faceIndex2)
-                        found = true
-                    }
-                }
-                faceIndex2++
-            }
-        }
-    }*/
+    // 22580 ms pour 16K sites
+    findAdjacents3(triangles)
 
     println(cycles)
 
     addRelief(mesh, 30, params)
     addRelief(mesh, 5, params, -1.0F, 0.33)
+
+    cleanCoastlines()
 
     var svg = svg {
 
@@ -357,29 +289,7 @@ fun doMap(params: Params) {
             }
         }*/
 
-        mesh.geoFaces.forEach { geoFace ->
-            path {
-                path {
-                    var fill:Color = darkblue;
-                    if (geoFace.height > -.3) fill = lightblue
-                    if (geoFace.height > 0) fill = lightgoldenrodyellow
-                    if (geoFace.height > 0.05) fill = green
-                    if (geoFace.height > 0.2) fill = darkgreen
-                    if (geoFace.height > 0.4) fill = sandybrown
-                    if (geoFace.height > 0.6) fill = grey
-                    if (geoFace.height > 0.8) fill = white
-
-                    stroke = fill;
-                    strokeWidth  = "1"
-                    setAttribute("fill", fill.toString())
-                    moveTo(geoFace.triangle[0].origin.x, geoFace.triangle[0].origin.y)
-                    geoFace.triangle.forEach { vertex ->
-                        lineTo(vertex.origin.x, vertex.origin.y)
-                    }
-                    closePath()
-                }
-            }
-        }
+        drawGeofaces()
 
 
         /*sites.forEachIndexed { index, site ->
@@ -437,21 +347,180 @@ fun doMap(params: Params) {
             }
         }*/
 
-        mesh.geoFaces.forEach { geoFace ->
-            geoFace.triangle.forEachIndexed { edgeIndex, edge ->
-                edge.adjacents.forEach { adjacent ->
-                    if (geoFace.height * adjacent.height < 0) {
-                        line(edge.origin.x, edge.origin.y, edge.end.x, edge.end.y)
-                    }
-                }
-            }
-        }
+        drawSeacoast()
     }
 
     /*for (index in 0 .. 10) {
         val pt: Point = Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight)
         improvedPoints.set(improvedPoints.size, pt.toArray())
     }*/
+}
+
+
+private fun findAdjacents(triangles: Array<Array<Array<Double>>>) {
+    triangles.forEachIndexed { faceIndex1, tri1 ->
+        tri1.forEachIndexed { edgeIndex1, tri1Vertex ->
+            var found = false
+            var faceIndex2 = faceIndex1 + 1
+            while (!found && faceIndex2 < triangles.size) {
+                val tri2 = triangles.get(faceIndex2)
+                tri2.forEachIndexed { edgeIndex2, tri2Vertex ->
+                    cycles++
+                    if (tri1Vertex[0] == tri2Vertex[0] && tri1Vertex[1] == tri2Vertex[1]) {
+
+                        var nextVertex1 = tri1[0]
+                        if (edgeIndex1 < tri1.size - 1) nextVertex1 = tri1[edgeIndex1 + 1]
+
+                        var previousVertex2 = tri2[tri2.size - 1]
+                        if (edgeIndex2 > 0) previousVertex2 = tri2[edgeIndex2 - 1]
+
+                        if (nextVertex1[0] == previousVertex2[0] && nextVertex1[1] == previousVertex2[1]) {
+                            val adjacents = mesh.geoFaces[faceIndex1].triangle[edgeIndex1].adjacents
+                            adjacents[adjacents.size] = mesh.geoFaces[faceIndex2]
+                            found = true
+                        }
+                    }
+                }
+                faceIndex2++
+            }
+        }
+    }
+}
+
+private fun findAdjacent2() {
+    for (faceIndex1 in 0..mesh.geoFaces.size - 1) {
+        val geoFace1 = mesh.geoFaces[faceIndex1]
+        for (edgeIndex1 in 0..geoFace1.triangle.size - 1) {
+            val edge1 = geoFace1.triangle[edgeIndex1]
+            var found = false;
+            var faceIndex2 = faceIndex1 + 1
+            while (!found && faceIndex2 < mesh.geoFaces.size) {
+                val geoFace2 = mesh.geoFaces.get(faceIndex2)
+                for (edgeIndex2 in 0..geoFace2.triangle.size - 1) {
+                    cycles++
+                    val edge2 = geoFace2.triangle[edgeIndex2]
+                    if (edge1.origin.x == edge2.end.x && edge1.end.x == edge2.origin.x
+                            && edge1.origin.y == edge2.end.y && edge1.end.y == edge2.origin.y) {
+
+                        val adj = mesh.geoFaces.get(faceIndex1).triangle.get(edgeIndex1).adjacents
+                        adj[adj.size] = mesh.geoFaces.get(faceIndex2)
+                        found = true
+                    }
+                }
+                faceIndex2++
+            }
+        }
+    }
+}
+
+private fun findAdjacents3(triangles: Array<Array<Array<Double>>>) {
+    for (faceIndex1 in 0 .. triangles.size-1) {
+        val tri1 = triangles[faceIndex1]
+        for (edgeIndex1 in 0 .. tri1.size-1) {
+            val tri1Vertex = tri1[edgeIndex1]
+            var found = false
+            var faceIndex2 = faceIndex1 + 1
+            while (!found && faceIndex2 < triangles.size) {
+                val tri2 = triangles.get(faceIndex2)
+                for (edgeIndex2 in 0 .. tri2.size-1) {
+                    found = b(tri2, edgeIndex2, tri1Vertex, tri1, edgeIndex1, faceIndex1, faceIndex2, found)
+                }
+                faceIndex2++
+            }
+        }
+    }
+}
+
+private fun b(tri2: Array<Array<Double>>, edgeIndex2: Int, tri1Vertex: Array<Double>, tri1: Array<Array<Double>>, edgeIndex1: Int, faceIndex1: Int, faceIndex2: Int, found: Boolean): Boolean {
+    var found1 = found
+    val tri2Vertex = tri2[edgeIndex2]
+    if (tri1Vertex[0] == tri2Vertex[0] && tri1Vertex[1] == tri2Vertex[1]) {
+
+        var nextVertex1 = tri1[0]
+        if (edgeIndex1 < tri1.size - 1) nextVertex1 = tri1[edgeIndex1 + 1]
+
+        var previousVertex2 = tri2[tri2.size - 1]
+        if (edgeIndex2 > 0) previousVertex2 = tri2[edgeIndex2 - 1]
+
+        if (nextVertex1[0] == previousVertex2[0] && nextVertex1[1] == previousVertex2[1]) {
+            val adjacents = mesh.geoFaces[faceIndex1].triangle[edgeIndex1].adjacents
+            adjacents[adjacents.size] = mesh.geoFaces[faceIndex2]
+            found1 = true
+        }
+    }
+    return found1
+}
+
+private fun SVGElement.drawSeacoast() {
+    mesh.geoFaces.forEach { geoFace ->
+        geoFace.triangle.forEachIndexed { edgeIndex, edge ->
+            edge.adjacents.forEach { adjacent ->
+                if (geoFace.height * adjacent.height < 0) {
+                    line(edge.origin.x, edge.origin.y, edge.end.x, edge.end.y)
+                }
+            }
+        }
+    }
+}
+
+private fun SVGElement.drawGeofaces() {
+    mesh.geoFaces.forEach { geoFace ->
+        path {
+            path {
+                var fill: Color = darkblue;
+                if (geoFace.height > -.3) fill = lightblue
+                if (geoFace.height > 0) fill = lightgoldenrodyellow
+                if (geoFace.height > 0.05) fill = green
+                if (geoFace.height > 0.2) fill = darkgreen
+                if (geoFace.height > 0.4) fill = sandybrown
+                if (geoFace.height > 0.6) fill = grey
+                if (geoFace.height > 0.8) fill = white
+
+                stroke = fill;
+                strokeWidth = "1"
+                setAttribute("fill", fill.toString())
+                moveTo(geoFace.triangle[0].origin.x, geoFace.triangle[0].origin.y)
+                geoFace.triangle.forEach { vertex ->
+                    lineTo(vertex.origin.x, vertex.origin.y)
+                }
+                closePath()
+            }
+        }
+    }
+}
+
+
+private fun makeMesh(triangles: Array<Array<Array<Double>>>) {
+    triangles.forEachIndexed { triangleIndex, triangle ->
+        val tri: Array<Edge> = emptyArray()
+        var totalX: Double = 0.0
+        var totalY: Double = 0.0
+        triangle.forEachIndexed { index, point ->
+            val origin = point.toPoint3D()
+            val end: Point3D
+            if (index >= triangle.size - 1) {
+                end = triangle[0].toPoint3D()
+            } else {
+                end = triangle[index + 1].toPoint3D()
+            }
+            val edge = Edge(origin, end)
+            tri[index] = edge
+            totalX += origin.x
+            totalY += origin.y
+        }
+        mesh.geoFaces[triangleIndex] = GeoFace(tri, Point(totalX / 3, totalY / 3))
+    }
+}
+
+fun cleanCoastlines() {
+    mesh.geoFaces.forEach { geoFace ->
+        geoFace.triangle.forEach { edge ->
+
+            edge.adjacents.forEach { adjacentFace ->
+
+            }
+        }
+    }
 }
 
 fun isnearedge(vertex: Array<Double>, params: Params): Boolean {
