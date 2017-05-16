@@ -1,6 +1,7 @@
 package io.data2viz.experiments.fantasymap
 
 import io.data2viz.color.Color
+import io.data2viz.color.colors.black
 import io.data2viz.color.colors.blue
 import io.data2viz.color.colors.white
 import io.data2viz.core.Point
@@ -18,9 +19,13 @@ fun Array<Double>.toPoint3D() = Point3D(this[0], this[1], 0.0)
 fun Point3D.toPoint() = Point(this.x, this.y)
 fun Edge.toKey() = (this.origin.x * this.origin.y * this.end.x * this.end.y).toInt()
 
-val terrainColors:Array<Color> = arrayOf(Color(0x91b0f0), Color(0xa1c0f0), Color(0xc1e0f0), Color(0x709959),
+val terrainColors: Array<Color> = arrayOf(Color(0x91b0f0), Color(0xa1c0f0), Color(0xc1e0f0), Color(0x709959),
         Color(0x99b56e), Color(0xc5d188), Color(0xf2eea2), Color(0xf2e096), Color(0xebc17f), Color(0xd1926b),
         Color(0xa1694d), Color(0x82462a), Color(0x732600), Color(0x8f5c45), Color(0xacacac), Color(0xececec))
+
+val mapColors: Array<Color> = arrayOf(Color(0xefefef), Color(0xefefef), Color(0xefefef), Color(0xffffff),
+        Color(0xffffff), Color(0xffffff), Color(0xffffff), Color(0xffffff), Color(0xffffff), Color(0xffffff),
+        Color(0xffffff), Color(0xffffff), Color(0xffffff), Color(0xffffff), Color(0xffffff), Color(0xffffff))
 
 data class Point3D(
         var x: Double,
@@ -52,7 +57,9 @@ data class Edge(
 )
 
 data class Params(
-        val npts: Int = 4000, //16384,
+        val npts: Int = 8000, //16384,
+        val nbCities: Int = 5,
+
         val mapWidth: Int = 450,
         val mapHeight: Int = 450,
         val nbMapsDrawedW: Int = 4,
@@ -60,10 +67,11 @@ data class Params(
 )
 
 var sites: Array<Array<Number>> = emptyArray()
+var cities: ArrayList<Point> = arrayListOf()
 val mesh: Mesh = Mesh()
 val geoFaceIndexFromEdge: HashMap<Int, Array<Int>> = hashMapOf()
 var rivers: ArrayList<River> = arrayListOf()
-val riversToGeoFaceIndex: HashMap<Int, ArrayList<River>> = hashMapOf()
+val geoFaceIndexToRivers: HashMap<Int, ArrayList<River>> = hashMapOf()
 
 fun doMap(params: Params) {
 
@@ -74,12 +82,11 @@ fun doMap(params: Params) {
 
     addRelief(20, params, -0.6F, 0.2)
 
-
     var xOffset = 0
     var yOffset = 0
     svg {
         cleanSVG(params)
-        drawGeofaces(xOffset, yOffset)
+        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
         drawSeacoast(xOffset, yOffset)
     }
 
@@ -88,7 +95,7 @@ fun doMap(params: Params) {
 
     xOffset += params.mapWidth
     svg {
-        drawGeofaces(xOffset, yOffset)
+        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
         drawSeacoast(xOffset, yOffset)
     }
 
@@ -96,7 +103,7 @@ fun doMap(params: Params) {
 
     xOffset += params.mapWidth
     svg {
-        drawGeofaces(xOffset, yOffset)
+        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
         drawSeacoast(xOffset, yOffset)
     }
 
@@ -105,9 +112,9 @@ fun doMap(params: Params) {
 
     xOffset += params.mapWidth
     svg {
-        drawGeofaces(xOffset, yOffset, sea = false)
+        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
         drawRivers(xOffset, yOffset)
-        drawGeofaces(xOffset, yOffset, land = false)
+        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
         drawSeacoast(xOffset, yOffset)
     }
 
@@ -116,15 +123,48 @@ fun doMap(params: Params) {
     xOffset = 0
     yOffset += params.mapHeight
     svg {
-        drawGeofaces(xOffset, yOffset, sea = false)
+        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
         drawRivers(xOffset, yOffset)
-        drawGeofaces(xOffset, yOffset, land = false)
+        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
         drawSeacoast(xOffset, yOffset)
+    }
+
+    findCities(params)
+
+    xOffset += params.mapWidth
+    svg {
+        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
+        drawRivers(xOffset, yOffset)
+        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+        drawSeacoast(xOffset, yOffset)
+        drawCities(xOffset, yOffset)
     }
 
     xOffset += params.mapWidth
     svg {
+        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = mapColors)
+        drawRivers(xOffset, yOffset, black)
+        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = mapColors)
+        drawSeacoast(xOffset, yOffset)
+        drawCities(xOffset, yOffset)
+    }
+}
 
+private fun SVGElement.drawCities(xOffset: Int, yOffset: Int) {
+    cities.forEachIndexed { cityIndex, point ->
+        circle {
+            transform {
+                translate(point.x.toDouble() + xOffset, point.y.toDouble() + yOffset)
+            }
+            stroke = black
+            if (cityIndex < 3) {
+                fill = white
+                r = 5
+            } else {
+                fill = black
+                r = 3
+            }
+        }
     }
 }
 
@@ -265,27 +305,27 @@ private fun SVGElement.drawSeacoast(offsetX: Int, yOffset: Int) {
     }
 }
 
-private fun SVGElement.drawGeofaces(offsetX: Int, yOffset: Int, land:Boolean = true, sea:Boolean=true) {
+private fun SVGElement.drawGeofaces(offsetX: Int, yOffset: Int, land: Boolean = true, sea: Boolean = true, arrayOfColors: Array<Color>) {
     mesh.geoFaces.forEach { geoFace ->
         if ((sea && geoFace.height < 0) || (land && geoFace.height >= 0)) {
             path {
                 path {
-                    var fill: Color = terrainColors[0]
-                    if (geoFace.height > -.40) fill = terrainColors[1]
-                    if (geoFace.height > -.20) fill = terrainColors[2]
-                    if (geoFace.height > 0.00) fill = terrainColors[3]
-                    if (geoFace.height > 0.12) fill = terrainColors[4]
-                    if (geoFace.height > 0.24) fill = terrainColors[5]
-                    if (geoFace.height > 0.30) fill = terrainColors[6]
-                    if (geoFace.height > 0.35) fill = terrainColors[7]
-                    if (geoFace.height > 0.44) fill = terrainColors[8]
-                    if (geoFace.height > 0.52) fill = terrainColors[9]
-                    if (geoFace.height > 0.60) fill = terrainColors[10]
-                    if (geoFace.height > 0.69) fill = terrainColors[11]
-                    if (geoFace.height > 0.78) fill = terrainColors[12]
-                    if (geoFace.height > 0.87) fill = terrainColors[13]
-                    if (geoFace.height > 0.95) fill = terrainColors[14]
-                    if (geoFace.height > 0.99) fill = terrainColors[15]
+                    var fill: Color = arrayOfColors[0]
+                    if (geoFace.height > -.40) fill = arrayOfColors[1]
+                    if (geoFace.height > -.20) fill = arrayOfColors[2]
+                    if (geoFace.height > 0.00) fill = arrayOfColors[3]
+                    if (geoFace.height > 0.12) fill = arrayOfColors[4]
+                    if (geoFace.height > 0.24) fill = arrayOfColors[5]
+                    if (geoFace.height > 0.30) fill = arrayOfColors[6]
+                    if (geoFace.height > 0.35) fill = arrayOfColors[7]
+                    if (geoFace.height > 0.44) fill = arrayOfColors[8]
+                    if (geoFace.height > 0.52) fill = arrayOfColors[9]
+                    if (geoFace.height > 0.60) fill = arrayOfColors[10]
+                    if (geoFace.height > 0.69) fill = arrayOfColors[11]
+                    if (geoFace.height > 0.78) fill = arrayOfColors[12]
+                    if (geoFace.height > 0.87) fill = arrayOfColors[13]
+                    if (geoFace.height > 0.95) fill = arrayOfColors[14]
+                    if (geoFace.height > 0.99) fill = arrayOfColors[15]
 
                     stroke = fill;
                     strokeWidth = "1"
@@ -301,11 +341,11 @@ private fun SVGElement.drawGeofaces(offsetX: Int, yOffset: Int, land:Boolean = t
     }
 }
 
-private fun SVGElement.drawRivers(xOffset: Int, yOffset: Int) {
+private fun SVGElement.drawRivers(xOffset: Int, yOffset: Int, riverColor: Color = blue) {
     rivers.forEach { river ->
         val riverFrom = mesh.geoFaces[river.fromIndex].centroid
         val riverTo = mesh.geoFaces[river.toIndex].centroid
-        line(riverFrom.x.toDouble() + xOffset, riverFrom.y.toDouble() + yOffset, riverTo.x.toDouble() + xOffset, riverTo.y.toDouble() + yOffset, blue)
+        line(riverFrom.x.toDouble() + xOffset, riverFrom.y.toDouble() + yOffset, riverTo.x.toDouble() + xOffset, riverTo.y.toDouble() + yOffset, riverColor)
     }
 }
 
@@ -495,18 +535,18 @@ private fun findRivers() {
         }
         if (lowestAdjacent != null) {
             val river = River(geoFace.index, lowestAdjacent!!.index)
-            riversToGeoFaceIndex.get(geoFace.index)?.forEach { upRiver ->
+            geoFaceIndexToRivers.get(geoFace.index)?.forEach { upRiver ->
                 river.strength += upRiver.strength
             }
-            val downRivers: ArrayList<River>? = riversToGeoFaceIndex.get(lowestAdjacent!!.index)
+            val downRivers: ArrayList<River>? = geoFaceIndexToRivers.get(lowestAdjacent!!.index)
             if (downRivers == null) {
-                riversToGeoFaceIndex.put(lowestAdjacent!!.index, arrayListOf(river))
+                geoFaceIndexToRivers.put(lowestAdjacent!!.index, arrayListOf(river))
             } else {
                 /*downRivers.forEach { otherRiver ->
                     river.strength += otherRiver.strength
                 }*/
                 downRivers.add(river)
-                riversToGeoFaceIndex.put(lowestAdjacent!!.index, downRivers)
+                geoFaceIndexToRivers.put(lowestAdjacent!!.index, downRivers)
             }
             rivers.add(river)
         }
@@ -570,7 +610,6 @@ private fun cleanRivers(minUpRiverStrength: Int, minFinalRiverStrength: Int) {
             keeping++
         }
     }
-    println("keeping $keeping")
     while (true) {
         var changed = false;
         keeping = 0
@@ -578,7 +617,7 @@ private fun cleanRivers(minUpRiverStrength: Int, minFinalRiverStrength: Int) {
         rivers.forEach { river ->
             if (river.keep) {
                 keeping++
-                riversToGeoFaceIndex.get(river.fromIndex)?.forEach { previousRiver ->
+                geoFaceIndexToRivers.get(river.fromIndex)?.forEach { previousRiver ->
                     if (!previousRiver.keep && previousRiver.strength > minUpRiverStrength) {
                         previousRiver.keep = true
                         keepnew++
@@ -587,7 +626,6 @@ private fun cleanRivers(minUpRiverStrength: Int, minFinalRiverStrength: Int) {
                 }
             }
         }
-        println("keeping $keeping $keepnew")
         if (!changed) {
             rivers = ArrayList(rivers.filter { river -> river.keep })
             return
@@ -599,7 +637,7 @@ private fun relaxRivers() {
     rivers.reverse()
     rivers.forEach { river ->
         if (river.keep) {
-            val adjacentRivers = riversToGeoFaceIndex.get(river.fromIndex)
+            val adjacentRivers = geoFaceIndexToRivers.get(river.fromIndex)
             if (adjacentRivers?.size == 1) {
                 val adjacentRiver = adjacentRivers[0]
                 river.fromIndex = adjacentRiver.fromIndex
@@ -608,6 +646,45 @@ private fun relaxRivers() {
         }
     }
     rivers = ArrayList(rivers.filter { river -> river.keep })
+}
+
+private fun findCities(params:Params) {
+    cities.clear()
+    (0 .. params.nbCities - 1).forEach { cityIndex ->
+        var bestScore = -99999999.0
+        var bestCity:Point? = null
+        mesh.geoFaces.forEach { geoFace ->
+            if (geoFace.height >= 0) {
+                var score: Double = 0.0
+
+                // attracted by riversides and sea
+                geoFaceIndexToRivers.get(geoFace.index)?.forEach { river ->
+                    if (river.keep) score += river.strength.toDouble()
+                }
+                score /= 10
+
+                // repulsed by near cities
+                cities.forEach { cityLocation ->
+                    val distance = Math.sqrt(Math.pow(cityLocation.x.toDouble() - geoFace.centroid.x.toDouble(), 2.0) + Math.pow(cityLocation.y.toDouble() - geoFace.centroid.y.toDouble(), 2.0))
+                    score += Math.sqrt(distance)
+                }
+
+                // attracted by map center
+                val distance = Math.sqrt(Math.pow(params.mapWidth/2 - geoFace.centroid.x.toDouble(), 2.0) + Math.pow(params.mapHeight/2 - geoFace.centroid.y.toDouble(), 2.0))
+                score -= Math.sqrt(distance)
+
+                if (score > bestScore) {
+                    bestScore = score
+                    bestCity = geoFace.centroid
+                }
+            }
+        }
+        if (bestCity != null) {
+            cities.add(bestCity!!)
+            println("placing city on x="+ bestCity!!.x+" y="+ bestCity!!.y+" score="+bestScore)
+        }
+        else return
+    }
 }
 
 // TODO : le stocker dès le makemesh ?
