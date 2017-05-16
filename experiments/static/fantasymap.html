@@ -33,8 +33,6 @@
         sites = pts;
         voronoi = d3.voronoi().extent([[-1, -1], [width + 1, height + 1]]);
         diagram =  voronoi(pts);
-
-//        println('yo')
     }
 
     function getPolygons() {
@@ -48,26 +46,6 @@
     function getDiagramTriangles() {
         return diagram.triangles();
     }
-
-    /*function getEdgesNumber() {
-        return diagram.edges.length;
-    }
-
-    function hasEdge(index) {
-        return diagram.edges[index] != undefined;
-    }
-
-    function getEdgePoints(index) {
-        return [diagram.edges[index][0], diagram.edges[index][1]];
-    }
-
-    function getEdgeRight(index) {
-        return diagram.edges[index].right;
-    }
-
-    function getEdgeLeft(index) {
-        return diagram.edges[index].left;
-    }*/
 
 </script>
 
