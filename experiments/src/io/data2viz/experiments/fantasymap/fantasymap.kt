@@ -3,6 +3,7 @@ package io.data2viz.experiments.fantasymap
 import io.data2viz.color.Color
 import io.data2viz.color.colors.black
 import io.data2viz.color.colors.blue
+import io.data2viz.color.colors.darkgrey
 import io.data2viz.color.colors.white
 import io.data2viz.core.Point
 import io.data2viz.svg.SVGElement
@@ -57,7 +58,7 @@ data class Edge(
 )
 
 data class Params(
-        val npts: Int = 8000, //16384,
+        val npts: Int = 16384, //16384,
         val nbCities: Int = 5,
 
         val mapWidth: Int = 450,
@@ -82,6 +83,7 @@ fun doMap(params: Params) {
 
     addRelief(20, params, -0.6F, 0.2)
 
+
     var xOffset = 0
     var yOffset = 0
     svg {
@@ -91,6 +93,7 @@ fun doMap(params: Params) {
     }
 
     addRelief(100, params, 0.25F, 0.2)
+    //cleanCoastlines()
     //fillDepressions()
 
     xOffset += params.mapWidth
@@ -99,18 +102,32 @@ fun doMap(params: Params) {
         drawSeacoast(xOffset, yOffset)
     }
 
+    findRivers()
+
+    xOffset += params.mapWidth
+    svg {
+        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
+        drawRivers(xOffset, yOffset)
+        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+        drawSeacoast(xOffset, yOffset)
+    }
+
+    erode()
+    fillDepressions()
     cleanCoastlines()
 
     xOffset += params.mapWidth
     svg {
-        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
+        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
+        drawRivers(xOffset, yOffset)
+        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
         drawSeacoast(xOffset, yOffset)
     }
 
-    findRivers()
     cleanRivers(10, 40)
 
-    xOffset += params.mapWidth
+    xOffset = 0
+    yOffset += params.mapHeight
     svg {
         drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
         drawRivers(xOffset, yOffset)
@@ -120,13 +137,13 @@ fun doMap(params: Params) {
 
     relaxRivers()
 
-    xOffset = 0
-    yOffset += params.mapHeight
+    xOffset += params.mapWidth
     svg {
         drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
         drawRivers(xOffset, yOffset)
         drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
         drawSeacoast(xOffset, yOffset)
+        drawCities(xOffset, yOffset)
     }
 
     findCities(params)
@@ -142,7 +159,21 @@ fun doMap(params: Params) {
 
     xOffset += params.mapWidth
     svg {
-        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = mapColors)
+        val slopecolor = Color(0x797979)
+        mesh.geoFaces.forEach { geoFace ->
+            if (geoFace.height >= 0) {
+                geoFace.triangle.forEach { edge ->
+                    val adjacentFace = getAdjacentFace(edge, geoFace.index)
+                    if (adjacentFace != null) {
+                        val direction = (adjacentFace.height - geoFace.height) / (adjacentFace.centroid.x.toDouble() - geoFace.centroid.x.toDouble())
+                        if (Math.abs(direction) > 0.07) {
+                            line(adjacentFace.centroid.x.toDouble() + xOffset, adjacentFace.centroid.y.toDouble() + yOffset, edge.end.x + xOffset, edge.end.y + yOffset, slopecolor)
+                        }
+                    }
+                }
+            }
+        }
+        //drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = mapColors)
         drawRivers(xOffset, yOffset, black)
         drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = mapColors)
         drawSeacoast(xOffset, yOffset)
@@ -281,7 +312,7 @@ private fun SVGElement.cleanSVG(params: Params) {
     }
 }
 
-private fun SVGElement.drawSeacoast(offsetX: Int, yOffset: Int) {
+private fun SVGElement.drawSeacoast(xOffset: Int, yOffset: Int) {
     /*mesh.geoFaces.forEach { geoFace ->
         geoFace.triangle.forEachIndexed { edgeIndex, edge ->
             edge.adjacents.forEach { adjacent ->
@@ -298,14 +329,14 @@ private fun SVGElement.drawSeacoast(offsetX: Int, yOffset: Int) {
                 val adjacent1 = mesh.geoFaces[adjacentFaces[0]]
                 val adjacent2 = mesh.geoFaces[adjacentFaces[1]]
                 if (adjacent1.height * adjacent2.height < 0) {
-                    line(edge.origin.x + offsetX, edge.origin.y + yOffset, edge.end.x + offsetX, edge.end.y + yOffset)
+                    line(edge.origin.x + xOffset, edge.origin.y + yOffset, edge.end.x + xOffset, edge.end.y + yOffset)
                 }
             }
         }
     }
 }
 
-private fun SVGElement.drawGeofaces(offsetX: Int, yOffset: Int, land: Boolean = true, sea: Boolean = true, arrayOfColors: Array<Color>) {
+private fun SVGElement.drawGeofaces(xOffset: Int, yOffset: Int, land: Boolean = true, sea: Boolean = true, arrayOfColors: Array<Color>) {
     mesh.geoFaces.forEach { geoFace ->
         if ((sea && geoFace.height < 0) || (land && geoFace.height >= 0)) {
             path {
@@ -330,9 +361,9 @@ private fun SVGElement.drawGeofaces(offsetX: Int, yOffset: Int, land: Boolean = 
                     stroke = fill;
                     strokeWidth = "1"
                     setAttribute("fill", fill.toString())
-                    moveTo(geoFace.triangle[0].origin.x + offsetX, geoFace.triangle[0].origin.y + yOffset)
+                    moveTo(geoFace.triangle[0].origin.x + xOffset, geoFace.triangle[0].origin.y + yOffset)
                     geoFace.triangle.forEach { vertex ->
-                        lineTo(vertex.origin.x + offsetX, vertex.origin.y + yOffset)
+                        lineTo(vertex.origin.x + xOffset, vertex.origin.y + yOffset)
                     }
                     closePath()
                 }
@@ -600,6 +631,15 @@ private fun findRivers() {
     }*/
 }
 
+private fun erode() {
+    mesh.geoFaces.forEach { geoFace ->
+        val rivers = geoFaceIndexToRivers[geoFace.index]
+        rivers?.forEach { river ->
+            geoFace.height -= river.strength / 20
+        }
+    }
+}
+
 private fun cleanRivers(minUpRiverStrength: Int, minFinalRiverStrength: Int) {
     rivers = ArrayList(rivers.filter { river -> river.strength > minUpRiverStrength })
 
@@ -648,11 +688,11 @@ private fun relaxRivers() {
     rivers = ArrayList(rivers.filter { river -> river.keep })
 }
 
-private fun findCities(params:Params) {
+private fun findCities(params: Params) {
     cities.clear()
-    (0 .. params.nbCities - 1).forEach { cityIndex ->
+    (0..params.nbCities - 1).forEach { cityIndex ->
         var bestScore = -99999999.0
-        var bestCity:Point? = null
+        var bestCity: Point? = null
         mesh.geoFaces.forEach { geoFace ->
             if (geoFace.height >= 0) {
                 var score: Double = 0.0
@@ -670,7 +710,7 @@ private fun findCities(params:Params) {
                 }
 
                 // attracted by map center
-                val distance = Math.sqrt(Math.pow(params.mapWidth/2 - geoFace.centroid.x.toDouble(), 2.0) + Math.pow(params.mapHeight/2 - geoFace.centroid.y.toDouble(), 2.0))
+                val distance = Math.sqrt(Math.pow(params.mapWidth / 2 - geoFace.centroid.x.toDouble(), 2.0) + Math.pow(params.mapHeight / 2 - geoFace.centroid.y.toDouble(), 2.0))
                 score -= Math.sqrt(distance)
 
                 if (score > bestScore) {
@@ -681,9 +721,8 @@ private fun findCities(params:Params) {
         }
         if (bestCity != null) {
             cities.add(bestCity!!)
-            println("placing city on x="+ bestCity!!.x+" y="+ bestCity!!.y+" score="+bestScore)
-        }
-        else return
+            println("placing city on x=" + bestCity!!.x + " y=" + bestCity!!.y + " score=" + bestScore)
+        } else return
     }
 }
 
