@@ -1,28 +1,59 @@
 package io.data2viz.voronoi
 
 
-//var beaches:RedBlackTree? = null
+fun <T> MutableList<T>.pop(): T? = if(isEmpty()) null else removeAt(lastIndex)
 
-/**
- * All edges in the diagram
- */
-val edges =  mutableListOf<Edge>()
+class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEnd:Point? = null) {
 
-/**
- * All cells of diagram
- */
-val cells = mutableListOf<Cell>()
-
-class Diagram(sites: Array<Site>) {
-
-
-
-//    val sites: List<Site>
+    var x: Double? = null
+    var y: Double? = null
+    var site: Site? = null
+    var circle: RedBlackNode<Circle>? = null
+    val sites: MutableList<Site> = with(initialSites) { sort(); toMutableList() }
+    var edges: List<Edge>
+    var cells: Array<Cell?>?
 
     init {
-//        this.sites = sites.sortedBy {  }
-//                .mapIndexed { i, point -> Site(point.round(), i) }
-//                .sortedBy { s -> s.point }
+        wCells = arrayOfNulls(initialSites.size)
+        site = sites.pop()
+
+        while (true) {
+            circle = firstCircle
+
+            if (site != null &&
+                    (circle == null
+                            || site!!.y < circle!!.y
+                            || (site!!.y === circle!!.y && site!!.x < circle!!.x))) {
+                if (site!!.x !== x || site!!.y !== y) {
+                    addBeach(site!!)
+                    x = site!!.x
+                    y = site!!.y
+                }
+                site = sites.pop()
+            } else if (circle != null) {
+                removeBeach(circle!!)
+            } else {
+                break
+            }
+        }
+
+        sortCellHalfedges()
+
+        if (clipEnd != null) {
+//            clipEdges(clipStart, clipEnd)
+//            clipCells(clipStart, clipEnd)
+        }
+
+        this.edges = wEdges
+        this.cells = wCells
+
+        beaches.root = null
+        circles.root = null
+
+        wEdges = mutableListOf<Edge>()
+        wCells = null
+
     }
+
 
 }

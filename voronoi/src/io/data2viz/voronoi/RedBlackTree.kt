@@ -1,25 +1,23 @@
 package io.data2viz.voronoi
 
+import io.data2viz.voronoi.RedBlackColor.*
 
 class RedBlackTree<T> {
 
     var root: RedBlackNode<T>? = null
 
-    fun insert(afterNode: RedBlackNode<T>?, node: RedBlackNode<T>) {
+    fun insert(node: RedBlackNode<T>, afterNode: RedBlackNode<T>? = null): RedBlackNode<T> {
 
-        var parent: RedBlackNode<T>? = null
-        var grandpa: RedBlackNode<T>? = null
-        var uncle: RedBlackNode<T>? = null
+        var parent: RedBlackNode<T>?
+        var grandpa: RedBlackNode<T>?
+        var uncle: RedBlackNode<T>?
 
         var after = afterNode
 
         if (after != null) {
             node.P = after
             node.N = after.N
-            if (after.N != null) {
-                after.N!!.P = node
-            }
-            after.N!!.P = node
+            after.N?.P = node
             after.N = node
             if (after.R != null) {
                 after = after.R
@@ -45,18 +43,17 @@ class RedBlackTree<T> {
         node.L = null
         node.R = null
         node.U = parent
-        node.C = true
 
         after = node
 
-        while (parent != null && parent.C != null) {
+        while (parent?.C == RED) {
             grandpa = parent.U
             if (parent === grandpa!!.L) {
                 uncle = grandpa!!.R
-                if (uncle != null && uncle.C != null) {
-                    parent.C = false
-                    uncle.C = false
-                    grandpa.C = true
+                if (uncle?.C == RED) {
+                    parent.C = BLACK
+                    uncle.C = BLACK
+                    grandpa.C = RED
                     after = grandpa
                 } else {
                     if (after === parent.R) {
@@ -64,16 +61,16 @@ class RedBlackTree<T> {
                         after = parent
                         parent = after.U
                     }
-                    parent!!.C = false
-                    grandpa.C = true
+                    parent!!.C = BLACK
+                    grandpa.C = RED
                     rotateRight(grandpa)
                 }
             } else {
                 uncle = grandpa!!.L
-                if (uncle!= null && uncle.C == true) {
-                    parent.C = false
-                    uncle.C = false
-                    grandpa.C = true
+                if (uncle?.C == RED) {
+                    parent.C = BLACK
+                    uncle.C = BLACK
+                    grandpa.C = RED
                     after = grandpa
                 } else {
                     if (after === parent.L){
@@ -81,38 +78,40 @@ class RedBlackTree<T> {
                         after = parent
                         parent = after.U!!
                     }
-                    parent.C = false
-                    grandpa.C = true
+                    parent.C = BLACK
+                    grandpa.C = RED
                     rotateLeft(grandpa)
                 }
             }
             parent = after!!.U
         }
-        root!!.C = false
+        root!!.C = BLACK
+        return node
     }
 
     fun remove(toRemove: RedBlackNode<T>){
-        var node:RedBlackNode<T> = toRemove
-        if (node.N != null){ node.N!!.P = node.P}
-        if (node.P != null){ node.P!!.N = node.N}
+        var node: RedBlackNode<T>? = toRemove
+        node!!.N?.P = node.P
+        node.P?.N = node.N
+
         node.N = null
         node.P = null
 
         var parent = node.U
-        var sibling: RedBlackNode<T>
-        var left = node.L
-        var right = node.R
-        var next:RedBlackNode<T>?
-        var red:Boolean?
+        var sibling: RedBlackNode<T>?
+        val left = node.L
+        val right = node.R
+        val next: RedBlackNode<T>?
+        val red: RedBlackColor
 
-        if (left == null) {next = right}
-        else if (right == null) {next = left}
-        else {next = right.first()}
+        if (left == null) { next = right }
+        else if (right == null) { next = left }
+        else { next = right.first() }
 
         if(parent != null){
-            if (parent.L === node) {parent.L = next}
-            else {parent.R = next}
-        } else {root = next}
+            if (parent.L === node) { parent.L = next }
+            else { parent.R = next }
+        } else { root = next }
 
         if (left != null && right != null ){
             red = next!!.C
@@ -122,27 +121,90 @@ class RedBlackTree<T> {
             if (next !== right) {
                 parent = next.U
                 next.U = node.U
-                node = next.R!!
+                node = next.R
                 parent!!.L = node
                 next.R = right
                 right.U = next
             } else {
                 next.U = parent
                 parent = next
-                node = next.R!!
+                node = next.R
             }
         } else {
             red = node.C
-            node = next!!
+            node = next
         }
 
-        if (node != null) {}
+        if (node != null) {node.U = parent}
+        if (red == RED) return
+        if (node!=null && node.C == RED) {
+            node.C = BLACK
+            return
+        }
+
+        do {
+            if (node === root) break
+            if (node === parent!!.L){ //node is not root => parent not null
+                sibling = parent!!.R
+                if (sibling?.C == RED){
+                    sibling.C = BLACK
+                    parent.C = RED
+                    rotateLeft(parent)
+                    sibling = parent.R
+                }
+                if (sibling?.L?.C == RED || sibling?.R?.C == RED) {
+                    if (sibling.R == null || sibling.R?.C == BLACK) {
+                        sibling.L!!.C = BLACK
+                        sibling.C = RED
+                        rotateRight(sibling)
+                        sibling = parent.R
+                    }
+
+                    sibling!!.C = parent.C
+                    parent.C = BLACK
+                    sibling.R!!.C = BLACK
+                    rotateLeft(parent)
+                    node = root
+                    break
+                }
+            } else {
+                sibling = parent!!.L
+                if (sibling?.C == RED){
+                    sibling.C = BLACK
+                    parent.C = RED
+                    rotateRight(parent)
+                    sibling = parent.L
+                }
+                if( sibling?.L?.C == RED || sibling?.R?.C == RED) {
+                    if (sibling.L == null || sibling.L?.C == BLACK) {
+                        sibling.R?.C = BLACK
+                        sibling.C = RED
+                        rotateLeft(sibling)
+                        sibling = parent.L
+                    }
+                    sibling?.C = parent.C
+                    parent.C = BLACK
+                    parent.L?.C = BLACK
+                    rotateRight(parent)
+                    node = root
+                    break
+                }
+            }
+
+            sibling?.C = RED
+            node = parent
+            parent = parent.U
+
+        } while ( node?.C == BLACK)
+
+        if (node != null) {node.C = BLACK
+        }
     }
 
     fun rotateLeft(node: RedBlackNode<T>) {
-        var p = node
-        var q = node.R
-        var parent = p.U
+        val p = node
+        val q = node.R
+        val parent = p.U
 
         if (parent != null) {
             if (parent.L === p) {
@@ -163,9 +225,9 @@ class RedBlackTree<T> {
     }
 
     fun rotateRight(node: RedBlackNode<T>) {
-        val p = node
-        val q = node.L
-        val parent = p.U
+        val p = node           //le
+        val q = node.L         //le nœud qui remplace la cible
+        val parent = p.U       //le parent de la cible
 
         if (parent != null) {
             if (parent.L === p) {
@@ -174,13 +236,13 @@ class RedBlackTree<T> {
                 parent.R = q
             }
         } else {
-            root = q
+            root = q  //pas de parent, la cible était le root. Root change pour devenir q
         }
         q!!.U = parent
         p.U = q
         p.L = q.R
         if(p.L != null) {p.L!!.U = p}
-        p.R = p
+        q.R = p
     }
 }
 
@@ -190,11 +252,25 @@ fun <T> RedBlackNode<T>.first(): RedBlackNode<T> {
     return node
 }
 
+enum class RedBlackColor {
+    RED, BLACK
+}
+
+
 class RedBlackNode<T>(val node: T) {
     var U: RedBlackNode<T>? = null //parent
     var L: RedBlackNode<T>? = null //left
     var R: RedBlackNode<T>? = null //right
     var P: RedBlackNode<T>? = null //previous
     var N: RedBlackNode<T>? = null //next
-    var C: Boolean? = null //color - true for red, false for black
+    var C: RedBlackColor = RED     //color - true for red, false for black
+
+    fun clean() {
+        U = null
+        L = null
+        R = null
+        P = null
+        N = null
+    }
+
 }
