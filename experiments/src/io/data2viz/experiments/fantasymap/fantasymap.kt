@@ -81,8 +81,8 @@ fun doMap(params: Params) {
     val triangles = getDiagramTriangles()
     makeMesh(triangles)
 
-    addRelief(20, params, -0.6F, 0.2)
-
+    addRelief(10, params, -0.6F, 0.2)
+    addRelief(100, params, 0.25F, 0.2)
 
     var xOffset = 0
     var yOffset = 0
@@ -92,7 +92,8 @@ fun doMap(params: Params) {
         drawSeacoast(xOffset, yOffset)
     }
 
-    addRelief(100, params, 0.25F, 0.2)
+
+    findRivers()
     //cleanCoastlines()
     //fillDepressions()
 
@@ -102,29 +103,38 @@ fun doMap(params: Params) {
         drawSeacoast(xOffset, yOffset)
     }
 
-    findRivers()
-
-    xOffset += params.mapWidth
-    svg {
-        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
-        drawRivers(xOffset, yOffset)
-        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
-        drawSeacoast(xOffset, yOffset)
-    }
-
     erode()
-    fillDepressions()
-    cleanCoastlines()
 
     xOffset += params.mapWidth
     svg {
-        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
-        drawRivers(xOffset, yOffset)
-        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
+        //drawRivers(xOffset, yOffset)
+        //drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
         drawSeacoast(xOffset, yOffset)
     }
 
-    cleanRivers(10, 40)
+    erode2()
+    erode2()
+    erode2()
+    erode2()
+    erode2()
+    erode2()
+    erode2()
+    erode2()
+    erode2()
+    //fillDepressions()
+
+
+    xOffset += params.mapWidth
+    svg {
+        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
+        //drawRivers(xOffset, yOffset)
+        //drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+        drawSeacoast(xOffset, yOffset)
+    }
+
+    cleanRivers(30, 120)
+    cleanCoastlines()
 
     xOffset = 0
     yOffset += params.mapHeight
@@ -632,12 +642,31 @@ private fun findRivers() {
 }
 
 private fun erode() {
+    // river erosion
     mesh.geoFaces.forEach { geoFace ->
         val rivers = geoFaceIndexToRivers[geoFace.index]
         rivers?.forEach { river ->
-            geoFace.height -= river.strength / 20
+            geoFace.height -= river.strength / 70
         }
+        geoFace.height = Math.max(-0.6, geoFace.height)
     }
+}
+private fun erode2() {
+    // weather global erosion
+    val newHeights: Array<Double> = emptyArray()
+    mesh.geoFaces.forEachIndexed { index, geoFace ->
+        var erodedHeight = 0.0
+        var nbAdjacent = 0
+        geoFace.triangle.forEach { edge ->
+            val adjacentFace = getAdjacentFace(edge, geoFace.index)
+            if (adjacentFace != null) {
+                erodedHeight += adjacentFace.height
+                nbAdjacent++
+            }
+        }
+        newHeights[index] = (erodedHeight + geoFace.height) / (nbAdjacent + 1)
+    }
+    mesh.geoFaces.map { geoFace -> geoFace.height = newHeights[geoFace.index] }
 }
 
 private fun cleanRivers(minUpRiverStrength: Int, minFinalRiverStrength: Int) {
