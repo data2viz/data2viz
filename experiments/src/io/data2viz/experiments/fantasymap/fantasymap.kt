@@ -3,11 +3,13 @@ package io.data2viz.experiments.fantasymap
 import io.data2viz.color.Color
 import io.data2viz.color.colors.black
 import io.data2viz.color.colors.blue
-import io.data2viz.color.colors.darkgrey
 import io.data2viz.color.colors.white
 import io.data2viz.core.Point
 import io.data2viz.svg.SVGElement
 import io.data2viz.svg.svg
+import io.data2viz.voronoi.Diagram
+import io.data2viz.voronoi.Site
+import kotlin.js.Date
 import kotlin.js.Math
 
 external fun computeVoronoi(mapWidth: Int, mapHeight: Int, pts: Array<Array<Number>>): Unit
@@ -68,6 +70,7 @@ data class Params(
 )
 
 var sites: Array<Array<Number>> = emptyArray()
+var vSites: Array<Site> = emptyArray()
 var cities: ArrayList<Point> = arrayListOf()
 val mesh: Mesh = Mesh()
 val geoFaceIndexFromEdge: HashMap<Int, Array<Int>> = hashMapOf()
@@ -76,22 +79,38 @@ val geoFaceIndexToRivers: HashMap<Int, ArrayList<River>> = hashMapOf()
 
 fun doMap(params: Params) {
 
-    improvePoints(3, params)
+    timeAndResult("improvePoints 3 with d3") {
+        improvePoints(3, params)
+    }
+    timeAndResult("improvePoints 3 with voronoi") {
+        improveSites(3, params)
+    }
 
-    val triangles = getDiagramTriangles()
-    makeMesh(triangles)
+    val triangles = timeAndResult ("getDiagramTriangles()") { getDiagramTriangles()}
+    timeAndResult("makeMesh") {
+        makeMesh(triangles)
+    }
 
-    addRelief(10, params, -0.6F, 0.2)
-    addRelief(100, params, 0.25F, 0.2)
+    timeAndResult ("addRelief") {
+        addRelief(10, params, -0.6F, 0.2)
+        addRelief(100, params, 0.25F, 0.2)
+    }
+
 
     var xOffset = 0
     var yOffset = 0
-    svg {
-        cleanSVG(params)
-        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
-        drawSeacoast(xOffset, yOffset)
+
+
+    timeAndResult("svg1") {
+        svg {
+            cleanSVG(params)
+            drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
+            drawSeacoast(xOffset, yOffset)
+        }
+
     }
 
+    addRelief(100, params, 0.25F, 0.2)
 
     findRivers()
     //cleanCoastlines()
@@ -511,7 +530,12 @@ private fun fillDepressions() {
     }
 }
 
-private fun generatePoints(params: Params): Array<Array<Number>> {
+private fun generatePoints(params: Params) =
+    (0..params.npts-1).map {
+        Site(io.data2viz.voronoi.Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight), it)
+    }
+
+private fun generatePointsAsArray(params: Params): Array<Array<Number>> {
     val pts: Array<Array<Number>> = emptyArray()
     for (i in 0..params.npts - 1) {
         val pt: Point = Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight)
@@ -532,6 +556,13 @@ private fun improvePoints(cycles: Int, params: Params): Unit {
         sites = improvedPoints
     }
     computeVoronoi(params.mapWidth, params.mapHeight, sites)
+}
+private fun improveSites(cycles: Int, params: Params): Unit {
+    for (i in 1..cycles) {
+        val diagram = Diagram(vSites)
+        diagram.polygons()
+    }
+//    computeVoronoi(params.mapWidth, params.mapHeight, sites)
 }
 
 private fun addRelief(nbReliefs: Int, params: Params, reliefHeight: Float = 1.0F, reliefSizePercentMap: Double = 0.08) {
@@ -800,10 +831,27 @@ fun listsToArray(list: List<Point>): Array<Array<Number>> {
     return list.map { it.toArray() }.toTypedArray()
 }
 
+
+/**
+ * Entry point
+ */
 fun buildFantasyMap() {
     val params = Params()
-    sites = generatePoints(params)
+    timeAndResult("Generate ${params.npts} as array") {
+        sites = generatePointsAsArray(params)
+    }
+    timeAndResult("Generate ${params.npts} as sites") {
+        vSites = generatePoints(params).toTypedArray()
+    }
     doMap(params)
 
     //window.setInterval({if (cycles<5) {doMap(params); cycles++}}, 10)
+}
+
+
+fun <T> timeAndResult(msg :String = "", block:() -> T):T{
+    val time = Date().getTime()
+    var ret = block()
+    println("$msg. Execution in ${Date().getTime() - time} ms")
+    return ret
 }
