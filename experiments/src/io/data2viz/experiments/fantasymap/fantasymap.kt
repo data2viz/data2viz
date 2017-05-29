@@ -17,9 +17,7 @@ external fun getPolygons(): Array<Array<Array<Double>>>
 external fun getDiagramTriangles(): Array<Array<Array<Double>>>
 
 fun Point.toArray(): Array<Number> = arrayOf(this.x, this.y)
-fun Array<Double>.toPoint() = Point(this[0], this[1])
 fun Array<Double>.toPoint3D() = Point3D(this[0], this[1], 0.0)
-fun Point3D.toPoint() = Point(this.x, this.y)
 fun Edge.toKey() = (this.origin.x * this.origin.y * this.end.x * this.end.y).toInt()
 
 val terrainColors: Array<Color> = arrayOf(Color(0x91b0f0), Color(0xa1c0f0), Color(0xc1e0f0), Color(0x709959),
@@ -62,34 +60,24 @@ data class Edge(
 data class Params(
         val npts: Int = 16384, //16384,
         val nbCities: Int = 5,
-
         val mapWidth: Int = 450,
         val mapHeight: Int = 450,
         val nbMapsDrawedW: Int = 4,
         val nbMapsDrawedH: Int = 2
 )
 
-var sites: Array<Array<Number>> = emptyArray()
-var vSites: Array<Site> = emptyArray()
-var cities: ArrayList<Point> = arrayListOf()
-val mesh: Mesh = Mesh()
-val geoFaceIndexFromEdge: HashMap<Int, Array<Int>> = hashMapOf()
-var rivers: ArrayList<River> = arrayListOf()
-val geoFaceIndexToRivers: HashMap<Int, ArrayList<River>> = hashMapOf()
+private var sites: Array<Array<Number>> = emptyArray()
+private var cities: ArrayList<Point> = arrayListOf()
+private val mesh: Mesh = Mesh()
+private val geoFaceIndexFromEdge: HashMap<Int, Array<Int>> = hashMapOf()
+private var rivers: ArrayList<River> = arrayListOf()
+private val geoFaceIndexToRivers: HashMap<Int, ArrayList<River>> = hashMapOf()
 
-fun doMap(params: Params) {
+private fun doMap(params: Params) {
 
-    timeAndResult("improvePoints 3 with d3") {
-        improvePoints(3, params)
-    }
-    timeAndResult("improvePoints 3 with voronoi") {
-        improveSites(3, params)
-    }
-
+    timeAndResult("improvePoints 3 with d3") { improvePoints(3, params) }
     val triangles = timeAndResult ("getDiagramTriangles()") { getDiagramTriangles()}
-    timeAndResult("makeMesh") {
-        makeMesh(triangles)
-    }
+    timeAndResult("makeMesh") { makeMesh(triangles) }
 
     timeAndResult ("addRelief") {
         addRelief(10, params, -0.6F, 0.2)
@@ -365,29 +353,33 @@ private fun SVGElement.drawSeacoast(xOffset: Int, yOffset: Int) {
     }
 }
 
+fun heightColor(height: Double) = when {
+    height > -.40 -> terrainColors[1]
+    height > -.20 -> terrainColors[2]
+    height > 0.00 -> terrainColors[3]
+    height > 0.12 -> terrainColors[4]
+    height > 0.24 -> terrainColors[5]
+    height > 0.30 -> terrainColors[6]
+    height > 0.35 -> terrainColors[7]
+    height > 0.44 -> terrainColors[8]
+    height > 0.52 -> terrainColors[9]
+    height > 0.60 -> terrainColors[10]
+    height > 0.69 -> terrainColors[11]
+    height > 0.78 -> terrainColors[12]
+    height > 0.87 -> terrainColors[13]
+    height > 0.95 -> terrainColors[14]
+    height > 0.99 -> terrainColors[15]
+    else -> terrainColors[0]
+}
+
+
 private fun SVGElement.drawGeofaces(xOffset: Int, yOffset: Int, land: Boolean = true, sea: Boolean = true, arrayOfColors: Array<Color>) {
     mesh.geoFaces.forEach { geoFace ->
         if ((sea && geoFace.height < 0) || (land && geoFace.height >= 0)) {
             path {
                 path {
-                    var fill: Color = arrayOfColors[0]
-                    if (geoFace.height > -.40) fill = arrayOfColors[1]
-                    if (geoFace.height > -.20) fill = arrayOfColors[2]
-                    if (geoFace.height > 0.00) fill = arrayOfColors[3]
-                    if (geoFace.height > 0.12) fill = arrayOfColors[4]
-                    if (geoFace.height > 0.24) fill = arrayOfColors[5]
-                    if (geoFace.height > 0.30) fill = arrayOfColors[6]
-                    if (geoFace.height > 0.35) fill = arrayOfColors[7]
-                    if (geoFace.height > 0.44) fill = arrayOfColors[8]
-                    if (geoFace.height > 0.52) fill = arrayOfColors[9]
-                    if (geoFace.height > 0.60) fill = arrayOfColors[10]
-                    if (geoFace.height > 0.69) fill = arrayOfColors[11]
-                    if (geoFace.height > 0.78) fill = arrayOfColors[12]
-                    if (geoFace.height > 0.87) fill = arrayOfColors[13]
-                    if (geoFace.height > 0.95) fill = arrayOfColors[14]
-                    if (geoFace.height > 0.99) fill = arrayOfColors[15]
-
-                    stroke = fill;
+                    val fill = heightColor(geoFace.height)
+                    stroke = fill
                     strokeWidth = "1"
                     setAttribute("fill", fill.toString())
                     moveTo(geoFace.triangle[0].origin.x + xOffset, geoFace.triangle[0].origin.y + yOffset)
@@ -416,12 +408,8 @@ private fun makeMesh(triangles: Array<Array<Array<Double>>>) {
         var totalY: Double = 0.0
         triangle.forEachIndexed { index, point ->
             val origin = point.toPoint3D()
-            val end: Point3D
-            if (index >= triangle.size - 1) {
-                end = triangle[0].toPoint3D()
-            } else {
-                end = triangle[index + 1].toPoint3D()
-            }
+            val end = if (index >= triangle.size - 1) { triangle[0].toPoint3D() } else { triangle[index + 1].toPoint3D() }
+
             val edge = Edge(origin, end)
             tri[index] = edge
             totalX += origin.x
@@ -498,7 +486,7 @@ private fun fillDepressions() {
         else newHeights[faceIndex] = infinity
     }
     while (true) {
-        var changed = false;
+        var changed = false
         mesh.geoFaces.forEachIndexed { faceIndex, geoFace ->
             if (newHeights[faceIndex] != geoFace.height) {
                 geoFace.triangle.forEach { edge ->
@@ -557,13 +545,6 @@ private fun improvePoints(cycles: Int, params: Params): Unit {
     }
     computeVoronoi(params.mapWidth, params.mapHeight, sites)
 }
-private fun improveSites(cycles: Int, params: Params): Unit {
-    for (i in 1..cycles) {
-        val diagram = Diagram(vSites)
-        diagram.polygons()
-    }
-//    computeVoronoi(params.mapWidth, params.mapHeight, sites)
-}
 
 private fun addRelief(nbReliefs: Int, params: Params, reliefHeight: Float = 1.0F, reliefSizePercentMap: Double = 0.08) {
     (0..nbReliefs).forEach {
@@ -588,10 +569,10 @@ private fun addRelief(nbReliefs: Int, params: Params, reliefHeight: Float = 1.0F
 }
 
 private fun findRivers() {
-    val orderedGeoFaces: Array<GeoFace> = mesh.geoFaces.copyOf()
+    val orderedGeoFaces: Array<GeoFace> = mesh.geoFaces.copyOf() //pourquoi faire une copie
     orderedGeoFaces.sortByDescending { it.height }
     orderedGeoFaces.forEachIndexed { geoFaceIndex, geoFace ->
-        if (geoFace.height < 0) return@forEachIndexed
+        if (geoFace.height < 0) return@forEachIndexed //filtrer, ou return global il n'y a pas d'instruction ensuite
 
         var lowestAdjacentHeight = geoFace.height
         var lowestAdjacent: GeoFace? = null
@@ -711,7 +692,7 @@ private fun cleanRivers(minUpRiverStrength: Int, minFinalRiverStrength: Int) {
         }
     }
     while (true) {
-        var changed = false;
+        var changed = false
         keeping = 0
         var keepnew = 0
         rivers.forEach { river ->
@@ -840,18 +821,12 @@ fun buildFantasyMap() {
     timeAndResult("Generate ${params.npts} as array") {
         sites = generatePointsAsArray(params)
     }
-    timeAndResult("Generate ${params.npts} as sites") {
-        vSites = generatePoints(params).toTypedArray()
-    }
     doMap(params)
-
-    //window.setInterval({if (cycles<5) {doMap(params); cycles++}}, 10)
 }
-
 
 fun <T> timeAndResult(msg :String = "", block:() -> T):T{
     val time = Date().getTime()
-    var ret = block()
+    val ret = block()
     println("$msg. Execution in ${Date().getTime() - time} ms")
     return ret
 }
