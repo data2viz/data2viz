@@ -62,7 +62,7 @@ fun voronoi() {
             height = 600
 
             diagram.edges.forEach { edge ->
-                if(edge.start != null && edge.end != null){
+                if(edge?.start != null && edge.end != null){
                     line(edge.start!!.x, edge.start!!.y, edge.end!!.x, edge.end!!.y, black )
                 }
             }
