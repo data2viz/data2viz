@@ -27,6 +27,7 @@ fun allTests() {
 fun bindingPerfs() = io.data2viz.experiments.bindingPerfs()
 fun chart()    = io.data2viz.experiments.chart.chart()
 fun svgPerfs() = io.data2viz.experiments.perfs.svgPerfs()
+fun jsPerfs() = io.data2viz.experiments.perfs.jsPerfs()
 fun walking()    = io.data2viz.experiments.walking.walkingDead()
 fun mouse()    = io.data2viz.experiments.mouse.mouse()
 fun animate()  = io.data2viz.experiments.animate.animate()
