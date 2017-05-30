@@ -214,5 +214,6 @@ fun rightBreakPoint(arc: RedBlackNode<Beach>, directrix: Double): Double {
     val rArc = arc.N
     if (rArc != null) return leftBreakPoint(rArc, directrix)
     val site = arc.node.site
-    return if (site.y === directrix) site.x else Double.POSITIVE_INFINITY
+    return if (site.y == directrix) site.x else Double.POSITIVE_INFINITY
 }
+

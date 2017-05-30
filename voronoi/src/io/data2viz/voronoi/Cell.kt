@@ -7,6 +7,9 @@ internal var wCells: Array<Cell?>? = null
 
 class Cell(val site: Site) {
 
+    /**
+     * List of index of edges of the current Cell.
+     */
     val halfedges = mutableListOf<Int>()
 
 
@@ -41,6 +44,9 @@ class Cell(val site: Site) {
     fun halfedgeStart(edge: Edge) = if (edge.left !== site) edge.end else edge.start
     fun halfedgeEnd(edge: Edge) = if (edge.left === site) edge.end else edge.start
 
+    fun cellHalfedgeStart(edge:Edge) = if (edge.left !== site) edge.end else edge.start
+    fun cellHalfedgeEnd  (edge:Edge) = if (edge.left === site) edge.end else edge.start
+
 }
 
 /**
@@ -48,7 +54,7 @@ class Cell(val site: Site) {
  */
 fun sortCellHalfedges() {
 
-    var edgeCount = 0
+    var edgeCount:Int
     var halfedges: MutableList<Int>
     var cell: Cell
 
@@ -58,8 +64,8 @@ fun sortCellHalfedges() {
         edgeCount = halfedges.size
 
         val indexes: Array<Int> = Array(edgeCount) { it }
-        val angles: Array<Double> = Array(edgeCount) { cell.halfedgeAngle(wEdges[halfedges[it]])}
-        indexes.sortWith(object : Comparator<Int> { override fun compare(i: Int, j: Int) = angles[i].compareTo(angles[j]) })
+        val angles: Array<Double> = Array(edgeCount) { cell.halfedgeAngle(wEdges[halfedges[it]]!!)}
+        indexes.sortWith(object : Comparator<Int> { override fun compare(i: Int, j: Int) = angles[j].compareTo(angles[i]) })
         val temp: Array<Int> = Array(edgeCount) {halfedges[indexes[it]]}
         (0..edgeCount-1).forEach { halfedges[it] = temp[it] }
     }
