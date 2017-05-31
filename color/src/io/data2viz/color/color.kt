@@ -100,6 +100,15 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
 /********************************************************/
 
 // TODO "lazify" this ?
+
+/**
+ * Create a color in the HSL color space
+ *
+ * @param _h hue:Angle in degree
+ * @param _s saturation:Float between 0 and 1
+ * @param _l lightness:Float between 0 and 1
+ * @param _alpha:Float between 0 and 1
+ */
 class HSL(var _h: Angle = Angle(0.0), var _s: Float = 1f, var _l: Float = 1f, var _alpha: Float = 1.0f) {
 
     private val darker = 0.7
@@ -196,6 +205,15 @@ class HSL(var _h: Angle = Angle(0.0), var _s: Float = 1f, var _l: Float = 1f, va
 
 // TODO in a java implementation of LAB they used Double
 // TODO "lazify" this as LAB is rarely used ?
+
+/**
+ * Create a color in the LAB color space (CIE L*a*b* D65 whitepoint)
+ *
+ * @param _l lightness:Float between 0 and 100
+ * @param _a "a"-component:Float for green-red between -128 and +128
+ * @param _b "b"-component:Float for blue-yellow between -128 and +128
+ * @param _alpha:Float between 0 and 1
+ */
 class LAB(var _l: Float = 100f, var _a: Float = 0f, var _b: Float = 0f, var _alpha: Float = 1.0f) {
 
     private val Kn = 18f
