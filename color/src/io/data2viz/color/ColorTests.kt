@@ -126,7 +126,7 @@ class ColorTests: StringSpec(){
         }*/
 
 
-        "Default LAB color should be the same as default RGB color (white)" {
+        "HSL CONVERSION REFERENCE http://colormine.org/convert/rgb-to-lab : Default LAB color should be the same as default RGB color (white)" {
             val color = LAB().rgb()
             val color2 = Color()
 

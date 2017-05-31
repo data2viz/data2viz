@@ -219,17 +219,16 @@ class LAB(var _l: Float = 100f, var _a: Float = 0f, var _b: Float = 0f, var _alp
         }
 
     // TODO : require checks in place of coerce ??
-    // TODO : coerce at 299 or 299.9999999 ?
     var a: Float
         get() = _a
         set(value) {
-            _a = value.coerceIn(-300f, 299f)
+            _a = value.coerceIn(-128f, 128f)
         }
 
     var b: Float
         get() = _b
         set(value) {
-            _b = value.coerceIn(-300f, 299f)
+            _b = value.coerceIn(-128f, 128f)
         }
 
     // TODO : place in interface. alpha (=opacity in D3) is the same for all colorspaces
