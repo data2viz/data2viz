@@ -11,9 +11,6 @@ val String.color: Color
         return Color(this.substring(1).toInt(16))
     }
 
-fun rgba(r: Number, g: Number, b: Number, a: Number) = Color().apply { rgba(r, g, b, a) }
-
-
 /**
  * Implementation of Color as an rgb integer and an alpha channel.
  *
@@ -162,25 +159,22 @@ class HSL(var _h: Angle = Angle(0.0), var _s: Float = 1f, var _l: Float = 1f, va
         return hsla(h, s, (l * str).toFloat(), alpha)
     }
 
-    fun rgb(): Color {
-
-        // see MOZILLA HSL specification todo add link on specification
-
-        val rgb = Color()
-
-        if (s == 0f) {                          // achromatic
-            rgb.r = (l * 255).toInt()
-            rgb.g = (l * 255).toInt()
-            rgb.b = (l * 255).toInt()
-        } else {
-            val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
-            val p = 2 * l - q;
-            rgb.r = Math.round(hue2rgb(p, q, h.deg + 120.0) * 255)
-            rgb.g = Math.round(hue2rgb(p, q, h.deg) * 255)
-            rgb.b = Math.round(hue2rgb(p, q, h.deg - 120.0) * 255)
-        }
-        return rgb
-    }
+    fun toRgba(): Color =
+            if (s == 0f)     // achromatic
+                colors.rgba(
+                        r = (l * 255).toInt(),
+                        g = (l * 255).toInt(),
+                        b = (l * 255).toInt(),
+                        a = _alpha)
+            else {
+                val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
+                val p = 2 * l - q;
+                colors.rgba(
+                        r = Math.round(hue2rgb(p, q, h.deg + 120.0) * 255),
+                        g = Math.round(hue2rgb(p, q, h.deg) * 255),
+                        b = Math.round(hue2rgb(p, q, h.deg - 120.0) * 255),
+                        a = _alpha)
+            }
 
     private fun hue2rgb(p: Float, q: Float, hueDeg: Double): Float {
         val hd = normalizeHueAngle(hueDeg)
@@ -194,13 +188,7 @@ class HSL(var _h: Angle = Angle(0.0), var _s: Float = 1f, var _l: Float = 1f, va
 
     private fun normalizeHueAngle(hueDeg: Double) = if (hueDeg >= 0) hueDeg % 360 else hueDeg % 360 + 360
 
-    fun rgba(): Color {
-        val rgb = rgb()
-        rgb.alpha = _alpha
-        return rgb
-    }
 }
-
 
 /********************************************************/
 /****************** LAB SPECIFIC ************************/
@@ -215,7 +203,7 @@ class HSL(var _h: Angle = Angle(0.0), var _s: Float = 1f, var _l: Float = 1f, va
  * @param _l lightness:Float between 0 and 100
  * @param _a "a"-component:Float for green-red between -128 and +128
  * @param _b "b"-component:Float for blue-yellow between -128 and +128
- * @param _alpha:Float between 0 and 1
+ * @param _alpha:Opacity between 0 and 1
  */
 class LAB(var _l: Float = 100f, var _a: Float = 0f, var _b: Float = 0f, var _alpha: Float = 1.0f) {
 
@@ -276,16 +264,7 @@ class LAB(var _l: Float = 100f, var _a: Float = 0f, var _b: Float = 0f, var _alp
         return laba(l - (Kn * strength), a, b, alpha)
     }
 
-    private fun lab2xyz(t: Float): Float {
-        return if (t > t1) (t * t * t) else (t2 * (t - t0))
-    }
-
-    private fun xyz2rgb(x: Float): Int {
-        return if (x <= 0.0031308f) Math.round(12.92f * x * 255)
-        else Math.round(255 * (1.055f * Math.pow(x.toDouble(), 1 / 2.4).toFloat() - 0.055f))
-    }
-
-    fun rgb(): Color {
+    fun rgba(): Color {
         // map CIE LAB to CIE XYZ
         var y = (l + 16) / 116f
         var x = y + (a / 500f)
@@ -295,21 +274,28 @@ class LAB(var _l: Float = 100f, var _a: Float = 0f, var _b: Float = 0f, var _alp
         z = Zn * lab2xyz(z)
 
         // map CIE XYZ to RGB
-        val rgb = Color()
-        rgb.r = xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z)
-        rgb.g = xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z)
-        rgb.b = xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z)
-        return rgb
+        return colors.rgba(
+                r = xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z),
+                g = xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
+                b = xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
+                a = _alpha)
     }
 
-    fun rgba(): Color {
-        val rgb = rgb()
-        rgb.alpha = _alpha
-        return rgb
+    private fun lab2xyz(t: Float): Float {
+        return if (t > t1) (t * t * t) else (t2 * (t - t0))
     }
+
+    private fun xyz2rgb(x: Float): Int {
+        return if (x <= 0.0031308f) Math.round(12.92f * x * 255)
+        else Math.round(255 * (1.055f * Math.pow(x.toDouble(), 1 / 2.4).toFloat() - 0.055f))
+    }
+
 }
 
 object colors {
+
+
+    fun rgba(r: Number, g: Number, b: Number, a: Number = 1f) = Color().apply { rgba(r, g, b, a) }
 
     val Int.col: Color
         get() = Color(this)
