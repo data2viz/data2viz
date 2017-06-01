@@ -1,6 +1,16 @@
 package io.data2viz.experiments.voronoi
 
 import io.data2viz.color.colors
+import io.data2viz.color.colors.black
+import io.data2viz.color.colors.darkblue
+import io.data2viz.color.colors.darkgray
+import io.data2viz.color.colors.darkorchid
+import io.data2viz.color.colors.lightcoral
+import io.data2viz.color.colors.lightgray
+import io.data2viz.color.colors.lightyellow
+import io.data2viz.color.colors.orange
+import io.data2viz.color.colors.red
+import io.data2viz.color.rgbInterpolator
 import io.data2viz.interpolate.linkedTo
 import io.data2viz.interpolate.scale
 import io.data2viz.math.Angle
@@ -16,7 +26,7 @@ import kotlin.js.Math.random
 fun voronoiSphere() {
 
     val size = 600
-    val pointCount = 200
+    val pointCount = 1000
 
     val point = GeoPoint(0.deg, 0.deg)
     println(point)
@@ -28,12 +38,19 @@ fun voronoiSphere() {
             1 linkedTo 1
     )
 
+    val circleAlpha = scale.linear.numberToNumber(
+            -1 linkedTo 1,
+            1 linkedTo .2
+    )
+
     val pointToScreen = scale.linear.numberToNumber(
             -1.0 linkedTo -200.0,
             1.0 linkedTo 200.0
     )
 
     fun List<GeoPoint>.sites() = mapIndexed { index, point -> Site(Point(pointToScreen(point.x), pointToScreen(point.y)), index) }.toTypedArray()
+
+    val it = rgbInterpolator(darkblue, lightyellow, 0.7f)
 
     svg {
         width = size
@@ -44,7 +61,18 @@ fun voronoiSphere() {
             randomPoints.forEach { geoPoint -> geoPoint.rotation = rotation }
         }
 
+        rect {
+            transform {
+                translate(0, 0)
+            }
+            width = size
+            height = size
+            fill = colors.black
+        }
+
         g {
+
+
             transform {
                 translate(size / 2, size / 2)
                 rotate((-20).deg)
@@ -56,6 +84,8 @@ fun voronoiSphere() {
                     cx = pointToScreen(geoPoint.x)
                     cy = pointToScreen(geoPoint.y)
                     rotationAnimation { rotation ->
+//                        println(((geoPoint.z+1)/2).toFloat())
+                        fill = it(((geoPoint.x+1)/2).toFloat())
                         r = circleRadius(geoPoint.z)
                         cx = pointToScreen(geoPoint.x)
                     }
@@ -68,12 +98,12 @@ fun voronoiSphere() {
                     val diagram = Diagram(randomPoints.sites()
 //                            Point(-1000.0,-1000.0), Point(1000.0,1000.0)
                     )
-                    diagram.edges
+                    /*diagram.edges
                             .filterNotNull()
                             .forEach { edge ->
                                 if( edge.start != null && edge.end != null)
                                     line(edge.start!!.x, edge.start!!.y, edge.end!!.x, edge.end!!.y, colors.black)
-                            }
+                            }*/
                 }
 
             }
