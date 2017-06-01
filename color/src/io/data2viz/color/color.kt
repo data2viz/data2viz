@@ -98,7 +98,6 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
 /****************** HSL SPECIFIC ************************/
 /********************************************************/
 
-// TODO "lazify" this ?
 /**
  * Create a color in the HSL color space
  *
@@ -107,29 +106,15 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
  * @param _l lightness:Float between 0 and 1
  * @param _alpha:Float between 0 and 1
  */
-class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number = 1.0f) {
+class HSL(val h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number = 1.0f) {
 
     private val darker = 0.7
     private val brighter = 1 / darker
 
     // TODO : require checks in place of coerce ??
-    private var _h: Angle = h
-    private var _s: Float = s.coerceIn(0f, 1f)
-    private var _l: Float = l.coerceIn(0f, 1f)
-    private var _alpha: Float = alpha.toFloat()
-
-    val h: Angle get() = _h
-    val s: Float get() = _s
-    val l: Float get() = _l
-
-    // TODO : place in interface alpha (=opacity in D3) is the same for all colorspaces
-    var alpha: Number
-        get() = _alpha
-        set(value) {
-            require(value.toFloat() <= 1f) { "alpha should be less or equal to 1" }
-            require(value.toFloat() >= 0f) { "alpha should be greater or equal to 0" }
-            _alpha = value.toFloat()
-        }
+    val s: Float = s.coerceIn(0f, 1f)
+    val l: Float = l.coerceIn(0f, 1f)
+    val alpha:Float = alpha.toFloat()
 
     val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)
@@ -166,7 +151,6 @@ class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number = 1
 
     // TODO place it in Angle.normalize() ?
     private fun normalizeHueAngle(hueDeg: Double) = if (hueDeg >= 0) hueDeg % 360 else hueDeg % 360 + 360
-
 }
 
 
@@ -175,8 +159,6 @@ class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number = 1
 /********************************************************/
 
 // TODO in a java implementation of LAB they used Double
-// TODO "lazify" this as LAB is rarely used ?
-
 /**
  * Create a color in the LAB color space (CIE L*a*b* D65 whitepoint)
  *
@@ -201,18 +183,13 @@ class LAB(l: Float = 100f, a: Float = 0f, b: Float = 0f, alpha: Number = 1.0f) {
 
     // TODO check for coerce values (coerce needed ?)
     // TODO check for type
-    private var _l: Float = l.coerceIn(0f, 100f)
-    private var _a: Float = a.coerceIn(-128f, 128f)
-    private var _b: Float = b.coerceIn(-128f, 128f)
-    private var _alpha: Float = alpha.toFloat()
+    val l: Float = l.coerceIn(0f, 100f)
+    val a: Float = a.coerceIn(-128f, 128f)
+    val b: Float = b.coerceIn(-128f, 128f)
+    val alpha: Float = alpha.toFloat()
 
-    val l: Float get() = _l
-    val a: Float get() = _a
-    val b: Float get() = _b
-    val alpha: Number get() = _alpha
-
-    fun brighter(strength: Double = 1.0) = LAB((l + (Kn * strength)).toFloat(), a, b, _alpha)
-    fun darker(strength: Double = 1.0) = LAB((l - (Kn * strength)).toFloat(), a, b, _alpha)
+    fun brighter(strength: Double = 1.0) = LAB((l + (Kn * strength)).toFloat(), a, b, alpha)
+    fun darker(strength: Double = 1.0) = LAB((l - (Kn * strength)).toFloat(), a, b, alpha)
 
     fun toRgba(): Color {
         // map CIE LAB to CIE XYZ
@@ -239,11 +216,9 @@ class LAB(l: Float = 100f, a: Float = 0f, b: Float = 0f, alpha: Number = 1.0f) {
         return if (x <= 0.0031308f) Math.round(12.92f * x * 255)
         else Math.round(255 * (1.055f * Math.pow(x.toDouble(), 1 / 2.4).toFloat() - 0.055f))
     }
-
 }
 
 object colors {
-
 
     fun rgba(r: Number, g: Number, b: Number, a: Number = 1f) = Color().apply { rgba(r, g, b, a) }
 
