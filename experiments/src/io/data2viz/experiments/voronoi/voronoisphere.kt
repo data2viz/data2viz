@@ -82,7 +82,6 @@ fun voronoiSphere() {
         }
     }
 
-
 }
 
 data class GeoPoint(val lat: Angle, val long: Angle) {
@@ -110,7 +109,7 @@ class RotationAnimation(rotationTimeInSeconds: Double) {
         fun animate() {
             val currentTime = Date().getTime()
             window.requestAnimationFrame {
-                val rotation = rotationPerMs // * (currentTime - startTime)
+                val rotation = rotationPerMs  * (currentTime - startTime)
                 blocksOfAnimation.forEach { it(rotation) }
                 animate()
             }
