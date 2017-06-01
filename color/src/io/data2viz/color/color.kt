@@ -97,7 +97,6 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
 /********************************************************/
 
 // TODO "lazify" this ?
-
 /**
  * Create a color in the HSL color space
  *
@@ -106,10 +105,15 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
  * @param _l lightness:Float between 0 and 1
  * @param _alpha:Float between 0 and 1
  */
-class HSL(var _h: Angle = Angle(0.0), var _s: Float = 1f, var _l: Float = 1f, var _alpha: Float = 1.0f) {
+class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Float = 1.0f) {
 
     private val darker = 0.7
     private val brighter = 1 / darker
+
+    private var _h:Angle = h
+    private var _s:Float = s
+    private var _l:Float = l
+    private var _alpha:Float = alpha
 
     var h: Angle
         get() = _h
@@ -189,6 +193,7 @@ class HSL(var _h: Angle = Angle(0.0), var _s: Float = 1f, var _l: Float = 1f, va
     private fun normalizeHueAngle(hueDeg: Double) = if (hueDeg >= 0) hueDeg % 360 else hueDeg % 360 + 360
 
 }
+
 
 /********************************************************/
 /****************** LAB SPECIFIC ************************/
