@@ -8,6 +8,14 @@ import io.data2viz.color.EncodedColors.Companion.inferno
 import io.data2viz.color.EncodedColors.Companion.magma
 import io.data2viz.color.EncodedColors.Companion.plasma
 import io.data2viz.color.EncodedColors.Companion.viridis
+import io.data2viz.color.colors.blue
+import io.data2viz.color.colors.darkcyan
+import io.data2viz.color.colors.darkolivegreen
+import io.data2viz.color.colors.lightyellow
+import io.data2viz.color.colors.orange
+import io.data2viz.color.colors.papayawhip
+import io.data2viz.color.colors.red
+import io.data2viz.color.colors.white
 import io.data2viz.core.namespace
 import io.data2viz.test.DomUtils.Companion.body
 import io.data2viz.test.StringSpec
@@ -25,8 +33,57 @@ class EncodedColorsTests : StringSpec(){
         "magma"     { testAndGraph(magma) }
         "inferno"   { testAndGraph(inferno) }
         "plasma"    { testAndGraph(plasma) }
+
+        "Linear RGB interpolation white -> blue" {
+            val it = rgbInterpolator(white, blue)
+            displaySmallGradient(it)
+        }
+
+        "Linear RGB interpolation blue -> white" {
+            val it = rgbInterpolator(blue, white)
+            displaySmallGradient(it)
+        }
+
+        "Short linear RGB interpolation lightyellow -> darkolivegreen" {
+            val it = rgbInterpolator(lightyellow, darkolivegreen)
+            displaySmallGradient(it, 63)
+        }
+
+        "Large linear RGB interpolation darkcyan -> papayawhip" {
+            val it = rgbInterpolator(darkcyan, papayawhip)
+            displaySmallGradient(it, 650)
+        }
+
+        "Large linear RGB interpolation darkcyan -> papayawhip GAMMA 2.2" {
+            val it = rgbInterpolator(darkcyan, papayawhip, 2.2f)
+            displaySmallGradient(it, 650)
+        }
+
+        "Large linear RGB interpolation darkcyan -> papayawhip GAMMA 0.6" {
+            val it = rgbInterpolator(darkcyan, papayawhip, 0.6f)
+            displaySmallGradient(it, 650)
+        }
     }
 
+    fun displaySmallGradient(interpolator:(Float) -> Color, width:Int = 256) {
+        body.appendChild(
+                node("svg").apply {
+                    setAttribute("width", "$width")
+                    setAttribute("height", "20")
+                    (0 until width).forEach { index ->
+                        appendChild(
+                                node("rect").apply {
+                                    setAttribute("fill", interpolator(index/(width-1).toFloat()).rgbHex)
+                                    setAttribute("x", "$index")
+                                    setAttribute("y", "0")
+                                    setAttribute("width", "1")
+                                    setAttribute("height", "20")
+                                }
+                        )
+                    }
+                }
+        )
+    }
 
     fun displaySmallGradient(colors: EncodedColors) {
         body.appendChild(
@@ -46,7 +103,6 @@ class EncodedColorsTests : StringSpec(){
                     }
                 }
         )
-
     }
     fun testAndGraph(gradient: EncodedColors) {
 

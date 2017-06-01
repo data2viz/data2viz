@@ -1,5 +1,6 @@
 package io.data2viz.color
 
+import io.data2viz.color.colors.rgba
 import kotlin.js.Math
 
 /**
@@ -33,5 +34,35 @@ class EncodedColors(colorsAsString: String) {
     fun color(percent: Double) = colors[Math.floor(percent * colors.size)
             .coerceAtLeast(0)
             .coerceAtMost(colors.size - 1)]
+}
 
+// TODO must take all types of colors in args (currently RGB only)
+// TODO add getValueInterpolator correction (see interpolate-rgb)
+// TODO add alpha interpolation
+fun rgbInterpolator(start: Color, end: Color, gamma:Float = 1.0f): (Float) -> Color {
+    val interpolator = getValueInterpolator(gamma)
+    val r = interpolator(start.r, end.r)
+    val g = interpolator(start.g, end.g)
+    val b = interpolator(start.b, end.b)
+    return fun(t): Color {
+        return rgba(r(t), g(t), b(t))
+    }
+}
+
+fun getValueInterpolator(y: Float = 1f): (Int, Int) -> ((Float) -> Int) {
+    if (y == 1f) return { a, d -> linear(a, d) }
+    return { a, b -> if (a == b) constant(a) else exponential(a, b, y) }
+}
+
+fun constant(a: Int) = fun(_: Float) = a
+
+fun linear(a: Int, b: Int): (Float) -> Int {
+    return fun(t: Float) = Math.round(a + t * (b - a))
+}
+
+fun exponential(a: Int, b: Int, y: Float): (Float) -> Int {
+    val na = Math.pow(a.toDouble(), y.toDouble())
+    val nb = Math.pow(b.toDouble(), y.toDouble()) - na
+    val ny = 1 / y
+    return fun(t)= Math.round(Math.pow(na + t * nb, ny.toDouble()))
 }
