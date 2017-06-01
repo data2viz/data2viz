@@ -12,20 +12,23 @@ val DEG_TO_RAD = PI / 180
 val RAD_TO_DEG = 180 / PI
 
 val Number.deg:Angle
-    get() = Angle(toDouble())
+    get() = Angle(toDouble() * DEG_TO_RAD)
 
-class Angle(val deg: Double){
+data class Angle(val rad: Double){
     val cos:Double
-        get() = Math.cos(deg)
+        get() = Math.cos(rad)
 
     val sin:Double
-        get() = Math.cos(deg)
+        get() = Math.sin(rad)
 
     val tan:Double
-        get() = Math.tan(deg)
+        get() = Math.tan(rad)
 
-    fun toRad() = deg * DEG_TO_RAD
+    val deg:Double get() = rad * RAD_TO_DEG
 
-    operator fun plus(angle: Angle)  = Angle(deg + angle.deg)
-    operator fun minus(angle: Angle)  = Angle(deg - angle.deg)
+//    fun toRad() = deg * DEG_TO_RAD
+
+    operator fun plus(angle: Angle)     = Angle(rad + angle.rad)
+    operator fun minus(angle: Angle)    = Angle(rad - angle.rad)
+    operator fun times(d: Double)       = Angle(rad * d)
 }
