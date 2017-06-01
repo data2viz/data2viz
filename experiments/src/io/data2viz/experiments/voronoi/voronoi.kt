@@ -52,18 +52,32 @@ fun voronoi() {
     }
 
     println("test voronoi")
-    time {
-        val points = (1..1000).map {
-            pt(random() * 600, random() * 600)
-        }
-        val diagram = Diagram(points.sites())
-        svg {
-            width = 600
-            height = 600
 
-            diagram.edges.forEach { edge ->
-                if(edge?.start != null && edge.end != null){
-                    line(edge.start!!.x, edge.start!!.y, edge.end!!.x, edge.end!!.y, black )
+    val xMax = 600.0
+    val yMax = 600.0
+
+    fun randomPoints(count:Int,xMax: Double, yMax:Double) = (1..count).map { pt(random() * xMax, random() * yMax) }
+    val points = randomPoints(200, xMax, yMax)
+
+    time {
+//        val diagram = Diagram(points.sites(), clipEnd = Point(xMax, yMax))
+        val diagram = Diagram(points.sites())
+        val svg = svg {
+            width = xMax
+            height = yMax
+
+        }
+
+        (1..50).forEach {
+            time {
+                svg.removeChildren()
+                svg.apply {
+                    diagram.edges
+                            .filterNotNull()
+                            .forEach { edge ->
+                                if( edge.start != null && edge.end != null)
+                                    line(edge.start!!.x, edge.start!!.y, edge.end!!.x, edge.end!!.y, black )
+                            }
                 }
             }
         }

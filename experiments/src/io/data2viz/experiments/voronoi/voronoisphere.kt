@@ -64,11 +64,6 @@ fun voronoiSphere() {
 
             g {
                 rotationAnimation { rotation ->
-                    rect {
-                        width = 1000.0
-                        height = 1000.0
-                        fill = colors.white
-                    }
                     removeChildren()
                     val diagram = Diagram(randomPoints.sites()
 //                            Point(-1000.0,-1000.0), Point(1000.0,1000.0)
@@ -115,7 +110,7 @@ class RotationAnimation(rotationTimeInSeconds: Double) {
         fun animate() {
             val currentTime = Date().getTime()
             window.requestAnimationFrame {
-                val rotation = rotationPerMs * (currentTime - startTime)
+                val rotation = rotationPerMs // * (currentTime - startTime)
                 blocksOfAnimation.forEach { it(rotation) }
                 animate()
             }
