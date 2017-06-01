@@ -18,6 +18,8 @@ val String.color: Color
  *
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
+ *
+ * todo must be immutable
  */
 class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
 
