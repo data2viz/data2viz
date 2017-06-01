@@ -2,6 +2,8 @@ package io.data2viz.experiments.mouse
 
 import io.data2viz.color.colors.red
 import io.data2viz.color.colors.steelblue
+import io.data2viz.math.Angle
+import io.data2viz.math.deg
 import io.data2viz.svg.svg
 
 fun mouse() {
@@ -15,11 +17,14 @@ fun mouse() {
 
         datas.forEach { data ->
 
-            circle {
+            rect {
                 x += data + 5
-                cx = x
-                cy = 40
-                r = data / 2
+                transform {
+                    translate(x, 40)
+//                    rotate(Angle(20.0))
+                }
+                width = data / 2
+                height = data / 2
                 fill = steelblue
 
                 on("mouseenter") { fill = red }
