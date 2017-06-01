@@ -5,7 +5,7 @@ import io.data2viz.axis.Axis
 import io.data2viz.color.colors.black
 import io.data2viz.color.colors.steelblue
 import io.data2viz.color.colors.white
-import io.data2viz.color.rgba
+import io.data2viz.color.colors.rgba
 import io.data2viz.interpolate.linkedTo
 import io.data2viz.interpolate.scale
 import io.data2viz.interpolate.uninterpolate
