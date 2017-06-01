@@ -94,85 +94,85 @@ class ColorTests: StringSpec(){
         }
 
         // TODO : a revoir on passe pas par les setters dans ces cas, donc pas de coerce !!
-        /*"HSL(488, 0.5, 0.5) should be equal to HSL(128, 0.5, 0.5)" {
-            val color = HSL(Angle(488.0), .5f, .5f).rgb()
-            val color2 = HSL(Angle(128.0), .5f, .5f).rgb()
+        "HSL(488, 0.5, 0.5) should be equal to HSL(128, 0.5, 0.5)" {
+            val color = HSL(488.deg, .5f, .5f).toRgba()
+            val color2 = HSL(128.deg, .5f, .5f).toRgba()
 
             color.rgbHex shouldBe color2.rgbHex
         }
 
         "HSL(120, -0.5, 0.5) should be coerced to HSL(120, 0, 0.5)" {
-            val color = HSL(Angle(120.0), -.5f, .5f).rgb()
-            val color2 = HSL(Angle(120.0), 0f, .5f).rgb()
+            val color = HSL(120.deg, -.5f, .5f).toRgba()
+            val color2 = HSL(120.deg, 0f, .5f).toRgba()
 
             color.rgbHex shouldBe color2.rgbHex
         }
 
         "HSL(120, 0.5, 1.5) should be coerced to HSL(120, 0.5, 1)" {
-            val color = HSL(Angle(120.0), .5f, 1.5f).rgb()
-            val color2 = HSL(Angle(120.0), .5f, 1f).rgb()
+            val color = HSL(120.deg, .5f, 1.5f).toRgba()
+            val color2 = HSL(120.deg, .5f, 1f).toRgba()
 
             color.rgbHex shouldBe color2.rgbHex
-        }*/
+        }
 
 
-        "HSL CONVERSION REFERENCE http://colormine.org/convert/rgb-to-lab : Default LAB color should be the same as default RGB color (white)" {
-            val color = LAB().rgba()
+        "LAB CONVERSION REFERENCE http://colormine.org/convert/rgb-to-lab : Default LAB color should be the same as default RGB color (white)" {
+            val color = LAB().toRgba()
             val color2 = Color()
 
             color.rgbHex shouldBe color2.rgbHex
         }
 
-        "RGB conversion of LAB(76.61119593527346, 0.004199837865148659, -0.008309607037970679) should be #BDBDBD" {
-            val color = LAB(76.61119593527346f, 0.004199837865148659f, -0.008309607037970679f).rgba()
+        "RGB conversion of LAB(76.61, 0, 0) should be #BDBDBD" {
+            val color = LAB(76.61f, 0f, 0f).toRgba()
 
             color.rgbHex shouldBe "#bdbdbd"
         }
 
-        "RGB conversion of LAB(68.54923, -58.98131, 52.11442) should be #40BF40" {
-            val color = LAB(68.54923f, -58.98131f, 52.11442f).rgba()
+        "RGB conversion of LAB(68.55, -58.98, 52.11) should be #40BF40" {
+            val color = LAB(68.55f, -58.98f, 52.11f).toRgba()
 
             color.rgbHex shouldBe "#40bf40"
         }
 
-        "RGB conversion of LAB(70.78758592250671, -19.781871234537117, -6.343933758420195) should be #7AB8B8" {
-            val color = LAB(70.78758592250671f, -19.781871234537117f, -6.343933758420195f).rgba()
+        "RGB conversion of LAB(70.79, -19.78, -6.34) should be #7AB8B8" {
+            val color = LAB(70.79f, -19.78f, -6.34f).toRgba()
 
             color.rgbHex shouldBe "#7ab8b8"
         }
 
-        "RGB conversion of LAB(58.09677475743865, -9.18693065835896, 27.45602894645598) should be #8D8F5B" {
-            val color = LAB(58.09677475743865f, -9.18693065835896f, 27.45602894645598f).rgba()
+        "RGB conversion of LAB(58.10, -9.19, 27.46) should be #8D8F5B" {
+            val color = LAB(58.10f, -9.19f, 27.46f).toRgba()
 
             color.rgbHex shouldBe "#8d8f5b"
         }
 
-        "RGB conversion of LAB(85.3433, 7.2317, 26.8528) should be #F5CFA3" {
-            val color = LAB(85.3433f, 7.2317f, 26.8528f).rgba()
+        "RGB conversion of LAB(85.34, 7.23, 26.85) should be #F5CFA3" {
+            val color = LAB(85.34f, 7.23f, 26.85f).toRgba()
 
             color.rgbHex shouldBe "#f5cfa3"
         }
 
         "RGB conversion of LAB(60.32, 37.18, -40.92) should be #AE7CDA" {
-            val color = LAB(60.32f, 37.18f, -40.92f).rgba()
+            val color = LAB(60.32f, 37.18f, -40.92f).toRgba()
 
             color.rgbHex shouldBe "#ae7cda"
         }
 
         "RGB conversion of LAB(40.54, 23.82, -15.98) should be #7A527A" {
-            val color = LAB(40.54f, 23.82f, -15.98f).rgba()
+            val color = LAB(40.54f, 23.82f, -15.98f).toRgba()
 
             color.rgbHex shouldBe "#7a527a"
         }
 
         "RGB conversion of LAB(33.27, 43.84, -52.04) should be #6234A2" {
-            val color = LAB(33.27f, 43.84f, -52.04f).rgba()
+            val color = LAB(33.27f, 43.84f, -52.04f).toRgba()
 
             color.rgbHex shouldBe "#6234a2"
         }
 
         "RGB conversion of LAB(68.54923, -58.98131, 52.11442, 0.5) should be #40BF40 with 0.5 alpha" {
-            val color = LAB(68.54923f, -58.98131f, 52.11442f, 0.5f).rgba()
+            val color = LAB(68.54923f, -58.98131f, 52.11442f, 0.5f).toRgba()
 
             color.rgbHex shouldBe "#40bf40"
             color.alpha shouldBe 0.5f

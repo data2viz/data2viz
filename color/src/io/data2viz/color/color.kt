@@ -91,7 +91,7 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
     @Suppress("UnsafeCastFromDynamic")
     fun Int.toString(radix: Int): String = asDynamic().toString(radix)
 
-    override fun toString() = if (alpha.toFloat() < 1.0) "rgba($r,$g,$b,$alpha)" else rgbHex
+    override fun toString() = if (alpha.toFloat() < 1.0) "toRgba($r,$g,$b,$alpha)" else rgbHex
 }
 
 /********************************************************/
@@ -107,34 +107,20 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
  * @param _l lightness:Float between 0 and 1
  * @param _alpha:Float between 0 and 1
  */
-class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Float = 1.0f) {
+class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number = 1.0f) {
 
     private val darker = 0.7
     private val brighter = 1 / darker
 
-    private var _h:Angle = h
-    private var _s:Float = s
-    private var _l:Float = l
-    private var _alpha:Float = alpha
-
-    var h: Angle
-        get() = _h
-        set(value) {
-            _h = value
-        }
-
     // TODO : require checks in place of coerce ??
-    var s: Float
-        get() = _s
-        set(value) {
-            _s = value.coerceIn(0f, 1f)
-        }
+    private var _h:Angle = h
+    private var _s:Float = s.coerceIn(0f, 1f)
+    private var _l:Float = l.coerceIn(0f, 1f)
+    private var _alpha:Float = alpha.toFloat()
 
-    var l: Float
-        get() = _l
-        set(value) {
-            _l = value.coerceIn(0f, 1f)
-        }
+    val h: Angle get() = _h
+    val s: Float get() = _s
+    val l: Float get() = _l
 
     // TODO : place in interface alpha (=opacity in D3) is the same for all colorspaces
     var alpha: Number
@@ -145,41 +131,27 @@ class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Float = 1.
             _alpha = value.toFloat()
         }
 
-    fun hsla(h: Angle, s: Number, l: Number, a: Number = 1) {
-        this.h = h
-        this.s = s.toFloat()
-        this.l = l.toFloat()
-        alpha = a.toFloat()
-    }
-
     val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)
 
-    fun brighter(strength: Double = 1.0) {
-        val str = Math.pow(brighter, strength)
-        return hsla(h, s, (l * str).toFloat(), alpha)
-    }
-
-    fun darker(strength: Double = 1.0) {
-        val str = Math.pow(darker, strength)
-        return hsla(h, s, (l * str).toFloat(), alpha)
-    }
+    fun brighter(strength: Double = 1.0) = HSL(h, s, (l * Math.pow(brighter, strength)).toFloat(), alpha)
+    fun darker(strength: Double = 1.0) = HSL(h, s, (l * Math.pow(brighter, strength)).toFloat(), alpha)
 
     fun toRgba(): Color =
             if (s == 0f)     // achromatic
                 colors.rgba(
-                        r = (l * 255).toInt(),
-                        g = (l * 255).toInt(),
-                        b = (l * 255).toInt(),
-                        a = _alpha)
+                        r = Math.round(l * 255),
+                        g = Math.round(l * 255),
+                        b = Math.round(l * 255),
+                        a = alpha)
             else {
                 val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
-                val p = 2 * l - q;
+                val p = 2 * l - q
                 colors.rgba(
                         r = Math.round(hue2rgb(p, q, h.deg + 120.0) * 255),
                         g = Math.round(hue2rgb(p, q, h.deg) * 255),
                         b = Math.round(hue2rgb(p, q, h.deg - 120.0) * 255),
-                        a = _alpha)
+                        a = alpha)
             }
 
     private fun hue2rgb(p: Float, q: Float, hueDeg: Double): Float {
@@ -192,6 +164,7 @@ class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Float = 1.
         }
     }
 
+    // TODO place it in Angle.normalize() ?
     private fun normalizeHueAngle(hueDeg: Double) = if (hueDeg >= 0) hueDeg % 360 else hueDeg % 360 + 360
 
 }
@@ -212,7 +185,7 @@ class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Float = 1.
  * @param _b "b"-component:Float for blue-yellow between -128 and +128
  * @param _alpha:Opacity between 0 and 1
  */
-class LAB(var _l: Float = 100f, var _a: Float = 0f, var _b: Float = 0f, var _alpha: Float = 1.0f) {
+class LAB(l: Float = 100f, a: Float = 0f, b: Float = 0f, alpha: Number = 1.0f) {
 
     private val Kn = 18f
     private val Xn = 0.950470f                  // D65 standard referent
@@ -228,50 +201,20 @@ class LAB(var _l: Float = 100f, var _a: Float = 0f, var _b: Float = 0f, var _alp
 
     // TODO check for coerce values (coerce needed ?)
     // TODO check for type
-    var l: Float
-        get() = _l
-        set(value) {
-            _l = value.coerceIn(0f, 100f)
-        }
+    private var _l:Float = l.coerceIn(0f, 100f)
+    private var _a:Float = a.coerceIn(-128f, 128f)
+    private var _b:Float = b.coerceIn(-128f, 128f)
+    private var _alpha:Float = alpha.toFloat()
 
-    // TODO : require checks in place of coerce ??
-    var a: Float
-        get() = _a
-        set(value) {
-            _a = value.coerceIn(-128f, 128f)
-        }
+    val l: Float get() = _l
+    val a: Float get() = _a
+    val b: Float get() = _b
+    val alpha: Number get() = _alpha
 
-    var b: Float
-        get() = _b
-        set(value) {
-            _b = value.coerceIn(-128f, 128f)
-        }
+    fun brighter(strength: Double = 1.0) = LAB((l + (Kn * strength)).toFloat(), a, b, _alpha)
+    fun darker(strength: Double = 1.0) = LAB((l - (Kn * strength)).toFloat(), a, b, _alpha)
 
-    // TODO : place in interface. alpha (=opacity in D3) is the same for all colorspaces
-    var alpha: Number
-        get() = _alpha
-        set(value) {
-            require(value.toFloat() <= 1f) { "alpha should be less or equal to 1" }
-            require(value.toFloat() >= 0f) { "alpha should be greater or equal to 0" }
-            _alpha = value.toFloat()
-        }
-
-    fun laba(l: Number, a: Number, b: Number, alpha: Number) {
-        this.l = l.toFloat()
-        this.a = a.toFloat()
-        this.b = b.toFloat()
-        this.alpha = alpha.toFloat()
-    }
-
-    fun brighter(strength: Double = 1.0) {
-        return laba(l + (Kn * strength), a, b, alpha)
-    }
-
-    fun darker(strength: Double = 1.0) {
-        return laba(l - (Kn * strength), a, b, alpha)
-    }
-
-    fun rgba(): Color {
+    fun toRgba(): Color {
         // map CIE LAB to CIE XYZ
         var y = (l + 16) / 116f
         var x = y + (a / 500f)
@@ -285,7 +228,7 @@ class LAB(var _l: Float = 100f, var _a: Float = 0f, var _b: Float = 0f, var _alp
                 r = xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z),
                 g = xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
                 b = xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
-                a = _alpha)
+                a = alpha)
     }
 
     private fun lab2xyz(t: Float): Float {
