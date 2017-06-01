@@ -4,6 +4,7 @@ package io.data2viz.axis
 import io.data2viz.color.colors.black
 import io.data2viz.svg.ParentElement
 import io.data2viz.core.ticks
+import io.data2viz.svg.TextAnchor
 
 
 /**
@@ -20,8 +21,8 @@ class Axis (val min: Number, val max: Number, val scale: (Number) -> Number) {
                 transform { translate(y = this@Axis.scale(tick)) }
                 line (x2 = -6 )
                 text {
+                    textAnchor = TextAnchor.end
                     style {
-                        setStyle("text-anchor", "end")
                         fontFamily("sans-serif")
                         fontSize("12px")
                     }
