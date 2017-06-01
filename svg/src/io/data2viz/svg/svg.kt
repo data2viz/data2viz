@@ -8,6 +8,7 @@ import io.data2viz.math.Angle
 import io.data2viz.core.namespace
 import io.data2viz.math.deg
 import org.w3c.dom.Element
+import org.w3c.dom.asList
 import org.w3c.dom.events.Event
 import kotlin.browser.document
 
@@ -186,6 +187,10 @@ class SVGElement(override var element: Element) : Has2D, ParentElement, ElementW
 
 interface ParentElement : ElementWrapper {
 
+    fun removeChildren(){
+        element.childNodes.asList().forEach { element.removeChild(it) }
+    }
+
     fun circle(init: CircleElement.() -> Unit):CircleElement {
         val circle = circle()
         init(circle)
@@ -220,6 +225,16 @@ interface ParentElement : ElementWrapper {
         init(p)
         element.append(p.element)
         return p
+    }
+
+    fun line(start:Point, end:Point, stroke: Color){
+        element.append(createSVGElement("line").apply {
+            setAttribute("x1", "${start.x}")
+            setAttribute("y1", "${start.y}")
+            setAttribute("x2", "${end.x}")
+            setAttribute("y2", "${end.y}")
+            setAttribute("stroke", "$stroke")
+        })
     }
 
     fun line(x1: Number = 0, y1: Number = 0, x2:Number = 0, y2:Number = 0, stroke:Color = black) {
