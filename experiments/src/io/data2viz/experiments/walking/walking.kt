@@ -36,7 +36,6 @@ data class Episode(
 
 fun walkingDead() {
     request("https://gist.githubusercontent.com/d3byex/e5ce6526ba2208014379/raw/8fefb14cc18f0440dc00248f23cbf6aec80dcc13/walking_dead_s5.json")
-//    request("https://gist.githubusercontent.com/d3byex/e5ce6526ba2208014379/raw/8fefb14cc18f0440dc00248f23cbf6aec80dcc13/walking_dead_s5.csv")
             .get { xhr ->
 
                 val episodes: Array<Episode> = JSON.parse(xhr.responseText)
