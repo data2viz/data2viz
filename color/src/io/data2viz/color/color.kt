@@ -113,10 +113,10 @@ class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number = 1
     private val brighter = 1 / darker
 
     // TODO : require checks in place of coerce ??
-    private var _h:Angle = h
-    private var _s:Float = s.coerceIn(0f, 1f)
-    private var _l:Float = l.coerceIn(0f, 1f)
-    private var _alpha:Float = alpha.toFloat()
+    private var _h: Angle = h
+    private var _s: Float = s.coerceIn(0f, 1f)
+    private var _l: Float = l.coerceIn(0f, 1f)
+    private var _alpha: Float = alpha.toFloat()
 
     val h: Angle get() = _h
     val s: Float get() = _s
@@ -156,7 +156,7 @@ class HSL(h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number = 1
 
     private fun hue2rgb(p: Float, q: Float, hueDeg: Double): Float {
         val hd = normalizeHueAngle(hueDeg)
-        return  when {
+        return when {
             hd < 60 -> (p + (q - p) * (hd / 60.0)).toFloat()
             hd < 180 -> q
             hd < 240 -> (p + (q - p) * ((240 - hd) / 60.0)).toFloat()
@@ -201,10 +201,10 @@ class LAB(l: Float = 100f, a: Float = 0f, b: Float = 0f, alpha: Number = 1.0f) {
 
     // TODO check for coerce values (coerce needed ?)
     // TODO check for type
-    private var _l:Float = l.coerceIn(0f, 100f)
-    private var _a:Float = a.coerceIn(-128f, 128f)
-    private var _b:Float = b.coerceIn(-128f, 128f)
-    private var _alpha:Float = alpha.toFloat()
+    private var _l: Float = l.coerceIn(0f, 100f)
+    private var _a: Float = a.coerceIn(-128f, 128f)
+    private var _b: Float = b.coerceIn(-128f, 128f)
+    private var _alpha: Float = alpha.toFloat()
 
     val l: Float get() = _l
     val a: Float get() = _a
