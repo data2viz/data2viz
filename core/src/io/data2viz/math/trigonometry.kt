@@ -15,20 +15,13 @@ val Number.deg:Angle
     get() = Angle(toDouble() * DEG_TO_RAD)
 
 data class Angle(val rad: Double){
-    val cos:Double
-        get() = Math.cos(rad)
-
-    val sin:Double
-        get() = Math.sin(rad)
-
-    val tan:Double
-        get() = Math.tan(rad)
-
+    val cos:Double get() = Math.cos(rad)
+    val sin:Double get() = Math.sin(rad)
+    val tan:Double get() = Math.tan(rad)
     val deg:Double get() = rad * RAD_TO_DEG
-
-//    fun toRad() = deg * DEG_TO_RAD
 
     operator fun plus(angle: Angle)     = Angle(rad + angle.rad)
     operator fun minus(angle: Angle)    = Angle(rad - angle.rad)
-    operator fun times(d: Double)       = Angle(rad * d)
+    operator fun times(d: Number)       = Angle(rad * d.toDouble())
+    operator fun div(d: Number)         = Angle(rad / d.toDouble())
 }

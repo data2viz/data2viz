@@ -2,6 +2,7 @@ package io.data2viz.color
 
 import io.data2viz.color.colors.black
 import io.data2viz.math.Angle
+import io.data2viz.math.deg
 import io.data2viz.test.StringSpec
 
 class ColorTests: StringSpec(){
@@ -37,68 +38,57 @@ class ColorTests: StringSpec(){
 
         "HSL CONVERSION REFERENCE https://www.w3schools.com/colors/colors_converter.asp : RGB conversion of HSL(0, 0, 0) should be black" {
             val color = HSL(Angle(0.0), 0f, 0f).toRgba()
-
             color.rgbHex shouldBe black.rgbHex
         }
 
         "Default HSL color should be the same as default RGB color (white)" {
             val color = HSL().toRgba()
             val color2 = Color()
-
             color.rgbHex shouldBe color2.rgbHex
         }
 
         "RGB conversion of HSL(0, 0, 0.742) should be #BDBDBD" {
-            val color = HSL(Angle(0.0), 0f, 0.742f).toRgba()
-
+            val color = HSL(0.deg, 0f, 0.742f).toRgba()
             color.rgbHex shouldBe "#bdbdbd"
         }
 
         "RGB conversion of HSL(120, 0.5, 0.5) should be #40BF40" {
-            val color = HSL(Angle(120.0), 0.5f, 0.5f).toRgba()
-
+            val color = HSL(120.deg, 0.5f, 0.5f).toRgba()
             color.rgbHex shouldBe "#40bf40"
         }
 
         "RGB conversion of HSL(180, 0.3, 0.6) should be #7AB8B8" {
-            val color = HSL(Angle(180.0), 0.3f, 0.6f).toRgba()
-
+            val color = HSL(180.deg, 0.3f, 0.6f).toRgba()
             color.rgbHex shouldBe "#7ab8b8"
         }
 
         "RGB conversion of HSL(63, 0.22, 0.46) should be #8D8F5B" {
-            val color = HSL(Angle(63.0), 0.22f, 0.46f).toRgba()
-
+            val color = HSL(63.deg, 0.22f, 0.46f).toRgba()
             color.rgbHex shouldBe "#8d8f5b"
         }
 
         "RGB conversion of HSL(32, 0.80, 0.80) should be #F5CFA3" {
-            val color = HSL(Angle(32.0), 0.8f, 0.8f).toRgba()
-
+            val color = HSL(32.0.deg, 0.8f, 0.8f).toRgba()
             color.rgbHex shouldBe "#f5cfa3"
         }
 
         "RGB conversion of HSL(256, 0.78, 0.48) should be #AE7CDA" {
-            val color = HSL(Angle(272.0), 0.56f, 0.67f).toRgba()
-
+            val color = HSL(272.deg, 0.56f, 0.67f).toRgba()
             color.rgbHex shouldBe "#ae7cda"
         }
 
         "RGB conversion of HSL(300, 0.2, 0.4) should be #7A527A" {
-            val color = HSL(Angle(300.0), 0.2f, 0.4f).toRgba()
-
+            val color = HSL(300.deg, 0.2f, 0.4f).toRgba()
             color.rgbHex shouldBe "#7a527a"
         }
 
         "RGB conversion of HSL(265, 0.51, 0.42) should be #6234A2" {
-            val color = HSL(Angle(265.0), 0.51f, 0.42f).toRgba()
-
+            val color = HSL(265.deg, 0.51f, 0.42f).toRgba()
             color.rgbHex shouldBe "#6234a2"
         }
 
         "RGB conversion of HSL(120, 0.5, 0.5, 0.5f) should be #40BF40 with 0.5 alpha" {
-            val color = HSL(Angle(120.0), 0.5f, 0.5f, 0.5f).toRgba()
-
+            val color = HSL(120.deg, 0.5f, 0.5f, 0.5f).toRgba()
             color.rgbHex shouldBe "#40bf40"
             color.alpha shouldBe 0.5f
         }
