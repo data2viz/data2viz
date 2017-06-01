@@ -26,6 +26,10 @@ class scale {
                 { domain: Number -> interpolateNumber(start.viz, end.viz).invoke(
                         uninterpolate(start.domain, end.domain).invoke(domain).toDouble()) }
 
+        fun numberToNumber(start: DomainToViz<Double, Double>, end: DomainToViz<Double, Double>): (Double) -> Double =
+                { domain: Double -> interpolateNumber(start.viz, end.viz).invoke(
+                        uninterpolate(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double }
+
     }
 
     object ordinal {
