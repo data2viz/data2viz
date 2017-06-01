@@ -6,6 +6,7 @@ import kotlin.js.Math
 val epsilon = 1e-6
 val epsilon2 = 1e-12
 
+//todo don't use global val. Could be a
 internal val beaches = RedBlackTree<Beach>()
 internal val beachPool = mutableListOf<RedBlackNode<Beach>>()
 
