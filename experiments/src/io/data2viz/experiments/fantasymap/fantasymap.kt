@@ -98,8 +98,6 @@ private fun doMap(params: Params) {
 
     }
 
-    addRelief(100, params, 0.25F, 0.2)
-
     findRivers()
     //cleanCoastlines()
     //fillDepressions()
@@ -354,22 +352,22 @@ private fun SVGElement.drawSeacoast(xOffset: Int, yOffset: Int) {
 }
 
 fun heightColor(height: Double) = when {
-    height > -.40 -> terrainColors[1]
-    height > -.20 -> terrainColors[2]
-    height > 0.00 -> terrainColors[3]
-    height > 0.12 -> terrainColors[4]
-    height > 0.24 -> terrainColors[5]
-    height > 0.30 -> terrainColors[6]
-    height > 0.35 -> terrainColors[7]
-    height > 0.44 -> terrainColors[8]
-    height > 0.52 -> terrainColors[9]
-    height > 0.60 -> terrainColors[10]
-    height > 0.69 -> terrainColors[11]
-    height > 0.78 -> terrainColors[12]
-    height > 0.87 -> terrainColors[13]
-    height > 0.95 -> terrainColors[14]
-    height > 0.99 -> terrainColors[15]
-    else -> terrainColors[0]
+    height < -.40 -> terrainColors[0]
+    height < -.20 -> terrainColors[1]
+    height < 0.00 -> terrainColors[2]
+    height < 0.12 -> terrainColors[3]
+    height < 0.24 -> terrainColors[4]
+    height < 0.30 -> terrainColors[5]
+    height < 0.35 -> terrainColors[6]
+    height < 0.44 -> terrainColors[7]
+    height < 0.52 -> terrainColors[8]
+    height < 0.60 -> terrainColors[9]
+    height < 0.69 -> terrainColors[10]
+    height < 0.78 -> terrainColors[11]
+    height < 0.87 -> terrainColors[12]
+    height < 0.95 -> terrainColors[13]
+    height < 0.99 -> terrainColors[14]
+    else -> terrainColors[15]
 }
 
 
