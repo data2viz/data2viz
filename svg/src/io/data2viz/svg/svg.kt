@@ -4,9 +4,8 @@ import io.data2viz.color.Color
 import io.data2viz.color.color
 import io.data2viz.color.colors.black
 import io.data2viz.core.Point
-import io.data2viz.math.Angle
 import io.data2viz.core.namespace
-import io.data2viz.math.deg
+import io.data2viz.math.Angle
 import org.w3c.dom.Element
 import org.w3c.dom.asList
 import org.w3c.dom.events.Event
@@ -19,8 +18,8 @@ internal fun rect(width: Double = 10.0, height: Double = 10.0) =
             this.height = width
         }
 
-internal fun circle()= CircleElement(createSVGElement("circle"))
-internal fun g()    = GroupElement(createSVGElement("g"))
+internal fun circle() = CircleElement(createSVGElement("circle"))
+internal fun g() = GroupElement(createSVGElement("g"))
 internal fun path() = PathElement(createSVGElement("path"))
 internal fun text() = TextElement(createSVGElement("text"))
 
@@ -131,27 +130,42 @@ fun svg(init: SVGElement.() -> Unit = {}): SVGElement {
 
 @SvgTagMarker
 class CircleElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, HasCenter, HasRadius, ParentElement, Transformable {
-    fun  on(eventName: String, block: CircleElement.(Event) -> Unit) {
-        element.addEventListener(type = eventName, callback = { event -> block(this, event)})
+    fun on(eventName: String, block: CircleElement.(Event) -> Unit) {
+        element.addEventListener(type = eventName, callback = { event -> block(this, event) })
     }
 }
 
 @SvgTagMarker
 class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, ParentElement, Transformable {
-    fun  on(eventName: String, block: RectElement.(Event) -> Unit) {
-        element.addEventListener(type = eventName, callback = { event -> block(this, event)})
+    fun on(eventName: String, block: RectElement.(Event) -> Unit) {
+        element.addEventListener(type = eventName, callback = { event -> block(this, event) })
     }
 }
-
 
 
 @SvgTagMarker
 class GroupElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, HasPosition, ParentElement, Transformable
 
 @SvgTagMarker
+class LineElement(override val element: Element) : ElementWrapper, HasStroke {
+    var x1:Number?
+        get() = element.getAttribute("x1")?.toDouble()
+        set(value) = element.setAttribute("x1", value.toString())
+    var x2:Number?
+        get() = element.getAttribute("x2")?.toDouble()
+        set(value) = element.setAttribute("x2", value.toString())
+    var y1:Number?
+        get() = element.getAttribute("y1")?.toDouble()
+        set(value) = element.setAttribute("y1", value.toString())
+    var y2:Number?
+        get() = element.getAttribute("y2")?.toDouble()
+        set(value) = element.setAttribute("y2", value.toString())
+}
+
+@SvgTagMarker
 class PathElement(override val element: Element) : ElementWrapper, HasStroke, HasFill {
 
-    fun path(init: Path.() -> Unit){
+    fun path(init: Path.() -> Unit) {
         val path = Path()
         init(path)
         setAttribute("d", path.toCommand())
@@ -187,11 +201,11 @@ class SVGElement(override var element: Element) : Has2D, ParentElement, ElementW
 
 interface ParentElement : ElementWrapper {
 
-    fun removeChildren(){
+    fun removeChildren() {
         element.childNodes.asList().forEach { element.removeChild(it) }
     }
 
-    fun circle(init: CircleElement.() -> Unit):CircleElement {
+    fun circle(init: CircleElement.() -> Unit): CircleElement {
         val circle = circle()
         init(circle)
         element.append(circle.element)
@@ -220,32 +234,28 @@ interface ParentElement : ElementWrapper {
         return t
     }
 
-    fun path(init:PathElement.() -> Unit): PathElement {
+    fun path(init: PathElement.() -> Unit): PathElement {
         val p = path()
         init(p)
         element.append(p.element)
         return p
     }
 
-    fun line(start:Point, end:Point, stroke: Color){
-        element.append(createSVGElement("line").apply {
-            setAttribute("x1", "${start.x}")
-            setAttribute("y1", "${start.y}")
-            setAttribute("x2", "${end.x}")
-            setAttribute("y2", "${end.y}")
-            setAttribute("stroke", "$stroke")
-        })
+    fun line(init: LineElement.() -> Unit): LineElement {
+        val l = LineElement(createSVGElement("line"))
+        init(l)
+        element.append(l.element)
+        return l
     }
 
-    fun line(x1: Number = 0, y1: Number = 0, x2:Number = 0, y2:Number = 0, stroke:Color = black) {
-        element.append(createSVGElement("line").apply {
-            setAttribute("x1", "$x1")
-            setAttribute("y1", "$y1")
-            setAttribute("x2", "$x2")
-            setAttribute("y2", "$y2")
-            setAttribute("stroke", "$stroke")
-        })
-    }
+    fun line(x1: Number = 0, y1: Number = 0, x2: Number = 0, y2: Number = 0, stroke: Color = black): LineElement =
+            line {
+                this.x1 = x1
+                this.y1 = y1
+                this.x2 = x2
+                this.y2 = y2
+                this.stroke = stroke
+            }
 
 }
 
@@ -311,6 +321,7 @@ interface HasCenter : AccessByAttributes {
             setAttribute("cy", value.toString())
         }
 }
+
 interface HasRadius : AccessByAttributes {
     var r: Number
         get() = getAttribute("r")?.toFloat() ?: 0f
