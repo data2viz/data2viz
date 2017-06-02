@@ -91,7 +91,7 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
     @Suppress("UnsafeCastFromDynamic")
     fun Int.toString(radix: Int): String = asDynamic().toString(radix)
 
-    override fun toString() = if (alpha.toFloat() < 1.0) "toRgba($r,$g,$b,$alpha)" else rgbHex
+    override fun toString() = if (alpha.toFloat() < 1.0) "rgba($r,$g,$b,$alpha)" else rgbHex
 }
 
 /********************************************************/
