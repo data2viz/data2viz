@@ -1,6 +1,7 @@
 package io.data2viz.color
 
 import io.data2viz.color.colors.rgba
+import kotlin.coroutines.experimental.EmptyCoroutineContext.plus
 import kotlin.js.Math
 
 /**
@@ -65,4 +66,58 @@ fun exponential(a: Int, b: Int, y: Float): (Float) -> Int {
     val nb = Math.pow(b.toDouble(), y.toDouble()) - na
     val ny = 1 / y
     return fun(t)= Math.round(Math.pow(na + t * nb, ny.toDouble()))
+}
+
+/*fun rgbSpline(spline) {
+    return function(colors) {
+        var n = colors.length,
+        r = new Array(n),
+        g = new Array(n),
+        b = new Array(n),
+        i, color;
+        for (i = 0; i < n; ++i) {
+        color = colorRgb(colors[i]);
+        r[i] = color.r || 0;
+        g[i] = color.g || 0;
+        b[i] = color.b || 0;
+    }
+        r = spline(r);
+        g = spline(g);
+        b = spline(b);
+        color.opacity = 1;
+        return function(t) {
+            color.r = r(t);
+            color.g = g(t);
+            color.b = b(t);
+            return color + "";
+        };
+    };
+}*/
+
+fun basis(values:List<Float>): (Float) -> Float {
+    val n = values.size - 1
+    return fun(t:Float):Float {
+        var i = 0
+        var nt = t
+        when {
+            t <= 0  -> nt = 0f
+            t >= 1  -> {i = n-1; nt = 1f}
+            else    -> i = Math.floor(t * n)
+        }
+
+        val v1 = values[i]
+        val v2 = values[i + 1]
+        val v0 = if (i > 0) values[i - 1] else 2 * v1 - v2
+        val v3 = if (i < n - 1) values[i + 2] else 2 * v2 - v1
+        return computeBasis((nt - i / n) * n, v0, v1, v2, v3)
+    }
+}
+
+fun computeBasis(t1:Float, v0:Float, v1:Float, v2:Float, v3:Float):Float {
+    val t2 = t1 * t1
+    val t3 = t2 * t1;
+    return ((1 - 3 * t1 + 3 * t2 - t3) * v0
+            + (4 - 6 * t2 + 3 * t3) * v1
+            + (1 + 3 * t1 + 3 * t2 - 3 * t3) * v2
+            + t3 * v3) / 6;
 }
