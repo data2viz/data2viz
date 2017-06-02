@@ -1,7 +1,6 @@
 package io.data2viz.color
 
 import io.data2viz.color.colors.rgba
-import kotlin.coroutines.experimental.EmptyCoroutineContext.plus
 import kotlin.js.Math
 
 /**
@@ -38,86 +37,166 @@ class EncodedColors(colorsAsString: String) {
 }
 
 // TODO must take all types of colors in args (currently RGB only)
-// TODO add getValueInterpolator correction (see interpolate-rgb)
+// TODO add getLinearInterpolator correction (see interpolate-rgb)
 // TODO add alpha interpolation
-fun rgbInterpolator(start: Color, end: Color, gamma:Float = 1.0f): (Float) -> Color {
-    val interpolator = getValueInterpolator(gamma)
+fun rgbInterpolator(start: Color, end: Color, gamma: Float = 1.0f): (Float) -> Color {
+    val interpolator = getLinearInterpolator(gamma)
+
     val r = interpolator(start.r, end.r)
     val g = interpolator(start.g, end.g)
     val b = interpolator(start.b, end.b)
-    return fun(t): Color {
-        return rgba(r(t), g(t), b(t))
-    }
+
+    return fun(t) = rgba(r(t), g(t), b(t))
 }
 
-fun getValueInterpolator(y: Float = 1f): (Int, Int) -> ((Float) -> Int) {
+// TODO add alpha interpolation (linear not spline ?)
+fun rgbSpline(colors: Array<Color>, cyclical: Boolean = false): (Float) -> Color {
+    val spline = getSplineInterpolator(cyclical)
+
+    val r = spline(colors.map { item -> item.r })
+    val g = spline(colors.map { item -> item.g })
+    val b = spline(colors.map { item -> item.b })
+
+    /*val rs:Array<Int> = emptyArray()
+    val gs:Array<Int> = emptyArray()
+    val bs:Array<Int> = emptyArray()
+
+    rs[0] = 0
+    gs[0] = 0
+    bs[0] = 0
+
+    colors.forEachIndexed { index, color ->
+        rs[index+1] = color.r
+        gs[index+1] = color.g
+        bs[index+1] = color.b
+    }
+
+    val r = spline(rs)
+    val g = spline(gs)
+    val b = spline(bs)*/
+
+    return fun(t) = rgba(r(t), g(t), b(t))
+    //return fun(t) = rgba(r(t), 255, 255)
+}
+
+private fun getLinearInterpolator(y: Float = 1f): (Int, Int) -> ((Float) -> Int) {
     if (y == 1f) return { a, d -> linear(a, d) }
     return { a, b -> if (a == b) constant(a) else exponential(a, b, y) }
 }
 
-fun constant(a: Int) = fun(_: Float) = a
+private fun getSplineInterpolator(cyclical: Boolean): (List<Int>) -> ((Float) -> Float) {
+    return if (cyclical) { a -> basisSplineClosed(a) } else { a -> basisSpline(a) }
+}
 
-fun linear(a: Int, b: Int): (Float) -> Int {
+// constant interpolation
+private fun constant(a: Int) = fun(_: Float) = a
+
+// linear interpolation
+private fun linear(a: Int, b: Int): (Float) -> Int {
     return fun(t: Float) = Math.round(a + t * (b - a))
 }
 
-fun exponential(a: Int, b: Int, y: Float): (Float) -> Int {
+// exponential interpolation
+private fun exponential(a: Int, b: Int, y: Float): (Float) -> Int {
     val na = Math.pow(a.toDouble(), y.toDouble())
     val nb = Math.pow(b.toDouble(), y.toDouble()) - na
     val ny = 1 / y
-    return fun(t)= Math.round(Math.pow(na + t * nb, ny.toDouble()))
+    return fun(t) = Math.round(Math.pow(na + t * nb, ny.toDouble()))
 }
 
-/*fun rgbSpline(spline) {
-    return function(colors) {
-        var n = colors.length,
-        r = new Array(n),
-        g = new Array(n),
-        b = new Array(n),
-        i, color;
-        for (i = 0; i < n; ++i) {
-        color = colorRgb(colors[i]);
-        r[i] = color.r || 0;
-        g[i] = color.g || 0;
-        b[i] = color.b || 0;
-    }
-        r = spline(r);
-        g = spline(g);
-        b = spline(b);
-        color.opacity = 1;
-        return function(t) {
-            color.r = r(t);
-            color.g = g(t);
-            color.b = b(t);
-            return color + "";
-        };
-    };
-}*/
-
-fun basis(values:List<Float>): (Float) -> Float {
+// uniform nonrational B-spline interpolation
+// TODO must accept a Range[0..1] object instead of Float !!
+// TODO then remove all unnecessary checks
+private fun basisSplineOld(values: List<Int>): (Float) -> Float {
     val n = values.size - 1
-    return fun(t:Float):Float {
+    return fun(t: Float): Float {
+
+        // unnecessary checks in case of range object
         var i = 0
         var nt = t
         when {
-            t <= 0  -> nt = 0f
-            t >= 1  -> {i = n-1; nt = 1f}
-            else    -> i = Math.floor(t * n)
+            t <= 0 -> nt = 0f
+            t >= 1 -> {
+                i = n - 1; nt = 1f
+            }
+            else -> i = Math.floor(t * n)
         }
 
         val v1 = values[i]
         val v2 = values[i + 1]
+
+        // TODO check : could produce 2 non-colors value (so coerce result needed) !
         val v0 = if (i > 0) values[i - 1] else 2 * v1 - v2
         val v3 = if (i < n - 1) values[i + 2] else 2 * v2 - v1
-        return computeBasis((nt - i / n) * n, v0, v1, v2, v3)
+
+        print("i=$i C0=$v0 C1=$v1 C2=$v2 C3=$v3 float ${nt - (i / n)}")
+
+        return computeSpline((nt - (i / n)) * n, v0.toFloat(), v1.toFloat(), v2.toFloat(), v3.toFloat()).coerceIn(0f, 255f)
     }
 }
 
-fun computeBasis(t1:Float, v0:Float, v1:Float, v2:Float, v3:Float):Float {
+fun basisSpline(values: List<Int>): (Float) -> Float {
+    val n = values.size - 1
+    return fun(t:Float): Float {
+
+        val newT = t.coerceIn(0f, 1f)
+        val currentIndex:Int = if (t <= 0) 0 else if (t >= 1) n - 1 else Math.floor(t * n)
+
+        val v1 = values[currentIndex]
+        val v2 = values[currentIndex + 1]
+        val v0 = if (currentIndex > 0) values[currentIndex - 1] else 2 * v1 - v2
+        val v3 = if (currentIndex < n - 1) values[currentIndex + 2] else 2 * v2 - v1
+
+        var t1 = (newT - currentIndex.toFloat() / n) * n
+
+        print("i=$currentIndex C0=$v0 C1=$v1 C2=$v2 C3=$v3 float $t1")
+
+        return computeSpline(t1, v0.toFloat(), v1.toFloat(), v2.toFloat(), v3.toFloat()).coerceIn(0f, 255f)
+    }
+}
+
+// uniform nonrational cyclical B-spline interpolation
+private fun basisSplineClosed(values: List<Int>): (Float) -> Float {
+    val n = values.size
+    return fun(t: Float): Float {
+        val nt = if (t < 0) t % 1 else (t % 1 + 1)
+        val i = Math.floor(nt * n)
+
+        val v0 = values[(i + n - 1) % n]
+        val v1 = values[i % n]
+        val v2 = values[(i + 1) % n]
+        val v3 = values[(i + 2) % n]
+        return computeSpline((t - i / n) * n, v0.toFloat(), v1.toFloat(), v2.toFloat(), v3.toFloat())
+    }
+}
+
+// http://alvyray.com/Memos/CG/Pixar/spline77.pdf
+private fun computeSpline2(u: Float, v0: Float, v1: Float, v2: Float, v3: Float): Float {
+    val u2 = u * u
+    val u3 = u2 * u
+    val fl = (v0 * (1 - 3*u + 3*u2 - u3)
+            + v1 * (3*u - 6*u2 + 3*u3)
+            + v2 * (3*u - 3*u3)
+            + v3 * (u - 4*u2 + u3))/6
+    println(" - result $fl")
+    return fl
+}
+
+/*
+MATRIX = 1/6
+    u3  u2  u   1(u0)
+v0  -1  3   -3  1
+v1  3   -6  3   0
+v2  -3  0   3   0
+v3  1   4   1   0
+ */
+fun computeSpline(t1:Float, v0:Float, v1:Float, v2:Float, v3:Float):Float {
     val t2 = t1 * t1
-    val t3 = t2 * t1;
-    return ((1 - 3 * t1 + 3 * t2 - t3) * v0
+    val t3 = t2 * t1
+    val fl = ((1 - 3 * t1 + 3 * t2 - t3) * v0
             + (4 - 6 * t2 + 3 * t3) * v1
             + (1 + 3 * t1 + 3 * t2 - 3 * t3) * v2
-            + t3 * v3) / 6;
+            + t3 * v3) / 6
+    println(" - result $fl")
+    return fl
 }

@@ -12,9 +12,7 @@ import io.data2viz.color.colors.blue
 import io.data2viz.color.colors.darkcyan
 import io.data2viz.color.colors.darkolivegreen
 import io.data2viz.color.colors.lightyellow
-import io.data2viz.color.colors.orange
 import io.data2viz.color.colors.papayawhip
-import io.data2viz.color.colors.red
 import io.data2viz.color.colors.white
 import io.data2viz.core.namespace
 import io.data2viz.test.DomUtils.Companion.body
@@ -49,11 +47,6 @@ class EncodedColorsTests : StringSpec(){
             displaySmallGradient(it, 63)
         }
 
-        "Large linear RGB interpolation darkcyan -> papayawhip" {
-            val it = rgbInterpolator(darkcyan, papayawhip)
-            displaySmallGradient(it, 650)
-        }
-
         "Large linear RGB interpolation darkcyan -> papayawhip GAMMA 2.2" {
             val it = rgbInterpolator(darkcyan, papayawhip, 2.2f)
             displaySmallGradient(it, 650)
@@ -61,6 +54,52 @@ class EncodedColorsTests : StringSpec(){
 
         "Large linear RGB interpolation darkcyan -> papayawhip GAMMA 0.6" {
             val it = rgbInterpolator(darkcyan, papayawhip, 0.6f)
+            displaySmallGradient(it, 650)
+        }
+
+        "Large linear RGB interpolation darkcyan -> papayawhip" {
+            val it = rgbInterpolator(darkcyan, papayawhip)
+            displaySmallGradient(it, 650)
+        }
+
+        "Large RGB spline interpolation darkcyan -> papayawhip" {
+            val it = rgbSpline(arrayOf(darkcyan, papayawhip))
+            displaySmallGradient(it, 650)
+        }
+
+        "Large RGB spline interpolation [G, B, R, B, G]" {
+            val it = rgbSpline(arrayOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
+            displaySmallGradient(it, 650)
+        }
+
+        "Large RGB spline interpolation [R, G, R, G, R]" {
+            val it = rgbSpline(arrayOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00), Color(0xff0000)))
+            displaySmallGradient(it, 410)
+        }
+
+        // ["#8e0152", "#c51b7d", "#de77ae", "#f1b6da", "#fde0ef", "#f7f7f7", "#e6f5d0", "#b8e186", "#7fbc41", "#4d9221", "#276419"]
+        "Large RGB spline interpolation [#8e0152, #f7f7f7, #276419]" {
+            val it = rgbSpline(arrayOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)))
+            displaySmallGradient(it, 650)
+        }
+
+        "Linear RGB reference" {
+            val it = rgbInterpolator(Color(0x8e0152), Color(0xf7f7f7))
+            val it2 = rgbInterpolator(Color(0xf7f7f7), Color(0x276419))
+            displaySmallGradient(it, 325)
+            //displaySmallGradient(it2, 325)
+        }
+
+        // ["#8e0152", "#c51b7d", "#de77ae", "#f1b6da", "#fde0ef", "#f7f7f7", "#e6f5d0", "#b8e186", "#7fbc41", "#4d9221", "#276419"]
+        "Large RGB spline interpolation [#8e0152, #c51b7d, #de77ae, #f1b6da, #fde0ef, #f7f7f7, #e6f5d0, #b8e186, #7fbc41, #4d9221, #276419]" {
+            val it = rgbSpline(arrayOf(Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
+                    Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
+                    Color(0x4d9221), Color(0x276419)))
+            displaySmallGradient(it, 650)
+        }
+
+        "Large RGB spline interpolation [darkcyan, papayawhip, darkolivegreen, blue, lightyellow]" {
+            val it = rgbSpline(arrayOf(darkcyan, papayawhip, darkolivegreen, blue, lightyellow))
             displaySmallGradient(it, 650)
         }
     }
@@ -71,6 +110,7 @@ class EncodedColorsTests : StringSpec(){
                     setAttribute("width", "$width")
                     setAttribute("height", "20")
                     (0 until width).forEach { index ->
+//                        println(interpolator(index/(width-1).toFloat()).rgbHex)
                         appendChild(
                                 node("rect").apply {
                                     setAttribute("fill", interpolator(index/(width-1).toFloat()).rgbHex)
