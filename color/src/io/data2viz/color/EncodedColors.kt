@@ -107,51 +107,21 @@ private fun exponential(a: Int, b: Int, y: Float): (Float) -> Int {
 // uniform nonrational B-spline interpolation
 // TODO must accept a Range[0..1] object instead of Float !!
 // TODO then remove all unnecessary checks
-private fun basisSplineOld(values: List<Int>): (Float) -> Float {
+fun basisSpline(values: List<Int>): (Float) -> Float {
     val n = values.size - 1
     return fun(t: Float): Float {
 
-        // unnecessary checks in case of range object
-        var i = 0
-        var nt = t
-        when {
-            t <= 0 -> nt = 0f
-            t >= 1 -> {
-                i = n - 1; nt = 1f
-            }
-            else -> i = Math.floor(t * n)
-        }
-
-        val v1 = values[i]
-        val v2 = values[i + 1]
-
-        // TODO check : could produce 2 non-colors value (so coerce result needed) !
-        val v0 = if (i > 0) values[i - 1] else 2 * v1 - v2
-        val v3 = if (i < n - 1) values[i + 2] else 2 * v2 - v1
-
-        print("i=$i C0=$v0 C1=$v1 C2=$v2 C3=$v3 float ${nt - (i / n)}")
-
-        return computeSpline((nt - (i / n)) * n, v0.toFloat(), v1.toFloat(), v2.toFloat(), v3.toFloat()).coerceIn(0f, 255f)
-    }
-}
-
-fun basisSpline(values: List<Int>): (Float) -> Float {
-    val n = values.size - 1
-    return fun(t:Float): Float {
-
         val newT = t.coerceIn(0f, 1f)
-        val currentIndex:Int = if (t <= 0) 0 else if (t >= 1) n - 1 else Math.floor(t * n)
+        val currentIndex: Int = if (t <= 0) 0 else if (t >= 1) n - 1 else Math.floor(t * n)
 
         val v1 = values[currentIndex]
         val v2 = values[currentIndex + 1]
+
+        // TODO check : may produce 2 non-colors value ?!
         val v0 = if (currentIndex > 0) values[currentIndex - 1] else 2 * v1 - v2
         val v3 = if (currentIndex < n - 1) values[currentIndex + 2] else 2 * v2 - v1
 
-        var t1 = (newT - currentIndex.toFloat() / n) * n
-
-        print("i=$currentIndex C0=$v0 C1=$v1 C2=$v2 C3=$v3 float $t1")
-
-        return computeSpline(t1, v0.toFloat(), v1.toFloat(), v2.toFloat(), v3.toFloat()).coerceIn(0f, 255f)
+        return computeSpline((newT - currentIndex.toFloat() / n) * n, v0, v1, v2, v3)
     }
 }
 
@@ -159,44 +129,26 @@ fun basisSpline(values: List<Int>): (Float) -> Float {
 private fun basisSplineClosed(values: List<Int>): (Float) -> Float {
     val n = values.size
     return fun(t: Float): Float {
-        val nt = if (t < 0) t % 1 else (t % 1 + 1)
-        val i = Math.floor(nt * n)
 
-        val v0 = values[(i + n - 1) % n]
-        val v1 = values[i % n]
-        val v2 = values[(i + 1) % n]
-        val v3 = values[(i + 2) % n]
-        return computeSpline((t - i / n) * n, v0.toFloat(), v1.toFloat(), v2.toFloat(), v3.toFloat())
+        val newT = if (t < 0) t % 1 else (t % 1 + 1)
+        val currentIndex = Math.floor(newT * n)
+
+        val v0 = values[(currentIndex + n - 1) % n]
+        val v1 = values[currentIndex % n]
+        val v2 = values[(currentIndex + 1) % n]
+        val v3 = values[(currentIndex + 2) % n]
+
+        return computeSpline((newT - currentIndex.toFloat() / n) * n, v0, v1, v2, v3)
     }
 }
 
 // http://alvyray.com/Memos/CG/Pixar/spline77.pdf
-private fun computeSpline2(u: Float, v0: Float, v1: Float, v2: Float, v3: Float): Float {
-    val u2 = u * u
-    val u3 = u2 * u
-    val fl = (v0 * (1 - 3*u + 3*u2 - u3)
-            + v1 * (3*u - 6*u2 + 3*u3)
-            + v2 * (3*u - 3*u3)
-            + v3 * (u - 4*u2 + u3))/6
-    println(" - result $fl")
-    return fl
-}
-
-/*
-MATRIX = 1/6
-    u3  u2  u   1(u0)
-v0  -1  3   -3  1
-v1  3   -6  3   0
-v2  -3  0   3   0
-v3  1   4   1   0
- */
-fun computeSpline(t1:Float, v0:Float, v1:Float, v2:Float, v3:Float):Float {
+fun computeSpline(t1: Float, v0: Int, v1: Int, v2: Int, v3: Int): Float {
     val t2 = t1 * t1
     val t3 = t2 * t1
     val fl = ((1 - 3 * t1 + 3 * t2 - t3) * v0
             + (4 - 6 * t2 + 3 * t3) * v1
             + (1 + 3 * t1 + 3 * t2 - 3 * t3) * v2
             + t3 * v3) / 6
-    println(" - result $fl")
     return fl
 }

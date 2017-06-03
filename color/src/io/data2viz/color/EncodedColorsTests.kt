@@ -42,73 +42,106 @@ class EncodedColorsTests : StringSpec(){
             displaySmallGradient(it)
         }
 
-        "Short linear RGB interpolation lightyellow -> darkolivegreen" {
+        "Linear RGB interpolation lightyellow -> darkolivegreen (63px wide)" {
             val it = rgbInterpolator(lightyellow, darkolivegreen)
             displaySmallGradient(it, 63)
         }
 
-        "Large linear RGB interpolation darkcyan -> papayawhip GAMMA 2.2" {
+        "Linear RGB interpolation darkcyan -> papayawhip GAMMA 2.2" {
             val it = rgbInterpolator(darkcyan, papayawhip, 2.2f)
-            displaySmallGradient(it, 650)
+            displaySmallGradient(it, 800)
         }
 
-        "Large linear RGB interpolation darkcyan -> papayawhip GAMMA 0.6" {
+        "Linear RGB interpolation darkcyan -> papayawhip GAMMA 0.6" {
             val it = rgbInterpolator(darkcyan, papayawhip, 0.6f)
-            displaySmallGradient(it, 650)
+            displaySmallGradient(it, 800)
         }
 
-        "Large linear RGB interpolation darkcyan -> papayawhip" {
+        "Linear RGB interpolation darkcyan -> papayawhip" {
             val it = rgbInterpolator(darkcyan, papayawhip)
-            displaySmallGradient(it, 650)
+            displaySmallGradient(it, 800)
         }
 
-        "Large RGB spline interpolation darkcyan -> papayawhip" {
+        "RGB spline interpolation darkcyan -> papayawhip" {
             val it = rgbSpline(arrayOf(darkcyan, papayawhip))
-            displaySmallGradient(it, 650)
+            displaySmallGradient(it, 800)
         }
 
-        "Large RGB spline interpolation [G, B, R, B, G]" {
+        "RGB spline interpolation [G, B, R, B, G]" {
             val it = rgbSpline(arrayOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
-            displaySmallGradient(it, 650)
+            displaySmallGradient(it, 800)
         }
 
-        "Large RGB spline interpolation [R, G, R, G, R]" {
+        "RGB linear interpolation [G, B, R, B, G] (for reference)" {
+            val it = rgbInterpolator(Color(0x00ff00), Color(0x0000ff))
+            val it2 = rgbInterpolator(Color(0x0000ff), Color(0xff0000))
+            val it3 = rgbInterpolator(Color(0xff0000), Color(0x0000ff))
+            val it4 = rgbInterpolator(Color(0x0000ff), Color(0x00ff00))
+            displaySmallGradient(it, 200)
+            displaySmallGradient(it2, 200, xOffset = 200)
+            displaySmallGradient(it3, 200, xOffset = 400)
+            displaySmallGradient(it4, 200, xOffset = 600)
+        }
+
+        "Cyclical RGB spline interpolation [R, G, B, G]" {
+            val it = rgbSpline(arrayOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00)), cyclical = true)
+            displaySmallGradient(it, 800)
+        }
+
+        "RGB spline interpolation [R, G, B, G, R] (for reference)" {
             val it = rgbSpline(arrayOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00), Color(0xff0000)))
-            displaySmallGradient(it, 410)
+            displaySmallGradient(it, 800)
         }
 
-        // ["#8e0152", "#c51b7d", "#de77ae", "#f1b6da", "#fde0ef", "#f7f7f7", "#e6f5d0", "#b8e186", "#7fbc41", "#4d9221", "#276419"]
-        "Large RGB spline interpolation [#8e0152, #f7f7f7, #276419]" {
+        "Cyclical RGB spline interpolation [#8e0152, #f7f7f7, #276419]" {
+            val it = rgbSpline(arrayOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)), cyclical = true)
+            displaySmallGradient(it, 800)
+        }
+
+        "RGB spline interpolation [#8e0152, #f7f7f7, #276419]" {
             val it = rgbSpline(arrayOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)))
-            displaySmallGradient(it, 650)
+            displaySmallGradient(it, 800)
         }
 
-        "Linear RGB reference" {
+        "RGB interpolation [#8e0152, #f7f7f7, #276419] (for reference)" {
             val it = rgbInterpolator(Color(0x8e0152), Color(0xf7f7f7))
             val it2 = rgbInterpolator(Color(0xf7f7f7), Color(0x276419))
-            displaySmallGradient(it, 325)
-            //displaySmallGradient(it2, 325)
+            displaySmallGradient(it, 400)
+            displaySmallGradient(it2, 400, xOffset = 400)
         }
 
         // ["#8e0152", "#c51b7d", "#de77ae", "#f1b6da", "#fde0ef", "#f7f7f7", "#e6f5d0", "#b8e186", "#7fbc41", "#4d9221", "#276419"]
-        "Large RGB spline interpolation [#8e0152, #c51b7d, #de77ae, #f1b6da, #fde0ef, #f7f7f7, #e6f5d0, #b8e186, #7fbc41, #4d9221, #276419]" {
+        "RGB spline interpolation [#8e0152, #c51b7d, #de77ae, #f1b6da, #fde0ef, #f7f7f7, #e6f5d0, #b8e186, #7fbc41, #4d9221, #276419]" {
             val it = rgbSpline(arrayOf(Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
                     Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
                     Color(0x4d9221), Color(0x276419)))
-            displaySmallGradient(it, 650)
+            displaySmallGradient(it, 800)
         }
 
-        "Large RGB spline interpolation [darkcyan, papayawhip, darkolivegreen, blue, lightyellow]" {
+        "RGB spline interpolation [darkcyan, papayawhip, darkolivegreen, blue, lightyellow]" {
             val it = rgbSpline(arrayOf(darkcyan, papayawhip, darkolivegreen, blue, lightyellow))
-            displaySmallGradient(it, 650)
+            displaySmallGradient(it, 800)
+        }
+
+        "RGB linear interpolation [darkcyan, papayawhip, darkolivegreen, blue, lightyellow] (for reference)" {
+            val it = rgbInterpolator(darkcyan, papayawhip)
+            val it2 = rgbInterpolator(papayawhip, darkolivegreen)
+            val it3 = rgbInterpolator(darkolivegreen, blue)
+            val it4 = rgbInterpolator(blue, lightyellow)
+            displaySmallGradient(it, 200)
+            displaySmallGradient(it2, 200, xOffset = 200)
+            displaySmallGradient(it3, 200, xOffset = 400)
+            displaySmallGradient(it4, 200, xOffset = 600)
         }
     }
 
-    fun displaySmallGradient(interpolator:(Float) -> Color, width:Int = 256) {
+    fun displaySmallGradient(interpolator:(Float) -> Color, width:Int = 256, xOffset:Int = 0, yOffset:Int = 0) {
         body.appendChild(
                 node("svg").apply {
                     setAttribute("width", "$width")
                     setAttribute("height", "20")
+                    setAttribute("x", "$xOffset")
+                    setAttribute("y", "$yOffset")
                     (0 until width).forEach { index ->
 //                        println(interpolator(index/(width-1).toFloat()).rgbHex)
                         appendChild(
