@@ -32,6 +32,26 @@ class EncodedColorsTests : StringSpec() {
         "inferno"   { testAndGraph(inferno) }
         "plasma"    { testAndGraph(plasma) }
 
+        "Linear RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
+            val it = rgbInterpolator(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen))
+            displaySmallGradient(it)
+        }
+
+        "Exponential RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen (1.001 gamma)" {
+            val it = rgbInterpolator(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen), gamma = 1.001f)
+            displaySmallGradient(it)
+        }
+
+        "Spline RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
+            val it = rgbSpline(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen))
+            displaySmallGradient(it)
+        }
+
+        "Cyclical spline RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
+            val it = rgbSpline(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen), cyclical = true)
+            displaySmallGradient(it)
+        }
+
         "Linear RGB interpolation white -> blue" {
             val it = rgbInterpolator(arrayListOf(white, blue))
             displaySmallGradient(it)

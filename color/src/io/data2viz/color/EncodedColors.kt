@@ -59,10 +59,10 @@ fun rgbSpline(colors: List<Color>, cyclical: Boolean = false): (Float) -> Color 
     return fun(t) = rgba(r(t), g(t), b(t))
 }
 
+// TODO no more constant needed ?
 private fun getGammaInterpolator(y: Float = 1f): (List<Int>) -> ((Float) -> Float) {
-    return { a -> linear(a) }
-    /*if (y == 1f) return { a -> linear(a) }
-    return { a, b -> if (a == b) constant(a) else exponential(a, b, y) }*/
+    return {a -> if (y == 1f) linear(a) else exponential(a, y)}
+    //return { a, b -> if (a == b) constant(a) else exponential(a, b, y) }*/
 }
 
 private fun getSplineInterpolator(cyclical: Boolean): (List<Int>) -> ((Float) -> Float) {
@@ -74,12 +74,10 @@ private fun constant(a: Int) = fun(_: Float) = a
 
 // linear interpolation
 private fun linear(values: List<Int>): (Float) -> Float {
-    //return fun(t: Float) = Math.round(a + t * (b - a))
     val n = values.size - 1
     return fun(t: Float): Float {
-
-        val newT = t.coerceIn(0f, 1f)
         val currentIndex: Int = if (t <= 0) 0 else if (t >= 1) n - 1 else Math.floor(t * n)
+        val newT = t.coerceIn(0f, 1f)
 
         val t1 = (newT - currentIndex.toFloat() / n) * n
         return values[currentIndex] * (1 - t1) + values[currentIndex + 1] * t1
@@ -87,11 +85,18 @@ private fun linear(values: List<Int>): (Float) -> Float {
 }
 
 // exponential interpolation
-private fun exponential(a: Int, b: Int, y: Float): (Float) -> Int {
-    val na = Math.pow(a.toDouble(), y.toDouble())
-    val nb = Math.pow(b.toDouble(), y.toDouble()) - na
+private fun exponential(values: List<Int>, y: Float): (Float) -> Float {
     val ny = 1 / y
-    return fun(t) = Math.round(Math.pow(na + t * nb, ny.toDouble()))
+    val n = values.size - 1
+
+    return fun(t): Float {
+        val currentIndex: Int = if (t <= 0) 0 else if (t >= 1) n - 1 else Math.floor(t * n)
+
+        val na = Math.pow(values[currentIndex].toDouble(), y.toDouble())
+        val nb = Math.pow(values[currentIndex + 1].toDouble(), y.toDouble()) - na
+
+        return Math.pow(na + t * nb, ny.toDouble()).toFloat()
+    }
 }
 
 // uniform nonrational B-spline interpolation
