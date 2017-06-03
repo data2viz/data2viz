@@ -19,13 +19,13 @@ import io.data2viz.test.DomUtils.Companion.body
 import io.data2viz.test.StringSpec
 import kotlin.browser.document
 
-class EncodedColorsTests : StringSpec(){
+class EncodedColorsTests : StringSpec() {
 
     init {
-        "category10" { category10.colors.size shouldBe 10; displaySmallGradient(category10)}
-        "category20" { category20.colors.size shouldBe 20; displaySmallGradient(category20)}
-        "category20b" { category20b.colors.size shouldBe 20; displaySmallGradient(category20b)}
-        "category20c" { category20c.colors.size shouldBe 20; displaySmallGradient(category20c)}
+        "category10" { category10.colors.size shouldBe 10; displaySmallGradient(category10) }
+        "category20" { category20.colors.size shouldBe 20; displaySmallGradient(category20) }
+        "category20b" { category20b.colors.size shouldBe 20; displaySmallGradient(category20b) }
+        "category20c" { category20c.colors.size shouldBe 20; displaySmallGradient(category20c) }
 
         "viridis"   { testAndGraph(viridis) }
         "magma"     { testAndGraph(magma) }
@@ -67,28 +67,34 @@ class EncodedColorsTests : StringSpec(){
             displaySmallGradient(it, 800)
         }
 
+        "RGB cyclical spline interpolation [G, B, R, B]" {
+            val it = rgbSpline(arrayOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff)), cyclical = true)
+            displaySmallGradient(it, 800)
+        }
+
         "RGB spline interpolation [G, B, R, B, G]" {
             val it = rgbSpline(arrayOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
             displaySmallGradient(it, 800)
         }
 
-        "RGB linear interpolation [G, B, R, B, G] (for reference)" {
-            val it = rgbInterpolator(Color(0x00ff00), Color(0x0000ff))
-            val it2 = rgbInterpolator(Color(0x0000ff), Color(0xff0000))
-            val it3 = rgbInterpolator(Color(0xff0000), Color(0x0000ff))
-            val it4 = rgbInterpolator(Color(0x0000ff), Color(0x00ff00))
-            displaySmallGradient(it, 200)
-            displaySmallGradient(it2, 200, xOffset = 200)
-            displaySmallGradient(it3, 200, xOffset = 400)
-            displaySmallGradient(it4, 200, xOffset = 600)
+        "RGB  interpolation [G, B, R, B, G]" {
+            val it4 = rgbInterpolator(Color(0x00ff00), Color(0x0000ff))
+            val it5 = rgbInterpolator(Color(0x0000ff), Color(0xff0000))
+            val it6 = rgbInterpolator(Color(0xff0000), Color(0x0000ff))
+            val it7 = rgbInterpolator(Color(0x0000ff), Color(0x00ff00))
+
+            displaySmallGradient(it4, 200)
+            displaySmallGradient(it5, 200)
+            displaySmallGradient(it6, 200)
+            displaySmallGradient(it7, 200)
         }
 
-        "Cyclical RGB spline interpolation [R, G, B, G]" {
+        "Cyclical RGB cyclical spline interpolation " {
             val it = rgbSpline(arrayOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00)), cyclical = true)
             displaySmallGradient(it, 800)
         }
 
-        "RGB spline interpolation [R, G, B, G, R] (for reference)" {
+        "Cyclical RGB standard spline interpolation " {
             val it = rgbSpline(arrayOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00), Color(0xff0000)))
             displaySmallGradient(it, 800)
         }
@@ -107,7 +113,7 @@ class EncodedColorsTests : StringSpec(){
             val it = rgbInterpolator(Color(0x8e0152), Color(0xf7f7f7))
             val it2 = rgbInterpolator(Color(0xf7f7f7), Color(0x276419))
             displaySmallGradient(it, 400)
-            displaySmallGradient(it2, 400, xOffset = 400)
+            displaySmallGradient(it2, 400)
         }
 
         // ["#8e0152", "#c51b7d", "#de77ae", "#f1b6da", "#fde0ef", "#f7f7f7", "#e6f5d0", "#b8e186", "#7fbc41", "#4d9221", "#276419"]
@@ -129,24 +135,23 @@ class EncodedColorsTests : StringSpec(){
             val it3 = rgbInterpolator(darkolivegreen, blue)
             val it4 = rgbInterpolator(blue, lightyellow)
             displaySmallGradient(it, 200)
-            displaySmallGradient(it2, 200, xOffset = 200)
-            displaySmallGradient(it3, 200, xOffset = 400)
-            displaySmallGradient(it4, 200, xOffset = 600)
+            displaySmallGradient(it2, 200)
+            displaySmallGradient(it3, 200)
+            displaySmallGradient(it4, 200)
         }
     }
 
-    fun displaySmallGradient(interpolator:(Float) -> Color, width:Int = 256, xOffset:Int = 0, yOffset:Int = 0) {
+    fun displaySmallGradient(interpolator: (Float) -> Color, width: Int = 256) {
         body.appendChild(
                 node("svg").apply {
                     setAttribute("width", "$width")
                     setAttribute("height", "20")
-                    setAttribute("x", "$xOffset")
-                    setAttribute("y", "$yOffset")
+                    setAttribute("x", "0")
+                    setAttribute("y", "0")
                     (0 until width).forEach { index ->
-//                        println(interpolator(index/(width-1).toFloat()).rgbHex)
                         appendChild(
                                 node("rect").apply {
-                                    setAttribute("fill", interpolator(index/(width-1).toFloat()).rgbHex)
+                                    setAttribute("fill", interpolator(index / (width - 1).toFloat()).rgbHex)
                                     setAttribute("x", "$index")
                                     setAttribute("y", "0")
                                     setAttribute("width", "1")
@@ -161,13 +166,13 @@ class EncodedColorsTests : StringSpec(){
     fun displaySmallGradient(colors: EncodedColors) {
         body.appendChild(
                 node("svg").apply {
-                    setAttribute("width", "${30* colors.colors.size}")
+                    setAttribute("width", "${30 * colors.colors.size}")
                     setAttribute("height", "30")
                     colors.colors.forEachIndexed { index, color ->
                         appendChild(
                                 node("rect").apply {
                                     setAttribute("fill", color.rgbHex)
-                                    setAttribute("x", "${index*30}")
+                                    setAttribute("x", "${index * 30}")
                                     setAttribute("y", "0")
                                     setAttribute("width", "30")
                                     setAttribute("height", "30")
@@ -177,13 +182,14 @@ class EncodedColorsTests : StringSpec(){
                 }
         )
     }
+
     fun testAndGraph(gradient: EncodedColors) {
 
         //generate a list of 6, 10, 20 colors from the gradient.
         listOf(6, 10, 20).forEach { size ->
-            val colors   =  (0..size-1)
-                    .map { gradient.color(it.toDouble() / (size-1)) }
-            println( colors.joinToString(transform = {it.rgbHex}))
+            val colors = (0..size - 1)
+                    .map { gradient.color(it.toDouble() / (size - 1)) }
+            println(colors.joinToString(transform = { it.rgbHex }))
         }
 
         body.appendChild(
@@ -193,7 +199,7 @@ class EncodedColorsTests : StringSpec(){
                     (0..399).forEach {
                         appendChild(
                                 node("rect").apply {
-                                    setAttribute("fill", gradient.color(it.toDouble()/400).rgbHex)
+                                    setAttribute("fill", gradient.color(it.toDouble() / 400).rgbHex)
                                     setAttribute("x", "${it}")
                                     setAttribute("y", "0")
                                     setAttribute("width", "1")

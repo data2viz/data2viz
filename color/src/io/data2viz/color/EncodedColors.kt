@@ -37,10 +37,10 @@ class EncodedColors(colorsAsString: String) {
 }
 
 // TODO must take all types of colors in args (currently RGB only)
-// TODO add getLinearInterpolator correction (see interpolate-rgb)
+// TODO add getGammaInterpolator correction (see interpolate-rgb)
 // TODO add alpha interpolation
 fun rgbInterpolator(start: Color, end: Color, gamma: Float = 1.0f): (Float) -> Color {
-    val interpolator = getLinearInterpolator(gamma)
+    val interpolator = getGammaInterpolator(gamma)
 
     val r = interpolator(start.r, end.r)
     val g = interpolator(start.g, end.g)
@@ -57,29 +57,10 @@ fun rgbSpline(colors: Array<Color>, cyclical: Boolean = false): (Float) -> Color
     val g = spline(colors.map { item -> item.g })
     val b = spline(colors.map { item -> item.b })
 
-    /*val rs:Array<Int> = emptyArray()
-    val gs:Array<Int> = emptyArray()
-    val bs:Array<Int> = emptyArray()
-
-    rs[0] = 0
-    gs[0] = 0
-    bs[0] = 0
-
-    colors.forEachIndexed { index, color ->
-        rs[index+1] = color.r
-        gs[index+1] = color.g
-        bs[index+1] = color.b
-    }
-
-    val r = spline(rs)
-    val g = spline(gs)
-    val b = spline(bs)*/
-
     return fun(t) = rgba(r(t), g(t), b(t))
-    //return fun(t) = rgba(r(t), 255, 255)
 }
 
-private fun getLinearInterpolator(y: Float = 1f): (Int, Int) -> ((Float) -> Int) {
+private fun getGammaInterpolator(y: Float = 1f): (Int, Int) -> ((Float) -> Int) {
     if (y == 1f) return { a, d -> linear(a, d) }
     return { a, b -> if (a == b) constant(a) else exponential(a, b, y) }
 }
