@@ -37,20 +37,19 @@ class EncodedColors(colorsAsString: String) {
 }
 
 // TODO must take all types of colors in args (currently RGB only)
-// TODO add getGammaInterpolator correction (see interpolate-rgb)
 // TODO add alpha interpolation
-fun rgbInterpolator(start: Color, end: Color, gamma: Float = 1.0f): (Float) -> Color {
+fun rgbInterpolator(colors: List<Color>, gamma: Float = 1.0f): (Float) -> Color {
     val interpolator = getGammaInterpolator(gamma)
 
-    val r = interpolator(start.r, end.r)
-    val g = interpolator(start.g, end.g)
-    val b = interpolator(start.b, end.b)
+    val r = interpolator(colors.map { item -> item.r })
+    val g = interpolator(colors.map { item -> item.g })
+    val b = interpolator(colors.map { item -> item.b })
 
     return fun(t) = rgba(r(t), g(t), b(t))
 }
 
-// TODO add alpha interpolation (linear not spline ?)
-fun rgbSpline(colors: Array<Color>, cyclical: Boolean = false): (Float) -> Color {
+// TODO add alpha interpolation (alpha is linear not spline ?)
+fun rgbSpline(colors: List<Color>, cyclical: Boolean = false): (Float) -> Color {
     val spline = getSplineInterpolator(cyclical)
 
     val r = spline(colors.map { item -> item.r })
@@ -60,9 +59,10 @@ fun rgbSpline(colors: Array<Color>, cyclical: Boolean = false): (Float) -> Color
     return fun(t) = rgba(r(t), g(t), b(t))
 }
 
-private fun getGammaInterpolator(y: Float = 1f): (Int, Int) -> ((Float) -> Int) {
-    if (y == 1f) return { a, d -> linear(a, d) }
-    return { a, b -> if (a == b) constant(a) else exponential(a, b, y) }
+private fun getGammaInterpolator(y: Float = 1f): (List<Int>) -> ((Float) -> Float) {
+    return { a -> linear(a) }
+    /*if (y == 1f) return { a -> linear(a) }
+    return { a, b -> if (a == b) constant(a) else exponential(a, b, y) }*/
 }
 
 private fun getSplineInterpolator(cyclical: Boolean): (List<Int>) -> ((Float) -> Float) {
@@ -73,8 +73,17 @@ private fun getSplineInterpolator(cyclical: Boolean): (List<Int>) -> ((Float) ->
 private fun constant(a: Int) = fun(_: Float) = a
 
 // linear interpolation
-private fun linear(a: Int, b: Int): (Float) -> Int {
-    return fun(t: Float) = Math.round(a + t * (b - a))
+private fun linear(values: List<Int>): (Float) -> Float {
+    //return fun(t: Float) = Math.round(a + t * (b - a))
+    val n = values.size - 1
+    return fun(t: Float): Float {
+
+        val newT = t.coerceIn(0f, 1f)
+        val currentIndex: Int = if (t <= 0) 0 else if (t >= 1) n - 1 else Math.floor(t * n)
+
+        val t1 = (newT - currentIndex.toFloat() / n) * n
+        return values[currentIndex] * (1 - t1) + values[currentIndex + 1] * t1
+    }
 }
 
 // exponential interpolation
