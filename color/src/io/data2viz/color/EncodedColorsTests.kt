@@ -33,120 +33,121 @@ class EncodedColorsTests : StringSpec() {
         "plasma"    { testAndGraph(plasma) }
 
         "Linear RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
-            val it = rgbInterpolator(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen))
-            displaySmallGradient(it)
+            val iterator = rgbInterpolator(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen))
+            displaySmallGradient(iterator)
         }
 
         "Exponential RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen (1.001 gamma)" {
-            val it = rgbInterpolator(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen), gamma = 1.001f)
-            displaySmallGradient(it)
+            val iterator = rgbInterpolator(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen), gamma = 1.001f)
+            displaySmallGradient(iterator)
         }
 
         "Spline RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
-            val it = rgbSpline(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen))
-            displaySmallGradient(it)
+            val iterator = rgbSpline(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen))
+            displaySmallGradient(iterator)
         }
 
         "Cyclical spline RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
-            val it = rgbSpline(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen), cyclical = true)
-            displaySmallGradient(it)
+            val iterator = rgbSpline(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen), cyclical = true)
+            displaySmallGradient(iterator)
         }
 
         "Linear RGB interpolation white -> blue" {
-            val it = rgbInterpolator(arrayListOf(white, blue))
-            displaySmallGradient(it)
+            val iterator = rgbInterpolator(arrayListOf(white, blue))
+            displaySmallGradient(iterator)
         }
 
         "Linear RGB interpolation blue -> white" {
-            val it = rgbInterpolator(arrayListOf(blue, white))
-            displaySmallGradient(it)
+            val iterator = rgbInterpolator(arrayListOf(blue, white))
+            displaySmallGradient(iterator)
         }
 
         "Linear RGB interpolation lightyellow -> darkolivegreen (63px wide)" {
-            val it = rgbInterpolator(arrayListOf(lightyellow, darkolivegreen))
-            displaySmallGradient(it, 63)
+            val percentToColor = rgbInterpolator(arrayListOf(lightyellow, darkolivegreen))
+            displaySmallGradient(percentToColor, 63)
         }
 
         "Linear RGB interpolation darkcyan -> papayawhip GAMMA 2.2" {
-            val it = rgbInterpolator(arrayListOf(darkcyan, papayawhip), 2.2f)
-            displaySmallGradient(it, 800)
+            val iterator = rgbInterpolator(arrayListOf(darkcyan, papayawhip), 2.2f)
+            displaySmallGradient(iterator, 800)
         }
 
         "Linear RGB interpolation darkcyan -> papayawhip GAMMA 0.6" {
-            val it = rgbInterpolator(arrayListOf(darkcyan, papayawhip), 0.6f)
-            displaySmallGradient(it, 800)
+            val iterator = rgbInterpolator(arrayListOf(darkcyan, papayawhip), 0.6f)
+            displaySmallGradient(iterator, 800)
         }
 
         "Linear RGB interpolation darkcyan -> papayawhip" {
-            val it = rgbInterpolator(arrayListOf(darkcyan, papayawhip))
-            displaySmallGradient(it, 800)
+            val iterator = rgbInterpolator(arrayListOf(darkcyan, papayawhip))
+            displaySmallGradient(iterator, 800)
         }
 
         "RGB spline interpolation darkcyan -> papayawhip" {
-            val it = rgbSpline(arrayListOf(darkcyan, papayawhip))
-            displaySmallGradient(it, 800)
+            val iterator = rgbSpline(arrayListOf(darkcyan, papayawhip))
+            displaySmallGradient(iterator, 800)
         }
 
         "RGB cyclical spline interpolation [G, B, R, B]" {
-            val it = rgbSpline(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff)), cyclical = true)
-            displaySmallGradient(it, 800)
+            val iterator = rgbSpline(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff)), cyclical = true)
+            displaySmallGradient(iterator, 800)
         }
 
         "RGB spline interpolation [G, B, R, B, G]" {
-            val it = rgbSpline(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
-            displaySmallGradient(it, 800)
+            val iterator = rgbSpline(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
+            displaySmallGradient(iterator, 800)
         }
 
         "RGB  interpolation [G, B, R, B, G]" {
-            val it = rgbInterpolator(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
-            displaySmallGradient(it, 800)
+            val iterator = rgbInterpolator(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
+            displaySmallGradient(iterator, 800)
         }
 
         "Cyclical RGB cyclical spline interpolation " {
-            val it = rgbSpline(arrayListOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00)), cyclical = true)
-            displaySmallGradient(it, 800)
+            val iterator = rgbSpline(arrayListOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00)), cyclical = true)
+            displaySmallGradient(iterator, 800)
         }
 
         "Cyclical RGB standard spline interpolation " {
-            val it = rgbSpline(arrayListOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00), Color(0xff0000)))
-            displaySmallGradient(it, 800)
+            val iterator = rgbSpline(arrayListOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00), Color(0xff0000)))
+            displaySmallGradient(iterator, 800)
         }
 
         "Cyclical RGB spline interpolation [#8e0152, #f7f7f7, #276419]" {
-            val it = rgbSpline(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)), cyclical = true)
-            displaySmallGradient(it, 800)
+            val iterator = rgbSpline(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)), cyclical = true)
+            displaySmallGradient(iterator, 800)
         }
 
         "RGB spline interpolation [#8e0152, #f7f7f7, #276419]" {
-            val it = rgbSpline(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)))
-            displaySmallGradient(it, 800)
+            val iterator = rgbSpline(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)))
+            displaySmallGradient(iterator, 800)
         }
 
         "RGB interpolation [#8e0152, #f7f7f7, #276419]" {
-            val it = rgbInterpolator(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)))
-            displaySmallGradient(it, 800)
+            val iterator = rgbInterpolator(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)))
+            displaySmallGradient(iterator, 800)
         }
 
         // ["#8e0152", "#c51b7d", "#de77ae", "#f1b6da", "#fde0ef", "#f7f7f7", "#e6f5d0", "#b8e186", "#7fbc41", "#4d9221", "#276419"]
         "RGB spline interpolation [#8e0152, #c51b7d, #de77ae, #f1b6da, #fde0ef, #f7f7f7, #e6f5d0, #b8e186, #7fbc41, #4d9221, #276419]" {
-            val it = rgbSpline(arrayListOf(Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
+            val iterator = rgbSpline(arrayListOf(Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
                     Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
                     Color(0x4d9221), Color(0x276419)))
-            displaySmallGradient(it, 800)
+            displaySmallGradient(iterator, 800)
         }
 
         "RGB spline interpolation [darkcyan, papayawhip, darkolivegreen, blue, lightyellow]" {
-            val it = rgbSpline(arrayListOf(darkcyan, papayawhip, darkolivegreen, blue, lightyellow))
-            displaySmallGradient(it, 800)
+            val iterator = rgbSpline(arrayListOf(darkcyan, papayawhip, darkolivegreen, blue, lightyellow))
+            displaySmallGradient(iterator, 800)
         }
 
         "RGB linear interpolation [darkcyan, papayawhip, darkolivegreen, blue, lightyellow]" {
-            val it = rgbInterpolator(arrayListOf(darkcyan, papayawhip, darkolivegreen, blue, lightyellow))
-            displaySmallGradient(it, 800)
+            val iterator = rgbInterpolator(arrayListOf(darkcyan, papayawhip, darkolivegreen, blue, lightyellow))
+            displaySmallGradient(iterator, 800)
         }
     }
 
-    fun displaySmallGradient(interpolator: (Float) -> Color, width: Int = 256) {
+    // TODO faire un "objet" interpolator ?
+    fun displaySmallGradient(percentToColor: (Float) -> Color, width: Int = 256) {
         body.appendChild(
                 node("svg").apply {
                     setAttribute("width", "$width")
@@ -156,7 +157,7 @@ class EncodedColorsTests : StringSpec() {
                     (0 until width).forEach { index ->
                         appendChild(
                                 node("rect").apply {
-                                    setAttribute("fill", interpolator(index / (width - 1).toFloat()).rgbHex)
+                                    setAttribute("fill", percentToColor(index / (width - 1).toFloat()).rgbHex)
                                     setAttribute("x", "$index")
                                     setAttribute("y", "0")
                                     setAttribute("width", "1")
