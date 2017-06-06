@@ -1,5 +1,7 @@
 package io.data2viz.interpolate
 
+import io.data2viz.color.Color
+import io.data2viz.color.rgbInterpolator
 import io.data2viz.core.Point
 import kotlin.js.Math
 
@@ -15,6 +17,7 @@ class scale {
 
     object linear {
 
+        // TODO pointToPoint ? (not plural)
         fun pointsToPoints(start: DomainToViz<Point, Point>, end: DomainToViz<Point, Point>) =
                 { pt: Point ->
                     Point(
@@ -23,12 +26,21 @@ class scale {
                 }
 
         fun numberToNumber(start: DomainToViz<Number, Number>, end: DomainToViz<Number, Number>): (Number) -> Number =
-                { domain: Number -> interpolateNumber(start.viz, end.viz).invoke(
-                        uninterpolate(start.domain, end.domain).invoke(domain).toDouble()) }
+                { domain: Number ->
+                    interpolateNumber(start.viz, end.viz).invoke(
+                            uninterpolate(start.domain, end.domain).invoke(domain).toDouble())
+                }
 
         fun numberToNumber(start: DomainToViz<Double, Double>, end: DomainToViz<Double, Double>): (Double) -> Double =
-                { domain: Double -> interpolateNumber(start.viz, end.viz).invoke(
-                        uninterpolate(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double }
+                { domain: Double ->
+                    interpolateNumber(start.viz, end.viz).invoke(
+                            uninterpolate(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double
+                }
+
+        fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color =
+                { domain: Number ->
+                    rgbInterpolator(arrayListOf(start.viz, end.viz))(uninterpolate(start.domain, end.domain)(domain))
+                }
 
     }
 
@@ -37,7 +49,6 @@ class scale {
 
     }
 }
-
 
 
 /**
