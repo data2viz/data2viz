@@ -38,7 +38,7 @@ class EncodedColorsTests : StringSpec() {
         }
 
         "Exponential RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen (1.001 gamma)" {
-            val iterator = rgbInterpolator(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen), gamma = 1.001f)
+            val iterator = rgbInterpolator(arrayListOf(darkolivegreen, darkolivegreen, darkolivegreen), gamma = 1.001)
             displaySmallGradient(iterator)
         }
 
@@ -68,12 +68,12 @@ class EncodedColorsTests : StringSpec() {
         }
 
         "Linear RGB interpolation darkcyan -> papayawhip GAMMA 2.2" {
-            val iterator = rgbInterpolator(arrayListOf(darkcyan, papayawhip), 2.2f)
+            val iterator = rgbInterpolator(arrayListOf(darkcyan, papayawhip), 2.2)
             displaySmallGradient(iterator, 800)
         }
 
         "Linear RGB interpolation darkcyan -> papayawhip GAMMA 0.6" {
-            val iterator = rgbInterpolator(arrayListOf(darkcyan, papayawhip), 0.6f)
+            val iterator = rgbInterpolator(arrayListOf(darkcyan, papayawhip), 0.6)
             displaySmallGradient(iterator, 800)
         }
 
