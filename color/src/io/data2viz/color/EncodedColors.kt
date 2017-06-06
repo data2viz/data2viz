@@ -45,7 +45,7 @@ fun rgbInterpolator(colors: List<Color>, gamma: Double = 1.0): (Number) -> Color
     val g = interpolator(colors.map { item -> item.g })
     val b = interpolator(colors.map { item -> item.b })
 
-    return fun(t) = rgba(r(t.toDouble()), g(t.toDouble()), b(t.toDouble()))
+    return fun(percent:Number) = rgba(r(percent.toDouble()), g(percent.toDouble()), b(percent.toDouble()))
 }
 
 // TODO add alpha interpolation (alpha is linear not spline ?)
@@ -56,7 +56,7 @@ fun rgbSpline(colors: List<Color>, cyclical: Boolean = false): (Number) -> Color
     val g = spline(colors.map { item -> item.g })
     val b = spline(colors.map { item -> item.b })
 
-    return fun(t) = rgba(r(t.toDouble()), g(t.toDouble()), b(t.toDouble()))
+    return fun(percent:Number) = rgba(r(percent.toDouble()), g(percent.toDouble()), b(percent.toDouble()))
 }
 
 // TODO no more constant needed ?
