@@ -27,6 +27,7 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
     private val brighter = 1 / darker
 
     // TODO : coerce in place of require check ??
+    // TODO store color value in double
     var r: Int
         get() = (rgb shr 16) and 0xff
         set(value) {

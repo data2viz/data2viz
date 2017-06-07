@@ -80,7 +80,7 @@ private fun linear(values: List<Int>): (Double) -> Double {
         val newT = t.coerceIn(0.0, 1.0)
 
         val t1 = (newT - currentIndex.toDouble() / n) * n
-        return values[currentIndex] * (1 - t1) + values[currentIndex + 1] * t1
+        return values[currentIndex].toDouble() * (1.0 - t1) + values[currentIndex + 1].toDouble() * t1
     }
 }
 
