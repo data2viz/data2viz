@@ -20,6 +20,8 @@ data class Angle(val rad: Double){
     val tan:Double get() = Math.tan(rad)
     val deg:Double get() = rad * RAD_TO_DEG
 
+    fun normalize():Angle = if (rad >= 0) Angle(rad % THETA) else Angle((rad % THETA) + THETA)
+
     operator fun plus(angle: Angle)     = Angle(rad + angle.rad)
     operator fun minus(angle: Angle)    = Angle(rad - angle.rad)
     operator fun times(d: Number)       = Angle(rad * d.toDouble())
