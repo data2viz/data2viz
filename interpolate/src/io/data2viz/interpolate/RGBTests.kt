@@ -124,12 +124,12 @@ class RGBTests : StringSpec() {
             displaySmallGradient(iterator, 800)
         }
 
-        "RGB linear interpolation [#800080, #ff0200] see https://github.com/d3/d3-interpolate#interpolateRgb for reference" {
+        "RGB linear interpolation [#800080, #ffa200] see https://github.com/d3/d3-interpolate#interpolateRgb for reference" {
             val iterator = interpolateRgb(arrayListOf(Color(0x800080), Color(0xffa200)))
             displaySmallGradient(iterator, 888)
         }
 
-        "RGB linear interpolation [#800080, #ff0200] corrected gamma 2.2 see https://github.com/d3/d3-interpolate#interpolateRgb for reference" {
+        "RGB linear interpolation [#800080, #ffa200] corrected gamma 2.2 see https://github.com/d3/d3-interpolate#interpolateRgb for reference" {
             val iterator = interpolateRgb(arrayListOf(Color(0x800080), Color(0xffa200)), 2.2)
             displaySmallGradient(iterator, 888)
         }

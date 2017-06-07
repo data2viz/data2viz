@@ -23,6 +23,7 @@ fun allTests() {
             TestCollectionMatchers(),
             ScaleTests(),
             RGBTests(),
+            HSLTests(),
             InstanciationTests()
     )
 }
