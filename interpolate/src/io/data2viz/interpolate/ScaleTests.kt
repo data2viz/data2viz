@@ -24,14 +24,7 @@ class ScaleTests : StringSpec() {
         "FloatToColor LINEAR(0-> Red, 100->Blue) 50 to 150" { displayScaleGradient(valueToColor, 50f, 150f) }
         "FloatToColor LINEAR(0-> Red, 100->Blue) -50 to 50" { displayScaleGradient(valueToColor, -50f, 50f) }
         "FloatToColor LINEAR(0-> Red, 100->Blue) -100 to 200" { displayScaleGradient(valueToColor, -100f, 200f) }
-        "FloatToColor LINEAR(0-> Red, 100->Blue) 100 to 0" { displayScaleGradient(valueToColor, 100f, 0f) }
-
-        val valueToColor2 = scale.linear.numberToColor(arrayListOf(0 linkedTo red, 50 linkedTo green, 100 linkedTo blue))
-        "FloatToColor LINEAR(0-> Red, 50-> Green, 100->Blue) 0 to 100" { displayScaleGradient(valueToColor2, 0f, 100f) }
-        "FloatToColor LINEAR(0-> Red, 50-> Green, 100->Blue) 50 to 150" { displayScaleGradient(valueToColor2, 50f, 150f) }
-        "FloatToColor LINEAR(0-> Red, 50-> Green, 100->Blue) -50 to 50" { displayScaleGradient(valueToColor2, -50f, 50f) }
-        "FloatToColor LINEAR(0-> Red, 50-> Green, 100->Blue) -100 to 200" { displayScaleGradient(valueToColor2, -100f, 200f) }
-        "FloatToColor LINEAR(0-> Red, 50-> Green, 100->Blue) 100 to 0" { displayScaleGradient(valueToColor2, 100f, 0f) }*/
+        "FloatToColor LINEAR(0-> Red, 100->Blue) 100 to 0" { displayScaleGradient(valueToColor, 100f, 0f) }*/
     }
 
     /*fun displayScaleGradient(domainToViz: (Float) -> Color, start: Float, end: Float, width: Int = 800) {

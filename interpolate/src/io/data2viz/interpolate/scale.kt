@@ -1,7 +1,6 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.Color
-import io.data2viz.color.rgbInterpolator
 import io.data2viz.core.Point
 import kotlin.js.Math
 
@@ -40,17 +39,18 @@ class scale {
         fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color =
                 { domain: Number ->
                     val interpolationFunction = uninterpolate(start.domain, end.domain)
-                    val interpolator = rgbInterpolator(arrayListOf(start.viz, end.viz))
+                    val interpolator = interpolateRgb(arrayListOf(start.viz, end.viz))
                     interpolator(interpolationFunction(domain))
                 }
 
-        fun numberToColor(domainsToViz: List<DomainToViz<Number, Color>>): (Number) -> Color =
+        // TODO maybe think of a function accepting a list of domainToViz
+        /*fun numberToColor(domainsToViz: List<DomainToViz<Number, Color>>): (Number) -> Color =
                 { domain: Number ->
                     val sortedDomainsToViz = domainsToViz.sortedBy { it.domain.toDouble() }
                     val interpolationFunction = uninterpolate(sortedDomainsToViz.first().domain, sortedDomainsToViz.last().domain)
-                    val interpolator = rgbInterpolator(sortedDomainsToViz.map { it.viz })
+                    val interpolator = interpolateRgb(sortedDomainsToViz.map { it.viz })
                     interpolator(interpolationFunction(domain))
-                }
+                }*/
 
     }
     object ordinal {

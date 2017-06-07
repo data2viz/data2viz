@@ -3,8 +3,8 @@ package io.data2viz.experiments.voronoi
 import io.data2viz.color.colors
 import io.data2viz.color.colors.darkblue
 import io.data2viz.color.colors.lightyellow
-import io.data2viz.color.rgbInterpolator
 import io.data2viz.interpolate.linkedTo
+import io.data2viz.interpolate.interpolateRgb
 import io.data2viz.interpolate.scale
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
@@ -46,7 +46,7 @@ fun voronoiSphere() {
 
     fun List<GeoPoint>.sites() = mapIndexed { index, point -> Site(Point(pointToScreen(point.x), pointToScreen(point.y)), index) }.toTypedArray()
 
-    val it = rgbInterpolator(darkblue, lightyellow, 0.7f)
+    val it = interpolateRgb(arrayListOf(darkblue, lightyellow), 0.7)
 
     svg {
         width = size

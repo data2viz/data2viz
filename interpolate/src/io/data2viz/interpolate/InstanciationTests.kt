@@ -2,9 +2,7 @@ package io.data2viz.interpolate
 
 import io.data2viz.color.Color
 import io.data2viz.color.colors.blue
-import io.data2viz.color.colors.green
 import io.data2viz.color.colors.red
-import io.data2viz.color.rgbInterpolator
 import io.data2viz.test.StringSpec
 import io.data2viz.core.namespace
 import io.data2viz.test.DomUtils
@@ -15,7 +13,7 @@ class InstanciationTests : StringSpec() {
     init {
 
         // instanciations
-        val interpolator = rgbInterpolator(arrayListOf(red, blue))
+        val interpolator = interpolateRgb(arrayListOf(red, blue))
         val valueToColor = scale.linear.numberToColor(0 linkedTo red, 1 linkedTo blue)
 
         // uses

@@ -3,9 +3,7 @@ import io.data2viz.color.EncodedColorsTests
 import io.data2viz.core.TicksTests
 import io.data2viz.dsv.DsvTests
 import io.data2viz.experiments.fantasymap.buildFantasyMap
-//import io.data2viz.experiments.fantasymap.buildVoronoiFantasyMap
-import io.data2viz.interpolate.EaseTests
-import io.data2viz.interpolate.NumberTests
+import io.data2viz.interpolate.*
 import io.data2viz.test.*
 
 
@@ -22,7 +20,10 @@ fun allTests() {
             IntMatchers(),
             LongMatchers(),
             DoubleMatchers(),
-            TestCollectionMatchers()
+            TestCollectionMatchers(),
+            ScaleTests(),
+            RGBTests(),
+            InstanciationTests()
     )
 }
 
