@@ -1,11 +1,12 @@
 package io.data2viz.color
 
+import io.data2viz.color.colors.aliceblue
 import io.data2viz.color.colors.black
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import io.data2viz.test.StringSpec
 
-class ColorTests: StringSpec(){
+class ColorTests : StringSpec() {
 
     init {
         "io.data2viz.color.getColor defaults" {
@@ -48,55 +49,55 @@ class ColorTests: StringSpec(){
         }
 
         "RGB conversion of HSL(0, 0, 0.742) should be #BDBDBD" {
-            val color = HSL(0.deg, 0f, 0.742f).toRgba()
-            color.rgbHex shouldBe "#bdbdbd"
+            HSL(0.deg, 0, 0.742).toRgba().rgbHex shouldBe "#bdbdbd"
         }
 
         "RGB conversion of HSL(120, 0.5, 0.5) should be #40BF40" {
-            val color = HSL(120.deg, 0.5f, 0.5f).toRgba()
-            color.rgbHex shouldBe "#40bf40"
+            HSL(120.deg, 0.5, 0.5).toRgba().rgbHex shouldBe "#40bf40"
         }
 
         "RGB conversion of HSL(180, 0.3, 0.6) should be #7AB8B8" {
-            val color = HSL(180.deg, 0.3f, 0.6f).toRgba()
-            color.rgbHex shouldBe "#7ab8b8"
+            HSL(180.deg, 0.3, 0.6).toRgba().rgbHex shouldBe "#7ab8b8"
         }
 
         "RGB conversion of HSL(63, 0.22, 0.46) should be #8D8F5B" {
-            val color = HSL(63.deg, 0.22f, 0.46f).toRgba()
-            color.rgbHex shouldBe "#8d8f5b"
+            HSL(63.deg, 0.22, 0.46).toRgba().rgbHex shouldBe "#8d8f5b"
         }
 
         "RGB conversion of HSL(32, 0.80, 0.80) should be #F5CFA3" {
-            val color = HSL(32.0.deg, 0.8f, 0.8f).toRgba()
-            color.rgbHex shouldBe "#f5cfa3"
+            HSL(32.0.deg, 0.8, 0.8).toRgba().rgbHex shouldBe "#f5cfa3"
         }
 
         "RGB conversion of HSL(256, 0.78, 0.48) should be #AE7CDA" {
-            val color = HSL(272.deg, 0.56f, 0.67f).toRgba()
-            color.rgbHex shouldBe "#ae7cda"
+            HSL(272.deg, 0.56, 0.67).toRgba().rgbHex shouldBe "#ae7cda"
         }
 
         "RGB conversion of HSL(300, 0.2, 0.4) should be #7A527A" {
-            val color = HSL(300.deg, 0.2f, 0.4f).toRgba()
-            color.rgbHex shouldBe "#7a527a"
+            HSL(300.deg, 0.2, 0.4).toRgba().rgbHex shouldBe "#7a527a"
         }
 
         "RGB conversion of HSL(265, 0.51, 0.42) should be #6234A2" {
-            val color = HSL(265.deg, 0.51f, 0.42f).toRgba()
-            color.rgbHex shouldBe "#6234a2"
+            HSL(265.deg, 0.51, 0.42).toRgba().rgbHex shouldBe "#6234a2"
+        }
+
+        "RGB conversion of HSL(300, 1, 0.5) should be #ff00ff" {
+            HSL(300.deg, 1, 0.5).toRgba().rgbHex shouldBe "#ff00ff"
+        }
+
+        "RGB conversion of HSL(208, 1, 0.9705882) should be aliceblue" {
+            HSL(208.deg, 1, 0.9705882).toRgba().rgbHex shouldBe aliceblue.rgbHex
         }
 
         "RGB conversion of HSL(120, 0.5, 0.5, 0.5f) should be #40BF40 with 0.5 alpha" {
-            val color = HSL(120.deg, 0.5f, 0.5f, 0.5f).toRgba()
+            val color = HSL(120.deg, 0.5, 0.5, 0.5).toRgba()
             color.rgbHex shouldBe "#40bf40"
             color.alpha shouldBe 0.5f
         }
 
         // TODO : a revoir on passe pas par les setters dans ces cas, donc pas de coerce !!
         "HSL(488, 0.5, 0.5) should be equal to HSL(128, 0.5, 0.5)" {
-            val color = HSL(488.deg, .5f, .5f).toRgba()
-            val color2 = HSL(128.deg, .5f, .5f).toRgba()
+            val color = HSL(488.deg, .5, .5).toRgba()
+            val color2 = HSL(128.deg, .5, .5).toRgba()
 
             color.rgbHex shouldBe color2.rgbHex
         }

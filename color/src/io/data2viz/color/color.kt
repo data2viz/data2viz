@@ -1,6 +1,7 @@
 package io.data2viz.color
 
 import io.data2viz.math.Angle
+import io.data2viz.math.deg
 import kotlin.js.Math
 
 
@@ -107,24 +108,24 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
  * @param _l lightness:Float between 0 and 1
  * @param _alpha:Float between 0 and 1
  */
-class HSL(val h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number = 1.0f) {
+class HSL(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: Number = 1) {
 
     private val darker = 0.7
     private val brighter = 1 / darker
 
     // TODO : require checks in place of coerce ??
-    val s: Float = s.coerceIn(0f, 1f)
-    val l: Float = l.coerceIn(0f, 1f)
-    val alpha:Float = alpha.toFloat()
+    val s = s.toDouble().coerceIn(0.0, 1.0)
+    val l = l.toDouble().coerceIn(0.0, 1.0)
+    val alpha = alpha.toDouble().coerceIn(0.0, 1.0)
 
     val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)
 
-    fun brighter(strength: Double = 1.0) = HSL(h, s, (l * Math.pow(brighter, strength)).toFloat(), alpha)
-    fun darker(strength: Double = 1.0) = HSL(h, s, (l * Math.pow(brighter, strength)).toFloat(), alpha)
+    fun brighter(strength: Double = 1.0) = HSL(h, s, (l * Math.pow(brighter, strength)), alpha)
+    fun darker(strength: Double = 1.0) = HSL(h, s, (l * Math.pow(brighter, strength)), alpha)
 
     fun toRgba(): Color =
-            if (s == 0f)     // achromatic
+            if (s == 0.0)     // achromatic
                 colors.rgba(
                         r = Math.round(l * 255),
                         g = Math.round(l * 255),
@@ -134,24 +135,21 @@ class HSL(val h: Angle = Angle(0.0), s: Float = 1f, l: Float = 1f, alpha: Number
                 val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
                 val p = 2 * l - q
                 colors.rgba(
-                        r = Math.round(hue2rgb(p, q, h.deg + 120.0) * 255),
-                        g = Math.round(hue2rgb(p, q, h.deg) * 255),
-                        b = Math.round(hue2rgb(p, q, h.deg - 120.0) * 255),
+                        r = Math.round(hue2rgb(p, q, h + 120.deg) * 255),
+                        g = Math.round(hue2rgb(p, q, h) * 255),
+                        b = Math.round(hue2rgb(p, q, h - 120.deg) * 255),
                         a = alpha)
             }
 
-    private fun hue2rgb(p: Float, q: Float, hueDeg: Double): Float {
-        val hd = normalizeHueAngle(hueDeg)
+    private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {
+        val hd = hue.normalize()
         return when {
-            hd < 60 -> (p + (q - p) * (hd / 60.0)).toFloat()
-            hd < 180 -> q
-            hd < 240 -> (p + (q - p) * ((240 - hd) / 60.0)).toFloat()
+            hd.deg < 60 -> (p + (q - p) * (hd.deg / 60.0))
+            hd.deg < 180 -> q
+            hd.deg < 240 -> (p + (q - p) * ((240 - hd.deg) / 60.0))
             else -> p
         }
     }
-
-    // TODO place it in Angle.normalize() ?
-    private fun normalizeHueAngle(hueDeg: Double) = if (hueDeg >= 0) hueDeg % 360 else hueDeg % 360 + 360
 }
 
 
@@ -222,6 +220,7 @@ class LAB(l: Float = 100f, a: Float = 0f, b: Float = 0f, alpha: Number = 1.0f) {
 object colors {
 
     fun rgba(r: Number, g: Number, b: Number, a: Number = 1f) = Color().apply { rgba(r, g, b, a) }
+    fun hsla(h: Angle, s: Number, l: Number, a: Number = 1f) = HSL(h, s, l, a)
 
     val Int.col: Color
         get() = Color(this)
