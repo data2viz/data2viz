@@ -39,22 +39,22 @@ class scale {
 
         fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color =
                 { domain: Number ->
-                    val uninterpolate = uninterpolate(start.domain, end.domain)
+                    val interpolationFunction = uninterpolate(start.domain, end.domain)
                     val interpolator = rgbInterpolator(arrayListOf(start.viz, end.viz))
-                    interpolator(uninterpolate(domain))
+                    interpolator(interpolationFunction(domain))
                 }
 
         fun numberToColor(domainsToViz: List<DomainToViz<Number, Color>>): (Number) -> Color =
                 { domain: Number ->
                     val sortedDomainsToViz = domainsToViz.sortedBy { it.domain.toDouble() }
-                    val uninterpolate = uninterpolate(sortedDomainsToViz.first().domain, sortedDomainsToViz.last().domain)
+                    val interpolationFunction = uninterpolate(sortedDomainsToViz.first().domain, sortedDomainsToViz.last().domain)
                     val interpolator = rgbInterpolator(sortedDomainsToViz.map { it.viz })
-                    interpolator(uninterpolate(domain))
+                    interpolator(interpolationFunction(domain))
                 }
 
-        object ordinal {
-            fun <T> bands(domain: Collection<T>, initBandScale: BandScale<T>.() -> Unit) = BandScale(domain).apply(initBandScale)
-        }
+    }
+    object ordinal {
+        fun <T> bands(domain: Collection<T>, initBandScale: BandScale<T>.() -> Unit) = BandScale(domain).apply(initBandScale)
     }
 }
 
