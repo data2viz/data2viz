@@ -85,6 +85,13 @@ class ColorTests : StringSpec() {
             Math.round(color4.toHsla().s*100) shouldBe 75
             Math.round(color4.toHsla().l*100) shouldBe 23
             color4.toHsla().alpha shouldBe .5
+
+//            hsla(0.deg, 0, 0, .42).toRgba() shouldBe Color(0x6a6a6a, .2)*/
+            val color5 = Color(0x6a6a6a, .2)
+            Math.round(color5.toHsla().h.deg) shouldBe 0
+            Math.round(color5.toHsla().s*100) shouldBe 0
+            Math.round(color5.toHsla().l*100) shouldBe 42
+            color5.toHsla().alpha shouldBe .2
         }
 
         "HSL REFERENCES : HSL(0, 0, 0) should be black" {
