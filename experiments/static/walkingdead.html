@@ -10,13 +10,10 @@
 
 
 <script>
-    require.config({
-        baseUrl: ".",
-        paths: {"kotlin": "lib/kotlin"}
-    });
+    require.config({paths: {"kotlin": "lib/kotlin"}});
     require(['experiments'],
         function (experiments) {
-            experiments.walking();
+            experiments.io.data2viz.experiments.walking.walkingDead();
         });
 </script>
 </body>

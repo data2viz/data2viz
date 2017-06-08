@@ -8,13 +8,10 @@
 <script src="require.js"></script>
 <body>
 <script>
-    require.config({
-        baseUrl: ".",
-        paths: {"kotlin": "lib/kotlin"}
-    });
+    require.config({paths: {"kotlin": "lib/kotlin"}});
     require(['experiments'],
         function (all) {
-            all.chart();
+            all.io.data2viz.experiments.chart.chart();
         });
 </script>
 </body>

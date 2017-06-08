@@ -17,13 +17,10 @@
 <body>
 <svg></svg>
 <script>
-    require.config({
-        baseUrl: ".",
-        paths: {"kotlin": "lib/kotlin"}
-    });
+    require.config({paths: {"kotlin": "lib/kotlin"}});
     require(['experiments'],
         function (experiments) {
-            experiments.svgPerfs();
+            experiments.io.data2viz.experiments.perfs.svgPerfs();
         });
 </script>
 </body>

@@ -7,14 +7,12 @@
 </style>
 <script src="require.js"></script>
 <body>
+
 <script>
-    require.config({
-        baseUrl: ".",
-        paths: {"kotlin": "lib/kotlin"}
-    });
+    require.config({paths: {"kotlin": "lib/kotlin"}});
     require(['experiments'],
         function (experiments) {
-            experiments.voronoiSphere();
+            experiments.io.data2viz.experiments.voronoi.voronoiSphere()();
         });
 </script>
 </body>
