@@ -66,7 +66,16 @@ fun htmlExecution(vararg testBases: TestBase) {
         }
 
         packageTitle.className = if (allTestsOK) "ok" else "ko"
-        if (allTestsOK) packageDiv.setAttribute("style", "display: none;")
+        if (allTestsOK) {
+            packageDiv.setAttribute("style", "display: none;")
+            val testsNumber = document.createElement("span").apply {
+                className = "resultDescription"
+                textContent = testBase.tests.size.toString()
+            }
+
+            packageTitle.appendChild(testsNumber)
+
+        }
     }
 }
 
