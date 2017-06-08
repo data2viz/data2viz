@@ -4,27 +4,27 @@ import org.w3c.dom.Element
 import kotlin.browser.document
 import kotlin.browser.window
 
-fun htmlExecution(vararg testBase: TestBase) {
+fun htmlExecution(vararg testBases: TestBase) {
     val body = window.document.querySelector("body")!!
-    testBase.forEach {
+    testBases.forEach { testBase ->
 
         val packageTitle = document.createElement("h2")
 
         body.append(packageTitle.apply {
-            textContent = it::class.simpleName
-            setAttribute("onclick", "hideShow('${it::class.simpleName}')")
+            textContent = testBase::class.simpleName
+            setAttribute("onclick", "hideShow('${testBase::class.simpleName}')")
         }
         )
 
         val packageDiv = document.createElement("div")
         packageDiv.apply {
-            className = "${it::class.simpleName}"
+            className = "${testBase::class.simpleName}"
         }
         body.appendChild(packageDiv)
 
         var allTestsOK = true
 
-        it.tests.forEach { test ->
+        testBase.tests.forEach { test ->
 
             val resultDescription = document.createElement("span").apply {
                 className = "resultDescription"
