@@ -12,6 +12,12 @@ data class DomainToViz<out A, out B>(
 
 infix fun <A, B> A.linkedTo(that: B): DomainToViz<A, B> = DomainToViz(this, that)
 
+class NumberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>){
+    val domainToNormalized = uninterpolate(start.domain, end.domain)
+    val normalizedToColor = interpolateRgb(start.viz, end.viz)
+    val numberToColor = {number:Number ->  normalizedToColor(domainToNormalized(number)) }
+}
+
 class scale {
 
     object linear {
@@ -36,12 +42,7 @@ class scale {
                             uninterpolate(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double
                 }
 
-        fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color =
-                { domain: Number ->
-                    val interpolationFunction = uninterpolate(start.domain, end.domain)
-                    val interpolator = interpolateRgb(arrayListOf(start.viz, end.viz))
-                    interpolator(interpolationFunction(domain))
-                }
+        fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color = NumberToColor(start, end).numberToColor
 
         // TODO maybe think of a function accepting a list of domainToViz
         /*fun numberToColor(domainsToViz: List<DomainToViz<Number, Color>>): (Number) -> Color =

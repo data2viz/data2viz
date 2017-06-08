@@ -20,7 +20,7 @@ val String.color: Color
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  *
- * todo must be immutable
+ * TODO must be immutable
  */
 class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
 
@@ -92,6 +92,8 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
 
     @Suppress("UnsafeCastFromDynamic")
     fun Int.toString(radix: Int): String = asDynamic().toString(radix)
+
+    override operator fun equals(other: Any?):Boolean = (other != null && other is Color && r == other.r && g == other.g && b == other.b)
 
     override fun toString() = if (alpha.toFloat() < 1.0) "rgba($r,$g,$b,$alpha)" else rgbHex
 }

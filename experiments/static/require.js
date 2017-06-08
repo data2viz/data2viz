@@ -1220,8 +1220,8 @@ var requirejs, require, define;
         }
 
         /**
-         * Given an event from a script node, get the requirejs info from it,
-         * and then removes the event listeners on the node.
+         * Given an event from a script nodeSVG, get the requirejs info from it,
+         * and then removes the event listeners on the nodeSVG.
          * @param {Event} evt
          * @returns {Object}
          */

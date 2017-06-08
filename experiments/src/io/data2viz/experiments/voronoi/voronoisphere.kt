@@ -46,7 +46,7 @@ fun voronoiSphere() {
 
     fun List<GeoPoint>.sites() = mapIndexed { index, point -> Site(Point(pointToScreen(point.x), pointToScreen(point.y)), index) }.toTypedArray()
 
-    val it = interpolateRgb(arrayListOf(darkblue, lightyellow), 0.7)
+    val it = interpolateRgb(darkblue, lightyellow, 0.7)
 
     svg {
         width = size
