@@ -80,19 +80,20 @@ class RandomParticule {
  * updateFPS() must be called at each update.
  * The given fps element is set to the current FPS each 10 calls to updateFPS.
  */
-class FpsCalculator(val fps: Element) {
+class FpsCalculator(var fps: Element?) {
     var curFps = 100
     private val average_fps = mutableListOf<Int>();
     private var time0 = Date().getTime()
     private var time1 = Date().getTime()
 
     fun updateFPS() {
+        if (fps == null) return
         time1 = Date().getTime()
         if (time1 != time0) {
             curFps = Math.round(1000.0 / (time1 - time0))
             average_fps.add(curFps)
             if (average_fps.size == 10) {
-                fps.textContent = average_fps.average().toString()
+                fps?.textContent = average_fps.average().toString()
                 average_fps.clear()
             }
         }
