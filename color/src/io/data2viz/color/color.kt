@@ -32,42 +32,35 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
     var r: Int
         get() = (rgb shr 16) and 0xff
         set(value) {
-            require(value < 256) { "r should be less or equal to 255" }
-            require(value > -1) { "r should be greater or equal to 0" }
-            rgb = (rgb and 0x00ffff) + (value shl 16)
+            rgb = (rgb and 0x00ffff) + (Math.round(value).coerceIn(0, 255) shl 16)
         }
 
     var g: Int
         get() = (rgb shr 8) and 0xff
         set(value) {
-            require(value < 256) { "g should be less or equal to 255" }
-            require(value > -1) { "g should be greater or equal to 0" }
-            rgb = (rgb and 0xff00ff) + (value shl 8)
+            rgb = (rgb and 0xff00ff) + (Math.round(value).coerceIn(0, 255) shl 8)
         }
 
     var b: Int
         get() = rgb and 0xff
         set(value) {
-            require(value < 256) { "b should be less or equal to 255" }
-            require(value > -1) { "b should be greater or equal to 0" }
-            rgb = (rgb and 0xffff00) + value
+            rgb = (rgb and 0xffff00) + Math.round(value).coerceIn(0, 255)
         }
 
     var alpha: Number
         get() = _alpha
         set(value) {
-            require(value.toFloat() <= 1f) { "alpha should be less or equal to 1" }
-            require(value.toFloat() >= 0f) { "alpha should be greater or equal to 0" }
-            _alpha = value.toFloat()
+            _alpha = value.toFloat().coerceIn(0f, 1f)
         }
 
     fun rgba(r: Number, g: Number, b: Number, a: Number) {
-        this.r = r.toInt()
-        this.g = g.toInt()
-        this.b = b.toInt()
+        this.r = Math.round(r)
+        this.g = Math.round(g)
+        this.b = Math.round(b)
         alpha = a.toFloat()
     }
 
+    // TODO : always true ?!
     val displayable: Boolean
         get() = (r in 0..255) && (g in 0..255) && (b in 0..255) && (alpha in 0..1)
 

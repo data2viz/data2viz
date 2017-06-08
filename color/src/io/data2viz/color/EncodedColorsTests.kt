@@ -65,11 +65,11 @@ class EncodedColorsTests : StringSpec() {
         if (context !is DOMExecutionContext)  return
 
         //generate a list of 6, 10, 20 colors from the gradient.
-        listOf(6, 10, 20).forEach { size ->
+        /*listOf(6, 10, 20).forEach { size ->
             val colors = (0..size - 1)
                     .map { gradient.color(it.toDouble() / (size - 1)) }
-//            println(colors.joinToString(transform = { it.rgbHex }))
-        }
+            println(colors.joinToString(transform = { it.rgbHex }))
+        }*/
 
         context.element.appendChild(
                 node("svg").apply {
