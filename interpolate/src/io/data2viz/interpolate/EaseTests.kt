@@ -3,7 +3,7 @@ package io.data2viz.interpolate
 import io.data2viz.test.StringSpec
 import io.data2viz.core.namespace
 import io.data2viz.test.ExecutionContext
-import io.data2viz.test.HTMLExecutionContext
+import io.data2viz.test.DOMExecutionContext
 import kotlin.browser.document
 
 class EaseTests : StringSpec() {
@@ -24,7 +24,7 @@ class EaseTests : StringSpec() {
         function(0.0) shouldBe (.0 plusOrMinus 0.01)
         function(1.0) shouldBe (1.0 plusOrMinus 0.01)
 
-        if (context !is HTMLExecutionContext)  return
+        if (context !is DOMExecutionContext)  return
         context.element.appendChild(
                 document.createElementNS(namespace.svg, "svg").apply {
                     setAttribute("width", "100")

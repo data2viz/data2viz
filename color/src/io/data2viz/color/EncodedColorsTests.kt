@@ -10,7 +10,7 @@ import io.data2viz.color.EncodedColors.Companion.plasma
 import io.data2viz.color.EncodedColors.Companion.viridis
 import io.data2viz.core.namespace
 import io.data2viz.test.ExecutionContext
-import io.data2viz.test.HTMLExecutionContext
+import io.data2viz.test.DOMExecutionContext
 import io.data2viz.test.StringSpec
 import kotlin.browser.document
 
@@ -29,7 +29,7 @@ class EncodedColorsTests : StringSpec() {
     }
 
     fun displaySmallGradient(context: ExecutionContext, colors: EncodedColors, imageReference: String? = null) {
-        if (context !is HTMLExecutionContext)  return
+        if (context !is DOMExecutionContext)  return
         val width = 20 * colors.colors.size
         context.element.appendChild(
                 node("svg").apply {
@@ -62,7 +62,7 @@ class EncodedColorsTests : StringSpec() {
     }
 
     fun testAndGraph(context: ExecutionContext, gradient: EncodedColors, imageReference: String? = null) {
-        if (context !is HTMLExecutionContext)  return
+        if (context !is DOMExecutionContext)  return
 
         //generate a list of 6, 10, 20 colors from the gradient.
         listOf(6, 10, 20).forEach { size ->

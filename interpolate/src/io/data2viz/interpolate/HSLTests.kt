@@ -5,7 +5,7 @@ import io.data2viz.color.HSL
 import io.data2viz.core.namespace
 import io.data2viz.math.deg
 import io.data2viz.test.ExecutionContext
-import io.data2viz.test.HTMLExecutionContext
+import io.data2viz.test.DOMExecutionContext
 import io.data2viz.test.StringSpec
 import kotlin.browser.document
 
@@ -39,7 +39,7 @@ class HSLTests : StringSpec() {
 
     fun displaySmallGradient(context:ExecutionContext, percentToColor: (Float) -> HSL, width: Int = 256, imageReference: String? = null) {
 
-        if (context !is HTMLExecutionContext)  return
+        if (context !is DOMExecutionContext)  return
         context.element.appendChild(
                 nodeSVG("svg").apply {
                     setAttribute("width", "$width")

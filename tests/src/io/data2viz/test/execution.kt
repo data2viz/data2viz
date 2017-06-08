@@ -40,7 +40,7 @@ fun htmlExecution(vararg testBase: TestBase) {
             }
             packageDiv.appendChild(divTest)
 
-            val executionContext = HTMLExecutionContext(packageDiv)
+            val executionContext = DOMExecutionContext(packageDiv)
             val result = test.execute(executionContext)
 
             allTestsOK = allTestsOK && (result is TestResult.OK)
@@ -70,4 +70,4 @@ fun htmlExecution(vararg testBase: TestBase) {
     }
 }
 
-class HTMLExecutionContext(val element: Element): ExecutionContext
+class DOMExecutionContext(val element: Element): ExecutionContext
