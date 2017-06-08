@@ -17,7 +17,6 @@ internal fun hue(a: Angle, b:Angle): (Double) -> Double {
     val a2 = a.normalize()
     val b2 = b.normalize()
     val degreesTo = b2.deg - a2.deg
-    println("a=${a.deg}  b=${b.deg}  a2=${a2.deg}  b2=${b2.deg}  degreesTo=$degreesTo")
     return { t ->
         when {
             degreesTo < -180    -> linear(a2.deg, degreesTo + 360)(t)
