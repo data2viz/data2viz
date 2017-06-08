@@ -10,13 +10,15 @@ import io.data2viz.color.EncodedColors.Companion.plasma
 import io.data2viz.color.EncodedColors.Companion.viridis
 import io.data2viz.core.namespace
 import io.data2viz.test.DomUtils.Companion.body
+import io.data2viz.test.ExecutionContext
+import io.data2viz.test.HTMLExecutionContext
 import io.data2viz.test.StringSpec
 import kotlin.browser.document
 
 class EncodedColorsTests : StringSpec() {
 
     init {
-        "category10" { category10.colors.size shouldBe 10; displaySmallGradient(category10) }
+        "category10" { context -> category10.colors.size shouldBe 10;  displaySmallGradient(context, category10) }
         "category20" { category20.colors.size shouldBe 20; displaySmallGradient(category20) }
         "category20b" { category20b.colors.size shouldBe 20; displaySmallGradient(category20b) }
         "category20c" { category20c.colors.size shouldBe 20; displaySmallGradient(category20c) }
@@ -27,8 +29,9 @@ class EncodedColorsTests : StringSpec() {
         "plasma"    { testAndGraph(plasma) }
     }
 
-    fun displaySmallGradient(colors: EncodedColors) {
-        body.appendChild(
+    fun displaySmallGradient(context: ExecutionContext, colors: EncodedColors) {
+        if (context !is HTMLExecutionContext)  return
+        context.element.appendChild(
                 node("svg").apply {
                     setAttribute("width", "${30 * colors.colors.size}")
                     setAttribute("height", "30")

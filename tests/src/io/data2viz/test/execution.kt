@@ -1,14 +1,15 @@
 package io.data2viz.test
 
+import org.w3c.dom.Element
 import kotlin.browser.document
 import kotlin.browser.window
 
 fun htmlExecution(vararg testBase: TestBase) {
     val body = window.document.querySelector("body")!!
     testBase.forEach {
-        body.append(document.createElement("h2").apply { textContent = it::class.simpleName })
-        it.tests.forEach {
-
+        val div = document.createElement("div")
+        div.append(document.createElement("h2").apply { textContent = it::class.simpleName })
+        it.tests.forEach { test ->
 
             val resultDescription = document.createElement("span").apply {
                 className = "resultDescription"
@@ -20,13 +21,13 @@ fun htmlExecution(vararg testBase: TestBase) {
                 appendChild(resultDescription)
                 appendChild(document.createElement("span").apply {
                     className = "testName"
-                    textContent = it.name
+                    textContent = test.name
                 })
 
             }
             body.appendChild(divTest)
-
-            val result = it.execute()
+            val executionContext = HTMLExecutionContext(div)
+            val result = test.execute(executionContext)
 
             val okOrKo: String = when (result) {
                 is TestResult.KO -> "KO"
@@ -50,3 +51,5 @@ fun htmlExecution(vararg testBase: TestBase) {
 
     }
 }
+
+class HTMLExecutionContext(val element: Element): ExecutionContext

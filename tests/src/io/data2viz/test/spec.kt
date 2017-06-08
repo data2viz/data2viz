@@ -28,17 +28,19 @@ abstract class TestBase : Matchers {
 
 open class StringSpec : TestBase() {
 
-    operator fun String.invoke(test: () -> Unit): TestCase {
+    operator fun String.invoke(test: (ExecutionContext) -> Unit): TestCase {
         val tc = TestCase(name = this, test = test)
         tests.add(tc)
         return tc
     }
 }
 
-class TestCase(var name: String, val test: () -> Unit) {
-    fun execute() =
+interface ExecutionContext
+
+class TestCase(var name: String, val test: (ExecutionContext) -> Unit) {
+    fun execute(executionContext: ExecutionContext) =
             try {
-                test()
+                test(executionContext)
                 TestResult.OK(name)
             } catch (e: AssertionError) {
                 TestResult.KO(name, e.message)
