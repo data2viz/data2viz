@@ -22,7 +22,7 @@ val String.color: Color
  *
  * TODO must be immutable
  */
-class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
+class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
 
     private val darker = 0.7
     private val brighter = 1 / darker
@@ -74,6 +74,36 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
         return rgba(r * str, g * str, b * str, alpha)
     }
 
+    fun toHsla(): HSL {
+        val rPercent = r.toFloat() / 255f
+        val gPercent = g.toFloat() / 255f
+        val bPercent = b.toFloat() / 255f
+        val minPercent = Math.min(rPercent, gPercent, bPercent)
+        val maxPercent = Math.max(rPercent, gPercent, bPercent)
+
+        println("R $rPercent  G $gPercent  B $bPercent")
+
+        var h = 0f
+        var s = maxPercent - minPercent
+        val l = (maxPercent + minPercent) / 2f
+
+        println("H $h  S $s  L $l")
+
+        if (s != 0f) {
+            when {
+                (rPercent == maxPercent)    -> h = if (gPercent < bPercent) ((gPercent - bPercent) / s) + 6f else ((gPercent - bPercent) / s)
+                (gPercent == maxPercent)    -> h = (bPercent - rPercent) / s + 2f
+                else                        -> h = (rPercent - gPercent) / s + 4f
+            }
+            s /= if (l < 0.5f) maxPercent + minPercent else 2 - maxPercent - minPercent
+            h *= 60f
+        } else {
+            s = if (l > 0 && l < 1) 0f else h
+        }
+        return HSL(h.deg, s, l, alpha)
+    }
+
+
     val rgbHex: String
         get() = "#" +
                 ((rgb shr 20) and 0xf).toString(16) +
@@ -86,9 +116,9 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Float = 1.0f) {
     @Suppress("UnsafeCastFromDynamic")
     fun Int.toString(radix: Int): String = asDynamic().toString(radix)
 
-    override operator fun equals(other: Any?):Boolean = (other != null && other is Color && r == other.r && g == other.g && b == other.b)
+    override operator fun equals(other: Any?):Boolean = (other != null && other is Color && r == other.r && g == other.g && b == other.b && alpha == other.alpha)
 
-    override fun toString() = if (alpha.toFloat() < 1.0) "rgba($r,$g,$b,$alpha)" else rgbHex
+    override fun toString() = if (alpha.toFloat() < 1.0) "rgba($r, $g, $b, $alpha)" else rgbHex
 }
 
 /********************************************************/
@@ -145,6 +175,10 @@ class HSL(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: Number
             else -> p
         }
     }
+
+    override operator fun equals(other: Any?):Boolean = (other != null && other is HSL && h == other.h && s == other.s && l == other.l && alpha == other.alpha)
+
+    override fun toString() = "hsla(${h.deg}°, ${s*100}%, ${l*100}%, $alpha)"
 }
 
 
