@@ -7,8 +7,23 @@ import kotlin.browser.window
 fun htmlExecution(vararg testBase: TestBase) {
     val body = window.document.querySelector("body")!!
     testBase.forEach {
-        val div = document.createElement("div")
-        div.append(document.createElement("h2").apply { textContent = it::class.simpleName })
+
+        val packageTitle = document.createElement("h2")
+
+        body.append(packageTitle.apply {
+            textContent = it::class.simpleName
+            setAttribute("onclick", "hideShow('${it::class.simpleName}')")
+        }
+        )
+
+        val packageDiv = document.createElement("div")
+        packageDiv.apply {
+            className = "${it::class.simpleName}"
+        }
+        body.appendChild(packageDiv)
+
+        var allTestsOK = true
+
         it.tests.forEach { test ->
 
             val resultDescription = document.createElement("span").apply {
@@ -16,8 +31,6 @@ fun htmlExecution(vararg testBase: TestBase) {
             }
 
             val divTest = document.createElement("div").apply {
-
-
                 appendChild(resultDescription)
                 appendChild(document.createElement("span").apply {
                     className = "testName"
@@ -25,9 +38,12 @@ fun htmlExecution(vararg testBase: TestBase) {
                 })
 
             }
-            body.appendChild(divTest)
-            val executionContext = HTMLExecutionContext(div)
+            packageDiv.appendChild(divTest)
+
+            val executionContext = HTMLExecutionContext(packageDiv)
             val result = test.execute(executionContext)
+
+            allTestsOK = allTestsOK && (result is TestResult.OK)
 
             val okOrKo: String = when (result) {
                 is TestResult.KO -> "KO"
@@ -49,6 +65,8 @@ fun htmlExecution(vararg testBase: TestBase) {
             }
         }
 
+        packageTitle.className = if (allTestsOK) "ok" else "ko"
+        if (allTestsOK) packageDiv.setAttribute("style", "display: none;")
     }
 }
 

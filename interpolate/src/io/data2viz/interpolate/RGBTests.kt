@@ -3,140 +3,117 @@ package io.data2viz.interpolate
 import io.data2viz.color.Color
 import io.data2viz.color.colors
 import io.data2viz.color.colors.blue
+import io.data2viz.color.colors.green
+import io.data2viz.color.colors.red
+import io.data2viz.color.colors.white
 import io.data2viz.test.StringSpec
 import io.data2viz.core.namespace
 import io.data2viz.test.DomUtils
+import io.data2viz.test.ExecutionContext
+import io.data2viz.test.HTMLExecutionContext
 import kotlin.browser.document
 
 class RGBTests : StringSpec() {
 
     init {
-        "Linear RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
-            val iterator = interpolateRgb(arrayListOf(colors.darkolivegreen, colors.darkolivegreen, colors.darkolivegreen))
-            displaySmallGradient(iterator)
+        "RGB interpolation color -> sameColor" {
+            val iterator = interpolateRgb(colors.darkolivegreen, colors.darkolivegreen)
+            iterator(-1) shouldBe colors.darkolivegreen
+            iterator(0) shouldBe colors.darkolivegreen
+            iterator(0.5) shouldBe colors.darkolivegreen
+            iterator(1) shouldBe colors.darkolivegreen
+            iterator(2) shouldBe colors.darkolivegreen
         }
 
-        "Exponential RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen (1.001 gamma)" {
-            val iterator = interpolateRgb(arrayListOf(colors.darkolivegreen, colors.darkolivegreen, colors.darkolivegreen), gamma = 1.001)
-            displaySmallGradient(iterator)
+        "RGB interpolation color -> sameColor (gamma = 2)" {
+            val iterator = interpolateRgb(colors.darkolivegreen, colors.darkolivegreen, gamma = 2.0)
+            iterator(-1) shouldBe iterator(0)
+            iterator(0) shouldBe iterator(0.5)
+            iterator(0.5) shouldBe iterator(1)
+            iterator(1) shouldBe iterator(2)
         }
 
-        "Spline RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
-            val iterator = interpolateRgbBasis(arrayListOf(colors.darkolivegreen, colors.darkolivegreen, colors.darkolivegreen))
-            displaySmallGradient(iterator)
+        "Spline RGB interpolation color -> sameColor" {
+            val iterator = interpolateRgbBasis(listOf(colors.darkolivegreen, colors.darkolivegreen))
+            iterator(-1) shouldBe colors.darkolivegreen
+            iterator(0) shouldBe colors.darkolivegreen
+            iterator(0.5) shouldBe colors.darkolivegreen
+            iterator(1) shouldBe colors.darkolivegreen
+            iterator(2) shouldBe colors.darkolivegreen
         }
 
-        "Cyclical spline RGB interpolation darkolivegreen -> darkolivegreen -> darkolivegreen" {
-            val iterator = interpolateRgbBasis(arrayListOf(colors.darkolivegreen, colors.darkolivegreen, colors.darkolivegreen), cyclical = true)
-            displaySmallGradient(iterator)
+        "Cyclical spline RGB interpolation darkolivegreen -> darkolivegreen" {
+            val iterator = interpolateRgbBasis(listOf(colors.darkolivegreen, colors.darkolivegreen), cyclical = true)
+            iterator(-1) shouldBe colors.darkolivegreen
+            iterator(0) shouldBe colors.darkolivegreen
+            iterator(0.5) shouldBe colors.darkolivegreen
+            iterator(1) shouldBe colors.darkolivegreen
+            iterator(2) shouldBe colors.darkolivegreen
         }
 
         "Linear RGB interpolation white -> blue" {
-            val iterator = interpolateRgb(arrayListOf(colors.white, blue))
-            displaySmallGradient(iterator)
+            val iterator = interpolateRgb(white, blue)
+            iterator(-1) shouldBe white
+            iterator(0) shouldBe white
+            iterator(0.5) shouldBe Color(0x8080ff)
+            iterator(1) shouldBe blue
+            iterator(2) shouldBe blue
         }
 
         "Linear RGB interpolation blue -> white" {
-            val iterator = interpolateRgb(arrayListOf(blue, colors.white))
-            displaySmallGradient(iterator)
+            val iterator = interpolateRgb(blue, white)
+            iterator(-1) shouldBe blue
+            iterator(0) shouldBe blue
+            iterator(0.5) shouldBe Color(0x8080ff)
+            iterator(1) shouldBe white
+            iterator(2) shouldBe white
         }
 
-        "Linear RGB interpolation lightyellow -> darkolivegreen (63px wide)" {
-            val percentToColor = interpolateRgb(arrayListOf(colors.lightyellow, colors.darkolivegreen))
-            displaySmallGradient(percentToColor, 63)
+        "RGB spline interpolation [G, B, R, B, G]" { context ->
+            val iterator = interpolateRgbBasis(listOf(green, blue, red, blue, green))
+            displaySmallGradient(context, iterator, 880)
+            iterator(-1) shouldBe green
+            iterator(0) shouldBe green
+            iterator(1) shouldBe green
+            iterator(2) shouldBe green
         }
 
-        "Linear RGB interpolation darkcyan -> papayawhip GAMMA 2.2" {
-            val iterator = interpolateRgb(arrayListOf(colors.darkcyan, colors.papayawhip), 2.2)
-            displaySmallGradient(iterator, 800)
+        "RGB cyclical spline interpolation [G, B, R, B]" { context ->
+            val iterator = interpolateRgbBasis(listOf(green, blue, red, blue), cyclical = true)
+            displaySmallGradient(context, iterator, 880)
+            iterator(-1) shouldBe iterator(0)
+            iterator(0) shouldBe iterator(1)
+            iterator(1) shouldBe iterator(2)
         }
 
-        "Linear RGB interpolation darkcyan -> papayawhip GAMMA 0.6" {
-            val iterator = interpolateRgb(arrayListOf(colors.darkcyan, colors.papayawhip), 0.6)
-            displaySmallGradient(iterator, 800)
-        }
-
-        "Linear RGB interpolation darkcyan -> papayawhip" {
-            val iterator = interpolateRgb(arrayListOf(colors.darkcyan, colors.papayawhip))
-            displaySmallGradient(iterator, 800)
-        }
-
-        "RGB spline interpolation darkcyan -> papayawhip" {
-            val iterator = interpolateRgbBasis(arrayListOf(colors.darkcyan, colors.papayawhip))
-            displaySmallGradient(iterator, 800)
-        }
-
-        "RGB cyclical spline interpolation [G, B, R, B]" {
-            val iterator = interpolateRgbBasis(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff)), cyclical = true)
-            displaySmallGradient(iterator, 800)
-        }
-
-        "RGB spline interpolation [G, B, R, B, G]" {
-            val iterator = interpolateRgbBasis(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
-            displaySmallGradient(iterator, 800)
-        }
-
-        "RGB  interpolation [G, B, R, B, G]" {
-            val iterator = interpolateRgb(arrayListOf(Color(0x00ff00), Color(0x0000ff), Color(0xff0000), Color(0x0000ff), Color(0x00ff00)))
-            displaySmallGradient(iterator, 800)
-        }
-
-        "Cyclical RGB cyclical spline interpolation " {
-            val iterator = interpolateRgbBasis(arrayListOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00)), cyclical = true)
-            displaySmallGradient(iterator, 800)
-        }
-
-        "Cyclical RGB standard spline interpolation " {
-            val iterator = interpolateRgbBasis(arrayListOf(Color(0xff0000), Color(0x00ff00), Color(0xff0000), Color(0x00ff00), Color(0xff0000)))
-            displaySmallGradient(iterator, 800)
-        }
-
-        "Cyclical RGB spline interpolation [#8e0152, #f7f7f7, #276419]" {
-            val iterator = interpolateRgbBasis(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)), cyclical = true)
-            displaySmallGradient(iterator, 800)
-        }
-
-        "RGB spline interpolation [#8e0152, #f7f7f7, #276419]" {
-            val iterator = interpolateRgbBasis(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)))
-            displaySmallGradient(iterator, 800)
-        }
-
-        "RGB interpolation [#8e0152, #f7f7f7, #276419]" {
-            val iterator = interpolateRgb(arrayListOf(Color(0x8e0152), Color(0xf7f7f7), Color(0x276419)))
-            displaySmallGradient(iterator, 800)
-        }
-
-        // ["#8e0152", "#c51b7d", "#de77ae", "#f1b6da", "#fde0ef", "#f7f7f7", "#e6f5d0", "#b8e186", "#7fbc41", "#4d9221", "#276419"]
-        "RGB spline interpolation [#8e0152, #c51b7d, #de77ae, #f1b6da, #fde0ef, #f7f7f7, #e6f5d0, #b8e186, #7fbc41, #4d9221, #276419]" {
+        "RGB spline interpolation colorbrewSpline reference (https://bl.ocks.org/mbostock/048d21cf747371b11884f75ad896e5a5)" { context ->
             val iterator = interpolateRgbBasis(arrayListOf(Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
                     Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
                     Color(0x4d9221), Color(0x276419)))
-            displaySmallGradient(iterator, 800)
+            displaySmallGradient(context, iterator, 880, imageReference = "http://data2viz.io/img/colorbrewSpline.png")
         }
 
-        "RGB spline interpolation [darkcyan, papayawhip, darkolivegreen, blue, lightyellow]" {
-            val iterator = interpolateRgbBasis(arrayListOf(colors.darkcyan, colors.papayawhip, colors.darkolivegreen, blue, colors.lightyellow))
-            displaySmallGradient(iterator, 800)
+        "RGB cyclical spline interpolation colorbrewSpline reference" { context ->
+            val iterator = interpolateRgbBasis(arrayListOf(Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
+                    Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
+                    Color(0x4d9221), Color(0x276419)), cyclical = true)
+            displaySmallGradient(context, iterator, 880, imageReference = "http://data2viz.io/img/colorbrewSplineClosed.png")
         }
 
-        "RGB linear interpolation [darkcyan, papayawhip, darkolivegreen, blue, lightyellow]" {
-            val iterator = interpolateRgb(arrayListOf(colors.darkcyan, colors.papayawhip, colors.darkolivegreen, blue, colors.lightyellow))
-            displaySmallGradient(iterator, 800)
+        "RGB linear interpolation [#800080, #ffa200] see https://github.com/d3/d3-interpolate#interpolateRgb for reference" { context ->
+            val iterator = interpolateRgb(Color(0x800080), Color(0xffa200))
+            displaySmallGradient(context, iterator, 888, imageReference = "http://data2viz.io/img/rgb.png")
         }
 
-        "RGB linear interpolation [#800080, #ffa200] see https://github.com/d3/d3-interpolate#interpolateRgb for reference" {
-            val iterator = interpolateRgb(arrayListOf(Color(0x800080), Color(0xffa200)))
-            displaySmallGradient(iterator, 888)
-        }
-
-        "RGB linear interpolation [#800080, #ffa200] corrected gamma 2.2 see https://github.com/d3/d3-interpolate#interpolateRgb for reference" {
-            val iterator = interpolateRgb(arrayListOf(Color(0x800080), Color(0xffa200)), 2.2)
-            displaySmallGradient(iterator, 888)
+        "RGB linear interpolation [#800080, #ffa200] corrected gamma 2.2 see https://github.com/d3/d3-interpolate#interpolateRgb for reference" { context ->
+            val iterator = interpolateRgb(Color(0x800080), Color(0xffa200), 2.2)
+            displaySmallGradient(context, iterator, 888, imageReference = "http://data2viz.io/img/rgbGamma.png")
         }
     }
 
-    fun displaySmallGradient(percentToColor: (Float) -> Color, width: Int = 256) {
-        DomUtils.body.appendChild(
+    fun displaySmallGradient(context:ExecutionContext, percentToColor: (Float) -> Color, width: Int = 256, imageReference: String? = null) {
+        if (context !is HTMLExecutionContext)  return
+        context.element.appendChild(
                 node("svg").apply {
                     setAttribute("width", "$width")
                     setAttribute("height", "20")
@@ -145,7 +122,7 @@ class RGBTests : StringSpec() {
                     (0 until width).forEach { index ->
                         appendChild(
                                 node("rect").apply {
-                                    setAttribute("fill", percentToColor(index / (width - 1).toFloat()).rgbHex)
+                                    setAttribute("fill", percentToColor(index / (width).toFloat()).rgbHex)
                                     setAttribute("x", "$index")
                                     setAttribute("y", "0")
                                     setAttribute("width", "1")
@@ -155,6 +132,17 @@ class RGBTests : StringSpec() {
                     }
                 }
         )
+        if (imageReference != null) {
+            val div = document.createElement("div")
+            div.appendChild(
+                    document.createElement("img").apply {
+                        setAttribute("src", imageReference)
+                        setAttribute("height", "20")
+                        setAttribute("width", "$width")
+                    }
+            )
+            context.element.appendChild(div)
+        }
     }
 
     fun node(name: String) = document.createElementNS(namespace.svg, name)

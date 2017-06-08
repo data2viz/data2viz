@@ -2,28 +2,30 @@ package io.data2viz.interpolate
 
 import io.data2viz.test.StringSpec
 import io.data2viz.core.namespace
+import io.data2viz.test.ExecutionContext
+import io.data2viz.test.HTMLExecutionContext
 import kotlin.browser.document
 
 class EaseTests : StringSpec() {
 
     init {
-        "io.data2viz.interpolate.identity"  { testAndGraph() }
-        "quad"      { testAndGraph(::quad) }
-        "cubicIn"   { testAndGraph(::cubicIn) }
-        "cubicOut"  { testAndGraph(::cubicOut) }
-        "cubicInOut"{ testAndGraph(::cubicInOut) }
-        "sin"       { testAndGraph(::sin) }
-        "circleIn"  { testAndGraph(::circleIn) }
-        "circleOut" { testAndGraph(::circleOut) }
+        "io.data2viz.interpolate.identity"  { context -> testAndGraph(context) }
+        "quad"      { context -> testAndGraph(context, ::quad) }
+        "cubicIn"   { context -> testAndGraph(context, ::cubicIn) }
+        "cubicOut"  { context -> testAndGraph(context, ::cubicOut) }
+        "cubicInOut"{ context -> testAndGraph(context, ::cubicInOut) }
+        "sin"       { context -> testAndGraph(context, ::sin) }
+        "circleIn"  { context -> testAndGraph(context, ::circleIn) }
+        "circleOut" { context -> testAndGraph(context, ::circleOut) }
     }
 
-    fun testAndGraph(function: (Double) -> Double = ::identity) {
+    fun testAndGraph(context: ExecutionContext, function: (Double) -> Double = ::identity) {
 
         function(0.0) shouldBe (.0 plusOrMinus 0.01)
         function(1.0) shouldBe (1.0 plusOrMinus 0.01)
 
-        val body = document.querySelector("body")!!
-        body.appendChild(
+        if (context !is HTMLExecutionContext)  return
+        context.element.appendChild(
                 document.createElementNS(namespace.svg, "svg").apply {
                     setAttribute("width", "100")
                     setAttribute("height", "100")

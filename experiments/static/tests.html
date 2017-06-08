@@ -2,6 +2,18 @@
 <html>
 <head>
     <script src="require.js"></script>
+    <script>
+        function hideShow(className) {
+            var x = document.getElementsByClassName(className);
+            for(var i = 0; i < x.length; i++) {
+                if (x[i].style.display === 'none') {
+                    x[i].style.display = 'block';
+                } else {
+                    x[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
     <style>
 
         body {
@@ -10,6 +22,18 @@
 
         .testResult {
             margin: 20px 0 10px;
+        }
+
+        h2 {
+            cursor: pointer;
+        }
+
+        h2.ok {
+            color: #1e7a4a;
+        }
+
+        h2.ko {
+            color: #cb2940;
         }
 
         .resultDescription {
