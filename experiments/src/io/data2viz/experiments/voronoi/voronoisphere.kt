@@ -27,24 +27,38 @@ import kotlin.reflect.KMutableProperty0
 
 fun voronoiSphere() {
 
+    data class SphereParams(
+            var clipping: Boolean = true,
+            var showCircles: Boolean = true,
+            var showPolygons: Boolean = true,
+            var delaunay: Boolean = true,
+            var pointCount: Int = 20,
+            val chunkSize: Int = 1){
 
-    data class SphereConfig(
-            var clipping:Boolean = true,
-            var showPolygons:Boolean = true,
-            var delaunay:Boolean = true,
-            var pointCount:Int = 200
+        fun eventuallyUpdatePointCount(curFPS:Int, curPoint:Int) {
+            if(isAllDisplayed() && curFPS > 25 && curPoint <= pointCount - chunkSize + 5){
+                pointCount += chunkSize
+                println("New point count:: $pointCount")
+            }
+        }
 
-    )
+        fun isAllDisplayed() = showCircles && showPolygons && delaunay
+        fun incrementDisplayablePoints() {
+            pointCount += 10
+        }
+    }
+
 
     val size = 600
-
     val commandHeight = 200
 
-    val config = SphereConfig()
+    val sphereParams = SphereParams()
 
     val fpsCalculator = FpsCalculator(document.querySelector("#fps span")!!)
 
-    val randomPoints = (1..config.pointCount).map { GeoPoint((random() * 360).deg, (random() * 360).deg) }.toMutableList()
+    fun newPoints(count: Int = sphereParams.chunkSize) = Array(count) { GeoPoint((random() * 360).deg, (random() * 360).deg) }
+
+    val randomPoints = newPoints(10).toMutableList()
 
     val circleRadius = scale.linear.numberToNumber(
             -1 linkedTo 3,
@@ -63,7 +77,7 @@ fun voronoiSphere() {
 
     fun List<GeoPoint>.sites() = mapIndexed { index, point -> Site(Point(pointToScreen(point.x), pointToScreen(point.y)), index) }.toTypedArray()
 
-    val it = interpolateRgb(darkblue, lightyellow, 0.7)
+    val darkToLight = interpolateRgb(darkblue, lightyellow, 0.7)
 
     svg {
         width = size
@@ -73,10 +87,18 @@ fun voronoiSphere() {
         val rotationAnimation = RotationAnimation(15.0)
         rotationAnimation { rotation ->
             fpsCalculator.updateFPS()
+            document.querySelector("#num span")?.textContent = randomPoints.size.toString()
+            sphereParams.eventuallyUpdatePointCount(fpsCalculator.curFps, randomPoints.size)
+            if (randomPoints.size < sphereParams.pointCount && fpsCalculator.curFps > 25) {
+                randomPoints.addAll(newPoints())
+            } else if (randomPoints.size > sphereParams.pointCount) {
+                val pointSize = randomPoints.size
+                (1..sphereParams.chunkSize).forEach { randomPoints.removeAt(pointSize - it) }
+            }
             randomPoints.forEach { geoPoint -> geoPoint.rotation = rotation }
-            if(config.delaunay || config.showPolygons)
-                diagram = if (config.clipping) Diagram(randomPoints.sites(), Point(-1000.0, -1000.0), Point(1000.0, 1000.0))
-                        else Diagram(randomPoints.sites())
+            if (sphereParams.delaunay || sphereParams.showPolygons)
+                diagram = if (sphereParams.clipping) Diagram(randomPoints.sites(), Point(-1000.0, -1000.0), Point(1000.0, 1000.0))
+                else Diagram(randomPoints.sites())
         }
 
 //        val background = rect {
@@ -92,22 +114,40 @@ fun voronoiSphere() {
                 rotate((-20).deg)
             }
 
-            randomPoints.forEach { geoPoint ->
-                circle {
-                    r = circleRadius(geoPoint.z)
-                    cx = pointToScreen(geoPoint.x)
-                    cy = pointToScreen(geoPoint.y)
-                    rotationAnimation { rotation ->
-                        fill = it(((geoPoint.x+1)/2).toFloat())
-                        r = circleRadius(geoPoint.z)
-                        cx = pointToScreen(geoPoint.x)
+            g {
+                rotationAnimation { rotation ->
+                    if (sphereParams.showCircles) {
+                        selectAll<CircleElement, GeoPoint>("circle", randomPoints) {
+                            add = { geoPoint ->
+                                circle {
+                                    r = circleRadius(geoPoint.z)
+                                    cx = pointToScreen(geoPoint.x)
+                                    cy = pointToScreen(geoPoint.y)
+                                    fill = darkToLight(((geoPoint.x+1)/2).toFloat())
+                                }
+                            }
+                            update = { circleElement, geoPoint ->
+                                circleElement.r = circleRadius(geoPoint.z)
+                                circleElement.cx = pointToScreen(geoPoint.x)
+                                circleElement.cy = pointToScreen(geoPoint.y)
+                                circleElement.fill = darkToLight(((geoPoint.x+1)/2).toFloat())
+                            }
+                            remove = {
+                                removeChild(it)
+                            }
+                        }
+                    } else {
+                        selectAll<CircleElement, GeoPoint>("circle", emptyList()){
+                            remove = {removeChild(it)}
+                        }
                     }
                 }
             }
 
-            g { //polygons
+            g {
+                //polygons
                 rotationAnimation { rotation ->
-                    if(config.showPolygons) {
+                    if (sphereParams.showPolygons) {
                         selectAll<LineElement, Edge>("line", diagram!!.edges.filterNotNull()) {
                             add = { edge ->
                                 if (edge.start != null && edge.end != null)
@@ -125,7 +165,7 @@ fun voronoiSphere() {
                                     line.y1 = edge.start!!.y
                                     line.x2 = edge.end!!.x
                                     line.y2 = edge.end!!.y
-                                    line. stroke = colors.black
+                                    line.stroke = colors.black
                                 } else {
                                     removeChild(line.element)
                                 }
@@ -133,37 +173,38 @@ fun voronoiSphere() {
                             remove = { removeChild(it) }
                         }
                     } else {
-                        selectAll<LineElement,Edge>("line", emptyList() ) {
-                            remove = {removeChild(it)}
+                        selectAll<LineElement, Edge>("line", emptyList()) {
+                            remove = { removeChild(it) }
                         }
                     }
                 }
             }
-            g { //delaunay
+            g {
+                //delaunay
                 rotationAnimation { rotation ->
-                    if(config.delaunay) {
+                    if (sphereParams.delaunay) {
                         selectAll<LineElement, Diagram.Link>("line", diagram!!.links().filterNotNull()) {
                             add = { link ->
-                                    line {
-                                        x1 = link.source.x
-                                        y1 = link.source.y
-                                        x2 = link.target.x
-                                        y2 = link.target.y
-                                        stroke = colors.red
-                                    }
+                                line {
+                                    x1 = link.source.x
+                                    y1 = link.source.y
+                                    x2 = link.target.x
+                                    y2 = link.target.y
+                                    stroke = colors.red
+                                }
                             }
                             update = { line, link ->
-                                    line.x1 = link.source.x
-                                    line.y1 = link.source.y
-                                    line.x2 = link.target.x
-                                    line.y2 = link.target.y
-                                    line. stroke = colors.red
-                                }
+                                line.x1 = link.source.x
+                                line.y1 = link.source.y
+                                line.x2 = link.target.x
+                                line.y2 = link.target.y
+                                line.stroke = colors.red
+                            }
                             remove = { removeChild(it) }
                         }
                     } else {
-                        selectAll<LineElement,Edge>("line", emptyList() ) {
-                            remove = {removeChild(it)}
+                        selectAll<LineElement, Edge>("line", emptyList()) {
+                            remove = { removeChild(it) }
                         }
                     }
                 }
@@ -173,7 +214,7 @@ fun voronoiSphere() {
 
         val commandPanel = g {
             transform {
-                translate(y=size)
+                translate(y = size)
             }
             rect {
                 width = size
@@ -186,12 +227,15 @@ fun voronoiSphere() {
                     translate(y = 30)
                 }
 
-                toggleButton("Clipping", config::clipping)
-                toggleButton("Polygons", config::showPolygons).apply {
+                toggleButton("Clipping", sphereParams::clipping)
+                toggleButton("Polygons", sphereParams::showPolygons).apply {
                     transform { translate(150) }
                 }
-                toggleButton("Delaunay", config::delaunay).apply {
+                toggleButton("Delaunay", sphereParams::delaunay).apply {
                     transform { translate(300) }
+                }
+                toggleButton("Circles", sphereParams::showCircles).apply {
+                    transform { translate(450) }
                 }
             }
         }
@@ -200,7 +244,8 @@ fun voronoiSphere() {
 
 }
 
-private fun GroupElement.toggleButton(name:String, clippingHolder: KMutableProperty0<Boolean>): GroupElement {
+
+private fun GroupElement.toggleButton(name: String, clippingHolder: KMutableProperty0<Boolean>): GroupElement {
     return g {
         setAttribute("style", "cursor:pointer")
         val btBack = rect {
@@ -238,33 +283,30 @@ data class GeoPoint(val lat: Angle, val long: Angle) {
 
 //------------   API test -----------------------
 
-class Selection<E:ElementWrapper,T> {
+class Selection<E : ElementWrapper, T> {
     var add: ((T) -> Unit) = {}
-    var update: ((E,T) -> Unit) = { e, t -> }
+    var update: ((E, T) -> Unit) = { e, t -> }
     var remove: ((Node) -> Unit) = {}
 }
 
-class ElementWrappers {
 
-    val _wrappers = mapOf<Any, (Element) -> ElementWrapper>(
-            LineElement::class to {element:Element -> LineElement(element)}
-    )
-
-    inline fun <reified E:ElementWrapper> wrap(element: Element): E {
-        val c = E::class
-        return (_wrappers[c]!!(element) as E)
+inline fun <reified E : ElementWrapper> wrap(element: Element): E {
+    val c = E::class
+    return when {
+        c == LineElement::class -> LineElement(element) as E
+        c == CircleElement::class -> CircleElement(element) as E
+        else -> error("Unknown type $c")
     }
 }
 
-val nodeWrappers = ElementWrappers()
 
-inline fun <reified E:ElementWrapper, T> ParentElement.selectAll(selector: String, datas: List<T>, init: Selection<E,T>.() -> Unit) {
-    val selection = Selection<E,T>()
+inline fun <reified E : ElementWrapper, T> ParentElement.selectAll(selector: String, datas: List<T>, init: Selection<E, T>.() -> Unit) {
+    val selection = Selection<E, T>()
     selection.init()
     val elements = element.querySelectorAll(selector).asList().filterNotNull().map { it as Element }
-    if (elements.size > datas.size)  elements.drop(datas.size).forEach { selection.remove(it) }
-    if (elements.size < datas.size) datas.drop(elements.size).forEachIndexed { i,t -> selection.add(t)}
-    datas.take(elements.size).forEachIndexed { i,t -> selection.update(nodeWrappers.wrap<E>(elements[i]), t) }
+    if (elements.size > datas.size) elements.drop(datas.size).forEach { selection.remove(it) }
+    if (elements.size < datas.size) datas.drop(elements.size).forEachIndexed { i, t -> selection.add(t) }
+    datas.take(elements.size).forEachIndexed { i, t -> selection.update(wrap<E>(elements[i]), t) }
 }
 
 fun ParentElement.removeChild(child: Node) {
