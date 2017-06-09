@@ -29,6 +29,8 @@ fun createSVGElement(name: String) = document.createElementNS(namespace.svg, nam
 
 class Path() {
     private val commands = mutableListOf<String>()
+    fun curveTo(x: Number = 0, y: Number = 0)        {commands.add("C $x $y")}
+    fun curveDeltaTo(dx: Number = 0, dy: Number = 0) {commands.add("c $dx $dy")}
     fun moveTo(x: Number = 0, y: Number = 0)        {commands.add("M $x $y")}
     fun moveDeltaTo(dx: Number = 0, dy: Number = 0) {commands.add("m $dx $dy")}
     fun lineTo(x: Number = 0, y: Number = 0)        {commands.add("L $x $y")}
@@ -136,7 +138,7 @@ class CircleElement(override val element: Element) : ElementWrapper, HasStroke, 
 }
 
 @SvgTagMarker
-class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, ParentElement, Transformable {
+class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, HasRoundedCorner, Has2D, ParentElement, Transformable {
     fun on(eventName: String, block: RectElement.(Event) -> Unit) {
         element.addEventListener(type = eventName, callback = { event -> block(this, event) })
     }
@@ -144,7 +146,11 @@ class RectElement(override val element: Element) : ElementWrapper, HasStroke, Ha
 
 
 @SvgTagMarker
-class GroupElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, HasPosition, ParentElement, Transformable
+class GroupElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, HasPosition, ParentElement, Transformable {
+    fun on(eventName: String, block: GroupElement.(Event) -> Unit) {
+        element.addEventListener(type = eventName, callback = { event -> block(this, event) })
+    }
+}
 
 @SvgTagMarker
 class LineElement(override val element: Element) : ElementWrapper, HasStroke {
@@ -327,6 +333,19 @@ interface HasRadius : AccessByAttributes {
         get() = getAttribute("r")?.toFloat() ?: 0f
         set(value) {
             setAttribute("r", value.toString())
+        }
+}
+
+interface HasRoundedCorner : AccessByAttributes {
+    var rx: Number
+        get() = getAttribute("rx")?.toFloat() ?: 0f
+        set(value) {
+            setAttribute("rx", value.toString())
+        }
+    var ry: Number
+        get() = getAttribute("ry")?.toFloat() ?: 0f
+        set(value) {
+            setAttribute("ry", value.toString())
         }
 }
 
