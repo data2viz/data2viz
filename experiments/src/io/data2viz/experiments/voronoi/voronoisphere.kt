@@ -1,17 +1,17 @@
 package io.data2viz.experiments.voronoi
 
 import io.data2viz.color.colors
+import io.data2viz.color.colors.black
 import io.data2viz.color.colors.darkblue
 import io.data2viz.color.colors.lightyellow
+import io.data2viz.color.colors.white
 import io.data2viz.interpolate.linkedTo
 import io.data2viz.interpolate.interpolateRgb
+import io.data2viz.experiments.perfs.FpsCalculator
 import io.data2viz.interpolate.scale
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
-import io.data2viz.svg.ElementWrapper
-import io.data2viz.svg.LineElement
-import io.data2viz.svg.ParentElement
-import io.data2viz.svg.svg
+import io.data2viz.svg.*
 import io.data2viz.voronoi.Diagram
 import io.data2viz.voronoi.Edge
 import io.data2viz.voronoi.Point
@@ -19,15 +19,32 @@ import io.data2viz.voronoi.Site
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.asList
+import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.js.Date
 import kotlin.js.Math.random
+import kotlin.reflect.KMutableProperty0
 
 fun voronoiSphere() {
 
+
+    data class SphereConfig(
+            var clipping:Boolean = true,
+            var showPolygons:Boolean = true,
+            var delaunay:Boolean = true,
+            var pointCount:Int = 200
+
+    )
+
     val size = 600
-    val pointCount = 400
-    val randomPoints = (1..pointCount).map { GeoPoint((random() * 360).deg, (random() * 360).deg) }
+
+    val commandHeight = 200
+
+    val config = SphereConfig()
+
+    val fpsCalculator = FpsCalculator(document.querySelector("#fps span")!!)
+
+    val randomPoints = (1..config.pointCount).map { GeoPoint((random() * 360).deg, (random() * 360).deg) }.toMutableList()
 
     val circleRadius = scale.linear.numberToNumber(
             -1 linkedTo 3,
@@ -50,23 +67,26 @@ fun voronoiSphere() {
 
     svg {
         width = size
-        height = size
+        height = size + commandHeight
+        var diagram: Diagram? = null
 
         val rotationAnimation = RotationAnimation(15.0)
         rotationAnimation { rotation ->
+            fpsCalculator.updateFPS()
             randomPoints.forEach { geoPoint -> geoPoint.rotation = rotation }
+            if(config.delaunay || config.showPolygons)
+                diagram = if (config.clipping) Diagram(randomPoints.sites(), Point(-1000.0, -1000.0), Point(1000.0, 1000.0))
+                        else Diagram(randomPoints.sites())
         }
 
-//        rect {
-//            transform {
-//                translate(0, 0)
-//            }
+//        val background = rect {
 //            width = size
 //            height = size
 //            fill = colors.black
 //        }
 
-        g {
+
+        val sphere = g {
             transform {
                 translate(size / 2, size / 2)
                 rotate((-20).deg)
@@ -85,38 +105,123 @@ fun voronoiSphere() {
                 }
             }
 
-            g {
+            g { //polygons
                 rotationAnimation { rotation ->
-                    val diagram = Diagram(randomPoints.sites(), Point(-1000.0, -1000.0), Point(1000.0, 1000.0))
-                    selectAll<LineElement, Edge>("line", diagram.edges.filterNotNull()) {
-                        add = { edge ->
-                            if (edge.start != null && edge.end != null)
-                                line {
-                                    x1 = edge.start!!.x
-                                    y1 = edge.start!!.y
-                                    x2 = edge.end!!.x
-                                    y2 = edge.end!!.y
-                                    stroke = colors.black
-                                }
-                        }
-                        update = { line, edge ->
-                            if (edge.start != null && edge.end != null) {
-                                line.x1 = edge.start!!.x
-                                line.y1 = edge.start!!.y
-                                line.x2 = edge.end!!.x
-                                line.y2 = edge.end!!.y
-                                line. stroke = colors.black
-                            } else {
-                                removeChild(line.element)
+                    if(config.showPolygons) {
+                        selectAll<LineElement, Edge>("line", diagram!!.edges.filterNotNull()) {
+                            add = { edge ->
+                                if (edge.start != null && edge.end != null)
+                                    line {
+                                        x1 = edge.start!!.x
+                                        y1 = edge.start!!.y
+                                        x2 = edge.end!!.x
+                                        y2 = edge.end!!.y
+                                        stroke = colors.black
+                                    }
                             }
+                            update = { line, edge ->
+                                if (edge.start != null && edge.end != null) {
+                                    line.x1 = edge.start!!.x
+                                    line.y1 = edge.start!!.y
+                                    line.x2 = edge.end!!.x
+                                    line.y2 = edge.end!!.y
+                                    line. stroke = colors.black
+                                } else {
+                                    removeChild(line.element)
+                                }
+                            }
+                            remove = { removeChild(it) }
                         }
-                        remove = { removeChild(it) }
+                    } else {
+                        selectAll<LineElement,Edge>("line", emptyList() ) {
+                            remove = {removeChild(it)}
+                        }
+                    }
+                }
+            }
+            g { //delaunay
+                rotationAnimation { rotation ->
+                    if(config.delaunay) {
+                        selectAll<LineElement, Diagram.Link>("line", diagram!!.links().filterNotNull()) {
+                            add = { link ->
+                                    line {
+                                        x1 = link.source.x
+                                        y1 = link.source.y
+                                        x2 = link.target.x
+                                        y2 = link.target.y
+                                        stroke = colors.red
+                                    }
+                            }
+                            update = { line, link ->
+                                    line.x1 = link.source.x
+                                    line.y1 = link.source.y
+                                    line.x2 = link.target.x
+                                    line.y2 = link.target.y
+                                    line. stroke = colors.red
+                                }
+                            remove = { removeChild(it) }
+                        }
+                    } else {
+                        selectAll<LineElement,Edge>("line", emptyList() ) {
+                            remove = {removeChild(it)}
+                        }
                     }
                 }
             }
         }
+
+
+        val commandPanel = g {
+            transform {
+                translate(y=size)
+            }
+            rect {
+                width = size
+                height = commandHeight
+                fill = white
+            }
+
+            val line1 = g {
+                transform {
+                    translate(y = 30)
+                }
+
+                toggleButton("Clipping", config::clipping)
+                toggleButton("Polygons", config::showPolygons).apply {
+                    transform { translate(150) }
+                }
+                toggleButton("Delaunay", config::delaunay).apply {
+                    transform { translate(300) }
+                }
+            }
+        }
+
     }
 
+}
+
+private fun GroupElement.toggleButton(name:String, clippingHolder: KMutableProperty0<Boolean>): GroupElement {
+    return g {
+        setAttribute("style", "cursor:pointer")
+        val btBack = rect {
+            width = 125
+            height = 22
+            rx = 3
+            ry = 3
+            fill = white
+            stroke = black
+        }
+        val label = text {
+            x = 10
+            y = 16
+            text = "$name : ${clippingHolder.get()}"
+        }
+        on("click") {
+            clippingHolder.set(!clippingHolder.get())
+            label.text = "$name : ${clippingHolder.get()}"
+
+        }
+    }
 }
 
 data class GeoPoint(val lat: Angle, val long: Angle) {
@@ -165,7 +270,6 @@ inline fun <reified E:ElementWrapper, T> ParentElement.selectAll(selector: Strin
 fun ParentElement.removeChild(child: Node) {
     element.removeChild(child)
 }
-
 
 class RotationAnimation(rotationTimeInSeconds: Double) {
 

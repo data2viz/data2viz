@@ -7,12 +7,15 @@
 </style>
 <script src="require.js"></script>
 <body>
+<div style="font-size: 22px; position:absolute;z-index:2;">
+    <div id="fps">FPS: <span>?</span></div>
+</div>
 
 <script>
     require.config({paths: {"kotlin": "lib/kotlin"}});
     require(['experiments'],
         function (experiments) {
-            experiments.io.data2viz.experiments.voronoi.voronoiSphere()();
+            experiments.io.data2viz.experiments.voronoi.voronoiSphere();
         });
 </script>
 </body>
