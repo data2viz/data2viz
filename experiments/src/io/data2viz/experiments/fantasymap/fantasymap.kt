@@ -7,8 +7,8 @@ import io.data2viz.color.colors.white
 import io.data2viz.core.Point
 import io.data2viz.svg.SVGElement
 import io.data2viz.svg.svg
-import io.data2viz.voronoi.Diagram
 import io.data2viz.voronoi.Site
+import kotlin.browser.window
 import kotlin.js.Date
 import kotlin.js.Math
 
@@ -73,105 +73,152 @@ private val geoFaceIndexFromEdge: HashMap<Int, Array<Int>> = hashMapOf()
 private var rivers: ArrayList<River> = arrayListOf()
 private val geoFaceIndexToRivers: HashMap<Int, ArrayList<River>> = hashMapOf()
 
-private fun doMap(params: Params) {
+var xOffset = 0
+var yOffset = 0
 
-    timeAndResult("improvePoints 3 with d3") { improvePoints(3, params) }
-    val triangles = timeAndResult ("getDiagramTriangles()") { getDiagramTriangles()}
+
+private val params = Params()
+
+/**
+ * Entry point
+ */
+fun buildFantasyMap() {
+    
+    timeAndResult("Generate ${params.npts} as array") {
+        sites = generatePointsAsArray()
+    }
+
+    timeAndResult("improvePoints 3 with d3") { improvePoints(3) }
+    val triangles = timeAndResult("getDiagramTriangles()") { getDiagramTriangles() }
     timeAndResult("makeMesh") { makeMesh(triangles) }
 
-    timeAndResult ("addRelief") {
+    timeAndResult("addRelief") {
         addRelief(10, params, -0.6F, 0.2)
         addRelief(100, params, 0.25F, 0.2)
     }
+    step1()
+}
 
+private fun step1() {
 
-    var xOffset = 0
-    var yOffset = 0
+    window.requestAnimationFrame {
+        timeAndResult("svg1") {
+            svg {
+                cleanSVG(params)
+                drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
+                drawSeacoast(xOffset, yOffset)
+            }
 
+        }
+        step2()
+    }
+}
 
-    timeAndResult("svg1") {
+private fun step2() {
+    window.requestAnimationFrame {
+        findRivers()
+        //cleanCoastlines()
+        //fillDepressions()
+
+        xOffset += params.mapWidth
         svg {
-            cleanSVG(params)
             drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
             drawSeacoast(xOffset, yOffset)
         }
+        step3()
+    }
+}
 
+private fun step3() {
+    window.requestAnimationFrame {
+        erode()
+        xOffset += params.mapWidth
+        svg {
+            drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
+            //drawRivers(xOffset, yOffset)
+            //drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+            drawSeacoast(xOffset, yOffset)
+        }
+        step4()
+    }
+}
+
+private fun step4() {
+    window.requestAnimationFrame {
+        erode2()
+        erode2()
+        erode2()
+        erode2()
+        erode2()
+        erode2()
+        erode2()
+        erode2()
+        erode2()
+        //fillDepressions()
+
+
+        xOffset += params.mapWidth
+        svg {
+            drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
+            //drawRivers(xOffset, yOffset)
+            //drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+            drawSeacoast(xOffset, yOffset)
+        }
+        step5()
     }
 
-    findRivers()
-    //cleanCoastlines()
-    //fillDepressions()
+}
 
-    xOffset += params.mapWidth
-    svg {
-        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
-        drawSeacoast(xOffset, yOffset)
+private fun step5() {
+    window.requestAnimationFrame {
+        cleanRivers(30, 120)
+        cleanCoastlines()
+
+        xOffset = 0
+        yOffset += params.mapHeight
+        svg {
+            drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
+            drawRivers(xOffset, yOffset)
+            drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+            drawSeacoast(xOffset, yOffset)
+        }
+        step6()
     }
 
-    erode()
+}
 
-    xOffset += params.mapWidth
-    svg {
-        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
-        //drawRivers(xOffset, yOffset)
-        //drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
-        drawSeacoast(xOffset, yOffset)
+private fun step6() {
+    window.requestAnimationFrame {
+        relaxRivers()
+        xOffset += params.mapWidth
+        svg {
+            drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
+            drawRivers(xOffset, yOffset)
+            drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+            drawSeacoast(xOffset, yOffset)
+            drawCities(xOffset, yOffset)
+        }
+        step7()
     }
+}
 
-    erode2()
-    erode2()
-    erode2()
-    erode2()
-    erode2()
-    erode2()
-    erode2()
-    erode2()
-    erode2()
-    //fillDepressions()
+private fun step7() {
+    window.requestAnimationFrame {
+        findCities(params)
 
-
-    xOffset += params.mapWidth
-    svg {
-        drawGeofaces(xOffset, yOffset, arrayOfColors = terrainColors)
-        //drawRivers(xOffset, yOffset)
-        //drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
-        drawSeacoast(xOffset, yOffset)
+        xOffset += params.mapWidth
+        svg {
+            drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
+            drawRivers(xOffset, yOffset)
+            drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
+            drawSeacoast(xOffset, yOffset)
+            drawCities(xOffset, yOffset)
+        }
+        step8()
     }
+}
 
-    cleanRivers(30, 120)
-    cleanCoastlines()
-
-    xOffset = 0
-    yOffset += params.mapHeight
-    svg {
-        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
-        drawRivers(xOffset, yOffset)
-        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
-        drawSeacoast(xOffset, yOffset)
-    }
-
-    relaxRivers()
-
-    xOffset += params.mapWidth
-    svg {
-        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
-        drawRivers(xOffset, yOffset)
-        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
-        drawSeacoast(xOffset, yOffset)
-        drawCities(xOffset, yOffset)
-    }
-
-    findCities(params)
-
-    xOffset += params.mapWidth
-    svg {
-        drawGeofaces(xOffset, yOffset, sea = false, arrayOfColors = terrainColors)
-        drawRivers(xOffset, yOffset)
-        drawGeofaces(xOffset, yOffset, land = false, arrayOfColors = terrainColors)
-        drawSeacoast(xOffset, yOffset)
-        drawCities(xOffset, yOffset)
-    }
-
+private fun step8() {
     xOffset += params.mapWidth
     svg {
         val slopecolor = Color(0x797979)
@@ -406,7 +453,11 @@ private fun makeMesh(triangles: Array<Array<Array<Double>>>) {
         var totalY: Double = 0.0
         triangle.forEachIndexed { index, point ->
             val origin = point.toPoint3D()
-            val end = if (index >= triangle.size - 1) { triangle[0].toPoint3D() } else { triangle[index + 1].toPoint3D() }
+            val end = if (index >= triangle.size - 1) {
+                triangle[0].toPoint3D()
+            } else {
+                triangle[index + 1].toPoint3D()
+            }
 
             val edge = Edge(origin, end)
             tri[index] = edge
@@ -516,12 +567,12 @@ private fun fillDepressions() {
     }
 }
 
-private fun generatePoints(params: Params) =
-    (0..params.npts-1).map {
-        Site(io.data2viz.voronoi.Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight), it)
-    }
+private fun generatePoints() =
+        (0..params.npts - 1).map {
+            Site(io.data2viz.voronoi.Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight), it)
+        }
 
-private fun generatePointsAsArray(params: Params): Array<Array<Number>> {
+private fun generatePointsAsArray(): Array<Array<Number>> {
     val pts: Array<Array<Number>> = emptyArray()
     for (i in 0..params.npts - 1) {
         val pt: Point = Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight)
@@ -534,7 +585,7 @@ private fun improvePoints(polygons: Array<Array<Array<Double>>>): List<Point> {
     return polygons.map { centroid(it) }
 }
 
-private fun improvePoints(cycles: Int, params: Params): Unit {
+private fun improvePoints(cycles: Int): Unit {
     for (i in 1..cycles) {
         computeVoronoi(params.mapWidth, params.mapHeight, sites)
         val polygons = getPolygons()
@@ -661,6 +712,7 @@ private fun erode() {
         geoFace.height = Math.max(-0.6, geoFace.height)
     }
 }
+
 private fun erode2() {
     // weather global erosion
     val newHeights: Array<Double> = emptyArray()
@@ -811,18 +863,8 @@ fun listsToArray(list: List<Point>): Array<Array<Number>> {
 }
 
 
-/**
- * Entry point
- */
-fun buildFantasyMap() {
-    val params = Params()
-    timeAndResult("Generate ${params.npts} as array") {
-        sites = generatePointsAsArray(params)
-    }
-    doMap(params)
-}
 
-fun <T> timeAndResult(msg :String = "", block:() -> T):T{
+fun <T> timeAndResult(msg: String = "", block: () -> T): T {
     val time = Date().getTime()
     val ret = block()
     println("$msg. Execution in ${Date().getTime() - time} ms")
