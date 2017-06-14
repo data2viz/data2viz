@@ -5,11 +5,13 @@ import io.data2viz.dsv.DsvTests
 import io.data2viz.experiments.fantasymap.buildFantasyMap
 import io.data2viz.interpolate.*
 import io.data2viz.random.RandomTests
+import io.data2viz.random.TileTests
 import io.data2viz.test.*
 
 
 fun allTests() {
     htmlExecution(
+            TileTests(),
             RandomTests(),
             DsvTests(),
             NumberTests(),
