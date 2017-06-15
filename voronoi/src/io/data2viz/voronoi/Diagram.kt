@@ -73,11 +73,9 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
         val x1 = clipEnd.x
         val y1 = clipEnd.y
 
-        (0..nCells-1).forEach { iCell ->
-            cell = wCells!![iCell]
-            if ( cell != null) {
+        wCells!!.forEach { cell ->
                 site = cell!!.site
-                halfedges = cell!!.halfedges
+                halfedges = cell.halfedges
                 iHalfedge = halfedges.size
 
                 // Remove any dangling clipped edges.
@@ -91,8 +89,8 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
                 iHalfedge = 0
                 nHalfedges = halfedges.size
                 while (iHalfedge < nHalfedges) {
-                    end = cell!!.cellHalfedgeEnd(wEdges[halfedges[iHalfedge]]!!)!!
-                    start = cell!!.cellHalfedgeStart(wEdges[halfedges[++iHalfedge % nHalfedges]]!!)!!
+                    end = cell.cellHalfedgeEnd(wEdges[halfedges[iHalfedge]]!!)!!
+                    start = cell.cellHalfedgeStart(wEdges[halfedges[++iHalfedge % nHalfedges]]!!)!!
                     val startX = start.x
                     val startY = start.y
                     val endX = end.x
@@ -115,7 +113,7 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
                     }
                 }
                 if (nHalfedges > 0) cover = false
-            }
+//            }
         }
 
         // If there weren’t any edges, have the closest site cover the extent.
@@ -131,7 +129,7 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
             for (iCell in 0..nCells-1) {
                 cell = wCells!![iCell]
                 if (cell != null) {
-                    site = cell!!.site
+                    site = cell.site
                     dx = site!!.x - x0
                     dy = site!!.y - y0
                     d2 = dx * dx + dy * dy
@@ -159,18 +157,12 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
         }
 
         // Lastly delete any cells with no edges; these were entirely clipped.
-        for (iCell in 0..nCells-1) {
-            cell = wCells!![iCell]
-            if (cell != null) {
-                if (cell!!.halfedges.size == 0) {
-                    wCells!![iCell] = null
-                }
-            }
+        wCells!!.forEachIndexed { index, cell ->
+            if (cell?.halfedges?.size == 0) { wEdges[index] = null }
         }
     }
 
     private fun clipEdges(start: Point, end: Point) {
-
         var i = wEdges.size
         var edge:Edge
 
@@ -249,9 +241,10 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
 
     fun triangles(): MutableList<Triangle> {
         val triangles = mutableListOf<Triangle>()
-        cells!!.forEachIndexed { i, cell ->
+        cells!!.filterNotNull()
+                .forEachIndexed { i, cell ->
 
-            val halfedges = cell!!.halfedges
+            val halfedges = cell.halfedges
             val m = halfedges.size
             if (m == 0) return@forEachIndexed
             val site = cell.site
