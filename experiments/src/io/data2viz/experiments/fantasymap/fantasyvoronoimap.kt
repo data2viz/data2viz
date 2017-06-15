@@ -71,7 +71,7 @@ private fun makeMesh(triangles: List<Triangle>) {
 //            if (geoFaceIndexes == null) geoFaceIndexes = arrayOf(triangleIndex)
 //            else {
 //                geoFaceIndexes[geoFaceIndexes.size] = triangleIndex
-                println("triangle num "+triangleIndex)
+//                println("triangle num "+triangleIndex)
 //            }
 //
 //            geoFaceIndexFromEdge.put(key, geoFaceIndexes)
