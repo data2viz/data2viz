@@ -5,29 +5,22 @@
         top: 0;
     }
 </style>
-<!--<script src="https://d3js.org/d3-voronoi.v1.js"></script>-->
+
+<svg width="500" height="500"></svg>
+<script src="lib/d3.js"></script>
 <script>
-
-    //    var voronoi = d3.voronoi();
-    //    var data = [
-    //        [20, 30],
-    //        [25, 32],
-    //        [44, 29]
-    //    ];
-
-    //    console.log(voronoi(data).polygons());
-    //    console.log(voronoi(data).triangles());
-
+    var voronoi = d3.voronoi();
+    var data = [
+        [10, 10],
+        [20, 10],
+        [10, 20],
+        [20, 20],
+        [15, 15]
+    ];
+    var triangles = voronoi(data).triangles();
+    console.log(triangles);
 </script>
-
 <script src="require.js"></script>
 <body>
-<script>
-    require.config({paths: {"kotlin": "lib/kotlin"}});
-    require(['experiments'],
-        function (experiments) {
-            experiments.voronoi();
-        });
-</script>
 </body>
 </html>

@@ -69,7 +69,10 @@ data class Params(
 private var sites: Array<Array<Number>> = emptyArray()
 private var cities: ArrayList<Point> = arrayListOf()
 private val mesh: Mesh = Mesh()
+
+//Relie les edges au 1 ou 2 Face associés
 private val geoFaceIndexFromEdge: HashMap<Int, Array<Int>> = hashMapOf()
+
 private var rivers: ArrayList<River> = arrayListOf()
 private val geoFaceIndexToRivers: HashMap<Int, ArrayList<River>> = hashMapOf()
 
@@ -83,7 +86,7 @@ private val params = Params()
  * Entry point
  */
 fun buildFantasyMap() {
-    
+
     timeAndResult("Generate ${params.npts} as array") {
         sites = generatePointsAsArray()
     }
@@ -446,6 +449,10 @@ private fun SVGElement.drawRivers(xOffset: Int, yOffset: Int, riverColor: Color 
     }
 }
 
+
+/**
+ *
+ */
 private fun makeMesh(triangles: Array<Array<Array<Double>>>) {
     triangles.forEachIndexed { triangleIndex, triangle ->
         val tri: Array<Edge> = emptyArray()
@@ -464,7 +471,7 @@ private fun makeMesh(triangles: Array<Array<Array<Double>>>) {
             totalX += origin.x
             totalY += origin.y
 
-            val key = edge.toKey()
+            val key = edge.toKey() //toKey peut créer des problèmes (même clé partagée par 2 edges).
             var geoFaceIndexes = geoFaceIndexFromEdge.get(key)
 
             if (geoFaceIndexes == null) geoFaceIndexes = arrayOf(triangleIndex)

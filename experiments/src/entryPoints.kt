@@ -34,5 +34,4 @@ fun allTests() {
 fun bindingPerfs() = io.data2viz.experiments.bindingPerfs()
 fun fantasyMap()    = buildFantasyMap()
 //fun fantasyVoroinoMap()    = buildVoronoiFantasyMap()
-fun voronoi()    = io.data2viz.experiments.voronoi.voronoi()
 fun jsPerfs() = io.data2viz.experiments.perfs.jsPerfs()

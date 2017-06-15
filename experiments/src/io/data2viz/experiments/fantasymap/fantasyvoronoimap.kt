@@ -23,29 +23,63 @@ private val mesh: Mesh = Mesh()
 private val geoFaceIndexFromEdge: HashMap<Int, Array<Int>> = hashMapOf()
 private var rivers: ArrayList<River> = arrayListOf()
 private val geoFaceIndexToRivers: HashMap<Int, ArrayList<River>> = hashMapOf()
+var diagram: Diagram? = null
 
 //data class VMesh(
 //        var geoFaces: Array<VGeoFace> = emptyArray()
 //)
-
-
 
 private val params = Params()
 /**
  * Entry point
  */
 fun buildVoronoiFantasyMap() {
-    timeAndResult("Generate ${params.npts} as array") { sites = generatePointsAsArray() }
-    timeAndResult("improvePoints 3 with d3") { improvePoints(3) }
-    val triangles = timeAndResult("getDiagramTriangles()") { getDiagramTriangles() }
+    timeAndResult("Generate ${params.npts} as points") { vSites = generatePoints().toTypedArray() }
+    timeAndResult("improvePoints 3") { improvePoints(3) }
+    val triangles = timeAndResult("getDiagramTriangles()") { diagram!!.triangles() }
     timeAndResult("makeMesh") { makeMesh(triangles) }
-
-    timeAndResult("addRelief") {
-        addRelief(10, params, -0.6F, 0.2)
-        addRelief(100, params, 0.25F, 0.2)
-    }
-    step1()
+//    timeAndResult("addRelief") {
+//        addRelief(10, params, -0.6F, 0.2)
+//        addRelief(100, params, 0.25F, 0.2)
+//    }
+//    step1()
 }
+
+private fun makeMesh(triangles: List<Triangle>) {
+    triangles.forEachIndexed { triangleIndex, triangle ->
+        val tri: Array<Edge> = emptyArray()
+        var totalX: Double = 0.0
+        var totalY: Double = 0.0
+
+
+//        triangle.forEachIndexed { index, point ->
+//            val origin = point.toPoint3D()
+//            val end = if (index >= triangle.size - 1) {
+//                triangle[0].toPoint3D()
+//            } else {
+//                triangle[index + 1].toPoint3D()
+//            }
+//
+//            val edge = Edge(origin, end)
+//            tri[index] = edge
+//            totalX += origin.x
+//            totalY += origin.y
+//
+//            val key = edge.toKey()
+//            var geoFaceIndexes = geoFaceIndexFromEdge.get(key)
+//
+//            if (geoFaceIndexes == null) geoFaceIndexes = arrayOf(triangleIndex)
+//            else {
+//                geoFaceIndexes[geoFaceIndexes.size] = triangleIndex
+                println("triangle num "+triangleIndex)
+//            }
+//
+//            geoFaceIndexFromEdge.put(key, geoFaceIndexes)
+//        }
+//        mesh.geoFaces[triangleIndex] = GeoFace(triangleIndex, tri, Point(totalX / 3, totalY / 3))
+    }
+}
+
 
 private fun step1() {
 
@@ -103,7 +137,6 @@ private fun step4() {
         erode2()
         erode2()
         //fillDepressions()
-
 
         xOffset += params.mapWidth
         svg {
@@ -209,105 +242,6 @@ private fun SVGElement.drawCities(xOffset: Int, yOffset: Int) {
     }
 }
 
-/*private fun findAdjacents(triangles: Array<Array<Array<Double>>>) {
-    triangles.forEachIndexed { faceIndex1, tri1 ->
-        tri1.forEachIndexed { edgeIndex1, tri1Vertex ->
-            var found = false
-            var faceIndex2 = faceIndex1 + 1
-            while (!found && faceIndex2 < triangles.size) {
-                val tri2 = triangles.get(faceIndex2)
-                tri2.forEachIndexed { edgeIndex2, tri2Vertex ->
-                    if (tri1Vertex[0] == tri2Vertex[0] && tri1Vertex[1] == tri2Vertex[1]) {
-
-                        var nextVertex1 = tri1[0]
-                        if (edgeIndex1 < tri1.size - 1) nextVertex1 = tri1[edgeIndex1 + 1]
-
-                        var previousVertex2 = tri2[tri2.size - 1]
-                        if (edgeIndex2 > 0) previousVertex2 = tri2[edgeIndex2 - 1]
-
-                        if (nextVertex1[0] == previousVertex2[0] && nextVertex1[1] == previousVertex2[1]) {
-                            //val adjacents = mesh.geoFaces[faceIndex1].triangle[edgeIndex1].adjacents
-                            //adjacents[adjacents.size] = mesh.geoFaces[faceIndex2]
-                            found = true
-                        }
-                    }
-                }
-                faceIndex2++
-            }
-        }
-    }
-}
-private fun findAdjacent2() {
-    for (faceIndex1 in 0..mesh.geoFaces.size - 1) {
-        val geoFace1 = mesh.geoFaces[faceIndex1]
-        for (edgeIndex1 in 0..geoFace1.triangle.size - 1) {
-            val edge1 = geoFace1.triangle[edgeIndex1]
-            var found = false;
-            var faceIndex2 = faceIndex1 + 1
-            while (!found && faceIndex2 < mesh.geoFaces.size) {
-                val geoFace2 = mesh.geoFaces[faceIndex2]
-                for (edgeIndex2 in 0..geoFace2.triangle.size - 1) {
-                    val edge2 = geoFace2.triangle[edgeIndex2]
-                    if (edge1.origin.x == edge2.end.x && edge1.end.x == edge2.origin.x
-                            && edge1.origin.y == edge2.end.y && edge1.end.y == edge2.origin.y) {
-
-                        //val adj = edge1.adjacents
-                        //adj[adj.size] = geoFace2
-                        found = true
-                    }
-                }
-                faceIndex2++
-            }
-        }
-    }
-}
-private fun findAdjacents3(triangles: Array<Array<Array<Double>>>) {
-    for (faceIndex1 in 0 .. triangles.size-1) {
-        val tri1 = triangles[faceIndex1]
-        for (edgeIndex1 in 0 .. tri1.size-1) {
-            val tri1Vertex = tri1[edgeIndex1]
-            var found = false
-            var faceIndex2 = faceIndex1 + 1
-            while (!found && faceIndex2 < triangles.size) {
-                val tri2 = triangles.get(faceIndex2)
-                for (edgeIndex2 in 0 .. tri2.size-1) {
-                    val tri2Vertex = tri2[edgeIndex2]
-                    if (tri1Vertex[0] == tri2Vertex[0] && tri1Vertex[1] == tri2Vertex[1]) {
-
-                        var nextVertex1 = tri1[0]
-                        if (edgeIndex1 < tri1.size - 1) nextVertex1 = tri1[edgeIndex1 + 1]
-
-                        var previousVertex2 = tri2[tri2.size - 1]
-                        if (edgeIndex2 > 0) previousVertex2 = tri2[edgeIndex2 - 1]
-
-                        if (nextVertex1[0] == previousVertex2[0] && nextVertex1[1] == previousVertex2[1]) {
-                            //val adjacents = mesh.geoFaces[faceIndex1].triangle[edgeIndex1].adjacents
-                            //adjacents[adjacents.size] = mesh.geoFaces[faceIndex2]
-                            found = true
-                        }
-                    }
-                }
-                faceIndex2++
-            }
-        }
-    }
-}
-private fun findAdjacents4() {
-    for (faceIndex1 in 0..mesh.geoFaces.size - 1) {
-        val geoFace1 = mesh.geoFaces[faceIndex1]
-        for (edgeIndex1 in 0..geoFace1.triangle.size - 1) {
-            val edge = geoFace1.triangle[edgeIndex1]
-            //val adjacentEdge = edge.inverse()
-            //val adjacentEdge = Edge(edge.end, edge.origin)
-            //val adjacentInts:Int? = geoFaceIndexFromEdge.get(adjacentEdge)
-            val adjacentInts:Array<Int>? = geoFaceIndexFromEdge.get(edge.toKey())
-            adjacentInts?.forEach { adjacentIndex ->
-                //edge.adjacents[edge.adjacents.size] = mesh.geoFaces[adjacentIndex]
-            }
-        }
-    }
-}*/
-
 private fun SVGElement.cleanSVG(params: Params) {
     width = params.mapWidth * params.nbMapsDrawedW
     height = params.mapHeight * params.nbMapsDrawedH
@@ -323,15 +257,6 @@ private fun SVGElement.cleanSVG(params: Params) {
 }
 
 private fun SVGElement.drawSeacoast(xOffset: Int, yOffset: Int) {
-    /*mesh.geoFaces.forEach { geoFace ->
-        geoFace.triangle.forEachIndexed { edgeIndex, edge ->
-            edge.adjacents.forEach { adjacent ->
-                if (geoFace.height * adjacent.height < 0) {
-                    line(edge.origin.x, edge.origin.y, edge.end.x, edge.end.y)
-                }
-            }
-        }
-    }*/
     mesh.geoFaces.forEach { geoFace ->
         geoFace.triangle.forEach { edge ->
             val adjacentFaces = geoFaceIndexFromEdge.get(edge.toKey())
@@ -375,38 +300,6 @@ private fun SVGElement.drawRivers(xOffset: Int, yOffset: Int, riverColor: Color 
     }
 }
 
-private fun makeMesh(triangles: Array<Array<Array<Double>>>) {
-    triangles.forEachIndexed { triangleIndex, triangle ->
-        val tri: Array<Edge> = emptyArray()
-        var totalX: Double = 0.0
-        var totalY: Double = 0.0
-        triangle.forEachIndexed { index, point ->
-            val origin = point.toPoint3D()
-            val end = if (index >= triangle.size - 1) {
-                triangle[0].toPoint3D()
-            } else {
-                triangle[index + 1].toPoint3D()
-            }
-
-            val edge = Edge(origin, end)
-            tri[index] = edge
-            totalX += origin.x
-            totalY += origin.y
-
-            val key = edge.toKey()
-            var geoFaceIndexes = geoFaceIndexFromEdge.get(key)
-
-            if (geoFaceIndexes == null) geoFaceIndexes = arrayOf(triangleIndex)
-            else {
-                geoFaceIndexes[geoFaceIndexes.size] = triangleIndex
-//                println("triangle num "+triangleIndex)
-            }
-
-            geoFaceIndexFromEdge.put(key, geoFaceIndexes)
-        }
-        mesh.geoFaces[triangleIndex] = GeoFace(triangleIndex, tri, Point(totalX / 3, totalY / 3))
-    }
-}
 
 private fun cleanCoastlines(iterations: Int = 999) {
     var heightsChanged = true
@@ -501,27 +394,23 @@ private fun generatePoints() =
             Site(io.data2viz.voronoi.Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight), it)
         }
 
-private fun generatePointsAsArray(): Array<Array<Number>> {
-    val pts: Array<Array<Number>> = emptyArray()
-    for (i in 0..params.npts - 1) {
-        val pt: Point = Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight)
-        pts[i] = pt.toArray()
-    }
-    return pts
-}
-
-private fun improvePoints(polygons: Array<Array<Array<Double>>>): List<Point> {
-    return polygons.map { centroid(it) }
-}
-
 private fun improvePoints(cycles: Int): Unit {
-    for (i in 1..cycles) {
-        computeVoronoi(params.mapWidth, params.mapHeight, sites)
-        val polygons = getPolygons()
-        val improvedPoints = listsToArray(improvePoints(polygons))
-        sites = improvedPoints
+
+    fun List<io.data2viz.voronoi.Point>.centroid():io.data2viz.voronoi.Point {
+        var x = 0.0
+        var y = 0.0
+        forEach {
+            x += it.x
+            y += it.y
+        }
+        return io.data2viz.voronoi.Point(x/size, y/size)
     }
-    computeVoronoi(params.mapWidth, params.mapHeight, sites)
+
+    for (i in 1..cycles) {
+        diagram = Diagram(vSites)
+        vSites = diagram!!.polygons().mapIndexed { index,polygon -> Site(polygon.centroid(), index) }.toTypedArray()
+    }
+    diagram = Diagram(vSites, clipEnd = io.data2viz.voronoi.Point(params.mapWidth.toDouble(), params.mapHeight.toDouble()))
 }
 
 private fun addRelief(nbReliefs: Int, params: Params, reliefHeight: Float = 1.0F, reliefSizePercentMap: Double = 0.08) {
@@ -583,52 +472,6 @@ private fun findRivers() {
         }
     }
 
-    /*val orderedGeoFaces: Array<GeoFace> = mesh.geoFaces.copyOf()
-    orderedGeoFaces.sortBy { it.height }
-    orderedGeoFaces.forEachIndexed { geoFaceIndex, geoFace ->
-        if (geoFace.height > -0.2) {
-            if (geoFace.height >= 0) return@forEachIndexed
-
-            var highestAdjacentHeight: Double = 0.0
-            var highestAdjacent: GeoFace? = null
-
-            geoFace.triangle.forEach { edge ->
-                val adjacentFacesIndex = getAdjacentFacesIndex(edge)
-                adjacentFacesIndex?.forEach { adjacentFaceIndex ->
-                    if (mesh.geoFaces[adjacentFaceIndex].height > highestAdjacentHeight) {
-                        highestAdjacentHeight = mesh.geoFaces[adjacentFaceIndex].height
-                        highestAdjacent = mesh.geoFaces[adjacentFaceIndex]
-                    }
-                }
-            }
-            if (highestAdjacent != null) {
-                val river = River(geoFace.index, highestAdjacent!!.index)
-                riverFromGeoFaceIndex.put(highestAdjacent!!.index, river)
-                rivers.add(river)
-            }
-        }
-    }
-
-    rivers.forEach { river ->
-        val geoFace = mesh.geoFaces[river.toIndex]
-        var highestAdjacentHeight: Double = geoFace.height
-        var highestAdjacent: GeoFace? = null
-
-        geoFace.triangle.forEach { edge ->
-            val adjacentFace:GeoFace? = getAdjacentFace(edge, geoFace.index)
-            if (adjacentFace != null) {
-                if (adjacentFace.height > highestAdjacentHeight) {
-                    highestAdjacentHeight = adjacentFace.height
-                    highestAdjacent = adjacentFace
-                }
-            }
-        }
-        if (highestAdjacent != null) {
-            val river = River(geoFace.index, highestAdjacent!!.index)
-            riverFromGeoFaceIndex.put(highestAdjacent!!.index, river)
-            rivers.add(river)
-        }
-    }*/
 }
 
 private fun erode() {
