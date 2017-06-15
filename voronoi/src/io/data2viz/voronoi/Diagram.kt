@@ -257,7 +257,7 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
                  s0 = s1
                 e1 = edges[halfedges[j]]
                 s1 = if (e1?.left === site) e1.right else e1?.left
-                if (s0 != null && s1 != null && i < s1.index && triangleArea( site.pos, s0.pos, s1.pos) < 0) {
+                if (s0 != null && s1 != null && i < s0.index && i < s1.index && triangleArea( site.pos, s0.pos, s1.pos) < 0) {
                     triangles.add(Triangle(site.pos, s0.pos, s1.pos))
                 }
             }
