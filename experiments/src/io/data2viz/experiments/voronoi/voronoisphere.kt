@@ -88,27 +88,23 @@ fun voronoiSphere() {
                 else Diagram(randomPoints.sites())
         }
 
-        //circles
         g {
             transform {
                 translate(size / 2, size / 2)
                 rotate((-20).deg)
             }
 
+            //circles
             g {
                 rotationAnimation { rotation ->
-                    if (sphereParams.showCircles) {
-                        selectAll<CircleElement, GeoPoint>("circle", randomPoints) {
+                    selectAll<CircleElement, GeoPoint>("circle", randomPoints) {
+                        if (sphereParams.showCircles) {
                             addAndUpdate = { circle, geoPoint ->
                                 circle.r = circleRadius(geoPoint.z)
                                 circle.cx = pointToScreen(geoPoint.x)
                                 circle.cy = pointToScreen(geoPoint.y)
-                                circle.fill = darkToLight(((geoPoint.x+1)/2).toFloat())
+                                circle.fill = darkToLight(((geoPoint.x + 1) / 2).toFloat())
                             }
-                        }
-                    } else {
-                        selectAll<CircleElement, GeoPoint>("circle", emptyList()){
-                            remove = {removeChild(it)}
                         }
                     }
                 }
@@ -117,8 +113,8 @@ fun voronoiSphere() {
             //polygons
             g {
                 rotationAnimation { rotation ->
-                    if (sphereParams.showPolygons) {
-                        selectAll<LineElement, Edge>("line", diagram!!.edges.filterNotNull()) {
+                    selectAll<LineElement, Edge>("line", diagram!!.edges.filterNotNull()) {
+                        if (sphereParams.showPolygons) {
                             addAndUpdate = { line, edge ->
                                 if (edge.start != null && edge.end != null) {
                                     line.x1 = edge.start!!.x
@@ -131,10 +127,6 @@ fun voronoiSphere() {
                                 }
                             }
                         }
-                    } else {
-                        selectAll<LineElement, Edge>("line", emptyList()) {
-                            remove = { removeChild(it) }
-                        }
                     }
                 }
             }
@@ -142,8 +134,8 @@ fun voronoiSphere() {
             //delaunay
             g {
                 rotationAnimation { rotation ->
-                    if (sphereParams.delaunay) {
-                        selectAll<LineElement, Diagram.Link>("line", diagram!!.links().filterNotNull()) {
+                    selectAll<LineElement, Diagram.Link>("line", diagram!!.links().filterNotNull()) {
+                        if (sphereParams.delaunay) {
                             addAndUpdate = { line, link ->
                                 line.x1 = link.source.x
                                 line.y1 = link.source.y
@@ -151,11 +143,6 @@ fun voronoiSphere() {
                                 line.y2 = link.target.y
                                 line.stroke = colors.red
                             }
-                            remove = { removeChild(it) }
-                        }
-                    } else {
-                        selectAll<LineElement, Edge>("line", emptyList()) {
-                            remove = { removeChild(it) }
                         }
                     }
                 }
