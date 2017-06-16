@@ -11,7 +11,7 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
     var y: Double? = null
     var site: Site? = null
     var circle: RedBlackNode<Circle>? = null
-    val sites: MutableList<Site> = with(initialSites) { sort(); toMutableList() }
+    private val sites: MutableList<Site> = with(initialSites) { sort(); toMutableList() }
     var edges: MutableList<Edge?>
     var cells: Array<Cell?>?
 
