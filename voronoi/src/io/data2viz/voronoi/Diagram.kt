@@ -7,11 +7,12 @@ fun <T> MutableList<T>.pop(): T? = if(isEmpty()) null else removeAt(lastIndex)
 
 class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEnd:Point? = null) {
 
-    var x: Double? = null
-    var y: Double? = null
-    var site: Site? = null
-    var circle: RedBlackNode<Circle>? = null
+    private var x: Double? = null
+    private var y: Double? = null
+    private var site: Site? = null
+    private var circle: RedBlackNode<Circle>? = null
     private val sites: MutableList<Site> = with(initialSites) { sort(); toMutableList() }
+
     var edges: MutableList<Edge?>
     var cells: Array<Cell?>?
 
