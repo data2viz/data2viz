@@ -38,10 +38,13 @@ class VoronoiTests : StringSpec() {
         var diagram: Diagram?
         var vSites = sites
 
+        // diagram size is 400x400
         (1..i).forEach {
             diagram = Diagram(vSites, clipEnd = io.data2viz.voronoi.Point(400.0, 400.0))
             vSites = diagram!!.polygons().mapIndexed { index, polygon -> Site(polygon.centroid(), index) }.toTypedArray()
         }
+
+        // diagram size is 450x450
         diagram = Diagram(vSites, clipEnd = io.data2viz.voronoi.Point(width, height))
     }
 }
