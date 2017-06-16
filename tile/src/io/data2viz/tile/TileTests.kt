@@ -1,12 +1,10 @@
-package io.data2viz.random
+package io.data2viz.tile
 
 import io.data2viz.core.Point
 import io.data2viz.core.namespace
 import io.data2viz.test.DOMExecutionContext
 import io.data2viz.test.ExecutionContext
 import io.data2viz.test.StringSpec
-import io.data2viz.tile.Tiles
-import io.data2viz.tile.tile
 import kotlin.browser.document
 
 class TileTests : StringSpec() {
@@ -18,7 +16,7 @@ class TileTests : StringSpec() {
 
         "Should display Geneva"  {
             context ->
-
+            //see http://bl.ocks.org/mbostock/94b9fd26e12c586f342d
             val tile = tile
             tile.width = width
             tile.height = height
