@@ -10,7 +10,7 @@ fun cubicOut(t:Double) = (t-1)*(t-1)*(t-1) + 1
 fun cubicInOut(t:Double) =  (if(t <= .5) (8*t*t*t) else ((2*t-2)*(2*t-2)*(2*t-2)+2))/2
 
 
-fun sin(x:Double) = 1 - Math.cos(x * halfPI)
+fun sin(x:Double) = 1 - Math.cos(x * halfPI.rad)
 fun poly(e:Double) = {t:Double -> Math.pow(t,e)}
 
 
