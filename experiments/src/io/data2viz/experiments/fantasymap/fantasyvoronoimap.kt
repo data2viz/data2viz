@@ -248,7 +248,7 @@ private fun SVGElement.cleanSVG(params: Params) {
 
     rect {
         transform {
-            translate(Point(0, 0))
+            translate(Point(0.0, 0.0))
         }
         width = params.mapWidth * params.nbMapsDrawedW
         height = params.mapHeight * params.nbMapsDrawedH
@@ -391,26 +391,26 @@ private fun fillDepressions() {
 
 private fun generatePoints() =
         (0..params.npts - 1).map {
-            Site(io.data2viz.voronoi.Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight), it)
+            Site(Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight), it)
         }
 
 private fun improvePoints(cycles: Int): Unit {
 
-    fun List<io.data2viz.voronoi.Point>.centroid():io.data2viz.voronoi.Point {
+    fun List<Point>.centroid():Point {
         var x = 0.0
         var y = 0.0
         forEach {
             x += it.x
             y += it.y
         }
-        return io.data2viz.voronoi.Point(x/size, y/size)
+        return Point(x/size, y/size)
     }
 
     for (i in 1..cycles) {
         diagram = Diagram(vSites)
         vSites = diagram!!.polygons().mapIndexed { index,polygon -> Site(polygon.centroid(), index) }.toTypedArray()
     }
-    diagram = Diagram(vSites, clipEnd = io.data2viz.voronoi.Point(params.mapWidth.toDouble(), params.mapHeight.toDouble()))
+    diagram = Diagram(vSites, clipEnd = Point(params.mapWidth.toDouble(), params.mapHeight.toDouble()))
 }
 
 private fun addRelief(nbReliefs: Int, params: Params, reliefHeight: Float = 1.0F, reliefSizePercentMap: Double = 0.08) {

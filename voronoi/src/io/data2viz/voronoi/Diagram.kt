@@ -1,11 +1,12 @@
 package io.data2viz.voronoi
 
+import io.data2viz.core.Point
 import kotlin.js.Math
 
 
 fun <T> MutableList<T>.pop(): T? = if(isEmpty()) null else removeAt(lastIndex)
 
-class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEnd:Point? = null) {
+class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipEnd:Point? = null) {
 
     private var x: Double? = null
     private var y: Double? = null

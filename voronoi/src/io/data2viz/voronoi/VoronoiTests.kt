@@ -1,8 +1,7 @@
-package io.data2viz.random
+package io.data2viz.voronoi
 
+import io.data2viz.core.Point
 import io.data2viz.test.StringSpec
-import io.data2viz.voronoi.Diagram
-import io.data2viz.voronoi.Site
 import kotlin.js.Math
 
 class VoronoiTests : StringSpec() {
@@ -21,18 +20,18 @@ class VoronoiTests : StringSpec() {
 
     private fun generateRandomSites(nbSites: Int) =
             (0 until nbSites).map {
-                Site(io.data2viz.voronoi.Point(Math.random() * width, Math.random() * width), it)
+                Site(Point(Math.random() * width, Math.random() * width), it)
             }
 
     private fun improvePoints(sites: Array<Site>, i: Int) {
-        fun List<io.data2viz.voronoi.Point>.centroid(): io.data2viz.voronoi.Point {
+        fun List<Point>.centroid(): Point {
             var x = 0.0
             var y = 0.0
             forEach {
                 x += it.x
                 y += it.y
             }
-            return io.data2viz.voronoi.Point(x / size, y / size)
+            return Point(x / size, y / size)
         }
 
         var diagram: Diagram?
@@ -40,11 +39,11 @@ class VoronoiTests : StringSpec() {
 
         // diagram size is 400x400
         (1..i).forEach {
-            diagram = Diagram(vSites, clipEnd = io.data2viz.voronoi.Point(400.0, 400.0))
+            diagram = Diagram(vSites, clipEnd = Point(400.0, 400.0))
             vSites = diagram!!.polygons().mapIndexed { index, polygon -> Site(polygon.centroid(), index) }.toTypedArray()
         }
 
         // diagram size is 450x450
-        diagram = Diagram(vSites, clipEnd = io.data2viz.voronoi.Point(width, height))
+        diagram = Diagram(vSites, clipEnd = Point(width, height))
     }
 }

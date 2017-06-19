@@ -3,7 +3,7 @@ package io.data2viz.core
 
 
 
-data class Point(val x: Number = 0.0, val y: Number = 0.0) {
+data class Point(val x: Double = 0.0, val y: Double = 0.0) {
 
     companion object {
         val origin = Point()

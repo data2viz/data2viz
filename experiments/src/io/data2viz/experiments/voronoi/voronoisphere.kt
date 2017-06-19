@@ -5,6 +5,7 @@ import io.data2viz.color.colors.black
 import io.data2viz.color.colors.darkblue
 import io.data2viz.color.colors.lightyellow
 import io.data2viz.color.colors.white
+import io.data2viz.core.Point
 import io.data2viz.interpolate.linkedTo
 import io.data2viz.interpolate.interpolateRgb
 import io.data2viz.experiments.perfs.FpsCalculator

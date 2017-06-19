@@ -16,8 +16,8 @@ class TilesLayout {
 
     private var stale = true
 
-    private var origin = Point(0, 0)
-    private var end = Point(960, 500)
+    private var origin = Point(0.0, 0.0)
+    private var end = Point(960.0, 500.0)
 
     var translation = (origin + end) / 2
 
@@ -32,7 +32,7 @@ class TilesLayout {
     var width
         get() = end.x.toDouble() - origin.x.toDouble()
         set(value) {
-            origin = Point(0, origin.y)
+            origin = Point(0.0, origin.y)
             end = Point(value, end.y)
             stale = true
         }
@@ -40,7 +40,7 @@ class TilesLayout {
     var height
         get() = end.y.toDouble() - origin.y.toDouble()
         set(value) {
-            origin = Point(origin.x, 0)
+            origin = Point(origin.x, 0.0)
             end = Point(end.x, value)
             stale = true
         }

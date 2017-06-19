@@ -1,5 +1,6 @@
 package io.data2viz.voronoi
 
+import io.data2viz.core.Point
 import kotlin.js.Math
 
 

@@ -369,7 +369,7 @@ private fun SVGElement.cleanSVG(params: Params) {
 
     rect {
         transform {
-            translate(Point(0, 0))
+            translate(Point(0.0, 0.0))
         }
         width = params.mapWidth * params.nbMapsDrawedW
         height = params.mapHeight * params.nbMapsDrawedH
@@ -576,7 +576,7 @@ private fun fillDepressions() {
 
 private fun generatePoints() =
         (0..params.npts - 1).map {
-            Site(io.data2viz.voronoi.Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight), it)
+            Site(Point(Math.random() * params.mapWidth, Math.random() * params.mapHeight), it)
         }
 
 private fun generatePointsAsArray(): Array<Array<Number>> {

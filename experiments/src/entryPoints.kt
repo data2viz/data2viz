@@ -7,10 +7,12 @@ import io.data2viz.interpolate.*
 import io.data2viz.random.RandomTests
 import io.data2viz.tile.TileTests
 import io.data2viz.test.*
+import io.data2viz.voronoi.VoronoiTests
 
 
 fun allTests() {
     htmlExecution(
+            VoronoiTests(),
             TileTests(),
             RandomTests(),
             DsvTests(),

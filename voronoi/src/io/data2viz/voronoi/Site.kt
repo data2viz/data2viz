@@ -1,5 +1,7 @@
 package io.data2viz.voronoi
 
+import io.data2viz.core.Point
+
 class Site(val pos: Point, val index: Int) : Comparable<Site> {
 
     val x: Double
