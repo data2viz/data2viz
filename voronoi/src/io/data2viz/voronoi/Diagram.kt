@@ -259,7 +259,7 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
                 e1 = edges[halfedges[j]]
                 s1 = if (e1?.left === site) e1.right else e1?.left
                 if (s0 != null && s1 != null && i < s0.index && i < s1.index && triangleArea( site.pos, s0.pos, s1.pos) < 0) {
-                    triangles.add(Triangle(site.pos, s0.pos, s1.pos))
+                    triangles.add(Triangle(site, s0, s1))
                 }
             }
         }
@@ -271,4 +271,4 @@ class Diagram(initialSites: Array<Site>, clipStart:Point = Point(.0, .0), clipEn
 
 }
 
-data class Triangle(val a:Point, val b: Point, val c: Point)
+data class Triangle(val a:Site, val b: Site, val c: Site)
