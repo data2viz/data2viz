@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<style>
+    svg {
+        position: absolute;
+        top: 0;
+    }
+</style>
+<script src="require.js"></script>
+<body>
+<script>
+
+    require.config({
+        baseUrl: ".",
+        paths: {"kotlin": "lib/kotlin"}
+    });
+    require(['experiments'],
+        function (all) {
+            all.io.data2viz.experiments.fantasymap.buildFinalFantasyMap();
+        });
+
+</script>
+
+</body>
+</html>
