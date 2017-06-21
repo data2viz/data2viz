@@ -31,10 +31,10 @@ fun voronoiSphere() {
             var showPolygons: Boolean = true,
             var delaunay: Boolean = true,
             var pointNumber: Int = 20,
-            val chunkSize: Int = 1){
+            val chunkSize: Int = 1) {
 
-        fun eventuallyUpdatePointNumber(curFPS:Int, curPoint:Int) {
-            if(isAllDisplayed() && curFPS > 25 && curPoint <= pointNumber - chunkSize + 5){
+        fun eventuallyUpdatePointNumber(curFPS: Int, curPoint: Int) {
+            if (isAllDisplayed() && curFPS > 25 && curPoint <= pointNumber - chunkSize + 5) {
                 pointNumber += chunkSize
             }
         }
@@ -98,15 +98,14 @@ fun voronoiSphere() {
             //circles
             g {
                 rotationAnimation { rotation ->
-                    selectAll<CircleElement, GeoPoint>("circle", randomPoints) {
-                        if (sphereParams.showCircles) {
+                    val points:List<GeoPoint> = if (sphereParams.showCircles) randomPoints else emptyList()
+                    selectAll<CircleElement, GeoPoint>("circle", points) {
                             addAndUpdate = { circle, geoPoint ->
                                 circle.r = circleRadius(geoPoint.z)
                                 circle.cx = pointToScreen(geoPoint.x)
                                 circle.cy = pointToScreen(geoPoint.y)
                                 circle.fill = darkToLight(((geoPoint.x + 1) / 2).toFloat())
                             }
-                        }
                     }
                 }
             }
@@ -114,18 +113,17 @@ fun voronoiSphere() {
             //polygons
             g {
                 rotationAnimation { rotation ->
-                    selectAll<LineElement, Edge>("line", diagram!!.edges.filterNotNull()) {
-                        if (sphereParams.showPolygons) {
-                            addAndUpdate = { line, edge ->
-                                if (edge.start != null && edge.end != null) {
-                                    line.x1 = edge.start!!.x
-                                    line.y1 = edge.start!!.y
-                                    line.x2 = edge.end!!.x
-                                    line.y2 = edge.end!!.y
-                                    line.stroke = colors.black
-                                } else {
-                                    removeChild(line.element)
-                                }
+                    val edges = if (sphereParams.showPolygons) diagram!!.edges.filterNotNull() else emptyList()
+                    selectAll<LineElement, Edge>("line", edges) {
+                        addAndUpdate = { line, edge ->
+                            if (edge.start != null && edge.end != null) {
+                                line.x1 = edge.start!!.x
+                                line.y1 = edge.start!!.y
+                                line.x2 = edge.end!!.x
+                                line.y2 = edge.end!!.y
+                                line.stroke = colors.black
+                            } else {
+                                removeChild(line.element)
                             }
                         }
                     }
@@ -135,15 +133,14 @@ fun voronoiSphere() {
             //delaunay
             g {
                 rotationAnimation { rotation ->
-                    selectAll<LineElement, Diagram.Link>("line", diagram!!.links().filterNotNull()) {
-                        if (sphereParams.delaunay) {
-                            addAndUpdate = { line, link ->
-                                line.x1 = link.source.x
-                                line.y1 = link.source.y
-                                line.x2 = link.target.x
-                                line.y2 = link.target.y
-                                line.stroke = colors.red
-                            }
+                    val links = if (sphereParams.delaunay) diagram!!.links().filterNotNull() else emptyList()
+                    selectAll<LineElement, Diagram.Link>("line", links) {
+                        addAndUpdate = { line, link ->
+                            line.x1 = link.source.x
+                            line.y1 = link.source.y
+                            line.x2 = link.target.x
+                            line.y2 = link.target.y
+                            line.stroke = colors.red
                         }
                     }
                 }
@@ -165,8 +162,8 @@ fun voronoiSphere() {
                 transform { translate(y = 30) }
                 toggleButton("Clipping", sphereParams::clipping)
                 toggleButton("Polygons", sphereParams::showPolygons).apply { transform { translate(150) } }
-                toggleButton("Delaunay", sphereParams::delaunay)    .apply { transform { translate(300) } }
-                toggleButton("Circles",  sphereParams::showCircles) .apply { transform { translate(450) } }
+                toggleButton("Delaunay", sphereParams::delaunay).apply { transform { translate(300) } }
+                toggleButton("Circles", sphereParams::showCircles).apply { transform { translate(450) } }
             }
         }
     }
@@ -185,7 +182,8 @@ data class GeoPoint(val lat: Angle, val long: Angle) {
 fun GroupElement.toggleButton(name: String, property: KMutableProperty0<Boolean>): GroupElement {
     return g {
         setAttribute("style", "cursor:pointer")
-        rect { //rounded border
+        rect {
+            //rounded border
             width = 125
             height = 22
             rx = 3
@@ -206,7 +204,7 @@ fun GroupElement.toggleButton(name: String, property: KMutableProperty0<Boolean>
 }
 
 class Selection<E : ElementWrapper, T> {
-    var add: ((E,T) -> Unit) = { a, b -> }
+    var add: ((E, T) -> Unit) = { a, b -> }
     var addAndUpdate: ((E, T) -> Unit)
         get() = update
         set(value) {
@@ -237,7 +235,7 @@ inline fun <reified E : ElementWrapper> ParentElement.create(): E {
 
 inline fun <reified E : ElementWrapper, T> ParentElement.selectAll(selector: String, datas: List<T>, init: Selection<E, T>.() -> Unit) {
     val selection = Selection<E, T>()
-    selection.remove = {e -> removeChild(e)} //By default, on removal the element is removed from the parent.
+    selection.remove = { e -> removeChild(e) } //By default, on removal the element is removed from the parent.
     selection.init()
 
     val elements = element.querySelectorAll(selector).asList().filterNotNull().map { it as Element }
