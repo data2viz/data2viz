@@ -8,9 +8,9 @@ data class Point(val x: Double = 0.0, val y: Double = 0.0) {
     companion object {
         val origin = Point()
     }
-    operator fun plus(speed: Speed) = Point(x.toDouble() + speed.vx, y.toDouble() + speed.vy)
-    operator fun plus(other: Point) = Point(x.toDouble() + other.x.toDouble(), y.toDouble() + other.y.toDouble())
-    operator fun div(value:Number) = Point(x.toDouble()/value.toDouble(), y.toDouble()/value.toDouble())
+    operator fun plus(speed: Speed) = Point(x + speed.vx, y + speed.vy)
+    operator fun plus(other: Point) = Point(x + other.x, y + other.y)
+    operator fun div(value:Number) = Point(x/value.toDouble(), y/value.toDouble())
 }
 
 data class Speed(val vx: Double = 0.0, val vy: Double = 0.0) {
