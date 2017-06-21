@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/dsv/dsv.iml" filepath="$PROJECT_DIR$/dsv/dsv.iml" />
       <module fileurl="file://$PROJECT_DIR$/experiments/experiments.iml" filepath="$PROJECT_DIR$/experiments/experiments.iml" />
+      <module fileurl="file://$PROJECT_DIR$/format/format.iml" filepath="$PROJECT_DIR$/format/format.iml" />
       <module fileurl="file://$PROJECT_DIR$/geo/geo.iml" filepath="$PROJECT_DIR$/geo/geo.iml" />
       <module fileurl="file://$PROJECT_DIR$/interpolate/interpolate.iml" filepath="$PROJECT_DIR$/interpolate/interpolate.iml" />
       <module fileurl="file://$PROJECT_DIR$/random/random.iml" filepath="$PROJECT_DIR$/random/random.iml" />
