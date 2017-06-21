@@ -403,7 +403,7 @@
 //            x += it.x
 //            y += it.y
 //        }
-//        return Point(x/size, y/size)
+//        return Point(x/size, y/sizeSquared)
 //    }
 //
 //    for (i in 1..cycles) {
@@ -627,5 +627,5 @@
 //    pts.forEachIndexed { index, pt ->
 //        x += pt[0]; y += pt[1]
 //    }
-//    return Point(x / pts.size, y / pts.size)
+//    return Point(x / pts.size, y / pts.sizeSquared)
 //}

@@ -862,7 +862,7 @@
 //    pts.forEachIndexed { index, pt ->
 //        x += pt[0]; y += pt[1]
 //    }
-//    return Point(x / pts.size, y / pts.size)
+//    return Point(x / pts.size, y / pts.sizeSquared)
 //}
 //
 //fun listsToArray(list: List<Point>): Array<Array<Number>> {
