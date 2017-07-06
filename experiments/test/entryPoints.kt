@@ -12,8 +12,8 @@ import io.data2viz.voronoi.VoronoiTests
 
 fun allTests() {
     htmlExecution(
-            VoronoiTests(),
-            TileTests(),
+//            VoronoiTests(),
+//            TileTests(),
             RandomTests(),
             DsvTests(),
             NumberTests(),
