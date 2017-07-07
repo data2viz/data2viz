@@ -24,5 +24,6 @@
     <orderEntry type="module" module-name="core" />
     <orderEntry type="module" module-name="random" />
     <orderEntry type="module" module-name="tile" />
+    <orderEntry type="module" module-name="format" />
   </component>
 </module>
