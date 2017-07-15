@@ -5,7 +5,7 @@
     <groupId>io.data2viz</groupId>
     <artifactId>data2viz</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
     <modules>
         <module>tests</module>
         <module>core</module>
@@ -15,7 +15,8 @@
     <scm>
         <connection>scm:git:git@github.com:data2viz/data2viz.git</connection>
         <url>https://github.com/data2viz/data2viz</url>
-    </scm>
+      <tag>data2viz-0.1.1</tag>
+  </scm>
 
     <organization>
         <name>data2viz</name>
