@@ -4,7 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/axis/axis.iml" filepath="$PROJECT_DIR$/axis/axis.iml" />
       <module fileurl="file://$PROJECT_DIR$/color/color.iml" filepath="$PROJECT_DIR$/color/color.iml" />
-      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data2viz.iml" filepath="$PROJECT_DIR$/data2viz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/data2viz-core-js.iml" filepath="$PROJECT_DIR$/core/data2viz-core-js.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data2viz_main.iml" filepath="$PROJECT_DIR$/.idea/modules/data2viz_main.iml" group="data2viz" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data2viz_test.iml" filepath="$PROJECT_DIR$/.idea/modules/data2viz_test.iml" group="data2viz" />
       <module fileurl="file://$PROJECT_DIR$/dsv/dsv.iml" filepath="$PROJECT_DIR$/dsv/dsv.iml" />
       <module fileurl="file://$PROJECT_DIR$/experiments/experiments.iml" filepath="$PROJECT_DIR$/experiments/experiments.iml" />
       <module fileurl="file://$PROJECT_DIR$/format/format.iml" filepath="$PROJECT_DIR$/format/format.iml" />
