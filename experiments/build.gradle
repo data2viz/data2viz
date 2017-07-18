@@ -1,0 +1,14 @@
+dependencies {
+    compile project(":axis")
+    compile project(":color")
+    compile project(":core")
+    compile project(":dsv")
+    compile project(":format")
+    compile project(":interpolate")
+    compile project(":random")
+    compile project(":request")
+    compile project(":svg")
+    compile project(":tile")
+    compile project(":tests")
+    compile project(":voronoi")
+}

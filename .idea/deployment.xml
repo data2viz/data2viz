@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="assurance-frontaliers.info">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/color" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="integration">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/color" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="mairie-archamps">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/color" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
