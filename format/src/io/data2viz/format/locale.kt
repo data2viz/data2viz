@@ -1,9 +1,11 @@
 package io.data2viz.format
 
+import io.data2viz.request.request
 import kotlin.js.Math
 
 private val prefixes = listOf<String>("y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y")
 private var prefixExponent = 0
+private val validTypes = "efgrs%pbodxXc"                     // empty string is also a valid type
 
 data class CoefficientExponent(val coefficient: String, val exponent: Int)
 
@@ -15,13 +17,14 @@ data class Locale(
         var numerals: List<String>? = null,
         var percent: String = "%")
 
-fun Locale.format(specifier: String): (Double) -> String {
+fun locale(localeURL:String, callback:(Locale) -> Unit):Unit {
+    request(localeURL).get { xhr ->
+        val locale:Locale = JSON.parse(xhr.responseText)
+        callback(locale)
+    }
+}
 
-    /*request("http://data2viz.io/dist/locales/ar-001.json").get { xhr ->
-        val locale: Locale = JSON.parse(xhr.responseText)
-        println(locale.groupSeparator)
-        println(locale.numerals)
-    }*/
+fun Locale.format(specifier: String): (Double) -> String {
 
     val specifier = FormatSpecifier(specifier)
 
@@ -130,7 +133,25 @@ fun Locale.format(specifier: String): (Double) -> String {
     return ::format
 }
 
-private fun isTypeIn(type: String, types: String) = type.isNotEmpty() && types.contains(type)
+fun Locale.formatPrefix(specifier:String, fixedPrefix:Double): (Double) -> String {
+    val formatSpecifier = FormatSpecifier(specifier)
+    formatSpecifier.type = "f"
+    val f = format(formatSpecifier.toString())
+    val e = Math.max(-8.0, Math.min(8.0, Math.floor(exponent(fixedPrefix).toDouble() / 3.0).toDouble())) * 3
+    val k = Math.pow(10.0, -e)
+    val prefix = prefixes[8 + (e / 3.0).toInt()]
+    return fun(value:Double):String {
+        return f(k * value) + prefix
+    }
+}
+
+private fun exponent(value:Double): Int {
+    val x = formatDecimal(Math.abs(value))
+    return if (x != null) x.exponent else 0
+}
+
+private fun isTypeIn(type: String, types: String) = type.length == 1 && types.contains(type)
+fun isValidType(type: String) = type.isEmpty() || isTypeIn(type, validTypes)
 
 private fun Double.toFixed(digits: Int): String = this.asDynamic().toFixed(digits)
 private fun Double.toExponential(digits: Int): String = this.asDynamic().toExponential(digits)
@@ -164,20 +185,19 @@ private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int)
 
 fun formatTypes(type: String): (Double, Int) -> String {
     when (type) {
-        "" -> return ::formatDefault
         "f" -> return fun(x: Double, p: Int): String { return x.toFixed(p) }
         "%" -> return fun(x: Double, p: Int): String { return (x * 100).toFixed(p) }
-        "b" -> return fun(x: Double, p: Int): String { return Math.round(x).toStringDigits(2) }
-        "c" -> return fun(x: Double, p: Int): String { return "$x" }
-        "d" -> return fun(x: Double, p: Int): String { return Math.round(x).toStringDigits(10) }
+        "b" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(2) }
+        "c" -> return fun(x: Double, _: Int): String { return "$x" }
+        "d" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(10) }
         "e" -> return fun(x: Double, p: Int): String { return x.toExponential(p) }
         "g" -> return fun(x: Double, p: Int): String { return x.toPrecision(p) }
-        "o" -> return fun(x: Double, p: Int): String { return Math.round(x).toStringDigits(8) }
+        "o" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(8) }
         "p" -> return fun(x: Double, p: Int): String { return formatRounded(x * 100, p) }
         "r" -> return ::formatRounded
         "s" -> return ::formatPrefixAuto
-        "X" -> return fun(x: Double, p: Int): String { return Math.round(x).toStringDigits(16).toUpperCase() }
-        "x" -> return fun(x: Double, p: Int): String { return Math.round(x).toStringDigits(16) }
+        "X" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(16).toUpperCase() }
+        "x" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(16) }
         else -> return ::formatDefault
     }
 }
@@ -259,4 +279,18 @@ private fun formatPrefixAuto(x: Double, p: Int = 0): String {
     else if (i > n) ce.coefficient.padEnd(i, '0')
     else if (i > 0) ce.coefficient.slice(0 until i) + "." + ce.coefficient.slice(i until ce.coefficient.size)
     else "0.".padEnd(2 - i, '0') + formatDecimal(x, Math.max(0, p + i - 1))!!.coefficient // less than 1y!
+}
+
+fun precisionFixed(step:Double): Int {
+    return Math.max(0, -exponent(Math.abs(step)))
+}
+
+fun precisionPrefix(step:Double, value:Double): Int {
+    return Math.max(0, Math.max(-8, Math.min(8, Math.floor(exponent(value) / 3))) * 3 - exponent(Math.abs(step)));
+}
+
+fun precisionRound(step:Double, max:Double): Int {
+    val newStep = Math.abs(step)
+    val newMax = Math.abs(max) - step;
+    return Math.max(0, exponent(newMax) - exponent(newStep)) + 1;
 }

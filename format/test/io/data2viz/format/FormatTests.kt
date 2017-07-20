@@ -99,157 +99,157 @@ class FormatTests : StringSpec() {
          */
 
         /*"formatLocale(…) can format numbers using ar-001 locale." {
-            var locale = d3.formatLocale(require("../locale/ar-001"))
+            var locale = Locale().locale("http://data2viz.io/dist/locales/ar-001.json"))
             locale.format("$,.2f")(-1234.56) shouldBe "-١٬٢٣٤٫٥٦"
-            
-        }
 
-        "formatLocale(…) can format numbers using ar-AE locale." {
-            var locale = d3.formatLocale(require("../locale/ar-AE"))
+        }*/
+
+        /*"formatLocale(…) can format numbers using ar-AE locale." {
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-AE.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ د.إ."
             
         }
 
         "formatLocale(…) can format numbers using ar-BH locale." {
-            var locale = d3.formatLocale(require("../locale/ar-BH"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-BH.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ د.ب."
             
         }
 
         "formatLocale(…) can format numbers using ar-DJ locale." {
-            var locale = d3.formatLocale(require("../locale/ar-DJ"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-DJ.json"))
             locale.format("$,.2f")(1234.56) shouldBe "\u200fFdj ١٬٢٣٤٫٥٦"
             
         }
 
         "formatLocale(…) can format numbers using ar-DZ locale." {
-            var locale = d3.formatLocale(require("../locale/ar-DZ"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-DZ.json"))
             locale.format("$,.2f")(1234.56) shouldBe "د.ج. 1.234,56"
             
         }
 
         "formatLocale(…) can format numbers using ar-EG locale." {
-            var locale = d3.formatLocale(require("../locale/ar-EG"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-EG.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ ج.م."
             
         }
 
         "formatLocale(…) can format numbers using ar-EH locale." {
-            var locale = d3.formatLocale(require("../locale/ar-EH"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-EH.json"))
             locale.format("$,.2f")(1234.56) shouldBe "د.م. 1,234.56"
             
         }
 
         "formatLocale(…) can format numbers using ar-ER locale." {
-            var locale = d3.formatLocale(require("../locale/ar-ER"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-ER.json"))
             locale.format("$,.2f")(1234.56) shouldBe "Nfk ١٬٢٣٤٫٥٦"
             
         }
 
         "formatLocale(…) can format numbers using ar-IL locale." {
-            var locale = d3.formatLocale(require("../locale/ar-IL"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-IL.json"))
             locale.format("$,.2f")(1234.56) shouldBe "₪ ١٬٢٣٤٫٥٦"
             
         }
 
         "formatLocale(…) can format numbers using ar-IQ locale." {
-            var locale = d3.formatLocale(require("../locale/ar-IQ"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-IQ.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ د.ع."
             
         }
 
         "formatLocale(…) can format numbers using ar-JO locale." {
-            var locale = d3.formatLocale(require("../locale/ar-JO"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-JO.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ د.أ."
             
         }
 
         "formatLocale(…) can format numbers using ar-KM locale." {
-            var locale = d3.formatLocale(require("../locale/ar-KM"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-KM.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ ف.ج.ق."
             
         }
 
         "formatLocale(…) can format numbers using ar-KW locale." {
-            var locale = d3.formatLocale(require("../locale/ar-KW"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-KW.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ د.ك."
             
         }
 
         "formatLocale(…) can format numbers using ar-LB locale." {
-            var locale = d3.formatLocale(require("../locale/ar-LB"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-LB.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ ل.ل."
             
         }
 
         "formatLocale(…) can format numbers using ar-MA locale." {
-            var locale = d3.formatLocale(require("../locale/ar-MA"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-MA.json"))
             locale.format("$,.2f")(1234.56) shouldBe "د.م. 1.234,56"
             
         }
 
         "formatLocale(…) can format numbers using ar-MR locale." {
-            var locale = d3.formatLocale(require("../locale/ar-MR"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-MR.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ أ.م."
             
         }
 
         "formatLocale(…) can format numbers using ar-OM locale." {
-            var locale = d3.formatLocale(require("../locale/ar-OM"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-OM.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ ر.ع."
             
         }
 
         "formatLocale(…) can format numbers using ar-PS locale." {
-            var locale = d3.formatLocale(require("../locale/ar-PS"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-PS.json"))
             locale.format("$,.2f")(1234.56) shouldBe "₪ ١٬٢٣٤٫٥٦"
             
         }
 
         "formatLocale(…) can format numbers using ar-QA locale." {
-            var locale = d3.formatLocale(require("../locale/ar-QA"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-QA.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ ر.ق."
             
         }
 
         "formatLocale(…) can format numbers using ar-SA locale." {
-            var locale = d3.formatLocale(require("../locale/ar-SA"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-SA.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ ر.س."
             
         }
 
         "formatLocale(…) can format numbers using ar-SD locale." {
-            var locale = d3.formatLocale(require("../locale/ar-SD"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-SD.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ ج.س."
             
         }
 
         "formatLocale(…) can format numbers using ar-SO locale." {
-            var locale = d3.formatLocale(require("../locale/ar-SO"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-SO.json"))
             locale.format("$,.2f")(1234.56) shouldBe "‏S ١٬٢٣٤٫٥٦"
             
         }
 
         "formatLocale(…) can format numbers using ar-SS locale." {
-            var locale = d3.formatLocale(require("../locale/ar-SS"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-SS.json"))
             locale.format("$,.2f")(1234.56) shouldBe "£ ١٬٢٣٤٫٥٦"
             
         }
 
         "formatLocale(…) can format numbers using ar-SY locale." {
-            var locale = d3.formatLocale(require("../locale/ar-SY"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-SY.json"))
             locale.format("$,.2f")(1234.56) shouldBe "١٬٢٣٤٫٥٦ ل.س."
             
         }
 
         "formatLocale(…) can format numbers using ar-TD locale." {
-            var locale = d3.formatLocale(require("../locale/ar-TD"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-TD.json"))
             locale.format("$,.2f")(1234.56) shouldBe "\u200fFCFA ١٬٢٣٤٫٥٦"
             
         }
 
         "formatLocale(…) can format numbers using ar-TN locale." {
-            var locale = d3.formatLocale(require("../locale/ar-TN"))
+            var locale = d3.formatLocale(require("http://data2viz.io/dist/locales/ar-TN.json"))
             locale.format("$,.2f")(1234.56) shouldBe "د.ت. 1.234,56"
             
         }*/
@@ -310,12 +310,10 @@ class FormatTests : StringSpec() {
 
         "format(\"b\") binary" {
             Locale().format("b")(10.0) shouldBe "1010"
-
         }
 
         "format(\"#b\") binary with prefix" {
             Locale().format("#b")(10.0) shouldBe "0b1010"
-
         }
 
         /**
@@ -340,7 +338,7 @@ class FormatTests : StringSpec() {
          */
 
         "format(\"d\") can zero fill (8 tests)" {
-            var f = Locale().format("08d")
+            val f = Locale().format("08d")
             f(0.0) shouldBe "00000000"
             f(42.0) shouldBe "00000042"
             f(42000000.0) shouldBe "42000000"
@@ -352,7 +350,7 @@ class FormatTests : StringSpec() {
         }
 
         "format(\"d\") can .0space fill (8 tests)" {
-            var f = Locale().format("8d")
+            val f = Locale().format("8d")
             f(0.0) shouldBe "       0"
             f(42.0) shouldBe "      42"
             f(42000000.0) shouldBe "42000000"
@@ -364,7 +362,7 @@ class FormatTests : StringSpec() {
         }
 
         "format(\"d\") can underscore fill (8 tests)" {
-            var f = Locale().format("_>8d")
+            val f = Locale().format("_>8d")
             f(0.0) shouldBe "_______0"
             f(42.0) shouldBe "______42"
             f(42000000.0) shouldBe "42000000"
@@ -376,7 +374,7 @@ class FormatTests : StringSpec() {
         }
 
         "format(\"d\") can zero fill with sign and group (8 tests)" {
-            var f = Locale().format("+08,d")
+            val f = Locale().format("+08,d")
             f(0.0) shouldBe "+0,000,000"
             f(42.0) shouldBe "+0,000,042"
             f(42000000.0) shouldBe "+42,000,000"
@@ -388,20 +386,19 @@ class FormatTests : StringSpec() {
         }
 
         "format(\"d\") always uses zero exponent (3 tests)" {
-            var f = Locale().format(".2d")
+            val f = Locale().format(".2d")
             f(0.0) shouldBe "0"
             f(42.0) shouldBe "42"
             f(-4.2) shouldBe "-4"
-
         }
 
         "format(\"d\") rounds non-integers" {
-            var f = Locale().format("d")
+            val f = Locale().format("d")
             f(4.2) shouldBe "4"
         }
 
         "format(\",d\") can group thousands (9 tests)" {
-            var f = Locale().format(",d")
+            val f = Locale().format(",d")
             f(0.0) shouldBe "0"
             f(42.0) shouldBe "42"
             f(42000000.0) shouldBe "42,000,000"
@@ -556,7 +553,7 @@ class FormatTests : StringSpec() {
          */
 
         "format(\"e\") can output exponent notation (10 tests)" {
-            var f = Locale().format("e")
+            val f = Locale().format("e")
             f(0.0) shouldBe "0.000000e+0"
             f(42.0) shouldBe "4.200000e+1"
             f(42000000.0) shouldBe "4.200000e+7"
@@ -576,7 +573,6 @@ class FormatTests : StringSpec() {
 
         /*"format(\",e\") does not group Infinity" {
             Locale().format(",e")(Infinity) shouldBe "Infinity"
-            
         }*/
 
         /**
@@ -595,11 +591,10 @@ class FormatTests : StringSpec() {
             Locale().format(".5g")(100.0) shouldBe "100.00"
             Locale().format(".5g")(100.2) shouldBe "100.20"
             Locale().format(".2g")(0.002) shouldBe "0.0020"
-
         }
 
         "format(\",g\") can group thousands with general notation (8 tests)" {
-            var f = Locale().format(",.12g")
+            val f = Locale().format(",.12g")
             f(0.0) shouldBe "0.00000000000"
             f(42.0) shouldBe "42.0000000000"
             f(42000000.0) shouldBe "42,000,000.0000"
@@ -615,7 +610,7 @@ class FormatTests : StringSpec() {
          */
 
         "format(\"n\") is an alias for \",g\" (11 tests)" {
-            var f = Locale().format(".12n")
+            val f = Locale().format(".12n")
             f(0.0) shouldBe "0.00000000000"
             f(42.0) shouldBe "42.0000000000"
             f(42000000.0) shouldBe "42,000,000.0000"
@@ -676,7 +671,7 @@ class FormatTests : StringSpec() {
         }
 
         "format(\"$\") can output a currency (7 tests)" {
-            var f = Locale().format("$")
+            val f = Locale().format("$")
             f(0.0) shouldBe "$0"
             f(.042) shouldBe "$0.042"
             f(.42) shouldBe "$0.42"
@@ -687,7 +682,7 @@ class FormatTests : StringSpec() {
         }
 
         "format(\"($\") can output a currency with parentheses for negative values (7 tests)" {
-            var f = Locale().format("($")
+            val f = Locale().format("($")
             f(0.0) shouldBe "$0"
             f(.042) shouldBe "$0.042"
             f(.42) shouldBe "$0.42"
@@ -712,12 +707,10 @@ class FormatTests : StringSpec() {
 
         "format(\"o\") octal" {
             Locale().format("o")(10.0) shouldBe "12"
-
         }
 
         "format(\"#o\") octal with prefix" {
             Locale().format("#o")(10.0) shouldBe "0o12"
-
         }
 
         /**
@@ -725,7 +718,7 @@ class FormatTests : StringSpec() {
          */
 
         "format(\"p\") can output a percentage (9 tests)" {
-            var f = Locale().format("p")
+            val f = Locale().format("p")
             f(.00123) shouldBe "0.123000%"
             f(.0123) shouldBe "1.23000%"
             f(.123) shouldBe "12.3000%"
@@ -735,11 +728,10 @@ class FormatTests : StringSpec() {
             f(-.0123) shouldBe "-1.23000%"
             f(-.123) shouldBe "-12.3000%"
             f(-1.23) shouldBe "-123.000%"
-
         }
 
         "format(\"+p\") can output a percentage with rounding and sign (8 tests)" {
-            var f = Locale().format("+.2p")
+            val f = Locale().format("+.2p")
             f(.00123) shouldBe "+0.12%"
             f(.0123) shouldBe "+1.2%"
             f(.123) shouldBe "+12%"
@@ -748,7 +740,6 @@ class FormatTests : StringSpec() {
             f(-.0123) shouldBe "-1.2%"
             f(-.123) shouldBe "-12%"
             f(-1.23) shouldBe "-120%"
-
         }
 
         /**
@@ -784,13 +775,11 @@ class FormatTests : StringSpec() {
             Locale().format(".4r")(.00000000129) shouldBe "0.000000001290"
             Locale().format(".10r")(.9999999999) shouldBe "0.9999999999"
             Locale().format(".15r")(.999999999999999) shouldBe "0.999999999999999"
-
         }
 
         "format(\"r\") can round very small numbers" {
-            var f = Locale().format(".2r")
+            val f = Locale().format(".2r")
             f(1e-22) shouldBe "0.00000000000000000000010"
-
         }
 
         /**
@@ -798,7 +787,7 @@ class FormatTests : StringSpec() {
          */
 
         "format(\"s\") outputs SI-prefix notation with default exponent 6 (12 tests)" {
-            var f = Locale().format("s")
+            val f = Locale().format("s")
             f(0.0) shouldBe "0.00000"
             f(1.0) shouldBe "1.00000"
             f(10.0) shouldBe "10.0000"
@@ -811,7 +800,6 @@ class FormatTests : StringSpec() {
             f(1500.5) shouldBe "1.50050k"
             f(.00001) shouldBe "10.0000µ"
             f(.000001) shouldBe "1.00000µ"
-
         }
 
         "format(\"[.exponent]s\") outputs SI-prefix notation with exponent significant digits (16 tests)" {
@@ -834,11 +822,10 @@ class FormatTests : StringSpec() {
             f(999.5) shouldBe "999.5"
             f(999500.0) shouldBe "999.5k"
             f(.009995) shouldBe "9.995m"
-
         }
 
         "format(\"s\") formats numbers smaller than 1e-24 with yocto (20 tests)" {
-            var f = Locale().format(".8s")
+            val f = Locale().format(".8s")
             f(1.29e-30) shouldBe "0.0000013y" // Note: rounded!
             f(1.29e-29) shouldBe "0.0000129y"
             f(1.29e-28) shouldBe "0.0001290y"
@@ -859,11 +846,10 @@ class FormatTests : StringSpec() {
             f(-1.29e-23) shouldBe "-12.900000y"
             f(-1.29e-22) shouldBe "-129.00000y"
             f(-1.29e-21) shouldBe "-1.2900000z"
-
         }
 
         "format(\"s\") formats numbers larger than 1e24 with yotta (20 tests)" {
-            var f = Locale().format(".8s")
+            val f = Locale().format(".8s")
             f(1.23e+21) shouldBe "1.2300000Z"
             f(1.23e+22) shouldBe "12.300000Z"
             f(1.23e+23) shouldBe "123.00000Z"
@@ -957,201 +943,362 @@ class FormatTests : StringSpec() {
          * TYPE X
          */
 
-        /*"format(\"x\") returns the expected hexadecimal (lowercase) string" {
-            Locale().format("x")(0xdeadbeef) shouldBe "deadbeef"
-            
+        "format(\"x\") returns the expected hexadecimal (lowercase) string" {
+            Locale().format("x")(0xdeadbeef.toDouble()) shouldBe "deadbeef"
+
         }
 
         "format(\"#x\") returns the expected hexadecimal (lowercase) string with prefix" {
-            Locale().format("#x")(0xdeadbeef) shouldBe "0xdeadbeef"
-            
+            Locale().format("#x")(0xdeadbeef.toDouble()) shouldBe "0xdeadbeef"
+
         }
 
         "format(\",x\") groups thousands" {
-            Locale().format(",x")(0xdeadbeef) shouldBe "de,adb,eef"
-            
+            Locale().format(",x")(0xdeadbeef.toDouble()) shouldBe "de,adb,eef"
+
         }
 
         "format(\",x\") groups thousands" {
-            Locale().format(",x")(0xdeadbeef) shouldBe "de,adb,eef"
-            
+            Locale().format(",x")(0xdeadbeef.toDouble()) shouldBe "de,adb,eef"
+
         }
 
         "format(\"#,x\") does not group the prefix" {
-            Locale().format("#,x")(0xadeadbeef) shouldBe "0xade,adb,eef"
-            
+            Locale().format("#,x")(0xadeadbeef.toDouble()) shouldBe "0xade,adb,eef"
+
         }
 
-        "format(\"+#x\") puts the sign before the prefix" {
-            Locale().format("+#x")(0xdeadbeef),  "+0xdeadbeef"
-            Locale().format("+#x")(-0xdeadbeef) shouldBe "-0xdeadbeef"
-            Locale().format(" #x")(0xdeadbeef),  " 0xdeadbeef"
-            Locale().format(" #x")(-0xdeadbeef) shouldBe "-0xdeadbeef"
-            
-        }
+        /*"format(\"+#x\") puts the sign before the prefix (4 tests)" {
+            Locale().format("+#x")(0xdeadbeef.toDouble()) shouldBe  "+0xdeadbeef"
+            Locale().format("+#x")(-(0xdeadbeef.toDouble())) shouldBe "-0xdeadbeef"
+            Locale().format(" #x")(0xdeadbeef.toDouble()) shouldBe  " 0xdeadbeef"
+            Locale().format(" #x")(-(0xdeadbeef.toDouble())) shouldBe "-0xdeadbeef"
+        }*/
 
         "format(\"$,x\") formats hexadecimal currency" {
-            Locale().format("$,x")(0xdeadbeef) shouldBe "$de,adb,eef"
-            
+            Locale().format("$,x")(0xdeadbeef.toDouble()) shouldBe "\$de,adb,eef"
+
         }
 
-        "format(\"[.exponent]x\") always has exponent zero" {
-            Locale().format(".2x")(0xdeadbeef) shouldBe "deadbeef"
+        "format(\"[.exponent]x\") always has exponent zero (2 tests)" {
+            Locale().format(".2x")(0xdeadbeef.toDouble()) shouldBe "deadbeef"
             Locale().format(".2x")(-4.2) shouldBe "-4"
-            
+
         }
 
         "format(\"x\") rounds non-integers" {
             Locale().format("x")(2.4) shouldBe "2"
-            
+
         }
 
-        "format(\"x\") can format negative zero as zero" {
-            Locale().format("x")(-0) shouldBe "0"
+        "format(\"x\") can format negative zero as zero (2 tests)" {
+            Locale().format("x")(-0.0) shouldBe "0"
             Locale().format("x")(-1e-12) shouldBe "0"
-            
+
         }
 
-        "format(\"x\") does not consider -0xeee to be positive" {
-            Locale().format("x")(-0xeee) shouldBe "-eee"
-            
-        }
+        /*"format(\"x\") does not consider -0xeee to be positive" {
+            Locale().format("x")(-0xeee.toDouble()) shouldBe "-eee"
+        }*/
 
         "format(\"X\") returns the expected hexadecimal (uppercase) string" {
-            Locale().format("X")(0xdeadbeef) shouldBe "DEADBEEF"
-            
+            Locale().format("X")(0xdeadbeef.toDouble()) shouldBe "DEADBEEF"
         }
 
         "format(\"#X\") returns the expected hexadecimal (uppercase) string with prefix" {
-            Locale().format("#X")(0xdeadbeef) shouldBe "0xDEADBEEF"
-            
+            Locale().format("#X")(0xdeadbeef.toDouble()) shouldBe "0xDEADBEEF"
         }
 
-        "format(\"X\") can format negative zero as zero" {
-            Locale().format("X")(-0) shouldBe "0"
+        "format(\"X\") can format negative zero as zero (2 tests)" {
+            Locale().format("X")(-0.0) shouldBe "0"
             Locale().format("X")(-1e-12) shouldBe "0"
-            
         }
 
-        "format(\"X\") does not consider -0xeee to be positive" {
-            Locale().format("X")(-0xeee) shouldBe "-EEE"
-            
-        }
-
-        "format(\"#[width]x\") considers the prefix" {
-            Locale().format("20x")(0xdeadbeef),   "            deadbeef"
-            Locale().format("#20x")(0xdeadbeef),  "          0xdeadbeef"
-            Locale().format("020x")(0xdeadbeef),  "000000000000deadbeef"
-            Locale().format("#020x")(0xdeadbeef) shouldBe "0x0000000000deadbeef"
-            
+        /*"format(\"X\") does not consider -0xeee to be positive" {
+            Locale().format("X")(-0xeee.toDouble()) shouldBe "-EEE"
         }*/
+
+        "format(\"#[width]x\") considers the prefix (4 tests)" {
+            Locale().format("20x")(0xdeadbeef.toDouble()) shouldBe "            deadbeef"
+            Locale().format("#20x")(0xdeadbeef.toDouble()) shouldBe "          0xdeadbeef"
+            Locale().format("020x")(0xdeadbeef.toDouble()) shouldBe "000000000000deadbeef"
+            Locale().format("#020x")(0xdeadbeef.toDouble()) shouldBe "0x0000000000deadbeef"
+        }
 
         /**
          * FORMAT PREFIX
          */
 
-        /*"formatPrefix(\"s\", value)(number) formats with the SI prefix appropriate to the specified value" {
+        "formatPrefix(\"s\", value)(number) formats with the SI prefix appropriate to the specified value (3 tests)" {
             Locale().formatPrefix(",.0s", 1e-6)(.00042) shouldBe "420µ"
             Locale().formatPrefix(",.0s", 1e-6)(.0042) shouldBe "4,200µ"
             Locale().formatPrefix(",.3s", 1e-3)(.00042) shouldBe "0.420m"
-            
+
         }
 
         "formatPrefix(\"s\", value)(number) uses yocto for very small reference values" {
             Locale().formatPrefix(",.0s", 1e-27)(1e-24) shouldBe "1y"
-            
+
         }
 
-        "formatPrefix(\"s\", value)(number) uses yotta for very small reference values" {
+        "formatPrefix(\"s\", value)(number) uses yotta for very large reference values" {
             Locale().formatPrefix(",.0s", 1e27)(1e24) shouldBe "1Y"
-            
+
         }
 
-        "formatPrefix(\"$,s\", value)(number) formats with the specified SI prefix" {
-            var f = Locale().formatPrefix(" $12,.1s", 1e6)
-            f(-42e6),  "      -$42.0M"
+        "formatPrefix(\"$,s\", value)(number) formats with the specified SI prefix (2 tests)" {
+            val f = Locale().formatPrefix(" $12,.1s", 1e6)
+            f(-42e6) shouldBe "      -$42.0M"
             f(+4.2e6) shouldBe "        $4.2M"
-            
-        }*/
+
+        }
 
         /**
          * FORMAT SPECIFIER
          */
 
-        /*"formatSpecifier(specifier) throws an error for invalid formats" {
-            test.throws(function() { Locale().formatSpecifier("foo") }, /invalid format: foo/)
-            test.throws(function() { Locale().formatSpecifier(".-2s") }, /invalid format: \.-2s/)
-            test.throws(function() { Locale().formatSpecifier(".f") }, /invalid format: \.f/)
-            
+        "formatSpecifier(specifier) throws an error for invalid formats (3 tests)" {
+            shouldThrow<IllegalArgumentException> { FormatSpecifier("foo") }
+            shouldThrow<IllegalArgumentException> { FormatSpecifier(".-2s") }
+            shouldThrow<IllegalArgumentException> { FormatSpecifier(".f") }
         }
 
-        "formatSpecifier(specifier) returns an instanceof formatSpecifier" {
+        /*"formatSpecifier(specifier) returns an instanceof formatSpecifier" {
             var s = Locale().formatSpecifier("")
             s instanceof Locale().formatSpecifier, true)
-            
-        }
+        }*/
 
         "formatSpecifier(\"\") has the expected defaults" {
-            var s = Locale().formatSpecifier("")
-            s.fill, " ")
-            s.align, ">")
-            s.sign, "-")
-            s.symbol, "")
-            s.zero, false)
-            s.width, undefined)
-            s.comma, false)
-            s.exponent, undefined)
-            s.type, "")
-            
+            val s = FormatSpecifier("")
+            s.fill shouldBe " "
+            s.align shouldBe ">"
+            s.sign shouldBe "-"
+            s.symbol shouldBe ""
+            s.zero shouldBe false
+            s.width shouldBe null
+            s.groupSeparation shouldBe false
+            s.precision shouldBe null
+            s.type shouldBe ""
         }
 
-        "formatSpecifier(specifier) uses the none type for unknown types" {
-            Locale().formatSpecifier("q").type, "")
-            Locale().formatSpecifier("S").type, "")
-            
+        "formatSpecifier(specifier) uses the none type for unknown types (2 tests)" {
+            println(FormatSpecifier("q").type)
+            FormatSpecifier("q").type shouldBe ""
+            FormatSpecifier("S").type shouldBe ""
         }
 
         "formatSpecifier(\"n\") is an alias for \",g\"" {
-            var s = Locale().formatSpecifier("n")
-            s.comma, true)
-            s.type, "g")
-            
+            val s = FormatSpecifier("n")
+            s.groupSeparation shouldBe true
+            s.type shouldBe "g"
         }
 
         "formatSpecifier(\"0\") is an alias for \"0=\"" {
-            var s = Locale().formatSpecifier("0")
-            s.zero, true)
-            s.fill, "0")
-            s.align, "=")
-            
+            val s = FormatSpecifier("0")
+            s.zero shouldBe true
+            s.fill shouldBe "0"
+            s.align shouldBe "="
         }
 
         "formatSpecifier(specifier).toString() reflects current field values" {
-            var s = Locale().formatSpecifier("")
-            (s.fill = "_", s) + "", "_>-")
-            (s.align = "^", s) + "", "_^-")
-            (s.sign = "+", s) + "", "_^+")
-            (s.symbol = "$", s) + "", "_^+$")
-            (s.zero = true, s) + "", "_^+$0")
-            (s.width = 12, s) + "", "_^+$012")
-            (s.comma = true, s) + "", "_^+$012,")
-            (s.exponent = 2, s) + "", "_^+$012,.2")
-            (s.type = "f", s) + "", "_^+$012,.2f")
-            Locale().format(s)(42) shouldBe "+$0,000,042.00")
-            
+            val s = FormatSpecifier("")
+            s.fill = "_"
+            s.toString() shouldBe "_>-"
+            s.align = "^"
+            s.toString() shouldBe "_^-"
+            s.sign = "+"
+            s.toString() shouldBe "_^+"
+            s.symbol = "$"
+            s.toString() shouldBe "_^+$"
+            s.zero = true
+            s.toString() shouldBe "_^+$0"
+            s.width = 12
+            s.toString() shouldBe "_^+$012"
+            s.groupSeparation = true
+            s.toString() shouldBe "_^+$012,"
+            s.precision = 2
+            s.toString() shouldBe "_^+$012,.2"
+            s.type = "f"
+            s.toString() shouldBe "_^+$012,.2f"
+            Locale().format(s.toString())(42.0) shouldBe "+$0,000,042.00"
         }
 
         "formatSpecifier(specifier).toString() clamps exponent to zero" {
-            var s = Locale().formatSpecifier("")
-            (s.exponent = -1, s) + "", " >-.0")
-            
+            val s = FormatSpecifier("")
+            s.precision = -1
+            s.toString() shouldBe " >-.0"
         }
 
         "formatSpecifier(specifier).toString() clamps width to one" {
-            var s = Locale().formatSpecifier("")
-            (s.width = -1, s) + "", " >-1")
-            
-        }*/
+            val s = FormatSpecifier("")
+            s.width = -1
+            s.toString() shouldBe " >-1"
+        }
+
+        /**
+         * INDELTA
+         */
+
+        /*tape.Test.prototype.inDelta = function(actual, expected) {
+        this._assert(expected - 1e-6 < actual && actual < expected + 1e-6, {
+            message: "should be in delta",
+            operator: "inDelta",
+            actual: actual,
+            expected: expected
+        });
+    };*/
+
+        /**
+         * LOCALE TEST
+         */
+
+        /*"formatLocale({decimal: decimal}) observes the specified decimal point" {
+        Locale().format({decimal: "|"}).format("06.2f")(2) shouldBe "002|00"
+        Locale().format({decimal: "/"}).format("06.2f")(2) shouldBe "002/00"
+    }*/
+
+        /*"formatLocale({currency: [prefix, suffix]}) observes the specified currency prefix and suffix" {
+        test.equal(d3.formatLocale({decimal: ".", currency: ["฿", ""]}).format("$06.2f")(2), "฿02.00");
+        test.equal(d3.formatLocale({decimal: ".", currency: ["", "฿"]}).format("$06.2f")(2), "02.00฿");
     }
 
+    tape("formatLocale({grouping: null}) does not perform any grouping", function(test) {
+        test.equal(d3.formatLocale({decimal: ".", grouping: null}).format("012,.2f")(2), "000000002.00");
+    });
+
+    tape("formatLocale({grouping: [sizes…]}) observes the specified group sizes", function(test) {
+        test.equal(d3.formatLocale({decimal: ".", grouping: [3], thousands: ","}).format("012,.2f")(2), "0,000,002.00");
+        test.equal(d3.formatLocale({decimal: ".", grouping: [2], thousands: ","}).format("012,.2f")(2), "0,00,00,02.00");
+        test.equal(d3.formatLocale({decimal: ".", grouping: [2, 3], thousands: ","}).format("012,.2f")(2), "00,000,02.00");
+        test.equal(d3.formatLocale({decimal: ".", grouping: [3, 2, 2, 2, 2, 2, 2], thousands: ","}).format(",d")(1e12), "10,00,00,00,00,000");
+    });
+
+    tape("formatLocale(…) can format numbers using the Indian numbering system.", function(test) {
+        var format = d3.formatLocale(require("../locale/en-IN")).format(",");
+        test.equal(format(10), "10");
+        test.equal(format(100), "100");
+        test.equal(format(1000), "1,000");
+        test.equal(format(10000), "10,000");
+        test.equal(format(100000), "1,00,000");
+        test.equal(format(1000000), "10,00,000");
+        test.equal(format(10000000), "1,00,00,000");
+        test.equal(format(10000000.4543), "1,00,00,000.4543");
+        test.equal(format(1000.321), "1,000.321");
+        test.equal(format(10.5), "10.5");
+        test.equal(format(-10), "-10");
+        test.equal(format(-100), "-100");
+        test.equal(format(-1000), "-1,000");
+        test.equal(format(-10000), "-10,000");
+        test.equal(format(-100000), "-1,00,000");
+        test.equal(format(-1000000), "-10,00,000");
+        test.equal(format(-10000000), "-1,00,00,000");
+        test.equal(format(-10000000.4543), "-1,00,00,000.4543");
+        test.equal(format(-1000.321), "-1,000.321");
+        test.equal(format(-10.5), "-10.5");
+    });
+
+    tape("formatLocale({thousands: separator}) observes the specified group separator", function(test) {
+        test.equal(d3.formatLocale({decimal: ".", grouping: [3], thousands: " "}).format("012,.2f")(2), "0 000 002.00");
+        test.equal(d3.formatLocale({decimal: ".", grouping: [3], thousands: "/"}).format("012,.2f")(2), "0/000/002.00");
+    });*/
+
+        /*tape("locale data is valid", function(test) {
+        fs.readdir("locale", function(error, locales) {
+            if (error) throw error;
+            var q = queue.queue(1);
+            locales.forEach(function(locale) {
+                if (!/\.json$/i.test(locale)) return;
+                q.defer(testLocale, path.join("locale", locale));
+            });
+            q.awaitAll(function(error) {
+                if (error) throw error;
+                test.end();
+            });
+        });
+
+        function testLocale(locale, callback) {
+            fs.readFile(locale, "utf8", function(error, locale) {
+                if (error) return void callback(error);
+                locale = JSON.parse(locale);
+                test.equal("currency" in locale, true);
+                test.equal("decimal" in locale, true);
+                test.equal("grouping" in locale, true);
+                test.equal("thousands" in locale, true);
+                locale = d3.formatLocale(locale);
+                callback(null);
+            });
+        }
+    });*/
+
+        /**
+         * PRECISION FIXED
+         */
+
+        "precisionFixed(number) returns the expected value (6 tests)" {
+            precisionFixed(8.9) shouldBe 0
+            precisionFixed(1.1) shouldBe 0
+            precisionFixed(0.89) shouldBe 1
+            precisionFixed(0.11) shouldBe 1
+            precisionFixed(0.089) shouldBe 2
+            precisionFixed(0.011) shouldBe 2
+        }
+
+        /**
+         * PRECISION PREFIX
+         */
+
+        /**
+         * A generalization from µ to all prefixes:
+         * test.equal(format.precisionPrefix(1e-6, 1e-6), 0); // 1µ
+         * test.equal(format.precisionPrefix(1e-6, 1e-7), 0); // 10µ
+         * test.equal(format.precisionPrefix(1e-6, 1e-8), 0); // 100µ
+         */
+        "precisionPrefix(step, value) returns zero if step has the same units as value" {
+            for (i in -24..24 step 3) {
+                for (j in i until i + 3) {
+                    precisionPrefix("1e$i".toDouble(), "1e$j".toDouble()) shouldBe 0
+                }
+            }
+        }
+
+        /**
+         * A generalization from µ to all prefixes:
+         * test.equal(format.precisionPrefix(1e-9, 1e-6), 3); // 0.001µ
+         * test.equal(format.precisionPrefix(1e-8, 1e-6), 2); // 0.01µ
+         * test.equal(format.precisionPrefix(1e-7, 1e-6), 1); // 0.1µ
+         */
+        "precisionPrefix(step, value) returns greater than zero if fractional digits are needed" {
+            for (i in -24..24 step 3) {
+                for (j in i - 4 until i) {
+                    precisionPrefix(("1e$j".toDouble()), ("1e$i".toDouble())) shouldBe (i - j)
+                }
+            }
+        }
+
+        "precisionPrefix(step, value) returns the expected precision when value is less than one yocto (5 tests)" {
+            precisionPrefix(1e-24, 1e-24) shouldBe 0 // 1y
+            precisionPrefix(1e-25, 1e-25) shouldBe 1 // 0.1y
+            precisionPrefix(1e-26, 1e-26) shouldBe 2 // 0.01y
+            precisionPrefix(1e-27, 1e-27) shouldBe 3 // 0.001y
+            precisionPrefix(1e-28, 1e-28) shouldBe 4 // 0.0001y
+        }
+
+        "precisionPrefix(step, value) returns the expected precision when value is greater than than one yotta (5 tests)" {
+            precisionPrefix(1e24, 1e24) shouldBe 0 // 1Y
+            precisionPrefix(1e24, 1e25) shouldBe 0 // 10Y
+            precisionPrefix(1e24, 1e26) shouldBe 0 // 100Y
+            precisionPrefix(1e24, 1e27) shouldBe 0 // 1000Y
+            precisionPrefix(1e23, 1e27) shouldBe 1 // 1000.0Y
+        }
+
+        /**
+         * PRECISION ROUND
+         */
+        "precisionRound(step, max) returns the expected value (4 tests)" {
+            precisionRound(0.1, 1.1) shouldBe 2 // "1.0", "1.1"
+            precisionRound(0.01, 0.99) shouldBe 2 // "0.98", "0.99"
+            precisionRound(0.01, 1.00) shouldBe 2 // "0.99", "1.0"
+            precisionRound(0.01, 1.01) shouldBe 3 // "1.00", "1.01"
+        }
+    }
 }

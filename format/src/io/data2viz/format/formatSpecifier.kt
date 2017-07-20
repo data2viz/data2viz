@@ -69,7 +69,7 @@ data class FormatSpecifier(val specifier:String) {
     var type: String = ""
 
     init {
-        if (!formatRE.matches(specifier)) throw RuntimeException("invalid format: " + specifier);
+        if (!formatRE.matches(specifier)) throw IllegalArgumentException("invalid format: " + specifier);
 
         val match = formatRE.find(specifier)!!.groupValues
 
@@ -90,7 +90,7 @@ data class FormatSpecifier(val specifier:String) {
         }
 
         // Map invalid types to the default format.
-        else if (formatTypes(type) == ::formatDefault) type = ""
+        else if (!isValidType(type)) type = ""
 
         // If zero fill is specified, padding goes after sign and before digits.
         if (zero || (fill == "0" && align == "=")) {
