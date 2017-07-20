@@ -286,7 +286,7 @@ fun precisionFixed(step:Double): Int {
 }
 
 fun precisionPrefix(step:Double, value:Double): Int {
-    return Math.max(0, Math.max(-8, Math.min(8, Math.floor(exponent(value) / 3))) * 3 - exponent(Math.abs(step)));
+    return Math.max(0, Math.max(-8, Math.min(8, Math.floor(exponent(value) / 3.0))) * 3 - exponent(Math.abs(step)));
 }
 
 fun precisionRound(step:Double, max:Double): Int {

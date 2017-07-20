@@ -1082,7 +1082,6 @@ class FormatTests : StringSpec() {
         }
 
         "formatSpecifier(specifier) uses the none type for unknown types (2 tests)" {
-            println(FormatSpecifier("q").type)
             FormatSpecifier("q").type shouldBe ""
             FormatSpecifier("S").type shouldBe ""
         }
