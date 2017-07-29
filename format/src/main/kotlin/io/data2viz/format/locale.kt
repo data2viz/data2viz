@@ -24,9 +24,9 @@ fun locale(localeURL:String, callback:(Locale) -> Unit):Unit {
     }
 }
 
-fun Locale.format(specifier: String): (Double) -> String {
+fun Locale.format(specify: String): (Double) -> String {
 
-    val specifier = FormatSpecifier(specifier)
+    val specifier = FormatSpecifier(specify)
 
     val fill = specifier.fill
     val align = specifier.align
