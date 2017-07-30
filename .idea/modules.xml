@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/data2viz.iml" filepath="$PROJECT_DIR$/data2viz.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/dsv/dsv.iml" filepath="$PROJECT_DIR$/.idea/modules/dsv/dsv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/experiments/experiments.iml" filepath="$PROJECT_DIR$/.idea/modules/experiments/experiments.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/format/format.iml" filepath="$PROJECT_DIR$/.idea/modules/format/format.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/interpolate/interpolate.iml" filepath="$PROJECT_DIR$/.idea/modules/interpolate/interpolate.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/random/random.iml" filepath="$PROJECT_DIR$/.idea/modules/random/random.iml" />

@@ -42,6 +42,18 @@ subprojects {
         }
     }
 
+    configurations {
+        testArtifacts.extendsFrom testRuntime
+    }
+    task testJar(type: Jar) {
+        classifier "test"
+        from sourceSets.test.output
+    }
+    artifacts {
+        testArtifacts testJar
+    }
+
+
     bintray {
         user = project.property('bintray.user')
         key = project.property('bintray.key')

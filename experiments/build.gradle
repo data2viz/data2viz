@@ -11,4 +11,19 @@ dependencies {
     compile project(":tile")
     compile project(":tests")
     compile project(":voronoi")
+
+    testCompile project(path: ":axis", configuration: "testArtifacts")
+    testCompile project(path: ":color", configuration: "testArtifacts")
+    testCompile project(path: ":color", configuration: "testArtifacts")
+    testCompile project(path: ":core", configuration: "testArtifacts")
+    testCompile project(path: ":dsv", configuration: "testArtifacts")
+    testCompile project(path: ":format", configuration: "testArtifacts")
+    testCompile project(path: ":interpolate", configuration: "testArtifacts")
+    testCompile project(path: ":random", configuration: "testArtifacts")
+    testCompile project(path: ":request", configuration: "testArtifacts")
+    testCompile project(path: ":svg", configuration: "testArtifacts")
+    testCompile project(path: ":tile", configuration: "testArtifacts")
+    testCompile project(path: ":tests", configuration: "testArtifacts")
+    testCompile project(path: ":voronoi", configuration: "testArtifacts")
+
 }
