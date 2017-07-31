@@ -131,14 +131,14 @@ fun svg(init: SVGElement.() -> Unit = {}): SVGElement {
 }
 
 @SvgTagMarker
-class CircleElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, HasCenter, HasRadius, ParentElement, Transformable {
+class CircleElement(override val element: Element) : HasStroke, HasFill, HasCenter, HasRadius, ParentElement, Transformable {
     fun on(eventName: String, block: CircleElement.(Event) -> Unit) {
         element.addEventListener(type = eventName, callback = { event -> block(this, event) })
     }
 }
 
 @SvgTagMarker
-class RectElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, HasRoundedCorner, Has2D, ParentElement, Transformable {
+class RectElement(override val element: Element) : HasStroke, HasFill, HasRoundedCorner, Has2D, ParentElement, Transformable {
     fun on(eventName: String, block: RectElement.(Event) -> Unit) {
         element.addEventListener(type = eventName, callback = { event -> block(this, event) })
     }
@@ -146,7 +146,7 @@ class RectElement(override val element: Element) : ElementWrapper, HasStroke, Ha
 
 
 @SvgTagMarker
-class GroupElement(override val element: Element) : ElementWrapper, HasStroke, HasFill, Has2D, HasPosition, ParentElement, Transformable {
+class GroupElement(override val element: Element) : HasStroke, HasFill, Has2D, HasPosition, ParentElement, Transformable {
     fun on(eventName: String, block: GroupElement.(Event) -> Unit) {
         element.addEventListener(type = eventName, callback = { event -> block(this, event) })
     }
@@ -203,7 +203,7 @@ class TextElement(override val element: Element) : HasText, HasPosition, HasOffs
  * The root of a SVG visualization
  */
 @SvgTagMarker
-class SVGElement(override var element: Element) : Has2D, ParentElement, ElementWrapper
+class SVGElement(override var element: Element) : Has2D, ParentElement
 
 interface ParentElement : ElementWrapper {
 
