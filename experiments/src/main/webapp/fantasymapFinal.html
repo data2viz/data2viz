@@ -6,13 +6,15 @@
     }
 </style>
 <script src="require.js"></script>
-<body>
+<body style="overflow: hidden;">
 <script>
-    require.config({paths: {"kotlin": "lib/kotlin"}});
+    require.config({baseUrl: "lib"});
     require(['experiments'],
         function (all) {
-            all.io.data2viz.experiments.animate.animate();
+            all.io.data2viz.experiments.fantasymap.buildFinalFantasyMap();
         });
+
 </script>
+
 </body>
 </html>

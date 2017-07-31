@@ -7,14 +7,14 @@
 </style>
 <script src="require.js"></script>
 <body>
-
-
 <script>
-    require.config({paths: {"kotlin": "lib/kotlin"}});
+    require.config({baseUrl: "lib"});
     require(['experiments'],
-        function (experiments) {
-            experiments.io.data2viz.experiments.walking.walkingDead();
+        function (all) {
+            all.io.data2viz.experiments.fantasymap.buildVoronoiFantasyMap();
         });
+
 </script>
+
 </body>
 </html>

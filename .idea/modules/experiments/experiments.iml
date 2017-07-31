@@ -33,7 +33,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../experiments/src/main/kotlin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../experiments/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../experiments/src/test/kotlin" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../experiments/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../experiments/src/main/webapp" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../../experiments/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../../../experiments/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../experiments/build" />

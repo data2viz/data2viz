@@ -66,10 +66,7 @@
 <div class="test"></div>
 
 <script>
-    require.config({
-        baseUrl: ".",
-        paths: {"kotlin": "lib/kotlin"}
-    });
+    require.config({baseUrl: "lib"});
     require(['experiments_test'],
         function (experiments) {
             experiments.allTests();

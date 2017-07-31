@@ -5,13 +5,10 @@
 <body>
 <svg></svg>
 <script>
-    require.config({
-        baseUrl: ".",
-        paths: {"kotlin": "lib/kotlin"}
-    });
-    require(['all'],
+    require.config({baseUrl: "lib"});
+    require(['experiments'],
         function (all) {
-            all.bindingPerfs();
+            all.io.data2viz.experiments.bindingPerfs();
         });
 </script>
 </body>

@@ -8,19 +8,11 @@
 <script src="require.js"></script>
 <body>
 <script>
-
-    var d3;
-
-    require.config({
-        baseUrl: ".",
-        paths: {"kotlin": "lib/kotlin"}
-    });
+    require.config({baseUrl: "lib"});
     require(['experiments'],
         function (all) {
-            all.io.data2viz.experiments.fantasymap.buildVoronoiFantasyMap();
+            all.io.data2viz.experiments.mouse.mouse();
         });
-
 </script>
-
 </body>
 </html>
