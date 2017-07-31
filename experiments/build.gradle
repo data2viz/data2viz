@@ -1,29 +1,47 @@
-dependencies {
-    compile project(":axis")
-    compile project(":color")
-    compile project(":core")
-    compile project(":dsv")
-    compile project(":format")
-    compile project(":interpolate")
-    compile project(":random")
-    compile project(":request")
-    compile project(":svg")
-    compile project(":tile")
-    compile project(":tests")
-    compile project(":voronoi")
+def dependsOnProjects = [':axis', ':color', ':core', ':dsv', ':format', ':interpolate', ':random', ':request', ':scale', ':svg', ':tile', ':tests', ':voronoi']
 
-    testCompile project(path: ":axis", configuration: "testArtifacts")
-    testCompile project(path: ":color", configuration: "testArtifacts")
-    testCompile project(path: ":color", configuration: "testArtifacts")
-    testCompile project(path: ":core", configuration: "testArtifacts")
-    testCompile project(path: ":dsv", configuration: "testArtifacts")
-    testCompile project(path: ":format", configuration: "testArtifacts")
-    testCompile project(path: ":interpolate", configuration: "testArtifacts")
-    testCompile project(path: ":random", configuration: "testArtifacts")
-    testCompile project(path: ":request", configuration: "testArtifacts")
-    testCompile project(path: ":svg", configuration: "testArtifacts")
-    testCompile project(path: ":tile", configuration: "testArtifacts")
-    testCompile project(path: ":tests", configuration: "testArtifacts")
-    testCompile project(path: ":voronoi", configuration: "testArtifacts")
+dependencies {
+
+    dependsOnProjects.forEach {
+        compile project(it)
+        testCompile project(path: it, configuration: "testArtifacts")
+    }
 
 }
+
+apply plugin: 'war'
+
+war {
+
+    from (configurations['compile'].collect {zipTree(it)}){
+        into "/lib"
+    }
+    from (configurations['testCompile'].collect {zipTree(it)}){
+        into "/lib"
+    }
+
+    from(sourceSets.main.output) {
+        into("/lib")
+    }
+    from(sourceSets.test.output) {
+        into("/lib")
+    }
+
+
+//    for (d2vproject in dependsOnProjects){
+//        println d2vproject
+//        def dproject = project(d2vproject)
+//        from(dproject.sourceSets.main.output) {
+//            into "/"
+//        }
+//    }
+
+}
+
+task explodedWar(type: Copy) {
+    into "$buildDir/exploded"
+    with war
+}
+
+war.dependsOn explodedWar
+
