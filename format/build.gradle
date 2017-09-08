@@ -27,7 +27,11 @@ task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
 }
 
 
-task runKarma(type: YarnTask, dependsOn: [populateNodeModules]) {
+task yarnInstall(type: YarnTask) {
+    args = ['install']
+}
+
+task runKarma(type: YarnTask, dependsOn: [populateNodeModules, yarnInstall]) {
     args = ['test']
 }
 
