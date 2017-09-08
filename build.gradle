@@ -35,7 +35,7 @@ subprojects {
     compileKotlin2Js {
         kotlinOptions{
             metaInfo = true
-            outputFile = "${project.buildDir.path}/classes/java/main/${project.name}.js"
+            outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
             sourceMap = false
             moduleKind = 'umd'
             main = "call"

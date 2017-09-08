@@ -23,7 +23,7 @@ task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
         from zipTree(it.absolutePath).matching { include '*.js' }
     }
 
-    into "${buildDir}/../../node_modules"
+    into "${buildDir}/node_modules"
 }
 
 
