@@ -54,25 +54,27 @@ subprojects {
         testArtifacts testJar
     }
 
+    if (project.hasProperty("bintray.user")) {
+        bintray {
+            user = project.property('bintray.user')
+            key = project.property('bintray.key')
+            configurations = ['archives']
 
-    bintray {
-        user = project.property('bintray.user')
-        key = project.property('bintray.key')
-        configurations = ['archives']
-
-        pkg {
-            repo = 'data2viz'
-            name = 'data2viz'
-            userOrg = 'data2viz'
-            licenses = ['Apache-2.0']
-            vcsUrl = 'https://github.com/data2viz/data2viz.git'
-            version {
-                name = "${project.version}"
+            pkg {
+                repo = 'data2viz'
+                name = 'data2viz'
+                userOrg = 'data2viz'
+                licenses = ['Apache-2.0']
+                vcsUrl = 'https://github.com/data2viz/data2viz.git'
+                version {
+                    name = "${project.version}"
 //                desc = "data2viz-${project.name}"
 //                released  = new Date()
 //                vcsTag = "$version"
+                }
             }
         }
+
     }
 
 }
