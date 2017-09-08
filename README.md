@@ -1,4 +1,4 @@
-# README #
+# README [![Build Status](https://travis-ci.org/data2viz/data2viz.svg?branch=master)](https://travis-ci.org/data2viz/data2viz) #
 
 ### What is this repository for? ###
 
