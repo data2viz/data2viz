@@ -1,17 +1,11 @@
 package io.data2viz.axis
 
 import io.data2viz.core.namespace
-import io.data2viz.test.StringSpec
 import kotlin.browser.document
 
-class AxisTests : StringSpec() {
-    init {
-        "display x axis" {
-            display()
-        }
-    }
+class AxisTests  {
 
-    fun display() {
+    fun displayXAxis() {
 
         val data = listOf(55, 44, 30, 23, 17, 14, 16, 25, 41, 61, 85,
                 101, 95, 105, 114, 150, 180, 210, 125, 100, 71, 75, 72, 67)

@@ -4,12 +4,11 @@ import io.data2viz.color.Color
 import io.data2viz.color.HSL
 import io.data2viz.core.namespace
 import io.data2viz.math.deg
-import io.data2viz.test.StringSpec
+import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.test.Test
 
-class HSLTests : StringSpec() {
-
+class HSLTests : TestBase() {
 
     /**
      * "HSL SHORT linear interpolation [(300°, 100%, 25%), (38°, 100%, 50%)]

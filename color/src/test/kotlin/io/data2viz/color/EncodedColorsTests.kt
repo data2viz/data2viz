@@ -2,36 +2,48 @@ package io.data2viz.color
 
 import io.data2viz.color.EncodedColors.Companion.category10
 import io.data2viz.color.EncodedColors.Companion.category20
-import io.data2viz.color.EncodedColors.Companion.category20b
 import io.data2viz.color.EncodedColors.Companion.category20c
 import io.data2viz.color.EncodedColors.Companion.inferno
 import io.data2viz.color.EncodedColors.Companion.magma
 import io.data2viz.color.EncodedColors.Companion.plasma
 import io.data2viz.color.EncodedColors.Companion.viridis
 import io.data2viz.core.namespace
-import io.data2viz.test.ExecutionContext
-import io.data2viz.test.DOMExecutionContext
-import io.data2viz.test.StringSpec
+import io.data2viz.test.TestBase
 import kotlin.browser.document
+import kotlin.test.Test
 
-class EncodedColorsTests : StringSpec() {
+class EncodedColorsTests: TestBase() {
 
-    init {
-        "category10" { context -> category10.colors.size shouldBe 10;  displaySmallGradient(context, category10, imageReference = "http://data2viz.io/img/category10.png") }
-        "category20" { context -> category20.colors.size shouldBe 20; displaySmallGradient(context, category20, imageReference = "http://data2viz.io/img/category20.png") }
-        "category20b" { context -> category20b.colors.size shouldBe 20; displaySmallGradient(context, category20b, imageReference = "http://data2viz.io/img/category20b.png") }
-        "category20c" { context -> category20c.colors.size shouldBe 20; displaySmallGradient(context, category20c, imageReference = "http://data2viz.io/img/category20c.png") }
-
-        "viridis"   {  context -> testAndGraph(context, viridis, imageReference = "http://data2viz.io/img/viridis.png") }
-        "magma"     {  context -> testAndGraph(context, magma, imageReference = "http://data2viz.io/img/magma.png") }
-        "inferno"   {  context -> testAndGraph(context, inferno, imageReference = "http://data2viz.io/img/inferno.png") }
-        "plasma"    {  context -> testAndGraph(context, plasma, imageReference = "http://data2viz.io/img/plasma.png") }
+    @Test fun category10() {
+        category10.colors.size shouldBe 10
+        displaySmallGradient("category10", category10, imageReference = "http://data2viz.io/img/category10.png")
     }
 
-    fun displaySmallGradient(context: ExecutionContext, colors: EncodedColors, imageReference: String? = null) {
-        if (context !is DOMExecutionContext)  return
+    @Test fun category20() {
+        category20.colors.size shouldBe 20
+        displaySmallGradient("category20", category20, imageReference = "http://data2viz.io/img/category20.png")
+    }
+
+    @Test fun category20b() {
+        category20.colors.size shouldBe 20
+        displaySmallGradient("category20", category20, imageReference = "http://data2viz.io/img/category20b.png")
+    }
+
+    @Test fun category20c() {
+        category20c.colors.size shouldBe 20
+        displaySmallGradient("category20c", category20c, imageReference = "http://data2viz.io/img/category20c.png")
+    }
+
+    @Test fun viridis ()    { testAndGraph("viridis", viridis, imageReference = "http://data2viz.io/img/viridis.png") }
+    @Test fun magma ()      { testAndGraph("magma",   magma,   imageReference = "http://data2viz.io/img/magma.png") }
+    @Test fun inferno ()    { testAndGraph("inferno", inferno, imageReference = "http://data2viz.io/img/inferno.png") }
+    @Test fun plasma ()     { testAndGraph("plasma",  plasma,  imageReference = "http://data2viz.io/img/plasma.png") }
+
+
+    fun displaySmallGradient(context: String, colors: EncodedColors, imageReference: String? = null) {
         val width = 20 * colors.colors.size
-        context.element.appendChild(
+        document.body?.appendChild(document.createElement("h2").appendChild(document.createTextNode(context)))
+        document.body?.appendChild(
                 node("svg").apply {
                     setAttribute("width", "$width")
                     setAttribute("height", "20")
@@ -57,12 +69,13 @@ class EncodedColorsTests : StringSpec() {
                         setAttribute("width", "$width")
                     }
             )
-            context.element.appendChild(div)
+            document.body?.appendChild(div)
         }
     }
 
-    fun testAndGraph(context: ExecutionContext, gradient: EncodedColors, imageReference: String? = null) {
-        if (context !is DOMExecutionContext)  return
+    fun testAndGraph(context: String, gradient: EncodedColors, imageReference: String? = null) {
+        document.body?.appendChild(document.createElement("h2").appendChild(document.createTextNode(context)))
+
 
         //generate a list of 6, 10, 20 colors from the gradient.
         /*listOf(6, 10, 20).forEach { size ->
@@ -71,7 +84,7 @@ class EncodedColorsTests : StringSpec() {
             println(colors.joinToString(transform = { it.rgbHex }))
         }*/
 
-        context.element.appendChild(
+        document.body?.appendChild(
                 node("svg").apply {
                     setAttribute("width", "400")
                     setAttribute("height", "20")
@@ -98,7 +111,7 @@ class EncodedColorsTests : StringSpec() {
                         setAttribute("width", "400")
                     }
             )
-            context.element.appendChild(div)
+            document.body?.appendChild(div)
         }
     }
 

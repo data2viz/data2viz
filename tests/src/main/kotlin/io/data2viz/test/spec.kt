@@ -26,14 +26,6 @@ abstract class TestBase : Matchers {
     }
 }
 
-open class StringSpec : TestBase() {
-
-    operator fun String.invoke(test: (ExecutionContext) -> Unit): TestCase {
-        val tc = TestCase(name = this, test = test)
-        tests.add(tc)
-        return tc
-    }
-}
 
 interface ExecutionContext
 

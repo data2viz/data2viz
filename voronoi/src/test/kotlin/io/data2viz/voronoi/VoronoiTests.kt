@@ -1,16 +1,15 @@
 package io.data2viz.voronoi
 
 import io.data2viz.core.Point
-import io.data2viz.test.StringSpec
 import kotlin.js.Math
 
-class VoronoiTests : StringSpec() {
+class VoronoiTests {
 
     val width = 450.0
     val height = 450.0
 
     init {
-        "clipping"  { launch() }
+        launch()
     }
 
     fun launch() {
