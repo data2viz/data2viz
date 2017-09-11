@@ -2,109 +2,113 @@ package io.data2viz.random
 
 import io.data2viz.color.colors
 import io.data2viz.core.namespace
-import io.data2viz.test.DOMExecutionContext
-import io.data2viz.test.ExecutionContext
-import io.data2viz.test.StringSpec
+import io.data2viz.test.TestBase
 import kotlin.browser.document
+import kotlin.dom.appendText
 import kotlin.js.Math
+import kotlin.test.Test
 
-class RandomTests : StringSpec() {
+class RandomTests : TestBase() {
 
-    init {
-        val max = 1
-        val min = 0
-        val nbPoints = 60000
 
-        "Uniform random distribution [0..1] ($nbPoints values)"  {
-            context ->
-            val randomFunction = randomUniform(min, max)
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
+    val max = 1
+    val min = 0
+    val nbPoints = 60000
 
-        "Normal random distribution mu=0.5 sigma=0.1 : 99.99% of values should be in range ($nbPoints values)"  {
-            context ->
-            val randomFunction = randomNormal(max / 2.0, max / 10.0)
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
 
-        "Log Normal random distribution mu=1 sigma=0.2 ($nbPoints values) (scaled 1/10)"  {
-            context ->
-            val randomFunction = { randomLogNormal(1, .2)() / 10.0 }
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
-
-        "Exponential random distribution lambda=1.4 ($nbPoints values) (scaled 1/10)"  {
-            context ->
-            val randomFunction = {randomExponential(1.4)() / 10.0 }
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
-
-        "Exponential random distribution lambda=3 ($nbPoints values) (scaled 1/10)"  {
-            context ->
-            val randomFunction = {randomExponential(3)() / 10.0 }
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
-
-        "Bates (4 samples) random distribution (${nbPoints} values)"  {
-            context ->
-            val randomFunction = randomBates(4)
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
-
-        "Bates (20 samples) random distribution (${nbPoints} values)"  {
-            context ->
-            val randomFunction = randomBates(20)
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
-
-        "IrwinHall (4 samples) random distribution (${nbPoints} values)"  {
-            context ->
-            val randomFunction = { randomIrwinHall(4)() / 4.0 }
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
-
-        "IrwinHall (20 samples) random distribution (${nbPoints} values)"  {
-            context ->
-            val randomFunction = { randomIrwinHall(20)() / 20.0 }
-            testAndGraphAndCheckMinMaxValues(context, randomFunction, nbPoints, min, max) shouldBe true
-        }
+    @Test
+    fun uniformRandomDistribution_0_1() {
+        val randomFunction = randomUniform(min, max)
+        testAndGraphAndCheckMinMaxValues("uniformRandomDistribution_0_1", randomFunction, nbPoints, min, max) shouldBe true
     }
 
-    private fun testAndGraphAndCheckMinMaxValues(context: ExecutionContext, randomFunction: () -> Double, loops: Int, min: Int, max: Int): Boolean {
-        var check = true
-        val resultsXY: ArrayList<Double> = arrayListOf()
+    @Test
+    fun normalRandomDistribution_mu05_sigma0_1() {
+        val randomFunction = randomNormal(max / 2.0, max / 10.0)
+        testAndGraphAndCheckMinMaxValues("normalRandomDistribution_mu05_sigma0_1", randomFunction, nbPoints, min, max) shouldBe true
+    }
 
-        (0 until loops).forEach {
-            val x = randomFunction()
-            resultsXY.add(x)
-            check = check && x >= min && x < max
-        }
+    @Test
+    fun logNormalRandomDistribuitonMu_1_sigma_0_2() {
+        val randomFunction = { randomLogNormal(1, .2)() / 10.0 }
+        testAndGraphAndCheckMinMaxValues("logNormalRandomDistribuitonMu_1_sigma_0_2", randomFunction, nbPoints, min, max) shouldBe true
+    }
 
-        if (context !is DOMExecutionContext) return check
+    @Test
+    fun exponentialRandomDistributionLambda_1_4() {
+        val randomFunction = { randomExponential(1.4)() / 10.0 }
+        testAndGraphAndCheckMinMaxValues("exponentialRandomDistributionLambda_1_4", randomFunction, nbPoints, min, max) shouldBe true
+    }
 
-        val groupedResults = resultsXY.map { value -> Math.floor(value * 100) }.sorted().groupBy { it }
-        val maxResultsFound = groupedResults.values.map { it.size }.max()!!.toDouble()
+    @Test
+    fun exponential_random_distribution_lambda_3() {
+        val randomFunction = { randomExponential(3)() / 10.0 }
+        testAndGraphAndCheckMinMaxValues("exponential_random_distribution_lambda_3", randomFunction, nbPoints, min, max) shouldBe true
+    }
 
-        context.element.appendChild(
-                document.createElementNS(namespace.svg, "svg").apply {
-                    setAttribute("width", "800")
-                    setAttribute("height", "100")
-                    groupedResults.forEach { entry ->
-                        appendChild(
-                                document.createElementNS(namespace.svg, "rect").apply {
-                                    val height = entry.value.size / maxResultsFound * 100.0
-                                    setAttribute("x", "${entry.key * 8}")
-                                    setAttribute("y", "${100 - height}")
-                                    setAttribute("width", "8")
-                                    setAttribute("height", "$height")
-                                    setAttribute("fill", colors.lightblue.rgbHex)
-                                }
+    @Test
+    fun bates_4_random_distribution() {
+        val randomFunction = randomBates(4)
+        testAndGraphAndCheckMinMaxValues("bates_random_distribution", randomFunction, nbPoints, min, max) shouldBe true
+    }
 
-                        )
-                    }
+
+    @Test
+    fun bates_20_random_distribution() {
+        val randomFunction = randomBates(20)
+        testAndGraphAndCheckMinMaxValues("bates_20_random_distribution", randomFunction, nbPoints, min, max) shouldBe true
+    }
+
+    @Test
+    fun irwinHall_4_random_distribution() {
+        val randomFunction = { randomIrwinHall(4)() / 4.0 }
+        testAndGraphAndCheckMinMaxValues("irwinHall_4_random_distribution", randomFunction, nbPoints, min, max) shouldBe true
+    }
+
+    @Test
+    fun irwinHall_20_random_distribution() {
+        val randomFunction = { randomIrwinHall(20)() / 20.0 }
+        testAndGraphAndCheckMinMaxValues("irwinHall_20_random_distribution", randomFunction, nbPoints, min, max) shouldBe true
+    }
+}
+
+private fun testAndGraphAndCheckMinMaxValues(context: String, randomFunction: () -> Double, loops: Int, min: Int, max: Int): Boolean {
+    var check = true
+    val resultsXY: ArrayList<Double> = arrayListOf()
+
+    (0 until loops).forEach {
+        val x = randomFunction()
+        resultsXY.add(x)
+        check = check && x >= min && x < max
+    }
+
+    val groupedResults = resultsXY.map { value -> Math.floor(value * 100) }.sorted().groupBy { it }
+    val maxResultsFound = groupedResults.values.map { it.size }.max()!!.toDouble()
+
+    h2(context)
+    document.body?.appendChild((
+            document.createElementNS(namespace.svg, "svg").apply {
+                setAttribute("width", "800")
+                setAttribute("height", "100")
+                groupedResults.forEach { entry ->
+                    appendChild(
+                            document.createElementNS(namespace.svg, "rect").apply {
+                                val height = entry.value.size / maxResultsFound * 100.0
+                                setAttribute("x", "${entry.key * 8}")
+                                setAttribute("y", "${100 - height}")
+                                setAttribute("width", "8")
+                                setAttribute("height", "$height")
+                                setAttribute("fill", colors.lightblue.rgbHex)
+                            }
+
+                    )
                 }
-        )
+            }
+            ))
 
-        return check
-    }
+    return check
+}
+
+internal fun h2(name: String) {
+    document.body?.appendChild(document.createElement("h2").appendText(name))
 }
