@@ -4,43 +4,59 @@ import io.data2viz.color.Color
 import io.data2viz.color.HSL
 import io.data2viz.core.namespace
 import io.data2viz.math.deg
-import io.data2viz.test.ExecutionContext
-import io.data2viz.test.DOMExecutionContext
 import io.data2viz.test.StringSpec
 import kotlin.browser.document
+import kotlin.test.Test
 
 class HSLTests : StringSpec() {
 
-    init {
-        "HSL SHORT linear interpolation [(300°, 100%, 25%), (38°, 100%, 50%)] see https://github.com/d3/d3-interpolate#interpolateHsl for reference" {context ->
-            val iterator = interpolateHsl(HSL(300.deg, 1.0, .25), HSL(38.deg, 1.0, .5))
-            displaySmallGradient(context, iterator, 888, imageReference = "http://data2viz.io/img/hsl.png")
-            iterator(0.5).toRgba().rgbHex shouldBe Color(0xbf0023).rgbHex
-        }
 
-        "HSL LONG linear interpolation [(300°, 100%, 25%), (38°, 100%, 50%)]" {context ->
-            val iterator = interpolateHslLong(HSL(300.deg, 1.0, .25), HSL(38.deg, 1.0, .5))
-            displaySmallGradient(context, iterator, 888, imageReference = "http://data2viz.io/img/hslLong.png")
-            iterator(0.5).toRgba().rgbHex shouldBe Color(0x00bf9c).rgbHex
-        }
+    /**
+     * "HSL SHORT linear interpolation [(300°, 100%, 25%), (38°, 100%, 50%)]
+     * see https://github.com/d3/d3-interpolate#interpolateHsl for reference
+     */
+    @Test
+    fun hslShortLinearInterpolation() {
 
-        "HSL SHORT linear interpolation [(38°, 100%, 50%), (300°, 100%, 25%)]" {context ->
-            val iterator = interpolateHsl(HSL(38.deg, 1.0, .5), HSL(300.deg, 1.0, .25))
-            displaySmallGradient(context, iterator, 888, imageReference = "http://data2viz.io/img/hslReverse.png")
-            iterator(0.5).toRgba().rgbHex shouldBe Color(0xbf0023).rgbHex
-        }
-
-        "HSL LONG linear interpolation [(38°, 100%, 50%), (300°, 100%, 25%)]" {context ->
-            val iterator = interpolateHslLong(HSL(38.deg, 1.0, .5), HSL(300.deg, 1.0, .25))
-            displaySmallGradient(context, iterator, 888, imageReference = "http://data2viz.io/img/hslLongReverse.png")
-            iterator(0.5).toRgba().rgbHex shouldBe Color(0x00bf9c).rgbHex
-        }
+        val iterator = interpolateHsl(HSL(300.deg, 1.0, .25), HSL(38.deg, 1.0, .5))
+        displaySmallGradient("HSL", iterator, 888, imageReference = "http://data2viz.io/img/hsl.png")
+        iterator(0.5).toRgba().rgbHex shouldBe Color(0xbf0023).rgbHex
     }
 
-    fun displaySmallGradient(context:ExecutionContext, percentToColor: (Float) -> HSL, width: Int = 256, imageReference: String? = null) {
+    /**
+     * "HSL LONG linear interpolation [(300°, 100%, 25%), (38°, 100%, 50%)]"
+     */
+    @Test
+    fun hslLongLinearInterpolation() {
+        val iterator = interpolateHslLong(HSL(300.deg, 1.0, .25), HSL(38.deg, 1.0, .5))
+        displaySmallGradient("HSL Long", iterator, 888, imageReference = "http://data2viz.io/img/hslLong.png")
+        iterator(0.5).toRgba().rgbHex shouldBe Color(0x00bf9c).rgbHex
+    }
 
-        if (context !is DOMExecutionContext)  return
-        context.element.appendChild(
+    /**
+     * "HSL SHORT linear interpolation [(38°, 100%, 50%), (300°, 100%, 25%)]"
+     */
+    @Test
+    fun hslShortLinea() {
+        val iterator = interpolateHsl(HSL(38.deg, 1.0, .5), HSL(300.deg, 1.0, .25))
+        displaySmallGradient("HSL Reverse", iterator, 888, imageReference = "http://data2viz.io/img/hslReverse.png")
+        iterator(0.5).toRgba().rgbHex shouldBe Color(0xbf0023).rgbHex
+    }
+
+    /**
+     * "HSL LONG linear interpolation [(38°, 100%, 50%), (300°, 100%, 25%)]"
+     */
+    @Test
+    fun hslLongLinearInterpol() {
+        val iterator = interpolateHslLong(HSL(38.deg, 1.0, .5), HSL(300.deg, 1.0, .25))
+        displaySmallGradient("HSL Long Reverse", iterator, 888, imageReference = "http://data2viz.io/img/hslLongReverse.png")
+        iterator(0.5).toRgba().rgbHex shouldBe Color(0x00bf9c).rgbHex
+    }
+
+    fun displaySmallGradient(context: String, percentToColor: (Float) -> HSL, width: Int = 256, imageReference: String? = null) {
+
+        h2(context)
+        document.body?.appendChild(
                 nodeSVG("svg").apply {
                     setAttribute("width", "$width")
                     setAttribute("height", "20")
@@ -68,7 +84,7 @@ class HSLTests : StringSpec() {
                         setAttribute("width", "$width")
                     }
             )
-            context.element.appendChild(div)
+            document.body?.appendChild(div)
         }
     }
 
