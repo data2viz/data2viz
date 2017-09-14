@@ -14,7 +14,7 @@ module.exports = function (config) {
             autoWatch: false,
             browsers: [
                 'PhantomJS',
-                'Chrome'
+                // 'Chrome'
             ],
             captureTimeout: 5000,
             singleRun: true,
