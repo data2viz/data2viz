@@ -14,11 +14,13 @@ module.exports = function (config) {
             autoWatch: false,
             browsers: [
                 'PhantomJS',
-                // 'Chrome'
+                'Chrome'
             ],
             captureTimeout: 5000,
             singleRun: true,
             // singleRun: false,
+            retryLimit: 0,
+
             reportSlowerThan: 500,
 
             preprocessors: {

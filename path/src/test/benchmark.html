@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Path benchmark</title>
+    <script src="https://d3js.org/d3-path.v1.js"></script>
+    <script src="../../node_modules/lodash/lodash.js"></script>
+    <script src="../../node_modules/platform/platform.js"></script>
+    <script src="../../node_modules/benchmark/benchmark.js"></script>
+    <script src="../../build/node_modules/kotlin.js"></script>
+    <script src="../../build/classes/main/path.js"></script>
+</head>
+<body>
+<p>Open this file after a build</p>
+<script>
+
+    var module = path.io.data2viz.path;
+
+    var suite = new Benchmark.Suite;
+    suite
+        .add('D3-Path#lineTo', function () {
+            var path = d3.path();
+            path.lineTo(10, 10);
+            path.lineTo(20, 20);
+            path.lineTo(30, 30);
+            path.lineTo(40, 40);
+            path.lineTo(50, 50);
+            path.lineTo(60, 60);
+            path.lineTo(70, 70);
+            path.lineTo(80, 80);
+            path.lineTo(90, 90);
+            path.lineTo(100, 100);
+        })
+        .add('Path#lineTo', function () {
+            var path = module.path();
+            path.lineTo(10, 10);
+            path.lineTo(20, 20);
+            path.lineTo(30, 30);
+            path.lineTo(40, 40);
+            path.lineTo(50, 50);
+            path.lineTo(60, 60);
+            path.lineTo(70, 70);
+            path.lineTo(80, 80);
+            path.lineTo(90, 90);
+            path.lineTo(100, 100);
+        })
+        .add('Path#lineToDouble', function () {
+            var path = module.path();
+            path.lineToDouble(10, 10);
+            path.lineToDouble(20, 20);
+            path.lineToDouble(30, 30);
+            path.lineToDouble(40, 40);
+            path.lineToDouble(50, 50);
+            path.lineToDouble(60, 60);
+            path.lineToDouble(70, 70);
+            path.lineToDouble(80, 80);
+            path.lineToDouble(90, 90);
+            path.lineToDouble(100, 100);
+        })
+
+    // add listeners
+    .on('cycle', function (event) {
+        console.log(String(event.target));
+    })
+    .on('error', function (event) {
+        console.log(event);
+    })
+    .on('complete', function () {
+        console.log('Fastest is ' + this.filter('fastest').map('name'));
+    })
+    // run async
+    .run({'async': true});
+
+</script>
+
+</body>
+</html>

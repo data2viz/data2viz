@@ -13,30 +13,43 @@ val tau = 2 * pi
 val epsilon = 1e-6
 val tauEpsilon = tau - epsilon
 
-class Path() {
+/**
+ * Implements CanvasPath functions to allow to generate some graphic elements
+ * indiscriminately on Canvas or SVG.
+ */
+class Path {
 
-    var x0:Number = 0
-    var y0:Number = 0
-    var x1:Number? = null
-    var y1:Number? = null
+    private var x0:Double = 0.0
+    private var y0:Double = 0.0
+    private var x1:Double? = null
+    private var y1:Double? = null
 
     var cmd:String = ""
 
+    @JsName("moveTo")
     fun moveTo(x:Number, y:Number) {
-        x0 = x
-        y0 = y
-        x1 = x
-        y1 = y
+        x0 = x.toDouble()
+        y0 = y.toDouble()
+        x1 = x.toDouble()
+        y1 = y.toDouble()
         cmd += "M$x,$y"
     }
 
-    fun lineTo(x: Int, y: Int) {
+    @JsName("lineTo")
+    fun lineTo(x: Number, y: Number) {
+        x1 = x.toDouble()
+        y1 = y.toDouble()
+        cmd += "L$x,$y"
+    }
+
+    @JsName("lineToDouble")
+    fun lineToDouble(x: Double, y: Double) {
         x1 = x
         y1 = y
         cmd += "L$x,$y"
-
     }
 
+    @JsName("closePath")
     fun closePath() {
         if(x1 != null){
             x1 = x0
@@ -46,14 +59,14 @@ class Path() {
     }
 
     fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number) {
-        this.x1 = x
-        this.y1 = y
+        this.x1 = x.toDouble()
+        this.y1 = y.toDouble()
         cmd += "Q$x1,$y1,$x,$y"
     }
 
     fun bezierCurveTo(x1: Number, y1: Number,x2: Number, y2: Number, x: Number, y: Number) {
-        this.x1 = x
-        this.y1 = y
+        this.x1 = x.toDouble()
+        this.y1 = y.toDouble()
         cmd += "C$x1,$y1,$x2,$y2,$x,$y"
     }
 
@@ -66,8 +79,8 @@ class Path() {
         val x2 = toX.toDouble()
         val y2 = toY.toDouble()
 
-        val x0 = this.x1?.toDouble() ?: .0
-        val y0 = this.y1?.toDouble() ?: .0
+        val x0 = this.x1 ?: .0
+        val y0 = this.y1 ?: .0
 
         val x21 = x2 - x1
         val y21 = y2 - y1
@@ -105,11 +118,11 @@ class Path() {
                 val l01 = Math.sqrt(l01_2)
                 val l = r * Math.tan((pi - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2)
                 val t01 = l / l01
-                val t21 = l / l21;
+                val t21 = l / l21
 
                 // If the start tangent is not coincident with (x0,y0), line to.
                 if (Math.abs(t01 - 1) > epsilon) {
-                    cmd += "L${x1 + t01 * x01},${y1 + t01 * y01}";
+                    cmd += "L${x1 + t01 * x01},${y1 + t01 * y01}"
                 }
 
                 this@Path.x1 = x1 + t21 * x21
@@ -160,22 +173,22 @@ class Path() {
         if (da > tauEpsilon) {
             x1 = x0
             y1 = y0
-            cmd += "A$r,$r,0,1,$cw,${x - dx},${y - dy}A$r,$r,0,1,$cw,$x0,$y0";
+            cmd += "A$r,$r,0,1,$cw,${x - dx},${y - dy}A$r,$r,0,1,$cw,$x0,$y0"
         }
 
         // Is this arc non-empty? Draw an arc!
         else if (da > epsilon) {
             x1 = x + r * cos(a1)
             y1 = y + r * sin(a1)
-            cmd += "A$r,$r,0,${if (da >= pi) 1 else 0},$cw,$x1,$y1";
+            cmd += "A$r,$r,0,${if (da >= pi) 1 else 0},$cw,$x1,$y1"
         }
     }
 
     fun rect(x:Number, y:Number, w:Number, h:Number) {
-        x0 = x
-        x1 = x
-        y0 = y
-        y1 = y
+        x0 = x.toDouble()
+        x1 = x.toDouble()
+        y0 = y.toDouble()
+        y1 = y.toDouble()
         cmd += "M$x,${y}h${w}v${h}h${-w.toDouble()}Z"
     }
 
