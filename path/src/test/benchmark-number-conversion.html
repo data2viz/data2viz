@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Path benchmark</title>
+    <script src="../../node_modules/lodash/lodash.js"></script>
+    <script src="../../node_modules/platform/platform.js"></script>
+    <script src="../../node_modules/benchmark/benchmark.js"></script>
+    <script src="../../build/node_modules/kotlin.js"></script>
+    <script src="../../build/node_modules/kotlin-test.js"></script>
+    <script src="../../build/node_modules/request.js"></script>
+    <script src="../../build/node_modules/format.js"></script>
+    <script src="../../build/node_modules/tests.js"></script>
+    <script src="../../build/classes/main/path.js"></script>
+    <script src="../../build/classes/test/path_test.js"></script>
+</head>
+<body>
+<p>Open this file after a build</p>
+<script>
+
+    var module = path_test;
+
+    var suite = new Benchmark.Suite;
+    suite
+        .add('NumberConversion#doubleAffectation', function () {
+            module.doubleAffectation(123);
+        })
+        .add('NumberConversion#numberToDouble', function () {
+            module.numberToDouble(123);
+        })
+
+        // add listeners
+        .on('cycle', function (event) {
+            console.log(String(event.target));
+        })
+        .on('error', function (event) {
+            console.log(event);
+        })
+        .on('complete', function () {
+            console.log('Fastest is ' + this.filter('fastest').map('name'));
+        })
+        // run async
+            .run({'async': true});
+
+</script>
+
+</body>
+</html>
