@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Path benchmark</title>
+    <script src="https://d3js.org/d3-dsv.v1.js"></script>
+    <script src="../../node_modules/lodash/lodash.js"></script>
+    <script src="../../node_modules/platform/platform.js"></script>
+    <script src="../../node_modules/benchmark/benchmark.js"></script>
+    <script src="../../build/node_modules/kotlin.js"></script>
+    <script src="../../build/node_modules/kotlin-test.js"></script>
+    <script src="../../build/node_modules/request.js"></script>
+    <script src="../../build/classes/main/dsv.js"></script>
+    <script src="../../build/node_modules/tests.js"></script>
+    <script src="../../build/classes/test/dsv_test.js"></script>
+</head>
+<body>
+<p>Open this file after a build</p>
+<script>
+    var module = dsv_test.io.data2viz.dsv;
+    var url = "testData/match_scores_2009-2016.csv";
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", url, false);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState === 4) {
+            if (rawFile.status === 200 || rawFile.status == 0) {
+                var csvText = rawFile.responseText;
+                startBenchmark(csvText)
+            }
+        }
+    };
+    rawFile.send(null);
+
+    function startBenchmark(csvText) {
+
+        var matchs = module.parseToModel(csvText);
+        var d3Matchs = d3.csvParse(csvText);
+//        debugger;
+
+        var suite = new Benchmark.Suite;
+        suite
+            .add('d3-dsv#parseRows', function () {
+                d3.csvParse(csvText);
+            })
+            .add('DSV#parseRows', function () {
+                module.parseToModel(csvText);
+            })
+
+            .on('cycle', function (event) {
+                console.log(String(event.target));
+            })
+            .on('error', function (event) {
+                console.log(event);
+            })
+            .on('complete', function () {
+                console.log('Fastest is ' + this.filter('fastest').map('name'));
+            })
+            .run({'async': true});
+    }
+
+</script>
+
+</body>
+</html>
