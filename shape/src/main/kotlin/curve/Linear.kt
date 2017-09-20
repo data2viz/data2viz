@@ -1,16 +1,7 @@
 package curve
 
 import io.data2viz.path.PathAdapter
-import io.data2viz.path.svgPath
-
-interface Curve {
-    val context: PathAdapter
-    fun areaStart()
-    fun areaEnd()
-    fun lineStart()
-    fun lineEnd()
-    fun point(x: Number, y: Number)
-}
+import io.data2viz.shape.Curve
 
 
 class Linear(override val context: PathAdapter): Curve {

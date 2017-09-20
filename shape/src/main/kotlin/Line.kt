@@ -1,19 +1,11 @@
 package io.data2viz.shape
 
-
-import curve.Curve
-import curve.Linear
 import io.data2viz.path.PathAdapter
-
 
 fun <T> line(init: LineGenerator<T>.() -> Unit) = LineGenerator<T>().apply(init)
 
 fun <T, D> const(constantValue: T): (D) -> T = { constantValue }
 
-
-object curves {
-    val linear = {context:PathAdapter -> Linear(context)}
-}
 
 class LineGenerator<T> {
 
