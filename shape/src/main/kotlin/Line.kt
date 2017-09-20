@@ -24,8 +24,7 @@ class LineGenerator<T> {
         val n = datas.size
 
         var defined0 = false
-        if (output == null)
-            output = Linear(context)
+        output = Linear(context)
 
         for (i in 0..n){
 

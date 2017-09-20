@@ -32,7 +32,7 @@ interface PathAdapter {
 
 class CanvasDrawContext(val canvas: CanvasPath): PathAdapter {
     override fun moveTo(x: Number, y: Number) { canvas.moveTo(x.toDouble(), y as Double) }
-    override fun lineTo(x: Number, y: Number) { canvas.moveTo(x.toDouble(),y.toDouble()) }
+    override fun lineTo(x: Number, y: Number) { canvas.lineTo(x.toDouble(),y.toDouble()) }
     override fun closePath() { canvas.closePath() }
     override fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number) { canvas.quadraticCurveTo(x1.toDouble(), y1.toDouble(), x.toDouble(), y.toDouble()) }
     override fun bezierCurveTo(x1: Number, y1: Number, x2: Number, y2: Number, x: Number, y: Number) { canvas.bezierCurveTo(x1.toDouble(), y1. toDouble(), x2.toDouble(), y2.toDouble(),x.toDouble(), y.toDouble())}
