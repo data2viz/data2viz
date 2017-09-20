@@ -3,32 +3,41 @@ package curve
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.svgPath
 
+interface Curve {
+    val context: PathAdapter
+    fun areaStart()
+    fun areaEnd()
+    fun lineStart()
+    fun lineEnd()
+    fun point(x: Number, y: Number)
+}
 
-class Linear(val context: PathAdapter) {
+
+class Linear(override val context: PathAdapter): Curve {
 
     private var status = 0
     private var lineStatus: Int = -1
 
-    fun areaStart() {
+    override fun areaStart() {
         lineStatus = 0
     }
 
-    fun areaEnd() {
+    override fun areaEnd() {
         lineStatus = -1
     }
 
-    fun lineStart() {
+    override fun lineStart() {
         status = 0
     }
 
-    fun lineEnd() {
+    override fun lineEnd() {
         if (lineStatus > 0 || (lineStatus != 0 && status == 1)) {
             context.closePath()
         }
         lineStatus = 1 - lineStatus
     }
 
-    fun point(x: Number, y: Number) {
+    override fun point(x: Number, y: Number) {
 
         if (status == 0) {
             status = 1
@@ -46,3 +55,4 @@ class Linear(val context: PathAdapter) {
         context.lineTo(x,y)
     }
 }
+

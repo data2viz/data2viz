@@ -1,6 +1,7 @@
 import curve.Point
 import io.data2viz.path.CanvasDrawContext
 import io.data2viz.path.SvgPath
+import io.data2viz.shape.curves
 import io.data2viz.shape.line
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
@@ -27,14 +28,12 @@ val context: CanvasRenderingContext2D
 
 
 val lineGenerator = line<Point> {
+    curve = curves.linear
     x = { it.x.toDouble() }
     y = { it.y.toDouble() }
 }
 
-val points = (1..10).map {
-    Point(10 * it, 20 * it)
-}.toTypedArray()
-
+val points = arrayOf(Point(0,0), Point(50, 50), Point(100,0), Point(150, 100), Point(200,0))
 
 
 @JsName("showLines")
@@ -51,6 +50,7 @@ fun showLines() {
             setAttribute("width", "200")
             setAttribute("height", "200")
             setAttribute("stroke", "black")
+            setAttribute("fill", "none")
             appendChild(createSvgElement("path").apply {
                 val line = lineGenerator.line(points, SvgPath()).path
                 setAttribute("d", line)
@@ -60,7 +60,7 @@ fun showLines() {
 
     //Canvas
     context.beginPath();
-    context.lineWidth = 1.5;
+    context.lineWidth = 1.0;
     context.strokeStyle = "steelblue";
     lineGenerator.line(points, CanvasDrawContext(context))
     context.stroke();

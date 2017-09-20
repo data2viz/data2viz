@@ -1,6 +1,7 @@
 package io.data2viz.shape
 
 
+import curve.Curve
 import curve.Linear
 import io.data2viz.path.PathAdapter
 
@@ -10,12 +11,15 @@ fun <T> line(init: LineGenerator<T>.() -> Unit) = LineGenerator<T>().apply(init)
 fun <T, D> const(constantValue: T): (D) -> T = { constantValue }
 
 
+object curves {
+    val linear = {context:PathAdapter -> Linear(context)}
+}
+
 class LineGenerator<T> {
 
-    var output:Linear? = null
+    var curve: (PathAdapter) -> Curve = curves.linear
     var x: (T) -> Double = const(.0)
     var y: (T) -> Double = const(.0)
-
 
     /**
      * Use the datas to generate a line on the context
@@ -24,7 +28,7 @@ class LineGenerator<T> {
         val n = datas.size
 
         var defined0 = false
-        output = Linear(context)
+        val output = curve(context)
 
         for (i in 0..n){
 
@@ -34,14 +38,14 @@ class LineGenerator<T> {
             if (startOrEnd()){
                 defined0 = !defined0
                 if (defined0)
-                    output!!.lineStart()
+                    output.lineStart()
                 else
-                    output!!.lineEnd()
+                    output.lineEnd()
             }
 
             if (defined0) {
                 val data = datas[i]
-                output!!.point(x(data), y(data))
+                output.point(x(data), y(data))
             }
         }
         return context
