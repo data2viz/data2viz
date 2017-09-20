@@ -3,3 +3,4 @@
 lib/
 out/
 target/
+node_modules/
