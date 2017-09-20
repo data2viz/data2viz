@@ -1,12 +1,14 @@
 package io.data2viz.path
 
+import org.w3c.dom.CanvasPath
 import kotlin.js.Math
 import kotlin.js.Math.abs
 import kotlin.js.Math.cos
 import kotlin.js.Math.sin
 
 
-fun path() = Path()
+fun svgPath():SvgPath = SvgPath()
+fun path(canvas: CanvasPath): PathAdapter = CanvasDrawContext(canvas)
 
 val pi = Math.PI
 val tau = 2 * pi
@@ -14,63 +16,80 @@ val epsilon = 1e-6
 val tauEpsilon = tau - epsilon
 
 /**
+ * Common denominator between Canva, SVG, JavaFX
+ */
+interface PathAdapter {
+    fun moveTo(x:Number, y: Number)
+    fun lineTo(x:Number, y: Number)
+    fun closePath()
+    fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number)
+    fun bezierCurveTo(x1: Number, y1: Number,x2: Number, y2: Number, x: Number, y: Number)
+    fun arcTo(fromX:Number, fromY:Number, toX:Number, toY:Number, radius:Number)
+    fun arc(centerX:Number, centerY:Number, radius:Number, startAngle:Number, endAngle:Number, counterClockWise:Boolean = false)
+    fun rect(x:Number, y:Number, w:Number, h:Number)
+}
+
+
+class CanvasDrawContext(val canvas: CanvasPath): PathAdapter {
+    override fun moveTo(x: Number, y: Number) { canvas.moveTo(x.toDouble(), y as Double) }
+    override fun lineTo(x: Number, y: Number) { canvas.moveTo(x.toDouble(),y.toDouble()) }
+    override fun closePath() { canvas.closePath() }
+    override fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number) { canvas.quadraticCurveTo(x1.toDouble(), y1.toDouble(), x.toDouble(), y.toDouble()) }
+    override fun bezierCurveTo(x1: Number, y1: Number, x2: Number, y2: Number, x: Number, y: Number) { canvas.bezierCurveTo(x1.toDouble(), y1. toDouble(), x2.toDouble(), y2.toDouble(),x.toDouble(), y.toDouble())}
+    override fun arcTo(fromX: Number, fromY: Number, toX: Number, toY: Number, radius: Number) { canvas.arcTo(fromX.toDouble(), fromY.toDouble(), toX.toDouble(), toY.toDouble(), radius.toDouble() ) }
+    override fun arc(centerX: Number, centerY: Number, radius: Number, startAngle: Number, endAngle: Number, counterClockWise: Boolean) { canvas.arc(centerX.toDouble(), centerY.toDouble(), radius.toDouble(), startAngle.toDouble(), endAngle.toDouble(), counterClockWise) }
+    override fun rect(x: Number, y: Number, w: Number, h: Number) { canvas.rect(x.toDouble(), y.toDouble(), w.toDouble(), h.toDouble()) }
+}
+
+
+/**
  * Implements CanvasPath functions to allow to generate some graphic elements
  * indiscriminately on Canvas or SVG.
  */
-class Path {
+class SvgPath : PathAdapter {
 
     private var x0:Double = 0.0
     private var y0:Double = 0.0
     private var x1:Double? = null
     private var y1:Double? = null
 
-    var cmd:String = ""
+    var path:String = ""
 
-    @JsName("moveTo")
-    fun moveTo(x:Number, y:Number) {
+    override fun moveTo(x:Number, y:Number) {
         x0 = x.toDouble()
         y0 = y.toDouble()
         x1 = x.toDouble()
         y1 = y.toDouble()
-        cmd += "M$x,$y"
+        path += "M$x,$y"
     }
 
-    @JsName("lineTo")
-    fun lineTo(x: Number, y: Number) {
+    override fun lineTo(x: Number, y: Number) {
         x1 = x.toDouble()
         y1 = y.toDouble()
-        cmd += "L$x,$y"
+        path += "L$x,$y"
     }
 
-    @JsName("lineToDouble")
-    fun lineToDouble(x: Double, y: Double) {
-        x1 = x
-        y1 = y
-        cmd += "L$x,$y"
-    }
-
-    @JsName("closePath")
-    fun closePath() {
+    override fun closePath() {
         if(x1 != null){
             x1 = x0
             y1 = y0
-            cmd += "Z"
+            path += "Z"
         }
     }
 
-    fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number) {
+    override fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number) {
         this.x1 = x.toDouble()
         this.y1 = y.toDouble()
-        cmd += "Q$x1,$y1,$x,$y"
+        path += "Q$x1,$y1,$x,$y"
     }
 
-    fun bezierCurveTo(x1: Number, y1: Number,x2: Number, y2: Number, x: Number, y: Number) {
+    override fun bezierCurveTo(x1: Number, y1: Number, x2: Number, y2: Number, x: Number, y: Number) {
         this.x1 = x.toDouble()
         this.y1 = y.toDouble()
-        cmd += "C$x1,$y1,$x2,$y2,$x,$y"
+        path += "C$x1,$y1,$x2,$y2,$x,$y"
     }
 
-    fun arcTo(fromX:Number, fromY:Number, toX:Number, toY:Number, radius:Number){
+    override fun arcTo(fromX:Number, fromY:Number, toX:Number, toY:Number, radius:Number){
         val r = radius.toDouble()
         if (r < 0.0) throw IllegalArgumentException("Negative radius:" + radius)
 
@@ -92,9 +111,9 @@ class Path {
             //path is empty, introduce private function?
             if(this == null){
                 // Is this path empty? Move to (x1,y1).
-                this@Path.x1 = x1
-                this@Path.y1 = y1
-                cmd += "M$x1,$y1"
+                this@SvgPath.x1 = x1
+                this@SvgPath.y1 = y1
+                path += "M$x1,$y1"
             }
             // Or, is (x1,y1) coincident with (x0,y0)? Do nothing.
             else if (l01_2 <= epsilon){}
@@ -103,9 +122,9 @@ class Path {
             // Equivalently, is (x1,y1) coincident with (x2,y2)?
             // Or, is the radius zero? Line to (x1,y1).
             else if (Math.abs(y01 * x21 - y21 * x01) <= epsilon || r == .0) {
-                this@Path.x1 = x1
-                this@Path.y1 = y1
-                cmd += "L$x1,$y1"
+                this@SvgPath.x1 = x1
+                this@SvgPath.y1 = y1
+                path += "L$x1,$y1"
             }
 
             // Otherwise, draw an arc!
@@ -122,13 +141,13 @@ class Path {
 
                 // If the start tangent is not coincident with (x0,y0), line to.
                 if (Math.abs(t01 - 1) > epsilon) {
-                    cmd += "L${x1 + t01 * x01},${y1 + t01 * y01}"
+                    path += "L${x1 + t01 * x01},${y1 + t01 * y01}"
                 }
 
-                this@Path.x1 = x1 + t21 * x21
-                this@Path.y1 = y1 + t21 * y21
+                this@SvgPath.x1 = x1 + t21 * x21
+                this@SvgPath.y1 = y1 + t21 * y21
                 val yes = if (y01 * x20 > x01 * y20) 1 else 0
-                cmd += "A$r,$r,0,0,$yes,${this@Path.x1},${this@Path.y1}"
+                path += "A$r,$r,0,0,$yes,${this@SvgPath.x1},${this@SvgPath.y1}"
             }
         }
     }
@@ -138,7 +157,7 @@ class Path {
      *
      * @see https://www.w3.org/TR/2dcontext/#dom-context-2d-arc
      */
-    fun arc(centerX:Number, centerY:Number, radius:Number, startAngle:Number, endAngle:Number, counterClockWise:Boolean = false){
+    override fun arc(centerX:Number, centerY:Number, radius:Number, startAngle:Number, endAngle:Number, counterClockWise:Boolean){
         val r = radius.toDouble()
         if (r < 0.0) throw IllegalArgumentException("Negative radius:" + radius)
 
@@ -158,10 +177,10 @@ class Path {
 
             //path is empty, introduce private function?
             if(this == null)
-                cmd += "M$x0,$y0"
+                path += "M$x0,$y0"
 
             else if (abs(this.toDouble() - x0) > epsilon || abs(y1!!.toDouble() - y0) > epsilon){
-                cmd += "L$x0,$y0"
+                path += "L$x0,$y0"
             }
         }
 
@@ -173,24 +192,23 @@ class Path {
         if (da > tauEpsilon) {
             x1 = x0
             y1 = y0
-            cmd += "A$r,$r,0,1,$cw,${x - dx},${y - dy}A$r,$r,0,1,$cw,$x0,$y0"
+            path += "A$r,$r,0,1,$cw,${x - dx},${y - dy}A$r,$r,0,1,$cw,$x0,$y0"
         }
 
         // Is this arc non-empty? Draw an arc!
         else if (da > epsilon) {
             x1 = x + r * cos(a1)
             y1 = y + r * sin(a1)
-            cmd += "A$r,$r,0,${if (da >= pi) 1 else 0},$cw,$x1,$y1"
+            path += "A$r,$r,0,${if (da >= pi) 1 else 0},$cw,$x1,$y1"
         }
     }
 
-    fun rect(x:Number, y:Number, w:Number, h:Number) {
+    override fun rect(x:Number, y:Number, w:Number, h:Number) {
         x0 = x.toDouble()
         x1 = x.toDouble()
         y0 = y.toDouble()
         y1 = y.toDouble()
-        cmd += "M$x,${y}h${w}v${h}h${-w.toDouble()}Z"
+        path += "M$x,${y}h${w}v${h}h${-w.toDouble()}Z"
     }
-
 
 }
