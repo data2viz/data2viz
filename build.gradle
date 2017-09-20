@@ -37,7 +37,8 @@ subprojects {
         kotlinOptions{
             metaInfo = true
             outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
-            sourceMap = false
+            sourceMap = true
+            sourceMapEmbedSources = "always"
             moduleKind = 'umd'
             main = "call"
         }
