@@ -1,4 +1,3 @@
-import curve.Linear
 import curve.Point
 import io.data2viz.path.CanvasDrawContext
 import io.data2viz.path.PathAdapter
@@ -23,11 +22,12 @@ val points = arrayOf(Point(0,0), Point(50, 50), Point(100,0), Point(150, 100), P
 
 @JsName("showLines")
 fun showLines() {
+    render("Basis", curves.basis)
     render("Linear", curves.linear)
     render("LinearClosed", curves.linearClosed)
 }
 
-fun render(title: String, curve: (PathAdapter) -> Curve) {
+private fun render(title: String, curve: (PathAdapter) -> Curve) {
     document.body!!.appendElement("h2") {
         textContent = title
     }
@@ -36,7 +36,17 @@ fun render(title: String, curve: (PathAdapter) -> Curve) {
     renderSvg()
 }
 
-fun renderCanvas() {
+private fun renderCanvas() {
+
+    fun newCanvas(): HTMLCanvasElement {
+        val canvas = document.createElement("canvas") as HTMLCanvasElement
+        val context = canvas.getContext("2d") as CanvasRenderingContext2D
+        context.canvas.width  = 200
+        context.canvas.height = 200;
+        document.body!!.appendChild(canvas)
+        return canvas
+    }
+
 
     with(newCanvas().getContext("2d") as CanvasRenderingContext2D) {
         beginPath()
@@ -48,16 +58,14 @@ fun renderCanvas() {
     }
 }
 
-fun newCanvas(): HTMLCanvasElement {
-    val canvas = document.createElement("canvas") as HTMLCanvasElement
-    val context = canvas.getContext("2d") as CanvasRenderingContext2D
-    context.canvas.width  = 200
-    context.canvas.height = 200;
-    document.body!!.appendChild(canvas)
-    return canvas
-}
 
 private fun renderSvg() {
+
+    fun createSvgElement(name: String): Element {
+        val namespaceSvg = "http://www.w3.org/2000/svg"
+        return document.createElementNS(namespaceSvg, name)
+    }
+
     with(document.body!!) {
         appendChild(createSvgElement("svg").apply {
             setAttribute("width", "200")
@@ -72,8 +80,4 @@ private fun renderSvg() {
     }
 }
 
-fun createSvgElement(name: String): Element {
-    val namespaceSvg = "http://www.w3.org/2000/svg"
-    return document.createElementNS(namespaceSvg, name)
-}
 

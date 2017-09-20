@@ -1,9 +1,26 @@
 package io.data2viz.test
 
+import io.data2viz.format.Locale
+import io.data2viz.format.format
 import io.data2viz.test.matchers.Matchers
+import kotlin.js.Math
 
 
 abstract class TestBase : Matchers {
+
+    val format = Locale().format(".6f")
+    fun Double.toFixed() =
+            if (Math.abs(this - Math.round(this)) < 1e-6)
+                Math.round(this).toString()
+            else format(this)
+
+    val regex = Regex("[-+]?(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+|\\d+)(?:[eE][-]?\\d+)?")
+
+    /**
+     * Look for all doubles in the string to replace it by a rounded version
+     */
+    fun String.round() = replace(regex = regex, transform = { it.value.toDouble().toFixed() })
+
     val tests = mutableListOf<TestCase>()
 
     // this should live in some matchers class, but can't inline in an interface :(

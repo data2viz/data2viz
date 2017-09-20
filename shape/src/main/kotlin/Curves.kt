@@ -1,5 +1,6 @@
 package io.data2viz.shape
 
+import curve.Basis
 import curve.Linear
 import curve.LinearClosed
 import io.data2viz.path.PathAdapter
@@ -15,6 +16,7 @@ interface Curve {
 
 
 object curves {
+    val basis = {context: PathAdapter -> Basis(context) }
     val linear = {context: PathAdapter -> Linear(context) }
     val linearClosed = {context: PathAdapter -> LinearClosed(context) }
 }
