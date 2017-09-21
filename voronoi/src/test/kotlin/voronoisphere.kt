@@ -22,24 +22,28 @@ import kotlin.js.Math
 import kotlin.js.Math.random
 import kotlin.reflect.KMutableProperty0
 
+data class SphereParams(
+        var animate: Boolean = true,
+        var clipping: Boolean = true,
+        var showCircles: Boolean = true,
+        var showPolygons: Boolean = true,
+        var delaunay: Boolean = true,
+        var pointNumber: Int = 20,
+        val chunkSize: Int = 1) {
+
+    fun eventuallyUpdatePointNumber(curFPS: Int, curPoint: Int) {
+        if (isAllDisplayed() && curFPS > 25 && curPoint <= pointNumber - chunkSize + 5) {
+            pointNumber += chunkSize
+        }
+    }
+
+    fun isAllDisplayed() = true
+//                showCircles && showPolygons && delaunay
+}
+
+
 fun voronoiSphere() {
 
-    data class SphereParams(
-            var clipping: Boolean = true,
-            var showCircles: Boolean = true,
-            var showPolygons: Boolean = true,
-            var delaunay: Boolean = true,
-            var pointNumber: Int = 20,
-            val chunkSize: Int = 1) {
-
-        fun eventuallyUpdatePointNumber(curFPS: Int, curPoint: Int) {
-            if (isAllDisplayed() && curFPS > 25 && curPoint <= pointNumber - chunkSize + 5) {
-                pointNumber += chunkSize
-            }
-        }
-
-        fun isAllDisplayed() = showCircles && showPolygons && delaunay
-    }
 
     val size = 600
     val commandHeight = 200
@@ -71,7 +75,7 @@ fun voronoiSphere() {
         height = size + commandHeight
         var diagram: Diagram? = null
 
-        val rotationAnimation = RotationAnimation(15.0)
+        val rotationAnimation = RotationAnimation(sphereParams, 15.0)
         rotationAnimation { rotation ->
             fpsCalculator.updateFPS()
             document.querySelector("#num span")?.textContent = randomPoints.size.toString()
@@ -94,36 +98,15 @@ fun voronoiSphere() {
                 rotate((-20).deg)
             }
 
-            //circles
-            g {
-                rotationAnimation { rotation ->
-                    val points:List<GeoPoint> = if (sphereParams.showCircles) randomPoints else emptyList()
-                    selectAll<CircleElement, GeoPoint>("circle", points) {
-                            addAndUpdate = { circle, geoPoint ->
-                                circle.r = circleRadius(geoPoint.z)
-                                circle.cx = pointToScreen(geoPoint.x)
-                                circle.cy = pointToScreen(geoPoint.y)
-                                circle.fill = darkToLight(((geoPoint.x + 1) / 2).toFloat())
-                            }
-                    }
-                }
-            }
+            fun Point.asCoord() = "$x,$y"
 
             //polygons
             g {
                 rotationAnimation { rotation ->
-                    val edges = if (sphereParams.showPolygons) diagram!!.edges.filterNotNull() else emptyList()
-                    selectAll<LineElement, Edge>("line", edges) {
-                        addAndUpdate = { line, edge ->
-                            if (edge.start != null && edge.end != null) {
-                                line.x1 = edge.start!!.x
-                                line.y1 = edge.start!!.y
-                                line.x2 = edge.end!!.x
-                                line.y2 = edge.end!!.y
-                                line.stroke = black
-                            } else {
-                                removeChild(line.element)
-                            }
+                    val polygons = if (sphereParams.showPolygons) diagram!!.polygons() else emptyList()
+                    selectAll<PathElement, List<Point>>("path", polygons) {
+                        addAndUpdate = { path, points ->
+                            path.element.setAttribute("d", "M${points.map { it.asCoord() }.joinToString(separator = "L")}Z" )
                         }
                     }
                 }
@@ -144,6 +127,23 @@ fun voronoiSphere() {
                     }
                 }
             }
+
+
+            //circles
+            g {
+                rotationAnimation { rotation ->
+                    val points:List<GeoPoint> = if (sphereParams.showCircles) randomPoints else emptyList()
+                    selectAll<CircleElement, GeoPoint>("circle", points) {
+                        addAndUpdate = { circle, geoPoint ->
+                            circle.r = circleRadius(geoPoint.z)
+                            circle.cx = pointToScreen(geoPoint.x)
+                            circle.cy = pointToScreen(geoPoint.y)
+//                            circle.fill = darkToLight(((geoPoint.x + 1) / 2).toFloat())
+                        }
+                    }
+                }
+            }
+
         }
 
         g {
@@ -159,7 +159,8 @@ fun voronoiSphere() {
             //first line of toggle buttons
             g {
                 transform { translate(y = 30) }
-                toggleButton("Clipping", sphereParams::clipping)
+                toggleButton("Animate", sphereParams::animate)
+                toggleButton("Animate", sphereParams::animate)
                 toggleButton("Polygons", sphereParams::showPolygons).apply { transform { translate(150) } }
                 toggleButton("Delaunay", sphereParams::delaunay).apply { transform { translate(300) } }
                 toggleButton("Circles", sphereParams::showCircles).apply { transform { translate(450) } }
@@ -218,6 +219,7 @@ inline fun <reified E : ElementWrapper> wrap(element: Element): E {
     val c = E::class
     return when {
         c == LineElement::class -> LineElement(element) as E
+        c == PathElement::class -> PathElement(element) as E
         c == CircleElement::class -> CircleElement(element) as E
         else -> error("Unknown type $c")
     }
@@ -227,6 +229,7 @@ inline fun <reified E : ElementWrapper> ParentElement.create(): E {
     val c = E::class
     return when {
         c == LineElement::class -> line {} as E
+        c == PathElement::class -> path {} as E
         c == CircleElement::class -> circle {} as E
         else -> error("Unknown type $c")
     }
@@ -247,7 +250,7 @@ fun ParentElement.removeChild(child: Node) {
     element.removeChild(child)
 }
 
-class RotationAnimation(rotationTimeInSeconds: Double) {
+class RotationAnimation(sphereParams: SphereParams, rotationTimeInSeconds: Double) {
 
     val startTime = Date().getTime()
     val rotationPerMs = (360.0 / (rotationTimeInSeconds * 1000)).deg
@@ -258,7 +261,8 @@ class RotationAnimation(rotationTimeInSeconds: Double) {
             val currentTime = Date().getTime()
             window.requestAnimationFrame {
                 val rotation = rotationPerMs * (currentTime - startTime)
-                blocksOfAnimation.forEach { it(rotation) }
+                if(sphereParams.animate)
+                    blocksOfAnimation.forEach { it(rotation) }
                 animate()
             }
         }

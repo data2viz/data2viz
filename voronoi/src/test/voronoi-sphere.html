@@ -5,6 +5,15 @@
         position: absolute;
         top: 0;
     }
+
+    circle {
+        fill: black;
+    }
+
+    path {
+        stroke: black;
+        fill: none;
+    }
 </style>
 
     <meta charset="UTF-8">
@@ -18,7 +27,7 @@
 </div>
 
 <script>
-    require.config({baseUrl: "../../node_modules"});
+    require.config({baseUrl: "../../build/node_modules"});
     require(['../classes/test/voronoi_test'], function (voronoi) {
         voronoi.voronoiSphere()
     });
