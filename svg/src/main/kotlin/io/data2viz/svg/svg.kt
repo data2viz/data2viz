@@ -156,16 +156,16 @@ class GroupElement(override val element: Element) : HasStroke, HasFill, Has2D, H
 class LineElement(override val element: Element) : ElementWrapper, HasStroke {
     var x1:Number?
         get() = element.getAttribute("x1")?.toDouble()
-        set(value) = element.setAttribute("x1", value.toString())
+        set(value) = element.setAttribute("x1", "$value")
     var x2:Number?
         get() = element.getAttribute("x2")?.toDouble()
-        set(value) = element.setAttribute("x2", value.toString())
+        set(value) = element.setAttribute("x2", "$value")
     var y1:Number?
         get() = element.getAttribute("y1")?.toDouble()
-        set(value) = element.setAttribute("y1", value.toString())
+        set(value) = element.setAttribute("y1", "$value")
     var y2:Number?
         get() = element.getAttribute("y2")?.toDouble()
-        set(value) = element.setAttribute("y2", value.toString())
+        set(value) = element.setAttribute("y2", "$value")
 }
 
 @SvgTagMarker
@@ -293,12 +293,12 @@ interface HasPosition : AccessByAttributes {
     var x: Number
         get() = getAttribute("x")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("x", value.toString())
+            setAttribute("x", "$value")
         }
     var y: Number
         get() = getAttribute("y")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("y", value.toString())
+            setAttribute("y", "$value")
         }
 }
 
@@ -306,12 +306,12 @@ interface HasOffset : AccessByAttributes {
     var dx: Number
         get() = getAttribute("dx")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("dx", value.toString())
+            setAttribute("dx", "$value")
         }
     var dy: Number
         get() = getAttribute("dy")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("dy", value.toString())
+            setAttribute("dy", "$value")
         }
 }
 
@@ -319,12 +319,12 @@ interface HasCenter : AccessByAttributes {
     var cx: Number
         get() = getAttribute("cx")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("cx", value.toString())
+            setAttribute("cx", "$value")
         }
     var cy: Number
         get() = getAttribute("cy")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("cy", value.toString())
+            setAttribute("cy", "$value")
         }
 }
 
@@ -332,7 +332,7 @@ interface HasRadius : AccessByAttributes {
     var r: Number
         get() = getAttribute("r")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("r", value.toString())
+            setAttribute("r", "$value")
         }
 }
 
@@ -340,12 +340,12 @@ interface HasRoundedCorner : AccessByAttributes {
     var rx: Number
         get() = getAttribute("rx")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("rx", value.toString())
+            setAttribute("rx", "$value")
         }
     var ry: Number
         get() = getAttribute("ry")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("ry", value.toString())
+            setAttribute("ry", "$value")
         }
 }
 
@@ -353,7 +353,7 @@ interface HasWidth : AccessByAttributes {
     var width: Number
         get() = getAttribute("width")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("width", value.toString())
+            setAttribute("width", "$value")
         }
 }
 
@@ -361,7 +361,7 @@ interface HasHeight : AccessByAttributes {
     var height: Number
         get() = getAttribute("height")?.toFloat() ?: 0f
         set(value) {
-            setAttribute("height", value.toString())
+            setAttribute("height", "$value")
         }
 }
 
