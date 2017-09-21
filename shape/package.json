@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "benchmark": "^2.1.4",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-commonjs": "^1.0.0",
