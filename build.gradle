@@ -2,10 +2,15 @@ buildscript {
 
     repositories {
         jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+        mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
+
+//        classpath 'org.kordamp.gradle:stats-gradle-plugin:0.2.0'
     }
 }
 
@@ -16,9 +21,39 @@ allprojects {
         jcenter()
     }
     apply plugin: 'maven'
+
+
+    project.ext.jsTests = {
+
+        apply plugin: 'com.moowork.node'
+
+        task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {
+
+            from compileKotlin2Js.destinationDir
+
+            configurations.testCompile.each {
+                from zipTree(it.absolutePath).matching { include '*.js' }
+            }
+
+            into "${buildDir}/node_modules"
+        }
+
+
+        task yarnInstall(type: YarnTask) {
+            args = ['install']
+        }
+
+        task runKarma(type: YarnTask, dependsOn: [populateNodeModules, yarnInstall]) {
+            args = ['test']
+        }
+
+        test.dependsOn runKarma
+
+    }
 }
 
 subprojects {
+//    apply plugin: 'org.kordamp.gradle.stats'
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven-publish'
     apply plugin: 'kotlin2js'
