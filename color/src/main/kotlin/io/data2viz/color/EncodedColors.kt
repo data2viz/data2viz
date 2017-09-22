@@ -1,6 +1,7 @@
 package io.data2viz.color
 
-import kotlin.js.Math
+import kotlin.math.floor
+
 
 /**
  * Predefined colors defined as concatenated hex strings.
@@ -30,7 +31,7 @@ class EncodedColors(colorsAsString: String) {
     /**
      * Returns the color corresponding at the given percentage of the gradient
      */
-    fun color(percent: Double) = colors[Math.floor(percent * colors.size)
+    fun color(percent: Double) = colors[floor(percent * colors.size).toInt()
             .coerceAtLeast(0)
             .coerceAtMost(colors.size - 1)]
 }

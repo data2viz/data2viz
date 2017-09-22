@@ -9,7 +9,7 @@ import io.data2viz.color.colors.white
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import io.data2viz.test.TestBase
-import kotlin.js.Math
+import kotlin.math.round
 import kotlin.test.Test
 
 class ColorTests : TestBase() {
@@ -69,37 +69,37 @@ class ColorTests : TestBase() {
     fun RGBA_to_HSLA_rounded() {
         //Color(0xf5cfa3, 0).toHsla() shouldBe hsla(32.deg, 0.80, 0.80, 0)
         val color1 = Color(0xf5cfa3, 0).toHsla()
-        Math.round(color1.h.deg) shouldBe 32
-        Math.round(color1.s * 100) shouldBe 80
-        Math.round(color1.l * 100) shouldBe 80
+        round(color1.h.deg) shouldBe 32
+        round(color1.s * 100) shouldBe 80
+        round(color1.l * 100) shouldBe 80
         color1.alpha shouldBe 0
 
 //            hsla(260.deg, 0.20, 0.44, 1).toRgba() shouldBe Color(0x695a87, 1)
         val color2 = Color(0x695a87, 1).toHsla()
-        Math.round(color2.h.deg) shouldBe 260
-        Math.round(color2.s * 100) shouldBe 20
-        Math.round(color2.l * 100) shouldBe 44
+        round(color2.h.deg) shouldBe 260
+        round(color2.s * 100) shouldBe 20
+        round(color2.l * 100) shouldBe 44
         color2.alpha shouldBe 1
 
 //            hsla(300.deg, 0.98, 0.16, .3).toRgba() shouldBe Color(0x510151, .3)
         val color3 = Color(0x510151, .3).toHsla()
-        Math.round(color3.h.deg) shouldBe 300
-        Math.round(color3.s * 100) shouldBe 98
-        Math.round(color3.l * 100) shouldBe 16
+        round(color3.h.deg) shouldBe 300
+        round(color3.s * 100) shouldBe 98
+        round(color3.l * 100) shouldBe 16
         color3.alpha shouldBe .3
 
 //            hsla(16.deg, 0.75, 0.23, .5).toRgba() shouldBe Color(0x67260f, .5)*/
         val color4 = Color(0x67260f, .5).toHsla()
-        Math.round(color4.h.deg) shouldBe 16
-        Math.round(color4.s * 100) shouldBe 75
-        Math.round(color4.l * 100) shouldBe 23
+        round(color4.h.deg) shouldBe 16
+        round(color4.s * 100) shouldBe 75
+        round(color4.l * 100) shouldBe 23
         color4.alpha shouldBe .5
 
 //            hsla(0.deg, 0, 0, .42).toRgba() shouldBe Color(0x6a6a6a, .2)*/
         val color5 = Color(0x6a6a6a, .2).toHsla()
-        Math.round(color5.h.deg) shouldBe 0
-        Math.round(color5.s * 100) shouldBe 0
-        Math.round(color5.l * 100) shouldBe 42
+        round(color5.h.deg) shouldBe 0
+        round(color5.s * 100) shouldBe 0
+        round(color5.l * 100) shouldBe 42
         color5.alpha shouldBe .2
     }
 
@@ -107,44 +107,44 @@ class ColorTests : TestBase() {
     fun RGBA_to_LAB_rounded() {
 
         val color1 = Color(0xf5cfa3, 0).toLab()
-        Math.round(color1.l) shouldBe 85
-        Math.round(color1.a) shouldBe 7
-        Math.round(color1.b) shouldBe 27
+        round(color1.l) shouldBe 85
+        round(color1.a) shouldBe 7
+        round(color1.b) shouldBe 27
         color1.alpha shouldBe 0
 
         val color2 = Color(0x695a87, 1).toLab()
-        Math.round(color2.l) shouldBe 41
-        Math.round(color2.a) shouldBe 16
-        Math.round(color2.b) shouldBe -23
+        round(color2.l) shouldBe 41
+        round(color2.a) shouldBe 16
+        round(color2.b) shouldBe -23
         color2.alpha shouldBe 1
 
         val color3 = Color(0x510151, .3).toLab()
-        Math.round(color3.l) shouldBe 17
-        Math.round(color3.a) shouldBe 42
-        Math.round(color3.b) shouldBe -26
+        round(color3.l) shouldBe 17
+        round(color3.a) shouldBe 42
+        round(color3.b) shouldBe -26
         color3.alpha shouldBe .3
 
         val color4 = Color(0x67260f, .5).toLab()
-        Math.round(color4.l) shouldBe 25
-        Math.round(color4.a) shouldBe 28
-        Math.round(color4.b) shouldBe 29
+        round(color4.l) shouldBe 25
+        round(color4.a) shouldBe 28
+        round(color4.b) shouldBe 29
         color4.alpha shouldBe .5
 
         val color5 = Color(0x6a6a6a, .2).toLab()
-        Math.round(color5.l) shouldBe 45
-        Math.round(color5.a) shouldBe 0
-        Math.round(color5.b) shouldBe 0
+        round(color5.l) shouldBe 45
+        round(color5.a) shouldBe 0
+        round(color5.b) shouldBe 0
         color5.alpha shouldBe .2
 
         val color6 = white.toLab()
-        Math.round(color6.l) shouldBe 100
-        Math.round(color6.a) shouldBe 0
-        Math.round(color6.b) shouldBe 0
+        round(color6.l) shouldBe 100
+        round(color6.a) shouldBe 0
+        round(color6.b) shouldBe 0
 
         val color7 = black.toLab()
-        Math.round(color7.l) shouldBe 0
-        Math.round(color7.a) shouldBe 0
-        Math.round(color7.b) shouldBe 0
+        round(color7.l) shouldBe 0
+        round(color7.a) shouldBe 0
+        round(color7.b) shouldBe 0
     }
 
     @Test
@@ -217,43 +217,43 @@ class ColorTests : TestBase() {
     @Test
     fun RGB_to_LAB_to_HCL_checks_for_multiple_colors() {
         val color1 = Color(0xf5cfa3, 0).toLab().toHcla()
-        Math.round(color1.h.deg) shouldBe 75
-        Math.round(color1.c) shouldBe 28
-        Math.round(color1.l) shouldBe 85
+        round(color1.h.deg) shouldBe 75
+        round(color1.c) shouldBe 28
+        round(color1.l) shouldBe 85
         color1.alpha shouldBe 0
 
         val color2 = Color(0x695a87, 1).toLab().toHcla()
-        Math.round(color2.h.deg) shouldBe 305
-        Math.round(color2.c) shouldBe 28
-        Math.round(color2.l) shouldBe 41
+        round(color2.h.deg) shouldBe 305
+        round(color2.c) shouldBe 28
+        round(color2.l) shouldBe 41
         color2.alpha shouldBe 1
 
         val color3 = Color(0x510151, .3).toLab().toHcla()
-        Math.round(color3.h.deg) shouldBe 328
-        Math.round(color3.c) shouldBe 50
-        Math.round(color3.l) shouldBe 17
+        round(color3.h.deg) shouldBe 328
+        round(color3.c) shouldBe 50
+        round(color3.l) shouldBe 17
         color3.alpha shouldBe .3
 
         val color4 = Color(0x67260f, .5).toLab().toHcla()
-        Math.round(color4.h.deg) shouldBe 46
-        Math.round(color4.c) shouldBe 40
-        Math.round(color4.l) shouldBe 25
+        round(color4.h.deg) shouldBe 46
+        round(color4.c) shouldBe 40
+        round(color4.l) shouldBe 25
         color4.alpha shouldBe .5
 
         val color5 = Color(0x6a6a6a, .2).toLab().toHcla()
-        //Math.round(color5.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
-        Math.round(color5.c) shouldBe 0
-        Math.round(color5.l) shouldBe 45
+        //round(color5.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
+        round(color5.c) shouldBe 0
+        round(color5.l) shouldBe 45
         color5.alpha shouldBe .2
 
         val color6 = white.toLab().toHcla()
-        //Math.round(color6.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
-        Math.round(color6.c) shouldBe 0
-        Math.round(color6.l) shouldBe 100
+        //round(color6.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
+        round(color6.c) shouldBe 0
+        round(color6.l) shouldBe 100
 
         val color7 = black.toLab().toHcla()
-        //Math.round(color7.h.deg) shouldBe 0                       // achromatic, hue value irrelevant
-        Math.round(color7.c) shouldBe 0
-        Math.round(color7.l) shouldBe 0
+        //round(color7.h.deg) shouldBe 0                       // achromatic, hue value irrelevant
+        round(color7.c) shouldBe 0
+        round(color7.l) shouldBe 0
     }
 }

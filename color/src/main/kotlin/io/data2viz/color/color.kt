@@ -2,7 +2,7 @@ package io.data2viz.color
 
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
-import kotlin.js.Math
+import kotlin.math.*
 
 
 val String.color: Color
@@ -29,12 +29,12 @@ private object ConversionHelper {
     val brighter = 1 / darker
 
     fun xyz2lab(value: Double): Double {
-        return if (value > t3) Math.pow(value, 1 / 3.0) else (value / t2 + t0)
+        return if (value > t3) value.pow( 1 / 3.0) else (value / t2 + t0)
     }
 
     fun rgb2xyz(value: Int): Double {
         val percent = value.toFloat() / 255f
-        return if (percent <= 0.04045f) (percent / 12.92) else (Math.pow((percent + 0.055) / 1.055, 2.4))
+        return if (percent <= 0.04045f) (percent / 12.92) else ((percent + 0.055) / 1.055).pow(2.4)
     }
 
     fun lab2xyz(value: Float): Float {
@@ -42,8 +42,10 @@ private object ConversionHelper {
     }
 
     fun xyz2rgb(value: Float): Int {
-        return if (value <= 0.0031308f) Math.round(12.92f * value * 255)
-        else Math.round(255 * (1.055f * Math.pow(value.toDouble(), 1 / 2.4).toFloat() - 0.055f))
+        return if (value <= 0.0031308f)
+            round(12.92f * value * 255).toInt()
+        else
+            round(255 * (1.055f * value.pow(1 / 2.4f) - 0.055f)).toInt()
     }
 }
 
@@ -66,19 +68,19 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
     var r: Int
         get() = (rgb shr 16) and 0xff
         set(value) {
-            rgb = (rgb and 0x00ffff) + (Math.round(value).coerceIn(0, 255) shl 16)
+            rgb = (rgb and 0x00ffff) + (value.coerceIn(0, 255) shl 16)
         }
 
     var g: Int
         get() = (rgb shr 8) and 0xff
         set(value) {
-            rgb = (rgb and 0xff00ff) + (Math.round(value).coerceIn(0, 255) shl 8)
+            rgb = (rgb and 0xff00ff) + (value.coerceIn(0, 255) shl 8)
         }
 
     var b: Int
         get() = rgb and 0xff
         set(value) {
-            rgb = (rgb and 0xffff00) + Math.round(value).coerceIn(0, 255)
+            rgb = (rgb and 0xffff00) + value.coerceIn(0, 255)
         }
 
     var alpha: Number
@@ -88,9 +90,9 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
         }
 
     fun rgba(r: Number, g: Number, b: Number, a: Number) {
-        this.r = Math.round(r)
-        this.g = Math.round(g)
-        this.b = Math.round(b)
+        this.r = round(r.toDouble()).toInt()
+        this.g = round(g.toDouble()).toInt()
+        this.b = round(b.toDouble()).toInt()
         alpha = a.toFloat()
     }
 
@@ -99,12 +101,12 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
         get() = (r in 0..255) && (g in 0..255) && (b in 0..255) && (alpha in 0..1)
 
     fun brighter(strength: Double = 1.0) {
-        val str = Math.pow(ConversionHelper.brighter, strength)
+        val str = ConversionHelper.brighter.pow(strength)
         return rgba(r * str, g * str, b * str, alpha)
     }
 
     fun darker(strength: Double = 1.0) {
-        val str = Math.pow(ConversionHelper.darker, strength)
+        val str = ConversionHelper.darker.pow(strength)
         return rgba(r * str, g * str, b * str, alpha)
     }
 
@@ -112,8 +114,8 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
         val rPercent = r.toFloat() / 255f
         val gPercent = g.toFloat() / 255f
         val bPercent = b.toFloat() / 255f
-        val minPercent = Math.min(rPercent, gPercent, bPercent)
-        val maxPercent = Math.max(rPercent, gPercent, bPercent)
+        val minPercent = minOf(rPercent, gPercent, bPercent)
+        val maxPercent = maxOf(rPercent, gPercent, bPercent)
 
         var h = 0f
         var s = maxPercent - minPercent
@@ -167,10 +169,10 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
 /**
  * Create a color in the HSL color space
  *
- * @param _h hue:Angle in degree
- * @param _s saturation:Float between 0 and 1
- * @param _l lightness:Float between 0 and 1
- * @param _alpha:Float between 0 and 1
+ * @param h hue:Angle in degree
+ * @param s saturation:Float between 0 and 1
+ * @param l lightness:Float between 0 and 1
+ * @param alpha:Float between 0 and 1
  */
 class HSL(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: Number = 1) {
 
@@ -181,23 +183,23 @@ class HSL(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: Number
     val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)
 
-    fun brighter(strength: Double = 1.0) = HSL(h, s, (l * Math.pow(ConversionHelper.brighter, strength)), alpha)
-    fun darker(strength: Double = 1.0) = HSL(h, s, (l * Math.pow(ConversionHelper.brighter, strength)), alpha)
+    fun brighter(strength: Double = 1.0) = HSL(h, s, (l * ConversionHelper.brighter.pow(strength)), alpha)
+    fun darker(strength: Double = 1.0) = HSL(h, s, (l * ConversionHelper.brighter.pow(strength)), alpha)
 
     fun toRgba(): Color =
             if (s == 0.0)     // achromatic
                 colors.rgba(
-                        r = Math.round(l * 255),
-                        g = Math.round(l * 255),
-                        b = Math.round(l * 255),
+                        r = round(l * 255),
+                        g = round(l * 255),
+                        b = round(l * 255),
                         a = alpha)
             else {
                 val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
                 val p = 2 * l - q
                 colors.rgba(
-                        r = Math.round(hue2rgb(p, q, h + 120.deg) * 255),
-                        g = Math.round(hue2rgb(p, q, h) * 255),
-                        b = Math.round(hue2rgb(p, q, h - 120.deg) * 255),
+                        r = round(hue2rgb(p, q, h + 120.deg) * 255),
+                        g = round(hue2rgb(p, q, h) * 255),
+                        b = round(hue2rgb(p, q, h - 120.deg) * 255),
                         a = alpha)
             }
 
@@ -214,6 +216,13 @@ class HSL(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: Number
     override operator fun equals(other: Any?):Boolean = (other != null && other is HSL && h == other.h && s == other.s && l == other.l && alpha == other.alpha)
 
     override fun toString() = "hsla(${h.deg}°, ${s*100}%, ${l*100}%, $alpha)"
+    override fun hashCode(): Int {
+        var result = h.hashCode()
+        result = 31 * result + s.hashCode()
+        result = 31 * result + l.hashCode()
+        result = 31 * result + alpha.hashCode()
+        return result
+    }
 }
 
 // TODO in a java implementation of LAB they used Double
@@ -256,9 +265,9 @@ class LAB(l: Number = 100, a: Number = 0, b: Number = 0, alpha: Number = 1) {
 
     // TODO use RAD2DEG from angle ?
     fun toHcla(): HCL {
-        val h = Math.atan2(b.toDouble(), a.toDouble()) * (180 / Math.PI)
+        val h = atan2(b.toDouble(), a.toDouble()) * (180 / PI)
         val hue = (h.deg).normalize()
-        return HCL(hue, Math.sqrt(a.toDouble() * a.toDouble() + b.toDouble() * b.toDouble()), l, alpha)
+        return HCL(hue, sqrt(a.toDouble() * a.toDouble() + b.toDouble() * b.toDouble()), l, alpha)
     }
 
     override fun toString() = "laba($l, $a, $b, $alpha)"
@@ -273,7 +282,7 @@ class LAB(l: Number = 100, a: Number = 0, b: Number = 0, alpha: Number = 1) {
  *
  * @param h hue:Angle in degree
  * @param c chroma:Double, the upper bound for chroma depends on hue and luminance
- * @param m luminance:Float a value in the range [0,100] giving the luminance of the colour (in percent)
+ * @param l luminance:Float a value in the range [0,100] giving the luminance of the colour (in percent)
  * @param alpha:Float between 0 and 1
  */
 class HCL(val h: Angle = Angle(0.0), c: Number = 1, l: Number = 100, alpha: Number = 1) {
