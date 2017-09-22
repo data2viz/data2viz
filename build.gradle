@@ -2,6 +2,7 @@ buildscript {
 
     repositories {
         jcenter()
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
         maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
     }
@@ -10,7 +11,6 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
 
-//        classpath 'org.kordamp.gradle:stats-gradle-plugin:0.2.0'
     }
 }
 
@@ -19,6 +19,7 @@ apply plugin: 'com.jfrog.bintray'
 allprojects {
     repositories {
         jcenter()
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
     }
     apply plugin: 'maven'
 
@@ -26,6 +27,9 @@ allprojects {
     project.ext.jsTests = {
 
         apply plugin: 'com.moowork.node'
+        node {
+            download true
+        }
 
         task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {
 
