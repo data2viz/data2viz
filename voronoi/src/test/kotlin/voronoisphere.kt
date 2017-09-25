@@ -5,6 +5,7 @@ import io.data2viz.color.colors.darkblue
 import io.data2viz.color.colors.lightyellow
 import io.data2viz.color.colors.red
 import io.data2viz.core.Point
+import io.data2viz.core.random
 import io.data2viz.interpolate.linkedTo
 import io.data2viz.interpolate.interpolateRgb
 import io.data2viz.interpolate.scale
@@ -18,8 +19,7 @@ import org.w3c.dom.asList
 import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.js.Date
-import kotlin.js.Math
-import kotlin.js.Math.random
+import kotlin.math.round
 import kotlin.reflect.KMutableProperty0
 
 data class SphereParams(
@@ -283,6 +283,7 @@ class RotationAnimation(sphereParams: SphereParams, rotationTimeInSeconds: Doubl
 class FpsCalculator(var fps: Element?) {
     var curFps = 100
     private val average_fps = mutableListOf<Int>()
+    
     private var time0 = Date().getTime()
     private var time1 = Date().getTime()
 
@@ -290,7 +291,7 @@ class FpsCalculator(var fps: Element?) {
         if (fps == null) return
         time1 = Date().getTime()
         if (time1 != time0) {
-            curFps = Math.round(1000.0 / (time1 - time0))
+            curFps = round(1000.0 / (time1 - time0)).toInt()
             average_fps.add(curFps)
             if (average_fps.size == 10) {
                 fps?.textContent = average_fps.average().toString()

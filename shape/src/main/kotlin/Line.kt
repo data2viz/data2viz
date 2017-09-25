@@ -12,6 +12,7 @@ class LineGenerator<T> {
     var curve: (PathAdapter) -> Curve = curves.linear
     var x: (T) -> Double = const(.0)
     var y: (T) -> Double = const(.0)
+    var defined: (T) -> Boolean = const(true)
 
     /**
      * Use the datas to generate a line on the context
@@ -24,15 +25,10 @@ class LineGenerator<T> {
 
         for (i in 0..n){
 
-            //todo add defined
-            fun startOrEnd() = (!(i<n) == defined0)
-
-            if (startOrEnd()){
+            if ((!(i<n && defined(datas[i])) == defined0)){
                 defined0 = !defined0
-                if (defined0)
-                    output.lineStart()
-                else
-                    output.lineEnd()
+                if (defined0) output.lineStart()
+                else output.lineEnd()
             }
 
             if (defined0) {

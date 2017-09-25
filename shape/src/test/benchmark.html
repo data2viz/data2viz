@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../node_modules/lodash/lodash.js"></script>
+    <script src="../../node_modules/platform/platform.js"></script>
+    <script src="../../node_modules/benchmark/benchmark.js"></script>
+    <script src="../../build/node_modules/kotlin.js"></script>
+    <script src="../../build/node_modules/kotlin-test.js"></script>
+    <script src="../../build/node_modules/request.js"></script>
+    <script src="../../build/node_modules/format.js"></script>
+    <script src="../../build/node_modules/path.js"></script>
+    <script src="../../build/node_modules/tests.js"></script>
+    <script src="../../build/classes/main/shape.js"></script>
+    <script src="../../build/classes/test/shape_test.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+
+<h1>Benchmark Lines</h1>
+<script>
+    var module = shape_test.io.data2viz.shape;
+    module.generatePath();
+
+    var suite = new Benchmark.Suite();
+
+    var line = d3.line()
+        .defined(function(d) {return d[0] % 7 != 0});
+
+    suite
+        .add('D3-Shape#line.line', function () {
+            line([
+                [0,1],
+                [1,1],
+                [2,2],
+                [3,2],
+                [5,2],
+                [6,2],
+                [7,2],
+                [8,2],
+                [9,2],
+                [10,2],
+                [11,1],
+                [12,2],
+                [13,2],
+                [14,2],
+                [15,2],
+                [16,2],
+                [17,2],
+                [18,2],
+                [19,2],
+                [20,2],
+                [21,1],
+                [22,2],
+                [23,2],
+                [24,2],
+                [25,2],
+                [26,2],
+                [27,2],
+                [28,2],
+                [29,2],
+                [30,2],
+                [31,1],
+                [32,2],
+                [33,2],
+                [34,2],
+                [35,2],
+                [36,2],
+                [37,2],
+                [38,2],
+                [39,2],
+                [40,2],
+                [41,1],
+                [42,2],
+                [43,2],
+                [44,2],
+                [45,2],
+                [46,2],
+                [47,2],
+                [48,2],
+                [49,2]
+            ]);
+        })
+        .add('Shape#line', function () {
+            module.generatePath();
+        })
+
+
+        // add listeners
+        .on('cycle', function (event) {
+            console.log(String(event.target));
+        })
+        .on('error', function (event) {
+            console.log(event);
+        })
+        .on('complete', function () {
+            console.log('Fastest is ' + this.filter('fastest').map('name'));
+        })
+        // run async
+        .run({'async': true});</script>
+</body>
+</html>

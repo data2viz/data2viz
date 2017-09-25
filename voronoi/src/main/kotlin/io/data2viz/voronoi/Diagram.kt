@@ -1,7 +1,7 @@
 package io.data2viz.voronoi
 
 import io.data2viz.core.Point
-import kotlin.js.Math
+import kotlin.math.abs
 
 
 fun <T> MutableList<T>.pop(): T? = if(isEmpty()) null else removeAt(lastIndex)
@@ -98,14 +98,14 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
                     val endX = end.x
                     val endY = end.y
 
-                    if (Math.abs(end.x - start.x) > epsilon || Math.abs(end.y - start.y) > epsilon) {
+                    if (abs(end.x - start.x) > epsilon || abs(end.y - start.y) > epsilon) {
 
                         val edge = createBorderEdge(site!!, end,
                                 when {
-                                    Math.abs(endX - x0) < epsilon && y1 - endY > epsilon -> Point(x0, if(Math.abs(startX - x0) < epsilon) startY else y1)
-                                    Math.abs(endY - y1) < epsilon && x1 - endX > epsilon -> Point(if (Math.abs(startY - y1) < epsilon) startX else x1, y1)
-                                    Math.abs(endX - x1) < epsilon && endY - y0 > epsilon -> Point(x1, if(Math.abs(startX - x1) < epsilon) startY else y0)
-                                    Math.abs(endY - y0) < epsilon && endX - x0 > epsilon -> Point(if(Math.abs(startY - y0) < epsilon) startX else x0, y0)
+                                    abs(endX - x0) < epsilon && y1 - endY > epsilon -> Point(x0, if(abs(startX - x0) < epsilon) startY else y1)
+                                    abs(endY - y1) < epsilon && x1 - endX > epsilon -> Point(if (abs(startY - y1) < epsilon) startX else x1, y1)
+                                    abs(endX - x1) < epsilon && endY - y0 > epsilon -> Point(x1, if(abs(startX - x1) < epsilon) startY else y0)
+                                    abs(endY - y0) < epsilon && endX - x0 > epsilon -> Point(if(abs(startY - y0) < epsilon) startX else x0, y0)
                                     else -> null
                                 })
 
@@ -172,8 +172,8 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
             edge = wEdges[i]!!
             if (!edge.connect(start, end)
                     || !edge.clip(start, end)
-                    || !(Math.abs(edge.start!!.x - edge.end!!.x) > epsilon
-                    ||  Math.abs(edge.start!!.y - edge.end!!.y) > epsilon)) {
+                    || !(abs(edge.start!!.x - edge.end!!.x) > epsilon
+                    ||  abs(edge.start!!.y - edge.end!!.y) > epsilon)) {
                 wEdges[i] = null
             }
         }

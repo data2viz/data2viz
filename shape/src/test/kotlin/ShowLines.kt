@@ -15,6 +15,7 @@ import kotlin.dom.appendElement
 val lineGenerator = line<Point> {
     x = { it.x.toDouble() }
     y = { it.y.toDouble() }
+//    defined = {!(it.x == 50 && it.y == 50)}
 }
 
 val points = arrayOf(Point(0,0), Point(50, 50), Point(100,0), Point(150, 100), Point(200,0))
@@ -42,7 +43,7 @@ private fun renderCanvas() {
         val canvas = document.createElement("canvas") as HTMLCanvasElement
         val context = canvas.getContext("2d") as CanvasRenderingContext2D
         context.canvas.width  = 200
-        context.canvas.height = 200;
+        context.canvas.height = 200
         document.body!!.appendChild(canvas)
         return canvas
     }
@@ -50,11 +51,11 @@ private fun renderCanvas() {
 
     with(newCanvas().getContext("2d") as CanvasRenderingContext2D) {
         beginPath()
-        beginPath();
-        lineWidth = 1.0;
-        strokeStyle = "steelblue";
+        beginPath()
+        lineWidth = 1.0
+        strokeStyle = "steelblue"
         lineGenerator.line(points, CanvasDrawContext(this))
-        stroke();
+        stroke()
     }
 }
 

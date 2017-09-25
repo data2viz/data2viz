@@ -1,25 +1,27 @@
 package io.data2viz.math
 
-import kotlin.js.Math
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.tan
 
 val EPS = 1e-6
 val EPS2 = EPS * EPS
 
-val PI = Angle(Math.PI)
+val PI = Angle(kotlin.math.PI)
 val halfPI = PI / 2
 val THETA = PI * 2
 //val THETA_EPS = THETA - EPS
 
-val DEG_TO_RAD = Math.PI / 180
-val RAD_TO_DEG = 180 / Math.PI
+val DEG_TO_RAD = kotlin.math.PI / 180
+val RAD_TO_DEG = 180 / kotlin.math.PI
 
 val Number.deg:Angle
     get() = Angle(toDouble() * DEG_TO_RAD)
 
 data class Angle(val rad: Double){
-    val cos:Double get() = Math.cos(rad)
-    val sin:Double get() = Math.sin(rad)
-    val tan:Double get() = Math.tan(rad)
+    val cos:Double get() = cos(rad)
+    val sin:Double get() = sin(rad)
+    val tan:Double get() = tan(rad)
     val deg:Double get() = rad * RAD_TO_DEG
 
     fun normalize():Angle =

@@ -1,24 +1,24 @@
 package io.data2viz.core
 
-import kotlin.js.Math
+import kotlin.math.*
 
-val e10 = Math.sqrt(50.0)
-val e5 = Math.sqrt(10.0)
-val e2 = Math.sqrt(2.0)
-val ln10:Double by lazy { Math.log(10.0) }
+val e10 = sqrt(50.0)
+val e5 = sqrt(10.0)
+val e2 = sqrt(2.0)
+val ln10:Double by lazy { ln(10.0) }
 
 fun ticks(start:Number, stop: Number, count :Int): List<Number> {
     val step = tickStep(start.toDouble(), stop.toDouble(), count);
     return range(
-            Math.ceil(start.toDouble() / step) * step,
-            Math.floor(stop.toDouble() / step) * step + step / 2, // inclusive
+            ceil(start.toDouble() / step) * step,
+            floor(stop.toDouble() / step) * step + step / 2, // inclusive
             step
     )
 }
 
 fun tickStep(start:Double, stop:Double, count:Int): Double {
-    val step0 = Math.abs(stop -start) / count
-    var step1 = Math.pow(10.0, Math.floor(Math.log(step0) / ln10).toDouble())
+    val step0 = abs(stop -start) / count
+    var step1 = 10.0.pow( floor(ln(step0) / ln10).toDouble())
     val error = step0 / step1
     if(error >= e10) step1 *=10
     else if(error >= e5) step1 *=5
@@ -27,6 +27,6 @@ fun tickStep(start:Double, stop:Double, count:Int): Double {
 }
 
 fun range (start:Double, stop:Double, step: Double = 1.0): List<Double> {
-    val n = Math.max(0, Math.ceil((stop - start) / step))
+    val n = maxOf(0, ceil((stop - start) / step).toInt())
     return  (0..n-1).map { start + it*step }
 }

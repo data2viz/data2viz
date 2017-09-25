@@ -1,16 +1,13 @@
 package io.data2viz.path
 
 import org.w3c.dom.CanvasPath
-import kotlin.js.Math
-import kotlin.js.Math.abs
-import kotlin.js.Math.cos
-import kotlin.js.Math.sin
+import kotlin.math.*
 
 
 fun svgPath():SvgPath = SvgPath()
 fun path(canvas: CanvasPath): PathAdapter = CanvasDrawContext(canvas)
 
-val pi = Math.PI
+val pi = PI 
 val tau = 2 * pi
 val epsilon = 1e-6
 val tauEpsilon = tau - epsilon
@@ -121,7 +118,7 @@ class SvgPath : PathAdapter {
             // Or, are (x0,y0), (x1,y1) and (x2,y2) collinear?
             // Equivalently, is (x1,y1) coincident with (x2,y2)?
             // Or, is the radius zero? Line to (x1,y1).
-            else if (Math.abs(y01 * x21 - y21 * x01) <= epsilon || r == .0) {
+            else if (abs(y01 * x21 - y21 * x01) <= epsilon || r == .0) {
                 this@SvgPath.x1 = x1
                 this@SvgPath.y1 = y1
                 path += "L$x1,$y1"
@@ -133,14 +130,14 @@ class SvgPath : PathAdapter {
                 val y20 = y2 - y0
                 val l21_2 = x21 * x21 + y21 * y21
                 val l20_2 = x20 * x20 + y20 * y20
-                val l21 = Math.sqrt(l21_2)
-                val l01 = Math.sqrt(l01_2)
-                val l = r * Math.tan((pi - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2)
+                val l21 = sqrt(l21_2)
+                val l01 = sqrt(l01_2)
+                val l = r * tan((pi - acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2)
                 val t01 = l / l01
                 val t21 = l / l21
 
                 // If the start tangent is not coincident with (x0,y0), line to.
-                if (Math.abs(t01 - 1) > epsilon) {
+                if (abs(t01 - 1) > epsilon) {
                     path += "L${x1 + t01 * x01},${y1 + t01 * y01}"
                 }
 

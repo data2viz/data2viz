@@ -1,5 +1,7 @@
 package io.data2viz.core
 
+import kotlin.js.Math
+
 data class Point(val x: Double = 0.0, val y: Double = 0.0) {
 
     companion object {
@@ -13,3 +15,5 @@ data class Point(val x: Double = 0.0, val y: Double = 0.0) {
 data class Speed(val vx: Double = 0.0, val vy: Double = 0.0) {
     operator fun plus(speed: Speed) = Speed(vx + speed.vx, vy + speed.vy)
 }
+
+fun random() = Math.random()

@@ -1,7 +1,8 @@
 package io.data2viz.voronoi
 
 import io.data2viz.core.Point
-import kotlin.js.Math
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 
 val epsilon = 1e-6
@@ -143,8 +144,8 @@ fun removeBeach(circle: RedBlackNode<Circle>) {
 
     var lArc = previous
     while (lArc?.node?.circle != null
-            && Math.abs(x - lArc.circle!!.x) < epsilon
-            && Math.abs(y - lArc.circle!!.cy) < epsilon) {
+            && abs(x - lArc.circle!!.x) < epsilon
+            && abs(y - lArc.circle!!.cy) < epsilon) {
         previous = lArc.P
         disappearing.add(0,lArc)
         detachBeach(lArc)
@@ -156,8 +157,8 @@ fun removeBeach(circle: RedBlackNode<Circle>) {
 
     var rArc = next
     while (rArc?.node?.circle != null
-            && Math.abs(x - rArc.circle!!.x) < epsilon
-            && Math.abs(y - rArc.circle!!.cy) < epsilon) {
+            && abs(x - rArc.circle!!.x) < epsilon
+            && abs(y - rArc.circle!!.cy) < epsilon) {
         next = rArc.N
         disappearing.add(rArc)
         detachBeach(rArc)
@@ -207,7 +208,7 @@ fun leftBreakPoint(arc: RedBlackNode<Beach>, directrix: Double): Double {
     val b = hl / plby2
 
     return if (aby2 != 0.0)
-        (-b + Math.sqrt(b * b - 2 * aby2 * (hl * hl / (-2 * plby2) - lfocy + plby2 / 2 + rfocy - pby2 / 2))) / aby2 + rfocx
+        (-b + sqrt(b * b - 2 * aby2 * (hl * hl / (-2 * plby2) - lfocy + plby2 / 2 + rfocy - pby2 / 2))) / aby2 + rfocx
     else
         (rfocx + lfocx) / 2
 }

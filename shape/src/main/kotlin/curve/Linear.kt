@@ -6,43 +6,42 @@ import io.data2viz.shape.Curve
 
 class Linear(override val context: PathAdapter): Curve {
 
-    private var status = 0
-    private var lineStatus: Int = -1
+    private var point = 0
+//    private var line: Int = -1
 
     override fun areaStart() {
-        lineStatus = 0
+//        line = 0
     }
-
-    override fun areaEnd() {
-        lineStatus = -1
+    override fun areaEnd()   {
+//        line = -1
     }
-
     override fun lineStart() {
-        status = 0
+        point = 0
     }
 
     override fun lineEnd() {
-        if (lineStatus > 0 || (lineStatus != 0 && status == 1)) {
+//        if (line > 0 || (line != 0 && point == 1)) {
+        if ( point == 1) {
             context.closePath()
         }
-        lineStatus = 1 - lineStatus
+//        if(line != -1)
+//            line = 1 - line
     }
 
     override fun point(x: Number, y: Number) {
 
-        if (status == 0) {
-            status = 1
-            if (lineStatus > 0) {
-                context.lineTo(x, y)
-            } else {
+        if (point == 0) {
+            point = 1
+//            if (line > 0) {
+//                context.lineTo(x, y)
+//            } else {
                 context.moveTo(x, y)
-            }
+//            }
             return
         }
-        if (status == 1) {
-            status = 2
+        if (point == 1) {
+            point = 2
         }
-
         context.lineTo(x,y)
     }
 }

@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>-->
+    <!--<script src="https://d3js.org/d3.v4.min.js"></script>-->
 
 </head>
 <body>
+
+
+<script>
+    var line = d3.line()
+        .defined(function(d) {return d[0] != 2});
+    console.log(line([[1,1],[2,2],[3,3],[5,5],[6,6]]));
+</script>
 
 <h1>Shape Lines</h1>
 <p>Generating lines from the same points but using different type of curves.</p>

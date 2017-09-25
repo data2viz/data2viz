@@ -5,6 +5,15 @@ import kotlin.js.Date
 
 fun exemple_of_api(){
 
+
+
+    /**
+     * The transformation of a domain value into a datavisualization can be
+     * done in a local extension fonction.
+     */
+    fun Match.dateToDouble() = Date().getTime() - date.getTime()
+
+
     /**
      * Configuring a LineGenerator based on the domain object Match.
      *
@@ -47,11 +56,6 @@ fun exemple_of_api(){
 data class Match(val tournamentName: String, val time:Int, val setCount:Int, val date: Date)
 
 
-/**
- * The transformation of a domain value into a datavisualization can be
- * done in a local extension fonction.
- */
-fun Match.dateToDouble() = Date().getTime() - date.getTime()
 
 /**
  * Common pattern for starting DSL

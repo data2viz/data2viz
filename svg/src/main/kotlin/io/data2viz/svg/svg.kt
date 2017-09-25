@@ -27,7 +27,7 @@ internal fun text() = TextElement(createSVGElement("text"))
 fun createSVGElement(name: String) = document.createElementNS(namespace.svg, name)
 
 
-class Path() {
+class Path {
     private val commands = mutableListOf<String>()
     fun curveTo(x: Number = 0, y: Number = 0)        {commands.add("C $x $y")}
     fun curveDeltaTo(dx: Number = 0, dy: Number = 0) {commands.add("c $dx $dy")}
@@ -44,7 +44,7 @@ class Path() {
     internal fun toCommand() = commands.joinToString(separator = " ")
 }
 
-class Transform() {
+class Transform {
     private val commands = mutableMapOf<String, String>()
     fun translate(newPoint: Point) { commands.put("translate", "translate(${newPoint.x}, ${newPoint.y})") }
     fun translate(x: Number = 0, y: Number = 0) { commands.put("translate", "translate($x, $y)") }
@@ -56,7 +56,7 @@ class Transform() {
     internal fun toCommand(): String = commands.values.joinToString(" ")
 }
 
-class Style() {
+class Style {
     private val styles = mutableMapOf<String, String>()
 
     fun setStyle(property: String, value: String) = styles.put(property, "$property: $value")

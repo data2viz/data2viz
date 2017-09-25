@@ -6,11 +6,11 @@ import io.data2viz.shape.Curve
 import io.data2viz.shape.LineGenerator
 import io.data2viz.test.TestBase
 
-data class Point(val x:Number, val y:Number)
+data class Point(val x:Int, val y:Int)
 
 open class CurveTest(val curve: (PathAdapter) -> Curve) : TestBase() {
 
-    fun pt(x: Number, y: Number) = Point(x,y)
+    fun pt(x: Int, y: Int) = Point(x,y)
 
     fun line(vararg points:Point): String {
         val lineGenerator = LineGenerator<Point>().apply {

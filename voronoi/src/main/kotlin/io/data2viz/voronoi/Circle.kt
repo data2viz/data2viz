@@ -1,6 +1,7 @@
 package io.data2viz.voronoi
 
-import kotlin.js.Math
+import kotlin.math.sqrt
+
 
 internal var firstCircle: RedBlackNode<Circle>? = null
 
@@ -65,7 +66,7 @@ fun attachCircle(arcNode: RedBlackNode<Beach>) {
     circle.site = cSite
     circle.x = x + bx
     circle.cy = y + by
-    circle.y = y + by + Math.sqrt(x * x + y * y) // y bottom
+    circle.y = y + by + sqrt(x * x + y * y) // y bottom
 
     arcNode.node.circleNode = circle
 

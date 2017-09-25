@@ -1,6 +1,6 @@
 package io.data2viz.voronoi
 
-import kotlin.js.Math
+import kotlin.math.atan2
 
 
 internal var wCells: Array<Cell?>? = null
@@ -29,7 +29,7 @@ class Cell(val site: Site) {
         }
 
         if (vb != null) {
-            return Math.atan2(vb.y - va.y, vb.x - va.x)
+            return atan2(vb.y - va.y, vb.x - va.x)
         }
         if (site.pos === va) {
             va = edge.end!!
@@ -38,7 +38,7 @@ class Cell(val site: Site) {
             va = edge.start!!
             vb = edge.end
         }
-        return Math.atan2(va.x - vb!!.x, vb.y - va.y)
+        return atan2(va.x - vb!!.x, vb.y - va.y)
     }
 
     fun halfedgeStart(edge: Edge) = if (edge.left !== site) edge.end else edge.start
