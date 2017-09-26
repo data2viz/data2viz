@@ -2,6 +2,9 @@ package io.data2viz.format
 
 import io.data2viz.request.request
 import kotlin.js.Math
+import kotlin.math.*
+import kotlin.math.max
+import kotlin.math.min
 
 private val prefixes = listOf<String>("y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y")
 private var prefixExponent = 0
@@ -17,7 +20,7 @@ data class Locale(
         var numerals: List<String>? = null,
         var percent: String = "%")
 
-fun locale(localeURL:String, callback:(Locale) -> Unit):Unit {
+fun locale(localeURL:String, callback:(Locale) -> Unit) {
     request(localeURL).get { xhr ->
         val locale:Locale = JSON.parse(xhr.responseText)
         callback(locale)
@@ -57,7 +60,7 @@ fun Locale.format(specify: String): (Double) -> String {
     val precision = if (specifier.precision == null) {
         if (type.isNotEmpty()) 6 else 12
     } else {
-        if (isTypeIn(type, "gprs")) Math.max(1, Math.min(21, specifier.precision!!)) else Math.max(0, Math.min(20, specifier.precision!!))
+        if (isTypeIn(type, "gprs")) max(1, min(21, specifier.precision!!)) else max(0, min(20, specifier.precision!!))
     }
 
     fun format(value: Double): String {
@@ -75,7 +78,7 @@ fun Locale.format(specify: String): (Double) -> String {
 
             // Perform the initial formatting.
             var valueNegative = value < 0
-            returnValue = formatType(Math.abs(value), precision)
+            returnValue = formatType(abs(value), precision)
 
             // If a negative value rounds to zero during formatting, treat as positive.
             if (valueNegative && returnValue.toDouble() == 0.0) valueNegative = false
@@ -92,7 +95,7 @@ fun Locale.format(specify: String): (Double) -> String {
                 while (++i < n) {
                     val c = returnValue[i]
                     if (c !in '0'..'9') {
-                        valueSuffix = (if (c == '.') decimalSeparator + returnValue.slice(i + 1 until returnValue.size) else returnValue.slice(i until returnValue.size)) + valueSuffix
+                        valueSuffix = (if (c == '.') decimalSeparator + returnValue.slice(i + 1 until returnValue.length) else returnValue.slice(i until returnValue.length)) + valueSuffix
                         returnValue = returnValue.slice(0 until i)
                         break
                     }
@@ -137,8 +140,8 @@ fun Locale.formatPrefix(specifier:String, fixedPrefix:Double): (Double) -> Strin
     val formatSpecifier = FormatSpecifier(specifier)
     formatSpecifier.type = "f"
     val f = format(formatSpecifier.toString())
-    val e = Math.max(-8.0, Math.min(8.0, Math.floor(exponent(fixedPrefix).toDouble() / 3.0).toDouble())) * 3
-    val k = Math.pow(10.0, -e)
+    val e = max(-8.0, min(8.0, floor(exponent(fixedPrefix).toDouble() / 3.0))) * 3
+    val k = 10.0.pow( -e)
     val prefix = prefixes[8 + (e / 3.0).toInt()]
     return fun(value:Double):String {
         return f(k * value) + prefix
@@ -146,7 +149,7 @@ fun Locale.formatPrefix(specifier:String, fixedPrefix:Double): (Double) -> Strin
 }
 
 private fun exponent(value:Double): Int {
-    val x = formatDecimal(Math.abs(value))
+    val x = formatDecimal(abs(value))
     return if (x != null) x.exponent else 0
 }
 
@@ -168,7 +171,7 @@ private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int)
         var length = 0
 
         while (i > 0 && g > 0) {
-            if (length + g + 1 > width) g = Math.max(1, width - length)
+            if (length + g + 1 > width) g = max(1, width - length)
             i -= g
             t.add(value.substring(i, i + g))
             length += g + 1
@@ -223,7 +226,7 @@ fun formatDefault(x: Double, p: Int): String {
         }
     }
 
-    return if (i0 > 0) newX.slice(0 until i0) + newX.slice(i1 + 1 until newX.size) else newX
+    return if (i0 > 0) newX.slice(0 until i0) + newX.slice(i1 + 1 until newX.length) else newX
 }
 
 fun formatRounded(x: Double, p: Int): String {
@@ -234,7 +237,7 @@ fun formatRounded(x: Double, p: Int): String {
     } else {
         if (ce.coefficient.length > ce.exponent + 1) {
             ce.coefficient.slice(0 .. ce.exponent) + "." +
-                    ce.coefficient.slice(ce.exponent + 1 until ce.coefficient.size)
+                    ce.coefficient.slice(ce.exponent + 1 until ce.coefficient.length)
         } else {
             ce.coefficient + "".padStart(ce.exponent - ce.coefficient.length + 1, '0')
         }
@@ -260,9 +263,9 @@ fun formatDecimal(x: Double, p: Int = 0): CoefficientExponent? {
 
     // The string returned by toExponential either has the form \d\.\d+e[-+]\d+
     // (e.g., 1.2e+3) or the form \de[-+]\d+ (e.g., 1e+3).
-    val decimal: String = if (coefficient.length > 1) coefficient[0] + coefficient.slice(2 until coefficient.size) else coefficient
+    val decimal: String = if (coefficient.length > 1) coefficient[0] + coefficient.slice(2 until coefficient.length) else coefficient
 
-    val parsePrecision = newX.slice(index + 1 until newX.size).toIntOrNull()
+    val parsePrecision = newX.slice(index + 1 until newX.length).toIntOrNull()
     val precision = if (parsePrecision != null) parsePrecision else 0
 
     return CoefficientExponent(decimal, precision)
@@ -271,26 +274,26 @@ fun formatDecimal(x: Double, p: Int = 0): CoefficientExponent? {
 private fun formatPrefixAuto(x: Double, p: Int = 0): String {
     val ce = formatDecimal(x, p) ?: return "$x"
 
-    prefixExponent = Math.max(-8, Math.min(8, Math.floor(ce.exponent / 3.0))) * 3
+    prefixExponent = max(-8, min(8, floor(ce.exponent / 3.0).toInt())) * 3
     val i = ce.exponent - prefixExponent + 1
     val n = ce.coefficient.length
 
     return if (i == n) ce.coefficient
     else if (i > n) ce.coefficient.padEnd(i, '0')
-    else if (i > 0) ce.coefficient.slice(0 until i) + "." + ce.coefficient.slice(i until ce.coefficient.size)
-    else "0.".padEnd(2 - i, '0') + formatDecimal(x, Math.max(0, p + i - 1))!!.coefficient // less than 1y!
+    else if (i > 0) ce.coefficient.slice(0 until i) + "." + ce.coefficient.slice(i until ce.coefficient.length)
+    else "0.".padEnd(2 - i, '0') + formatDecimal(x, max(0, p + i - 1))!!.coefficient // less than 1y!
 }
 
 fun precisionFixed(step:Double): Int {
-    return Math.max(0, -exponent(Math.abs(step)))
+    return max(0, -exponent(abs(step)))
 }
 
 fun precisionPrefix(step:Double, value:Double): Int {
-    return Math.max(0, Math.max(-8, Math.min(8, Math.floor(exponent(value) / 3.0))) * 3 - exponent(Math.abs(step)));
+    return max(0, max(-8, min(8, floor(exponent(value) / 3.0).toInt())) * 3 - exponent(abs(step)))
 }
 
 fun precisionRound(step:Double, max:Double): Int {
-    val newStep = Math.abs(step)
-    val newMax = Math.abs(max) - step;
-    return Math.max(0, exponent(newMax) - exponent(newStep)) + 1;
+    val newStep = abs(step)
+    val newMax = abs(max) - step
+    return max(0, exponent(newMax) - exponent(newStep)) + 1
 }
