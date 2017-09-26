@@ -25,7 +25,7 @@ interface PathAdapter {
 
 
 /**
- * Implements CanvasPath functions to allow to generate some graphic elements
+ * Implements PathAdapter functions to allow to generate some graphic elements
  * indiscriminately on Canvas or SVG.
  */
 class SvgPath : PathAdapter {
