@@ -1,5 +1,7 @@
 dependencies {
     compile project(":request")
+    testCompile project(":tests-common")
+    testCompile project(":tests-js")
 }
 
 project.jsTests()

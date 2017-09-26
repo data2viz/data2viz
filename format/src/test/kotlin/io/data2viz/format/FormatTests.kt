@@ -1,9 +1,10 @@
 package io.data2viz.format
 
-import io.data2viz.test.TestBase
+import io.data2viz.test.matchers.Matchers
+import io.data2viz.test.shouldThrow
 import kotlin.test.Test
 
-class FormatTests : TestBase() {
+class FormatTests : Matchers {
 
     @Test
     fun format_f_can_output_fixed_point_notation() {

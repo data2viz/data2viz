@@ -1,17 +1,18 @@
 package io.data2viz.test
 
+import io.data2viz.test.matchers.Matchers
 import io.data2viz.test.matchers.be
 import io.data2viz.test.matchers.have
 import org.junit.Test
 
-class ExceptionMatchers : TestBase() {
+class ExceptionMatchers : Matchers {
     @Test
     fun block_should_throw() {
             shouldThrow<NullPointerException> { throw NullPointerException() }
         }
 }
 
-class DoubleMatchers : TestBase() {
+class DoubleMatchers : Matchers {
     @Test
     fun double_should_be_exactly_equals()     { 1.0 shouldBe exactly(1.0) }
     @Test
@@ -20,7 +21,7 @@ class DoubleMatchers : TestBase() {
     fun listOfNumber()                        { listOf(1.0, 2.0) shouldBe listOf(1.000_000_1, 2.000_000_1) }
 }
 
-class StringMatchers : TestBase() {
+class StringMatchers : Matchers {
     @Test
     fun bépoèd_should_start_with_bépo ()  { "bépoè^dl" should startWith("bépo") }
     @Test
@@ -33,7 +34,7 @@ class StringMatchers : TestBase() {
     fun auie_should_haveLength_of_4()     { "auie" should haveLength(4) }
 }
 
-class IntMatchers : TestBase() {
+class IntMatchers : Matchers {
     @Test
     fun one_should_be_lt_two()    { 1 should be lt 2 }
     @Test
@@ -44,7 +45,7 @@ class IntMatchers : TestBase() {
     fun two_should_be_gte_two()   { 2 should be gte 2 }
 }
 
-class LongMatchers : TestBase() {
+class LongMatchers : Matchers {
     @Test
     fun one_should_be_lt_two()    { 1L should be lt 2L }
     @Test
@@ -57,7 +58,7 @@ class LongMatchers : TestBase() {
 
 }
 
-class TestCollectionMatchers : TestBase() {
+class TestCollectionMatchers : Matchers {
 
     @Test
     fun empty_collection()    {

@@ -10,10 +10,10 @@ buildscript {
 
 
 dependencies {
-    compile project(":core")
+    compile project(":core-js")
     testCompile project(":color")
     testCompile project(":svg")
-    testCompile project(":core")
+    testCompile project(":core-js")
     testCompile project(":interpolate")
     testCompile project(":voronoi")
 }

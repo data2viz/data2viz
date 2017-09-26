@@ -1,47 +1,10 @@
-def dependsOnProjects = [':axis', ':color', ':core', ':dsv', ':format', ':interpolate', ':random', ':request', ':scale', ':svg', ':tile', ':voronoi']
+def dependsOnProjects = [':axis', ':color', ':core-js', ':dsv', ':format', ':interpolate', ':random', ':request', ':scale', ':svg', ':tile', ':voronoi']
 
 dependencies {
 
     dependsOnProjects.forEach {
         compile project(it)
-        testCompile project(path: it, configuration: "testArtifacts")
     }
 
 }
-
-apply plugin: 'war'
-
-war {
-
-    from (configurations['compile'].collect {zipTree(it)}){
-        into "/lib"
-    }
-    from (configurations['testCompile'].collect {zipTree(it)}){
-        into "/lib"
-    }
-
-    from(sourceSets.main.output) {
-        into("/lib")
-    }
-    from(sourceSets.test.output) {
-        into("/lib")
-    }
-
-
-//    for (d2vproject in dependsOnProjects){
-//        println d2vproject
-//        def dproject = project(d2vproject)
-//        from(dproject.sourceSets.main.output) {
-//            into "/"
-//        }
-//    }
-
-}
-
-task explodedWar(type: Copy) {
-    into "$buildDir/exploded"
-    with war
-}
-
-war.dependsOn explodedWar
 
