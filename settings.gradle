@@ -13,10 +13,14 @@ include 'request'
 include 'scale'
 include 'shape'
 include 'svg'
-include 'tests'
+//include 'tests'
 include 'tile'
 include 'voronoi'
 
+
+includeAndNormalizeName('tests/tests-common')
+includeAndNormalizeName('tests/tests-js')
+includeAndNormalizeName('tests/tests-jvm')
 
 includeAndNormalizeName('path/path-common')
 includeAndNormalizeName('path/path-js')

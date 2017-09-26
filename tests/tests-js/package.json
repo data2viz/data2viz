@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/mocha": "^2.2.43",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-commonjs": "^1.0.0",
@@ -7,6 +8,7 @@
     "karma-mocha-reporter": "^2.2.4",
     "karma-phantomjs-launcher": "^1.0.4",
     "mocha": "^3.5.0",
+    "ts2kt": "^0.0.14",
     "webpack": "^3.4.1"
   },
   "scripts": {

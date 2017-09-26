@@ -1,6 +1,7 @@
 package io.data2viz.test.matchers
 
-import kotlin.js.Math
+import kotlin.math.abs
+
 
 interface DoubleMatchers {
   infix fun Double.plusOrMinus(tolerance: Double): ToleranceMatcher = ToleranceMatcher(this, tolerance)
@@ -18,7 +19,7 @@ class ToleranceMatcher(val expected: Double, val tolerance: Double) : Matcher<Do
   override fun test(value: Double) {
     if (tolerance == 0.0)
       println("[WARN] When comparing doubles consider using tolerance, eg: a shouldBe b plusOrMinus c")
-    val diff = Math.abs(value - expected)
+    val diff = abs(value - expected)
     if (diff > tolerance)
       throw AssertionError("$value is not equal to $expected")
   }

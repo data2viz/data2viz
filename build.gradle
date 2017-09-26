@@ -61,7 +61,6 @@ subprojects {
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven-publish'
 
-
     if (
     !project.name.contains('-common') &&
             !project.name.contains('-js') &&
@@ -69,7 +68,7 @@ subprojects {
     ) {
         apply plugin: 'kotlin2js'
         dependencies {
-            testCompile project(":tests")
+            testCompile project(":tests-js")
             testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
         }
@@ -113,7 +112,7 @@ subprojects {
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-            testCompile project(":tests")
+            testCompile project(":tests-js")
         }
         compileKotlin2Js {
             kotlinOptions {
