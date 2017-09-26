@@ -17,24 +17,25 @@ abstract class TestBase : Matchers {
 
     val tests = mutableListOf<TestCase>()
 
-    // this should live in some matchers class, but can't inline in an interface :(
-    inline fun <reified T> shouldThrow(thunk: () -> Any?): T {
-        val e = try {
-            thunk()
-            null
-        } catch (e: Throwable) {
-            e
-        }
+}
 
-        val exceptionClassName = T::class.simpleName
-
-        if (e == null)
-            throw AssertionError("Expected exception ${T::class.simpleName} but no exception was thrown")
-        else if (e::class.simpleName != exceptionClassName)
-            throw AssertionError("Expected exception ${T::class.simpleName} but ${e::class.simpleName} was thrown")
-        else
-            return e as T
+// this should live in some matchers class, but can't inline in an interface :(
+inline fun <reified T> shouldThrow(thunk: () -> Any?): T {
+    val e = try {
+        thunk()
+        null
+    } catch (e: Throwable) {
+        e
     }
+
+    val exceptionClassName = T::class.simpleName
+
+    if (e == null)
+        throw AssertionError("Expected exception ${T::class.simpleName} but no exception was thrown")
+    else if (e::class.simpleName != exceptionClassName)
+        throw AssertionError("Expected exception ${T::class.simpleName} but ${e::class.simpleName} was thrown")
+    else
+        return e as T
 }
 
 
