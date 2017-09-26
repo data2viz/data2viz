@@ -3,7 +3,7 @@
 
 include 'axis'
 include 'color'
-include 'core'
+//include 'core'
 include 'dsv'
 include 'experiments'
 include 'format'
@@ -13,18 +13,18 @@ include 'request'
 include 'scale'
 include 'shape'
 include 'svg'
-//include 'tests'
 include 'tile'
 include 'voronoi'
 
 
-includeAndNormalizeName('tests/tests-common')
-includeAndNormalizeName('tests/tests-js')
-includeAndNormalizeName('tests/tests-jvm')
+includeMulti('core')
+includeMulti('path')
+includeMulti('tests')
 
-includeAndNormalizeName('path/path-common')
-includeAndNormalizeName('path/path-js')
-includeAndNormalizeName('path/path-jvm')
+
+def includeMulti(String path){
+    new File(path).eachDir{ includeAndNormalizeName(path + '/' + it.name)}
+}
 
 def includeAndNormalizeName(String path) {
     def name = path.substring(path.lastIndexOf('/')+1)
