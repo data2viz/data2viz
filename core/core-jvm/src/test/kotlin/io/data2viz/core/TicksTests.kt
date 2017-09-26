@@ -1,15 +1,15 @@
 package io.data2viz.core
 
-import io.data2viz.test.TestBase
-import kotlin.js.Math
-import kotlin.math.ln
-import kotlin.test.Test
+import io.data2viz.test.matchers.Matchers
+import org.junit.Test
+import kotlin.math.E
+import kotlin.math.log
 
-class TicksTests : TestBase() {
+class TicksTests : Matchers {
 
     @Test
     fun js_log_to_kotlin_log(){
-        ln(10.0) shouldBe Math.log(10.0)
+        log(10.0, E) shouldBe Math.log(10.0)
     }
 
 
@@ -67,23 +67,23 @@ class TicksTests : TestBase() {
 
     @Test
     fun ticks_from_minus_of_1() {
-        ticks(-10.0, 10.0, 10) shouldBe listOf(-10, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0)
-        ticks(-10.0, 10.0, 9) shouldBe listOf(-10, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0)
-        ticks(-10.0, 10.0, 8) shouldBe listOf(-10, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0)
-        ticks(-10.0, 10.0, 7) shouldBe listOf(-10, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0)
+        ticks(-10.0, 10.0, 10) shouldBe listOf(-10.0, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0)
+        ticks(-10.0, 10.0, 9) shouldBe listOf(-10.0, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0)
+        ticks(-10.0, 10.0, 8) shouldBe listOf(-10.0, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0)
+        ticks(-10.0, 10.0, 7) shouldBe listOf(-10.0, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0)
     }
 
     @Test
     fun ticks_from_minus_of_5() {
-        ticks(-10.0, 10.0, 6) shouldBe listOf(-10, -5.0, 0.0, 5.0, 10.0)
-        ticks(-10.0, 10.0, 5) shouldBe listOf(-10, -5.0, 0.0, 5.0, 10.0)
-        ticks(-10.0, 10.0, 4) shouldBe listOf(-10, -5.0, 0.0, 5.0, 10.0)
-        ticks(-10.0, 10.0, 3) shouldBe listOf(-10, -5.0, 0.0, 5.0, 10.0)
+        ticks(-10.0, 10.0, 6) shouldBe listOf(-10.0, -5.0, 0.0, 5.0, 10.0)
+        ticks(-10.0, 10.0, 5) shouldBe listOf(-10.0, -5.0, 0.0, 5.0, 10.0)
+        ticks(-10.0, 10.0, 4) shouldBe listOf(-10.0, -5.0, 0.0, 5.0, 10.0)
+        ticks(-10.0, 10.0, 3) shouldBe listOf(-10.0, -5.0, 0.0, 5.0, 10.0)
     }
 
     @Test
     fun ticks_from_minus_of_10() {
-        ticks(-10.0, 10.0, 2) shouldBe listOf(-10, 0.0, 10.0)
+        ticks(-10.0, 10.0, 2) shouldBe listOf(-10.0, 0.0, 10.0)
     }
 
     @Test
