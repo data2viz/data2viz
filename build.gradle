@@ -60,40 +60,86 @@ subprojects {
 //    apply plugin: 'org.kordamp.gradle.stats'
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven-publish'
-    apply plugin: 'kotlin2js'
 
-    dependencies {
-        testCompile project(":tests")
-        testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+
+    if (
+    !project.name.contains('-common') &&
+            !project.name.contains('-js') &&
+            !project.name.contains('-jvm')
+    ) {
+        apply plugin: 'kotlin2js'
+        dependencies {
+            testCompile project(":tests")
+            testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+            compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+        }
+
+        compileKotlin2Js {
+            kotlinOptions {
+                metaInfo = true
+                outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
+                sourceMap = true
+                sourceMapEmbedSources = "always"
+                moduleKind = 'umd'
+                main = "call"
+            }
+        }
+        compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
+
+        configurations {
+            testArtifacts.extendsFrom testRuntime
+        }
+        task testJar(type: Jar) {
+            classifier "test"
+            from sourceSets.test.output
+        }
+        artifacts {
+            testArtifacts testJar
+        }
+
+
+    }
+
+
+    if (project.name.contains('-common')) {
+        apply plugin: 'kotlin-platform-common'
+        dependencies {
+            compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+            testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+        }
+    }
+    if (project.name.contains('-js')) {
+        apply plugin: 'kotlin-platform-js'
+        dependencies {
+            compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+            testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+            testCompile project(":tests")
+        }
+        compileKotlin2Js {
+            kotlinOptions {
+                metaInfo = true
+                outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
+                sourceMap = true
+                sourceMapEmbedSources = "always"
+                moduleKind = 'umd'
+                main = "call"
+            }
+        }
+        compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
+    }
+    if (project.name.contains('-jvm')) {
+        apply plugin: 'kotlin-platform-jvm'
+        dependencies {
+            compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+            testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+            testCompile 'junit:junit:4.12'
+        }
     }
 
     repositories {
         jcenter()
     }
 
-    compileKotlin2Js {
-        kotlinOptions{
-            metaInfo = true
-            outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
-            sourceMap = true
-            sourceMapEmbedSources = "always"
-            moduleKind = 'umd'
-            main = "call"
-        }
-    }
-    compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd'}
-
-    configurations {
-        testArtifacts.extendsFrom testRuntime
-    }
-    task testJar(type: Jar) {
-        classifier "test"
-        from sourceSets.test.output
-    }
-    artifacts {
-        testArtifacts testJar
-    }
 
     if (project.hasProperty("bintray.user")) {
         bintray {

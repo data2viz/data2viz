@@ -1,3 +1,6 @@
+
+
+
 include 'axis'
 include 'color'
 include 'core'
@@ -14,3 +17,14 @@ include 'svg'
 include 'tests'
 include 'tile'
 include 'voronoi'
+
+
+includeAndNormalizeName('path/path-common')
+includeAndNormalizeName('path/path-js')
+
+def includeAndNormalizeName(String path) {
+    def name = path.substring(path.lastIndexOf('/')+1)
+    println name
+    include(name)
+    project(":$name").projectDir = file(path)
+}

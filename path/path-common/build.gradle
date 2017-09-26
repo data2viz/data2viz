@@ -1,8 +1,4 @@
-
-
 dependencies {
-    compile project(":path-js")
     testCompile project(":format")
 }
 
-project.jsTests()

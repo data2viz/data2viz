@@ -4,13 +4,13 @@ import org.w3c.dom.CanvasPath
 import kotlin.math.*
 
 
-fun svgPath():SvgPath = SvgPath()
-fun path(canvas: CanvasPath): PathAdapter = CanvasDrawContext(canvas)
-
-val pi = PI 
+val pi = PI
 val tau = 2 * pi
 val epsilon = 1e-6
 val tauEpsilon = tau - epsilon
+
+
+fun path(canvas: CanvasPath): PathAdapter = CanvasDrawContext(canvas)
 
 /**
  * Common denominator between Canva, SVG, JavaFX
