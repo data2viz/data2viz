@@ -154,13 +154,14 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
                 ((rgb shr 4) and 0xf).toString(16) +
                 (rgb and 0xf).toString(16)
 
-    @Suppress("UnsafeCastFromDynamic")
-    fun Int.toString(radix: Int): String = asDynamic().toString(radix)
+    
 
     override operator fun equals(other: Any?): Boolean = (other != null && other is Color && r == other.r && g == other.g && b == other.b && alpha == other.alpha)
 
     override fun toString() = if (alpha.toFloat() < 1.0) "rgba($r, $g, $b, $alpha)" else rgbHex
 }
+
+internal header fun Int.toString(radix: Int): String
 
 /********************************************************/
 /****************** HSL SPECIFIC ************************/

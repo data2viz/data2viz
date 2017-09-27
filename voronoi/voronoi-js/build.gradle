@@ -1,46 +1,7 @@
-buildscript {
-    repositories {
-        maven { url "https://plugins.gradle.org/m2/" }
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
-    }
-}
-
-
 dependencies {
     implement project(":voronoi-common")
     compile project(":core-js")
-    testCompile project(":color")
+    testCompile project(":color-common")
     testCompile project(":svg")
     testCompile project(":interpolate")
 }
-
-
-
-apply plugin: 'com.moowork.node'
-
-task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {
-
-    from compileKotlin2Js.destinationDir
-
-    configurations.testCompile.each {
-        from zipTree(it.absolutePath).matching { include '*.js' }
-    }
-
-    into "${buildDir}/node_modules"
-}
-
-
-task yarnInstall(type: YarnTask) {
-    args = ['install']
-}
-
-//task runKarma(type: YarnTask, dependsOn: [populateNodeModules, yarnInstall]) {
-//    args = ['test']
-//}
-//
-//test.dependsOn runKarma
-
-assemble.dependsOn populateNodeModules

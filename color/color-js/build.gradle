@@ -1,0 +1,3 @@
+dependencies {
+    implement project(":color-common")
+}

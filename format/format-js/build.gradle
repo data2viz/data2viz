@@ -1,5 +1,3 @@
 dependencies {
     implement project(":format-common")
 }
-
-project.jsTests()

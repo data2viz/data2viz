@@ -1,4 +1,4 @@
 dependencies {
     compile project(":core-js")
-    compile project(":color")
+    compile project(":color-js")
 }

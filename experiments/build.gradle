@@ -1,4 +1,16 @@
-def dependsOnProjects = [':axis', ':color', ':core-js', ':dsv', ':format-js', ':interpolate', ':random', ':request', ':scale', ':svg', ':tile', ':voronoi-js']
+def dependsOnProjects = [
+        ':axis', 
+        ':color-js', 
+        ':core-js', 
+        ':dsv', 
+        ':format-js', 
+        ':interpolate', 
+        ':random', 
+        ':request', 
+        ':scale', 
+        ':svg', 
+        ':tile', 
+        ':voronoi-js']
 
 dependencies {
 

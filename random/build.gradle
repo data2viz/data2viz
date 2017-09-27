@@ -1,5 +1,4 @@
 dependencies {
-    testCompile project(":color")
+    testCompile project(":color-common")
 }
 
-project.jsTests()

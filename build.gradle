@@ -61,45 +61,6 @@ subprojects {
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven-publish'
 
-    if (
-    !project.name.contains('-common') &&
-            !project.name.contains('-js') &&
-            !project.name.contains('-jvm')
-    ) {
-        apply plugin: 'kotlin2js'
-        dependencies {
-            testCompile project(":tests-js")
-            testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-            compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-        }
-
-        compileKotlin2Js {
-            kotlinOptions {
-                metaInfo = true
-                outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
-                sourceMap = true
-                sourceMapEmbedSources = "always"
-                moduleKind = 'umd'
-                main = "call"
-            }
-        }
-        compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
-
-        configurations {
-            testArtifacts.extendsFrom testRuntime
-        }
-        task testJar(type: Jar) {
-            classifier "test"
-            from sourceSets.test.output
-        }
-        artifacts {
-            testArtifacts testJar
-        }
-
-
-    }
-
-
     if (project.name.contains('-common')) {
         apply plugin: 'kotlin-platform-common'
         dependencies {
@@ -162,5 +123,46 @@ subprojects {
         }
 
     }
+
+    if (
+    !project.name.contains('-common') &&
+            !project.name.contains('-js') &&
+            !project.name.contains('-jvm')
+    ) {
+        apply plugin: 'kotlin2js'
+
+        dependencies {
+            testCompile project(":tests-common")
+            testCompile project(":tests-js")
+            testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+            compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+        }
+
+        compileKotlin2Js {
+            kotlinOptions {
+                metaInfo = true
+                outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
+                sourceMap = true
+                sourceMapEmbedSources = "always"
+                moduleKind = 'umd'
+                main = "call"
+            }
+        }
+        compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
+
+        configurations {
+            testArtifacts.extendsFrom testRuntime
+        }
+        task testJar(type: Jar) {
+            classifier "test"
+            from sourceSets.test.output
+        }
+        artifacts {
+            testArtifacts testJar
+        }
+
+
+    }
+
 
 }
