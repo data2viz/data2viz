@@ -1,6 +1,6 @@
 dependencies {
     implement project(":path-common")
-    testCompile project(":format")
+    testCompile project(":format-js")
 }
 
 project.jsTests()

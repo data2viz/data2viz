@@ -1,12 +1,7 @@
-
-
-
 include 'axis'
 include 'color'
-//include 'core'
 include 'dsv'
 include 'experiments'
-include 'format'
 include 'interpolate'
 include 'random'
 include 'request'
@@ -16,6 +11,7 @@ include 'svg'
 include 'tile'
 
 includeMulti('core')
+includeMulti('format')
 includeMulti('path')
 includeMulti('tests')
 includeMulti('voronoi')

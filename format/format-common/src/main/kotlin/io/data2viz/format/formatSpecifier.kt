@@ -1,6 +1,7 @@
 package io.data2viz.format
 
-import kotlin.js.Math
+import kotlin.math.max
+
 
 val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-\\( ])?([$#])?(0)?(\\d+)?(,)?(\\.\\d+)?([a-z%])?$", RegexOption.IGNORE_CASE)
 
@@ -101,6 +102,6 @@ data class FormatSpecifier(val specifier:String) {
     }
 
     override fun toString(): String {
-        return "$fill$align$sign$symbol${if (zero) "0" else ""}${if (width == null) "" else Math.max(1, width!!)}${if (groupSeparation) "," else ""}${if (precision == null) "" else "." + Math.max(0, precision!!)}$type"
+        return "$fill$align$sign$symbol${if (zero) "0" else ""}${if (width == null) "" else max(1, width!!)}${if (groupSeparation) "," else ""}${if (precision == null) "" else "." + max(0, precision!!)}$type"
     }
 }
