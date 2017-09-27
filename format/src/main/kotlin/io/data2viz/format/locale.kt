@@ -1,6 +1,5 @@
 package io.data2viz.format
 
-import kotlin.js.Math
 import kotlin.math.*
 import kotlin.math.max
 import kotlin.math.min
@@ -149,12 +148,6 @@ private fun exponent(value:Double): Int {
 private fun isTypeIn(type: String, types: String) = type.length == 1 && types.contains(type)
 fun isValidType(type: String) = type.isEmpty() || isTypeIn(type, validTypes)
 
-private fun Double.toFixed(digits: Int): String = this.asDynamic().toFixed(digits)
-private fun Double.toExponential(digits: Int): String = this.asDynamic().toExponential(digits)
-private fun Double.toExponential(): String = this.asDynamic().toExponential()
-private fun Double.toPrecision(digits: Int): String = this.asDynamic().toPrecision(digits)
-private fun Int.toStringDigits(digits: Int): String = this.asDynamic().toString(digits)
-
 private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int) -> String {
     return fun(value: String, width: Int): String {
         var i = value.length
@@ -183,17 +176,17 @@ fun formatTypes(type: String): (Double, Int) -> String {
     when (type) {
         "f" -> return fun(x: Double, p: Int): String { return x.toFixed(p) }
         "%" -> return fun(x: Double, p: Int): String { return (x * 100).toFixed(p) }
-        "b" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(2) }
+        "b" -> return fun(x: Double, _: Int): String { return x.toStringDigits(2) }
         "c" -> return fun(x: Double, _: Int): String { return "$x" }
-        "d" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(10) }
+        "d" -> return fun(x: Double, _: Int): String { return x.toStringDigits(10) }
         "e" -> return fun(x: Double, p: Int): String { return x.toExponential(p) }
         "g" -> return fun(x: Double, p: Int): String { return x.toPrecision(p) }
-        "o" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(8) }
+        "o" -> return fun(x: Double, _: Int): String { return x.toStringDigits(8) }
         "p" -> return fun(x: Double, p: Int): String { return formatRounded(x * 100, p) }
         "r" -> return ::formatRounded
         "s" -> return ::formatPrefixAuto
-        "X" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(16).toUpperCase() }
-        "x" -> return fun(x: Double, _: Int): String { return Math.round(x).toStringDigits(16) }
+        "X" -> return fun(x: Double, _: Int): String { return x.toStringDigits(16).toUpperCase() }
+        "x" -> return fun(x: Double, _: Int): String { return x.toStringDigits(16) }
         else -> return ::formatDefault
     }
 }
