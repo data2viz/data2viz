@@ -1,6 +1,5 @@
 package io.data2viz.format
 
-import io.data2viz.request.request
 import kotlin.js.Math
 import kotlin.math.*
 import kotlin.math.max
@@ -20,12 +19,6 @@ data class Locale(
         var numerals: List<String>? = null,
         var percent: String = "%")
 
-fun locale(localeURL:String, callback:(Locale) -> Unit) {
-    request(localeURL).get { xhr ->
-        val locale:Locale = JSON.parse(xhr.responseText)
-        callback(locale)
-    }
-}
 
 fun Locale.format(specify: String): (Double) -> String {
 
