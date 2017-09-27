@@ -10,12 +10,11 @@ buildscript {
 
 
 dependencies {
+    implement project(":voronoi-common")
     compile project(":core-js")
     testCompile project(":color")
     testCompile project(":svg")
-    testCompile project(":core-js")
     testCompile project(":interpolate")
-    testCompile project(":voronoi")
 }
 
 

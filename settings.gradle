@@ -14,12 +14,11 @@ include 'scale'
 include 'shape'
 include 'svg'
 include 'tile'
-include 'voronoi'
-
 
 includeMulti('core')
 includeMulti('path')
 includeMulti('tests')
+includeMulti('voronoi')
 
 
 def includeMulti(String path){
