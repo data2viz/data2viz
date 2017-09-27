@@ -6,6 +6,7 @@ import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.dom.appendText
 import kotlin.js.Math
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class RandomTests : TestBase() {
@@ -34,7 +35,7 @@ class RandomTests : TestBase() {
         testAndGraphAndCheckMinMaxValues("logNormalRandomDistribuitonMu_1_sigma_0_2", randomFunction, nbPoints, min, max) shouldBe true
     }
 
-    @Test
+    @Test @Ignore
     fun exponentialRandomDistributionLambda_1_4() {
         val randomFunction = { randomExponential(1.4)() / 10.0 }
         testAndGraphAndCheckMinMaxValues("exponentialRandomDistributionLambda_1_4", randomFunction, nbPoints, min, max) shouldBe true
