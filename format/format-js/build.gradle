@@ -1,3 +1,0 @@
-dependencies {
-    implement project(":format-common")
-}

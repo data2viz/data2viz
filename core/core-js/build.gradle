@@ -1,7 +1,0 @@
-
-dependencies{
-    implement project(":core-common")
-    testCompile project(":tests-common")
-    testCompile project(":tests-js")
-}
-

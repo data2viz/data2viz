@@ -1,7 +1,0 @@
-dependencies {
-    implement project(":voronoi-common")
-    compile project(":core-js")
-    testCompile project(":color-common")
-    testCompile project(":svg")
-    testCompile project(":interpolate")
-}

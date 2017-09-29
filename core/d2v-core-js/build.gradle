@@ -1,0 +1,5 @@
+
+dependencies{
+    implement project(":d2v-core-common")
+}
+

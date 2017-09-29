@@ -1,4 +1,0 @@
-dependencies {
-    implement project(":path-common")
-    testCompile project(":format-js")
-}

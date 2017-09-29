@@ -73,7 +73,7 @@ subprojects {
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-            testCompile project(":tests-js")
+            testCompile project(":d2v-tests-js")
         }
         compileKotlin2Js {
             kotlinOptions {
@@ -92,6 +92,7 @@ subprojects {
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+            testCompile project(":d2v-tests-jvm")
             testCompile 'junit:junit:4.12'
         }
     }
@@ -132,8 +133,8 @@ subprojects {
         apply plugin: 'kotlin2js'
 
         dependencies {
-            testCompile project(":tests-common")
-            testCompile project(":tests-js")
+            testCompile project(":d2v-tests-common")
+            testCompile project(":d2v-tests-js")
             testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
         }

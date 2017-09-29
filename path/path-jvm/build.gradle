@@ -1,5 +1,0 @@
-dependencies {
-    implement project(":path-common")
-}
-//
-//project.jsTests()

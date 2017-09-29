@@ -1,6 +1,6 @@
 
 dependencies {
-    compile project(":color-js")
+    compile project(":d2v-color-js")
 }
 
 project.jsTests()
