@@ -18,8 +18,7 @@ includeMulti('voronoi')
 
 
 def includeMulti(String path){
-    println path
-    new File(path).eachDir{ includeAndNormalizeName(path + '/' + it.name)}
+    new File(rootDir, path).eachDir{ includeAndNormalizeName(path + '/' + it.name)}
 }
 
 def includeAndNormalizeName(String path) {
