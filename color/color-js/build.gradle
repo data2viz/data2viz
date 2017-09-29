@@ -1,3 +1,5 @@
 dependencies {
     implement project(":color-common")
+    compile project(":core-common")
+    compile project(":core-js")
 }

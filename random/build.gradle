@@ -1,4 +1,5 @@
 dependencies {
     testCompile project(":color-common")
+    testCompile project(":color-js")
 }
 
