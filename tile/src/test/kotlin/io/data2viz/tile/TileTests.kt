@@ -7,7 +7,10 @@ import io.data2viz.math.PI
 import io.data2viz.math.THETA
 import io.data2viz.math.deg
 import kotlin.browser.document
-import kotlin.js.Math
+import kotlin.math.cos
+import kotlin.math.ln
+import kotlin.math.pow
+import kotlin.math.tan
 
 class TileTests {
 
@@ -19,9 +22,9 @@ class TileTests {
     /**
      * http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
      */
-    fun GeoPoint.long2tile(zoom: Int) = ((longitude + PI) / THETA) * Math.pow(2.0, zoom.toDouble())
+    fun GeoPoint.long2tile(zoom: Int) = ((longitude + PI) / THETA) * 2.0.pow(zoom.toDouble())
 
-    fun GeoPoint.lat2tile(zoom: Int) = (1 - Math.log(Math.tan(latitude.deg * Math.PI / 180) + 1 / Math.cos(latitude.deg * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2.0, zoom.toDouble())
+    fun GeoPoint.lat2tile(zoom: Int) = (1 - ln(tan(latitude.rad) + 1 / cos(latitude.rad)) / kotlin.math.PI) / 2 * 2.0.pow(zoom.toDouble())
 
 
     fun shouldDisplayGeneva() {
@@ -32,9 +35,9 @@ class TileTests {
             height = 200.0
             tilesCount = 200_000.0
         }
-        layout.translation = Point(-3000.0, 29100.0)
-//                    (layout.tilesCount / 2) - GENEVA.long2tile(layout.zoom) * layout.tileSize,
-//                    (layout.tilesCount / 2) - GENEVA.lat2tile(layout.zoom) * layout.tileSize)
+        layout.translation = Point(
+                    (layout.tilesCount / 2) - GENEVA.long2tile(layout.zoom) * layout.tileSize,
+                    (layout.tilesCount / 2) - GENEVA.lat2tile(layout.zoom) * layout.tileSize)
         drawmap(layout)
     }
 }

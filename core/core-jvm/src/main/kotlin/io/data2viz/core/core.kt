@@ -1,4 +1,4 @@
 package io.data2viz.core
 
 
-impl fun random():Double = Math.random()
+actual fun random():Double = Math.random()

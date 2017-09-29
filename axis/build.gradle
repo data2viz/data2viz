@@ -1,4 +1,5 @@
 dependencies {
+    compile project(":color-common")
     compile project(":core-js")
     compile project(":svg")
 }

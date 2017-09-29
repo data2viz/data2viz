@@ -3,7 +3,7 @@ package io.data2viz.test
 import io.data2viz.test.matchers.Matchers
 
 
-header fun Double.toFixed():String
+expect fun Double.toFixed():String
 
 abstract class TestBase : Matchers {
 

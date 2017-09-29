@@ -1,9 +1,9 @@
 package io.data2viz.tile
 
 import io.data2viz.core.Point
-import kotlin.js.Math
+import kotlin.math.*
 
-val LN2 = Math.log(2.0)
+val LN2 = ln(2.0)
 val INFINITY: Int = 2147483647
 
 fun tilesLayout(init: TilesLayout.() -> Unit): TilesLayout = TilesLayout().apply(init)
@@ -30,7 +30,7 @@ class TilesLayout {
     private var wrap = true
 
     var width
-        get() = end.x.toDouble() - origin.x.toDouble()
+        get() = end.x - origin.x
         set(value) {
             origin = Point(0.0, origin.y)
             end = Point(value, end.y)
@@ -38,7 +38,7 @@ class TilesLayout {
         }
 
     var height
-        get() = end.y.toDouble() - origin.y.toDouble()
+        get() = end.y - origin.y
         set(value) {
             origin = Point(origin.x, 0.0)
             end = Point(end.x, value)
@@ -74,15 +74,15 @@ class TilesLayout {
         stale = false
 
         // scale = 200_000 => z = 9,61
-        val z = Math.max(Math.log(tilesCount) / LN2 - 8.0, 0.0)
+        val z = max(ln(tilesCount) / LN2 - 8.0, 0.0)
 
         //zoom. http://wiki.openstreetmap.org/wiki/Zoom_levels
         //zoom = 0 => 1 tiles, zoom = 1 => 4 tiles, ...
         // scale = 200_000 => z = 10
-        zoom = Math.round(z + zoomDelta)
+        zoom = round(z + zoomDelta).toInt()
 
         // k = 195,3125 (tile size)
-        _tileSize = Math.pow(2.0, z - zoom + 8.0)
+        _tileSize = 2.0.pow(z - zoom + 8.0)
     }
 
     /**
@@ -95,14 +95,14 @@ class TilesLayout {
         //number of horizontal tile. zoom = 10 => 1024 horizontal tiles
         val j = 1 shl zoom
 
-        val x = translation.x.toDouble() - (tilesCount / 2)
-        val y = translation.y.toDouble() - (tilesCount / 2)
+        val x = translation.x - (tilesCount / 2)
+        val y = translation.y - (tilesCount / 2)
         translate = Point(x, y) / _tileSize
 
-        val minCols = Math.max(if (wrap) -INFINITY else 0, Math.floor((origin.x.toDouble() - x) / _tileSize))
-        val maxCols = Math.min(Math.ceil((end.x.toDouble() - x) / _tileSize), if (wrap) INFINITY else j)
-        val minRows = Math.max(0, Math.floor((origin.y.toDouble() - y) / _tileSize))
-        val maxRows = Math.min(Math.ceil((end.y.toDouble() - y) / _tileSize), j)
+        val minCols = max(if (wrap) -INFINITY else 0, floor((origin.x - x) / _tileSize).toInt())
+        val maxCols = min(ceil((end.x - x) / _tileSize).toInt(), if (wrap) INFINITY else j)
+        val minRows = max(0, floor((origin.y - y) / _tileSize).toInt())
+        val maxRows = min(ceil((end.y - y) / _tileSize).toInt(), j)
 
         val tiles = mutableListOf<Tile>()
         (minRows..maxRows).forEach { row ->
@@ -144,10 +144,10 @@ data class Tile(
         get() = layout.zoom
 
     val x:Double
-        get() = layout.tileSize * (layout.translate!!.x.toDouble() + tileX)
+        get() = layout.tileSize * (layout.translate!!.x + tileX)
 
 
     val y:Double
-        get() = layout.tileSize * (layout.translate!!.y.toDouble() + tileY)
+        get() = layout.tileSize * (layout.translate!!.y + tileY)
 
 }

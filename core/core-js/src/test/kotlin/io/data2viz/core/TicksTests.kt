@@ -1,16 +1,10 @@
 package io.data2viz.core
 
 import io.data2viz.test.TestBase
-import kotlin.js.Math
 import kotlin.math.ln
 import kotlin.test.Test
 
 class TicksTests : TestBase() {
-
-    @Test
-    fun js_log_to_kotlin_log(){
-        ln(10.0) shouldBe Math.log(10.0)
-    }
 
 
     @Test

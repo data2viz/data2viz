@@ -21,6 +21,8 @@ class HelloApp: Application(){
             lineTo(175, 55)
         }
 
+        path
+
         val root = Pane()
         root.children.add(path.toJfxPath())
         primaryStage!!.scene = (Scene(root, 300.0, 250.0))
