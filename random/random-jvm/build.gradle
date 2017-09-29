@@ -1,0 +1,5 @@
+
+dependencies{
+    implement project(":random-common")
+}
+

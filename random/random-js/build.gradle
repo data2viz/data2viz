@@ -1,4 +1,6 @@
-dependencies {
+
+dependencies{
+    implement project(":random-common")
     testCompile project(":color-common")
     testCompile project(":color-js")
 }

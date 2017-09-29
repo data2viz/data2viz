@@ -5,4 +5,3 @@ dependencies{
     testCompile project(":tests-js")
 }
 
-project.jsTests()

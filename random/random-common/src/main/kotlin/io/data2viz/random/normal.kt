@@ -1,7 +1,5 @@
 package io.data2viz.random
 
-import kotlin.js.Math
-import kotlin.js.Math.random
 import kotlin.math.ln
 import kotlin.math.sqrt
 
@@ -18,7 +16,7 @@ fun randomNormal(mu: Number = 0, sigma: Number = 1): () -> Double = {
     } else {
         while (r == 0.0 || r > 1) {
             x = random() * 2 - 1
-            y = Math.random() * 2 - 1
+            y = random() * 2 - 1
             r = x * x + y * y
         }
     }

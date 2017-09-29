@@ -2,7 +2,6 @@ include 'axis'
 include 'dsv'
 include 'experiments'
 include 'interpolate'
-include 'random'
 include 'request'
 include 'scale'
 include 'shape'
@@ -13,6 +12,7 @@ includeMulti('core')
 includeMulti('color')
 includeMulti('format')
 includeMulti('path')
+includeMulti('random')
 includeMulti('tests')
 includeMulti('voronoi')
 
