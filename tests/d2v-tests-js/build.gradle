@@ -1,5 +1,4 @@
 
-
 dependencies {
     implement project(":d2v-tests-common")
     compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"

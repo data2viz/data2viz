@@ -1,4 +1,3 @@
-
 dependencies {
     compile project(":d2v-color-js")
 }

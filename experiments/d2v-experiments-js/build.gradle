@@ -1,15 +1,15 @@
 def dependsOnProjects = [
-        ':axis',
+        ':d2v-axis-js',
         ':d2v-color-js',
         ':d2v-core-js',
-        ':dsv',
+        ':d2v-dsv-js',
         ':d2v-format-js',
-        ':interpolate',
+        ':d2v-interpolate-js',
         ':d2v-random-js',
-        ':request',
-        ':scale',
-        ':svg',
-        ':tile',
+        ':d2v-request-js',
+        ':d2v-scale-js',
+        ':d2v-svg-js',
+        ':d2v-tile-js',
         ':d2v-voronoi-js']
 
 dependencies {

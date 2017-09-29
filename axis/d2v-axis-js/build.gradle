@@ -1,5 +1,5 @@
 dependencies {
     compile project(":d2v-color-common")
     compile project(":d2v-core-js")
-    compile project(":svg")
+    compile project(":d2v-svg-js")
 }

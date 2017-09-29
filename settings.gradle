@@ -1,12 +1,12 @@
-include 'axis'
-include 'dsv'
-include 'experiments'
-include 'interpolate'
-include 'request'
-include 'scale'
-include 'shape'
-include 'svg'
-include 'tile'
+includeMulti 'axis'
+includeMulti 'dsv'
+includeMulti 'experiments'
+includeMulti 'interpolate'
+includeMulti 'request'
+includeMulti 'scale'
+includeMulti 'shape'
+includeMulti 'svg'
+includeMulti 'tile'
 
 includeMulti('core')
 includeMulti('color')

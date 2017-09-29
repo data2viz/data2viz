@@ -2,3 +2,4 @@ dependencies {
     implement project(":d2v-path-common")
     testCompile project(":d2v-format-js")
 }
+project.jsTests()
