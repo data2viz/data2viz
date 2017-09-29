@@ -1,21 +1,19 @@
-includeMulti 'axis'
-includeMulti 'dsv'
-includeMulti 'experiments'
-includeMulti 'interpolate'
-includeMulti 'request'
-includeMulti 'scale'
-includeMulti 'shape'
-includeMulti 'svg'
-includeMulti 'tile'
-
+includeMulti('axis')
 includeMulti('core')
 includeMulti('color')
+includeMulti('dsv')
 includeMulti('format')
+includeMulti('experiments')
+includeMulti('interpolate')
 includeMulti('path')
 includeMulti('random')
+includeMulti('request')
+includeMulti('scale')
+includeMulti('shape')
+includeMulti('svg')
 includeMulti('tests')
+includeMulti('tile')
 includeMulti('voronoi')
-
 
 def includeMulti(String path){
     new File(rootDir, path).eachDir{ includeAndNormalizeName(path + '/' + it.name)}
