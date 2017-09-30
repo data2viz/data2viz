@@ -7,7 +7,7 @@ def dependsOnProjects = [
         ':d2v-interpolate-js',
         ':d2v-random-js',
         ':d2v-request-js',
-        ':d2v-scale-js',
+//        ':d2v-scale-js',
         ':d2v-svg-js',
         ':d2v-tile-js',
         ':d2v-voronoi-js']
