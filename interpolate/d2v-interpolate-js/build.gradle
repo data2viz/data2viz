@@ -1,4 +1,5 @@
 dependencies {
+    compile project(":d2v-color-common")
     compile project(":d2v-color-js")
 }
 

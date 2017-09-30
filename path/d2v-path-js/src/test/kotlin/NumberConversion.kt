@@ -1,3 +1,5 @@
+
+
 @JsName("numberToDouble")
 fun numberToDouble(x: Number) {
     val value = x.toDouble()

@@ -1,7 +1,8 @@
 package io.data2viz.interpolate
 
 import io.data2viz.math.Angle
-import kotlin.js.Math
+import kotlin.math.floor
+import kotlin.math.pow
 
 
 // TODO no more constant needed ?
@@ -36,7 +37,7 @@ internal fun hue(a: Angle, b:Angle): (Double) -> Double {
 /**
  * constant interpolation
  */
-private fun constant(a: Int) = fun(_: Double) = a
+//private fun constant(a: Int) = fun(_: Double) = a
 
 /**
  * Linear interpolation
@@ -59,11 +60,11 @@ private fun linear(a:Double, b:Double): (Double) -> Double = {t -> a + t.coerceI
  */
 private fun exponential(a:Double, b:Double, y: Double): (Double) -> Double {
     val ny = 1 / y
-    val na = Math.pow(a, y)
-    val nb = Math.pow(b, y) - na
+    val na = a.pow(y)
+    val nb = b.pow(y) - na
 
     return fun(t): Double {
-        return Math.pow(na + t * nb, ny)
+        return (na + t * nb).pow(ny)
     }
 }
 /*private fun exponential(values: List<Number>, y: Double): (Double) -> Double {
@@ -92,7 +93,7 @@ fun basis(values: List<Int>): (Double) -> Double {
     return fun(t: Double): Double {
 
         val newT = t.coerceIn(0.0, 1.0)
-        val currentIndex: Int = if (t <= 0) 0 else if (t >= 1) n - 1 else Math.floor(t * n)
+        val currentIndex: Int = if (t <= 0) 0 else if (t >= 1) n - 1 else floor(t * n).toInt()
 
         val v1 = values[currentIndex]
         val v2 = values[currentIndex + 1]
@@ -113,14 +114,14 @@ private fun basisClosed(values: List<Int>): (Double) -> Double {
     return fun(t: Double): Double {
 
         val newT = if (t < 0) t % 1 else (t % 1 + 1)
-        val currentIndex = Math.floor(newT * n)
+        val currentIndex = floor(newT * n).toInt()
 
         val v0 = values[(currentIndex + n - 1) % n]
         val v1 = values[currentIndex % n]
         val v2 = values[(currentIndex + 1) % n]
         val v3 = values[(currentIndex + 2) % n]
 
-        return computeSpline((newT - currentIndex.toDouble() / n) * n, v0, v1, v2, v3)
+        return computeSpline((newT - currentIndex / n) * n, v0, v1, v2, v3)
     }
 }
 
@@ -130,9 +131,8 @@ private fun basisClosed(values: List<Int>): (Double) -> Double {
 fun computeSpline(t1: Double, v0: Int, v1: Int, v2: Int, v3: Int): Double {
     val t2 = t1 * t1
     val t3 = t2 * t1
-    val fl = ((1 - 3 * t1 + 3 * t2 - t3) * v0
+    return ((1 - 3 * t1 + 3 * t2 - t3) * v0
             + (4 - 6 * t2 + 3 * t3) * v1
             + (1 + 3 * t1 + 3 * t2 - 3 * t3) * v2
             + t3 * v3) / 6
-    return fl
 }

@@ -1,8 +1,8 @@
 package io.data2viz.shape
 
-import curve.Basis
-import curve.Linear
-import curve.LinearClosed
+import io.data2viz.shape.curve.Basis
+import io.data2viz.shape.curve.Linear
+import io.data2viz.shape.curve.LinearClosed
 import io.data2viz.path.PathAdapter
 
 interface Curve {

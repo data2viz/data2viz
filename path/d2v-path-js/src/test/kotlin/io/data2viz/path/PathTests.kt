@@ -1,12 +1,13 @@
+@file:Suppress("unused")
+
 package io.data2viz.path
 
-import io.data2viz.format.Locale
-import io.data2viz.format.format
+import io.data2viz.test.TestBase
+import io.data2viz.test.shouldThrow
+import kotlin.math.PI
 import kotlin.test.Test
-import io.data2viz.test.*
-import kotlin.js.Math
 
-
+@Suppress("FunctionName")
 class PathTests : TestBase() {
 
     fun path(): SvgPath = SvgPath()
@@ -79,10 +80,10 @@ class PathTests : TestBase() {
 
 
     @Test
-    fun path_arc_throms_an_error_if_radius_is_negative() {
+    fun path_arc_throws_an_error_if_radius_is_negative() {
         with(path()) {
             moveTo(150, 50)
-            val ex = shouldThrow<IllegalArgumentException> { arc(100, 100, -50, 0, Math.PI / 2) }
+            val ex = shouldThrow<IllegalArgumentException> { arc(100, 100, -50, 0, PI / 2) }
             ex.message shouldBe "Negative radius:-50"
         }
     }
@@ -90,7 +91,7 @@ class PathTests : TestBase() {
     @Test
     fun path_arc_may_append_only_an_M_command_if_the_radius_is_zero() {
         with(path()) {
-            arc(100, 100, 0, 0, Math.PI / 2)
+            arc(100, 100, 0, 0, PI / 2)
             path shouldBe "M100,100"
         }
     }
@@ -99,7 +100,7 @@ class PathTests : TestBase() {
     fun path_arc_may_append_only_an_L_command_if_previous_path() {
         with(path()) {
             moveTo(0, 0)
-            arc(100, 100, 0, 0, Math.PI / 2)
+            arc(100, 100, 0, 0, PI / 2)
             path shouldBe "M0,0L100,100"
         }
     }
@@ -138,7 +139,7 @@ class PathTests : TestBase() {
     fun path_arc_may_append_an_L_command_if_the_arc_doesn_t_start_at_the_current_point() {
         with(path()) {
             moveTo(100, 100)
-            arc(100, 100, 50, 0, Math.PI * 2)
+            arc(100, 100, 50, 0, PI * 2)
             path shouldBe "M100,100L150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100"
         }
     }
@@ -147,7 +148,7 @@ class PathTests : TestBase() {
     fun path_arc_appends_a_single_A_command_if_the_angle_is_less_than_π() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, Math.PI / 2)
+            arc(100, 100, 50, 0, PI / 2)
             path shouldBe "M150,100A50,50,0,0,1,100,150"
         }
     }
@@ -156,7 +157,7 @@ class PathTests : TestBase() {
     fun path_arc_appends_a_single_A_command_if_the_angle_is_less_than_τ() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, Math.PI * 1)
+            arc(100, 100, 50, 0, PI * 1)
             path.round() shouldBe "M150,100A50,50,0,1,1,50,100"
         }
     }
@@ -165,7 +166,7 @@ class PathTests : TestBase() {
     fun path_arc_appends_two_A_commands_if_the_angle_is_greater_than_τ() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, Math.PI * 2)
+            arc(100, 100, 50, 0, PI * 2)
             path.round() shouldBe "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100"
         }
     }
@@ -174,7 +175,7 @@ class PathTests : TestBase() {
     fun path_arc_appends_draws_a_small_clockwise_arc2() {
         with(path()) {
             moveTo(100, 50)
-            arc(100, 100, 50, -Math.PI / 2, 0, false)
+            arc(100, 100, 50, -PI / 2, 0, false)
             path.round() shouldBe "M100,50A50,50,0,0,1,150,100"
         }
     }
@@ -182,8 +183,8 @@ class PathTests : TestBase() {
     @Test
     fun path_arc_appends_draws_a_small_clockwise_arc() {
         with(path()) {
-            moveTo(150, 100);
-            arc(100, 100, 50, 0, Math.PI / 2, false)
+            moveTo(150, 100)
+            arc(100, 100, 50, 0, PI / 2, false)
             path.round() shouldBe "M150,100A50,50,0,0,1,100,150"
         }
     }
@@ -192,7 +193,7 @@ class PathTests : TestBase() {
     fun path_arc_draws_an_anticlockwise_circle() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, 1e-16, true);
+            arc(100, 100, 50, 0, 1e-16, true)
             path.round() shouldBe "M150,100A50,50,0,1,0,50,100A50,50,0,1,0,150,100"
         }
     }
@@ -228,7 +229,7 @@ class PathTests : TestBase() {
     fun path_arc_0_tau_draws_an_anticlockwise_circle() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, 2 * Math.PI, true);
+            arc(100, 100, 50, 0, 2 * PI, true)
             path.round() shouldBe "M150,100A50,50,0,1,0,50,100A50,50,0,1,0,150,100"
         }
     }
@@ -237,7 +238,7 @@ class PathTests : TestBase() {
     fun path_arc_0_tau_false_draws_a_clockwise_circle() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, 2 * Math.PI, false)
+            arc(100, 100, 50, 0, 2 * PI, false)
             path.round() shouldBe "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100"
         }
     }
@@ -255,7 +256,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_0_13πon2_false__draws_a_clockwise_circle() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, 13 * Math.PI / 2, false);
+            arc(100, 100, 50, 0, 13 * PI / 2, false)
             path.round() shouldBe "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100"
 
         }
@@ -265,7 +266,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_13πon2_0_false__draws_a_big_clockwise_arc() {
         with(path()) {
             moveTo(100, 150)
-            arc(100, 100, 50, 13 * Math.PI / 2, 0, false);
+            arc(100, 100, 50, 13 * PI / 2, 0, false)
             path.round() shouldBe "M100,150A50,50,0,1,1,150,100"
         }
     }
@@ -274,7 +275,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_πon2_0_false__draws_a_big_clockwise_arc() {
         with(path()) {
             moveTo(100, 150)
-            arc(100, 100, 50, Math.PI / 2, 0, false);
+            arc(100, 100, 50, PI / 2, 0, false)
             path.round() shouldBe "M100,150A50,50,0,1,1,150,100"
         }
     }
@@ -283,7 +284,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_3πon2_0_false__draws_a_small_clockwise_arc() {
         with(path()) {
             moveTo(100, 50)
-            arc(100, 100, 50, 3 * Math.PI / 2, 0, false);
+            arc(100, 100, 50, 3 * PI / 2, 0, false)
             path.round() shouldBe "M100,50A50,50,0,0,1,150,100"
         }
     }
@@ -292,7 +293,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_15πon2_0_false__draws_a_small_clockwise_arc() {
         with(path()) {
             moveTo(100, 50)
-            arc(100, 100, 50, 15 * Math.PI / 2, 0, false);
+            arc(100, 100, 50, 15 * PI / 2, 0, false)
             path.round() shouldBe "M100,50A50,50,0,0,1,150,100"
         }
     }
@@ -301,7 +302,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_0_πon2_true__draws_a_big_anticlockwise_arc() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, Math.PI / 2, true);
+            arc(100, 100, 50, 0, PI / 2, true)
             path.round() shouldBe "M150,100A50,50,0,1,0,100,150"
         }
     }
@@ -310,7 +311,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_minusπon2_0_true__draws_a_big_anticlockwise_arc() {
         with(path()) {
             moveTo(100, 50)
-            arc(100, 100, 50, -Math.PI / 2, 0, true);
+            arc(100, 100, 50, -PI / 2, 0, true)
             path.round() shouldBe "M100,50A50,50,0,1,0,150,100"
         }
     }
@@ -319,7 +320,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_minus13πon2_0_true_draws_a_big_anticlockwise_arc() {
         with(path()) {
             moveTo(100, 50)
-            arc(100, 100, 50, -13 * Math.PI / 2, 0, true);
+            arc(100, 100, 50, -13 * PI / 2, 0, true)
             path.round() shouldBe "M100,50A50,50,0,1,0,150,100"
         }
     }
@@ -328,7 +329,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_minus13πon2_0_false__draws_a_big_anticlockwise_arc() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, -13 * Math.PI / 2, false);
+            arc(100, 100, 50, 0, -13 * PI / 2, false)
             path.round() shouldBe "M150,100A50,50,0,1,1,100,50"
         }
     }
@@ -337,7 +338,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_0_13πon2_true__draws_a_big_anticlockwise_arc() {
         with(path()) {
             moveTo(150, 100)
-            arc(100, 100, 50, 0, 13 * Math.PI / 2, true);
+            arc(100, 100, 50, 0, 13 * PI / 2, true)
             path.round() shouldBe "M150,100A50,50,0,1,0,100,150"
         }
     }
@@ -346,7 +347,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_πon2_0_true__draws_a_small_anticlockwise_arc() {
         with(path()) {
             moveTo(100, 150)
-            arc(100, 100, 50, Math.PI / 2, 0, true);
+            arc(100, 100, 50, PI / 2, 0, true)
             path.round() shouldBe "M100,150A50,50,0,0,0,150,100"
         }
     }
@@ -355,7 +356,7 @@ class PathTests : TestBase() {
     fun path_arc_x_y_3πon2_0_true__draws_a_big_anticlockwise_arc() {
         with(path()) {
             moveTo(100, 50)
-            arc(100, 100, 50, 3 * Math.PI / 2, 0, true);
+            arc(100, 100, 50, 3 * PI / 2, 0, true)
             path.round() shouldBe "M100,50A50,50,0,1,0,150,100"
         }
     }
@@ -369,7 +370,7 @@ class PathTests : TestBase() {
     @Test
     fun path_arcTo_appends_an_M_command_if_the_path_was_empty() {
         with(path()) {
-            arcTo(270, 39, 163, 100, 53);
+            arcTo(270, 39, 163, 100, 53)
             path.round() shouldBe "M270,39"
 
         }
@@ -378,7 +379,7 @@ class PathTests : TestBase() {
     @Test
     fun path_arcTo_does_nothing_if_the_previous_point_was_x1_y1() {
         with(path()) {
-            moveTo(270, 39); arcTo(270, 39, 163, 100, 53);
+            moveTo(270, 39); arcTo(270, 39, 163, 100, 53)
             path.round() shouldBe "M270,39"
 
         }
@@ -387,7 +388,7 @@ class PathTests : TestBase() {
     @Test
     fun path_arcTo_appends_an_L_command_if_the_previous_point_x1_y1_and_x2_y2_are_collinear() {
         with(path()) {
-            moveTo(100, 50); arcTo(101, 51, 102, 52, 10);
+            moveTo(100, 50); arcTo(101, 51, 102, 52, 10)
             path.round() shouldBe "M100,50L101,51"
 
         }
@@ -396,7 +397,7 @@ class PathTests : TestBase() {
     @Test
     fun path_arcTo_appends_an_L_command_if_x1_y1_and_x2_y2_are_coincident() {
         with(path()) {
-            moveTo(100, 50); arcTo(101, 51, 101, 51, 10);
+            moveTo(100, 50); arcTo(101, 51, 101, 51, 10)
             path.round() shouldBe "M100,50L101,51"
 
         }
@@ -431,7 +432,7 @@ class PathTests : TestBase() {
     fun path_arcTo_appends_only_an_A_command_if_the_arc_starts_at_the_current_point() {
         with(path()) {
             moveTo(100, 100)
-            arcTo(200, 100, 200, 200, 100);
+            arcTo(200, 100, 200, 200, 100)
             path.round() shouldBe "M100,100A100,100,0,0,1,200,200"
 
         }
@@ -441,7 +442,7 @@ class PathTests : TestBase() {
     fun path_arcTo_sets_the_last_point_to_be_the_end_tangent_of_the_arc() {
         with(path()) {
             moveTo(100, 100)
-            arcTo(200, 100, 200, 200, 50); arc(150, 150, 50, 0, Math.PI);
+            arcTo(200, 100, 200, 200, 50); arc(150, 150, 50, 0, PI)
             path.round() shouldBe "M100,100L150,100A50,50,0,0,1,200,150A50,50,0,1,1,100,150"
 
         }

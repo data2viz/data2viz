@@ -73,6 +73,7 @@ subprojects {
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+            testCompile project(":d2v-tests-common")
             testCompile project(":d2v-tests-js")
         }
         compileKotlin2Js {

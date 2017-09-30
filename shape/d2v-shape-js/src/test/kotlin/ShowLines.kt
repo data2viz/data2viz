@@ -1,4 +1,4 @@
-import curve.Point
+import io.data2viz.shape.curve.Point
 import io.data2viz.path.CanvasDrawContext
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath

@@ -1,3 +1,5 @@
+@file:Suppress("unused", "FunctionName")
+
 package io.data2viz.random
 
 import io.data2viz.color.colors
@@ -5,7 +7,7 @@ import io.data2viz.core.namespace
 import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.dom.appendText
-import kotlin.js.Math
+import kotlin.math.floor
 import kotlin.test.Ignore
 import kotlin.test.Test
 
@@ -83,7 +85,7 @@ private fun testAndGraphAndCheckMinMaxValues(context: String, randomFunction: ()
         check = check && x >= min && x < max
     }
 
-    val groupedResults = resultsXY.map { value -> Math.floor(value * 100) }.sorted().groupBy { it }
+    val groupedResults = resultsXY.map { value -> floor(value * 100) }.sorted().groupBy { it }
     val maxResultsFound = groupedResults.values.map { it.size }.max()!!.toDouble()
 
     h2(context)

@@ -1,6 +1,6 @@
 package io.data2viz.shape
 
-import curve.Point
+import io.data2viz.shape.curve.Point
 import io.data2viz.path.SvgPath
 
 

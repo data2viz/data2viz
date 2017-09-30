@@ -2,7 +2,7 @@ package io.data2viz.interpolate
 
 import io.data2viz.color.Color
 import io.data2viz.core.Point
-import kotlin.js.Math
+import kotlin.math.floor
 
 // scale ----------------
 data class DomainToViz<out A, out B>(
@@ -93,7 +93,7 @@ class BandScale<T>(var domain: Collection<T>) {
     fun padding(inner: Double = .0, outer: Double = inner) = Padding(inner, outer)
 
 
-    var align = 0.5
+//    var align = 0.5
 
     var round = false
 
@@ -112,8 +112,8 @@ class BandScale<T>(var domain: Collection<T>) {
     fun rescale() {
         val n = domain.size
         step = (stop.toDouble() - start.toDouble()) / (n - padding.inner + padding.outer * 2).coerceAtLeast(1.0)
-        if (round) step = Math.floor(step).toDouble()
-        bandwidth = step * (1.toDouble() - padding.inner.toDouble())
+        if (round) step = floor(step)
+        bandwidth = step * (1.toDouble() - padding.inner)
     }
 
     operator fun invoke(key: T): Number {

@@ -1,4 +1,4 @@
-package curve
+package io.data2viz.shape.curve
 
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath

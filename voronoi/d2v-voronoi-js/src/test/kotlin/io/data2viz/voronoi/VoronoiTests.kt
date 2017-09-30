@@ -3,6 +3,7 @@ package io.data2viz.voronoi
 import io.data2viz.core.Point
 import kotlin.js.Math
 
+@Suppress("unused")
 class VoronoiTests {
 
     val width = 450.0
