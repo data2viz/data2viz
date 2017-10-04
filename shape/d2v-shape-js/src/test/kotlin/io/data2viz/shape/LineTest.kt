@@ -3,6 +3,7 @@ package io.data2viz.shape
 
 import io.data2viz.path.SvgPath
 import io.data2viz.test.TestBase
+import toPath
 import kotlin.test.Ignore
 import kotlin.test.Test
 

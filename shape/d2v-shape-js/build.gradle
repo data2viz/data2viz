@@ -1,6 +1,7 @@
 dependencies {
-    compile project(":d2v-path-common")
+    implement project(":d2v-shape-common")
     compile project(":d2v-path-js")
+    testCompile project(":d2v-path-js")
     testCompile project(":d2v-format-js")
 }
 
