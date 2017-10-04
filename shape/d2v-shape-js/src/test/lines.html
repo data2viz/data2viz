@@ -2,27 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>-->
-    <!--<script src="https://d3js.org/d3.v4.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
 
 </head>
 <body>
 
 
-<script>
-    var line = d3.line()
-        .defined(function(d) {return d[0] != 2});
-    console.log(line([[1,1],[2,2],[3,3],[5,5],[6,6]]));
-</script>
+
 
 <h1>Shape Lines</h1>
 <p>Generating lines from the same points but using different type of curves.</p>
 <p>The left blue line is rendered on a canvas. The right black line uses a SVG path.</p>
+
 <script>
-    require.config({baseUrl: "../../node_modules"});
-    require(['../classes/test/shape_test'], function (test) {
+    require.config({
+        baseUrl: "../../node_modules",
+        paths: {
+            d3: "http://d3js.org/d3.v4.min"
+        }
+    });
+    require(['../classes/test/d2v-shape-js_test'], function (test) {
         test.showLines();
     });
+
+
+    require(["d3"], function(d3) {
+
+        d3.select("body")
+            .append("h2")
+            .text("D3 Lines");
+
+        var data = [[0,0], [50,50], [100,0], [150,100], [200,0]];
+        var line = d3.line().curve(d3.curveBasis);
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", 300)
+            .attr("height", 200);
+
+        svg.append("path")
+            .datum(data)
+            .attr("d", line);
+    });
+
 </script>
 </body>
 </html>
