@@ -1,6 +1,7 @@
 includeMulti('axis')
-includeMulti('core')
 includeMulti('color')
+includeMulti('contour')
+includeMulti('core')
 includeMulti('dsv')
 includeMulti('format')
 includeMulti('experiments')
