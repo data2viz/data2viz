@@ -2,7 +2,7 @@
 
 dependencies {
     implement project(":d2v-tests-common")
-    compile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "junit:junit:4.12"
 }
 
