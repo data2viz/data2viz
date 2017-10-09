@@ -10,14 +10,14 @@ class ContourTests : Matchers {
 
     @Test
     fun area() {
-        doubleArea(listOf(p(0, 0), p(1, 0), p(1, 1), p(0, 1))) shouldBe -2.0
-        doubleArea(listOf(p(0, 0), p(0, 1), p(1, 1), p(1, 0))) shouldBe 2.0
+        doubleArea(arrayOf(p(0, 0), p(1, 0), p(1, 1), p(0, 1))) shouldBe -2.0
+        doubleArea(arrayOf(p(0, 0), p(0, 1), p(1, 1), p(1, 0))) shouldBe 2.0
 
-        doubleArea(listOf(p(1, 1), p(1, 2), p(2, 2), p(2, 1))) shouldBe 2.0
-        doubleArea(listOf(p(1, 1), p(1, 2), p(3, 2), p(3, 1))) shouldBe 4.0
-        doubleArea(listOf(p(1, 1), p(1, 2), p(4, 2), p(4, 1))) shouldBe 6.0
-        doubleArea(listOf(p(1, 1), p(1, 3), p(4, 3), p(4, 1))) shouldBe 12.0
-        doubleArea(listOf(p(2, 0), p(3, 1), p(2, 2), p(1, 1))) shouldBe -4.0
+        doubleArea(arrayOf(p(1, 1), p(1, 2), p(2, 2), p(2, 1))) shouldBe 2.0
+        doubleArea(arrayOf(p(1, 1), p(1, 2), p(3, 2), p(3, 1))) shouldBe 4.0
+        doubleArea(arrayOf(p(1, 1), p(1, 2), p(4, 2), p(4, 1))) shouldBe 6.0
+        doubleArea(arrayOf(p(1, 1), p(1, 3), p(4, 3), p(4, 1))) shouldBe 12.0
+        doubleArea(arrayOf(p(2, 0), p(3, 1), p(2, 2), p(1, 1))) shouldBe -4.0
     }
 
     @Test
