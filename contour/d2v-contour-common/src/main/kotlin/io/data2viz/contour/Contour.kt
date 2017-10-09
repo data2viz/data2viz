@@ -1,10 +1,11 @@
 package io.data2viz.contour
 
 
-data class GeoJson(val type: String, val value: Double, val coordinates: List<Array<List<Array<Double>>>>)
+data class GeoJson(val type: String, val value: Double, val coordinates: List<List<List<Array<Double>>>>)
 
 
 fun contour(init: Contour.() -> Unit) = Contour().apply(init)
+
 
 val cases = arrayOf(
         arrayOf(),
@@ -49,28 +50,27 @@ class Contour {
         val tz = thresholds(values).sortedArray()
 
         val layers = tz.map { thresold ->
-            val polygons: MutableList<Array<List<Array<Double>>>> = mutableListOf<Array<List<Array<Double>>>>()
+            val polygons = mutableListOf<MutableList<List<Array<Double>>>>()
             val holes = mutableListOf<List<Array<Double>>>()
 
             isorings(values, thresold) { ring: List<Array<Double>> ->
                 //todo smooth ring
-                if (area(ring) > 0)
-                    polygons.add(arrayOf(ring))
+                if (doubleArea(ring) > 0)
+                    polygons.add(mutableListOf(ring))
                 else
                     holes.add(ring)
-
             }
 
-//            holes.forEach { hole ->
-//                for (i in (0 until polygons.size)) {
-//                    val polygon = polygons[i]
-//                    if (contains(polygon[0], hole) != -1) {
-//                        polygon.add(hole)
-//                        return;
-//                    }
-//                }
-//            }
-            polygons as List<Array<List<Array<Double>>>>
+            holes.forEach { hole ->
+                for (i in (0 until polygons.size)) {
+                    val polygon = polygons[i]
+                    if (contains(polygon[0], hole) != -1) {
+                        polygon.add(hole)
+                        return@forEach
+                    }
+                }
+            }
+            polygons as List<List<List<Array<Double>>>>
         }
 
         return layers.mapIndexed { index, it ->
@@ -78,58 +78,16 @@ class Contour {
         }
     }
 
-//    private fun contains(ring: List<Array<Double>>, hole: List<Array<Double>>): Any {
-//        var i = -1
-//        val n = hole.size
-//        var c = 'e'
-//        while (++i < n)
-//            if (c = ringContains(ring, hole[i]))
-//                return c
-//        return 0
-//    }
-
-    private fun ringContains(ring: List<Array<Double>>, point: Array<Double>): Any {
-        var x = point[0]
-        var y = point[1]
-        var contains = -1
-        var n = ring.size
-        var j = n -1
-        for ( i in (0 until n)) {
-            j = i
-            var pi = ring[i]
-            var xi = pi[0]
-            var yi = pi[1]
-            var pj = ring[j]
-            var xj = pj[0]
-            var yj = pj[1];
-            if (segmentContains(pi, pj, point))
-                return 0;
-            if (((yi > y) != (yj > y)) && ((x < (xj - xi) * (y - yi) / (yj - yi) + xi)))
-                contains = - contains;
+    private fun contains(ring: List<Array<Double>>, hole: List<Array<Double>>): Int {
+        var i = -1
+        val n = hole.size
+        while (++i < n){
+            val c = ringContains(ring, hole[i])
+            if (c != 0)
+                return c
         }
-        return contains;
+        return 0
     }
-
-    private fun segmentContains(a: Array<Double>, b: Array<Double>, c: Array<Double>): Boolean {
-        var i = if (a[0]  == b[0]) 1 else 0
-        return collinear(a, b, c) && within(a[i], c[i], b[i])
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    private fun within(p: Double, q: Double, r: Double)= p <= q && q <= r || r <= q && q <= p
-
-    private fun collinear(a: Array<Double>, b: Array<Double>, c: Array<Double>) =
-            (b[0] - a[0]) * (c[1] - a[1]) == (c[0] - a[0]) * (b[1] - a[1])
-
-    private fun area(ring: List<Array<Double>>): Double {
-        var i = 0
-        val n = ring.size
-        var area = ring[n - 1][1] * ring[0][0] - ring[n - 1][0] * ring[0][1]
-        while (++i < n)
-            area += ring[i - 1][1] * ring[i][0] - ring[i - 1][0] * ring[i][1];
-        return area;
-    }
-
 
     private class Fragment(var start: Double, var end: Double, val ring: MutableList<Array<Double>>)
 
@@ -252,10 +210,62 @@ class Contour {
 //            }
 //        }
     }
-
-
 }
 
+
+/**
+ * return the double of the area of the ring. Positive if points are
+ * counter-clockwise negative otherwise.
+ */
+fun doubleArea(ring: List<Array<Double>>): Double {
+    var i = 0
+    val n = ring.size
+    var area = ring[n - 1][1] * ring[0][0] - ring[n - 1][0] * ring[0][1]
+    while (++i < n)
+        area += ring[i - 1][1] * ring[i][0] - ring[i - 1][0] * ring[i][1]
+    return area
+}
+
+
+/**
+ * If point inside ring returns 1
+ * If point on ring returns 0
+ * If point outside ring returns -1
+ */
+fun ringContains(ring: List<Array<Double>>, point: Array<Double>): Int {
+    val x = point[0]
+    val y = point[1]
+    var contains = -1
+    val n = ring.size
+    var j = n -1
+    var i = 0
+    do {
+        val pi = ring[i]
+        val xi = pi[0]
+        val yi = pi[1]
+        val pj = ring[j]
+        val xj = pj[0]
+        val yj = pj[1]
+        if (segmentContains(pi, pj, point))
+            return 0
+        if (((yi > y) != (yj > y)) && ((x < (xj - xi) * (y - yi) / (yj - yi) + xi)))
+            contains = - contains
+
+        j = i++
+    } while (i<n)
+    return contains
+}
+
+fun segmentContains(start: Array<Double>, end: Array<Double>, point: Array<Double>): Boolean {
+    val i = if (start[0]  == end[0]) 1 else 0 //if vertical compare y
+    return collinear(start, end, point) && within(start[i], point[i], end[i])
+}
+
+fun within(p: Double, q: Double, r: Double)= q in p..r || q in r..p
+
+
+fun collinear(a: Array<Double>, b: Array<Double>, c: Array<Double>) =
+        (b[0] - a[0]) * (c[1] - a[1]) == (c[0] - a[0]) * (b[1] - a[1])
 
 //Pseudo Point
 private val Array<Double>.x: Double
