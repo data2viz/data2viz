@@ -53,9 +53,9 @@ class Contour {
             val polygons = mutableListOf<MutableList<List<Array<Double>>>>()
             val holes = mutableListOf<List<Array<Double>>>()
 
-            isorings(values, thresold) { ring: List<Array<Double>> ->
-                //todo smooth ring
-                if (doubleArea(ring) > 0)
+            isorings(values, thresold) { ring: MutableList<Array<Double>> ->
+//                smoothLinear(ring, values, thresold)
+                if (doubleArea(ring.toTypedArray()) > 0)
                     polygons.add(mutableListOf(ring))
                 else
                     holes.add(ring)
@@ -89,15 +89,22 @@ class Contour {
         return 0
     }
 
-    private class Fragment(var start: Double, var end: Double, val ring: MutableList<Array<Double>>)
+    private class Fragment(var start: Int, var end: Int, val ring: MutableList<Array<Double>>)
 
-    private fun isorings(values: Array<Double>, thresold: Double, callback: (List<Array<Double>>) -> Unit) {
+    private fun isorings(values: Array<Double>, thresold: Double, callback: (MutableList<Array<Double>>) -> Unit) {
         var t0: Boolean
         var t1: Boolean
         var t2: Boolean
         var t3: Boolean
-        val fragmentByStart = mutableMapOf<Double, Fragment>()
-        val fragmentByEnd = mutableMapOf<Double, Fragment>()
+        fun index(point: Array<Double>):Int = (point.x * 2 + point.y * (dx + 1) * 4).toInt()
+
+
+//        val fragmentByStart = mutableMapOf<Double, Fragment>()
+//        val fragmentByEnd = mutableMapOf<Double, Fragment>()
+
+        val maxSize = index(arrayOf(dx.toDouble(), dy.toDouble()))
+        val fragmentByStart:Array<Fragment?> = arrayOfNulls(maxSize)
+        val fragmentByEnd:Array<Fragment?> = arrayOfNulls(maxSize)
 
         var x = -1
         var y = -1
@@ -105,7 +112,6 @@ class Contour {
         fun thresold(index: Int) = values[index] >= thresold
         fun Boolean.shl(bitCount: Int = 0) = (if (this) 1 else 0) shl bitCount
 
-        fun index(point: Array<Double>) = point.x * 2 + point.y * (dx + 1) * 4
 
         fun stitch(line: Array<Array<Double>>) {
             val start = pt(line.start.x + x, line.start.y + y)
@@ -117,36 +123,36 @@ class Contour {
             var g = fragmentByStart.get(endIndex)
             if (f != null) {
                 if (g != null) {
-                    fragmentByEnd.remove(f.end)
-                    fragmentByStart.remove(g.start)
+                    fragmentByEnd[f.end] = null
+                    fragmentByStart[g.start] = null
                     if (f === g) {
                         f.ring.add(end)
                         callback(f.ring)
                     } else {
                         val startEnd = Fragment(f.start, g.end, (f.ring + g.ring).toMutableList())
-                        fragmentByStart.put(f.start, startEnd)
-                        fragmentByStart.put(g.end, startEnd)
+                        fragmentByStart[f.start] = startEnd
+                        fragmentByStart[g.end] = startEnd
                     }
                 } else {
-                    fragmentByEnd.remove(f.end)
+                    fragmentByEnd[f.end] = null
                     f.ring.add(end)
                     f.end = endIndex
-                    fragmentByEnd.put(endIndex, f)
+                    fragmentByEnd[endIndex] =  f
                 }
             } else if (fragmentByStart[endIndex]?.let { f = it;true } == true) {
                 if (fragmentByEnd[startIndex]?.let { g = it; true } == true) {
-                    fragmentByStart.remove(f!!.start)
-                    fragmentByEnd.remove(g!!.start)
+                    fragmentByStart[f!!.start] = null
+                    fragmentByEnd[g!!.start] = null
                     if (f === g) {
                         f!!.ring.add(end)
                         callback(f!!.ring)
                     } else {
                         val startEnd = Fragment(g!!.start, f!!.end, (g!!.ring + f!!.ring).toMutableList())
-                        fragmentByStart.put(g!!.start, startEnd)
-                        fragmentByEnd.put(f!!.end, startEnd)
+                        fragmentByStart[g!!.start] = startEnd
+                        fragmentByEnd[f!!.end] = startEnd
                     }
                 } else {
-                    fragmentByStart.remove(f!!.start)
+                    fragmentByStart[f!!.start]  = null
                     f!!.ring.add(0, start)
                     f!!.start = startIndex
                     fragmentByStart[startIndex] = f!!
@@ -199,16 +205,16 @@ class Contour {
     }
 
     fun smoothLinear(ring: MutableList<Array<Double>>, values: Array<Double>, value: Double) {
-//        ring.forEach { pt ->
-//            val x = pt.x
-//            val y = pt.y
-//            val xt = if (x != 0.0) x else 0.0 //todo WTF
-//            val yt = if (y != 0.0) y else 0.0
+        ring.forEach { pt ->
+            val x = pt[0]
+            val y = pt[1]
+            val xt = if (x != 0.0) x else 0.0 //todo WTF
+            val yt = if (y != 0.0) y else 0.0
 //            val v1 = values[yt * dx - xt - 1]
-//            if (x >0 && x < dx && xt === x){
-//
-//            }
-//        }
+            if (x >0 && x < dx && xt === x){
+
+            }
+        }
     }
 }
 
@@ -217,7 +223,7 @@ class Contour {
  * return the double of the area of the ring. Positive if points are
  * counter-clockwise negative otherwise.
  */
-fun doubleArea(ring: List<Array<Double>>): Double {
+fun doubleArea(ring: Array<Array<Double>>): Double {
     var i = 0
     val n = ring.size
     var area = ring[n - 1][1] * ring[0][0] - ring[n - 1][0] * ring[0][1]
