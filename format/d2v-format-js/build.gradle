@@ -1,3 +1,4 @@
 dependencies {
     implement project(":d2v-format-common")
 }
+project.jsTests()
