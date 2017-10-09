@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../node_modules/lodash/lodash.js"></script>
+    <script src="../../node_modules/platform/platform.js"></script>
+    <script src="../../node_modules/benchmark/benchmark.js"></script>
+    <script src="../../build/node_modules/kotlin.js"></script>
+    <script src="../../build/node_modules/kotlin-test.js"></script>
+    <script src="../../build/node_modules/d2v-contour-js.js"></script>
+    <script src="../../build/node_modules/d2v-tests-js.js"></script>
+    <script src="../../build/classes/test/d2v-contour-js_test.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-contour.v1.js"></script>
+</head>
+<body>
+
+<h1>Benchmark Contours</h1>
+<script>
+    var module = window["d2v-contour-js_test"].io.data2viz.contour;
+    var d2vcontour = module.squaredContour(10);
+    var numbers = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 1, 1, 1, 0, 1, 1, 1, 0, 0,
+        0, 1, 0, 1, 0, 1, 0, 1, 0, 0,
+        0, 1, 1, 1, 0, 1, 1, 1, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ];
+
+    d2vcontour.contours_awc180$(numbers);
+
+    var suite = new Benchmark.Suite();
+
+
+    var d3contours = d3.contours().size([10, 10]).thresholds([0.5]);
+    suite
+        .add('D3-Countours#contours.contours', function () {
+            d3contours(numbers);
+        })
+        .add('d2v-contours#contours', function () {
+            d2vcontour.contours_awc180$(numbers);
+        })
+
+
+        // add listeners
+        .on('cycle', function (event) {
+            console.log(String(event.target));
+        })
+        .on('error', function (event) {
+            console.log(event);
+        })
+        .on('complete', function () {
+            console.log('Fastest is ' + this.filter('fastest').map('name'));
+        })
+        // run async
+        .run({'async': true});</script>
+</body>
+</html>

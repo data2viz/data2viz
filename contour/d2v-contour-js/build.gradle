@@ -2,4 +2,4 @@ dependencies {
     implement project(":d2v-contour-common")
 }
 
-//project.jsTests()
+project.jsTests()
