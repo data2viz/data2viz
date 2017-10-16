@@ -23,6 +23,10 @@ class Basis(override val context: PathAdapter): Curve {
     }
 
     override fun lineStart() {
+        x0 = -1.0
+        y0 = -1.0
+        x1 = -1.0
+        y1 = -1.0
         pointStatus = 0
     }
 
@@ -38,7 +42,7 @@ class Basis(override val context: PathAdapter): Curve {
         lineStatus = 1 - lineStatus
     }
 
-    fun curve(x: Number, y: Number){
+    private fun curve(x: Number, y: Number){
         context.bezierCurveTo(
                 (2 * x0 + x1) / 3,
                 (2 * y0 + y1) / 3,
