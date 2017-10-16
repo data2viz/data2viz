@@ -7,12 +7,9 @@
 </head>
 <body>
 
-
-
-
 <h1>Shape Lines</h1>
 <p>Generating lines from the same points but using different type of curves.</p>
-<p>The left blue line is rendered on a canvas. The right black line uses a SVG path.</p>
+<p>The blue line is rendered on a canvas. The green line uses a SVG path. The red line is rendered using D3.</p>
 
 <script>
     require.config({
@@ -25,25 +22,34 @@
         test.showLines();
     });
 
-
     require(["d3"], function(d3) {
-
-        d3.select("body")
-            .append("h2")
-            .text("D3 Lines");
-
         var data = [[0,0], [50,50], [100,0], [150,100], [200,0]];
-        var line = d3.line().curve(d3.curveBasis);
-        var svg = d3.select("body")
+        drawCurve(d3, "D3 Basis", d3.curveBasis, data);
+        drawCurve(d3, "D3 BasisClosed", d3.curveBasisClosed, data);
+        drawCurve(d3, "D3 BasisOpen", d3.curveBasisOpen, data);
+        drawCurve(d3, "D3 Bundle", d3.curveBundle, data);
+        drawCurve(d3, "D3 Linear", d3.curveLinear, data);
+        drawCurve(d3, "D3 LinearClosed", d3.curveLinearClosed, data);
+    });
+
+    function drawCurve(d3, curveName, curve, data) {
+        d3.select("#d3Samples")
+            .append("h2")
+            .text(" ");
+        var line = d3.line().curve(curve);
+        var svg = d3.select("#d3Samples")
             .append("svg")
             .attr("width", 300)
             .attr("height", 200);
-
         svg.append("path")
             .datum(data)
-            .attr("d", line);
-    });
+            .attr("d", line)
+            .attr("fill", "none")
+            .attr("stroke", "#f00");
+    }
 
 </script>
+<div id="d2vSamples" style="float: left"></div>
+<div id="d3Samples" style="float: left"></div>
 </body>
 </html>

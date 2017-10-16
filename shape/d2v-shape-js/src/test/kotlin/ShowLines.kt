@@ -24,12 +24,15 @@ val points = arrayOf(Point(0,0), Point(50, 50), Point(100,0), Point(150, 100), P
 @JsName("showLines")
 fun showLines() {
     render("Basis", curves.basis)
+    render("BasisClosed", curves.basisClosed)
+    render("BasisOpen", curves.basisOpen)
+    render("Bundle", curves.bundle)
     render("Linear", curves.linear)
     render("LinearClosed", curves.linearClosed)
 }
 
 private fun render(title: String, curve: (PathAdapter) -> Curve) {
-    document.body!!.appendElement("h2") {
+    document.getElementById("d2vSamples")!!.appendElement("h2") {
         textContent = title
     }
     lineGenerator.curve = curve
@@ -44,7 +47,7 @@ private fun renderCanvas() {
         val context = canvas.getContext("2d") as CanvasRenderingContext2D
         context.canvas.width  = 200
         context.canvas.height = 200
-        document.body!!.appendChild(canvas)
+        document.getElementById("d2vSamples")!!.appendChild(canvas)
         return canvas
     }
 
@@ -53,7 +56,7 @@ private fun renderCanvas() {
         beginPath()
         beginPath()
         lineWidth = 1.0
-        strokeStyle = "steelblue"
+        strokeStyle = "blue"
         lineGenerator.line(points, CanvasDrawContext(this))
         stroke()
     }
@@ -67,11 +70,11 @@ private fun renderSvg() {
         return document.createElementNS(namespaceSvg, name)
     }
 
-    with(document.body!!) {
+    with(document.getElementById("d2vSamples")!!) {
         appendChild(createSvgElement("svg").apply {
             setAttribute("width", "200")
             setAttribute("height", "200")
-            setAttribute("stroke", "black")
+            setAttribute("stroke", "green")
             setAttribute("fill", "none")
             appendChild(createSvgElement("path").apply {
                 val line = lineGenerator.line(points, SvgPath()).path
