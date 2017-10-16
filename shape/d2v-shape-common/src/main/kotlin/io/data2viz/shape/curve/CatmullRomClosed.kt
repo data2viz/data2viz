@@ -27,7 +27,6 @@ class CatmullRomClosed(override val context: PathAdapter, val alpha: Double = 0.
     private var _l12_2a = 0.0
     private var _l23_2a = 0.0
 
-    private var lineStatus = -1
     private var pointStatus = -1
 
     override fun areaStart() {}
