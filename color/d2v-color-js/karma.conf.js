@@ -1,6 +1,6 @@
 module.exports = function (config) {
     config.set({
-            frameworks: ['mocha', 'commonjs'],
+            frameworks: ['qunit', 'commonjs'],
             reporters: ['mocha'],
             files: [
                 'build/classes/main/*.js',
