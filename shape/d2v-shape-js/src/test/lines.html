@@ -15,7 +15,7 @@
     require.config({
         baseUrl: "../../node_modules",
         paths: {
-            d3: "http://d3js.org/d3.v4.min"
+            d3: "http://d3js.org/d3.v4"
         }
     });
     require(['../classes/test/d2v-shape-js_test'], function (test) {
@@ -23,13 +23,23 @@
     });
 
     require(["d3"], function(d3) {
-        var data = [[0,0], [50,50], [100,0], [150,100], [200,0]];
+        var data = [[20,20], [50,50], [80,20], [70,40], [150,80], [180,20]];
         drawCurve(d3, "D3 Basis", d3.curveBasis, data);
         drawCurve(d3, "D3 BasisClosed", d3.curveBasisClosed, data);
         drawCurve(d3, "D3 BasisOpen", d3.curveBasisOpen, data);
         drawCurve(d3, "D3 Bundle", d3.curveBundle, data);
+        drawCurve(d3, "D3 Cardinal", d3.curveCardinal, data);
+        drawCurve(d3, "D3 CardinalClosed", d3.curveCardinalClosed, data);
+        drawCurve(d3, "D3 CardinalOpen", d3.curveCardinalOpen, data);
+        drawCurve(d3, "D3 CatmullRom", d3.curveCatmullRom, data);
+        drawCurve(d3, "D3 CatmullRomClosed", d3.curveCatmullRomClosed, data);
+        drawCurve(d3, "D3 CatmullRomOpen", d3.curveCatmullRomOpen, data);
         drawCurve(d3, "D3 Linear", d3.curveLinear, data);
         drawCurve(d3, "D3 LinearClosed", d3.curveLinearClosed, data);
+        drawCurve(d3, "D3 Natural", d3.curveNatural, data);
+        drawCurve(d3, "D3 Step", d3.curveStep, data);
+        drawCurve(d3, "D3 StepBefore", d3.curveStepBefore, data);
+        drawCurve(d3, "D3 StepAfter", d3.curveStepAfter, data);
     });
 
     function drawCurve(d3, curveName, curve, data) {
@@ -39,8 +49,8 @@
         var line = d3.line().curve(curve);
         var svg = d3.select("#d3Samples")
             .append("svg")
-            .attr("width", 300)
-            .attr("height", 200);
+            .attr("width", 200)
+            .attr("height", 100);
         svg.append("path")
             .datum(data)
             .attr("d", line)
