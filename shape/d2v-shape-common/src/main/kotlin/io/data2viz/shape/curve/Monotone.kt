@@ -7,12 +7,10 @@ import kotlin.math.min
 
 private class ReflectContext(val context: PathAdapter) : PathAdapter {
     override fun moveTo(x: Number, y: Number) {
-        println("moveTo $x $y")
         context.moveTo(y, x)
     }
 
     override fun lineTo(x: Number, y: Number) {
-        println("lineTo $x $y")
         context.lineTo(y, x)
     }
 
@@ -135,8 +133,9 @@ abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
     }
 }
 
-class MonotoneX(override val context: PathAdapter) : AbstractMonotone(context)
-class MonotoneY(override val context: PathAdapter) : AbstractMonotone(ReflectContext(context)) {
+class MonotoneX(context: PathAdapter) : AbstractMonotone(context)
+class MonotoneY(context: PathAdapter) : AbstractMonotone(ReflectContext(context)) {
+
     override fun point(x: Number, y: Number) {
         super.point(y, x)
     }
