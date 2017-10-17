@@ -24,6 +24,7 @@
 
     require(["d3"], function(d3) {
         var data = [[20,20], [50,50], [80,20], [70,40], [150,80], [180,20]];
+        var dataRadial = [[0,50], [1,80], [2,50], [3,100], [4,100], [5,80]];
         drawCurve(d3, "D3 Basis", d3.curveBasis, data);
         drawCurve(d3, "D3 BasisClosed", d3.curveBasisClosed, data);
         drawCurve(d3, "D3 BasisOpen", d3.curveBasisOpen, data);
@@ -39,6 +40,9 @@
         drawCurve(d3, "D3 MonotoneX", d3.curveMonotoneX, data);
         drawCurve(d3, "D3 MonotoneY", d3.curveMonotoneY, data);
         drawCurve(d3, "D3 Natural", d3.curveNatural, data);
+//        drawCurve(d3, "D3 RadialLinear", d3.curveRadialLinear, dataRadial);
+//        drawCurve(d3, "D3 RadialLinearClosed", d3.curveRadial(d3.curveLinearClosed), dataRadial);
+//        drawCurve(d3, "D3 RadialBasis", d3.curveRadial(d3.curveBasis), dataRadial);
         drawCurve(d3, "D3 Step", d3.curveStep, data);
         drawCurve(d3, "D3 StepBefore", d3.curveStepBefore, data);
         drawCurve(d3, "D3 StepAfter", d3.curveStepAfter, data);
