@@ -26,6 +26,8 @@ object curves {
     val catmullRomOpen = {context: PathAdapter -> CatmullRomOpen(context) }
     val linear = {context: PathAdapter -> Linear(context) }
     val linearClosed = {context: PathAdapter -> LinearClosed(context) }
+    val monotoneX = {context: PathAdapter -> MonotoneX(context) }
+    val monotoneY = {context: PathAdapter -> MonotoneY(context) }
     val natural = {context: PathAdapter -> Natural(context) }
     val step = {context: PathAdapter -> Step(context) }
     val stepBefore = {context: PathAdapter -> StepBefore(context) }

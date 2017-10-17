@@ -35,6 +35,8 @@ fun showLines() {
     render("CatmullRomOpen", curves.catmullRomOpen)
     render("Linear", curves.linear)
     render("LinearClosed", curves.linearClosed)
+    render("MonotoneX", curves.monotoneX)
+    render("MonotoneY", curves.monotoneY)
     render("Natural", curves.natural)
     render("Step", curves.step)
     render("StepBefore", curves.stepBefore)
