@@ -4,7 +4,7 @@ import io.data2viz.path.PathAdapter
 import io.data2viz.shape.Curve
 
 // TODO : StepBefore, StepAfter, Step
-abstract class AbstractStep(override val context: PathAdapter, val changePoint: Double = 0.5) : Curve {
+abstract class AbstractStep(override val context: PathAdapter, changePoint: Double = 0.5) : Curve {
 
     private var x = -1.0
     private var y = -1.0
