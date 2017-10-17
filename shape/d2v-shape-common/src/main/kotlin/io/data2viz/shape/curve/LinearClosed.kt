@@ -20,7 +20,7 @@ class LinearClosed(override val context: PathAdapter) : Curve {
         }
     }
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
         if (status > 0) {
             context.lineTo(x, y)
         } else {

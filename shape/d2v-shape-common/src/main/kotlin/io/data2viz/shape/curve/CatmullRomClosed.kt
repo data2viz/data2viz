@@ -68,7 +68,7 @@ class CatmullRomClosed(override val context: PathAdapter, val alpha: Double = 0.
     }
 
     // TODO : inherit from CatmullRom
-    private fun curve(x: Number, y: Number) {
+    private fun curve(x: Double, y: Double) {
         var _x1 = x1
         var _y1 = y1
         var _x2 = x2
@@ -84,36 +84,36 @@ class CatmullRomClosed(override val context: PathAdapter, val alpha: Double = 0.
         if (_l23_a > epsilon) {
             val b = 2 * _l23_2a + 3 * _l23_a * _l12_a + _l12_2a
             val m = 3 * _l23_a * (_l23_a + _l12_a)
-            _x2 = (x2 * b + x1 * _l23_2a - x.toDouble() * _l12_2a) / m
-            _y2 = (y2 * b + y1 * _l23_2a - y.toDouble() * _l12_2a) / m
+            _x2 = (x2 * b + x1 * _l23_2a - x * _l12_2a) / m
+            _y2 = (y2 * b + y1 * _l23_2a - y * _l12_2a) / m
         }
 
         context.bezierCurveTo(_x1, _y1, _x2, _y2, x2, y2)
     }
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
         if (pointStatus > 0) {
-            val x23 = x2 - x.toDouble()
-            val y23 = y2 - y.toDouble()
+            val x23 = x2 - x
+            val y23 = y2 - y
             _l23_2a = (x23 * x23 + y23 * y23).pow(alpha)
             _l23_a = sqrt(_l23_2a)
         }
         when (pointStatus) {
             0 -> {
                 pointStatus = 1
-                x3 = x.toDouble()
-                y3 = y.toDouble()
+                x3 = x
+                y3 = y
             }
             1 -> {
                 pointStatus = 2
-                x4 = x.toDouble()
-                y4 = y.toDouble()
+                x4 = x
+                y4 = y
                 context.moveTo(x4, y4)
             }
             2 -> {
                 pointStatus = 3
-                x5 = x.toDouble()
-                y5 = y.toDouble()
+                x5 = x
+                y5 = y
             }
             else -> curve(x, y)
         }
@@ -124,9 +124,9 @@ class CatmullRomClosed(override val context: PathAdapter, val alpha: Double = 0.
         _l12_2a = _l23_2a
         x0 = x1
         x1 = x2
-        x2 = x.toDouble()
+        x2 = x
         y0 = y1
         y1 = y2
-        y2 = y.toDouble()
+        y2 = y
     }
 }

@@ -3,7 +3,7 @@ package io.data2viz.shape.curve
 import io.data2viz.path.PathAdapter
 import io.data2viz.shape.Curve
 
-class CardinalOpen(override val context: PathAdapter, val tension: Double = 0.0) : Curve {
+class CardinalOpen(override val context: PathAdapter, tension: Double = 0.0) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0
@@ -41,18 +41,18 @@ class CardinalOpen(override val context: PathAdapter, val tension: Double = 0.0)
     }
 
     // TODO : non specific, inherit from Cardinal
-    private fun curve(x: Number, y: Number) {
+    private fun curve(x: Double, y: Double) {
         context.bezierCurveTo(
                 x1 + k * (x2 - x0),
                 y1 + k * (y2 - y0),
-                x2 + k * (x1 - x.toDouble()),
-                y2 + k * (y1 - y.toDouble()),
+                x2 + k * (x1 - x),
+                y2 + k * (y1 - y),
                 x2,
                 y2
         )
     }
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
         when (pointStatus) {
             0 -> pointStatus = 1
             1 -> pointStatus = 2
@@ -68,9 +68,9 @@ class CardinalOpen(override val context: PathAdapter, val tension: Double = 0.0)
         }
         x0 = x1
         x1 = x2
-        x2 = x.toDouble()
+        x2 = x
         y0 = y1
         y1 = y2
-        y2 = y.toDouble()
+        y2 = y
     }
 }

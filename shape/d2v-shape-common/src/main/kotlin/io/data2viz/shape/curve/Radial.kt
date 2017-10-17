@@ -24,8 +24,8 @@ abstract class AbstractRadial(override val context: PathAdapter, val curve: Curv
     }
 
     // TODO : rename a and r instead of x and y ?
-    override fun point(x: Number, y: Number) {
-        curve.point(y.toDouble() * sin(x.toDouble())+50.0, y.toDouble() * -cos(x.toDouble())+50.0);
+    override fun point(x: Double, y: Double) {
+        curve.point(y * sin(x)+50.0, y * -cos(x)+50.0);
     }
 }
 

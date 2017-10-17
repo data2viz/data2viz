@@ -42,18 +42,18 @@ class Basis(override val context: PathAdapter): Curve {
         lineStatus = 1 - lineStatus
     }
 
-    private fun curve(x: Number, y: Number){
+    private fun curve(x: Double, y: Double){
         context.bezierCurveTo(
                 (2 * x0 + x1) / 3,
                 (2 * y0 + y1) / 3,
                 (x0 + 2 * x1) / 3,
                 (y0 + 2 * y1) / 3,
-                (x0 + 4 * x1 + x.toDouble()) / 6,
-                (y0 + 4 * y1 + y.toDouble()) / 6
+                (x0 + 4 * x1 + x) / 6,
+                (y0 + 4 * y1 + y) / 6
         )
     }
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
         if (pointStatus == 0) {
             pointStatus = 1
             if (lineStatus > 0) context.lineTo(x, y) else context.moveTo(x, y)
@@ -67,9 +67,9 @@ class Basis(override val context: PathAdapter): Curve {
             curve(x, y)
         }
         x0 = x1
-        x1 = x.toDouble()
+        x1 = x
         y0 = y1
-        y1 = y.toDouble()
+        y1 = y
     }
 }
 

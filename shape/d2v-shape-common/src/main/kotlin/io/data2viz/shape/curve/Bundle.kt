@@ -41,8 +41,8 @@ class Bundle(override val context: PathAdapter, val beta:Double = 0.85) : Curve 
         basis.lineEnd()
     }
 
-    override fun point(x: Number, y: Number) {
-        this.x.add(x.toDouble())
-        this.y.add(y.toDouble())
+    override fun point(x: Double, y: Double) {
+        this.x.add(x)
+        this.y.add(y)
     }
 }

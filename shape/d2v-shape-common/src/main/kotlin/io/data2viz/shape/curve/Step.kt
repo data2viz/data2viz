@@ -37,13 +37,13 @@ abstract class AbstractStep(override val context: PathAdapter, changePoint: Doub
         }
     }
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
         when (pointStatus) {
             0 -> {
                 pointStatus = 1
                 if (lineStatus > 0) context.lineTo(x, y) else context.moveTo(x, y)
-                this.x = x.toDouble()
-                this.y = y.toDouble()
+                this.x = x
+                this.y = y
                 return
             }
             1 -> pointStatus = 2
@@ -54,12 +54,12 @@ abstract class AbstractStep(override val context: PathAdapter, changePoint: Doub
             context.lineTo(this.x, y)
             context.lineTo(x, y)
         } else {
-            val x1 = this.x * (1 - _changePoint) + x.toDouble() * _changePoint
+            val x1 = this.x * (1 - _changePoint) + x * _changePoint
             context.lineTo(x1, this.y)
             context.lineTo(x1, y)
         }
-        this.x = x.toDouble()
-        this.y = y.toDouble()
+        this.x = x
+        this.y = y
     }
 }
 

@@ -44,18 +44,18 @@ class Cardinal(override val context: PathAdapter, tension:Double = 0.0): Curve {
         lineStatus = 1 - lineStatus
     }
 
-    private fun curve(x: Number, y: Number){
+    private fun curve(x: Double, y: Double){
         context.bezierCurveTo(
                 x1 + k * (x2 - x0),
                 y1 + k * (y2 - y0),
-                x2 + k * (x1 - x.toDouble()),
-                y2 + k * (y1 - y.toDouble()),
+                x2 + k * (x1 - x),
+                y2 + k * (y1 - y),
                 x2,
                 y2
         )
     }
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
         when (pointStatus) {
             0 -> {
                 pointStatus = 1
@@ -63,8 +63,8 @@ class Cardinal(override val context: PathAdapter, tension:Double = 0.0): Curve {
             }
             1 -> {
                 pointStatus = 2
-                x1 = x.toDouble()
-                y1 = y.toDouble()
+                x1 = x
+                y1 = y
             }
             2 -> {
                 pointStatus = 3
@@ -74,9 +74,9 @@ class Cardinal(override val context: PathAdapter, tension:Double = 0.0): Curve {
         }
         x0 = x1
         x1 = x2
-        x2 = x.toDouble()
+        x2 = x
         y0 = y1
         y1 = y2
-        y2 = y.toDouble()
+        y2 = y
     }
 }

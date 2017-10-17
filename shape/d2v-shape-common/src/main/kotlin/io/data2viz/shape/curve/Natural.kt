@@ -88,8 +88,8 @@ class Natural(override val context: PathAdapter) : Curve {
         return arrayOf(a, b)
     }
 
-    override fun point(x: Number, y: Number) {
-        this.x.add(x.toDouble())
-        this.y.add(y.toDouble())
+    override fun point(x: Double, y: Double) {
+        this.x.add(x)
+        this.y.add(y)
     }
 }

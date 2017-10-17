@@ -9,7 +9,7 @@ interface Curve {
     fun areaEnd()
     fun lineStart()
     fun lineEnd()
-    fun point(x: Number, y: Number)
+    fun point(x: Double, y: Double)
 }
 
 

@@ -13,14 +13,14 @@ val tauEpsilon = tau - epsilon
  * Common denominator between Canva, SVG, JavaFX
  */
 interface PathAdapter {
-    fun moveTo(x:Number, y: Number)
-    fun lineTo(x:Number, y: Number)
+    fun moveTo(x:Double, y: Double)
+    fun lineTo(x:Double, y: Double)
     fun closePath()
-    fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number)
-    fun bezierCurveTo(x1: Number, y1: Number,x2: Number, y2: Number, x: Number, y: Number)
-    fun arcTo(fromX:Number, fromY:Number, toX:Number, toY:Number, radius:Number)
-    fun arc(centerX:Number, centerY:Number, radius:Number, startAngle:Number, endAngle:Number, counterClockWise:Boolean = false)
-    fun rect(x:Number, y:Number, w:Number, h:Number)
+    fun quadraticCurveTo(x1: Double, y1: Double, x: Double, y: Double)
+    fun bezierCurveTo(x1: Double, y1: Double,x2: Double, y2: Double, x: Double, y: Double)
+    fun arcTo(fromX:Double, fromY:Double, toX:Double, toY:Double, radius:Double)
+    fun arc(centerX:Double, centerY:Double, radius:Double, startAngle:Double, endAngle:Double, counterClockWise:Boolean = false)
+    fun rect(x:Double, y:Double, w:Double, h:Double)
 }
 
 
@@ -37,17 +37,17 @@ class SvgPath : PathAdapter {
 
     var path:String = ""
 
-    override fun moveTo(x:Number, y:Number) {
-        x0 = x.toDouble()
-        y0 = y.toDouble()
-        x1 = x.toDouble()
-        y1 = y.toDouble()
+    override fun moveTo(x:Double, y:Double) {
+        x0 = x
+        y0 = y
+        x1 = x
+        y1 = y
         path += "M$x,$y"
     }
 
-    override fun lineTo(x: Number, y: Number) {
-        x1 = x.toDouble()
-        y1 = y.toDouble()
+    override fun lineTo(x: Double, y: Double) {
+        x1 = x
+        y1 = y
         path += "L$x,$y"
     }
 
@@ -59,26 +59,26 @@ class SvgPath : PathAdapter {
         }
     }
 
-    override fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number) {
-        this.x1 = x.toDouble()
-        this.y1 = y.toDouble()
+    override fun quadraticCurveTo(x1: Double, y1: Double, x: Double, y: Double) {
+        this.x1 = x
+        this.y1 = y
         path += "Q$x1,$y1,$x,$y"
     }
 
-    override fun bezierCurveTo(x1: Number, y1: Number, x2: Number, y2: Number, x: Number, y: Number) {
-        this.x1 = x.toDouble()
-        this.y1 = y.toDouble()
+    override fun bezierCurveTo(x1: Double, y1: Double, x2: Double, y2: Double, x: Double, y: Double) {
+        this.x1 = x
+        this.y1 = y
         path += "C$x1,$y1,$x2,$y2,$x,$y"
     }
 
-    override fun arcTo(fromX:Number, fromY:Number, toX:Number, toY:Number, radius:Number){
-        val r = radius.toDouble()
+    override fun arcTo(fromX:Double, fromY:Double, toX:Double, toY:Double, radius:Double){
+        val r = radius
         if (r < 0.0) throw IllegalArgumentException("Negative radius:" + radius)
 
-        val x1 = fromX.toDouble()
-        val y1 = fromY.toDouble()
-        val x2 = toX.toDouble()
-        val y2 = toY.toDouble()
+        val x1 = fromX
+        val y1 = fromY
+        val x2 = toX
+        val y2 = toY
 
         val x0 = this.x1 ?: .0
         val y0 = this.y1 ?: .0
@@ -139,14 +139,14 @@ class SvgPath : PathAdapter {
      *
      * @see https://www.w3.org/TR/2dcontext/#dom-context-2d-arc
      */
-    override fun arc(centerX:Number, centerY:Number, radius:Number, startAngle:Number, endAngle:Number, counterClockWise:Boolean){
-        val r = radius.toDouble()
+    override fun arc(centerX:Double, centerY:Double, radius:Double, startAngle:Double, endAngle:Double, counterClockWise:Boolean){
+        val r = radius
         if (r < 0.0) throw IllegalArgumentException("Negative radius:" + radius)
 
-        val a0 = startAngle.toDouble()
-        val a1 = endAngle.toDouble()
-        val x = centerX.toDouble()
-        val y = centerY.toDouble()
+        val a0 = startAngle
+        val a1 = endAngle
+        val x = centerX
+        val y = centerY
 
         val dx = r * cos(a0)
         val dy = r * sin(a0)
@@ -185,12 +185,12 @@ class SvgPath : PathAdapter {
         }
     }
 
-    override fun rect(x:Number, y:Number, w:Number, h:Number) {
-        x0 = x.toDouble()
-        x1 = x.toDouble()
-        y0 = y.toDouble()
-        y1 = y.toDouble()
-        path += "M$x,${y}h${w}v${h}h${-w.toDouble()}Z"
+    override fun rect(x:Double, y:Double, w:Double, h:Double) {
+        x0 = x
+        x1 = x
+        y0 = y
+        y1 = y
+        path += "M$x,${y}h${w}v${h}h${-w}Z"
     }
 
 }

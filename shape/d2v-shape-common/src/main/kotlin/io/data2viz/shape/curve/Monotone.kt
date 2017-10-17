@@ -6,11 +6,11 @@ import kotlin.math.abs
 import kotlin.math.min
 
 private class ReflectContext(val context: PathAdapter) : PathAdapter {
-    override fun moveTo(x: Number, y: Number) {
+    override fun moveTo(x: Double, y: Double) {
         context.moveTo(y, x)
     }
 
-    override fun lineTo(x: Number, y: Number) {
+    override fun lineTo(x: Double, y: Double) {
         context.lineTo(y, x)
     }
 
@@ -18,14 +18,14 @@ private class ReflectContext(val context: PathAdapter) : PathAdapter {
         context.closePath()
     }
 
-    override fun bezierCurveTo(x1: Number, y1: Number, x2: Number, y2: Number, x: Number, y: Number) {
+    override fun bezierCurveTo(x1: Double, y1: Double, x2: Double, y2: Double, x: Double, y: Double) {
         context.bezierCurveTo(y1, x1, y2, x2, y, x)
     }
 
-    override fun quadraticCurveTo(x1: Number, y1: Number, x: Number, y: Number) {}
-    override fun arcTo(fromX: Number, fromY: Number, toX: Number, toY: Number, radius: Number) {}
-    override fun arc(centerX: Number, centerY: Number, radius: Number, startAngle: Number, endAngle: Number, counterClockWise: Boolean) {}
-    override fun rect(x: Number, y: Number, w: Number, h: Number) {}
+    override fun quadraticCurveTo(x1: Double, y1: Double, x: Double, y: Double) {}
+    override fun arcTo(fromX: Double, fromY: Double, toX: Double, toY: Double, radius: Double) {}
+    override fun arc(centerX: Double, centerY: Double, radius: Double, startAngle: Double, endAngle: Double, counterClockWise: Boolean) {}
+    override fun rect(x: Double, y: Double, w: Double, h: Double) {}
 }
 
 abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
@@ -65,7 +65,7 @@ abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
         lineStatus = 1 - lineStatus
     }
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
         var t1 = -1.0
         if (x == x1 && y == y1) return
 
@@ -77,18 +77,18 @@ abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
             1 -> pointStatus = 2
             2 -> {
                 pointStatus = 3
-                t1 = slope3(x.toDouble(), y.toDouble())
+                t1 = slope3(x, y)
                 curve(slope2(t1), t1)
             }
             else -> {
-                t1 = slope3(x.toDouble(), y.toDouble())
+                t1 = slope3(x, y)
                 curve(t0, t1)
             }
         }
         x0 = x1
-        x1 = x.toDouble()
+        x1 = x
         y0 = y1
-        y1 = y.toDouble()
+        y1 = y
         t0 = t1
     }
 
@@ -136,7 +136,7 @@ abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
 class MonotoneX(context: PathAdapter) : AbstractMonotone(context)
 class MonotoneY(context: PathAdapter) : AbstractMonotone(ReflectContext(context)) {
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
         super.point(y, x)
     }
 }

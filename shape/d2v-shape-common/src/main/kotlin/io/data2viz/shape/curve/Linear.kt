@@ -28,7 +28,7 @@ class Linear(override val context: PathAdapter): Curve {
 //            line = 1 - line
     }
 
-    override fun point(x: Number, y: Number) {
+    override fun point(x: Double, y: Double) {
 
         if (point == 0) {
             point = 1
