@@ -3,6 +3,7 @@ import io.data2viz.path.CanvasDrawContext
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
 import io.data2viz.shape.*
+import org.w3c.dom.CanvasFillRule
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLCanvasElement
@@ -64,6 +65,7 @@ fun showLines() {
     renderArea("Area fixed Y=60 linear", curves.linear, points)
     renderArea("Area fixed Y=60 basis", curves.basis, points)
     renderArea("Area fixed Y=60 Cardinal Open", curves.cardinalOpen, points)
+    renderArea("Area fixed Y=60 MonotoneX", curves.monotoneX, points)
 }
 
 private fun render(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
@@ -80,28 +82,37 @@ private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoin
         textContent = title
     }
     areaGenerator.curve = curve
-//    renderCanvas(arrayOfPoints)
-    renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), "#efe")
+    renderAreaCanvas(arrayOfPoints)
+    renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), "#cfc")
+}
+
+fun newCanvas(): HTMLCanvasElement {
+    val canvas = document.createElement("canvas") as HTMLCanvasElement
+    val context = canvas.getContext("2d") as CanvasRenderingContext2D
+    context.canvas.width  = 200
+    context.canvas.height = 100
+    document.getElementById("d2vSamples")!!.appendChild(canvas)
+    return canvas
 }
 
 private fun renderCanvas(arrayOfPoints: Array<Point>) {
-
-    fun newCanvas(): HTMLCanvasElement {
-        val canvas = document.createElement("canvas") as HTMLCanvasElement
-        val context = canvas.getContext("2d") as CanvasRenderingContext2D
-        context.canvas.width  = 200
-        context.canvas.height = 100
-        document.getElementById("d2vSamples")!!.appendChild(canvas)
-        return canvas
-    }
-
-
     with(newCanvas().getContext("2d") as CanvasRenderingContext2D) {
-        beginPath()
         beginPath()
         lineWidth = 1.0
         strokeStyle = "blue"
         lineGenerator.line(arrayOfPoints, CanvasDrawContext(this))
+        stroke()
+    }
+}
+
+private fun renderAreaCanvas(arrayOfPoints: Array<Point>) {
+    with(newCanvas().getContext("2d") as CanvasRenderingContext2D) {
+        beginPath()
+        lineWidth = 1.0
+        strokeStyle = "blue"
+        fillStyle = "#ccf"
+        areaGenerator.area(arrayOfPoints, CanvasDrawContext(this))
+        fill()
         stroke()
     }
 }

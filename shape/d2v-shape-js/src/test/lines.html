@@ -54,6 +54,7 @@
         drawArea(d3, "D3 fixed Y=60 linear area", area1, data);
         drawArea(d3, "D3 fixed Y=60 basis curve area", area1.curve(d3.curveBasis), data);
         drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveCardinalOpen), data);
+        drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveMonotoneX), data);
     });
 
     function drawCurve(d3, curveName, curve, data) {
