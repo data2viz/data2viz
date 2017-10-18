@@ -18,14 +18,14 @@ class HelloApp: Application(){
 
         val path = svgPath().apply {
             moveTo(10.0, 10.0)
-            lineTo(70.0, 10)
-            quadraticCurveTo(120, 60, 100, 20)
-            lineTo(175, 55)
+            lineTo(70.0, 10.0)
+            quadraticCurveTo(120.0, 60.0, 100.0, 20.0)
+            lineTo(175.0, 55.0)
             lineTo(10.0, 100.0)
             closePath()
-            
+
 //            moveTo(50.0, 50.0)
-            arc(50, 50, 20, 0, 360)
+            arc(50.0, 50.0, 20.0, 0.0, 360.0)
         }
 
         val root = Pane()
@@ -33,7 +33,7 @@ class HelloApp: Application(){
             fill = null
             stroke = Color.BLACK
             strokeWidth = 2.0
-            
+
         })
         primaryStage!!.scene = (Scene(root, 300.0, 250.0))
         primaryStage.show()

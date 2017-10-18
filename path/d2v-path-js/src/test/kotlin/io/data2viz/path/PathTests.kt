@@ -12,6 +12,13 @@ class PathTests : TestBase() {
 
     fun path(): SvgPath = SvgPath()
 
+    private fun SvgPath.moveTo(x:Int, y:Int) { moveTo(x.toDouble(), y.toDouble()) }
+    private fun SvgPath.lineTo(x:Int, y:Int) { lineTo(x.toDouble(), y.toDouble()) }
+    private fun SvgPath.bezierCurveTo(x1: Int, y1: Int,x2: Int, y2: Int, x: Int, y: Int) { bezierCurveTo(x1.toDouble(), y1.toDouble(), x2.toDouble(), y2.toDouble(), x.toDouble(), y.toDouble()  )}
+    private fun SvgPath.arcTo(fromX:Number, fromY:Number, toX:Number, toY:Number, radius:Number) { arcTo(fromX.toDouble(), fromY.toDouble(), toX.toDouble(), toY.toDouble(), radius.toDouble())}
+    private fun SvgPath.arc(centerX:Int, centerY:Int, radius:Int, startAngle:Number, endAngle:Number, counterClockWise:Boolean = false) { arc(centerX.toDouble(), centerY.toDouble(), radius.toDouble(), startAngle.toDouble(), endAngle.toDouble(), counterClockWise) }
+
+
     @Test
     fun test_round_path() {
         "M-3.061616997868383e-15,0A50,50,0,0,1,50,50".round() shouldBe "M0,0A50,50,0,0,1,50,50"
@@ -60,7 +67,12 @@ class PathTests : TestBase() {
         }
     }
 
-    @Test
+
+
+    fun SvgPath.quadraticCurveTo(x1: Int, y1: Int, x: Int, y: Int)  { this.quadraticCurveTo(x1.toDouble(), y1.toDouble(), x.toDouble(), y.toDouble())}
+
+
+        @Test
     fun path_quadraticCurveTo_appends_Q_command() {
         with(path()) {
             moveTo(150, 50)
@@ -68,6 +80,10 @@ class PathTests : TestBase() {
             path shouldBe "M150,50Q100,50,200,100"
         }
     }
+
+
+
+
 
     @Test
     fun path_bezierCurveTo_appends_C_command() {
@@ -452,7 +468,7 @@ class PathTests : TestBase() {
     fun path_rect_appends_M_h_v_h_and_Z_commands() {
         with(path()){
             moveTo(150,100)
-            rect(100,200,50,25)
+            rect(100.0,200.0, 50.0,25.0)
             path shouldBe "M150,100M100,200h50v25h-50Z"
         }
     }
