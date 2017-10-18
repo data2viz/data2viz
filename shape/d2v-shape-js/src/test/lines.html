@@ -46,6 +46,14 @@
         drawCurve(d3, "D3 Step", d3.curveStep, data);
         drawCurve(d3, "D3 StepBefore", d3.curveStepBefore, data);
         drawCurve(d3, "D3 StepAfter", d3.curveStepAfter, data);
+
+        var area1 = d3.area()
+            .x(function(d) { return d[0]; })
+            .y0(60)
+            .y1(function(d) { return d[1]; });
+        drawArea(d3, "D3 fixed Y=60 linear area", area1, data);
+        drawArea(d3, "D3 fixed Y=60 basis curve area", area1.curve(d3.curveBasis), data);
+        drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveCardinalOpen), data);
     });
 
     function drawCurve(d3, curveName, curve, data) {
@@ -61,6 +69,21 @@
             .datum(data)
             .attr("d", line)
             .attr("fill", "none")
+            .attr("stroke", "#f00");
+    }
+
+    function drawArea(d3, curveName, area, data) {
+        d3.select("#d3Samples")
+            .append("h2")
+            .text(" ");
+        var svg = d3.select("#d3Samples")
+            .append("svg")
+            .attr("width", 200)
+            .attr("height", 100);
+        svg.append("path")
+            .datum(data)
+            .attr("d", area)
+            .attr("fill", "#fcc")
             .attr("stroke", "#f00");
     }
 

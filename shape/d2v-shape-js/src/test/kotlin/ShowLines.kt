@@ -2,9 +2,7 @@ import io.data2viz.shape.curve.Point
 import io.data2viz.path.CanvasDrawContext
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
-import io.data2viz.shape.Curve
-import io.data2viz.shape.curves
-import io.data2viz.shape.line
+import io.data2viz.shape.*
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLCanvasElement
@@ -16,6 +14,12 @@ val lineGenerator = line<Point> {
     x = { it.x.toDouble() }
     y = { it.y.toDouble() }
 //    defined = {!(it.x == 50 && it.y == 50)}
+}
+
+val areaGenerator = area<Point> {
+    x {it.x.toDouble()}
+    y0 = { 60.0 }
+    y1 = { it.y.toDouble() }
 }
 
 val points = arrayOf(Point(20,20), Point(50, 50), Point(80,20), Point(70,40), Point(150, 80), Point(180,20))
@@ -45,6 +49,10 @@ fun showLines() {
     render("Step", curves.step, points)
     render("StepBefore", curves.stepBefore, points)
     render("StepAfter", curves.stepAfter, points)
+
+    renderArea("Area fixed Y=60 linear", curves.linear, points)
+    renderArea("Area fixed Y=60 basis", curves.basis, points)
+    renderArea("Area fixed Y=60 Cardinal Open", curves.cardinalOpen, points)
 }
 
 private fun render(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
@@ -53,7 +61,16 @@ private fun render(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: 
     }
     lineGenerator.curve = curve
     renderCanvas(arrayOfPoints)
-    renderSvg(arrayOfPoints)
+    renderSvg(lineGenerator.line(arrayOfPoints, SvgPath()), "none")
+}
+
+private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
+    document.getElementById("d2vSamples")!!.appendElement("h2") {
+        textContent = title
+    }
+    areaGenerator.curve = curve
+//    renderCanvas(arrayOfPoints)
+    renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), "#efe")
 }
 
 private fun renderCanvas(arrayOfPoints: Array<Point>) {
@@ -79,7 +96,7 @@ private fun renderCanvas(arrayOfPoints: Array<Point>) {
 }
 
 
-private fun renderSvg(arrayOfPoints: Array<Point>) {
+private fun renderSvg(svgPath: SvgPath, fill: String) {
 
     fun createSvgElement(name: String): Element {
         val namespaceSvg = "http://www.w3.org/2000/svg"
@@ -91,13 +108,12 @@ private fun renderSvg(arrayOfPoints: Array<Point>) {
             setAttribute("width", "200")
             setAttribute("height", "100")
             setAttribute("stroke", "green")
-            setAttribute("fill", "none")
+            setAttribute("fill", fill)
             appendChild(createSvgElement("path").apply {
-                val line = lineGenerator.line(arrayOfPoints, SvgPath()).path
+                val line = svgPath.path
                 setAttribute("d", line)
             })
         })
     }
 }
-
 
