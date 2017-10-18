@@ -12,9 +12,20 @@ import kotlin.browser.document
 import kotlin.dom.appendElement
 
 
+class Person(val age:Int)
+
+val populationLineGenerator = line<Person>{
+    x = {it.age.toDouble()}
+    y = {it.age.toDouble()}
+    curve = curves.bundle
+}
+
+
 val lineGenerator = line<Point> {
     x = { it.x.toDouble() }
     y = { it.y.toDouble() }
+
+
 //    defined = {!(it.x == 50 && it.y == 50)}
 }
 
