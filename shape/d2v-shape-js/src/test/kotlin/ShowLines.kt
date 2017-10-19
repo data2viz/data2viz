@@ -3,7 +3,6 @@ import io.data2viz.path.CanvasDrawContext
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
 import io.data2viz.shape.*
-import org.w3c.dom.CanvasFillRule
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLCanvasElement
@@ -43,7 +42,7 @@ fun showLines() {
     render("Basis", curves.basis, points)
     render("BasisClosed", curves.basisClosed, points)
     render("BasisOpen", curves.basisOpen, points)
-    render("Bundle", curves.bundle, points)
+    render("Bundle (NO AREA IN D3)", curves.bundle, points)
     render("Cardinal", curves.cardinal, points)
     render("CardinalClosed", curves.cardinalClosed, points)
     render("CardinalOpen", curves.cardinalOpen, points)
@@ -62,10 +61,27 @@ fun showLines() {
     render("StepBefore", curves.stepBefore, points)
     render("StepAfter", curves.stepAfter, points)
 
-    renderArea("Area fixed Y=60 linear", curves.linear, points)
-    renderArea("Area fixed Y=60 basis", curves.basis, points)
-    renderArea("Area fixed Y=60 Cardinal Open", curves.cardinalOpen, points)
-    renderArea("Area fixed Y=60 MonotoneX", curves.monotoneX, points)
+    renderArea("Basis", curves.basis, points)
+    renderArea("BasisClosed", curves.basisClosed, points)
+    renderArea("BasisOpen", curves.basisOpen, points)
+    renderArea("Bundle", curves.bundle, points)
+    renderArea("Cardinal", curves.cardinal, points)
+    renderArea("CardinalClosed", curves.cardinalClosed, points)
+    renderArea("CardinalOpen", curves.cardinalOpen, points)
+    renderArea("CatmullRom", curves.catmullRom, points)
+    renderArea("CatmullRomClosed", curves.catmullRomClosed, points)
+    renderArea("CatmullRomOpen", curves.catmullRomOpen, points)
+    renderArea("Linear", curves.linear, points)
+    renderArea("LinearClosed", curves.linearClosed, points)
+    renderArea("MonotoneX", curves.monotoneX, points)
+    renderArea("MonotoneY", curves.monotoneY, points)
+    renderArea("Natural", curves.natural, points)
+//    renderArea("RadialLinear", curves.radialLinear, radialPoints)
+//    renderArea("RadialLinearClosed", curves.radialLinearClosed, radialPoints)
+//    renderArea("RadialBasis", curves.radialBasis, radialPoints)
+    renderArea("Step", curves.step, points)
+    renderArea("StepBefore", curves.stepBefore, points)
+    renderArea("StepAfter", curves.stepAfter, points)
 }
 
 private fun render(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
@@ -74,29 +90,29 @@ private fun render(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: 
     }
     lineGenerator.curve = curve
     renderCanvas(arrayOfPoints)
-    renderSvg(lineGenerator.line(arrayOfPoints, SvgPath()), "none")
+    renderSvg(lineGenerator.line(arrayOfPoints, SvgPath()), "none", "d2vSamples")
 }
 
 private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
-    document.getElementById("d2vSamples")!!.appendElement("h2") {
-        textContent = title
+    document.getElementById("d2vSamplesArea")!!.appendElement("h2") {
+        textContent = " "
     }
     areaGenerator.curve = curve
     renderAreaCanvas(arrayOfPoints)
-    renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), "#cfc")
+    renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), "#cfc", "d2vSamplesArea")
 }
 
-fun newCanvas(): HTMLCanvasElement {
+fun newCanvas(elementId: String): HTMLCanvasElement {
     val canvas = document.createElement("canvas") as HTMLCanvasElement
     val context = canvas.getContext("2d") as CanvasRenderingContext2D
     context.canvas.width  = 200
     context.canvas.height = 100
-    document.getElementById("d2vSamples")!!.appendChild(canvas)
+    document.getElementById(elementId)!!.appendChild(canvas)
     return canvas
 }
 
 private fun renderCanvas(arrayOfPoints: Array<Point>) {
-    with(newCanvas().getContext("2d") as CanvasRenderingContext2D) {
+    with(newCanvas("d2vSamples").getContext("2d") as CanvasRenderingContext2D) {
         beginPath()
         lineWidth = 1.0
         strokeStyle = "blue"
@@ -106,7 +122,7 @@ private fun renderCanvas(arrayOfPoints: Array<Point>) {
 }
 
 private fun renderAreaCanvas(arrayOfPoints: Array<Point>) {
-    with(newCanvas().getContext("2d") as CanvasRenderingContext2D) {
+    with(newCanvas("d2vSamplesArea").getContext("2d") as CanvasRenderingContext2D) {
         beginPath()
         lineWidth = 1.0
         strokeStyle = "blue"
@@ -118,14 +134,14 @@ private fun renderAreaCanvas(arrayOfPoints: Array<Point>) {
 }
 
 
-private fun renderSvg(svgPath: SvgPath, fill: String) {
+private fun renderSvg(svgPath: SvgPath, fill: String, elementId: String) {
 
     fun createSvgElement(name: String): Element {
         val namespaceSvg = "http://www.w3.org/2000/svg"
         return document.createElementNS(namespaceSvg, name)
     }
 
-    with(document.getElementById("d2vSamples")!!) {
+    with(document.getElementById(elementId)!!) {
         appendChild(createSvgElement("svg").apply {
             setAttribute("width", "200")
             setAttribute("height", "100")

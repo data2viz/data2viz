@@ -51,10 +51,34 @@
             .x(function(d) { return d[0]; })
             .y0(60)
             .y1(function(d) { return d[1]; });
-        drawArea(d3, "D3 fixed Y=60 linear area", area1, data);
+
+        drawArea(d3, "D3 Basis", area1.curve(d3.curveBasis), data);
+        drawArea(d3, "D3 BasisClosed", area1.curve(d3.curveBasisClosed), data);
+        drawArea(d3, "D3 BasisOpen", area1.curve(d3.curveBasisOpen), data);
+        drawArea(d3, "D3 Bundle", area1.curve(d3.curveBundle), []);
+        drawArea(d3, "D3 Cardinal", area1.curve(d3.curveCardinal), data);
+        drawArea(d3, "D3 CardinalClosed", area1.curve(d3.curveCardinalClosed), data);
+        drawArea(d3, "D3 CardinalOpen", area1.curve(d3.curveCardinalOpen), data);
+        drawArea(d3, "D3 CatmullRom", area1.curve(d3.curveCatmullRom), data);
+        drawArea(d3, "D3 CatmullRomClosed", area1.curve(d3.curveCatmullRomClosed), data);
+        drawArea(d3, "D3 CatmullRomOpen", area1.curve(d3.curveCatmullRomOpen), data);
+        drawArea(d3, "D3 Linear", area1.curve(d3.curveLinear), data);
+        drawArea(d3, "D3 LinearClosed", area1.curve(d3.curveLinearClosed), data);
+        drawArea(d3, "D3 MonotoneX", area1.curve(d3.curveMonotoneX), data);
+        drawArea(d3, "D3 MonotoneY", area1.curve(d3.curveMonotoneY), data);
+        drawArea(d3, "D3 Natural", area1.curve(d3.curveNatural), data);
+//        drawArea(d3, "D3 RadialLinear", area1.curve(d3.curveRadialLinear), dataRadial);
+//        drawArea(d3, "D3 RadialLinearClosed", area1.curve(d3.curveRadial(d3.curveLinearClosed)), dataRadial);
+//        drawArea(d3, "D3 RadialBasis", area1.curve(d3.curveRadial(d3.curveBasis)), dataRadial);
+        drawArea(d3, "D3 Step", area1.curve(d3.curveStep), data);
+        drawArea(d3, "D3 StepBefore", area1.curve(d3.curveStepBefore), data);
+        drawArea(d3, "D3 StepAfter", area1.curve(d3.curveStepAfter), data);
+
+        /*drawArea(d3, "D3 fixed Y=60 linear area", area1, data);
+        drawArea(d3, "D3 fixed Y=60 linear closed area", area1.curve(d3.curveLinearClosed), data);
         drawArea(d3, "D3 fixed Y=60 basis curve area", area1.curve(d3.curveBasis), data);
         drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveCardinalOpen), data);
-        drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveMonotoneX), data);
+        drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveMonotoneX), data);*/
     });
 
     function drawCurve(d3, curveName, curve, data) {
@@ -74,10 +98,10 @@
     }
 
     function drawArea(d3, curveName, area, data) {
-        d3.select("#d3Samples")
+        d3.select("#d3SamplesArea")
             .append("h2")
             .text(" ");
-        var svg = d3.select("#d3Samples")
+        var svg = d3.select("#d3SamplesArea")
             .append("svg")
             .attr("width", 200)
             .attr("height", 100);
@@ -91,5 +115,7 @@
 </script>
 <div id="d2vSamples" style="float: left"></div>
 <div id="d3Samples" style="float: left"></div>
+<div id="d2vSamplesArea" style="float: left"></div>
+<div id="d3SamplesArea" style="float: left"></div>
 </body>
 </html>
