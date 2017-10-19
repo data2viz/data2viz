@@ -32,6 +32,7 @@ class AreaGenerator<T> {
         y1 = null
     }
 
+    // TODO : implements ?
     /*fun arealine() {
         return line().defined(defined).curve(curve).context(context);
     }

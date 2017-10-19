@@ -9,21 +9,21 @@ import org.w3c.dom.HTMLCanvasElement
 import kotlin.browser.document
 import kotlin.dom.appendElement
 
+// TODO : test radials
+// TODO : add KT tests on generated svg shape (test the SVG string path by comparing to d3 path)
 
-class Person(val age:Int)
-
-val populationLineGenerator = line<Person>{
-    x = {it.age.toDouble()}
-    y = {it.age.toDouble()}
-    curve = curves.bundle
-}
+//class Person(val age:Int)
+//
+//val populationLineGenerator = line<Person>{
+//    x = {it.age.toDouble()}
+//    y = {it.age.toDouble()}
+//    curve = curves.bundle
+//}
 
 
 val lineGenerator = line<Point> {
     x = { it.x.toDouble() }
     y = { it.y.toDouble() }
-
-
 //    defined = {!(it.x == 50 && it.y == 50)}
 }
 
@@ -102,7 +102,7 @@ private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoin
     renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), "#cfc", "d2vSamplesArea")
 }
 
-fun newCanvas(elementId: String): HTMLCanvasElement {
+private fun newCanvas(elementId: String): HTMLCanvasElement {
     val canvas = document.createElement("canvas") as HTMLCanvasElement
     val context = canvas.getContext("2d") as CanvasRenderingContext2D
     context.canvas.width  = 200

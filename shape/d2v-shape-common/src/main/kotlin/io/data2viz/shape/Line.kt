@@ -6,7 +6,6 @@ fun <T> line(init: LineGenerator<T>.() -> Unit) = LineGenerator<T>().apply(init)
 
 fun <T, D> const(constantValue: T): (D) -> T = { constantValue }
 
-
 class LineGenerator<T> {
 
     var curve: (PathAdapter) -> Curve = curves.linear
