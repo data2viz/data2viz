@@ -28,17 +28,22 @@
         var arc2Bis = {innerRadius:50, outerRadius:30, startAngle:0, endAngle:1.8};
         var arc3 = {innerRadius:0, outerRadius:30, startAngle:0, endAngle:1.8};
         var arc4 = {innerRadius:0, outerRadius:50, startAngle:.8, endAngle:6};
+        var arc5 = {innerRadius:0, outerRadius:50, startAngle:0, endAngle:1.8, cornerRadius: 5};
+        var arc6 = {innerRadius:30, outerRadius:50, startAngle:0, endAngle:1.8, cornerRadius: 5};
 
         drawArc(d3, " ", arc1);
         drawArc(d3, " ", arc2);
         drawArc(d3, " ", arc2Bis);
         drawArc(d3, " ", arc3);
         drawArc(d3, " ", arc4);
+        drawArc(d3, " ", arc5);
+        drawArc(d3, " ", arc6);
     });
 
     function drawArc(d3, name, data) {
 
-        var arc = d3.arc();
+        var arc = d3.arc().cornerRadius(data.cornerRadius);
+        if (data.padRadius !== undefined) arc.padRadius()
 
         d3.select("#d3Samples")
             .append("h2")

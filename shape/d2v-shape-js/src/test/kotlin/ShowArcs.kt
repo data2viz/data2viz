@@ -1,8 +1,7 @@
 import io.data2viz.path.CanvasDrawContext
-import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
-import io.data2viz.shape.*
-import io.data2viz.shape.curve.Point
+import io.data2viz.shape.ArcGenerator
+import io.data2viz.shape.arc
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLCanvasElement
@@ -13,22 +12,29 @@ data class ArcValues(
         val innerRadius:Double,
         val outerRadius:Double,
         val startAngle:Double,
-        val endAngle:Double
+        val endAngle:Double,
+        val padAngle:Double,
+        val cornerRadius:Double
 )
 
 @JsName("showArcs")
 fun showArcs(value:ArcValues) {
-    val arc1 = ArcValues(.0, 50.0, .0, 1.8)
-    val arc2 = ArcValues(30.0, 50.0, .0, 1.8)
-    val arc2Bis = ArcValues(50.0, 30.0, .0, 1.8)
-    val arc3 = ArcValues(.0, 30.0, .0, 1.8)
-    val arc4 = ArcValues(.0, 50.0, .8, 6.0)
+    val arc1 = ArcValues(.0, 50.0, .0, 1.8, .0, .0)
+    val arc2 = ArcValues(30.0, 50.0, .0, 1.8, .0, .0)
+    val arc2Bis = ArcValues(50.0, 30.0, .0, 1.8, .0, .0)
+    val arc3 = ArcValues(.0, 30.0, .0, 1.8, .0, .0)
+    val arc4 = ArcValues(.0, 50.0, .8, 6.0, .0, .0)
+    val arc5 = ArcValues(.0, 50.0, .0, 1.8, .0, 5.0)
+    val arc6 = ArcValues(30.0, 50.0, .0, 1.8, .0, 5.0)
 
     val generator = arc<ArcValues> {
         innerRadius = { it.innerRadius }
         outerRadius = { it.outerRadius }
         startAngle = { it.startAngle }
         endAngle = { it.endAngle }
+//        padRadius = { it.padRadius }
+        padAngle = { it.padAngle }
+        cornerRadius = { it.cornerRadius }
     }
 
     render("REFERENCE", generator, arc1)
@@ -36,6 +42,8 @@ fun showArcs(value:ArcValues) {
     render(" > innerRadius = 50, outerRadius = 30", generator, arc2Bis)
     render(" > outerRadius = 30", generator, arc3)
     render(" > startAngle = .8, endAngle = 6", generator, arc4)
+    render(" > cornerRadius = 5", generator, arc5)
+    render(" > cornerRadius = 5", generator, arc6)
 }
 
 private fun render(title: String, generator:ArcGenerator<ArcValues>, data:ArcValues) {
