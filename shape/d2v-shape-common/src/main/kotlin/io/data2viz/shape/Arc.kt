@@ -14,6 +14,15 @@ private data class cornerTangentValues(
         val y11: Double
 )
 
+data class ArcParams<T>(
+        val data: T?,
+        val index: Int,
+        val value: Double,
+        val startAngle: Double,
+        val endAngle: Double,
+        val padAngle: Double?
+)
+
 /*data class ArcParameters(
         val innerRadius: Double = .0,
         val outerRadius: Double = 100.0,
