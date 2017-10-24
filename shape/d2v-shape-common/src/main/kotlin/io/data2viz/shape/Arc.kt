@@ -15,12 +15,12 @@ private data class cornerTangentValues(
 )
 
 data class ArcParams<T>(
-        val data: T?,
-        val index: Int,
-        val value: Double,
         val startAngle: Double,
         val endAngle: Double,
-        val padAngle: Double?
+        val padAngle: Double?,
+        val value: Double?,
+        val index: Int?,
+        val data: T?
 )
 
 /*data class ArcParameters(
@@ -40,12 +40,13 @@ class ArcGenerator<T> {
     var outerRadius: (T) -> Double = const(100.0)
     var cornerRadius: (T) -> Double = const(.0)
     var padRadius: ((T) -> Double)? = null
+
     var startAngle: (T) -> Double = const(.0)
     //    var startAngle: (T) -> Angle = const(Angle(.0))           // TODO : Angle ?
     var endAngle: (T) -> Double = const(.0)
     //    var endAngle: (T) -> Angle = const(Angle(.0))             // TODO : Angle ?
     var padAngle: (T) -> Double = const(.0)
-//    var padAngle: (T) -> Angle = const(Angle(.0))             // TODO : Angle ?
+    //    var padAngle: (T) -> Angle = const(Angle(.0))                 // TODO : Angle ?
 
     fun centroid(args: T): Array<Double> {
         val r = innerRadius(args) + outerRadius(args) / 2.0
