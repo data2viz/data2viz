@@ -3,4 +3,5 @@ dependencies {
     compile project(":d2v-path-jvm")
     testCompile project(":d2v-tests-common")
     testCompile project(":d2v-tests-jvm")
+    testCompile 'no.tornado:tornadofx:1.7.11'
 }
