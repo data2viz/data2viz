@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>-->
-    <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="https://d3js.org/d3-contour.v1.js"></script>
+    <script src="../../build/node_modules/kotlin.js"></script>
+    <script src="../../build/node_modules/kotlin-test.js"></script>
+    <script src="../../build/node_modules/d2v-contour-js.js"></script>
+    <script src="../../build/node_modules/d2v-tests-js.js"></script>
+    <script src="../../build/classes/test/d2v-contour-js_test.js"></script>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-contour.v1.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
 </head>
@@ -27,16 +33,17 @@
     var thresholds = d3.range(1, 21)
         .map(function(p) { return Math.pow(2, p); });
 
-    var contours = d3.contours()
-        .size([n, m])
-        .thresholds(thresholds);
 
     var color = d3.scaleLog()
         .domain(d3.extent(thresholds))
         .interpolate(function() { return d3.interpolateYlGnBu; });
 
+
+    var module = window["d2v-contour-js_test"].io.data2viz.contour;
+    var d2vcontour = module.contours(n,m, thresholds);
+
     var time = new Date().getTime();
-    var contours2 = contours(values);
+    var contours2 = d2vcontour.contours_awc180$(values).array_hd7ov6$_0;
     console.log("Execution::" + (new Date().getTime() - time) + "ms");
 
     svg.selectAll("path")

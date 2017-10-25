@@ -1,7 +1,7 @@
 package io.data2viz.contour
 
 
-data class GeoJson(val type: String, val value: Double, val coordinates: List<List<List<Array<Double>>>>)
+data class GeoJson(val type: String, val value: Double, val coordinates: Array<Array<Array<Array<Double>>>>)
 
 
 fun contour(init: Contour.() -> Unit) = Contour().apply(init)
@@ -54,7 +54,7 @@ class Contour {
             val holes = mutableListOf<List<Array<Double>>>()
 
             isorings(values, thresold) { ring: MutableList<Array<Double>> ->
-//                smoothLinear(ring, values, thresold)
+                //                smoothLinear(ring, values, thresold)
                 if (doubleArea(ring.toTypedArray()) > 0)
                     polygons.add(mutableListOf(ring))
                 else
@@ -74,14 +74,22 @@ class Contour {
         }
 
         return layers.mapIndexed { index, it ->
-            GeoJson("MultiPolygon", tz[index], it)
+            val coordinates = Array(it.size) { pindex ->
+                Array(it[pindex].size) { rindex ->
+                    Array(it[pindex][rindex].size) { lindex ->
+                        val pt = it[pindex][rindex][lindex]
+                        arrayOf(pt.x, pt.y)
+                    }
+                }
+            }
+            GeoJson("MultiPolygon", tz[index], coordinates)
         }
     }
 
     private fun contains(ring: List<Array<Double>>, hole: List<Array<Double>>): Int {
         var i = -1
         val n = hole.size
-        while (++i < n){
+        while (++i < n) {
             val c = ringContains(ring, hole[i])
             if (c != 0)
                 return c
@@ -96,20 +104,20 @@ class Contour {
         var t1: Boolean
         var t2: Boolean
         var t3: Boolean
-        fun index(point: Array<Double>):Int = (point.x * 2 + point.y * (dx + 1) * 4).toInt()
+        fun index(point: Array<Double>): Int = (point.x * 2 + point.y * (dx + 1) * 4).toInt()
 
 
 //        val fragmentByStart = mutableMapOf<Double, Fragment>()
 //        val fragmentByEnd = mutableMapOf<Double, Fragment>()
 
         val maxSize = index(arrayOf(dx.toDouble(), dy.toDouble()))
-        val fragmentByStart:Array<Fragment?> = arrayOfNulls(maxSize)
-        val fragmentByEnd:Array<Fragment?> = arrayOfNulls(maxSize)
+        val fragmentByStart: Array<Fragment?> = arrayOfNulls(maxSize)
+        val fragmentByEnd: Array<Fragment?> = arrayOfNulls(maxSize)
 
         var x = -1
         var y = -1
 
-        fun thresold(index: Int) = values[index] >= thresold
+        fun threshold(index: Int) = values[index] >= thresold
         fun Boolean.shl(bitCount: Int = 0) = (if (this) 1 else 0) shl bitCount
 
 
@@ -137,7 +145,7 @@ class Contour {
                     fragmentByEnd[f.end] = null
                     f.ring.add(end)
                     f.end = endIndex
-                    fragmentByEnd[endIndex] =  f
+                    fragmentByEnd[endIndex] = f
                 }
             } else if (fragmentByStart[endIndex]?.let { f = it;true } == true) {
                 if (fragmentByEnd[startIndex]?.let { g = it; true } == true) {
@@ -152,7 +160,7 @@ class Contour {
                         fragmentByEnd[f!!.end] = startEnd
                     }
                 } else {
-                    fragmentByStart[f!!.start]  = null
+                    fragmentByStart[f!!.start] = null
                     f!!.ring.add(0, start)
                     f!!.start = startIndex
                     fragmentByStart[startIndex] = f!!
@@ -165,11 +173,11 @@ class Contour {
         }
 
         // Special case for the first row (y = -1, t2 = t3 = 0).
-        t1 = thresold(0)
-        cases[if (t1) 1 else 0].forEach(::stitch)
+        t1 = threshold(0)
+        cases[t1.shl(1)].forEach(::stitch)
         while (++x < dx - 1) {
             t0 = t1
-            t1 = thresold(x + 1)
+            t1 = threshold(x + 1)
             cases[(t0.shl() or t1.shl(1))].forEach(::stitch)
         }
         cases[t1.shl()].forEach(::stitch)
@@ -177,14 +185,14 @@ class Contour {
         // General case for the intermediate rows.
         while (++y < dy - 1) {
             x = -1
-            t1 = thresold(y * dx + dx)
-            t2 = thresold(y * dx)
+            t1 = threshold(y * dx + dx)
+            t2 = threshold(y * dx)
             cases[t1.shl(1) or t2.shl(2)].forEach(::stitch)
             while (++x < dx - 1) {
                 t0 = t1
-                t1 = thresold(y * dx + dx + x + 1)
+                t1 = threshold(y * dx + dx + x + 1)
                 t3 = t2
-                t2 = thresold(y * dx + x + 1)
+                t2 = threshold(y * dx + x + 1)
                 cases[t0.shl() or t1.shl(1) or t2.shl(2) or t3.shl(3)].forEach(::stitch)
             }
             cases[t1.shl() or t2.shl(3)].forEach(::stitch)
@@ -192,11 +200,11 @@ class Contour {
 
         // Special case for the last row (y = dy - 1, t0 = t1 = 0).
         x = -1
-        t2 = thresold(y * dx)
+        t2 = threshold(y * dx)
         cases[t2.shl(2)].forEach(::stitch)
         while (++x < dx - 1) {
             t3 = t2
-            t2 = thresold(y * dx + x + 1)
+            t2 = threshold(y * dx + x + 1)
             cases[t2.shl(2) or t3.shl(3)].forEach(::stitch)
         }
         cases[t2.shl(3)].forEach(::stitch)
@@ -211,7 +219,7 @@ class Contour {
             val xt = if (x != 0.0) x else 0.0 //todo WTF
             val yt = if (y != 0.0) y else 0.0
 //            val v1 = values[yt * dx - xt - 1]
-            if (x >0 && x < dx && xt === x){
+            if (x > 0 && x < dx && xt === x) {
 
             }
         }
@@ -243,7 +251,7 @@ fun ringContains(ring: List<Array<Double>>, point: Array<Double>): Int {
     val y = point[1]
     var contains = -1
     val n = ring.size
-    var j = n -1
+    var j = n - 1
     var i = 0
     do {
         val pi = ring[i]
@@ -255,19 +263,19 @@ fun ringContains(ring: List<Array<Double>>, point: Array<Double>): Int {
         if (segmentContains(pi, pj, point))
             return 0
         if (((yi > y) != (yj > y)) && ((x < (xj - xi) * (y - yi) / (yj - yi) + xi)))
-            contains = - contains
+            contains = -contains
 
         j = i++
-    } while (i<n)
+    } while (i < n)
     return contains
 }
 
 fun segmentContains(start: Array<Double>, end: Array<Double>, point: Array<Double>): Boolean {
-    val i = if (start[0]  == end[0]) 1 else 0 //if vertical compare y
+    val i = if (start[0] == end[0]) 1 else 0 //if vertical compare y
     return collinear(start, end, point) && within(start[i], point[i], end[i])
 }
 
-fun within(p: Double, q: Double, r: Double)= q in p..r || q in r..p
+fun within(p: Double, q: Double, r: Double) = q in p..r || q in r..p
 
 
 fun collinear(a: Array<Double>, b: Array<Double>, c: Array<Double>) =

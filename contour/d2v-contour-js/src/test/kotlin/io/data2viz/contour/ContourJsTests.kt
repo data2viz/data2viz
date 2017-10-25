@@ -25,6 +25,12 @@ fun squaredContour(size: Int) = contour {
     thresholds = { arrayOf(0.5) }
 }
 
+@JsName("contours")
+fun contours(n: Int, m:Int, thresholds:Array<Double>) = contour {
+    size(n, m)
+    this.thresholds = { thresholds }
+}
+
 @JsName("contour")
 fun Contour.jsContour(values: Array<Double>) {
     contours(values)
