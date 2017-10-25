@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+
+</head>
+<body>
+
+<h1>Arcs</h1>
+<p>Generating arcs.</p>
+<p>The blue arc is rendered on a canvas. The green arc uses a SVG path. The red one is rendered using D3.</p>
+
+<script>
+    require.config({
+        baseUrl: "../../node_modules",
+        paths: {
+            d3: "http://d3js.org/d3.v4"
+        }
+    });
+    require(['../classes/test/d2v-shape-js_test'], function (test) {
+        test.showArcs();
+    });
+
+    require(["d3"], function (d3) {
+        var arc1 = {innerRadius: 0, outerRadius: 49, startAngle: 0, endAngle: 1.8};
+        var arc2 = {innerRadius: 30, outerRadius: 49, startAngle: 0, endAngle: 1.8};
+        var arc2Bis = {innerRadius: 50, outerRadius: 30, startAngle: 0, endAngle: 1.8};
+        var arc3 = {innerRadius: 0, outerRadius: 30, startAngle: 0, endAngle: 1.8};
+        var arc4 = {innerRadius: 0, outerRadius: 49, startAngle: .8, endAngle: 6};
+        var arc5 = {innerRadius: 0, outerRadius: 49, startAngle: 0, endAngle: 1.8, cornerRadius: 5};
+        var arc6 = {innerRadius: 30, outerRadius: 49, startAngle: 0, endAngle: 1.8, cornerRadius: 5};
+
+        drawArc(d3, " ", arc1);
+        drawArc(d3, " ", arc2);
+        drawArc(d3, " ", arc2Bis);
+        drawArc(d3, " ", arc3);
+        drawArc(d3, " ", arc4);
+        drawArc(d3, " ", arc5);
+        drawArc(d3, " ", arc6);
+
+        var workData = [
+            {age: 20, name: "albert", value: 3},
+            {age: 30, name: "berenice", value: 5},
+            {age: 40, name: "charles", value: 9},
+            {age: 50, name: "dilbert", value: 16},
+            {age: 35, name: "eric", value: 22},
+            {age: 60, name: "frank", value: 15},
+            {age: 35, name: "georges", value: 2}
+        ];
+
+        var pie = d3.pie()
+            .value(function (d) {
+                return d.value;
+            });
+        var pieData = pie(workData);
+
+        drawPie(d3, " ", pieData, arc1);
+        drawPie(d3, " ", pieData, arc2);
+        drawPie(d3, " ", pieData, arc2Bis);
+        drawPie(d3, " ", pieData, arc3);
+        drawPie(d3, " ", pieData, arc5);
+        drawPie(d3, " ", pieData, arc6);
+    });
+
+    function drawArc(d3, name, data) {
+
+        var arc = d3.arc().cornerRadius(data.cornerRadius);
+        //if (data.padRadius !== undefined) arc.padRadius();
+
+        d3.select("#d3Samples")
+            .append("h2")
+            .text(name);
+
+        var svg = d3.select("#d3Samples")
+            .append("svg")
+            .attr("width", 200)
+            .attr("height", 100);
+
+        svg.append("path")
+            .attr("d", arc(data))
+            .attr("fill", "#fcc")
+            .attr("stroke", "#f00")
+            .attr("transform", "translate(100,50)");
+    }
+
+    function drawPie(d3, name, pieData, pieParameters) {
+
+        var arc = d3.arc();
+        arc.innerRadius(pieParameters.innerRadius);
+        arc.outerRadius(pieParameters.outerRadius);
+        arc.cornerRadius(pieParameters.cornerRadius);
+
+        d3.select("#d3Samples")
+            .append("h2")
+            .text(name);
+
+        var svg = d3.select("#d3Samples")
+            .append("svg")
+            .attr("width", 200)
+            .attr("height", 100);
+
+        console.log(pieData);
+
+        svg.selectAll("path")
+            .data(pieData)
+            .enter()
+            .append("path")
+            .attr("d", arc)
+            .attr("fill", "#fcc")
+            .attr("stroke", "#f00")
+            .attr("transform", "translate(100,50)");
+    }
+
+</script>
+<div id="d2vSamples" style="float: left"></div>
+<div id="d3Samples" style="float: left"></div>
+</body>
+</html>

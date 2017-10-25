@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+
+</head>
+<body>
+
+<h1>Shape Lines and Areas</h1>
+<p>Generating lines from the same points but using different type of curves.</p>
+<p>The blue chart is rendered on a canvas. The green chart uses a SVG path. The red one is rendered using D3.</p>
+
+<script>
+    require.config({
+        baseUrl: "../../node_modules",
+        paths: {
+            d3: "http://d3js.org/d3.v4"
+        }
+    });
+    require(['../classes/test/d2v-shape-js_test'], function (test) {
+        test.showLines();
+    });
+
+    require(["d3"], function(d3) {
+        var data = [[20,20], [50,50], [80,20], [70,40], [150,80], [180,20]];
+        var dataRadial = [[0,50], [1,80], [2,50], [3,100], [4,100], [5,80]];
+        drawCurve(d3, "D3 Basis", d3.curveBasis, data);
+        drawCurve(d3, "D3 BasisClosed", d3.curveBasisClosed, data);
+        drawCurve(d3, "D3 BasisOpen", d3.curveBasisOpen, data);
+        drawCurve(d3, "D3 Bundle", d3.curveBundle, data);
+        drawCurve(d3, "D3 Cardinal", d3.curveCardinal, data);
+        drawCurve(d3, "D3 CardinalClosed", d3.curveCardinalClosed, data);
+        drawCurve(d3, "D3 CardinalOpen", d3.curveCardinalOpen, data);
+        drawCurve(d3, "D3 CatmullRom", d3.curveCatmullRom, data);
+        drawCurve(d3, "D3 CatmullRomClosed", d3.curveCatmullRomClosed, data);
+        drawCurve(d3, "D3 CatmullRomOpen", d3.curveCatmullRomOpen, data);
+        drawCurve(d3, "D3 Linear", d3.curveLinear, data);
+        drawCurve(d3, "D3 LinearClosed", d3.curveLinearClosed, data);
+        drawCurve(d3, "D3 MonotoneX", d3.curveMonotoneX, data);
+        drawCurve(d3, "D3 MonotoneY", d3.curveMonotoneY, data);
+        drawCurve(d3, "D3 Natural", d3.curveNatural, data);
+//        drawCurve(d3, "D3 RadialLinear", d3.curveRadialLinear, dataRadial);
+//        drawCurve(d3, "D3 RadialLinearClosed", d3.curveRadial(d3.curveLinearClosed), dataRadial);
+//        drawCurve(d3, "D3 RadialBasis", d3.curveRadial(d3.curveBasis), dataRadial);
+        drawCurve(d3, "D3 Step", d3.curveStep, data);
+        drawCurve(d3, "D3 StepBefore", d3.curveStepBefore, data);
+        drawCurve(d3, "D3 StepAfter", d3.curveStepAfter, data);
+
+        var area1 = d3.area()
+            .x(function(d) { return d[0]; })
+            .y0(60)
+            .y1(function(d) { return d[1]; });
+
+        drawArea(d3, "D3 Basis", area1.curve(d3.curveBasis), data);
+        drawArea(d3, "D3 BasisClosed", area1.curve(d3.curveBasisClosed), data);
+        drawArea(d3, "D3 BasisOpen", area1.curve(d3.curveBasisOpen), data);
+        drawArea(d3, "D3 Bundle", area1.curve(d3.curveBundle), []);
+        drawArea(d3, "D3 Cardinal", area1.curve(d3.curveCardinal), data);
+        drawArea(d3, "D3 CardinalClosed", area1.curve(d3.curveCardinalClosed), data);
+        drawArea(d3, "D3 CardinalOpen", area1.curve(d3.curveCardinalOpen), data);
+        drawArea(d3, "D3 CatmullRom", area1.curve(d3.curveCatmullRom), data);
+        drawArea(d3, "D3 CatmullRomClosed", area1.curve(d3.curveCatmullRomClosed), data);
+        drawArea(d3, "D3 CatmullRomOpen", area1.curve(d3.curveCatmullRomOpen), data);
+        drawArea(d3, "D3 Linear", area1.curve(d3.curveLinear), data);
+        drawArea(d3, "D3 LinearClosed", area1.curve(d3.curveLinearClosed), data);
+        drawArea(d3, "D3 MonotoneX", area1.curve(d3.curveMonotoneX), data);
+        drawArea(d3, "D3 MonotoneY", area1.curve(d3.curveMonotoneY), data);
+        drawArea(d3, "D3 Natural", area1.curve(d3.curveNatural), data);
+//        drawArea(d3, "D3 RadialLinear", area1.curve(d3.curveRadialLinear), dataRadial);
+//        drawArea(d3, "D3 RadialLinearClosed", area1.curve(d3.curveRadial(d3.curveLinearClosed)), dataRadial);
+//        drawArea(d3, "D3 RadialBasis", area1.curve(d3.curveRadial(d3.curveBasis)), dataRadial);
+        drawArea(d3, "D3 Step", area1.curve(d3.curveStep), data);
+        drawArea(d3, "D3 StepBefore", area1.curve(d3.curveStepBefore), data);
+        drawArea(d3, "D3 StepAfter", area1.curve(d3.curveStepAfter), data);
+
+        /*drawArea(d3, "D3 fixed Y=60 linear area", area1, data);
+        drawArea(d3, "D3 fixed Y=60 linear closed area", area1.curve(d3.curveLinearClosed), data);
+        drawArea(d3, "D3 fixed Y=60 basis curve area", area1.curve(d3.curveBasis), data);
+        drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveCardinalOpen), data);
+        drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveMonotoneX), data);*/
+    });
+
+    function drawCurve(d3, curveName, curve, data) {
+        d3.select("#d3Samples")
+            .append("h2")
+            .text(" ");
+        var line = d3.line().curve(curve);
+        var svg = d3.select("#d3Samples")
+            .append("svg")
+            .attr("width", 200)
+            .attr("height", 100);
+        svg.append("path")
+            .datum(data)
+            .attr("d", line)
+            .attr("fill", "none")
+            .attr("stroke", "#f00");
+    }
+
+    function drawArea(d3, curveName, area, data) {
+        d3.select("#d3SamplesArea")
+            .append("h2")
+            .text(" ");
+        var svg = d3.select("#d3SamplesArea")
+            .append("svg")
+            .attr("width", 200)
+            .attr("height", 100);
+        svg.append("path")
+            .datum(data)
+            .attr("d", area)
+            .attr("fill", "#fcc")
+            .attr("stroke", "#f00");
+    }
+
+</script>
+<div id="d2vSamples" style="float: left"></div>
+<div id="d3Samples" style="float: left"></div>
+<div id="d2vSamplesArea" style="float: left"></div>
+<div id="d3SamplesArea" style="float: left"></div>
+</body>
+</html>

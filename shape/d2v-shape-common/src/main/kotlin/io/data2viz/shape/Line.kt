@@ -6,7 +6,6 @@ fun <T> line(init: LineGenerator<T>.() -> Unit) = LineGenerator<T>().apply(init)
 
 fun <T, D> const(constantValue: T): (D) -> T = { constantValue }
 
-
 class LineGenerator<T> {
 
     var curve: (PathAdapter) -> Curve = curves.linear
@@ -15,25 +14,25 @@ class LineGenerator<T> {
     var defined: (T) -> Boolean = const(true)
 
     /**
-     * Use the datas to generate a line on the context
+     * Use the data to generate a line on the context
      */
-    fun <C: PathAdapter> line(datas: Array<T>, context:C):C{
-        val n = datas.size
+    fun <C : PathAdapter> line(data: Array<T>, context: C): C {
+        val n = data.size
 
         var defined0 = false
         val output = curve(context)
 
-        for (i in 0..n){
+        for (i in 0..n) {
 
-            if ((!(i<n && defined(datas[i])) == defined0)){
+            if (!(i < n && defined(data[i])) == defined0) {
                 defined0 = !defined0
                 if (defined0) output.lineStart()
                 else output.lineEnd()
             }
 
             if (defined0) {
-                val data = datas[i]
-                output.point(x(data), y(data))
+                val d = data[i]
+                output.point(x(d), y(d))
             }
         }
         return context

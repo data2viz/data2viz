@@ -12,7 +12,6 @@ interface Curve {
     fun point(x: Double, y: Double)
 }
 
-
 object curves {
     val basis                   = {context: PathAdapter -> Basis(context) }
     val basisClosed             = {context: PathAdapter -> BasisClosed(context) }
@@ -35,4 +34,9 @@ object curves {
     val step                    = {context: PathAdapter -> Step(context) }
     val stepBefore              = {context: PathAdapter -> StepBefore(context) }
     val stepAfter               = {context: PathAdapter -> StepAfter(context) }
+}
+
+object areas {
+    val default                 = {context: PathAdapter -> Linear(context) }
+    val basis                   = {context: PathAdapter -> Basis(context) }
 }
