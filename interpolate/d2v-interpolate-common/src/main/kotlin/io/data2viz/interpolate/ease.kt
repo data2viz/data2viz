@@ -1,7 +1,6 @@
 package io.data2viz.interpolate
 
 import io.data2viz.math.halfPI
-import kotlin.js.Math
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sqrt
