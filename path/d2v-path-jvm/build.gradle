@@ -1,3 +1,3 @@
 dependencies {
-    implement project(":d2v-path-common")
+    expectedBy project(":d2v-path-common")
 }

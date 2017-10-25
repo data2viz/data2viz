@@ -1,5 +1,5 @@
 dependencies {
-    implement project(":d2v-path-common")
+    expectedBy project(":d2v-path-common")
     testCompile project(":d2v-format-common")
     testCompile project(":d2v-format-js")
 }

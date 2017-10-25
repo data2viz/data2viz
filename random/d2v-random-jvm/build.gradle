@@ -1,5 +1,5 @@
 
 dependencies{
-    implement project(":d2v-random-common")
+    expectedBy project(":d2v-random-common")
 }
 

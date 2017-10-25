@@ -1,6 +1,6 @@
 
 dependencies{
-    implement project(":d2v-random-common")
+    expectedBy project(":d2v-random-common")
     testCompile project(":d2v-color-common")
     testCompile project(":d2v-color-js")
 }

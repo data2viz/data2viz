@@ -1,5 +1,5 @@
 dependencies {
-    implement project(":d2v-voronoi-common")
+    expectedBy project(":d2v-voronoi-common")
     compile project(":d2v-core-common")
     compile project(":d2v-core-jvm")
 }

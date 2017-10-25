@@ -1,5 +1,5 @@
 dependencies {
-    implement project(":d2v-contour-common")
+    expectedBy project(":d2v-contour-common")
 }
 
 project.jsTests()

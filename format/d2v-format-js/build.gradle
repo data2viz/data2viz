@@ -1,4 +1,4 @@
 dependencies {
-    implement project(":d2v-format-common")
+    expectedBy project(":d2v-format-common")
 }
 project.jsTests()
