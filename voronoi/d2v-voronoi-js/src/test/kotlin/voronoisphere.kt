@@ -24,15 +24,15 @@ import kotlin.reflect.KMutableProperty0
 
 data class SphereParams(
         var animate: Boolean = true,
-        var clipping: Boolean = true,
+        var clipping: Boolean = false,
         var showCircles: Boolean = true,
         var showPolygons: Boolean = true,
         var delaunay: Boolean = true,
         var pointNumber: Int = 20,
         val chunkSize: Int = 1) {
 
-    fun eventuallyUpdatePointNumber(curFPS: Int, curPoint: Int) {
-        if (isAllDisplayed() && curFPS > 25 && curPoint <= pointNumber - chunkSize + 5) {
+    fun eventuallyUpdatePointNumber(curFPS: Double, curPoint: Int) {
+        if (isAllDisplayed() && curFPS > 40.0 && curPoint <= pointNumber - chunkSize + 5) {
             pointNumber += chunkSize
         }
     }
@@ -79,8 +79,8 @@ fun voronoiSphere() {
         rotationAnimation { rotation ->
             fpsCalculator.updateFPS()
             document.querySelector("#num span")?.textContent = randomPoints.size.toString()
-            sphereParams.eventuallyUpdatePointNumber(fpsCalculator.curFps, randomPoints.size)
-            if (randomPoints.size < sphereParams.pointNumber && fpsCalculator.curFps > 25) {
+            sphereParams.eventuallyUpdatePointNumber(fpsCalculator.aveFps, randomPoints.size)
+            if (randomPoints.size < sphereParams.pointNumber && fpsCalculator.aveFps > 25) {
                 randomPoints.addAll(newPoints())
             } else if (randomPoints.size > sphereParams.pointNumber) {
                 val pointSize = randomPoints.size
@@ -100,8 +100,15 @@ fun voronoiSphere() {
 
             fun Point.asCoord() = "$x,$y"
 
+            circle {
+                r = 200.0
+                stroke = black
+                fill = null
+            }
+
             //polygons
             g {
+                setAttribute("clip-path", "url(#circle-mask)")
                 rotationAnimation { rotation ->
                     val polygons = if (sphereParams.showPolygons) diagram!!.polygons() else emptyList()
                     selectAll<PathElement, List<Point>>("path", polygons) {
@@ -282,8 +289,9 @@ class RotationAnimation(sphereParams: SphereParams, rotationTimeInSeconds: Doubl
  */
 class FpsCalculator(var fps: Element?) {
     var curFps = 100
+    var aveFps = 100.0
     private val average_fps = mutableListOf<Int>()
-    
+
     private var time0 = Date().getTime()
     private var time1 = Date().getTime()
 
@@ -294,7 +302,8 @@ class FpsCalculator(var fps: Element?) {
             curFps = round(1000.0 / (time1 - time0)).toInt()
             average_fps.add(curFps)
             if (average_fps.size == 10) {
-                fps?.textContent = average_fps.average().toString()
+                aveFps = average_fps.average()
+                fps?.textContent = aveFps.toInt().toString()
                 average_fps.clear()
             }
         }

@@ -6,9 +6,9 @@
         top: 0;
     }
 
-    circle {
-        fill: black;
-    }
+    /*circle {*/
+        /*fill: black;*/
+    /*}*/
 
     path {
         stroke: black;
@@ -19,8 +19,16 @@
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
 
+
 </head>
 <body>
+<svg>
+    <defs>
+        <clipPath id="circle-mask">
+            <circle cx="0" cy="0" r="200" fill="none"></circle>
+        </clipPath>
+    </defs>
+</svg>
 <div style="font-size: 22px; position:absolute;z-index:2;">
     <div id="num">Number of points: <span>?</span></div>
     <div id="fps">FPS: <span>?</span></div>
@@ -28,7 +36,7 @@
 
 <script>
     require.config({baseUrl: "../../build/node_modules"});
-    require(['../classes/test/voronoi_test'], function (voronoi) {
+    require(['../../build/classes/test/d2v-voronoi-js_test'], function (voronoi) {
         voronoi.voronoiSphere()
     });
 </script>

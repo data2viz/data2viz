@@ -6,4 +6,5 @@ dependencies {
     testCompile project(":d2v-interpolate-js")
 }
 
+//project.jsTests()
 
