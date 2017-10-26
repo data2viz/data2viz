@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+
+</head>
+<body style="font-family: sans-serif;">
+
+<h1 style="text-align: center;">States population by ages category</h1>
+
+<script>
+    require.config({
+        baseUrl: "../../node_modules",
+        paths: {
+            d3: "http://d3js.org/d3.v4"
+        }
+    });
+    require(['../classes/test/d2v-shape-js_test'], function (test) {
+        test.stackedChart();
+    });
+
+</script>
+<div id="d2vSamples" style="position: absolute; left: 50%; transform: translate(-50%);"></div>
+</body>
+</html>
