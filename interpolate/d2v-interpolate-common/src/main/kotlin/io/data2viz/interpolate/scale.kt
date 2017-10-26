@@ -26,8 +26,8 @@ class scale {
         fun pointsToPoints(start: DomainToViz<Point, Point>, end: DomainToViz<Point, Point>) =
                 { pt: Point ->
                     Point(
-                            numberToNumber(start.domain.x linkedTo start.viz.x, end.domain.x linkedTo end.viz.x)(pt.x),
-                            numberToNumber(start.domain.y linkedTo start.viz.y, end.domain.y linkedTo end.viz.y)(pt.y))
+                            numberToNumber(start.domain.x linkedTo start.viz.x, end.domain.x linkedTo end.viz.x)(pt.x).toDouble(),
+                            numberToNumber(start.domain.y linkedTo start.viz.y, end.domain.y linkedTo end.viz.y)(pt.y).toDouble())
                 }
 
         fun numberToNumber(start: DomainToViz<Number, Number>, end: DomainToViz<Number, Number>): (Number) -> Number =
@@ -36,11 +36,11 @@ class scale {
                             uninterpolate(start.domain, end.domain).invoke(domain).toDouble())
                 }
 
-        fun numberToNumber(start: DomainToViz<Double, Double>, end: DomainToViz<Double, Double>): (Double) -> Double =
-                { domain: Double ->
-                    interpolateNumber(start.viz, end.viz).invoke(
-                            uninterpolate(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double
-                }
+//        fun numberToNumber(start: DomainToViz<Double, Double>, end: DomainToViz<Double, Double>): (Double) -> Double =
+//                { domain: Double ->
+//                    interpolateNumber(start.viz, end.viz).invoke(
+//                            uninterpolate(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double
+//                }
 
         fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color = NumberToColor(start, end).numberToColor
 

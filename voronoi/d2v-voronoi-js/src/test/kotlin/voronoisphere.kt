@@ -66,7 +66,7 @@ fun voronoiSphere() {
             1.0 linkedTo 200.0
     )
 
-    fun List<GeoPoint>.sites() = mapIndexed { index, point -> Site(Point(pointToScreen(point.x), pointToScreen(point.y)), index) }.toTypedArray()
+    fun List<GeoPoint>.sites() = mapIndexed { index, point -> Site(Point(pointToScreen(point.x).toDouble(), pointToScreen(point.y).toDouble()), index) }.toTypedArray()
 
     val darkToLight = interpolateRgb(darkblue, lightyellow, 0.7)
 
