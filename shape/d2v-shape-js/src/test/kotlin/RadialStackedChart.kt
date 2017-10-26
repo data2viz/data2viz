@@ -81,21 +81,23 @@ fun stackedChart() {
 
 private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: String) {
     val states = data.size
+    val factorRatio = 140.0
+    val innerMargin = 150.0
+    val textOffset = 525
     with(document.getElementById(elementId)!!) {
         val labelGroup = createSvgElement("g").apply {
             setAttribute("transform", "translate(400,670)")
         }
         appendChild(createSvgElement("svg").apply {
             setAttribute("height", "900")
-//            setAttribute("style", "max-width: 800px; width: 100%; height: auto;")
             setAttribute("width", "800")
             data.forEachIndexed { i, population ->
                 var sum = .0
                 population.reparition.forEachIndexed { index, value ->
                     appendChild(createSvgElement("path").apply {
-                        val inner = 150.0 + sqrt(sum)
+                        val inner = innerMargin + sqrt(sum)
                         arcGenerator.innerRadius = { inner }
-                        val outer = 150 + sqrt(sum + (value.toDouble() / 140.0))
+                        val outer = innerMargin + sqrt(sum + (value.toDouble() / factorRatio))
                         arcGenerator.outerRadius = { outer }
                         arcGenerator.startAngle = { (i.toDouble() / states) * tau }
                         arcGenerator.endAngle = { ((i.toDouble() + 1.0) / states) * tau }
@@ -104,10 +106,10 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: Stri
                         setAttribute("transform", "translate(400,670)")
                         setAttribute("stroke", colors[index + 1])
                         setAttribute("fill", colors[index])
-                        sum += value.toDouble() / 140.0
+                        sum += value.toDouble() / factorRatio
                     })
                 }
-                val textRotation = (i * (180.0 / 53.0) * -180) / (pi - 90) - 86
+                val textRotation = ((i * (180.0 / 53.0) * -180) / (pi - 90)) - 86
                 labelGroup.appendChild(createSvgElement("g").apply {
                     setAttribute("transform", "rotate($textRotation)translate(139, 0)")
                 }).appendChild(createSvgElement("text").apply {
@@ -128,12 +130,12 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: Stri
                     appendChild(createSvgElement("circle").apply {
                         setAttribute("cx", "400")
                         setAttribute("cy", "670")
-                        setAttribute("r", "${150.0 + sqrt(threshold.toDouble() / 140.0)}")
+                        setAttribute("r", "${innerMargin + sqrt(threshold.toDouble() / factorRatio)}")
                     })
                     appendChild(createSvgElement("text").apply {
                         setAttribute("text-anchor", "middle")
                         setAttribute("x", "400")
-                        setAttribute("y", "${525 - sqrt(threshold / 140.0)}")
+                        setAttribute("y", "${textOffset - sqrt(threshold / factorRatio)}")
                         setAttribute("fill", "none")
                         setAttribute("font-size", "12")
                         setAttribute("stroke", "#fff")
@@ -145,7 +147,7 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: Stri
                     appendChild(createSvgElement("text").apply {
                         setAttribute("text-anchor", "middle")
                         setAttribute("x", "400")
-                        setAttribute("y", "${525 - sqrt(threshold.toDouble() / 140.0)}")
+                        setAttribute("y", "${textOffset - sqrt(threshold.toDouble() / factorRatio)}")
                         setAttribute("fill", "#444")
                         setAttribute("font-size", "12")
                         setAttribute("stroke", "#444")
