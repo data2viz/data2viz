@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+
+</head>
+<body>
+
+<h1>Stacks</h1>
+
+<script>
+    require.config({
+        baseUrl: "../../node_modules",
+    });
+    require(['../classes/test/d2v-shape-js_test'], function (test) {
+        test.stackTests();
+    });
+
+</script>
+<div id="d2vSamples" style="float: left"></div>
+<div id="d3Samples" style="float: left"></div>
+</body>
+</html>
