@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+
+</head>
+<body>
+
+<h1>Symbols</h1>
+<p>D2V Canvas in blue, D2V SVG in green, d3JS SVG in red</p>
+
+<script>
+    require.config({
+        baseUrl: "../../node_modules",
+        paths: {
+            d3: "http://d3js.org/d3.v4"
+        }
+    });
+    require(['../classes/test/d2v-shape-js_test'], function (test) {
+        test.showSymbols();
+    });
+
+    require(["d3"], function (d3) {
+
+        var symbol = d3.symbol().size(1000);
+
+        for (i = 0; i < d3.symbols.length; i++) {
+            d3.select("#d3Samples")
+                .append("h2")
+                .text(" ");
+            var svg = d3.select("#d3Samples")
+                .append("svg")
+                .attr("width", 200)
+                .attr("height", 100);
+            svg.append("path")
+                .attr("transform", "translate(32, 32)")
+                .attr("fill", "#fcc")
+                .attr("stroke", "#f00")
+                .attr("d", symbol.type(function (_) {
+                    return d3.symbols[i];
+                }));
+        }
+    });
+
+</script>
+<div id="d2vSamples" style="float: left"></div>
+<div id="d3Samples" style="float: left"></div>
+</body>
+</html>
