@@ -16,18 +16,7 @@ class SymbolGenerator<T> {
     var type: (T) -> Symbol = { Circle() }
 
     fun <C : PathAdapter> symbol(args: T, context: C): C {
-//        when (type(args)) {
-//            "Circle" -> Circle().draw(context, size(args))
-//            "Cross" -> Cross().draw(context, size(args))
-//            "Diamond" -> Diamond().draw(context, size(args))
-//            "Square" -> Square().draw(context, size(args))
-//            "Star" -> Star().draw(context, size(args))
-//            "Triangle" -> Triangle().draw(context, size(args))
-//            "Wye" -> Wye().draw(context, size(args))
-//            else -> Circle().draw(context, size(args))
-//        }
         type(args).draw(context, size(args))
-
         return context
     }
 }
