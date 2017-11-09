@@ -11,8 +11,10 @@ import kotlin.math.sqrt
 class Circle : Symbol {
     override fun <C : PathAdapter> draw(context: C, size: Double): C {
         val r = sqrt(size / pi)
-        context.moveTo(r, .0)
-        context.arc(.0, .0, r, .0, tau)
+        with(context) {
+            moveTo(r, .0)
+            arc(.0, .0, r, .0, tau)
+        }
         return context
     }
 }
@@ -21,20 +23,21 @@ class Cross : Symbol {
     override fun <C : PathAdapter> draw(context: C, size: Double): C {
         val r = sqrt(size / 5) / 2
         val r3 = 3 * r
-        context.moveTo(-r3, -r)
-        context.lineTo(-r, -r)
-        context.lineTo(-r, -r3)
-        context.lineTo(r, -r3)
-        context.lineTo(r, -r)
-        context.lineTo(r3, -r)
-        context.lineTo(r3, r)
-        context.lineTo(r, r)
-        context.lineTo(r, r3)
-        context.lineTo(-r, r3)
-        context.lineTo(-r, r)
-        context.lineTo(-r3, r)
-        context.closePath()
-        return context
+        return context.apply {
+            moveTo(-r3, -r)
+            lineTo(-r, -r)
+            lineTo(-r, -r3)
+            lineTo(r, -r3)
+            lineTo(r, -r)
+            lineTo(r3, -r)
+            lineTo(r3, r)
+            lineTo(r, r)
+            lineTo(r, r3)
+            lineTo(-r, r3)
+            lineTo(-r, r)
+            lineTo(-r3, r)
+            closePath()
+        }
     }
 }
 
@@ -46,11 +49,13 @@ class Diamond : Symbol {
     override fun <C : PathAdapter> draw(context: C, size: Double): C {
         val y = sqrt(size / tan30_2)
         val x = y * tan30
-        context.moveTo(.0, -y)
-        context.lineTo(x, .0)
-        context.lineTo(.0, y)
-        context.lineTo(-x, .0)
-        context.closePath()
+        with(context) {
+            moveTo(.0, -y)
+            lineTo(x, .0)
+            lineTo(.0, y)
+            lineTo(-x, .0)
+            closePath()
+        }
         return context
     }
 }
@@ -95,10 +100,12 @@ class Triangle : Symbol {
 
     override fun <C : PathAdapter> draw(context: C, size: Double): C {
         val y = -sqrt(size / (sqrt3 * 3))
-        context.moveTo(.0, y * 2)
-        context.lineTo(-sqrt3 * y, -y)
-        context.lineTo(sqrt3 * y, -y)
-        context.closePath()
+        with(context) {
+            moveTo(.0, y * 2)
+            lineTo(-sqrt3 * y, -y)
+            lineTo(sqrt3 * y, -y)
+            closePath()
+        }
         return context
     }
 }
@@ -119,16 +126,18 @@ class Wye : Symbol {
         val y1 = r * k + r
         val x2 = -x1
         val y2 = y1
-        context.moveTo(x0, y0)
-        context.lineTo(x1, y1)
-        context.lineTo(x2, y2)
-        context.lineTo(c * x0 - s * y0, s * x0 + c * y0)
-        context.lineTo(c * x1 - s * y1, s * x1 + c * y1)
-        context.lineTo(c * x2 - s * y2, s * x2 + c * y2)
-        context.lineTo(c * x0 + s * y0, c * y0 - s * x0)
-        context.lineTo(c * x1 + s * y1, c * y1 - s * x1)
-        context.lineTo(c * x2 + s * y2, c * y2 - s * x2)
-        context.closePath()
+        with(context) {
+            moveTo(x0, y0)
+            lineTo(x1, y1)
+            lineTo(x2, y2)
+            lineTo(c * x0 - s * y0, s * x0 + c * y0)
+            lineTo(c * x1 - s * y1, s * x1 + c * y1)
+            lineTo(c * x2 - s * y2, s * x2 + c * y2)
+            lineTo(c * x0 + s * y0, c * y0 - s * x0)
+            lineTo(c * x1 + s * y1, c * y1 - s * x1)
+            lineTo(c * x2 + s * y2, c * y2 - s * x2)
+            closePath()
+        }
         return context
     }
 }
