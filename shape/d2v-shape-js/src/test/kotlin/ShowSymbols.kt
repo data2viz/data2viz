@@ -1,6 +1,7 @@
 import io.data2viz.path.CanvasDrawContext
 import io.data2viz.path.SvgPath
 import io.data2viz.shape.*
+import io.data2viz.shape.symbol.*
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLCanvasElement
@@ -9,7 +10,18 @@ import kotlin.dom.appendElement
 
 val symbolGenerator = symbol<String> {
     size = { 1000.0 }
-    type = { it }
+    type = {
+        when (it) {
+            "Circle" -> Circle()
+            "Cross" -> Cross()
+            "Diamond" -> Diamond()
+            "Square" -> Square()
+            "Star" -> Star()
+            "Triangle" -> Triangle()
+            "Wye" -> Wye()
+            else -> Circle()
+        }
+    }
 }
 
 @JsName("showSymbols")
@@ -46,7 +58,7 @@ fun render(symbolGenerator: SymbolGenerator<String>, symbolName: String) {
             setAttribute("height", "100")
             setAttribute("stroke", "green")
             appendChild(createSvgElement("path").apply {
-                val line =  symbolGenerator.symbol(symbolName, SvgPath()).path
+                val line = symbolGenerator.symbol(symbolName, SvgPath()).path
                 setAttribute("d", line)
                 setAttribute("fill", "#cfc")
                 setAttribute("transform", "translate(32,32)");
@@ -58,7 +70,7 @@ fun render(symbolGenerator: SymbolGenerator<String>, symbolName: String) {
 private fun newCanvas(elementId: String): HTMLCanvasElement {
     val canvas = document.createElement("canvas") as HTMLCanvasElement
     val context = canvas.getContext("2d") as CanvasRenderingContext2D
-    context.canvas.width  = 200
+    context.canvas.width = 200
     context.canvas.height = 100
     document.getElementById(elementId)!!.appendChild(canvas)
     return canvas
