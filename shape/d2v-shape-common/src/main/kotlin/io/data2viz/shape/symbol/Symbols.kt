@@ -23,7 +23,7 @@ class Cross : Symbol {
     override fun <C : PathAdapter> draw(context: C, size: Double): C {
         val r = sqrt(size / 5) / 2
         val r3 = 3 * r
-        return context.apply {
+        with(context) {
             moveTo(-r3, -r)
             lineTo(-r, -r)
             lineTo(-r, -r3)
@@ -38,6 +38,7 @@ class Cross : Symbol {
             lineTo(-r3, r)
             closePath()
         }
+        return context
     }
 }
 
