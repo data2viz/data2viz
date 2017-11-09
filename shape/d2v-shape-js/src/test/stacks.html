@@ -3,18 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+    <style>
+        pre {
+            margin: 0;
+        }
 
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .ok {
+            color: green;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Stacks</h1>
+<p>D2V stacks on the left, green if OK, red if ERROR, D3 stacks on the right in black for reference.</p>
 
 <script>
     require.config({
         baseUrl: "../../node_modules",
+        paths: {
+            d3: "http://d3js.org/d3.v4"
+        }
     });
     require(['../classes/test/d2v-shape-js_test'], function (test) {
         test.stackTests();
+    });
+
+    var data = [
+        {month: new Date(2015, 0, 1), apples: 3840, bananas: 1920, cherries: 960, dates: 400},
+        {month: new Date(2015, 1, 1), apples: 1600, bananas: 3440, cherries: 960, dates: 400},
+        {month: new Date(2015, 2, 1), apples:  640, bananas:  960, cherries: 640, dates: 400},
+        {month: new Date(2015, 3, 1), apples:  320, bananas:  480, cherries: 640, dates: 400},
+        {month: new Date(2015, 4, 1), apples:  100, bananas:  4800,cherries: 640, dates: 100}
+    ];
+
+    var dataForOffset = [
+        {month: new Date(2015, 0, 1), apples: 100, bananas: 100, cherries: 100, dates: 100},
+        {month: new Date(2015, 1, 1), apples: 0, bananas: 200, cherries: 200, dates: 0},
+        {month: new Date(2015, 2, 1), apples:  50, bananas:  100, cherries: 150, dates: 100},
+        {month: new Date(2015, 3, 1), apples:  100, bananas:  200, cherries: 50, dates: 50}
+    ];
+
+    var dataDiverging = [
+        {month: new Date(2015, 0, 1), apples: 100, bananas: 100, cherries: -100, dates: 100},
+        {month: new Date(2015, 1, 1), apples: 0, bananas: -200, cherries: 200, dates: 0},
+        {month: new Date(2015, 2, 1), apples:  -50, bananas:  100, cherries: -150, dates: 100},
+        {month: new Date(2015, 3, 1), apples:  -100, bananas:  200, cherries: -50, dates: -50}
+    ];
+
+    var otherData = [
+        {month: new Date(2015, 0, 1), apples: 100, bananas: 100, cherries: -100, dates: 100},
+        {month: new Date(2015, 1, 1), apples: 0, bananas: -200, cherries: -200, dates: 0},
+        {month: new Date(2015, 2, 1), apples:  -50, bananas:  -100, cherries: -150, dates: 100},
+        {month: new Date(2015, 3, 1), apples:  -100, bananas:  200, cherries: -50, dates: 50}
+    ];
+
+    function printResult(d3, series) {
+        d3.select("#d3Samples").append("h2").text(" ");
+        for (var i = 0; i < series.length; i++) {
+            var pre = d3.select("#d3Samples").append("pre");
+            var ret = "INDEX:"+series[i].index+" ";
+            for (var j = 0; j < series[i].length; j++) {
+                ret += series[i][j][0] + "-" + series[i][j][1] + " "
+            }
+            pre.text(ret)
+        }
+    }
+
+    require(["d3"], function (d3) {
+        var stack = d3.stack()
+            .keys(["apples", "bananas", "cherries", "dates"])
+            .order(d3.stackOrderNone)
+            .offset(d3.stackOffsetNone);
+
+        printResult(d3, stack(data));
+
+        stack.order(d3.stackOrderAscending);
+        printResult(d3, stack(data));
+
+        stack.order(d3.stackOrderDescending);
+        printResult(d3, stack(data));
+
+        stack.order(d3.stackOrderReverse);
+        printResult(d3, stack(data));
+
+        stack.order(d3.stackOrderInsideOut);
+        printResult(d3, stack(data));
+
+        stack.keys(["bananas", "dates", "cherries", "apples"]);
+        stack.order(d3.stackOrderNone);
+        printResult(d3, stack(data));
+
+        stack.order(d3.stackOrderAscending);
+        printResult(d3, stack(data));
+
+        stack.order(d3.stackOrderDescending);
+        printResult(d3, stack(data));
+
+
+        stack.order(d3.stackOrderNone);
+        printResult(d3, stack(dataDiverging));
+
+        stack.offset(d3.stackOffsetExpand);
+        printResult(d3, stack(dataForOffset));
+        printResult(d3, stack(dataDiverging));
+
+        stack.offset(d3.stackOffsetDiverging);
+        printResult(d3, stack(dataForOffset));
+        printResult(d3, stack(dataDiverging));
+
+        stack.offset(d3.stackOffsetSilhouette);
+        printResult(d3, stack(dataForOffset));
+        printResult(d3, stack(dataDiverging));
+
+        stack.offset(d3.stackOffsetWiggle);
+        printResult(d3, stack(dataForOffset));
+        printResult(d3, stack(dataDiverging));
+
+        stack.order(d3.stackOrderInsideOut);
+        printResult(d3, stack(dataForOffset));
+
+        stack.order(d3.stackOrderReverse);
+        stack.offset(d3.stackOffsetSilhouette);
+        printResult(d3, stack(dataForOffset));
+
+        stack.order(d3.stackOrderDescending);
+        stack.offset(d3.stackOffsetExpand);
+        printResult(d3, stack(otherData));
+
+        stack.offset(d3.stackOffsetDiverging);
+        printResult(d3, stack(data));
     });
 
 </script>
