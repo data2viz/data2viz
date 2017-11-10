@@ -70,6 +70,7 @@ subprojects {
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+            testCompile "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
         }
     }
     if (project.name.contains('-js')) {
@@ -96,6 +97,7 @@ subprojects {
         apply plugin: 'kotlin-platform-jvm'
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+            testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
             testCompile project(":d2v-tests-common")
             testCompile project(":d2v-tests-jvm")
