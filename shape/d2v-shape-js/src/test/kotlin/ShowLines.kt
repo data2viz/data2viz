@@ -20,7 +20,7 @@ val lineGenerator = line<Point> {
 val lineGeneratorWithHoles = line<Point> {
     x = { it.x.toDouble() }
     y = { it.y.toDouble() }
-    defined = {it.x != 70 }
+    defined = {it.y != 40}
 }
 
 val areaGenerator = area<Point> {
@@ -31,7 +31,7 @@ val areaGenerator = area<Point> {
 
 val points = arrayOf(
         Point(20,20),
-        Point(50, 50),
+        Point(30, 60),
         Point(70, 70),
         Point(80,20),
         Point(70,40),
@@ -115,7 +115,7 @@ private fun render(title: String, lineGen:LineGenerator<Point>, curve: (PathAdap
     }
     lineGen.curve = curve
     renderCanvas(lineGen, arrayOfPoints)
-    renderSvg(lineGen.line(arrayOfPoints, SvgPath()), "none", "d2vSamples")
+    renderSvg(lineGen.line(arrayOfPoints, SvgPath()), lineGen, "none", "d2vSamples", arrayOfPoints)
 }
 
 private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
@@ -124,7 +124,7 @@ private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoin
     }
     areaGenerator.curve = curve
     renderAreaCanvas(arrayOfPoints)
-    renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), "#cfc", "d2vSamplesArea")
+    renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), lineGenerator, "#cfc", "d2vSamplesArea", arrayOfPoints)
 }
 
 private fun newCanvas(elementId: String): HTMLCanvasElement {
@@ -137,7 +137,14 @@ private fun newCanvas(elementId: String): HTMLCanvasElement {
 }
 
 private fun renderCanvas(lineGen: LineGenerator<Point>, arrayOfPoints: Array<Point>) {
-    with(newCanvas("d2vSamples").getContext("2d") as CanvasRenderingContext2D) {
+    val canvas = newCanvas("d2vSamples").getContext("2d") as CanvasRenderingContext2D
+    with(canvas) {
+        arrayOfPoints.forEach { point ->
+            beginPath()
+            arc(point.x.toDouble(), point.y.toDouble(), 1.0, 0.0, 6.29)
+            strokeStyle = if (lineGen.defined(point)) "black" else "gray"
+            stroke()
+        }
         beginPath()
         lineWidth = 1.0
         strokeStyle = "blue"
@@ -159,7 +166,7 @@ private fun renderAreaCanvas(arrayOfPoints: Array<Point>) {
 }
 
 
-private fun renderSvg(svgPath: SvgPath, fill: String, elementId: String) {
+private fun renderSvg(svgPath: SvgPath, lineGen:LineGenerator<Point>, fill: String, elementId: String, arrayOfPoints:Array<Point>) {
 
     fun createSvgElement(name: String): Element {
         val namespaceSvg = "http://www.w3.org/2000/svg"
@@ -167,7 +174,7 @@ private fun renderSvg(svgPath: SvgPath, fill: String, elementId: String) {
     }
 
     with(document.getElementById(elementId)!!) {
-        appendChild(createSvgElement("svg").apply {
+        val svg = createSvgElement("svg").apply {
             setAttribute("width", "200")
             setAttribute("height", "100")
             setAttribute("stroke", "green")
@@ -176,7 +183,17 @@ private fun renderSvg(svgPath: SvgPath, fill: String, elementId: String) {
                 val line = svgPath.path
                 setAttribute("d", line)
             })
-        })
+        }
+        appendChild(svg)
+        arrayOfPoints.forEach { point ->
+            svg.appendChild(createSvgElement("circle").apply {
+                setAttribute("cx", "${point.x}")
+                setAttribute("cy", "${point.y}")
+                setAttribute("r", "1")
+                setAttribute("fill", "none")
+                setAttribute("stroke", if (lineGen.defined(point)) "black" else "gray")
+            })
+        }
     }
 }
 

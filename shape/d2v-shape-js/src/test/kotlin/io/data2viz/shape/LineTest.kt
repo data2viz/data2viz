@@ -5,6 +5,8 @@ import io.data2viz.path.SvgPath
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
+
+// TODO REMOVE ? (moved to LineCommonTest)
 class LineTest: TestBase(){
 
     @Test
