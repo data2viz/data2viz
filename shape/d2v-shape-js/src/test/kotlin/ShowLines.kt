@@ -12,19 +12,15 @@ import kotlin.dom.appendElement
 // TODO : test radials
 // TODO : add KT tests on generated svg shape (test the SVG string path by comparing to d3 path)
 
-//class Person(val age:Int)
-//
-//val populationLineGenerator = line<Person>{
-//    x = {it.age.toDouble()}
-//    y = {it.age.toDouble()}
-//    curve = curves.bundle
-//}
-
-
 val lineGenerator = line<Point> {
     x = { it.x.toDouble() }
     y = { it.y.toDouble() }
-//    defined = {!(it.x == 50 && it.y == 50)}
+}
+
+val lineGeneratorWithHoles = line<Point> {
+    x = { it.x.toDouble() }
+    y = { it.y.toDouble() }
+    defined = {it.x != 70 }
 }
 
 val areaGenerator = area<Point> {
@@ -33,33 +29,62 @@ val areaGenerator = area<Point> {
     y1 = { it.y.toDouble() }
 }
 
-val points = arrayOf(Point(20,20), Point(50, 50), Point(80,20), Point(70,40), Point(150, 80), Point(180,20))
+val points = arrayOf(
+        Point(20,20),
+        Point(50, 50),
+        Point(70, 70),
+        Point(80,20),
+        Point(70,40),
+        Point(100,60),
+        Point(150, 80),
+        Point(155, 80),
+        Point(180,20))
 val radialPoints = arrayOf(Point(0,10), Point(1, 20), Point(2,10), Point(3,30), Point(4, 30), Point(5,20))
 
 
 @JsName("showLines")
 fun showLines() {
-    render("Basis", curves.basis, points)
-    render("BasisClosed", curves.basisClosed, points)
-    render("BasisOpen", curves.basisOpen, points)
-    render("Bundle (NO AREA IN D3)", curves.bundle, points)
-    render("Cardinal", curves.cardinal, points)
-    render("CardinalClosed", curves.cardinalClosed, points)
-    render("CardinalOpen", curves.cardinalOpen, points)
-    render("CatmullRom", curves.catmullRom, points)
-    render("CatmullRomClosed", curves.catmullRomClosed, points)
-    render("CatmullRomOpen", curves.catmullRomOpen, points)
-    render("Linear", curves.linear, points)
-    render("LinearClosed", curves.linearClosed, points)
-    render("MonotoneX", curves.monotoneX, points)
-    render("MonotoneY", curves.monotoneY, points)
-    render("Natural", curves.natural, points)
+    render("Basis",                     lineGenerator, curves.basis, points)
+    render("BasisClosed",               lineGenerator, curves.basisClosed, points)
+    render("BasisOpen",                 lineGenerator, curves.basisOpen, points)
+    render("Bundle (NO AREA IN D3)",    lineGenerator, curves.bundle, points)
+    render("Cardinal",                  lineGenerator, curves.cardinal, points)
+    render("CardinalClosed",            lineGenerator, curves.cardinalClosed, points)
+    render("CardinalOpen",              lineGenerator, curves.cardinalOpen, points)
+    render("CatmullRom",                lineGenerator, curves.catmullRom, points)
+    render("CatmullRomClosed",          lineGenerator, curves.catmullRomClosed, points)
+    render("CatmullRomOpen",            lineGenerator, curves.catmullRomOpen, points)
+    render("Linear",                    lineGenerator, curves.linear, points)
+    render("LinearClosed",              lineGenerator, curves.linearClosed, points)
+    render("MonotoneX",                 lineGenerator, curves.monotoneX, points)
+    render("MonotoneY",                 lineGenerator, curves.monotoneY, points)
+    render("Natural",                   lineGenerator, curves.natural, points)
+    render("Step",                      lineGenerator, curves.step, points)
+    render("StepBefore",                lineGenerator, curves.stepBefore, points)
+    render("StepAfter",                 lineGenerator, curves.stepAfter, points)
+
+    render("Basis (MISSING POINTS)",                     lineGeneratorWithHoles, curves.basis, points)
+    render("BasisClosed (MISSING POINTS)",               lineGeneratorWithHoles, curves.basisClosed, points)
+    render("BasisOpen (MISSING POINTS)",                 lineGeneratorWithHoles, curves.basisOpen, points)
+    render("Bundle (MISSING POINTS)",                    lineGeneratorWithHoles, curves.bundle, points)
+    render("Cardinal (MISSING POINTS)",                  lineGeneratorWithHoles, curves.cardinal, points)
+    render("CardinalClosed (MISSING POINTS)",            lineGeneratorWithHoles, curves.cardinalClosed, points)
+    render("CardinalOpen (MISSING POINTS)",              lineGeneratorWithHoles, curves.cardinalOpen, points)
+    render("CatmullRom (MISSING POINTS)",                lineGeneratorWithHoles, curves.catmullRom, points)
+    render("CatmullRomClosed (MISSING POINTS)",          lineGeneratorWithHoles, curves.catmullRomClosed, points)
+    render("CatmullRomOpen (MISSING POINTS)",            lineGeneratorWithHoles, curves.catmullRomOpen, points)
+    render("Linear (MISSING POINTS)",                    lineGeneratorWithHoles, curves.linear, points)
+    render("LinearClosed (MISSING POINTS)",              lineGeneratorWithHoles, curves.linearClosed, points)
+    render("MonotoneX (MISSING POINTS)",                 lineGeneratorWithHoles, curves.monotoneX, points)
+    render("MonotoneY (MISSING POINTS)",                 lineGeneratorWithHoles, curves.monotoneY, points)
+    render("Natural (MISSING POINTS)",                   lineGeneratorWithHoles, curves.natural, points)
+    render("Step (MISSING POINTS)",                      lineGeneratorWithHoles, curves.step, points)
+    render("StepBefore (MISSING POINTS)",                lineGeneratorWithHoles, curves.stepBefore, points)
+    render("StepAfter (MISSING POINTS)",                 lineGeneratorWithHoles, curves.stepAfter, points)
+
 //    render("RadialLinear", curves.radialLinear, radialPoints)
 //    render("RadialLinearClosed", curves.radialLinearClosed, radialPoints)
 //    render("RadialBasis", curves.radialBasis, radialPoints)
-    render("Step", curves.step, points)
-    render("StepBefore", curves.stepBefore, points)
-    render("StepAfter", curves.stepAfter, points)
 
     renderArea("Basis", curves.basis, points)
     renderArea("BasisClosed", curves.basisClosed, points)
@@ -84,13 +109,13 @@ fun showLines() {
     renderArea("StepAfter", curves.stepAfter, points)
 }
 
-private fun render(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
+private fun render(title: String, lineGen:LineGenerator<Point>, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
     document.getElementById("d2vSamples")!!.appendElement("h2") {
         textContent = title
     }
-    lineGenerator.curve = curve
-    renderCanvas(arrayOfPoints)
-    renderSvg(lineGenerator.line(arrayOfPoints, SvgPath()), "none", "d2vSamples")
+    lineGen.curve = curve
+    renderCanvas(lineGen, arrayOfPoints)
+    renderSvg(lineGen.line(arrayOfPoints, SvgPath()), "none", "d2vSamples")
 }
 
 private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
@@ -111,12 +136,12 @@ private fun newCanvas(elementId: String): HTMLCanvasElement {
     return canvas
 }
 
-private fun renderCanvas(arrayOfPoints: Array<Point>) {
+private fun renderCanvas(lineGen: LineGenerator<Point>, arrayOfPoints: Array<Point>) {
     with(newCanvas("d2vSamples").getContext("2d") as CanvasRenderingContext2D) {
         beginPath()
         lineWidth = 1.0
         strokeStyle = "blue"
-        lineGenerator.line(arrayOfPoints, CanvasDrawContext(this))
+        lineGen.line(arrayOfPoints, CanvasDrawContext(this))
         stroke()
     }
 }

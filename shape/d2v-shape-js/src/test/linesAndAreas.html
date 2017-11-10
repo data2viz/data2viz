@@ -22,35 +22,73 @@
         test.showLines();
     });
 
-    require(["d3"], function(d3) {
-        var data = [[20,20], [50,50], [80,20], [70,40], [150,80], [180,20]];
-        var dataRadial = [[0,50], [1,80], [2,50], [3,100], [4,100], [5,80]];
-        drawCurve(d3, "D3 Basis", d3.curveBasis, data);
-        drawCurve(d3, "D3 BasisClosed", d3.curveBasisClosed, data);
-        drawCurve(d3, "D3 BasisOpen", d3.curveBasisOpen, data);
-        drawCurve(d3, "D3 Bundle", d3.curveBundle, data);
-        drawCurve(d3, "D3 Cardinal", d3.curveCardinal, data);
-        drawCurve(d3, "D3 CardinalClosed", d3.curveCardinalClosed, data);
-        drawCurve(d3, "D3 CardinalOpen", d3.curveCardinalOpen, data);
-        drawCurve(d3, "D3 CatmullRom", d3.curveCatmullRom, data);
-        drawCurve(d3, "D3 CatmullRomClosed", d3.curveCatmullRomClosed, data);
-        drawCurve(d3, "D3 CatmullRomOpen", d3.curveCatmullRomOpen, data);
-        drawCurve(d3, "D3 Linear", d3.curveLinear, data);
-        drawCurve(d3, "D3 LinearClosed", d3.curveLinearClosed, data);
-        drawCurve(d3, "D3 MonotoneX", d3.curveMonotoneX, data);
-        drawCurve(d3, "D3 MonotoneY", d3.curveMonotoneY, data);
-        drawCurve(d3, "D3 Natural", d3.curveNatural, data);
+    require(["d3"], function (d3) {
+        var data = [
+            [20, 20],
+            [50, 50],
+            [70, 70],
+            [80, 20],
+            [70, 40],
+            [100, 60],
+            [150, 80],
+            [155, 80],
+            [180, 20]];
+        var dataWithMissing = [[20, 20], [50, 50], null, [70, 40], null, [180, 20]];
+        var dataRadial = [[0, 50], [1, 80], [2, 50], [3, 100], [4, 100], [5, 80]];
+
+        var line = d3.line();
+        var lineWithHoles = d3.line().defined(function(d) {return d[0] !== 70});
+
+        drawCurve(d3, line, "D3 Basis", d3.curveBasis, data);
+        drawCurve(d3, line, "D3 BasisClosed", d3.curveBasisClosed, data);
+        drawCurve(d3, line, "D3 BasisOpen", d3.curveBasisOpen, data);
+        drawCurve(d3, line, "D3 Bundle", d3.curveBundle, data);
+        drawCurve(d3, line, "D3 Cardinal", d3.curveCardinal, data);
+        drawCurve(d3, line, "D3 CardinalClosed", d3.curveCardinalClosed, data);
+        drawCurve(d3, line, "D3 CardinalOpen", d3.curveCardinalOpen, data);
+        drawCurve(d3, line, "D3 CatmullRom", d3.curveCatmullRom, data);
+        drawCurve(d3, line, "D3 CatmullRomClosed", d3.curveCatmullRomClosed, data);
+        drawCurve(d3, line, "D3 CatmullRomOpen", d3.curveCatmullRomOpen, data);
+        drawCurve(d3, line, "D3 Linear", d3.curveLinear, data);
+        drawCurve(d3, line, "D3 LinearClosed", d3.curveLinearClosed, data);
+        drawCurve(d3, line, "D3 MonotoneX", d3.curveMonotoneX, data);
+        drawCurve(d3, line, "D3 MonotoneY", d3.curveMonotoneY, data);
+        drawCurve(d3, line, "D3 Natural", d3.curveNatural, data);
+        drawCurve(d3, line, "D3 Step", d3.curveStep, data);
+        drawCurve(d3, line, "D3 StepBefore", d3.curveStepBefore, data);
+        drawCurve(d3, line, "D3 StepAfter", d3.curveStepAfter, data);
+
+        drawCurve(d3, lineWithHoles, "D3 Basis", d3.curveBasis, data);
+        drawCurve(d3, lineWithHoles, "D3 BasisClosed", d3.curveBasisClosed, data);
+        drawCurve(d3, lineWithHoles, "D3 BasisOpen", d3.curveBasisOpen, data);
+        drawCurve(d3, lineWithHoles, "D3 Bundle", d3.curveBundle, data);
+        drawCurve(d3, lineWithHoles, "D3 Cardinal", d3.curveCardinal, data);
+        drawCurve(d3, lineWithHoles, "D3 CardinalClosed", d3.curveCardinalClosed, data);
+        drawCurve(d3, lineWithHoles, "D3 CardinalOpen", d3.curveCardinalOpen, data);
+        drawCurve(d3, lineWithHoles, "D3 CatmullRom", d3.curveCatmullRom, data);
+        drawCurve(d3, lineWithHoles, "D3 CatmullRomClosed", d3.curveCatmullRomClosed, data);
+        drawCurve(d3, lineWithHoles, "D3 CatmullRomOpen", d3.curveCatmullRomOpen, data);
+        drawCurve(d3, lineWithHoles, "D3 Linear", d3.curveLinear, data);
+        drawCurve(d3, lineWithHoles, "D3 LinearClosed", d3.curveLinearClosed, data);
+        drawCurve(d3, lineWithHoles, "D3 MonotoneX", d3.curveMonotoneX, data);
+        drawCurve(d3, lineWithHoles, "D3 MonotoneY", d3.curveMonotoneY, data);
+        drawCurve(d3, lineWithHoles, "D3 Natural", d3.curveNatural, data);
+        drawCurve(d3, lineWithHoles, "D3 Step", d3.curveStep, data);
+        drawCurve(d3, lineWithHoles, "D3 StepBefore", d3.curveStepBefore, data);
+        drawCurve(d3, lineWithHoles, "D3 StepAfter", d3.curveStepAfter, data);
+
 //        drawCurve(d3, "D3 RadialLinear", d3.curveRadialLinear, dataRadial);
 //        drawCurve(d3, "D3 RadialLinearClosed", d3.curveRadial(d3.curveLinearClosed), dataRadial);
 //        drawCurve(d3, "D3 RadialBasis", d3.curveRadial(d3.curveBasis), dataRadial);
-        drawCurve(d3, "D3 Step", d3.curveStep, data);
-        drawCurve(d3, "D3 StepBefore", d3.curveStepBefore, data);
-        drawCurve(d3, "D3 StepAfter", d3.curveStepAfter, data);
 
         var area1 = d3.area()
-            .x(function(d) { return d[0]; })
+            .x(function (d) {
+                return d[0];
+            })
             .y0(60)
-            .y1(function(d) { return d[1]; });
+            .y1(function (d) {
+                return d[1];
+            });
 
         drawArea(d3, "D3 Basis", area1.curve(d3.curveBasis), data);
         drawArea(d3, "D3 BasisClosed", area1.curve(d3.curveBasisClosed), data);
@@ -81,11 +119,11 @@
         drawArea(d3, "D3 fixed Y=60 CardinalOpen curve area", area1.curve(d3.curveMonotoneX), data);*/
     });
 
-    function drawCurve(d3, curveName, curve, data) {
+    function drawCurve(d3, lineGenerator, curveName, curve, data) {
         d3.select("#d3Samples")
             .append("h2")
             .text(" ");
-        var line = d3.line().curve(curve);
+        var line = lineGenerator.curve(curve);
         var svg = d3.select("#d3Samples")
             .append("svg")
             .attr("width", 200)
