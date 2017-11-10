@@ -5,7 +5,7 @@ import io.data2viz.test.TestBase
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LineCommonTest : TestBase() {
+class LineTest : TestBase() {
 
     @Test
     fun define() {
