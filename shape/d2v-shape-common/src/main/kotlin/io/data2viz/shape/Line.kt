@@ -17,17 +17,15 @@ class LineGenerator<T> {
      * Use the data to generate a line on the context
      */
     fun <C : PathAdapter> line(data: Array<T>, context: C): C {
-        val n = data.size
+        val dataSize = data.size
 
         var defined0 = false
         val output = curve(context)
 
-        for (i in 0..n) {
-
-            if (!(i < n && defined(data[i])) == defined0) {
+        for (i in 0..dataSize) {
+            if (!(i < dataSize && defined(data[i])) == defined0) {
                 defined0 = !defined0
-                if (defined0) output.lineStart()
-                else output.lineEnd()
+                if (defined0) output.lineStart() else output.lineEnd()
             }
 
             if (defined0) {
@@ -37,5 +35,4 @@ class LineGenerator<T> {
         }
         return context
     }
-
 }
