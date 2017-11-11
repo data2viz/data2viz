@@ -89,8 +89,10 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: Stri
             setAttribute("transform", "translate(400,670)")
         }
         appendChild(createSvgElement("svg").apply {
-            setAttribute("height", "900")
-            setAttribute("width", "800")
+            setAttribute("height", "800")
+            setAttribute("width", "900")
+            setAttribute("viewBox", "0 0 800 900")
+            setAttribute("style", "height:85vh")
             data.forEachIndexed { i, population ->
                 var sum = .0
                 population.reparition.forEachIndexed { index, value ->
