@@ -65,7 +65,7 @@ fun sortCellHalfedges() {
 
         val indexes: Array<Int> = Array(edgeCount) { it }
         val angles: Array<Double> = Array(edgeCount) { cell.halfedgeAngle(wEdges[halfedges[it]]!!)}
-        indexes.sortWith(object : Comparator<Int> { override fun compare(i: Int, j: Int) = angles[j].compareTo(angles[i]) })
+        indexes.sortWith(object : Comparator<Int> { override fun compare(a: Int, b: Int) = angles[b].compareTo(angles[a]) })
         val temp: Array<Int> = Array(edgeCount) {halfedges[indexes[it]]}
         (0..edgeCount-1).forEach { halfedges[it] = temp[it] }
     }
