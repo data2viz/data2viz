@@ -2,9 +2,6 @@ package io.data2viz.shape
 
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
-import io.data2viz.shape.Curve
-import io.data2viz.shape.LineGenerator
-import io.data2viz.shape.const
 import io.data2viz.test.TestBase
 
 data class Point(val x: Int, val y: Int)
