@@ -8,7 +8,7 @@ import kotlin.math.min
 private class ReflectContext(val context: PathAdapter) : PathAdapter {
     override fun moveTo(x: Double, y: Double) {
         context.moveTo(y, x)
-    }
+}
 
     override fun lineTo(x: Double, y: Double) {
         context.lineTo(y, x)
@@ -28,7 +28,7 @@ private class ReflectContext(val context: PathAdapter) : PathAdapter {
     override fun rect(x: Double, y: Double, w: Double, h: Double) {}
 }
 
-abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
+open class AbstractMonotone(override val context: PathAdapter) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0
@@ -96,17 +96,13 @@ abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
         t0 = t1
     }
 
-    fun sign(x: Double): Double {
-        return if (x < 0) -1.0 else 1.0
-    }
-
     /**
      * According to https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Representations
      * "you can express cubic Hermite interpolation in terms of cubic Bézier curves
      * with respect to the four values p0, p0 + m0 / 3, p1 - m1 / 3, p1".
      */
     private fun curve(t0: Double, t1: Double) {
-        val dx = (x1 - x0) / 3
+        val dx = (x1 - x0) / 3.0
         context.bezierCurveTo(x0 + dx, y0 + dx * t0, x1 - dx, y1 - dx * t1, x1, y1)
     }
 
@@ -117,15 +113,22 @@ abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
      * NOV(II), P. 443, 1990.
      */
     fun slope3(x2: Double, y2: Double): Double {
+        fun sign(num: Double): Double {
+            return if (num < 0) -1.0 else 1.0
+        }
         val h0 = x1 - x0
         val h1 = x2 - x1
-        val divider0 = if (h0 != 0.0) h0 else if (h1 < 0) 0.0 else -0.0
-        val divider1 = if (h1 != 0.0) h1 else if (h0 < 0) 0.0 else -0.0
+        val divider0 = if (h0 != 0.0) h0 else if (h1 < 0) -0.0 else 0.0
+        val divider1 = if (h1 != 0.0) h1 else if (h0 < 0) -0.0 else 0.0
         val s0 = (y1 - y0) / divider0
         val s1 = (y2 - y1) / divider1
         val p = (s0 * h1 + s1 * h0) / (h0 + h1)
         val value = (sign(s0) + sign(s1)) * min(abs(s0), min(abs(s1), 0.5 * abs(p)))
-        return if (value.isNaN()) 0.0 else value
+        return if (value.isNaN()) {
+            0.0
+        } else {
+            value
+        }
     }
 
     /**
