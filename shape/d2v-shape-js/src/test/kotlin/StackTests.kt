@@ -144,12 +144,6 @@ val results = arrayOf(
                 "INDEX:3 6720-7120 6000-6400 2240-2640 1440-1840 5540-5640 ",
                 "INDEX:2 5760-6720 5040-6000 1600-2240 800-1440 4900-5540 ",
                 "INDEX:1 1920-5760 3440-5040 960-1600 480-800 4800-4900 "
-        ),
-        arrayOf(
-                "",
-                "",
-                "",
-                ""
         )
 )
 
@@ -199,7 +193,7 @@ fun stackTests(arcValues: ArcValues) {
         offset = StackOffsets.NONE
     }
 
-    printResult(stackGenerator.stack(data), "No Order - No Offset", 0)
+    /*printResult(stackGenerator.stack(data), "No Order - No Offset", 0)
 
     stackGenerator.order = StackOrders.ASCENDING
     printResult(stackGenerator.stack(data), "Ascending - No Offset", 1)
@@ -262,7 +256,7 @@ fun stackTests(arcValues: ArcValues) {
     printResult(stackGenerator.stack(otherData), "DESCENDING + EXPAND", 19)
 
     stackGenerator.offset = StackOffsets.DIVERGING
-    printResult(stackGenerator.stack(data), "DESCENDING + DIVERGING", 20)
+    printResult(stackGenerator.stack(data), "DESCENDING + DIVERGING", 20)*/
 }
 
 private fun printResult(ret: Array<StackParam<dataClass>>, name: String, resultIndex: Int) {
