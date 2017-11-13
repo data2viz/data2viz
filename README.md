@@ -60,28 +60,18 @@ compilation phase.
 
 ### Performances
 
-Even if current dist files are not optimized/minified you can try to
-[load this page](http://data2viz.io/dist/svgperfs.html)
- to see how svg element manipulations from data2viz perform on your browser.
-
-<a href="http://data2viz.io/dist/svgperfs.html">
- <img src="http://data2viz.io/img/perfs.png" width="300">
-</a>
-
 
 ### Tests
 Tests are executed through karma and mocha and included in the build.
 
 ### How can I use it?
 
-Remember: you should not use it in production now.  But, if you want to try it
- you have to clone this repository, open the project from idea and then
- compile it, run and start from the experiments module.
+Remember: you should not use it in production now.
 
-There is still a lot of work to do on the build and packaging part. As
-kotlin.js is fairly new, all the tools haven't been released yet. Working
-on the packaging and distribution process is not our current priority as
-it will evolve during the next months.
+Artefacts are published on [Bintray](https://bintray.com/data2viz/data2viz/data2viz).
+
+You can have a look on the project [data2viz-examples](https://github.com/data2viz/data2viz-examples) to
+see how it is possible to use it.
 
 ## Inspirations
 d3js, kotlinx.html, kotlintest
