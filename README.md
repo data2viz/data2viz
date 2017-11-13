@@ -53,7 +53,7 @@ property of type `Color`. It can be created from a call on `rgb`, `rgba`, `hsl`,
 In any case, due to the strong typed language used, any error will be notified during the
 compilation phase.
 
-<a href="http://data2viz.io/dist/chart.html">
+<a href="http://data2viz.io/examples/chart/index.html">
  <img src="http://data2viz.io/img/chart.png" width="300">
  <br>a sample with axis, animation, scaling, ...
 </a>
