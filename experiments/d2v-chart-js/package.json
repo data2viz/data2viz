@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "requirejs": "^2.3.5"
+  },
+  "devDependencies": {
+    "webpack": "^3.4.1"
+  },
+  "scripts": {
+    "bundle": "webpack"
+  }
+}
