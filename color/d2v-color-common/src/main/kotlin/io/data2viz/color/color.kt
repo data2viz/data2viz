@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.data2viz.color
 
 import io.data2viz.math.Angle
