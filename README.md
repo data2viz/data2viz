@@ -58,8 +58,20 @@ compilation phase.
  <br>a sample with axis, animation, scaling, ...
 </a>
 
+
 ### Performances
 
+It's difficult subject because a lot of parameter have an influence on the global 
+performance of an javascript application: the browser, the type of executed code.
+
+However, this is a example of quite heavy algorithm with a lot of rendering. The
+number of points is increased until FPS gets lower than 40. Click on the link to 
+test it inside your browser.
+
+<a href="http://data2viz.io/examples/voronoisphere/index.html">
+ <img src="http://data2viz.io/img/voronoisphere.png" width="300">
+ <br>a sample with voronoi, animation.
+</a>
 
 ### Tests
 Tests are executed through karma and mocha and included in the build.
