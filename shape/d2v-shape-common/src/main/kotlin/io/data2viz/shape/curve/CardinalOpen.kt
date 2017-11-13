@@ -36,8 +36,12 @@ class CardinalOpen(override val context: PathAdapter, tension: Double = 0.0) : C
     }
 
     override fun lineEnd() {
-        if (lineStatus > 0) context.closePath()
-        lineStatus = 1 - lineStatus
+        if (lineStatus > -1) {
+            if (lineStatus > 0) {
+                context.closePath()
+            }
+            lineStatus = 1 - lineStatus
+        }
     }
 
     // TODO : non specific, inherit from Cardinal

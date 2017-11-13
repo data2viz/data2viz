@@ -35,11 +35,12 @@ class Basis(override val context: PathAdapter): Curve {
             curve(x1,y1)
             context.lineTo(x1, y1)
         }
-        if (pointStatus == 2) context.lineTo(x1, y1)
+        else if (pointStatus == 2) context.lineTo(x1, y1)
 
-        if (lineStatus > 0 || (lineStatus != 0 && pointStatus == 1))
+        if (lineStatus > 0 || pointStatus == 1) {
             context.closePath()
-        lineStatus = 1 - lineStatus
+        }
+        if (lineStatus > -1) lineStatus = 1 - lineStatus
     }
 
     private fun curve(x: Double, y: Double){

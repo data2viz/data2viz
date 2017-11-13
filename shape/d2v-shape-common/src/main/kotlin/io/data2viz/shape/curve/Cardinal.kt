@@ -40,8 +40,12 @@ class Cardinal(override val context: PathAdapter, tension:Double = 0.0): Curve {
             2 -> context.lineTo(x2, y2)
             3 -> curve(x1, y1)
         }
-        if (lineStatus > 0) context.closePath()
-        lineStatus = 1 - lineStatus
+        if (lineStatus > -1) {
+            if (lineStatus > 0) {
+                context.closePath()
+            }
+            lineStatus = 1 - lineStatus
+        }
     }
 
     private fun curve(x: Double, y: Double){

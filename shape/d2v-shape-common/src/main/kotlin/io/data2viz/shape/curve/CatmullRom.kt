@@ -53,8 +53,12 @@ class CatmullRom(override val context: PathAdapter, val alpha: Double = 0.5) : C
             2 -> context.lineTo(x2, y2)
             3 -> point(x2, y2)
         }
-        if (lineStatus > 0) context.closePath()
-        lineStatus = 1 - lineStatus
+        if (lineStatus > -1) {
+            if (lineStatus > 0) {
+                context.closePath()
+            }
+            lineStatus = 1 - lineStatus
+        }
     }
 
     private fun curve(x: Double, y: Double) {

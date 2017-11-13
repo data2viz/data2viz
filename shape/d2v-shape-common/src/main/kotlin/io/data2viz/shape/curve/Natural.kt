@@ -45,8 +45,12 @@ class Natural(override val context: PathAdapter) : Curve {
             }
         }
 
-        if (lineStatus > 0) context.closePath()
-        lineStatus = 1 - lineStatus
+        if (lineStatus > -1) {
+            if (lineStatus > 0) {
+                context.closePath()
+            }
+            lineStatus = 1 - lineStatus
+        }
         x.clear()
         y.clear()
     }

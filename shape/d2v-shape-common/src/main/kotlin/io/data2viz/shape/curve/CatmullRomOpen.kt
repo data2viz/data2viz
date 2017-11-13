@@ -49,8 +49,12 @@ class CatmullRomOpen(override val context: PathAdapter, val alpha: Double = 0.5)
     }
 
     override fun lineEnd() {
-        if (lineStatus > 0) context.closePath()
-        lineStatus = 1 - lineStatus
+        if (lineStatus > -1) {
+            if (lineStatus > 0) {
+                context.closePath()
+            }
+            lineStatus = 1 - lineStatus
+        }
     }
 
     // TODO : inherit from CatmullRom

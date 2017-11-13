@@ -31,9 +31,9 @@ class CurveBasisTest : CurveTest(curves.basis, {it.x != 10}) {
     }
 
     // TODO : actually fails, need to modify BASIC curve
-    /*@Test
+    @Test
     fun line_curve_with_3_points_1_undefined() {
         assertEquals("M0,1ZM3,3Z".round(), line(pt(0,1), pt(10, 1), pt(3, 3)).round())
-    }*/
+    }
 
 }

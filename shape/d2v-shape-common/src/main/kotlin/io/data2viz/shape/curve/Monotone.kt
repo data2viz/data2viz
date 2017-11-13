@@ -61,8 +61,12 @@ abstract class AbstractMonotone(override val context: PathAdapter) : Curve {
             2 -> context.lineTo(x1, y1)
             3 -> curve(t0, slope2(t0))
         }
-        if (lineStatus > 0) context.closePath()
-        lineStatus = 1 - lineStatus
+        if (lineStatus > -1) {
+            if (lineStatus > 0) {
+                context.closePath()
+            }
+            lineStatus = 1 - lineStatus
+        }
     }
 
     override fun point(x: Double, y: Double) {
