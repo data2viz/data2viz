@@ -7,6 +7,17 @@ import io.data2viz.test.shouldThrow
 import kotlin.math.PI
 import kotlin.test.Test
 
+
+
+fun main(args: Array<String>) {
+    val dbl = 1.toDouble()
+    println("M$dbl")  				// M1.0 OK
+    println(moveTo(1.toDouble())) 	// M1   KO
+}
+
+fun moveTo(x:Double) = "M$x"
+
+
 @Suppress("FunctionName")
 class PathTests : TestBase() {
 
@@ -28,6 +39,7 @@ class PathTests : TestBase() {
     fun pathMoveToAppendMCommand() {
         with(path()) {
             moveTo(150, 50)
+            println(path)
             path shouldBe "M150,50"
             lineTo(200, 100)
             path shouldBe "M150,50L200,100"
