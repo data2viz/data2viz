@@ -1,5 +1,7 @@
-# README [![Build Status](https://travis-ci.org/data2viz/data2viz.svg?branch=master)](https://travis-ci.org/data2viz/data2viz) #
+# README #
 
+[![Download](https://api.bintray.com/packages/data2viz/data2viz/data2viz/images/download.svg) ](https://bintray.com/data2viz/data2viz/data2viz/_latestVersion)
+[![Build Status](https://travis-ci.org/data2viz/data2viz.svg?branch=master)](https://travis-ci.org/data2viz/data2viz) 
 ### What is this repository for? ###
 
 data2viz is a data visualization library which targets several platform: browser, jvm, android, ... It relies on
