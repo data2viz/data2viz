@@ -1,0 +1,25 @@
+
+dependencies {
+
+    testCompile project(':d2v-axis-js')
+    testCompile project(':d2v-color-js')
+    testCompile project(':d2v-core-js')
+    testCompile project(':d2v-interpolate-js')
+    testCompile project(':d2v-svg-js')
+
+}
+
+apply plugin: 'kotlin-dce-js'
+
+
+runDceTestKotlinJs.keep "d2v-chart-js_test.displayChart"
+
+
+task zipSample (type: Zip, dependsOn: runDceTestKotlinJs){
+    from fileTree(dir: '.', include: 'build/classes/test/min/*.js')
+    from 'chart.html'
+
+}
+
+
+assemble.dependsOn zipSample
