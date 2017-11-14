@@ -10,7 +10,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
-
+        classpath 'org.kordamp.gradle:stats-gradle-plugin:0.2.0'
     }
 }
 
@@ -60,8 +60,7 @@ subprojects {
     repositories {
         jcenter()
     }
-
-//    apply plugin: 'org.kordamp.gradle.stats'
+    apply plugin: 'org.kordamp.gradle.stats'
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven-publish'
 
@@ -176,4 +175,9 @@ subprojects {
     }
 
 
+
+
 }
+
+
+task aggregateStatsReport(type: org.kordamp.gradle.stats.AggregateStatsReportTask) {}
