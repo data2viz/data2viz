@@ -32,16 +32,6 @@ fun showArcs(arcValues: ArcValues) {
     val arc5 = ArcValues(.0, 50.0, .0, 1.8, .0, 5.0)
     val arc6 = ArcValues(30.0, 50.0, .0, 1.8, .0, 5.0)
 
-    val workData = arrayOf(
-            WData(20, "albert", 3),
-            WData(30, "berenice", 5),
-            WData(40, "charles", 9),
-            WData(50, "dilbert", 16),
-            WData(35, "eric", 22),
-            WData(60, "frank", 15),
-            WData(35, "georges", 2)
-    )
-
     val generator = arc<ArcValues> {
         innerRadius = { it.innerRadius }
         outerRadius = { it.outerRadius }
@@ -59,6 +49,16 @@ fun showArcs(arcValues: ArcValues) {
     render(" > startAngle = .8, endAngle = 6", generator, arc4)
     render(" > cornerRadius = 5", generator, arc5)
     render(" > cornerRadius = 5", generator, arc6)
+
+    val workData = arrayOf(
+            WData(20, "albert", 3),
+            WData(30, "berenice", 5),
+            WData(40, "charles", 9),
+            WData(50, "dilbert", 16),
+            WData(35, "eric", 22),
+            WData(60, "frank", 15),
+            WData(35, "georges", 2)
+    )
 
     val pieGenerator = pie<WData> {
         value = { it.value.toDouble() }
@@ -83,7 +83,7 @@ private fun renderPie(title: String, arcGenerator: ArcGenerator<ArcValues>, gene
     document.getElementById("d2vSamples")!!.appendElement("h2") {
         textContent = title
     }
-    val pie = generator.pie(pieData, SvgPath())
+    val pie = generator.pie(pieData)
     renderPieSvg(arcGenerator,pie,  arcParameters, "#cfc", "d2vSamples")
 //    renderCanvas(generator, arcParameters)
 }
@@ -143,7 +143,7 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<ArcValues>, arcParams: Array
                 appendChild(createSvgElement("path").apply {
                     arcGenerator.startAngle = {arcParam.startAngle}
                     arcGenerator.endAngle = {arcParam.endAngle}
-                    val line = arcGenerator.arc(arcParameters, SvgPath()).path
+                    val line = arcGenerator.arc(arcParameters, svgPath).path
                     setAttribute("d", line)
                     setAttribute("transform", "translate(100,50)");
                 })

@@ -72,7 +72,6 @@ val data = weave(arrayOf(
 
 @JsName("stackedChart")
 fun stackedChart() {
-
     val generator = arc<Population> {
         cornerRadius = { .0 }
     }
@@ -100,6 +99,7 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: Stri
                         val inner = innerMargin + sqrt(sum)
                         arcGenerator.innerRadius = { inner }
                         val outer = innerMargin + sqrt(sum + (value.toDouble() / factorRatio))
+                        // arcGenerator.outerRadius = { pop -> pop.reparition.average() }
                         arcGenerator.outerRadius = { outer }
                         arcGenerator.startAngle = { (i.toDouble() / states) * tau }
                         arcGenerator.endAngle = { ((i.toDouble() + 1.0) / states) * tau }
