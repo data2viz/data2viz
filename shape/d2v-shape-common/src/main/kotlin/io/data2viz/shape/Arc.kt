@@ -5,7 +5,7 @@ package io.data2viz.shape
 import io.data2viz.path.PathAdapter
 import kotlin.math.*
 
-private data class cornerTangentValues(
+private data class CornerTangentValues(
         val cx: Double,
         val cy: Double,
         val x01: Double,
@@ -59,13 +59,13 @@ class ArcGenerator<T> {
     /**
      * Use the data to generate an arc on the context
      */
-    fun <C : PathAdapter> arc(args: T, context: C): C {
-        var r0 = innerRadius(args)
-        var r1 = outerRadius(args)
-        val a0 = startAngle(args) - halfPi
-//        val a0 = startAngle(args) - halfPi.rad
-        val a1 = endAngle(args) - halfPi
-//        val a1 = endAngle(args) - halfPi.rad
+    fun <C : PathAdapter> arc(datum: T, context: C): C {
+        var r0 = innerRadius(datum)
+        var r1 = outerRadius(datum)
+        val a0 = startAngle(datum) - halfPi
+//        val a0 = startAngle(datum) - halfPi.rad
+        val a1 = endAngle(datum) - halfPi
+//        val a1 = endAngle(datum) - halfPi.rad
         val da = abs(a1 - a0)
 //        val da = abs(a1.rad - a0.rad)
         val cw = a1 > a0
@@ -103,13 +103,13 @@ class ArcGenerator<T> {
             var a10 = a1
             var da0 = da
             var da1 = da
-            val ap = padAngle(args) / 2.0
+            val ap = padAngle(datum) / 2.0
             val rp = if (ap <= epsilon) 0.0 else {
 //            val rp = if (ap.rad <= epsilon) 0.0 else {
-                val temp = if (padRadius != null) padRadius!!(args) else sqrt(r0 * r0 + r1 * r1)
+                val temp = if (padRadius != null) padRadius!!(datum) else sqrt(r0 * r0 + r1 * r1)
                 if (temp != 0.0) 1.0 else 0.0
             }
-            val rc = min(abs(r1 - r0) / 2, cornerRadius(args))
+            val rc = min(abs(r1 - r0) / 2, cornerRadius(datum))
             var rc0 = rc
             var rc1 = rc
 
@@ -239,7 +239,7 @@ class ArcGenerator<T> {
 
     // Compute perpendicular offset line of length rc.
     // http://mathworld.wolfram.com/Circle-LineIntersection.html
-    private fun cornerTangents(x0: Double, y0: Double, x1: Double, y1: Double, r1: Double, rc: Double, cw: Boolean): cornerTangentValues {
+    private fun cornerTangents(x0: Double, y0: Double, x1: Double, y1: Double, r1: Double, rc: Double, cw: Boolean): CornerTangentValues {
         val x01 = x0 - x1
         val y01 = y0 - y1
         val lo = (if (cw) rc else -rc) / sqrt(x01 * x01 + y01 * y01)
@@ -267,16 +267,15 @@ class ArcGenerator<T> {
         val dy1 = cy1 - y00
 
         // Pick the closer of the two intersection points.
-        // TODO Is there a faster way to determine which intersection to use?
         if (dx0 * dx0 + dy0 * dy0 > dx1 * dx1 + dy1 * dy1) {
             cx0 = cx1
             cy0 = cy1
         }
 
-        return cornerTangentValues(cx0, cy0, -ox, -oy, cx0 * (r1 / r - 1), cy0 * (r1 / r - 1))
+        return CornerTangentValues(cx0, cy0, -ox, -oy, cx0 * (r1 / r - 1), cy0 * (r1 / r - 1))
     }
 
-    fun intersect(x0: Double, y0: Double, x1: Double, y1: Double, x2: Double, y2: Double, x3: Double, y3: Double): Array<Double> {
+    private fun intersect(x0: Double, y0: Double, x1: Double, y1: Double, x2: Double, y2: Double, x3: Double, y3: Double): Array<Double> {
         val x10 = x1 - x0
         val y10 = y1 - y0
         val x32 = x3 - x2

@@ -11,7 +11,7 @@ class LineTest : TestBase() {
     fun define() {
         assertEquals("M1,1ZM3,3L5,5".round(), line {
             x = { it.x.toDouble() }
-            y = { it.x.toDouble() }
+            y = { it.y.toDouble() }
             defined = { it.x != 2 }
         }.toPath(Point(1, 1), Point(2, 2), Point(3, 3), Point(5, 5)).round())
     }
