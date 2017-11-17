@@ -5,26 +5,28 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-fun <T> pie(init: PieGenerator<T>.() -> Unit) = PieGenerator<T>().apply(init)
-class PieGenerator<T> {
 
-    var value: (T) -> Double = const(.0)
-    var startAngle: (T) -> Double = const(.0)
-    var endAngle: (T) -> Double = const(.0)
-    var padAngle: (T) -> Double = const(.0)
+// TODO rename PieLayout ?
+fun <D> pie(init: PieGenerator<D>.() -> Unit) = PieGenerator<D>().apply(init)
+class PieGenerator<D> {
+
+    var value: (D) -> Double = const(.0)
+    var startAngle: (Array<D>) -> Double = const(.0)
+    var endAngle: (Array<D>) -> Double = const(tau)
+    var padAngle: (Array<D>) -> Double = const(.0)
 
     /**
      * Use the data to generate a line on the context
      */
-    fun <C : PathAdapter> pie(data: Array<T>, context: C): Array<ArcParams<T>> {
+    fun pie(data: Array<D>): Array<ArcParams<D>> {
         val n = data.size
         var sum = .0
         val index = Array<Int>(n, { it -> 0 })
-        val arcs = Array<ArcParams<T>>(n, { it -> ArcParams<T>(.0, .0, .0, null, null, null) })
+        val arcs = Array<ArcParams<D>>(n, { it -> ArcParams<D>(.0, .0, .0, null, null, null) })
         val values = Array<Double>(n, {it -> .0})
-        var a0 = .0//startAngle(args)
-        val da = min(tau, max(-tau, tau - a0))//min(tau, max(-tau, endAngle(args) - a0))
-        val p =  min(abs(da) / n, .0)//min(abs(da) / n, padAngle(args))
+        var a0 = startAngle(data)
+        val da = min(tau, max(-tau, endAngle(data) - a0))
+        val p =  min(abs(da) / n, padAngle(data)) //  min(abs(da) / n, .0)
         val pa = if (da < .0) -p else p
 
         for (i in 0 until n) {

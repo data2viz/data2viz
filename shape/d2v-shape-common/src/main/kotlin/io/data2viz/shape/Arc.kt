@@ -34,24 +34,24 @@ data class ArcParams<T>(
 )*/
 
 fun <T> arc(init: ArcGenerator<T>.() -> Unit) = ArcGenerator<T>().apply(init)
-class ArcGenerator<T> {
+class ArcGenerator<D> {
 
-    var innerRadius: (T) -> Double = const(.0)
-    var outerRadius: (T) -> Double = const(100.0)
-    var cornerRadius: (T) -> Double = const(.0)
-    var padRadius: ((T) -> Double)? = null
+    var innerRadius: (D) -> Double = const(.0)
+    var outerRadius: (D) -> Double = const(100.0)
+    var cornerRadius: (D) -> Double = const(.0)
+    var padRadius: ((D) -> Double)? = null
 
-    var startAngle: (T) -> Double = const(.0)
-    //    var startAngle: (T) -> Angle = const(Angle(.0))           // TODO : Angle ?
-    var endAngle: (T) -> Double = const(.0)
-    //    var endAngle: (T) -> Angle = const(Angle(.0))             // TODO : Angle ?
-    var padAngle: (T) -> Double = const(.0)
-    //    var padAngle: (T) -> Angle = const(Angle(.0))                 // TODO : Angle ?
+    var startAngle: (D) -> Double = const(.0)
+    //    var startAngle: (D) -> Angle = const(Angle(.0))           // TODO : Angle ?
+    var endAngle: (D) -> Double = const(.0)
+    //    var endAngle: (D) -> Angle = const(Angle(.0))             // TODO : Angle ?
+    var padAngle: (D) -> Double = const(.0)
+    //    var padAngle: (D) -> Angle = const(Angle(.0))                 // TODO : Angle ?
 
-    fun centroid(args: T): Array<Double> {
-        val r = innerRadius(args) + outerRadius(args) / 2.0
-        val a = startAngle(args) + endAngle(args) / 2.0 - halfPi
-//        val a = startAngle(args) + endAngle(args) / 2.0 - halfPi.rad
+    fun centroid(datum: D): Array<Double> {
+        val r = innerRadius(datum) + outerRadius(datum) / 2.0
+        val a = startAngle(datum) + endAngle(datum) / 2.0 - halfPi
+//        val a = startAngle(datum) + endAngle(datum) / 2.0 - halfPi.rad
         return arrayOf(cos(a) * r, sin(a) * r)
 //        return arrayOf(a.cos * r, a.sin * r)
     }
@@ -59,7 +59,7 @@ class ArcGenerator<T> {
     /**
      * Use the data to generate an arc on the context
      */
-    fun <C : PathAdapter> arc(datum: T, context: C): C {
+    fun <C : PathAdapter> arc(datum: D, context: C): C {
         var r0 = innerRadius(datum)
         var r1 = outerRadius(datum)
         val a0 = startAngle(datum) - halfPi
