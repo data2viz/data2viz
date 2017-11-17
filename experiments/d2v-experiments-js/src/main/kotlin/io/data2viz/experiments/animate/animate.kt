@@ -1,13 +1,14 @@
+@file:Suppress("unused")
+
 package io.data2viz.experiments.animate
 
 import io.data2viz.interpolate.*
 import io.data2viz.interpolate.identity
 import io.data2viz.interpolate.interpolateNumber
 import io.data2viz.core.namespace
+import io.data2viz.timer.timer
 import org.w3c.dom.Element
 import kotlin.browser.document
-import kotlin.browser.window
-import kotlin.js.Date
 
 
 fun animate() {
@@ -50,7 +51,7 @@ fun svg(init: SVGElement.() -> Unit = {}): Selection<SVGElement> {
 }
 
 
-class Transform(){
+class Transform {
     private val commands = mutableMapOf<String, String>()
 
     fun translate(x:Number = 0, y:Number = 0) { commands.put("translate", "translate($x, $y)") }
@@ -145,9 +146,6 @@ class RectElement(override val element: Element) : ElementWrapper {
         fill = "#777"
     }
 
-    companion object {
-    }
-
     var width: Number
         set(value) = setAttribute("width", value = value.toString())
         get() = element.getAttribute("width")!!.toDouble()
@@ -182,26 +180,16 @@ class RectElement(override val element: Element) : ElementWrapper {
 
         val endWidth = recorder.recorded.first { p -> p.first == "width" }.second.toDouble()
 
-        val startTime = Date().getTime()
-        val endTime = startTime + duration
-
         val widthTransition = interpolateNumber(width, endWidth)
-        val time = uninterpolate(startTime, endTime)
+        val time = uninterpolate(0, duration)
 
-        fun animate(){
-            val currentTime = Date().getTime()
-            if (currentTime > endTime){
+        timer { elapsed ->
+            if (elapsed > duration){
                 width = endWidth
-                return
+                stop()
             }
-
-            window.requestAnimationFrame {
-                width = widthTransition(timeFunction(time(currentTime).toDouble()))
-                animate()
-            }
+            width = widthTransition(timeFunction(time(elapsed).toDouble()))
         }
-        animate()
-
     }
 }
 
