@@ -8,8 +8,8 @@ var frame = 0 // is an animation frame pending?
 var timeoutID = 0 // is a timeout pending?
 var intervalID = 0 // are any timers active?
 val pokeDelay = 1000 // how frequently we check for clock skew
-var taskHead: Timer? = null
-var taskTail: Timer? = null
+var taskHead: TimerImpl? = null
+var taskTail: TimerImpl? = null
 var clockLast = 0.0
 
 /**
@@ -36,7 +36,7 @@ var setFrame = window::requestAnimationFrame //Todo use timeout if not available
  * ensuring consistent timing during event handling.
  */
 //Todo use performance.now when available
-fun now(): Double {
+actual fun now(): Double {
     if (clockNow == 0.0) {
         setFrame{ _ -> clearNow() }
         clockNow = getTime() + clockSkew
@@ -51,37 +51,6 @@ private fun clearNow() {
     clockNow = 0.0
 }
 
-/**
- * Schedules a new timer, invoking the specified callback repeatedly until the
- * timer is stopped.
- *
- * An optional numeric delay in milliseconds may be specified
- * to invoke the given callback after a delay; if delay is not specified, it
- * defaults to zero.
- *
- * The delay is relative to the specified time in milliseconds;
- * if time is not specified, it defaults to now.
- *
- * The callback is passed the (apparent) elapsed time since the timer became active.
- *
- * (The exact values may vary depending on your JavaScript runtime and what else
- * your computer is doing.)
- *
- * Note that the first elapsed time is 3ms: this is the elapsed time since the
- * timer started, not since the timer was scheduled. Here the timer started 150ms
- * after it was scheduled due to the specified delay. The apparent elapsed time may
- * be less than the true elapsed time if the page is backgrounded and requestAnimationFrame
- * is paused; in the background, apparent time is frozen.If timer is called within the
- * callback of another timer, the new timer callback (if eligible as determined by the
- * specified delay and time) will be invoked immediately at the end of the current frame,
- * rather than waiting until the next frame. Within a frame, timer callbacks are guaranteed
- * to be invoked in the order they were scheduled, regardless of their start time.
- */
-fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
-    val t = Timer()
-    t.restart(callback, delay, startTime)
-    return t
-}
 
 /**
  * Immediately invoke any eligible timer callbacks. Note that zero-delay timers are normally
@@ -114,9 +83,9 @@ private fun poke() {
 }
 
 private fun nap() {
-    var t0: Timer? = null
+    var t0: TimerImpl? = null
     var t1 = taskHead
-    var t2: Timer?
+    var t2: TimerImpl?
     var time = Double.POSITIVE_INFINITY
     while (t1 != null) {
         if (t1._call != null) {
@@ -180,38 +149,37 @@ private fun wake() {
     }
 }
 
+internal actual fun buildTimerImpl(): TimerImpl  = TimerImpl()
 
-class Timer {
+actual class TimerImpl {
 
-    internal var _time: Double = 0.0
-    internal var _call: (Timer.(Double) -> Unit)? = null
-    internal var _next: Timer? = null
+    internal actual var _time: Double = 0.0
+    internal actual var _call: (TimerImpl.(Double) -> Unit)? = null
+    internal actual var _next: TimerImpl? = null
 
     /**
      * Restart a timer with the specified callback and optional delay and time.
      * This is equivalent to stopping this timer and creating a new timer with
      * the specified arguments, although this timer retains the original invocation priority.
      */
-    fun restart(callBack: Timer.(Double) -> Unit, delay: Double = 0.0, time: Double = now()) {
-        val newTime = time + delay
+    actual fun restart(callback: TimerImpl.(Double) -> Unit, delay: Double, startTime: Double) {
+        val newTime = startTime + delay
         if (_next == null && taskTail !== this) {
             val tail = taskTail
             if (tail != null) tail._next = this
             else taskHead = this
             taskTail = this
         }
-        _call = callBack
+        _call = callback
         _time = newTime
         sleep()
     }
-
 
     /**
      * Stops this timer, preventing subsequent callbacks.
      * This method has no effect if the timer has already stopped.
      */
-    @Suppress("unused")
-    fun stop() {
+    actual fun stop() {
         if(_call != null) {
             _call = null
             _time = Double.POSITIVE_INFINITY
