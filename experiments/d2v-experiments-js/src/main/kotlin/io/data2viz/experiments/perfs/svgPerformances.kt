@@ -8,6 +8,7 @@ import io.data2viz.interpolate.linkedTo
 import io.data2viz.interpolate.scale
 import io.data2viz.svg.CircleElement
 import io.data2viz.svg.svg
+import io.data2viz.timer.timer
 import org.w3c.dom.Element
 import kotlin.browser.document
 import kotlin.browser.window
@@ -27,15 +28,17 @@ fun svgPerfs() {
     )
 
     inline fun <reified T> CircleElement.datum(): T = this.element.asDynamic().__data__
-    fun CircleElement.datum(value: Any) { this.element.asDynamic().__data__ = value}
+    fun CircleElement.datum(value: Any) {
+        this.element.asDynamic().__data__ = value
+    }
 
     val fpsCalculator = FpsCalculator(document.querySelector("#fps span")!!)
 
     val circles = mutableListOf<CircleElement>()
 
-    fun render() {
-        if(fpsCalculator.curFps > 24){
-            circles +=  Array(10, { RandomParticule() }).mapIndexed { index, particule ->
+    timer {
+        if (fpsCalculator.curFps > 24) {
+            circles += Array(10, { RandomParticule() }).mapIndexed { index, particule ->
                 viz.circle {
                     stroke = colors.grey
                     fill = category10.colors[index]
@@ -48,14 +51,12 @@ fun svgPerfs() {
             val particule: RandomParticule = circle.datum()
             particule.updatePositionAndSpeed()
             //optimization: we don't use the DSL to eliminate instanciations and GC of Transform
-            circle.setAttribute("transform", with(domainToSvg(particule.position)){"translate($x,$y)"})
+            circle.setAttribute("transform", with(domainToSvg(particule.position)) { "translate($x,$y)" })
             circle.r = (1.0 + 1000.0 * Math.abs(particule.speed.vx * particule.speed.vy)).coerceAtMost(10.0)
         }
         fpsCalculator.updateFPS()
         document.querySelector("#num span")?.textContent = circles.size.toString()
-        window.requestAnimationFrame { render() }
     }
-    render()
 }
 
 /**
