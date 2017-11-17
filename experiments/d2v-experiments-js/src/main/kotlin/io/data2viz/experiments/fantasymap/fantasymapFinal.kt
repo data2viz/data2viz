@@ -10,14 +10,11 @@ import io.data2viz.color.colors.lightgray
 import io.data2viz.color.colors.red
 import io.data2viz.color.colors.white
 import io.data2viz.core.Point
-import io.data2viz.experiments.voronoi.removeChild
 import io.data2viz.interpolate.interpolateRgbBasis
-import io.data2viz.svg.GroupElement
-import io.data2viz.svg.SVGElement
-import io.data2viz.svg.TextElement
-import io.data2viz.svg.svg
+import io.data2viz.svg.*
 import io.data2viz.voronoi.Diagram
 import io.data2viz.voronoi.Site
+import org.w3c.dom.Node
 import kotlin.browser.window
 import kotlin.js.Date
 import kotlin.js.Math
@@ -289,6 +286,11 @@ private fun drawStep() {
     }
     stepFinal()
 }
+
+fun ParentElement.removeChild(child: Node) {
+    element.removeChild(child)
+}
+
 
 private fun computeStep1() {
     timeAndResult { addRelief() }
