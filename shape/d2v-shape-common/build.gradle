@@ -1,4 +1,5 @@
 dependencies {
     compile project(":d2v-path-common")
     testCompile project(":d2v-tests-common")
+    testCompile project(":d2v-format-common")
 }
