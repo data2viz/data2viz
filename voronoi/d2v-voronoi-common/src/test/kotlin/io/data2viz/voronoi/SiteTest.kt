@@ -2,14 +2,14 @@ package io.data2viz.voronoi
 
 import io.data2viz.core.Point
 import io.data2viz.test.matchers.Matchers
-import org.junit.Test
+import kotlin.test.Test
 
 
 class SiteTest: Matchers {
 
 
     @Test
-    fun `sort same x different y`() {
+    fun sort_same_x_different_y() {
         val sorted = listOf(
                 Site(pt(1, 1), 1),
                 Site(pt(1, 3), 3),
@@ -22,7 +22,7 @@ class SiteTest: Matchers {
     }
 
     @Test
-    fun `sort same y different x`() {
+    fun sort_same_y_different_x() {
         val sorted = listOf(
                 Site(pt(1, 1), 1),
                 Site(pt(3, 1), 3),
@@ -35,7 +35,7 @@ class SiteTest: Matchers {
     }
 
     @Test
-    fun `sort all diff`() {
+    fun sort_all_diff() {
         val sorted = listOf(
                 Site(pt(3, 1), 1),
                 Site(pt(1, 3), 3),

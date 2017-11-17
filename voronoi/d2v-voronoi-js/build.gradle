@@ -2,9 +2,10 @@ dependencies {
     expectedBy project(":d2v-voronoi-common")
     compile project(":d2v-core-js")
     testCompile project(":d2v-color-common")
-    testCompile project(":d2v-svg-js")
     testCompile project(":d2v-interpolate-js")
+    testCompile project(":d2v-svg-js")
+    testCompile project(":d2v-timer-js")
 }
 
-//project.jsTests()
+project.jsTests()
 

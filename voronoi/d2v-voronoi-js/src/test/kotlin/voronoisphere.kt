@@ -12,12 +12,12 @@ import io.data2viz.interpolate.scale
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import io.data2viz.svg.*
+import io.data2viz.timer.timer
 import io.data2viz.voronoi.*
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.asList
 import kotlin.browser.document
-import kotlin.browser.window
 import kotlin.js.Date
 import kotlin.math.round
 import kotlin.reflect.KMutableProperty0
@@ -75,8 +75,11 @@ fun voronoiSphere() {
         height = size + commandHeight
         var diagram: Diagram? = null
 
-        val rotationAnimation = RotationAnimation(sphereParams, 15.0)
-        rotationAnimation { rotation ->
+        val rotationTimeInSeconds = 15.0
+        val rotationPerMs = (360.0 / (rotationTimeInSeconds * 1000)).deg
+
+        timer { elapsedTime ->
+            val rotation = rotationPerMs * elapsedTime
             fpsCalculator.updateFPS()
             document.querySelector("#num span")?.textContent = randomPoints.size.toString()
             sphereParams.eventuallyUpdatePointNumber(fpsCalculator.aveFps, randomPoints.size)
@@ -109,7 +112,7 @@ fun voronoiSphere() {
             //polygons
             g {
                 setAttribute("clip-path", "url(#circle-mask)")
-                rotationAnimation { rotation ->
+                timer { _ ->
                     val polygons = if (sphereParams.showPolygons) diagram!!.polygons() else emptyList()
                     selectAll<PathElement, List<Point>>("path", polygons) {
                         addAndUpdate = { path, points ->
@@ -121,7 +124,7 @@ fun voronoiSphere() {
 
             //delaunay
             g {
-                rotationAnimation { rotation ->
+                timer { _ ->
                     val links = if (sphereParams.delaunay) diagram!!.links().filterNotNull() else emptyList()
                     selectAll<LineElement, Diagram.Link>("line", links) {
                         addAndUpdate = { line, link ->
@@ -138,7 +141,7 @@ fun voronoiSphere() {
 
             //circles
             g {
-                rotationAnimation { rotation ->
+                timer { _ ->
                     val points:List<GeoPoint> = if (sphereParams.showCircles) randomPoints else emptyList()
                     selectAll<CircleElement, GeoPoint>("circle", points) {
                         addAndUpdate = { circle, geoPoint ->
@@ -255,30 +258,6 @@ inline fun <reified E : ElementWrapper, T> ParentElement.selectAll(selector: Str
 
 fun ParentElement.removeChild(child: Node) {
     element.removeChild(child)
-}
-
-class RotationAnimation(sphereParams: SphereParams, rotationTimeInSeconds: Double) {
-
-    val startTime = Date().getTime()
-    val rotationPerMs = (360.0 / (rotationTimeInSeconds * 1000)).deg
-    val blocksOfAnimation = mutableListOf<(Angle) -> Unit>()
-
-    init {
-        fun animate() {
-            val currentTime = Date().getTime()
-            window.requestAnimationFrame {
-                val rotation = rotationPerMs * (currentTime - startTime)
-                if(sphereParams.animate)
-                    blocksOfAnimation.forEach { it(rotation) }
-                animate()
-            }
-        }
-        animate()
-    }
-
-    operator fun invoke(animation: (Angle) -> Unit) {
-        blocksOfAnimation.add(animation)
-    }
 }
 
 
