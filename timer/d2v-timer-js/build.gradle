@@ -1,0 +1,5 @@
+dependencies {
+//    expectedBy project(":d2v-timer-common")
+}
+
+project.jsTests()

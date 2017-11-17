@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://d3js.org/d3-timer.v1.js"></script>
+
+</head>
+<body>
+<script>
+    var count = 0;
+    var t = d3.timer(function(time) {
+        console.log("Timer loop " + time);
+        if (++count > 2) {
+            t.stop();
+        }
+    });
+</script>
+</body>
+</html>
