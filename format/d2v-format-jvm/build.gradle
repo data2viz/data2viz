@@ -1,0 +1,3 @@
+dependencies {
+    expectedBy project(":d2v-format-common")
+}
