@@ -12,7 +12,12 @@ class FormatTests : TestBase() {
         156333.6845233.toFixed(0) shouldBe "156334"
         156333.6845233.toFixed(4) shouldBe "156333.6845"
         156333.6845233.toFixed(6) shouldBe "156333.684523"
-        156333.6845233.toFixed(20) shouldBe "156333.68452330000000000000"
+
+        // TODO this is not right, we can avoid this type of error by using BigDecimal(num.toString) here, we maintain same behavior as D3
+        //156333.6845233.toFixed(20) shouldBe "156333.68452330000000000000"
+        156333.6845233.toFixed(20) shouldBe "156333.68452330000582151115"
+
+
         0.6845233.toFixed(0) shouldBe "1"
         0.6845233.toFixed(3) shouldBe "0.685"
         0.6845233.toFixed(4) shouldBe "0.6845"
