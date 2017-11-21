@@ -42,8 +42,13 @@ private fun Double.toStringDigitsJVM(digits: Int): String {
 }
 
 private fun Double.toFixedJVM(digits: Int): String {
-    return BigDecimal(this.toString()).setScale(digits, BigDecimal.ROUND_HALF_UP).toString()
+    return BigDecimal(this).setScale(digits, BigDecimal.ROUND_HALF_UP).toString()
 }
+
+// TODO keep this, it will avoid errors when asking for high precision numbers (see FormatTests@check_platform_dependent_formatters_toFixed)
+/*private fun Double.toFixedJVM(digits: Int): String {
+    return BigDecimal(this.toString()).setScale(digits, BigDecimal.ROUND_HALF_UP).toString()
+}*/
 
 internal actual fun Double.toStringDigits(digits: Int): String = toStringDigitsJVM(digits)
 internal actual fun Double.toFixed(digits: Int): String = toFixedJVM(digits)
