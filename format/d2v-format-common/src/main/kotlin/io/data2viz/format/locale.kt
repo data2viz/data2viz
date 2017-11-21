@@ -18,7 +18,7 @@ data class Locale(
         var numerals: List<String>? = null,
         var percent: String = "%")
 
-
+// TODO locale and numerals
 fun Locale.format(specify: String): (Double) -> String {
 
     val specifier = FormatSpecifier(specify)
@@ -114,7 +114,7 @@ fun Locale.format(specify: String): (Double) -> String {
             "=" -> returnValue = valuePrefix + padding + returnValue + valueSuffix
             "^" -> {
                 val padLength = padding.length / 2 - 1
-                returnValue = padding.slice(0 .. padLength) + valuePrefix + returnValue + valueSuffix + padding.slice(0 until padding.length - 1 - padLength)
+                returnValue = padding.slice(0..padLength) + valuePrefix + returnValue + valueSuffix + padding.slice(0 until padding.length - 1 - padLength)
             }
             else -> returnValue = padding + valuePrefix + returnValue + valueSuffix
         }
@@ -128,19 +128,19 @@ fun Locale.format(specify: String): (Double) -> String {
     return ::format
 }
 
-fun Locale.formatPrefix(specifier:String, fixedPrefix:Double): (Double) -> String {
+fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String {
     val formatSpecifier = FormatSpecifier(specifier)
     formatSpecifier.type = "f"
     val f = format(formatSpecifier.toString())
     val e = max(-8.0, min(8.0, floor(exponent(fixedPrefix).toDouble() / 3.0))) * 3
-    val k = 10.0.pow( -e)
+    val k = 10.0.pow(-e)
     val prefix = prefixes[8 + (e / 3.0).toInt()]
-    return fun(value:Double):String {
+    return fun(value: Double): String {
         return f(k * value) + prefix
     }
 }
 
-private fun exponent(value:Double): Int {
+private fun exponent(value: Double): Int {
     val x = formatDecimal(abs(value))
     return if (x != null) x.exponent else 0
 }
@@ -159,7 +159,7 @@ private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int)
         while (i > 0 && g > 0) {
             if (length + g + 1 > width) g = max(1, width - length)
             i -= g
-            t.add(value.substring(i, i + g))
+            t.add(value.substring(max(0, i), min(value.length, i + g)))
             length += g + 1
             if (length > width) break
             j = (j + 1) % group.size
@@ -222,7 +222,7 @@ fun formatRounded(x: Double, p: Int): String {
         "0.".padEnd(-ce.exponent + 1, '0') + ce.coefficient
     } else {
         if (ce.coefficient.length > ce.exponent + 1) {
-            ce.coefficient.slice(0 .. ce.exponent) + "." +
+            ce.coefficient.slice(0..ce.exponent) + "." +
                     ce.coefficient.slice(ce.exponent + 1 until ce.coefficient.length)
         } else {
             ce.coefficient + "".padStart(ce.exponent - ce.coefficient.length + 1, '0')
@@ -270,15 +270,15 @@ private fun formatPrefixAuto(x: Double, p: Int = 0): String {
     else "0.".padEnd(2 - i, '0') + formatDecimal(x, max(0, p + i - 1))!!.coefficient // less than 1y!
 }
 
-fun precisionFixed(step:Double): Int {
+fun precisionFixed(step: Double): Int {
     return max(0, -exponent(abs(step)))
 }
 
-fun precisionPrefix(step:Double, value:Double): Int {
+fun precisionPrefix(step: Double, value: Double): Int {
     return max(0, max(-8, min(8, floor(exponent(value) / 3.0).toInt())) * 3 - exponent(abs(step)))
 }
 
-fun precisionRound(step:Double, max:Double): Int {
+fun precisionRound(step: Double, max: Double): Int {
     val newStep = abs(step)
     val newMax = abs(max) - step
     return max(0, exponent(newMax) - exponent(newStep)) + 1
