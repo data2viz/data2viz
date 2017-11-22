@@ -3,7 +3,6 @@ includeAll()
 
 def includeAll(){
     all_modules.split(',').each {
-//        println it
         includeMulti(it)
     }
 }
@@ -14,7 +13,6 @@ def includeMulti(String path){
 
 def includeAndNormalizeName(String path) {
     def name = path.substring(path.lastIndexOf('/')+1)
-    println name
     include(name)
     project(":$name").projectDir = file(path)
 }
