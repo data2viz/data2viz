@@ -1,3 +1,16 @@
 dependencies {
     expectedBy project(":d2v-viz-common")
 }
+
+task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {
+
+    from compileKotlin2Js.destinationDir
+
+    configurations.testCompile.each {
+        from zipTree(it.absolutePath).matching { include '*.js' }
+    }
+
+    into "${buildDir}/node_modules"
+}
+
+build.dependsOn populateNodeModules
