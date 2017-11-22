@@ -30,7 +30,10 @@ class JFxVizContext(val parent: Group) : VizContext {
 }
 
 
-class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem, HasFill by FillDelegate(circle) {
+class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem, 
+        HasFill by FillDelegate(circle),
+        HasStroke by StrokeDelegate(circle)
+{
     override var cx: Double by DoublePropertyDelegate(circle.centerXProperty())
     override var cy: Double by DoublePropertyDelegate(circle.centerYProperty())
     override var radius: Double by DoublePropertyDelegate(circle.radiusProperty())
@@ -41,6 +44,12 @@ class FillDelegate(val circle: Circle): HasFill {
     override var fill: Color?
         get() = (circle.fill as javafx.scene.paint.Color?)?.d2vColor
         set(value) { circle.fill = value?.jfxColor}
+}
+
+class StrokeDelegate(val circle: Circle): HasStroke {
+    override var stroke: Color?
+        get() = (circle.stroke as javafx.scene.paint.Color?)?.d2vColor
+        set(value) { circle.stroke = value?.jfxColor}
 }
 
 class DoublePropertyDelegate(val property: DoubleProperty) {

@@ -70,7 +70,9 @@ interface ElementWrapper : AccessByAttributes {
 }
 
 //@SvgTagMarker
-class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem, HasFill by FillDelegate(element) {
+class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem, 
+        HasFill by FillDelegate(element),
+        HasStroke by StrokeDelegate(element) {
     override var cx: Double by DoubleAttributePropertyDelegate()
     override var cy: Double by DoubleAttributePropertyDelegate()
     override var radius: Double by DoubleAttributePropertyDelegate()
@@ -85,6 +87,13 @@ class FillDelegate(val element: Element) : HasFill {
     override var fill: Color? 
         get() = element.getAttribute("fill") ?.color
         set(value) { element.setAttribute("fill", value?.toString() ?: "none")}
+
+}
+
+class StrokeDelegate(val element: Element) : HasStroke {
+    override var stroke: Color? 
+        get() = element.getAttribute("stroke") ?.color
+        set(value) { element.setAttribute("stroke", value?.toString() ?: "none")}
 
 }
 

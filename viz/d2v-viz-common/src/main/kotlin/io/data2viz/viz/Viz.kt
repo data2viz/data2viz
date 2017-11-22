@@ -18,10 +18,10 @@ interface CircleVizItem : VizItem, Shape {
     var radius: Double
 }
 
-interface Shape: HasFill
+interface Shape: HasFill, HasStroke
 
 interface HasStroke {
-    var stroke: Color
+    var stroke: Color?
 }
 
 
