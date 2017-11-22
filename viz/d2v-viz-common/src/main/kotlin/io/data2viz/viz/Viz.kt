@@ -11,7 +11,21 @@ interface VizContext {
 
 interface VizItem
 
-interface CircleVizItem : VizItem, Shape {
+/**
+ * Indicate an element on which we can apply a Transformation.
+ * todo implement other transformation (rotate, ...)
+ */
+interface Transformable  {
+    fun transform(init: Transform.() -> Unit)
+}
+
+interface Transform {
+    fun translate(x:Double = 0.0, y:Double = 0.0)
+}
+
+
+
+interface CircleVizItem : VizItem, Shape, Transformable {
     var cx: Double
     var cy: Double
     var radius: Double

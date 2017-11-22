@@ -19,6 +19,10 @@ fun VizContext.commonViz() {
             fill = colors.steelblue
             stroke = colors.red
             strokeWidth = 3.0
+            
+            transform { 
+                translate(datum.val1 + 100)
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import io.data2viz.color.d2vColor
 import io.data2viz.color.jfxColor
 import javafx.beans.property.DoubleProperty
 import javafx.scene.Group
+import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.shape.Circle
 import kotlin.reflect.KProperty
@@ -32,11 +33,28 @@ class JFxVizContext(val parent: Group) : VizContext {
 
 class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem, 
         HasFill by FillDelegate(circle),
-        HasStroke by StrokeDelegate(circle)
+        HasStroke by StrokeDelegate(circle),
+        Transformable by TransformNodeDelegate(circle)
 {
+
     override var cx: Double by DoublePropertyDelegate(circle.centerXProperty())
     override var cy: Double by DoublePropertyDelegate(circle.centerYProperty())
     override var radius: Double by DoublePropertyDelegate(circle.radiusProperty())
+}
+
+class TransformNodeDelegate(val node:Node) : Transformable {
+    
+    class TransformFx(val node: Node) : Transform{
+        override fun translate(x: Double, y: Double) {
+            node.transforms.add(javafx.scene.transform.Transform.translate(x,y))
+        }
+
+    }
+    
+    override fun transform(init: Transform.() -> Unit) {
+        TransformFx(node).apply(init)
+    }
+
 }
 
 

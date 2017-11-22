@@ -3,6 +3,8 @@ package io.data2viz.viz
 import io.data2viz.color.Color
 import io.data2viz.color.color
 import io.data2viz.color.colors
+import io.data2viz.core.Point
+import io.data2viz.math.Angle
 import org.w3c.dom.Element
 import org.w3c.dom.svg.SVGElement
 import kotlin.browser.document
@@ -72,7 +74,9 @@ interface ElementWrapper : AccessByAttributes {
 //@SvgTagMarker
 class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem, 
         HasFill by FillDelegate(element),
-        HasStroke by StrokeDelegate(element) {
+        HasStroke by StrokeDelegate(element),
+        Transformable by TransformableDelegate(element) {
+    
     override var cx: Double by DoubleAttributePropertyDelegate()
     override var cy: Double by DoubleAttributePropertyDelegate()
     override var radius: Double by DoubleAttributePropertyDelegate()
@@ -82,6 +86,26 @@ class CircleElement(override val element: Element) : ElementWrapper, CircleVizIt
 val propertyMapping = mapOf(
         "radius" to "r"
 )
+
+class TransformableDelegate(val element:Element): Transformable{
+    override fun transform(init: Transform.() -> Unit) {
+        element.setAttribute("transform", TransformSvg().apply(init).toCommand())
+    }
+
+}
+
+class TransformSvg: Transform {
+    private val commands = mutableMapOf<String, String>()
+    fun translate(newPoint: Point) { commands.put("translate", "translate(${newPoint.x}, ${newPoint.y})") }
+    override fun translate(x: Double, y: Double) { commands.put("translate", "translate($x, $y)") }
+    fun scale(x: Number = 1, y: Number = x) { commands.put("scale", "scale($x, $y)") }
+    fun skewX(a: Number) { commands.put("skewX", "skewX($a)") }
+    fun skewY(a: Number) { commands.put("skewY", "skewX($a)") }
+    fun rotate(angle: Angle, x: Number = 0, y: Number = 0) { commands.put("rotate", "rotate(${angle.deg}, $x, $y)") }
+
+    internal fun toCommand(): String = commands.values.joinToString(" ")
+}
+
 
 class FillDelegate(val element: Element) : HasFill {
     override var fill: Color? 
