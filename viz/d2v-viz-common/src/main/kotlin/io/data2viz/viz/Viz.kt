@@ -9,7 +9,6 @@ interface VizContext {
     fun circle(init: CircleVizItem.() -> Unit): CircleVizItem
 }
 
-
 interface VizItem
 
 interface CircleVizItem : VizItem, Shape {
@@ -20,11 +19,15 @@ interface CircleVizItem : VizItem, Shape {
 
 interface Shape: HasFill, HasStroke
 
+
+/**
+ * All properties of stroke
+ * Todo add remaining common properties
+ */
 interface HasStroke {
     var stroke: Color?
     var strokeWidth: Double?
 }
-
 
 interface HasFill {
     var fill: Color?
