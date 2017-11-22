@@ -1,11 +1,13 @@
 package io.data2viz.viz
 
+import io.data2viz.color.Color
+import io.data2viz.color.d2vColor
+import io.data2viz.color.jfxColor
 import javafx.beans.property.DoubleProperty
 import javafx.scene.Group
 import javafx.scene.Parent
 import javafx.scene.shape.Circle
 import kotlin.reflect.KProperty
-
 
 /**
  * Bootstrap a VizContext in JavaFx environment
@@ -16,9 +18,7 @@ fun Group.viz(init: VizContext.() -> Unit): VizContext {
     return vizContext
 }
 
-
 class JFxVizContext(val parent: Group) : VizContext {
-
 
     override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
         val circle = Circle()
@@ -27,17 +27,21 @@ class JFxVizContext(val parent: Group) : VizContext {
         init(item)
         return item
     }
-
-
 }
 
 
-class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem {
+class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem, HasFill by FillDelegate(circle) {
     override var cx: Double by DoublePropertyDelegate(circle.centerXProperty())
     override var cy: Double by DoublePropertyDelegate(circle.centerYProperty())
     override var radius: Double by DoublePropertyDelegate(circle.radiusProperty())
 }
 
+
+class FillDelegate(val circle: Circle): HasFill {
+    override var fill: Color?
+        get() = (circle.fill as javafx.scene.paint.Color?)?.d2vColor
+        set(value) { circle.fill = value?.jfxColor}
+}
 
 class DoublePropertyDelegate(val property: DoubleProperty) {
     operator fun getValue(circleVizJfx: CircleVizJfx, prop: KProperty<*>): Double = property.get()

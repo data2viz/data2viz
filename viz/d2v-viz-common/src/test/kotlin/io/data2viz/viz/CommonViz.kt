@@ -1,5 +1,7 @@
 package io.data2viz.viz
 
+import io.data2viz.color.colors
+
 data class Domain(val val1: Double, val val2: Double)
 
 fun VizContext.commonViz() {
@@ -15,6 +17,7 @@ fun VizContext.commonViz() {
             cx = datum.val1
             cy = datum.val2
             radius = 5.0
+            fill = colors.steelblue
         }
 
     }

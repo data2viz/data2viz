@@ -1,5 +1,6 @@
 package io.data2viz.viz
 
+import io.data2viz.color.Color
 
 /**
  * Common interface to bootstrap visualization into different platform contexts.
@@ -11,10 +12,21 @@ interface VizContext {
 
 interface VizItem
 
-interface CircleVizItem : VizItem {
+interface CircleVizItem : VizItem, Shape {
     var cx: Double
     var cy: Double
     var radius: Double
+}
+
+interface Shape: HasFill
+
+interface HasStroke {
+    var stroke: Color
+}
+
+
+interface HasFill {
+    var fill: Color?
 }
 
 interface VizFactory<V : VizItem> {

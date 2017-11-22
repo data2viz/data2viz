@@ -1,5 +1,8 @@
 package io.data2viz.viz
 
+import io.data2viz.color.Color
+import io.data2viz.color.color
+import io.data2viz.color.colors
 import org.w3c.dom.Element
 import org.w3c.dom.svg.SVGElement
 import kotlin.browser.document
@@ -67,7 +70,7 @@ interface ElementWrapper : AccessByAttributes {
 }
 
 //@SvgTagMarker
-class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem {
+class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem, HasFill by FillDelegate(element) {
     override var cx: Double by DoubleAttributePropertyDelegate()
     override var cy: Double by DoubleAttributePropertyDelegate()
     override var radius: Double by DoubleAttributePropertyDelegate()
@@ -77,6 +80,14 @@ class CircleElement(override val element: Element) : ElementWrapper, CircleVizIt
 val propertyMapping = mapOf(
         "radius" to "r"
 )
+
+class FillDelegate(val element: Element) : HasFill {
+    override var fill: Color? 
+        get() = element.getAttribute("fill") ?.color
+        set(value) { element.setAttribute("fill", value?.toString() ?: "none")}
+
+}
+
 
 class DoubleAttributePropertyDelegate {
     operator fun getValue(elementWrapper: ElementWrapper, property: KProperty<*>): Double =
