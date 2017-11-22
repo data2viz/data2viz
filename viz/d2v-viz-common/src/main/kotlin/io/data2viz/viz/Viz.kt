@@ -22,6 +22,7 @@ interface Shape: HasFill, HasStroke
 
 interface HasStroke {
     var stroke: Color?
+    var strokeWidth: Double?
 }
 
 

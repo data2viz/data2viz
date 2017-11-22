@@ -18,6 +18,7 @@ fun VizContext.commonViz() {
             radius = 5.0
             fill = colors.steelblue
             stroke = colors.red
+            strokeWidth = 3.0
         }
     }
 }

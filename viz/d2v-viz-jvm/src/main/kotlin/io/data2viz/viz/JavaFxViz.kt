@@ -47,9 +47,16 @@ class FillDelegate(val circle: Circle): HasFill {
 }
 
 class StrokeDelegate(val circle: Circle): HasStroke {
+
     override var stroke: Color?
         get() = (circle.stroke as javafx.scene.paint.Color?)?.d2vColor
         set(value) { circle.stroke = value?.jfxColor}
+
+
+    override var strokeWidth: Double?
+        get() = circle.strokeWidth
+        set(value) {if (value != null) circle.strokeWidth = value}
+    
 }
 
 class DoublePropertyDelegate(val property: DoubleProperty) {

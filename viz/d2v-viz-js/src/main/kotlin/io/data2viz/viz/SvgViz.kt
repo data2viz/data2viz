@@ -95,8 +95,12 @@ class StrokeDelegate(val element: Element) : HasStroke {
         get() = element.getAttribute("stroke") ?.color
         set(value) { element.setAttribute("stroke", value?.toString() ?: "none")}
 
+    override var strokeWidth: Double?
+        get() = element.getAttribute("stroke-width")?.toDouble()
+        set(value) {
+            element.setAttribute("stroke-width", value?.toString() ?: "")
+        }
 }
-
 
 class DoubleAttributePropertyDelegate {
     operator fun getValue(elementWrapper: ElementWrapper, property: KProperty<*>): Double =
