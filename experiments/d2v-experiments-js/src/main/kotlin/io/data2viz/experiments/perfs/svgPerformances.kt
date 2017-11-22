@@ -37,7 +37,7 @@ fun svgPerfs() {
     val circles = mutableListOf<CircleElement>()
 
     timer {
-        if (fpsCalculator.curFps > 24) {
+        if (fpsCalculator.curFps > 30) {
             circles += Array(10, { RandomParticule() }).mapIndexed { index, particule ->
                 viz.circle {
                     stroke = colors.grey

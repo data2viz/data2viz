@@ -17,8 +17,8 @@
 <body>
 <svg></svg>
 <script>
-    require.config({baseUrl: "lib"});
-    require(['experiments'],
+    require.config({baseUrl: "../../../build/node_modules"});
+    require(['d2v-experiments-js'],
         function (experiments) {
             experiments.io.data2viz.experiments.perfs.svgPerfs();
         });
