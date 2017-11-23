@@ -1,0 +1,6 @@
+dependencies {
+    expectedBy project(":d2v-scale-common")
+    compile project(":d2v-core-jvm")
+    compile project(":d2v-color-jvm")
+    compile project(":d2v-interpolate-jvm")
+}

@@ -1,0 +1,5 @@
+dependencies {
+    compile project(":d2v-interpolate-common")
+    compile project(":d2v-core-common")
+    compile project(":d2v-color-common")
+}
