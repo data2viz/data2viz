@@ -6,7 +6,6 @@ import io.data2viz.color.jfxColor
 import javafx.beans.property.DoubleProperty
 import javafx.scene.Group
 import javafx.scene.Node
-import javafx.scene.Parent
 import javafx.scene.shape.Circle
 import kotlin.reflect.KProperty
 
@@ -14,12 +13,19 @@ import kotlin.reflect.KProperty
  * Bootstrap a VizContext in JavaFx environment
  */
 fun Group.viz(init: VizContext.() -> Unit): VizContext {
-    val vizContext = JFxVizContext(this)
+    val vizContext = ParentElement(this)
     init(vizContext)
     return vizContext
 }
 
-class JFxVizContext(val parent: Group) : VizContext {
+class ParentElement(val parent: Group) : VizContext {
+    
+    override fun group(init: ParentItem.() -> Unit): ParentItem {
+        val group = ParentElement(Group())
+        init(group)
+        parent.children.add(group.parent)
+        return  group
+    }
 
     override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
         val circle = Circle()
@@ -29,7 +35,6 @@ class JFxVizContext(val parent: Group) : VizContext {
         return item
     }
 }
-
 
 class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem, 
         HasFill by FillDelegate(circle),

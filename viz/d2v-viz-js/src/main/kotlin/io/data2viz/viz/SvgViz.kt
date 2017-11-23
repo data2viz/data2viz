@@ -2,7 +2,6 @@ package io.data2viz.viz
 
 import io.data2viz.color.Color
 import io.data2viz.color.color
-import io.data2viz.color.colors
 import io.data2viz.core.Point
 import io.data2viz.math.Angle
 import org.w3c.dom.Element
@@ -23,21 +22,28 @@ fun selectOrCreateSvg(): SVGElement {
     return svgElement
 }
 
-
 /**
  * Bootstrap a VizContext on a existing SVG element.
  */
-fun Element.viz(init: SVGVizContext.() -> Unit): VizContext {
-    val context = SVGVizContext(this)
+fun Element.viz(init: VizContext.() -> Unit): VizContext {
+    val context = ParentElement(this)
     init(context)
     return context
 }
 
-class SVGVizContext(val parent: Element) : VizContext {
+class ParentElement(val parent: Element) : VizContext {
 
     init {
         check(parent.namespaceURI == svgNamespaceURI)
     }
+
+    override fun group(init: ParentItem.() -> Unit): ParentItem {
+        val group = group()
+        init(group)
+        parent.append(group.parent)
+        return group
+    }
+
 
     override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
 
@@ -51,6 +57,8 @@ class SVGVizContext(val parent: Element) : VizContext {
 
 
 internal fun circle() = CircleElement(createSVGElement("circle"))
+internal fun group() = ParentElement(createSVGElement("g"))
+
 
 interface AccessByAttributes {
     fun setAttribute(name: String, value: String?)
@@ -70,6 +78,7 @@ interface ElementWrapper : AccessByAttributes {
     override fun getAttribute(name: String) = element.getAttribute(name)
 
 }
+
 
 //@SvgTagMarker
 class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem, 

@@ -5,11 +5,16 @@ import io.data2viz.color.Color
 /**
  * Common interface to bootstrap visualization into different platform contexts.
  */
-interface VizContext {
+interface VizContext: ParentItem
+
+interface VizItem
+
+
+interface ParentItem {
+    fun group(init: ParentItem.() -> Unit): ParentItem
     fun circle(init: CircleVizItem.() -> Unit): CircleVizItem
 }
 
-interface VizItem
 
 /**
  * Indicate an element on which we can apply a Transformation.
