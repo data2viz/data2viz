@@ -7,6 +7,8 @@ import kotlin.test.Test
 
 class ScaleTests : TestBase() {
 
+    val epsilon = 1e6
+
     @Test
     fun linear_no_interpolation() {
         val scale = linearScaleDouble()
@@ -29,7 +31,7 @@ class ScaleTests : TestBase() {
         scale(.5) shouldBe 0.5
         scale(0.1) shouldBe 0.9
         scale(0.133) shouldBe 0.867
-        scale(0.9) shouldBeWithTolerance 0.1            // TODO find why it is in fact 0.09999999999999998
+        scale(0.9) shouldBe (0.1 plusOrMinus 1e6)            // TODO find why it is in fact 0.09999999999999998
     }
 
     @Test
@@ -48,7 +50,6 @@ class ScaleTests : TestBase() {
     }
 
 
-
     @Test
     fun linear_Number_clamp_noclamp() {
         val scale = linearScaleDouble()
@@ -59,20 +60,20 @@ class ScaleTests : TestBase() {
         )
 
         scale(50.0) shouldBe -50.0
-        scale(10.0) shouldBeWithTolerance -10.0
-        scale(13.3) shouldBeWithTolerance -13.3
+        scale(10.0) shouldBe (-10.0 plusOrMinus epsilon)
+        scale(13.3) shouldBe (-13.3 plusOrMinus epsilon)
         scale(90.0) shouldBe -90.0
         scale(-20.0) shouldBe 20.0
-        scale(132.0) shouldBeWithTolerance -132.0
+        scale(132.0) shouldBe (-132.0 plusOrMinus epsilon)
 
         scale.clamp = true
 
         scale(50.0) shouldBe -50.0
-        scale(10.0) shouldBeWithTolerance -10.0
-        scale(13.3) shouldBeWithTolerance -13.3
+        scale(10.0) shouldBe (-10.0 plusOrMinus epsilon)
+        scale(13.3) shouldBe (-13.3 plusOrMinus epsilon)
         scale(90.0) shouldBe -90.0
         scale(-20.0) shouldBe 0.0
-        scale(132.0) shouldBeWithTolerance -100.0
+        scale(132.0) shouldBe (-100.0 plusOrMinus epsilon)
     }
 
     @Test
@@ -86,8 +87,8 @@ class ScaleTests : TestBase() {
 
         scale.invert(50.0) shouldBe 50.0
         scale.invert(90.0) shouldBe 10.0
-        scale.invert(86.7) shouldBeWithTolerance 13.3
-        scale.invert(10.0) shouldBe 90.0
+        scale.invert(86.7) shouldBe (13.3 plusOrMinus epsilon)
+        scale.invert(10.0) shouldBe (90.0 plusOrMinus epsilon)
     }
 
     @Test

@@ -26,7 +26,6 @@ interface Matchers : StringMatchers,
     fun fail(msg: String): Nothing = throw AssertionError(msg)
 
     infix fun Double.shouldBe(other: Double): Unit = ToleranceMatcher(other, 0.0).test(this)
-    infix fun Double.shouldBeWithTolerance(other: Double): Unit = ToleranceMatcher(other, 1e-6).test(this)
 
     infix fun <N:Number, T:Number >  Iterable<N>.shouldBe(other: Iterable<T>) {
         if(this.count() != other.count())
