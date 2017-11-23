@@ -212,12 +212,12 @@ class StackTest : TestBase() {
             stackParam.stackedValues.forEach {
                 content += "${it.from}-${it.to} "
             }
-            assertEquals(results[resultIndex][index], content, name)
+            assertEquals(results[resultIndex][index].round(), content.round(), name)
         }
     }
 
     // TODO uncomment tests when kotlinJS 0.toString() and -0.toString() is fixed !!
-    /*@Test
+    @Test
     fun no_order_no_offset() {
         checkResults(stackGenerator.stack(data), "No Order - No Offset", 0)
     }
@@ -326,5 +326,5 @@ class StackTest : TestBase() {
         stackGeneratorDisordered.order = StackOrders.DESCENDING
         stackGeneratorDisordered.offset = StackOffsets.DIVERGING
         checkResults(stackGeneratorDisordered.stack(data), "DESCENDING + DIVERGING", 20)
-    }*/
+    }
 }
