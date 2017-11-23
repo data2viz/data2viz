@@ -10,5 +10,5 @@ interface Scale<D, out R> {
 
     operator fun invoke(domain: D): R
 
-    //fun ticks(count: Int = 10): List<D>
+//    fun ticks(count: Int = 10): List<D>
 }

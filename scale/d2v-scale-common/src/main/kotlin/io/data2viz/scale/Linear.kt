@@ -5,16 +5,6 @@ import io.data2viz.interpolate.interpolateHsl
 import io.data2viz.interpolate.interpolateNumber
 import io.data2viz.interpolate.uninterpolateNumber
 
-/*class LinearGenerator {
-
-    val scale = continuous(::deinterpolateLinear, ::interpolateNumber)
-
-
-    fun linear(): KFunction1<Double, (Double) -> Double> {
-        return scale
-    }
-}*/
-
 open class LinearScale<D, R>(uninterpolateDomain: (D, D) -> (D) -> Double,
                              interpolateRange: (R, R) -> (Double) -> R,
                              interpolateDomain: ((D, D) -> (Double) -> D)? = null,
@@ -22,26 +12,6 @@ open class LinearScale<D, R>(uninterpolateDomain: (D, D) -> (D) -> Double,
                              domainComparator: Comparator<D>? = null,
                              rangeComparator: Comparator<R>? = null)
     : ContinuousScale<D, R>(uninterpolateDomain, interpolateRange, interpolateDomain, uninterpolateRange, domainComparator, rangeComparator) {
-
-
-//    override fun deinterpolateDomain(a: D, b: D): (D) -> Double = uninterpolateDomain(a, b)
-//    override fun reinterpolateDomain(a: D, b: D): (Double) -> D = interpolateDomain(a, b)
-
-    /*override fun deinterpolateDomain(a: D, b: D): (D) -> Double {
-        val diff = b - a
-        return when(diff) {
-            -0.0, +0.0, Double.NaN -> { diff }
-            else -> { x -> (x - a) / diff }
-        }
-    }*/
-
-    //override fun reinterpolateDomain(a: D, b: D): (Double) -> D = interpolateNumber(a, b)
-
-    /*fun domain(vararg d: Double) = domain(d.toList())
-    override fun domain(d: List<Double>) = super.domain(d) as LinearScale<R>
-
-    fun range(vararg r: R) = range(r.toList())
-    override fun range(r: List<R>) = super.range(r) as LinearScale<R>*/
 
     fun domainsToRanges(vararg d:DomainToRange<D, R>) = domainsToRanges(d.toList())
     override fun domainsToRanges(d: List<DomainToRange<D, R>>)= super.domainsToRanges(d) as  LinearScale<D, R>
@@ -62,7 +32,7 @@ open class LinearScale<D, R>(uninterpolateDomain: (D, D) -> (D) -> Double,
         return this
     }
 
-    //override fun ticks(count: Int) = io.data2viz.core.ticks(domainsToRanges.first().domain, domainsToRanges.last().domain, count)
+//    override fun ticks(count: Int) = io.data2viz.core.ticks(domainsToRanges.first().domain, domainsToRanges.last().domain, count)
 }
 
 

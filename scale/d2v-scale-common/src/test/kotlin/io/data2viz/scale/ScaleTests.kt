@@ -12,6 +12,16 @@ class ScaleTests : TestBase() {
         val scale = linearScaleDouble()
 
         scale.domainsToRanges(
+                DomainToRange(.0, .0),
+                DomainToRange(1.0, 1.0)
+        )
+
+        scale(.5) shouldBe .5
+        scale(0.1) shouldBe 0.1
+        scale(0.133) shouldBe 0.133
+        scale(0.9) shouldBe 0.9
+
+        scale.domainsToRanges(
                 DomainToRange(.0, 1.0),
                 DomainToRange(1.0, .0)
         )
