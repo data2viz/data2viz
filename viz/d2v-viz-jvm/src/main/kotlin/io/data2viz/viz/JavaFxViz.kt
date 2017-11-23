@@ -7,8 +7,11 @@ import javafx.beans.property.DoubleProperty
 import javafx.scene.Group
 import javafx.scene.Node
 import javafx.scene.shape.Circle
+import javafx.scene.shape.Rectangle
 import javafx.scene.text.Text
 import kotlin.reflect.KProperty
+
+typealias jxShape = javafx.scene.shape.Shape
 
 /**
  * Bootstrap a VizContext in JavaFx environment
@@ -20,7 +23,7 @@ fun Group.viz(init: VizContext.() -> Unit): VizContext {
 }
 
 class ParentElement(val parent: Group) : VizContext {
-    
+
     override fun group(init: ParentItem.() -> Unit): ParentItem {
         val group = ParentElement(Group())
         init(group)
@@ -32,6 +35,14 @@ class ParentElement(val parent: Group) : VizContext {
         val circle = Circle()
         parent.children.add(circle)
         val item = CircleVizJfx(parent, circle)
+        init(item)
+        return item
+    }
+
+    override fun rect(init: RectVizItem.() -> Unit): RectVizItem {
+        val rectangle = Rectangle()
+        parent.children.add(rectangle)
+        val item = RectVizJfx(parent, rectangle)
         init(item)
         return item
     }
@@ -57,7 +68,7 @@ class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
 }
 
 
-class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem, 
+class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem,
         HasFill by FillDelegate(circle),
         HasStroke by StrokeDelegate(circle),
         Transformable by TransformNodeDelegate(circle)
@@ -68,15 +79,29 @@ class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem,
     override var radius: Double by DoublePropertyDelegate(circle.radiusProperty())
 }
 
+class RectVizJfx(val parent: Group, val rectangle: Rectangle) : RectVizItem,
+        HasFill by FillDelegate(rectangle),
+        HasStroke by StrokeDelegate(rectangle),
+        Transformable by TransformNodeDelegate(rectangle)
+{
+    override var x: Double by DoublePropertyDelegate(rectangle.xProperty())
+    override var y: Double by DoublePropertyDelegate(rectangle.yProperty())
+    override var width: Double by DoublePropertyDelegate(rectangle.widthProperty())
+    override var height: Double by DoublePropertyDelegate(rectangle.heightProperty())
+    override var rx: Double by DoublePropertyDelegate(rectangle.arcWidthProperty())
+    override var ry: Double by DoublePropertyDelegate(rectangle.arcHeightProperty())
+
+}
+
 class TransformNodeDelegate(val node:Node) : Transformable {
-    
+
     class TransformFx(val node: Node) : Transform{
         override fun translate(x: Double, y: Double) {
             node.transforms.add(javafx.scene.transform.Transform.translate(x,y))
         }
 
     }
-    
+
     override fun transform(init: Transform.() -> Unit) {
         TransformFx(node).apply(init)
     }
@@ -84,23 +109,23 @@ class TransformNodeDelegate(val node:Node) : Transformable {
 }
 
 
-class FillDelegate(val circle: Circle): HasFill {
+class FillDelegate(val shape: jxShape): HasFill {
     override var fill: Color?
-        get() = (circle.fill as javafx.scene.paint.Color?)?.d2vColor
-        set(value) { circle.fill = value?.jfxColor}
+        get() = (shape.fill as javafx.scene.paint.Color?)?.d2vColor
+        set(value) { shape.fill = value?.jfxColor}
 }
 
-class StrokeDelegate(val circle: Circle): HasStroke {
+class StrokeDelegate(val shape: jxShape): HasStroke {
 
     override var stroke: Color?
-        get() = (circle.stroke as javafx.scene.paint.Color?)?.d2vColor
-        set(value) { circle.stroke = value?.jfxColor}
+        get() = (shape.stroke as javafx.scene.paint.Color?)?.d2vColor
+        set(value) { shape.stroke = value?.jfxColor}
 
 
     override var strokeWidth: Double?
-        get() = circle.strokeWidth
-        set(value) {if (value != null) circle.strokeWidth = value}
-    
+        get() = shape.strokeWidth
+        set(value) {if (value != null) shape.strokeWidth = value}
+
 }
 
 class DoublePropertyDelegate(val property: DoubleProperty) {

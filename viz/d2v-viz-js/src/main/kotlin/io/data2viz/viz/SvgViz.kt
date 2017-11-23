@@ -38,7 +38,7 @@ class ParentElement(val parent: Element) : VizContext {
     }
 
     override fun group(init: ParentItem.() -> Unit): ParentItem {
-        val group = group()
+        val group = ParentElement(createSVGElement("g"))
         init(group)
         parent.append(group.parent)
         return group
@@ -47,10 +47,18 @@ class ParentElement(val parent: Element) : VizContext {
 
     override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
 
-        val circle = circle()
+        val circle = CircleElement(createSVGElement("circle"))
         init(circle)
         parent.append(circle.element)
         return circle
+    }
+
+    override fun rect(init: RectVizItem.() -> Unit): RectVizItem {
+
+        val rect = RectElement(createSVGElement("rect"))
+        init(rect)
+        parent.append(rect.element)
+        return rect
     }
 
     override fun text(init: TextVizItem.() -> Unit): TextVizItem {
@@ -62,10 +70,6 @@ class ParentElement(val parent: Element) : VizContext {
 
 
 }
-
-
-internal fun circle() = CircleElement(createSVGElement("circle"))
-internal fun group() = ParentElement(createSVGElement("g"))
 
 
 interface AccessByAttributes {
@@ -89,14 +93,27 @@ interface ElementWrapper : AccessByAttributes {
 
 
 //@SvgTagMarker
-class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem, 
+class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem,
         HasFill by FillDelegate(element),
         HasStroke by StrokeDelegate(element),
         Transformable by TransformableDelegate(element) {
-    
+
     override var cx: Double by DoubleAttributePropertyDelegate()
     override var cy: Double by DoubleAttributePropertyDelegate()
     override var radius: Double by DoubleAttributePropertyDelegate()
+}
+
+class RectElement(override val element: Element) : ElementWrapper, RectVizItem,
+        HasFill by FillDelegate(element),
+        HasStroke by StrokeDelegate(element),
+        Transformable by TransformableDelegate(element) {
+
+    override var x: Double by DoubleAttributePropertyDelegate()
+    override var y: Double by DoubleAttributePropertyDelegate()
+    override var width: Double by DoubleAttributePropertyDelegate()
+    override var height: Double by DoubleAttributePropertyDelegate()
+    override var rx: Double by DoubleAttributePropertyDelegate()
+    override var ry: Double by DoubleAttributePropertyDelegate()
 }
 
 class TextElement (override val element: Element) : ElementWrapper, TextVizItem,
@@ -135,14 +152,14 @@ class TransformSvg: Transform {
 
 
 class FillDelegate(val element: Element) : HasFill {
-    override var fill: Color? 
+    override var fill: Color?
         get() = element.getAttribute("fill") ?.color
         set(value) { element.setAttribute("fill", value?.toString() ?: "none")}
 
 }
 
 class StrokeDelegate(val element: Element) : HasStroke {
-    override var stroke: Color? 
+    override var stroke: Color?
         get() = element.getAttribute("stroke") ?.color
         set(value) { element.setAttribute("stroke", value?.toString() ?: "none")}
 

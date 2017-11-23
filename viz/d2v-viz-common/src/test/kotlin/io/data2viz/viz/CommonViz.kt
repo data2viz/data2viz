@@ -13,9 +13,21 @@ fun VizContext.commonViz(data: List<Domain>) {
         x = 20.0
     }
 
+    rect {
+        x = 30.0
+        y = 130.0
+        rx = 4.0
+        ry = 4.0
+        height = 30.0
+        width = 80.0
+        fill = colors.blueviolet
+        stroke = colors.darkslategray
+        strokeWidth = 3.0
+    }
+
 
     group {
-        
+
         group {
 
             data.forEach { datum ->

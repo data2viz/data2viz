@@ -5,7 +5,7 @@ import io.data2viz.color.Color
 /**
  * Common interface to bootstrap visualization into different platform contexts.
  */
-interface VizContext: ParentItem
+interface VizContext : ParentItem
 
 interface VizItem
 
@@ -13,23 +13,21 @@ interface VizItem
 interface ParentItem {
     fun group(init: ParentItem.() -> Unit): ParentItem
     fun circle(init: CircleVizItem.() -> Unit): CircleVizItem
+    fun rect(init: RectVizItem.() -> Unit): RectVizItem
     fun text(init: TextVizItem.() -> Unit): TextVizItem
-
 }
-
 
 /**
  * Indicate an element on which we can apply a Transformation.
  * todo implement other transformation (rotate, ...)
  */
-interface Transformable  {
+interface Transformable {
     fun transform(init: Transform.() -> Unit)
 }
 
 interface Transform {
-    fun translate(x:Double = 0.0, y:Double = 0.0)
+    fun translate(x: Double = 0.0, y: Double = 0.0)
 }
-
 
 
 interface CircleVizItem : VizItem, Shape, Transformable {
@@ -38,13 +36,22 @@ interface CircleVizItem : VizItem, Shape, Transformable {
     var radius: Double
 }
 
+interface RectVizItem : VizItem, Shape, Transformable {
+    var x: Double
+    var y: Double
+    var width: Double
+    var height: Double
+    var rx: Double
+    var ry: Double
+}
+
 interface TextVizItem : VizItem, Transformable {
     var x: Double
     var y: Double
     var textContent: String
 }
 
-interface Shape: HasFill, HasStroke
+interface Shape : HasFill, HasStroke
 
 
 /**
