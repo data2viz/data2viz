@@ -52,7 +52,7 @@ class HSLTests : TestBase() {
         iterator(0.5).toRgba().rgbHex shouldBe Color(0x00bf9c).rgbHex
     }
 
-    fun displaySmallGradient(context: String, percentToColor: (Float) -> HSL, width: Int = 256, imageReference: String? = null) {
+    fun displaySmallGradient(context: String, percentToColor: (Double) -> HSL, width: Int = 256, imageReference: String? = null) {
 
         h2(context)
         document.body?.appendChild(
@@ -64,7 +64,7 @@ class HSLTests : TestBase() {
                     (0 until width).forEach { index ->
                         appendChild(
                                 nodeSVG("rect").apply {
-                                    setAttribute("fill", percentToColor(index / (width).toFloat()).toRgba().rgbHex)
+                                    setAttribute("fill", percentToColor(index / width.toDouble()).toRgba().rgbHex)
                                     setAttribute("x", "$index")
                                     setAttribute("y", "0")
                                     setAttribute("width", "1")

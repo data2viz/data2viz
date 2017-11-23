@@ -14,7 +14,7 @@ class NumberTests : TestBase() {
     @Test
     fun uninterpolate() {
         val f = uninterpolateNumber(10, 20)
-        f(12) shouldBe 0.2
+        f(12.0) shouldBe 0.2
     }
 
 
