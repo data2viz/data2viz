@@ -53,6 +53,14 @@ class ParentElement(val parent: Element) : VizContext {
         return circle
     }
 
+    override fun text(init: TextVizItem.() -> Unit): TextVizItem {
+        val text = TextElement(createSVGElement("text"))
+        init(text)
+        parent.append(text.element)
+        return text
+    }
+
+
 }
 
 
@@ -89,6 +97,16 @@ class CircleElement(override val element: Element) : ElementWrapper, CircleVizIt
     override var cx: Double by DoubleAttributePropertyDelegate()
     override var cy: Double by DoubleAttributePropertyDelegate()
     override var radius: Double by DoubleAttributePropertyDelegate()
+}
+
+class TextElement (override val element: Element) : ElementWrapper, TextVizItem,
+        Transformable by TransformableDelegate(element) {
+    override var textContent: String
+        get() = element.textContent ?: ""
+        set(value) {element.textContent = value}
+
+    override var x: Double by DoubleAttributePropertyDelegate()
+    override var y: Double by DoubleAttributePropertyDelegate()
 }
 
 

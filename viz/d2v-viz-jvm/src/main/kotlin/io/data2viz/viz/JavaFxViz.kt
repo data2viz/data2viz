@@ -7,6 +7,7 @@ import javafx.beans.property.DoubleProperty
 import javafx.scene.Group
 import javafx.scene.Node
 import javafx.scene.shape.Circle
+import javafx.scene.text.Text
 import kotlin.reflect.KProperty
 
 /**
@@ -34,7 +35,27 @@ class ParentElement(val parent: Group) : VizContext {
         init(item)
         return item
     }
+
+    override fun text(init: TextVizItem.() -> Unit): TextVizItem {
+        val text = Text()
+        parent.children.add(text)
+        val item = TextVizJfx(parent, text)
+        init(item)
+        return  item
+    }
 }
+
+
+class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
+        Transformable by TransformNodeDelegate(text){
+
+    override var x: Double by DoublePropertyDelegate(text.xProperty())
+    override var y: Double by DoublePropertyDelegate(text.yProperty())
+    override var textContent: String
+        get() = text.text
+        set(value) { text.text = value}
+}
+
 
 class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem, 
         HasFill by FillDelegate(circle),
@@ -83,8 +104,8 @@ class StrokeDelegate(val circle: Circle): HasStroke {
 }
 
 class DoublePropertyDelegate(val property: DoubleProperty) {
-    operator fun getValue(circleVizJfx: CircleVizJfx, prop: KProperty<*>): Double = property.get()
-    operator fun setValue(circleVizJfx: CircleVizJfx, prop: KProperty<*>, d: Double) {
+    operator fun getValue(vizItem: VizItem, prop: KProperty<*>): Double = property.get()
+    operator fun setValue(vizItem: VizItem, prop: KProperty<*>, d: Double) {
         property.set(d)
     }
 }
