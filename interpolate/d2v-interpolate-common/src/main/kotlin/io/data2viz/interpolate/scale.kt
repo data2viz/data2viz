@@ -13,11 +13,12 @@ data class DomainToViz<out A, out B>(
 infix fun <A, B> A.linkedTo(that: B): DomainToViz<A, B> = DomainToViz(this, that)
 
 class NumberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>){
-    val domainToNormalized = uninterpolate(start.domain, end.domain)
+    val domainToNormalized = uninterpolateNumber(start.domain, end.domain)
     val normalizedToColor = interpolateRgb(start.viz, end.viz)
-    val numberToColor = {number:Number ->  normalizedToColor(domainToNormalized(number)) }
+    val numberToColor = {number:Number ->  normalizedToColor(domainToNormalized(number as Double)) }
 }
 
+// TODO remove
 class scale {
 
     object linear {
@@ -33,13 +34,13 @@ class scale {
         fun numberToNumber(start: DomainToViz<Number, Number>, end: DomainToViz<Number, Number>): (Number) -> Number =
                 { domain: Number ->
                     interpolateNumber(start.viz, end.viz).invoke(
-                            uninterpolate(start.domain, end.domain).invoke(domain).toDouble())
+                            uninterpolateNumber(start.domain, end.domain).invoke(domain as Double))
                 }
 
 //        fun numberToNumber(start: DomainToViz<Double, Double>, end: DomainToViz<Double, Double>): (Double) -> Double =
 //                { domain: Double ->
 //                    interpolateNumber(start.viz, end.viz).invoke(
-//                            uninterpolate(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double
+//                            uninterpolateNumber(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double
 //                }
 
         fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color = NumberToColor(start, end).numberToColor
@@ -48,7 +49,7 @@ class scale {
         /*fun numberToColor(domainsToViz: List<DomainToViz<Number, Color>>): (Number) -> Color =
                 { domain: Number ->
                     val sortedDomainsToViz = domainsToViz.sortedBy { it.domain.toDouble() }
-                    val interpolationFunction = uninterpolate(sortedDomainsToViz.first().domain, sortedDomainsToViz.last().domain)
+                    val interpolationFunction = uninterpolateNumber(sortedDomainsToViz.first().domain, sortedDomainsToViz.last().domain)
                     val interpolator = interpolateRgb(sortedDomainsToViz.map { it.viz })
                     interpolator(interpolationFunction(domain))
                 }*/

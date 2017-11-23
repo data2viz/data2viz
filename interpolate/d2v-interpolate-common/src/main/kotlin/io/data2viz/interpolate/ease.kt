@@ -5,6 +5,7 @@ import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+// TODO move to ease module
 fun quad(x:Double) = x * x
 
 fun cubicIn(x:Double) = x * x * x

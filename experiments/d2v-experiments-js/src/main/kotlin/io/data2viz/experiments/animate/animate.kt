@@ -181,7 +181,7 @@ class RectElement(override val element: Element) : ElementWrapper {
         val endWidth = recorder.recorded.first { p -> p.first == "width" }.second.toDouble()
 
         val widthTransition = interpolateNumber(width, endWidth)
-        val time = uninterpolate(0, duration)
+        val time = uninterpolateNumber(0, duration)
 
         timer { elapsed ->
             if (elapsed > duration){
