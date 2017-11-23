@@ -8,9 +8,17 @@ data class Domain(val val1: Double, val val2: Double)
 fun VizContext.commonViz(data: List<Domain>) {
 
     text {
-        textContent = "This a common présentation"
+        textContent = "This a common presentation"
         y = 20.0
         x = 20.0
+    }
+
+    line {
+        x1 = 111.0
+        y1 = 222.0
+        x2 = 211.0
+        y2 = 322.0
+        stroke = colors.cadetblue
     }
 
     rect {

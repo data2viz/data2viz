@@ -14,6 +14,7 @@ interface ParentItem {
     fun group(init: ParentItem.() -> Unit): ParentItem
     fun circle(init: CircleVizItem.() -> Unit): CircleVizItem
     fun rect(init: RectVizItem.() -> Unit): RectVizItem
+    fun line(init: LineVizItem.() -> Unit): LineVizItem
     fun text(init: TextVizItem.() -> Unit): TextVizItem
 }
 
@@ -36,6 +37,12 @@ interface CircleVizItem : VizItem, Shape, Transformable {
     var radius: Double
 }
 
+interface LineVizItem : VizItem, Shape, Transformable {
+    var x1: Double
+    var y1: Double
+    var x2: Double
+    var y2: Double
+}
 interface RectVizItem : VizItem, Shape, Transformable {
     var x: Double
     var y: Double

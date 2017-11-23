@@ -32,9 +32,16 @@ fun Element.viz(init: VizContext.() -> Unit): VizContext {
 }
 
 class ParentElement(val parent: Element) : VizContext {
-
     init {
         check(parent.namespaceURI == svgNamespaceURI)
+    }
+
+    override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
+
+        val circle = CircleElement(createSVGElement("circle"))
+        init(circle)
+        parent.append(circle.element)
+        return circle
     }
 
     override fun group(init: ParentItem.() -> Unit): ParentItem {
@@ -45,12 +52,11 @@ class ParentElement(val parent: Element) : VizContext {
     }
 
 
-    override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
-
-        val circle = CircleElement(createSVGElement("circle"))
-        init(circle)
-        parent.append(circle.element)
-        return circle
+    override fun line(init: LineVizItem.() -> Unit): LineVizItem {
+        val line = LineElement(createSVGElement("line"))
+        init(line)
+        parent.append(line.element)
+        return line
     }
 
     override fun rect(init: RectVizItem.() -> Unit): RectVizItem {
@@ -101,6 +107,17 @@ class CircleElement(override val element: Element) : ElementWrapper, CircleVizIt
     override var cx: Double by DoubleAttributePropertyDelegate()
     override var cy: Double by DoubleAttributePropertyDelegate()
     override var radius: Double by DoubleAttributePropertyDelegate()
+}
+
+class LineElement(override val element: Element) : ElementWrapper, LineVizItem,
+        HasFill by FillDelegate(element),
+        HasStroke by StrokeDelegate(element),
+        Transformable by TransformableDelegate(element) {
+
+    override var x1: Double by DoubleAttributePropertyDelegate()
+    override var y1: Double by DoubleAttributePropertyDelegate()
+    override var x2: Double by DoubleAttributePropertyDelegate()
+    override var y2: Double by DoubleAttributePropertyDelegate()
 }
 
 class RectElement(override val element: Element) : ElementWrapper, RectVizItem,

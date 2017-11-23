@@ -7,6 +7,7 @@ import javafx.beans.property.DoubleProperty
 import javafx.scene.Group
 import javafx.scene.Node
 import javafx.scene.shape.Circle
+import javafx.scene.shape.Line
 import javafx.scene.shape.Rectangle
 import javafx.scene.text.Text
 import kotlin.reflect.KProperty
@@ -23,6 +24,13 @@ fun Group.viz(init: VizContext.() -> Unit): VizContext {
 }
 
 class ParentElement(val parent: Group) : VizContext {
+    override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
+        val circle = Circle()
+        parent.children.add(circle)
+        val item = CircleVizJfx(parent, circle)
+        init(item)
+        return item
+    }
 
     override fun group(init: ParentItem.() -> Unit): ParentItem {
         val group = ParentElement(Group())
@@ -31,10 +39,10 @@ class ParentElement(val parent: Group) : VizContext {
         return  group
     }
 
-    override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
-        val circle = Circle()
-        parent.children.add(circle)
-        val item = CircleVizJfx(parent, circle)
+    override fun line(init: LineVizItem.() -> Unit): LineVizItem {
+        val line = Line()
+        parent.children.add(line)
+        val item = LineVizJfx(parent, line)
         init(item)
         return item
     }
@@ -77,6 +85,16 @@ class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem,
     override var cx: Double by DoublePropertyDelegate(circle.centerXProperty())
     override var cy: Double by DoublePropertyDelegate(circle.centerYProperty())
     override var radius: Double by DoublePropertyDelegate(circle.radiusProperty())
+}
+
+class LineVizJfx(val parent: Group, val line: Line) : LineVizItem,
+        HasFill by FillDelegate(line),
+        HasStroke by StrokeDelegate(line),
+        Transformable by TransformNodeDelegate(line) {
+    override var x1: Double by DoublePropertyDelegate(line.startXProperty())
+    override var y1: Double by DoublePropertyDelegate(line.startYProperty())
+    override var x2: Double by DoublePropertyDelegate(line.endXProperty())
+    override var y2: Double by DoublePropertyDelegate(line.endYProperty())
 }
 
 class RectVizJfx(val parent: Group, val rectangle: Rectangle) : RectVizItem,
