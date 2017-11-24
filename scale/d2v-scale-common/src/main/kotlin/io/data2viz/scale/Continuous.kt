@@ -3,7 +3,7 @@ package io.data2viz.scale
 import kotlin.math.min
 
 // TODO move to array module
-private fun <T> bisectRight(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
+private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
     var lo = low
     var hi = high
     while (lo < hi) {
@@ -15,25 +15,6 @@ private fun <T> bisectRight(list: List<T>, x: T, comparator: Comparator<T>, low:
     }
 
     return lo
-}
-
-fun <T> bisectLeft(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
-    var lo = low
-    var hi = high
-    while (lo < hi) {
-        val mid = (lo + hi) / 2
-        if (comparator.compare(list[mid], x) < 0)
-            lo = mid + 1
-        else
-            hi = mid
-    }
-
-    return lo
-}
-
-private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
-    return if (comparator.compare(list.first(), list.last()) < 0) bisectRight(list, x, comparator, low, high)
-    else bisectLeft(list, x, comparator, low, high)
 }
 
 
@@ -53,15 +34,23 @@ abstract class ContinuousScale<R>(
             rescale()
         }
 
+    // copy the value (no binding intended)
     override var domain: MutableList<Double> = arrayListOf(.0, 1.0)
+        get() {
+            return field.toMutableList()
+        }
         set(value) {
-            field = value
+            field = value.toMutableList()
             rescale()
         }
 
+    // copy the value (no binding intended)
     override var range: MutableList<R> = arrayListOf()
+        get() {
+            return field.toMutableList()
+        }
         set(value) {
-            field = value
+            field = value.toMutableList()
             rescale()
         }
 
@@ -76,6 +65,7 @@ abstract class ContinuousScale<R>(
         return output?.invoke(domainValue) ?: throw IllegalStateException()
     }
 
+    // TODO : wrong : clamping is done on interpolateRange function...
     fun invert(rangeValue: R): Double {
         checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible" })
 
@@ -143,15 +133,17 @@ abstract class ContinuousScale<R>(
     private fun bimapInvert(reinterpolateDomain: (Double, Double) -> (Double) -> Double,
                             deinterpolateRange: (R, R) -> (R) -> Double): (R) -> Double {
 
-        val d0 = domain.first()
-        val d1 = domain.last()
+        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible" })
+
+        val d0 = domain[0]
+        val d1 = domain[1]
         val r0 = range[0]
         val r1 = range[1]
 
         val r: (R) -> Double
         val d: (Double) -> Double
 
-        if (d1 < d0) {
+        if (rangeComparator!!.compare(r1, r0) < 0) {
             d = reinterpolateDomain(d1, d0)
             r = deinterpolateRange(r1, r0)
         } else {
@@ -187,21 +179,18 @@ abstract class ContinuousScale<R>(
         // TODO <R> instanceOf Comparable ??
         checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible" })
 
-        val d0 = domain.first()
-        val d1 = domain.last()
-        val domainReversed = d1 < d0
-        val domainValues = if (domainReversed) domain.reversed() else domain
-        val rangeValues = if (domainReversed) range.reversed() else range
+        val r0 = range.first()
+        val r1 = range.last()
+        val rangeReversed = rangeComparator!!.compare(r1, r0) < 0
+        val domainValues = if (rangeReversed) domain.reversed() else domain
+        val rangeValues = if (rangeReversed) range.reversed() else range
 
         val size = min(domain.size, range.size) - 1
         val domainInterpolators = Array(size, { reinterpolateDomain(domainValues[it], domainValues[it + 1]) })
         val rangeInterpolators = Array(size, { deinterpolateRange(rangeValues[it], rangeValues[it + 1]) })
 
         return { y ->
-            val index = bisect<R>(rangeValues, y, rangeComparator!!, 1, size) - 1
-            println(bisect<R>(rangeValues, y, rangeComparator, 1, size))
-            println(index)
-            println(rangeValues)
+            val index = bisect<R>(rangeValues, y, rangeComparator, 1, size) - 1
             domainInterpolators[index](rangeInterpolators[index](y))
         }
     }
