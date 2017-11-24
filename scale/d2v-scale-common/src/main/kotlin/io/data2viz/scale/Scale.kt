@@ -1,14 +1,16 @@
 package io.data2viz.scale
 
-data class DomainToRange<out D, out R>(
+/*data class DomainToViz<out D, out V>(
         val domain: D,
-        val range: R
-)
+        val range: V
+)*/
 
-interface Scale<D, out R> {
-    val domainsToRanges: List<DomainToRange<D, R>>
+interface Scale<D, out V> {
 
-    operator fun invoke(domain: D): R
+    val domain: List<D>
+    val range: List<V>
 
-//    fun ticks(count: Int = 10): List<D>
+    operator fun invoke(domainValue: D): V
+
+    fun ticks(count: Int = 10): List<Double>
 }

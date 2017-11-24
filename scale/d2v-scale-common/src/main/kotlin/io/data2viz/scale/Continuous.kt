@@ -1,5 +1,7 @@
 package io.data2viz.scale
 
+import kotlin.math.min
+
 // TODO move to array module
 private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
     var lo = low
@@ -16,52 +18,75 @@ private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int 
 }
 
 
-abstract class ContinuousScale<D, R>(
-        val uninterpolateDomain: (D, D) -> (D) -> Double,
+abstract class ContinuousScale<R>(
+        val interpolateDomain: (Double, Double) -> ((Double) -> Double),
+        val uninterpolateDomain: (Double, Double) -> ((Double) -> Double),
         val interpolateRange: (R, R) -> (Double) -> R,
-        val interpolateDomain: ((D, D) -> (Double) -> D)? = null,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
-        val domainComparator: Comparator<D>? = null,
-        val rangeComparator: Comparator<R>? = null) : Scale<D, R> {
+        val rangeComparator: Comparator<R>? = null) : Scale<Double, R> {
 
-    override val domainsToRanges: MutableList<DomainToRange<D, R>> = ArrayList(2)
+    var input: ((R) -> Double)? = null
+    var output: ((Double) -> R)? = null
 
     var clamp: Boolean = false
         set(value) {
             field = value
-            input = null
-            output = null
+            rescale()
         }
 
-    var piecewiseOutput: ((List<DomainToRange<D, R>>,
-                           (D, D) -> (D) -> Double,
-                           (R, R) -> (Double) -> R) -> (D) -> R)? = null
-    var output: ((D) -> R)? = null
+    override var domain: MutableList<Double> = arrayListOf()
+        set(value) {
+            field = value
+            rescale()
+        }
 
-    var piecewiseInput: ((List<DomainToRange<D, R>>,
-                          (D, D) -> (Double) -> D,
-                          (R, R) -> (R) -> Double) -> (R) -> D)? = null
-    var input: ((R) -> D)? = null
+    override var range: MutableList<R> = arrayListOf()
+        set(value) {
+            field = value
+            rescale()
+        }
 
-    // TODO manage with Comparator / Comparable ?
-    protected fun uninterpolateClamp(uninterpolateFunction: (D, D) -> (D) -> Double): (D, D) -> (D) -> Double {
-        return fun(a: D, b: D): (D) -> Double {
+    override operator fun invoke(domainValue: Double): R {
+        if (output == null) {
+            val uninterpolateFunc = if (clamp) uninterpolateClamp(uninterpolateDomain) else uninterpolateDomain
+            output =
+                    if (domain.size > 2 || range.size > 2) polymap(uninterpolateFunc, interpolateRange)
+                    else bimap(uninterpolateFunc, interpolateRange)
+        }
+
+        return output?.invoke(domainValue) ?: throw IllegalStateException()
+    }
+
+    fun invert(rangeValue: R): Double {
+        checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible" })
+
+        if (input == null) {
+            val interpolateFunc = if (clamp) uninterpolateClamp(interpolateDomain) else interpolateDomain
+            input =
+                    if (domain.size > 2 || range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
+                    else bimapInvert(interpolateFunc, uninterpolateRange!!)
+        }
+
+        return input?.invoke(rangeValue) ?: throw IllegalStateException()
+    }
+
+    private fun uninterpolateClamp(uninterpolateFunction: (Double, Double) -> (Double) -> Double): (Double, Double) -> (Double) -> Double {
+        return fun(a: Double, b: Double): (Double) -> Double {
             val d = uninterpolateFunction(a, b)
-            return fun(domain: D): Double {
+            return fun(domain: Double): Double {
                 return when {
-                    d(domain) <= d(a) -> 0.0
-                    d(domain) >= d(b) -> 1.0
+                    (domain <= a) -> .0
+                    (domain >= b) -> 1.0
                     else -> d(domain)
                 }
             }
         }
     }
 
-    // TODO manage with Comparator / Comparable ?
-    protected fun interpolateClamp(interpolateFunction: (D, D) -> (Double) -> D): (D, D) -> (Double) -> D {
-        return fun(a: D, b: D): (Double) -> D {
+    private fun interpolateClamp(interpolateFunction: (Double, Double) -> (Double) -> Double): (Double, Double) -> (Double) -> Double {
+        return fun(a: Double, b: Double): (Double) -> Double {
             val r = interpolateFunction(a, b)
-            return fun(t: Double): D = when {
+            return fun(t: Double): Double = when {
                 t <= 0.0 -> a
                 t >= 1.0 -> b
                 else -> r(t)
@@ -69,84 +94,45 @@ abstract class ContinuousScale<D, R>(
         }
     }
 
-    open fun domainsToRanges(d: List<DomainToRange<D, R>>): ContinuousScale<D, R> {
-        domainsToRanges.clear()
-        domainsToRanges.addAll(d)
-        rescale()
-        return this
-    }
-
-    override operator fun invoke(domain: D): R {
-        if (output == null) {
-            output = piecewiseOutput?.invoke(
-                    domainsToRanges,
-                    if (clamp) uninterpolateClamp(uninterpolateDomain) else uninterpolateDomain,
-                    interpolateRange
-            )
-        }
-
-        return output?.invoke(domain) ?: throw IllegalStateException()
-    }
-
-    fun invert(range: R): D {
-        if (uninterpolateRange == null || interpolateDomain == null)
-            throw IllegalStateException()
-
-        if (input == null) {
-            input = piecewiseInput?.invoke(
-                    domainsToRanges,
-                    if (clamp) interpolateClamp(interpolateDomain) else interpolateDomain,
-                    uninterpolateRange)
-        }
-
-        return input?.invoke(range) ?: throw IllegalStateException()
-    }
-
-    protected open fun rescale() {
-        piecewiseOutput = if (domainsToRanges.size > 2) this::polymap else this::bimap
-        piecewiseInput = if (domainsToRanges.size > 2) this::polymapInvert else this::bimapInvert
+    private fun rescale() {
         input = null
         output = null
     }
 
-    private fun bimap(domainstoRanges: List<DomainToRange<D, R>>,
-                      deinterpolate: (D, D) -> (D) -> Double,
-                      reinterpolate: (R, R) -> (Double) -> R): (D) -> R {
+    private fun bimap(deinterpolateDomain: (Double, Double) -> (Double) -> Double,
+                      reinterpolateDomain: (R, R) -> (Double) -> R): (Double) -> R {
 
-        val d0 = domainstoRanges[0].domain
-        val d1 = domainstoRanges[1].domain
-        val r0 = domainstoRanges[0].range
-        val r1 = domainstoRanges[1].range
+        val d0 = domain[0]
+        val d1 = domain[1]
+        val r0 = range[0]
+        val r1 = range[1]
 
         val r: (Double) -> R
-        val d: (D) -> Double
+        val d: (Double) -> Double
 
-        val dom = uninterpolateDomain(d0, d1)
-        if (dom(d1) < dom(d0)) {
-            d = deinterpolate(d1, d0)
-            r = reinterpolate(r1, r0)
+        if (d1 < d0) {
+            d = deinterpolateDomain(d1, d0)
+            r = reinterpolateDomain(r1, r0)
         } else {
-            d = deinterpolate(d0, d1)
-            r = reinterpolate(r0, r1)
+            d = deinterpolateDomain(d0, d1)
+            r = reinterpolateDomain(r0, r1)
         }
 
-        return { x: D -> r(d(x)) }
+        return { x: Double -> r(d(x)) }
     }
 
-    private fun bimapInvert(domainstoRanges: List<DomainToRange<D, R>>,
-                            deinterpolate: (D, D) -> (Double) -> D,
-                            reinterpolate: (R, R) -> (R) -> Double): (R) -> D {
+    private fun bimapInvert(deinterpolate: (Double, Double) -> (Double) -> Double,
+                            reinterpolate: (R, R) -> (R) -> Double): (R) -> Double {
 
-        val d0 = domainstoRanges[0].domain
-        val d1 = domainstoRanges[1].domain
-        val r0 = domainstoRanges[0].range
-        val r1 = domainstoRanges[1].range
+        val d0 = domain.first()
+        val d1 = domain.last()
+        val r0 = range[0]
+        val r1 = range[1]
 
         val r: (R) -> Double
-        val d: (Double) -> D
+        val d: (Double) -> Double
 
-        val dom = uninterpolateDomain(d0, d1)
-        if (dom(d1) < dom(d0)) {
+        if (d1 < d0) {
             d = deinterpolate(d1, d0)
             r = reinterpolate(r1, r0)
         } else {
@@ -157,47 +143,46 @@ abstract class ContinuousScale<D, R>(
         return { x: R -> d(r(x)) }
     }
 
-    private fun polymap(domainstoRanges: List<DomainToRange<D, R>>,
-                        deinterpolateDomain: (D, D) -> (D) -> Double,
-                        reinterpolateDomain: (R, R) -> (Double) -> R): (D) -> R {
+    private fun polymap(deinterpolateDomain: (Double, Double) -> (Double) -> Double,
+                        reinterpolateDomain: (R, R) -> (Double) -> R): (Double) -> R {
 
-        if (domainComparator == null) throw IllegalStateException()
+        val d0 = domain.first()
+        val d1 = domain.last()
+        val domainValues = if (d1 < d0) domain.reversed() else domain
+        val rangeValues = if (d1 < d0) range.reversed() else range
 
-        val d0 = domainstoRanges.first().domain
-        val d1 = domainstoRanges.last().domain
-        val dom = uninterpolateDomain(d0, d1)
-        val values = if (dom(d1) < dom(d0)) domainstoRanges.reversed() else domainstoRanges
-        val domains = values.map { it.domain }
-
-        val size = domainstoRanges.size - 1
-        val domainInterpolators = Array(size, { deinterpolateDomain(values[it].domain, values[it + 1].domain) })
-        val rangeInterpolators = Array(size, { reinterpolateDomain(values[it].range, values[it + 1].range) })
+        val size = min(domain.size, range.size) - 1
+        val domainInterpolators = Array(size, { deinterpolateDomain(domainValues[it], domainValues[it + 1]) })
+        val rangeInterpolators = Array(size, { reinterpolateDomain(rangeValues[it], rangeValues[it + 1]) })
 
         return { x ->
-            val idx = bisect<D>(domains, x, domainComparator, 1, size) - 1
+            val idx = bisect<Double>(domain, x, naturalOrder<Double>(), 1, size) - 1
             rangeInterpolators[idx](domainInterpolators[idx](x))
         }
     }
 
-    private fun polymapInvert(domainstoRanges: List<DomainToRange<D, R>>,
-                              deinterpolateDomain: (D, D) -> (Double) -> D,
-                              reinterpolateDomain: (R, R) -> (R) -> Double): (R) -> D {
+    private fun polymapInvert(deinterpolateDomain: (Double, Double) -> (Double) -> Double,
+                              reinterpolateDomain: (R, R) -> (R) -> Double): (R) -> Double {
 
-        if (rangeComparator == null) throw IllegalStateException()
+        // TODO <R> instanceOf Comparable ??
+        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible" })
 
-        val d0 = domainstoRanges.first().domain
-        val d1 = domainstoRanges.last().domain
-        val dom = uninterpolateDomain(d0, d1)
-        val values = if (dom(d1) < dom(d0)) domainstoRanges.reversed() else domainstoRanges
-        val ranges = values.map { it.range }
+        val d0 = domain.first()
+        val d1 = domain.last()
+        val domainValues = if (d1 < d0) domain.reversed() else domain
+        val rangeValues = if (d1 < d0) range.reversed() else range
 
-        val size = domainstoRanges.size - 1
-        val domainInterpolators = Array(size, { deinterpolateDomain(values[it].domain, values[it + 1].domain) })
-        val rangeInterpolators = Array(size, { reinterpolateDomain(values[it].range, values[it + 1].range) })
+        val size = min(domain.size, range.size) - 1
+        val domainInterpolators = Array(size, { deinterpolateDomain(domainValues[it], domainValues[it + 1]) })
+        val rangeInterpolators = Array(size, { reinterpolateDomain(rangeValues[it], rangeValues[it + 1]) })
 
         return { y ->
-            val idx = bisect(ranges, y, rangeComparator, 1, size) - 1
+            val idx = bisect<R>(rangeValues, y, rangeComparator!!, 1, size) - 1
             domainInterpolators[idx](rangeInterpolators[idx](y))
         }
+    }
+
+    override fun ticks(count: Int): List<Double> {
+        return io.data2viz.core.ticks(domain.first(), domain.last(), count)
     }
 }
