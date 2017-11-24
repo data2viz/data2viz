@@ -122,7 +122,41 @@ class ScaleTests : TestBase() {
         scale.domain(.0, 10.0, 20.0)
         scale.range(.0, 100.0, 300.0)
 
-        scale(0.0) shouldBe 0.0
+        scale(.0) shouldBe .0
+        scale(10.0) shouldBe 100.0
+        scale(20.0) shouldBe 300.0
+        scale(5.0) shouldBe 50.0
+        scale(15.0) shouldBe 200.0
+        scale(17.0) shouldBe 240.0
+
+        // DESCENDING DOMAIN
+        scale.domain(20.0, 10.0, .0)
+        scale.range(.0, 100.0, 300.0)
+
+        scale(.0) shouldBe 300.0
+        scale(10.0) shouldBe 100.0
+        scale(20.0) shouldBe .0
+        scale(5.0) shouldBe 200.0
+        scale(15.0) shouldBe 50.0
+        scale(17.0) shouldBe 30.0
+
+        // DESCENDING RANGE
+        scale.domain(.0, 10.0, 20.0)
+        scale.range(300.0, 100.0, .0)
+
+        scale(.0) shouldBe 300.0
+        scale(10.0) shouldBe 100.0
+        scale(20.0) shouldBe .0
+        scale(5.0) shouldBe 200.0
+        scale(15.0) shouldBe 50.0
+        scale(17.0) shouldBe 30.0
+
+        // DESCENDING DOMAIN
+        // DESCENDING RANGE
+        scale.domain(20.0, 10.0, .0)
+        scale.range(300.0, 100.0, .0)
+
+        scale(.0) shouldBe .0
         scale(10.0) shouldBe 100.0
         scale(20.0) shouldBe 300.0
         scale(5.0) shouldBe 50.0
@@ -130,17 +164,17 @@ class ScaleTests : TestBase() {
         scale(17.0) shouldBe 240.0
     }
 
-    @Test
+    /*@Test
     fun linear_Number_multiple_ranges_invert() {
         val scale = linearScaleDouble()
 
         // x -> 10x between 0 and 10
         // x -> 20x between 10 and 20
-        /*scale.domainsToRanges(
-                DomainToRange(.0, 0.0),
-                DomainToRange(10.0, 100.0),
-                DomainToRange(20.0, 300.0)
-        )*/
+//        scale.domainsToRanges(
+//                DomainToRange(.0, 0.0),
+//                DomainToRange(10.0, 100.0),
+//                DomainToRange(20.0, 300.0)
+//        )
         scale.domain(.0, 10.0, 20.0)
         scale.range(.0, 100.0, 300.0)
 
@@ -150,7 +184,43 @@ class ScaleTests : TestBase() {
         scale.invert(50.0) shouldBe 5.0
         scale.invert(200.0) shouldBe 15.0
         scale.invert(240.0) shouldBe 17.0
-    }
+
+        // DESCENDING DOMAIN
+        scale.domain(20.0, 10.0, .0)
+        scale.range(300.0, 100.0, .0)
+
+        scale.invert(0.0) shouldBe 0.0
+        scale.invert(100.0) shouldBe 10.0
+        scale.invert(300.0) shouldBe 20.0
+        scale.invert(50.0) shouldBe 5.0
+        scale.invert(200.0) shouldBe 15.0
+        scale.invert(240.0) shouldBe 17.0
+
+        // DESCENDING RANGE
+        scale.domain(.0, 10.0, 20.0)
+        scale.range(300.0, 100.0, .0)
+
+        scale.invert(.0) shouldBe 20.0
+        scale.invert(100.0) shouldBe 10.0
+        scale.invert(300.0) shouldBe .0
+        scale.invert(50.0) shouldBe 15.0
+        scale.invert(200.0) shouldBe 5.0
+        scale.invert(240.0) shouldBe 3.0
+
+        // DESCENDING DOMAIN
+        // DESCENDING RANGE
+        scale.domain(20.0, 10.0, .0)
+        scale.range(300.0, 100.0, .0)
+
+        scale.invert(.0) shouldBe .0
+        scale.invert(100.0) shouldBe 10.0
+        scale.invert(300.0) shouldBe 20.0
+        scale.invert(50.0) shouldBe 5.0
+        scale.invert(200.0) shouldBe 15.0
+        scale.invert(240.0) shouldBe 17.0
+
+        /// HERE
+    }*/
 
     @Test
     fun linear_HSL() {
@@ -169,6 +239,122 @@ class ScaleTests : TestBase() {
         scale(90.0) shouldBe HSL(162.deg)
     }
 
+    /////////////// LEGACY TESTS /////////////////////////////////////////
+
+    @Test
+    fun linear_expected_defaults_value_LEGACY() {
+        val scale = linearScaleDouble()
+
+        scale.domain.size shouldBe 2
+        scale.domain.first() shouldBe .0
+        scale.domain.last() shouldBe 1.0
+        scale.clamp shouldBe false
+    }
+
+    @Test
+    fun linear_expected_scaling_with_defaults_value_LEGACY() {
+        val scale = linearScaleDouble()
+        scale.range(1.0, 2.0)
+
+        scale(.5) shouldBe 1.5
+    }
+
+    @Test
+    fun linear_ignores_extra_range_values_for_smaller_domain_LEGACY() {
+        val scale = linearScaleDouble()
+
+        scale.domain(-10.0, .0)
+        scale.range(0.0, 10.0, 2000.0)
+        scale.clamp = true
+
+        scale(-10.0) shouldBe .0
+        scale(.0) shouldBe 10.0
+        scale(-5.0) shouldBe 5.0
+        scale(-15.0) shouldBe .0
+        scale(10.0) shouldBe 10.0
+    }
+
+    @Test
+    fun linear_ignores_extra_domain_values_for_smaller_range_LEGACY() {
+        val scale = linearScaleDouble()
+
+        scale.domain(-10.0, .0, 2000.0)
+        scale.range(0.0, 10.0)
+        scale.clamp = true
+
+        scale(-10.0) shouldBe .0
+        scale(.0) shouldBe 10.0
+        scale(-5.0) shouldBe 5.0
+        scale(10.0) shouldBe 10.0
+    }
+
+    @Test
+    fun linear_maps_empty_domain_to_range_start_if_not_clamped_LEGACY() {
+        val scale = linearScaleDouble()
+
+        scale.domain(.0, .0)
+        scale.range(.0, 10.0)
+        scale(1.0) shouldBe .0
+        scale(-20.0) shouldBe .0
+        scale(2000.0) shouldBe .0
+
+        scale.domain(.0, .0)
+        scale.range(10.0, .0)
+        scale(1.0) shouldBe 10.0
+        scale(-20.0) shouldBe 10.0
+        scale(2000.0) shouldBe 10.0
+    }
+
+    @Test
+    fun linear_maps_bilinear_domain_to_corresponding_range_LEGACY() {
+        val scale = linearScaleDouble()
+        scale.domain(1.0, 2.0)
+        scale.range(.0, 1.0)
+
+        scale(.5) shouldBe -.5
+        scale(1.0) shouldBe .0
+        scale(1.5) shouldBe .5
+        scale(2.0) shouldBe 1.0
+        scale(2.5) shouldBe 1.5
+        scale.invert(-.5) shouldBe .5
+        scale.invert(.0) shouldBe 1.0
+        scale.invert(.5) shouldBe 1.5
+        scale.invert(1.0) shouldBe 2.0
+        scale.invert(1.5) shouldBe 2.5
+
+        scale.clamp = true
+
+        scale(.5) shouldBe .0
+        scale(1.0) shouldBe .0
+        scale(1.5) shouldBe .5
+        scale(2.0) shouldBe 1.0
+        scale(2.5) shouldBe 1.0
+        scale.invert(-.5) shouldBe 1.0
+        scale.invert(.0) shouldBe 1.0
+        scale.invert(.5) shouldBe 1.5
+        scale.invert(1.0) shouldBe 2.0
+        scale.invert(1.5) shouldBe 2.0
+    }
+
+    /*@Test
+    fun linear_maps_polylinear_domain_with_more_than_2_values_to_corresponding_range_LEGACY() {
+        val scale = linearScaleDouble()
+        scale.domain(1.0, 2.0, 4.0)
+        scale.range(4.0, 2.0, 1.0)
+
+        scale(1.5) shouldBe 3.0
+        scale.invert(3.0) shouldBe 1.5
+        scale(3.0) shouldBe 1.5
+        scale.invert(1.5) shouldBe 3.0
+
+        scale.domain(4.0, 2.0, 1.0)
+        scale.range(1.0, 2.0, 4.0)
+
+        scale(1.5) shouldBe 3.0
+        scale.invert(3.0) shouldBe 1.5
+        scale(3.0) shouldBe 1.5
+        scale.invert(1.5) shouldBe 3.0
+    }*/
 
     @Test
     fun linear_ticks_nice_OK_LEGACY() {
@@ -305,58 +491,4 @@ class ScaleTests : TestBase() {
 
         scale.ticks().size shouldBe scale.ticks(10).size
     }
-        /*
-
-    tape("linear.tickFormat() is an alias for linear.tickFormat(10)", function(test) {
-        test.equal(scale.scaleLinear().tickFormat()(0.2), "0.2");
-        test.equal(scale.scaleLinear().domain([-100, 100]).tickFormat()(-20), "-20");
-        test.end();
-    });
-
-    tape("linear.tickFormat(count) returns a format suitable for the ticks", function(test) {
-        test.equal(scale.scaleLinear().tickFormat(10)(0.2), "0.2");
-        test.equal(scale.scaleLinear().tickFormat(20)(0.2), "0.20");
-        test.equal(scale.scaleLinear().domain([-100, 100]).tickFormat(10)(-20), "-20");
-        test.end();
-    });
-
-    tape("linear.tickFormat(count, specifier) sets the appropriate fixed precision if not specified", function(test) {
-        test.equal(scale.scaleLinear().tickFormat(10, "+f")(0.2), "+0.2");
-        test.equal(scale.scaleLinear().tickFormat(20, "+f")(0.2), "+0.20");
-        test.equal(scale.scaleLinear().tickFormat(10, "+%")(0.2), "+20%");
-        test.equal(scale.scaleLinear().domain([0.19, 0.21]).tickFormat(10, "+%")(0.2), "+20.0%");
-        test.end();
-    });
-
-    tape("linear.tickFormat(count, specifier) sets the appropriate round precision if not specified", function(test) {
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(10, "")(2.10), "2");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(100, "")(2.01), "2");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(100, "")(2.11), "2.1");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(10, "e")(2.10), "2e+0");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(100, "e")(2.01), "2.0e+0");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(100, "e")(2.11), "2.1e+0");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(10, "g")(2.10), "2");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(100, "g")(2.01), "2.0");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(100, "g")(2.11), "2.1");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(10, "r")(2.10e6), "2000000");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(100, "r")(2.01e6), "2000000");
-        test.equal(scale.scaleLinear().domain([0, 9]).tickFormat(100, "r")(2.11e6), "2100000");
-        test.equal(scale.scaleLinear().domain([0, 0.9]).tickFormat(10, "p")(0.210), "20%");
-        test.equal(scale.scaleLinear().domain([0.19, 0.21]).tickFormat(10, "p")(0.201), "20.1%");
-        test.end();
-    });
-
-    tape("linear.tickFormat(count, specifier) sets the appropriate prefix precision if not specified", function(test) {
-        test.equal(scale.scaleLinear().domain([0, 1e6]).tickFormat(10, "$s")(0.51e6), "$0.5M");
-        test.equal(scale.scaleLinear().domain([0, 1e6]).tickFormat(100, "$s")(0.501e6), "$0.50M");
-        test.end();
-    });
-
-    tape("linear.tickFormat() uses the default precision when the domain is invalid", function(test) {
-        var f = scale.scaleLinear().domain([0, NaN]).tickFormat();
-        test.equal(f + "", " >-,f");
-        test.equal(f(0.12), "0.120000");
-        test.end();
-    });*/
-
 }
