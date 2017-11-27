@@ -56,6 +56,7 @@ abstract class ContinuousScale<R>(
 
     override operator fun invoke(domainValue: Double): R {
         if (output == null) {
+            check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val uninterpolateFunc = if (clamp) uninterpolateClamp(uninterpolateDomain) else uninterpolateDomain
             output =
                     if (domain.size > 2 || range.size > 2) polymap(uninterpolateFunc, interpolateRange)
@@ -67,9 +68,10 @@ abstract class ContinuousScale<R>(
 
     // TODO : wrong : clamping is done on interpolateRange function...
     fun invert(rangeValue: R): Double {
-        checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible" })
+        checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible." })
 
         if (input == null) {
+            check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val interpolateFunc = if (clamp) interpolateClamp(interpolateDomain) else interpolateDomain
             input =
                     if (domain.size > 2 || range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
@@ -133,7 +135,7 @@ abstract class ContinuousScale<R>(
     private fun bimapInvert(reinterpolateDomain: (Double, Double) -> (Double) -> Double,
                             deinterpolateRange: (R, R) -> (R) -> Double): (R) -> Double {
 
-        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible" })
+        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible." })
 
         val d0 = domain[0]
         val d1 = domain[1]
@@ -177,7 +179,7 @@ abstract class ContinuousScale<R>(
                               deinterpolateRange: (R, R) -> (R) -> Double): (R) -> Double {
 
         // TODO <R> instanceOf Comparable ??
-        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible" })
+        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible." })
 
         val r0 = range.first()
         val r1 = range.last()

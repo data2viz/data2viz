@@ -277,11 +277,14 @@ class ScaleTests : TestBase() {
         scale.domain(-10.0, .0)
         scale.range(0.0, 10.0, 2000.0)
         scale.clamp = true
-        scale(-10.0) shouldBe .0
+        /*scale(-10.0) shouldBe .0
         scale(.0) shouldBe 10.0
         scale(-5.0) shouldBe 5.0
         scale(-15.0) shouldBe .0
-        scale(10.0) shouldBe 10.0
+        scale(10.0) shouldBe 10.0*/
+
+        // changed behavior
+        shouldThrow<IllegalStateException> { scale(.0) }
     }
 
     @Test
@@ -291,10 +294,13 @@ class ScaleTests : TestBase() {
         scale.domain(-10.0, .0, 2000.0)
         scale.range(0.0, 10.0)
         scale.clamp = true
-        scale(-10.0) shouldBe .0
+        /*scale(-10.0) shouldBe .0
         scale(.0) shouldBe 10.0
         scale(-5.0) shouldBe 5.0
-        scale(10.0) shouldBe 10.0
+        scale(10.0) shouldBe 10.0*/
+
+        // changed behavior
+        shouldThrow<IllegalStateException> { scale(.0) }
     }
 
     @Test
