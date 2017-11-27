@@ -1,9 +1,10 @@
+@file:Suppress("FunctionName", "unused")
+
 package io.data2viz.format
 
-import kotlin.test.Test
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
-import kotlin.test.assertTrue
+import kotlin.test.Test
 
 class FormatTests : TestBase() {
 
@@ -1018,13 +1019,13 @@ class FormatTests : TestBase() {
     }
 
     @Test fun format_0_width_s_will_group_thousands_due_to_zero_fill () {
-        var f = Locale().format("020,s")
+        val f = Locale().format("020,s")
         f(42.0) shouldBe "000,000,000,042.0000"
         f(42e12) shouldBe "00,000,000,042.0000T"
     }
 
     @Test fun format__s_will_group_thousands_for_very_large_numbers () {
-        var f = Locale().format(",s")
+        val f = Locale().format(",s")
         f(42e30) shouldBe "42,000,000Y"
     }
 
