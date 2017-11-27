@@ -19,14 +19,23 @@ private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int 
 
 
 abstract class ContinuousScale<R>(
-        val interpolateDomain: (Double, Double) -> ((Double) -> Double),
-        val uninterpolateDomain: (Double, Double) -> ((Double) -> Double),
         val interpolateRange: (R, R) -> (Double) -> R,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
         val rangeComparator: Comparator<R>? = null) : Scale<Double, R> {
 
     var input: ((R) -> Double)? = null
     var output: ((Double) -> R)? = null
+
+    abstract fun interpolateDomain(from: Double, to:Double): (Double) -> Double
+    abstract fun uninterpolateDomain(from: Double, to: Double):(Double) -> Double
+
+    fun domain(vararg d: Double) {
+        domain = d.toMutableList()
+    }
+
+    fun range(vararg r: R) {
+        range = r.toMutableList()
+    }
 
     var clamp: Boolean = false
         set(value) {
@@ -57,7 +66,7 @@ abstract class ContinuousScale<R>(
     override operator fun invoke(domainValue: Double): R {
         if (output == null) {
             check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
-            val uninterpolateFunc = if (clamp) uninterpolateClamp(uninterpolateDomain) else uninterpolateDomain
+            val uninterpolateFunc = if (clamp) uninterpolateClamp(::uninterpolateDomain) else ::uninterpolateDomain
             output =
                     if (domain.size > 2 || range.size > 2) polymap(uninterpolateFunc, interpolateRange)
                     else bimap(uninterpolateFunc, interpolateRange)
@@ -72,7 +81,7 @@ abstract class ContinuousScale<R>(
 
         if (input == null) {
             check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
-            val interpolateFunc = if (clamp) interpolateClamp(interpolateDomain) else interpolateDomain
+            val interpolateFunc = if (clamp) interpolateClamp(::interpolateDomain) else ::interpolateDomain
             input =
                     if (domain.size > 2 || range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
                     else bimapInvert(interpolateFunc, uninterpolateRange!!)

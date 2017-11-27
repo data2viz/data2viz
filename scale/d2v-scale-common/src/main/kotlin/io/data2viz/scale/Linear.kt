@@ -4,6 +4,7 @@ import io.data2viz.color.HSL
 import io.data2viz.core.tickStep
 import io.data2viz.interpolate.interpolateHsl
 import io.data2viz.interpolate.interpolateNumber
+import io.data2viz.interpolate.interpolateRound
 import io.data2viz.interpolate.uninterpolateNumber
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -11,15 +12,10 @@ import kotlin.math.floor
 open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
                           uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
                           rangeComparator: Comparator<R>? = null)
-    : ContinuousScale<R>(::interpolateNumber, ::uninterpolateNumber, interpolateRange, uninterpolateRange, rangeComparator) {
+    : ContinuousScale<R>( interpolateRange, uninterpolateRange, rangeComparator) {
 
-    fun domain(vararg d: Double) {
-        domain = d.toMutableList()
-    }
-
-    fun range(vararg r: R) {
-        range = r.toMutableList()
-    }
+    override fun interpolateDomain(from: Double, to: Double): (Double) -> Double = interpolateNumber(from, to)
+    override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double = uninterpolateNumber(from, to)
 
     /**
      * Extends the domain so that it starts and ends on nice round values.
@@ -54,8 +50,12 @@ open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
 
 val doubleComparator = naturalOrder<Double>()
 
-fun linearScaleDouble(): LinearScale<Double> {
+fun linearScale(): LinearScale<Double> {
     return LinearScale<Double>(::interpolateNumber, ::uninterpolateNumber, doubleComparator)
+}
+
+fun linearScaleRound(): LinearScale<Double> {
+    return LinearScale(::interpolateRound, ::uninterpolateNumber, doubleComparator)
 }
 
 fun linearScaleHSL(): LinearScale<HSL> = LinearScale<HSL>(::interpolateHsl)
