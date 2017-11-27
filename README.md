@@ -1,4 +1,4 @@
-<img src="http://data2viz.io/images/identity/d2v-logo-no-gradient-lg@2.png" alt="Data2viz" width="604" style="max-width:100%;">
+<img src="http://data2viz.io/images/identity/d2v-logo-no-gradient-lg@2-no-marge.png" alt="Data2viz" width="604" style="max-width:100%;">
 
 
 [![Download](https://api.bintray.com/packages/data2viz/data2viz/data2viz/images/download.svg) ](https://bintray.com/data2viz/data2viz/data2viz/_latestVersion)
