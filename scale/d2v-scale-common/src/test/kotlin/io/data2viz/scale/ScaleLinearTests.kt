@@ -620,6 +620,8 @@ class ScaleLinearTests : TestBase() {
         scale.domain(.0, 15.0)
         scale.nice(5)
         scale.domain shouldBe arrayListOf(.0, 20.0)
+        scale.range(.0, 100.0)
+        scale(20.0) shouldBe 100.0
     }
 
     @Test

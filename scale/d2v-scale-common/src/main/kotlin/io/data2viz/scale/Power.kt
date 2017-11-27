@@ -13,17 +13,15 @@ open class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Do
     var exponent: Double = exponent
         set(value) {
             field = value
-
-            // force recompute
-            domain = this.domain
+            rescale()
         }
 
     override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double {
-        val da = raise(from, exponent)
-        val db = raise(to, exponent) - da
+        val dFrom = raise(from, exponent)
+        val dTo = raise(to, exponent) - dFrom
 
-        return if (db == .0 || db == Double.NaN) { { db } }
-        else { t -> (raise(t, exponent) - da) / db }
+        return if (dTo == .0 || dTo == Double.NaN) { t -> dTo }
+        else { t -> (raise(t, exponent) - dFrom) / dTo }
     }
 
     override fun interpolateDomain(from: Double, to: Double): (Double) -> Double {
