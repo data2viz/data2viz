@@ -4,7 +4,7 @@ import kotlin.math.*
 import kotlin.math.max
 import kotlin.math.min
 
-private val prefixes = listOf<String>("y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y")
+private val prefixes = listOf("y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y")
 private var prefixExponent = 0
 private val validTypes = "efgrs%pbodxXc"                     // empty string is also a valid type
 
@@ -109,14 +109,14 @@ fun Locale.format(specify: String): (Double) -> String {
         }
 
         // Reconstruct the final output based on the desired alignment.
-        when (align) {
-            "<" -> returnValue = valuePrefix + returnValue + valueSuffix + padding
-            "=" -> returnValue = valuePrefix + padding + returnValue + valueSuffix
+        returnValue = when (align) {
+            "<" -> valuePrefix + returnValue + valueSuffix + padding
+            "=" -> valuePrefix + padding + returnValue + valueSuffix
             "^" -> {
                 val padLength = padding.length / 2 - 1
-                returnValue = padding.slice(0..padLength) + valuePrefix + returnValue + valueSuffix + padding.slice(0 until padding.length - 1 - padLength)
+                padding.slice(0..padLength) + valuePrefix + returnValue + valueSuffix + padding.slice(0 until padding.length - 1 - padLength)
             }
-            else -> returnValue = padding + valuePrefix + returnValue + valueSuffix
+            else -> padding + valuePrefix + returnValue + valueSuffix
         }
 
 
@@ -135,9 +135,7 @@ fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> Str
     val e = max(-8.0, min(8.0, floor(exponent(fixedPrefix).toDouble() / 3.0))) * 3
     val k = 10.0.pow(-e)
     val prefix = prefixes[8 + (e / 3.0).toInt()]
-    return fun(value: Double): String {
-        return f(k * value) + prefix
-    }
+    return fun(value: Double): String = f(k * value) + prefix
 }
 
 private fun exponent(value: Double): Int {
@@ -174,19 +172,19 @@ private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int)
 
 fun formatTypes(type: String): (Double, Int) -> String {
     when (type) {
-        "f" -> return fun(x: Double, p: Int): String { return x.toFixed(p) }
-        "%" -> return fun(x: Double, p: Int): String { return (x * 100).toFixed(p) }
-        "b" -> return fun(x: Double, _: Int): String { return x.toStringDigits(2) }
-        "c" -> return fun(x: Double, _: Int): String { return "$x" }
-        "d" -> return fun(x: Double, _: Int): String { return x.toStringDigits(10) }
-        "e" -> return fun(x: Double, p: Int): String { return x.toExponential(p) }
-        "g" -> return fun(x: Double, p: Int): String { return x.toPrecision(p) }
-        "o" -> return fun(x: Double, _: Int): String { return x.toStringDigits(8) }
-        "p" -> return fun(x: Double, p: Int): String { return formatRounded(x * 100, p) }
+        "f" -> return fun(x: Double, p: Int): String = x.toFixed(p)
+        "%" -> return fun(x: Double, p: Int): String = (x * 100).toFixed(p)
+        "b" -> return fun(x: Double, _: Int): String = x.toStringDigits(2)
+        "c" -> return fun(x: Double, _: Int): String = "$x"
+        "d" -> return fun(x: Double, _: Int): String = x.toStringDigits(10)
+        "e" -> return fun(x: Double, p: Int): String = x.toExponential(p)
+        "g" -> return fun(x: Double, p: Int): String = x.toPrecision(p)
+        "o" -> return fun(x: Double, _: Int): String = x.toStringDigits(8)
+        "p" -> return fun(x: Double, p: Int): String = formatRounded(x * 100, p)
         "r" -> return ::formatRounded
         "s" -> return ::formatPrefixAuto
-        "X" -> return fun(x: Double, _: Int): String { return x.toStringDigits(16).toUpperCase() }
-        "x" -> return fun(x: Double, _: Int): String { return x.toStringDigits(16) }
+        "X" -> return fun(x: Double, _: Int): String = x.toStringDigits(16).toUpperCase()
+        "x" -> return fun(x: Double, _: Int): String = x.toStringDigits(16)
         else -> return ::formatDefault
     }
 }
@@ -218,7 +216,7 @@ fun formatDefault(x: Double, p: Int): String {
 fun formatRounded(x: Double, p: Int): String {
     val ce = formatDecimal(x, p) ?: return "$x"
 
-    val ret = if (ce.exponent < 0) {
+    return if (ce.exponent < 0) {
         "0.".padEnd(-ce.exponent + 1, '0') + ce.coefficient
     } else {
         if (ce.coefficient.length > ce.exponent + 1) {
@@ -228,7 +226,6 @@ fun formatRounded(x: Double, p: Int): String {
             ce.coefficient + "".padStart(ce.exponent - ce.coefficient.length + 1, '0')
         }
     }
-    return ret
 }
 
 /**
@@ -264,19 +261,18 @@ private fun formatPrefixAuto(x: Double, p: Int = 0): String {
     val i = ce.exponent - prefixExponent + 1
     val n = ce.coefficient.length
 
-    return if (i == n) ce.coefficient
-    else if (i > n) ce.coefficient.padEnd(i, '0')
-    else if (i > 0) ce.coefficient.slice(0 until i) + "." + ce.coefficient.slice(i until ce.coefficient.length)
-    else "0.".padEnd(2 - i, '0') + formatDecimal(x, max(0, p + i - 1))!!.coefficient // less than 1y!
+    return when {
+        i == n -> ce.coefficient
+        i > n -> ce.coefficient.padEnd(i, '0')
+        i > 0 -> ce.coefficient.slice(0 until i) + "." + ce.coefficient.slice(i until ce.coefficient.length)
+        else -> "0.".padEnd(2 - i, '0') + formatDecimal(x, max(0, p + i - 1))!!.coefficient
+    } // less than 1y!
 }
 
-fun precisionFixed(step: Double): Int {
-    return max(0, -exponent(abs(step)))
-}
+fun precisionFixed(step: Double): Int = max(0, -exponent(abs(step)))
 
-fun precisionPrefix(step: Double, value: Double): Int {
-    return max(0, max(-8, min(8, floor(exponent(value) / 3.0).toInt())) * 3 - exponent(abs(step)))
-}
+fun precisionPrefix(step: Double, value: Double): Int =
+        max(0, max(-8, min(8, floor(exponent(value) / 3.0).toInt())) * 3 - exponent(abs(step)))
 
 fun precisionRound(step: Double, max: Double): Int {
     val newStep = abs(step)
