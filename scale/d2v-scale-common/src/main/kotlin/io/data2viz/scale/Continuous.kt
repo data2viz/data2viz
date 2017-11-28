@@ -3,7 +3,15 @@ package io.data2viz.scale
 import kotlin.math.min
 
 // TODO move to array module
-private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
+/**
+ * Returns the insertion point for x in array to maintain sorted order.
+ * The arguments lo and hi may be used to specify a subset of the array which should be considered;
+ * by default the entire array is used. If x is already present in array, the insertion point will be
+ * after (to the right of) any existing entries of x in array.
+ * The returned insertion point i partitions the array into two halves so that all v <= x for v in array.slice(lo, i)
+ * for the left side and all v > x for v in array.slice(i, hi) for the right side.
+ */
+fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
     var lo = low
     var hi = high
     while (lo < hi) {
@@ -13,7 +21,19 @@ private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int 
         else
             lo = mid + 1
     }
+    return lo
+}
 
+fun <T> bisectLeft(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
+    var lo = low
+    var hi = high
+    while (lo < hi) {
+        val mid = (lo + hi) / 2
+        if (comparator.compare(list[mid], x) < 0)
+            lo = mid + 1
+        else
+            hi = mid
+    }
     return lo
 }
 
@@ -44,13 +64,11 @@ abstract class ContinuousScaleImpl<R>(
     abstract fun interpolateDomain(from: Double, to: Double): (Double) -> Double
     abstract fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double
 
-    // TODO : keep or not ?
-    fun domain(vararg d: Double) {
+    override fun domain(vararg d: Double) {
         domain = d.toMutableList()
     }
 
-    // TODO : keep or not ?
-    fun range(vararg r: R) {
+    override fun range(vararg r: R) {
         range = r.toMutableList()
     }
 

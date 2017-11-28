@@ -13,8 +13,7 @@ import kotlin.math.*
  */
 open class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScale<Double, R>, ClampableScale<Double, R> {
 
-    // TODO : keep or not ?
-    fun domain(vararg d: Double) {
+    override fun domain(vararg d: Double) {
         domain = d.toMutableList()
     }
 

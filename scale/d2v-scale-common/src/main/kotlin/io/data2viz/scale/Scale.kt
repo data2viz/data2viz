@@ -11,11 +11,13 @@ package io.data2viz.scale
 // TODO clamp in Scale ?
 
 interface Scale<D, out V> {
+    fun domain(vararg d: Double)                    // TODO : keep or not ?
     val domain: List<D>
     operator fun invoke(domainValue: D): V
 }
 
-interface ContinuousScale<D, out V> : Scale<D, V> {
+interface ContinuousScale<D, V> : Scale<D, V> {
+    fun range(vararg r: V)                          // TODO : keep or not ?
     val range: List<V>
 }
 
