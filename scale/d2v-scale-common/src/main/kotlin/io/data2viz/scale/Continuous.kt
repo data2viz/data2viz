@@ -19,8 +19,6 @@ private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int 
 
 
 abstract class ContinuousScale<R>(
-        val interpolateDomain: (Double, Double) -> ((Double) -> Double),
-        val uninterpolateDomain: (Double, Double) -> ((Double) -> Double),
         val interpolateRange: (R, R) -> (Double) -> R,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
         val rangeComparator: Comparator<R>? = null) : Scale<Double, R> {
@@ -28,7 +26,18 @@ abstract class ContinuousScale<R>(
     var input: ((R) -> Double)? = null
     var output: ((Double) -> R)? = null
 
-    var clamp: Boolean = false
+    abstract fun interpolateDomain(from: Double, to:Double): (Double) -> Double
+    abstract fun uninterpolateDomain(from: Double, to: Double):(Double) -> Double
+
+    fun domain(vararg d: Double) {
+        domain = d.toMutableList()
+    }
+
+    fun range(vararg r: R) {
+        range = r.toMutableList()
+    }
+
+    open var clamp: Boolean = false
         set(value) {
             field = value
             rescale()
@@ -56,7 +65,8 @@ abstract class ContinuousScale<R>(
 
     override operator fun invoke(domainValue: Double): R {
         if (output == null) {
-            val uninterpolateFunc = if (clamp) uninterpolateClamp(uninterpolateDomain) else uninterpolateDomain
+            check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
+            val uninterpolateFunc = if (clamp) uninterpolateClamp(::uninterpolateDomain) else ::uninterpolateDomain
             output =
                     if (domain.size > 2 || range.size > 2) polymap(uninterpolateFunc, interpolateRange)
                     else bimap(uninterpolateFunc, interpolateRange)
@@ -67,10 +77,11 @@ abstract class ContinuousScale<R>(
 
     // TODO : wrong : clamping is done on interpolateRange function...
     fun invert(rangeValue: R): Double {
-        checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible" })
+        checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible." })
 
         if (input == null) {
-            val interpolateFunc = if (clamp) interpolateClamp(interpolateDomain) else interpolateDomain
+            check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
+            val interpolateFunc = if (clamp) interpolateClamp(::interpolateDomain) else ::interpolateDomain
             input =
                     if (domain.size > 2 || range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
                     else bimapInvert(interpolateFunc, uninterpolateRange!!)
@@ -103,7 +114,7 @@ abstract class ContinuousScale<R>(
         }
     }
 
-    private fun rescale() {
+    protected open fun rescale() {
         input = null
         output = null
     }
@@ -133,7 +144,7 @@ abstract class ContinuousScale<R>(
     private fun bimapInvert(reinterpolateDomain: (Double, Double) -> (Double) -> Double,
                             deinterpolateRange: (R, R) -> (R) -> Double): (R) -> Double {
 
-        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible" })
+        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible." })
 
         val d0 = domain[0]
         val d1 = domain[1]
@@ -154,8 +165,8 @@ abstract class ContinuousScale<R>(
         return { x: R -> d(r(x)) }
     }
 
-    private fun polymap(deinterpolateDomain: (Double, Double) -> (Double) -> Double,
-                        reinterpolateRange: (R, R) -> (Double) -> R): (Double) -> R {
+    private fun polymap(uninterpolateDomain: (Double, Double) -> (Double) -> Double,
+                        interpolateRange: (R, R) -> (Double) -> R): (Double) -> R {
 
         val d0 = domain.first()
         val d1 = domain.last()
@@ -164,8 +175,8 @@ abstract class ContinuousScale<R>(
         val rangeValues = if (domainReversed) range.reversed() else range
 
         val size = min(domain.size, range.size) - 1
-        val domainInterpolators = Array(size, { deinterpolateDomain(domainValues[it], domainValues[it + 1]) })
-        val rangeInterpolators = Array(size, { reinterpolateRange(rangeValues[it], rangeValues[it + 1]) })
+        val domainInterpolators = Array(size, { uninterpolateDomain(domainValues[it], domainValues[it + 1]) })
+        val rangeInterpolators = Array(size, { interpolateRange(rangeValues[it], rangeValues[it + 1]) })
 
         return { x ->
             val index = bisect<Double>(domain, x, naturalOrder<Double>(), 1, size) - 1
@@ -173,11 +184,11 @@ abstract class ContinuousScale<R>(
         }
     }
 
-    private fun polymapInvert(reinterpolateDomain: (Double, Double) -> (Double) -> Double,
-                              deinterpolateRange: (R, R) -> (R) -> Double): (R) -> Double {
+    private fun polymapInvert(interpolateDomain: (Double, Double) -> (Double) -> Double,
+                              uninterpolateRange: (R, R) -> (R) -> Double): (R) -> Double {
 
         // TODO <R> instanceOf Comparable ??
-        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible" })
+        checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible." })
 
         val r0 = range.first()
         val r1 = range.last()
@@ -186,8 +197,8 @@ abstract class ContinuousScale<R>(
         val rangeValues = if (rangeReversed) range.reversed() else range
 
         val size = min(domain.size, range.size) - 1
-        val domainInterpolators = Array(size, { reinterpolateDomain(domainValues[it], domainValues[it + 1]) })
-        val rangeInterpolators = Array(size, { deinterpolateRange(rangeValues[it], rangeValues[it + 1]) })
+        val domainInterpolators = Array(size, { interpolateDomain(domainValues[it], domainValues[it + 1]) })
+        val rangeInterpolators = Array(size, { uninterpolateRange(rangeValues[it], rangeValues[it + 1]) })
 
         return { y ->
             val index = bisect<R>(rangeValues, y, rangeComparator, 1, size) - 1
