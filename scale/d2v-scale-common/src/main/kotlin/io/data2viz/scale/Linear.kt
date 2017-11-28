@@ -18,7 +18,8 @@ import kotlin.math.floor
 open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
                           uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
                           rangeComparator: Comparator<R>? = null)
-    : ContinuousScale<R>( interpolateRange, uninterpolateRange, rangeComparator) {
+
+    : ContinuousScaleImpl<R>( interpolateRange, uninterpolateRange, rangeComparator), NiceableScale<Double, R> {
 
     override fun interpolateDomain(from: Double, to: Double): (Double) -> Double = interpolateNumber(from, to)
     override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double = uninterpolateNumber(from, to)
@@ -35,7 +36,7 @@ open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
      * Nicing a scale only modifies the current domain; it does not automatically nice domains that are
      * subsequently set using continuous.domain. You must re-nice the scale after setting the new domain, if desired.
      */
-    fun nice(count: Int = 10) {
+    override fun nice(count:Int) {
 
         // since domain getter returns a copy we need to reset the whole value
         val newDomain = domain
@@ -53,8 +54,6 @@ open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         }
     }
 }
-
-val doubleComparator = naturalOrder<Double>()
 
 fun linearScale(): LinearScale<Double> {
     return LinearScale<Double>(::interpolateNumber, ::uninterpolateNumber, doubleComparator)

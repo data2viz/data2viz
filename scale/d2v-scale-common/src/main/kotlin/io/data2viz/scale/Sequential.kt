@@ -11,18 +11,21 @@ import kotlin.math.*
  * by its interpolator and not configurable.
  * These scales do not expose invert, range, rangeRound and interpolate methods.
  */
-open class SequentialScale<R>(var interpolator: ((Double) -> R)?) : Scale<Double, R> {
+open class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScale<Double, R>, ClampableScale<Double, R> {
+
+    // TODO : keep or not ?
+    fun domain(vararg d: Double) {
+        domain = d.toMutableList()
+    }
 
     override var domain: MutableList<Double> = arrayListOf(.0, 1.0)
+        get() = field.toMutableList()
         set(value) {
             if (value.size != 2) throw IllegalArgumentException("Sequential Scale can only accept a domain with 2 values.")
             field = value.toMutableList()
         }
 
-    override val range: List<R>
-        get() = throw RuntimeException("Sequential Scale range is defined by its interpolator and cannot be accessed.")
-
-    var clamp: Boolean = false
+    override var clamp: Boolean = false
         set(value) {
             field = value
         }
@@ -36,3 +39,5 @@ open class SequentialScale<R>(var interpolator: ((Double) -> R)?) : Scale<Double
 
     override fun ticks(count: Int) = io.data2viz.core.ticks(domain.first(), domain.last(), count) as List<Double>
 }
+
+fun sequentialScale(interpolator: (Double) -> Double) = SequentialScale<Double>(interpolator)

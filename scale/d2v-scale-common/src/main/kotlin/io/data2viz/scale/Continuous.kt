@@ -17,6 +17,8 @@ private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int 
     return lo
 }
 
+val doubleComparator = naturalOrder<Double>()
+
 // uninterpolate  [value A .. value B] --> [0 .. 1]
 // interpolate [0 .. 1] --> [value A .. value B]
 
@@ -27,26 +29,32 @@ private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int 
  * A continuous scale is not constructed directly; instead, try a linear, power, log,
  * identity, time or sequential color scale.
  */
-abstract class ContinuousScale<R>(
+abstract class ContinuousScaleImpl<R>(
         val interpolateRange: (R, R) -> (Double) -> R,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
-        val rangeComparator: Comparator<R>? = null) : Scale<Double, R> {
+        val rangeComparator: Comparator<R>? = null) :
+        ContinuousScale<Double, R>,
+        ClampableScale<Double, R>,
+        InvertableScale<Double, R>,
+        TickableScale<Double, R> {
 
     var input: ((R) -> Double)? = null
     var output: ((Double) -> R)? = null
 
-    abstract fun interpolateDomain(from: Double, to:Double): (Double) -> Double
-    abstract fun uninterpolateDomain(from: Double, to: Double):(Double) -> Double
+    abstract fun interpolateDomain(from: Double, to: Double): (Double) -> Double
+    abstract fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double
 
+    // TODO : keep or not ?
     fun domain(vararg d: Double) {
         domain = d.toMutableList()
     }
 
+    // TODO : keep or not ?
     fun range(vararg r: R) {
         range = r.toMutableList()
     }
 
-    open var clamp: Boolean = false
+    override var clamp: Boolean = false
         set(value) {
             field = value
             rescale()
@@ -54,9 +62,7 @@ abstract class ContinuousScale<R>(
 
     // copy the value (no binding intended)
     override var domain: MutableList<Double> = arrayListOf(.0, 1.0)
-        get() {
-            return field.toMutableList()
-        }
+        get() = field.toMutableList()
         set(value) {
             field = value.toMutableList()
             rescale()
@@ -64,18 +70,11 @@ abstract class ContinuousScale<R>(
 
     // copy the value (no binding intended)
     override var range: MutableList<R> = arrayListOf()
-        get() {
-            return field.toMutableList()
-        }
+        get() = field.toMutableList()
         set(value) {
             field = value.toMutableList()
             rescale()
         }
-
-    protected open fun rescale() {
-        input = null
-        output = null
-    }
 
     override operator fun invoke(domainValue: Double): R {
         if (output == null) {
@@ -90,7 +89,7 @@ abstract class ContinuousScale<R>(
     }
 
     // TODO : wrong : clamping is done on interpolateRange function...
-    open fun invert(rangeValue: R): Double {
+    override fun invert(rangeValue: R): Double {
         checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible." })
 
         if (input == null) {
@@ -102,6 +101,15 @@ abstract class ContinuousScale<R>(
         }
 
         return input?.invoke(rangeValue) ?: throw IllegalStateException()
+    }
+
+    override fun ticks(count: Int): List<Double> {
+        return io.data2viz.core.ticks(domain.first(), domain.last(), count) as List<Double>
+    }
+
+    protected open fun rescale() {
+        input = null
+        output = null
     }
 
     private fun uninterpolateClamp(uninterpolateFunction: (Double, Double) -> (Double) -> Double): (Double, Double) -> (Double) -> Double {
@@ -213,9 +221,5 @@ abstract class ContinuousScale<R>(
             val index = bisect<R>(rangeValues, y, rangeComparator, 1, size) - 1
             domainInterpolators[index](rangeInterpolators[index](y))
         }
-    }
-
-    override fun ticks(count: Int): List<Double> {
-        return io.data2viz.core.ticks(domain.first(), domain.last(), count) as List<Double>
     }
 }

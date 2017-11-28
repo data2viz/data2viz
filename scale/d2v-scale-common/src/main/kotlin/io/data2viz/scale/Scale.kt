@@ -4,15 +4,33 @@ package io.data2viz.scale
 // TODO (DV-63)
 /*data class DomainToViz<out D, out V>(
         val domain: D,
-        val range: V
+        val viz: V          /// ????
 )*/
 
+// TODO add more specific interfaces (Roundable ?)
+// TODO clamp in Scale ?
+
 interface Scale<D, out V> {
-
     val domain: List<D>
-    val range: List<V>
-
     operator fun invoke(domainValue: D): V
+}
 
+interface ContinuousScale<D, out V> : Scale<D, V> {
+    val range: List<V>
+}
+
+interface ClampableScale<D, out V> : Scale<D, V> {
+    val clamp: Boolean
+}
+
+interface NiceableScale<D, V> : Scale<D, V> {
+    fun nice(count: Int = 10)
+}
+
+interface InvertableScale<D, V> : Scale<D, V> {
+    fun invert(rangeValue: V): D
+}
+
+interface TickableScale<D, V>: Scale<D, V> {
     fun ticks(count: Int = 10): List<Double>
 }

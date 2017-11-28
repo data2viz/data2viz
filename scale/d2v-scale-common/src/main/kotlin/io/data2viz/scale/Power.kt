@@ -46,7 +46,13 @@ open class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Do
 fun powerScale(exponent:Double = 1.0): PowerScale<Double> {
     return PowerScale<Double>(exponent, ::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>())
 }
-
 fun powerScaleRound(exponent:Double = 1.0): PowerScale<Double> {
     return PowerScale<Double>(exponent, ::interpolateRound, ::uninterpolateNumber, naturalOrder<Double>())
+}
+
+fun sqrtScale(): PowerScale<Double> {
+    return PowerScale<Double>(.5, ::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>())
+}
+fun sqrtScaleRound(): PowerScale<Double> {
+    return PowerScale<Double>(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder<Double>())
 }

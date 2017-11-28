@@ -46,7 +46,7 @@ class ScaleLinearTests : TestBase() {
     fun linear_Number_clamp_noclamp() {
         val scale = linearScale()
 
-        scale.domain(.0, 100.0)
+        scale.domain = arrayListOf(.0, 100.0)
         scale.range(.0, -100.0)
         scale(50.0) shouldBe -50.0
         scale(10.0) shouldBe (-10.0 plusOrMinus epsilon)

@@ -13,7 +13,7 @@ import kotlin.math.*
 open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) -> R,
                        uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
                        rangeComparator: Comparator<R>? = null)
-    : ContinuousScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
+    : ContinuousScaleImpl<R>(interpolateRange, uninterpolateRange, rangeComparator), NiceableScale<Double, R> {
 
     /**
      * As log(0) = -∞, a log scale domain must be strictly-positive or strictly-negative;
@@ -59,7 +59,7 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
         return newDomain
     }
 
-    fun nice() {
+    override fun nice(count: Int) {
         domain = nice(domain, { x -> base.pow(floor(log(x, base))) }, { x -> base.pow(ceil(log(x, base))) })
     }
 
