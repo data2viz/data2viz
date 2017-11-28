@@ -13,9 +13,15 @@ import kotlin.math.*
  */
 open class IdentityScale(): LinearScale<Double>(::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>()) {
 
+    // TODO : find a better way to do this...
     override var domain: MutableList<Double> = arrayListOf(.0, 1.0)
+        set(value) = throw RuntimeException("Identity Scale has a constant domain that must not be modified.")
+
     override var range: MutableList<Double> = arrayListOf(.0, 1.0)
+        set(value) = throw RuntimeException("Identity Scale has a constant range that must not be modified.")
+
     override var clamp: Boolean = false
+        set(value) = throw RuntimeException("Identity Scale has a constant clamping value (false) that must not be modified.")
 }
 
 fun identityScale() = IdentityScale()

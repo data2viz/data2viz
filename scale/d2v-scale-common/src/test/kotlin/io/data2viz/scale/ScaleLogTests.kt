@@ -102,4 +102,5 @@ class ScaleLogTests : TestBase() {
 
 
     // TODO : add more scale tests
+    // TODO tests throw (domain >0 and <0 ...)
 }

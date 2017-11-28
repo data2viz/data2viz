@@ -17,7 +17,16 @@ private fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int 
     return lo
 }
 
+// uninterpolate  [value A .. value B] --> [0 .. 1]
+// interpolate [0 .. 1] --> [value A .. value B]
 
+// TODO RGB continuous scale, HCL ...
+/**
+ * Continuous scales map a continuous, quantitative input domain to a continuous output range.
+ * If the range is also numeric, the mapping may be inverted.
+ * A continuous scale is not constructed directly; instead, try a linear, power, log,
+ * identity, time or sequential color scale.
+ */
 abstract class ContinuousScale<R>(
         val interpolateRange: (R, R) -> (Double) -> R,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
@@ -63,6 +72,11 @@ abstract class ContinuousScale<R>(
             rescale()
         }
 
+    protected open fun rescale() {
+        input = null
+        output = null
+    }
+
     override operator fun invoke(domainValue: Double): R {
         if (output == null) {
             check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
@@ -76,7 +90,7 @@ abstract class ContinuousScale<R>(
     }
 
     // TODO : wrong : clamping is done on interpolateRange function...
-    fun invert(rangeValue: R): Double {
+    open fun invert(rangeValue: R): Double {
         checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible." })
 
         if (input == null) {
@@ -112,11 +126,6 @@ abstract class ContinuousScale<R>(
                 else -> r(t)
             }
         }
-    }
-
-    protected open fun rescale() {
-        input = null
-        output = null
     }
 
     private fun bimap(deinterpolateDomain: (Double, Double) -> (Double) -> Double,

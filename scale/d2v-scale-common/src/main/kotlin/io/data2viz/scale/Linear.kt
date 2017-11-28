@@ -9,6 +9,12 @@ import io.data2viz.interpolate.uninterpolateNumber
 import kotlin.math.ceil
 import kotlin.math.floor
 
+/**
+ * Constructs a new continuous scale with the unit domain [0, 1], the unit range [0, 1], the default interpolator
+ * and clamping disabled.
+ * Linear scales are a good default choice for continuous quantitative data because they preserve proportional
+ * differences. Each range value y can be expressed as a function of the domain value x: y = mx + b.
+ */
 open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
                           uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
                           rangeComparator: Comparator<R>? = null)

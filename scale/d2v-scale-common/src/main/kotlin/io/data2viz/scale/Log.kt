@@ -49,21 +49,13 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
     }
 
     private fun nice(domain: List<Double>, floor: (Double) -> Double, ceil: (Double) -> Double): MutableList<Double> {
-        var i0 = 0
-        var i1 = domain.size - 1
-        var x0 = domain[i0]
-        var x1 = domain[i1]
-
-        if(x1 < x0) {
-            i0 = domain.size - 1
-            i1 = 0
-            x0 = domain[i0]
-            x1 = domain[i1]
-        }
+        val reversed = domain.last() < domain.first()
+        val first = if(reversed) domain.size - 1 else 0
+        val last  = if(reversed) 0 else domain.size - 1
 
         val newDomain = domain.toMutableList()
-        newDomain[i0] = floor(x0)
-        newDomain[i1] = ceil(x1)
+        newDomain[first] = floor(domain[first])
+        newDomain[last] = ceil(domain[last])
         return newDomain
     }
 
