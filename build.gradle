@@ -2,7 +2,7 @@ buildscript {
 
     repositories {
         jcenter()
-        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-dev' }
         maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
     }
@@ -19,7 +19,7 @@ apply plugin: 'com.jfrog.bintray'
 allprojects {
     repositories {
         jcenter()
-        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-dev' }
     }
     apply plugin: 'maven'
 
@@ -173,9 +173,6 @@ subprojects {
 
 
     }
-
-
-
 
 }
 
