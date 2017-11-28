@@ -15,7 +15,7 @@ data class Locale(
         var grouping: List<Int> = listOf(3),
         var groupSeparator: String = ",",
         var currency: List<String> = listOf("$", ""),
-        var numerals: List<String>? = null,
+        var numerals: Array<String>? = null,
         var percent: String = "%")
 
 // TODO locale and numerals
@@ -118,15 +118,24 @@ fun Locale.format(specify: String): (Double) -> String {
             }
             else -> padding + valuePrefix + returnValue + valueSuffix
         }
-
-
-        return returnValue
-
-        // TODO
-        //return numerals(returnValue)
+        return numerals(returnValue)
     }
     return ::format
 }
+
+fun Locale.numerals(valueAsString: String): String =
+        if (numerals == null)
+            valueAsString
+        else valueAsString
+                .fold(StringBuilder(), { acc, c ->
+                    val intValue = c.toInt()
+                    if (intValue in 48..57)
+                        acc.append(numerals!![intValue - 48])
+                    else
+                        acc.append(c)
+                })
+                .toString()
+
 
 fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String {
     val formatSpecifier = FormatSpecifier(specifier)
@@ -170,24 +179,23 @@ private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int)
 }
 
 
-fun formatTypes(type: String): (Double, Int) -> String {
-    when (type) {
-        "f" -> return fun(x: Double, p: Int): String = x.toFixed(p)
-        "%" -> return fun(x: Double, p: Int): String = (x * 100).toFixed(p)
-        "b" -> return fun(x: Double, _: Int): String = x.toStringDigits(2)
-        "c" -> return fun(x: Double, _: Int): String = "$x"
-        "d" -> return fun(x: Double, _: Int): String = x.toStringDigits(10)
-        "e" -> return fun(x: Double, p: Int): String = x.toExponential(p)
-        "g" -> return fun(x: Double, p: Int): String = x.toPrecision(p)
-        "o" -> return fun(x: Double, _: Int): String = x.toStringDigits(8)
-        "p" -> return fun(x: Double, p: Int): String = formatRounded(x * 100, p)
-        "r" -> return ::formatRounded
-        "s" -> return ::formatPrefixAuto
-        "X" -> return fun(x: Double, _: Int): String = x.toStringDigits(16).toUpperCase()
-        "x" -> return fun(x: Double, _: Int): String = x.toStringDigits(16)
-        else -> return ::formatDefault
-    }
-}
+fun formatTypes(type: String): (Double, Int) -> String =
+        when (type) {
+            "f" -> { x: Double, p: Int -> x.toFixed(p) }
+            "%" -> { x: Double, p: Int -> (x * 100).toFixed(p) }
+            "b" -> { x: Double, p: Int -> x.toStringDigits(2) }
+            "c" -> { x: Double, p: Int -> "$x" }
+            "d" -> { x: Double, p: Int -> x.toStringDigits(10) }
+            "e" -> { x: Double, p: Int -> x.toExponential(p) }
+            "g" -> { x: Double, p: Int -> x.toPrecision(p) }
+            "o" -> { x: Double, p: Int -> x.toStringDigits(8) }
+            "p" -> { x: Double, p: Int -> formatRounded(x * 100, p) }
+            "r" -> { x: Double, p: Int -> formatRounded(x, p) }
+            "s" -> { x: Double, p: Int -> formatPrefixAuto(x, p) }
+            "X" -> { x: Double, p: Int -> x.toStringDigits(16).toUpperCase() }
+            "x" -> { x: Double, p: Int -> x.toStringDigits(16) }
+            else -> { x: Double, p: Int -> formatDefault(x, p) }
+        }
 
 fun formatDefault(x: Double, p: Int): String {
     val newX = x.toPrecision(p)
