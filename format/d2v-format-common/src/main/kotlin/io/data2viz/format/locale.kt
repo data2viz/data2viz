@@ -1,8 +1,6 @@
 package io.data2viz.format
 
 import kotlin.math.*
-import kotlin.math.max
-import kotlin.math.min
 
 private val prefixes = listOf("y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y")
 private var prefixExponent = 0
@@ -18,10 +16,17 @@ data class Locale(
         var numerals: Array<String>? = null,
         var percent: String = "%")
 
-// TODO locale and numerals
-fun Locale.format(specify: String): (Double) -> String {
+fun formatter(specify: String): (Double) -> String = Locale().formatter(specify)
 
-    val specifier = FormatSpecifier(specify)
+fun formatter(init: FormatDSL.() -> Unit): (Double) -> String {
+    val dsl = FormatDSL()
+    dsl.init()
+    return Locale().formatter(dsl.toString())
+}
+
+fun Locale.formatter(specify: String): (Double) -> String {
+
+    val specifier = specify(specify)
 
     val fill = specifier.fill
     val align = specifier.align
@@ -52,7 +57,7 @@ fun Locale.format(specify: String): (Double) -> String {
     val precision = if (specifier.precision == null) {
         if (type.isNotEmpty()) 6 else 12
     } else {
-        if (isTypeIn(type, "gprs")) max(1, min(21, specifier.precision!!)) else max(0, min(20, specifier.precision!!))
+        if (isTypeIn(type, "gprs")) specifier.precision.coerceIn(1,21) else specifier.precision.coerceIn(0,20)
     }
 
     fun format(value: Double): String {
@@ -137,11 +142,12 @@ fun Locale.numerals(valueAsString: String): String =
                 .toString()
 
 
+fun formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String = Locale().formatPrefix(specifier, fixedPrefix)
 fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String {
-    val formatSpecifier = FormatSpecifier(specifier)
+    val formatSpecifier = specify(specifier)
     formatSpecifier.type = "f"
-    val f = format(formatSpecifier.toString())
-    val e = max(-8.0, min(8.0, floor(exponent(fixedPrefix).toDouble() / 3.0))) * 3
+    val f = formatter(formatSpecifier.toString())
+    val e = floor(exponent(fixedPrefix).toDouble() / 3.0).coerceIn(-8.0, 8.0) * 3
     val k = 10.0.pow(-e)
     val prefix = prefixes[8 + (e / 3.0).toInt()]
     return fun(value: Double): String = f(k * value) + prefix
@@ -265,7 +271,7 @@ fun formatDecimal(x: Double, p: Int = 0): CoefficientExponent? {
 private fun formatPrefixAuto(x: Double, p: Int = 0): String {
     val ce = formatDecimal(x, p) ?: return "$x"
 
-    prefixExponent = max(-8, min(8, floor(ce.exponent / 3.0).toInt())) * 3
+    prefixExponent = floor(ce.exponent / 3.0).toInt().coerceIn(-8, 8) * 3
     val i = ce.exponent - prefixExponent + 1
     val n = ce.coefficient.length
 
@@ -279,8 +285,7 @@ private fun formatPrefixAuto(x: Double, p: Int = 0): String {
 
 fun precisionFixed(step: Double): Int = max(0, -exponent(abs(step)))
 
-fun precisionPrefix(step: Double, value: Double): Int =
-        max(0, max(-8, min(8, floor(exponent(value) / 3.0).toInt())) * 3 - exponent(abs(step)))
+fun precisionPrefix(step: Double, value: Double): Int = (floor(exponent(value) / 3.0).toInt().coerceIn(-8, 8) * 3 - exponent(abs(step))).coerceAtLeast(0)
 
 fun precisionRound(step: Double, max: Double): Int {
     val newStep = abs(step)
