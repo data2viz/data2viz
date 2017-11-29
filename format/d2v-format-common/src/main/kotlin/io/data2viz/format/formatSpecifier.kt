@@ -57,51 +57,186 @@ val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-\\( ])?([$#])?(0)?(\\d+)?(,
  * d3.format(".1")(42);  // "4e+1"
  * d3.format(".1")(4.2); // "4"
  */
-data class FormatSpecifier(val specifier:String) {
 
-    var fill: String = " "
-    var align: String = ">"
-    var sign: String = "-"
-    var symbol: String = ""
-    var zero: Boolean = false
+fun specify(specifier: String): FormatSpec {
+    var fill = " "
+    var align = Align.RIGTH
+    var sign = Sign.MINUS
+    var symbol: Symbol? = null
+    var zero: Boolean
     var width: Int? = null
-    var groupSeparation: Boolean = false
+    var groupSeparation: Boolean
     var precision: Int? = null
-    var type: String = ""
+    var type: Type? = null
 
-    init {
-        if (!formatRE.matches(specifier)) throw IllegalArgumentException("invalid format: " + specifier);
+    if (!formatRE.matches(specifier)) throw IllegalArgumentException("invalid format: " + specifier)
 
-        val match = formatRE.find(specifier)!!.groupValues
+    val match = formatRE.find(specifier)!!.groupValues
 
-        if (match[1].isNotEmpty()) fill = match[1]
-        if (match[2].isNotEmpty()) align = match[2]
-        if (match[3].isNotEmpty()) sign = match[3]
-        if (match[4].isNotEmpty()) symbol = match[4]
-        zero = (match[5] == "0")
-        if (match[6].isNotEmpty() && match[6].toIntOrNull() != null) width = match[6].toInt()
-        groupSeparation = (match[7] == ",")
-        if (match[8].length > 1 && match[8].substring(1).toIntOrNull() != null) precision = match[8].substring(1).toInt()
-        if (match[9].isNotEmpty()) type = match[9]
-
+    fun readType(string: String){
         // The "n" type is an alias for ",g".
-        if (type == "n") {
+        if (string == "n") {
             groupSeparation = true
-            type = "g"
-        }
-
-        // Map invalid types to the default format.
-        else if (!isValidType(type)) type = ""
-
-        // If zero fill is specified, padding goes after sign and before digits.
-        if (zero || (fill == "0" && align == "=")) {
-            zero = true
-            fill = "0"
-            align = "="
+            type = Type.DECIMAL_OR_EXPONENT
+        } else {
+            type = Type.values().firstOrNull { it.c == match[9] }
         }
     }
 
-    override fun toString(): String {
-        return "$fill$align$sign$symbol${if (zero) "0" else ""}${if (width == null) "" else max(1, width!!)}${if (groupSeparation) "," else ""}${if (precision == null) "" else "." + max(0, precision!!)}$type"
+    if (match[1].isNotEmpty()) fill = match[1]
+    if (match[2].isNotEmpty()) align    = Align.values().first { it.c == match[2] }
+    if (match[3].isNotEmpty()) sign     = Sign.values().first { it.c == match[3] }
+    if (match[4].isNotEmpty()) symbol   = Symbol.values().first { it.c == match[4] }
+    zero = (match[5] == "0")
+    if (match[6].isNotEmpty() && match[6].toIntOrNull() != null) width = match[6].toInt()
+    groupSeparation = (match[7] == ",")
+    if (match[8].length > 1 && match[8].substring(1).toIntOrNull() != null) precision = match[8].substring(1).toInt()
+
+    readType(match[9])
+
+
+    // If zero fill is specified, padding goes after sign and before digits.
+    if (zero || (fill == "0" && align == Align.RIGHT_WITHOUT_SIGN)) {
+        zero = true
+        fill = "0"
+        align = Align.RIGHT_WITHOUT_SIGN
     }
+
+    return FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
+}
+
+data class FormatSpec(
+        val fill: String = " ",
+        val align: Align = Align.RIGTH,
+        val sign: Sign = Sign.MINUS,
+        val symbol: Symbol? = null,
+        val zero: Boolean = false,
+        val width: Int? = null,
+        val groupSeparation: Boolean = false,
+        val precision: Int? = null,
+        val type: Type? = null) {
+
+    override fun toString(): String =
+            "$fill$align$sign${if (symbol == null) "" else symbol.c}${if (zero) "0" else ""}${if (width == null) "" else max(1, width!!)}${if (groupSeparation) "," else ""}${if (precision == null) "" else "." + max(0, precision)}${type.toString()}"
+}
+
+
+class FormatDSL {
+
+    var fill: Char? = null
+    var align: Align = Align.RIGTH
+    var sign: Sign = Sign.MINUS
+    var symbol: Symbol? = null
+    var zeroPadding: Boolean = false
+    var groupSeparation: Boolean = false
+    var width: Int? = null
+    var precision: Int? = null
+    var type: Type? = null
+
+
+    fun specifier() = FormatSpec(
+            fill.toString(),
+            align,
+            sign,
+            symbol,
+            zeroPadding,
+            width,
+            groupSeparation,
+            precision,
+            type
+    )
+
+    override fun toString(): String = specifier().toString()
+}
+
+
+/**
+ * The symbol can be either:
+ *  - a currency symbols per the locale definition.
+ *  - a number_base for binary, octal, or hexadecimal notation, prefix by 0b, 0o, or 0x, respectively.
+ */
+enum class Symbol(val c: String) {
+    CURRENCY("$"),
+    NUMBER_BASE("#")
+    ;
+
+    override fun toString() = c
+}
+
+enum class Type(val c: String) {
+    EXPONENT("e"),
+    FIXED_POINT("f"),
+    DECIMAL_OR_EXPONENT("g"),
+    DECIMAL("r"),
+    DECIMAL_WITH_SI("s"),
+    PERCENT("%"),
+    PERCENT_ROUNDED("p"),
+    BINARY("b"),
+    OCTAL("o"),
+    DECIMAL_ROUNDED("d"),
+    HEX_LOWERCASE("x"),
+    HEX_UPPERCASE("X"),
+    CHAR("c");
+
+//    override fun toString() = c
+}
+
+fun Type?.toString() = if (this  == null) "" else c
+
+/**
+ * Check if it is a number based type (binary, octal, hex ie: boxX)
+ */
+val Type?.isNumberBase:Boolean
+    get()  =
+        (this != null &&
+                (this == Type.BINARY ||
+                this == Type.OCTAL ||
+                this == Type.HEX_UPPERCASE ||
+                this == Type.HEX_LOWERCASE))
+
+/**
+ * Check if it is a percent type (%p)
+ */
+val Type?.isPercent:Boolean
+    get()  =
+        (this != null && (
+                this == Type.PERCENT ||
+                this == Type.PERCENT_ROUNDED))
+
+val Type?.maybeSuffix:Boolean
+    get()  =
+        (this != null && (
+                this == Type.DECIMAL_ROUNDED ||
+                this == Type.EXPONENT ||
+                this == Type.FIXED_POINT ||
+                this == Type.DECIMAL_OR_EXPONENT ||
+                this == Type.PERCENT_ROUNDED ||
+                this == Type.DECIMAL ||
+                this == Type.DECIMAL_WITH_SI ||
+                this == Type.PERCENT
+                ))
+
+val gprs = listOf(
+        Type.DECIMAL_OR_EXPONENT,
+        Type.PERCENT_ROUNDED,
+        Type.DECIMAL,
+        Type.DECIMAL_WITH_SI
+)
+
+enum class Sign(val c: String) {
+    MINUS("-"),
+    PLUS("+"),
+    PARENTHESES("("),
+    SPACE(" ");
+
+    override fun toString() = c
+}
+
+enum class Align(val c: String) {
+    RIGTH(">"),
+    LEFT("<"),
+    CENTER("^"),
+    RIGHT_WITHOUT_SIGN("=");
+
+    override fun toString() = c
 }

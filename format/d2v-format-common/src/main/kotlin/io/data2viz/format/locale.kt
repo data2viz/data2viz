@@ -1,12 +1,9 @@
 package io.data2viz.format
 
 import kotlin.math.*
-import kotlin.math.max
-import kotlin.math.min
 
 private val prefixes = listOf("y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y")
 private var prefixExponent = 0
-private val validTypes = "efgrs%pbodxXc"                     // empty string is also a valid type
 
 data class CoefficientExponent(val coefficient: String, val exponent: Int)
 
@@ -18,41 +15,45 @@ data class Locale(
         var numerals: Array<String>? = null,
         var percent: String = "%")
 
-// TODO locale and numerals
-fun Locale.format(specify: String): (Double) -> String {
+fun formatter(specify: String): (Double) -> String = Locale().formatter(specify)
 
-    val specifier = FormatSpecifier(specify)
+fun formatter(init: FormatDSL.() -> Unit): (Double) -> String {
+    val dsl = FormatDSL()
+    dsl.init()
+    return Locale().formatter(dsl.toString())
+}
 
-    val fill = specifier.fill
-    val align = specifier.align
-    val sign = specifier.sign
-    val symbol = specifier.symbol
-    val zero = specifier.zero
-    val width = specifier.width
-    val groupSeparation = specifier.groupSeparation
-    val type = specifier.type
+fun Locale.formatter(specify: String): (Double) -> String {
+
+    val spec = specify(specify)
+
+    val width = spec.width
 
     val groupFunction = formatGroup(grouping, groupSeparator)
 
     // Compute the prefix and suffix.
     // For SI-prefix, the suffix is lazily computed.
-    val prefix = if (symbol == "$") currency[0] else if (symbol == "#" && isTypeIn(type, "boxX")) "0" + type.toLowerCase() else ""
-    val suffix = if (symbol == "$") currency[1] else if (isTypeIn(type, "%p")) "%" else ""
+    val prefix = if (spec.symbol == Symbol.CURRENCY)
+        currency[0]
+        else if (spec.symbol == Symbol.NUMBER_BASE && spec.type.isNumberBase) "0" + spec.type?.c?.toLowerCase() else ""
+
+    val suffix = if (spec.symbol == Symbol.CURRENCY) currency[1] else if (spec.type.isPercent) "%" else ""
 
     // What format function should we use?
     // Is this an integer type?
     // Can this type generate exponential notation?
-    val formatType = formatTypes(type)
-    val maybeSuffix = isTypeIn(type, "defgprs%")
+    val formatType = formatTypes(spec.type)
+    val maybeSuffix = spec.type.maybeSuffix
 
     // Set the default exponent if not specified,
     // or clamp the specified exponent to the supported range.
     // For significant exponent, it must be in [1, 21].
     // For fixed exponent, it must be in [0, 20].
-    val precision = if (specifier.precision == null) {
-        if (type.isNotEmpty()) 6 else 12
+    val precision = if (spec.precision == null) {
+        if (spec.type != null) 6 else 12
     } else {
-        if (isTypeIn(type, "gprs")) max(1, min(21, specifier.precision!!)) else max(0, min(20, specifier.precision!!))
+        if (gprs.contains(spec.type))
+            spec.precision.coerceIn(1, 21) else spec.precision.coerceIn(0, 20)
     }
 
     fun format(value: Double): String {
@@ -62,7 +63,7 @@ fun Locale.format(specify: String): (Double) -> String {
         var valuePrefix = prefix
         var valueSuffix = suffix
 
-        if (type == "c") {
+        if (spec.type == Type.CHAR) {
             valueSuffix = formatType(value, 0) + valueSuffix
             returnValue = ""
         } else {
@@ -76,8 +77,8 @@ fun Locale.format(specify: String): (Double) -> String {
             if (valueNegative && returnValue.toDouble() == 0.0) valueNegative = false
 
             // Compute the prefix and suffix.
-            valuePrefix = (if (valueNegative) (if (sign == "(") sign else "-") else if (sign == "-" || sign == "(") "" else sign) + valuePrefix
-            valueSuffix = valueSuffix + (if (type == "s") prefixes[8 + prefixExponent / 3] else "") + (if (valueNegative && sign == "(") ")" else "")
+            valuePrefix = (if (valueNegative) (if (spec.sign == Sign.PARENTHESES) spec.sign.c else "-") else if (spec.sign == Sign.MINUS || spec.sign == Sign.PARENTHESES) "" else spec.sign.c) + valuePrefix
+            valueSuffix = valueSuffix + (if (spec.type == Type.DECIMAL_WITH_SI) prefixes[8 + prefixExponent / 3] else "") + (if (valueNegative && spec.sign == Sign.PARENTHESES) ")" else "")
 
             // Break the formatted value into the integer “value” part that can be
             // grouped, and fractional or exponential “suffix” part that is not.
@@ -96,27 +97,27 @@ fun Locale.format(specify: String): (Double) -> String {
         }
 
         // If the fill character is not "0", grouping is applied before padding.
-        if (groupSeparation && !zero) returnValue = groupFunction(returnValue, 9999999)
+        if (spec.groupSeparation && !spec.zero) returnValue = groupFunction(returnValue, 9999999)
 
         // Compute the padding.
         val length = valuePrefix.length + returnValue.length + valueSuffix.length
-        var padding = if (width != null && length < width) "".padStart(width - length, fill[0]) else ""
+        var padding = if (width != null && length < width) "".padStart(width - length, spec.fill[0]) else ""
 
         // If the fill character is "0", grouping is applied after padding.
-        if (groupSeparation && zero) {
+        if (spec.groupSeparation && spec.zero) {
             returnValue = groupFunction(padding + returnValue, if (padding.isNotEmpty()) width!! - valueSuffix.length else 9999999)
             padding = ""
         }
 
         // Reconstruct the final output based on the desired alignment.
-        returnValue = when (align) {
-            "<" -> valuePrefix + returnValue + valueSuffix + padding
-            "=" -> valuePrefix + padding + returnValue + valueSuffix
-            "^" -> {
+        returnValue = when (spec.align) {
+            Align.LEFT -> valuePrefix + returnValue + valueSuffix + padding
+            Align.RIGHT_WITHOUT_SIGN -> valuePrefix + padding + returnValue + valueSuffix
+            Align.CENTER -> {
                 val padLength = padding.length / 2 - 1
                 padding.slice(0..padLength) + valuePrefix + returnValue + valueSuffix + padding.slice(0 until padding.length - 1 - padLength)
             }
-            else -> padding + valuePrefix + returnValue + valueSuffix
+            Align.RIGTH -> padding + valuePrefix + returnValue + valueSuffix
         }
         return numerals(returnValue)
     }
@@ -137,11 +138,11 @@ fun Locale.numerals(valueAsString: String): String =
                 .toString()
 
 
+fun formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String = Locale().formatPrefix(specifier, fixedPrefix)
 fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String {
-    val formatSpecifier = FormatSpecifier(specifier)
-    formatSpecifier.type = "f"
-    val f = format(formatSpecifier.toString())
-    val e = max(-8.0, min(8.0, floor(exponent(fixedPrefix).toDouble() / 3.0))) * 3
+    val formatSpecifier = specify(specifier).copy(type = Type.FIXED_POINT)
+    val f = formatter(formatSpecifier.toString())
+    val e = floor(exponent(fixedPrefix).toDouble() / 3.0).coerceIn(-8.0, 8.0) * 3
     val k = 10.0.pow(-e)
     val prefix = prefixes[8 + (e / 3.0).toInt()]
     return fun(value: Double): String = f(k * value) + prefix
@@ -151,9 +152,6 @@ private fun exponent(value: Double): Int {
     val x = formatDecimal(abs(value))
     return if (x != null) x.exponent else 0
 }
-
-private fun isTypeIn(type: String, types: String) = type.length == 1 && types.contains(type)
-fun isValidType(type: String) = type.isEmpty() || isTypeIn(type, validTypes)
 
 private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int) -> String {
     return fun(value: String, width: Int): String {
@@ -179,22 +177,22 @@ private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int)
 }
 
 
-fun formatTypes(type: String): (Double, Int) -> String =
+fun formatTypes(type: Type?): (Double, Int) -> String =
         when (type) {
-            "f" -> { x: Double, p: Int -> x.toFixed(p) }
-            "%" -> { x: Double, p: Int -> (x * 100).toFixed(p) }
-            "b" -> { x: Double, p: Int -> x.toStringDigits(2) }
-            "c" -> { x: Double, p: Int -> "$x" }
-            "d" -> { x: Double, p: Int -> x.toStringDigits(10) }
-            "e" -> { x: Double, p: Int -> x.toExponential(p) }
-            "g" -> { x: Double, p: Int -> x.toPrecision(p) }
-            "o" -> { x: Double, p: Int -> x.toStringDigits(8) }
-            "p" -> { x: Double, p: Int -> formatRounded(x * 100, p) }
-            "r" -> { x: Double, p: Int -> formatRounded(x, p) }
-            "s" -> { x: Double, p: Int -> formatPrefixAuto(x, p) }
-            "X" -> { x: Double, p: Int -> x.toStringDigits(16).toUpperCase() }
-            "x" -> { x: Double, p: Int -> x.toStringDigits(16) }
-            else -> { x: Double, p: Int -> formatDefault(x, p) }
+            Type.FIXED_POINT            -> { x: Double, p: Int -> x.toFixed(p) }
+            Type.PERCENT                -> { x: Double, p: Int -> (x * 100).toFixed(p) }
+            Type.PERCENT_ROUNDED        -> { x: Double, p: Int -> formatRounded(x * 100, p) }
+            Type.CHAR                   -> { x: Double, _: Int -> "$x" }
+            Type.DECIMAL_ROUNDED        -> { x: Double, _: Int -> x.toStringDigits(10) }
+            Type.DECIMAL                -> { x: Double, p: Int -> formatRounded(x, p) }
+            Type.DECIMAL_WITH_SI        -> { x: Double, p: Int -> formatPrefixAuto(x, p) }
+            Type.DECIMAL_OR_EXPONENT    -> { x: Double, p: Int -> x.toPrecision(p) }
+            Type.EXPONENT               -> { x: Double, p: Int -> x.toExponential(p) }
+            Type.BINARY                 -> { x: Double, _: Int -> x.toStringDigits(2) }
+            Type.OCTAL                  -> { x: Double, _: Int -> x.toStringDigits(8) }
+            Type.HEX_UPPERCASE          -> { x: Double, _: Int -> x.toStringDigits(16).toUpperCase() }
+            Type.HEX_LOWERCASE          -> { x: Double, _: Int -> x.toStringDigits(16) }
+            null                        -> { x: Double, p: Int -> formatDefault(x,p)}
         }
 
 fun formatDefault(x: Double, p: Int): String {
@@ -265,7 +263,7 @@ fun formatDecimal(x: Double, p: Int = 0): CoefficientExponent? {
 private fun formatPrefixAuto(x: Double, p: Int = 0): String {
     val ce = formatDecimal(x, p) ?: return "$x"
 
-    prefixExponent = max(-8, min(8, floor(ce.exponent / 3.0).toInt())) * 3
+    prefixExponent = floor(ce.exponent / 3.0).toInt().coerceIn(-8, 8) * 3
     val i = ce.exponent - prefixExponent + 1
     val n = ce.coefficient.length
 
@@ -279,8 +277,7 @@ private fun formatPrefixAuto(x: Double, p: Int = 0): String {
 
 fun precisionFixed(step: Double): Int = max(0, -exponent(abs(step)))
 
-fun precisionPrefix(step: Double, value: Double): Int =
-        max(0, max(-8, min(8, floor(exponent(value) / 3.0).toInt())) * 3 - exponent(abs(step)))
+fun precisionPrefix(step: Double, value: Double): Int = (floor(exponent(value) / 3.0).toInt().coerceIn(-8, 8) * 3 - exponent(abs(step))).coerceAtLeast(0)
 
 fun precisionRound(step: Double, max: Double): Int {
     val newStep = abs(step)
