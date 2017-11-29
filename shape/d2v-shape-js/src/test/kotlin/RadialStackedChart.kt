@@ -10,7 +10,7 @@ data class Population(
         val reparition: Array<Int>
 )
 
-val format = Locale().format(".2s")
+val format = formatter(".2s")
 
 val colors = arrayOf<String>("#eff3ff", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd", "#08519c", "#084594", "#08306b")
 val thresholds = arrayOf<Int>(5000000, 10000000, 15000000, 20000000, 25000000, 30000000, 35000000)
