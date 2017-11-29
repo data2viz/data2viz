@@ -1,8 +1,5 @@
 package io.data2viz.scale
 
-import io.data2viz.interpolate.interpolateNumber
-import io.data2viz.interpolate.uninterpolateNumber
-
 /**
  * Quantize scales are similar to linear scales, except they use a discrete rather than continuous range.
  * The continuous input domain is divided into uniform segments based on the number of values
@@ -54,8 +51,7 @@ open class QuantizeScale<R>() : ContinuousScale<Double, R> {
     }
 
     override fun invoke(domainValue: Double): R {
-        val bisect = bisect(quantizedDomain, domainValue, doubleComparator, 0, range.size - 1)
-        return range[bisect]
+        return range[bisect(quantizedDomain, domainValue, doubleComparator, 0, range.size - 1)]
     }
 
     fun invertExtent(y: R): List<Double> {

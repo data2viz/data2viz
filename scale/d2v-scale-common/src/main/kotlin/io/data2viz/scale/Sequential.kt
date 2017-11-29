@@ -1,10 +1,5 @@
 package io.data2viz.scale
 
-import io.data2viz.interpolate.interpolateNumber
-import io.data2viz.interpolate.interpolateRound
-import io.data2viz.interpolate.uninterpolateNumber
-import kotlin.math.*
-
 /**
  * Sequential scales are similar to continuous scales in that they map a continuous, numeric input domain to a
  * continuous output range. However, unlike continuous scales, the output range of a sequential scale is fixed
