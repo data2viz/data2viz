@@ -60,61 +60,64 @@ val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-\\( ])?([$#])?(0)?(\\d+)?(,
 
 fun specify(specifier: String): FormatSpec {
     var fill = " "
-    var align = ">"
-    var sign = "-"
-    var symbol = ""
+    var align = Align.RIGTH
+    var sign = Sign.MINUS
+    var symbol: Symbol? = null
     var zero: Boolean
     var width: Int? = null
     var groupSeparation: Boolean
     var precision: Int? = null
-    var type = ""
+    var type: Type? = null
 
     if (!formatRE.matches(specifier)) throw IllegalArgumentException("invalid format: " + specifier)
 
     val match = formatRE.find(specifier)!!.groupValues
 
+    fun readType(string: String){
+        // The "n" type is an alias for ",g".
+        if (string == "n") {
+            groupSeparation = true
+            type = Type.DECIMAL_OR_EXPONENT
+        } else {
+            type = Type.values().firstOrNull { it.c == match[9] }
+        }
+    }
+
     if (match[1].isNotEmpty()) fill = match[1]
-    if (match[2].isNotEmpty()) align = match[2]
-    if (match[3].isNotEmpty()) sign = match[3]
-    if (match[4].isNotEmpty()) symbol = match[4]
+    if (match[2].isNotEmpty()) align    = Align.values().first { it.c == match[2] }
+    if (match[3].isNotEmpty()) sign     = Sign.values().first { it.c == match[3] }
+    if (match[4].isNotEmpty()) symbol   = Symbol.values().first { it.c == match[4] }
     zero = (match[5] == "0")
     if (match[6].isNotEmpty() && match[6].toIntOrNull() != null) width = match[6].toInt()
     groupSeparation = (match[7] == ",")
     if (match[8].length > 1 && match[8].substring(1).toIntOrNull() != null) precision = match[8].substring(1).toInt()
-    if (match[9].isNotEmpty()) type = match[9]
 
-    // The "n" type is an alias for ",g".
-    if (type == "n") {
-        groupSeparation = true
-        type = "g"
-    }
+    readType(match[9])
 
-    // Map invalid types to the default format.
-    else if (!isValidType(type)) type = ""
 
     // If zero fill is specified, padding goes after sign and before digits.
-    if (zero || (fill == "0" && align == "=")) {
+    if (zero || (fill == "0" && align == Align.RIGHT_WITHOUT_SIGN)) {
         zero = true
         fill = "0"
-        align = "="
+        align = Align.RIGHT_WITHOUT_SIGN
     }
 
     return FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
 }
 
 data class FormatSpec(
-        var fill: String = " ",
-        var align: String = ">",
-        var sign: String = "-",
-        var symbol: String = "",
-        var zero: Boolean = false,
-        var width: Int? = null,
-        var groupSeparation: Boolean = false,
+        val fill: String = " ",
+        val align: Align = Align.RIGTH,
+        val sign: Sign = Sign.MINUS,
+        val symbol: Symbol? = null,
+        val zero: Boolean = false,
+        val width: Int? = null,
+        val groupSeparation: Boolean = false,
         val precision: Int? = null,
-        var type: String = ""
-) {
+        val type: Type? = null) {
+
     override fun toString(): String =
-            "$fill$align$sign$symbol${if (zero) "0" else ""}${if (width == null) "" else max(1, width!!)}${if (groupSeparation) "," else ""}${if (precision == null) "" else "." + max(0, precision!!)}$type"
+            "$fill$align$sign${if (symbol == null) "" else symbol.c}${if (zero) "0" else ""}${if (width == null) "" else max(1, width!!)}${if (groupSeparation) "," else ""}${if (precision == null) "" else "." + max(0, precision)}${type.toString()}"
 }
 
 
@@ -133,53 +136,100 @@ class FormatDSL {
 
     fun specifier() = FormatSpec(
             fill.toString(),
-            align.toString(),
-            sign.toString(),
-            symbol?.toString() ?: "",
+            align,
+            sign,
+            symbol,
             zeroPadding,
             width,
             groupSeparation,
             precision,
-            type?.toString() ?: ""
+            type
     )
 
-    override fun toString(): String  = specifier().toString()
-
-
+    override fun toString(): String = specifier().toString()
 }
 
-enum class Symbol(val c: Char) {
-    CURRENCY('$');
 
-    override fun toString() = "$c"
+/**
+ * The symbol can be either:
+ *  - a currency symbols per the locale definition.
+ *  - a number_base for binary, octal, or hexadecimal notation, prefix by 0b, 0o, or 0x, respectively.
+ */
+enum class Symbol(val c: String) {
+    CURRENCY("$"),
+    NUMBER_BASE("#")
+    ;
+
+    override fun toString() = c
 }
 
-enum class Type(val c: Char) {
-    EXPONENT('e'),
-    FIXED_POINT('f'),
-    DECIMAL_OR_EXPONENT('g'),
-    DECIMAL('r'),
-    DECIMAL_WITH_SI('s'),
-    PERCENT('%'),
-    PERCENT_ROUNDED('p'),
-    BINARY('b'),
-    OCTAL('o'),
-    DECIMAL_ROUNDED('d'),
-    HEX_LOWERCASE('x'),
-    HEX_UPPERCASE('X'),
-    CHAR('c');
+enum class Type(val c: String) {
+    EXPONENT("e"),
+    FIXED_POINT("f"),
+    DECIMAL_OR_EXPONENT("g"),
+    DECIMAL("r"),
+    DECIMAL_WITH_SI("s"),
+    PERCENT("%"),
+    PERCENT_ROUNDED("p"),
+    BINARY("b"),
+    OCTAL("o"),
+    DECIMAL_ROUNDED("d"),
+    HEX_LOWERCASE("x"),
+    HEX_UPPERCASE("X"),
+    CHAR("c");
 
-    override fun toString() = "$c"
-
+//    override fun toString() = c
 }
 
-enum class Sign(val c: Char) {
-    MINUS('-'),
-    PLUS('+'),
-    PARENTHESES('('),
-    SPACE(' ');
+fun Type?.toString() = if (this  == null) "" else c
 
-    override fun toString() = "$c"
+/**
+ * Check if it is a number based type (binary, octal, hex ie: boxX)
+ */
+val Type?.isNumberBase:Boolean
+    get()  =
+        (this != null &&
+                (this == Type.BINARY ||
+                this == Type.OCTAL ||
+                this == Type.HEX_UPPERCASE ||
+                this == Type.HEX_LOWERCASE))
+
+/**
+ * Check if it is a percent type (%p)
+ */
+val Type?.isPercent:Boolean
+    get()  =
+        (this != null && (
+                this == Type.PERCENT ||
+                this == Type.PERCENT_ROUNDED))
+
+val Type?.maybeSuffix:Boolean
+    get()  =
+        (this != null && (
+                this == Type.DECIMAL_ROUNDED ||
+                this == Type.EXPONENT ||
+                this == Type.FIXED_POINT ||
+                this == Type.DECIMAL_OR_EXPONENT ||
+                this == Type.PERCENT_ROUNDED ||
+                this == Type.DECIMAL ||
+                this == Type.DECIMAL_WITH_SI ||
+                this == Type.PERCENT
+                ))
+
+val gprs = listOf(
+        Type.DECIMAL_OR_EXPONENT,
+        Type.PERCENT_ROUNDED,
+        Type.DECIMAL,
+        Type.DECIMAL_WITH_SI
+)
+
+enum class Sign(val c: String) {
+    MINUS("-"),
+    PLUS("+"),
+    PARENTHESES("("),
+    SPACE(" ");
+
+    override fun toString() = c
 }
 
 enum class Align(val c: String) {
