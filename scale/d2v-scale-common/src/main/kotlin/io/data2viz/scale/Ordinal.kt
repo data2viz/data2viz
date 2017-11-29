@@ -7,8 +7,8 @@ package io.data2viz.scale
  */
 open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
 
-    private val index: MutableMap<D, Int> = HashMap()
-    private val innerDomain: MutableList<D> = ArrayList()
+    protected val index: MutableMap<D, Int> = HashMap()
+    protected val innerDomain: MutableList<D> = ArrayList()
 
     /**
      * Set : Sets the output value of the scale for unknown input values and returns this scale.
@@ -18,7 +18,7 @@ open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
      * If unknown is null : add domainValue to the domain, then return a rangeValue (= scale implicit).
      * If unknown is not null : return unknown.
      */
-    var unknown: R? = null
+    open var unknown: R? = null
         get() = field
         set(value) {
             field = value
@@ -46,7 +46,7 @@ open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
             value.forEach {
                 if (!index.containsKey(it)) {
                     innerDomain.add(it)
-                    index.put(it, domain.size - 1)
+                    index.put(it, innerDomain.size - 1)
                 }
             }
         }
@@ -68,7 +68,7 @@ open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
     override operator fun invoke(domainValue: D): R {
         if (unknown == null && !index.containsKey(domainValue)) {
             innerDomain.add(domainValue)
-            index.put(domainValue, domain.size - 1)
+            index.put(domainValue, innerDomain.size - 1)
         }
 
         val index = index[domainValue] ?: return unknown ?: throw IllegalStateException()

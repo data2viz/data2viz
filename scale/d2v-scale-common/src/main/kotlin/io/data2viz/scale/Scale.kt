@@ -8,7 +8,6 @@ package io.data2viz.scale
 )*/
 
 // TODO add more specific interfaces (Roundable ?)
-// TODO clamp in Scale ?
 
 interface Scale<D, out V> {
     val domain: List<D>
