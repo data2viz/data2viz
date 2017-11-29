@@ -1,14 +1,13 @@
 package io.data2viz.shape
 
-import io.data2viz.format.Locale
-import io.data2viz.format.format
+import io.data2viz.format.formatter
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class PieTest : TestBase() {
 
-    val round = Locale().format(".6f")
+    val round = formatter(".6f")
 
     data class MyObject(
             val index: Int,
