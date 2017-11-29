@@ -23,7 +23,8 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
      * The behavior of the scale is undefined if you pass a negative value to a log scale with a positive
      * domain or vice versa.
      */
-    override var domain: MutableList<Double> = arrayListOf(1.0, 10.0)
+    override var domain: List<Double> = arrayListOf(1.0, 10.0)
+        get() = field.toList()
         set(value) {
             if (domain.contains(.0)) throw IllegalArgumentException("The domain interval must not contain 0, as log(0) = -∞.")
             val totalPositives = domain.filter { it > 0}.size
@@ -33,14 +34,14 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
                 throw IllegalArgumentException("The domain interval must contain only positive or negative elements.")
 
             // copy the value (no binding intended)
-            field = value.toMutableList()
+            field = value.toList()
             rescale()
         }
 
     override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double {
         val diff = ln(to / from)
         return if (diff != .0 && diff != Double.NaN) { t -> ln(t / from) / diff }
-        else { t -> diff }
+        else { _ -> diff }
     }
 
     override fun interpolateDomain(from: Double, to: Double): (Double) -> Double {

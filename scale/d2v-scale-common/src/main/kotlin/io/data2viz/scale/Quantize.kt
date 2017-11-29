@@ -6,37 +6,29 @@ package io.data2viz.scale
  * in (i.e., the cardinality of) the output range.
  * Each range value y can be expressed as a quantized linear function of the domain value x: y = m round(x) + b.
  */
-open class QuantizeScale<R>() : ContinuousScale<Double, R> {
+open class QuantizeScale<R>() : RangeableScale<Double, R> {
 
     private var domainStart = .0
     private var domainEnd = 1.0
-    private var givenDomain = arrayListOf(domainStart, domainEnd)
-    private var quantizedDomain:MutableList<Double> = arrayListOf(.5)
-
-    override fun domain(vararg d: Double) {
-        domain = d.toMutableList()
-    }
-
-    override fun range(vararg r: R) {
-        range = r.toMutableList()
-    }
+    private var givenDomain = listOf(domainStart, domainEnd)
+    private var quantizedDomain:ArrayList<Double> = arrayListOf(.5)
 
     // copy the value (no binding intended)
-    override var range: MutableList<R> = arrayListOf()
-        get() = field.toMutableList()
+    override var range: List<R> = arrayListOf()
+        get() = field.toList()
         set(value) {
-            field = value.toMutableList()
+            field = value.toList()
             rescale()
         }
 
     // copy the value (no binding intended)
-    override var domain: MutableList<Double>
-        get() = givenDomain
+    override var domain: List<Double>
+        get() = givenDomain.toList()
         set(value) {
             if (value.size != 2) throw IllegalArgumentException("Quantize Scale can only accept a domain with 2 values.")
             domainStart = domain.first()
             domainEnd = domain.last()
-            givenDomain = arrayListOf(domainStart, domainEnd)
+            givenDomain = listOf(domainStart, domainEnd)
             rescale()
         }
 

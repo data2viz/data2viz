@@ -11,7 +11,7 @@ class ScaleQuantizeTests : TestBase() {
     @Test
     fun quantize_expected_defaults_LEGACY() {
         val scale = quantizeScale<Double>()
-        scale.range(.0, 1.0)
+        scale.range = listOf(.0, 1.0)
 
         scale.domain shouldBe arrayListOf(.0, 1.0)
         scale.range shouldBe arrayListOf(.0, 1.0)
@@ -26,7 +26,7 @@ class ScaleQuantizeTests : TestBase() {
     @Test
     fun quantize_values_give_expected_discreet_results_LEGACY() {
         val scale = quantizeScale<Double>()
-        scale.range(.0, 1.0, 2.0)
+        scale.range = listOf(.0, 1.0, 2.0)
 
         scale(.0) shouldBe .0
         scale(.2) shouldBe .0
@@ -39,7 +39,7 @@ class ScaleQuantizeTests : TestBase() {
     @Test
     fun quantize_values_clamps_input_values_to_domain() {
         val scale = quantizeScale<String>()
-        scale.range("red", "green", "blue")
+        scale.range = listOf("red", "green", "blue")
 
         scale(.0) shouldBe "red"
         scale(.2) shouldBe "red"
@@ -55,7 +55,7 @@ class ScaleQuantizeTests : TestBase() {
         val a = {}
         val b = {}
         val c = {}
-        scale.range(a, b, c)
+        scale.range = listOf(a, b, c)
 
         scale(.0) shouldBe a
         scale(.2) shouldBe a
@@ -68,8 +68,8 @@ class ScaleQuantizeTests : TestBase() {
     @Test
     fun quantize_domain_with_domain_size_different_of_2_throw_exception() {
         val scale = quantizeScale<String>()
-        shouldThrow<IllegalArgumentException> { scale.domain(1.0) }
-        shouldThrow<IllegalArgumentException> { scale.domain(1.0, 2.0, 3.0) }
+        shouldThrow<IllegalArgumentException> { scale.domain = listOf(1.0); return }
+        shouldThrow<IllegalArgumentException> { scale.domain = listOf(1.0, 2.0, 3.0); return }
     }
 
     @Test
@@ -102,7 +102,7 @@ class ScaleQuantizeTests : TestBase() {
     @Test
     fun quantize_invertExtent_maps_value_in_the_range_to_domain_extent_LEGACY() {
         val scale = quantizeScale<Double>()
-        scale.range(0.0, 1.0, 2.0, 3.0)
+        scale.range = listOf(0.0, 1.0, 2.0, 3.0)
 
         scale.invertExtent(.0) shouldBe arrayListOf(.0, .25)
         scale.invertExtent(1.0) shouldBe arrayListOf(.25, .5)
@@ -115,7 +115,7 @@ class ScaleQuantizeTests : TestBase() {
         val scale = quantizeScale<()->Unit>()
         val a = {}
         val b = {}
-        scale.range(a, b)
+        scale.range = listOf(a, b)
 
         scale.invertExtent(a) shouldBe arrayListOf(.0, .5)
         scale.invertExtent(b) shouldBe arrayListOf(.5, 1.0)
@@ -134,7 +134,7 @@ class ScaleQuantizeTests : TestBase() {
     @Test
     fun quantize_invertExtent_returns_first_match_if_duplicates_values_exists_in_the_range_LEGACY() {
         val scale = quantizeScale<Double>()
-        scale.range(0.0, 1.0, 2.0, 0.0)
+        scale.range = listOf(0.0, 1.0, 2.0, 0.0)
 
         scale.invertExtent(.0) shouldBe arrayListOf(.0, .25)
         scale.invertExtent(1.0) shouldBe arrayListOf(.25, .5)
@@ -144,7 +144,7 @@ class ScaleQuantizeTests : TestBase() {
     fun quantize_invertExtent_y_is_exactly_consistent_with_quantize_x_LEGACY() {
         val scale = quantizeScale<Double>()
         scale.range = (0 until 10).map({it.toDouble()}).toMutableList()
-        scale.domain(4.2, 6.2)
+        scale.domain = listOf(4.2, 6.2)
 
         scale.range.forEach { r ->
             val e = scale.invertExtent(r)

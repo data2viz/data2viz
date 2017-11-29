@@ -26,7 +26,7 @@ fun quantile(values: List<Double>, p: Double, f: (Double, Int, List<Double>) -> 
  * the output range determines the number of quantiles that will be computed from the domain.
  * To compute the quantiles, the domain is sorted, and treated as a population of discrete values;
  */
-open class QuantileScale<R>() : ContinuousScale<Double, R> {
+open class QuantileScale<R>() : RangeableScale<Double, R> {
 
     private var thresholds: MutableList<Double> = arrayListOf()
 
@@ -41,13 +41,21 @@ open class QuantileScale<R>() : ContinuousScale<Double, R> {
         return thresholds.toList()
     }
 
-    override fun domain(vararg d: Double) {
-        domain = d.toMutableList()
-    }
-
-    override fun range(vararg r: R) {
-        range = r.toMutableList()
-    }
+    /**
+     * If domain is specified, sets the domain of the quantile scale to the specified set of discrete numeric values.
+     * The array must not be empty, and must contain at least one numeric value; NaN, null and undefined values
+     * are ignored and not considered part of the sample population.
+     * If the elements in the given array are not numbers, they will be coerced to numbers.
+     * A copy of the input array is sorted and stored internally.
+     */
+    override var domain: List<Double> = arrayListOf()
+        get() = field.toList()
+        set(value) {
+            require(value.isNotEmpty(), { "Domain can't be empty." })
+            val filter = value.filter { !it.isNaN() }
+            field = filter.sorted().toList()
+            rescale()
+        }
 
     /**
      * If range is specified, sets the discrete values in the range.
@@ -56,27 +64,11 @@ open class QuantileScale<R>() : ContinuousScale<Double, R> {
      * quantiles that are computed.
      * For example, to compute quartiles, range must be an array of four elements such as [0, 1, 2, 3].
      */
-    override var range: MutableList<R> = arrayListOf()
-        get() = field.toMutableList()
+    override var range: List<R> = arrayListOf()
+        get() = field.toList()
         set(value) {
             require(value.isNotEmpty(), { "Range can't be empty." })
-            field = value.toMutableList()
-            rescale()
-        }
-
-    /**
-     * If domain is specified, sets the domain of the quantile scale to the specified set of discrete numeric values.
-     * The array must not be empty, and must contain at least one numeric value; NaN, null and undefined values
-     * are ignored and not considered part of the sample population.
-     * If the elements in the given array are not numbers, they will be coerced to numbers.
-     * A copy of the input array is sorted and stored internally.
-     */
-    override var domain: MutableList<Double> = arrayListOf()
-        get() = field.toMutableList()
-        set(value) {
-            require(value.isNotEmpty(), { "Domain can't be empty." })
-            val filter = value.filter { !it.isNaN() }
-            field = filter.sorted().toMutableList()
+            field = value.toList()
             rescale()
         }
 

@@ -53,7 +53,7 @@ abstract class ContinuousScaleImpl<R>(
         val interpolateRange: (R, R) -> (Double) -> R,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
         val rangeComparator: Comparator<R>? = null) :
-        ContinuousScale<Double, R>,
+        RangeableScale<Double, R>,
         ClampableScale<Double, R>,
         InvertableScale<Double, R>,
         TickableScale<Double, R> {
@@ -64,14 +64,6 @@ abstract class ContinuousScaleImpl<R>(
     abstract fun interpolateDomain(from: Double, to: Double): (Double) -> Double
     abstract fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double
 
-    override fun domain(vararg d: Double) {
-        domain = d.toMutableList()
-    }
-
-    override fun range(vararg r: R) {
-        range = r.toMutableList()
-    }
-
     override var clamp: Boolean = false
         set(value) {
             field = value
@@ -79,18 +71,18 @@ abstract class ContinuousScaleImpl<R>(
         }
 
     // copy the value (no binding intended)
-    override var domain: MutableList<Double> = arrayListOf(.0, 1.0)
-        get() = field.toMutableList()
+    override var domain: List<Double> = arrayListOf(.0, 1.0)
+        get() = field.toList()
         set(value) {
-            field = value.toMutableList()
+            field = value.toList()
             rescale()
         }
 
     // copy the value (no binding intended)
-    override var range: MutableList<R> = arrayListOf()
-        get() = field.toMutableList()
+    override var range: List<R> = arrayListOf()
+        get() = field.toList()
         set(value) {
-            field = value.toMutableList()
+            field = value.toList()
             rescale()
         }
 

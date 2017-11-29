@@ -47,16 +47,16 @@ class ScaleSequentialTests : TestBase() {
     fun sequential_domain_more_than_2_elements_raise_exception() {
         val scale = sequentialScale({ t: Double -> t })
         shouldThrow<IllegalArgumentException> { scale.domain = arrayListOf(.1); return }
-        shouldThrow<IllegalArgumentException> { scale.domain(.2, .3, .6); return }
+        shouldThrow<IllegalArgumentException> { scale.domain = listOf(.2, .3, .6); return }
     }
 
     @Test
     fun sequential_returns_copy_of_elements() {
         val scale = sequentialScale({ t: Double -> t })
         scale.clamp = true
-        scale.domain(1.0, 3.0)
+        scale.domain = listOf(1.0, 3.0)
 
-        val array = scale.domain
+        val array = scale.domain.toMutableList()
         array.add(4.0)
         array.size shouldBe 3
         scale.domain.size shouldBe 2
@@ -66,7 +66,7 @@ class ScaleSequentialTests : TestBase() {
     fun sequential_intepolator_sets_interpolator() {
         val scale = sequentialScale({ t: Double -> t })
         scale.clamp = true
-        scale.domain(1.0, 3.0)
+        scale.domain = listOf(1.0, 3.0)
         scale.interpolator = { t: Double -> 2 * t }
 
         scale(-.5) shouldBe .0

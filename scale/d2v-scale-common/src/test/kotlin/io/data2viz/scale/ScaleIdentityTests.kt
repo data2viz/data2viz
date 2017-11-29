@@ -38,8 +38,8 @@ class ScaleIdentityTests : TestBase() {
     fun identity_modifying_domain_range_clamp_should_throw_exceptions() {
         val scale = identityScale()
 
-        shouldThrow<RuntimeException>({scale.range(10.0, 56.20)})
-        shouldThrow<RuntimeException>({scale.domain(10.0, 56.20)})
+        shouldThrow<RuntimeException>({scale.range = listOf(10.0, 56.20); return})
+        shouldThrow<RuntimeException>({scale.domain = listOf(10.0, 56.20); return})
         shouldThrow<RuntimeException>({scale.clamp = true; return})
     }
 

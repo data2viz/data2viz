@@ -8,15 +8,11 @@ package io.data2viz.scale
  */
 open class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScale<Double, R>, ClampableScale<Double, R> {
 
-    override fun domain(vararg d: Double) {
-        domain = d.toMutableList()
-    }
-
-    override var domain: MutableList<Double> = arrayListOf(.0, 1.0)
-        get() = field.toMutableList()
+    override var domain: List<Double> = arrayListOf(.0, 1.0)
+        get() = field.toList()
         set(value) {
             if (value.size != 2) throw IllegalArgumentException("Sequential Scale can only accept a domain with 2 values.")
-            field = value.toMutableList()
+            field = value.toList()
         }
 
     override var clamp: Boolean = false

@@ -27,7 +27,7 @@ open class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Do
         val dFrom = raise(from, exponent)
         val dTo = raise(to, exponent) - dFrom
 
-        return if (dTo == .0 || dTo == Double.NaN) { t -> dTo }
+        return if (dTo == .0 || dTo == Double.NaN) { _ -> dTo }
         else { t -> (raise(t, exponent) - dFrom) / dTo }
     }
 
