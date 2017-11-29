@@ -382,7 +382,7 @@ class FormatTests : TestBase() {
     }*/
 
     /**
-     * TYPE G
+     * TYPE Decimal or Exponent
      */
 
     @Test fun format_g_can_output_general_notation () {
@@ -399,8 +399,34 @@ class FormatTests : TestBase() {
         formatter(".2g")(0.002) shouldBe "0.0020"
     }
 
+    @Test fun format_g_typed_can_output_general_notation () {
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(0.049) shouldBe "0.05"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(0.49) shouldBe "0.5"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(0.449) shouldBe "0.45"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 3)(0.4449) shouldBe "0.445"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(0.444449) shouldBe "0.44445"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(100.0) shouldBe "1e+2"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(100.0) shouldBe "1.0e+2"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 3)(100.0) shouldBe "100"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(100.0) shouldBe "100.00"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(100.2) shouldBe "100.20"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(0.002) shouldBe "0.0020"
+    }
+
     @Test fun format_g_can_group_thousands_with_general_notation () {
         val f = formatter(",.12g")
+        f(0.0) shouldBe "0.00000000000"
+        f(42.0) shouldBe "42.0000000000"
+        f(42000000.0) shouldBe "42,000,000.0000"
+        f(420000000.0) shouldBe "420,000,000.000"
+        f(-4.0) shouldBe "-4.00000000000"
+        f(-42.0) shouldBe "-42.0000000000"
+        f(-4200000.0) shouldBe "-4,200,000.00000"
+        f(-42000000.0) shouldBe "-42,000,000.0000"
+    }
+
+    @Test fun format_g_typed_can_group_thousands_with_general_notation () {
+        val f = formatter(Type.DECIMAL_OR_EXPONENT, precision = 12, group = true)
         f(0.0) shouldBe "0.00000000000"
         f(42.0) shouldBe "42.0000000000"
         f(42000000.0) shouldBe "42,000,000.0000"
@@ -458,6 +484,19 @@ class FormatTests : TestBase() {
         formatter(".5")(0.444449) shouldBe "0.44445"
     }
 
+    @Test fun format_typed_uses_significant_exponent_and_trims_insignificant_zeros () {
+        formatter(".1")(4.9) shouldBe "5"
+        formatter(".1")(0.49) shouldBe "0.5"
+        formatter(".2")(4.8) shouldBe "4.8"
+        formatter(".2")(0.49) shouldBe "0.49"
+        formatter(".2")(0.449) shouldBe "0.45"
+        formatter(".3")(4.9) shouldBe "4.9"
+        formatter(".3")(0.49) shouldBe "0.49"
+        formatter(".3")(0.449) shouldBe "0.449"
+        formatter(".3")(0.4449) shouldBe "0.445"
+        formatter(".5")(0.444449) shouldBe "0.44445"
+    }
+
     @Test fun format_does_not_trim_significant_zeros () {
         formatter(".5")(10.0) shouldBe "10"
         formatter(".5")(100.0) shouldBe "100"
@@ -502,10 +541,6 @@ class FormatTests : TestBase() {
         formatter("")(-0.0) shouldBe "0"
     }
 
-    /*"format__can format negative infinity" {
-        format("")(-Infinity) shouldBe "-Infinity"
-
-    }*/
 
     /**
      * TYPE O
@@ -517,14 +552,28 @@ class FormatTests : TestBase() {
 
     @Test fun format_o_octal_with_prefix () {
         formatter("#o")(10.0) shouldBe "0o12"
+        formatter(Type.OCTAL, symbol = Symbol.NUMBER_BASE) (10.0) shouldBe "0o12"
     }
 
     /**
-     * TYPE P
+     * TYPE Percent rounded
      */
 
     @Test fun format_p_can_output_a_percentage () {
         val f = formatter("p")
+        f(.00123) shouldBe "0.123000%"
+        f(.0123) shouldBe "1.23000%"
+        f(.123) shouldBe "12.3000%"
+        f(.234) shouldBe "23.4000%"
+        f(1.23) shouldBe "123.000%"
+        f(-.00123) shouldBe "-0.123000%"
+        f(-.0123) shouldBe "-1.23000%"
+        f(-.123) shouldBe "-12.3000%"
+        f(-1.23) shouldBe "-123.000%"
+    }
+
+    @Test fun format_p_typed_can_output_a_percentage () {
+        val f = formatter(Type.PERCENT_ROUNDED)
         f(.00123) shouldBe "0.123000%"
         f(.0123) shouldBe "1.23000%"
         f(.123) shouldBe "12.3000%"
@@ -548,8 +597,20 @@ class FormatTests : TestBase() {
         f(-1.23) shouldBe "-120%"
     }
 
+    @Test fun format_p_typed_can_output_a_percentage_with_rounding_and_sign () {
+        val f = formatter(Type.PERCENT_ROUNDED, sign = Sign.PLUS, precision = 2)
+        f(.00123) shouldBe "+0.12%"
+        f(.0123) shouldBe "+1.2%"
+        f(.123) shouldBe "+12%"
+        f(1.23) shouldBe "+120%"
+        f(-.00123) shouldBe "-0.12%"
+        f(-.0123) shouldBe "-1.2%"
+        f(-.123) shouldBe "-12%"
+        f(-1.23) shouldBe "-120%"
+    }
+
     /**
-     * TYPE R
+     * TYPE R DECIMAL
      */
 
     @Test fun format_r_can_round_to_significant_digits () {
@@ -583,13 +644,44 @@ class FormatTests : TestBase() {
         formatter(".15r")(.999999999999999) shouldBe "0.999999999999999"
     }
 
+    @Test fun format_r_typed_can_round_to_significant_digits () {
+        formatter(Type.DECIMAL, precision = 2)(0.0) shouldBe "0.0"
+        formatter(Type.DECIMAL, precision = 1)(0.049) shouldBe "0.05"
+        formatter(Type.DECIMAL, precision = 1)(-0.049) shouldBe "-0.05"
+        formatter(Type.DECIMAL, precision = 1)(0.49) shouldBe "0.5"
+        formatter(Type.DECIMAL, precision = 1)(-0.49) shouldBe "-0.5"
+        formatter(Type.DECIMAL, precision = 2)(0.449) shouldBe "0.45"
+        formatter(Type.DECIMAL, precision = 3)(0.4449) shouldBe "0.445"
+        formatter(Type.DECIMAL, precision = 3)(2.00) shouldBe "2.00"
+        formatter(Type.DECIMAL, precision = 3)(3.9995) shouldBe "4.00"
+        formatter(Type.DECIMAL, precision = 5)(0.444449) shouldBe "0.44445"
+        formatter(Type.DECIMAL) (123.45) shouldBe "123.450"
+        formatter(Type.DECIMAL, precision = 1)(123.45) shouldBe "100"
+        formatter(Type.DECIMAL, precision = 2)(123.45) shouldBe "120"
+        formatter(Type.DECIMAL, precision = 3)(123.45) shouldBe "123"
+        formatter(Type.DECIMAL, precision = 4)(123.45) shouldBe "123.5"
+        formatter(Type.DECIMAL, precision = 5)(123.45) shouldBe "123.45"
+        formatter(Type.DECIMAL, precision = 6)(123.45) shouldBe "123.450"
+        formatter(Type.DECIMAL, precision = 1)(.9) shouldBe "0.9"
+        formatter(Type.DECIMAL, precision = 1)(.09) shouldBe "0.09"
+        formatter(Type.DECIMAL, precision = 1)(.949) shouldBe "0.9"
+        formatter(Type.DECIMAL, precision = 1)(.0949) shouldBe "0.09"
+        formatter(Type.DECIMAL, precision = 1)(.0000000129) shouldBe "0.00000001"
+        formatter(Type.DECIMAL, precision = 2)(.0000000129) shouldBe "0.000000013"
+        formatter(Type.DECIMAL, precision = 2)(.00000000129) shouldBe "0.0000000013"
+        formatter(Type.DECIMAL, precision = 3)(.00000000129) shouldBe "0.00000000129"
+        formatter(Type.DECIMAL, precision = 4)(.00000000129) shouldBe "0.000000001290"
+        formatter(Type.DECIMAL, precision = 10)(.9999999999) shouldBe "0.9999999999"
+        formatter(Type.DECIMAL, precision = 15)(.999999999999999) shouldBe "0.999999999999999"
+    }
+
     @Test fun format_r_can_round_very_small_numbers () {
         val f = formatter(".2r")
         f(1e-22) shouldBe "0.00000000000000000000010"
     }
 
     /**
-     * TYPE S
+     * TYPE S Decimal with SI
      */
 
     @Test fun format_s_outputs_SI_prefix_notation_with_default_exponent_6 () {
@@ -608,8 +700,24 @@ class FormatTests : TestBase() {
         f(.000001) shouldBe "1.00000µ"
     }
 
+    @Test fun format_s_typed_outputs_SI_prefix_notation_with_default_exponent_6 () {
+        val f = formatter(Type.DECIMAL_WITH_SI)
+        f(0.0) shouldBe "0.00000"
+        f(1.0) shouldBe "1.00000"
+        f(10.0) shouldBe "10.0000"
+        f(100.0) shouldBe "100.000"
+        f(999.5) shouldBe "999.500"
+        f(999500.0) shouldBe "999.500k"
+        f(1000.0) shouldBe "1.00000k"
+        f(100.0) shouldBe "100.000"
+        f(1400.0) shouldBe "1.40000k"
+        f(1500.5) shouldBe "1.50050k"
+        f(.00001) shouldBe "10.0000µ"
+        f(.000001) shouldBe "1.00000µ"
+    }
+
     @Test fun format_exponent_s_outputs_SI_prefix_notation_with_exponent_significant_digits () {
-        var f = formatter(".3s")
+        var f = formatter(Type.DECIMAL_WITH_SI, precision = 3)
         f(0.0) shouldBe "0.00"
         f(1.0) shouldBe "1.00"
         f(10.0) shouldBe "10.0"
@@ -631,7 +739,7 @@ class FormatTests : TestBase() {
     }
 
     @Test fun format_s_formats_numbers_smaller_than_1e_24_with_yocto () {
-        val f = formatter(".8s")
+        val f = formatter(Type.DECIMAL_WITH_SI, precision = 8)
         f(1.29e-30) shouldBe "0.0000013y" // Note: rounded!
         f(1.29e-29) shouldBe "0.0000129y"
         f(1.29e-28) shouldBe "0.0001290y"
@@ -655,7 +763,7 @@ class FormatTests : TestBase() {
     }
 
     @Test fun format_s_formats_numbers_larger_than_1e24_with_yotta () {
-        val f = formatter(".8s")
+        val f = formatter(Type.DECIMAL_WITH_SI, precision = 8)
         f(1.23e+21) shouldBe "1.2300000Z"
         f(1.23e+22) shouldBe "12.300000Z"
         f(1.23e+23) shouldBe "123.00000Z"
@@ -678,8 +786,9 @@ class FormatTests : TestBase() {
         f(-1.23e+30) shouldBe "-1230000.0Y"
     }
 
+
     @Test fun format_s_outputs_SI_prefix_notation_with_a_currency_symbol () {
-        var f = formatter("$.2s")
+        var f = formatter(Type.DECIMAL_WITH_SI, symbol = Symbol.CURRENCY, precision = 2)
         f(0.0) shouldBe "$0.0"
         f(2.5e5) shouldBe "$250k"
         f(-2.5e8) shouldBe "-$250M"
@@ -707,7 +816,7 @@ class FormatTests : TestBase() {
     }
 
     @Test fun format_s_SI_prefix_notation_exponent_is_consistent_for_small_and_large_numbers  () {
-        var f = formatter(".0s")
+        var f = formatter(Type.DECIMAL_WITH_SI, precision = 0)
         f(1e-5) shouldBe "10µ"
         f(1e-4) shouldBe "100µ"
         f(1e-3) shouldBe "1m"
@@ -720,7 +829,7 @@ class FormatTests : TestBase() {
         f(1e+4) shouldBe "10k"
         f(1e+5) shouldBe "100k"
 
-        f = formatter(".4s")
+        f = formatter(Type.DECIMAL_WITH_SI, precision = 4)
         f(1e-5) shouldBe "10.00µ"
         f(1e-4) shouldBe "100.0µ"
         f(1e-3) shouldBe "1.000m"
@@ -735,7 +844,7 @@ class FormatTests : TestBase() {
     }
 
     @Test fun format_0_width_s_will_group_thousands_due_to_zero_fill () {
-        val f = formatter("020,s")
+        val f = formatter(Type.DECIMAL_WITH_SI, zero = true, fill = "0", width = 20, group = true)
         f(42.0) shouldBe "000,000,000,042.0000"
         f(42e12) shouldBe "00,000,000,042.0000T"
     }
@@ -746,31 +855,26 @@ class FormatTests : TestBase() {
     }
 
     /**
-     * TYPE X
+     * TYPE X Hexadecimal
      */
 
     @Test fun format_x_returns_the_expected_hexadecimal__lowercase_string () {
-        formatter("x")(0xdeadbeef.toDouble()) shouldBe "deadbeef"
+        formatter(Type.HEX_LOWERCASE)(0xdeadbeef.toDouble()) shouldBe "deadbeef"
 
     }
 
     @Test fun format_x_returns_the_expected_hexadecimal_lowercase_string_with_prefix () {
-        formatter("#x")(0xdeadbeef.toDouble()) shouldBe "0xdeadbeef"
-
-    }
-
-    @Test fun format__x_groups_thousands () {
-        formatter(",x")(0xdeadbeef.toDouble()) shouldBe "de,adb,eef"
+        formatter(Type.HEX_LOWERCASE, symbol = Symbol.NUMBER_BASE)(0xdeadbeef.toDouble()) shouldBe "0xdeadbeef"
 
     }
 
     @Test fun format_x_groups_thousands () {
-        formatter(",x")(0xdeadbeef.toDouble()) shouldBe "de,adb,eef"
+        formatter(Type.HEX_LOWERCASE, group = true)(0xdeadbeef.toDouble()) shouldBe "de,adb,eef"
 
     }
 
     @Test fun format_x_does_not_group_the_prefix () {
-        formatter("#,x")(0xadeadbeef.toDouble()) shouldBe "0xade,adb,eef"
+        formatter(Type.HEX_LOWERCASE, group = true, symbol = Symbol.NUMBER_BASE)(0xadeadbeef.toDouble()) shouldBe "0xade,adb,eef"
 
     }
 
@@ -782,7 +886,7 @@ class FormatTests : TestBase() {
     }*/
 
     @Test fun format_dollar_x_formats_hexadecimal_currency () {
-        formatter("$,x")(0xdeadbeef.toDouble()) shouldBe "\$de,adb,eef"
+        formatter(Type.HEX_LOWERCASE, group = true, symbol = Symbol.CURRENCY)(0xdeadbeef.toDouble()) shouldBe "\$de,adb,eef"
 
     }
 

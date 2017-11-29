@@ -3,8 +3,6 @@ package io.data2viz.format
 import kotlin.math.max
 
 
-val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-\\( ])?([$#])?(0)?(\\d+)?(,)?(\\.\\d+)?([a-z%])?$", RegexOption.IGNORE_CASE)
-
 /**
  * Returns a new format function for the given string specifier. The returned function takes a number as the only argument, and returns a string representing the formatted number. The general form of a specifier is:
  *
@@ -73,7 +71,7 @@ fun specify(specifier: String): FormatSpec {
 
     val match = formatRE.find(specifier)!!.groupValues
 
-    fun readType(string: String){
+    fun readType(string: String) {
         // The "n" type is an alias for ",g".
         if (string == "n") {
             groupSeparation = true
@@ -84,9 +82,9 @@ fun specify(specifier: String): FormatSpec {
     }
 
     if (match[1].isNotEmpty()) fill = match[1]
-    if (match[2].isNotEmpty()) align    = Align.values().first { it.c == match[2] }
-    if (match[3].isNotEmpty()) sign     = Sign.values().first { it.c == match[3] }
-    if (match[4].isNotEmpty()) symbol   = Symbol.values().first { it.c == match[4] }
+    if (match[2].isNotEmpty()) align = Align.values().first { it.c == match[2] }
+    if (match[3].isNotEmpty()) sign = Sign.values().first { it.c == match[3] }
+    if (match[4].isNotEmpty()) symbol = Symbol.values().first { it.c == match[4] }
     zero = (match[5] == "0")
     if (match[6].isNotEmpty() && match[6].toIntOrNull() != null) width = match[6].toInt()
     groupSeparation = (match[7] == ",")
@@ -105,6 +103,22 @@ fun specify(specifier: String): FormatSpec {
     return FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
 }
 
+val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-\\( ])?([$#])?(0)?(\\d+)?(,)?(\\.\\d+)?([a-z%])?$", RegexOption.IGNORE_CASE)
+
+
+fun specify(
+        type: Type? = null,
+        fill: String = " ",
+        align: Align = Align.RIGTH,
+        sign: Sign = Sign.MINUS,
+        symbol: Symbol? = null,
+        zero: Boolean = false,
+        width: Int? = null,
+        groupSeparation: Boolean = false,
+        precision: Int? = null
+)
+        = FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
+
 data class FormatSpec(
         val fill: String = " ",
         val align: Align = Align.RIGTH,
@@ -119,36 +133,6 @@ data class FormatSpec(
     override fun toString(): String =
             "$fill$align$sign${if (symbol == null) "" else symbol.c}${if (zero) "0" else ""}${if (width == null) "" else max(1, width!!)}${if (groupSeparation) "," else ""}${if (precision == null) "" else "." + max(0, precision)}${type.toString()}"
 }
-
-
-class FormatDSL {
-
-    var fill: Char? = null
-    var align: Align = Align.RIGTH
-    var sign: Sign = Sign.MINUS
-    var symbol: Symbol? = null
-    var zeroPadding: Boolean = false
-    var groupSeparation: Boolean = false
-    var width: Int? = null
-    var precision: Int? = null
-    var type: Type? = null
-
-
-    fun specifier() = FormatSpec(
-            fill.toString(),
-            align,
-            sign,
-            symbol,
-            zeroPadding,
-            width,
-            groupSeparation,
-            precision,
-            type
-    )
-
-    override fun toString(): String = specifier().toString()
-}
-
 
 /**
  * The symbol can be either:
@@ -181,39 +165,39 @@ enum class Type(val c: String) {
 //    override fun toString() = c
 }
 
-fun Type?.toString() = if (this  == null) "" else c
+fun Type?.toString() = if (this == null) "" else c
 
 /**
  * Check if it is a number based type (binary, octal, hex ie: boxX)
  */
-val Type?.isNumberBase:Boolean
-    get()  =
+val Type?.isNumberBase: Boolean
+    get() =
         (this != null &&
                 (this == Type.BINARY ||
-                this == Type.OCTAL ||
-                this == Type.HEX_UPPERCASE ||
-                this == Type.HEX_LOWERCASE))
+                        this == Type.OCTAL ||
+                        this == Type.HEX_UPPERCASE ||
+                        this == Type.HEX_LOWERCASE))
 
 /**
  * Check if it is a percent type (%p)
  */
-val Type?.isPercent:Boolean
-    get()  =
+val Type?.isPercent: Boolean
+    get() =
         (this != null && (
                 this == Type.PERCENT ||
-                this == Type.PERCENT_ROUNDED))
+                        this == Type.PERCENT_ROUNDED))
 
-val Type?.maybeSuffix:Boolean
-    get()  =
+val Type?.maybeSuffix: Boolean
+    get() =
         (this != null && (
                 this == Type.DECIMAL_ROUNDED ||
-                this == Type.EXPONENT ||
-                this == Type.FIXED_POINT ||
-                this == Type.DECIMAL_OR_EXPONENT ||
-                this == Type.PERCENT_ROUNDED ||
-                this == Type.DECIMAL ||
-                this == Type.DECIMAL_WITH_SI ||
-                this == Type.PERCENT
+                        this == Type.EXPONENT ||
+                        this == Type.FIXED_POINT ||
+                        this == Type.DECIMAL_OR_EXPONENT ||
+                        this == Type.PERCENT_ROUNDED ||
+                        this == Type.DECIMAL ||
+                        this == Type.DECIMAL_WITH_SI ||
+                        this == Type.PERCENT
                 ))
 
 val gprs = listOf(

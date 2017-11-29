@@ -4,6 +4,15 @@ package io.data2viz.format
 
 internal val arabicNumerals = arrayOf("\u0660", "\u0661", "\u0662", "\u0663", "\u0664", "\u0665", "\u0666", "\u0667", "\u0668", "\u0669")
 
+data class Locale(
+        var decimalSeparator: String = ".",
+        var grouping: List<Int> = listOf(3),
+        var groupSeparator: String = ",",
+        var currency: List<String> = listOf("$", ""),
+        var numerals: Array<String>? = null,
+        var percent: String = "%")
+
+
 @Suppress("FunctionName")
 class Locales {
 

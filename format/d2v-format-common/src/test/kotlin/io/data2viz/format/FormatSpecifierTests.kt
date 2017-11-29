@@ -14,13 +14,21 @@ class FormatSpecifierTests : TestBase() {
         shouldThrow<IllegalArgumentException> { specify(".f") }
     }
 
-    /*"formatSpecifier(specifier) returns an instanceof formatSpecifier" {
-        var s = Locale().formatSpecifier("")
-        s instanceof Locale().formatSpecifier, true)
-    }*/
-
     @Test fun formatSpecifier__has_the_expected_defaults () {
         val s = specify("")
+        s.fill shouldBe " "
+        s.align shouldBe Align.RIGTH
+        s.sign shouldBe Sign.MINUS
+        s.symbol shouldBe null
+        s.zero shouldBe false
+        s.width shouldBe null
+        s.groupSeparation shouldBe false
+        s.precision shouldBe null
+        s.type shouldBe null
+    }
+
+    @Test fun specifier__has_the_expected_defaults () {
+        val s = specify()
         s.fill shouldBe " "
         s.align shouldBe Align.RIGTH
         s.sign shouldBe Sign.MINUS
@@ -82,35 +90,6 @@ class FormatSpecifierTests : TestBase() {
     @Test fun formatSpecifier_specifier_toString_clamps_width_to_one () {
         val s = specify("")
         s.copy(width = -1).toString() shouldBe " >-1"
-    }
-
-
-    @Test
-    fun dsl(){
-        formatter {
-            fill = '_'
-            toString() shouldBe "_>-"
-            align = Align.CENTER
-            toString() shouldBe "_^-"
-            sign = Sign.PLUS
-            toString() shouldBe "_^+"
-            symbol = Symbol.CURRENCY
-            toString() shouldBe "_^+$"
-            zeroPadding = true
-            toString() shouldBe "_^+$0"
-            width = 12
-            toString() shouldBe "_^+$012"
-            groupSeparation = true
-            toString() shouldBe "_^+$012,"
-            precision = 2
-            toString() shouldBe "_^+$012,.2"
-            type = Type.FIXED_POINT
-            toString() shouldBe "_^+$012,.2f"
-        }
-    }
-
-    fun formatter(init: FormatDSL.() -> Unit){
-        FormatDSL().init()
     }
 
 }

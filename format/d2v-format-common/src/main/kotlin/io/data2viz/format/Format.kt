@@ -7,25 +7,36 @@ private var prefixExponent = 0
 
 data class CoefficientExponent(val coefficient: String, val exponent: Int)
 
-data class Locale(
-        var decimalSeparator: String = ".",
-        var grouping: List<Int> = listOf(3),
-        var groupSeparator: String = ",",
-        var currency: List<String> = listOf("$", ""),
-        var numerals: Array<String>? = null,
-        var percent: String = "%")
+
 
 fun formatter(specify: String): (Double) -> String = Locale().formatter(specify)
+fun Locale.formatter( specifier: String): (Double) -> String = formatter(specify(specifier))
 
-fun formatter(init: FormatDSL.() -> Unit): (Double) -> String {
-    val dsl = FormatDSL()
-    dsl.init()
-    return Locale().formatter(dsl.toString())
-}
+fun formatter(
+        type: Type? = null,
+        fill: String = " ",
+        align: Align = Align.RIGTH,
+        sign: Sign = Sign.MINUS,
+        symbol: Symbol? = null,
+        zero: Boolean = false,
+        width: Int? = null,
+        group: Boolean = false,
+        precision: Int? = null
+) = Locale().formatter(specify(type, fill, align, sign, symbol, zero, width, group, precision))
 
-fun Locale.formatter(specify: String): (Double) -> String {
+fun Locale.formatter(
+        type: Type? = null,
+        fill: String = " ",
+        align: Align = Align.RIGTH,
+        sign: Sign = Sign.MINUS,
+        symbol: Symbol? = null,
+        zero: Boolean = false,
+        width: Int? = null,
+        groupSeparation: Boolean = false,
+        precision: Int? = null
+) = formatter(specify(type, fill, align, sign, symbol, zero, width, groupSeparation, precision))
 
-    val spec = specify(specify)
+private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
 
     val width = spec.width
 
