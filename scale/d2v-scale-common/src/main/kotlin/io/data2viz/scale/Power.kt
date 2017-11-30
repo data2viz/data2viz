@@ -37,9 +37,9 @@ open class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Do
         return { t -> raise(ra + rb * t, 1.0 / exponent) }
     }
 
-    private fun raise(x: Double, exponent: Double): Double = when {
-        x < 0.0 -> -x.pow(exponent)
-        else -> x.pow(exponent)
+    private fun raise(x: Double, exponent: Double): Double {
+        val pow = x.pow(exponent)
+        return if (x < 0.0) -pow else pow
     }
 }
 

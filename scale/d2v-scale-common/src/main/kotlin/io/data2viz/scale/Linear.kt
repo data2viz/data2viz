@@ -15,11 +15,10 @@ import kotlin.math.floor
  * Linear scales are a good default choice for continuous quantitative data because they preserve proportional
  * differences. Each range value y can be expressed as a function of the domain value x: y = mx + b.
  */
-open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
-                          uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
-                          rangeComparator: Comparator<R>? = null)
-
-    : ContinuousScaleImpl<R>( interpolateRange, uninterpolateRange, rangeComparator), NiceableScale<Double, R> {
+abstract class DomainToRangeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
+                                     uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+                                     rangeComparator: Comparator<R>? = null)
+    : ContinuousScale<R>(interpolateRange, uninterpolateRange, rangeComparator), NiceableScale<Double, R> {
 
     override fun interpolateDomain(from: Double, to: Double): (Double) -> Double = interpolateNumber(from, to)
     override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double = uninterpolateNumber(from, to)
@@ -36,11 +35,7 @@ open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
      * Nicing a scale only modifies the current domain; it does not automatically nice domains that are
      * subsequently set using continuous.domain. You must re-nice the scale after setting the new domain, if desired.
      */
-    override fun nice(count:Int) {
-
-        // since domain getter returns a copy we need to reset the whole value
-        val newDomain = _domain.toMutableList()
-
+    override fun nice(count: Int) {
         val last = _domain.size - 1
         var step = tickStep(_domain[0], _domain[last], count)
         val start = floor(_domain[0] / step) * step
@@ -48,11 +43,41 @@ open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
 
         if (step != .0) {
             step = tickStep(start, stop, count)
-            newDomain[0] = floor(start / step) * step
-            newDomain[last] = ceil(stop / step) * step
-            domain = newDomain
+            _domain[0] = floor(start / step) * step
+            _domain[last] = ceil(stop / step) * step
+            rescale()
         }
     }
+}
+
+open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
+                          uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+                          rangeComparator: Comparator<R>? = null)
+    : DomainToRangeScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
+
+    // copy the value (no binding intended)
+    override var domain: List<Double>
+        get() = _domain.toList()
+        set(value) {
+            _domain.clear()
+            _domain.addAll(value)
+            rescale()
+        }
+
+    // copy the value (no binding intended)
+    override var range: List<R>
+        get() = _range.toList()
+        set(value) {
+            _range.clear()
+            _range.addAll(value)
+            rescale()
+        }
+
+    override var clamp: Boolean = false
+        set(value) {
+            field = value
+            rescale()
+        }
 }
 
 fun linearScale(): LinearScale<Double> {

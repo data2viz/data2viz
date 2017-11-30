@@ -49,7 +49,7 @@ val doubleComparator = naturalOrder<Double>()
  * A continuous scale is not constructed directly; instead, try a linear, power, log,
  * identity, time or sequential color scale.
  */
-abstract class ContinuousScaleImpl<R>(
+abstract class ContinuousScale<R>(
         val interpolateRange: (R, R) -> (Double) -> R,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
         val rangeComparator: Comparator<R>? = null) :
@@ -66,30 +66,6 @@ abstract class ContinuousScaleImpl<R>(
 
     abstract fun interpolateDomain(from: Double, to: Double): (Double) -> Double
     abstract fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double
-
-    override var clamp: Boolean = false
-        set(value) {
-            field = value
-            rescale()
-        }
-
-    // copy the value (no binding intended)
-    override var domain: List<Double>
-        get() = _domain.toList()
-        set(value) {
-            _domain.clear()
-            _domain.addAll(value)
-            rescale()
-        }
-
-    // copy the value (no binding intended)
-    override var range: List<R>
-        get() = _range.toList()
-        set(value) {
-            _range.clear()
-            _range.addAll(value)
-            rescale()
-        }
 
     override operator fun invoke(domainValue: Double): R {
         if (output == null) {

@@ -13,7 +13,7 @@ import kotlin.math.*
 open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) -> R,
                        uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
                        rangeComparator: Comparator<R>? = null)
-    : ContinuousScaleImpl<R>(interpolateRange, uninterpolateRange, rangeComparator), NiceableScale<Double, R> {
+    : LinearScale<R>(interpolateRange, uninterpolateRange, rangeComparator), NiceableScale<Double, R> {
 
     /**
      * As log(0) = -∞, a log scale domain must be strictly-positive or strictly-negative;
@@ -24,7 +24,7 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
      * domain or vice versa.
      */
     override var domain: List<Double>
-        get() = super.domain
+        get() = _domain
         set(value) {
             if (value.contains(.0)) throw IllegalArgumentException("The domain interval must not contain 0, as log(0) = -∞.")
             val totalPositives = value.filter { it > 0}.size
@@ -34,7 +34,9 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
                 throw IllegalArgumentException("The domain interval must contain only positive or negative elements.")
 
             // copy the value (no binding intended)
-            super.domain = value
+            _domain.clear()
+            _domain.addAll(value)
+            rescale()
         }
 
     override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double {

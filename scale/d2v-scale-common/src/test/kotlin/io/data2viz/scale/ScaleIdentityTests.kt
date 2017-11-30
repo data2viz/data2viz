@@ -1,7 +1,6 @@
 package io.data2viz.scale
 
 import io.data2viz.test.TestBase
-import io.data2viz.test.shouldThrow
 import kotlin.test.Test
 
 class ScaleIdentityTests : TestBase() {
@@ -35,16 +34,13 @@ class ScaleIdentityTests : TestBase() {
     }
 
     @Test
-    fun identity_modifying_domain_range_clamp_should_throw_exceptions() {
+    fun identity_domain_range_clamp_are_final_values_exceptions() {
         val scale = identityScale()
 
-        shouldThrow<RuntimeException>({scale.range = listOf(10.0, 56.20); return})
-        shouldThrow<RuntimeException>({scale.domain = listOf(10.0, 56.20); return})
-        shouldThrow<RuntimeException>({scale.clamp = true; return})
+        scale.range shouldBe arrayListOf(.0, 1.0)
+        scale.domain shouldBe arrayListOf(.0, 1.0)
+        scale.clamp shouldBe false
     }
-
-
-
 
     // TODO : add more scale tests
 }

@@ -3,13 +3,12 @@ package io.data2viz.scale
 import kotlin.math.floor
 import kotlin.math.max
 
-/**
- * Band scales are like ordinal scales except the output range is continuous and numeric.
- * Discrete output values are automatically computed by the scale by dividing the continuous range into uniform bands.
- * Band scales are typically used for bar charts with an ordinal or categorical dimension.
- * The unknown value of a band scale is effectively undefined: they do not allow implicit domain construction.
- */
-open class BandScale<D> : OrdinalScale<D, Double>() {
+abstract class BandedScale<D> : DiscreteScale<D, Double>() {
+
+    private val unknown = Double.NaN
+
+    protected var _paddingInner: Double = 0.0
+    protected var _paddingOuter: Double = 0.0
 
     override var domain: List<D>
         get() = super.domain
@@ -25,33 +24,9 @@ open class BandScale<D> : OrdinalScale<D, Double>() {
             rescale()
         }
 
-    // TODO : find a better way to do this...
-    override var unknown: Double? = Double.NaN
-        get() = field
-        set(value) = throw RuntimeException("Band Scale \"unknown\" value is constant.")
-
     var round: Boolean = false
         set(value) {
             field = value
-            rescale()
-        }
-
-    // TODO : avoid double rescale()
-    var padding: Double = 0.0
-        set(value) {
-            paddingInner = value
-            paddingOuter = value
-        }
-
-    var paddingInner: Double = 0.0
-        set(value) {
-            field = value.coerceIn(.0 .. 1.0)
-            rescale()
-        }
-
-    var paddingOuter: Double = 0.0
-        set(value) {
-            field = value.coerceIn(.0 .. 1.0)
             rescale()
         }
 
@@ -75,13 +50,13 @@ open class BandScale<D> : OrdinalScale<D, Double>() {
     }
 
     override operator fun invoke(domainValue: D): Double {
-        val i: Int = index[domainValue] ?: return unknown!!
-        return if (ordinalRange.isEmpty()) unknown!! else ordinalRange[i]
+        val i: Int = index[domainValue] ?: return unknown
+        return if (ordinalRange.isEmpty()) unknown else ordinalRange[i]
     }
 
     override fun ticks(count: Int): List<D> = domain
 
-    private fun rescale() {
+    protected fun rescale() {
         val n = _domain.size
         if (_range.isEmpty())
             return
@@ -89,12 +64,12 @@ open class BandScale<D> : OrdinalScale<D, Double>() {
         val reverse = _range.last() < _range.first()
         var start = if (reverse) _range.last() else _range.first()
         val stop = if (reverse) _range.first() else _range.last()
-        step = (stop - start) / max(1.0, n - paddingInner + paddingOuter * 2)
+        step = (stop - start) / max(1.0, n - _paddingInner + _paddingOuter * 2)
         if (round)
             step = floor(step)
 
-        start += (stop - start - step * (n - paddingInner)) * align
-        bandwidth = step * (1 - paddingInner)
+        start += (stop - start - step * (n - _paddingInner)) * align
+        bandwidth = step * (1 - _paddingInner)
         if (round) {
             start = kotlin.math.round(start)
             bandwidth = kotlin.math.round(bandwidth)
@@ -105,6 +80,37 @@ open class BandScale<D> : OrdinalScale<D, Double>() {
         ordinalRange.clear()
         ordinalRange.addAll(values)
     }
+}
+
+/**
+ * Band scales are like ordinal scales except the output range is continuous and numeric.
+ * Discrete output values are automatically computed by the scale by dividing the continuous range into uniform bands.
+ * Band scales are typically used for bar charts with an ordinal or categorical dimension.
+ * The unknown value of a band scale is always NaN: they do not allow implicit domain construction.
+ */
+open class BandScale<D> : BandedScale<D>() {
+
+    var padding: Double
+        get() = _paddingInner
+        set(value) {
+            _paddingInner = value
+            _paddingOuter = value
+            rescale()
+        }
+
+    var paddingInner
+        get() = _paddingInner
+        set(value) {
+            _paddingInner = value.coerceIn(.0 .. 1.0)
+            rescale()
+        }
+
+    var paddingOuter
+        get() = _paddingOuter
+        set(value) {
+            _paddingOuter = value.coerceIn(.0 .. 1.0)
+            rescale()
+        }
 }
 
 fun <D> bandScale() = BandScale<D>()

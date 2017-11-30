@@ -5,7 +5,7 @@ package io.data2viz.scale
  * For example, an ordinal scale might map a set of named categories to a set of colors, or determine the
  * horizontal positions of columns in a column chart.
  */
-open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
+abstract class DiscreteScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
 
     protected val index: MutableMap<D, Int> = HashMap()
 
@@ -13,18 +13,11 @@ open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
     protected val _range: MutableList<R> = arrayListOf()
 
     /**
-     * Set : Sets the output value of the scale for unknown input values and returns this scale.
-     * Get : Returns the current unknown value, which defaults to null.
-     *
      * The behavior when asking for a rangeValue with a given non-existant domainValue :
      * If unknown is null : add domainValue to the domain, then return a rangeValue (= scale implicit).
      * If unknown is not null : return unknown.
      */
-    open var unknown: R? = null
-        get() = field
-        set(value) {
-            field = value
-        }
+    protected var _unknown: R? = null
 
     /**
      * If domain is specified, sets the domain to the specified array of values.
@@ -69,19 +62,28 @@ open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
         }
 
     override operator fun invoke(domainValue: D): R {
-        if (unknown == null && !index.containsKey(domainValue)) {
+        if (_unknown == null && !index.containsKey(domainValue)) {
             _domain.add(domainValue)
             index.put(domainValue, _domain.size - 1)
         }
 
-        val index = index[domainValue] ?: return unknown ?: throw IllegalStateException()
+        val index = index[domainValue] ?: return _unknown ?: throw IllegalStateException()
         return when {
-            _range.isEmpty() -> unknown ?: throw IllegalStateException()
+            _range.isEmpty() -> _unknown ?: throw IllegalStateException()
             else -> _range[index % _range.size]
         }
     }
 
     override fun ticks(count: Int): List<D> = listOf()
+}
+
+class OrdinalScale<D, R> : DiscreteScale<D, R>() {
+
+    var unknown: R?
+        get() = _unknown
+        set(value) {
+            _unknown = value
+        }
 }
 
 fun <D, R> ordinalScale() = OrdinalScale<D, R>()
