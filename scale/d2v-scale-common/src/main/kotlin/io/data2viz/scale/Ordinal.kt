@@ -17,6 +17,7 @@ abstract class DiscreteScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
      * If unknown is null : add domainValue to the domain, then return a rangeValue (= scale implicit).
      * If unknown is not null : return unknown.
      */
+    // TODO : change behavior
     protected var _unknown: R? = null
 
     /**

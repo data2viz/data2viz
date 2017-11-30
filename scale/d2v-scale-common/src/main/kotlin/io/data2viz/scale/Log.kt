@@ -10,7 +10,7 @@ import kotlin.math.*
  * before the output range value is computed.
  * The mapping to the range value y can be expressed as a function of the domain value x: y = m log(x) + b.
  */
-open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) -> R,
+class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) -> R,
                        uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
                        rangeComparator: Comparator<R>? = null)
     : LinearScale<R>(interpolateRange, uninterpolateRange, rangeComparator), NiceableScale<Double, R> {
@@ -50,7 +50,7 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
         else { t -> to.pow(t) * from.pow(1 - t) }
     }
 
-    private fun nice(values: List<Double>, floor: (Double) -> Double, ceil: (Double) -> Double): List<Double> {
+    private fun niceLogScale(values: List<Double>, floor: (Double) -> Double, ceil: (Double) -> Double): List<Double> {
         val reversed = values.last() < values.first()
         val first = if(reversed) values.size - 1 else 0
         val last  = if(reversed) 0 else values.size - 1
@@ -67,7 +67,7 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
     }
 
     override fun nice(count: Int) {
-        domain = nice(domain, { x -> base.pow(floor(log(x, base))) }, { x -> base.pow(ceil(log(x, base))) })
+        domain = niceLogScale(domain, { x -> base.pow(floor(log(x, base))) }, { x -> base.pow(ceil(log(x, base))) })
     }
 
     override fun ticks(count: Int): List<Double> {

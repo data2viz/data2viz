@@ -11,7 +11,7 @@ import kotlin.math.*
  * working with pixel coordinates, say in conjunction with an axis or brush.
  * Identity scales do not support rangeRound, clamp or interpolate.
  */
-open class IdentityScale(): DomainToRangeScale<Double>(::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>()) {
+open class IdentityScale : DomainToRangeScale<Double>(::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>()) {
 
     override val domain = _domain
     override val range = _range

@@ -5,7 +5,7 @@ package io.data2viz.scale
  * Point scales are typically used for scatterplots with an ordinal or categorical dimension.
  * The unknown value of a point scale is always NaN: they do not allow implicit domain construction.
  */
-open class PointScale<D> : BandedScale<D>() {
+class PointScale<D> : BandedScale<D>() {
 
     /**
      * Sets the outer padding to the specified value which must be in the range [0, 1].

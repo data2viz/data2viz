@@ -81,11 +81,11 @@ open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
 }
 
 fun linearScale(): LinearScale<Double> {
-    return LinearScale<Double>(::interpolateNumber, ::uninterpolateNumber, doubleComparator)
+    return LinearScale<Double>(::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>())
 }
 
 fun linearScaleRound(): LinearScale<Double> {
-    return LinearScale(::interpolateRound, ::uninterpolateNumber, doubleComparator)
+    return LinearScale(::interpolateRound, ::uninterpolateNumber, naturalOrder<Double>())
 }
 
 fun linearScaleHSL(): LinearScale<HSL> = LinearScale<HSL>(::interpolateHsl)

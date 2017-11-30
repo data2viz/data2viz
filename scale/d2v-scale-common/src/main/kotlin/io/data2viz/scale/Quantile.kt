@@ -18,6 +18,12 @@ fun quantile(values: List<Double>, p: Double, f: (Double, Int, List<Double>) -> 
     return a + (b - a) * (h - i)
 }
 
+abstract class DomainRangedScale<R> : RangeableScale<Double, R> {
+
+    protected val _domain: MutableList<Double> = arrayListOf()
+    protected val _range: MutableList<R> = arrayListOf()
+
+}
 
 /**
  * Quantile scales map a sampled input domain to a discrete range.
@@ -26,12 +32,9 @@ fun quantile(values: List<Double>, p: Double, f: (Double, Int, List<Double>) -> 
  * the output range determines the number of quantiles that will be computed from the domain.
  * To compute the quantiles, the domain is sorted, and treated as a population of discrete values;
  */
-open class QuantileScale<R>() : RangeableScale<Double, R> {
+class QuantileScale<R> : DomainRangedScale<R> () {
 
     private var thresholds: MutableList<Double> = arrayListOf()
-
-    protected val _domain: MutableList<Double> = arrayListOf()
-    protected val _range: MutableList<R> = arrayListOf()
 
     /**
      * Returns the quantile thresholds.
@@ -77,7 +80,7 @@ open class QuantileScale<R>() : RangeableScale<Double, R> {
             rescale()
         }
 
-    fun rescale() {
+    private fun rescale() {
         // don't compute until we'th got a non-empty range and domain
         if (_domain.isEmpty() || _range.isEmpty()) return
 
@@ -104,7 +107,7 @@ open class QuantileScale<R>() : RangeableScale<Double, R> {
         require(!domainValue.isNaN(), { "domainValue can't be NaN" })
         check(_domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
         check(_range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
-        return _range[bisect(thresholds, domainValue, doubleComparator)]
+        return _range[bisect(thresholds, domainValue, naturalOrder<Double>())]
     }
 }
 

@@ -88,7 +88,7 @@ abstract class BandedScale<D> : DiscreteScale<D, Double>() {
  * Band scales are typically used for bar charts with an ordinal or categorical dimension.
  * The unknown value of a band scale is always NaN: they do not allow implicit domain construction.
  */
-open class BandScale<D> : BandedScale<D>() {
+class BandScale<D> : BandedScale<D>() {
 
     var padding: Double
         get() = _paddingInner

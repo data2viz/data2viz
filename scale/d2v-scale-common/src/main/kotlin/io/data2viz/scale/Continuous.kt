@@ -37,8 +37,6 @@ fun <T> bisectLeft(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0,
     return lo
 }
 
-val doubleComparator = naturalOrder<Double>()
-
 // uninterpolate  [value A .. value B] --> [0 .. 1]
 // interpolate [0 .. 1] --> [value A .. value B]
 
@@ -98,7 +96,7 @@ abstract class ContinuousScale<R>(
         return io.data2viz.core.ticks(_domain.first(), _domain.last(), count) as List<Double>
     }
 
-    protected open fun rescale() {
+    protected fun rescale() {
         input = null
         output = null
     }

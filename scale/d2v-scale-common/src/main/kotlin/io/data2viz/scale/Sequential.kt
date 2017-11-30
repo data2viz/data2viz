@@ -6,9 +6,9 @@ package io.data2viz.scale
  * by its interpolator and not configurable.
  * These scales do not expose invert, range, rangeRound and interpolate methods.
  */
-open class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScale<Double, R>, ClampableScale<Double, R> {
+class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScale<Double, R>, ClampableScale<Double, R> {
 
-    protected val _domain: MutableList<Double> = arrayListOf(.0, 1.0)
+    private val _domain: MutableList<Double> = arrayListOf(.0, 1.0)
 
     override var domain: List<Double>
         get() = _domain.toList()

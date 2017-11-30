@@ -6,14 +6,12 @@ package io.data2viz.scale
  * in (i.e., the cardinality of) the output range.
  * Each range value y can be expressed as a quantized linear function of the domain value x: y = m round(x) + b.
  */
-open class QuantizeScale<R>() : RangeableScale<Double, R> {
+class QuantizeScale<R> : DomainRangedScale<R> () {
 
     private var domainStart = .0
     private var domainEnd = 1.0
 
     private val quantizedDomain:ArrayList<Double> = arrayListOf(.5)
-    protected val _domain: MutableList<Double> = arrayListOf(domainStart, domainEnd)
-    protected val _range: MutableList<R> = arrayListOf()
 
     // copy the value (no binding intended)
     override var range: List<R>
@@ -36,7 +34,7 @@ open class QuantizeScale<R>() : RangeableScale<Double, R> {
             rescale()
         }
 
-    fun rescale() {
+    private fun rescale() {
         quantizedDomain.clear()
 
         val size = _range.size - 1
@@ -46,12 +44,17 @@ open class QuantizeScale<R>() : RangeableScale<Double, R> {
         }
     }
 
-    override fun invoke(domainValue: Double): R {
-        return _range[bisect(quantizedDomain, domainValue, doubleComparator, 0, _range.size - 1)]
+    init {
+        _domain.add(domainStart)
+        _domain.add(domainEnd)
     }
 
-    fun invertExtent(y: R): List<Double> {
-        val i = _range.indexOf(y)
+    override fun invoke(domainValue: Double): R {
+        return _range[bisect(quantizedDomain, domainValue, naturalOrder<Double>(), 0, _range.size - 1)]
+    }
+
+    fun invertExtent(rangeValue: R): List<Double> {
+        val i = _range.indexOf(rangeValue)
         val size = _range.size - 1
         return when {
             i < 0 -> listOf(Double.NaN, Double.NaN)
