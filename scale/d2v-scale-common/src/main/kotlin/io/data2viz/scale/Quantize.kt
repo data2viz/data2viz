@@ -10,32 +10,36 @@ open class QuantizeScale<R>() : RangeableScale<Double, R> {
 
     private var domainStart = .0
     private var domainEnd = 1.0
-    private var givenDomain = listOf(domainStart, domainEnd)
-    private var quantizedDomain:ArrayList<Double> = arrayListOf(.5)
+
+    private val quantizedDomain:ArrayList<Double> = arrayListOf(.5)
+    protected val _domain: MutableList<Double> = arrayListOf(domainStart, domainEnd)
+    protected val _range: MutableList<R> = arrayListOf()
 
     // copy the value (no binding intended)
-    override var range: List<R> = arrayListOf()
-        get() = field.toList()
+    override var range: List<R>
+        get() = _range.toList()
         set(value) {
-            field = value.toList()
+            _range.clear()
+            _range.addAll(value)
             rescale()
         }
 
     // copy the value (no binding intended)
     override var domain: List<Double>
-        get() = givenDomain.toList()
+        get() = _domain.toList()
         set(value) {
             if (value.size != 2) throw IllegalArgumentException("Quantize Scale can only accept a domain with 2 values.")
-            domainStart = domain.first()
-            domainEnd = domain.last()
-            givenDomain = listOf(domainStart, domainEnd)
+            domainStart = value.first()
+            domainEnd = value.last()
+            _domain[0] = domainStart
+            _domain[1] = domainEnd
             rescale()
         }
 
     fun rescale() {
-        quantizedDomain = arrayListOf()
+        quantizedDomain.clear()
 
-        val size = range.size - 1
+        val size = _range.size - 1
         for(index in 0 until size) {
             val element = ((index + 1) * domainEnd - (index - size) * domainStart) / (size + 1)
             quantizedDomain.add(element)
@@ -43,12 +47,12 @@ open class QuantizeScale<R>() : RangeableScale<Double, R> {
     }
 
     override fun invoke(domainValue: Double): R {
-        return range[bisect(quantizedDomain, domainValue, doubleComparator, 0, range.size - 1)]
+        return _range[bisect(quantizedDomain, domainValue, doubleComparator, 0, _range.size - 1)]
     }
 
     fun invertExtent(y: R): List<Double> {
-        val i = range.indexOf(y)
-        val size = range.size - 1
+        val i = _range.indexOf(y)
+        val size = _range.size - 1
         return when {
             i < 0 -> listOf(Double.NaN, Double.NaN)
             i < 1 -> listOf(domainStart, quantizedDomain.first())

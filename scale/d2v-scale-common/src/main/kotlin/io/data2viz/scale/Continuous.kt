@@ -58,8 +58,11 @@ abstract class ContinuousScaleImpl<R>(
         InvertableScale<Double, R>,
         TickableScale<Double, R> {
 
-    var input: ((R) -> Double)? = null
-    var output: ((Double) -> R)? = null
+    private var input: ((R) -> Double)? = null
+    private var output: ((Double) -> R)? = null
+
+    protected val _domain: MutableList<Double> = arrayListOf(.0, 1.0)
+    protected val _range: MutableList<R> = arrayListOf()
 
     abstract fun interpolateDomain(from: Double, to: Double): (Double) -> Double
     abstract fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double
@@ -71,27 +74,29 @@ abstract class ContinuousScaleImpl<R>(
         }
 
     // copy the value (no binding intended)
-    override var domain: List<Double> = arrayListOf(.0, 1.0)
-        get() = field.toList()
+    override var domain: List<Double>
+        get() = _domain.toList()
         set(value) {
-            field = value.toList()
+            _domain.clear()
+            _domain.addAll(value)
             rescale()
         }
 
     // copy the value (no binding intended)
-    override var range: List<R> = arrayListOf()
-        get() = field.toList()
+    override var range: List<R>
+        get() = _range.toList()
         set(value) {
-            field = value.toList()
+            _range.clear()
+            _range.addAll(value)
             rescale()
         }
 
     override operator fun invoke(domainValue: Double): R {
         if (output == null) {
-            check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
+            check(_domain.size == _range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val uninterpolateFunc = if (clamp) uninterpolateClamp(::uninterpolateDomain) else ::uninterpolateDomain
             output =
-                    if (domain.size > 2 || range.size > 2) polymap(uninterpolateFunc, interpolateRange)
+                    if (_domain.size > 2 || _range.size > 2) polymap(uninterpolateFunc, interpolateRange)
                     else bimap(uninterpolateFunc, interpolateRange)
         }
 
@@ -103,10 +108,10 @@ abstract class ContinuousScaleImpl<R>(
         checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible." })
 
         if (input == null) {
-            check(domain.size == range.size, { "Domains (in) and Ranges (out) must have the same size." })
+            check(_domain.size == _range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val interpolateFunc = if (clamp) interpolateClamp(::interpolateDomain) else ::interpolateDomain
             input =
-                    if (domain.size > 2 || range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
+                    if (_domain.size > 2 || _range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
                     else bimapInvert(interpolateFunc, uninterpolateRange!!)
         }
 
@@ -114,7 +119,7 @@ abstract class ContinuousScaleImpl<R>(
     }
 
     override fun ticks(count: Int): List<Double> {
-        return io.data2viz.core.ticks(domain.first(), domain.last(), count) as List<Double>
+        return io.data2viz.core.ticks(_domain.first(), _domain.last(), count) as List<Double>
     }
 
     protected open fun rescale() {
@@ -125,11 +130,11 @@ abstract class ContinuousScaleImpl<R>(
     private fun uninterpolateClamp(uninterpolateFunction: (Double, Double) -> (Double) -> Double): (Double, Double) -> (Double) -> Double {
         return fun(a: Double, b: Double): (Double) -> Double {
             val d = uninterpolateFunction(a, b)
-            return fun(domain: Double): Double {
+            return fun(value: Double): Double {
                 return when {
-                    (domain <= a) -> .0
-                    (domain >= b) -> 1.0
-                    else -> d(domain)
+                    (value <= a) -> .0
+                    (value >= b) -> 1.0
+                    else -> d(value)
                 }
             }
         }
@@ -138,10 +143,10 @@ abstract class ContinuousScaleImpl<R>(
     private fun interpolateClamp(interpolateFunction: (Double, Double) -> (Double) -> Double): (Double, Double) -> (Double) -> Double {
         return fun(a: Double, b: Double): (Double) -> Double {
             val r = interpolateFunction(a, b)
-            return fun(t: Double): Double = when {
-                t <= 0.0 -> a
-                t >= 1.0 -> b
-                else -> r(t)
+            return fun(value: Double): Double = when {
+                (value <= 0.0) -> a
+                (value >= 1.0) -> b
+                else -> r(value)
             }
         }
     }
@@ -149,10 +154,10 @@ abstract class ContinuousScaleImpl<R>(
     private fun bimap(deinterpolateDomain: (Double, Double) -> (Double) -> Double,
                       reinterpolateRange: (R, R) -> (Double) -> R): (Double) -> R {
 
-        val d0 = domain[0]
-        val d1 = domain[1]
-        val r0 = range[0]
-        val r1 = range[1]
+        val d0 = _domain[0]
+        val d1 = _domain[1]
+        val r0 = _range[0]
+        val r1 = _range[1]
 
         val r: (Double) -> R
         val d: (Double) -> Double
@@ -173,10 +178,10 @@ abstract class ContinuousScaleImpl<R>(
 
         checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible." })
 
-        val d0 = domain[0]
-        val d1 = domain[1]
-        val r0 = range[0]
-        val r1 = range[1]
+        val d0 = _domain[0]
+        val d1 = _domain[1]
+        val r0 = _range[0]
+        val r1 = _range[1]
 
         val r: (R) -> Double
         val d: (Double) -> Double
@@ -195,18 +200,18 @@ abstract class ContinuousScaleImpl<R>(
     private fun polymap(uninterpolateDomain: (Double, Double) -> (Double) -> Double,
                         interpolateRange: (R, R) -> (Double) -> R): (Double) -> R {
 
-        val d0 = domain.first()
-        val d1 = domain.last()
+        val d0 = _domain.first()
+        val d1 = _domain.last()
         val domainReversed = d1 < d0
-        val domainValues = if (domainReversed) domain.reversed() else domain
-        val rangeValues = if (domainReversed) range.reversed() else range
+        val domainValues = if (domainReversed) _domain.reversed() else _domain
+        val rangeValues = if (domainReversed) _range.reversed() else _range
 
-        val size = min(domain.size, range.size) - 1
+        val size = min(_domain.size, _range.size) - 1
         val domainInterpolators = Array(size, { uninterpolateDomain(domainValues[it], domainValues[it + 1]) })
         val rangeInterpolators = Array(size, { interpolateRange(rangeValues[it], rangeValues[it + 1]) })
 
         return { x ->
-            val index = bisect<Double>(domain, x, naturalOrder<Double>(), 1, size) - 1
+            val index = bisect<Double>(_domain, x, naturalOrder<Double>(), 1, size) - 1
             rangeInterpolators[index](domainInterpolators[index](x))
         }
     }
@@ -217,13 +222,13 @@ abstract class ContinuousScaleImpl<R>(
         // TODO <R> instanceOf Comparable ??
         checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible." })
 
-        val r0 = range.first()
-        val r1 = range.last()
+        val r0 = _range.first()
+        val r1 = _range.last()
         val rangeReversed = rangeComparator!!.compare(r1, r0) < 0
-        val domainValues = if (rangeReversed) domain.reversed() else domain
-        val rangeValues = if (rangeReversed) range.reversed() else range
+        val domainValues = if (rangeReversed) _domain.reversed() else _domain
+        val rangeValues = if (rangeReversed) _range.reversed() else _range
 
-        val size = min(domain.size, range.size) - 1
+        val size = min(_domain.size, _range.size) - 1
         val domainInterpolators = Array(size, { interpolateDomain(domainValues[it], domainValues[it + 1]) })
         val rangeInterpolators = Array(size, { uninterpolateRange(rangeValues[it], rangeValues[it + 1]) })
 

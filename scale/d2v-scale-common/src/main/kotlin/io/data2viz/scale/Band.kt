@@ -11,9 +11,6 @@ import kotlin.math.max
  */
 open class BandScale<D> : OrdinalScale<D, Double>() {
 
-    /*val Double.unknown:Double
-        get() = Double.NaN*/
-
     override var domain: List<D>
         get() = super.domain
         set(value) {
@@ -27,6 +24,11 @@ open class BandScale<D> : OrdinalScale<D, Double>() {
             super.range = value
             rescale()
         }
+
+    // TODO : find a better way to do this...
+    override var unknown: Double? = Double.NaN
+        get() = field
+        set(value) = throw RuntimeException("Band Scale \"unknown\" value is constant.")
 
     var round: Boolean = false
         set(value) {
@@ -68,16 +70,11 @@ open class BandScale<D> : OrdinalScale<D, Double>() {
     private var ordinalRange: MutableList<Double> = ArrayList()
 
     init {
-        range = listOf(.0, 1.0)
-        unknown = Double.NaN
+        _range.clear()
+        _range.addAll(arrayListOf(.0, 1.0))
     }
 
     override operator fun invoke(domainValue: D): Double {
-        /*if (!index.containsKey(domainValue)) {
-            innerDomain.add(domainValue)
-            index.put(domainValue, innerDomain.size - 1)
-        }*/
-
         val i: Int = index[domainValue] ?: return unknown!!
         return if (ordinalRange.isEmpty()) unknown!! else ordinalRange[i]
     }
@@ -85,13 +82,13 @@ open class BandScale<D> : OrdinalScale<D, Double>() {
     override fun ticks(count: Int): List<D> = domain
 
     private fun rescale() {
-        val n = innerDomain.size
-        if (range.isEmpty())
+        val n = _domain.size
+        if (_range.isEmpty())
             return
 
-        val reverse = range.last() < range.first()
-        var start = if (reverse) range.last() else range.first()
-        val stop = if (reverse) range.first() else range.last()
+        val reverse = _range.last() < _range.first()
+        var start = if (reverse) _range.last() else _range.first()
+        val stop = if (reverse) _range.first() else _range.last()
         step = (stop - start) / max(1.0, n - paddingInner + paddingOuter * 2)
         if (round)
             step = floor(step)

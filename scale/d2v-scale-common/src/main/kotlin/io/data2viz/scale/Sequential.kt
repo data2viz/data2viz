@@ -8,11 +8,14 @@ package io.data2viz.scale
  */
 open class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScale<Double, R>, ClampableScale<Double, R> {
 
-    override var domain: List<Double> = arrayListOf(.0, 1.0)
-        get() = field.toList()
+    protected val _domain: MutableList<Double> = arrayListOf(.0, 1.0)
+
+    override var domain: List<Double>
+        get() = _domain.toList()
         set(value) {
             if (value.size != 2) throw IllegalArgumentException("Sequential Scale can only accept a domain with 2 values.")
-            field = value.toList()
+            _domain.clear()
+            _domain.addAll(value)
         }
 
     override var clamp: Boolean = false
@@ -22,12 +25,12 @@ open class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScal
 
     override fun invoke(domainValue: Double): R {
         requireNotNull(interpolator)
-        var uninterpolatedDomain = (domainValue - domain.first()) / (domain.last() - domain.first())
+        var uninterpolatedDomain = (domainValue - _domain.first()) / (_domain.last() - _domain.first())
         if(clamp) uninterpolatedDomain = uninterpolatedDomain.coerceIn(0.0, 1.0)
         return interpolator!!(uninterpolatedDomain)
     }
 
-    override fun ticks(count: Int) = io.data2viz.core.ticks(domain.first(), domain.last(), count) as List<Double>
+    override fun ticks(count: Int) = io.data2viz.core.ticks(_domain.first(), _domain.last(), count) as List<Double>
 }
 
 fun sequentialScale(interpolator: (Double) -> Double) = SequentialScale<Double>(interpolator)

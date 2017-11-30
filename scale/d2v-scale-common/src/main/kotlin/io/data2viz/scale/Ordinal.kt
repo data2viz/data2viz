@@ -8,7 +8,9 @@ package io.data2viz.scale
 open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
 
     protected val index: MutableMap<D, Int> = HashMap()
-    protected val innerDomain: MutableList<D> = ArrayList()
+
+    protected val _domain: MutableList<D> = arrayListOf()
+    protected val _range: MutableList<R> = arrayListOf()
 
     /**
      * Set : Sets the output value of the scale for unknown input values and returns this scale.
@@ -39,14 +41,14 @@ open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
      * from usage will be dependent on ordering.
      */
     override var domain: List<D>
-        get() = innerDomain.toList()
+        get() = _domain.toList()
         set(value) {
-            innerDomain.clear()
+            _domain.clear()
             index.clear()
             value.forEach {
                 if (!index.containsKey(it)) {
-                    innerDomain.add(it)
-                    index.put(it, innerDomain.size - 1)
+                    _domain.add(it)
+                    index.put(it, _domain.size - 1)
                 }
             }
         }
@@ -58,23 +60,24 @@ open class OrdinalScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
      * If there are fewer elements in the range than in the domain, the scale will reuse values from the start
      * of the range.
      */
-    override var range: List<R> = arrayListOf()
-        get() = field.toList()
+    override var range: List<R>
+        get() = _range.toList()
         set(value) {
             require(value.isNotEmpty(), { "Range can't be empty." })
-            field = value.toList()
+            _range.clear()
+            _range.addAll(value.toMutableList())
         }
 
     override operator fun invoke(domainValue: D): R {
         if (unknown == null && !index.containsKey(domainValue)) {
-            innerDomain.add(domainValue)
-            index.put(domainValue, innerDomain.size - 1)
+            _domain.add(domainValue)
+            index.put(domainValue, _domain.size - 1)
         }
 
         val index = index[domainValue] ?: return unknown ?: throw IllegalStateException()
         return when {
-            range.isEmpty() -> unknown ?: throw IllegalStateException()
-            else -> range[index % range.size]
+            _range.isEmpty() -> unknown ?: throw IllegalStateException()
+            else -> _range[index % _range.size]
         }
     }
 

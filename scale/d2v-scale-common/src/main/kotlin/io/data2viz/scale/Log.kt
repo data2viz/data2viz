@@ -23,19 +23,18 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
      * The behavior of the scale is undefined if you pass a negative value to a log scale with a positive
      * domain or vice versa.
      */
-    override var domain: List<Double> = arrayListOf(1.0, 10.0)
-        get() = field.toList()
+    override var domain: List<Double>
+        get() = super.domain
         set(value) {
-            if (domain.contains(.0)) throw IllegalArgumentException("The domain interval must not contain 0, as log(0) = -∞.")
-            val totalPositives = domain.filter { it > 0}.size
-            val totalNegatives = domain.filter { it > 0}.size
-            if ((totalPositives > 0 && totalPositives < domain.size)
-                    || (totalNegatives > 0 && totalNegatives < domain.size))
+            if (value.contains(.0)) throw IllegalArgumentException("The domain interval must not contain 0, as log(0) = -∞.")
+            val totalPositives = value.filter { it > 0}.size
+            val totalNegatives = value.filter { it > 0}.size
+            if ((totalPositives > 0 && totalPositives < value.size)
+                    || (totalNegatives > 0 && totalNegatives < value.size))
                 throw IllegalArgumentException("The domain interval must contain only positive or negative elements.")
 
             // copy the value (no binding intended)
-            field = value.toList()
-            rescale()
+            super.domain = value
         }
 
     override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double {
@@ -49,15 +48,20 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
         else { t -> to.pow(t) * from.pow(1 - t) }
     }
 
-    private fun nice(domain: List<Double>, floor: (Double) -> Double, ceil: (Double) -> Double): MutableList<Double> {
-        val reversed = domain.last() < domain.first()
-        val first = if(reversed) domain.size - 1 else 0
-        val last  = if(reversed) 0 else domain.size - 1
+    private fun nice(values: List<Double>, floor: (Double) -> Double, ceil: (Double) -> Double): List<Double> {
+        val reversed = values.last() < values.first()
+        val first = if(reversed) values.size - 1 else 0
+        val last  = if(reversed) 0 else values.size - 1
 
-        val newDomain = domain.toMutableList()
-        newDomain[first] = floor(domain[first])
-        newDomain[last] = ceil(domain[last])
+        val newDomain = values.toMutableList()
+        newDomain[first] = floor(values[first])
+        newDomain[last] = ceil(values[last])
         return newDomain
+    }
+
+    init {
+        _domain.clear()
+        _domain.addAll(arrayListOf(1.0, 10.0))
     }
 
     override fun nice(count: Int) {
@@ -65,13 +69,13 @@ open class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Dou
     }
 
     override fun ticks(count: Int): List<Double> {
-        var domainStart = domain.first()
-        var domainEnd = domain.last()
+        var domainStart = _domain.first()
+        var domainEnd = _domain.last()
         val domainReversed = domainEnd < domainStart
 
         if (domainReversed) {
-            domainStart = domain.last()
-            domainEnd = domain.first()
+            domainStart = _domain.last()
+            domainEnd = _domain.first()
         }
 
         var i = log(domainStart, base)

@@ -39,12 +39,12 @@ open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
     override fun nice(count:Int) {
 
         // since domain getter returns a copy we need to reset the whole value
-        val newDomain = domain.toMutableList()
+        val newDomain = _domain.toMutableList()
 
-        val last = domain.size - 1
-        var step = tickStep(domain[0], domain[last], count)
-        val start = floor(domain[0] / step) * step
-        val stop = ceil(domain[last] / step) * step
+        val last = _domain.size - 1
+        var step = tickStep(_domain[0], _domain[last], count)
+        val start = floor(_domain[0] / step) * step
+        val stop = ceil(_domain[last] / step) * step
 
         if (step != .0) {
             step = tickStep(start, stop, count)
