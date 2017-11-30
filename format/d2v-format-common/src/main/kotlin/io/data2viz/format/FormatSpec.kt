@@ -65,7 +65,7 @@ fun specify(specifier: String): FormatSpec {
     var width: Int? = null
     var groupSeparation: Boolean
     var precision: Int? = null
-    var type: Type? = null
+    var type: Type = Type.NONE
 
     if (!formatRE.matches(specifier)) throw IllegalArgumentException("invalid format: " + specifier)
 
@@ -77,7 +77,7 @@ fun specify(specifier: String): FormatSpec {
             groupSeparation = true
             type = Type.DECIMAL_OR_EXPONENT
         } else {
-            type = Type.values().firstOrNull { it.c == match[9] }
+            type = Type.values().firstOrNull { it.c == match[9] } ?: Type.NONE
         }
     }
 
@@ -107,7 +107,7 @@ val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-\\( ])?([$#])?(0)?(\\d+)?(,
 
 
 fun specify(
-        type: Type? = null,
+        type: Type = Type.NONE,
         fill: String = " ",
         align: Align = Align.RIGTH,
         sign: Sign = Sign.MINUS,
@@ -119,6 +119,17 @@ fun specify(
 )
         = FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
 
+
+/**
+ * The typed safe definition of a Formatter. All properties have a default value,
+ *
+ * @property fill The char used to fill the spaces (when width is larger than the representation).
+ * by default a `space`.
+ *
+ * @property align The alignment of the number inside the available space (by default [Align.RIGTH])
+ *
+ * @property sign
+ */
 data class FormatSpec(
         val fill: String = " ",
         val align: Align = Align.RIGTH,
@@ -128,28 +139,51 @@ data class FormatSpec(
         val width: Int? = null,
         val groupSeparation: Boolean = false,
         val precision: Int? = null,
-        val type: Type? = null) {
+        val type: Type = Type.NONE) {
 
+    /**
+     * Usable for debugging, represents the format specification as a String specifier.
+     */
     override fun toString(): String =
             "$fill$align$sign${if (symbol == null) "" else symbol.c}${if (zero) "0" else ""}${if (width == null) "" else max(1, width!!)}${if (groupSeparation) "," else ""}${if (precision == null) "" else "." + max(0, precision)}${type.toString()}"
 }
 
 /**
- * The symbol can be either:
- *  - a currency symbols per the locale definition.
- *  - a number_base for binary, octal, or hexadecimal notation, prefix by 0b, 0o, or 0x, respectively.
+ * Indicates the type of symbol that should be displayed. It can be a currency
+ * (depending of current locale) or an Number Base indication for binary, octal, or
+ * hexadecimal notation (prefix by 0b, 0o, or 0x, respectively).
  */
-enum class Symbol(val c: String) {
+enum class Symbol(internal val c: String) {
+    /**
+     * The local currency symbol should be displayed. Depending of the locale, the
+     * symbol can be placed before of after the number.
+     */
     CURRENCY("$"),
+    /**
+     * Displays the prefix depending on number base (binary, octal, hexadecimal).
+     */
     NUMBER_BASE("#")
     ;
 
+    /**
+     * @suppress
+     */
     override fun toString() = c
 }
 
-enum class Type(val c: String) {
+
+/**
+ *
+ */
+enum class Type(internal val c: String) {
+
+    /**
+     *
+     */
     EXPONENT("e"),
     FIXED_POINT("f"),
+
+
     DECIMAL_OR_EXPONENT("g"),
     DECIMAL("r"),
     DECIMAL_WITH_SI("s"),
@@ -160,17 +194,18 @@ enum class Type(val c: String) {
     DECIMAL_ROUNDED("d"),
     HEX_LOWERCASE("x"),
     HEX_UPPERCASE("X"),
-    CHAR("c");
+    CHAR("c"),
+    NONE(" ")
+    ;
 
-//    override fun toString() = c
+    override fun toString() = if (this == NONE) "" else c
 }
 
-fun Type?.toString() = if (this == null) "" else c
 
 /**
  * Check if it is a number based type (binary, octal, hex ie: boxX)
  */
-val Type?.isNumberBase: Boolean
+internal val Type?.isNumberBase: Boolean
     get() =
         (this != null &&
                 (this == Type.BINARY ||
@@ -181,13 +216,13 @@ val Type?.isNumberBase: Boolean
 /**
  * Check if it is a percent type (%p)
  */
-val Type?.isPercent: Boolean
+internal val Type?.isPercent: Boolean
     get() =
         (this != null && (
                 this == Type.PERCENT ||
                         this == Type.PERCENT_ROUNDED))
 
-val Type?.maybeSuffix: Boolean
+internal val Type?.maybeSuffix: Boolean
     get() =
         (this != null && (
                 this == Type.DECIMAL_ROUNDED ||
@@ -200,27 +235,67 @@ val Type?.maybeSuffix: Boolean
                         this == Type.PERCENT
                 ))
 
-val gprs = listOf(
+internal val gprs = listOf(
         Type.DECIMAL_OR_EXPONENT,
         Type.PERCENT_ROUNDED,
         Type.DECIMAL,
         Type.DECIMAL_WITH_SI
 )
 
-enum class Sign(val c: String) {
+
+/**
+ * Define how positive and negative number should be rendered. [MINUS] by default.
+ */
+enum class Sign(internal val c: String) {
+    /**
+     * nothing for zero or positive and a minus sign for negative. (Default behavior.)
+     */
     MINUS("-"),
+    /**
+     * a plus sign for zero or positive and a minus sign for negative.
+     */
     PLUS("+"),
+    /**
+     * nothing for zero or positive and parentheses for negative.
+     */
     PARENTHESES("("),
+    /**
+     * a space for zero or positive and a minus sign for negative.
+     */
     SPACE(" ");
 
+    /**
+     * @suppress
+     */
     override fun toString() = c
 }
 
+/**
+ * Alignment of the number. By default [RIGTH] but can be
+ * [LEFT], [CENTER] or [RIGHT_WITHOUT_SIGN]. The padding is filled by [FormatSpec.fill]
+ * property.
+ */
 enum class Align(val c: String) {
+    /**
+     * Forces the field to be right-aligned within the available space. (Default behavior).
+     */
     RIGTH(">"),
+    /**
+     * Forces the field to be left-aligned within the available space.
+     */
     LEFT("<"),
+    /**
+     * Forces the field to be centered within the available space.
+     */
     CENTER("^"),
+
+    /**
+     * like [RIGTH], but with any sign and symbol to the left of any padding.
+     */
     RIGHT_WITHOUT_SIGN("=");
 
+    /**
+     * @suppress
+     */
     override fun toString() = c
 }

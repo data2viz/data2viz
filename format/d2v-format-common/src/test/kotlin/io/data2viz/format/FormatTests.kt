@@ -960,8 +960,28 @@ class FormatTests : TestBase() {
         val f = formatPrefix(" $12,.1s", 1e6)
         f(-42e6) shouldBe "      -$42.0M"
         f(+4.2e6) shouldBe "        $4.2M"
-
     }
+
+    @Test fun demo(){
+        formatter(".0%")(0.123)     shouldBe "12%"// rounded percentage, "12%"
+        formatter("+20")(42.0)      shouldBe "                 +42" // space-filled and signed, "                 +42"
+        formatter(".^20")(42.0)     shouldBe ".........42........."// dot-filled and centered, ".........42........."
+        formatter(".2s")(42e6)      shouldBe "42M"      // SI-prefix with two significant digits, "42M"
+        formatter("#x")(48879.0)    shouldBe "0xbeef"   // prefixed lowercase hexadecimal, "0xbeef"
+        formatter(",.2r")(4223.0)   shouldBe "4,200"    // grouped thousands with two significant digits, "4,200"
+        Locales.en_GB().formatter("($.2f")(-3.5)    shouldBe "(£3.50)"// localized fixed-point currency, "(£3.50)"
+    }
+
+    @Test fun demo_API(){
+        formatter(Type.PERCENT, precision = 0)(0.123)     shouldBe "12%"// rounded percentage, "12%"
+        formatter("+20")(42.0)      shouldBe "                 +42" // space-filled and signed, "                 +42"
+        formatter(".^20")(42.0)     shouldBe ".........42........."// dot-filled and centered, ".........42........."
+        formatter(".2s")(42e6)      shouldBe "42M"      // SI-prefix with two significant digits, "42M"
+        formatter("#x")(48879.0)    shouldBe "0xbeef"   // prefixed lowercase hexadecimal, "0xbeef"
+        formatter(",.2r")(4223.0)   shouldBe "4,200"    // grouped thousands with two significant digits, "4,200"
+        Locales.en_GB().formatter("($.2f")(-3.5)    shouldBe "(£3.50)"// localized fixed-point currency, "(£3.50)"
+    }
+
 
 
 

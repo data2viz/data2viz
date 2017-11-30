@@ -24,7 +24,7 @@ class FormatSpecifierTests : TestBase() {
         s.width shouldBe null
         s.groupSeparation shouldBe false
         s.precision shouldBe null
-        s.type shouldBe null
+        s.type shouldBe Type.NONE
     }
 
     @Test fun specifier__has_the_expected_defaults () {
@@ -37,12 +37,12 @@ class FormatSpecifierTests : TestBase() {
         s.width shouldBe null
         s.groupSeparation shouldBe false
         s.precision shouldBe null
-        s.type shouldBe null
+        s.type shouldBe Type.NONE
     }
 
     @Test fun formatSpecifier_specifier_uses_the_none_type_for_unknown_types () {
-        specify("q").type shouldBe null
-        specify("S").type shouldBe null
+        specify("q").type shouldBe Type.NONE
+        specify("S").type shouldBe Type.NONE
     }
 
     @Test fun formatSpecifier_n_is_an_alias_for_g() {

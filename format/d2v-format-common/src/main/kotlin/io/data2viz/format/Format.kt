@@ -13,7 +13,7 @@ fun formatter(specify: String): (Double) -> String = Locale().formatter(specify)
 fun Locale.formatter( specifier: String): (Double) -> String = formatter(specify(specifier))
 
 fun formatter(
-        type: Type? = null,
+        type: Type = Type.NONE,
         fill: String = " ",
         align: Align = Align.RIGTH,
         sign: Sign = Sign.MINUS,
@@ -25,7 +25,7 @@ fun formatter(
 ) = Locale().formatter(specify(type, fill, align, sign, symbol, zero, width, group, precision))
 
 fun Locale.formatter(
-        type: Type? = null,
+        type: Type = Type.NONE,
         fill: String = " ",
         align: Align = Align.RIGTH,
         sign: Sign = Sign.MINUS,
@@ -188,7 +188,7 @@ private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int)
 }
 
 
-fun formatTypes(type: Type?): (Double, Int) -> String =
+fun formatTypes(type: Type): (Double, Int) -> String =
         when (type) {
             Type.FIXED_POINT            -> { x: Double, p: Int -> x.toFixed(p) }
             Type.PERCENT                -> { x: Double, p: Int -> (x * 100).toFixed(p) }
@@ -203,7 +203,7 @@ fun formatTypes(type: Type?): (Double, Int) -> String =
             Type.OCTAL                  -> { x: Double, _: Int -> x.toStringDigits(8) }
             Type.HEX_UPPERCASE          -> { x: Double, _: Int -> x.toStringDigits(16).toUpperCase() }
             Type.HEX_LOWERCASE          -> { x: Double, _: Int -> x.toStringDigits(16) }
-            null                        -> { x: Double, p: Int -> formatDefault(x,p)}
+            Type.NONE                   -> { x: Double, p: Int -> formatDefault(x,p)}
         }
 
 fun formatDefault(x: Double, p: Int): String {
