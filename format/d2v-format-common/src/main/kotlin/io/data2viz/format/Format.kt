@@ -14,7 +14,7 @@ fun Locale.formatter( specifier: String): (Double) -> String = formatter(specify
 
 fun formatter(
         type: Type = Type.NONE,
-        fill: String = " ",
+        fill: Char = ' ',
         align: Align = Align.RIGTH,
         sign: Sign = Sign.MINUS,
         symbol: Symbol? = null,
@@ -26,7 +26,7 @@ fun formatter(
 
 fun Locale.formatter(
         type: Type = Type.NONE,
-        fill: String = " ",
+        fill: Char = ' ',
         align: Align = Align.RIGTH,
         sign: Sign = Sign.MINUS,
         symbol: Symbol? = null,
@@ -46,7 +46,7 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
     // For SI-prefix, the suffix is lazily computed.
     val prefix = if (spec.symbol == Symbol.CURRENCY)
         currency[0]
-        else if (spec.symbol == Symbol.NUMBER_BASE && spec.type.isNumberBase) "0" + spec.type?.c?.toLowerCase() else ""
+        else if (spec.symbol == Symbol.NUMBER_BASE && spec.type.isNumberBase) "0" + spec.type.c.toLowerCase() else ""
 
     val suffix = if (spec.symbol == Symbol.CURRENCY) currency[1] else if (spec.type.isPercent) "%" else ""
 
@@ -61,7 +61,7 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
     // For significant exponent, it must be in [1, 21].
     // For fixed exponent, it must be in [0, 20].
     val precision = if (spec.precision == null) {
-        if (spec.type != null) 6 else 12
+        if (spec.type != Type.NONE) 6 else 12
     } else {
         if (gprs.contains(spec.type))
             spec.precision.coerceIn(1, 21) else spec.precision.coerceIn(0, 20)
@@ -112,7 +112,7 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
 
         // Compute the padding.
         val length = valuePrefix.length + returnValue.length + valueSuffix.length
-        var padding = if (width != null && length < width) "".padStart(width - length, spec.fill[0]) else ""
+        var padding = if (width != null && length < width) "".padStart(width - length, spec.fill) else ""
 
         // If the fill character is "0", grouping is applied after padding.
         if (spec.groupSeparation && spec.zero) {
@@ -150,6 +150,32 @@ fun Locale.numerals(valueAsString: String): String =
 
 
 fun formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String = Locale().formatPrefix(specifier, fixedPrefix)
+
+
+/**
+ * Equivalent to locale.format, except the returned function will convert values to the units of
+ * the appropriate [SI prefix][https://en.wikipedia.org/wiki/Metric_prefix#List_of_SI_prefixes]
+ * for the specified numeric reference value before formatting in fixed point notation.
+ *
+ * The following prefixes are supported:
+ * - y - yocto, 10⁻²⁴
+ * - z - zepto, 10⁻²¹
+ * - a - atto, 10⁻¹⁸
+ * - f - femto, 10⁻¹⁵
+ * - p - pico, 10⁻¹²
+ * - n - nano, 10⁻⁹
+ * - µ - micro, 10⁻⁶
+ * - m - milli, 10⁻³
+ * - (none) - 10⁰
+ * - k - kilo, 10³
+ * - M - mega, 10⁶
+ * - G - giga, 10⁹
+ * - T - tera, 10¹²
+ * - P - peta, 10¹⁵
+ * - E - exa, 10¹⁸
+ * - Z - zetta, 10²¹
+ * - Y - yotta, 10²⁴
+ */
 fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String {
     val formatSpecifier = specify(specifier).copy(type = Type.FIXED_POINT)
     val f = formatter(formatSpecifier.toString())
@@ -188,7 +214,7 @@ private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int)
 }
 
 
-fun formatTypes(type: Type): (Double, Int) -> String =
+private fun formatTypes(type: Type): (Double, Int) -> String =
         when (type) {
             Type.FIXED_POINT            -> { x: Double, p: Int -> x.toFixed(p) }
             Type.PERCENT                -> { x: Double, p: Int -> (x * 100).toFixed(p) }
@@ -206,7 +232,7 @@ fun formatTypes(type: Type): (Double, Int) -> String =
             Type.NONE                   -> { x: Double, p: Int -> formatDefault(x,p)}
         }
 
-fun formatDefault(x: Double, p: Int): String {
+private fun formatDefault(x: Double, p: Int): String {
     val newX = x.toPrecision(p)
     var i0 = -1
     var i1 = 0

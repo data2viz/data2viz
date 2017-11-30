@@ -844,7 +844,7 @@ class FormatTests : TestBase() {
     }
 
     @Test fun format_0_width_s_will_group_thousands_due_to_zero_fill () {
-        val f = formatter(Type.DECIMAL_WITH_SI, zero = true, fill = "0", width = 20, group = true)
+        val f = formatter(Type.DECIMAL_WITH_SI, zero = true, fill = '0', width = 20, group = true)
         f(42.0) shouldBe "000,000,000,042.0000"
         f(42e12) shouldBe "00,000,000,042.0000T"
     }
@@ -963,23 +963,42 @@ class FormatTests : TestBase() {
     }
 
     @Test fun demo(){
-        formatter(".0%")(0.123)     shouldBe "12%"// rounded percentage, "12%"
-        formatter("+20")(42.0)      shouldBe "                 +42" // space-filled and signed, "                 +42"
-        formatter(".^20")(42.0)     shouldBe ".........42........."// dot-filled and centered, ".........42........."
-        formatter(".2s")(42e6)      shouldBe "42M"      // SI-prefix with two significant digits, "42M"
-        formatter("#x")(48879.0)    shouldBe "0xbeef"   // prefixed lowercase hexadecimal, "0xbeef"
-        formatter(",.2r")(4223.0)   shouldBe "4,200"    // grouped thousands with two significant digits, "4,200"
-        Locales.en_GB().formatter("($.2f")(-3.5)    shouldBe "(£3.50)"// localized fixed-point currency, "(£3.50)"
+        formatter(".0%")(0.123)                         shouldBe "12%"                      // rounded percentage, "12%"
+        formatter("+20")(42.0)                          shouldBe "                 +42"     // space-filled and signed, "                 +42"
+        formatter(".^20")(42.0)                         shouldBe ".........42........."     // dot-filled and centered, ".........42........."
+        formatter(".2s")(42e6)                          shouldBe "42M"                      // SI-prefix with two significant digits, "42M"
+        formatter("#x")(48879.0)                        shouldBe "0xbeef"                   // prefixed lowercase hexadecimal, "0xbeef"
+        formatter(",.2r")(4223.0)                       shouldBe "4,200"                    // grouped thousands with two significant digits, "4,200"
+        Locales.en_GB().formatter("($.2f")(-3.5)       shouldBe "(£3.50)" // localized fixed-point currency, "(£3.50)"
     }
 
     @Test fun demo_API(){
-        formatter(Type.PERCENT, precision = 0)(0.123)     shouldBe "12%"// rounded percentage, "12%"
-        formatter("+20")(42.0)      shouldBe "                 +42" // space-filled and signed, "                 +42"
-        formatter(".^20")(42.0)     shouldBe ".........42........."// dot-filled and centered, ".........42........."
-        formatter(".2s")(42e6)      shouldBe "42M"      // SI-prefix with two significant digits, "42M"
-        formatter("#x")(48879.0)    shouldBe "0xbeef"   // prefixed lowercase hexadecimal, "0xbeef"
-        formatter(",.2r")(4223.0)   shouldBe "4,200"    // grouped thousands with two significant digits, "4,200"
-        Locales.en_GB().formatter("($.2f")(-3.5)    shouldBe "(£3.50)"// localized fixed-point currency, "(£3.50)"
+        formatter(
+                Type.PERCENT,
+                precision = 0
+        )(0.123)                                                                       shouldBe "12%"                  // rounded percentage, "12%"
+        formatter(sign = Sign.PLUS, width = 20)(42.0)                                                                       shouldBe "                 +42" // space-filled and signed, "                 +42"
+        formatter(fill = '.', align = Align.CENTER, width = 20)(42.0)                                                       shouldBe ".........42........." // dot-filled and centered, ".........42........."
+        formatter(
+                Type.DECIMAL_WITH_SI,
+                precision = 2
+        )(42e6)                                                                shouldBe "42M"                  // SI-prefix with two significant digits, "42M"
+        formatter(
+                Type.HEX_LOWERCASE,
+                symbol = Symbol.NUMBER_BASE
+        )(48879.0)                                                 shouldBe "0xbeef"               // prefixed lowercase hexadecimal, "0xbeef"
+        formatter(
+                Type.DECIMAL,
+                group = true,
+                precision = 2
+        )(4223.0)                                                        shouldBe "4,200"                // grouped thousands with two significant digits, "4,200"
+        Locales.en_GB()
+                .formatter(
+                        Type.FIXED_POINT,
+                        symbol = Symbol.CURRENCY,
+                        sign = Sign.PARENTHESES,
+                        precision = 2
+                )(-3.5) shouldBe "(£3.50)"              // localized fixed-point currency, "(£3.50)"
     }
 
 

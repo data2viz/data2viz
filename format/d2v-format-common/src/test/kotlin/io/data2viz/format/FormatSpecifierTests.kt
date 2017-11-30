@@ -16,7 +16,7 @@ class FormatSpecifierTests : TestBase() {
 
     @Test fun formatSpecifier__has_the_expected_defaults () {
         val s = specify("")
-        s.fill shouldBe " "
+        (s.fill == ' ') shouldBe true
         s.align shouldBe Align.RIGTH
         s.sign shouldBe Sign.MINUS
         s.symbol shouldBe null
@@ -29,7 +29,7 @@ class FormatSpecifierTests : TestBase() {
 
     @Test fun specifier__has_the_expected_defaults () {
         val s = specify()
-        s.fill shouldBe " "
+        (s.fill == ' ') shouldBe true
         s.align shouldBe Align.RIGTH
         s.sign shouldBe Sign.MINUS
         s.symbol shouldBe null
@@ -54,14 +54,14 @@ class FormatSpecifierTests : TestBase() {
     @Test fun formatSpecifier_0_is_an_alias_for_0() {
         val s = specify("0")
         s.zero shouldBe true
-        s.fill shouldBe "0"
+        (s.fill == '0') shouldBe true
         s.align shouldBe Align.RIGHT_WITHOUT_SIGN
     }
 
     @Test fun formatSpecifier_specifier_toString_reflects_current_field_values () {
 
         var s = specify("")
-        s = s.copy(fill =  "_")
+        s = s.copy(fill =  '_')
         s.toString() shouldBe "_>-"
         s = s.copy(align = Align.CENTER)
         s.toString() shouldBe "_^-"
