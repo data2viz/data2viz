@@ -7,9 +7,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.kordamp.gradle:stats-gradle-plugin:0.2.0'
     }
 }
@@ -60,9 +61,15 @@ subprojects {
     repositories {
         jcenter()
     }
-    apply plugin: 'org.kordamp.gradle.stats'
     apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'org.jetbrains.dokka'
+    apply plugin: 'org.kordamp.gradle.stats'
     apply plugin: 'maven-publish'
+
+    dokka {
+        outputFormat = 'gfm'
+        outputDirectory = "$buildDir/javadoc"
+    }
 
     if (project.name.contains('-common')) {
         apply plugin: 'kotlin-platform-common'
@@ -134,8 +141,7 @@ subprojects {
 
     }
 
-    if (
-    !project.name.contains('-common') &&
+    if (!project.name.contains('-common') &&
             !project.name.contains('-js') &&
             !project.name.contains('-jvm')
     ) {
