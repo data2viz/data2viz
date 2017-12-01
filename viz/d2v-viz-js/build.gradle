@@ -1,6 +1,7 @@
 dependencies {
     expectedBy project(":d2v-viz-common")
     compile project(":d2v-color-js")
+    compile project(":d2v-path-js")
 }
 
 task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {

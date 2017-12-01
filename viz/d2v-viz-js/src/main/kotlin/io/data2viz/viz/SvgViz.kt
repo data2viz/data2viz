@@ -4,6 +4,7 @@ import io.data2viz.color.Color
 import io.data2viz.color.color
 import io.data2viz.core.Point
 import io.data2viz.math.Angle
+import io.data2viz.path.PathAdapter
 import org.w3c.dom.Element
 import org.w3c.dom.svg.SVGElement
 import kotlin.browser.document
@@ -31,9 +32,20 @@ fun Element.viz(init: VizContext.() -> Unit): VizContext {
     return context
 }
 
-class ParentElement(val parent: Element) : VizContext {
+class ParentElement(val parent: Element) : VizContext,
+        Transformable by TransformableDelegate(parent) {
+
     init {
         check(parent.namespaceURI == svgNamespaceURI)
+    }
+
+    override fun path(init: PathVizItem.() -> Unit): PathVizItem {
+        TODO()
+    }
+
+
+    override fun setStyle(style: String) {
+        parent.setAttribute("style", style)
     }
 
     override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
@@ -134,6 +146,7 @@ class RectElement(override val element: Element) : ElementWrapper, RectVizItem,
 }
 
 class TextElement (override val element: Element) : ElementWrapper, TextVizItem,
+        HasFill by FillDelegate(element),
         Transformable by TransformableDelegate(element) {
     override var textContent: String
         get() = element.textContent ?: ""

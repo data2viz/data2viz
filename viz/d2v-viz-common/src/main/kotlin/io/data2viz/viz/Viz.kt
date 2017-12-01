@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Color
+import io.data2viz.path.PathAdapter
 
 /**
  * Common interface to bootstrap visualization into different platform contexts.
@@ -10,12 +11,14 @@ interface VizContext : ParentItem
 interface VizItem
 
 
-interface ParentItem {
+interface ParentItem: Transformable {
     fun group(init: ParentItem.() -> Unit): ParentItem
     fun circle(init: CircleVizItem.() -> Unit): CircleVizItem
     fun rect(init: RectVizItem.() -> Unit): RectVizItem
     fun line(init: LineVizItem.() -> Unit): LineVizItem
     fun text(init: TextVizItem.() -> Unit): TextVizItem
+    fun path(init: PathVizItem.() -> Unit): PathVizItem
+    fun setStyle(style:String)
 }
 
 /**
@@ -30,6 +33,7 @@ interface Transform {
     fun translate(x: Double = 0.0, y: Double = 0.0)
 }
 
+interface PathVizItem : VizItem, Shape, PathAdapter
 
 interface CircleVizItem : VizItem, Shape, Transformable {
     var cx: Double
@@ -52,7 +56,7 @@ interface RectVizItem : VizItem, Shape, Transformable {
     var ry: Double
 }
 
-interface TextVizItem : VizItem, Transformable {
+interface TextVizItem : VizItem, Transformable, HasFill {
     var x: Double
     var y: Double
     var textContent: String
@@ -77,18 +81,3 @@ interface HasFill {
 interface VizFactory<V : VizItem> {
     fun createVizItem(): V
 }
-
-//interface Binding<D>{
-//    val data:List<D>
-//    val datum:D
-//    val index:Int
-//}
-//
-//interface CircleBinding<D>: CircleVizItem, Binding<D>{
-//
-//}
-
-//class CircleVizFactory : VizFactory<CircleVizItem> {
-//    override fun createVizItem(): CircleVizItem = CircleVizJfx(Circle())
-//}
-

@@ -3,12 +3,16 @@ package io.data2viz.viz
 import io.data2viz.color.Color
 import io.data2viz.color.d2vColor
 import io.data2viz.color.jfxColor
+import io.data2viz.path.PathAdapter
+import io.data2viz.path.SvgPath
+import io.data2viz.path.toJfxPath
 import javafx.beans.property.DoubleProperty
 import javafx.scene.Group
 import javafx.scene.Node
 import javafx.scene.shape.Circle
 import javafx.scene.shape.Line
 import javafx.scene.shape.Rectangle
+import javafx.scene.shape.SVGPath
 import javafx.scene.text.Text
 import kotlin.reflect.KProperty
 
@@ -23,7 +27,24 @@ fun Group.viz(init: VizContext.() -> Unit): VizContext {
     return vizContext
 }
 
-class ParentElement(val parent: Group) : VizContext {
+class ParentElement(val parent: Group) : VizContext, 
+        Transformable by TransformNodeDelegate(parent){
+    
+    override fun path(init: PathVizItem.() -> Unit): PathVizItem {
+        val path = SVGPath()
+        val svgPath = SvgPath()
+        val item = PathVizJfx(parent, path, svgPath)
+        init(item)
+        path.content = svgPath.path
+        parent.children.add(path)
+        return item
+    }
+
+    override fun setStyle(style: String) {
+        parent.style = style
+    }
+
+
     override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
         val circle = Circle()
         parent.children.add(circle)
@@ -66,6 +87,7 @@ class ParentElement(val parent: Group) : VizContext {
 
 
 class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
+        HasFill by FillDelegate(text),
         Transformable by TransformNodeDelegate(text){
 
     override var x: Double by DoublePropertyDelegate(text.xProperty())
@@ -75,6 +97,12 @@ class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
         set(value) { text.text = value}
 }
 
+class PathVizJfx(val parent: Group, path: SVGPath, svgPath: SvgPath) : PathVizItem,
+        HasFill by FillDelegate(path),
+        HasStroke by StrokeDelegate(path),
+        Transformable by TransformNodeDelegate(path),
+        PathAdapter by svgPath
+    
 
 class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem,
         HasFill by FillDelegate(circle),

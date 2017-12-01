@@ -1,4 +1,5 @@
 dependencies {
     expectedBy project(":d2v-viz-common")
     compile project(":d2v-color-jvm")
+    compile project(":d2v-path-jvm")
 }
