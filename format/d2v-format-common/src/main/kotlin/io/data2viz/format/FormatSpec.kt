@@ -367,7 +367,7 @@ enum class Sign(internal val c: String) {
  * [LEFT], [CENTER] or [RIGHT_WITHOUT_SIGN]. The padding is filled by [FormatSpec.fill]
  * property.
  */
-enum class Align(val c: String) {
+enum class Align(internal val c: String) {
     /**
      * Forces the field to be right-aligned within the available space. (Default behavior).
      */
