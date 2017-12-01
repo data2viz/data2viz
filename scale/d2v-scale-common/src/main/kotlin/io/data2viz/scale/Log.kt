@@ -120,10 +120,5 @@ class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) 
     }
 }
 
-fun logScale(base: Double = 10.0): LogScale<Double> {
-    return LogScale<Double>(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>())
-}
-
-fun logScaleRound(base: Double = 10.0): LogScale<Double> {
-    return LogScale<Double>(base, ::interpolateRound, ::uninterpolateNumber, naturalOrder<Double>())
-}
+fun scaleLog(base: Double = 10.0): LogScale<Double> = LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
+fun scaleLogRound(base: Double = 10.0): LogScale<Double> = LogScale(base, ::interpolateRound, ::uninterpolateNumber, naturalOrder())

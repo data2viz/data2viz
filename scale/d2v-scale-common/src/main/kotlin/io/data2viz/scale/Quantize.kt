@@ -65,4 +65,4 @@ class QuantizeScale<R> : DomainRangedScale<R> () {
     }
 }
 
-fun <R> quantizeScale(): QuantizeScale<R> = QuantizeScale<R>()
+fun <R> scaleQuantize(): QuantizeScale<R> = QuantizeScale()

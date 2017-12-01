@@ -78,7 +78,7 @@ abstract class DiscreteScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
     override fun ticks(count: Int): List<D> = listOf()
 }
 
-class OrdinalScale<D, R> : DiscreteScale<D, R>() {
+open class OrdinalScale<D, R> : DiscreteScale<D, R>() {
 
     var unknown: R?
         get() = _unknown
@@ -87,4 +87,4 @@ class OrdinalScale<D, R> : DiscreteScale<D, R>() {
         }
 }
 
-fun <D, R> ordinalScale() = OrdinalScale<D, R>()
+fun <D, R> scaleOrdinal() = OrdinalScale<D, R>()

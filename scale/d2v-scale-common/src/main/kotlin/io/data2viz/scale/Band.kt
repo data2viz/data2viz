@@ -113,4 +113,4 @@ class BandScale<D> : BandedScale<D>() {
         }
 }
 
-fun <D> bandScale() = BandScale<D>()
+fun <D> scaleBand() = BandScale<D>()

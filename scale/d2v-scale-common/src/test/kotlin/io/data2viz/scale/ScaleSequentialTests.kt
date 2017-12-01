@@ -10,7 +10,7 @@ class ScaleSequentialTests : TestBase() {
 
     @Test
     fun sequential_has_expected_defaults_LEGACY() {
-        val scale = sequentialScale({ t:Double -> t })
+        val scale = scaleSequential({ t:Double -> t })
 
         scale.domain shouldBe arrayListOf(.0, 1.0)
 //        scale.interpolator shouldBe { t:Double -> t }
@@ -23,7 +23,7 @@ class ScaleSequentialTests : TestBase() {
 
     @Test
     fun sequential_enable_clamping_LEGACY() {
-        val scale = sequentialScale({ t: Double -> t })
+        val scale = scaleSequential({ t: Double -> t })
         scale.clamp = true
 
         scale(-.5) shouldBe .0
@@ -35,7 +35,7 @@ class ScaleSequentialTests : TestBase() {
 
     @Test
     fun sequential_x_domain_return_y_range() {
-        val scale = sequentialScale({ t: Double -> t })
+        val scale = scaleSequential({ t: Double -> t })
         scale.domain = arrayListOf(-1.2, 2.4)
 
         scale(-1.2) shouldBe .0
@@ -45,14 +45,14 @@ class ScaleSequentialTests : TestBase() {
 
     @Test
     fun sequential_domain_more_than_2_elements_raise_exception() {
-        val scale = sequentialScale({ t: Double -> t })
+        val scale = scaleSequential({ t: Double -> t })
         shouldThrow<IllegalArgumentException> { scale.domain = arrayListOf(.1); return }
         shouldThrow<IllegalArgumentException> { scale.domain = listOf(.2, .3, .6); return }
     }
 
     @Test
     fun sequential_returns_copy_of_elements() {
-        val scale = sequentialScale({ t: Double -> t })
+        val scale = scaleSequential({ t: Double -> t })
         scale.clamp = true
         scale.domain = listOf(1.0, 3.0)
 
@@ -64,7 +64,7 @@ class ScaleSequentialTests : TestBase() {
 
     @Test
     fun sequential_intepolator_sets_interpolator() {
-        val scale = sequentialScale({ t: Double -> t })
+        val scale = scaleSequential({ t: Double -> t })
         scale.clamp = true
         scale.domain = listOf(1.0, 3.0)
         scale.interpolator = { t: Double -> 2 * t }

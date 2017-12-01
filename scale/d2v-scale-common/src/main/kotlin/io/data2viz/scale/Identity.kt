@@ -25,4 +25,4 @@ open class IdentityScale : DomainToRangeScale<Double>(::interpolateNumber, ::uni
     }
 }
 
-fun identityScale() = IdentityScale()
+fun scaleIdentity() = IdentityScale()

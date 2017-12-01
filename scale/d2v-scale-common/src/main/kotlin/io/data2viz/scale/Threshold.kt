@@ -66,4 +66,4 @@ class ThresholdScale<R> : DomainRangedScale<R>() {
     }
 }
 
-fun <R> thresholdScale(): ThresholdScale<R> = ThresholdScale<R>()
+fun <R> scaleThreshold(): ThresholdScale<R> = ThresholdScale()

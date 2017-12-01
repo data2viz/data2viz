@@ -13,8 +13,8 @@ import kotlin.math.pow
  * value are multiplied by -1.
  */
 class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Double) -> R,
-                          uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
-                          rangeComparator: Comparator<R>? = null)
+                    uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+                    rangeComparator: Comparator<R>? = null)
     : LinearScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
 
     var exponent: Double = exponent
@@ -43,16 +43,8 @@ class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Double)
     }
 }
 
-fun powerScale(exponent:Double = 1.0): PowerScale<Double> {
-    return PowerScale<Double>(exponent, ::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>())
-}
-fun powerScaleRound(exponent:Double = 1.0): PowerScale<Double> {
-    return PowerScale<Double>(exponent, ::interpolateRound, ::uninterpolateNumber, naturalOrder<Double>())
-}
+fun scalePow(exponent: Double = 1.0): PowerScale<Double> = PowerScale(exponent, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
+fun scalePowRound(exponent: Double = 1.0): PowerScale<Double> = PowerScale(exponent, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
 
-fun sqrtScale(): PowerScale<Double> {
-    return PowerScale<Double>(.5, ::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>())
-}
-fun sqrtScaleRound(): PowerScale<Double> {
-    return PowerScale<Double>(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder<Double>())
-}
+fun scaleSqrt(): PowerScale<Double> = PowerScale(.5, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
+fun scaleSqrtRound(): PowerScale<Double> = PowerScale(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder())

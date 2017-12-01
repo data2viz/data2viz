@@ -111,4 +111,4 @@ class QuantileScale<R> : DomainRangedScale<R> () {
     }
 }
 
-fun <R> quantileScale(): QuantileScale<R> = QuantileScale<R>()
+fun <R> scaleQuantile(): QuantileScale<R> = QuantileScale()

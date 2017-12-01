@@ -1,7 +1,6 @@
 package io.data2viz.scale
 
 import io.data2viz.test.TestBase
-import io.data2viz.test.shouldThrow
 import kotlin.test.Test
 
 class ScaleThresholdTests : TestBase() {
@@ -10,7 +9,7 @@ class ScaleThresholdTests : TestBase() {
 
     @Test
     fun threshold_expected_defaults_LEGACY() {
-        val scale = thresholdScale<Double>()
+        val scale = scaleThreshold<Double>()
         scale.range = listOf(.0, 1.0)
 
         scale.domain shouldBe arrayListOf(.5)
@@ -20,7 +19,7 @@ class ScaleThresholdTests : TestBase() {
 
     @Test
     fun threshold_maps_a_value_to_a_discrete_value_in_range_LEGACY() {
-        val scale = thresholdScale<String>()
+        val scale = scaleThreshold<String>()
         scale.domain = listOf(1 / 3.0, 2 / 3.0)
         scale.range = listOf("a", "b", "c")
 
@@ -34,7 +33,7 @@ class ScaleThresholdTests : TestBase() {
 
     @Test
     fun threshold_returns_NaN_if_specified_value_is_not_orderable_LEGACY() {
-        val scale = thresholdScale<String>()
+        val scale = scaleThreshold<String>()
         scale.domain = listOf(1 / 3.0, 2 / 3.0)
         scale.range = listOf("a", "b", "c")
 
@@ -43,7 +42,7 @@ class ScaleThresholdTests : TestBase() {
 
     @Test
     fun threshold_range_supports_arbitrary_values_LEGACY() {
-        val scale = thresholdScale<() -> Unit>()
+        val scale = scaleThreshold<() -> Unit>()
         val a = {}
         val b = {}
         val c = {}
@@ -61,7 +60,7 @@ class ScaleThresholdTests : TestBase() {
 
     @Test
     fun threshold_invertExtent_r_returns_the_domain_extent_for_the_specified_range_value_LEGACY() {
-        val scale = thresholdScale<() -> Unit>()
+        val scale = scaleThreshold<() -> Unit>()
         val a = {}
         val b = {}
         val c = {}

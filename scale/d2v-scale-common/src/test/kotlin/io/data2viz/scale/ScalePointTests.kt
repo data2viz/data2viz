@@ -1,7 +1,6 @@
 package io.data2viz.scale
 
 import io.data2viz.test.TestBase
-import io.data2viz.test.shouldThrow
 import kotlin.test.Test
 
 class ScalePointTests : TestBase() {
@@ -10,7 +9,7 @@ class ScalePointTests : TestBase() {
 
     @Test
     fun point_has_expected_defaults_LEGACY() {
-        val scale = pointScale<Int>()
+        val scale = scalePoint<Int>()
 
         scale.domain shouldBe listOf()
         scale.range shouldBe listOf(.0, 1.0)
@@ -23,18 +22,18 @@ class ScalePointTests : TestBase() {
 
     @Test
     fun point_no_paddingInner_paddingOuter_LEGACY() {
-//        val scale = pointScale<Int>()
+//        val scale = scalePoint<Int>()
 
 //        scale.pa
     }
 
     @Test
     fun pointScale_is_similar_to_bandscale_paddinginner_1_LEGACY() {
-        val pointScale = pointScale<String>()
+        val pointScale = scalePoint<String>()
         pointScale.range = listOf(.0, 960.0)
         pointScale.domain = listOf("foo", "bar")
 
-        val bandScale = bandScale<String>()
+        val bandScale = scaleBand<String>()
         bandScale.range = listOf(.0, 960.0)
         bandScale.domain = listOf("foo", "bar")
         bandScale.paddingInner = 1.0
@@ -47,12 +46,12 @@ class ScalePointTests : TestBase() {
 
     @Test
     fun point_padding_p_sets_band_outer_padding_to_p_LEGACY() {
-        val pointScale = pointScale<String>()
+        val pointScale = scalePoint<String>()
         pointScale.range = listOf(.0, 960.0)
         pointScale.domain = listOf("foo", "bar")
         pointScale.padding = .5
 
-        val bandScale = bandScale<String>()
+        val bandScale = scaleBand<String>()
         bandScale.range = listOf(.0, 960.0)
         bandScale.domain = listOf("foo", "bar")
         bandScale.paddingInner = 1.0

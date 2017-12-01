@@ -26,4 +26,4 @@ class PointScale<D> : BandedScale<D>() {
     }
 }
 
-fun <D> pointScale() = PointScale<D>()
+fun <D> scalePoint() = PointScale<D>()
