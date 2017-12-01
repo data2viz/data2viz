@@ -80,7 +80,7 @@ open class LinearScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         }
 }
 
-fun scaleLinear(): LinearScale<Double> = LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>())
+fun scaleLinear(init:LinearScale<Double>.() -> Unit = {}): LinearScale<Double> = LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder<Double>()).apply(init)
 fun scaleLinearRound(): LinearScale<Double> = LinearScale(::interpolateRound, ::uninterpolateNumber, naturalOrder<Double>())
 
 fun linearScaleHSL(): LinearScale<HSL> = LinearScale(::interpolateHsl)

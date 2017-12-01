@@ -12,10 +12,11 @@ class ScaleLinearTests : TestBase() {
 
     @Test
     fun linear_no_interpolation() {
-        val scale = scaleLinear()
+        val scale = scaleLinear {
+            domain = listOf(.0, 1.0)
+            range = listOf(.0, 1.0)
+        }
 
-        scale.domain = listOf(.0, 1.0)
-        scale.range = listOf(.0, 1.0)
         scale(.5) shouldBe .5
         scale(0.1) shouldBe 0.1
         scale(0.133) shouldBe 0.133
