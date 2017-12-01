@@ -67,7 +67,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     dokka {
-        outputFormat = 'kotlin-website'
+        outputFormat = 'html'
         outputDirectory = "$buildDir/javadoc"
     }
 
