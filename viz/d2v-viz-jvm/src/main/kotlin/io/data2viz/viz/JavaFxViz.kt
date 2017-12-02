@@ -5,7 +5,6 @@ import io.data2viz.color.d2vColor
 import io.data2viz.color.jfxColor
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
-import io.data2viz.path.toJfxPath
 import javafx.beans.property.DoubleProperty
 import javafx.scene.Group
 import javafx.scene.Node
@@ -33,7 +32,7 @@ class ParentElement(val parent: Group) : VizContext,
     override fun path(init: PathVizItem.() -> Unit): PathVizItem {
         val path = SVGPath()
         val svgPath = SvgPath()
-        val item = PathVizJfx(parent, path, svgPath)
+        val item = PathVizJfx(path, svgPath)
         init(item)
         path.content = svgPath.path
         parent.children.add(path)
@@ -97,7 +96,7 @@ class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
         set(value) { text.text = value}
 }
 
-class PathVizJfx(val parent: Group, path: SVGPath, svgPath: SvgPath) : PathVizItem,
+class PathVizJfx(path: SVGPath, svgPath: SvgPath) : PathVizItem,
         HasFill by FillDelegate(path),
         HasStroke by StrokeDelegate(path),
         Transformable by TransformNodeDelegate(path),
