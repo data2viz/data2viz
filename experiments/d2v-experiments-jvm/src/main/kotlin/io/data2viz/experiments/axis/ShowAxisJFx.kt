@@ -20,6 +20,8 @@ class AxisApp : Application() {
         domain = listOf(.0, 15000.0)
         range = listOf(.0, 500.0)
     }
+    
+    val ticks = (1..14).map { it*1000.0 }
 
 
     override fun start(primaryStage: Stage?) {
@@ -30,25 +32,25 @@ class AxisApp : Application() {
                 transform {
                     translate(x = 30.0, y = 10.0)
                 }
-                axis(Orient.TOP, scaleX)
+                axis(Orient.TOP, scaleX) {tickValues = ticks}
             }
             group {
                 transform {
                     translate(x = 30.0, y = 20.0)
                 }
-                axis(Orient.BOTTOM, scaleX)
+                axis(Orient.BOTTOM, scaleX){tickValues = ticks}
             }
             group {
                 transform {
                     translate(x = 10.0, y = 30.0)
                 }
-                axis(Orient.LEFT, scaleX)
+                axis(Orient.LEFT, scaleX){tickValues = ticks}
             }
             group {
                 transform {
                     translate(x = 20.0, y = 30.0)
                 }
-                axis(Orient.RIGHT, scaleX)
+                axis(Orient.RIGHT, scaleX){tickValues = ticks}
             }
 
         }

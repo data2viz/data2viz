@@ -39,18 +39,32 @@ class AxisElement(val orient: Orient, val scale: LinearScale<Double>)  {
                 fill = null
                 strokeWidth = 1.0
 
-                if(orient == Orient.LEFT || orient == Orient.RIGHT) {
+                if(orient.isVertical()) {
                     moveTo(tickSizeOuter * k, range0)
-                    lineTo(0.5, range0)
-                    lineTo(0.5, range1)
+                    lineTo(- 0.5 * k, range0)
+                    lineTo(- 0.5 * k, range1)
                     lineTo(tickSizeOuter * k, range1)
                 } else {
                     moveTo(range0, tickSizeOuter * k)
-                    lineTo(range0, 0.5)
-                    lineTo(range1, 0.5)
+                    lineTo(range0, - 0.5 * k)
+                    lineTo(range1, - 0.5 * k)
                     lineTo(range1, tickSizeOuter * k)
                 }
-
+            }
+            
+            tickValues.sorted().forEach { 
+                group { 
+                    transform { 
+                        if (orient.isHorizontal()){
+                            translate(x = scale(it))
+                            line { y2 = k * tickSizeInner }
+                        }
+                        else {
+                            translate(y = scale(it))
+                            line { x2 = k * tickSizeInner }
+                        }
+                    }
+                }
             }
         }
 
@@ -60,5 +74,8 @@ class AxisElement(val orient: Orient, val scale: LinearScale<Double>)  {
 }
 
 enum class Orient {
-    TOP, BOTTOM, LEFT, RIGHT
+    TOP, BOTTOM, LEFT, RIGHT;
+    
+    fun isVertical() = (this == LEFT || this == RIGHT)
+    fun isHorizontal() = (this == TOP || this == BOTTOM)
 }
