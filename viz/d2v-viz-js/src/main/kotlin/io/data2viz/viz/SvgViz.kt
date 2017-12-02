@@ -5,6 +5,7 @@ import io.data2viz.color.color
 import io.data2viz.core.Point
 import io.data2viz.math.Angle
 import io.data2viz.path.PathAdapter
+import io.data2viz.path.SvgPath
 import org.w3c.dom.Element
 import org.w3c.dom.svg.SVGElement
 import kotlin.browser.document
@@ -40,9 +41,14 @@ class ParentElement(val parent: Element) : VizContext,
     }
 
     override fun path(init: PathVizItem.() -> Unit): PathVizItem {
-        TODO()
+        val svgPath = SvgPath()
+        val element = createSVGElement("path")
+        val item = PathElement (element, svgPath)
+        init(item)
+        element.setAttribute("d", svgPath.path)
+        parent.append(element)
+        return item
     }
-
 
     override fun setStyle(style: String) {
         parent.setAttribute("style", style)
@@ -109,6 +115,11 @@ interface ElementWrapper : AccessByAttributes {
 
 }
 
+class PathElement(val element:Element, svgPath: SvgPath): PathVizItem,
+        PathAdapter by svgPath,
+        HasFill by FillDelegate(element),
+        HasStroke by StrokeDelegate(element),
+        Transformable by TransformableDelegate(element) 
 
 //@SvgTagMarker
 class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem,
@@ -189,9 +200,14 @@ class FillDelegate(val element: Element) : HasFill {
 }
 
 class StrokeDelegate(val element: Element) : HasStroke {
+    
+    init {
+        element.setAttribute("stroke", "#000")
+    }
+    
     override var stroke: Color?
         get() = element.getAttribute("stroke") ?.color
-        set(value) { element.setAttribute("stroke", value?.toString() ?: "none")}
+        set(value) { element.setAttribute("stroke", value?.toString() ?: "#000")}
 
     override var strokeWidth: Double?
         get() = element.getAttribute("stroke-width")?.toDouble()
