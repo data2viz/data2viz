@@ -3,9 +3,27 @@
 package io.data2viz.format
 
 import io.data2viz.test.TestBase
+import kotlin.math.PI
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class FormatTests : TestBase() {
+    
+    @Test 
+    fun format_types() {
+        formatter()                         (PI) shouldBe "3.14159265359"     // <-
+        formatter(Type.DECIMAL)             (PI) shouldBe "3.14159"           // <- 
+        formatter(Type.DECIMAL_OR_EXPONENT) (PI) shouldBe "3.14159"           // <- 
+        formatter(Type.DECIMAL_ROUNDED)     (PI) shouldBe "3"                 // <- rounded to integer
+        formatter(Type.EXPONENT)            (PI) shouldBe "3.141593e+0"       // <-
+        formatter(Type.FIXED_POINT)         (PI) shouldBe "3.141593"          // <-
+        formatter(Type.BINARY)              (PI) shouldBe "11"                // <-
+        formatter(Type.OCTAL)               (PI) shouldBe "3"                 // <-
+        formatter(Type.HEX_LOWERCASE)       (PI) shouldBe "3"                 // <-
+        formatter(Type.HEX_UPPERCASE)       (PI) shouldBe "3"                 // <-
+        formatter(Type.PERCENT)             (PI) shouldBe "314.159265%"       // <-
+        formatter(Type.PERCENT_ROUNDED)     (PI) shouldBe "314.159%"          // <-
+    }
 
     @Test
     fun format_f_can_output_fixed_point_notation() {
@@ -120,19 +138,18 @@ class FormatTests : TestBase() {
     /**
      * TYPE C
      */
-
-    /*"format_c_unicode character" {
-        format("c")("☃") shouldBe "☃"
-        format("020c")("☃") shouldBe "0000000000000000000☃"
-        format(" ^20c")("☃") shouldBe "         ☃          "
-        format("$c")("☃") shouldBe "$☃"
-
+    
+    @Test @Ignore
+    fun format_c_unicode_character(){
+        formatter("c")('☃'.toDouble()) shouldBe "☃"
+        formatter("020c")('☃'.toDouble()) shouldBe "0000000000000000000☃"
+        formatter(" ^20c")('☃'.toDouble()) shouldBe "         ☃          "
     }
 
-    "format_c_does not localize a coefficient point" {
-        formatLocale({coefficient: "/"}).format("c")(".") shouldBe "."
-
-    }*/
+//    "format_c_does not localize a coefficient point" {
+//        formatLocale({coefficient: "/"}).format("c")(".") shouldBe "."
+//
+//    }*/
 
     /**
      * TYPE D

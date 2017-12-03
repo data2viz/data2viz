@@ -7,7 +7,7 @@ package io.data2viz.format
  */
 
 
-internal expect fun Double.toStringDigits(digits: Int): String
+internal expect fun Double.toStringDigits(radix: Int): String
 internal expect fun Double.toFixed(digits: Int): String
 internal expect fun Double.toExponential(digits: Int): String
 internal expect fun Double.toExponential(): String

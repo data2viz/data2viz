@@ -7,8 +7,6 @@ private var prefixExponent = 0
 
 data class CoefficientExponent(val coefficient: String, val exponent: Int)
 
-
-
 fun formatter(specify: String): (Double) -> String = Locale().formatter(specify)
 fun Locale.formatter( specifier: String): (Double) -> String = formatter(specify(specifier))
 
@@ -74,10 +72,10 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
         var valuePrefix = prefix
         var valueSuffix = suffix
 
-        if (spec.type == Type.CHAR) {
-            valueSuffix = formatType(value, 0) + valueSuffix
-            returnValue = ""
-        } else {
+//        if (spec.type == Type.CHAR) {
+//            valueSuffix = formatType(value, 0) + valueSuffix
+//            returnValue = ""
+//        } else {
             // value = +value              // typé
 
             // Perform the initial formatting.
@@ -105,7 +103,7 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
                     }
                 }
             }
-        }
+//        }
 
         // If the fill character is not "0", grouping is applied before padding.
         if (spec.groupSeparation && !spec.zero) returnValue = groupFunction(returnValue, 9999999)
@@ -219,7 +217,7 @@ private fun formatTypes(type: Type): (Double, Int) -> String =
             Type.FIXED_POINT            -> { x: Double, p: Int -> x.toFixed(p) }
             Type.PERCENT                -> { x: Double, p: Int -> (x * 100).toFixed(p) }
             Type.PERCENT_ROUNDED        -> { x: Double, p: Int -> formatRounded(x * 100, p) }
-            Type.CHAR                   -> { x: Double, _: Int -> "$x" }
+//            Type.CHAR                   -> { x: Double, _: Int -> "$x" }
             Type.DECIMAL_ROUNDED        -> { x: Double, _: Int -> x.toStringDigits(10) }
             Type.DECIMAL                -> { x: Double, p: Int -> formatRounded(x, p) }
             Type.DECIMAL_WITH_SI        -> { x: Double, p: Int -> formatPrefixAuto(x, p) }

@@ -280,12 +280,12 @@ enum class Type(internal val c: String) {
     /**
      * hexadecimal notation, using upper-case letters, rounded to integer.
      */
-    HEX_UPPERCASE("X"),
+    HEX_UPPERCASE("X");
 
     /**
      * converts the integer to the corresponding unicode character before printing.
      */
-    CHAR("c");
+//    CHAR("c");
 
     /**
      * @suppress

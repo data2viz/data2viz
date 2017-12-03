@@ -5,53 +5,49 @@ import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToLong
 
-private fun toPrecisionJVM(number: Double, digits: Int): String {
-    return String.format(Locale.US, "%." + digits + "g", number)
-            .replace("e+0", "e+")
-            .replace("e-0", "e-")
-}
 
-private fun formatExponentialJVM(number: Double, digits: Int): String {
-    return String.format(Locale.US, "%." + digits + "e", number)
-            .replace("e+0", "e+")
-            .replace("e-0", "e-")
-}
+internal actual fun Double.toStringDigits(radix: Int): String = 
+        if (this > Long.MAX_VALUE || this < Long.MIN_VALUE) 
+            toExponential() 
+        else 
+            (this).roundToLong().toString(radix)
 
-private fun formatExponentialJVM(number: Double): String {
-    val preciseNum = BigDecimal(abs(number).toString())
-    val fractionnalPart = (preciseNum % BigDecimal.ONE).toString()
+
+internal actual fun Double.toFixed(digits: Int): String = 
+        BigDecimal(this)
+                .setScale(digits, BigDecimal.ROUND_HALF_UP)
+                .toString()
+
+internal actual fun Double.toExponential(digits: Int): String = 
+        String.format(Locale.US, "%." + digits + "e", this)
+        .replace("e+0", "e+")
+        .replace("e-0", "e-")
+
+internal actual fun Double.toExponential(): String {
+    val preciseNum = BigDecimal(abs(this).toString())
+    val fractionalPart = (preciseNum % BigDecimal.ONE).toString()
     val integerPart = preciseNum.div(BigDecimal.ONE).toString()
-
-    var fracRemovedDecExpZeros = fractionnalPart.substring(fractionnalPart.indexOfFirst { it == '.' }+1, fractionnalPart.length)
+    var fracRemovedDecExpZeros = fractionalPart.substring(fractionalPart.indexOfFirst { it == '.' }+1, fractionalPart.length)
     val exponentIndex = fracRemovedDecExpZeros.indexOfFirst { it == 'e' || it == 'E' }
     if (exponentIndex >= 0) fracRemovedDecExpZeros = fracRemovedDecExpZeros.substring(0,  exponentIndex)
     fracRemovedDecExpZeros = fracRemovedDecExpZeros.dropWhile { it == '0' }
-
-    val fractionnalPartSize = fracRemovedDecExpZeros.length
+    val fractionalPartSize = fracRemovedDecExpZeros.length
     val integerPartSize = integerPart.substring(0, integerPart.indexOfFirst { it == '.' }).length
-
-    val pattern = "%" + integerPartSize + "." + (integerPartSize + fractionnalPartSize - 1) + "e"
-    return String.format(Locale.US, pattern, number)
+    val pattern = "%" + integerPartSize + "." + (integerPartSize + fractionalPartSize - 1) + "e"
+    return String.format(Locale.US, pattern, this)
             .replace("e+0", "e+")
             .replace("e-0", "e-")
 }
 
-private fun Double.toStringDigitsJVM(digits: Int): String {
-    if (this > Long.MAX_VALUE || this < Long.MIN_VALUE) return this.toExponential()
-    return (this).roundToLong().toString(digits)
-}
 
-private fun Double.toFixedJVM(digits: Int): String {
-    return BigDecimal(this).setScale(digits, BigDecimal.ROUND_HALF_UP).toString()
-}
+internal actual fun Double.toPrecision(digits: Int): String = 
+        String.format(Locale.US, "%." + digits + "g", this)
+        .replace("e+0", "e+")
+        .replace("e-0", "e-")
+
+
 
 // TODO keep this, it will avoid errors when asking for high precision numbers (see FormatTests@check_platform_dependent_formatters_toFixed)
 /*private fun Double.toFixedJVM(digits: Int): String {
     return BigDecimal(this.toString()).setScale(digits, BigDecimal.ROUND_HALF_UP).toString()
 }*/
-
-internal actual fun Double.toStringDigits(digits: Int): String = toStringDigitsJVM(digits)
-internal actual fun Double.toFixed(digits: Int): String = toFixedJVM(digits)
-internal actual fun Double.toExponential(digits: Int): String = formatExponentialJVM(this, digits)
-internal actual fun Double.toExponential(): String = formatExponentialJVM(this)
-internal actual fun Double.toPrecision(digits: Int): String = toPrecisionJVM(this, digits)
