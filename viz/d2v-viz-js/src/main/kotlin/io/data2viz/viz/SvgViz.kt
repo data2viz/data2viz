@@ -43,7 +43,7 @@ class ParentElement(val parent: Element) : VizContext,
     override fun path(init: PathVizItem.() -> Unit): PathVizItem {
         val svgPath = SvgPath()
         val element = createSVGElement("path")
-        val item = PathElement (element, svgPath)
+        val item = PathElement(element, svgPath)
         init(item)
         element.setAttribute("d", svgPath.path)
         parent.append(element)
@@ -115,11 +115,11 @@ interface ElementWrapper : AccessByAttributes {
 
 }
 
-class PathElement(val element:Element, svgPath: SvgPath): PathVizItem,
+class PathElement(val element: Element, svgPath: SvgPath) : PathVizItem,
         PathAdapter by svgPath,
         HasFill by FillDelegate(element),
         HasStroke by StrokeDelegate(element),
-        Transformable by TransformableDelegate(element) 
+        Transformable by TransformableDelegate(element)
 
 //@SvgTagMarker
 class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem,
@@ -156,12 +156,33 @@ class RectElement(override val element: Element) : ElementWrapper, RectVizItem,
     override var ry: Double by DoubleAttributePropertyDelegate()
 }
 
-class TextElement (override val element: Element) : ElementWrapper, TextVizItem,
+class TextElement(override val element: Element) : ElementWrapper, TextVizItem,
         HasFill by FillDelegate(element),
         Transformable by TransformableDelegate(element) {
+    override var anchor: TextAnchor
+        get() = getAttribute("text-anchor")?.let { 
+            when (it) {
+                "middle" -> TextAnchor.MIDDLE
+                "end" -> TextAnchor.END
+                else -> TextAnchor.START
+            }
+        } ?: TextAnchor.START
+        
+        set(value) {
+            setAttribute("text-anchor",
+                    when (value) {
+                        TextAnchor.START -> "start"
+                        TextAnchor.MIDDLE -> "middle"
+                        TextAnchor.END -> "end"
+                    }
+            )
+
+        }
     override var textContent: String
         get() = element.textContent ?: ""
-        set(value) {element.textContent = value}
+        set(value) {
+            element.textContent = value
+        }
 
     override var x: Double by DoubleAttributePropertyDelegate()
     override var y: Double by DoubleAttributePropertyDelegate()
@@ -172,21 +193,38 @@ val propertyMapping = mapOf(
         "radius" to "r"
 )
 
-class TransformableDelegate(val element:Element): Transformable{
+class TransformableDelegate(val element: Element) : Transformable {
     override fun transform(init: Transform.() -> Unit) {
         element.setAttribute("transform", TransformSvg().apply(init).toCommand())
     }
 
 }
 
-class TransformSvg: Transform {
+class TransformSvg : Transform {
     private val commands = mutableMapOf<String, String>()
-    fun translate(newPoint: Point) { commands.put("translate", "translate(${newPoint.x}, ${newPoint.y})") }
-    override fun translate(x: Double, y: Double) { commands.put("translate", "translate($x, $y)") }
-    fun scale(x: Number = 1, y: Number = x) { commands.put("scale", "scale($x, $y)") }
-    fun skewX(a: Number) { commands.put("skewX", "skewX($a)") }
-    fun skewY(a: Number) { commands.put("skewY", "skewX($a)") }
-    fun rotate(angle: Angle, x: Number = 0, y: Number = 0) { commands.put("rotate", "rotate(${angle.deg}, $x, $y)") }
+    fun translate(newPoint: Point) {
+        commands.put("translate", "translate(${newPoint.x}, ${newPoint.y})")
+    }
+
+    override fun translate(x: Double, y: Double) {
+        commands.put("translate", "translate($x, $y)")
+    }
+
+    fun scale(x: Number = 1, y: Number = x) {
+        commands.put("scale", "scale($x, $y)")
+    }
+
+    fun skewX(a: Number) {
+        commands.put("skewX", "skewX($a)")
+    }
+
+    fun skewY(a: Number) {
+        commands.put("skewY", "skewX($a)")
+    }
+
+    fun rotate(angle: Angle, x: Number = 0, y: Number = 0) {
+        commands.put("rotate", "rotate(${angle.deg}, $x, $y)")
+    }
 
     internal fun toCommand(): String = commands.values.joinToString(" ")
 }
@@ -194,20 +232,24 @@ class TransformSvg: Transform {
 
 class FillDelegate(val element: Element) : HasFill {
     override var fill: Color?
-        get() = element.getAttribute("fill") ?.color
-        set(value) { element.setAttribute("fill", value?.toString() ?: "none")}
+        get() = element.getAttribute("fill")?.color
+        set(value) {
+            element.setAttribute("fill", value?.toString() ?: "none")
+        }
 
 }
 
 class StrokeDelegate(val element: Element) : HasStroke {
-    
+
     init {
         element.setAttribute("stroke", "#000")
     }
-    
+
     override var stroke: Color?
-        get() = element.getAttribute("stroke") ?.color
-        set(value) { element.setAttribute("stroke", value?.toString() ?: "#000")}
+        get() = element.getAttribute("stroke")?.color
+        set(value) {
+            element.setAttribute("stroke", value?.toString() ?: "#000")
+        }
 
     override var strokeWidth: Double?
         get() = element.getAttribute("stroke-width")?.toDouble()
@@ -218,10 +260,10 @@ class StrokeDelegate(val element: Element) : HasStroke {
 
 class DoubleAttributePropertyDelegate {
     operator fun getValue(elementWrapper: ElementWrapper, property: KProperty<*>): Double =
-            elementWrapper.element.getAttribute(propertyMapping.getOrElse(property.name, {property.name}))?.toDouble() ?: 0.0
+            elementWrapper.element.getAttribute(propertyMapping.getOrElse(property.name, { property.name }))?.toDouble() ?: 0.0
 
     operator fun setValue(element: ElementWrapper, property: KProperty<*>, d: Double) {
-        element.element.setAttribute(propertyMapping.getOrElse(property.name, {property.name}), d.toString())
+        element.element.setAttribute(propertyMapping.getOrElse(property.name, { property.name }), d.toString())
     }
 
 }

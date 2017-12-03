@@ -85,17 +85,6 @@ class ParentElement(val parent: Group) : VizContext,
 }
 
 
-class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
-        HasFill by FillDelegate(text),
-        Transformable by TransformNodeDelegate(text){
-
-    override var x: Double by DoublePropertyDelegate(text.xProperty())
-    override var y: Double by DoublePropertyDelegate(text.yProperty())
-    override var textContent: String
-        get() = text.text
-        set(value) { text.text = value}
-}
-
 class PathVizJfx(path: SVGPath, svgPath: SvgPath) : PathVizItem,
         HasFill by FillDelegate(path),
         HasStroke by StrokeDelegate(path),

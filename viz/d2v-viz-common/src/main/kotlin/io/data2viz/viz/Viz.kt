@@ -60,7 +60,15 @@ interface TextVizItem : VizItem, Transformable, HasFill {
     var x: Double
     var y: Double
     var textContent: String
+    var anchor: TextAnchor
 }
+
+/**
+ * The text-anchor attribute is used to align (start-, middle- or end-alignment) a string of text relative to a 
+ * given point.
+ * See [CSS text-anchor][https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor]
+ */
+enum class TextAnchor {START, MIDDLE, END}
 
 interface Shape : HasFill, HasStroke
 
