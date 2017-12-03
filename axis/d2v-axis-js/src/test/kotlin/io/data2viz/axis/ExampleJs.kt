@@ -20,32 +20,11 @@ fun showViz() {
         setAttribute("width", "600")
         setAttribute("height", "600")
     }
+    
 
     svgElement.viz {
-        group {
-            transform {
-                translate(x = 30.0, y = 10.0)
-            }
-            axis(Orient.TOP, scaleX) { tickValues = ticks }
-        }
-        group {
-            transform {
-                translate(x = 30.0, y = 20.0)
-            }
-            axis(Orient.BOTTOM, scaleX) { tickValues = ticks }
-        }
-        group {
-            transform {
-                translate(x = 10.0, y = 30.0)
-            }
-            axis(Orient.LEFT, scaleX) { tickValues = ticks }
-        }
-        group {
-            transform {
-                translate(x = 20.0, y = 30.0)
-            }
-            axis(Orient.RIGHT, scaleX) { tickValues = ticks }
-        }
+//        setStyle("font-family:sans-serif; font-size:14px")
+        axisExample()
     }
 
 }

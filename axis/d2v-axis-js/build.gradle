@@ -3,6 +3,7 @@ dependencies {
     compile project(":d2v-core-js")
     compile project(":d2v-scale-js")
     compile project(":d2v-viz-js")
+    testCompile project(":d2v-format-js")
     expectedBy project(":d2v-axis-common")
 }
 project.jsTests()
