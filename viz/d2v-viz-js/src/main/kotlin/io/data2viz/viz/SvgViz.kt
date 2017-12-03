@@ -156,38 +156,6 @@ class RectElement(override val element: Element) : ElementWrapper, RectVizItem,
     override var ry: Double by DoubleAttributePropertyDelegate()
 }
 
-class TextElement(override val element: Element) : ElementWrapper, TextVizItem,
-        HasFill by FillDelegate(element),
-        Transformable by TransformableDelegate(element) {
-    override var anchor: TextAnchor
-        get() = getAttribute("text-anchor")?.let { 
-            when (it) {
-                "middle" -> TextAnchor.MIDDLE
-                "end" -> TextAnchor.END
-                else -> TextAnchor.START
-            }
-        } ?: TextAnchor.START
-        
-        set(value) {
-            setAttribute("text-anchor",
-                    when (value) {
-                        TextAnchor.START -> "start"
-                        TextAnchor.MIDDLE -> "middle"
-                        TextAnchor.END -> "end"
-                    }
-            )
-
-        }
-    override var textContent: String
-        get() = element.textContent ?: ""
-        set(value) {
-            element.textContent = value
-        }
-
-    override var x: Double by DoubleAttributePropertyDelegate()
-    override var y: Double by DoubleAttributePropertyDelegate()
-}
-
 
 val propertyMapping = mapOf(
         "radius" to "r"

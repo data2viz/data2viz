@@ -2,25 +2,28 @@ package io.data2viz.viz
 
 import javafx.beans.value.ObservableValue
 import javafx.geometry.Bounds
+import javafx.geometry.VPos
 import javafx.scene.Group
 import javafx.scene.text.Text
 
 
 /**
- * TextViz Jfx implementation. As Text Jfx has no anchor property we must implement 
+ * TextViz Jfx implementation. As Text Jfx has no anchor property we must implement
  * it.
  */
 class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
         HasFill by FillDelegate(text),
         Transformable by TransformNodeDelegate(text) {
 
-    override var y: Double by DoublePropertyDelegate(text.yProperty())
 
     override var textContent: String
         get() = text.text
-        set(value) { text.text = value}
+        set(value) {
+            text.text = value
+        }
 
-    var _x:Double = 0.0
+    var _x: Double = 0.0
+    
     /**
      * Using deltaX in case of Anchor != TextAnchor.START
      */
@@ -42,18 +45,32 @@ class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
         get() = _anchor
         set(value) {
             _anchor = value
-            text.layoutBoundsProperty().removeListener(::updateDelta)
-            text.layoutBoundsProperty().addListener(::updateDelta)
-            updateDelta(text.layoutBoundsProperty(), text.layoutBounds, text.layoutBounds) // first two params are not used.
+            text.layoutBoundsProperty().removeListener(::updateDeltaX)
+            text.layoutBoundsProperty().addListener(::updateDeltaX)
+            updateDeltaX(text.layoutBoundsProperty(), text.layoutBounds, text.layoutBounds) // first two params are not used.
         }
 
-    private fun updateDelta(value: ObservableValue<out Bounds>, old: Bounds, newBounds: Bounds){
-        when(_anchor) {
-            TextAnchor.START -> deltaX = 0.0
-            TextAnchor.MIDDLE -> deltaX = newBounds.width / 2
-            TextAnchor.END -> deltaX = newBounds.width
+    private fun updateDeltaX(value: ObservableValue<out Bounds>, old: Bounds, newBounds: Bounds) {
+        deltaX = when (_anchor) {
+            TextAnchor.START -> 0.0
+            TextAnchor.MIDDLE -> newBounds.width / 2
+            TextAnchor.END -> newBounds.width
         }
         updateXWithAnchor()
     }
 
+
+    override var y: Double by DoublePropertyDelegate(text.yProperty())
+
+    private var _baseline = TextAlignmentBaseline.BASELINE
+    override var baseline: TextAlignmentBaseline
+        get() = _baseline
+        set(value) {
+            _baseline = value
+            text.textOrigin = when (value){
+                TextAlignmentBaseline.BASELINE -> VPos.BASELINE
+                TextAlignmentBaseline.HANGING -> VPos.TOP
+                TextAlignmentBaseline.MIDDLE -> VPos.CENTER
+            }
+        }
 }
