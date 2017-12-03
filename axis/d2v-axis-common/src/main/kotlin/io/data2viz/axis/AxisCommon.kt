@@ -3,9 +3,9 @@ package io.data2viz.axis
 import io.data2viz.color.colors
 import io.data2viz.scale.LinearScale
 import io.data2viz.viz.ParentItem
+import io.data2viz.viz.TextAlignmentBaseline
+import io.data2viz.viz.TextAnchor
 
-
-expect fun YO():String
 
 /**
  * Create an Axis 
@@ -23,6 +23,7 @@ class AxisElement(val orient: Orient, val scale: LinearScale<Double>)  {
     var tickSizeInner = 6.0
     var tickSizeOuter = 6.0
     var tickPadding = 3.0
+    var tickFormat = {n:Double -> n.toString()}
 
     val k = if (orient == Orient.TOP || orient == Orient.LEFT) -1 else 1
 
@@ -55,27 +56,42 @@ class AxisElement(val orient: Orient, val scale: LinearScale<Double>)  {
             tickValues.sorted().forEach { 
                 group { 
                     transform { 
-                        if (orient.isHorizontal()){
-                            translate(x = scale(it))
-                            line { y2 = k * tickSizeInner }
-                        }
-                        else {
-                            translate(y = scale(it))
-                            line { x2 = k * tickSizeInner }
-                        }
+                        if (orient.isHorizontal()) translate(x = scale(it)) else translate(y = scale(it)) 
                     }
+                    if (orient.isHorizontal()) line { y2 = k * tickSizeInner } else line { x2 = k * tickSizeInner }
+                    text {
+                        anchor = when (orient) {
+                            Orient.LEFT -> TextAnchor.END
+                            Orient.RIGHT -> TextAnchor.START
+                            else -> TextAnchor.MIDDLE
+                        }
+                        
+                        baseline = when (orient){
+                            Orient.TOP -> TextAlignmentBaseline.BASELINE
+                            Orient.BOTTOM -> TextAlignmentBaseline.HANGING
+                            else -> TextAlignmentBaseline.MIDDLE
+                        }
+                        fill = colors.black
+                        if(orient.isHorizontal()) 
+                            y = spacing * k
+                        else
+                            x = spacing * k
+                        textContent = tickFormat(it)
+                    }
+                    
                 }
             }
         }
-
     }
-
 
 }
 
 enum class Orient {
     TOP, BOTTOM, LEFT, RIGHT;
     
+    fun top(toDo:()-> Unit) {
+        if (this == TOP) toDo()
+    }
     fun isVertical() = (this == LEFT || this == RIGHT)
     fun isHorizontal() = (this == TOP || this == BOTTOM)
 }
