@@ -5,7 +5,7 @@ import kotlin.test.Test
 
 class DateTests : TestBase() {
 
-    @Test
+    /*@Test
     fun date_constructor() {
         val date = Date()
         val dateDiff = Date()
@@ -13,6 +13,6 @@ class DateTests : TestBase() {
 
         val date2 = Date(186955523)
         date2.getTime() shouldBe 186955523L
-    }
+    }*/
 
 }
