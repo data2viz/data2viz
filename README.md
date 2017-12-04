@@ -57,10 +57,7 @@ compilation phase.
 
 ### Current status && Roadmap
 
-<a href="current-progress.png" target=_blank">
- <img src="current-progress.png" width="850">
-</a>
-
+<img src="current-progress.png" width="850">
 
 #### V0.3 80%: 
 The main purpose of this version is to propose the multiplatform bootstrap API allowing to build
