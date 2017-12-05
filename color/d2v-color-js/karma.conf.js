@@ -1,6 +1,6 @@
 module.exports = function (config) {
     config.set({
-            frameworks: ['qunit', 'commonjs'],
+            frameworks: ['qunit', 'browserify'],
             reporters: ['mocha'],
             files: [
                 'build/classes/main/*.js',
@@ -17,12 +17,12 @@ module.exports = function (config) {
                 // , 'Chrome'
             ],
             captureTimeout: 5000,
-            //singleRun: false,
+            // singleRun: false,
             singleRun: true,
             reportSlowerThan: 500,
 
             preprocessors: {
-                '**/*.js': ['commonjs']
+                '**/*.js': ['browserify']
             }
         }
     )
