@@ -4,6 +4,11 @@ import io.data2viz.test.TestBase
 import kotlin.test.Test
 
 class IntervalTestsTests : TestBase() {
+    
+    @Test
+    fun temp(){
+        true shouldBe true // todo remove after first real test.
+    }
 
     /*@Test
     fun interval_floor_offset_returns_a_custom_time_interval() {
