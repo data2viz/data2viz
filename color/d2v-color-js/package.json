@@ -14,7 +14,7 @@
     "webpack": "^3.4.1"
   },
   "scripts": {
-    "test": "karma $NODE_DEBUG_OPTION  start",
+    "test": "karma start",
     "bundle": "webpack"
   }
 }
