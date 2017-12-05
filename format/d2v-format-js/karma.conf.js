@@ -1,6 +1,6 @@
 module.exports = function (config) {
     config.set({
-            frameworks: ['mocha', 'commonjs'],
+            frameworks: ['qunit', 'browserify'],
             reporters: ['mocha'],
             files: [
                 'build/classes/main/*.js',
@@ -8,8 +8,6 @@ module.exports = function (config) {
                 'build/node_modules/*.js'
             ],
             exclude: [],
-            // port: 9876,
-            // runnerPort: 9100,
             colors: true,
             autoWatch: false,
             browsers: [
@@ -17,12 +15,12 @@ module.exports = function (config) {
                 // , 'Chrome'
             ],
             captureTimeout: 5000,
-            //singleRun: false,
             singleRun: true,
+        // singleRun: false,
             reportSlowerThan: 500,
 
             preprocessors: {
-                '**/*.js': ['commonjs']
+                '**/*.js': ['browserify']
             }
         }
     )
