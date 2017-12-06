@@ -13,7 +13,14 @@ Its purpose is to format numbers for human consumption. It provides :
 
 It is based of [d3-format](https://github.com/d3/d3-format) which itself modeled after Python 3’s 
 [format specification mini-language](https://docs.python.org/3/library/string.html#format-specification-mini-language) ([PEP 3101](https://www.python.org/dev/peps/pep-3101/)).
- 
+
+## Format Types 
+This is the most important formattting parameter. It gives the global transformation rules. 
+
+Based numbers: the number is rounded and then formatted as a [BINARY], [OCTAL], [HEXADECIMAL],[HEXADECIMAL_UPPER].
+
+
+
 There are two ways of defining the formatting options:
    1. using the format specifier 
    2. using the typed API

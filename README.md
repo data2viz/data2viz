@@ -6,8 +6,17 @@
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) 
 ### What is this repository for? ###
 
-data2viz is a data visualization library which targets several platform: browser, jvm, android, ... It relies on
-kotlin which offers advanced language paradigms and can compile to different platforms.
+data2viz is a multiplatform data visualization library based on kotlin.
+
+It is currently possible to use it in the browser (javascript + svg) or in the JVM (bytecode + JavaFx).
+
+The code is separated in modules that can be independently used. Some are specifically for visualization 
+([d2v-path](https://github.com/data2viz/data2viz/tree/master/path), 
+[d2v-shape](https://github.com/data2viz/data2viz/tree/master/shape), 
+[d2v-viz](https://github.com/data2viz/data2viz/tree/master/viz)) and others can be used outside of dataviz projects. 
+For example, 
+[d2v-format](https://github.com/data2viz/data2viz/tree/master/format) 
+can be used as a multiplatform kotlin format library.
 
 data2viz proposes to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
  visualizations by helping developer with IDE’s suggestions based on the current context.
