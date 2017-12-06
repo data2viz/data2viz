@@ -10,7 +10,7 @@ val epsilon = 1e-6
 val tauEpsilon = tau - epsilon
 
 /**
- * Common denominator between Canva, SVG, JavaFX
+ * Common denominator between Canvas, SVG, JavaFX
  */
 interface PathAdapter {
     fun moveTo(x:Double, y: Double)
