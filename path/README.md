@@ -21,7 +21,7 @@ interface PathAdapter {
 }
 ```
 
-The easiest way of using it is through [d2v-viz module]()
+The easiest way of using it is through [d2v-viz module](../viz)
 
 
 From example this code  from a kotlin-js application
