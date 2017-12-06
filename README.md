@@ -10,13 +10,13 @@ data2viz is a multiplatform data visualization library based on kotlin.
 
 It is currently possible to use it in the browser (javascript + svg) or in the JVM (bytecode + JavaFx).
 
-The code is separated in modules that can be independently used. Some are specifically for visualization 
+The code is separated in modules that can be independently used. Some are specifically designed for visualization 
 ([d2v-path](https://github.com/data2viz/data2viz/tree/master/path), 
 [d2v-shape](https://github.com/data2viz/data2viz/tree/master/shape), 
 [d2v-viz](https://github.com/data2viz/data2viz/tree/master/viz)) and others can be used outside of dataviz projects. 
 For example, 
 [d2v-format](https://github.com/data2viz/data2viz/tree/master/format) 
-can be used as a multiplatform kotlin format library.
+can be used as a multiplatform kotlin format library outside of any dataviz project.
 
 data2viz proposes to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
  visualizations by helping developer with IDE’s suggestions based on the current context.
@@ -27,7 +27,7 @@ The internal DSL allows to create data visualization using hierarchical
 code that should be easy to understand.
 
 ```kotlin
-g {
+group {
     transform {
         translate(margin.left, margin.top)
         rotate(20.deg)
@@ -66,7 +66,7 @@ compilation phase.
 
 ### Current status && Roadmap
 
-<img src="current-progress.png" width="850">
+<img src="docs/img/current-progress.png" width="850">
 
 #### V0.3 80%: 
 The main purpose of this version is to propose the multiplatform bootstrap API allowing to build

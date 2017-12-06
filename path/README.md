@@ -21,3 +21,45 @@ interface PathAdapter {
 }
 ```
 
+The easiest way of using it is through [d2v-viz module]()
+
+
+From example this code  from a kotlin-js application
+
+```kotlin
+fun main(args: Array<String>) {
+
+    val svg = document.querySelector("svg") as SVGElement
+
+    svg.viz {
+        path {
+            fill = colors.orange
+            moveTo(.0, .0)
+            lineTo(100.0, 0.0)
+            lineTo(.0, 100.0)
+            closePath()
+        }
+
+        path {
+            fill = colors.steelblue
+            moveTo(.0, .0)
+            lineTo(50.0, 0.0)
+            lineTo(.0, 50.0)
+            closePath()
+        }
+
+        path {
+            fill = colors.steelblue
+            moveTo(50.0, 50.0)
+            lineTo(100.0, 100.0)
+            lineTo(.0, 100.0)
+            closePath()
+        }    }
+}
+```
+
+produces this rendering:
+ 
+ <img src="../docs/img/path-in-viz.png">
+
+
