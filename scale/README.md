@@ -8,6 +8,10 @@ size of the population) to a dimension inside the visualization (for example a h
 
 <img src="../docs/img/scale-dimension.png">
 
+The visual output of scale can be a lot of things:
+ - a dimension that could be used as a size, a thickness, a speed, a delay, a translation,....
+ - a color, 
+ - 
 
 Scales play a enormous role in dataviz. 
 
