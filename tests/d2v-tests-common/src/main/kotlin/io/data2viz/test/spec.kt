@@ -3,7 +3,7 @@ package io.data2viz.test
 import io.data2viz.test.matchers.Matchers
 
 
-expect fun Double.toFixed():String
+expect fun Double.toFixed(): String
 
 abstract class TestBase : Matchers {
 
@@ -52,6 +52,6 @@ class TestCase(var name: String, val test: (ExecutionContext) -> Unit) {
 }
 
 sealed class TestResult(val name: String) {
-    class OK(name: String): TestResult(name)
-    class KO(name: String, val message: String?): TestResult(name)
+    class OK(name: String) : TestResult(name)
+    class KO(name: String, val message: String?) : TestResult(name)
 }

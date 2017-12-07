@@ -15,6 +15,9 @@ object contain : Keyword
 
 object include : Keyword
 
+val epsilon = 1e-6
+
+
 interface Matchers : StringMatchers,
         CollectionMatchers,
         DoubleMatchers,
@@ -26,6 +29,7 @@ interface Matchers : StringMatchers,
     fun fail(msg: String): Nothing = throw AssertionError(msg)
 
     infix fun Double.shouldBe(other: Double): Unit = ToleranceMatcher(other, 0.0).test(this)
+    infix fun Double.shouldBeClose(other: Double): Unit = ToleranceMatcher(other, epsilon).test(this)
 
     infix fun <N:Number, T:Number >  Iterable<N>.shouldBe(other: Iterable<T>) {
         if(this.count() != other.count())
