@@ -120,7 +120,8 @@ internal class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> 
     }
 }
 
-fun scaleLog(base: Double = 10.0): ContinuousScale<Double> = LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
+fun scaleLog(base: Double = 10.0, init:ContinuousScale<Double>.() -> Unit = {}): ContinuousScale<Double> = 
+        LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 
 /**
  * TODO Test
