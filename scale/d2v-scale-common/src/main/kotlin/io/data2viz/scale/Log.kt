@@ -10,10 +10,10 @@ import kotlin.math.*
  * before the output range value is computed.
  * The mapping to the range value y can be expressed as a function of the domain value x: y = m log(x) + b.
  */
-class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) -> R,
+internal class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) -> R,
                        uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
                        rangeComparator: Comparator<R>? = null)
-    : LinearScale<R>(interpolateRange, uninterpolateRange, rangeComparator), NiceableScale<Double, R> {
+    : ContinuousScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
 
     /**
      * As log(0) = -∞, a log scale domain must be strictly-positive or strictly-negative;
@@ -120,5 +120,9 @@ class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) 
     }
 }
 
-fun scaleLog(base: Double = 10.0): LogScale<Double> = LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
-fun scaleLogRound(base: Double = 10.0): LogScale<Double> = LogScale(base, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
+fun scaleLog(base: Double = 10.0): ContinuousScale<Double> = LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
+
+/**
+ * TODO Test
+ */
+fun scaleLogRound(base: Double = 10.0): ContinuousScale<Double> = LogScale(base, ::interpolateRound, ::uninterpolateNumber, naturalOrder())

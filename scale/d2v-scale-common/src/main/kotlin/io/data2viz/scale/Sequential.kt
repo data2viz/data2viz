@@ -5,8 +5,9 @@ package io.data2viz.scale
  * continuous output range. However, unlike continuous scales, the output range of a sequential scale is fixed
  * by its interpolator and not configurable.
  * These scales do not expose invert, range, rangeRound and interpolate methods.
+ * TODO why interpolator is a Nullable var ? In what case it could change?
  */
-class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScale<Double, R>, ClampableScale<Double, R> {
+class SequentialScale<R>(var interpolator: ((Double) -> R)?) : Tickable<Double>, ClampableScale<Double, R> {
 
     private val _domain: MutableList<Double> = arrayListOf(.0, 1.0)
 
@@ -30,7 +31,7 @@ class SequentialScale<R>(var interpolator: ((Double) -> R)?) : TickableScale<Dou
         return interpolator!!(uninterpolatedDomain)
     }
 
-    override fun ticks(count: Int) = io.data2viz.core.ticks(_domain.first(), _domain.last(), count) as List<Double>
+    override fun ticks(count: Int) = io.data2viz.core.ticks(_domain.first(), _domain.last(), count)
 }
 
 fun scaleSequential(interpolator: (Double) -> Double) = SequentialScale(interpolator)

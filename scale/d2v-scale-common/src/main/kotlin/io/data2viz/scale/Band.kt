@@ -3,6 +3,10 @@ package io.data2viz.scale
 import kotlin.math.floor
 import kotlin.math.max
 
+
+/**
+ * Retu
+ */
 abstract class BandedScale<D> : DiscreteScale<D, Double>() {
 
     private val unknown = Double.NaN
@@ -83,6 +87,15 @@ abstract class BandedScale<D> : DiscreteScale<D, Double>() {
 }
 
 /**
+ * Represents domain as band (for barchart for example).
+ * 
+ * BandScale.invoke(domain) returns the coordinate of the start of each band.
+ * 
+ * 
+ * [padding]
+ * 
+ * [paddingInner] representents the size between 
+ * 
  * Band scales are like ordinal scales except the output range is continuous and numeric.
  * Discrete output values are automatically computed by the scale by dividing the continuous range into uniform bands.
  * Band scales are typically used for bar charts with an ordinal or categorical dimension.
@@ -114,3 +127,6 @@ class BandScale<D> : BandedScale<D>() {
 }
 
 fun <D> scaleBand() = BandScale<D>()
+fun <D> scaleBand(domain: List<D>) = BandScale<D>().apply { 
+    this.domain = domain 
+}

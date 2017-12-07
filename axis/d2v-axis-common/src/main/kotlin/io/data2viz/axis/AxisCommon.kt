@@ -1,7 +1,7 @@
 package io.data2viz.axis
 
 import io.data2viz.color.colors
-import io.data2viz.scale.LinearScale
+import io.data2viz.scale.ContinuousScale
 import io.data2viz.viz.ParentItem
 import io.data2viz.viz.TextAlignmentBaseline
 import io.data2viz.viz.TextAnchor
@@ -10,14 +10,14 @@ import io.data2viz.viz.TextAnchor
 /**
  * Create an Axis 
  */
-fun ParentItem.axis(orient: Orient, scale: LinearScale<Double>, init:AxisElement.() -> Unit = {}) {
-    AxisElement(orient, scale)
+fun ParentItem.axis(orient: Orient, scale: ContinuousScale<Double>, init:AxisElement<Double>.() -> Unit = {}) {
+    AxisElement<Double>(orient, scale)
             .apply(init)
             .render(this)
 }
 
 
-class AxisElement(val orient: Orient, val scale: LinearScale<Double>)  {
+class AxisElement<D>(val orient: Orient, val scale: ContinuousScale<Double>)  {
 
     var tickValues:List<Double> = listOf()
     var tickSizeInner = 6.0
@@ -28,8 +28,15 @@ class AxisElement(val orient: Orient, val scale: LinearScale<Double>)  {
     val k = if (orient == Orient.TOP || orient == Orient.LEFT) -1 else 1
 
     fun render(content:ParentItem) {
+        
+//        fun values():List<Double> {
+//            if (tickValues.isNotEmpty()) return tickValues
+//            if (scale is Tickable<Double>) return scale.ticks()
+//            
+//        }
 
-        val values = tickValues
+        
+        val values = tickValues 
         val spacing = tickSizeInner.coerceAtLeast(0.0) + tickPadding
         val range0 = scale.range.first() + 0.5
         val range1 = scale.range.last() + 0.5

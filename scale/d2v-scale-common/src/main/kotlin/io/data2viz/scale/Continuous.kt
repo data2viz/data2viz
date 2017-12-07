@@ -1,41 +1,12 @@
 package io.data2viz.scale
 
+import io.data2viz.core.tickStep
+import io.data2viz.interpolate.interpolateNumber
+import io.data2viz.interpolate.uninterpolateNumber
+import kotlin.math.ceil
+import kotlin.math.floor
 import kotlin.math.min
 
-// TODO move to array module
-/**
- * Returns the insertion point for x in array to maintain sorted order.
- * The arguments lo and hi may be used to specify a subset of the array which should be considered;
- * by default the entire array is used. If x is already present in array, the insertion point will be
- * after (to the right of) any existing entries of x in array.
- * The returned insertion point i partitions the array into two halves so that all v <= x for v in array.slice(lo, i)
- * for the left side and all v > x for v in array.slice(i, hi) for the right side.
- */
-fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
-    var lo = low
-    var hi = high
-    while (lo < hi) {
-        val mid = (lo + hi) / 2
-        if (comparator.compare(list[mid], x) > 0)
-            hi = mid
-        else
-            lo = mid + 1
-    }
-    return lo
-}
-
-fun <T> bisectLeft(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
-    var lo = low
-    var hi = high
-    while (lo < hi) {
-        val mid = (lo + hi) / 2
-        if (comparator.compare(list[mid], x) < 0)
-            lo = mid + 1
-        else
-            hi = mid
-    }
-    return lo
-}
 
 // uninterpolate  [value A .. value B] --> [0 .. 1]
 // interpolate [0 .. 1] --> [value A .. value B]
@@ -43,18 +14,21 @@ fun <T> bisectLeft(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0,
 // TODO RGB continuous scale, HCL ...
 /**
  * Continuous scales map a continuous, quantitative input domain to a continuous output range.
- * If the range is also numeric, the mapping may be inverted.
+ * 
+ * If the range is also numeric, the mapping may be inverted. TODO so it's not invertable by default -> should not implement Invertable
+ * 
  * A continuous scale is not constructed directly; instead, try a linear, power, log,
  * identity, time or sequential color scale.
  */
-abstract class ContinuousScale<R>(
+open class ContinuousScale<R>(
         val interpolateRange: (R, R) -> (Double) -> R,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
         val rangeComparator: Comparator<R>? = null) :
         RangeableScale<Double, R>,
         ClampableScale<Double, R>,
         InvertableScale<Double, R>,
-        TickableScale<Double, R> {
+        NiceableScale<Double, R>,
+        Tickable<Double> {
 
     private var input: ((R) -> Double)? = null
     private var output: ((Double) -> R)? = null
@@ -62,8 +36,61 @@ abstract class ContinuousScale<R>(
     protected val _domain: MutableList<Double> = arrayListOf(.0, 1.0)
     protected val _range: MutableList<R> = arrayListOf()
 
-    abstract fun interpolateDomain(from: Double, to: Double): (Double) -> Double
-    abstract fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double
+    override var clamp: Boolean = false
+        set(value) {
+            field = value
+            rescale()
+        }
+
+    // copy the value (no binding intended)
+    override var domain: List<Double>
+        get() = _domain.toList()
+        set(value) {
+            _domain.clear()
+            _domain.addAll(value)
+            rescale()
+        }
+
+    // copy the value (no binding intended)
+    override var range: List<R>
+        get() = _range.toList()
+        set(value) {
+            _range.clear()
+            _range.addAll(value)
+            rescale()
+        }
+
+    /**
+     * Extends the domain so that it starts and ends on nice round values.
+     * This method typically modifies the scale’s domain, and may only extend the bounds to the nearest round value.
+     * An optional tick count argument allows greater control over the step size used to extend the bounds,
+     * guaranteeing that the returned ticks will exactly cover the domain. Nicing is useful if the domain is computed
+     * from data, say using extent, and may be irregular. For example, for a domain of [0.201479…, 0.996679…],
+     * a nice domain might be [0.2, 1.0]. If the domain has more than two values, nicing the domain only affects
+     * the first and last value. See also d3-array’s tickStep.
+     *
+     * Nicing a scale only modifies the current domain; it does not automatically nice domains that are
+     * subsequently set using continuous.domain. You must re-nice the scale after setting the new domain, if desired.
+     */
+    override fun nice(count: Int) {
+        val last = _domain.size - 1
+        var step = tickStep(_domain[0], _domain[last], count)
+        val start = floor(_domain[0] / step) * step
+        val stop = ceil(_domain[last] / step) * step
+
+        if (step != .0) {
+            step = tickStep(start, stop, count)
+            _domain[0] = floor(start / step) * step
+            _domain[last] = ceil(stop / step) * step
+            rescale()
+        }
+    }
+
+
+
+    open fun interpolateDomain(from: Double, to: Double): (Double) -> Double = interpolateNumber(from, to)
+    open fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double = uninterpolateNumber(from, to)
+
 
     override operator fun invoke(domainValue: Double): R {
         if (output == null) {
@@ -211,4 +238,40 @@ abstract class ContinuousScale<R>(
             domainInterpolators[index](rangeInterpolators[index](y))
         }
     }
+}
+
+
+// TODO move to array module
+/**
+ * Returns the insertion point for x in array to maintain sorted order.
+ * The arguments lo and hi may be used to specify a subset of the array which should be considered;
+ * by default the entire array is used. If x is already present in array, the insertion point will be
+ * after (to the right of) any existing entries of x in array.
+ * The returned insertion point i partitions the array into two halves so that all v <= x for v in array.slice(lo, i)
+ * for the left side and all v > x for v in array.slice(i, hi) for the right side.
+ */
+fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
+    var lo = low
+    var hi = high
+    while (lo < hi) {
+        val mid = (lo + hi) / 2
+        if (comparator.compare(list[mid], x) > 0)
+            hi = mid
+        else
+            lo = mid + 1
+    }
+    return lo
+}
+
+fun <T> bisectLeft(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
+    var lo = low
+    var hi = high
+    while (lo < hi) {
+        val mid = (lo + hi) / 2
+        if (comparator.compare(list[mid], x) < 0)
+            lo = mid + 1
+        else
+            hi = mid
+    }
+    return lo
 }

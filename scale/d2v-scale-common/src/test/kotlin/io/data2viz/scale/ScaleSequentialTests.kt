@@ -17,8 +17,8 @@ class ScaleSequentialTests : TestBase() {
 //        scale.interpolator shouldBe { t:Double -> t }
         scale.clamp shouldBe false
         scale(-.5) shouldBe -.5
-        scale(.0) shouldBe .0
-        scale(.5) shouldBe .5
+        scale(0.0) shouldBe 0.0
+        scale(0.5) shouldBe 0.5
         scale(1.5) shouldBe 1.5
     }
 
@@ -28,8 +28,8 @@ class ScaleSequentialTests : TestBase() {
         scale.clamp = true
 
         scale(-.5) shouldBe .0
-        scale(.0) shouldBe .0
-        scale(.5) shouldBe .5
+        scale(0.0) shouldBe 0.0
+        scale(0.5) shouldBe 0.5
         scale(1.0) shouldBe 1.0
         scale(1.5) shouldBe 1.0
     }
@@ -39,9 +39,9 @@ class ScaleSequentialTests : TestBase() {
         val scale = scaleSequential{ t: Double -> t }
         scale.domain = arrayListOf(-1.2, 2.4)
 
-        scale(-1.2) shouldBe .0
-        scale(.6) shouldBe .5
-        scale(2.4) shouldBe 1.0
+        scale(-1.2) shouldBe 0.0
+        scale( 0.6) shouldBe 0.5
+        scale( 2.4) shouldBe 1.0
     }
 
     @Test

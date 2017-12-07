@@ -5,7 +5,7 @@ package io.data2viz.scale
  * For example, an ordinal scale might map a set of named categories to a set of colors, or determine the
  * horizontal positions of columns in a column chart.
  */
-abstract class DiscreteScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
+abstract class DiscreteScale<D, R> : RangeableScale<D, R>, Tickable<D> {
 
     protected val index: MutableMap<D, Int> = HashMap()
 
@@ -15,7 +15,7 @@ abstract class DiscreteScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
     /**
      * The behavior when asking for a rangeValue with a given non-existant domainValue :
      * If unknown is null : add domainValue to the domain, then return a rangeValue (= scale implicit).
-     * If unknown is not null : return unknown.
+     * If unknown is not null : return unknown. 
      */
     // TODO : change behavior
     protected var _unknown: R? = null
@@ -80,6 +80,7 @@ abstract class DiscreteScale<D, R> : RangeableScale<D, R>, TickableScale<D, R> {
 
 open class OrdinalScale<D, R> : DiscreteScale<D, R>() {
 
+    
     var unknown: R?
         get() = _unknown
         set(value) {

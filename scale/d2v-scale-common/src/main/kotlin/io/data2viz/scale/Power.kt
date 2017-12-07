@@ -15,7 +15,7 @@ import kotlin.math.pow
 class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Double) -> R,
                     uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
                     rangeComparator: Comparator<R>? = null)
-    : LinearScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
+    : ContinuousScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
 
     var exponent: Double = exponent
         set(value) {
