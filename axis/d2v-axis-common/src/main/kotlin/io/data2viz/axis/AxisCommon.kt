@@ -36,7 +36,7 @@ class AxisElement<D>(val orient: Orient, val scale: ContinuousScale<Double>)  {
 //        }
 
         
-        val values = tickValues 
+        val values = if (tickValues.isEmpty() ) scale.ticks() else tickValues  
         val spacing = tickSizeInner.coerceAtLeast(0.0) + tickPadding
         val range0 = scale.range.first() + 0.5
         val range1 = scale.range.last() + 0.5
@@ -60,7 +60,7 @@ class AxisElement<D>(val orient: Orient, val scale: ContinuousScale<Double>)  {
                 }
             }
             
-            tickValues.sorted().forEach { 
+            values.sorted().forEach { 
                 group { 
                     transform { 
                         if (orient.isHorizontal()) translate(x = scale(it)) else translate(y = scale(it)) 
