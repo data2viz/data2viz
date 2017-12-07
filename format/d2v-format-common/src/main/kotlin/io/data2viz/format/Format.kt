@@ -176,7 +176,7 @@ fun formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String = L
  */
 fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String {
     val formatSpecifier = specify(specifier).copy(type = Type.FIXED_POINT)
-    val f = formatter(formatSpecifier.toString())
+    val f = formatter(formatSpecifier)
     val e = floor(exponent(fixedPrefix).toDouble() / 3.0).coerceIn(-8.0, 8.0) * 3
     val k = 10.0.pow(-e)
     val prefix = prefixes[8 + (e / 3.0).toInt()]
