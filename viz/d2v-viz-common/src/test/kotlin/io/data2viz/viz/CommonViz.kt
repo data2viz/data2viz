@@ -40,23 +40,36 @@ fun VizContext.commonViz(data: List<Domain>) {
     group {
         
         transform { 
-            translate(x = 77.7, y = 250.0)
+            translate(x = 200.0, y = 200.0)
         }
         
         path {
-            fill = null
-            stroke = colors.aquamarine
-            strokeWidth = 3.0
-            
-            moveTo(10.0, 10.0)
-            lineTo(70.0, 10.0)
-            quadraticCurveTo(85.0, 60.0, 100.0, 20.0)
-            lineTo(175.0, 55.0)
-            lineTo(10.0, 100.0)
+            fill = colors.orange
+            moveTo(.0, .0)
+            lineTo(100.0, 0.0)
+            lineTo(.0, 100.0)
             closePath()
+        }
 
-//            moveTo(50.0, 50.0)
-            arc(50.0, 50.0, 20.0, 0.0, 360.0)        }
+        path {
+            fill = colors.steelblue
+            moveTo(.0, .0)
+            lineTo(50.0, 0.0)
+            lineTo(.0, 50.0)
+            closePath()
+        }
+
+        path {
+            fill = colors.steelblue
+            moveTo(50.0, 50.0)
+            lineTo(100.0, 100.0)
+            lineTo(.0, 100.0)
+            closePath()
+        }
+        
+//        path {
+//            arc(50.0, 50.0, 20.0, 0.0, 360.0)
+//        }
     }
 
 
