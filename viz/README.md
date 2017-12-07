@@ -88,7 +88,7 @@ fun showViz() {
 ```
 
 
-#DSL Flavours
+##DSL Flavours
 
 There are two versions of it, a static version
 and a dynamic one.
