@@ -7,7 +7,7 @@ val e5 = sqrt(10.0)
 val e2 = sqrt(2.0)
 val ln10:Double by lazy { ln(10.0) }
 
-fun ticks(start:Number, stop: Number, count :Int): List<Number> {
+fun ticks(start:Number, stop: Number, count :Int): List<Double> {
     // require(count > 0, { "Ticks count must be greater than 0." }) // TODO check or return empty array ?
     val step = tickStep(start.toDouble(), stop.toDouble(), count)
     return range(
