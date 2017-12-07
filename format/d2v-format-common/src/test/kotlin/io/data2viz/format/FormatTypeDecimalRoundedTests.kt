@@ -22,14 +22,14 @@ class FormatTypeDecimalRoundedTests : TestBase() {
     @Test
     fun format_d_can_space_fill() {
         val f = formatter("8d")
-        f(0.0) shouldBe "       0"
-        f(42.0) shouldBe "      42"
-        f(42000000.0) shouldBe "42000000"
-        f(420000000.0) shouldBe "420000000"
-        f(-4.0) shouldBe "      -4"
-        f(-42.0) shouldBe "     -42"
-        f(-4200000.0) shouldBe "-4200000"
-        f(-42000000.0) shouldBe "-42000000"
+        f(0.0) shouldBe             "       0"
+        f(42.0) shouldBe            "      42"
+        f(42000000.0) shouldBe      "42000000"
+        f(420000000.0) shouldBe    "420000000"
+        f(-4.0) shouldBe            "      -4"
+        f(-42.0) shouldBe           "     -42"
+        f(-4200000.0) shouldBe      "-4200000"
+        f(-42000000.0) shouldBe    "-42000000"
     }
 
     @Test

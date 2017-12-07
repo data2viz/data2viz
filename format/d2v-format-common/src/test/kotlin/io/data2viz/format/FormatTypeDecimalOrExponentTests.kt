@@ -21,17 +21,17 @@ class FormatTypeDecimalOrExponentTests : TestBase() {
     }
 
     @Test fun format_g_typed_can_output_general_notation () {
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(0.049) shouldBe "0.05"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(0.49) shouldBe "0.5"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(0.449) shouldBe "0.45"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 3)(0.4449) shouldBe "0.445"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(0.444449) shouldBe "0.44445"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(100.0) shouldBe "1e+2"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(100.0) shouldBe "1.0e+2"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 3)(100.0) shouldBe "100"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(100.0) shouldBe "100.00"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(100.2) shouldBe "100.20"
-        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(0.002) shouldBe "0.0020"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(0.049)   shouldBe "0.05"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(0.49)    shouldBe "0.5"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(0.449)   shouldBe "0.45"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 3)(0.4449)  shouldBe "0.445"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(0.444449)shouldBe "0.44445"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 1)(100.0)   shouldBe "1e+2"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(100.0)   shouldBe "1.0e+2"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 3)(100.0)   shouldBe "100"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(100.0)   shouldBe "100.00"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 5)(100.2)   shouldBe "100.20"
+        formatter(Type.DECIMAL_OR_EXPONENT, precision = 2)(0.002)   shouldBe "0.0020"
     }
 
     @Test fun format_g_can_group_thousands_with_general_notation () {
