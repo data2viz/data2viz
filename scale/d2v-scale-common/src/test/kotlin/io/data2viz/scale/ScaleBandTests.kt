@@ -5,7 +5,6 @@ import kotlin.test.Test
 
 class ScaleBandTests : TestBase() {
 
-    val epsilon = 1e6
 
     @Test
     fun band_has_expected_defaults_LEGACY() {
@@ -162,8 +161,8 @@ class ScaleBandTests : TestBase() {
         scale.range = listOf(.0, 100.0)
 
         scale("a") shouldBe .0
-        scale("b") shouldBe (33.333333 plusOrMinus epsilon)
-        scale("c") shouldBe (66.666666 plusOrMinus epsilon)
+        scale("b") shouldBeClose 33.333333
+        scale("c") shouldBeClose 66.666666
 
         scale.round = true
         scale("a") shouldBe .0          // TODO 1.0

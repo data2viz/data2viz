@@ -6,8 +6,6 @@ import kotlin.test.Test
 
 class ScaleQuantileTests : TestBase() {
 
-    val epsilon = 1e6
-
     @Test
     fun quantile_expected_defaults_LEGACY() {
         val scale = scaleQuantile<Double>()

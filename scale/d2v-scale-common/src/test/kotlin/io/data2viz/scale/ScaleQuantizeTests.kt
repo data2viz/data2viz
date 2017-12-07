@@ -6,8 +6,6 @@ import kotlin.test.Test
 
 class ScaleQuantizeTests : TestBase() {
 
-    val epsilon = 1e6
-
     @Test
     fun quantize_expected_defaults_LEGACY() {
         val scale = scaleQuantize<Double>()
@@ -76,27 +74,18 @@ class ScaleQuantizeTests : TestBase() {
     fun quantize_range_cardinality_determines_degre_of_quantization_LEGACY() {
         val scale = scaleQuantize<Double>()
         val aThird = 1.0 / 3.0
+        
+        
+        fun doubleRange(to:Double, step: Double):List<Double>  = 
+            (0..(to/step).toInt()).fold(mutableListOf<Double>()) { r,t-> r.apply { add(step*t) }}
 
-        scale.range = (0..1001).map({it/1000.0}).toMutableList()
-        scale(aThird) shouldBe (0.333 plusOrMinus epsilon)
-
-        scale.range = (0..1010).map({it/100.0}).toMutableList()
-        scale(aThird) shouldBe (0.330 plusOrMinus epsilon)
-
-        scale.range = (0..1100).map({it/10.0}).toMutableList()
-        scale(aThird) shouldBe (0.300 plusOrMinus epsilon)
-
-        scale.range = (0..1200).map({it/6.0}).toMutableList()
-        scale(aThird) shouldBe (0.400 plusOrMinus epsilon)
-
-        scale.range = (0..1250).map({it/5.0}).toMutableList()
-        scale(aThird) shouldBe (0.250 plusOrMinus epsilon)
-
-        scale.range = (0..1500).map({it/3.0}).toMutableList()
-        scale(aThird) shouldBe (0.500 plusOrMinus epsilon)
-
-        scale.range = arrayListOf(0.0, 1.0)
-        scale(aThird) shouldBe (.0 plusOrMinus epsilon)
+        scale.range = doubleRange(1.000, 0.001); scale(aThird) shouldBeClose .333
+        scale.range = doubleRange(1.000, 0.010); scale(aThird) shouldBeClose .330
+        scale.range = doubleRange(1.000, 0.100); scale(aThird) shouldBeClose .300
+        scale.range = doubleRange(1.000, 0.200); scale(aThird) shouldBeClose .400
+        scale.range = doubleRange(1.000, 0.250); scale(aThird) shouldBeClose .250
+        scale.range = doubleRange(1.000, 0.500); scale(aThird) shouldBeClose .500
+        scale.range = doubleRange(1.000, 1.500); scale(aThird) shouldBeClose .0
     }
 
     @Test

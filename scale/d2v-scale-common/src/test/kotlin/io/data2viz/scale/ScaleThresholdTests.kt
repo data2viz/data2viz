@@ -5,7 +5,6 @@ import kotlin.test.Test
 
 class ScaleThresholdTests : TestBase() {
 
-    val epsilon = 1e6
 
     @Test
     fun threshold_expected_defaults_LEGACY() {

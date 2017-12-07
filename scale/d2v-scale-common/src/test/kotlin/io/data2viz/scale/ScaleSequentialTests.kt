@@ -7,7 +7,6 @@ import kotlin.test.Test
 @Suppress("unused", "FunctionName")
 class ScaleSequentialTests : TestBase() {
 
-    val epsilon = 1e6
 
     @Test
     fun sequential_has_expected_defaults_LEGACY() {

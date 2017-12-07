@@ -5,8 +5,6 @@ import kotlin.test.Test
 
 class ScaleLogTests : TestBase() {
 
-    val epsilon = 1e6
-
     @Test
     fun log_x_domain_limits_maps_to_y_range_limits() {
         val scale = scaleLog()
@@ -23,11 +21,11 @@ class ScaleLogTests : TestBase() {
         scale.range = listOf(.0, 1.0)
 
         scale.domain = listOf(1.0, 2.0)
-        scale(.5) shouldBe (-1.0000000 plusOrMinus epsilon)
-        scale(1.0) shouldBe (0.0000000 plusOrMinus epsilon)
-        scale(1.5) shouldBe (0.5849625 plusOrMinus epsilon)
-        scale(2.0) shouldBe (1.0000000 plusOrMinus epsilon)
-        scale(1.5) shouldBe (1.3219281 plusOrMinus epsilon)
+        scale(.5) shouldBeClose -1.0000000
+        scale(1.0) shouldBeClose 0.0000000
+        scale(1.5) shouldBeClose 0.5849625
+        scale(2.0) shouldBeClose 1.0000000
+        scale(2.5) shouldBeClose 1.3219282
         scale.base shouldBe 10.0
     }
 
@@ -38,11 +36,11 @@ class ScaleLogTests : TestBase() {
         scale.range = listOf(.0, 1.0)
 
         scale.domain = listOf(1.0, 2.0)
-        scale.invert(-1.0000000) shouldBe (.5 plusOrMinus epsilon)
-        scale.invert(0.0000000) shouldBe (1.0 plusOrMinus epsilon)
-        scale.invert(0.5849625) shouldBe (1.5 plusOrMinus epsilon)
-        scale.invert(1.0000000) shouldBe (2.0 plusOrMinus epsilon)
-        scale.invert(1.3219281) shouldBe (.5 plusOrMinus epsilon)
+        scale.invert(-1.0000000) shouldBeClose .5
+        scale.invert(0.0000000) shouldBeClose 1.0
+        scale.invert(0.5849625) shouldBeClose 1.5
+        scale.invert(1.0000000) shouldBeClose 2.0
+        scale.invert(1.3219281) shouldBeClose 2.5
         scale.base shouldBe 10.0
     }
 

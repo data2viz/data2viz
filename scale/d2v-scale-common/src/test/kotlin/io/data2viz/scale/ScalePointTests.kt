@@ -5,8 +5,6 @@ import kotlin.test.Test
 
 class ScalePointTests : TestBase() {
 
-    val epsilon = 1e6
-
     @Test
     fun point_has_expected_defaults_LEGACY() {
         val scale = scalePoint<Int>()

@@ -5,29 +5,27 @@ import kotlin.test.Test
 
 class ScalePowerTests : TestBase() {
 
-    val epsilon = 1e6
-
     @Test
     fun power_sets_the_exponent_to_the_specified_value_LEGACY() {
         val scale = scalePow(.5)
 
         scale.domain = listOf(1.0, 2.0)
         scale.range = listOf(.0, 1.0)
-        scale(1.0) shouldBe (.0 plusOrMinus epsilon)
-        scale(1.5) shouldBe (0.5425821 plusOrMinus epsilon)
-        scale(2.0) shouldBe (1.0 plusOrMinus epsilon)
+        scale(1.0) shouldBeClose .0
+        scale(1.5) shouldBeClose 0.5425821
+        scale(2.0) shouldBeClose 1.0
         scale.exponent shouldBe .5
 
         scale.exponent = 2.0
-        scale(1.0) shouldBe (.0 plusOrMinus epsilon)
-        scale(1.5) shouldBe (0.41666667 plusOrMinus epsilon)
-        scale(2.0) shouldBe (1.0 plusOrMinus epsilon)
+        scale(1.0) shouldBeClose .0
+        scale(1.5) shouldBeClose 0.41666667
+        scale(2.0) shouldBeClose 1.0
         scale.exponent shouldBe 2.0
 
         scale.exponent = -1.0
-        scale(1.0) shouldBe (.0 plusOrMinus epsilon)
-        scale(1.5) shouldBe (0.6666667 plusOrMinus epsilon)
-        scale(2.0) shouldBe (1.0 plusOrMinus epsilon)
+        scale(1.0) shouldBeClose .0
+        scale(1.5) shouldBeClose 0.6666667
+        scale(2.0) shouldBeClose 1.0
         scale.exponent shouldBe -1.0
     }
 

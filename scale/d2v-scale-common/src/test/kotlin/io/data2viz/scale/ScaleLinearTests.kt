@@ -8,7 +8,6 @@ import kotlin.test.Test
 
 class ScaleLinearTests : TestBase() {
 
-    val epsilon = 1e6
 
     @Test
     fun linear_no_interpolation() {
@@ -50,19 +49,19 @@ class ScaleLinearTests : TestBase() {
         scale.domain = arrayListOf(.0, 100.0)
         scale.range = listOf(.0, -100.0)
         scale(50.0) shouldBe -50.0
-        scale(10.0) shouldBe (-10.0 plusOrMinus epsilon)
-        scale(13.3) shouldBe (-13.3 plusOrMinus epsilon)
+        scale(10.0) shouldBeClose -10.0
+        scale(13.3) shouldBeClose -13.3
         scale(90.0) shouldBe -90.0
         scale(-20.0) shouldBe 20.0
-        scale(132.0) shouldBe (-132.0 plusOrMinus epsilon)
+        scale(132.0) shouldBeClose -132.0
 
         scale.clamp = true
         scale(50.0) shouldBe -50.0
-        scale(10.0) shouldBe (-10.0 plusOrMinus epsilon)
-        scale(13.3) shouldBe (-13.3 plusOrMinus epsilon)
+        scale(10.0) shouldBeClose -10.0
+        scale(13.3) shouldBeClose -13.3
         scale(90.0) shouldBe -90.0
         scale(-20.0) shouldBe 0.0
-        scale(132.0) shouldBe (-100.0 plusOrMinus epsilon)
+        scale(132.0) shouldBeClose -100.0
     }
 
     @Test
@@ -73,8 +72,8 @@ class ScaleLinearTests : TestBase() {
         scale.range = listOf(100.0, .0)
         scale.invert(50.0) shouldBe 50.0
         scale.invert(90.0) shouldBe 10.0
-        scale.invert(86.7) shouldBe (13.3 plusOrMinus epsilon)
-        scale.invert(10.0) shouldBe (90.0 plusOrMinus epsilon)
+        scale.invert(86.7) shouldBeClose 13.3
+        scale.invert(10.0) shouldBeClose 90.0
     }
 
     @Test
@@ -85,22 +84,22 @@ class ScaleLinearTests : TestBase() {
         scale.range = listOf(100.0, .0)
         scale.invert(50.0) shouldBe 50.0
         scale.invert(90.0) shouldBe 10.0
-        scale.invert(86.7) shouldBe (13.3 plusOrMinus epsilon)
-        scale.invert(10.0) shouldBe (90.0 plusOrMinus epsilon)
+        scale.invert(86.7) shouldBeClose 13.3
+        scale.invert(10.0) shouldBeClose 90.0
 
         scale.domain = listOf(100.0, .0)
         scale.range = listOf(.0, 100.0)
         scale.invert(50.0) shouldBe 50.0
         scale.invert(90.0) shouldBe 10.0
-        scale.invert(86.7) shouldBe (13.3 plusOrMinus epsilon)
-        scale.invert(10.0) shouldBe (90.0 plusOrMinus epsilon)
+        scale.invert(86.7) shouldBeClose 13.3
+        scale.invert(10.0) shouldBeClose 90.0
 
         scale.domain = listOf(100.0, .0)
         scale.range = listOf(100.0, .0)
         scale.invert(50.0) shouldBe 50.0
         scale.invert(90.0) shouldBe 90.0
-        scale.invert(86.7) shouldBe (86.7 plusOrMinus epsilon)
-        scale.invert(10.0) shouldBe (10.0 plusOrMinus epsilon)
+        scale.invert(86.7) shouldBeClose 86.7
+        scale.invert(10.0) shouldBeClose 10.0
     }
 
     @Test
