@@ -21,7 +21,7 @@ class NaturalLogScale : Application() {
         val root = Group()
 
         root.viz {
-            chart()
+            naturalLogScale()
         }
 
 

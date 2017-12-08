@@ -29,7 +29,7 @@ val y = scaleLog(kotlin.math.E) {
 val points = (0..100).map { i -> with(i.toDouble()) { Point(this, this * this + this + 1) } }
 
 
-fun VizContext.chart() {
+fun VizContext.naturalLogScale() {
 
     transform {
         translate(x = margins.right, y = margins.top)
