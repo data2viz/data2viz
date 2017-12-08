@@ -1,14 +1,14 @@
 /**
  * All modules are discovered and added if they respect a convention name. 
  * 
- * First all d2v-...-common, d2v-...-js,d2v-...-jvm (expect d2v-data2viz-...) are discovered and included in the build.
+ * First, all d2v-moduleName-common, d2v-moduleName-js,d2v-moduleName-jvm (with the exception of the "data2viz" modules)
+ * are discovered and included in the build.
  * 
- * Then d2v-data2viz-common, d2v-data2viz-js,d2v-data2viz-jvm are included with dependencies on the first list of
- * projects.
+ * Then, the data2viz modules (d2v-data2viz-common, d2v-data2viz-js and d2v-data2viz-jvm) are included with
+ * dependencies on the first list of projects.
  * 
- * Finally, all exemples projects are included with dependencies on d2v-data2viz-common, d2v-data2viz-js,
+ * Finally, all examples projects are included with dependencies on d2v-data2viz-common, d2v-data2viz-js and
  * d2v-data2viz-jvm. 
- * 
  */
 
 includeAll()
