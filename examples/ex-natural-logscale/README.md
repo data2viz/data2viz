@@ -1,5 +1,5 @@
-This is how you can write the [D3js example](https://bl.ocks.org/mbostock/7621155) 
-in data2viz.
+This example shows how to plot a mathematical function. It uses axis and scales 
+(linear scale and log scale).
 
 This version is multiplatform: the viz code is written in a common module
 and then is just rendered in JavaFx or Js SVG element.
@@ -42,7 +42,7 @@ Here is the visualization code of the visual part: [<>](https://github.com/data2
 
 ```
 
-It's the possible to bootstrap this code inside the DOM :[<>]()
+It's the possible to bootstrap this code inside the DOM :[<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-js/src/main/kotlin/NaturalLogScaleJs.kt)
 
 ```kotlin
 fun main(args: Array<String>) {
@@ -58,7 +58,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-or in a Java FX application: [<>]()
+or in a Java FX application: [<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-jvm/src/main/kotlin/NaturalLogScaleJvm.kt)
 
 ```kotlin
     override fun start(primaryStage: Stage?) {
@@ -74,3 +74,6 @@ or in a Java FX application: [<>]()
         }
     }
 ```
+
+This example is a port of this [D3js example](https://bl.ocks.org/mbostock/7621155) 
+in data2viz.
