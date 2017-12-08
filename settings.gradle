@@ -1,18 +1,48 @@
+/**
+ * All modules are discovered and added if they respect a convention name. 
+ * 
+ * 
+ */
+
+
+
 
 includeAll()
 
 def includeAll(){
-    all_modules.split(',').each {
-        includeMulti(it)
+
+    def allProjects = []
+    //All d2v- projects except the one that holds global dependencies
+    new File(".").eachDir {
+        if(!it.name.contains("data2viz")){
+            allProjects += includeMulti(it.name)
+        }
     }
+
+    System.setProperty("all_d2v", allProjects.join(","))
+    
+    includeMulti("./data2viz/")
+    
+    new File("./examples/").eachDir { includeMulti("./examples/" +it.name) }
 }
 
 def includeMulti(String path){
-    new File(rootDir, path).eachDir{ includeAndNormalizeName(path + '/' + it.name)}
+    def ret = []
+    new File(rootDir, path).eachDir{ 
+        def name = includeAndNormalizeName(path + '/' + it.name)
+        if ( !name.isEmpty()){
+            ret += name
+        }
+    }
+    return ret
 }
 
 def includeAndNormalizeName(String path) {
     def name = path.substring(path.lastIndexOf('/')+1)
-    include(name)
-    project(":$name").projectDir = file(path)
+    if(name.endsWith("-common") || name.endsWith("-jvm") || name.endsWith("-js")) {
+        include(name)
+        project(":$name").projectDir = file(path)
+        return name
+    }
+    return ""
 }

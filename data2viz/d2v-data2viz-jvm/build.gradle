@@ -1,7 +1,7 @@
 dependencies {
-    all_modules.split(',').each {
-        if (!it.contains("experiments") && !it.contains("tests") && !it.contains("data2viz") && !it.contains("ex-")) {
-            compile project(":d2v-$it-jvm")
+    System.getProperty("all_d2v").split(",").each {
+        if (it.contains("-jvm")) {
+            compile project(":$it")
         }
     }
 }
