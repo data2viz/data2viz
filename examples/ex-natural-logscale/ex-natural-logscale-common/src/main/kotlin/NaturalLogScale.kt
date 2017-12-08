@@ -17,13 +17,13 @@ val height = 500.0 - margins.vMargins
 
 
 // linear scale domain 0..100 is mapped to 0..width
-val x = scaleLinear {
+val xScale = scaleLinear {
     domain = listOf(.0, 100.0)
     range = listOf(.0, width)
 }
 
 // log scale
-val y = scaleLog(kotlin.math.E) {
+val yScale = scaleLog(kotlin.math.E) {
     domain = listOf(kotlin.math.exp(0.0), kotlin.math.exp(9.0))
     range = listOf(height, .0) // <- y is mapped in the reverse order (in SVG, javafx (0,0) is top left.
 }
@@ -45,9 +45,8 @@ fun VizContext.naturalLogScale() {
         transform {
             translate(x = -10.0)
         }
-        axis(Orient.LEFT, y) {
-            //we use our own formatter in order to provide exponents (ex: e¹)
-            tickFormat = { "e${superscript[round(ln(it)).toInt()]}" }
+        axis(Orient.LEFT, yScale) {
+            tickFormat = { "e${superscript[round(ln(it)).toInt()]}" } // <- specific formatter to add exponents (ex: e¹)
         }
     }
 
@@ -55,19 +54,18 @@ fun VizContext.naturalLogScale() {
         transform {
             translate(y = height + 10.0)
         }
-        //default axis. Labels are provided by the x scale. 
-        axis(Orient.BOTTOM, x)
+        axis(Orient.BOTTOM, xScale)       // <- default axis. Labels are provided by the x scale.
     }
 
     group {
-        path { //the curve is rendered with a path.
+        path {                            // <- the curve is rendered with a path.
             fill = null
-            stroke = colors.steelblue
+            stroke = colors.steelblue     // <- code completion due to typed system
             strokeWidth = 1.5
 
-            moveTo(x(points[0].x), y(points[0].y))
+            moveTo(xScale(points[0].x), yScale(points[0].y))
             (1..100).forEach {
-                lineTo(x(points[it].x), y(points[it].y))
+                lineTo(xScale(points[it].x), yScale(points[it].y))
             }
         }
     }

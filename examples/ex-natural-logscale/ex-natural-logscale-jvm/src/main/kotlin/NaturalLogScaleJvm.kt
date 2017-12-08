@@ -16,16 +16,17 @@ class NaturalLogScale : Application() {
         }
     }
 
-    override fun start(primaryStage: Stage?) {
+    override fun start(stage: Stage?) {
         val root = Group()
 
         root.viz {
             naturalLogScale()
         }
 
-        primaryStage?.let {
+        stage?.let {
             it.scene = (Scene(root, width + margins.hMargins, height + margins.vMargins))
             it.show()
+            stage.title = "JavaFx - data2viz - NaturalLogScale.kt"
         }
     }
 

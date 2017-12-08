@@ -6,43 +6,41 @@ and then is just rendered in JavaFx or Js SVG element.
 
 <img src="docs/natural-log-scale-jfx.png" width="900">
 
-This is the code that manage visual elements: [<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-common/src/main/kotlin/NaturalLogScale.kt)
+This is the code that manage
+ visual elements: [<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-common/src/main/kotlin/NaturalLogScale.kt)
 
 ```kotlin
-    group {
-        transform {
-            translate(x = -10.0)
-        }
-        axis(Orient.LEFT, y) {
-            //we use our own formatter in order to provide exponents (ex: e¹)
-            tickFormat = { "e${superscript[round(ln(it)).toInt()]}" }
-        }
-    }
+  group {
+      transform {
+          translate(x = -10.0)
+      }
+      axis(Orient.LEFT, yScale) {
+          tickFormat = { "e${superscript[round(ln(it)).toInt()]}" } // <- specific formatter to add exponents (ex: e¹)
+      }
+  }
 
-    group {
-        transform {
-            translate(y = height + 10.0)
-        }
-        //default axis. Labels are provided by the x scale. 
-        axis(Orient.BOTTOM, x)
-    }
+  group {
+      transform {
+          translate(y = height + 10.0)
+      }
+      axis(Orient.BOTTOM, xScale)       // <- default axis. Labels are provided by the x scale.
+  }
 
-    group {
-        path { //the curve is rendered with a path.
-            fill = null
-            stroke = colors.steelblue
-            strokeWidth = 1.5
+  group {
+      path {                            // <- the curve is rendered with a path.
+          fill = null
+          stroke = colors.steelblue     // <- code completion due to typed system
+          strokeWidth = 1.5
 
-            moveTo(x(points[0].x), y(points[0].y))
-            (1..100).forEach {
-                lineTo(x(points[it].x), y(points[it].y))
-            }
-        }
-    }
-
+          moveTo(xScale(points[0].x), yScale(points[0].y))
+          (1..100).forEach {
+              lineTo(xScale(points[it].x), yScale(points[it].y))
+          }
+      }
+  }
 ```
 
-It's the possible to bootstrap this code inside the DOM :[<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-js/src/main/kotlin/NaturalLogScaleJs.kt)
+It's then possible to bootstrap this code inside the DOM :[<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-js/src/main/kotlin/NaturalLogScaleJs.kt)
 
 ```kotlin
     val root = selectOrCreateSvg().apply {
