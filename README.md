@@ -120,12 +120,14 @@ Tests are executed through karma and mocha and included in the build.
 
 ### How can I use it?
 
-Remember: you should not use it in production now.
+The journey to version 1.0 should take few more months but you can play with it.
 
 Artefacts are published on [Bintray](https://bintray.com/data2viz/data2viz/data2viz).
 
-You can have a look on the project [data2viz-examples](https://github.com/data2viz/data2viz-examples) to
-see how it is possible to use it.
+You can also clone this repo and have a look on the [example directory](examples).
+
 
 ## Inspirations
-d3js, kotlinx.html, kotlintest
+ - [d3js](https://github.com/d3/d3): a lot of concepts ported in this project
+ - [kotlinx.html](https://github.com/Kotlin/kotlinx.html): isomorphic html rendering 
+ - [kotlintest](https://github.com/kotlintest/kotlintest): nice DSL for testing (partly ported in [test](tests))
