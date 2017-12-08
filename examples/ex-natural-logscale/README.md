@@ -1,7 +1,7 @@
 This example shows how to plot a mathematical function. It uses axis and scales 
-(linear scale and log scale).
+(linear scale for absciss and log scale for ordinate).
 
-This version is multiplatform: the viz code is written in a common module
+This version is multiplatform: the visualization code is written in a common module
 and then is just rendered in JavaFx or Js SVG element.
 
 <img src="docs/natural-log-scale-jfx.png" width="900">
