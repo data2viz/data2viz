@@ -9,12 +9,12 @@
 data2viz is a multiplatform data visualization library based on kotlin. The rendering produces the same result
 on each platform.
 
-It is currently possible to use it in the browser (javascript + svg) or in the JVM (bytecode + JavaFx).
+It is currently possible to use it in the browser (JavaScript + SVG) or in the JVM (Bytecode + JavaFx).
 
 The code is separated in modules that can be independently used. Some are specifically designed for visualization 
 ([d2v-path](https://github.com/data2viz/data2viz/tree/master/path), 
 [d2v-shape](https://github.com/data2viz/data2viz/tree/master/shape), 
-[d2v-viz](https://github.com/data2viz/data2viz/tree/master/viz)) and others can be used outside of dataviz projects. 
+[d2v-viz](https://github.com/data2viz/data2viz/tree/master/viz)) while others can be used outside of dataviz projects. 
 For example, 
 [d2v-format](https://github.com/data2viz/data2viz/tree/master/format) 
 can be used as a multiplatform kotlin format library outside of any dataviz project.
@@ -43,7 +43,7 @@ group {
 }
 ```
 
-In that code, `g` adds a new group. The next `{` starts a new block of code that is
+In that code, `group` adds a new group. The next `{` starts a new block of code that is
 applicable in the current context. Inside a group, we can apply a transformation. The
 `transform {` code starts a new block of code to define the properties of the transformation.
 
@@ -103,11 +103,11 @@ Polishing APIs and DSLs.
 
 ### Performances
 
-It's difficult subject because a lot of parameter have an influence on the global 
-performance of an javascript application: the browser, the type of executed code.
+Performances is a difficult subject because a lot of parameter have an influence on the global 
+performance of a JavaScript application: the browser, the type of executed code.
 
-However, this is a example of quite heavy algorithm with a lot of rendering. The
-number of points is increased until FPS gets lower than 40. Click on the link to 
+However, this is a example of a quite heavy algorithm (Voronoi Diagram coputation) with a lot of rendering. 
+The number of points is increased until FPS gets below 40. Click on the link to 
 test it inside your browser.
 
 <a href="http://data2viz.io/examples/voronoisphere/index.html">
