@@ -16,14 +16,12 @@ class NaturalLogScale : Application() {
         }
     }
 
-
     override fun start(primaryStage: Stage?) {
         val root = Group()
 
         root.viz {
             naturalLogScale()
         }
-
 
         primaryStage?.let {
             it.scene = (Scene(root, width + margins.hMargins, height + margins.vMargins))
