@@ -6,7 +6,7 @@ and then is just rendered in JavaFx or Js SVG element.
 
 <img src="docs/natural-log-scale-jfx.png" width="900">
 
-Here is the visualization code of the visual part: [<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-common/src/main/kotlin/NaturalLogScale.kt)
+This is the code that manage visual elements: [<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-common/src/main/kotlin/NaturalLogScale.kt)
 
 ```kotlin
     group {
@@ -45,17 +45,15 @@ Here is the visualization code of the visual part: [<>](https://github.com/data2
 It's the possible to bootstrap this code inside the DOM :[<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-js/src/main/kotlin/NaturalLogScaleJs.kt)
 
 ```kotlin
-fun main(args: Array<String>) {
-    
-    val svgElement = selectOrCreateSvg().apply {
+    val root = selectOrCreateSvg().apply {
         setAttribute("width", "${width + margins.hMargins}")
         setAttribute("height", "${height + margins.vMargins}")
     }
 
-    svgElement.viz {
+    root.viz {
         naturalLogScale()
     }
-}
+
 ```
 
 or in a Java FX application: [<>](https://github.com/data2viz/data2viz/blob/master/examples/ex-natural-logscale/ex-natural-logscale-jvm/src/main/kotlin/NaturalLogScaleJvm.kt)

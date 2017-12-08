@@ -9,12 +9,12 @@ import io.data2viz.scale.scaleLinear
 
 fun main(args: Array<String>) {
     
-    val svgElement = selectOrCreateSvg().apply {
+    val root = selectOrCreateSvg().apply {
         setAttribute("width", "${width + margins.hMargins}")
         setAttribute("height", "${height + margins.vMargins}")
     }
 
-    svgElement.viz {
+    root.viz {
         naturalLogScale()
     }
 
