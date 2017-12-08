@@ -22,6 +22,7 @@ can be used as a multiplatform kotlin format library outside of any dataviz proj
 data2viz proposes to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
  visualizations by helping developer with IDE’s suggestions based on the current context.
 
+<img src="docs/img/rendering-jfx-dom.png" alt="Isomorphic visualization" width="800">
 
 ### Some DSL samples
 The internal DSL allows to create data visualization using hierarchical
