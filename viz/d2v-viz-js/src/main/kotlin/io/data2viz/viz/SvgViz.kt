@@ -28,7 +28,9 @@ fun selectOrCreateSvg(): SVGElement {
  * Bootstrap a VizContext on a existing SVG element.
  */
 fun Element.viz(init: VizContext.() -> Unit): VizContext {
-    val context = ParentElement(this)
+    val root = createSVGElement("g")
+    append(root)
+    val context = ParentElement(root)
     init(context)
     return context
 }
