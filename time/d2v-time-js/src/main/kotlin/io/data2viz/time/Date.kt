@@ -1,91 +1,101 @@
 package io.data2viz.time
 
-actual external class Date {
+typealias JsDate = io.data2viz.time.js.Date
 
-    actual public constructor()
-    actual public constructor(milliseconds: Long)
-    actual public constructor(year: Int, month: Int)
-    actual public constructor(year: Int, month: Int, day: Int)
-    actual public constructor(year: Int, month: Int, day: Int, hour: Int)
-    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int)
-    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int)
-    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int)
+val durationSecond = 1000
+val durationMinute = 60000
+val durationHour = 3600000
+val durationDay = 86400000
+val durationWeek = 604800000
 
-    actual public fun getTime(): Long
-    actual public fun getUTCHours(): Int
+actual fun currentYear(): Int = JsDate().getFullYear()
+actual fun currentMonth(): Int = JsDate().getMonth() + 1
+actual fun currentDay(): Int = JsDate().getDay()
+actual fun currentHour(): Int = JsDate().getHours()
+actual fun currentMinute(): Int = JsDate().getMinutes()
+actual fun currentSecond(): Int = JsDate().getSeconds()
 
-    actual public fun setUTCMinutes(minutes:Int, seconds:Int): Long
-    actual public fun setUTCHours(hours:Int, minutes:Int?, seconds:Int?): Long
-}
+actual class Date {
 
+    private var date: JsDate = JsDate()
 
-//actual external class Date actual constructor() {
+    actual constructor() {
+        date = JsDate()
+    }
 
-//    actual public constructor(milliseconds: Number)
-//    actual public constructor(dateString: String)
-//    actual public constructor(year: Int, month: Int)
-//    actual public constructor(year: Int, month: Int, day: Int)
-//    actual public constructor(year: Int, month: Int, day: Int, hour: Int)
-//    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int)
-//    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int)
-//    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Number)
+    actual constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int) {
+        date = JsDate(year, month - 1, day, hour, minute, second, millisecond)
+    }
 
-//    actual public fun getDate(): Long
-//    actual public fun getDay(): Int
-//    actual public fun getFullYear(): Int
-//    actual public fun getHours(): Int
-//    actual public fun getMilliseconds(): Int
-//    actual public fun getMinutes(): Int
-//    actual public fun getMonth(): Int
-//    actual public fun getSeconds(): Int
-//    actual public fun getTime(): Double
-//    actual public fun getTimezoneOffset(): Int
-//    actual public fun getUTCDate(): Int
-//    actual public fun getUTCDay(): Int
-//    actual public fun getUTCFullYear(): Int
+    private constructor(date: JsDate) {
+        this.date = JsDate(date.getTime())
+    }
+
+    actual constructor(date: Date) {
+        this.date = JsDate(date.date.getTime())
+    }
+
+    actual override fun toString(): String = date.toString()
+
+    actual fun minusMilliseconds(milliseconds: Int): Date {
+        return Date(JsDate(date.getTime() - 1))
+    }
+
+    actual fun isBefore(otherDate: Date): Boolean {
+        return date.getTime() < otherDate.date.getTime()
+    }
+
+    actual fun millisecondsBetween(otherDate: Date): Long {
+        return (otherDate.date.getTime() - date.getTime()).toLong()
+    }
+
+    actual fun daysBetween(otherDate: Date): Long {
+        return (millisecondsBetween(otherDate) - ((otherDate.getTimezoneOffset() - date.getTimezoneOffset()) * durationMinute)) / durationDay
+    }
+
+    actual fun getTimezoneOffset(): Int = date.getTimezoneOffset()
+
+//    actual fun plusSeconds(seconds:Long)
+//    actual fun plusMinutes(minutes:Long)
+//    actual fun plusHours(hours:Long)
+    actual fun plusDays(days: Long) {
+        date = JsDate(date.getTime() + (days * durationDay))
+    }
+//    actual fun plusMonths(months:Long)
+//    actual fun plusYears(years:Long)
+
+    actual fun setMillisecond(millisecond: Int) {
+        date.setMilliseconds(millisecond)
+    }
+
+    actual fun setSecond(second: Int) {
+        date.setSeconds(second)
+    }
+
+    actual fun setMinute(minute: Int) {
+        date.setMinutes(minute)
+    }
+
+    actual fun setHour(hour: Int) {
+        date.setHours(hour)
+    }
+//    actual fun setDayOfMonth(day:Int)
+//    actual fun setMonth(month:Int)
+//    actual fun setYear(year:Int)
+
+    actual fun millisecond(): Int = date.getMilliseconds()
+    actual fun second(): Int = date.getSeconds()
+    actual fun minute(): Int = date.getMinutes()
+    actual fun hour(): Int = date.getHours()
+    actual fun dayOfMonth(): Int = date.getDay()
+    actual fun month(): Int = date.getMonth() + 1
+    actual fun year(): Int = date.getFullYear()
+
+//    actual operator fun minus(otherDate:Date): Date
+
+//    actual public fun getTime(): Long
 //    actual public fun getUTCHours(): Int
-//    actual public fun getUTCMilliseconds(): Int
-//    actual public fun getUTCMinutes(): Int
-//    actual public fun getUTCMonth(): Int
-//    actual public fun getUTCSeconds(): Int
-//    actual public fun toDateString(): String
-//    actual public fun toISOString(): String
 
-//    public fun toJSON(): Json
-//    public fun toLocaleDateString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
-//    public fun toLocaleDateString(locales: String, options: LocaleOptions = definedExternally): String
-//    public fun toLocaleString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
-//    public fun toLocaleString(locales: String, options: LocaleOptions = definedExternally): String
-//    public fun toLocaleTimeString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
-//    public fun toLocaleTimeString(locales: String, options: LocaleOptions = definedExternally): String
-
-//    actual public fun toTimeString(): String
-//    actual public fun toUTCString(): String
-
-    /*actual public companion object {
-        actual public fun now(): Double
-        actual public fun parse(dateString: String): Double
-        actual public fun UTC(year: Int, month: Int): Double
-        actual public fun UTC(year: Int, month: Int, day: Int): Double
-        actual public fun UTC(year: Int, month: Int, day: Int, hour: Int): Double
-        actual public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int): Double
-        actual public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int): Double
-        actual public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Number): Double
-    }*/
-
-    /*actual public interface LocaleOptions {
-        actual public var localeMatcher: String?
-        actual public var timeZone: String?
-        actual public var hour12: Boolean?
-        actual public var formatMatcher: String?
-        actual public var weekday: String?
-        actual public var era: String?
-        actual public var year: String?
-        actual public var month: String?
-        actual public var day: String?
-        actual public var hour: String?
-        actual public var minute: String?
-        actual public var second: String?
-        actual public var timeZoneName: String?
-    }*/
-//}
+//    actual public fun setUTCMinutes(minutes:Int, seconds:Int): Long
+//    actual public fun setUTCHours(hours:Int, minutes:Int?, seconds:Int?): Long
+}

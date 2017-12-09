@@ -1,27 +1,103 @@
 package io.data2viz.time
 
-import java.time.Instant
+import java.time.Duration
 import java.time.LocalDateTime
+import java.time.Period
 import java.time.ZoneOffset
+import java.time.temporal.ChronoUnit
 
 val utc = ZoneOffset.UTC
 
+actual fun currentYear(): Int = LocalDateTime.now().year
+actual fun currentMonth(): Int = LocalDateTime.now().monthValue
+actual fun currentDay(): Int = LocalDateTime.now().dayOfMonth
+actual fun currentHour(): Int = LocalDateTime.now().hour
+actual fun currentMinute(): Int = LocalDateTime.now().minute
+actual fun currentSecond(): Int = LocalDateTime.now().second
+
 actual class Date {
 
-    var date: LocalDateTime = LocalDateTime.ofInstant(Instant.now(), utc)
+    private var date: LocalDateTime = LocalDateTime.now()
 
-    actual public constructor() { date = LocalDateTime.ofInstant(Instant.now(), utc) }
-    actual public constructor(milliseconds: Long) { date = LocalDateTime.ofInstant(Instant.ofEpochMilli(milliseconds), utc) }
-    actual public constructor(year: Int, month: Int)
-    actual public constructor(year: Int, month: Int, day: Int)
-    actual public constructor(year: Int, month: Int, day: Int, hour: Int)
-    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int)
-    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int)
+    actual public constructor() {
+        date = LocalDateTime.now()
+    }
+
+    private constructor(localDate: LocalDateTime) {
+        date = localDate
+    }
+
     actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int) {
         date = LocalDateTime.of(year, month, day, hour, minute, second, millisecond * 1000)
     }
 
-    actual public fun getTime(): Long = date.toInstant(utc).toEpochMilli()
+    actual public constructor(date: Date) {
+        this.date = date.date
+    }
+
+    actual override fun toString():String = date.toString()
+
+    actual fun minusMilliseconds(milliseconds: Int): Date {
+        return Date(date.minus(milliseconds.toLong(), ChronoUnit.MILLIS))
+    }
+
+    actual fun isBefore(otherDate: Date): Boolean = date.isBefore(otherDate.date)
+    actual fun millisecondsBetween(otherDate: Date): Long {
+        val diff = Duration.between(date, otherDate.date)
+        return diff.toMillis()
+    }
+    actual fun daysBetween(otherDate: Date): Long {
+        val diff = Duration.between(date, otherDate.date)
+        return diff.toDays()
+    }
+
+    actual fun getTimezoneOffset(): Int = 0
+
+//    actual fun plusSeconds(seconds:Long) { date = date.plusSeconds(seconds) }
+//    actual fun plusMinutes(minutes:Long) { date = date.plusMinutes(minutes) }
+//    actual fun plusHours(hours:Long) { date = date.plusHours(hours) }
+    actual fun plusDays(days:Long) { date = date.plusDays(days) }
+//    actual fun plusMonths(months:Long) { date = date.plusMonths(months) }
+//    actual fun plusYears(years:Long) { date = date.plusYears(years) }
+
+    actual fun setMillisecond(millisecond: Int) {
+        date = date.withNano(millisecond * 1000)
+    }
+
+    actual fun setSecond(second: Int) {
+        date = date.withSecond(second)
+    }
+
+    actual fun setMinute(minute: Int) {
+        date = date.withMinute(minute)
+    }
+
+    actual fun setHour(hour: Int) {
+        date = date.withHour(hour)
+    }
+
+//    actual fun setDayOfMonth(day: Int) {
+//        date = date.withDayOfMonth(day)
+//    }
+
+//    actual fun setMonth(month: Int) {
+//        date = date.withMonth(month)
+//    }
+
+//    actual fun setYear(year: Int) {
+//        date = date.withYear(year)
+//    }
+
+    actual fun millisecond(): Int = date.nano / 1000
+    actual fun second(): Int = date.second
+    actual fun minute(): Int = date.minute
+    actual fun hour(): Int = date.hour
+    actual fun dayOfMonth(): Int = date.dayOfMonth
+    actual fun month(): Int = date.monthValue
+    actual fun year(): Int = date.year
+
+
+    /*actual public fun getTime(): Long = date.toInstant(utc).toEpochMilli()
     actual public fun getUTCHours(): Int = date.hour
 
     actual public fun setUTCMinutes(minutes: Int, seconds: Int): Long {
@@ -38,7 +114,7 @@ actual class Date {
             date = date.withSecond(seconds)
         }
         return getTime()
-    }
+    }*/
 }
 
 //actual class Date actual constructor() {

@@ -3,14 +3,18 @@ package io.data2viz.time
 //var t0 = Date()
 //var t1 = Date()
 
-class Interval(val floori: (Date) -> Date, val offseti: (Date, Int) -> Date, val count: Int? = null, val field: Int? = null) {
+// TODO use Int instead of Long ?
+open class Interval(private val floori: (Date) -> Date,
+                    private val offseti: (Date, Long) -> Date,
+                    private val counti: ((Date, Date) -> Int)? = null,
+                    private val field: ((Date) -> Date)? = null) {
 
     /**
      * Alias for interval.floor. For example, d2v.timeYear(date) and d2v.timeYear.floor(date) are equivalent.
      */
-    fun interval(date: Date): Date {
+    /*fun interval(date: Date): Date {
         return floori(date)
-    }
+    }*/
 
     /**
      * Returns a new date representing the latest interval boundary date before or equal to date.
@@ -20,7 +24,7 @@ class Interval(val floori: (Date) -> Date, val offseti: (Date, Int) -> Date, val
      * Furthermore, the returned date is the minimum expressible value of the associated interval,
      * such that interval.floor(interval.floor(date) - 1) returns the preceeding interval boundary date.
      */
-    fun floor(date: Date): Date = interval(date)
+    fun floor(date: Date): Date = floori(Date(date))
 
     /**
      * Returns a new date representing the earliest interval boundary date after or equal to date.
@@ -31,7 +35,7 @@ class Interval(val floori: (Date) -> Date, val offseti: (Date, Int) -> Date, val
      * such that interval.ceil(interval.ceil(date) + 1) returns the following interval boundary date.
      */
     fun ceil(date: Date): Date {
-        var newDate = Date(date.getTime() - 1)
+        var newDate = Date(date.minusMilliseconds(1))
         newDate = floori(newDate)
         newDate = offseti(newDate, 1)
         newDate = floori(newDate)
@@ -46,9 +50,11 @@ class Interval(val floori: (Date) -> Date, val offseti: (Date, Int) -> Date, val
      * a new date with an identical time is returned.
      */
     fun round(date: Date): Date {
-        val d0 = interval(date)
+        val d0 = floor(date)
         val d1 = ceil(date)
-        return if ((date.getTime() - d0.getTime()) < (d1.getTime() - date.getTime())) d0 else d1
+        val millisecondsBetween1 = d0.millisecondsBetween(date)
+        val millisecondsBetween2 = date.millisecondsBetween(d1)
+        return if (millisecondsBetween1 < millisecondsBetween2) d0 else d1
     }
 
     /**
@@ -60,8 +66,8 @@ class Interval(val floori: (Date) -> Date, val offseti: (Date, Int) -> Date, val
      * For example, if date is today at 5:34 PM, then d2v.timeDay.offset(date, 1) returns 5:34 PM tomorrow
      * (even if daylight saving changes!).
      */
-    fun offset(date: Date, step: Int = 1): Date {
-        return offseti(Date(date.getTime()), step)
+    fun offset(date: Date, step: Long = 1): Date {
+        return offseti(Date(date), step)
     }
 
     /**
@@ -73,25 +79,66 @@ class Interval(val floori: (Date) -> Date, val offseti: (Date, Int) -> Date, val
      * offset by step intervals and floored.
      * Thus, two overlapping ranges may be consistent.
      */
-    fun range(start: Date, stop: Date, step: Int = 1): ArrayList<Date> {
+    fun range(start: Date, stop: Date, step: Long = 1): List<Date> {
         val range = arrayListOf<Date>()
         var current = ceil(start)
         if (step > 0) {
-            while (current.getTime() < stop.getTime()) {
-                current = floori(offseti(current, step))
+            while (current.isBefore(stop)) {
                 range.add(current)
+                current = floori(offseti(Date(current), step))
             }
         }
-        return range
+        return range.toList()
     }
 
     /**
      * Returns a new interval that is a filtered subset of this interval using the specified test function.
      * The test function is passed a date and should return true if and only if the specified date should be
      * considered part of the interval.
-     * The returned filtered interval does not support interval.count. See also interval.every.
+     * The returned filtered interval does not support interval.count.
+     * See also interval.every.
      */
-    /*fun filter(test:(Date)->Boolean) {
-        Interval()
-    }*/
+    fun filter(test:(Date)->Boolean) : Interval {
+        return Interval(
+                fun (date:Date): Date {
+                    var newDate = Date(date)
+                    while(!test(newDate)) {
+                        newDate = floori(date)
+                        newDate = newDate.minusMilliseconds(1)
+                    }
+                    return newDate
+                },
+                fun (date:Date, step:Long): Date {
+                    var newDate = Date(date)
+                    (step .. 0).forEach{ i ->
+                        while(!test(newDate)) {
+                            newDate = offseti(date, 1)
+                        }
+                    }
+                    return newDate
+                }
+        )
+    }
+
+    /**
+     * interval.filter = function(test) {
+    return newInterval(function(date) {
+    if (date >= date) while (floori(date), !test(date)) date.setTime(date - 1);
+    }, function(date, step) {
+    if (date >= date) while (--step >= 0) while (offseti(date, 1), !test(date)) {} // eslint-disable-line no-empty
+    });
+    };
+     */
+
+    fun every(step:Int): Interval {
+        checkNotNull(counti, { "The given Count function must not be null." })
+        require(step > 0, { " The given Step parameter must be greater than zero."})
+        if (step == 1) return this
+        return filter { d -> count(date(1970, 1, 1), d) % step == 0; }
+    }
+
+    fun count(start: Date, stop: Date): Int {
+        checkNotNull(counti, { "The given Count function must not be null." })
+        return counti!!.invoke(floor(start), floor(stop))
+    }
 }

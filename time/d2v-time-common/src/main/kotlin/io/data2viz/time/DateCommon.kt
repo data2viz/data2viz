@@ -1,6 +1,81 @@
 package io.data2viz.time
 
+fun date(
+        year: Int          = 0,
+        month:Int          = 1,
+        day: Int           = 1,
+        hour: Int          = 0,
+        minute: Int        = 0,
+        second: Int        = 0,
+        millisecond: Int   = 0): Date {
+    return Date(year, month, day, hour, minute, second, millisecond)
+}
+
+fun date(): Date {
+    return Date(currentYear(), currentMonth(), currentDay(), currentHour(), currentMinute(), currentSecond(), 0)
+}
+
+expect fun currentYear(): Int
+expect fun currentMonth(): Int
+expect fun currentDay(): Int
+expect fun currentHour(): Int
+expect fun currentMinute(): Int
+expect fun currentSecond(): Int
+
+/**
+ * A date-time without a time-zone in the ISO-8601 calendar system,
+ * such as {@code 2007-12-03T10:15:30}.
+ */
 expect class Date {
+
+    constructor()
+    constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int)
+    constructor(date:Date)
+
+    override fun toString():String
+
+    fun isBefore(otherDate:Date): Boolean
+    fun millisecondsBetween(otherDate:Date): Long
+    fun daysBetween(otherDate:Date): Long
+
+    fun getTimezoneOffset(): Int
+
+//    fun plusSeconds(seconds:Long)
+//    fun plusMinutes(minutes:Long)
+//    fun plusHours(hours:Long)
+    fun plusDays(days:Long)
+//    fun plusMonths(months:Long)
+//    fun plusYears(years:Long)
+
+    fun minusMilliseconds(milliseconds:Int): Date
+
+    fun setMillisecond(millisecond:Int)
+    fun setSecond(second:Int)
+    fun setMinute(minute:Int)
+    fun setHour(hour:Int)
+//    fun setDayOfMonth(day:Int)
+//    fun setMonth(month:Int)
+//    fun setYear(year:Int)
+
+    fun millisecond(): Int
+    fun second(): Int
+    fun minute(): Int
+    fun hour(): Int
+    fun dayOfMonth(): Int
+    fun month(): Int
+    fun year(): Int
+
+//    operator fun minus(otherDate:Date): Date
+
+//    fun getTime(): Long
+
+//    fun getUTCHours(): Int
+
+//    fun setUTCMinutes(minutes:Int, seconds:Int): Long
+//    fun setUTCHours(hours:Int, minutes:Int?, seconds:Int?): Long
+}
+
+/*expect class Date {
 
     public constructor()
     public constructor(milliseconds: Long)
@@ -16,7 +91,7 @@ expect class Date {
 
     public fun setUTCMinutes(minutes:Int, seconds:Int): Long
     public fun setUTCHours(hours:Int, minutes:Int?, seconds:Int?): Long
-}
+}*/
 
 //expect class Date() {
 
