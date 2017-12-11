@@ -1,3 +1,5 @@
+@file:Suppress("unused", "FunctionName")
+
 package io.data2viz.scale
 
 import io.data2viz.test.TestBase
@@ -10,8 +12,8 @@ class ScaleQuantileTests : TestBase() {
     fun quantile_expected_defaults_LEGACY() {
         val scale = scaleQuantile<Double>()
 
-        scale.domain shouldBe arrayListOf()
-        scale.range shouldBe arrayListOf()
+        scale.domain shouldBe listOf()
+        scale.range shouldBe listOf()
     }
 
     @Test
@@ -20,16 +22,16 @@ class ScaleQuantileTests : TestBase() {
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
 
-        arrayListOf<Double>(3.0, 6.0, 6.9, 7.0, 7.1).map { scale(it) } shouldBe arrayListOf(0, 0, 0, 0, 0)
-        arrayListOf<Double>(8.0, 8.9).map { scale(it) } shouldBe arrayListOf(1, 1)
-        arrayListOf<Double>(9.0, 9.1, 10.0, 13.0).map { scale(it) } shouldBe arrayListOf(2, 2, 2, 2)
-        arrayListOf<Double>(14.9, 15.0, 15.1, 16.0, 20.0).map { scale(it) } shouldBe arrayListOf(3, 3, 3, 3, 3)
+        listOf(3.0, 6.0, 6.9, 7.0, 7.1).map { scale(it) } shouldBe listOf(0, 0, 0, 0, 0)
+        listOf(8.0, 8.9).map { scale(it) } shouldBe listOf(1, 1)
+        listOf(9.0, 9.1, 10.0, 13.0).map { scale(it) } shouldBe listOf(2, 2, 2, 2)
+        listOf(14.9, 15.0, 15.1, 16.0, 20.0).map { scale(it) } shouldBe listOf(3, 3, 3, 3, 3)
 
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 9.0, 10.0, 13.0, 15.0, 16.0, 20.0)
-        arrayListOf<Double>(3.0, 6.0, 6.9, 7.0, 7.1).map { scale(it) } shouldBe arrayListOf(0, 0, 0, 0, 0)
-        arrayListOf<Double>(8.0, 8.9).map { scale(it) } shouldBe arrayListOf(1, 1)
-        arrayListOf<Double>(9.0, 9.1, 10.0, 13.0).map { scale(it) } shouldBe arrayListOf(2, 2, 2, 2)
-        arrayListOf<Double>(14.9, 15.0, 15.1, 16.0, 20.0).map { scale(it) } shouldBe arrayListOf(3, 3, 3, 3, 3)
+        listOf(3.0, 6.0, 6.9, 7.0, 7.1).map { scale(it) } shouldBe listOf(0, 0, 0, 0, 0)
+        listOf(8.0, 8.9).map { scale(it) } shouldBe listOf(1, 1)
+        listOf(9.0, 9.1, 10.0, 13.0).map { scale(it) } shouldBe listOf(2, 2, 2, 2)
+        listOf(14.9, 15.0, 15.1, 16.0, 20.0).map { scale(it) } shouldBe listOf(3, 3, 3, 3, 3)
     }
 
     @Test
@@ -46,7 +48,7 @@ class ScaleQuantileTests : TestBase() {
         val scale = scaleQuantile<Int>()
         scale.domain = listOf(6.0, 3.0, 7.0, 8.0, 8.0, 13.0, 20.0, 15.0, 16.0, 10.0)
 
-        scale.domain shouldBe arrayListOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
+        scale.domain shouldBe listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
     }
 
     @Test
@@ -54,7 +56,7 @@ class ScaleQuantileTests : TestBase() {
         val scale = scaleQuantile<Int>()
         scale.domain = listOf(1.0, 2.0, .0, .0)
 
-        scale.domain shouldBe arrayListOf(.0, .0, 1.0, 2.0)
+        scale.domain shouldBe listOf(.0, .0, 1.0, 2.0)
     }
 
     @Test
@@ -62,7 +64,7 @@ class ScaleQuantileTests : TestBase() {
         val scale = scaleQuantile<Int>()
         scale.domain = listOf(1.0, 2.0, Double.NaN, 7.0, 8.0, Double.NaN, 20.0, Double.NaN)
 
-        scale.domain shouldBe arrayListOf(1.0, 2.0, 7.0, 8.0, 20.0)
+        scale.domain shouldBe listOf(1.0, 2.0, 7.0, 8.0, 20.0)
     }
 
     @Test
@@ -71,11 +73,11 @@ class ScaleQuantileTests : TestBase() {
 
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
-        scale.quantiles() shouldBe arrayListOf(7.25, 9.0, 14.5)
+        scale.quantiles() shouldBe listOf(7.25, 9.0, 14.5)
 
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 9.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
-        scale.quantiles() shouldBe arrayListOf(7.5, 9.0, 14.0)
+        scale.quantiles() shouldBe listOf(7.5, 9.0, 14.0)
     }
 
     @Test
@@ -84,16 +86,16 @@ class ScaleQuantileTests : TestBase() {
 
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
-        scale.quantiles() shouldBe arrayListOf(7.25, 9.0, 14.5)
+        scale.quantiles() shouldBe listOf(7.25, 9.0, 14.5)
 
         scale.range = listOf(0, 1)
-        scale.quantiles() shouldBe arrayListOf(9.0)
+        scale.quantiles() shouldBe listOf(9.0)
 
         scale.range = listOf(0, 0, 0, 0, 0)
-        scale.quantiles() shouldBe arrayListOf(6.8, 8.0, 11.2, 15.2)
+        scale.quantiles() shouldBe listOf(6.8, 8.0, 11.2, 15.2)
 
         scale.range = listOf(0, 0, 0, 0, 0, 0)
-        scale.quantiles() shouldBe arrayListOf(6.5, 8.0, 9.0, 13.0, 15.5)
+        scale.quantiles() shouldBe listOf(6.5, 8.0, 9.0, 13.0, 15.5)
     }
 
     @Test
@@ -106,10 +108,10 @@ class ScaleQuantileTests : TestBase() {
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(a, b, c, a)
 
-        arrayListOf<Double>(3.0, 6.0, 6.9, 7.0, 7.1).map { scale(it) } shouldBe arrayListOf(a, a, a, a, a)
-        arrayListOf<Double>(8.0, 8.9).map { scale(it) } shouldBe arrayListOf(b, b)
-        arrayListOf<Double>(9.0, 9.1, 10.0, 13.0).map { scale(it) } shouldBe arrayListOf(c, c, c, c)
-        arrayListOf<Double>(14.9, 15.0, 15.1, 16.0, 20.0).map { scale(it) } shouldBe arrayListOf(a, a, a, a, a)
+        listOf(3.0, 6.0, 6.9, 7.0, 7.1).map { scale(it) } shouldBe listOf(a, a, a, a, a)
+        listOf(8.0, 8.9).map { scale(it) } shouldBe listOf(b, b)
+        listOf(9.0, 9.1, 10.0, 13.0).map { scale(it) } shouldBe listOf(c, c, c, c)
+        listOf(14.9, 15.0, 15.1, 16.0, 20.0).map { scale(it) } shouldBe listOf(a, a, a, a, a)
     }
 
     @Test
@@ -118,10 +120,10 @@ class ScaleQuantileTests : TestBase() {
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
 
-        scale.invertExtent(0) shouldBe arrayListOf(3.0, 7.25)
-        scale.invertExtent(1) shouldBe arrayListOf(7.25, 9.0)
-        scale.invertExtent(2) shouldBe arrayListOf(9.0, 14.5)
-        scale.invertExtent(3) shouldBe arrayListOf(14.5, 20.0)
+        scale.invertExtent(0) shouldBe listOf(3.0, 7.25)
+        scale.invertExtent(1) shouldBe listOf(7.25, 9.0)
+        scale.invertExtent(2) shouldBe listOf(9.0, 14.5)
+        scale.invertExtent(3) shouldBe listOf(14.5, 20.0)
     }
 
     @Test
@@ -132,8 +134,8 @@ class ScaleQuantileTests : TestBase() {
         val b = {}
         scale.range = listOf(a, b)
 
-        scale.invertExtent(a) shouldBe arrayListOf(3.0, 9.0)
-        scale.invertExtent(b) shouldBe arrayListOf(9.0, 20.0)
+        scale.invertExtent(a) shouldBe listOf(3.0, 9.0)
+        scale.invertExtent(b) shouldBe listOf(9.0, 20.0)
     }
 
     @Test
@@ -145,7 +147,7 @@ class ScaleQuantileTests : TestBase() {
         shouldThrow<IllegalStateException> { scale.invertExtent(10) }
 
         scale.range = listOf(4, 10)
-        val notFound = arrayListOf(Double.NaN, Double.NaN)
+        val notFound = listOf(Double.NaN, Double.NaN)
         scale.invertExtent(-1) shouldBe notFound
         scale.invertExtent(0) shouldBe notFound
         scale.invertExtent(2) shouldBe notFound
@@ -157,8 +159,8 @@ class ScaleQuantileTests : TestBase() {
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 0)
 
-        scale.invertExtent(0) shouldBe arrayListOf(3.0, 7.25)
-        scale.invertExtent(1) shouldBe arrayListOf(7.25, 9.0)
-        scale.invertExtent(20) shouldBe arrayListOf(9.0, 14.5)
+        scale.invertExtent(0) shouldBe listOf(3.0, 7.25)
+        scale.invertExtent(1) shouldBe listOf(7.25, 9.0)
+        scale.invertExtent(20) shouldBe listOf(9.0, 14.5)
     }
 }

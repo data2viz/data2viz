@@ -1,14 +1,14 @@
 package io.data2viz.axis
 
+import io.data2viz.scale.scales
 import io.data2viz.viz.selectOrCreateSvg
 import io.data2viz.viz.viz
-import io.data2viz.scale.scaleLinear
 
 
 @Suppress("unused")
 fun showViz() {
 
-    val scaleX = scaleLinear {
+    val scaleX = scales.continuous.linear {
         domain = listOf(.0, 15000.0)
         range = listOf(.0, 500.0)
     }

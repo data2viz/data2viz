@@ -9,7 +9,7 @@ class ScaleIdentityTests : TestBase() {
 
     @Test
     fun identity_x_return_y_equals_x() {
-        val scale = scaleIdentity()
+        val scale = scales.continuous.identity()
 
         scale(1.0) shouldBe 1.0
         scale(100.0) shouldBe 100.0
@@ -22,7 +22,7 @@ class ScaleIdentityTests : TestBase() {
 
     @Test
     fun identity_invert_y_return_x_equals_y() {
-        val scale = scaleIdentity()
+        val scale = scales.continuous.identity()
 
         scale.invert(1.0) shouldBe 1.0
         scale.invert(100.0) shouldBe 100.0
@@ -35,7 +35,7 @@ class ScaleIdentityTests : TestBase() {
 
     @Test
     fun identity_domain_range_clamp_are_final_values_exceptions() {
-        val scale = scaleIdentity()
+        val scale = scales.continuous.identity()
 
         scale.range shouldBe arrayListOf(.0, 1.0)
         scale.domain shouldBe arrayListOf(.0, 1.0)

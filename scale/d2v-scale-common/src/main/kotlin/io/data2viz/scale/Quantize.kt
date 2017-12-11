@@ -2,11 +2,12 @@ package io.data2viz.scale
 
 /**
  * Quantize scales are similar to linear scales, except they use a discrete rather than continuous range.
+ *
  * The continuous input domain is divided into uniform segments based on the number of values
  * in (i.e., the cardinality of) the output range.
  * Each range value y can be expressed as a quantized linear function of the domain value x: y = m round(x) + b.
  */
-class QuantizeScale<R> : DomainRangedScale<R> () {
+class QuantizeScale<R> : DomainRangedScale<R>(), ContinuousDomain<Double>, DiscreteRange<R> {
 
     private var domainStart = .0
     private var domainEnd = 1.0
@@ -26,6 +27,8 @@ class QuantizeScale<R> : DomainRangedScale<R> () {
     override var domain: List<Double>
         get() = _domain.toList()
         set(value) {
+
+            //todo interval -> start end
             if (value.size != 2) throw IllegalArgumentException("Quantize Scale can only accept a domain with 2 values.")
             domainStart = value.first()
             domainEnd = value.last()

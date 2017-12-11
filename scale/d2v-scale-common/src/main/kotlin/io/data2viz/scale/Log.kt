@@ -1,8 +1,5 @@
 package io.data2viz.scale
 
-import io.data2viz.interpolate.interpolateNumber
-import io.data2viz.interpolate.interpolateRound
-import io.data2viz.interpolate.uninterpolateNumber
 import kotlin.math.*
 
 /**
@@ -10,10 +7,10 @@ import kotlin.math.*
  * before the output range value is computed.
  * The mapping to the range value y can be expressed as a function of the domain value x: y = m log(x) + b.
  */
-internal class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> (Double) -> R,
-                       uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
-                       rangeComparator: Comparator<R>? = null)
-    : ContinuousScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
+internal class LogScale(var base: Double = 10.0, interpolateRange: (Double, Double) -> (Double) -> Double,
+                       uninterpolateRange: ((Double, Double) -> (Double) -> Double)? = null,
+                       rangeComparator: Comparator<Double>? = null)
+    : ContinuousScale<Double>(interpolateRange, uninterpolateRange, rangeComparator) {
 
     /**
      * As log(0) = -∞, a log scale domain must be strictly-positive or strictly-negative;
@@ -119,11 +116,3 @@ internal class LogScale<R>(var base: Double = 10.0, interpolateRange: (R, R) -> 
         return if (domainReversed) tickList.reversed() else tickList
     }
 }
-
-fun scaleLog(base: Double = 10.0, init:ContinuousScale<Double>.() -> Unit = {}): ContinuousScale<Double> = 
-        LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
-
-/**
- * TODO Test
- */
-fun scaleLogRound(base: Double = 10.0): ContinuousScale<Double> = LogScale(base, ::interpolateRound, ::uninterpolateNumber, naturalOrder())

@@ -11,8 +11,8 @@ class ScaleQuantizeTests : TestBase() {
         val scale = scaleQuantize<Double>()
         scale.range = listOf(.0, 1.0)
 
-        scale.domain shouldBe arrayListOf(.0, 1.0)
-        scale.range shouldBe arrayListOf(.0, 1.0)
+        scale.domain shouldBe listOf(.0, 1.0)
+        scale.range shouldBe listOf(.0, 1.0)
         scale(-1.0) shouldBe .0
         scale(.0) shouldBe .0
         scale(.25) shouldBe .0
@@ -93,10 +93,10 @@ class ScaleQuantizeTests : TestBase() {
         val scale = scaleQuantize<Double>()
         scale.range = listOf(0.0, 1.0, 2.0, 3.0)
 
-        scale.invertExtent(.0) shouldBe arrayListOf(.0, .25)
-        scale.invertExtent(1.0) shouldBe arrayListOf(.25, .5)
-        scale.invertExtent(2.0) shouldBe arrayListOf(.5, .75)
-        scale.invertExtent(3.0) shouldBe arrayListOf(.75, 1.0)
+        scale.invertExtent(.0) shouldBe listOf(.0, .25)
+        scale.invertExtent(1.0) shouldBe listOf(.25, .5)
+        scale.invertExtent(2.0) shouldBe listOf(.5, .75)
+        scale.invertExtent(3.0) shouldBe listOf(.75, 1.0)
     }
 
     @Test
@@ -106,15 +106,15 @@ class ScaleQuantizeTests : TestBase() {
         val b = {}
         scale.range = listOf(a, b)
 
-        scale.invertExtent(a) shouldBe arrayListOf(.0, .5)
-        scale.invertExtent(b) shouldBe arrayListOf(.5, 1.0)
+        scale.invertExtent(a) shouldBe listOf(.0, .5)
+        scale.invertExtent(b) shouldBe listOf(.5, 1.0)
     }
 
     @Test
     fun quantize_invertExtent_returns_NaN_NaN_when_given_value_not_in_the_range_LEGACY() {
         val scale = scaleQuantize<Double>()
 
-        val notFound = arrayListOf(Double.NaN, Double.NaN)
+        val notFound = listOf(Double.NaN, Double.NaN)
         scale.invertExtent(-1.0) shouldBe notFound
         scale.invertExtent(.5) shouldBe notFound
         scale.invertExtent(2.0) shouldBe notFound
@@ -125,14 +125,14 @@ class ScaleQuantizeTests : TestBase() {
         val scale = scaleQuantize<Double>()
         scale.range = listOf(0.0, 1.0, 2.0, 0.0)
 
-        scale.invertExtent(.0) shouldBe arrayListOf(.0, .25)
-        scale.invertExtent(1.0) shouldBe arrayListOf(.25, .5)
+        scale.invertExtent(.0) shouldBe listOf(.0, .25)
+        scale.invertExtent(1.0) shouldBe listOf(.25, .5)
     }
 
     @Test
     fun quantize_invertExtent_y_is_exactly_consistent_with_quantize_x_LEGACY() {
         val scale = scaleQuantize<Double>()
-        scale.range = (0 until 10).map({it.toDouble()}).toMutableList()
+        scale.range = (0 until 10).map({it.toDouble()}).toList()
         scale.domain = listOf(4.2, 6.2)
 
         scale.range.forEach { r ->

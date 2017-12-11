@@ -43,8 +43,3 @@ class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Double)
     }
 }
 
-fun scalePow(exponent: Double = 1.0): PowerScale<Double> = PowerScale(exponent, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
-fun scalePowRound(exponent: Double = 1.0): PowerScale<Double> = PowerScale(exponent, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
-
-fun scaleSqrt(): PowerScale<Double> = PowerScale(.5, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
-fun scaleSqrtRound(): PowerScale<Double> = PowerScale(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder())

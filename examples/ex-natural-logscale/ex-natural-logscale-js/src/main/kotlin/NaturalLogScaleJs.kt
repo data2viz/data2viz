@@ -2,7 +2,6 @@ package io.data2viz.examples.naturalLogScale
 
 import io.data2viz.viz.selectOrCreateSvg
 import io.data2viz.viz.viz
-import io.data2viz.scale.scaleLinear
 
 
 @Suppress("unused")

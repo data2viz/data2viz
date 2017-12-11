@@ -17,13 +17,13 @@ val height = 500.0 - margins.vMargins
 
 
 // linear scale domain 0..100 is mapped to 0..width
-val xScale = scaleLinear {
+val xScale = scales.continuous.linear {
     domain = listOf(.0, 100.0)
     range = listOf(.0, width)
 }
 
 // log scale
-val yScale = scaleLog(kotlin.math.E) {
+val yScale = scales.continuous.log (kotlin.math.E) {
     domain = listOf(kotlin.math.exp(0.0), kotlin.math.exp(9.0))
     range = listOf(height, .0) // <- y is mapped in the reverse order (in SVG, javafx (0,0) is top left.
 }
@@ -43,6 +43,7 @@ fun VizContext.naturalLogScale() {
 
     group {
         transform {
+
             translate(x = -10.0)
         }
         axis(Orient.LEFT, yScale) {

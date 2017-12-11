@@ -6,7 +6,7 @@ import io.data2viz.format.Type
 import io.data2viz.format.formatter
 
 
-val scaleX = scaleLinear {
+val scaleX = scales.continuous.linear {
     domain = listOf(.0, 15000.0)
     range = listOf(.0, 500.0)
 }

@@ -1,3 +1,5 @@
+@file:Suppress("unused", "FunctionName")
+
 package io.data2viz.scale
 
 import io.data2viz.test.TestBase

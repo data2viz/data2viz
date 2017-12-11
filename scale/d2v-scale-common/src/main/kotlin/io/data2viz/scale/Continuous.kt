@@ -97,8 +97,8 @@ open class ContinuousScale<R>(
             check(_domain.size == _range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val uninterpolateFunc = if (clamp) uninterpolateClamp(::uninterpolateDomain) else ::uninterpolateDomain
             output =
-                    if (_domain.size > 2 || _range.size > 2) polymap(uninterpolateFunc, interpolateRange)
-                    else bimap(uninterpolateFunc, interpolateRange)
+                    if (_domain.size > 2) polymap(uninterpolateFunc)
+                    else bimap(uninterpolateFunc)
         }
 
         return output?.invoke(domainValue) ?: throw IllegalStateException()
@@ -152,8 +152,7 @@ open class ContinuousScale<R>(
         }
     }
 
-    private fun bimap(deinterpolateDomain: (Double, Double) -> (Double) -> Double,
-                      reinterpolateRange: (R, R) -> (Double) -> R): (Double) -> R {
+    private fun bimap(deinterpolateDomain: (Double, Double) -> (Double) -> Double): (Double) -> R {
 
         val d0 = _domain[0]
         val d1 = _domain[1]
@@ -165,10 +164,10 @@ open class ContinuousScale<R>(
 
         if (d1 < d0) {
             d = deinterpolateDomain(d1, d0)
-            r = reinterpolateRange(r1, r0)
+            r = interpolateRange(r1, r0)
         } else {
             d = deinterpolateDomain(d0, d1)
-            r = reinterpolateRange(r0, r1)
+            r = interpolateRange(r0, r1)
         }
 
         return { x: Double -> r(d(x)) }
@@ -198,8 +197,7 @@ open class ContinuousScale<R>(
         return { x: R -> d(r(x)) }
     }
 
-    private fun polymap(uninterpolateDomain: (Double, Double) -> (Double) -> Double,
-                        interpolateRange: (R, R) -> (Double) -> R): (Double) -> R {
+    private fun polymap(uninterpolateDomain: (Double, Double) -> (Double) -> Double): (Double) -> R {
 
         val d0 = _domain.first()
         val d1 = _domain.last()

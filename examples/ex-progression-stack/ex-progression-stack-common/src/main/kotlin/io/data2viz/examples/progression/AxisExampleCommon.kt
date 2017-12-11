@@ -1,13 +1,10 @@
 package io.data2viz.examples.progression
 
-import io.data2viz.axis.*
 import io.data2viz.viz.VizContext
 import io.data2viz.scale.*
-import io.data2viz.format.Type
-import io.data2viz.format.formatter
 
 
-val scaleX = scaleLinear {
+val scaleX = scales.continuous.linear {
     domain = listOf(.0, 15000.0)
     range = listOf(.0, 500.0)
 }

@@ -3,20 +3,6 @@ package io.data2viz.scale
 import kotlin.math.floor
 import kotlin.math.max
 
-// TODO move to array module
-fun quantile(values: List<Double>, p: Double, f: (Double, Int, List<Double>) -> Double = { x, _, _ -> x }): Double {
-    require(values.isNotEmpty(), { "Values must not be empty." })
-
-    val size = values.size
-    if (p <= 0.0 || size < 2)
-        return f(values[0], size - 1 - 1, values)
-
-    val h = (size - 1) * p
-    val i = floor(h).toInt()
-    val a = f(values[i], i, values)
-    val b = f(values[i + 1], i + 1, values)
-    return a + (b - a) * (h - i)
-}
 
 abstract class DomainRangedScale<R> : RangeableScale<Double, R> {
 
@@ -112,3 +98,18 @@ class QuantileScale<R> : DomainRangedScale<R> () {
 }
 
 fun <R> scaleQuantile(): QuantileScale<R> = QuantileScale()
+
+// TODO move to array module
+fun quantile(values: List<Double>, p: Double, f: (Double, Int, List<Double>) -> Double = { x, _, _ -> x }): Double {
+    require(values.isNotEmpty(), { "Values must not be empty." })
+
+    val size = values.size
+    if (p <= 0.0 || size < 2)
+        return f(values[0], size - 1 - 1, values)
+
+    val h = (size - 1) * p
+    val i = floor(h).toInt()
+    val a = f(values[i], i, values)
+    val b = f(values[i + 1], i + 1, values)
+    return a + (b - a) * (h - i)
+}

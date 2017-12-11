@@ -15,6 +15,8 @@ class ScaleLogTests : TestBase() {
         scale(100.0) shouldBe 1.0
     }
 
+    private fun scaleLog(): LogScale  = scales.continuous.log() as LogScale
+
     @Test
     fun log_x_maps_a_number_x_to_a_number_y_LEGACY() {
         val scale = (scaleLog() as LogScale)

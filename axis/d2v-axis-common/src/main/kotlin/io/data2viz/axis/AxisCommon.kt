@@ -96,9 +96,6 @@ class AxisElement<D>(val orient: Orient, val scale: ContinuousScale<Double>)  {
 enum class Orient {
     TOP, BOTTOM, LEFT, RIGHT;
     
-    fun top(toDo:()-> Unit) {
-        if (this == TOP) toDo()
-    }
     fun isVertical() = (this == LEFT || this == RIGHT)
     fun isHorizontal() = (this == TOP || this == BOTTOM)
 }
