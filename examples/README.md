@@ -7,4 +7,6 @@ This directory holds examples on how you can use data2viz.
 - LogScale, ContinuousScale.
 - Path 
 
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" ><
 <img src="ex-natural-logscale/docs/natural-log-scale-jfx.png" width="400">
+</a>

@@ -12,7 +12,8 @@ on each platform.
 It is currently possible to use it in the browser (JavaScript + SVG) or in the JVM (Bytecode + JavaFx).
 
 The code is separated in modules that can be independently used. Some are specifically designed for visualization 
-([d2v-path](https://github.com/data2viz/data2viz/tree/master/path), 
+([d2v-axis](https://github.com/data2viz/data2viz/tree/master/axis),
+[d2v-path](https://github.com/data2viz/data2viz/tree/master/path),
 [d2v-shape](https://github.com/data2viz/data2viz/tree/master/shape), 
 [d2v-viz](https://github.com/data2viz/data2viz/tree/master/viz)) while others can be used outside of dataviz projects. 
 For example, 
@@ -24,7 +25,7 @@ data2viz proposes to develop data visualizations through a fully typed DSL. It s
 
 <img src="docs/img/rendering-jfx-dom.png" alt="Isomorphic visualization" width="800">
 
-### Some DSL samples
+## Some DSL samples
 The internal DSL allows to create data visualization using hierarchical
 code that should be easy to understand.
 
@@ -66,11 +67,11 @@ compilation phase.
  <br>a sample with axis, animation, scaling, ...
 </a>
 
-### Current status && Roadmap
+## Current status && Roadmap
 
 <img src="docs/img/current-progress.png" width="850">
 
-#### V0.3 80%: 
+### V0.3 80%: 
 The main purpose of this version is to propose the multiplatform bootstrap API allowing to build
 visualizations in a common module and deploy them indifferently in the browser or as a JavaFx 
 application.
@@ -83,25 +84,25 @@ This version also contains some utility packages:
   - format: to simplify and provide an uniform way of formating numbers in Js and JVM,
   - time and time-format: unified way of managing time for dataviz.
 
-#### V0.4:
+### V0.4:
 Based on the visual elements, components for charting (chord, sankey, hierarchy, ...)
 
-#### V0.5:
+### V0.5:
 First version of a charting API (inspired by vega-lite)
 
-#### V0.6:
+### V0.6:
 selection API (preparing dynamic visualizations)
 
-#### V0.7:
+### V0.7:
 DSL for dynamic visualisations (timer, transition, ease, zoom, drag)
 
-#### V0.8:
+### V0.8:
 Provide the geographic API with some geo projections.
 
-#### V0.9:
+### V0.9:
 Polishing APIs and DSLs.
 
-### Performances
+## Performances
 
 Performances is a difficult subject because a lot of parameter have an influence on the global 
 performance of a JavaScript application: the browser, the type of executed code.
@@ -115,10 +116,10 @@ test it inside your browser.
  <br>a sample with voronoi, animation.
 </a>
 
-### Tests
+## Tests
 Tests are executed through karma and mocha and included in the build.
 
-### How can I use it?
+## How can I use it?
 
 The journey to version 1.0 should take few more months but you can play with it.
 

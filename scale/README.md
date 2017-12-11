@@ -1,6 +1,6 @@
 
 
-Scale is about the mapping of a dimension of a domain object (input) to a visual representation
+Scale is about mapping a dimension of a domain object (input) to a visual representation
 (output).
 
 The most simple example you can think of is the mapping of a real dimension (for example the 
@@ -11,23 +11,19 @@ size of the population) to a dimension inside the visualization (for example a h
 The visual output of scale can be a lot of things:
  - a dimension that could be used as a size, a thickness, a speed, a delay, a translation,....
  - a color, 
- - 
-
-Scales play a enormous role in dataviz. 
 
 
-Some definitions
+Some definitions:
 
-**Quantitative** : represented by an number.
+- **Quantitative** : represented by an number.
 
-**Continuous**: when the dimension can take all the values between a range. 
-Ex: a size between 0 m and 2 m.
+- **Continuous**: when the dimension can take all the values between a range.
+Ex: a size between 0 meter and 2 meters.
  
-**Discrete** : limited number of values without meaning between those values (Ex:
+- **Discrete** : limited number of values without meaning between those values (Ex:
 Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
 
 In scales, both inputs and outputs can be continuous or discrete.
-
 
 
 domain contains the bounds of the interval that is going to be transformed.
@@ -51,7 +47,7 @@ between red and blue.
 
 ## Clamping
 
-What happends if the scale is asked to process a number outside of the domain? 
+What happens if the scale is asked to process a number outside of the domain?
 That’s what clamping controls. If it is set, then the bounds of the range are 
 the minimum and maximum value that can be returned by the scale. Else, the 
 same transformation applies to all numbers, whether they fall within the 
@@ -70,17 +66,24 @@ y.domain([d3.min(data), d3.max(data)]); // domain takes bounds as arguments, not
 y.domain() // [-2.347, 7.431];
 y.nice() // [-3, 8]
 
-## Continuous and discrete dimensions
 
+## Continuous and discrete dimensions
 
 ### Quantize
 Quantize works with a discrete range: in other terms, the output of quantize 
 can only take a certain number of values.
 
 continuous -> discrete
+0.0..1.0   -> a, b, c
+0.0..1.0   -> reb, green, blue
+0.0..1.0   -> 0.1, 0.2, 0.3
+0.0..1.0   -> {x -> x}, {x-> x * x}, {x -> x * x * x}  // <- range can be a function
 
+The invertExtent function gives the extent for a given range:
+0.0..0.333      <- a
+0.333..0.667    <- green
+0.667..1.0      <- 0.3
 
-For instance:
 
 ### Quantile
 
@@ -96,4 +99,14 @@ discrete -> discrete
 discrete -> continuous
 
 
+### Band
+
+BandScale is a useful scale for rendering bar charts. Its range defines the x dimension
+of the chart. It divides the range size in bands with
+band.width = range.extent / domain.size.
+
+The padding property defines the left and right padding of each band in percent of the
+band.width.
+
+discrete -> continuous
 
