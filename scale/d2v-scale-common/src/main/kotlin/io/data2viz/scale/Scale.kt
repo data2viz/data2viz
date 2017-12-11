@@ -31,6 +31,16 @@ interface Scale<D, out R> {
 interface DiscreteDomain<R>
 interface DiscreteRange<R>
 interface ContinuousDomain<T>
+
+interface StrictlyContinuousDomain<T> {
+    var domain: StrictlyContinuous<T>
+}
+
+data class StrictlyContinuous<D>(val start:D, val end:D)
+
+fun <D> intervalOf(start:D, end:D) = StrictlyContinuous(start,end)
+fun <D> intervalOf(vararg  values:D) = StrictlyContinuous(values.first(), values.last())
+
 interface ContinuousRange<T>
 
 
