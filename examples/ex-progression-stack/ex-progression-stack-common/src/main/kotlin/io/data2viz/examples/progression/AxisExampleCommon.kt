@@ -13,7 +13,7 @@ val ticks = (1..14 step 2).map { it * 1000.0 }
 
 
 val x = scaleBand(modules.map(Progression::module)).apply {
-    range = listOf(0.0, 1100.0)
+    range = intervalOf(0.0, 1100.0)
 }
 
 
