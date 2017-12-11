@@ -6,13 +6,11 @@ package io.data2viz.scale
  * horizontal positions of columns in a column chart.
  *
  *
- * Todo : what is the use case for this scale? In what way it can be more interesting than using an extension
- * function over a domain object property? 
  */
-abstract class IndexableDomain<D> : ContinuousDomain<D>{
+class IndexableDomain<D> : DiscreteDomain<D>{
 
-    protected val index: MutableMap<D, Int> = HashMap()
-    protected val _domain: MutableList<D> = arrayListOf()
+    internal val index: MutableMap<D, Int> = HashMap()
+    internal val _domain: MutableList<D> = arrayListOf()
 
 
     /**
@@ -47,7 +45,7 @@ abstract class IndexableDomain<D> : ContinuousDomain<D>{
 
 }
 
-open class OrdinalScale<D, R>(range: List<R> = listOf()) : Scale<D,R>, IndexableDomain<D>() {
+open class OrdinalScale<D, R>(range: List<R> = listOf(), val indexableDomain: IndexableDomain<D> = IndexableDomain()) : Scale<D,R>, DiscreteDomain<D> by indexableDomain {
 
     protected val _range: MutableList<R> = arrayListOf()
 
@@ -90,12 +88,12 @@ open class OrdinalScale<D, R>(range: List<R> = listOf()) : Scale<D,R>, Indexable
         }
 
     override operator fun invoke(domainValue: D): R {
-        if (_unknown == null && !index.containsKey(domainValue)) {
-            _domain.add(domainValue)
-            index.put(domainValue, _domain.size - 1)
+        if (_unknown == null && !indexableDomain.index.containsKey(domainValue)) {
+            indexableDomain._domain.add(domainValue)
+            indexableDomain.index.put(domainValue, indexableDomain._domain.size - 1)
         }
 
-        val index = index[domainValue] ?: return _unknown ?: throw IllegalStateException()
+        val index = indexableDomain.index[domainValue] ?: return _unknown ?: throw IllegalStateException()
         return when {
             _range.isEmpty() -> _unknown ?: throw IllegalStateException()
             else -> _range[index % _range.size]
@@ -103,5 +101,3 @@ open class OrdinalScale<D, R>(range: List<R> = listOf()) : Scale<D,R>, Indexable
     }
 
 }
-
-fun <D, R> scaleOrdinal() = OrdinalScale<D, R>()

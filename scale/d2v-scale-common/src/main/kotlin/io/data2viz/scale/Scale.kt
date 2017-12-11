@@ -5,18 +5,11 @@ import io.data2viz.color.EncodedColors
 import io.data2viz.color.HSL
 import io.data2viz.interpolate.*
 
-
-// TODO (DV-63)
-/*data class DomainToViz<out D, out V>(
-        val domain: D,
-        val viz: V          /// ????
-)*/
-
-// TODO add more specific interfaces (Roundable ?)
-
-
 /**
- * Generic signature of scales. A scale is defined by a list of Domain objects. 
+ * Generic signature of scales. 
+ * 
+ * A scale can map a domain object dimension D to a representation value.
+ * 
  * Then at runtime, one can ask an R object for a specific value of domain.
  * The rules defining the returns of R from D depends a lot on the type and
  * implementation of the Scale.
@@ -35,6 +28,11 @@ interface ContinuousDomain<T> {
     var domain: List<T>
 }
 
+interface ContinuousRange<T> {
+    var range: List<T>
+}
+
+
 interface DiscreteDomain<T> {
     var domain: List<T>
 }
@@ -47,20 +45,15 @@ interface StrictlyContinuousRange<T> {
     var range: StrictlyContinuous<T>
 }
 
+/**
+ * A stricly continuous dimension is only defined by its start and end.
+ * There is not intermediary value.
+ */
 data class StrictlyContinuous<D>(val start:D, val end:D)
 
 fun <D> intervalOf(start:D, end:D) = StrictlyContinuous(start,end)
 fun <D> intervalOf(vararg  values:D) = StrictlyContinuous(values.first(), values.last())
 
-interface ContinuousRange<T>
-
-
-/**
- * A scale for which it is possible to define a range List 
- */
-interface RangeableScale<D, R> : Scale<D, R> {
-    val range: List<R>
-}
 
 /**
  * Indicates a scale for which the resulting R
@@ -69,7 +62,7 @@ interface ClampableScale  {
     val clamp: Boolean
 }
 
-interface NiceableScale<D, R> : Scale<D, R> {
+interface NiceableScale<D> :ContinuousDomain<D> {
     fun nice(count: Int = 10)
 }
 
@@ -84,10 +77,17 @@ interface Tickable<D>{
     fun ticks(count: Int = 10): List<D>
 }
 
-
 object scales{
 
+    fun <D, R> ordinal() = OrdinalScale<D, R>()
+    fun <R> quantile(): QuantileScale<R> = QuantileScale()
+    fun <R> quantize(): QuantizeScale<R> = QuantizeScale()
+    fun <R> threshold(): ThresholdScale<R> = ThresholdScale()
+
     object continuous {
+
+        fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
+        
         fun log(base: Double = 10.0, init:ContinuousScale<Double>.() -> Unit = {}): ContinuousScale<Double> =
                 LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 

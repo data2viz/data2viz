@@ -24,11 +24,11 @@ open class ContinuousScale<R>(
         val interpolateRange: (R, R) -> (Double) -> R,
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
         val rangeComparator: Comparator<R>? = null) :
-        RangeableScale<Double, R>,
         ContinuousDomain<Double>,
+        ContinuousRange<R>,
         ClampableScale,
         InvertableScale<Double, R>,
-        NiceableScale<Double, R>,
+        NiceableScale<Double>,
         Tickable<Double> {
 
     private var rangeToDouble: ((R) -> Double)? = null

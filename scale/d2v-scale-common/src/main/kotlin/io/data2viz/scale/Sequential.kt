@@ -29,4 +29,3 @@ class SequentialScale<R>(var interpolator: Interpolator<R>) : Tickable<Double>, 
     override fun ticks(count: Int) = io.data2viz.core.ticks(domain.start, domain.end, count)
 }
 
-fun scaleSequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)

@@ -7,7 +7,11 @@ import kotlin.math.max
 /**
  * Retu
  */
-abstract class BandedScale<D> : Scale<D,Double>, IndexableDomain<D>(), Tickable<D>, StrictlyContinuousRange<Double> {
+abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = IndexableDomain()) : 
+        Scale<D,Double>, 
+        DiscreteDomain<D> by indexableDomain, 
+        Tickable<D>, 
+        StrictlyContinuousRange<Double> {
 
     private val unknown = Double.NaN
 
@@ -15,9 +19,10 @@ abstract class BandedScale<D> : Scale<D,Double>, IndexableDomain<D>(), Tickable<
     protected var _paddingOuter: Double = 0.0
 
     override var domain: List<D>
-        get() = super.domain
+        get() = indexableDomain._domain
         set(value) {
-            super.domain = value
+            indexableDomain._domain.clear()
+            indexableDomain._domain.addAll(value)
             rescale()
         }
     override var range: StrictlyContinuous<Double> = intervalOf(0.0, 1.0)
@@ -48,14 +53,14 @@ abstract class BandedScale<D> : Scale<D,Double>, IndexableDomain<D>(), Tickable<
     private var ordinalRange: MutableList<Double> = ArrayList()
 
     override operator fun invoke(domainValue: D): Double {
-        val i: Int = index[domainValue] ?: return unknown
+        val i: Int = indexableDomain.index[domainValue] ?: return unknown
         return if (ordinalRange.isEmpty()) unknown else ordinalRange[i]
     }
 
     override fun ticks(count: Int): List<D> = domain
 
     protected fun rescale() {
-        val n = _domain.size
+        val n = indexableDomain._domain.size
         val reverse = range.end < range.start
         var start = if (reverse) range.end else range.start
         val stop = if (reverse) range.start else range.end

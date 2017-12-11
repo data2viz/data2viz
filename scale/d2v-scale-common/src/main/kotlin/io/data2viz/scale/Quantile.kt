@@ -90,8 +90,6 @@ class QuantileScale<R> : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange
     }
 }
 
-fun <R> scaleQuantile(): QuantileScale<R> = QuantileScale()
-
 // TODO move to array module
 fun quantile(values: List<Double>, p: Double, f: (Double, Int, List<Double>) -> Double = { x, _, _ -> x }): Double {
     require(values.isNotEmpty(), { "Values must not be empty." })

@@ -10,7 +10,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_expected_defaults_LEGACY() {
-        val scale = scaleQuantile<Double>()
+        val scale = scales.quantile<Double>()
 
         scale.domain shouldBe listOf()
         scale.range shouldBe listOf()
@@ -18,7 +18,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_x_uses_R7_algorithm_to_compute_quantiles_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
 
@@ -36,7 +36,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_x_throw_exception_if_input_value_is_NaN() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
 
@@ -45,7 +45,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_domain_values_are_sorted_in_ascending_order_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
         scale.domain = listOf(6.0, 3.0, 7.0, 8.0, 8.0, 13.0, 20.0, 15.0, 16.0, 10.0)
 
         scale.domain shouldBe listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
@@ -53,7 +53,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_domain_values_are_values_are_allowed_to_be_zero_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
         scale.domain = listOf(1.0, 2.0, .0, .0)
 
         scale.domain shouldBe listOf(.0, .0, 1.0, 2.0)
@@ -61,7 +61,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_domain_values_NaNs_are_ignored_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
         scale.domain = listOf(1.0, 2.0, Double.NaN, 7.0, 8.0, Double.NaN, 20.0, Double.NaN)
 
         scale.domain shouldBe listOf(1.0, 2.0, 7.0, 8.0, 20.0)
@@ -69,7 +69,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_quantiles_return_inner_thresholds_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
 
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
@@ -82,7 +82,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_range_cardinality_determines_number_of_quantiles_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
 
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
@@ -100,7 +100,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_range_values_are_arbitrary_LEGACY() {
-        val scale = scaleQuantile<() -> Unit>()
+        val scale = scales.quantile<() -> Unit>()
 
         val a = {}
         val b = {}
@@ -116,7 +116,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_invertExtent_maps_a_value_in_range_to_a_domain_extent_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 3)
 
@@ -128,7 +128,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_invertExtent_allows_arbitrary_range_values_LEGACY() {
-        val scale = scaleQuantile<() -> Unit>()
+        val scale = scales.quantile<() -> Unit>()
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         val a = {}
         val b = {}
@@ -140,7 +140,7 @@ class ScaleQuantileTests : TestBase() {
 
     @Test
     fun quantile_invertExtent_returns_NaN_NaN_when_given_value_is_not_in_the_range_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
 
         shouldThrow<IllegalStateException> { scale(10.0) }
@@ -155,7 +155,7 @@ class ScaleQuantileTests : TestBase() {
     }
 
     fun quantile_invertExtent_returns_first_match_if_duplicate_values_exist_in_range_LEGACY() {
-        val scale = scaleQuantile<Int>()
+        val scale = scales.quantile<Int>()
         scale.domain = listOf(3.0, 6.0, 7.0, 8.0, 8.0, 10.0, 13.0, 15.0, 16.0, 20.0)
         scale.range = listOf(0, 1, 2, 0)
 

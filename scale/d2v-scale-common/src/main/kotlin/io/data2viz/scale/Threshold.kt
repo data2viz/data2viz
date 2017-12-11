@@ -65,4 +65,4 @@ class ThresholdScale<R> : Scale<Double, R>, DiscreteRange<R>, ContinuousDomain<D
     }
 }
 
-fun <R> scaleThreshold(): ThresholdScale<R> = ThresholdScale()
+

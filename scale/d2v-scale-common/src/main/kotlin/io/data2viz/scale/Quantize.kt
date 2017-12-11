@@ -54,4 +54,4 @@ class QuantizeScale<R> : Scale<Double, R>, StrictlyContinuousDomain<Double>, Dis
     }
 }
 
-fun <R> scaleQuantize(): QuantizeScale<R> = QuantizeScale()
+
