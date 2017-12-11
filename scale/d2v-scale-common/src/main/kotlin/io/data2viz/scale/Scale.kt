@@ -20,17 +20,19 @@ import io.data2viz.interpolate.*
  * Then at runtime, one can ask an R object for a specific value of domain.
  * The rules defining the returns of R from D depends a lot on the type and
  * implementation of the Scale.
- * 
+ *
  * a Domain object -> Range object
  */
-interface Scale<D, out R> {
-    val domain: List<D>
+interface Scale<D, out R>:ContinuousDomain<D> {
     operator fun invoke(domainValue: D): R
 }
 
 interface DiscreteDomain<R>
 interface DiscreteRange<R>
-interface ContinuousDomain<T>
+
+interface ContinuousDomain<T> {
+    var domain: List<T>
+}
 
 interface StrictlyContinuousDomain<T> {
     var domain: StrictlyContinuous<T>
@@ -54,7 +56,7 @@ interface RangeableScale<D, R> : Scale<D, R> {
 /**
  * Indicates a scale for which the resulting R
  */
-interface ClampableScale<D, out R> : Scale<D, R> {
+interface ClampableScale  {
     val clamp: Boolean
 }
 
@@ -72,7 +74,6 @@ interface InvertableScale<D, R> : Scale<D, R> {
 interface Tickable<D>{
     fun ticks(count: Int = 10): List<D>
 }
-
 
 
 object scales{

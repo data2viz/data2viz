@@ -25,7 +25,7 @@ open class ContinuousScale<R>(
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
         val rangeComparator: Comparator<R>? = null) :
         RangeableScale<Double, R>,
-        ClampableScale<Double, R>,
+        ClampableScale,
         InvertableScale<Double, R>,
         NiceableScale<Double, R>,
         Tickable<Double> {
@@ -120,7 +120,7 @@ open class ContinuousScale<R>(
     }
 
     override fun ticks(count: Int): List<Double> {
-        return io.data2viz.core.ticks(_domain.first(), _domain.last(), count) as List<Double>
+        return io.data2viz.core.ticks(_domain.first(), _domain.last(), count)
     }
 
     protected fun rescale() {
