@@ -5,7 +5,7 @@ package io.data2viz.scale
  * domain to discrete values in the range.
  * The input domain is still continuous, and divided into slices based on a set of threshold values.
  */
-class ThresholdScale<R> : DomainRangedScale<R>() {
+class ThresholdScale<R> : DomainRangedScale<R>(), ContinuousDomain<Double> {
 
     /**
      * Sets the scale’s range to the specified array of values.

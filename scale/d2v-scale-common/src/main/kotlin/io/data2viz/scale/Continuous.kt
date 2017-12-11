@@ -25,6 +25,7 @@ open class ContinuousScale<R>(
         val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
         val rangeComparator: Comparator<R>? = null) :
         RangeableScale<Double, R>,
+        ContinuousDomain<Double>,
         ClampableScale,
         InvertableScale<Double, R>,
         NiceableScale<Double, R>,

@@ -9,7 +9,7 @@ package io.data2viz.scale
  * Todo : what is the use case for this scale? In what way it can be more interesting than using an extension
  * function over a domain object property? 
  */
-abstract class DiscreteScale<D, R> : RangeableScale<D, R>{
+abstract class DiscreteScale<D, R> : RangeableScale<D, R>, ContinuousDomain<D>{
 
     protected val index: MutableMap<D, Int> = HashMap()
 

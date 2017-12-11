@@ -23,7 +23,7 @@ import io.data2viz.interpolate.*
  *
  * a Domain object -> Range object
  */
-interface Scale<D, out R>:ContinuousDomain<D> {
+interface Scale<D, out R> {
     operator fun invoke(domainValue: D): R
 }
 

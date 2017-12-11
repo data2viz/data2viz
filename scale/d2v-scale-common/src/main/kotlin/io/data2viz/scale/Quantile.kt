@@ -18,7 +18,7 @@ abstract class DomainRangedScale<R> : RangeableScale<Double, R> {
  * the output range determines the number of quantiles that will be computed from the domain.
  * To compute the quantiles, the domain is sorted, and treated as a population of discrete values;
  */
-class QuantileScale<R> : DomainRangedScale<R> () {
+class QuantileScale<R> : DomainRangedScale<R> (), ContinuousDomain<Double> {
 
     private var thresholds: MutableList<Double> = arrayListOf()
 
