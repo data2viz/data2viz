@@ -32,7 +32,6 @@ interface ContinuousRange<T> {
     var range: List<T>
 }
 
-
 interface DiscreteDomain<T> {
     var domain: List<T>
 }
