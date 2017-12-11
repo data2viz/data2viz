@@ -7,17 +7,16 @@ package io.data2viz.scale
  * in (i.e., the cardinality of) the output range.
  * Each range value y can be expressed as a quantized linear function of the domain value x: y = m round(x) + b.
  */
-class QuantizeScale<R> : DomainRangedScale<R>(), StrictlyContinuousDomain<Double>, DiscreteRange<R> {
+class QuantizeScale<R> : Scale<Double, R>, StrictlyContinuousDomain<Double>, DiscreteRange<R> {
 
 
     private val quantizedDomain:ArrayList<Double> = arrayListOf(.5)
 
     // copy the value (no binding intended)
-    override var range: List<R>
-        get() = _range.toList()
+    override var range: List<R> = listOf()
+        get() = field.toList()
         set(value) {
-            _range.clear()
-            _range.addAll(value)
+            field = value.toList()
             rescale()
         }
 
@@ -31,7 +30,7 @@ class QuantizeScale<R> : DomainRangedScale<R>(), StrictlyContinuousDomain<Double
     private fun rescale() {
         quantizedDomain.clear()
 
-        val size = _range.size - 1
+        val size = range.size - 1
         for(index in 0 until size) {
             val element = ((index + 1) * domain.end - (index - size) * domain.start) / (size + 1)
             quantizedDomain.add(element)
@@ -40,12 +39,12 @@ class QuantizeScale<R> : DomainRangedScale<R>(), StrictlyContinuousDomain<Double
 
 
     override fun invoke(domainValue: Double): R {
-        return _range[bisect(quantizedDomain, domainValue, naturalOrder<Double>(), 0, _range.size - 1)]
+        return range[bisect(quantizedDomain, domainValue, naturalOrder<Double>(), 0, range.size - 1)]
     }
 
     fun invertExtent(rangeValue: R): List<Double> {
-        val i = _range.indexOf(rangeValue)
-        val size = _range.size - 1
+        val i = range.indexOf(rangeValue)
+        val size = range.size - 1
         return when {
             i < 0 -> listOf(Double.NaN, Double.NaN)
             i < 1 -> listOf(domain.start, quantizedDomain.first())

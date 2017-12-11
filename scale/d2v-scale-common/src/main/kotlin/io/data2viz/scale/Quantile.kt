@@ -4,12 +4,6 @@ import kotlin.math.floor
 import kotlin.math.max
 
 
-abstract class DomainRangedScale<R> : RangeableScale<Double, R> {
-
-    protected val _domain: MutableList<Double> = arrayListOf()
-    protected val _range: MutableList<R> = arrayListOf()
-
-}
 
 /**
  * Quantile scales map a sampled input domain to a discrete range.
@@ -18,8 +12,9 @@ abstract class DomainRangedScale<R> : RangeableScale<Double, R> {
  * the output range determines the number of quantiles that will be computed from the domain.
  * To compute the quantiles, the domain is sorted, and treated as a population of discrete values;
  */
-class QuantileScale<R> : DomainRangedScale<R> (), ContinuousDomain<Double> {
+class QuantileScale<R> : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
 
+        
     private var thresholds: MutableList<Double> = arrayListOf()
 
     /**
@@ -40,13 +35,12 @@ class QuantileScale<R> : DomainRangedScale<R> (), ContinuousDomain<Double> {
      * If the elements in the given array are not numbers, they will be coerced to numbers.
      * A copy of the input array is sorted and stored internally.
      */
-    override var domain: List<Double>
-        get() = _domain.toList()
+    override var domain: List<Double> = listOf()
+        get() = field.toList()
         set(value) {
-            val filteredValue = value.filter { !it.isNaN() }
+            val filteredValue = value.filter { !it.isNaN() }.sorted()
             require(filteredValue.isNotEmpty(), { "Domain can't be empty." })
-            _domain.clear()
-            _domain.addAll(filteredValue.sorted())
+            field = filteredValue
             rescale()
         }
 
@@ -57,43 +51,42 @@ class QuantileScale<R> : DomainRangedScale<R> (), ContinuousDomain<Double> {
      * quantiles that are computed.
      * For example, to compute quartiles, range must be an array of four elements such as [0, 1, 2, 3].
      */
-    override var range: List<R>
-        get() = _range.toList()
+    override var range: List<R> = listOf()
+        get() = field.toList()
         set(value) {
             require(value.isNotEmpty(), { "Range can't be empty." })
-            _range.clear()
-            _range.addAll(value)
+            field = value.toList()
             rescale()
         }
 
     private fun rescale() {
         // don't compute until we'th got a non-empty range and domain
-        if (_domain.isEmpty() || _range.isEmpty()) return
+        if (domain.isEmpty() || range.isEmpty()) return
 
         var i = 0
-        val n = max(1, _range.size)
+        val n = max(1, range.size)
         thresholds = arrayListOf()
         while (++i < n) {
-            thresholds.add(i - 1, quantile(_domain, i / n.toDouble()))
+            thresholds.add(i - 1, quantile(domain, i / n.toDouble()))
         }
     }
 
     fun invertExtent(rangeValue: R): List<Double> {
-        check(_domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
-        check(_range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
-        val index = _range.indexOf(rangeValue)
+        check(domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
+        check(range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
+        val index = range.indexOf(rangeValue)
         return when (index) {
             -1 -> listOf(Double.NaN, Double.NaN)
-            else -> listOf(if (index > 0) thresholds[index - 1] else _domain.first(),
-                    if (index < thresholds.size) thresholds[index] else _domain.last())
+            else -> listOf(if (index > 0) thresholds[index - 1] else domain.first(),
+                    if (index < thresholds.size) thresholds[index] else domain.last())
         }
     }
 
     override fun invoke(domainValue: Double): R {
         require(!domainValue.isNaN(), { "domainValue can't be NaN" })
-        check(_domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
-        check(_range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
-        return _range[bisect(thresholds, domainValue, naturalOrder<Double>())]
+        check(domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
+        check(range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
+        return range[bisect(thresholds, domainValue, naturalOrder<Double>())]
     }
 }
 

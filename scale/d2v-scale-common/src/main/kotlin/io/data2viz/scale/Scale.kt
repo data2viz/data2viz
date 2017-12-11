@@ -27,15 +27,24 @@ interface Scale<D, out R> {
     operator fun invoke(domainValue: D): R
 }
 
-interface DiscreteDomain<R>
-interface DiscreteRange<R>
+interface DiscreteRange<R> {
+    var range:List<R>
+}
 
 interface ContinuousDomain<T> {
     var domain: List<T>
 }
 
+interface DiscreteDomain<T> {
+    var domain: List<T>
+}
+
 interface StrictlyContinuousDomain<T> {
     var domain: StrictlyContinuous<T>
+}
+
+interface StrictlyContinuousRange<T> {
+    var range: StrictlyContinuous<T>
 }
 
 data class StrictlyContinuous<D>(val start:D, val end:D)

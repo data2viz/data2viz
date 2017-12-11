@@ -9,12 +9,10 @@ package io.data2viz.scale
  * Todo : what is the use case for this scale? In what way it can be more interesting than using an extension
  * function over a domain object property? 
  */
-abstract class DiscreteScale<D, R> : RangeableScale<D, R>, ContinuousDomain<D>{
+abstract class IndexableDomain<D> : ContinuousDomain<D>{
 
     protected val index: MutableMap<D, Int> = HashMap()
-
     protected val _domain: MutableList<D> = arrayListOf()
-    protected val _range: MutableList<R> = arrayListOf()
 
 
     /**
@@ -45,6 +43,20 @@ abstract class DiscreteScale<D, R> : RangeableScale<D, R>, ContinuousDomain<D>{
             }
         }
 
+
+
+}
+
+open class OrdinalScale<D, R>(range: List<R> = listOf()) : Scale<D,R>, IndexableDomain<D>() {
+
+    protected val _range: MutableList<R> = arrayListOf()
+
+    init {
+        _range.addAll(range.toList())
+    }
+
+
+
     /**
      * If range is specified, sets the range of the ordinal scale to the specified array of values.
      * The first element in the domain will be mapped to the first element in range, the second domain value to
@@ -52,7 +64,7 @@ abstract class DiscreteScale<D, R> : RangeableScale<D, R>, ContinuousDomain<D>{
      * If there are fewer elements in the range than in the domain, the scale will reuse values from the start
      * of the range.
      */
-    override var range: List<R>
+    var range: List<R>
         get() = _range.toList()
         set(value) {
             require(value.isNotEmpty(), { "Range can't be empty." })
@@ -60,14 +72,6 @@ abstract class DiscreteScale<D, R> : RangeableScale<D, R>, ContinuousDomain<D>{
             _range.addAll(value.toList())
         }
 
-
-}
-
-open class OrdinalScale<D, R>(range: List<R> = listOf()) : DiscreteScale<D, R>() {
-
-    init {
-        _range.addAll(range.toList())
-    }
 
     /**
      * The behavior when asking for a rangeValue with a given non-existant domainValue :

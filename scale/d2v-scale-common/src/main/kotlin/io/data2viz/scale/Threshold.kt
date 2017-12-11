@@ -5,7 +5,11 @@ package io.data2viz.scale
  * domain to discrete values in the range.
  * The input domain is still continuous, and divided into slices based on a set of threshold values.
  */
-class ThresholdScale<R> : DomainRangedScale<R>(), ContinuousDomain<Double> {
+class ThresholdScale<R> : Scale<Double, R>, DiscreteRange<R>, ContinuousDomain<Double> {
+
+
+    var _domain: List<Double> = listOf(.5)
+    var _range: List<R> = listOf()
 
     /**
      * Sets the scale’s range to the specified array of values.
@@ -14,8 +18,7 @@ class ThresholdScale<R> : DomainRangedScale<R>(), ContinuousDomain<Double> {
     override var range: List<R>
         get() = _range.toList()
         set(value) {
-            _range.clear()
-            _range.addAll(value)
+            _range = value.toList()
         }
 
     /**
@@ -29,13 +32,9 @@ class ThresholdScale<R> : DomainRangedScale<R>(), ContinuousDomain<Double> {
         get() = _domain.toList()
         set(value) {
             require(value.sorted() == value, { "The domain must be sorted in ascending order." })
-            _domain.clear()
-            _domain.addAll(value)
+            _domain = value.toList()
         }
 
-    init {
-        _domain.add(.5)
-    }
 
     /**
      * Given a value in the input domain, returns the corresponding value in the output range.

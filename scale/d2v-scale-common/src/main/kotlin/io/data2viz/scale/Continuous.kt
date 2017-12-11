@@ -31,8 +31,9 @@ open class ContinuousScale<R>(
         NiceableScale<Double, R>,
         Tickable<Double> {
 
-    private var input: ((R) -> Double)? = null
-    private var output: ((Double) -> R)? = null
+    private var rangeToDouble: ((R) -> Double)? = null
+    private var doubleToRange: ((Double) -> R)? = null
+    
 
     protected val _domain: MutableList<Double> = arrayListOf(.0, 1.0)
     protected val _range: MutableList<R> = arrayListOf()
@@ -94,30 +95,30 @@ open class ContinuousScale<R>(
 
 
     override operator fun invoke(domainValue: Double): R {
-        if (output == null) {
+        if (doubleToRange == null) {
             check(_domain.size == _range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val uninterpolateFunc = if (clamp) uninterpolateClamp(::uninterpolateDomain) else ::uninterpolateDomain
-            output =
+            doubleToRange =
                     if (_domain.size > 2) polymap(uninterpolateFunc)
                     else bimap(uninterpolateFunc)
         }
 
-        return output?.invoke(domainValue) ?: throw IllegalStateException()
+        return doubleToRange?.invoke(domainValue) ?: throw IllegalStateException()
     }
 
     // TODO : wrong : clamping is done on interpolateRange function...
     override fun invert(rangeValue: R): Double {
         checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible." })
 
-        if (input == null) {
+        if (rangeToDouble == null) {
             check(_domain.size == _range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val interpolateFunc = if (clamp) interpolateClamp(::interpolateDomain) else ::interpolateDomain
-            input =
+            rangeToDouble =
                     if (_domain.size > 2 || _range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
                     else bimapInvert(interpolateFunc, uninterpolateRange!!)
         }
 
-        return input?.invoke(rangeValue) ?: throw IllegalStateException()
+        return rangeToDouble?.invoke(rangeValue) ?: throw IllegalStateException()
     }
 
     override fun ticks(count: Int): List<Double> {
@@ -125,8 +126,8 @@ open class ContinuousScale<R>(
     }
 
     protected fun rescale() {
-        input = null
-        output = null
+        rangeToDouble = null
+        doubleToRange = null
     }
 
     private fun uninterpolateClamp(uninterpolateFunction: (Double, Double) -> (Double) -> Double): (Double, Double) -> (Double) -> Double {

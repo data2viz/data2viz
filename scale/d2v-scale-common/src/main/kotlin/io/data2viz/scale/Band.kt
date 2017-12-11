@@ -7,7 +7,7 @@ import kotlin.math.max
 /**
  * Retu
  */
-abstract class BandedScale<D> : DiscreteScale<D, Double>(), Tickable<D> {
+abstract class BandedScale<D> : Scale<D,Double>, IndexableDomain<D>(), Tickable<D>, StrictlyContinuousRange<Double> {
 
     private val unknown = Double.NaN
 
@@ -20,11 +20,10 @@ abstract class BandedScale<D> : DiscreteScale<D, Double>(), Tickable<D> {
             super.domain = value
             rescale()
         }
-
-    override var range: List<Double>
-        get() = super.range
+    override var range: StrictlyContinuous<Double> = intervalOf(0.0, 1.0)
+        get() = field
         set(value) {
-            super.range = value
+            field = value
             rescale()
         }
 
@@ -48,11 +47,6 @@ abstract class BandedScale<D> : DiscreteScale<D, Double>(), Tickable<D> {
 
     private var ordinalRange: MutableList<Double> = ArrayList()
 
-    init {
-        _range.clear()
-        _range.addAll(arrayListOf(.0, 1.0))
-    }
-
     override operator fun invoke(domainValue: D): Double {
         val i: Int = index[domainValue] ?: return unknown
         return if (ordinalRange.isEmpty()) unknown else ordinalRange[i]
@@ -62,12 +56,9 @@ abstract class BandedScale<D> : DiscreteScale<D, Double>(), Tickable<D> {
 
     protected fun rescale() {
         val n = _domain.size
-        if (_range.isEmpty())
-            return
-
-        val reverse = _range.last() < _range.first()
-        var start = if (reverse) _range.last() else _range.first()
-        val stop = if (reverse) _range.first() else _range.last()
+        val reverse = range.end < range.start
+        var start = if (reverse) range.end else range.start
+        val stop = if (reverse) range.start else range.end
         step = (stop - start) / max(1.0, n - _paddingInner + _paddingOuter * 2)
         if (round)
             step = floor(step)
