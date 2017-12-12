@@ -1,25 +1,9 @@
 package io.data2viz.time
 
-import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class DayTests : TestBase() {
+class DayTests : TestDate() {
 
-    infix fun Date.shouldBe(date:Date) {
-        if (!(date.year() == this.year()
-                && date.month() == this.month()
-                && date.dayOfMonth() == this.dayOfMonth()
-                && date.hour() == this.hour()
-                && date.minute() == this.minute()
-                && date.second() == this.second()
-                && date.millisecond() == this.millisecond()))
-            throw AssertionError("$this did not equal $date")
-    }
-
-    /*@Test
-    fun temp(){
-        true shouldBe true // todo remove after first real test.
-    }*/
 
     @Test
     fun day_floor_date_returns_days_LEGACY() {

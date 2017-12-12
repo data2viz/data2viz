@@ -53,11 +53,18 @@ actual class Date {
         return (millisecondsBetween(otherDate) - ((otherDate.getTimezoneOffset() - date.getTimezoneOffset()) * durationMinute)) / durationDay
     }
 
+    actual fun hoursBetween(otherDate: Date): Long {
+        return (millisecondsBetween(otherDate) - ((otherDate.getTimezoneOffset() - date.getTimezoneOffset()) * durationMinute)) / durationHour
+    }
+
     actual fun getTimezoneOffset(): Int = date.getTimezoneOffset()
 
-//    actual fun plusSeconds(seconds:Long)
+    //    actual fun plusSeconds(seconds:Long)
 //    actual fun plusMinutes(minutes:Long)
-//    actual fun plusHours(hours:Long)
+    actual fun plusHours(hours: Long) {
+        date = JsDate(date.getTime() + (hours * durationHour))
+    }
+
     actual fun plusDays(days: Long) {
         date = JsDate(date.getTime() + (days * durationDay))
     }
@@ -87,7 +94,9 @@ actual class Date {
     actual fun second(): Int = date.getSeconds()
     actual fun minute(): Int = date.getMinutes()
     actual fun hour(): Int = date.getHours()
-    actual fun dayOfMonth(): Int = date.getDay()
+    actual fun dayOfWeek(): Int = date.getDay()
+    actual fun dayOfMonth(): Int = date.getDate()
+    actual fun dayOfYear(): Int = date.getDay()
     actual fun month(): Int = date.getMonth() + 1
     actual fun year(): Int = date.getFullYear()
 

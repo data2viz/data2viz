@@ -2,7 +2,6 @@ package io.data2viz.time
 
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.Period
 import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
 
@@ -42,20 +41,20 @@ actual class Date {
     }
 
     actual fun isBefore(otherDate: Date): Boolean = date.isBefore(otherDate.date)
-    actual fun millisecondsBetween(otherDate: Date): Long {
-        val diff = Duration.between(date, otherDate.date)
-        return diff.toMillis()
-    }
-    actual fun daysBetween(otherDate: Date): Long {
-        val diff = Duration.between(date, otherDate.date)
-        return diff.toDays()
+
+    actual fun millisecondsBetween(otherDate: Date): Long = durationBetween(otherDate).toMillis()
+    actual fun daysBetween(otherDate: Date): Long = durationBetween(otherDate).toDays()
+    actual fun hoursBetween(otherDate: Date): Long = durationBetween(otherDate).toHours()
+
+    private fun durationBetween(otherDate: Date): Duration {
+        return Duration.between(date, otherDate.date)
     }
 
     actual fun getTimezoneOffset(): Int = 0
 
 //    actual fun plusSeconds(seconds:Long) { date = date.plusSeconds(seconds) }
 //    actual fun plusMinutes(minutes:Long) { date = date.plusMinutes(minutes) }
-//    actual fun plusHours(hours:Long) { date = date.plusHours(hours) }
+    actual fun plusHours(hours:Long) { date = date.plusHours(hours) }
     actual fun plusDays(days:Long) { date = date.plusDays(days) }
 //    actual fun plusMonths(months:Long) { date = date.plusMonths(months) }
 //    actual fun plusYears(years:Long) { date = date.plusYears(years) }
@@ -92,7 +91,9 @@ actual class Date {
     actual fun second(): Int = date.second
     actual fun minute(): Int = date.minute
     actual fun hour(): Int = date.hour
+    actual fun dayOfWeek(): Int = date.dayOfWeek.value
     actual fun dayOfMonth(): Int = date.dayOfMonth
+    actual fun dayOfYear(): Int = date.dayOfYear
     actual fun month(): Int = date.monthValue
     actual fun year(): Int = date.year
 

@@ -1,0 +1,5 @@
+dependencies {
+    compile project(":d2v-time-js")
+    expectedBy project(":d2v-timeFormat-common")
+}
+project.jsTests()

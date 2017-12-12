@@ -4,6 +4,7 @@ package io.data2viz.time
 //var t1 = Date()
 
 // TODO use Int instead of Long ?
+// TODO : field not implemented
 open class Interval(private val floori: (Date) -> Date,
                     private val offseti: (Date, Long) -> Date,
                     private val counti: ((Date, Date) -> Int)? = null,

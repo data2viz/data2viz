@@ -1,25 +1,8 @@
 package io.data2viz.time
 
-import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class IntervalTests : TestBase() {
-
-    infix fun Date.shouldBe(date:Date) {
-        if (!(date.year() == this.year()
-                && date.month() == this.month()
-                && date.dayOfMonth() == this.dayOfMonth()
-                && date.hour() == this.hour()
-                && date.minute() == this.minute()
-                && date.second() == this.second()
-                && date.millisecond() == this.millisecond()))
-            throw AssertionError("$this did not equal $date")
-    }
-
-    @Test
-    fun temp(){
-        true shouldBe true // todo remove after first real test.
-    }
+class IntervalTests : TestDate() {
 
     @Test
     fun interval_floor_offset_returns_a_custom_time_interval() {

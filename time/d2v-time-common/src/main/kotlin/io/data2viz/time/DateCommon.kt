@@ -37,12 +37,13 @@ expect class Date {
     fun isBefore(otherDate:Date): Boolean
     fun millisecondsBetween(otherDate:Date): Long
     fun daysBetween(otherDate:Date): Long
+    fun hoursBetween(otherDate:Date): Long
 
     fun getTimezoneOffset(): Int
 
 //    fun plusSeconds(seconds:Long)
 //    fun plusMinutes(minutes:Long)
-//    fun plusHours(hours:Long)
+    fun plusHours(hours:Long)
     fun plusDays(days:Long)
 //    fun plusMonths(months:Long)
 //    fun plusYears(years:Long)
@@ -61,7 +62,9 @@ expect class Date {
     fun second(): Int
     fun minute(): Int
     fun hour(): Int
+    fun dayOfWeek(): Int
     fun dayOfMonth(): Int
+    fun dayOfYear(): Int
     fun month(): Int
     fun year(): Int
 
