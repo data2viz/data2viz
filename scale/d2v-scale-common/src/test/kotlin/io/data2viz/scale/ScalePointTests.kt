@@ -7,7 +7,7 @@ class ScalePointTests : TestBase() {
 
     @Test
     fun point_has_expected_defaults_LEGACY() {
-        val scale = scalePoint<Int>()
+        val scale = scales.point<Int>()
 
         scale.domain shouldBe listOf()
         scale.range shouldBe intervalOf(.0, 1.0)
@@ -27,11 +27,11 @@ class ScalePointTests : TestBase() {
 
     @Test
     fun pointScale_is_similar_to_bandscale_paddinginner_1_LEGACY() {
-        val pointScale = scalePoint<String>()
+        val pointScale = scales.point<String>()
         pointScale.range = intervalOf(.0, 960.0)
         pointScale.domain = listOf("foo", "bar")
 
-        val bandScale = scaleBand<String>()
+        val bandScale = scales.band<String>()
         bandScale.range = intervalOf(.0, 960.0)
         bandScale.domain = listOf("foo", "bar")
         bandScale.paddingInner = 1.0
@@ -44,12 +44,12 @@ class ScalePointTests : TestBase() {
 
     @Test
     fun point_padding_p_sets_band_outer_padding_to_p_LEGACY() {
-        val pointScale = scalePoint<String>()
+        val pointScale = scales.point<String>()
         pointScale.range = intervalOf(.0, 960.0)
         pointScale.domain = listOf("foo", "bar")
         pointScale.padding = .5
 
-        val bandScale = scaleBand<String>()
+        val bandScale = scales.band<String>()
         bandScale.range = intervalOf(.0, 960.0)
         bandScale.domain = listOf("foo", "bar")
         bandScale.paddingInner = 1.0

@@ -11,7 +11,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
         Scale<D,Double>, 
         DiscreteDomain<D> by indexableDomain, 
         Tickable<D>, 
-        StrictlyContinuousRange<Double> {
+        StrictlyContinuousRange<D, Double> {
 
     private val unknown = Double.NaN
 
@@ -21,8 +21,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
     override var domain: List<D>
         get() = indexableDomain._domain
         set(value) {
-            indexableDomain._domain.clear()
-            indexableDomain._domain.addAll(value)
+            indexableDomain.domain = value
             rescale()
         }
     override var range: StrictlyContinuous<Double> = intervalOf(0.0, 1.0)
@@ -122,12 +121,6 @@ class BandScale<D> : BandedScale<D>() {
         }
 }
 
-fun <D> scaleBand() = BandScale<D>()
-fun <D> scaleBand(domain: List<D>) = BandScale<D>().apply { 
-    this.domain = domain 
-}
-
-
 /**
  * Point scales are a variant of band scales with the bandwidth fixed to zero.
  * Point scales are typically used for scatterplots with an ordinal or categorical dimension.
@@ -154,4 +147,3 @@ class PointScale<D> : BandedScale<D>() {
     }
 }
 
-fun <D> scalePoint() = PointScale<D>()

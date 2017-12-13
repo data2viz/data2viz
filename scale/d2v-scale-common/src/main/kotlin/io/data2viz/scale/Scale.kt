@@ -28,9 +28,23 @@ interface ContinuousDomain<T> {
     var domain: List<T>
 }
 
-interface ContinuousRange<T> {
-    var range: List<T>
+interface FirstLastRange<D,R>: Scale<D,R>{
+    fun start():R
+    fun end():R
 }
+
+interface ContinuousRangeScale<D, R>: Scale<D, R>, FirstLastRange<D,R>{
+    var range: List<R>
+    override fun start() = range.first()
+    override fun end() = range.last()
+}
+
+interface StrictlyContinuousRange<D, R>: FirstLastRange<D, R> {
+    var range: StrictlyContinuous<R>
+    override fun start() = range.start
+    override fun end() = range.end
+}
+
 
 interface DiscreteDomain<T> {
     var domain: List<T>
@@ -40,9 +54,6 @@ interface StrictlyContinuousDomain<T> {
     var domain: StrictlyContinuous<T>
 }
 
-interface StrictlyContinuousRange<T> {
-    var range: StrictlyContinuous<T>
-}
 
 /**
  * A stricly continuous dimension is only defined by its start and end.
@@ -82,6 +93,14 @@ object scales{
     fun <R> quantile(): QuantileScale<R> = QuantileScale()
     fun <R> quantize(): QuantizeScale<R> = QuantizeScale()
     fun <R> threshold(): ThresholdScale<R> = ThresholdScale()
+    fun <D> point() = PointScale<D>()
+    fun <D> band() = BandScale<D>()
+    fun <D> band(domain: List<D>, init: BandScale<D>.() -> Unit) =
+            BandScale<D>().apply {
+                this.domain = domain
+                init(this)
+        }
+
 
     object continuous {
 
