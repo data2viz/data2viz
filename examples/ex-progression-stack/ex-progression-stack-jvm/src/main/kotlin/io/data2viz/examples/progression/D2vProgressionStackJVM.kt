@@ -25,7 +25,7 @@ class D2vProgressionStackJVM : Application() {
         }
 
         primaryStage?.let {
-            it.scene = (Scene(root, 1200.0, 800.0))
+            it.scene = (Scene(root, width + margins.hMargins, height + margins.vMargins))
             it.show()
         }
     }
