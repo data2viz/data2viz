@@ -10,7 +10,7 @@ import kotlin.math.round
 
 var superscript = "⁰¹²³⁴⁵⁶⁷⁸⁹"
 
-val margins = Margin(40.5, 40.5, 50.5, 60.5)
+val margins = Margins(40.5, 40.5, 50.5, 60.5)
 
 val width = 960.0 - margins.hMargins
 val height = 500.0 - margins.vMargins
