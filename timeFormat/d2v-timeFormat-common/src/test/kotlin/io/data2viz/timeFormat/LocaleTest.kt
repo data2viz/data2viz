@@ -13,7 +13,7 @@ class LocaleTest : TestDate() {
 
     @Test
     fun timeFormat_specifier_for_locale_frFr() {
-        val localeFr = Locale(frFr)
+        val localeFr = Locale(Locales.fr_FR())
         localeFr.format("%c")(date(2000,1,1)) shouldBe "samedi, le  1 janvier 2000, 00:00:00"
     }
 
@@ -25,7 +25,7 @@ class LocaleTest : TestDate() {
 
     @Test
     fun timeParse_specifier_for_locale_frFr() {
-        val localeFr = Locale(frFr)
+        val localeFr = Locale(Locales.fr_FR())
         localeFr.parse("%c")("samedi, le  1 janvier 2000, 00:00:00") shouldBe date(2000,1,1)
         localeFr.parse("%c")("dimanche, le  9 janvier 2000, 20:4:12") shouldBe date(2000,1,9, 20, 4, 12)
         localeFr.parse("%c")("dimanche, le  9 janvier 2000, 20:04:12") shouldBe date(2000,1,9, 20, 4, 12)

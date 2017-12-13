@@ -23,38 +23,6 @@ fun date(d: ParseDate): Date {
     return date(d.year ?: 0, d.month ?: 1, d.day ?: 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
 }
 
-data class LocaleSpecifier(
-        val dateTime: String,
-        val date: String,
-        val time: String,
-        val periods: List<String>,
-        val days: List<String>,
-        val shortDays: List<String>,
-        val months: List<String>,
-        val shortMonths: List<String>
-)
-
-val usLocale = LocaleSpecifier(
-        "%x, %X",
-        "%-m/%-d/%Y",
-        "%-I:%M:%S %p",
-        listOf("AM", "PM"),
-        listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"),
-        listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
-        listOf("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
-        listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
-
-val frFr = LocaleSpecifier(
-        "%A, le %e %B %Y, %X",
-        "%d/%m/%Y",
-        "%H:%M:%S",
-        listOf("AM", "PM"),
-        listOf("dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"),
-        listOf("dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."),
-        listOf("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"),
-        listOf("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
-)
-
 /*var utcFormats = {
     "a": formatUTCShortWeekday,
     "A": formatUTCWeekday,
@@ -86,15 +54,15 @@ val defaultLocale = Locale()
 fun format(specifier: String) = defaultLocale.format(specifier)
 fun parse(specifier: String) = defaultLocale.parse(specifier)
 
-class Locale(localeSpecifier: LocaleSpecifier = usLocale) {
-    val locale_dateTime = localeSpecifier.dateTime
-    val locale_date = localeSpecifier.date
-    val locale_time = localeSpecifier.time
-    val locale_periods = localeSpecifier.periods
-    val locale_weekdays = localeSpecifier.days
-    val locale_shortWeekdays = localeSpecifier.shortDays
-    val locale_months = localeSpecifier.months
-    val locale_shortMonths = localeSpecifier.shortMonths
+class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
+    val locale_dateTime = timeLocale.dateTime
+    val locale_date = timeLocale.date
+    val locale_time = timeLocale.time
+    val locale_periods = timeLocale.periods
+    val locale_weekdays = timeLocale.days
+    val locale_shortWeekdays = timeLocale.shortDays
+    val locale_months = timeLocale.months
+    val locale_shortMonths = timeLocale.shortMonths
 
     val periodRe = formatRe(locale_periods)
     val periodLookup = formatLookup(locale_periods)
