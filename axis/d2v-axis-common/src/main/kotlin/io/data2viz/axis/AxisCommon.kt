@@ -1,31 +1,40 @@
 package io.data2viz.axis
 
 import io.data2viz.color.colors
-import io.data2viz.scale.ContinuousScale
+import io.data2viz.scale.*
 import io.data2viz.viz.ParentItem
 import io.data2viz.viz.TextAlignmentBaseline
 import io.data2viz.viz.TextAnchor
+import kotlin.math.round
 
 
 /**
  * Create an Axis 
  */
-fun ParentItem.axis(orient: Orient, scale: ContinuousScale<Double>, init:AxisElement<Double>.() -> Unit = {}) {
-    AxisElement<Double>(orient, scale)
+fun <D> ParentItem.axis(orient: Orient, scale: FirstLastRange<D,Double>, init:AxisElement<D>.() -> Unit = {}) {
+    AxisElement(orient, scale)
             .apply(init)
             .render(this)
 }
 
 
-class AxisElement<D>(val orient: Orient, val scale: ContinuousScale<Double>)  {
+class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
-    var tickValues:List<Double> = listOf()
+    var tickValues:List<D> = listOf()
     var tickSizeInner = 6.0
     var tickSizeOuter = 6.0
     var tickPadding = 3.0
-    var tickFormat = {n:Double -> n.toString()}
+    var tickFormat = {n:D -> n.toString()}
 
     val k = if (orient == Orient.TOP || orient == Orient.LEFT) -1 else 1
+
+    fun center(scale: BandedScale<D>): (D) -> Double {
+        var offset = (scale.bandwidth - 1).coerceAtLeast(0.0) / 2 // Adjust for 0.5px offset.
+        if (scale.round) offset = round(offset)
+        return { d:D -> +scale(d) + offset }
+    }
+
+    fun number(scale: Scale<D,Double>) : (D) -> Double  = { d -> scale(d) }
 
     fun render(content:ParentItem) {
         
@@ -36,10 +45,12 @@ class AxisElement<D>(val orient: Orient, val scale: ContinuousScale<Double>)  {
 //        }
 
         
-        val values = if (tickValues.isEmpty() ) scale.ticks() else tickValues  
+        val values: List<D> = if (tickValues.isEmpty() && scale is Tickable<*>) scale.ticks() as List<D> else tickValues
         val spacing = tickSizeInner.coerceAtLeast(0.0) + tickPadding
-        val range0 = scale.range.first() + 0.5
-        val range1 = scale.range.last() + 0.5
+        val range0 = scale.start()
+        val range1 = scale.end()
+        val position = if (scale is BandedScale) center(scale) else number(scale)
+
 
         with(content){
             path { 
@@ -60,10 +71,10 @@ class AxisElement<D>(val orient: Orient, val scale: ContinuousScale<Double>)  {
                 }
             }
             
-            values.sorted().forEach { 
+            values.forEach {
                 group { 
                     transform { 
-                        if (orient.isHorizontal()) translate(x = scale(it)) else translate(y = scale(it)) 
+                        if (orient.isHorizontal()) translate(x = position(it)) else translate(y = position(it))
                     }
                     if (orient.isHorizontal()) line { y2 = k * tickSizeInner } else line { x2 = k * tickSizeInner }
                     text {
