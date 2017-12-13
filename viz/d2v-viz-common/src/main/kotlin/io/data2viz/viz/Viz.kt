@@ -104,7 +104,7 @@ interface VizFactory<V : VizItem> {
     fun createVizItem(): V
 }
 
-data class Margin(val top: Double, val right: Double = top, val bottom: Double = top, val left: Double = right) {
+data class Margins(val top: Double, val right: Double = top, val bottom: Double = top, val left: Double = right) {
     val hMargins = right + left
     val vMargins = top + bottom
 }
