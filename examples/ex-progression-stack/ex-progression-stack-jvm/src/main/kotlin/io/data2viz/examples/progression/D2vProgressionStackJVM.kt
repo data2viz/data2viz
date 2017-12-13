@@ -7,12 +7,15 @@ import javafx.stage.Stage
 import io.data2viz.viz.*
 
 
-fun main(args: Array<String>) {
-    Application.launch(AxisApp::class.java)
-}
 
-class AxisApp : Application() {
+class D2vProgressionStackJVM : Application() {
 
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            Application.launch(D2vProgressionStackJVM::class.java)
+        }
+    }
 
 
     override fun start(primaryStage: Stage?) {
