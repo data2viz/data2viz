@@ -11,11 +11,12 @@ import kotlin.math.round
 /**
  * Create an Axis 
  */
-fun <D> ParentItem.axis(orient: Orient, scale: FirstLastRange<D,Double>, init:AxisElement<D>.() -> Unit = {}) {
-    AxisElement(orient, scale)
-            .apply(init)
-            .render(this)
-}
+fun <D> ParentItem.axis(orient: Orient, scale: FirstLastRange<D,Double>, init:AxisElement<D>.() -> Unit = {}):AxisElement<D> =
+
+        AxisElement(orient, scale).apply {
+            init(this)
+            render(this@axis)
+        }
 
 
 class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
