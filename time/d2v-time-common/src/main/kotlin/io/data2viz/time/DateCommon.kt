@@ -46,7 +46,7 @@ expect class Date {
     fun plusHours(hours:Long)
     fun plusDays(days:Long)
 //    fun plusMonths(months:Long)
-//    fun plusYears(years:Long)
+    fun plusYears(years:Long)
 
     fun minusMilliseconds(milliseconds:Int): Date
 
@@ -54,9 +54,9 @@ expect class Date {
     fun setSecond(second:Int)
     fun setMinute(minute:Int)
     fun setHour(hour:Int)
-//    fun setDayOfMonth(day:Int)
-//    fun setMonth(month:Int)
-//    fun setYear(year:Int)
+    fun setDayOfMonth(day:Int)
+    fun setMonth(month:Int)
+    fun setFullYear(year:Int)
 
     fun millisecond(): Int
     fun second(): Int

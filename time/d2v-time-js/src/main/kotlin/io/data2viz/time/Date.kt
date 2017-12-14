@@ -69,7 +69,9 @@ actual class Date {
         date = JsDate(date.getTime() + (days * durationDay))
     }
 //    actual fun plusMonths(months:Long)
-//    actual fun plusYears(years:Long)
+    actual fun plusYears(years:Long) {
+        date.setFullYear(date.getFullYear() + years.toInt())
+    }
 
     actual fun setMillisecond(millisecond: Int) {
         date.setMilliseconds(millisecond)
@@ -86,9 +88,15 @@ actual class Date {
     actual fun setHour(hour: Int) {
         date.setHours(hour)
     }
-//    actual fun setDayOfMonth(day:Int)
-//    actual fun setMonth(month:Int)
-//    actual fun setYear(year:Int)
+    actual fun setDayOfMonth(day:Int) {
+        date.setDate(day)
+    }
+    actual fun setMonth(month:Int) {
+        date.setMonth(month - 1)
+    }
+    actual fun setFullYear(year:Int) {
+        date.setFullYear(year)
+    }
 
     actual fun millisecond(): Int = date.getMilliseconds()
     actual fun second(): Int = date.getSeconds()
@@ -96,7 +104,7 @@ actual class Date {
     actual fun hour(): Int = date.getHours()
     actual fun dayOfWeek(): Int = date.getDay()
     actual fun dayOfMonth(): Int = date.getDate()
-    actual fun dayOfYear(): Int = date.getDay()
+    actual fun dayOfYear(): Int = 1 + timeDay().count(timeYear().floor(this), this)
     actual fun month(): Int = date.getMonth() + 1
     actual fun year(): Int = date.getFullYear()
 

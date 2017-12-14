@@ -20,10 +20,12 @@ public external class Date() {
 
     public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Number)
 
+    public fun setDate(dayofMonth:Int): Int
     public fun getDate(): Int
 
     public fun getDay(): Int
 
+    public fun setFullYear(fullYear:Int): Int
     public fun getFullYear(): Int
 
     public fun getHours(): Int
@@ -35,6 +37,7 @@ public external class Date() {
     public fun getMinutes(): Int
     public fun setMinutes(minutes:Int): Int
 
+    public fun setMonth(months:Int): Int
     public fun getMonth(): Int
 
     public fun getSeconds(): Int

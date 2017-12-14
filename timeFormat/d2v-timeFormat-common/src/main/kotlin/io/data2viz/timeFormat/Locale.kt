@@ -480,7 +480,6 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     // TODO JS version moved to date? (see comment)
     fun formatDayOfYear(d: Date, p: String): String {
         return pad(d.dayOfYear(), p, 3)
-        //return pad(1 + timeDay().count(timeYear(d), d), p, 3)
     }
 
     fun formatMilliseconds(d: Date, p: String): String {

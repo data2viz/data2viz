@@ -57,7 +57,7 @@ actual class Date {
     actual fun plusHours(hours:Long) { date = date.plusHours(hours) }
     actual fun plusDays(days:Long) { date = date.plusDays(days) }
 //    actual fun plusMonths(months:Long) { date = date.plusMonths(months) }
-//    actual fun plusYears(years:Long) { date = date.plusYears(years) }
+    actual fun plusYears(years:Long) { date = date.plusYears(years) }
 
     actual fun setMillisecond(millisecond: Int) {
         date = date.withNano(millisecond * 1000)
@@ -75,17 +75,17 @@ actual class Date {
         date = date.withHour(hour)
     }
 
-//    actual fun setDayOfMonth(day: Int) {
-//        date = date.withDayOfMonth(day)
-//    }
+    actual fun setDayOfMonth(day: Int) {
+        date = date.withDayOfMonth(day)
+    }
 
-//    actual fun setMonth(month: Int) {
-//        date = date.withMonth(month)
-//    }
+    actual fun setMonth(month: Int) {
+        date = date.withMonth(month)
+    }
 
-//    actual fun setYear(year: Int) {
-//        date = date.withYear(year)
-//    }
+    actual fun setFullYear(year: Int) {
+        date = date.withYear(year)
+    }
 
     actual fun millisecond(): Int = date.nano / 1000
     actual fun second(): Int = date.second
