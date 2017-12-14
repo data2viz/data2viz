@@ -8,7 +8,7 @@ data class ModuleState(
         val commonLOC: Int,
         val jsLOC: Int,
         val JVMLOC: Int,
-        val testsLOC: Int)
+        val testLOC: Int)
 
 
 val modules = listOf (
@@ -37,4 +37,7 @@ val modules = listOf (
 
 val ModuleState.remainingLOC:Int
         get() = estimatedLOC - commonLOC - jsLOC - JVMLOC
+
+val ModuleState.testsLoc:Int
+        get() = -testLOC
 
