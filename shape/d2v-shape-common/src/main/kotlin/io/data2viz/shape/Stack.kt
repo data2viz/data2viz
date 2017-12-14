@@ -3,14 +3,15 @@ package io.data2viz.shape
 import io.data2viz.shape.offset.*
 import io.data2viz.shape.order.*
 
-data class StackSpace(
+data class StackSpace<T>(
         var from: Double,
-        var to: Double
+        var to: Double,
+        val data: T
 )
 
 data class StackParam<T>(
-        val stackedValues: MutableList<StackSpace>,
-        val data: T,
+        val stackedValues: MutableList<StackSpace<T>>,
+//        val data: T,
         var index: Int
 )
 
@@ -19,7 +20,7 @@ data class StackParam<T>(
 fun <T> stack(init: StackGenerator<T>.() -> Unit) = StackGenerator<T>().apply(init)
 class StackGenerator<T> {
 
-    var values: (T) -> Array<Double> = const(arrayOf(.0))
+    var series: (T) -> Array<Double> = const(arrayOf(.0))
     var order: StackOrders = StackOrders.NONE
     var offset: StackOffsets = StackOffsets.NONE
 
@@ -27,16 +28,16 @@ class StackGenerator<T> {
         val ret = mutableListOf<StackParam<T>>()
 
         // BUILDING : build the StackParam and StackSpace that function will return
-        val firstValue = values(data[0])
-        firstValue.forEachIndexed { index, value ->
-            val stackedValues = mutableListOf<StackSpace>()
-            val stack = StackParam<T>(stackedValues, data[0], index)
+        val firstValue = series(data[0])
+        firstValue.forEachIndexed { index, _ ->
+            val stackedValues = mutableListOf<StackSpace<T>>()
+            val stack = StackParam<T>(stackedValues, index)
             ret.add(stack)
         }
         data.forEachIndexed { index1, element ->
-            values(element).forEachIndexed { index2, value ->
+            series(element).forEachIndexed { index2, serie ->
                 val stack = ret[index2]
-                stack.stackedValues.add(StackSpace(.0, value))
+                stack.stackedValues.add(StackSpace(.0, serie, data[index1]))
             }
         }
 

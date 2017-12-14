@@ -181,7 +181,7 @@ fun stackTests(arcValues: ArcValues) {
     )
 
     val stackGenerator = stack<dataClass> {
-        values = {
+        series = {
             arrayOf(
                     it.apples.toDouble(),
                     it.bananas.toDouble(),

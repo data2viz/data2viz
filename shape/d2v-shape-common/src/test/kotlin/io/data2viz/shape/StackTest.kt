@@ -181,7 +181,7 @@ class StackTest : TestBase() {
     )
 
     private val stackGenerator = stack<dataClass> {
-        values = {
+        series = {
             arrayOf(
                     it.apples.toDouble(),
                     it.bananas.toDouble(),
@@ -194,7 +194,7 @@ class StackTest : TestBase() {
     }
 
     private val stackGeneratorDisordered = stack<dataClass> {
-        values = {
+        series = {
             arrayOf(
                     it.bananas.toDouble(),
                     it.dates.toDouble(),
@@ -312,11 +312,12 @@ class StackTest : TestBase() {
         checkResults(stackGeneratorDisordered.stack(dataForOffset), "REVERSE + SILHOUETTE", 18)
     }
 
-    // TODO check round() formula cause a "0" to disappear ...
-    // DESCENDING + EXPAND. Expected <INDEX:1 0.500000-1 0-0.500000 -0.500000-0 0.500000-2.500000 >, actual <INDEX:1 0.500000-1 0-0.500000 -0.5000000 0.500000-2.500000 >.
+    // TODO check round() formula cause a "-0" to disappear ...
+    // DESCENDING + EXPAND.
+    // Expected <INDEX:1 0.500000-1 0-0.500000 -0.500000-0 0.500000-2.500000 >
+    // actual   <INDEX:1 0.500000-1 0-0.500000 -0.5000000 0.500000-2.500000 >.
     /*@Test
     fun descending_expand() {
-        // TODO : generates "-0.0" numbers when toStringed
         stackGeneratorDisordered.order = StackOrders.DESCENDING
         stackGeneratorDisordered.offset = StackOffsets.EXPAND
         val ret = stackGeneratorDisordered.stack(otherData)

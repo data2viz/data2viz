@@ -2,7 +2,6 @@ package io.data2viz.examples.progression
 
 import io.data2viz.axis.*
 import io.data2viz.color.*
-import io.data2viz.format.formatter
 import io.data2viz.scale.*
 import io.data2viz.shape.StackGenerator
 import io.data2viz.shape.offset.StackOffsets
@@ -69,26 +68,28 @@ fun VizContext.progression() {
 
 
     // STACK LAYOUT
-    val stack = StackGenerator<ModuleState>()
-    stack.values = {
+    val stackLayout = StackGenerator<ModuleState>()
+    stackLayout.series = {
         arrayOf(it.commonLOC.toDouble(), it.jsLOC.toDouble(), it.JVMLOC.toDouble(), it.remainingLOC.toDouble(), it.testsLoc.toDouble())
     }
-    stack.offset = StackOffsets.DIVERGING       // we want to separate tests (counted as negative lines of code) and program code (positive)
-    stack.order = StackOrders.NONE              // we don't want to change the order defined by stack.values
+    stackLayout.offset = StackOffsets.DIVERGING       // we want to separate tests (counted as negative lines of code) and program code (positive)
+    stackLayout.order = StackOrders.NONE              // we don't want to change the order defined by stack.series
 
-    val stackLayout = stack.stack(modules.toTypedArray())
+    // the stack will give all stacked coordinates so we just need to pass them through our scale.
+    // note : the stack is computed/ordered by SERIES (here the different types of LOC) not by module !
+    val stack = stackLayout.stack(modules.toTypedArray())
 
     legend()
 
-    stackLayout.forEachIndexed { indexLOCType, LOCtypeLayout ->
+    stack.forEach { LOCtypeLayout ->
 
         val moduleStack = LOCtypeLayout.stackedValues
 
-        moduleStack.forEachIndexed { indexModule, moduleLayout ->
+        moduleStack.forEach { moduleLayout ->
             rect {
-                fill = colorList[indexLOCType]
+                fill = colorList[LOCtypeLayout.index]
                 stroke = null
-                x = xScale(moduleNames[indexModule])
+                x = xScale(moduleLayout.data.name)
                 width = xScale.bandwidth
 
                 // yScale has a "negative range" : height > 0 so we need to invert position "from" and "to"
@@ -139,7 +140,7 @@ fun VizContext.progression() {
 
 private fun VizContext.legend() {
     group {
-        transform { translate(x = 20.0, y = height) }
+        transform { translate(x = 20.0, y = height + 22.0) }
         colorLegend(colorJVM, "Current kotlin jvm LOC", line = 0)
         colorLegend(colorJs, "Current kotlin js LOC", line = 1)
         colorLegend(colorCommon, "Current kotlin common LOC", line = 2)
