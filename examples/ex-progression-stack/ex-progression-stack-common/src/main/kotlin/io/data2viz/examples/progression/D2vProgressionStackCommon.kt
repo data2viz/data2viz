@@ -2,8 +2,10 @@ package io.data2viz.examples.progression
 
 import io.data2viz.axis.*
 import io.data2viz.color.*
+import io.data2viz.format.formatter
 import io.data2viz.scale.*
 import io.data2viz.viz.*
+import kotlin.math.absoluteValue
 
 val legendLineHeight = 30.0
 
@@ -53,6 +55,14 @@ fun VizContext.progression() {
         padding = .1
     }
 
+    axis(Orient.LEFT, scales.continuous.linear {
+        domain = listOf(maxEstimated, - maxTest)
+        range = listOf(.0, height)
+    }) {
+        tickFormat = {it.absoluteValue.toInt().toString()}
+    }
+    
+    
     legend()
 
     modules.forEach { progression ->
@@ -155,7 +165,7 @@ fun VizContext.progression() {
 
 private fun VizContext.legend() {
     group {
-        transform { translate(y = height) }
+        transform { translate(x = 20.0, y = height) }
         colorLegend(colorJVM, "Current kotlin jvm LOC", line = 0)
         colorLegend(colorJs, "Current kotlin js LOC", line = 1)
         colorLegend(colorCommon, "Current kotlin common LOC", line = 2)
