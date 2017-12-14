@@ -218,7 +218,9 @@ class StrokeDelegate(val element: Element) : HasStroke {
     override var stroke: Color?
         get() = element.getAttribute("stroke")?.color
         set(value) {
-            element.setAttribute("stroke", value?.toString() ?: "#000")
+            if(value!= null){
+                element.setAttribute("stroke", value.toString())
+            } else element.removeAttribute("stroke")
         }
 
     override var strokeWidth: Double?
