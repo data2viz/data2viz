@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Color
+import io.data2viz.color.colors
 import io.data2viz.color.d2vColor
 import io.data2viz.color.jfxColor
 import io.data2viz.path.PathAdapter
@@ -159,6 +160,10 @@ class StrokeDelegate(val shape: jxShape): HasStroke {
     override var strokeWidth: Double?
         get() = shape.strokeWidth
         set(value) {if (value != null) shape.strokeWidth = value}
+
+    init {
+        stroke = colors.black
+    }
 
 }
 
