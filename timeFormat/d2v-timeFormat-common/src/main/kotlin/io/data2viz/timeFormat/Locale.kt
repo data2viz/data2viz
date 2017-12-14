@@ -19,8 +19,13 @@ data class ParseDate(
         var zone: Int? = null
 )
 
-fun date(d: ParseDate): Date {
-    return date(d.year ?: 0, d.month ?: 1, d.day ?: 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
+private fun date(d: ParseDate): Date {
+    val date = date(d.year ?: 0, d.month ?: 1, 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
+
+    // add days (cause day value may be a number of days <= 0 or > 31)
+    if (d.day != null) date.plusDays(d.day!!.toLong() - 1)
+
+    return date
 }
 
 /*var utcFormats = {
@@ -186,6 +191,7 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
             }
 
             // Convert day-of-week and week-of-year to day-of-year.
+            // TODO change this to avoid managing it in date(parseDate) (days <= 0 or > 31...)
             if (d.weekNumberMonday != null || d.weekNumberSunday != null) {
                 val preValue = if (d.weekNumberMonday != null) 1 else 0
                 if (d.weekDay == null) d.weekDay = preValue
@@ -194,7 +200,7 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
                 } else {
                     date(newYear(d.year)).dayOfWeek()
                 }
-                d.month = 0
+                d.month = 1
                 d.day = if (d.weekNumberMonday != null) {
                     (d.weekDay!! + 6) % 7 + d.weekNumberMonday!! * 7 - (day + 5) % 7
                 } else {
@@ -432,16 +438,18 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     }
 
     fun parseLiteralPercent(d: ParseDate, string: String, i: Int): Int {
-        val n = percentRe.find(string.substring(i, i + 1))
+        val percentRe = Regex("^%")
+        val input = string.substring(i, i + 1)
+        val n = percentRe.find(input)
         return if (n != null) i + n.groupValues[0].length else -1
     }
 
     fun formatShortWeekday(d: Date, p: String): String {
-        return locale_shortWeekdays[d.dayOfWeek()]
+        return locale_shortWeekdays[d.dayOfWeek()%7]
     }
 
     fun formatWeekday(d: Date, p: String): String {
-        return locale_weekdays[d.dayOfWeek()]
+        return locale_weekdays[d.dayOfWeek()%7]
     }
 
     fun formatShortMonth(d: Date, p: String): String {
@@ -569,13 +577,11 @@ fun newYear(y: Int?): ParseDate {
 
 val pads = mapOf(Pair('-', ""), Pair('_', " "), Pair('0', "0"))
 val numberRe = Regex("^\\s*\\d+") // note: ignores next directive
-val percentRe = Regex("/^%/")
 
 fun pad(value: Int, fill: String, width: Int): String {
     val sign = if (value < 0) "-" else ""
     val string = abs(value).toString()
-    val complete = width - string.length
-    return sign + (0 until complete).map { fill }.joinToString { it } + string
+    return sign + (0 until (width - string.length)).map { fill }.joinToString("") + string
 }
 
 fun requote(s: String): String {
