@@ -140,7 +140,6 @@ fun VizContext.progression() {
 
         val key = versions[it]
         val packageCountForVersion = modulesByVersion.get(key)?.size ?: 0
-        println("Version $key :: $packageCountForVersion packages")
         val versionWidth = xScale.step * packageCountForVersion
 
         text {
