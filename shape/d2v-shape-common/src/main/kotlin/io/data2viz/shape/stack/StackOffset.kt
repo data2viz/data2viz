@@ -1,9 +1,45 @@
-package io.data2viz.shape.offset
-
-import io.data2viz.shape.StackParam
+package io.data2viz.shape.stack
 
 enum class StackOffsets {
-    NONE, EXPAND, DIVERGING, SILHOUETTE, WIGGLE
+    
+    /**
+     * Applies a zero baseline.
+     */
+    NONE,
+
+    /**
+     * Applies a zero baseline and normalizes the values for each point such that the topline is always one.
+     */
+    EXPAND,
+
+    /**
+     * Positive values are stacked above zero, while negative values are stacked below zero.
+     */
+    DIVERGING,
+
+    /**
+     * Shifts the baseline down such that the center of the streamgraph is always at zero.
+     */
+    SILHOUETTE,
+
+    /**
+     * Shifts the baseline so as to minimize the weighted wiggle of layers.
+     * This offset is recommended for streamgraphs in conjunction with the inside-out order.
+     * See Stacked Graphs—Geometry & Aesthetics by Bryon & Wattenberg for more information.
+     * http://leebyron.com/streamgraph/
+     */
+    WIGGLE;
+
+    fun <T> offset(ret: List<StackParam<T>>) {
+        when (this) {
+            EXPAND -> StackOffsetExpand<T>()
+            DIVERGING -> StackOffsetDiverging<T>()
+            SILHOUETTE -> StackOffsetSilhouette<T>()
+            WIGGLE -> StackOffsetWiggle<T>()
+            NONE -> StackOffsetNone<T>()
+        }.offset(ret)
+    }
+
 }
 
 interface StackOffset<T> {
@@ -12,9 +48,6 @@ interface StackOffset<T> {
 
 // TODO : cast exceptions when using irrelevant values (cf tests, ie negative values without divergingOffset...)
 
-/**
- * Applies a zero baseline.
- */
 class StackOffsetNone<T> : StackOffset<T> {
     override fun offset(stackParams: List<StackParam<T>>): List<StackParam<T>> {
         val orderedParams = stackParams.sortedBy { it.index }
@@ -32,9 +65,6 @@ class StackOffsetNone<T> : StackOffset<T> {
     }
 }
 
-/**
- * Applies a zero baseline and normalizes the values for each point such that the topline is always one.
- */
 class StackOffsetExpand<T> : StackOffset<T> {
     override fun offset(stackParams: List<StackParam<T>>): List<StackParam<T>> {
         val orderedParams = stackParams.sortedBy { it.index }
@@ -62,9 +92,6 @@ class StackOffsetExpand<T> : StackOffset<T> {
     }
 }
 
-/**
- * Positive values are stacked above zero, while negative values are stacked below zero.
- */
 class StackOffsetDiverging<T> : StackOffset<T> {
     override fun offset(stackParams: List<StackParam<T>>): List<StackParam<T>> {
         val orderedParams = stackParams.sortedBy { it.index }
@@ -91,9 +118,6 @@ class StackOffsetDiverging<T> : StackOffset<T> {
     }
 }
 
-/**
- * Shifts the baseline down such that the center of the streamgraph is always at zero.
- */
 class StackOffsetSilhouette<T> : StackOffset<T> {
     override fun offset(stackParams: List<StackParam<T>>): List<StackParam<T>> {
         val orderedParams = stackParams.sortedBy { it.index }
@@ -119,12 +143,6 @@ class StackOffsetSilhouette<T> : StackOffset<T> {
     }
 }
 
-/**
- * Shifts the baseline so as to minimize the weighted wiggle of layers.
- * This offset is recommended for streamgraphs in conjunction with the inside-out order.
- * See Stacked Graphs—Geometry & Aesthetics by Bryon & Wattenberg for more information.
- * http://leebyron.com/streamgraph/
- */
 class StackOffsetWiggle<T> : StackOffset<T> {
     override fun offset(stackParams: List<StackParam<T>>): List<StackParam<T>> {
         val orderedParams = stackParams.sortedBy { it.index }

@@ -1,7 +1,6 @@
-package io.data2viz.shape
+package io.data2viz.shape.stack
 
-import io.data2viz.shape.offset.*
-import io.data2viz.shape.order.*
+import io.data2viz.shape.const
 
 data class StackSpace<T>(
         var from: Double,
@@ -42,28 +41,14 @@ class StackGenerator<T> {
         }
 
         // ORDERING : order series depending on its sum
-        if (order != StackOrders.NONE) {
-            val indexes = when (order) {
-                StackOrders.ASCENDING -> StackOrderAscending<T>().sort(ret)
-                StackOrders.DESCENDING -> StackOrderDescending<T>().sort(ret)
-                StackOrders.REVERSE -> StackOrderReverse<T>().sort(ret)
-                StackOrders.INSIDEOUT -> StackOrderInsideOut<T>().sort(ret)
-                else -> StackOrderNone<T>().sort(ret)
-            }
+        val indexes = order.sort(ret)
 
-            indexes.forEachIndexed { realIndex, oldIndex ->
-                ret[oldIndex].index = realIndex
-            }
+        indexes.forEachIndexed { realIndex, oldIndex ->
+            ret[oldIndex].index = realIndex
         }
 
-        // OFFSETING : place values along the baseline and normalize them if needed
-        when (offset) {
-            StackOffsets.EXPAND -> StackOffsetExpand<T>().offset(ret)
-            StackOffsets.DIVERGING -> StackOffsetDiverging<T>().offset(ret)
-            StackOffsets.SILHOUETTE -> StackOffsetSilhouette<T>().offset(ret)
-            StackOffsets.WIGGLE -> StackOffsetWiggle<T>().offset(ret)
-            else -> StackOffsetNone<T>().offset(ret)
-        }
+        // OFFSETTING : place values along the baseline and normalize them if needed
+        offset.offset(ret)
 
         return ret.toTypedArray()
     }

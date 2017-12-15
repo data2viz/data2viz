@@ -3,9 +3,7 @@ package io.data2viz.examples.progression
 import io.data2viz.axis.*
 import io.data2viz.color.*
 import io.data2viz.scale.*
-import io.data2viz.shape.StackGenerator
-import io.data2viz.shape.offset.StackOffsets
-import io.data2viz.shape.order.StackOrders
+import io.data2viz.shape.stack.*
 import io.data2viz.viz.*
 import kotlin.math.absoluteValue
 

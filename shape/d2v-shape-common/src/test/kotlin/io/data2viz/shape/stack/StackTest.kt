@@ -1,7 +1,5 @@
-package io.data2viz.shape
+package io.data2viz.shape.stack
 
-import io.data2viz.shape.offset.StackOffsets
-import io.data2viz.shape.order.StackOrders
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 import kotlin.test.assertEquals

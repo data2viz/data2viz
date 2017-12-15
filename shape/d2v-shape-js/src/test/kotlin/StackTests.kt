@@ -1,7 +1,7 @@
-import io.data2viz.shape.StackParam
-import io.data2viz.shape.offset.StackOffsets
-import io.data2viz.shape.order.StackOrders
-import io.data2viz.shape.stack
+import io.data2viz.shape.stack.StackParam
+import io.data2viz.shape.stack.StackOffsets
+import io.data2viz.shape.stack.StackOrders
+import io.data2viz.shape.stack.stack
 import kotlin.browser.document
 import kotlin.dom.appendElement
 import kotlin.js.Date
