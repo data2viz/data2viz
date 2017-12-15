@@ -20,7 +20,7 @@ class FormatTest : TestDate() {
     val formatMonth = format("%B")
     val formatYear = format("%Y")
     fun multi(d:Date):String {
-        return (if (timeHour().floor(d).isBefore(d)) formatHour else formatDay)(d)
+        return (if (timeHour.floor(d).isBefore(d)) formatHour else formatDay)(d)
     }
 
     @Test
@@ -208,19 +208,21 @@ class FormatTest : TestDate() {
         formatter(date(1990, 10, 1, 0, 0, 32, 432)) shouldBe "432"
     }
 
-    // TODO when format("U") is OK
+
+    // TODO : incorrect ?? check http://week-number.net/calendar-with-week-numbers-1990.html
+    // even with week starting on sunday...
     /*@Test
     fun format_date_U_returns_zero_padded_week_numbers_LEGACY() {
         val formatter = format("%U")
 
         formatter(date(1990, 1, 1, 0)) shouldBe "00"
-        formatter(date(1990, 6, 1, 0)) shouldBe "21"
-        formatter(date(1990, 3, 13, 23)) shouldBe "10"
-        formatter(date(1990, 3, 14, 0)) shouldBe "11" // DST begins
-        formatter(date(1990, 3, 15, 0)) shouldBe "11"
-        formatter(date(1990, 11, 6, 23)) shouldBe "44"
-        formatter(date(1990, 11, 7, 0)) shouldBe "45" // DST ends
-        formatter(date(1990, 11, 8, 0)) shouldBe "45"
+        formatter(date(1990, 6, 1, 0)) shouldBe "21"        // LEGACY TEST : 21 !!
+        formatter(date(2010, 3, 13, 23)) shouldBe "10"
+        formatter(date(2010, 3, 14, 0)) shouldBe "11"
+        formatter(date(2010, 3, 15, 0)) shouldBe "11"
+        formatter(date(2010, 11, 6, 23)) shouldBe "44"
+        formatter(date(2010, 11, 7, 0)) shouldBe "45"
+        formatter(date(2010, 11, 8, 0)) shouldBe "45"
     }*/
 
     @Test

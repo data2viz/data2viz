@@ -16,12 +16,8 @@ class Year : Interval(
         },
         fun (start:Date, end:Date): Int {
             return end.year() - start.year()
-        },
-        fun (date:Date): Date {
-            date.plusDays(-1)
-            return date
         }
 )
 
 
-fun timeYear() = Year()
+val timeYear = Year()

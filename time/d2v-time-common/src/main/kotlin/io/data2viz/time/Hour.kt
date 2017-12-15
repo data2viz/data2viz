@@ -20,4 +20,4 @@ class Hour : Interval(
         }
 )
 
-fun timeHour() = Hour()
+val timeHour = Hour()

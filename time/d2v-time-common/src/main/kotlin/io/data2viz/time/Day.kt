@@ -21,4 +21,4 @@ class Day : Interval(
         }
 )
 
-fun timeDay() = Day()
+val timeDay = Day()

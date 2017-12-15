@@ -96,9 +96,9 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
             Pair('M', ::formatMinutes),
             Pair('p', ::formatPeriod),
             Pair('S', ::formatSeconds),
-//        Pair('U', ::formatWeekNumberSunday),
+            Pair('U', ::formatWeekNumberSunday),
             Pair('w', ::formatWeekdayNumber),
-//        Pair('W', ::formatWeekNumberMonday),
+            Pair('W', ::formatWeekNumberMonday),
             Pair('x', null),
             Pair('X', null),
             Pair('y', ::formatYear),
@@ -445,11 +445,11 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     }
 
     fun formatShortWeekday(d: Date, p: String): String {
-        return locale_shortWeekdays[d.dayOfWeek()%7]
+        return locale_shortWeekdays[d.dayOfWeek() % 7]
     }
 
     fun formatWeekday(d: Date, p: String): String {
-        return locale_weekdays[d.dayOfWeek()%7]
+        return locale_weekdays[d.dayOfWeek() % 7]
     }
 
     fun formatShortMonth(d: Date, p: String): String {
@@ -498,17 +498,19 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return pad(d.second(), p, 2)
     }
 
-/*fun formatWeekNumberSunday(d:Date, p:String):String {
-    return pad(timeSunday.count(timeYear(d), d), p, 2)
-}*/
+    fun formatWeekNumberSunday(d: Date, p: String): String {
+        val start = timeYear.floor(d)
+        val value = timeSunday.count(start, d)
+        return pad(value, p, 2)
+    }
 
     fun formatWeekdayNumber(d: Date, p: String): String {
         return d.dayOfWeek().toString()
     }
 
-/*fun formatWeekNumberMonday(d:Date, p:String):String {
-    return pad(timeMonday.count(timeYear(d), d), p, 2)
-}*/
+    fun formatWeekNumberMonday(d: Date, p: String): String {
+        return pad(timeMonday.count(timeYear.floor(d), d), p, 2)
+    }
 
     fun formatYear(d: Date, p: String): String {
         return pad(d.year() % 100, p, 2)

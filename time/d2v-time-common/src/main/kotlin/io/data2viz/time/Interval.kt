@@ -140,6 +140,8 @@ open class Interval(private val floori: (Date) -> Date,
 
     fun count(start: Date, stop: Date): Int {
         checkNotNull(counti, { "The given Count function must not be null." })
-        return counti!!.invoke(floor(start), floor(stop))
+        val from = floor(start)
+        val to = floor(stop)
+        return counti!!.invoke(from, to)
     }
 }

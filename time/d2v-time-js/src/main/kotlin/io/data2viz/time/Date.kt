@@ -104,7 +104,7 @@ actual class Date {
     actual fun hour(): Int = date.getHours()
     actual fun dayOfWeek(): Int = date.getDay()
     actual fun dayOfMonth(): Int = date.getDate()
-    actual fun dayOfYear(): Int = 1 + timeDay().count(timeYear().floor(this), this)
+    actual fun dayOfYear(): Int = 1 + timeDay.count(timeYear.floor(this), this)
     actual fun month(): Int = date.getMonth() + 1
     actual fun year(): Int = date.getFullYear()
 

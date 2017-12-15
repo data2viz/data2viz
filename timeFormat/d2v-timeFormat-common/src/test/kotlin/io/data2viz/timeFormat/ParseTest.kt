@@ -29,7 +29,12 @@ class ParseTest : TestDate() {
     fun parse_AmdY_parses_weekday_and_date_LEGACY() {
         val parser = parse("%A %m/%d/%Y")
 
+        // note : ignores the day name
         parser("Sunday 01/01/1990") shouldBe date(1990,1,1)
+        parser("Monday 01/01/1990") shouldBe date(1990,1,1)
+        parser("Tuesday 01/01/1990") shouldBe date(1990,1,1)
+        parser("Wednesday 01/01/1990") shouldBe date(1990,1,1)
+
         parser("Wednesday 02/03/1991") shouldBe date(1991,2,3)
         parser("Caturday 03/10/2010") shouldBe null
     }
