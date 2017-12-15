@@ -66,12 +66,13 @@ fun VizContext.progression() {
 
 
     // STACK LAYOUT
-    val stackLayout = StackGenerator<ModuleState>()
-    stackLayout.series = {
-        arrayOf(it.commonLOC.toDouble(), it.jsLOC.toDouble(), it.JVMLOC.toDouble(), it.remainingLOC.toDouble(), it.testsLoc.toDouble())
+    val stackLayout = stack<ModuleState> {
+        offset = StackOffsets.DIVERGING       // we want to separate tests (counted as negative lines of code) and program code (positive)
+        order = StackOrders.NONE              // we don't want to change the order defined by stack.series
+        series = {
+            arrayOf(it.commonLOC.toDouble(), it.jsLOC.toDouble(), it.JVMLOC.toDouble(), it.remainingLOC.toDouble(), it.testsLoc.toDouble())
+        }
     }
-    stackLayout.offset = StackOffsets.DIVERGING       // we want to separate tests (counted as negative lines of code) and program code (positive)
-    stackLayout.order = StackOrders.NONE              // we don't want to change the order defined by stack.series
 
     // the stack will give all stacked coordinates so we just need to pass them through our scale.
     // note : the stack is computed/ordered by SERIES (here the different types of LOC) not by module !
