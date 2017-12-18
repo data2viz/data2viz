@@ -71,7 +71,7 @@ compilation phase.
 
 <img src="docs/img/current-progress.png" width="850">
 
-### V0.3 80%: 
+### V0.3 (working) : 
 The main purpose of this version is to propose the multiplatform bootstrap API allowing to build
 visualizations in a common module and deploy them indifferently in the browser or as a JavaFx 
 application.
@@ -82,10 +82,12 @@ The content of the available visual elements is:
 
 This version also contains some utility packages:
   - format: to simplify and provide an uniform way of formating numbers in Js and JVM,
-  - time and time-format: unified way of managing time for dataviz.
+  - time and time-format: unified way of managing time for dataviz. 
 
-### V0.4:
-Based on the visual elements, components for charting (chord, sankey, hierarchy, ...)
+### V0.4 (in dev) :
+This version proposes to add some layout elements and diagrams for charting  : [chord](https://en.wikipedia.org/wiki/Chord_diagram), 
+[sankey](https://en.wikipedia.org/wiki/Sankey_diagram), [cluster](https://en.wikipedia.org/wiki/Cluster_diagram), 
+[treemap](https://en.wikipedia.org/wiki/Treemapping)...
 
 ### V0.5:
 First version of a charting API (inspired by vega-lite)

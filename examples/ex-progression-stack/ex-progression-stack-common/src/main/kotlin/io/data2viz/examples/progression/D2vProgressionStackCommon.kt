@@ -154,7 +154,7 @@ private fun ParentItem.colorLegend(color: Color, legend: String, line: Int = 0) 
             }
             rect {
                 fill = color
-                stroke = colors.black
+                strokeWidth = .0
                 height = 20.0
                 width = 20.0
             }
