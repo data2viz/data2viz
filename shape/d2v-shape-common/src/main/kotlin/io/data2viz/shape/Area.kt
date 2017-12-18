@@ -64,7 +64,7 @@ class AreaGenerator<T> {
         var defined0 = false
         val output = curve(context)
 
-        for (i in 0..n) {
+        for (i in 0 until n) {
             val d = data[i]
             if (!(i < n && defined(d)) == defined0) {
                 defined0 = !defined0

@@ -40,10 +40,10 @@ fun VizContext.progression() {
     }
 
     val maxEstimated = modules.maxBy { it.estimatedLOC }?.estimatedLOC?.toDouble() ?: .0
-    val maxTest = modules.minBy { it.testsLoc }?.testsLoc?.toDouble() ?: .0
+    val minTest = modules.minBy { it.testsLoc }?.testsLoc?.toDouble() ?: .0
 
     val yScale = scales.continuous.linear {
-        domain = listOf(maxTest, maxEstimated)
+        domain = listOf(minTest, maxEstimated)
         range = listOf(height, .0)
     }
     yScale.nice()
