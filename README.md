@@ -69,7 +69,7 @@ compilation phase.
 
 ## Current status && Roadmap
 
-<img src="docs/img/current-progress.png" width="850">
+[<img src="docs/img/current-progress.png" width="850">](https://raw.githubusercontent.com/data2viz/data2viz/master/docs/img/current-progress.png)
 
 ### V0.3 (working) : 
 The main purpose of this version is to propose the multiplatform bootstrap API allowing to build
