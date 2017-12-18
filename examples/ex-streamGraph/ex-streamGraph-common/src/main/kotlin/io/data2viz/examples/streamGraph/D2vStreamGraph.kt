@@ -1,13 +1,16 @@
 package io.data2viz.examples.streamGraph
 
-import io.data2viz.axis.*
-import io.data2viz.color.*
-import io.data2viz.path.svgPath
-import io.data2viz.scale.*
+import io.data2viz.color.EncodedColors.Companion.category20b
+import io.data2viz.core.random
+import io.data2viz.scale.scales
 import io.data2viz.shape.area
-import io.data2viz.shape.stack.*
-import io.data2viz.viz.*
-import kotlin.math.absoluteValue
+import io.data2viz.shape.curves
+import io.data2viz.shape.stack.StackOffsets
+import io.data2viz.shape.stack.StackOrders
+import io.data2viz.shape.stack.StackSpace
+import io.data2viz.shape.stack.stack
+import io.data2viz.viz.Margins
+import io.data2viz.viz.VizContext
 
 val legendLineHeight = 30.0
 
@@ -16,13 +19,31 @@ val margins = Margins(50.0, bottom = 4 * legendLineHeight + 40.0)
 val width = 1600.0 - margins.hMargins
 val height = 450.0
 
-//Colors from http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=7
-val colorExpected = "#dddddd".color
-val colorTest = "#b2182b".color
-val colorCommon = "#2166ac".color
-val colorJs = "#67a9cf".color
-val colorJVM = "#d1e5f0".color
-val colorList = listOf(colorCommon, colorJs, colorJVM, colorExpected, colorTest)
+val colorList = category20b
+
+data class score(
+        val index: Int,
+        val lang1: Double,
+        val lang2: Double,
+        val lang3: Double,
+        val lang4: Double,
+        val lang5: Double,
+        val lang6: Double,
+        val lang7: Double,
+        val lang8: Double,
+        val lang9: Double,
+        val lang10: Double
+)
+
+fun randomScore(): Double {
+    var rand = random()
+    rand *= rand * rand
+    return if (rand < .1) .0 else rand
+}
+
+val data = (0..30).map {
+    score(it, randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore())
+}.toTypedArray()
 
 fun VizContext.streamGraph() {
 
@@ -30,95 +51,47 @@ fun VizContext.streamGraph() {
         translate(x = margins.left, y = margins.top)
     }
 
-    val yScale = scales.continuous.linear {
-        domain = listOf(-100.0, 100.0)
-        range = listOf(height, .0)
-    }
-    yScale.nice()
-
-    //val y0 = yScale(0.0)
-
-    //val moduleNames = modules.map { it.name }
-
-    val xScale = scales.continuous.linear {
-        domain = listOf(.0, (modules.size - 1).toDouble())
-        range = listOf(height, .0)
-    }
-
-    axis(Orient.LEFT, scales.continuous.linear {
-        domain = yScale.domain
-        range = yScale.range
-    }) {
-        tickFormat = { it.absoluteValue.toInt().toString() }
-    }
-
-
     // STACK LAYOUT
-    val stackLayout = stack<vals> {
-        offset = StackOffsets.WIGGLE            // we want to separate tests (counted as negative lines of code) and program code (positive)
-        order = StackOrders.NONE                // we don't want to change the order defined by stack.series
+    val stackLayout = stack<score> {
+        offset = StackOffsets.WIGGLE
+        order = StackOrders.INSIDEOUT
         series = {
-            arrayOf(it.val1, it.val2, it.val3, it.val4, it.val5, it.val6, it.val7)
+            arrayOf(it.lang1, it.lang2, it.lang3, it.lang4, it.lang5, it.lang6, it.lang7, it.lang8, it.lang9, it.lang10)
         }
     }
+    val stack = stackLayout.stack(data)
 
-    // the stack will give all stacked coordinates so we just need to pass them through our scale.
-    // note : the stack is computed/ordered by SERIES (here the different types of LOC) not by module !
-    val stack = stackLayout.stack(modules.toTypedArray())
+    val max = (stack.map { it.stackedValues.map { it.to }.max() } as List<Double>).max()
+    val min = (stack.map { it.stackedValues.map { it.to }.min() } as List<Double>).min()
 
-    val area = area<StackSpace<vals>> {
-        x1 = { xScale(.0) }
-        y1 = { yScale(it.from) }
-        x0 = { xScale(.0) }
-        y0 = { yScale(.0) }
+    val yScale = scales.continuous.linear {
+        domain = listOf(min!!, max!!)
+        range = listOf(height, .0)
     }
 
-    legend()
+    val xScale = scales.continuous.linear {
+        domain = listOf(.0, (data.size - 1).toDouble())
+        range = listOf(.0, width)
+    }
+
+    val area = area<StackSpace<score>> {
+        x0 = { xScale(it.paramIndex.toDouble()) }
+        x1 = { xScale(it.paramIndex.toDouble()) }
+        y0 = { yScale(it.from) }
+        y1 = { yScale(it.to) }
+        curve = curves.basis
+    }
 
     stack.forEach { LOCtypeLayout ->
 
-        val data = LOCtypeLayout.stackedValues.toTypedArray()
+        val d = LOCtypeLayout.stackedValues.toTypedArray()
         group {
             path {
-                area.render(data, this)
+                area.render(d, this)
+                fill = colorList.color(LOCtypeLayout.index / 10.0)
+                stroke = colorList.color(LOCtypeLayout.index / 10.0)
             }
         }
-
-        println(area.render(data, svgPath()).path)
     }
 
-    group {
-        transform {
-            translate(y = yScale(.0))
-        }
-        axis(Orient.BOTTOM, xScale)
-    }
 }
-
-private fun VizContext.legend() {
-    group {
-        transform { translate(x = 20.0, y = height + 22.0) }
-        colorLegend(colorJVM, "Current kotlin jvm LOC", line = 0)
-        colorLegend(colorJs, "Current kotlin js LOC", line = 1)
-        colorLegend(colorCommon, "Current kotlin common LOC", line = 2)
-        colorLegend(colorTest, "Current total test LOC", line = 3)
-    }
-}
-
-private fun ParentItem.colorLegend(color: Color, legend: String, line: Int = 0) =
-        group {
-            transform {
-                translate(y = line * legendLineHeight)
-            }
-            rect {
-                fill = color
-                stroke = colors.black
-                height = 20.0
-                width = 20.0
-            }
-
-            text {
-                transform { translate(x = 25.0, y = 15.0) }
-                textContent = legend
-            }
-        }
