@@ -77,14 +77,14 @@ fun VizContext.streamGraph() {
 
     stack.forEach { LOCtypeLayout ->
 
+        val data = LOCtypeLayout.stackedValues.toTypedArray()
         group {
             path {
-
+                area.render(data, this)
             }
         }
-        val moduleStack = LOCtypeLayout.stackedValues
 
-        println(area.area(moduleStack.toTypedArray(), svgPath()).path)
+        println(area.render(data, svgPath()).path)
     }
 
     group {
