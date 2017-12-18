@@ -7,7 +7,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_floor_date_returns_hours_LEGACY() {
-        val time = timeHour()
+        val time = timeHour
 
         time.floor(date(2010, 12, 31, 23, 59)) shouldBe date(2010, 12, 31, 23)
         time.floor(date(2011, 1, 1, 0, 0)) shouldBe date(2011, 1, 1, 0)
@@ -16,7 +16,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_ceil_returns_hours_LEGACY() {
-        val time = timeHour()
+        val time = timeHour
 
         time.ceil(date(2010, 12, 31, 23, 59)) shouldBe date(2011, 1, 1, 0)
         time.ceil(date(2011, 1, 1, 0, 0)) shouldBe date(2011, 1, 1, 0)
@@ -25,7 +25,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_offset_date_step_does_not_modify_the_passed_date_LEGACY() {
-        val time = timeHour()
+        val time = timeHour
         val date = date(2010, 12, 31, 23, 59, 59, 999)
 
         time.offset(date, 1)
@@ -34,7 +34,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_offset_date_step_does_not_round_the_passed_date_LEGACY() {
-        val time = timeHour()
+        val time = timeHour
         val date1 = date(2010, 12, 31, 23, 59, 59, 456)
 
         val date2 = date(2011, 1, 1, 0, 59, 59, 456)
@@ -46,7 +46,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_offset_allows_negative_positive_zero_step_LEGACY() {
-        val time = timeHour()
+        val time = timeHour
 
         time.offset(date(2010, 12, 31, 12), -1) shouldBe date(2010, 12, 31, 11)
         time.offset(date(2011, 1, 1, 1), -2) shouldBe date(2010, 12, 31, 23)
@@ -64,7 +64,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_range_start_stop_cans_kip_hours_LEGACY() {
-        val time = timeHour()
+        val time = timeHour
         val result = listOf(
                 date(2011, 2, 1, 1),
                 date(2011, 2, 1, 4),
@@ -80,7 +80,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_range_start_stop_returns_hours_between_start_inclusive_and_stop_exclusive_LEGACY() {
-        val time = timeHour()
+        val time = timeHour
         val result = listOf(
                 date(2010, 12, 31, 23),
                 date(2011, 1, 1, 0),
@@ -95,7 +95,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_range_start_stop_returns_hours_LEGACY() {
-        val time = timeHour()
+        val time = timeHour
         val result = listOf(
                 date(2010, 12, 31, 23),
                 date(2011, 1, 1, 0),
