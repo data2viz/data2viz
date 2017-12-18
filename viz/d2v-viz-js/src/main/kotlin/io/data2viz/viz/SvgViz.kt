@@ -13,7 +13,10 @@ import kotlin.reflect.KProperty
 
 
 val svgNamespaceURI = "http://www.w3.org/2000/svg"
-internal fun createSVGElement(name: String) = document.createElementNS(svgNamespaceURI, name)
+internal fun createSVGElement(name: String, classes: String = "") = document.createElementNS(svgNamespaceURI, name).apply {
+    if (classes.isNotBlank())
+        setAttribute("class", classes)
+}
 
 fun selectOrCreateSvg(): SVGElement {
     var svgElement = document.querySelector("svg") as SVGElement?
@@ -93,7 +96,6 @@ class ParentElement(val parent: Element) : VizContext,
         parent.append(text.element)
         return text
     }
-
 
 }
 
