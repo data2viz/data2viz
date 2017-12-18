@@ -39,22 +39,15 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
     fun render(content:ParentItem) {
         
-//        fun values():List<Double> {
-//            if (tickValues.isNotEmpty()) return tickValues
-//            if (scale is Tickable<Double>) return scale.ticks()
-//            
-//        }
-
-        
         val values: List<D> = if (tickValues.isEmpty() && scale is Tickable<*>) scale.ticks() as List<D> else tickValues
         val spacing = tickSizeInner.coerceAtLeast(0.0) + tickPadding
         val range0 = scale.start()
         val range1 = scale.end()
         val position = if (scale is BandedScale) center(scale) else number(scale)
 
-
         with(content){
             path { 
+
                 stroke = colors.black
                 fill = null
                 strokeWidth = 1.0
