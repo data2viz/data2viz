@@ -33,6 +33,7 @@ fun checkData(data: List<ModuleState>) {
 
 fun VizContext.progression() {
 
+
     checkData(modules)
 
     transform {
@@ -57,10 +58,9 @@ fun VizContext.progression() {
         padding = .1
     }
 
-    axis(Orient.LEFT, scales.continuous.linear {
-        domain = yScale.domain
-        range = yScale.range
-    }) {
+    axis(Orient.LEFT, yScale) { // Using RIGHT axis but putting it on the left !!!
+        tickSizeInner = width - margins.hMargins
+        tickSizeOuter = width - margins.hMargins
         tickFormat = { it.absoluteValue.toInt().toString() }
     }
 
