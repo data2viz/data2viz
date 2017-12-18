@@ -124,7 +124,7 @@ private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoin
     }
     areaGenerator.curve = curve
     renderAreaCanvas(arrayOfPoints)
-    renderSvg(areaGenerator.area(arrayOfPoints, SvgPath()), lineGenerator, "#cfc", "d2vSamplesArea", arrayOfPoints)
+    renderSvg(areaGenerator.render(arrayOfPoints, SvgPath()), lineGenerator, "#cfc", "d2vSamplesArea", arrayOfPoints)
 }
 
 private fun newCanvas(elementId: String): HTMLCanvasElement {
@@ -159,7 +159,7 @@ private fun renderAreaCanvas(arrayOfPoints: Array<Point>) {
         lineWidth = 1.0
         strokeStyle = "blue"
         fillStyle = "#ccf"
-        areaGenerator.area(arrayOfPoints, CanvasDrawContext(this))
+        areaGenerator.render(arrayOfPoints, CanvasDrawContext(this))
         fill()
         stroke()
     }
