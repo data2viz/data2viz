@@ -5,6 +5,7 @@ import io.data2viz.shape.const
 data class StackSpace<T>(
         var from: Double,
         var to: Double,
+        val paramIndex: Int,
         val data: T
 )
 
@@ -30,13 +31,13 @@ class StackGenerator<T> {
         val firstValue = series(data[0])
         firstValue.forEachIndexed { index, _ ->
             val stackedValues = mutableListOf<StackSpace<T>>()
-            val stack = StackParam<T>(stackedValues, index)
+            val stack = StackParam(stackedValues, index)
             ret.add(stack)
         }
         data.forEachIndexed { index1, element ->
             series(element).forEachIndexed { index2, serie ->
                 val stack = ret[index2]
-                stack.stackedValues.add(StackSpace(.0, serie, data[index1]))
+                stack.stackedValues.add(StackSpace(.0, serie, index1, data[index1]))
             }
         }
 

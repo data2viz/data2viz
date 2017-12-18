@@ -57,16 +57,17 @@ class AreaGenerator<T> {
     fun <C : PathAdapter> render(data: Array<T>, context: C): C {
         val n = data.size
 
-        val x0z = Array<Double>(n, { it -> 0.0 })
-        val y0z = Array<Double>(n, { it -> 0.0 })
+        val x0z = Array(n, { it -> 0.0 })
+        val y0z = Array(n, { it -> 0.0 })
 
         var j = 0
         var defined0 = false
         val output = curve(context)
 
-        for (i in 0 until n) {
-            val d = data[i]
-            if (!(i < n && defined(d)) == defined0) {
+        for (i in 0 .. n) {
+            val areaNotEnded = i < n
+            val undefined = !(areaNotEnded && defined(data[i]))
+            if (undefined == defined0) {
                 defined0 = !defined0
                 if (defined0) {
                     j = i
@@ -83,6 +84,7 @@ class AreaGenerator<T> {
                 }
             }
             if (defined0) {
+                val d = data[i]
                 x0z[i] = x0(d)
                 y0z[i] = y0(d)
                 val outputX = if (x1 != null) x1!!(d) else x0z[i]
