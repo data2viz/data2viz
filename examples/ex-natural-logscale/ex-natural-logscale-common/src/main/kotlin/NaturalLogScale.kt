@@ -10,7 +10,7 @@ import kotlin.math.round
 
 var superscript = "⁰¹²³⁴⁵⁶⁷⁸⁹"
 
-val margins = Margins(40.5, 40.5, 50.5, 60.5)
+val margins = Margins(40.5, 30.5, 50.5, 50.5)
 
 val width = 960.0 - margins.hMargins
 val height = 500.0 - margins.vMargins
@@ -38,7 +38,7 @@ val points = (0..100).map { i -> Point(i.toDouble(), functionToPlot(i.toDouble()
 fun VizContext.naturalLogScale() {
 
     transform {
-        translate(x = margins.right, y = margins.top)
+        translate(x = margins.left, y = margins.top)
     }
 
     group {
