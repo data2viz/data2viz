@@ -67,8 +67,8 @@ fun VizContext.progression() {
 
     // STACK LAYOUT
     val stackLayout = stack<ModuleState> {
-        offset = StackOffsets.DIVERGING       // we want to separate tests (counted as negative lines of code) and program code (positive)
-        order = StackOrders.NONE              // we don't want to change the order defined by stack.series
+        offset = StackOffset.DIVERGING       // we want to separate tests (counted as negative lines of code) and program code (positive)
+        order = StackOrder.NONE              // we don't want to change the order defined by stack.series
         series = {
             arrayOf(it.commonLOC.toDouble(), it.jsLOC.toDouble(), it.JVMLOC.toDouble(), it.remainingLOC.toDouble(), it.testsLoc.toDouble())
         }

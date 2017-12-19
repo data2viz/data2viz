@@ -1,97 +1,124 @@
 package io.data2viz.examples.streamGraph
 
+import io.data2viz.color.EncodedColors
 import io.data2viz.color.EncodedColors.Companion.category20b
 import io.data2viz.core.random
+import io.data2viz.path.PathAdapter
 import io.data2viz.scale.scales
+import io.data2viz.shape.Curve
 import io.data2viz.shape.area
 import io.data2viz.shape.curves
-import io.data2viz.shape.stack.StackOffsets
-import io.data2viz.shape.stack.StackOrders
+import io.data2viz.shape.stack.StackOffset
+import io.data2viz.shape.stack.StackOrder
 import io.data2viz.shape.stack.StackSpace
 import io.data2viz.shape.stack.stack
 import io.data2viz.viz.Margins
 import io.data2viz.viz.VizContext
 
-val legendLineHeight = 30.0
 
-val margins = Margins(50.0, bottom = 4 * legendLineHeight + 40.0)
-
+// Graphical bounds
+val margins = Margins(50.0, 40.0)
 val width = 1600.0 - margins.hMargins
 val height = 450.0
 
-val colorList = category20b
 
-data class score(
+// Domain object
+data class Score(
         val index: Int,
-        val lang1: Double,
-        val lang2: Double,
-        val lang3: Double,
-        val lang4: Double,
-        val lang5: Double,
-        val lang6: Double,
-        val lang7: Double,
-        val lang8: Double,
-        val lang9: Double,
-        val lang10: Double
+        val lang1: Double = randomScore(1),
+        val lang2: Double = randomScore(2),
+        val lang3: Double = randomScore(3),
+        val lang4: Double = randomScore(1),
+        val lang5: Double = randomScore(4),
+        val lang6: Double = randomScore(6),
+        val lang7: Double = randomScore(6),
+        val lang8: Double = randomScore(3),
+        val lang9: Double = randomScore(15),
+        val lang10: Double = randomScore(2)
 )
 
-fun randomScore(): Double {
+
+// Visual configuration object
+data class VizConfig(
+        var curve: (PathAdapter) -> Curve = curves.basis,
+        var offset: StackOffset = StackOffset.WIGGLE,
+        var order: StackOrder = StackOrder.NONE,
+        var colors: EncodedColors = category20b
+)
+val vizConfig = VizConfig()
+
+
+// Random data generation
+fun randomScore(size: Int): Double {
     var rand = random()
-    rand *= rand * rand
+    rand *= rand * rand * size
     return if (rand < .1) .0 else rand
 }
+val data = (0..30).map { Score(it) }.toTypedArray()
 
-val data = (0..30).map {
-    score(it, randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore(), randomScore())
-}.toTypedArray()
 
+// Main function
 fun VizContext.streamGraph() {
 
+    // Add margins for visualization
     transform {
         translate(x = margins.left, y = margins.top)
     }
 
-    // STACK LAYOUT
-    val stackLayout = stack<score> {
-        offset = StackOffsets.WIGGLE
-        order = StackOrders.INSIDEOUT
+
+    // A streamgraph is basically just a "stack layout"
+    // Here we plug StackOffset and StackOrder to our VizConfig choices,
+    // and define the series (Double values) we want to stack
+    val stackLayout = stack<Score> {
+        offset = vizConfig.offset
+        order = vizConfig.order
         series = {
             arrayOf(it.lang1, it.lang2, it.lang3, it.lang4, it.lang5, it.lang6, it.lang7, it.lang8, it.lang9, it.lang10)
         }
     }
+    // Then we just need to pass our data for the stack to  to pre-compute curves positions
     val stack = stackLayout.stack(data)
 
-    val max = (stack.map { it.stackedValues.map { it.to }.max() } as List<Double>).max()
-    val min = (stack.map { it.stackedValues.map { it.to }.min() } as List<Double>).min()
 
+    // Search for min and max of stackedValues, we'll use it for defining the extent of our domain (Y Scale)
+    val max = (stack.map { it.stackedValues.map { it.to }.max()!! }).max()!!
+    val min = (stack.map { it.stackedValues.map { it.from }.min()!! }).min()!!
+
+    // The ordinate scale is a standard linear scale
     val yScale = scales.continuous.linear {
-        domain = listOf(min!!, max!!)
+        domain = listOf(min, max)
         range = listOf(height, .0)
     }
 
+
+    // The abciss scale is also linear scale (could have been a timeScale)
     val xScale = scales.continuous.linear {
         domain = listOf(.0, (data.size - 1).toDouble())
         range = listOf(.0, width)
     }
 
-    val area = area<StackSpace<score>> {
+
+    // Area Generator for streams : X is the index of the serie, Y is defined by our stack
+    // We plug the rendering curve to our Viz Config
+    val area = area<StackSpace<Score>> {
         x0 = { xScale(it.paramIndex.toDouble()) }
         x1 = { xScale(it.paramIndex.toDouble()) }
         y0 = { yScale(it.from) }
         y1 = { yScale(it.to) }
-        curve = curves.basis
+        curve = vizConfig.curve
     }
 
-    stack.forEach { LOCtypeLayout ->
 
-        val d = LOCtypeLayout.stackedValues.toTypedArray()
+    // Finally, we just need to render each serie as an area
+    stack.forEach { serieStream ->
+        val stackData = serieStream.stackedValues.toTypedArray()
         group {
             path {
-                area.render(d, this)
-                fill = colorList.color(LOCtypeLayout.index / 10.0)
-                stroke = colorList.color(LOCtypeLayout.index / 10.0)
+                area.render(stackData, this)
+                val color = vizConfig.colors.color(serieStream.index / stack.size.toDouble())
+                fill = color
+                stroke = color
             }
         }
     }
-
 }

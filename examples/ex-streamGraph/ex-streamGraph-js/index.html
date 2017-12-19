@@ -6,17 +6,48 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
     <style>
         body {
-            font-family: Sans-Serif,serif;
+            font-family: Sans-Serif, serif;
             font-size: 12px;
         }
     </style>
 </head>
 <body>
 
-
 <script>
     require.config({baseUrl: "build/dist"});
     require(['build/dist/ex-streamGraph-js.js']);
 </script>
+
+<div id="curveControlBar">
+    <label for="curve">Area spline interpolation:</label>
+    <select id="curve">
+        <option selected>Basis</option>
+        <option>Linear</option>
+        <option>Natural</option>
+        <option>Catmull-Rom</option>
+        <option>Cardinal</option>
+        <option>Step</option>
+    </select>
+</div>
+<div id="offsetControlBar">
+    <label for="offset">Stacks offset:</label>
+    <select id="offset">
+        <option>None</option>
+        <option>Expand</option>
+        <option>Diverging</option>
+        <option>Silhouette</option>
+        <option selected>Wiggle</option>
+    </select>
+</div>
+<div id="orderControlBar">
+    <label for="order">Stacks order:</label>
+    <select id="order">
+        <option selected>None</option>
+        <option>Ascending</option>
+        <option>Descending</option>
+        <option>Reverse</option>
+        <option>Inside-out</option>
+    </select>
+</div>
 </body>
 </html>
