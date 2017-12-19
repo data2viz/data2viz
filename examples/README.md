@@ -20,3 +20,12 @@
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
 <img src="ex-progression-stack/docs/d2v-progression-javaFx.png" width="400">
 </a>
+
+## [Stream Graph](ex-streamGraph)
+
+- Stack,
+- Curves, stream grapth
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
+<img src="ex-streamGraph/docs/stream-graph.png" width="400">
+</a>
