@@ -132,6 +132,8 @@ class TransformNodeDelegate(val node:Node) : Transformable {
 
     class TransformFx(val node: Node) : Transform{
         override fun translate(x: Double, y: Double) {
+            val transforms = node.transforms.filterIsInstance(javafx.scene.transform.Transform::class.java)
+            node.transforms.removeAll(transforms)
             node.transforms.add(javafx.scene.transform.Transform.translate(x,y))
         }
 
