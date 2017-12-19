@@ -57,6 +57,34 @@ fun randomScore(size: Int): Double {
 val data = (0..30).map { Score(it) }.toTypedArray()
 
 
+
+
+val curveOptions = listOf(
+        "Basis" to curves.basis,
+        "Linear" to curves.linear,
+        "Natural" to curves.natural,
+        "Catmull-Rom" to curves.catmullRom,
+        "Cardinal" to curves.cardinal,
+        "Step" to curves.step
+)
+
+val offsetOptions = listOf(
+        "None" to StackOffset.NONE,
+        "Expand" to StackOffset.EXPAND,
+        "Diverging" to StackOffset.DIVERGING,
+        "Silhouette" to StackOffset.SILHOUETTE,
+        "Wiggle" to StackOffset.WIGGLE
+)
+
+
+val orderOptions = listOf(
+        "None" to StackOrder.NONE,
+        "Ascending" to StackOrder.ASCENDING,
+        "Descending" to StackOrder.DESCENDING,
+        "Reverse" to StackOrder.REVERSE,
+        "Inside-out" to StackOrder.INSIDEOUT
+)
+
 // Main function
 fun VizContext.streamGraph() {
 

@@ -1,20 +1,14 @@
 import io.data2viz.examples.streamGraph.*
 import io.data2viz.viz.selectOrCreateSvg
 import io.data2viz.viz.viz
-import io.data2viz.shape.curves
-import io.data2viz.shape.stack.StackOffset
-import io.data2viz.shape.stack.StackOrder
-import org.w3c.dom.Element
 import org.w3c.dom.HTMLSelectElement
 import kotlin.browser.document
+import kotlin.dom.appendElement
 
 @Suppress("unused")
 
 fun main(args: Array<String>) {
 
-    val curve = document.querySelector("#curve")!! as HTMLSelectElement
-    val offset = document.querySelector("#offset")!! as HTMLSelectElement
-    val order = document.querySelector("#order")!! as HTMLSelectElement
 
     fun draw() {
         val root = selectOrCreateSvg().apply {
@@ -27,37 +21,55 @@ fun main(args: Array<String>) {
         }
     }
 
-    curve.addEventListener("change", {
-        vizConfig.curve = when(curve.selectedIndex) {
-            1 -> curves.linear
-            2 -> curves.natural
-            3 -> curves.catmullRom
-            4 -> curves.cardinal
-            5 -> curves.step
-            else -> curves.basis
+    htmlSelectElement("#curve").apply {
+        curveOptions.forEach { option ->
+            appendElement("option") {
+                if (option.first == "Basis")
+                    setAttribute("selected", "true")
+                this.textContent = option.first
+            }
         }
-        draw()
-    })
-    offset.addEventListener("change", {
-        vizConfig.offset = when(offset.selectedIndex) {
-            1 -> StackOffset.EXPAND
-            2 -> StackOffset.DIVERGING
-            3 -> StackOffset.SILHOUETTE
-            4 -> StackOffset.WIGGLE
-            else -> StackOffset.NONE
+
+        addEventListener("change", {
+            vizConfig.curve = curveOptions[selectedIndex].second
+            draw()
+        })
+
+    }
+
+
+    htmlSelectElement("#offset").apply {
+        offsetOptions.forEach { option ->
+            appendElement("option") {
+                if (option.first == "Wiggle")
+                    setAttribute("selected", "true")
+                this.textContent = option.first
+            }
         }
-        draw()
-    })
-    order.addEventListener("change", {
-        vizConfig.order = when(order.selectedIndex) {
-            1 -> StackOrder.ASCENDING
-            2 -> StackOrder.DESCENDING
-            3 -> StackOrder.REVERSE
-            4 -> StackOrder.INSIDEOUT
-            else -> StackOrder.NONE
+
+        addEventListener("change", {
+            vizConfig.offset = offsetOptions[selectedIndex].second
+            draw()
+        })
+
+    }
+
+    htmlSelectElement("#order").apply {
+        orderOptions.forEach { option ->
+            appendElement("option") {
+                if (option.first == "None")
+                    setAttribute("selected", "true")
+                textContent = option.first
+            }
         }
-        draw()
-    })
+
+        addEventListener("change", {
+            vizConfig.order = orderOptions[selectedIndex].second
+            draw()
+        })
+    }
 
     draw()
 }
+
+private fun htmlSelectElement(selectionId: String) = document.querySelector(selectionId)!! as HTMLSelectElement
