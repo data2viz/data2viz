@@ -17,7 +17,7 @@ import io.data2viz.viz.VizContext
 
 
 // Graphical bounds
-val margins = Margins(50.0, 40.0)
+val margins = Margins(50.0, .0)
 val width = 1600.0 - margins.hMargins
 val height = 450.0
 
@@ -55,8 +55,6 @@ fun randomScore(size: Int): Double {
     return if (rand < .1) .0 else rand
 }
 val data = (0..30).map { Score(it) }.toTypedArray()
-
-
 
 
 val curveOptions = listOf(
