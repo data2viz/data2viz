@@ -1,6 +1,6 @@
 package io.data2viz.shape.stack
 
-enum class StackOffsets {
+enum class StackOffset {
 
     /**
      * Applies a zero baseline.
@@ -32,11 +32,11 @@ enum class StackOffsets {
 
     internal fun <T> offset(ret: List<StackParam<T>>) {
         when (this) {
-            StackOffsets.EXPAND -> ret.offsetExpand()
-            StackOffsets.DIVERGING -> ret.offsetDiverging()
-            StackOffsets.SILHOUETTE -> ret.offsetSilhouette()
-            StackOffsets.WIGGLE -> ret.offsetWiggle()
-            StackOffsets.NONE -> ret.offsetNone()
+            StackOffset.EXPAND -> ret.offsetExpand()
+            StackOffset.DIVERGING -> ret.offsetDiverging()
+            StackOffset.SILHOUETTE -> ret.offsetSilhouette()
+            StackOffset.WIGGLE -> ret.offsetWiggle()
+            StackOffset.NONE -> ret.offsetNone()
         }
     }
 

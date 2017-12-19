@@ -21,8 +21,8 @@ fun <T> stack(init: StackGenerator<T>.() -> Unit) = StackGenerator<T>().apply(in
 class StackGenerator<T> {
 
     var series: (T) -> Array<Double> = const(arrayOf(.0))
-    var order: StackOrders = StackOrders.NONE
-    var offset: StackOffsets = StackOffsets.NONE
+    var order: StackOrder = StackOrder.NONE
+    var offset: StackOffset = StackOffset.NONE
 
     fun stack(data: Array<T>): Array<StackParam<T>> {
         val ret = mutableListOf<StackParam<T>>()

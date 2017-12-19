@@ -31,7 +31,6 @@ class Natural(override val context: PathAdapter) : Curve {
             if (n > 1) {
                 if (n == 2) context.lineTo(x[1], y[1])
                 else {
-                    println("$n $x")
                     val px = controlPoints(x)
                     val py = controlPoints(y)
                     var i0 = 0

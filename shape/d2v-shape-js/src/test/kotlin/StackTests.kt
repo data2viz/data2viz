@@ -1,6 +1,6 @@
 import io.data2viz.shape.stack.StackParam
-import io.data2viz.shape.stack.StackOffsets
-import io.data2viz.shape.stack.StackOrders
+import io.data2viz.shape.stack.StackOffset
+import io.data2viz.shape.stack.StackOrder
 import io.data2viz.shape.stack.stack
 import kotlin.browser.document
 import kotlin.dom.appendElement
@@ -189,25 +189,25 @@ fun stackTests(arcValues: ArcValues) {
                     it.dates.toDouble()
             )
         }
-        order = StackOrders.NONE
-        offset = StackOffsets.NONE
+        order = StackOrder.NONE
+        offset = StackOffset.NONE
     }
 
     /*printResult(stackGenerator.stack(data), "No Order - No Offset", 0)
 
-    stackGenerator.order = StackOrders.ASCENDING
+    stackGenerator.order = StackOrder.ASCENDING
     printResult(stackGenerator.stack(data), "Ascending - No Offset", 1)
 
-    stackGenerator.order = StackOrders.DESCENDING
+    stackGenerator.order = StackOrder.DESCENDING
     printResult(stackGenerator.stack(data), "Descending - No Offset", 2)
 
-    stackGenerator.order = StackOrders.REVERSE
+    stackGenerator.order = StackOrder.REVERSE
     printResult(stackGenerator.stack(data), "Reverse - No Offset", 3)
 
-    stackGenerator.order = StackOrders.INSIDEOUT
+    stackGenerator.order = StackOrder.INSIDEOUT
     printResult(stackGenerator.stack(data), "InsideOut - No Offset", 4)
 
-    stackGenerator.order = StackOrders.NONE
+    stackGenerator.order = StackOrder.NONE
     stackGenerator.values = {
         arrayOf(
                 it.bananas.toDouble(),
@@ -218,44 +218,44 @@ fun stackTests(arcValues: ArcValues) {
     }
     printResult(stackGenerator.stack(data), "No Order - No Offset (changed values)", 5)
 
-    stackGenerator.order = StackOrders.ASCENDING
+    stackGenerator.order = StackOrder.ASCENDING
     printResult(stackGenerator.stack(data), "Ascending - No Offset (changed values)", 6)
 
-    stackGenerator.order = StackOrders.DESCENDING
+    stackGenerator.order = StackOrder.DESCENDING
     printResult(stackGenerator.stack(data), "Descending - No Offset (changed values)", 7)
 
-    stackGenerator.order = StackOrders.NONE
-    stackGenerator.offset = StackOffsets.NONE
+    stackGenerator.order = StackOrder.NONE
+    stackGenerator.offset = StackOffset.NONE
     printResult(stackGenerator.stack(dataDiverging), "No Order - No Offset - with NEGATIVE values", 8)
 
-    stackGenerator.offset = StackOffsets.EXPAND
+    stackGenerator.offset = StackOffset.EXPAND
     printResult(stackGenerator.stack(dataForOffset), "No Order - Expand Offset", 9)
     printResult(stackGenerator.stack(dataDiverging), "Expand  - with NEGATIVE values", 10)
 
-    stackGenerator.offset = StackOffsets.DIVERGING
+    stackGenerator.offset = StackOffset.DIVERGING
     printResult(stackGenerator.stack(dataForOffset), "No Order - Diverging Offset", 11)
     printResult(stackGenerator.stack(dataDiverging), "Diverging with NEGATIVE values", 12)
 
-    stackGenerator.offset = StackOffsets.SILHOUETTE
+    stackGenerator.offset = StackOffset.SILHOUETTE
     printResult(stackGenerator.stack(dataForOffset), "No Order - Silhouette Offset", 13)
     printResult(stackGenerator.stack(dataDiverging), "Silhouette with NEGATIVE values", 14)
 
-    stackGenerator.offset = StackOffsets.WIGGLE
+    stackGenerator.offset = StackOffset.WIGGLE
     printResult(stackGenerator.stack(dataForOffset), "No Order - Wiggle Offset", 15)
     printResult(stackGenerator.stack(dataDiverging), "Wiggle with NEGATIVE values", 16)
 
-    stackGenerator.order = StackOrders.INSIDEOUT
+    stackGenerator.order = StackOrder.INSIDEOUT
     printResult(stackGenerator.stack(dataForOffset), "INSIDEOUT + WIGGLE", 17)
 
-    stackGenerator.order = StackOrders.REVERSE
-    stackGenerator.offset = StackOffsets.SILHOUETTE
+    stackGenerator.order = StackOrder.REVERSE
+    stackGenerator.offset = StackOffset.SILHOUETTE
     printResult(stackGenerator.stack(dataForOffset), "REVERSE + SILHOUETTE", 18)
 
-    stackGenerator.order = StackOrders.DESCENDING
-    stackGenerator.offset = StackOffsets.EXPAND
+    stackGenerator.order = StackOrder.DESCENDING
+    stackGenerator.offset = StackOffset.EXPAND
     printResult(stackGenerator.stack(otherData), "DESCENDING + EXPAND", 19)
 
-    stackGenerator.offset = StackOffsets.DIVERGING
+    stackGenerator.offset = StackOffset.DIVERGING
     printResult(stackGenerator.stack(data), "DESCENDING + DIVERGING", 20)*/
 }
 

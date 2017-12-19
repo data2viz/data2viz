@@ -78,6 +78,7 @@ class StackTest : TestBase() {
                     "INDEX:2 5760.0-6720.0 5040.0-6000.0 1600.0-2240.0 800.0-1440.0 4900.0-5540.0 ",
                     "INDEX:3 6720.0-7120.0 6000.0-6400.0 2240.0-2640.0 1440.0-1840.0 5540.0-5640.0 "
             ),
+            // 5
             arrayOf(
                     "INDEX:0 0.0-1920.0 0.0-3440.0 0.0-960.0 0.0-480.0 0.0-4800.0 ",
                     "INDEX:1 1920.0-2320.0 3440.0-3840.0 960.0-1360.0 480.0-880.0 4800.0-4900.0 ",
@@ -108,6 +109,7 @@ class StackTest : TestBase() {
                     "INDEX:2 0.5-0.75 0.5-1.0 0.5-0.875 0.625-0.75 ",
                     "INDEX:3 0.75-1.0 1.0-1.0 0.875-1.0 0.75-1.0 "
             ),
+            // 10
             arrayOf(
                     "INDEX:0 0.0-0.5 0.0--200.0 0.0-100.0 0.0-200.0 ",
                     "INDEX:1 0.5-1.0 -200.0--200.0 100.0-200.0 200.0-150.0 ",
@@ -138,6 +140,7 @@ class StackTest : TestBase() {
                     "INDEX:2 100.0-0.0 -200.0-0.0 200.0-50.0 150.0-100.0 ",
                     "INDEX:3 0.0-100.0 0.0-0.0 50.0-0.0 100.0-0.0 "
             ),
+            // 15
             arrayOf(
                     "INDEX:0 0.0-100.0 -50.0-150.0 -12.5-87.5 -40.625-159.375 ",
                     "INDEX:1 100.0-200.0 150.0-150.0 87.5-187.5 159.375-209.375 ",
@@ -170,6 +173,7 @@ class StackTest : TestBase() {
                     "INDEX:3 1.5-1.0 0.5-1.0 0.25-1.0 1.5-1.0 ",
                     "INDEX:2 1.0-1.5 0.5-0.5 -0.0-0.25 2.5-1.5 "
             ),
+            // 20
             arrayOf(
                     "INDEX:0 0.0-1920.0 0.0-3440.0 0.0-960.0 0.0-480.0 0.0-4800.0 ",
                     "INDEX:3 6720.0-7120.0 6000.0-6400.0 2240.0-2640.0 1440.0-1840.0 5540.0-5640.0 ",
@@ -187,8 +191,8 @@ class StackTest : TestBase() {
                     it.dates.toDouble()
             )
         }
-        order = StackOrders.NONE
-        offset = StackOffsets.NONE
+        order = StackOrder.NONE
+        offset = StackOffset.NONE
     }
 
     private val stackGeneratorDisordered = stack<dataClass> {
@@ -200,8 +204,8 @@ class StackTest : TestBase() {
                     it.apples.toDouble()
             )
         }
-        order = StackOrders.NONE
-        offset = StackOffsets.NONE
+        order = StackOrder.NONE
+        offset = StackOffset.NONE
     }
 
     private fun checkResults(ret: Array<StackParam<dataClass>>, name: String, resultIndex: Int) {
@@ -222,25 +226,25 @@ class StackTest : TestBase() {
 
     @Test
     fun ascending_no_offset() {
-        stackGenerator.order = StackOrders.ASCENDING
+        stackGenerator.order = StackOrder.ASCENDING
         checkResults(stackGenerator.stack(data), "Ascending - No Offset", 1)
     }
 
     @Test
     fun descending_no_offset() {
-        stackGenerator.order = StackOrders.DESCENDING
+        stackGenerator.order = StackOrder.DESCENDING
         checkResults(stackGenerator.stack(data), "Descending - No Offset", 2)
     }
 
     @Test
     fun reverse_no_offset() {
-        stackGenerator.order = StackOrders.REVERSE
+        stackGenerator.order = StackOrder.REVERSE
         checkResults(stackGenerator.stack(data), "Reverse - No Offset", 3)
     }
 
     @Test
     fun insideout_no_offset() {
-        stackGenerator.order = StackOrders.INSIDEOUT
+        stackGenerator.order = StackOrder.INSIDEOUT
         checkResults(stackGenerator.stack(data), "InsideOut - No Offset", 4)
     }
 
@@ -251,62 +255,62 @@ class StackTest : TestBase() {
 
     @Test
     fun ascending_no_offset_change_order() {
-        stackGeneratorDisordered.order = StackOrders.ASCENDING
+        stackGeneratorDisordered.order = StackOrder.ASCENDING
         checkResults(stackGeneratorDisordered.stack(data), "Ascending - No Offset (changed values)", 6)
     }
 
     @Test
     fun descending_no_offset_change_order() {
-        stackGeneratorDisordered.order = StackOrders.DESCENDING
+        stackGeneratorDisordered.order = StackOrder.DESCENDING
         checkResults(stackGeneratorDisordered.stack(data), "Descending - No Offset (changed values)", 7)
     }
 
     @Test
     fun diverging_no_offset() {
-        stackGeneratorDisordered.order = StackOrders.NONE
-        stackGeneratorDisordered.offset = StackOffsets.NONE
+        stackGeneratorDisordered.order = StackOrder.NONE
+        stackGeneratorDisordered.offset = StackOffset.NONE
         checkResults(stackGeneratorDisordered.stack(dataDiverging), "No Order - No Offset - with NEGATIVE values", 8)
     }
 
     @Test
     fun diverging_expand() {
-        stackGeneratorDisordered.offset = StackOffsets.EXPAND
+        stackGeneratorDisordered.offset = StackOffset.EXPAND
         checkResults(stackGeneratorDisordered.stack(dataForOffset), "No Order - Expand Offset", 9)
         checkResults(stackGeneratorDisordered.stack(dataDiverging), "Expand  - with NEGATIVE values", 10)
     }
 
     @Test
     fun diverging_negatives() {
-        stackGeneratorDisordered.offset = StackOffsets.DIVERGING
+        stackGeneratorDisordered.offset = StackOffset.DIVERGING
         checkResults(stackGeneratorDisordered.stack(dataForOffset), "No Order - Diverging Offset", 11)
         checkResults(stackGeneratorDisordered.stack(dataDiverging), "Diverging with NEGATIVE values", 12)
     }
 
     @Test
     fun silhouette_negatives() {
-        stackGeneratorDisordered.offset = StackOffsets.SILHOUETTE
+        stackGeneratorDisordered.offset = StackOffset.SILHOUETTE
         checkResults(stackGeneratorDisordered.stack(dataForOffset), "No Order - Silhouette Offset", 13)
         checkResults(stackGeneratorDisordered.stack(dataDiverging), "Silhouette with NEGATIVE values", 14)
     }
 
     @Test
     fun wiggle_negatives() {
-        stackGeneratorDisordered.offset = StackOffsets.WIGGLE
+        stackGeneratorDisordered.offset = StackOffset.WIGGLE
         checkResults(stackGeneratorDisordered.stack(dataForOffset), "No Order - Wiggle Offset", 15)
         checkResults(stackGeneratorDisordered.stack(dataDiverging), "Wiggle with NEGATIVE values", 16)
     }
 
     @Test
     fun insideout_wiggle() {
-        stackGeneratorDisordered.offset = StackOffsets.WIGGLE
-        stackGeneratorDisordered.order = StackOrders.INSIDEOUT
+        stackGeneratorDisordered.offset = StackOffset.WIGGLE
+        stackGeneratorDisordered.order = StackOrder.INSIDEOUT
         checkResults(stackGeneratorDisordered.stack(dataForOffset), "INSIDEOUT + WIGGLE", 17)
     }
 
     @Test
     fun reverse_silhouette() {
-        stackGeneratorDisordered.order = StackOrders.REVERSE
-        stackGeneratorDisordered.offset = StackOffsets.SILHOUETTE
+        stackGeneratorDisordered.order = StackOrder.REVERSE
+        stackGeneratorDisordered.offset = StackOffset.SILHOUETTE
         checkResults(stackGeneratorDisordered.stack(dataForOffset), "REVERSE + SILHOUETTE", 18)
     }
 
@@ -316,16 +320,16 @@ class StackTest : TestBase() {
     // actual   <INDEX:1 0.500000-1 0-0.500000 -0.5000000 0.500000-2.500000 >.
     /*@Test
     fun descending_expand() {
-        stackGeneratorDisordered.order = StackOrders.DESCENDING
-        stackGeneratorDisordered.offset = StackOffsets.EXPAND
+        stackGeneratorDisordered.order = StackOrder.DESCENDING
+        stackGeneratorDisordered.offset = StackOffset.EXPAND
         val ret = stackGeneratorDisordered.stack(otherData)
         checkResults(ret, "DESCENDING + EXPAND", 19)
     }*/
 
     @Test
     fun descending_diverging() {
-        stackGeneratorDisordered.order = StackOrders.DESCENDING
-        stackGeneratorDisordered.offset = StackOffsets.DIVERGING
+        stackGeneratorDisordered.order = StackOrder.DESCENDING
+        stackGeneratorDisordered.offset = StackOffset.DIVERGING
         checkResults(stackGeneratorDisordered.stack(data), "DESCENDING + DIVERGING", 20)
     }
 }
