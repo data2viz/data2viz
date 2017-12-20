@@ -1,27 +1,11 @@
 package io.data2viz.timeFormat
 
-import io.data2viz.time.Date
-import io.data2viz.time.date
-import io.data2viz.time.timeHour
+import io.data2viz.time.*
 import kotlin.test.Test
 
 
 
 class FormatTest : TestDate() {
-
-    // TODO : finish and move it to date to create a conditionnal time formatter ?
-    // see last test in comments
-    val formatMillisecond = format(".%L")
-    val formatSecond = format(":%S")
-    val formatMinute = format("%I:%M")
-    val formatHour = format("%I %p")
-    val formatDay = format("%a %d")
-    val formatWeek = format("%b %d")
-    val formatMonth = format("%B")
-    val formatYear = format("%Y")
-    fun multi(d:Date):String {
-        return (if (timeHour.floor(d).isBefore(d)) formatHour else formatDay)(d)
-    }
 
     @Test
     fun format_date() {
@@ -276,6 +260,7 @@ tape("timeFormat(\"%Z\")(date) formats time zones", function(test) {
   test.end();
 });
 
+// NOTE multi is moved to Locale.autoFormat()
 tape("timeFormat(…) can be used to create a conditional multi-format", function(test) {
   test.equal(multi(date.local(1990, 0, 1, 0, 0, 0, 12)), ".012");
   test.equal(multi(date.local(1990, 0, 1, 0, 0, 1,  0)), ":01");

@@ -144,6 +144,23 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         formats['X'] = fun(date: Date, _: String): String { return timeFormat(date) }
     }
 
+    fun autoFormat(): (Date) -> String {
+        val formatMillisecond = format(".%L")
+        val formatSecond = format(":%S")
+        val formatMinute = format("%I:%M")
+        val formatHour = format("%I %p")
+        val formatDay = format("%a %d")
+        val formatWeek = format("%b %d")
+        val formatMonth = format("%B")
+        val formatYear = format("%Y")
+
+        return fun(date: Date):String {
+            return (if (timeHour.floor(date).isBefore(date)) formatHour else
+                if (timeDay.floor(date).isBefore(date)) formatDay else
+                    formatYear)(date)
+        }
+    }
+
     fun format(specifier: String): (Date) -> String {
         return fun(date: Date): String {
             val string = mutableListOf<String>()
