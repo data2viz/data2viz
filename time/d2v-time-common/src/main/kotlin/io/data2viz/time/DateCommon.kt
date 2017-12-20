@@ -1,14 +1,18 @@
 package io.data2viz.time
 
 fun date(
-        year: Int          = 0,
-        month:Int          = 1,
-        day: Int           = 1,
-        hour: Int          = 0,
-        minute: Int        = 0,
-        second: Int        = 0,
-        millisecond: Int   = 0): Date {
+        year: Int = 0,
+        month: Int = 1,
+        day: Int = 1,
+        hour: Int = 0,
+        minute: Int = 0,
+        second: Int = 0,
+        millisecond: Int = 0): Date {
     return Date(year, month, day, hour, minute, second, millisecond)
+}
+
+fun date(date: Date): Date {
+    return Date(date.year(), date.month(), date.dayOfMonth(), date.hour(), date.minute(), date.second(), date.millisecond())
 }
 
 fun date(): Date {
@@ -30,33 +34,35 @@ expect class Date {
 
     constructor()
     constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int)
-    constructor(date:Date)
+    constructor(date: Date)
 
-    override fun toString():String
+    override fun toString(): String
 
-    fun isBefore(otherDate:Date): Boolean
-    fun millisecondsBetween(otherDate:Date): Long
-    fun daysBetween(otherDate:Date): Long
-    fun hoursBetween(otherDate:Date): Long
+    fun isBefore(otherDate: Date): Boolean
+    fun millisecondsBetween(otherDate: Date): Long
+    fun daysBetween(otherDate: Date): Long
+    fun hoursBetween(otherDate: Date): Long
 
     fun getTimezoneOffset(): Int
 
-//    fun plusSeconds(seconds:Long)
+    fun plusMilliseconds(milliseconds: Long)
+    //    fun plusSeconds(seconds:Long)
 //    fun plusMinutes(minutes:Long)
-    fun plusHours(hours:Long)
-    fun plusDays(days:Long)
-//    fun plusMonths(months:Long)
-    fun plusYears(years:Long)
+    fun plusHours(hours: Long)
 
-    fun minusMilliseconds(milliseconds:Int): Date
+    fun plusDays(days: Long)
+    //    fun plusMonths(months:Long)
+    fun plusYears(years: Long)
 
-    fun setMillisecond(millisecond:Int)
-    fun setSecond(second:Int)
-    fun setMinute(minute:Int)
-    fun setHour(hour:Int)
-    fun setDayOfMonth(day:Int)
-    fun setMonth(month:Int)
-    fun setFullYear(year:Int)
+    fun minusMilliseconds(milliseconds: Int): Date
+
+    fun setMillisecond(millisecond: Int)
+    fun setSecond(second: Int)
+    fun setMinute(minute: Int)
+    fun setHour(hour: Int)
+    fun setDayOfMonth(day: Int)
+    fun setMonth(month: Int)
+    fun setFullYear(year: Int)
 
     fun millisecond(): Int
     fun second(): Int
@@ -108,61 +114,61 @@ expect class Date {
 //    public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Number)
 
 //    public fun getDate(): Long
-    /*public fun getDay(): Int
-    public fun getFullYear(): Int
-    public fun getHours(): Int
-    public fun getMilliseconds(): Int
-    public fun getMinutes(): Int
-    public fun getMonth(): Int
-    public fun getSeconds(): Int
-    public fun getTime(): Double
-    public fun getTimezoneOffset(): Int
-    public fun getUTCDate(): Int
-    public fun getUTCDay(): Int
-    public fun getUTCFullYear(): Int
-    public fun getUTCHours(): Int
-    public fun getUTCMilliseconds(): Int
-    public fun getUTCMinutes(): Int
-    public fun getUTCMonth(): Int
-    public fun getUTCSeconds(): Int
-    public fun toDateString(): String
-    public fun toISOString(): String*/
+/*public fun getDay(): Int
+public fun getFullYear(): Int
+public fun getHours(): Int
+public fun getMilliseconds(): Int
+public fun getMinutes(): Int
+public fun getMonth(): Int
+public fun getSeconds(): Int
+public fun getTime(): Double
+public fun getTimezoneOffset(): Int
+public fun getUTCDate(): Int
+public fun getUTCDay(): Int
+public fun getUTCFullYear(): Int
+public fun getUTCHours(): Int
+public fun getUTCMilliseconds(): Int
+public fun getUTCMinutes(): Int
+public fun getUTCMonth(): Int
+public fun getUTCSeconds(): Int
+public fun toDateString(): String
+public fun toISOString(): String*/
 
-    /*public fun toJSON(): Json
-    public fun toLocaleDateString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
-    public fun toLocaleDateString(locales: String, options: LocaleOptions = definedExternally): String
-    public fun toLocaleString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
-    public fun toLocaleString(locales: String, options: LocaleOptions = definedExternally): String
-    public fun toLocaleTimeString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
-    public fun toLocaleTimeString(locales: String, options: LocaleOptions = definedExternally): String*/
+/*public fun toJSON(): Json
+public fun toLocaleDateString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
+public fun toLocaleDateString(locales: String, options: LocaleOptions = definedExternally): String
+public fun toLocaleString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
+public fun toLocaleString(locales: String, options: LocaleOptions = definedExternally): String
+public fun toLocaleTimeString(locales: Array<String> = definedExternally, options: LocaleOptions = definedExternally): String
+public fun toLocaleTimeString(locales: String, options: LocaleOptions = definedExternally): String*/
 
 //    public fun toTimeString(): String
 //    public fun toUTCString(): String
 
-    /*public companion object {
-        public fun now(): Double
-        public fun parse(dateString: String): Double
-        public fun UTC(year: Int, month: Int): Double
-        public fun UTC(year: Int, month: Int, day: Int): Double
-        public fun UTC(year: Int, month: Int, day: Int, hour: Int): Double
-        public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int): Double
-        public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int): Double
-        public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Number): Double
-    }*/
+/*public companion object {
+    public fun now(): Double
+    public fun parse(dateString: String): Double
+    public fun UTC(year: Int, month: Int): Double
+    public fun UTC(year: Int, month: Int, day: Int): Double
+    public fun UTC(year: Int, month: Int, day: Int, hour: Int): Double
+    public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int): Double
+    public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int): Double
+    public fun UTC(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Number): Double
+}*/
 
-    /*public interface LocaleOptions {
-        public var localeMatcher: String?
-        public var timeZone: String?
-        public var hour12: Boolean?
-        public var formatMatcher: String?
-        public var weekday: String?
-        public var era: String?
-        public var year: String?
-        public var month: String?
-        public var day: String?
-        public var hour: String?
-        public var minute: String?
-        public var second: String?
-        public var timeZoneName: String?
-    }*/
+/*public interface LocaleOptions {
+    public var localeMatcher: String?
+    public var timeZone: String?
+    public var hour12: Boolean?
+    public var formatMatcher: String?
+    public var weekday: String?
+    public var era: String?
+    public var year: String?
+    public var month: String?
+    public var day: String?
+    public var hour: String?
+    public var minute: String?
+    public var second: String?
+    public var timeZoneName: String?
+}*/
 //}

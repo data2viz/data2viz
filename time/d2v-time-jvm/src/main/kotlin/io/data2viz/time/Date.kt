@@ -52,6 +52,9 @@ actual class Date {
 
     actual fun getTimezoneOffset(): Int = 0
 
+    actual fun plusMilliseconds(milliseconds: Long) {
+        date = date.plus(milliseconds, ChronoUnit.MILLIS)
+    }
 //    actual fun plusSeconds(seconds:Long) { date = date.plusSeconds(seconds) }
 //    actual fun plusMinutes(minutes:Long) { date = date.plusMinutes(minutes) }
     actual fun plusHours(hours:Long) { date = date.plusHours(hours) }

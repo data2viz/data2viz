@@ -59,6 +59,9 @@ actual class Date {
 
     actual fun getTimezoneOffset(): Int = date.getTimezoneOffset()
 
+    actual fun plusMilliseconds(milliseconds: Long) {
+        date = JsDate(date.getTime() + milliseconds)
+    }
     //    actual fun plusSeconds(seconds:Long)
 //    actual fun plusMinutes(minutes:Long)
     actual fun plusHours(hours: Long) {
