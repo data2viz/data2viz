@@ -10,7 +10,7 @@ import kotlin.math.*
 internal class LogScale(var base: Double = 10.0, interpolateRange: (Double, Double) -> (Double) -> Double,
                        uninterpolateRange: ((Double, Double) -> (Double) -> Double)? = null,
                        rangeComparator: Comparator<Double>? = null)
-    : ContinuousScale<Double>(interpolateRange, uninterpolateRange, rangeComparator) {
+    : LinearScale<Double>(interpolateRange, uninterpolateRange, rangeComparator) {
 
     /**
      * As log(0) = -∞, a log scale domain must be strictly-positive or strictly-negative;

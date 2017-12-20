@@ -20,17 +20,16 @@ interface Scale<D, out R> {
     operator fun invoke(domainValue: D): R
 }
 
-interface DiscreteRange<R> {
-    var range:List<R>
+interface ContinuousDomain<D> {
+    var domain: List<D>
 }
 
-interface ContinuousDomain<T> {
-    var domain: List<T>
+interface DiscreteDomain<D> {
+    var domain: List<D>
 }
 
-interface FirstLastRange<D,R>: Scale<D,R>{
-    fun start():R
-    fun end():R
+interface StrictlyContinuousDomain<D> {
+    var domain: StrictlyContinuous<D>
 }
 
 interface ContinuousRangeScale<D, R>: Scale<D, R>, FirstLastRange<D,R>{
@@ -39,21 +38,20 @@ interface ContinuousRangeScale<D, R>: Scale<D, R>, FirstLastRange<D,R>{
     override fun end() = range.last()
 }
 
+interface DiscreteRange<R> {
+    var range:List<R>
+}
+
 interface StrictlyContinuousRange<D, R>: FirstLastRange<D, R> {
     var range: StrictlyContinuous<R>
     override fun start() = range.start
     override fun end() = range.end
 }
 
-
-interface DiscreteDomain<T> {
-    var domain: List<T>
+interface FirstLastRange<D,R>: Scale<D,R>{
+    fun start():R
+    fun end():R
 }
-
-interface StrictlyContinuousDomain<T> {
-    var domain: StrictlyContinuous<T>
-}
-
 
 /**
  * A stricly continuous dimension is only defined by its start and end.
@@ -106,13 +104,13 @@ object scales{
 
         fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
         
-        fun log(base: Double = 10.0, init:ContinuousScale<Double>.() -> Unit = {}): ContinuousScale<Double> =
+        fun log(base: Double = 10.0, init:ContinuousScale<Double, Double>.() -> Unit = {}): ContinuousScale<Double, Double> =
                 LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 
         /**
          * TODO Test
          */
-        fun logRound(base: Double = 10.0): ContinuousScale<Double> =
+        fun logRound(base: Double = 10.0): ContinuousScale<Double, Double> =
                 LogScale(base, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
 
 
@@ -122,14 +120,14 @@ object scales{
          * working with pixel coordinates, say in conjunction with an axis or brush.
          * Identity scales do not support rangeRound, clamp or interpolate.
          */
-        fun identity() = ContinuousScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply {
+        fun identity() = LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply {
             domain = listOf(.0, 1.0)
             range = listOf(.0, 1.0)
         }
 
-        fun linear(init:ContinuousScale<Double>.() -> Unit = {}): ContinuousScale<Double> = ContinuousScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
-        fun linearRound(): ContinuousScale<Double> = ContinuousScale(::interpolateRound, ::uninterpolateNumber, naturalOrder())
-        fun linearHSL(): ContinuousScale<HSL> = ContinuousScale(::interpolateHsl)
+        fun linear(init:LinearScale<Double>.() -> Unit = {}): LinearScale<Double> = LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
+        fun linearRound(): LinearScale<Double> = LinearScale(::interpolateRound, ::uninterpolateNumber, naturalOrder())
+        fun linearHSL(): LinearScale<HSL> = LinearScale(::interpolateHsl)
 
 
         fun pow(exponent: Double = 1.0): PowerScale<Double> = PowerScale(exponent, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
@@ -138,6 +136,7 @@ object scales{
         fun sqrt(): PowerScale<Double> = PowerScale(.5, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
         fun sqrtRound(): PowerScale<Double> = PowerScale(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
 
+        fun time(): TimeScale<Double> = TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder())
     }
 
     object colors {

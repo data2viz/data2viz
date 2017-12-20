@@ -19,7 +19,7 @@ class ScaleLogTests : TestBase() {
 
     @Test
     fun log_x_maps_a_number_x_to_a_number_y_LEGACY() {
-        val scale = (scaleLog() as LogScale)
+        val scale = scaleLog()
         scale.range = listOf(.0, 1.0)
 
         scale.domain = listOf(1.0, 2.0)
@@ -34,7 +34,7 @@ class ScaleLogTests : TestBase() {
     
     @Test
     fun log_invert_x_maps_a_number_x_to_a_number_y_LEGACY() {
-        val scale =  (scaleLog() as LogScale)
+        val scale =  scaleLog()
         scale.range = listOf(.0, 1.0)
 
         scale.domain = listOf(1.0, 2.0)
@@ -48,7 +48,7 @@ class ScaleLogTests : TestBase() {
 
     @Test
     fun log_base_b_sets_log_base_changing_ticks_LEGACY() {
-        val scale =  (scaleLog() as LogScale)
+        val scale =  scaleLog()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(1.0, 32.0)
 
@@ -61,7 +61,7 @@ class ScaleLogTests : TestBase() {
 
     @Test
     fun log_base_b_tickes_generate_expected_power_of_base_ticks_LEGACY() {
-        val scale =  (scaleLog() as LogScale)
+        val scale =  scaleLog()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(0.1, 100.0)
 

@@ -1,6 +1,8 @@
 dependencies {
     expectedBy project(":d2v-scale-common")
     compile project(":d2v-core-js")
+    compile project(":d2v-time-js")
+    compile project(":d2v-timeFormat-js")
     compile project(":d2v-color-js")
     compile project(":d2v-interpolate-js")
 }

@@ -11,56 +11,25 @@ import kotlin.math.min
 // uninterpolate  [value A .. value B] --> [0 .. 1]
 // interpolate [0 .. 1] --> [value A .. value B]
 
-// TODO RGB continuous scale, HCL ...
-/**
- * Continuous scales map a continuous, quantitative input domain to a continuous output range.
- * 
- * If the range is also numeric, the mapping may be inverted. TODO so it's not invertable by default -> should not implement Invertable
- * 
- * A continuous scale is not constructed directly; instead, try a linear, power, log,
- * identity, time or sequential color scale.
- */
-open class ContinuousScale<R>(
-        val interpolateRange: (R, R) -> (Double) -> R,
-        val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
-        val rangeComparator: Comparator<R>? = null) :
-        ContinuousDomain<Double>,
-        ContinuousRangeScale<Double,R>,
-        ClampableScale,
-        InvertableScale<Double, R>,
-        NiceableScale<Double>,
-        Tickable<Double> {
 
-    private var rangeToDouble: ((R) -> Double)? = null
-    private var doubleToRange: ((Double) -> R)? = null
-    
+open class LinearScale<R>(
+        interpolateRange: (R, R) -> (Double) -> R,
+        uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+        rangeComparator: Comparator<R>? = null) :
+        ContinuousScale<Double, R>(interpolateRange, uninterpolateRange, rangeComparator),
+        Tickable<Double>,
+        NiceableScale<Double> {
 
-    protected val _domain: MutableList<Double> = arrayListOf(.0, 1.0)
-    protected val _range: MutableList<R> = arrayListOf()
+    val comparator = naturalOrder<Double>()
 
-    override var clamp: Boolean = false
-        set(value) {
-            field = value
-            rescale()
-        }
+    override fun interpolateDomain(from: Double, to: Double): (Double) -> Double = interpolateNumber(from, to)
+    override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double = uninterpolateNumber(from, to)
+    override fun domainComparator(): Comparator<Double> = comparator
 
-    // copy the value (no binding intended)
-    override var domain: List<Double>
-        get() = _domain.toList()
-        set(value) {
-            _domain.clear()
-            _domain.addAll(value)
-            rescale()
-        }
-
-    // copy the value (no binding intended)
-    override var range: List<R>
-        get() = _range.toList()
-        set(value) {
-            _range.clear()
-            _range.addAll(value)
-            rescale()
-        }
+    init {
+        _domain.clear()
+        _domain.addAll(listOf(.0, 1.0))
+    }
 
     /**
      * Extends the domain so that it starts and ends on nice round values.
@@ -88,65 +57,111 @@ open class ContinuousScale<R>(
         }
     }
 
+    override fun ticks(count: Int): List<Double> {
+        return io.data2viz.core.ticks(_domain.first(), _domain.last(), count)
+    }
+}
+
+// TODO RGB continuous scale, HCL ...
+/**
+ * Continuous scales map a continuous, quantitative input domain to a continuous output range.
+ *
+ * If the range is also numeric, the mapping may be inverted. TODO so it's not invertable by default -> should not implement Invertable
+ *
+ * A continuous scale is not constructed directly; instead, try a linear, power, log,
+ * identity, time or sequential color scale.
+ */
+abstract class ContinuousScale<D, R>(
+        val interpolateRange: (R, R) -> (Double) -> R,
+        val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+        val rangeComparator: Comparator<R>? = null) :
+        ContinuousDomain<D>,
+        ContinuousRangeScale<D, R>,
+        ClampableScale,
+        InvertableScale<D, R> {
+
+    private var rangeToDomain: ((R) -> D)? = null
+    private var domainToRange: ((D) -> R)? = null
+
+    protected val _domain: MutableList<D> = arrayListOf()
+    protected val _range: MutableList<R> = arrayListOf()
+
+    override var clamp: Boolean = false
+        set(value) {
+            field = value
+            rescale()
+        }
+
+    // copy the value (no binding intended)
+    override var domain: List<D>
+        get() = _domain.toList()
+        set(value) {
+            _domain.clear()
+            _domain.addAll(value)
+            rescale()
+        }
+
+    // copy the value (no binding intended)
+    override var range: List<R>
+        get() = _range.toList()
+        set(value) {
+            _range.clear()
+            _range.addAll(value)
+            rescale()
+        }
+
+    abstract fun interpolateDomain(from: D, to: D): (Double) -> D
+    abstract fun uninterpolateDomain(from: D, to: D): (D) -> Double
+    abstract fun domainComparator(): Comparator<D>
 
 
-    open fun interpolateDomain(from: Double, to: Double): (Double) -> Double = interpolateNumber(from, to)
-    open fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double = uninterpolateNumber(from, to)
-
-
-    override operator fun invoke(domainValue: Double): R {
-        if (doubleToRange == null) {
+    override operator fun invoke(domainValue: D): R {
+        if (domainToRange == null) {
             check(_domain.size == _range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val uninterpolateFunc = if (clamp) uninterpolateClamp(::uninterpolateDomain) else ::uninterpolateDomain
-            doubleToRange =
+            domainToRange =
                     if (_domain.size > 2) polymap(uninterpolateFunc)
                     else bimap(uninterpolateFunc)
         }
 
-        return doubleToRange?.invoke(domainValue) ?: throw IllegalStateException()
+        return domainToRange?.invoke(domainValue) ?: throw IllegalStateException()
     }
 
     // TODO : wrong : clamping is done on interpolateRange function...
-    override fun invert(rangeValue: R): Double {
+    override fun invert(rangeValue: R): D {
         checkNotNull(uninterpolateRange, { "No de-interpolation function for range has been found for this scale. Invert operation is impossible." })
 
-        if (rangeToDouble == null) {
+        if (rangeToDomain == null) {
             check(_domain.size == _range.size, { "Domains (in) and Ranges (out) must have the same size." })
             val interpolateFunc = if (clamp) interpolateClamp(::interpolateDomain) else ::interpolateDomain
-            rangeToDouble =
+            rangeToDomain =
                     if (_domain.size > 2 || _range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
                     else bimapInvert(interpolateFunc, uninterpolateRange!!)
         }
 
-        return rangeToDouble?.invoke(rangeValue) ?: throw IllegalStateException()
-    }
-
-    override fun ticks(count: Int): List<Double> {
-        return io.data2viz.core.ticks(_domain.first(), _domain.last(), count)
+        return rangeToDomain?.invoke(rangeValue) ?: throw IllegalStateException()
     }
 
     protected fun rescale() {
-        rangeToDouble = null
-        doubleToRange = null
+        rangeToDomain = null
+        domainToRange = null
     }
 
-    private fun uninterpolateClamp(uninterpolateFunction: (Double, Double) -> (Double) -> Double): (Double, Double) -> (Double) -> Double {
-        return fun(a: Double, b: Double): (Double) -> Double {
+    private fun uninterpolateClamp(uninterpolateFunction: (D, D) -> (D) -> Double): (D, D) -> (D) -> Double {
+        return fun(a: D, b: D): (D) -> Double {
             val d = uninterpolateFunction(a, b)
-            return fun(value: Double): Double {
-                return when {
-                    (value <= a) -> .0
-                    (value >= b) -> 1.0
-                    else -> d(value)
-                }
+            return fun(value: D): Double = when {
+                domainComparator().compare(value, a) <= 0 -> .0
+                domainComparator().compare(value, b) >= 0 -> 1.0
+                else -> d(value)
             }
         }
     }
 
-    private fun interpolateClamp(interpolateFunction: (Double, Double) -> (Double) -> Double): (Double, Double) -> (Double) -> Double {
-        return fun(a: Double, b: Double): (Double) -> Double {
+    private fun interpolateClamp(interpolateFunction: (D, D) -> (Double) -> D): (D, D) -> (Double) -> D {
+        return fun(a: D, b: D): (Double) -> D {
             val r = interpolateFunction(a, b)
-            return fun(value: Double): Double = when {
+            return fun(value: Double): D = when {
                 (value <= 0.0) -> a
                 (value >= 1.0) -> b
                 else -> r(value)
@@ -154,7 +169,7 @@ open class ContinuousScale<R>(
         }
     }
 
-    private fun bimap(deinterpolateDomain: (Double, Double) -> (Double) -> Double): (Double) -> R {
+    private fun bimap(deinterpolateDomain: (D, D) -> (D) -> Double): (D) -> R {
 
         val d0 = _domain[0]
         val d1 = _domain[1]
@@ -162,9 +177,9 @@ open class ContinuousScale<R>(
         val r1 = _range[1]
 
         val r: (Double) -> R
-        val d: (Double) -> Double
+        val d: (D) -> Double
 
-        if (d1 < d0) {
+        if (domainComparator().compare(d1, d0) < 0) {
             d = deinterpolateDomain(d1, d0)
             r = interpolateRange(r1, r0)
         } else {
@@ -172,11 +187,11 @@ open class ContinuousScale<R>(
             r = interpolateRange(r0, r1)
         }
 
-        return { x: Double -> r(d(x)) }
+        return { x: D -> r(d(x)) }
     }
 
-    private fun bimapInvert(reinterpolateDomain: (Double, Double) -> (Double) -> Double,
-                            deinterpolateRange: (R, R) -> (R) -> Double): (R) -> Double {
+    private fun bimapInvert(reinterpolateDomain: (D, D) -> (Double) -> D,
+                            deinterpolateRange: (R, R) -> (R) -> Double): (R) -> D {
 
         checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible." })
 
@@ -186,7 +201,7 @@ open class ContinuousScale<R>(
         val r1 = _range[1]
 
         val r: (R) -> Double
-        val d: (Double) -> Double
+        val d: (Double) -> D
 
         if (rangeComparator!!.compare(r1, r0) < 0) {
             d = reinterpolateDomain(d1, d0)
@@ -199,11 +214,11 @@ open class ContinuousScale<R>(
         return { x: R -> d(r(x)) }
     }
 
-    private fun polymap(uninterpolateDomain: (Double, Double) -> (Double) -> Double): (Double) -> R {
+    private fun polymap(uninterpolateDomain: (D, D) -> (D) -> Double): (D) -> R {
 
         val d0 = _domain.first()
         val d1 = _domain.last()
-        val domainReversed = d1 < d0
+        val domainReversed = domainComparator().compare(d1, d0) < 0
         val domainValues = if (domainReversed) _domain.reversed() else _domain
         val rangeValues = if (domainReversed) _range.reversed() else _range
 
@@ -212,13 +227,13 @@ open class ContinuousScale<R>(
         val rangeInterpolators = Array(size, { interpolateRange(rangeValues[it], rangeValues[it + 1]) })
 
         return { x ->
-            val index = bisect<Double>(_domain, x, naturalOrder<Double>(), 1, size) - 1
+            val index = bisect<D>(_domain, x, domainComparator(), 1, size) - 1
             rangeInterpolators[index](domainInterpolators[index](x))
         }
     }
 
-    private fun polymapInvert(interpolateDomain: (Double, Double) -> (Double) -> Double,
-                              uninterpolateRange: (R, R) -> (R) -> Double): (R) -> Double {
+    private fun polymapInvert(interpolateDomain: (D, D) -> (Double) -> D,
+                              uninterpolateRange: (R, R) -> (R) -> Double): (R) -> D {
 
         // TODO <R> instanceOf Comparable ??
         checkNotNull(rangeComparator, { "No RangeComparator has been found for this scale. Invert operation is impossible." })
