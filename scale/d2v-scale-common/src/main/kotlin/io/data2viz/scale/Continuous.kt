@@ -227,7 +227,7 @@ abstract class ContinuousScale<D, R>(
         val rangeInterpolators = Array(size, { interpolateRange(rangeValues[it], rangeValues[it + 1]) })
 
         return { x ->
-            val index = bisect<D>(_domain, x, domainComparator(), 1, size) - 1
+            val index = bisectRight<D>(_domain, x, domainComparator(), 1, size) - 1
             rangeInterpolators[index](domainInterpolators[index](x))
         }
     }
@@ -249,7 +249,7 @@ abstract class ContinuousScale<D, R>(
         val rangeInterpolators = Array(size, { uninterpolateRange(rangeValues[it], rangeValues[it + 1]) })
 
         return { y ->
-            val index = bisect<R>(rangeValues, y, rangeComparator, 1, size) - 1
+            val index = bisectRight<R>(rangeValues, y, rangeComparator, 1, size) - 1
             domainInterpolators[index](rangeInterpolators[index](y))
         }
     }
@@ -265,7 +265,7 @@ abstract class ContinuousScale<D, R>(
  * The returned insertion point i partitions the array into two halves so that all v <= x for v in array.slice(lo, i)
  * for the left side and all v > x for v in array.slice(i, hi) for the right side.
  */
-fun <T> bisect(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
+fun <T> bisectRight(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
     var lo = low
     var hi = high
     while (lo < hi) {

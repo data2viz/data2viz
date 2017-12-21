@@ -86,7 +86,7 @@ class QuantileScale<R> : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange
         require(!domainValue.isNaN(), { "domainValue can't be NaN" })
         check(domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
         check(range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
-        return range[bisect(thresholds, domainValue, naturalOrder<Double>())]
+        return range[bisectRight(thresholds, domainValue, naturalOrder<Double>())]
     }
 }
 

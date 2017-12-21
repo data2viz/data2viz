@@ -39,7 +39,7 @@ class QuantizeScale<R> : Scale<Double, R>, StrictlyContinuousDomain<Double>, Dis
 
 
     override fun invoke(domainValue: Double): R {
-        return range[bisect(quantizedDomain, domainValue, naturalOrder<Double>(), 0, range.size - 1)]
+        return range[bisectRight(quantizedDomain, domainValue, naturalOrder<Double>(), 0, range.size - 1)]
     }
 
     fun invertExtent(rangeValue: R): List<Double> {

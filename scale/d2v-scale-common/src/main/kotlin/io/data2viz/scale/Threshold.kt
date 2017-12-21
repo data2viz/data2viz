@@ -42,7 +42,7 @@ class ThresholdScale<R> : Scale<Double, R>, DiscreteRange<R>, DiscreteDomain<Dou
     override fun invoke(domainValue: Double): R {
         check(_range.size == _domain.size + 1,
                 { "The range size (actual: ${_range.size}) must be 1 more than the domain size (actual: ${_domain.size})." })
-        return _range[bisect(_domain, domainValue, naturalOrder<Double>(), 0, _domain.size)]
+        return _range[bisectRight(_domain, domainValue, naturalOrder<Double>(), 0, _domain.size)]
     }
 
     /**
