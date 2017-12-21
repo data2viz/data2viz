@@ -8,6 +8,19 @@ import kotlin.test.Test
 class FormatTest : TestDate() {
 
     @Test
+    fun format_auto() {
+        val formatter = autoFormat()
+
+        formatter(date(0, 1, 1, 0, 0, 0, 230)) shouldBe ".230"
+        formatter(date(0, 1, 1, 0, 0, 16, 230)) shouldBe ":16"
+        formatter(date(0, 1, 1, 0, 28, 16, 230)) shouldBe "12:28"
+        formatter(date(0, 1, 1, 20, 28, 16, 230)) shouldBe "08 PM"
+        formatter(date(0, 1, 16, 20, 28, 16, 230)) shouldBe "Jan 16"
+        formatter(date(0, 6, 16, 20, 28, 16, 230)) shouldBe "June"
+        formatter(date(1860)) shouldBe "1860"
+    }
+
+    @Test
     fun format_date() {
         val formatter = format("%c")
 

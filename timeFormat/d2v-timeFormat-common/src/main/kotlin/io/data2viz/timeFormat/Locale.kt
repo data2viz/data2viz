@@ -56,6 +56,7 @@ private fun date(d: ParseDate): Date {
 }*/
 
 val defaultLocale = Locale()
+fun autoFormat() = defaultLocale.autoFormat()
 fun format(specifier: String) = defaultLocale.format(specifier)
 fun parse(specifier: String) = defaultLocale.parse(specifier)
 
@@ -149,15 +150,28 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         val formatSecond = format(":%S")
         val formatMinute = format("%I:%M")
         val formatHour = format("%I %p")
-        val formatDay = format("%a %d")
+//        val formatDay = format("%a %d")
         val formatWeek = format("%b %d")
         val formatMonth = format("%B")
         val formatYear = format("%Y")
 
-        return fun(date: Date):String {
-            return (if (timeHour.floor(date).isBefore(date)) formatHour else
-                if (timeDay.floor(date).isBefore(date)) formatDay else
-                    formatYear)(date)
+        return fun(date: Date): String {
+            val formatter =
+                    if (timeYear.floor(date).month() < date.month()) formatMonth else {
+                        if (timeMonth.floor(date).dayOfYear() < date.dayOfMonth()) formatWeek else {
+//                          if (timeSunday.floor(date).dayOfWeek() < date.dayOfWeek()) formatDay else {
+                            if (timeDay.floor(date).hour() < date.hour()) formatHour else {
+                                if (timeHour.floor(date).minute() < date.minute()) formatMinute else {
+                                    if (timeMinute.floor(date).second() < date.second()) formatSecond else {
+                                        if (timeSecond.floor(date).millisecond() < date.millisecond()) formatMillisecond else
+                                            formatYear
+                                    }
+                                }
+//                          }
+                            }
+                        }
+                    }
+            return formatter(date)
         }
     }
 
