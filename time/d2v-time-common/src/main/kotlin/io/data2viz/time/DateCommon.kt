@@ -1,5 +1,13 @@
 package io.data2viz.time
 
+val durationSecond = 1000L
+val durationMinute = 60000L
+val durationHour = 3600000L
+val durationDay = 86400000L
+val durationWeek = 604800000L        // (day * 7)
+val durationMonth = 2592000000L      // (day * 30)
+val durationYear = 31536000000L      // (day * 365)
+
 fun date(
         year: Int = 0,
         month: Int = 1,
@@ -51,7 +59,7 @@ expect class Date {
     fun plusHours(hours: Long)
 
     fun plusDays(days: Long)
-    //    fun plusMonths(months:Long)
+    fun plusMonths(months: Long)
     fun plusYears(years: Long)
 
     fun minusMilliseconds(milliseconds: Int): Date
@@ -73,6 +81,11 @@ expect class Date {
     fun dayOfYear(): Int
     fun month(): Int
     fun year(): Int
+
+    /**
+     * Returns milliseconds from 1970-1-1 00:00
+     */
+    fun getTime(): Double
 
 //    operator fun minus(otherDate:Date): Date
 

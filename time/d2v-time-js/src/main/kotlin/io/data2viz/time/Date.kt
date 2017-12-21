@@ -2,12 +2,6 @@ package io.data2viz.time
 
 typealias JsDate = io.data2viz.time.js.Date
 
-val durationSecond = 1000
-val durationMinute = 60000
-val durationHour = 3600000
-val durationDay = 86400000
-val durationWeek = 604800000
-
 actual fun currentYear(): Int = JsDate().getFullYear()
 actual fun currentMonth(): Int = JsDate().getMonth() + 1
 actual fun currentDay(): Int = JsDate().getDay()
@@ -62,6 +56,7 @@ actual class Date {
     actual fun plusMilliseconds(milliseconds: Long) {
         date = JsDate(date.getTime() + milliseconds)
     }
+
     //    actual fun plusSeconds(seconds:Long)
 //    actual fun plusMinutes(minutes:Long)
     actual fun plusHours(hours: Long) {
@@ -71,8 +66,15 @@ actual class Date {
     actual fun plusDays(days: Long) {
         date = JsDate(date.getTime() + (days * durationDay))
     }
-//    actual fun plusMonths(months:Long)
-    actual fun plusYears(years:Long) {
+
+    actual fun plusMonths(months: Long) {
+        val m = ((date.getMonth() - 1 + months) % 12).toInt()
+        val y = ((date.getMonth() - 1 + months) / 12).toInt()
+        date.setFullYear(date.getFullYear() + y)
+        date.setMonth(date.getMonth() + m + 1)
+    }
+
+    actual fun plusYears(years: Long) {
         date.setFullYear(date.getFullYear() + years.toInt())
     }
 
@@ -91,13 +93,16 @@ actual class Date {
     actual fun setHour(hour: Int) {
         date.setHours(hour)
     }
-    actual fun setDayOfMonth(day:Int) {
+
+    actual fun setDayOfMonth(day: Int) {
         date.setDate(day)
     }
-    actual fun setMonth(month:Int) {
+
+    actual fun setMonth(month: Int) {
         date.setMonth(month - 1)
     }
-    actual fun setFullYear(year:Int) {
+
+    actual fun setFullYear(year: Int) {
         date.setFullYear(year)
     }
 
@@ -110,6 +115,8 @@ actual class Date {
     actual fun dayOfYear(): Int = 1 + timeDay.count(timeYear.floor(this), this)
     actual fun month(): Int = date.getMonth() + 1
     actual fun year(): Int = date.getFullYear()
+
+    actual fun getTime(): Double = date.getTime()
 
 //    actual operator fun minus(otherDate:Date): Date
 

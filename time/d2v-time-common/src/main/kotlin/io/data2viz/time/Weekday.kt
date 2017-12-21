@@ -2,7 +2,7 @@ package io.data2viz.time
 
 class Weekday(day: Int) : Interval(
         fun(date: Date): Date {
-            var dayofMonth = (date.dayOfMonth() - (date.dayOfWeek() + 7 - day) % 7) + 1
+            val dayofMonth = (date.dayOfMonth() - (date.dayOfWeek() + 7 - day) % 7) + 1
             if (dayofMonth >= 1) {
                 date.setDayOfMonth(dayofMonth)
             } else {

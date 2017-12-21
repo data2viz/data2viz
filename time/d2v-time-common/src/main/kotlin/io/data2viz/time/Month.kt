@@ -1,23 +1,22 @@
 package io.data2viz.time
 
-class Hour : Interval(
+class Month : Interval(
         fun (date:Date): Date {
+            date.setDayOfMonth(1)
+            date.setHour(0)
             date.setMinute(0)
             date.setSecond(0)
             date.setMillisecond(0)
             return date
         },
         fun (date:Date, step:Long): Date {
-            date.plusHours(step)
+            date.plusMonths(step)
             return date
         },
         fun (start:Date, end:Date): Int {
-            return start.hoursBetween(end).toInt()
-        },
-        fun (date:Date): Date {
-            // TODO implement
-            return date
+            return (end.year() - start.year()) * 12 + (end.month() - start.month())
         }
 )
 
-val timeHour = Hour()
+
+val timeMonth = Month()

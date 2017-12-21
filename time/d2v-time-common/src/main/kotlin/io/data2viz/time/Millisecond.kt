@@ -1,18 +1,15 @@
 package io.data2viz.time
 
-class Hour : Interval(
+class Millisecond : Interval(
         fun (date:Date): Date {
-            date.setMinute(0)
-            date.setSecond(0)
-            date.setMillisecond(0)
             return date
         },
         fun (date:Date, step:Long): Date {
-            date.plusHours(step)
+            date.plusMilliseconds(step)
             return date
         },
         fun (start:Date, end:Date): Int {
-            return start.hoursBetween(end).toInt()
+            return (start.millisecondsBetween(end)).toInt()
         },
         fun (date:Date): Date {
             // TODO implement
@@ -20,4 +17,4 @@ class Hour : Interval(
         }
 )
 
-val timeHour = Hour()
+val timeMillisecond = Millisecond()
