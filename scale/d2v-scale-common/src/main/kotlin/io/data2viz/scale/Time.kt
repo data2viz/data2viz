@@ -1,7 +1,34 @@
 package io.data2viz.scale
 
-import io.data2viz.time.Date
-import io.data2viz.time.date
+import io.data2viz.core.tickStep
+import io.data2viz.time.*
+
+private data class TickInterval(
+        val interval: Interval,
+        val step: Int,
+        val duration: Long
+)
+
+private val tickIntervals = listOf(
+        TickInterval(timeSecond, 1, durationSecond),
+        TickInterval(timeSecond, 5, 5 * durationSecond),
+        TickInterval(timeSecond, 15, 15 * durationSecond),
+        TickInterval(timeSecond, 30, 30 * durationSecond),
+        TickInterval(timeMinute, 1, durationMinute),
+        TickInterval(timeMinute, 5, 5 * durationMinute),
+        TickInterval(timeMinute, 15, 15 * durationMinute),
+        TickInterval(timeMinute, 30, 30 * durationMinute),
+        TickInterval(timeHour, 1, durationHour),
+        TickInterval(timeHour, 3, 3 * durationHour),
+        TickInterval(timeHour, 6, 6 * durationHour),
+        TickInterval(timeHour, 12, 12 * durationHour),
+        TickInterval(timeDay, 1, durationDay),
+        TickInterval(timeDay, 2, 2 * durationDay),
+        TickInterval(timeSunday, 1, durationWeek),
+        TickInterval(timeMonth, 1, durationMonth),
+        TickInterval(timeMonth, 3, 3 * durationMonth),
+        TickInterval(timeYear, 1, durationYear)
+)
 
 /**
  * Time scales are a variant of linear scales that have a temporal domain: domain values are dates rather than numbers,
@@ -19,7 +46,7 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
 
     init {
         _domain.clear()
-        _domain.addAll(listOf(date(2000,1,1), date(2000,1,2)))
+        _domain.addAll(listOf(date(2000, 1, 1), date(2000, 1, 2)))
     }
 
     override fun uninterpolateDomain(from: Date, to: Date): (Date) -> Double {
@@ -40,7 +67,7 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         }
     }
 
-    override fun domainComparator():Comparator<Date> {
+    override fun domainComparator(): Comparator<Date> {
         return comparator
     }
 
@@ -62,8 +89,57 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
      * If the domain has more than two values, nicing the domain only affects the first and last value.
      */
     override fun nice(count: Int) {
-        // TODO not implemented
+        val start = _domain.first()
+        val end = _domain.last()
+        val target = start.millisecondsBetween(end) / count
+        val intervalIndex = bisectRight(tickIntervals.map { it.duration }, target, naturalOrder())
+        if (intervalIndex == tickIntervals.size) {
+            val step = tickStep(start.getTime() / durationYear, end.getTime() / durationYear, count)
+            // TODO : mange step with interval.every(step) !!
+            niceDomain(end, start, timeYear)
+        } else if (intervalIndex > 0) {
+            val tickInterval = tickIntervals[if ((target / tickIntervals[intervalIndex - 1].duration) < tickIntervals[intervalIndex].duration / target) intervalIndex - 1 else intervalIndex]
+            val step = tickInterval.step
+            // TODO : mange step with interval.every(step) !!
+            niceDomain(end, start, tickInterval.interval)
+        }/* else {
+            val step = tickStep(start.getTime(), end.getTime(), count)
+            val interval = timeMillisecond
+        }*/
+        rescale()
     }
+
+    private fun niceDomain(end: Date, start: Date, interval: Interval) {
+        var first = 0
+        var last = _domain.size - 1
+
+        if (end.isBefore(start)) {
+            first = domain.size - 1
+            last = 0
+        }
+
+        val x0 = _domain[first]
+        val x1 = _domain[last]
+
+        _domain[first] = interval.floor(x0)
+        _domain[last] = interval.ceil(x1)
+    }
+
+    /*
+    var target = Math.abs(stop - start) / interval,
+          i = bisector(function(i) { return i[2]; }).right(tickIntervals, target);
+      if (i === tickIntervals.length) {
+        step = tickStep(start / durationYear, stop / durationYear, interval);
+        interval = year;
+      } else if (i) {
+        i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
+        step = i[1];
+        interval = i[0];
+      } else {
+        step = tickStep(start, stop, interval);
+        interval = millisecond;
+      }
+     */
 
     /*
     scale.nice = function(interval, step) {

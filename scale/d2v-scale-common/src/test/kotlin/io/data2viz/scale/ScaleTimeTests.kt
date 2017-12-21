@@ -57,6 +57,23 @@ class ScaleTimeTests : TestBase() {
         scale.invert(1100.0) shouldBe date(2010, 1, 1)
     }
 
+    @Test
+    fun time_nice_can_nice_multi_year_domains_LEGACY() {
+        val scale = scales.continuous.time()
+        scale.range = listOf(.0, 1.0)
+
+        scale.domain = listOf(date(2011, 3, 1), date(2020, 10, 1))
+        scale.nice()
+        scale.domain.first() shouldBe date(2011)
+        scale.domain.last() shouldBe date(2021)
+
+        // TODO when interval.every() is done (so "step" can be taken into account)
+        /*scale.domain = listOf(date(2011, 1, 1), date(2138, 1, 1))
+        scale.nice()
+
+        scale.domain.first() shouldBe date(2000)
+        scale.domain.last() shouldBe date(2140)*/
+    }
 
     /**
 
@@ -129,12 +146,6 @@ class ScaleTimeTests : TestBase() {
     tape("time.nice() can nice sub-second domains", function(test) {
     var x = scale.scaleTime().domain([date.local(2013, 0, 1, 12, 0, 0, 0), date.local(2013, 0, 1, 12, 0, 0, 128)]);
     test.deepEqual(x.nice().domain(), [date.local(2013, 0, 1, 12, 0, 0, 0), date.local(2013, 0, 1, 12, 0, 0, 130)]);
-    test.end();
-    });
-
-    tape("time.nice() can nice multi-year domains", function(test) {
-    var x = scale.scaleTime().domain([date.local(2001, 0, 1), date.local(2138, 0, 1)]);
-    test.deepEqual(x.nice().domain(), [date.local(2000, 0, 1), date.local(2140, 0, 1)]);
     test.end();
     });
 

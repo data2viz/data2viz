@@ -6,3 +6,4 @@ dependencies {
     compile project(":d2v-color-js")
     compile project(":d2v-interpolate-js")
 }
+project.jsTests()
