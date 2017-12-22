@@ -23,6 +23,8 @@ class Weekday(day: Int) : Interval(
         }
 )
 
+// TODO TESTS seems to be a bug as timeSunday returns "mondays"
+
 // The value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
 val timeMonday = Weekday(1)
 val timeTuesday = Weekday(2)

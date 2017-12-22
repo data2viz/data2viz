@@ -15,7 +15,7 @@ class Hour : Interval(
             return start.hoursBetween(end).toInt()
         },
         fun (date:Date): Int {
-            return date.minute()
+            return date.hour()
         }
 )
 
