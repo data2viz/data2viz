@@ -91,14 +91,22 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
     override fun nice(count: Int) {
         val start = _domain.first()
         val end = _domain.last()
+        val interval: Interval = tickInterval(count, start, end)
+        niceDomain(end, start, interval)
+        rescale()
+    }
+
+    private fun tickInterval(count: Int, start: Date, end: Date): Interval {
         val target = start.millisecondsBetween(end) / count
         val intervalIndex = bisectRight(tickIntervals.map { it.duration }, target, naturalOrder())
-        var step:Int? = null
-        var interval:Interval = timeYear
+        val step: Int?
+        var interval: Interval = timeYear
         if (intervalIndex == tickIntervals.size) {
             step = tickStep(start.getTime() / durationYear, end.getTime() / durationYear, count).toInt()
         } else if (intervalIndex > 0) {
-            val tickInterval = tickIntervals[if ((target / tickIntervals[intervalIndex - 1].duration) < tickIntervals[intervalIndex].duration / target) intervalIndex - 1 else intervalIndex]
+            val l = target.toDouble() / tickIntervals[intervalIndex - 1].duration
+            val l1 = tickIntervals[intervalIndex].duration / target.toDouble()
+            val tickInterval = tickIntervals[if (l < l1) intervalIndex - 1 else intervalIndex]
             step = tickInterval.step
             interval = tickInterval.interval
         } else {
@@ -106,8 +114,7 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
             interval = timeMillisecond
         }
         if (step > 0) interval = interval.every(step)
-        niceDomain(end, start, interval)
-        rescale()
+        return interval
     }
 
     private fun niceDomain(end: Date, start: Date, interval: Interval) {
@@ -126,36 +133,48 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         _domain[last] = interval.ceil(x1)
     }
 
-    /*
-    var target = Math.abs(stop - start) / interval,
-          i = bisector(function(i) { return i[2]; }).right(tickIntervals, target);
-      if (i === tickIntervals.length) {
-        step = tickStep(start / durationYear, stop / durationYear, interval);
-        interval = year;
-      } else if (i) {
-        i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
-        step = i[1];
-        interval = i[0];
-      } else {
-        step = tickStep(start, stop, interval);
-        interval = millisecond;
-      }
+    /**
+     * Returns representative dates from the scale’s domain.
+     * The returned tick values are uniformly-spaced (mostly), have sensible values (such as every day at midnight),
+     * and are guaranteed to be within the extent of the domain.
+     * Ticks are often used to display reference lines, or tick marks, in conjunction with the visualized data.
+     *
+     * An optional count may be specified to affect how many ticks are generated.
+     * If count is not specified, it defaults to 10. The specified count is only a hint; the scale may return more
+     * or fewer values depending on the domain.
+     *
+     * The following time intervals are considered for automatic ticks:
+     * 1-, 5-, 15- and 30-second.
+     * 1-, 5-, 15- and 30-minute.
+     * 1-, 3-, 6- and 12-hour.
+     * 1- and 2-day.
+     * 1-week.
+     * 1- and 3-month.
+     * 1-year.
      */
-
-    /*
-    scale.nice = function(interval, step) {
-    var d = domain();
-    return (interval = tickInterval(interval, d[0], d[d.length - 1], step))
-        ? domain(nice(d, interval))
-        : scale;
-  };
-     */
-
     override fun ticks(count: Int): List<Date> {
-        // TODO not implemented
-        return listOf()
+        var first = 0
+        var last = _domain.size - 1
+
+        var start = _domain[first]
+        var end = _domain[last]
+
+        if (start.millisecondsBetween(end) == 0L) return listOf()
+
+        val reversed = end.isBefore(start)
+        if (reversed) {
+            first = _domain.size - 1
+            last = 0
+            start = _domain[first]
+            end = _domain[last]
+        }
+
+        val endPlus = date(end)
+        endPlus.plusMilliseconds(1)
+
+        val ticks = tickInterval(count, start, end).range(start, endPlus)
+
+        return if (reversed) ticks.reversed() else ticks
     }
-
-
 }
 
