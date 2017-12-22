@@ -18,7 +18,10 @@ actual class Date {
     }
 
     actual constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int) {
-        date = JsDate(year, month - 1, day, hour, minute, second, millisecond)
+        if (year in 0..99) {
+            date = JsDate(-1, month, day, hour, minute, second, millisecond)
+            date.setFullYear(year)
+        } else date = JsDate(year, month - 1, day, hour, minute, second, millisecond)
     }
 
     private constructor(date: JsDate) {
