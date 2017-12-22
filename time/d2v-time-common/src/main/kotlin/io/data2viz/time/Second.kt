@@ -12,9 +12,8 @@ class Second : Interval(
         fun (start:Date, end:Date): Int {
             return (start.millisecondsBetween(end) / durationSecond).toInt()
         },
-        fun (date:Date): Date {
-            // TODO implement
-            return date
+        fun (date:Date): Int {
+            return date.second()
         }
 )
 

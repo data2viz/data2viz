@@ -15,9 +15,8 @@ class Day : Interval(
         fun (start:Date, end:Date): Int {
             return start.daysBetween(end).toInt()
         },
-        fun (date:Date): Date {
-            date.plusDays(-1)
-            return date
+        fun (date:Date): Int {
+            return date.dayOfMonth() - 1
         }
 )
 

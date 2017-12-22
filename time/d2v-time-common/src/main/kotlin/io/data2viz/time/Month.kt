@@ -15,6 +15,9 @@ class Month : Interval(
         },
         fun (start:Date, end:Date): Int {
             return (end.year() - start.year()) * 12 + (end.month() - start.month())
+        },
+        fun (date:Date): Int {
+            return date.month() - 1
         }
 )
 

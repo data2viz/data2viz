@@ -214,13 +214,9 @@ class DayTests : TestDate() {
         time.count(date(2011, 1, 1), date(2011, 12, 31)) shouldBe 364
     }
 
-
-
-
-
-    /*@Test
+    @Test
     fun day_every_step_returns_every_stepth_day_starting_with_the_first_day_of_the_month_LEGACY() {
-        val time = timeDay()
+        val time = timeDay
 
         var result = listOf(
                 date(2008, 12, 31),
@@ -250,7 +246,7 @@ class DayTests : TestDate() {
         range.forEachIndexed { index, r ->
             r shouldBe result[index]
         }
-    }*/
+    }
 
     /*@Test
     fun day_floor_date_observes_daylight_saving_LEGACY() {

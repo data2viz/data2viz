@@ -16,6 +16,9 @@ class Year : Interval(
         },
         fun (start:Date, end:Date): Int {
             return end.year() - start.year()
+        },
+        fun (date:Date): Int {
+            return date.year()
         }
 )
 

@@ -13,9 +13,8 @@ class Minute : Interval(
         fun (start:Date, end:Date): Int {
             return (start.millisecondsBetween(end) / durationMinute).toInt()
         },
-        fun (date:Date): Date {
-            // TODO implement
-            return date
+        fun (date:Date): Int {
+            return date.minute()
         }
 )
 

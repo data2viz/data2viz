@@ -4,11 +4,30 @@ package io.data2viz.time
 //var t1 = Date()
 
 // TODO use Int instead of Long ?
-// TODO : field not implemented
+/**
+ * Constructs a new custom interval given the specified floor and offset functions and an optional count function.
+ *
+ * The floor function takes a single date as an argument and rounds it down to the nearest interval boundary.
+ *
+ * The offset function takes a date and an integer step as arguments and advances the specified date by
+ * the specified number of boundaries; the step may be positive, negative or zero.
+ *
+ * The optional count function takes a start date and an end date, already floored to the current interval, and
+ * returns the number of boundaries between the start (exclusive) and end (inclusive).
+ * If a count function is not specified, the returned interval does not allow interval.count or interval.every methods.
+ * Note: due to an internal optimization, the specified count function must not invoke interval.count on other time intervals.
+ *
+ * The optional field function takes a date, already floored to the current interval, and returns the field value
+ * of the specified date, corresponding to the number of boundaries between this date (exclusive) and the latest
+ * previous parent boundary.
+ * For example, for the timeDay interval, this returns the number of days since the start of the month.
+ * If a field function is not specified, it defaults to counting the number of interval boundaries since the UNIX
+ * epoch of January 1, 1970 UTC. The field function defines the behavior of interval.every.
+ */
 open class Interval(private val floori: (Date) -> Date,
                     private val offseti: (Date, Long) -> Date,
                     private val counti: ((Date, Date) -> Int)? = null,
-                    private val field: ((Date) -> Date)? = null) {
+                    private val field: ((Date) -> Int)? = null) {
 
     /**
      * Alias for interval.floor. For example, d2v.timeYear(date) and d2v.timeYear.floor(date) are equivalent.
@@ -99,24 +118,27 @@ open class Interval(private val floori: (Date) -> Date,
      * The returned filtered interval does not support interval.count.
      * See also interval.every.
      */
-    fun filter(test:(Date)->Boolean) : Interval {
+    fun filter(test: (Date) -> Boolean): Interval {
         return Interval(
-                fun (date:Date): Date {
-                    var newDate = Date(date)
-                    while(!test(newDate)) {
-                        newDate = floori(date)
+                fun(date: Date): Date {
+                    var newDate = date
+                    floori(newDate)
+                    while (!test(newDate)) {
                         newDate = newDate.minusMilliseconds(1)
+                        floori(newDate)
                     }
                     return newDate
                 },
-                fun (date:Date, step:Long): Date {
-                    var newDate = Date(date)
-                    (step .. 0).forEach{ i ->
-                        while(!test(newDate)) {
-                            newDate = offseti(date, 1)
+                fun(date: Date, step: Long): Date {
+                    var newStep = step - 1
+                    while (newStep >= 0) {
+                        newStep--
+                        offseti(date, 1)
+                        while (!test(date)) {
+                            offseti(date, 1)
                         }
                     }
-                    return newDate
+                    return date
                 }
         )
     }
@@ -131,13 +153,31 @@ open class Interval(private val floori: (Date) -> Date,
     };
      */
 
-    fun every(step:Int): Interval {
+    /**
+     * Returns a filtered view of this interval representing every stepth date.
+     * The meaning of step is dependent on this interval’s parent interval as defined by the field function.
+     * For example, timeMinute.every(15) returns an interval representing every fifteen minutes,
+     * starting on the hour: :00, :15, :30, :45, etc.
+     * Note that for some intervals, the resulting dates may not be uniformly-spaced; timeDay’s parent interval is
+     * timeMonth, and thus the interval number resets at the start of each month.
+     * If step is not valid, raise exception. If step is one, returns this interval.
+     */
+    fun every(step: Int): Interval {
         checkNotNull(counti, { "The given Count function must not be null." })
-        require(step > 0, { " The given Step parameter must be greater than zero."})
+        require(step > 0, { " The given Step parameter must be greater than zero." })
         if (step == 1) return this
-        return filter { d -> count(date(1970, 1, 1), d) % step == 0; }
+        return if (field != null) {
+            filter { d -> field.invoke(d) % step == 0; }
+        } else {
+            filter { d -> count(date(1970, 1, 1), d) % step == 0; }
+        }
     }
 
+    /**
+     * Returns the number of interval boundaries after start (exclusive) and before or equal to end (inclusive).
+     * Note that this behavior is slightly different than interval.range because its purpose is to return the
+     * zero-based number of the specified end date relative to the specified start date.
+     */
     fun count(start: Date, stop: Date): Int {
         checkNotNull(counti, { "The given Count function must not be null." })
         val from = floor(start)
