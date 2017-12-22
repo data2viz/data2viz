@@ -67,12 +67,59 @@ class ScaleTimeTests : TestBase() {
         scale.domain.first() shouldBe date(2011)
         scale.domain.last() shouldBe date(2021)
 
-        // TODO when interval.every() is done (so "step" can be taken into account)
-        /*scale.domain = listOf(date(2011, 1, 1), date(2138, 1, 1))
+        scale.domain = listOf(date(2001, 1, 1), date(2138, 1, 1))
         scale.nice()
 
         scale.domain.first() shouldBe date(2000)
-        scale.domain.last() shouldBe date(2140)*/
+        scale.domain.last() shouldBe date(2140)
+    }
+
+    @Test
+    fun time_nice_is_an_alias_for_nice_10_LEGACY() {
+        val scale = scales.continuous.time()
+        scale.range = listOf(.0, 1.0)
+
+        scale.domain = listOf(date(2009, 1, 1, 0, 17), date(2009, 1, 1, 23, 42))
+        scale.nice()
+        scale.domain.first() shouldBe date(2009)
+        scale.domain.last() shouldBe date(2009, 1, 2)
+    }
+
+    @Test
+    fun time_nice_can_nice_subsecond_domains_LEGACY() {
+        val scale = scales.continuous.time()
+        scale.range = listOf(.0, 1.0)
+
+        scale.domain = listOf(date(2013, 5, 6, 12, 44, 20, 0), date(2013, 5, 6, 12, 44, 20, 128))
+        scale.nice()
+        scale.domain.first() shouldBe date(2013, 5, 6, 12, 44, 20, 0)
+        scale.domain.last() shouldBe date(2013, 5, 6, 12, 44, 20, 130)
+    }
+
+    @Test
+    fun time_nice_can_nice_empty_domains_LEGACY() {
+        val scale = scales.continuous.time()
+        scale.range = listOf(.0, 1.0)
+
+        scale.domain = listOf(date(2013, 5, 6, 12, 44), date(2013, 5, 6, 12, 44))
+        scale.nice()
+        scale.domain.first() shouldBe date(2013, 5, 6, 12, 44)
+        scale.domain.last() shouldBe date(2013, 5, 6, 12, 44)
+    }
+
+    @Test
+    fun time_nice_count_use_the_specified_tick_count_LEGACY() {
+        val scale = scales.continuous.time()
+        scale.range = listOf(.0, 1.0)
+        scale.domain = listOf(date(2009, 1, 1, 0, 17), date(2009, 1, 1, 23, 42))
+
+        scale.nice(100)
+        scale.domain.first() shouldBe date(2009, 1, 1, 0, 15)
+        scale.domain.last() shouldBe date(2009, 1, 1, 23, 45)
+
+        scale.nice(10)
+        scale.domain.first() shouldBe date(2009, 1, 1)
+        scale.domain.last() shouldBe date(2009, 1, 2)
     }
 
     /**
@@ -134,31 +181,6 @@ class ScaleTimeTests : TestBase() {
     test.equal(x(date.local(2011, 0, 1)), 2);
     test.equal(y(date.local(2011, 0, 1)), 2);
     test.equal(x.clamp(), false);
-    test.end();
-    });
-
-    tape("time.nice() is an alias for time.nice(10)", function(test) {
-    var x = scale.scaleTime().domain([date.local(2009, 0, 1, 0, 17), date.local(2009, 0, 1, 23, 42)]);
-    test.deepEqual(x.nice().domain(), [date.local(2009, 0, 1), date.local(2009, 0, 2)]);
-    test.end();
-    });
-
-    tape("time.nice() can nice sub-second domains", function(test) {
-    var x = scale.scaleTime().domain([date.local(2013, 0, 1, 12, 0, 0, 0), date.local(2013, 0, 1, 12, 0, 0, 128)]);
-    test.deepEqual(x.nice().domain(), [date.local(2013, 0, 1, 12, 0, 0, 0), date.local(2013, 0, 1, 12, 0, 0, 130)]);
-    test.end();
-    });
-
-    tape("time.nice() can nice empty domains", function(test) {
-    var x = scale.scaleTime().domain([date.local(2009, 0, 1, 0, 12), date.local(2009, 0, 1, 0, 12)]);
-    test.deepEqual(x.nice().domain(), [date.local(2009, 0, 1, 0, 12), date.local(2009, 0, 1, 0, 12)]);
-    test.end();
-    });
-
-    tape("time.nice(count) nices using the specified tick count", function(test) {
-    var x = scale.scaleTime().domain([date.local(2009, 0, 1, 0, 17), date.local(2009, 0, 1, 23, 42)]);
-    test.deepEqual(x.nice(100).domain(), [date.local(2009, 0, 1, 0, 15), date.local(2009, 0, 1, 23, 45)]);
-    test.deepEqual(x.nice(10).domain(), [date.local(2009, 0, 1), date.local(2009, 0, 2)]);
     test.end();
     });
 

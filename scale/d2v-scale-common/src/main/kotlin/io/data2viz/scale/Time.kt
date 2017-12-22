@@ -93,19 +93,20 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         val end = _domain.last()
         val target = start.millisecondsBetween(end) / count
         val intervalIndex = bisectRight(tickIntervals.map { it.duration }, target, naturalOrder())
+        var step:Int? = null
+        var interval:Interval = timeYear
         if (intervalIndex == tickIntervals.size) {
-            val step = tickStep(start.getTime() / durationYear, end.getTime() / durationYear, count)
-            // TODO : mange step with interval.every(step) !!
-            niceDomain(end, start, timeYear)
+            step = tickStep(start.getTime() / durationYear, end.getTime() / durationYear, count).toInt()
         } else if (intervalIndex > 0) {
             val tickInterval = tickIntervals[if ((target / tickIntervals[intervalIndex - 1].duration) < tickIntervals[intervalIndex].duration / target) intervalIndex - 1 else intervalIndex]
-            val step = tickInterval.step
-            // TODO : mange step with interval.every(step) !!
-            niceDomain(end, start, tickInterval.interval)
-        }/* else {
-            val step = tickStep(start.getTime(), end.getTime(), count)
-            val interval = timeMillisecond
-        }*/
+            step = tickInterval.step
+            interval = tickInterval.interval
+        } else {
+            step = tickStep(start.getTime(), end.getTime(), count).toInt()
+            interval = timeMillisecond
+        }
+        if (step > 0) interval = interval.every(step)
+        niceDomain(end, start, interval)
         rescale()
     }
 
