@@ -19,7 +19,7 @@ actual class Date {
 
     actual constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int) {
         if (year in 0..99) {
-            date = JsDate(-1, month, day, hour, minute, second, millisecond)
+            date = JsDate(-1, month - 1, day, hour, minute, second, millisecond)
             date.setFullYear(year)
         } else date = JsDate(year, month - 1, day, hour, minute, second, millisecond)
     }
