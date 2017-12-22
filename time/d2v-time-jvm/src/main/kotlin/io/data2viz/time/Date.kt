@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit
 
 //val utc = ZoneOffset.UTC
 val UNIX_TIME = date(1970)
+val milliToNano = 1000000
 
 actual fun currentYear(): Int = LocalDateTime.now().year
 actual fun currentMonth(): Int = LocalDateTime.now().monthValue
@@ -28,7 +29,7 @@ actual class Date {
     }
 
     actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int) {
-        date = LocalDateTime.of(year, month, day, hour, minute, second, millisecond * 1000)
+        date = LocalDateTime.of(year, month, day, hour, minute, second, millisecond * milliToNano)
     }
 
     actual public constructor(date: Date) {
@@ -64,7 +65,7 @@ actual class Date {
     actual fun plusYears(years:Long) { date = date.plusYears(years) }
 
     actual fun setMillisecond(millisecond: Int) {
-        date = date.withNano(millisecond * 1000)
+        date = date.withNano(millisecond * milliToNano)
     }
 
     actual fun setSecond(second: Int) {
@@ -91,7 +92,7 @@ actual class Date {
         date = date.withYear(year)
     }
 
-    actual fun millisecond(): Int = date.nano / 1000
+    actual fun millisecond(): Int = date.nano / milliToNano
     actual fun second(): Int = date.second
     actual fun minute(): Int = date.minute
     actual fun hour(): Int = date.hour
