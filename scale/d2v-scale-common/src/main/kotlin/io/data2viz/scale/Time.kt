@@ -173,7 +173,6 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         endPlus.plusMilliseconds(1)
 
         val tickInterval = tickInterval(count, start, end)
-        println("tickInterval = $tickInterval")
         val ticks = tickInterval.range(start, endPlus)
 
         return if (reversed) ticks.reversed() else ticks

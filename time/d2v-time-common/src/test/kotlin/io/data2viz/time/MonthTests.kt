@@ -58,55 +58,49 @@ class MonthTests : TestDate() {
         time.ceil(date(2011, 11, 6, 1)) shouldBe date(2011, 12, 1)
     }
 
+    @Test
+    fun month_offset_does_not_modify_passed_in_date_LEGACY() {
+        val time = timeMonth
+        val date = date(2010, 12, 31, 23, 59, 59, 999)
+
+        time.offset(date, 1) shouldBe date(2011, 1, 31, 23, 59, 59, 999)
+        date shouldBe date(2010, 12, 31, 23, 59, 59, 999)
+    }
+
+    @Test
+    fun month_offset_does_not_round_passed_in_date_LEGACY() {
+        val time = timeMonth
+
+        time.offset(date(2010, 12, 31, 23, 59, 59, 999), 1) shouldBe date(2011, 1, 31, 23, 59, 59, 999)
+        time.offset(date(2010, 12, 31, 23, 59, 59, 456), -2) shouldBe date(2010, 10, 31, 23, 59, 59, 456)
+    }
+
+    @Test
+    fun month_offset_allows_negative_offsets_LEGACY() {
+        val time = timeMonth
+
+        time.offset(date(2010, 12, 1), -1) shouldBe date(2010, 11, 1)
+        time.offset(date(2011, 1, 1), -2) shouldBe date(2010, 11, 1)
+        time.offset(date(2011, 1, 1), -1) shouldBe date(2010, 12, 1)
+    }
+
+    @Test
+    fun month_offset_allows_positive_offsets_LEGACY() {
+        val time = timeMonth
+
+        time.offset(date(2010, 11, 1), 1) shouldBe date(2010, 12, 1)
+        time.offset(date(2011, 11, 1), 2) shouldBe date(2011, 1, 1)
+        time.offset(date(2011, 12, 1), 1) shouldBe date(2011, 1, 1)
+    }
+
+    @Test
+    fun month_offset_allows_zero_offsets_LEGACY() {
+        val time = timeMonth
+
+        time.offset(date(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe date(2010, 12, 31, 23, 59, 59, 999)
+    }
+
     /*
-tape("timeMonth.ceil(date) observes the start of daylight savings time", function(test) {
-  test.deepEqual(time.timeMonth.ceil(date.local(2011, 02, 13, 01)), date.local(2011, 03, 01));
-  test.end();
-});
-
-tape("timeMonth.ceil(date) observes the end of the daylight savings time", function(test) {
-  test.deepEqual(time.timeMonth.ceil(date.local(2011, 10, 06, 01)), date.local(2011, 11, 01));
-  test.end();
-});
-
-tape("timeMonth.offset(date) does not modify the passed-in date", function(test) {
-  var d = date.local(2010, 11, 31, 23, 59, 59, 999);
-  time.timeMonth.offset(d, +1);
-  test.deepEqual(d, date.local(2010, 11, 31, 23, 59, 59, 999));
-  test.end();
-});
-
-tape("timeMonth.offset(date) does not round the passed-in-date", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 999), +1), date.local(2011, 00, 31, 23, 59, 59, 999));
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 456), -2), date.local(2010, 09, 31, 23, 59, 59, 456));
-  test.end();
-});
-
-tape("timeMonth.offset(date) allows negative offsets", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 01), -1), date.local(2010, 10, 01));
-  test.deepEqual(time.timeMonth.offset(date.local(2011, 00, 01), -2), date.local(2010, 10, 01));
-  test.deepEqual(time.timeMonth.offset(date.local(2011, 00, 01), -1), date.local(2010, 11, 01));
-  test.end();
-});
-
-tape("timeMonth.offset(date) allows positive offsets", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 10, 01), +1), date.local(2010, 11, 01));
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 10, 01), +2), date.local(2011, 00, 01));
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 01), +1), date.local(2011, 00, 01));
-  test.end();
-});
-
-tape("timeMonth.offset(date) allows zero offset", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 999), 0), date.local(2010, 11, 31, 23, 59, 59, 999));
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 58, 000), 0), date.local(2010, 11, 31, 23, 59, 58, 000));
-  test.end();
-});
-
-tape("timeMonths in an alias for timeMonth.range", function(test) {
-  test.equal(time.timeMonths, time.timeMonth.range);
-  test.end();
-});
-
 tape("timeMonth.floor(date) returns months", function(test) {
   test.deepEqual(time.timeMonth.floor(date.local(2010, 11, 31, 23)), date.local(2010, 11, 01));
   test.deepEqual(time.timeMonth.floor(date.local(2011, 00, 01, 00)), date.local(2011, 00, 01));

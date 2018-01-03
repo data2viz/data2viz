@@ -450,7 +450,7 @@ class ScaleTimeTests : TestBase() {
         }
     }*/
 
-    /*@Test
+    @Test
     fun time_ticks_count_can_generate_1_month_ticks_LEGACY() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
@@ -464,14 +464,13 @@ class ScaleTimeTests : TestBase() {
         )
 
         val ticks = scale.ticks(4)
-        println(ticks)
         tickList.size shouldBe ticks.size
         tickList.forEachIndexed { index, tick ->
             tick shouldBe ticks[index]
         }
-    }*/
+    }
 
-    /*@Test
+    @Test
     fun time_ticks_count_can_generate_3_months_ticks_LEGACY() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
@@ -485,12 +484,11 @@ class ScaleTimeTests : TestBase() {
         )
 
         val ticks = scale.ticks(4)
-        println(ticks)
         tickList.size shouldBe ticks.size
         tickList.forEachIndexed { index, tick ->
             tick shouldBe ticks[index]
         }
-    }*/
+    }
 
     @Test
     fun time_ticks_count_can_generate_1_year_ticks_LEGACY() {
@@ -575,7 +573,6 @@ class ScaleTimeTests : TestBase() {
         )
 
         var ticks = scale.ticks(4)
-        println(ticks)
         tickList.size shouldBe ticks.size
         tickList.forEachIndexed { index, tick ->
             tick shouldBe ticks[index]
@@ -590,7 +587,6 @@ class ScaleTimeTests : TestBase() {
         )
 
         ticks = scale.ticks(4)
-        println(ticks)
         tickList.size shouldBe ticks.size
         tickList.forEachIndexed { index, tick ->
             tick shouldBe ticks[index]
@@ -605,7 +601,6 @@ class ScaleTimeTests : TestBase() {
         )
 
         ticks = scale.ticks(4)
-        println(ticks)
         tickList.size shouldBe ticks.size
         tickList.forEachIndexed { index, tick ->
             tick shouldBe ticks[index]
