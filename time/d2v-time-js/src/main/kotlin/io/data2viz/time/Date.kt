@@ -71,10 +71,10 @@ actual class Date {
     }
 
     actual fun plusMonths(months: Long) {
-        val m = ((date.getMonth() - 1 + months) % 12).toInt()
-        val y = ((date.getMonth() - 1 + months) / 12).toInt()
+        val m = ((date.getMonth() + months) % 12).toInt()
+        val y = ((date.getMonth() + months) / 12).toInt()
         date.setFullYear(date.getFullYear() + y)
-        date.setMonth(date.getMonth() + m + 1)
+        date.setMonth(m)
     }
 
     actual fun plusYears(years: Long) {

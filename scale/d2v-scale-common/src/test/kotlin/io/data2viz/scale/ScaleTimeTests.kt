@@ -561,7 +561,7 @@ class ScaleTimeTests : TestBase() {
 
 
 
-    /*@Test
+    @Test
     fun time_ticks_count_returns_descending_ticks_for_descending_domain_LEGACY() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
@@ -575,6 +575,21 @@ class ScaleTimeTests : TestBase() {
         )
 
         var ticks = scale.ticks(4)
+        println(ticks)
+        tickList.size shouldBe ticks.size
+        tickList.forEachIndexed { index, tick ->
+            tick shouldBe ticks[index]
+        }
+
+        scale.domain = listOf(date(2010, 12, 18), date(2011, 11, 2))
+        tickList = listOf(
+                date(2011, 1),
+                date(2011, 4),
+                date(2011, 7),
+                date(2011, 10)
+        )
+
+        ticks = scale.ticks(4)
         println(ticks)
         tickList.size shouldBe ticks.size
         tickList.forEachIndexed { index, tick ->
@@ -595,7 +610,7 @@ class ScaleTimeTests : TestBase() {
         tickList.forEachIndexed { index, tick ->
             tick shouldBe ticks[index]
         }
-    }*/
+    }
 
 
     /**
