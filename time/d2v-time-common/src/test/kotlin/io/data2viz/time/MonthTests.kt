@@ -89,8 +89,8 @@ class MonthTests : TestDate() {
         val time = timeMonth
 
         time.offset(date(2010, 11, 1), 1) shouldBe date(2010, 12, 1)
-        time.offset(date(2011, 11, 1), 2) shouldBe date(2011, 1, 1)
-        time.offset(date(2011, 12, 1), 1) shouldBe date(2011, 1, 1)
+        time.offset(date(2010, 11, 1), 2) shouldBe date(2011, 1, 1)
+        time.offset(date(2010, 12, 1), 1) shouldBe date(2011, 1, 1)
     }
 
     @Test
