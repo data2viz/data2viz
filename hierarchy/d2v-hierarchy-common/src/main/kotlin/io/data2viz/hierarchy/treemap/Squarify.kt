@@ -7,8 +7,12 @@ import kotlin.math.sqrt
 
 val phi = (1 + sqrt(5.0)) / 2
 
+/**
+ * Implements the squarified treemap algorithm by Bruls et al., which seeks to produce rectangles
+ * of a given aspect ratio.
+ */
 fun treemapSquarify(parent: Node<*>, x0:Double, y0:Double, x1:Double, y1:Double) {
-    squarifyRatio(phi, parent, x0, y0, x1, y1);
+    squarifyRatio(phi, parent, x0, y0, x1, y1)
 }
 
 private fun squarifyRatio(ratio: Double, parent: Node<*>, x0: Double, y0: Double, x1: Double, y1: Double): MutableList<Row> {
@@ -54,7 +58,7 @@ private fun squarifyRatio(ratio: Double, parent: Node<*>, x0: Double, y0: Double
         }
 
         // Position and record the row orientation.
-        val row = Row(sumValue, dx < dy, nodes.slice(IntRange(i0, i1)))
+        val row = Row(sumValue, dx < dy, nodes.slice(i0 until i1))
         rows.add(row)
         if (row.dice) {
             if (value != .0) newY += dy * sumValue / value
@@ -70,6 +74,17 @@ private fun squarifyRatio(ratio: Double, parent: Node<*>, x0: Double, y0: Double
     return rows
 }
 
+/**
+ * Specifies the desired aspect ratio of the generated rectangles. The ratio must be specified as a number greater
+ * than or equal to one.
+ * Note that the orientation of the generated rectangles (tall or wide) is not implied by the ratio;
+ * for example, a ratio of two will attempt to produce a mixture of rectangles whose width:height ratio
+ * is either 2:1 or 1:2. (However, you can approximately achieve this result by generating a square treemap
+ * at different dimensions, and then stretching the treemap to the desired aspect ratio.)
+ * Furthermore, the specified ratio is merely a hint to the tiling algorithm; the rectangles are not guaranteed
+ * to have the specified aspect ratio.
+ * If not specified, the aspect ratio defaults to the golden ratio, φ = (1 + sqrt(5)) / 2, per Kong et al.
+ */
 /*treemapSquarify.ratio = function(x) {
     return custom((x = +x) > 1 ? x : 1);
 }*/

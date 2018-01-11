@@ -4,6 +4,10 @@ import io.data2viz.hierarchy.Node
 
 fun treemapBinary(parent: Node<*>, x0: Double, y0: Double, x1: Double, y1: Double) = TreemapBinary().binary(parent, x0, y0, x1, y1)
 
+/**
+ * Recursively partitions the specified nodes into an approximately-balanced binary tree, choosing horizontal
+ * partitioning for wide rectangles and vertical partitioning for tall rectangles.
+ */
 class TreemapBinary {
 
     var nodes: MutableList<out Node<out Any?>> = mutableListOf()

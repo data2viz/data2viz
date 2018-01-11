@@ -2,11 +2,14 @@ package io.data2viz.hierarchy
 
 import io.data2viz.hierarchy.treemap.treemapSquarify
 
+// TODO : a Node extension ?
 data class Row(
     val value: Double,
     val dice:Boolean,
     val children:List<Node<*>>
 )
+
+fun <D> treemap(root: Node<D>): Node<D> = TreemapLayout<D>().treemap(root)
 
 class TreemapLayout<D> {
 
@@ -45,7 +48,7 @@ class TreemapLayout<D> {
 
         // TODO : require a check on each node to verify that value != null and >0 ? (root.sum has been passed) ?
 
-        paddingStack = MutableList(root.height, { .0 })
+        paddingStack = MutableList(root.height + 1, { .0 })
         root.x0 = .0
         root.y0 = .0
         root.x1 = dx

@@ -15,6 +15,8 @@ data class Node<D>(
     var parent: Node<D>? = null
 )
 
+fun <D> Node<D>.toString():String = "depth=$depth height=$height value=$value children=${children.size}"
+
 data class Link<D>(
     val source: Node<D>?,
     var target: Node<D>
@@ -40,6 +42,7 @@ fun <D> hierarchy(data: D, children: (D) -> List<D>?, value: ((D) -> Double)? = 
                 val child = Node(c)
                 child.parent = node
                 child.depth = node.depth + 1
+                //if (value != null) child.value = value(c)
                 node.children.add(child)
                 nodes.add(child)
             }
@@ -70,8 +73,8 @@ fun <D> Node<D>.count(): Node<D> {
  */
 fun <D> Node<D>.sum(value: ((D) -> Double)? = null): Node<D> {
     return this.eachAfter({ node: Node<D> ->
-        var sum = if (value != null) value(data) else .0
-        this.children.forEach { if (it.value != null) sum += it.value!! }
+        var sum = if (value != null) value(node.data) else .0
+        node.children.forEach { child -> if (child.value != null) sum += child.value!! }
         node.value = sum
     })
 }
@@ -181,21 +184,23 @@ fun <D> Node<D>.eachAfter(callback: (Node<D>) -> Unit): Node<D> {
         next.add(node)
         val children = node.children
         if (children.isNotEmpty()) {
-            (children.lastIndex downTo 0).forEach {
-                nodes.add(children[it])
+            children.forEach {
+                nodes.add(it)
             }
         }
     }
-    next.forEach(callback)
+    next.reversed().forEach(callback)
     return this
 }
 
 private fun <D> computeHeight(node: Node<D>) {
     var n: Node<D> = node
     var height = 0
-    while (n.parent != null && n.height < height
-    ) {
-        n.height = height
+    n.height = height
+    height++
+
+    while (n.parent != null && n.parent!!.height < height) {
+        n.parent!!.height = height
         n = n.parent!!
         height++
     }
