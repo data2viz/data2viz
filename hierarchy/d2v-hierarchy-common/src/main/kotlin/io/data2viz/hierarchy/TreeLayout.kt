@@ -10,9 +10,9 @@ data class TreeNode<D>(
     var c: Int = 0,                     // change
     var s: Int = 0,                     // shift
     var t: TreeNode<D>? = null,
-    val children: MutableList<TreeNode<D>> = mutableListOf(),
+    override val children: MutableList<TreeNode<D>> = mutableListOf(),
     var parent: TreeNode<D>? = null
-)
+): Parent<TreeNode<D>>
 
 /**
  * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:
@@ -224,20 +224,6 @@ private fun <D> makeTree(root: Node<D>): TreeNode<D> {
 
 /////////////////////////
 
-fun <D> TreeNode<D>.eachBefore(callback: (TreeNode<D>) -> Unit): TreeNode<D> {
-    val nodes = mutableListOf(this)
-    while (nodes.isNotEmpty()) {
-        val node = nodes.removeAt(nodes.lastIndex)
-        callback(node)
-        val children = node.children
-        if (children.isNotEmpty()) {
-            (children.lastIndex downTo 0).forEach {
-                nodes.add(children[it])
-            }
-        }
-    }
-    return this
-}
 
 fun <D> TreeNode<D>.eachAfter(callback: (TreeNode<D>) -> Unit): TreeNode<D> {
     val nodes = mutableListOf(this)

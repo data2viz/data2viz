@@ -11,9 +11,9 @@ data class Node<D>(
     var y0: Double = .0,
     var x1: Double = .0,
     var y1: Double = .0,
-    val children: MutableList<Node<D>> = mutableListOf(),
+    override val children: MutableList<Node<D>> = mutableListOf(),
     var parent: Node<D>? = null
-)
+):Parent<Node<D>>
 
 fun <D> Node<D>.toString():String = "depth=$depth height=$height value=$value children=${children.size}"
 
@@ -128,6 +128,8 @@ fun <D> Node<D>.links(): List<Link<D>> {
     return links.toList()
 }
 
+
+
 /**
  * Invokes the specified function for node and each descendant in breadth-first order, such that a given
  * node is only visited if all nodes of lesser depth have already been visited, as well as all preceeding
@@ -151,12 +153,17 @@ fun <D> Node<D>.each(callback: (Node<D>) -> Unit): Node<D> {
     return this
 }
 
+interface Parent<T> {
+    val children:List<Parent<T>>
+}
+
+
 /**
  * Invokes the specified function for node and each descendant in pre-order traversal, such that a given node
  * is only visited after all of its ancestors have already been visited.
  * The specified function is passed the current node.
  */
-fun <D> Node<D>.eachBefore(callback: (Node<D>) -> Unit): Node<D> {
+inline fun <reified N: Parent<D>, D> N.eachBefore(callback: (N) -> Unit): N {
     val nodes = mutableListOf(this)
     while (nodes.isNotEmpty()) {
         val node = nodes.removeAt(nodes.lastIndex)
@@ -164,7 +171,7 @@ fun <D> Node<D>.eachBefore(callback: (Node<D>) -> Unit): Node<D> {
         val children = node.children
         if (children.isNotEmpty()) {
             (children.lastIndex downTo 0).forEach {
-                nodes.add(children[it])
+                nodes.add(children[it] as N)
             }
         }
     }

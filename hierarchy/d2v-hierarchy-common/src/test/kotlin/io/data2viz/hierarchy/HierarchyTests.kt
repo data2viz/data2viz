@@ -59,8 +59,7 @@ class HierarchyTests : TestBase() {
         hierarchy.sum({ it.value.toDouble() })
 
         hierarchy.sum { 1.0 }
-        val treemap = treemap(hierarchy)
-
+//        val treemap = treemap(hierarchy)
         val tree = tree(hierarchy)
         val cluster = cluster(hierarchy)
     }
