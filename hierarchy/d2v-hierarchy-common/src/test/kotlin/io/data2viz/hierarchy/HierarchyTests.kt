@@ -10,6 +10,32 @@ class HierarchyTests : TestBase() {
         val subElements: List<Hierarchical>? = null
     )
 
+    /**
+
+    {
+    "name": "1",
+    "children": [
+    {"name": "11", "children": [
+    {"name": "111", "size": 1},
+    {"name": "112", "size": 1},
+    {"name": "113", "size": 1},
+    {"name": "114", "children": [
+    {"name": "1141", "size": 1},
+    {"name": "1142", "size": 1}]
+    }]
+    },
+    {"name": "12", "children": [
+    {"name": "121", "children": [
+    {"name": "1211", "size": 1},
+    {"name": "1212", "size": 1}]
+    },
+    {"name": "122", "size": 1}]
+    }]
+    }
+
+
+     */
+
 
 
     val testValues =
