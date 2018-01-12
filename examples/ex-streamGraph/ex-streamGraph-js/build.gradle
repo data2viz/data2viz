@@ -1,6 +1,7 @@
 dependencies {
     compile project(":d2v-data2viz-js")
     expectedBy project(":ex-streamGraph-common")
+    compile "org.jetbrains.kotlinx:kotlinx-html-js:$html_version"
 }
 
 

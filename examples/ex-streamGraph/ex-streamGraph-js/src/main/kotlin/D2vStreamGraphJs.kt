@@ -1,6 +1,9 @@
 import io.data2viz.examples.streamGraph.*
 import io.data2viz.viz.selectOrCreateSvg
 import io.data2viz.viz.viz
+import kotlinx.html.*
+import kotlinx.html.dom.append
+import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLSelectElement
 import kotlin.browser.document
 import kotlin.dom.appendElement
@@ -10,7 +13,7 @@ import kotlin.dom.appendElement
 fun main(args: Array<String>) {
 
 
-    fun draw() {
+    fun redraw() {
         val root = selectOrCreateSvg().apply {
             setAttribute("width", "${width + margins.hMargins}")
             setAttribute("height", "${height + margins.vMargins}")
@@ -21,55 +24,62 @@ fun main(args: Array<String>) {
         }
     }
 
-    htmlSelectElement("#curve").apply {
-        curveOptions.forEach { option ->
-            appendElement("option") {
-                if (option.first == "Basis")
-                    setAttribute("selected", "true")
-                this.textContent = option.first
+    fun String.onSelect(selectChange: HTMLSelectElement.() -> Unit) {
+        (document.querySelector(this)!! as HTMLSelectElement).apply {
+            addEventListener("change", {
+                selectChange()
+                redraw()
+            })
+
+        }
+    }
+
+    val body = document.body!!
+
+    body.append.div {
+        label { +"Area spline interpolation" }
+        select {
+            id = "curve"
+            curveOptions.forEach { option ->
+                option {
+                    selected = (option.first == "Basis")
+                    +option.first
+                }
             }
         }
+    }
+    body.append.div {
 
-        addEventListener("change", {
-            vizConfig.curve = curveOptions[selectedIndex].second
-            draw()
-        })
+        label { +"Stacks offset" }
+        select {
+            id = "offset"
+            offsetOptions.forEach { option ->
+                option {
+                    selected = (option.first == "Wigle")
+                    +option.first
+                }
+            }
+        }
+    }
+    body.append.div {
+        label { +"Stacks order" }
+        select {
+            id = "order"
+            orderOptions.forEach { option ->
+                option {
+                    selected = (option.first == "None")
+                    +option.first
+                }
+            }
+        }
 
     }
 
 
-    htmlSelectElement("#offset").apply {
-        offsetOptions.forEach { option ->
-            appendElement("option") {
-                if (option.first == "Wiggle")
-                    setAttribute("selected", "true")
-                this.textContent = option.first
-            }
-        }
+    "#curve".onSelect { vizConfig.curve = curveOptions[selectedIndex].second }
+    "#offset".onSelect { vizConfig.offset = offsetOptions[selectedIndex].second }
+    "#order".onSelect { vizConfig.order = orderOptions[selectedIndex].second }
 
-        addEventListener("change", {
-            vizConfig.offset = offsetOptions[selectedIndex].second
-            draw()
-        })
-
-    }
-
-    htmlSelectElement("#order").apply {
-        orderOptions.forEach { option ->
-            appendElement("option") {
-                if (option.first == "None")
-                    setAttribute("selected", "true")
-                textContent = option.first
-            }
-        }
-
-        addEventListener("change", {
-            vizConfig.order = orderOptions[selectedIndex].second
-            draw()
-        })
-    }
-
-    draw()
+    redraw()
 }
 
-private fun htmlSelectElement(selectionId: String) = document.querySelector(selectionId)!! as HTMLSelectElement
