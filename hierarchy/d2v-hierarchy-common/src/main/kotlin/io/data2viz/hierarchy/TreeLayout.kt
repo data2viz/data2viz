@@ -1,8 +1,13 @@
 package io.data2viz.hierarchy
 
 data class TreeNode<D>(
-    val node: Node<D>?,
-    val i: Int = 0,
+    val data: D?,
+    var depth: Int,
+    var height: Int,
+    var value: Double?,
+    val i: Int = 0,                     // TODO rename index
+    var x:Double = .0,
+    var y:Double = .0,
     var A: TreeNode<D>? = null,         // default ancestor
     var ancestor: TreeNode<D>? = null,  // ancestor
     var z: Int = 0,                     // prelim
@@ -11,8 +16,8 @@ data class TreeNode<D>(
     var s: Int = 0,                     // shift
     var t: TreeNode<D>? = null,
     override val children: MutableList<TreeNode<D>> = mutableListOf(),
-    var parent: TreeNode<D>? = null
-): Parent<TreeNode<D>>
+    override var parent: TreeNode<D>? = null
+): Parent<TreeNode<D>>, Children<TreeNode<D>>
 
 /**
  * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:
@@ -35,7 +40,7 @@ fun <D> tree(root: Node<D>): TreeNode<D> {
     rootChild.eachBefore(::secondWalk)
 
     // If a fixed node size is specified, scale x and y.
-    if (nodeSize) root.eachBefore(::sizeNode)
+    if (nodeSize) rootChild.eachBefore(::sizeNode)
     return rootChild
 }
 
@@ -46,8 +51,8 @@ fun <D> tree(root: Node<D>): TreeNode<D> {
  * of its outermost children.
  */
 private fun <D> firstWalk(v: TreeNode<D>) {
-    val children: MutableList<TreeNode<D>> = v.children as MutableList<TreeNode<D>>
-    val siblings: MutableList<TreeNode<D>> = v.parent!!.children as MutableList<TreeNode<D>>
+    val children: MutableList<TreeNode<D>> = v.children
+    val siblings: MutableList<TreeNode<D>> = v.parent!!.children
     val w: TreeNode<D>? = if (v.i != 0) siblings[v.i - 1] else null
     if (children.isNotEmpty()) {
         executeShifts(v)
@@ -55,13 +60,13 @@ private fun <D> firstWalk(v: TreeNode<D>) {
         val lastChild = children[children.lastIndex]
         val midpoint = (firstChild.z + lastChild.z) / 2
         if (w != null) {
-            v.z = w.z + separation(v.node!!, w.node!!)
+            v.z = w.z + separation(v, w)
             v.m = v.z - midpoint
         } else {
             v.z = midpoint
         }
     } else if (w != null) {
-        v.z = w.z + separation(v.node!!, w.node!!)
+        v.z = w.z + separation(v, w)
     }
     val parent = v.parent
     val ancestor: TreeNode<D> = if (parent?.A != null) parent.A!! else siblings[0]
@@ -72,11 +77,11 @@ private fun <D> firstWalk(v: TreeNode<D>) {
  * Computes all real x-coordinates by summing up the modifiers recursively.
  */
 private fun <D> secondWalk(v: TreeNode<D>) {
-    v.node!!.x = (v.z + (v.parent as TreeNode<D>).m).toDouble()
+    v.x = (v.z + (v.parent as TreeNode<D>).m).toDouble()
     v.m += (v.parent as TreeNode<D>).m
 }
 
-private fun <D> sizeNode(node: Node<D>) {
+private fun <D> sizeNode(node: TreeNode<D>) {
     node.x *= dx
     node.y = node.depth * dy
 }
@@ -105,7 +110,7 @@ private fun <D> apportion(v: TreeNode<D>, w: TreeNode<D>?, ancestor: TreeNode<D>
         var sop = vop!!.m
         var sim = vim!!.m
         var som = vom!!.m
-        var shift = 0
+        var shift:Int
 
         vim = nextRight(vim)
         vip = nextLeft(vip)
@@ -114,7 +119,7 @@ private fun <D> apportion(v: TreeNode<D>, w: TreeNode<D>?, ancestor: TreeNode<D>
             vom = nextLeft(vom!!)
             vop = nextRight(vop!!)
             vop!!.ancestor = v
-            shift = vim.z + sim - vip.z - sip + separation(vim.node!!, vip.node!!)
+            shift = vim.z + sim - vip.z - sip + separation(vim, vip)
             if (shift > 0
             ) {
                 moveSubtree(nextAncestor(vim, v, ancestorNew), v, shift)
@@ -169,14 +174,14 @@ private fun <D> moveSubtree(wm: TreeNode<D>, wp: TreeNode<D>, shift: Int) {
  * The function returns null if and only if v is on the highest level of its subtree.
  */
 private fun <D> nextLeft(v: TreeNode<D>): TreeNode<D>? {
-    return if (v.children.isNotEmpty()) (v.children[0] as TreeNode<D>) else v.t
+    return if (v.children.isNotEmpty()) (v.children[0]) else v.t
 }
 
 /**
  * This function works analogously to nextLeft.
  */
 private fun <D> nextRight(v: TreeNode<D>): TreeNode<D>? {
-    return if (v.children.isNotEmpty()) (v.children[v.children.lastIndex] as TreeNode<D>) else v.t
+    return if (v.children.isNotEmpty()) (v.children[v.children.lastIndex]) else v.t
 }
 
 /**
@@ -198,64 +203,26 @@ private fun <D> executeShifts(v: TreeNode<D>) {
 }
 
 private fun <D> makeTree(root: Node<D>): TreeNode<D> {
-    val tree = TreeNode(root, 0)
+    val tree = TreeNode(root.data, root.depth, root.height, root.value, 0)
     val nodes = mutableListOf(tree)
 
     while (nodes.isNotEmpty()) {
         val node = nodes.removeAt(nodes.lastIndex)
-        val children = node.node!!.children
+        val children = node.children
         if (children.isNotEmpty()) {
             node.children.clear()
             (children.lastIndex downTo 0).forEach { index ->
-                val child = TreeNode(children[index], index)
+                val c = children[index]
+                val child = TreeNode(c.data, c.depth, c.height, c.value, index)
                 child.parent = node
                 nodes.add(child)
             }
         }
     }
 
-    val treeRoot = TreeNode<D>(null, 0)
+    val treeRoot = TreeNode<D>(null, 0, 0, null, 0)
     treeRoot.children.add(tree)
     tree.parent = treeRoot
 
     return tree
-}
-
-
-/////////////////////////
-
-
-fun <D> TreeNode<D>.eachAfter(callback: (TreeNode<D>) -> Unit): TreeNode<D> {
-    val nodes = mutableListOf(this)
-    val next = mutableListOf<TreeNode<D>>()
-    while (nodes.isNotEmpty()) {
-        val node = nodes.removeAt(nodes.lastIndex)
-        next.add(node)
-        val children = node.children
-        if (children.isNotEmpty()) {
-            (children.lastIndex downTo 0).forEach {
-                nodes.add(children[it])
-            }
-        }
-    }
-    next.forEach(callback)
-    return this
-}
-
-
-fun <D> TreeNode<D>.each(callback: (TreeNode<D>) -> Unit): TreeNode<D> {
-    val next = mutableListOf(this)
-    while (next.size > 0) {
-        val current = next.reversed().toMutableList()
-        next.clear()
-        val node = current.removeAt(current.lastIndex)
-        callback(node)
-        val children = node.children
-        if (children.isNotEmpty()) {
-            (children.lastIndex downTo 0).forEach {
-                next.add(children[it])
-            }
-        }
-    }
-    return this
 }

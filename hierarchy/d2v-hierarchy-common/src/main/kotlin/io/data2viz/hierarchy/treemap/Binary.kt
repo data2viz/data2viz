@@ -1,8 +1,8 @@
 package io.data2viz.hierarchy.treemap
 
-import io.data2viz.hierarchy.Node
+import io.data2viz.hierarchy.TreemapNode
 
-fun treemapBinary(parent: Node<*>, x0: Double, y0: Double, x1: Double, y1: Double) = TreemapBinary().binary(parent, x0, y0, x1, y1)
+fun treemapBinary(parent: TreemapNode<*>, x0: Double, y0: Double, x1: Double, y1: Double) = TreemapBinary().binary(parent, x0, y0, x1, y1)
 
 /**
  * Recursively partitions the specified nodes into an approximately-balanced binary tree, choosing horizontal
@@ -10,10 +10,10 @@ fun treemapBinary(parent: Node<*>, x0: Double, y0: Double, x1: Double, y1: Doubl
  */
 class TreemapBinary {
 
-    var nodes: MutableList<out Node<out Any?>> = mutableListOf()
+    var nodes: MutableList<out TreemapNode<out Any?>> = mutableListOf()
     var sums: MutableList<Double> = mutableListOf()
 
-    fun binary(parent: Node<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
+    fun binary(parent: TreemapNode<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
 
         nodes = parent.children
         val size = nodes.size
@@ -44,9 +44,8 @@ class TreemapBinary {
         var hi = j - 1
 
         while (k < hi) {
-            val mid = k + hi.ushr(1)     // TODO raw conversion from JS : k + hi >>> 1... need explanation (unsigned right shift .... WHY ?)
-            if (sums[mid] < valueTarget
-            ) k = mid + 1
+            val mid = (k + hi).ushr(1)     // TODO raw conversion from JS : k + hi >>> 1... need explanation (unsigned right shift .... WHY ?)
+            if (sums[mid] < valueTarget) k = mid + 1
             else hi = mid
         }
 

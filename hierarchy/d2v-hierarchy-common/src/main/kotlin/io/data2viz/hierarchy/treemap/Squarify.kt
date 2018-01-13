@@ -1,7 +1,7 @@
 package io.data2viz.hierarchy.treemap
 
-import io.data2viz.hierarchy.Node
 import io.data2viz.hierarchy.Row
+import io.data2viz.hierarchy.TreemapNode
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -11,13 +11,13 @@ val phi = (1 + sqrt(5.0)) / 2
  * Implements the squarified treemap algorithm by Bruls et al., which seeks to produce rectangles
  * of a given aspect ratio.
  */
-fun treemapSquarify(parent: Node<*>, x0:Double, y0:Double, x1:Double, y1:Double) {
-    squarifyRatio(phi, parent, x0, y0, x1, y1)
+fun <D> treemapSquarify(parent: TreemapNode<D>, x0:Double, y0:Double, x1:Double, y1:Double): List<Row<D>> {
+    return squarifyRatio(phi, parent, x0, y0, x1, y1)
 }
 
-private fun squarifyRatio(ratio: Double, parent: Node<*>, x0: Double, y0: Double, x1: Double, y1: Double): MutableList<Row> {
+private fun <D> squarifyRatio(ratio: Double, parent: TreemapNode<D>, x0: Double, y0: Double, x1: Double, y1: Double): List<Row<D>> {
 
-    val rows = mutableListOf<Row>()
+    val rows = mutableListOf<Row<D>>()
     val nodes = parent.children
 
     var newx = x0
@@ -48,12 +48,15 @@ private fun squarifyRatio(ratio: Double, parent: Node<*>, x0: Double, y0: Double
         while(i1 < size) {
             val nodeValue = nodes[i1].value!!
             sumValue += nodeValue
-            if (nodeValue < minValue) minValue = nodeValue;
-            if (nodeValue > maxValue) maxValue = nodeValue;
-            beta = sumValue * sumValue * alpha;
+            if (nodeValue < minValue) minValue = nodeValue
+            if (nodeValue > maxValue) maxValue = nodeValue
+            beta = sumValue * sumValue * alpha
             val newRatio = max(maxValue / beta, beta / minValue)
-            if (newRatio > minRatio) sumValue -= nodeValue
-            else minRatio = newRatio
+            if (newRatio > minRatio) {
+                sumValue -= nodeValue
+                break
+            }
+            minRatio = newRatio
             i1++
         }
 
@@ -61,17 +64,23 @@ private fun squarifyRatio(ratio: Double, parent: Node<*>, x0: Double, y0: Double
         val row = Row(sumValue, dx < dy, nodes.slice(i0 until i1))
         rows.add(row)
         if (row.dice) {
-            if (value != .0) newY += dy * sumValue / value
-            treemapDice(row, newx, newY, x1, if (value != .0) newY else y1)
+            if (value != .0) {
+                val temp = newY + dy * sumValue / value
+                treemapDice(row, newx, newY, x1, temp)
+                newY = temp
+            } else treemapDice(row, newx, newY, x1, y1)
         } else {
-            if (value != .0) newx += dx * sumValue / value
-            treemapSlice(row, newx, newY, if (value != .0) newx else x1, y1)
+            if (value != .0) {
+                val temp = newx + dx * sumValue / value
+                treemapSlice(row, newx, newY, temp, y1)
+                newx = temp
+            } else treemapSlice(row, newx, newY, x1, y1)
         }
         value -= sumValue
         i0 = i1
     }
 
-    return rows
+    return rows.toList()
 }
 
 /**

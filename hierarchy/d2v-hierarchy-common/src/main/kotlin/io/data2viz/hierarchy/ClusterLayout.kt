@@ -4,6 +4,17 @@ var nodeSize = false
 var dx = 1.0
 var dy = 1.0
 
+data class ClusterNode<D>(
+    val data: D,
+    var depth: Int,
+    var height: Int,
+    var value: Double?,
+    override val children: MutableList<ClusterNode<D>> = mutableListOf(),
+    override var parent: ClusterNode<D>? = null,
+    var x: Double = .0,
+    var y: Double = .0
+): Parent<ClusterNode<D>>, Children<ClusterNode<D>>
+
 /**
  * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:
  * node.x - the x-coordinate of the node
@@ -17,12 +28,15 @@ var dy = 1.0
  * Dendograms are typically less compact than tidy trees, but are useful when all the leaves should be at
  * the same level, such as for hierarchical clustering or phylogenetic tree diagrams.
  */
-fun <D> cluster(root: Node<D>): Node<D> {
-    var previousNode: Node<D>? = null
+fun <D> cluster(root: Node<D>): ClusterNode<D> {
+
+    val rootCluster = makeCluster(root)
+
+    var previousNode: ClusterNode<D>? = null
     var x = .0
 
     // First walk, computing the initial x & y values
-    root.eachAfter({ node: Node<D> ->
+    rootCluster.eachAfter({ node: ClusterNode<D> ->
         val children = node.children
         if (children.isNotEmpty()) {
             node.x = children.sumByDouble { it.x } / children.size
@@ -37,31 +51,44 @@ fun <D> cluster(root: Node<D>): Node<D> {
         }
     })
 
-    val left = leafLeft(root)
-    val right = leafRight(root)
+    val left = leafLeft(rootCluster)
+    val right = leafRight(rootCluster)
     val x0 = left.x - separation(left, right) / 2
     val x1 = right.x + separation(right, left) / 2
 
     // Second walk, normalizing x & y to the desired size.
-    return if (nodeSize
-    ) {
-        root.eachAfter({ node: Node<D> ->
-            node.x = (node.x - root.x) * dx
-            node.y = (root.y - node.y) * dy
+    return if (nodeSize) {
+        rootCluster.eachAfter({ node: ClusterNode<D> ->
+            node.x = (node.x - rootCluster.x) * dx
+            node.y = (rootCluster.y - node.y) * dy
         })
     } else {
-        root.eachAfter({ node: Node<D> ->
+        rootCluster.eachAfter({ node: ClusterNode<D> ->
             node.x = (node.x - x0) / (x1 - x0) * dx
-            node.y = if (root.y == .0) .0 else (1 - (node.y / root.y)) * dy
+            node.y = if (rootCluster.y == .0) .0 else (1 - (node.y / rootCluster.y)) * dy
         })
     }
 }
 
-fun <D> separation(nodeA: Node<D>, nodeB: Node<D>) = if (nodeA.parent == nodeB.parent) 1 else 2
+private fun <D> makeCluster(root: Node<D>): ClusterNode<D> {
+    val rootCluster = ClusterNode(root.data, root.depth, root.height, root.value)
+    val nodes = mutableListOf(rootCluster)
+    while (nodes.isNotEmpty()) {
+        val clusterNode = nodes.removeAt(nodes.lastIndex)
+        clusterNode.children.clear()
+        clusterNode.children.forEach { child ->
+            val c = ClusterNode(child.data, child.depth, child.height, child.value)
+            c.parent = clusterNode
+            clusterNode.children.add(c)
+            nodes.add(c)
+        }
+    }
+    return rootCluster
+}
 
-private fun <D> leafLeft(node: Node<D>): Node<D> {
+private fun <D> leafLeft(node: ClusterNode<D>): ClusterNode<D> {
     var children = node.children
-    var current: Node<D> = node
+    var current: ClusterNode<D> = node
     while (children.isNotEmpty()) {
         current = children[0]
         children = current.children
@@ -69,9 +96,9 @@ private fun <D> leafLeft(node: Node<D>): Node<D> {
     return current
 }
 
-private fun <D> leafRight(node: Node<D>): Node<D> {
+private fun <D> leafRight(node: ClusterNode<D>): ClusterNode<D> {
     var children = node.children
-    var current: Node<D> = node
+    var current: ClusterNode<D> = node
     while (children.isNotEmpty()) {
         current = children[children.lastIndex]
         children = current.children

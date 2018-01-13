@@ -1,9 +1,6 @@
 package io.data2viz.hierarchy.treemap
 
-import io.data2viz.hierarchy.Node
-import io.data2viz.hierarchy.Row
-import kotlin.math.max
-import kotlin.math.sqrt
+import io.data2viz.hierarchy.TreemapNode
 
 /**
  * Like treemapSquarify, except preserves the topology (node adjacencies) of the previous layout computed by
@@ -13,7 +10,7 @@ import kotlin.math.sqrt
  * The downside of a stable update, however, is a suboptimal layout for subsequent updates: only the first layout
  * uses the Bruls et al. squarified algorithm.
  */
-fun treemapResquarify(parent: Node<*>, x0:Double, y0:Double, x1:Double, y1:Double) {
+fun treemapResquarify(parent: TreemapNode<*>, x0:Double, y0:Double, x1:Double, y1:Double) {
     /*if ((rows = parent._squarify) && (rows.ratio === ratio)) {
         var rows,
         row,

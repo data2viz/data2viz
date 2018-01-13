@@ -1,104 +1,155 @@
 package io.data2viz.hierarchy
-//
-//import io.data2viz.hierarchy.treemap.treemapSquarify
-//
-//// TODO : a Node extension ?
-data class Row(
+
+import io.data2viz.hierarchy.treemap.treemapSquarify
+import kotlin.math.roundToInt
+
+data class Row<D>(
     val value: Double,
     val dice:Boolean,
-    val children:List<Node<*>>
-)
-//
-//fun <D> treemap(root: Node<D>): Node<D> = TreemapLayout<D>().treemap(root)
-//
-//class TreemapLayout<D> {
-//
-//    val constantZero: (Node<D>) -> Double = { .0 }
-//
-//    var tilingMethod = ::treemapSquarify
-//    var round = false
-//    var dx = 1.0
-//    var dy = 1.0
-//    var paddingStack = mutableListOf(.0)
-//    var paddingInner: (Node<D>) -> Double = constantZero
-//    var paddingTop: (Node<D>) -> Double = constantZero
-//    var paddingRight: (Node<D>) -> Double = constantZero
-//    var paddingBottom: (Node<D>) -> Double = constantZero
-//    var paddingLeft: (Node<D>) -> Double = constantZero
-//
-//    /**
-//     * Introduced by Ben Shneiderman in 1991, a treemap recursively subdivides area into rectangles according to
-//     * each node’s associated value.
-//     * Treemap implementation supports an extensible tiling method: the default squarified method seeks to generate
-//     * rectangles with a golden aspect ratio; this offers better readability and size estimation than slice-and-dice,
-//     * which simply alternates between horizontal and vertical subdivision by depth.
-//     *
-//     * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:
-//     *
-//     * - node.x0 - the left edge of the rectangle
-//     * - node.y0 - the top edge of the rectangle
-//     * - node.x1 - the right edge of the rectangle
-//     * - node.y1 - the bottom edge of the rectangle
-//     *
-//     * You must call root.sum before passing the hierarchy to the treemap layout so each node as a positive value.
-//     * // TODO force a call on root.sum ?
-//     * You probably also want to call root.sort to order the hierarchy before computing the layout.
-//     */
-//    fun treemap(root: Node<D>): Node<D> {
-//
-//        // TODO : require a check on each node to verify that value != null and >0 ? (root.sum has been passed) ?
-//
-//        paddingStack = MutableList(root.height + 1, { .0 })
-//        root.x0 = .0
-//        root.y0 = .0
-//        root.x1 = dx
-//        root.y1 = dy
-//
-//        root.eachBefore(::positionNode)
-//
-//        return root
-//    }
-//
-//    private fun positionNode(node: Node<D>) {
-//        var p = paddingStack[node.depth]
-//        var x0 = node.x0 + p
-//        var y0 = node.y0 + p
-//        var x1 = node.x1 - p
-//        var y1 = node.y1 - p
-//
-//        if (x1 < x0) {
-//            val mid = (x0 + x1) / 2
-//            x0 = mid
-//            x1 = mid
-//        }
-//        if (y1 < y0) {
-//            val mid = (y0 + y1) / 2
-//            y0 = mid
-//            y1 = mid
-//        }
-//        node.x0 = x0
-//        node.y0 = y0
-//        node.x1 = x1
-//        node.y1 = y1
-//
-//        if (node.children.isNotEmpty()) {
-//            paddingStack[node.depth + 1] = paddingInner(node) / 2
-//            p = paddingInner(node) / 2
-//            x0 += paddingLeft(node) - p
-//            y0 += paddingTop(node) - p
-//            x1 -= paddingRight(node) - p
-//            y1 -= paddingBottom(node) - p
-//            if (x1 < x0) {
-//                val mid = (x0 + x1) / 2
-//                x0 = mid
-//                x1 = mid
-//            }
-//            if (y1 < y0) {
-//                val mid = (y0 + y1) / 2
-//                y0 = mid
-//                y1 = mid
-//            }
-//            tilingMethod(node, x0, y0, x1, y1)
-//        }
-//    }
-//}
+    override val children:List<TreemapNode<D>>
+) : Parent<TreemapNode<D>>
+
+class TreemapNode<D>(
+    val data: D,
+    var depth: Int,
+    var height: Int,
+    var value: Double?,                 // TODO differentiate walue and SUM
+    override val children: MutableList<TreemapNode<D>> = mutableListOf(),
+    override var parent: TreemapNode<D>? = null,
+    var x0: Double = .0,
+    var y0: Double = .0,
+    var x1: Double = .0,
+    var y1: Double = .0
+): Parent<TreemapNode<D>>, Children<TreemapNode<D>>
+
+class TreemapLayout<D> {
+
+    private val constantZero: (TreemapNode<D>) -> Double = { .0 }
+
+    var tilingMethod: (TreemapNode<D>, Double, Double, Double, Double) -> Any = {
+            parent: TreemapNode<D>, x0: Double, y0: Double, x1: Double, y1: Double -> treemapSquarify(parent, x0, y0, x1, y1)
+    }
+    var roundPositions = false
+    var width = 1.0
+    var height = 1.0
+
+    private var paddingStack = mutableListOf(.0)
+    var paddingInner: (TreemapNode<D>) -> Double = constantZero
+    var paddingTop: (TreemapNode<D>) -> Double = constantZero
+    var paddingRight: (TreemapNode<D>) -> Double = constantZero
+    var paddingBottom: (TreemapNode<D>) -> Double = constantZero
+    var paddingLeft: (TreemapNode<D>) -> Double = constantZero
+    var paddingOuter: (TreemapNode<D>) -> Double = constantZero
+        set(value) {
+            paddingTop = value
+            paddingRight = value
+            paddingBottom = value
+            paddingLeft = value
+        }
+
+    /**
+     * Introduced by Ben Shneiderman in 1991, a treemap recursively subdivides area into rectangles according to
+     * each node’s associated value.
+     * Treemap implementation supports an extensible tiling method: the default squarified method seeks to generate
+     * rectangles with a golden aspect ratio; this offers better readability and size estimation than slice-and-dice,
+     * which simply alternates between horizontal and vertical subdivision by depth.
+     *
+     * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:
+     *
+     * - node.x0 - the left edge of the rectangle
+     * - node.y0 - the top edge of the rectangle
+     * - node.x1 - the right edge of the rectangle
+     * - node.y1 - the bottom edge of the rectangle
+     *
+     * You must call root.sum before passing the hierarchy to the treemap layout so each node as a positive value.
+     * // TODO force a call on root.sum ?
+     * You probably also want to call root.sort to order the hierarchy before computing the layout.
+     */
+    fun treemap(root: Node<D>): TreemapNode<D> {
+
+        // TODO : require a check on each node to verify that value != null and >0 ? (root.sum has been passed) ?
+
+        val rootTreemap = makeTreemap(root)
+
+        paddingStack = MutableList(root.height + 1, { .0 })
+        rootTreemap.x0 = .0
+        rootTreemap.y0 = .0
+        rootTreemap.x1 = width
+        rootTreemap.y1 = height
+
+        rootTreemap.eachBefore(this::positionNode)
+        paddingStack = mutableListOf(.0)
+
+        if (roundPositions) rootTreemap.eachBefore(this::roundNode)
+
+        return rootTreemap
+    }
+
+    private fun positionNode(node: TreemapNode<D>) {
+        var p = paddingStack[node.depth]
+        var x0 = node.x0 + p
+        var y0 = node.y0 + p
+        var x1 = node.x1 - p
+        var y1 = node.y1 - p
+
+        if (x1 < x0) {
+            val mid = (x0 + x1) / 2
+            x0 = mid
+            x1 = mid
+        }
+        if (y1 < y0) {
+            val mid = (y0 + y1) / 2
+            y0 = mid
+            y1 = mid
+        }
+        node.x0 = x0
+        node.y0 = y0
+        node.x1 = x1
+        node.y1 = y1
+
+        if (node.children.isNotEmpty()) {
+            paddingStack[node.depth + 1] = paddingInner(node) / 2
+            p = paddingInner(node) / 2
+            x0 += paddingLeft(node) - p
+            y0 += paddingTop(node) - p
+            x1 -= paddingRight(node) - p
+            y1 -= paddingBottom(node) - p
+            if (x1 < x0) {
+                val mid = (x0 + x1) / 2
+                x0 = mid
+                x1 = mid
+            }
+            if (y1 < y0) {
+                val mid = (y0 + y1) / 2
+                y0 = mid
+                y1 = mid
+            }
+            tilingMethod(node, x0, y0, x1, y1)
+        }
+    }
+
+    private fun roundNode(node: TreemapNode<D>) {
+        node.x0 = node.x0.roundToInt().toDouble()
+        node.y0 = node.y0.roundToInt().toDouble()
+        node.x1 = node.x1.roundToInt().toDouble()
+        node.y1 = node.y1.roundToInt().toDouble()
+    }
+
+    private fun <D> makeTreemap(root: Node<D>): TreemapNode<D> {
+        val rootTreemap = TreemapNode(root.data, root.depth, root.height, root.value)
+        val nodes = mutableListOf(root)
+        val nodesTM = mutableListOf(rootTreemap)
+        while (nodes.isNotEmpty()) {
+            val node = nodes.removeAt(nodes.lastIndex)
+            val nodeTM = nodesTM.removeAt(nodesTM.lastIndex)
+            node.children.forEach { child ->
+                val c = TreemapNode(child.data, child.depth, child.height, child.value)
+                c.parent = nodeTM
+                nodeTM.children.add(c)
+                nodes.add(child)
+                nodesTM.add(c)
+            }
+        }
+        return rootTreemap
+    }
+}

@@ -1,7 +1,7 @@
 package io.data2viz.hierarchy.treemap
 
-import io.data2viz.hierarchy.Node
 import io.data2viz.hierarchy.Row
+import io.data2viz.hierarchy.TreemapNode
 
 /**
  * Divides the rectangular area specified by x0, y0, x1, y1 vertically according the value of each
@@ -11,12 +11,13 @@ import io.data2viz.hierarchy.Row
  * has a non-zero internal value), the remaining empty space will be positioned
  * on the bottom edge (y1) of the given rectangle.
  */
-fun treemapSlice(parent: Row, x0: Double, y0: Double, x1: Double, y1: Double) {
+fun treemapSlice(parent: Row<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
     var newY = y0
     val nodes = parent.children
     var i = 0
     val n = nodes.size
-    val k = (parent.value != .0) && ((y1 - newY) / parent.value != .0)
+
+    val k = if (parent.value != .0) (y1 - y0) / parent.value else .0
 
     while (i < n) {
         val node = nodes[i]
@@ -24,7 +25,7 @@ fun treemapSlice(parent: Row, x0: Double, y0: Double, x1: Double, y1: Double) {
         node.x0 = x0
         node.x1 = x1
         node.y0 = newY
-        newY += if (k) node.value!! else .0
+        newY += k * node.value!!
         node.y1 = newY
         i++
     }
@@ -38,7 +39,7 @@ fun treemapSlice(parent: Row, x0: Double, y0: Double, x1: Double, y1: Double) {
  * has a non-zero internal value), the remaining empty space will be positioned
  * on the right edge (x1) of the given rectangle.
  */
-fun treemapDice(parent: Row, x0: Double, y0: Double, x1: Double, y1: Double) {
+fun treemapDice(parent: Row<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
     var newX = x0
     val nodes = parent.children
     var i = 0
@@ -60,6 +61,6 @@ fun treemapDice(parent: Row, x0: Double, y0: Double, x1: Double, y1: Double) {
 /**
  * If the specified node has odd depth, delegates to treemapSlice; otherwise delegates to treemapDice.
  */
-fun treemapSliceDice(parent: Node<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
+fun treemapSliceDice(parent: TreemapNode<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
 //    (if (parent.depth % 2 == 1) treemapSlice(parent, x0, y0, x1, y1) else treemapDice(parent, x0, y0, x1, y1))
 }
