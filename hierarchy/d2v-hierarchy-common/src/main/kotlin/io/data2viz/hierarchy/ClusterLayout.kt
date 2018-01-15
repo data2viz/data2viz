@@ -8,12 +8,12 @@ data class ClusterNode<D>(
     val data: D,
     var depth: Int,
     var height: Int,
-    var value: Double?,
+    override var value: Double?,
     override val children: MutableList<ClusterNode<D>> = mutableListOf(),
     override var parent: ClusterNode<D>? = null,
     var x: Double = .0,
     var y: Double = .0
-): Parent<ClusterNode<D>>, Children<ClusterNode<D>>
+): ParentValued<ClusterNode<D>>, Children<ClusterNode<D>>
 
 /**
  * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:

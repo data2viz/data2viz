@@ -1,16 +1,17 @@
 package io.data2viz.hierarchy
 
-interface Parent<T> { val children: List<Parent<T>> }
-interface Children<T> { val parent: Parent<T>? }
+interface Valued { var value: Double? }
+interface Children<T> { val parent: ParentValued<T>? }
+interface ParentValued<T>: Valued {val children: List<ParentValued<T>>}
 
 data class Node<D>(
     val data: D,
     var depth: Int = 0,
     var height: Int = 0,
-    var value: Double? = null,
+    override var value: Double? = null,
     override val children: MutableList<Node<D>> = mutableListOf(),
     override var parent: Node<D>? = null
-): Parent<Node<D>>, Children<Node<D>>
+): ParentValued<Node<D>>, Children<Node<D>>
 
 data class Link<D>(
     val source: Node<D>?,
@@ -132,7 +133,7 @@ inline fun <reified N: Children<D>, D> separation(nodeA: N, nodeB: N) = if (node
  * nodes of the same depth.
  * The specified function is passed the current node.
  */
-inline fun <reified N: Parent<D>, D> N.each(callback: (N) -> Unit): N {
+inline fun <reified N: ParentValued<D>, D> N.each(callback: (N) -> Unit): N {
     val next = mutableListOf(this)
     while (next.size > 0) {
         val current = next.reversed().toMutableList()
@@ -154,7 +155,7 @@ inline fun <reified N: Parent<D>, D> N.each(callback: (N) -> Unit): N {
  * is only visited after all of its ancestors have already been visited.
  * The specified function is passed the current node.
  */
-inline fun <reified N: Parent<D>, D> N.eachBefore(callback: (N) -> Unit): N {
+inline fun <reified N: ParentValued<D>, D> N.eachBefore(callback: (N) -> Unit): N {
     val nodes = mutableListOf(this)
     while (nodes.isNotEmpty()) {
         val node = nodes.removeAt(nodes.lastIndex)
@@ -174,7 +175,7 @@ inline fun <reified N: Parent<D>, D> N.eachBefore(callback: (N) -> Unit): N {
  * is only visited after all of its descendants have already been visited.
  * The specified function is passed the current node.
  */
-inline fun <reified N: Parent<D>, D> N.eachAfter(callback: (N) -> Unit): N {
+inline fun <reified N: ParentValued<D>, D> N.eachAfter(callback: (N) -> Unit): N {
     val nodes = mutableListOf(this)
     val next = mutableListOf<N>()
     while (nodes.isNotEmpty()) {

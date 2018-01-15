@@ -1,6 +1,6 @@
 package io.data2viz.hierarchy.treemap
 
-import io.data2viz.hierarchy.Row
+import io.data2viz.hierarchy.ParentValued
 import io.data2viz.hierarchy.TreemapNode
 
 /**
@@ -11,16 +11,15 @@ import io.data2viz.hierarchy.TreemapNode
  * has a non-zero internal value), the remaining empty space will be positioned
  * on the bottom edge (y1) of the given rectangle.
  */
-fun treemapSlice(parent: Row<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
+fun <D> treemapSlice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
     var newY = y0
     val nodes = parent.children
     var i = 0
     val n = nodes.size
-
-    val k = if (parent.value != .0) (y1 - y0) / parent.value else .0
+    val k = if (parent.value != null && parent.value != .0) (y1 - newY) / parent.value!! else .0
 
     while (i < n) {
-        val node = nodes[i]
+        val node = nodes[i] as TreemapNode<*>
 
         node.x0 = x0
         node.x1 = x1
@@ -39,20 +38,20 @@ fun treemapSlice(parent: Row<*>, x0: Double, y0: Double, x1: Double, y1: Double)
  * has a non-zero internal value), the remaining empty space will be positioned
  * on the right edge (x1) of the given rectangle.
  */
-fun treemapDice(parent: Row<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
+fun <D> treemapDice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
     var newX = x0
     val nodes = parent.children
     var i = 0
     val n = nodes.size
-    val k = (parent.value != .0) && ((x1 - newX) / parent.value != .0)
+    val k = if (parent.value != null && parent.value != .0) (x1 - newX) / parent.value!! else .0
 
     while (i < n) {
-        val node = nodes[i]
+        val node = nodes[i] as TreemapNode<*>
 
         node.y0 = y0
         node.y1 = y1
         node.x0 = newX
-        newX += if (k) node.value!! else .0
+        newX += k * node.value!!
         node.x1 = newX
         i++
     }

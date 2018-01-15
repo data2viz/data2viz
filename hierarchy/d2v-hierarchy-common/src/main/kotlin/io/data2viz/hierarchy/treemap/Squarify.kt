@@ -1,5 +1,6 @@
 package io.data2viz.hierarchy.treemap
 
+import io.data2viz.hierarchy.ParentValued
 import io.data2viz.hierarchy.Row
 import io.data2viz.hierarchy.TreemapNode
 import kotlin.math.max
@@ -11,8 +12,8 @@ val phi = (1 + sqrt(5.0)) / 2
  * Implements the squarified treemap algorithm by Bruls et al., which seeks to produce rectangles
  * of a given aspect ratio.
  */
-fun <D> treemapSquarify(parent: TreemapNode<D>, x0:Double, y0:Double, x1:Double, y1:Double): List<Row<D>> {
-    return squarifyRatio(phi, parent, x0, y0, x1, y1)
+fun <D> treemapSquarify(parent: ParentValued<TreemapNode<D>>, x0:Double, y0:Double, x1:Double, y1:Double): List<Row<D>> {
+    return squarifyRatio(phi, parent as TreemapNode<D>, x0, y0, x1, y1)
 }
 
 private fun <D> squarifyRatio(ratio: Double, parent: TreemapNode<D>, x0: Double, y0: Double, x1: Double, y1: Double): List<Row<D>> {

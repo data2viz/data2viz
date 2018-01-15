@@ -4,7 +4,7 @@ data class TreeNode<D>(
     val data: D?,
     var depth: Int,
     var height: Int,
-    var value: Double?,
+    override var value: Double?,
     val i: Int = 0,                     // TODO rename index
     var x:Double = .0,
     var y:Double = .0,
@@ -17,7 +17,7 @@ data class TreeNode<D>(
     var t: TreeNode<D>? = null,
     override val children: MutableList<TreeNode<D>> = mutableListOf(),
     override var parent: TreeNode<D>? = null
-): Parent<TreeNode<D>>, Children<TreeNode<D>>
+): ParentValued<TreeNode<D>>, Children<TreeNode<D>>
 
 /**
  * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:

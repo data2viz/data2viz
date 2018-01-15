@@ -4,30 +4,30 @@ import io.data2viz.hierarchy.treemap.treemapSquarify
 import kotlin.math.roundToInt
 
 data class Row<D>(
-    val value: Double,
+    override var value: Double?,
     val dice:Boolean,
     override val children:List<TreemapNode<D>>
-) : Parent<TreemapNode<D>>
+) : ParentValued<TreemapNode<D>>
 
 class TreemapNode<D>(
     val data: D,
     var depth: Int,
     var height: Int,
-    var value: Double?,                 // TODO differentiate walue and SUM
+    override var value: Double?,                 // TODO differentiate value and SUM
     override val children: MutableList<TreemapNode<D>> = mutableListOf(),
     override var parent: TreemapNode<D>? = null,
     var x0: Double = .0,
     var y0: Double = .0,
     var x1: Double = .0,
     var y1: Double = .0
-): Parent<TreemapNode<D>>, Children<TreemapNode<D>>
+): ParentValued<TreemapNode<D>>, Children<TreemapNode<D>>
 
 class TreemapLayout<D> {
 
     private val constantZero: (TreemapNode<D>) -> Double = { .0 }
 
-    var tilingMethod: (TreemapNode<D>, Double, Double, Double, Double) -> Any = {
-            parent: TreemapNode<D>, x0: Double, y0: Double, x1: Double, y1: Double -> treemapSquarify(parent, x0, y0, x1, y1)
+    var tilingMethod: (ParentValued<TreemapNode<D>>, Double, Double, Double, Double) -> Any = {
+            parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double -> treemapSquarify(parent, x0, y0, x1, y1)
     }
     var roundPositions = false
     var width = 1.0
