@@ -1,8 +1,6 @@
 package io.data2viz.hierarchy
 
-import io.data2viz.hierarchy.treemap.treemapBinary
-import io.data2viz.hierarchy.treemap.treemapDice
-import io.data2viz.hierarchy.treemap.treemapSlice
+import io.data2viz.hierarchy.treemap.*
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -29,6 +27,36 @@ class HierarchyTests : TestBase() {
     )
 
     val testTreemapMidSquarify =
+        Hierarchical(
+            1, .0, .0, 500.0, 400.0, subElements = listOf(
+                Hierarchical(
+                    11, 200.0, .0, 500.0, 250.0, subElements = listOf(
+                        Hierarchical(111, 200.0, .0, 400.0, 125.0),
+                        Hierarchical(112, 200.0, 125.0, 400.0, 250.0),
+                        Hierarchical(113, 400.0, .0, 500.0, 250.0),
+                        Hierarchical(
+                            114, .0, .0, 200.0, 250.0, subElements = listOf(
+                                Hierarchical(1141, .0, .0, 100.0, 250.0),
+                                Hierarchical(1142, 100.0, .0, 200.0, 250.0)
+                            )
+                        )
+                    )
+                ),
+                Hierarchical(
+                    12, .0, 250.0, 500.0, 400.0, subElements = listOf(
+                        Hierarchical(
+                            121, .0, 250.0, 333.0, 400.0, subElements = listOf(
+                                Hierarchical(1211, .0, 250.0, 167.0, 400.0),
+                                Hierarchical(1212, 167.0, 250.0, 333.0, 400.0)
+                            )
+                        ),
+                        Hierarchical(122, 333.0, 250.0, 500.0, 400.0)
+                    )
+                )
+            )
+        )
+
+    val testTreemapMidResquarify =
         Hierarchical(
             1, .0, .0, 500.0, 400.0, subElements = listOf(
                 Hierarchical(
@@ -148,6 +176,36 @@ class HierarchyTests : TestBase() {
             )
         )
 
+    val testTreemapMidSliceDice =
+        Hierarchical(
+            1, 0.0, 0.0, 500.0, 400.0, subElements = listOf(
+                Hierarchical(
+                    11, 0.0, 160.0, 313.0, 400.0, subElements = listOf(
+                        Hierarchical(111, 0.0, 160.0, 313.0, 240.0),
+                        Hierarchical(112, 0.0, 240.0, 313.0, 320.0),
+                        Hierarchical(113, 0.0, 320.0, 313.0, 400.0),
+                        Hierarchical(
+                            114, 0.0, 0.0, 313.0, 160.0, subElements = listOf(
+                                Hierarchical(1141, 0.0, 0.0, 156.0, 160.0),
+                                Hierarchical(1142, 156.0, 0.0, 313.0, 160.0)
+                            )
+                        )
+                    )
+                ),
+                Hierarchical(
+                    12, 313.0, 0.0, 500.0, 400.0, subElements = listOf(
+                        Hierarchical(
+                            121, 313.0, 0.0, 500.0, 267.0, subElements = listOf(
+                                Hierarchical(1211, 313.0, 0.0, 406.0, 267.0),
+                                Hierarchical(1212, 406.0, 0.0, 500.0, 267.0)
+                            )
+                        ),
+                        Hierarchical(122, 313.0, 267.0, 500.0, 400.0)
+                    )
+                )
+            )
+        )
+
     @Test
     fun buildHierarchy() {
         val hierarchy = hierarchy(Hierarchical(0), { it.subElements })
@@ -196,6 +254,8 @@ class HierarchyTests : TestBase() {
         layout.width = width
         layout.height = height
         layout.roundPositions = true
+        layout.tilingMethod = { parent, x0, y0, x1, y1 ->
+            treemapSquarify(parent, x0, y0, x1, y1) }
 
         val treemap  = layout.treemap(hierarchy)
         treemap.each { treemapNode ->
@@ -205,6 +265,31 @@ class HierarchyTests : TestBase() {
             treemapNode.y1 shouldBe treemapNode.data.y1
         }
     }
+
+    // TODO
+    /*@Test
+    fun buildTreemapMidResquarify() {
+        val hierarchy = hierarchy(testTreemapMidResquarify, { it.subElements })
+        hierarchy.sum({ it.value.toDouble() })
+        hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
+
+        val layout = TreemapLayout<Hierarchical>()
+        layout.paddingInner = { .0 }
+        layout.paddingOuter = { .0 }
+        layout.width = width
+        layout.height = height
+        layout.roundPositions = true
+        layout.tilingMethod = { parent, x0, y0, x1, y1 ->
+            treemapResquarify(parent, x0, y0, x1, y1) }
+
+        val treemap  = layout.treemap(hierarchy)
+        treemap.each { treemapNode ->
+            treemapNode.x0 shouldBe treemapNode.data.x0
+            treemapNode.x1 shouldBe treemapNode.data.x1
+            treemapNode.y0 shouldBe treemapNode.data.y0
+            treemapNode.y1 shouldBe treemapNode.data.y1
+        }
+    }*/
 
     @Test
     fun buildTreemapMidBinary() {
@@ -274,6 +359,29 @@ class HierarchyTests : TestBase() {
             treemapNode.y0 shouldBe treemapNode.data.y0
             treemapNode.y1 shouldBe treemapNode.data.y1
         }
+    }
+
+    @Test
+    fun buildTreemapMidSliceDice() {
+        val hierarchy = hierarchy(testTreemapMidSliceDice, { it.subElements })
+        hierarchy.sum({ it.value.toDouble() })
+        hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
+
+        val layout = TreemapLayout<Hierarchical>()
+        layout.paddingInner = { .0 }
+        layout.paddingOuter = { .0 }
+        layout.width = width
+        layout.height = height
+        layout.roundPositions = true
+        layout.tilingMethod = { parent, x0, y0, x1, y1 -> treemapSliceDice(parent, x0, y0, x1, y1) }
+
+        val treemap  = layout.treemap(hierarchy)
+        treemap.each { treemapNode ->
+            treemapNode.x0 shouldBe treemapNode.data.x0
+            treemapNode.x1 shouldBe treemapNode.data.x1
+            treemapNode.y0 shouldBe treemapNode.data.y0
+                treemapNode.y1 shouldBe treemapNode.data.y1
+            }
     }
 
     @Test

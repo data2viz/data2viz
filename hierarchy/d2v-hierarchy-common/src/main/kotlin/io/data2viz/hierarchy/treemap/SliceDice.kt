@@ -60,6 +60,6 @@ fun <D> treemapDice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double
 /**
  * If the specified node has odd depth, delegates to treemapSlice; otherwise delegates to treemapDice.
  */
-fun treemapSliceDice(parent: TreemapNode<*>, x0: Double, y0: Double, x1: Double, y1: Double) {
-//    (if (parent.depth % 2 == 1) treemapSlice(parent, x0, y0, x1, y1) else treemapDice(parent, x0, y0, x1, y1))
+fun <D> treemapSliceDice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
+    if ((parent as TreemapNode<D>).depth % 2 == 1) treemapSlice(parent, x0, y0, x1, y1) else treemapDice(parent, x0, y0, x1, y1)
 }
