@@ -215,7 +215,7 @@ class TreemapTests : TestBase() {
         val layout = TreemapLayout<Hierarchical>()
         layout.width = width
         layout.height = height
-        layout.roundPositions = true
+        layout.round = true
 
         val treemap  = layout.treemap(hierarchy)
         treemap.each { treemapNode ->
@@ -237,7 +237,7 @@ class TreemapTests : TestBase() {
         layout.paddingOuter = { .0 }
         layout.width = width
         layout.height = height
-        layout.roundPositions = true
+        layout.round = true
         layout.tilingMethod = { parent, x0, y0, x1, y1 ->
             treemapSquarify(parent, x0, y0, x1, y1) }
 
@@ -262,7 +262,7 @@ class TreemapTests : TestBase() {
         layout.paddingOuter = { .0 }
         layout.width = width
         layout.height = height
-        layout.roundPositions = true
+        layout.round = true
         layout.tilingMethod = { parent, x0, y0, x1, y1 ->
             treemapResquarify(parent, x0, y0, x1, y1) }
 
@@ -286,7 +286,7 @@ class TreemapTests : TestBase() {
         layout.paddingOuter = { .0 }
         layout.width = width
         layout.height = height
-        layout.roundPositions = true
+        layout.round = true
         layout.tilingMethod = { parent, x0, y0, x1, y1 ->
             treemapBinary(parent, x0, y0, x1, y1) }
 
@@ -310,7 +310,7 @@ class TreemapTests : TestBase() {
         layout.paddingOuter = { .0 }
         layout.width = width
         layout.height = height
-        layout.roundPositions = true
+        layout.round = true
         layout.tilingMethod = { parent, x0, y0, x1, y1 -> treemapSlice(parent, x0, y0, x1, y1) }
 
         val treemap  = layout.treemap(hierarchy)
@@ -333,7 +333,7 @@ class TreemapTests : TestBase() {
         layout.paddingOuter = { .0 }
         layout.width = width
         layout.height = height
-        layout.roundPositions = true
+        layout.round = true
         layout.tilingMethod = { parent, x0, y0, x1, y1 -> treemapDice(parent, x0, y0, x1, y1) }
 
         val treemap  = layout.treemap(hierarchy)
@@ -356,7 +356,7 @@ class TreemapTests : TestBase() {
         layout.paddingOuter = { .0 }
         layout.width = width
         layout.height = height
-        layout.roundPositions = true
+        layout.round = true
         layout.tilingMethod = { parent, x0, y0, x1, y1 -> treemapSliceDice(parent, x0, y0, x1, y1) }
 
         val treemap  = layout.treemap(hierarchy)

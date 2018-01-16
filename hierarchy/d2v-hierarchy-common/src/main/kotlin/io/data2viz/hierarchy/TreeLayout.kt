@@ -21,9 +21,9 @@ data class TreeNode<D>(
 
 class TreeLayout<D> {
 
-    var nodeSize = false
-    var dx = 1.0
-    var dy = 1.0
+    private var nodeSize = false
+    private var dx = 1.0
+    private var dy = 1.0
 
     /**
      * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:

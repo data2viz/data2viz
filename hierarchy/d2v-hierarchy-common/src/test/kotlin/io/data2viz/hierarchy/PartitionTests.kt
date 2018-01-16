@@ -3,7 +3,7 @@ package io.data2viz.hierarchy
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class HierarchyTests : TestBase() {
+class PartitionTests : TestBase() {
 
     // DO NOT CHANGE VALUES
     val width = 500.0
@@ -56,18 +56,27 @@ class HierarchyTests : TestBase() {
         )
 
     @Test
-    fun buildHierarchy() {
-        val hierarchy = hierarchy(Hierarchical(0, .0, .0, .0, .0), { it.subElements })
-
-        hierarchy.descendants().size shouldBe 1
-        hierarchy.leaves().size shouldBe 1
-    }
-
-    @Test
-    fun buildHierarchyFull() {
+    fun buildPartition() {
         val hierarchy = hierarchy(testTreeMid, { it.subElements })
+        hierarchy.sum({ it.value.toDouble() })
+        hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
 
-        hierarchy.descendants().size shouldBe 3
-        hierarchy.leaves().size shouldBe 8
+        val partitionLayout = PartitionLayout()
+        partitionLayout.padding = .0
+        partitionLayout.round = true
+        partitionLayout.size(width, height)
+
+        val partition = partitionLayout.partition(hierarchy)
+        partition.x0 shouldBe .0
+        partition.y0 shouldBe .0
+        partition.children.size shouldBe 2
+        partition.depth shouldBe 0
+        partition.height shouldBe 3
+        partition.each { partitionNode ->
+            partitionNode.x0 shouldBe partitionNode.data.x0
+            partitionNode.x1 shouldBe partitionNode.data.x1
+            partitionNode.y0 shouldBe partitionNode.data.y0
+            partitionNode.y1 shouldBe partitionNode.data.y1
+        }
     }
 }

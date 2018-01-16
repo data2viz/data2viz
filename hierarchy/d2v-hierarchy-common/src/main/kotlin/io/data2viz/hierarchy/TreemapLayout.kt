@@ -22,6 +22,31 @@ class TreemapNode<D>(
     var y1: Double = .0
 ): ParentValued<TreemapNode<D>>, Children<TreemapNode<D>>
 
+internal fun roundNode(node: TreemapNode<*>) {
+    node.x0 = node.x0.roundToInt().toDouble()
+    node.y0 = node.y0.roundToInt().toDouble()
+    node.x1 = node.x1.roundToInt().toDouble()
+    node.y1 = node.y1.roundToInt().toDouble()
+}
+
+internal fun <D> makeTreemap(root: Node<D>): TreemapNode<D> {
+    val rootTreemap = TreemapNode(root.data, root.depth, root.height, root.value)
+    val nodes = mutableListOf(root)
+    val nodesTM = mutableListOf(rootTreemap)
+    while (nodes.isNotEmpty()) {
+        val node = nodes.removeAt(nodes.lastIndex)
+        val nodeTM = nodesTM.removeAt(nodesTM.lastIndex)
+        node.children.forEach { child ->
+            val c = TreemapNode(child.data, child.depth, child.height, child.value)
+            c.parent = nodeTM
+            nodeTM.children.add(c)
+            nodes.add(child)
+            nodesTM.add(c)
+        }
+    }
+    return rootTreemap
+}
+
 class TreemapLayout<D> {
 
     private val constantZero: (TreemapNode<D>) -> Double = { .0 }
@@ -29,7 +54,7 @@ class TreemapLayout<D> {
     var tilingMethod: (ParentValued<TreemapNode<D>>, Double, Double, Double, Double) -> Any = {
             parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double -> treemapSquarify(parent, x0, y0, x1, y1)
     }
-    var roundPositions = false
+    var round = false
     var width = 1.0
     var height = 1.0
 
@@ -80,7 +105,7 @@ class TreemapLayout<D> {
         rootTreemap.eachBefore(this::positionNode)
         paddingStack = mutableListOf(.0)
 
-        if (roundPositions) rootTreemap.eachBefore(this::roundNode)
+        if (round) rootTreemap.eachBefore(::roundNode)
 
         return rootTreemap
     }
@@ -126,30 +151,5 @@ class TreemapLayout<D> {
             }
             tilingMethod(node, x0, y0, x1, y1)
         }
-    }
-
-    private fun roundNode(node: TreemapNode<D>) {
-        node.x0 = node.x0.roundToInt().toDouble()
-        node.y0 = node.y0.roundToInt().toDouble()
-        node.x1 = node.x1.roundToInt().toDouble()
-        node.y1 = node.y1.roundToInt().toDouble()
-    }
-
-    private fun <D> makeTreemap(root: Node<D>): TreemapNode<D> {
-        val rootTreemap = TreemapNode(root.data, root.depth, root.height, root.value)
-        val nodes = mutableListOf(root)
-        val nodesTM = mutableListOf(rootTreemap)
-        while (nodes.isNotEmpty()) {
-            val node = nodes.removeAt(nodes.lastIndex)
-            val nodeTM = nodesTM.removeAt(nodesTM.lastIndex)
-            node.children.forEach { child ->
-                val c = TreemapNode(child.data, child.depth, child.height, child.value)
-                c.parent = nodeTM
-                nodeTM.children.add(c)
-                nodes.add(child)
-                nodesTM.add(c)
-            }
-        }
-        return rootTreemap
     }
 }
