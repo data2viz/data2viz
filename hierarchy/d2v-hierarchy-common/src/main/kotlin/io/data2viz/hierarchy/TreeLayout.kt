@@ -5,7 +5,7 @@ data class TreeNode<D>(
     var depth: Int,
     var height: Int,
     override var value: Double?,
-    internal val index: Int = 0,                     // TODO rename index
+    internal val index: Int = 0,
     var x:Double = .0,
     var y:Double = .0,
     internal var A: TreeNode<D>? = null,             // default ancestor

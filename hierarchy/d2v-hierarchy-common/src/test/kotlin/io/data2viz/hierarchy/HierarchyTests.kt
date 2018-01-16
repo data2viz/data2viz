@@ -25,29 +25,29 @@ class HierarchyTests : TestBase() {
 
     val testTreeMid =
         Hierarchical(
-            1, 277.777777, .0, subElements = listOf(
+            1, 263.02083333333, .0, subElements = listOf(
                 Hierarchical(
-                    11, 138.888888, 133.333333, subElements = listOf(
-                        Hierarchical(111, 55.555555, 266.666666),
-                        Hierarchical(112, 111.111111, 266.666666),
-                        Hierarchical(113, 166.666666, 266.666666),
+                    11, 119.79166666666667, 133.33333333333334, subElements = listOf(
+                        Hierarchical(111, 41.666666666666664, 400.0),
+                        Hierarchical(112, 83.33333333333333, 400.0),
+                        Hierarchical(113, 125.0, 400.0),
                         Hierarchical(
-                            114, 222.222222, 266.666666, subElements = listOf(
-                                Hierarchical(1141, 194.444444, 400.0),
+                            114, 229.16666666666666, 266.6666666666667, subElements = listOf(
+                                Hierarchical(1141, 208.33333333333334, 400.0),
                                 Hierarchical(1142, 250.0, 400.0)
                             )
                         )
                     )
                 ),
                 Hierarchical(
-                    12, 416.666666, 133.333333, subElements = listOf(
+                    12, 406.25, 133.33333333333334, subElements = listOf(
                         Hierarchical(
-                            121, .0, 250.0, subElements = listOf(
-                                Hierarchical(1211, 361.111111, 400.0),
-                                Hierarchical(1212, 416.666666, 400.0)
+                            121, 354.1666666666667, 266.6666666666667, subElements = listOf(
+                                Hierarchical(1211, 333.3333333333333, 400.0),
+                                Hierarchical(1212, 375.0, 400.0)
                             )
                         ),
-                        Hierarchical(122, 444.444444, 266.666666)
+                        Hierarchical(122, 458.3333333333333, 400.0)
                     )
                 )
             )
@@ -72,6 +72,16 @@ class HierarchyTests : TestBase() {
     @Test
     fun buildCluster() {
         val hierarchy = hierarchy(testTreeMid, { it.subElements })
-        val cluster = cluster(hierarchy)
+        val clusterLayout = ClusterLayout()
+        clusterLayout.size(width, height)
+
+        val cluster = clusterLayout.cluster(hierarchy)
+        cluster.children.size shouldBe 2
+        cluster.depth shouldBe 0
+        cluster.height shouldBe 3
+        cluster.each { clusterNode ->
+            clusterNode.x shouldBeClose clusterNode.data.x
+            clusterNode.y shouldBeClose clusterNode.data.y
+        }
     }
 }
