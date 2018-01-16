@@ -3,7 +3,7 @@ package io.data2viz.hierarchy
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class HierarchyTests : TestBase() {
+class TreeTests : TestBase() {
 
     // DO NOT CHANGE VALUES
     val width = 500.0
@@ -54,24 +54,40 @@ class HierarchyTests : TestBase() {
         )
 
     @Test
-    fun buildHierarchy() {
-        val hierarchy = hierarchy(Hierarchical(0), { it.subElements })
+    fun buildTreeLight() {
+        val hierarchy = hierarchy(testTreeLight, { it.subElements })
+        val treeLayout = TreeLayout<Hierarchical>()
+        treeLayout.size(width, height)
 
-        hierarchy.descendants().size shouldBe 1
-        hierarchy.leaves().size shouldBe 1
+        treeLayout.tree(hierarchy)
+        val tree  = treeLayout.tree(hierarchy)
+
+        tree.children.size shouldBe 2
+        tree.depth shouldBe 0
+        tree.height shouldBe 1
     }
 
     @Test
-    fun buildHierarchyFull() {
+    fun buildTreeWithExtent() {
         val hierarchy = hierarchy(testTreeMid, { it.subElements })
+        val treeLayout = TreeLayout<Hierarchical>()
+        treeLayout.size(width, height)
 
-        hierarchy.descendants().size shouldBe 3
-        hierarchy.leaves().size shouldBe 8
+        treeLayout.tree(hierarchy)
+        val tree  = treeLayout.tree(hierarchy)
+
+        tree.children.size shouldBe 2
+        tree.depth shouldBe 0
+        tree.height shouldBe 3
+        tree.each { treeNode ->
+            treeNode.x shouldBeClose treeNode.data!!.x
+            treeNode.y shouldBeClose treeNode.data!!.y
+        }
     }
 
     @Test
-    fun buildCluster() {
-        val hierarchy = hierarchy(testTreeMid, { it.subElements })
-        val cluster = cluster(hierarchy)
+    fun buildTreeWithSizeNode() {
+        // TODO
+        true shouldBe true
     }
 }
