@@ -3,7 +3,7 @@ package io.data2viz.hierarchy
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class HierarchyTests : TestBase() {
+class ClusterTests : TestBase() {
 
     // DO NOT CHANGE VALUES
     val width = 500.0
@@ -54,18 +54,24 @@ class HierarchyTests : TestBase() {
         )
 
     @Test
-    fun buildHierarchy() {
-        val hierarchy = hierarchy(Hierarchical(0), { it.subElements })
+    fun buildCluster() {
+        val hierarchy = hierarchy(testTreeMid, { it.subElements })
+        val clusterLayout = ClusterLayout()
+        clusterLayout.size(width, height)
 
-        hierarchy.descendants().size shouldBe 1
-        hierarchy.leaves().size shouldBe 1
+        val cluster = clusterLayout.cluster(hierarchy)
+        cluster.children.size shouldBe 2
+        cluster.depth shouldBe 0
+        cluster.height shouldBe 3
+        cluster.each { clusterNode ->
+            clusterNode.x shouldBeClose clusterNode.data.x
+            clusterNode.y shouldBeClose clusterNode.data.y
+        }
     }
 
     @Test
-    fun buildHierarchyFull() {
-        val hierarchy = hierarchy(testTreeMid, { it.subElements })
-
-        hierarchy.descendants().size shouldBe 3
-        hierarchy.leaves().size shouldBe 8
+    fun buildClusterWithSizeNode() {
+        // TODO
+        true shouldBe true
     }
 }
