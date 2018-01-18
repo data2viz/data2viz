@@ -10,7 +10,12 @@ private data class Circle(
     override var r: Double = .0
 ) : CircleValues
 
-internal fun <D> enclose(circles: List<PackNode<D>>): CircleValues? {
+/**
+ * Computes the smallest circle that encloses the specified array of circles, each of which must have a circle.r
+ * property specifying the circle’s radius, and circle.x and circle.y properties specifying the circle’s center.
+ * The enclosing circle is computed using the Matoušek-Sharir-Welzl algorithm.
+ */
+fun enclose(circles: List<CircleValues>): CircleValues? {
     var i = 0
     val shuffledCircles = circles.shuffled()
     val n = shuffledCircles.size
@@ -135,102 +140,3 @@ private fun extendBasis(B: List<CircleValues>, p: CircleValues): List<CircleValu
     // If we get here then something is very wrong.
     throw RuntimeException("Unable to compute enclosing circle for PackLayout.")
 }
-
-// Returns the smallest circle that contains circles L and intersects circles B.
-/*private fun <D> encloseN(L: HeadTail<D>, B: MutableList<PackNode<D>>): PackNode<D> {
-    var circle: PackNode<D>? = null
-    var l0: PackNode<D>? = null
-    var l1: PackNode<D>? = L.head
-    var l2: PackNode<D>? = null
-
-    when (B.size) {
-        1 -> circle = enclose1(B[0])
-        2 -> circle = enclose2(B[0], B[1])
-        3 -> circle = enclose3(B[0], B[1], B[2])
-    }
-
-    while (l1 != null) {
-        val p1 = l1
-        l2 = l1.next
-        if (circle == null || !encloses(circle, p1)) {
-
-            // Temporarily truncate L before l1.
-            if (l0 != null) {
-                L.tail = l0
-                l0.next = null
-            } else {
-                L.head = null
-                L.tail = null
-            }
-
-            B.add(p1)
-            circle = encloseN(L, B); // Note: reorders L!
-            B.removeAt(B.lastIndex)
-
-            // Move l1 to the front of L and reconnect the truncated list L.
-            if (L.head != null) {
-                l1.next = L.head
-                L.head = l1
-            } else {
-                l1.next = null
-                L.tail = l1
-                L.head = l1
-            }
-            l0 = L.tail
-            l0!!.next = l2
-
-        } else {
-            l0 = l1
-        }
-        l1 = l2
-    }
-
-    L.tail = l0
-    return circle!!
-}
-
-private fun <D> encloses(a: PackNode<D>, b: PackNode<D>): Boolean {
-    val dx = b.x - a.x
-    val dy = b.y - a.y
-    val dr = a.r - b.r
-    return dr * dr + epsilon > dx * dx + dy * dy
-}
-
-private fun <D> enclose3(a: PackNode<D>, b: PackNode<D>, c: PackNode<D>): PackNode<D> {
-    val a2 = 2 * (a.x - b.x)
-    val b2 = 2 * (a.y - b.y)
-    val c2 = 2 * (b.r - a.r)
-    val d2 = a.x * a.x + a.y * a.y - a.r * a.r - b.x * b.x - b.y * b.y + b.r * b.r
-    val a3 = 2 * (a.x - c.x)
-    val b3 = 2 * (a.y - c.y)
-    val c3 = 2 * (c.r - a.r)
-    val d3 = a.x * a.x + a.y * a.y - a.r * a.r - c.x * c.x - c.y * c.y + c.r * c.r
-    val ab = a3 * b2 - a2 * b3
-    val xa = (b2 * d3 - b3 * d2) / ab - a.x
-    val xb = (b3 * c2 - b2 * c3) / ab
-    val ya = (a3 * d2 - a2 * d3) / ab - a.y
-    val yb = (a2 * c3 - a3 * c2) / ab
-    val A = xb * xb + yb * yb - 1
-    val B = 2 * (xa * xb + ya * yb + a.r)
-    val C = xa * xa + ya * ya - a.r * a.r
-    val r = (-B - sqrt(B * B - 4 * A * C)) / (2 * A)
-    return PackNode(a.data, 0, 0, null, mutableListOf(), null, xa + xb * r + a.x, ya + yb * r + a.y, r)
-    //return CircleValues(xa + xb * r + a.x, ya + yb * r + a.y, r)
-}
-
-private fun <D> enclose2(a: PackNode<D>, b: PackNode<D>): PackNode<D> {
-    val x21 = b.x - a.x
-    val y21 = b.y - a.y
-    val r21 = b.r - a.r
-    val l = sqrt(x21 * x21 + y21 * y21)
-    val x = (a.x + b.x + x21 / l * r21) / 2
-    val y = (a.y + b.y + y21 / l * r21) / 2
-    val r = (l + a.r + b.r) / 2
-    return PackNode(a.data, 0, 0, null, mutableListOf(), null, x, y, r)
-    //return CircleValues((a.x + b.x + x21 / l * r21) / 2,(a.y + b.y + y21 / l * r21) / 2,(l + a.r + b.r) / 2)
-}
-
-private fun <D> enclose1(a: PackNode<D>): PackNode<D> {
-    return PackNode(a.data, 0, 0, null, mutableListOf(), null, a.x, a.y, a.r)
-    //return CircleValues(a.x, a.y, a.r)
-}*/

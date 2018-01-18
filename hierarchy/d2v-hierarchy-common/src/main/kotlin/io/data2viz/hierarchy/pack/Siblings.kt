@@ -1,5 +1,6 @@
 package io.data2viz.hierarchy.pack
 
+import io.data2viz.hierarchy.CircleValues
 import kotlin.math.max
 import kotlin.math.sqrt
 import io.data2viz.hierarchy.PackNode
@@ -128,22 +129,14 @@ private fun <D> score(node: PackNode<D>): Double {
     return dx * dx + dy * dy
 }
 
-/*private fun <D> distance2(a: PackNode<D>, x: Double, y: Double): Double {
-    val b = a.next!!
-    val ab = a.r + b.r
-    val dx = (a.x * b.r + b.x * a.r) / ab - x
-    val dy = (a.y * b.r + b.y * a.r) / ab - y
-    return dx * dx + dy * dy
-}*/
-
-private fun <D> intersects(a: PackNode<D>, b: PackNode<D>): Boolean {
+private fun intersects(a: CircleValues, b: CircleValues): Boolean {
     val dx = b.x - a.x
     val dy = b.y - a.y
     val dr = a.r + b.r
     return dr * dr - epsilon > dx * dx + dy * dy;
 }
 
-private fun <D> place(a:PackNode<D>, b:PackNode<D>, c:PackNode<D>) {
+private fun place(a:CircleValues, b:CircleValues, c:CircleValues) {
     val ax = a.x
     val ay = a.y
     var da = b.r + c.r
@@ -165,25 +158,3 @@ private fun <D> place(a:PackNode<D>, b:PackNode<D>, c:PackNode<D>) {
         c.y = ay
     }
 }
-
-/*function place(a, b, c) {
-    var ax = a.x,
-    ay = a.y,
-    da = b.r + c.r,
-    db = a.r + c.r,
-    dx = b.x - ax,
-    dy = b.y - ay,
-    dc = dx * dx + dy * dy;
-    if (dc) {
-        var x = 0.5 + ((db *= db) - (da *= da)) / (2 * dc),
-        2 * da * (db + dc)
-        db -= dc
-        db * db - da * da
-        y = Math.sqrt(Math.max(0, (2 * da * (db + dc)) - ((db -= dc) * db) - (da * da))) / (2 * dc);
-        c.x = ax + x * dx + y * dy;
-        c.y = ay + x * dy - y * dx;
-    } else {
-        c.x = ax + db;
-        c.y = ay;
-    }
-}*/

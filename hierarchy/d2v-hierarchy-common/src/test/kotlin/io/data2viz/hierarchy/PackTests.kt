@@ -5,6 +5,9 @@ import kotlin.test.Test
 
 class PackTests : TestBase() {
 
+    // TODO : test radius
+    // TODO : test padding
+
     // DO NOT CHANGE VALUES
     val width = 400.0
     val height = 400.0

@@ -25,14 +25,9 @@ data class PackNode<D>(
     var next: PackNode<D>? = null
 ) : ParentValued<PackNode<D>>, Children<PackNode<D>>, CircleValues
 
-fun <D> packNode(node: PackNode<D>): PackNode<D> {
-    val p =
-        PackNode(node.data, node.depth, node.height, node.value, node.children, node.parent, node.x, node.y, node.r, node.previous, node.next)
-    /*p.x =
-    p.y = node.y
-    p.r = node.r*/
-    return p
-}
+fun <D> packNode(node: PackNode<D>): PackNode<D> = PackNode(
+    node.data, node.depth, node.height, node.value, node.children, node.parent, node.x, node.y, node.r, node.previous, node.next
+)
 
 /**
  * Enclosure diagrams use containment (nesting) to represent a hierarchy.
@@ -43,12 +38,29 @@ fun <D> packNode(node: PackNode<D>): PackNode<D> {
  */
 class PackLayout<D> {
 
-    val constantZero: (PackNode<D>) -> Double = { .0 }
-    val defaultRadius: (PackNode<D>) -> Double = { sqrt(it.value!!) }
+    private val constantZero: (PackNode<D>) -> Double = { .0 }
+    private val defaultRadius: (PackNode<D>) -> Double = { sqrt(it.value!!) }
 
+    private var dx = 1.0
+    private var dy = 1.0
+
+    /**
+     * If radius is specified, sets the pack layout’s radius accessor to the specified function.
+     * If the radius accessor is null, the radius of each leaf circle is derived from the leaf node.value
+     * (computed by node.sum); the radii are then scaled proportionally to fit the layout size.
+     * If the radius accessor is not null, the radius of each leaf circle is specified exactly by the function.
+     */
     var radius: ((PackNode<D>) -> Double)? = null
-    var dx = 1.0
-    var dy = 1.0
+
+    /**
+     * If padding is specified, sets this pack layout’s padding accessor to the specified function.
+     * When siblings are packed, tangent siblings will be separated by approximately the specified padding;
+     * the enclosing parent circle will also be separated from its children by approximately the specified padding.
+     *
+     * If an explicit radius is not specified (null), the padding is approximate because a two-pass algorithm is
+     * needed to fit within the layout size: the circles are first packed without padding; a scaling factor is computed
+     * and applied to the specified padding; and lastly the circles are re-packed with padding.
+     */
     var padding: (PackNode<D>) -> Double = constantZero
 
     /**
