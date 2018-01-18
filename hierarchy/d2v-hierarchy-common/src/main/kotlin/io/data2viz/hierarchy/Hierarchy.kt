@@ -1,17 +1,21 @@
-package io.data2viz.hierarchy.hierarchy
+package io.data2viz.hierarchy
+
+interface Valued { var value: Double? }
+interface Children<T> { val parent: ParentValued<T>? }
+interface ParentValued<T>: Valued {val children: List<ParentValued<T>>}
 
 data class Node<D>(
-        val data: D,
-        var depth: Int = 0,
-        var height: Int = 0,
-        val children: MutableList<Node<D>> = mutableListOf(),
-        var parent: Node<D>? = null,
-        var value: Double? = null
-)
+    val data: D,
+    var depth: Int = 0,
+    var height: Int = 0,
+    override var value: Double? = null,
+    override val children: MutableList<Node<D>> = mutableListOf(),
+    override var parent: Node<D>? = null
+): ParentValued<Node<D>>, Children<Node<D>>
 
 data class Link<D>(
-        val source: Node<D>?,
-        var target: Node<D>
+    val source: Node<D>?,
+    var target: Node<D>
 )
 
 /**
@@ -21,6 +25,7 @@ data class Link<D>(
  * return an array of data representing the children, or null if the current datum has no children.
  * The specified value accessor function is invoked for each datum, starting with the root data, and must return
  * a Double value representing the data. If value is not specified, it defaults to null (no value for nodes).
+ * TODO : value
  */
 fun <D> hierarchy(data: D, children: (D) -> List<D>?, value: ((D) -> Double)? = null): Node<D> {
     val root = Node(data)
@@ -34,8 +39,9 @@ fun <D> hierarchy(data: D, children: (D) -> List<D>?, value: ((D) -> Double)? = 
                 val child = Node(c)
                 child.parent = node
                 child.depth = node.depth + 1
+                //if (value != null) child.value = value(c)
                 node.children.add(child)
-                nodes.add(node)
+                nodes.add(child)
             }
         }
     }
@@ -64,8 +70,8 @@ fun <D> Node<D>.count(): Node<D> {
  */
 fun <D> Node<D>.sum(value: ((D) -> Double)? = null): Node<D> {
     return this.eachAfter({ node: Node<D> ->
-        var sum = if (value != null) value(data) else .0
-        this.children.forEach { if (it.value != null) sum += it.value!! }
+        var sum = if (value != null) value(node.data) else .0
+        node.children.forEach { child -> if (child.value != null) sum += child.value!! }
         node.value = sum
     })
 }
@@ -74,9 +80,10 @@ fun <D> Node<D>.sum(value: ((D) -> Double)? = null): Node<D> {
  * Returns the array of ancestors nodes, starting with this node, then followed by each parent up to the root.
  */
 fun <D> Node<D>.ancestors(): List<Node<D>> {
-    val nodes:MutableList<Node<D>> = mutableListOf(this)
+    val nodes: MutableList<Node<D>> = mutableListOf(this)
     var node: Node<D>? = this
-    while (node != null) {
+    while (node != null
+    ) {
         nodes.add(node)
         node = node.parent
     }
@@ -87,7 +94,7 @@ fun <D> Node<D>.ancestors(): List<Node<D>> {
  * Returns the array of descendant nodes, starting with this node, then followed by each child in topological order.
  */
 fun <D> Node<D>.descendants(): List<Node<D>> {
-    val nodes:MutableList<Node<D>> = mutableListOf()
+    val nodes: MutableList<Node<D>> = mutableListOf()
     this.each({ node: Node<D> ->
         nodes.add(node)
     })
@@ -98,7 +105,7 @@ fun <D> Node<D>.descendants(): List<Node<D>> {
  * Returns the array of leaf nodes in traversal order; leaves are nodes with no children.
  */
 fun <D> Node<D>.leaves(): List<Node<D>> {
-    val leaves:MutableList<Node<D>> = mutableListOf()
+    val leaves: MutableList<Node<D>> = mutableListOf()
     this.eachBefore({ node: Node<D> ->
         if (node.children.isEmpty()) leaves.add(node)
     })
@@ -111,12 +118,14 @@ fun <D> Node<D>.leaves(): List<Node<D>> {
  */
 fun <D> Node<D>.links(): List<Link<D>> {
     val root = this
-    val links:MutableList<Link<D>> = mutableListOf()
+    val links: MutableList<Link<D>> = mutableListOf()
     root.each({ node: Node<D> ->
         if (node != root) links.add(Link(node.parent, node))    // Don’t include the root’s parent, if any.
     })
     return links.toList()
 }
+
+inline fun <reified N: Children<D>, D> separation(nodeA: N, nodeB: N) = if (nodeA.parent == nodeB.parent) 1 else 2
 
 /**
  * Invokes the specified function for node and each descendant in breadth-first order, such that a given
@@ -124,7 +133,7 @@ fun <D> Node<D>.links(): List<Link<D>> {
  * nodes of the same depth.
  * The specified function is passed the current node.
  */
-fun <D> Node<D>.each(callback: (Node<D>) -> Unit): Node<D> {
+inline fun <reified N: ParentValued<D>, D> N.each(callback: (N) -> Unit): N {
     val next = mutableListOf(this)
     while (next.size > 0) {
         val current = next.reversed().toMutableList()
@@ -134,7 +143,7 @@ fun <D> Node<D>.each(callback: (Node<D>) -> Unit): Node<D> {
         val children = node.children
         if (children.isNotEmpty()) {
             (children.lastIndex downTo 0).forEach {
-                next.add(children[it])
+                next.add(children[it] as N)
             }
         }
     }
@@ -146,7 +155,7 @@ fun <D> Node<D>.each(callback: (Node<D>) -> Unit): Node<D> {
  * is only visited after all of its ancestors have already been visited.
  * The specified function is passed the current node.
  */
-fun <D> Node<D>.eachBefore(callback: (Node<D>) -> Unit): Node<D> {
+inline fun <reified N: ParentValued<D>, D> N.eachBefore(callback: (N) -> Unit): N {
     val nodes = mutableListOf(this)
     while (nodes.isNotEmpty()) {
         val node = nodes.removeAt(nodes.lastIndex)
@@ -154,7 +163,7 @@ fun <D> Node<D>.eachBefore(callback: (Node<D>) -> Unit): Node<D> {
         val children = node.children
         if (children.isNotEmpty()) {
             (children.lastIndex downTo 0).forEach {
-                nodes.add(children[it])
+                nodes.add(children[it] as N)
             }
         }
     }
@@ -166,28 +175,31 @@ fun <D> Node<D>.eachBefore(callback: (Node<D>) -> Unit): Node<D> {
  * is only visited after all of its descendants have already been visited.
  * The specified function is passed the current node.
  */
-fun <D> Node<D>.eachAfter(callback: (Node<D>) -> Unit): Node<D> {
+inline fun <reified N: ParentValued<D>, D> N.eachAfter(callback: (N) -> Unit): N {
     val nodes = mutableListOf(this)
-    val next = mutableListOf<Node<D>>()
+    val next = mutableListOf<N>()
     while (nodes.isNotEmpty()) {
         val node = nodes.removeAt(nodes.lastIndex)
         next.add(node)
         val children = node.children
         if (children.isNotEmpty()) {
-            (children.lastIndex downTo 0).forEach {
-                nodes.add(children[it])
+            children.forEach {
+                nodes.add(it as N)
             }
         }
     }
-    next.forEach(callback)
+    next.reversed().forEach(callback)
     return this
 }
 
 private fun <D> computeHeight(node: Node<D>) {
     var n: Node<D> = node
     var height = 0
-    while (n.parent != null && n.height < height) {
-        n.height = height
+    n.height = height
+    height++
+
+    while (n.parent != null && n.parent!!.height < height) {
+        n.parent!!.height = height
         n = n.parent!!
         height++
     }
