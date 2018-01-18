@@ -3,7 +3,7 @@ package io.data2viz.hierarchy
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class HierarchyTests : TestBase() {
+class PackTests : TestBase() {
 
     // DO NOT CHANGE VALUES
     val width = 400.0
@@ -15,6 +15,13 @@ class HierarchyTests : TestBase() {
         val y: Double = .0,
         val r: Double = .0,
         val subElements: List<Hierarchical>? = null
+    )
+
+    val testTreeLight = Hierarchical(
+        1, .0, .0, .0, listOf(
+            Hierarchical(11, .0, .0, .0),
+            Hierarchical(12, .0, .0, .0)
+        )
     )
 
     val testTreeMid =
@@ -48,18 +55,49 @@ class HierarchyTests : TestBase() {
         )
 
     @Test
-    fun buildHierarchy() {
+    fun packLightTest() {
         val hierarchy = hierarchy(Hierarchical(0, .0, .0, .0), { it.subElements })
-
         hierarchy.descendants().size shouldBe 1
         hierarchy.leaves().size shouldBe 1
+
+        hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
+
+        val packLayout = PackLayout<Hierarchical>()
+        packLayout.padding = { .0 }
+        packLayout.size(width, height)
+
+        packLayout.pack(hierarchy)
     }
 
     @Test
-    fun buildHierarchyFull() {
-        val hierarchy = hierarchy(testTreeMid, { it.subElements })
+    fun pack3NodesTest() {
+        val hierarchy = hierarchy(testTreeLight, { it.subElements })
+        hierarchy.descendants().size shouldBe 2
+        hierarchy.leaves().size shouldBe 2
 
-        hierarchy.descendants().size shouldBe 3
-        hierarchy.leaves().size shouldBe 8
+        hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
+
+        val packLayout = PackLayout<Hierarchical>()
+        packLayout.padding = { .0 }
+        packLayout.size(width, height)
+
+        val pack = packLayout.pack(hierarchy)
+    }
+
+    @Test
+    fun packMidTest() {
+        val hierarchy = hierarchy(testTreeMid, { it.subElements })
+        hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
+
+        val packLayout = PackLayout<Hierarchical>()
+        packLayout.padding = { .0 }
+        packLayout.size(width, height)
+
+        val pack = packLayout.pack(hierarchy)
+        pack.each { packNode ->
+            packNode.x shouldBe packNode.data.x
+            packNode.y shouldBe packNode.data.y
+            packNode.r shouldBe packNode.data.r
+        }
     }
 }

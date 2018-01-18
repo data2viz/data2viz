@@ -209,7 +209,6 @@ class TreemapTests : TestBase() {
     @Test
     fun buildTreemapLight() {
         val hierarchy = hierarchy(testTreemapLightSquarify, { it.subElements })
-        hierarchy.sum({ it.value.toDouble() })
         hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
 
         val layout = TreemapLayout<Hierarchical>()
@@ -229,7 +228,6 @@ class TreemapTests : TestBase() {
     @Test
     fun buildTreemapMidSquarify() {
         val hierarchy = hierarchy(testTreemapMidSquarify, { it.subElements })
-        hierarchy.sum({ it.value.toDouble() })
         hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
 
         val layout = TreemapLayout<Hierarchical>()
@@ -254,7 +252,6 @@ class TreemapTests : TestBase() {
     /*@Test
     fun buildTreemapMidResquarify() {
         val hierarchy = hierarchy(testTreemapMidResquarify, { it.subElements })
-        hierarchy.sum({ it.value.toDouble() })
         hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
 
         val layout = TreemapLayout<Hierarchical>()
@@ -278,7 +275,6 @@ class TreemapTests : TestBase() {
     @Test
     fun buildTreemapMidBinary() {
         val hierarchy = hierarchy(testTreemapMidBinary, { it.subElements })
-        hierarchy.sum({ it.value.toDouble() })
         hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
 
         val layout = TreemapLayout<Hierarchical>()
@@ -302,7 +298,6 @@ class TreemapTests : TestBase() {
     @Test
     fun buildTreemapMidSlice() {
         val hierarchy = hierarchy(testTreemapMidSlice, { it.subElements })
-        hierarchy.sum({ it.value.toDouble() })
         hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
 
         val layout = TreemapLayout<Hierarchical>()
@@ -325,7 +320,6 @@ class TreemapTests : TestBase() {
     @Test
     fun buildTreemapMidDice() {
         val hierarchy = hierarchy(testTreemapMidDice, { it.subElements })
-        hierarchy.sum({ it.value.toDouble() })
         hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
 
         val layout = TreemapLayout<Hierarchical>()
@@ -348,7 +342,6 @@ class TreemapTests : TestBase() {
     @Test
     fun buildTreemapMidSliceDice() {
         val hierarchy = hierarchy(testTreemapMidSliceDice, { it.subElements })
-        hierarchy.sum({ it.value.toDouble() })
         hierarchy.sum { if (it.subElements == null) 1.0 else .0 }
 
         val layout = TreemapLayout<Hierarchical>()
