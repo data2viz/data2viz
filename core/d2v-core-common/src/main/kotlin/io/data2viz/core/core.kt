@@ -1,5 +1,7 @@
 package io.data2viz.core
 
+import kotlin.reflect.KProperty
+
 
 data class Point(val x: Double = 0.0, val y: Double = 0.0) {
 
@@ -16,3 +18,16 @@ data class Speed(val vx: Double = 0.0, val vy: Double = 0.0) {
 }
 
 expect fun random():Double
+
+
+
+
+fun cssclass() = CssClassDelegate()
+
+class CssClassDelegate {
+    operator fun getValue(from: Any?, property: KProperty<*>): CssClass {
+        return CssClass(property.name)
+    }
+}
+
+data class CssClass(val name: String)
