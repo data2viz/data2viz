@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Color
+import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
 
 /**
@@ -11,7 +12,7 @@ interface VizContext : ParentItem
 interface VizItem
 
 
-interface ParentItem: Transformable {
+interface ParentItem: Transformable, StyledElement {
     fun group(init: ParentItem.() -> Unit): ParentItem
     fun circle(init: CircleVizItem.() -> Unit): CircleVizItem
     fun rect(init: RectVizItem.() -> Unit): RectVizItem
@@ -33,21 +34,26 @@ interface Transform {
     fun translate(x: Double = 0.0, y: Double = 0.0)
 }
 
+interface StyledElement {
+    fun addClass(cssClass: CssClass)
+}
+
 interface PathVizItem : VizItem, Shape, PathAdapter
 
-interface CircleVizItem : VizItem, Shape, Transformable {
+interface CircleVizItem : VizItem, Shape, Transformable, StyledElement {
     var cx: Double
     var cy: Double
     var radius: Double
 }
 
-interface LineVizItem : VizItem, Shape, Transformable {
+interface LineVizItem : VizItem, Shape, Transformable, StyledElement {
     var x1: Double
     var y1: Double
     var x2: Double
     var y2: Double
 }
-interface RectVizItem : VizItem, Shape, Transformable {
+
+interface RectVizItem : VizItem, Shape, Transformable, StyledElement {
     var x: Double
     var y: Double
     var width: Double
@@ -56,7 +62,7 @@ interface RectVizItem : VizItem, Shape, Transformable {
     var ry: Double
 }
 
-interface TextVizItem : VizItem, Transformable, HasFill {
+interface TextVizItem : VizItem, Transformable, HasFill, StyledElement {
     var x: Double
     var y: Double
     var textContent: String

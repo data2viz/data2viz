@@ -2,6 +2,7 @@ package io.data2viz.viz
 
 import io.data2viz.color.Color
 import io.data2viz.color.color
+import io.data2viz.core.CssClass
 import io.data2viz.core.Point
 import io.data2viz.math.Angle
 import io.data2viz.path.PathAdapter
@@ -39,6 +40,7 @@ fun Element.viz(init: VizContext.() -> Unit): VizContext {
 }
 
 class ParentElement(val parent: Element) : VizContext,
+        StyledElement by StyledDelegate(parent),
         Transformable by TransformableDelegate(parent) {
 
     init {
@@ -123,12 +125,14 @@ class PathElement(val element: Element, svgPath: SvgPath) : PathVizItem,
         PathAdapter by svgPath,
         HasFill by FillDelegate(element),
         HasStroke by StrokeDelegate(element),
+        StyledElement by StyledDelegate(element),
         Transformable by TransformableDelegate(element)
 
 //@SvgTagMarker
 class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem,
         HasFill by FillDelegate(element),
         HasStroke by StrokeDelegate(element),
+        StyledElement by StyledDelegate(element),
         Transformable by TransformableDelegate(element) {
 
     override var cx: Double by DoubleAttributePropertyDelegate()
@@ -139,7 +143,8 @@ class CircleElement(override val element: Element) : ElementWrapper, CircleVizIt
 class LineElement(override val element: Element) : ElementWrapper, LineVizItem,
         HasFill by FillDelegate(element),
         HasStroke by StrokeDelegate(element),
-        Transformable by TransformableDelegate(element) {
+    StyledElement by StyledDelegate(element),
+    Transformable by TransformableDelegate(element) {
 
     override var x1: Double by DoubleAttributePropertyDelegate()
     override var y1: Double by DoubleAttributePropertyDelegate()
@@ -150,6 +155,7 @@ class LineElement(override val element: Element) : ElementWrapper, LineVizItem,
 class RectElement(override val element: Element) : ElementWrapper, RectVizItem,
         HasFill by FillDelegate(element),
         HasStroke by StrokeDelegate(element),
+        StyledElement by StyledDelegate(element),
         Transformable by TransformableDelegate(element) {
 
     override var x: Double by DoubleAttributePropertyDelegate()
@@ -201,6 +207,13 @@ class TransformSvg : Transform {
     internal fun toCommand(): String = commands.values.joinToString(" ")
 }
 
+
+class StyledDelegate(val element: Element): StyledElement {
+    override fun addClass(cssClass: CssClass) {
+        element.classList.add(cssClass.name)
+    }
+
+}
 
 class FillDelegate(val element: Element) : HasFill {
     override var fill: Color?

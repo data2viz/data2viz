@@ -4,6 +4,7 @@ import io.data2viz.color.Color
 import io.data2viz.color.colors
 import io.data2viz.color.d2vColor
 import io.data2viz.color.jfxColor
+import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
 import javafx.beans.property.DoubleProperty
@@ -22,12 +23,15 @@ typealias jxShape = javafx.scene.shape.Shape
  * Bootstrap a VizContext in JavaFx environment
  */
 fun Group.viz(init: VizContext.() -> Unit): VizContext {
+
+
     val vizContext = ParentElement(this)
     init(vizContext)
     return vizContext
 }
 
 class ParentElement(val parent: Group) : VizContext, 
+        StyledElement by StyleDelegate(parent),
         Transformable by TransformNodeDelegate(parent){
     
     override fun path(init: PathVizItem.() -> Unit): PathVizItem {
@@ -95,6 +99,7 @@ class PathVizJfx(path: SVGPath, svgPath: SvgPath) : PathVizItem,
 
 class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem,
         HasFill by FillDelegate(circle),
+        StyledElement by StyleDelegate(circle),
         HasStroke by StrokeDelegate(circle),
         Transformable by TransformNodeDelegate(circle)
 {
@@ -105,6 +110,7 @@ class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem,
 }
 
 class LineVizJfx(val parent: Group, val line: Line) : LineVizItem,
+        StyledElement by StyleDelegate(line),
         HasFill by FillDelegate(line),
         HasStroke by StrokeDelegate(line),
         Transformable by TransformNodeDelegate(line) {
@@ -115,6 +121,7 @@ class LineVizJfx(val parent: Group, val line: Line) : LineVizItem,
 }
 
 class RectVizJfx(val parent: Group, val rectangle: Rectangle) : RectVizItem,
+        StyledElement by StyleDelegate(rectangle),
         HasFill by FillDelegate(rectangle),
         HasStroke by StrokeDelegate(rectangle),
         Transformable by TransformNodeDelegate(rectangle)
@@ -145,6 +152,12 @@ class TransformNodeDelegate(val node:Node) : Transformable {
 
 }
 
+class StyleDelegate(val node: Node): StyledElement {
+    override fun addClass(cssClass: CssClass) {
+        node.styleClass.add(cssClass.name)
+    }
+
+}
 
 class FillDelegate(val shape: jxShape): HasFill {
     override var fill: Color?
@@ -175,47 +188,3 @@ class DoublePropertyDelegate(val property: DoubleProperty) {
         property.set(d)
     }
 }
-
-
-//class CircleBindingJfx<D>(val parent: Group, val circle: Circle, data: List<D>) :
-//        CircleVizItem by CircleVizJfx(parent, circle),
-//        Binding<D, CircleVizItem> by BindingImpl(data) {
-//
-//}
-
-//
-///**
-// * Binding between a data and a visual item.
-// *
-// */
-//interface Binding<D, V> {
-//    val data: List<D>
-//    var datum: D?
-//    var vizItem: V?
-//
-//    var index: Int?
-//
-//    var onCreate: V.() -> Unit
-//    var onUpdate: V.() -> Unit
-//    var onRemove: V.() -> Unit
-//}
-//
-//
-//class BindingImpl<D, V>(override val data: List<D>) : Binding<D, V> {
-//    override var datum: D? = null
-//    override var vizItem: V? = null
-//    override var index: Int? = null
-//    override var onCreate: V.() -> Unit = {}
-//    override var onUpdate: V.() -> Unit = {}
-//    override var onRemove: V.() -> Unit = {}
-//
-//}
-//
-//fun <D> circleBinding(parent: Group, data: List<D>, init: CircleBindingJfx<D>.() -> Unit) {
-//
-//    val circle = Circle()
-//    val binding = CircleBindingJfx(parent, circle, data)
-//    parent.children.add(circle)
-//    init(binding)
-//}
-//
