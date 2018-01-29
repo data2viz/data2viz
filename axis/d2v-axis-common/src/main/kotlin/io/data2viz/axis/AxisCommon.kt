@@ -1,12 +1,15 @@
 package io.data2viz.axis
 
 import io.data2viz.color.colors
+import io.data2viz.core.cssclass
 import io.data2viz.scale.*
 import io.data2viz.viz.ParentItem
 import io.data2viz.viz.TextAlignmentBaseline
 import io.data2viz.viz.TextAnchor
 import kotlin.math.round
 
+
+val axis by cssclass()
 
 /**
  * Create an Axis 
@@ -46,8 +49,8 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
         val position = if (scale is BandedScale) center(scale) else number(scale)
 
         with(content){
+            addClass(axis)
             path { 
-
                 stroke = colors.black
                 fill = null
                 strokeWidth = 1.0
