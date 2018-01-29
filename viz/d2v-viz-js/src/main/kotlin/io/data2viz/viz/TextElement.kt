@@ -3,7 +3,8 @@ package io.data2viz.viz
 import org.w3c.dom.Element
 
 class TextElement(override val element: Element) : ElementWrapper, TextVizItem,
-        HasFill by FillDelegate(element),
+    StyledElement by StyledDelegate(element),
+    HasFill by FillDelegate(element),
         Transformable by TransformableDelegate(element) {
     
     override var baseline: TextAlignmentBaseline

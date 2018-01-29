@@ -12,6 +12,7 @@ import javafx.scene.text.Text
  * it.
  */
 class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
+        StyledElement by StyleDelegate(text),
         HasFill by FillDelegate(text),
         Transformable by TransformNodeDelegate(text) {
 
