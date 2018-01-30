@@ -134,7 +134,7 @@ subprojects {
                     name = "${project.version}"
 //                desc = "data2viz-${project.name}"
 //                released  = new Date()
-//                vcsTag = "$version"
+                    vcsTag = "v${project.version}"
                 }
             }
         }
