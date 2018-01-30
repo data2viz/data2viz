@@ -11,7 +11,7 @@ import io.data2viz.viz.VizContext
 
 class CityBusses(val cityName: String) {
     private val toCity = mutableMapOf<CityBusses, Double>()
-    fun trafficTo(otherCity: CityBusses) = toCity.getOrPut(otherCity) { 1000 * random() }
+    fun trafficTo(otherCity: CityBusses) =  if (otherCity == this) .0 else toCity.getOrPut(otherCity) { 1000 * random() }
 }
 
 
@@ -20,9 +20,7 @@ val busses = listOf(
     CityBusses("Madrid"),
     CityBusses("Rome"),
     CityBusses("Bern"),
-    CityBusses("Geneva"),
-    CityBusses("Lyon"),
-    CityBusses("London")
+    CityBusses("Geneva")
 )
 
 
@@ -46,6 +44,7 @@ val arc = arc<ChordGroup> {
 
 val ribbon = io.data2viz.chord.ribbon(inner)
 
+
 fun VizContext.chordViz() {
     transform { translate(width / 2, height / 2) }
 
@@ -58,7 +57,7 @@ fun VizContext.chordViz() {
 
     chords.chords.forEach {
         path {
-            fill = colors.red
+            fill = colors.red.apply { alpha = .6 }
             ribbon(it, this)
         }
     }
