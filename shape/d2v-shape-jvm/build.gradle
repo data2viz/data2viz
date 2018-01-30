@@ -1,5 +1,6 @@
 dependencies {
     expectedBy project(":d2v-shape-common")
+    compile project(":d2v-path-common")
     compile project(":d2v-path-jvm")
     testCompile project(":d2v-tests-common")
     testCompile project(":d2v-tests-jvm")

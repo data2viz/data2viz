@@ -1,3 +1,6 @@
+apply plugin: 'com.moowork.node'
+apply plugin: 'kotlin-dce-js'
+
 dependencies {
     expectedBy project(":ex-chord-common")
     compile project(":d2v-chord-common")
@@ -5,8 +8,6 @@ dependencies {
     compile project(":d2v-data2viz-js")
 }
 
-
-apply plugin: 'kotlin-dce-js'
 
 task copyDependencies(type: Copy, dependsOn: compileKotlin2Js) {
 
@@ -17,6 +18,20 @@ task copyDependencies(type: Copy, dependsOn: compileKotlin2Js) {
     }
 
     into "${buildDir}/dist"
+}
+
+task yarnInstall(type: YarnTask) {
+    args = ['install']
+}
+
+task bundle(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
+    args = ["run", "bundle"]
+}
+
+afterEvaluate {
+    if (tasks.findByName('unpackDependenciesTestKotlinJs')) {
+        tasks.unpackDependenciesTestKotlinJs.enabled = false
+    }
 }
 
 build.dependsOn copyDependencies
