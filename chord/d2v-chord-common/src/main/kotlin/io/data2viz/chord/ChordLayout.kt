@@ -62,7 +62,7 @@ val emptySubgroup = ChordSubgroup()
  *          - index - the node index A
  *          - subindex - the node index B
  *
- * The chords are typically passed to a RibbonLayout to display the network relationships.
+ * The chords are typically passed to a ChordRibbon to display the network relationships.
  * The returned array includes only chord objects for which the value flow(A, B) or flow(B, A) is non-zero.
  * Furthermore, the returned array only contains unique chords: a given chord AB represents the bidirectional
  * flow from A to B and from B to A, and does not contain a duplicate chord BA;
@@ -88,20 +88,20 @@ class ChordLayout<D> {
 
     /**
      * Sets the group comparator to the specified function or null.
-     * If the group comparator is non-null, it is used to sort the groups by their total outflow.
+     * If the group comparator is non-null, it is used to sort the groups.
      */
+    // TODO : change to Comparator<ChordGroup>? (note that that also need to alorithm sorting order on main method
     var sortGroups:Comparator<Double>? = null
 
     /**
      * Sets the subgroup comparator to the specified function or null.
-     * If the subgroup comparator is non-null, it is used to sort the subgroups for a given group by their total outflow.
+     * If the subgroup comparator is non-null, it is used to sort the subgroups for a given group.
      */
     var sortSubgroups:Comparator<Double>? = null
 
     /**
      * Sets the chord comparator to the specified function or null.
-     * If the chord comparator is non-null, it is used to sort the chords by their combined flow; this only affects
-     * the z-order of the chords.
+     * If the chord comparator is non-null, it is used to sort the chords; this only affects the z-order of the chords.
      */
     var sortChords:Comparator<Double>? = null
 
@@ -125,7 +125,7 @@ class ChordLayout<D> {
         var k = .0
         data.forEachIndexed { indexa, a ->
             x = .0
-            data.forEachIndexed { indexb, b ->
+            data.forEach { b ->
                 x += flow(a, b)
             }
             groupSums[indexa] = x
