@@ -76,14 +76,6 @@ class ChordJfx : Application() {
         root.viz {
             transform { translate(width/2, height/2) }
             
-            rect { 
-                x = 10.0
-                y = 10.0
-                width = 30.0
-                height = 30.0
-                fill = colors.red
-            }
-            
             chords.groups.forEach { 
                 path {
                     fill = colors.steelblue
