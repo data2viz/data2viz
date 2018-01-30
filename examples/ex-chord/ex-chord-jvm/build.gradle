@@ -1,0 +1,8 @@
+dependencies {
+    compile project(":d2v-chord-common")
+//    compile project(":d2v-chord-common")
+    compile project(":d2v-shape-common")
+    compile project(":d2v-shape-jvm")
+    compile project(":d2v-data2viz-jvm")
+//    expectedBy project(":ex-natural-logscale-common")
+}
