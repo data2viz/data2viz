@@ -24,7 +24,7 @@ val busses = listOf(
 )
 
 
-val width = 960.0
+val width = 600.0
 val height = width
 val outer = minOf(width, height) * 0.5 - 40.0
 val inner = outer - 30

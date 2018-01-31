@@ -8,18 +8,6 @@ dependencies {
     compile project(":d2v-data2viz-js")
 }
 
-
-task copyDependencies(type: Copy, dependsOn: compileKotlin2Js) {
-
-    from compileKotlin2Js.destinationDir
-
-    configurations.testCompile.each {
-        from zipTree(it.absolutePath).matching { include '*.js' }
-    }
-
-    into "${buildDir}/dist"
-}
-
 task yarnInstall(type: YarnTask) {
     args = ['install']
 }
@@ -34,4 +22,4 @@ afterEvaluate {
     }
 }
 
-build.dependsOn copyDependencies
+//build.dependsOn bundle
