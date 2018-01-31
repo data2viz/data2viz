@@ -58,11 +58,11 @@ fun VizContext.progression() {
         padding = .1
     }
 
-    axis(Orient.LEFT, yScale) { // Using RIGHT axis but putting it on the left !!!
-        tickSizeInner = width - margins.hMargins
-        tickSizeOuter = width - margins.hMargins
-        tickFormat = { it.absoluteValue.toInt().toString() }
-    }
+//    axis(Orient.LEFT, yScale) { // Using RIGHT axis but putting it on the left !!!
+//        tickSizeInner = width - margins.hMargins
+//        tickSizeOuter = width - margins.hMargins
+//        tickFormat = { it.absoluteValue.toInt().toString() }
+//    }
 
 
     // STACK LAYOUT
