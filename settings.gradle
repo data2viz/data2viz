@@ -18,7 +18,7 @@ def includeAll(){
     def allProjects = []
     //All d2v- projects except the one that holds global dependencies
     rootDir.eachDir {
-        if(!it.name.contains("data2viz")){
+        if(!it.name.contains("data2viz") && !it.name.contains("site")){
             allProjects += includeMulti(it.name)
         }
     }
@@ -28,6 +28,8 @@ def includeAll(){
     includeMulti("data2viz")
     
     new File(rootDir, "examples").eachDir { includeMulti("examples/" +it.name) }
+    
+    include(":site")
 }
 
 def includeMulti(String path){

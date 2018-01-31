@@ -1,0 +1,8 @@
+
+
+task copyJsExamples(type: Copy, dependsOn: ':ex-chord-js:bundle') {
+    def srcBuildDir = project(':ex-chord-js').buildDir
+    from "$srcBuildDir/dist"
+    into "$buildDir/gh-pages/ex-chord-js"
+}
+
