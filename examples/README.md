@@ -8,7 +8,7 @@
 - Path 
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
-<img src="ex-natural-logscale/docs/natural-log-scale-jfx.png" width="400">
+<img src="images/natural-log-scale-jfx.png" width="400">
 </a>
 
 
@@ -18,13 +18,22 @@
 - Stack
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
-<img src="ex-progression-stack/docs/d2v-progression-javaFx.png" width="400">
+<img src="images/d2v-progression-javaFx.png" width="400">
 </a>
 
 ## [Stream Graph](ex-streamGraph)
 
 - Stack,
 - Curves, stream grapth
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
+<img src="images/stream-graph.png" width="400">
+</a>
+
+## [Chord Graph](ex-chord)
+
+- Chord diagram,
+- Arcs, path
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
 <img src="ex-streamGraph/docs/stream-graph.png" width="400">
