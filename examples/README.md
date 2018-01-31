@@ -35,6 +35,11 @@
 - Chord diagram,
 - Arcs, path
 
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-chord-js/index.html" >
+Open online js version.
+</a>
+
+
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
-<img src="ex-streamGraph/docs/stream-graph.png" width="400">
+<img src="images/chord.png" width="400">
 </a>
