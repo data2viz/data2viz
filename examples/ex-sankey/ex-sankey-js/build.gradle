@@ -1,0 +1,27 @@
+apply plugin: 'com.moowork.node'
+apply plugin: 'kotlin-dce-js'
+
+node {
+    download = true
+}
+
+dependencies {
+    expectedBy project(":ex-sankey-common")
+    compile project(":d2v-data2viz-js")
+}
+
+task yarnInstall(type: YarnTask) {
+    args = ['install']
+}
+
+task bundle(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
+    args = ["run", "bundle"]
+}
+
+afterEvaluate {
+    if (tasks.findByName('unpackDependenciesTestKotlinJs')) {
+        tasks.unpackDependenciesTestKotlinJs.enabled = false
+    }
+}
+
+//build.dependsOn bundle

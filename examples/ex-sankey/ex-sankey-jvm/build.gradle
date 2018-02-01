@@ -1,0 +1,7 @@
+dependencies {
+    expectedBy project(":ex-sankey-common")
+    compile project(":d2v-sankey-common")
+    compile project(":d2v-shape-common")
+    compile project(":d2v-shape-jvm")
+    compile project(":d2v-data2viz-jvm")
+}
