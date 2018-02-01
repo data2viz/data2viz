@@ -1,29 +1,30 @@
 
 
 def allExampleProjects = []
-def allExampleProjectsBundle = []
+def allExampleProjectsCopy = []
+
 new File(rootDir, "examples").eachDir {
     
     if(it.name.startsWith("ex-")){
         allExampleProjects += it.name
-        allExampleProjectsBundle += ":${it.name}-js:bundle"
     }
 }
 
-
-task copyJsExamples(type: Copy, dependsOn: allExampleProjectsBundle) {
-
-    new File(rootDir, "examples").eachDir {
-        def projectName = it.name
-        
-        if( projectName.startsWith("ex-")) {
-            println projectName
-            def srcBuildDir = project(":$projectName-js").buildDir
-            from "$srcBuildDir/dist"
-            into "$buildDir/gh-pages/$projectName"
-            
-        }
-    }
+allExampleProjects.forEach {
     
+    def projectName = it
+    println projectName
+    
+    def srcBuildDir = project(":$projectName-js").buildDir
+
+    allExampleProjectsCopy += ":site:copy-$projectName"
+    
+    task "copy-$projectName" ( type: Copy, dependsOn: ":${projectName}-js:bundle") {
+        from "$srcBuildDir/dist"
+        into "$buildDir/gh-pages/$projectName-js"
+    }
+
 }
+
+task copyJsExamples(dependsOn: allExampleProjectsCopy)
 
