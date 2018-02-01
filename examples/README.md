@@ -51,7 +51,7 @@ Open online js version.
 ## [Chord Graph](ex-chord)
 
 - Chord diagram,
-- Arcs, path
+- Arcs, Path
 
 <a target="_blank" href="https://data2viz.github.io/data2viz/ex-chord-js/index.html" >
 Open online js version.
@@ -63,3 +63,21 @@ Open online js version.
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
 <img src="images/chord.png" width="400">
 </a>
+
+
+## [Sankey Diagram](ex-sankey)
+
+- Sankey layout,
+- Links (path between nodes)
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-sankey-js/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-sankey)
+
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-sankey" >
+<img src="images/sankey-graph.png" width="400">
+</a>
+
