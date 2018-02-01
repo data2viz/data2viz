@@ -1,8 +1,29 @@
 
 
-task copyJsExamples(type: Copy, dependsOn: ':ex-chord-js:bundle') {
-    def srcBuildDir = project(':ex-chord-js').buildDir
-    from "$srcBuildDir/dist"
-    into "$buildDir/gh-pages/ex-chord-js"
+def allExampleProjects = []
+def allExampleProjectsBundle = []
+new File(rootDir, "examples").eachDir {
+    
+    if(it.name.startsWith("ex-")){
+        allExampleProjects += it.name
+        allExampleProjectsBundle += ":${it.name}-js:bundle"
+    }
+}
+
+
+task copyJsExamples(type: Copy, dependsOn: allExampleProjectsBundle) {
+
+    new File(rootDir, "examples").eachDir {
+        def projectName = it.name
+        
+        if( projectName.startsWith("ex-")) {
+            println projectName
+            def srcBuildDir = project(":$projectName-js").buildDir
+            from "$srcBuildDir/dist"
+            into "$buildDir/gh-pages/$projectName"
+            
+        }
+    }
+    
 }
 
