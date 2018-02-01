@@ -1,10 +1,20 @@
 package io.data2viz.sankey
 
+import io.data2viz.shape.link.linkHorizontal
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
 enum class SankeyAlignment { CENTER, JUSTIFY, RIGHT, LEFT }
+
+///// LINKS VISUALIZATIONS
+
+val sankeyLinkHorizontal = linkHorizontal<SankeyLink<*>> {
+    x0 = { it.source.x1 }
+    y0 = { it.y0 }
+    x1 = { it.target.x0 }
+    y1 = { it.y1 }
+}
 
 /**
  * source - the link’s source node

@@ -2,7 +2,9 @@ package io.data2viz.examples.sankey
 
 import io.data2viz.viz.VizContext
 import io.data2viz.color.colors
-import io.data2viz.sankey.*
+import io.data2viz.sankey.SankeyAlignment
+import io.data2viz.sankey.SankeyLayout
+import io.data2viz.sankey.sankeyLinkHorizontal
 import kotlin.math.max
 
 data class Element(
@@ -160,7 +162,7 @@ val margin = 20.0
 
 val sankeyLayout = SankeyLayout<Element>().apply {
     extent(.0, vizWidth - (2 * margin), .0, vizHeight - (2 * margin))
-    nodePadding = 20.0
+    nodePadding = 15.0
     nodeWidth = 10.0
     align = SankeyAlignment.JUSTIFY
 }
