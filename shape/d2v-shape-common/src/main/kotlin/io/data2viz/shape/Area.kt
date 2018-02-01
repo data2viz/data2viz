@@ -94,42 +94,4 @@ class AreaGenerator<T> {
         }
         return context
     }
-
-    /*function area(data) {
-        var i,
-        j,
-        k,
-        n = data.length,
-        d,
-        defined0 = false,
-        buffer,
-        x0z = new Array(n),
-        y0z = new Array(n);
-
-        if (context == null) output = curve(buffer = path());
-
-        for (i = 0; i <= n; ++i) {
-            if (!(i < n && defined(d = data[i], i, data)) === defined0) {
-                if (defined0 = !defined0) {
-                    j = i;
-                    output.areaStart();
-                    output.lineStart();
-                } else {
-                    output.lineEnd();
-                    output.lineStart();
-                    for (k = i - 1; k >= j; --k) {
-                        output.point(x0z[k], y0z[k]);
-                    }
-                    output.lineEnd();
-                    output.areaEnd();
-                }
-            }
-            if (defined0) {
-                x0z[i] = +x0(d, i, data), y0z[i] = +y0(d, i, data);
-                output.point(x1 ? +x1(d, i, data) : x0z[i], y1 ? +y1(d, i, data) : y0z[i]);
-            }
-        }
-
-        if (buffer) return output = null, buffer + "" || null;
-    }*/
 }

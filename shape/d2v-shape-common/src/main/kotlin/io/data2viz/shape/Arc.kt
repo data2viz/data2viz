@@ -1,7 +1,5 @@
 package io.data2viz.shape
 
-//import io.data2viz.math.Angle
-//import io.data2viz.math.rad
 import io.data2viz.path.PathAdapter
 import kotlin.math.*
 
@@ -23,16 +21,6 @@ data class ArcParams<T>(
         val data: T?
 )
 
-/*data class ArcParameters(
-        val innerRadius: Double = .0,
-        val outerRadius: Double = 100.0,
-        val cornerRadius: Double = 0.0,
-        val padRadius: Double? = null,
-        val startAngle: Double = 0.0,
-        val endAngle: Double = 0.0,
-        val padAngle: Double = 0.0
-)*/
-
 fun <T> arc(init: ArcGenerator<T>.() -> Unit) = ArcGenerator<T>().apply(init)
 class ArcGenerator<D> {
 
@@ -41,19 +29,14 @@ class ArcGenerator<D> {
     var cornerRadius: (D) -> Double = const(.0)
     var padRadius: ((D) -> Double)? = null
 
-    var startAngle: (D) -> Double = const(.0)
-    //    var startAngle: (D) -> Angle = const(Angle(.0))           // TODO : Angle ?
-    var endAngle: (D) -> Double = const(.0)
-    //    var endAngle: (D) -> Angle = const(Angle(.0))             // TODO : Angle ?
-    var padAngle: (D) -> Double = const(.0)
-    //    var padAngle: (D) -> Angle = const(Angle(.0))                 // TODO : Angle ?
+    var startAngle: (D) -> Double = const(.0)           // TODO : Angle ?
+    var endAngle: (D) -> Double = const(.0)             // TODO : Angle ?
+    var padAngle: (D) -> Double = const(.0)             // TODO : Angle ?
 
     fun centroid(datum: D): Array<Double> {
         val r = innerRadius(datum) + outerRadius(datum) / 2.0
         val a = startAngle(datum) + endAngle(datum) / 2.0 - halfPi
-//        val a = startAngle(datum) + endAngle(datum) / 2.0 - halfPi.rad
         return arrayOf(cos(a) * r, sin(a) * r)
-//        return arrayOf(a.cos * r, a.sin * r)
     }
 
     /**
@@ -63,13 +46,9 @@ class ArcGenerator<D> {
         var r0 = innerRadius(datum)
         var r1 = outerRadius(datum)
         val a0 = startAngle(datum) - halfPi
-//        val a0 = startAngle(datum) - halfPi.rad
         val a1 = endAngle(datum) - halfPi
-//        val a1 = endAngle(datum) - halfPi.rad
         val da = abs(a1 - a0)
-//        val da = abs(a1.rad - a0.rad)
         val cw = a1 > a0
-//        val cw = a1.rad > a0.rad
 
         // Ensure that the outer radius is always larger than the inner radius.
         if (r1 < r0) {
@@ -84,14 +63,10 @@ class ArcGenerator<D> {
         // Or is it a circle or annulus?
         else if (da > tau - epsilon) {
             context.moveTo(r1 * cos(a0), r1 * sin(a0));
-//            context.moveTo(r1 * a0.cos, r1 * a0.sin);
             context.arc(.0, .0, r1, a0, a1, !cw);
-//            context.arc(.0, .0, r1, a0.rad, a1.rad, !cw);
             if (r0 > epsilon) {
                 context.moveTo(r0 * cos(a1), r0 * sin(a1));
-//                context.moveTo(r0 * a1.cos, r0 * a1.sin);
                 context.arc(.0, .0, r0, a1, a0, cw);
-//                context.arc(.0, .0, r0, a1.rad, a0.rad, cw);
             }
         }
 
@@ -105,7 +80,6 @@ class ArcGenerator<D> {
             var da1 = da
             val ap = padAngle(datum) / 2.0
             val rp = if (ap <= epsilon) 0.0 else {
-//            val rp = if (ap.rad <= epsilon) 0.0 else {
                 val temp = if (padRadius != null) padRadius!!(datum) else sqrt(r0 * r0 + r1 * r1)
                 if (temp != 0.0) 1.0 else 0.0
             }
@@ -116,11 +90,8 @@ class ArcGenerator<D> {
             // Apply padding? Note that since r1 ≥ r0, da1 ≥ da0.
             if (rp > epsilon) {
                 var p0 = asin(rp / r0 * ap)
-//                var p0 = asin(rp / r0 * ap.sin).rad
                 var p1 = asin(rp / r1 * ap)
-//                var p1 = asin(rp / r1 * ap.sin).rad
                 da0 -= p0 * 2
-//                da0 -= p0.rad * 2
                 if (da0 > epsilon) {
                     p0 *= if (cw) 1.0 else -1.0
                     a00 += p0
@@ -131,7 +102,6 @@ class ArcGenerator<D> {
                     a00 = a10
                 }
                 da1 -= p1 * 2
-//                da1 -= p1.rad * 2
                 if (da1 > epsilon) {
                     p1 *= if (cw) 1.0 else -1.0
                     a01 += p1
@@ -144,22 +114,14 @@ class ArcGenerator<D> {
             }
 
             val x01 = r1 * cos(a01)
-//            val x01 = r1 * a01.cos
             val y01 = r1 * sin(a01)
-//            val y01 = r1 * a01.sin
             val x10 = r0 * cos(a10)
-//            val x10 = r0 * a10.cos
             val y10 = r0 * sin(a10)
-//            val y10 = r0 * a10.sin
 
             val x11 = r1 * cos(a11)
-//            val x11 = r1 * a11.cos
             val y11 = r1 * sin(a11)
-//            val y11 = r1 * a11.sin
             val x00 = r0 * cos(a00)
-//            val x00 = r0 * a00.cos
             val y00 = r0 * sin(a00)
-//            val y00 = r0 * a00.sin
 
             // Apply rounded corners?
             if (rc > epsilon) {
@@ -203,7 +165,6 @@ class ArcGenerator<D> {
             else {
                 context.moveTo(x01, y01)
                 context.arc(.0, .0, r1, a01, a11, !cw)
-//                context.arc(.0, .0, r1, a01.rad, a11.rad, !cw)
             }
 
             // Is there no inner ring, and it’s a circular sector?
@@ -230,7 +191,6 @@ class ArcGenerator<D> {
 
             // Or is the inner ring just a circular arc?
             else context.arc(.0, .0, r0, a10, a00, cw);
-//            else context.arc(.0, .0, r0, a10.rad, a00.rad, cw);
         }
 
         context.closePath();
