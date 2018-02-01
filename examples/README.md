@@ -7,6 +7,12 @@
 - LogScale, ContinuousScale.
 - Path 
 
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-natural-logscale-js/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-natural-logscale)
+
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
 <img src="images/natural-log-scale-jfx.png" width="400">
 </a>
@@ -17,7 +23,13 @@
 - Band Scale, ContinuousScale.
 - Stack
 
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-progression-stack-js/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-progression-stack)
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-progression-stack" >
 <img src="images/d2v-progression-javaFx.png" width="400">
 </a>
 
@@ -25,6 +37,12 @@
 
 - Stack,
 - Curves, stream grapth
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-streamGraph-js/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-streamGraph)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
 <img src="images/stream-graph.png" width="400">
@@ -39,7 +57,9 @@
 Open online js version.
 </a>
 
+[See code](ex-chord)
 
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
 <img src="images/chord.png" width="400">
 </a>
