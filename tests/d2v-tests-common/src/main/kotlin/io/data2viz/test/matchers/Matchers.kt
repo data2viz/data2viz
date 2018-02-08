@@ -31,6 +31,19 @@ interface Matchers : StringMatchers,
     infix fun Double.shouldBe(other: Double): Unit = ToleranceMatcher(other, 0.0).test(this)
     infix fun Double.shouldBeClose(other: Double): Unit = ToleranceMatcher(other, epsilon).test(this)
 
+    infix fun DoubleArray.shouldBe(other: DoubleArray): Unit {
+        this.forEachIndexed { index, doubleA ->
+            val doubleB = other[index]
+            doubleA shouldBe doubleB
+        }
+    }
+    infix fun DoubleArray.shouldBeClose(other: DoubleArray): Unit {
+        this.forEachIndexed { index, doubleA ->
+            val doubleB = other[index]
+            doubleA shouldBeClose doubleB
+        }
+    }
+
     infix fun <N:Number, T:Number >  Iterable<N>.shouldBe(other: Iterable<T>) {
         if(this.count() != other.count())
             throw AssertionError("$this doesn't have the same size as $other" )

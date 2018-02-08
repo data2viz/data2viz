@@ -15,6 +15,16 @@ val THETA = PI * 2
 val DEG_TO_RAD = kotlin.math.PI / 180
 val RAD_TO_DEG = 180 / kotlin.math.PI
 
+/**
+ * Assuming this represents a value in degrees, converts the value to radians.
+ */
+fun Double.toRadians() = this * DEG_TO_RAD
+
+/**
+ * Assuming this represents a value in radians, converts the value to degrees.
+ */
+fun Double.toDegrees() = this * RAD_TO_DEG
+
 val Number.deg:Angle
     get() = Angle(toDouble() * DEG_TO_RAD)
 
