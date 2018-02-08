@@ -1,0 +1,5 @@
+dependencies {
+    testCompile project(":d2v-tests-common")
+    compile project(":d2v-path-common")
+    compile project(":d2v-core-common")
+}
