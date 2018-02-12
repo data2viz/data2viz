@@ -263,29 +263,35 @@ class CentroidTests : TestBase() {
         ))))) shouldBe doubleArrayOf(982.5, 247.5)
     }
 
+    @Test
+    fun geopath_centroid_of_a_geometryCollection_with_single_point_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
+
+        geoPath.centroid(GeometryCollection(listOf(Point(doubleArrayOf(.0, .0))))) shouldBe doubleArrayOf(480.0, 250.0)
+    }
+
+    @Test
+    fun geopath_centroid_of_a_geometryCollection_with_point_and_lineString_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
+
+        geoPath.centroid(GeometryCollection(listOf(
+            LineString(listOf(doubleArrayOf(179.0, .0), doubleArrayOf(180.0, .0))),
+            Point(doubleArrayOf(.0, .0)))
+        )) shouldBe doubleArrayOf(1377.5, 250.0)
+    }
+
+    @Test
+    fun geopath_centroid_of_a_geometryCollection_with_point_and_lineString_and_polygon_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
+
+        geoPath.centroid(GeometryCollection(listOf(
+            Polygon(listOf(listOf(doubleArrayOf(-180.0, .0), doubleArrayOf(-180.0, 1.0), doubleArrayOf(-179.0, 1.0), doubleArrayOf(-179.0, .0), doubleArrayOf(-180.0, .0)))),
+            LineString(listOf(doubleArrayOf(179.0, .0), doubleArrayOf(180.0, .0))),
+            Point(doubleArrayOf(.0, .0)))
+        )) shouldBe doubleArrayOf(-417.5, 247.5)
+    }
+
     /*
-tape("geoPath.centroid(…) of a geometry collection with a single point", function(test) {
-  test.deepEqual(testCentroid(equirectangular, {type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}]}), [480, 250]);
-  test.end();
-});
-
-tape("geoPath.centroid(…) of a geometry collection with a point and a linestring", function(test) {
-  test.deepEqual(testCentroid(equirectangular, {type: "GeometryCollection", geometries: [
-    {type: "LineString", coordinates: [[179, 0], [180, 0]]},
-    {type: "Point", coordinates: [0, 0]}
-  ]}), [1377.5, 250]);
-  test.end();
-});
-
-tape("geoPath.centroid(…) of a geometry collection with a point, linestring and polygon", function(test) {
-  test.deepEqual(testCentroid(equirectangular, {type: "GeometryCollection", geometries: [
-    {type: "Polygon", coordinates: [[[-180, 0], [-180, 1], [-179, 1], [-179, 0], [-180, 0]]]},
-    {type: "LineString", coordinates: [[179, 0], [180, 0]]},
-    {type: "Point", coordinates: [0, 0]}
-  ]}), [-417.5, 247.5]);
-  test.end();
-});
-
 tape("geoPath.centroid(…) of a feature collection with a point", function(test) {
   test.deepEqual(testCentroid(equirectangular, {type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Point", coordinates: [0, 0]}}]}), [480, 250]);
   test.end();

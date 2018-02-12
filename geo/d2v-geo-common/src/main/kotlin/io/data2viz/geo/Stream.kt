@@ -7,7 +7,12 @@ fun stream(geo: GeoJSON, stream: Stream) {
 //    if (geo is Point) streamGeometry(geo, stream)
 //    if (geo is MultiPoint) streamGeometry(geo, stream)
 //    if (geo is MultiPolygon) streamGeometry(geo, stream)
+    if (geo is GeometryCollection) streamGeometryCollection(geo, stream)
     streamGeometry(geo, stream)
+}
+
+fun streamGeometryCollection(geo: GeometryCollection, stream: Stream) {
+    geo.geometries.forEach { streamGeometry(it, stream) }
 }
 
 fun streamGeometry(geo: GeoJSON, stream: Stream) {
