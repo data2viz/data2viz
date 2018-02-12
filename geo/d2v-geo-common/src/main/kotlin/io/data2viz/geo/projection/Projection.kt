@@ -34,11 +34,11 @@ interface Stream {
 }
 
 interface Projectable {
-    fun project(lambda:Double, phi:Double): DoubleArray
+    fun project(lambda: Double, phi: Double): DoubleArray
 }
 
 interface Invertable {
-    fun invert(x:Double, y:Double): DoubleArray
+    fun invert(x: Double, y: Double): DoubleArray
 }
 
 interface ProjectableInvertable : Projectable, Invertable
@@ -62,22 +62,21 @@ interface Projection : ProjectableInvertable {
 }
 
 fun compose(a: Projectable, b: Projectable): Projectable {
-    if(a is Invertable && b is Invertable) {
+    if (a is Invertable && b is Invertable) {
         return object : ProjectableInvertable {
-            override fun project(lambda:Double, phi:Double): DoubleArray {
+            override fun project(lambda: Double, phi: Double): DoubleArray {
                 val p = a.project(lambda, phi)
                 return b.project(p[0], p[1])
             }
 
-            override fun invert(x:Double, y:Double): DoubleArray {
+            override fun invert(x: Double, y: Double): DoubleArray {
                 val p = b.invert(x, y)
                 return a.invert(p[0], p[1])
             }
         }
-    }
-    else {
+    } else {
         return object : Projectable {
-            override fun project(lambda:Double, phi:Double): DoubleArray {
+            override fun project(lambda: Double, phi: Double): DoubleArray {
                 val p = a.project(lambda, phi)
                 return b.project(p[0], p[1])
             }
@@ -85,12 +84,12 @@ fun compose(a: Projectable, b: Projectable): Projectable {
     }
 }
 
-internal fun resampleNone(projection: Projection): (Stream) -> Stream {
+internal fun resampleNone(projection: Projectable): (Stream) -> Stream {
     return { stream: Stream ->
         object : ModifiedStream(stream) {
             override fun point(x: Double, y: Double, z: Double) {
                 val p = projection.project(x, y)
-                stream.point(p[0], p[1],0.0)
+                stream.point(p[0], p[1], 0.0)
             }
         }
     }
@@ -99,7 +98,20 @@ internal fun resampleNone(projection: Projection): (Stream) -> Stream {
 fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)
 
 // TODO clipping
-open class MutableProjection(val projection:Projectable): Projection {
+open class MutableProjection(val projection: Projectable) : Projection {
+
+    protected var cache: Stream? = null
+    protected var cacheStream: Stream? = null
+
+    // TODO Change
+    protected fun getCachedStream(stream: Stream): Stream? =
+        if (cache != null && cacheStream == stream) cache else null
+
+    // TODO Change
+    protected fun cache(stream1: Stream, stream2: Stream) {
+        cache = stream2
+        cacheStream = stream1
+    }
 
     val noClip: (Stream) -> Stream = { it }
     override var preClip: (Stream) -> Stream
@@ -133,7 +145,7 @@ open class MutableProjection(val projection:Projectable): Projection {
 
     override var scale: Double
         get() = k
-        set(value){
+        set(value) {
             k = value
             recenter()
         }
@@ -173,7 +185,7 @@ open class MutableProjection(val projection:Projectable): Projection {
         set(value) {
             deltaLambda = (value[0] % 360).toRadians()
             deltaPhi = (value[1] % 360).toRadians()
-            deltaGamma = if(value.size > 2) (value[2] % 360).toRadians() else 0.0
+            deltaGamma = if (value.size > 2) (value[2] % 360).toRadians() else 0.0
             recenter()
         }
 
@@ -188,7 +200,7 @@ open class MutableProjection(val projection:Projectable): Projection {
 
     // Precision
     private var delta2 = 0.5
-    private var projectResample: (Stream) -> Stream = resampleNone(this)
+    private var projectResample: (Stream) -> Stream = resampleNone(projectTransform)
     //private var projectResample = resample(projectTransform, delta2)
     override var precision: Double
         get() = sqrt(delta2)
@@ -200,7 +212,8 @@ open class MutableProjection(val projection:Projectable): Projection {
 
     private val transformRadians = { stream: Stream ->
         object : ModifiedStream(stream) {
-            override fun point(x: Double, y: Double, z: Double) = stream.point(x.toRadians(), y.toRadians(), z.toRadians())
+            override fun point(x: Double, y: Double, z: Double) =
+                stream.point(x.toRadians(), y.toRadians(), z.toRadians())
         }
     }
 
@@ -213,22 +226,25 @@ open class MutableProjection(val projection:Projectable): Projection {
         }
     }
 
-    override fun project(lambda:Double, phi:Double): DoubleArray {
+    override fun project(lambda: Double, phi: Double): DoubleArray {
         val p = projectRotate.project(lambda.toRadians(), phi.toRadians())
         return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
     }
 
-    override fun invert(x:Double, y:Double): DoubleArray {
-        require(projectRotate is Invertable, {"This projection is not invertable."})
+    override fun invert(x: Double, y: Double): DoubleArray {
+        require(projectRotate is Invertable, { "This projection is not invertable." })
 
         val p = (projectRotate as Invertable).invert((x - dx) / k, (dy - y) / k)
         return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
     }
 
     override fun stream(stream: Stream): Stream {
-        recenter()
-
-        return transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
+        var cachedStream = getCachedStream(stream)
+        if(cachedStream == null) {
+            cachedStream = transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
+            cache(cachedStream, cachedStream)
+        }
+        return cachedStream
     }
 
     fun recenter(): Projection {
@@ -237,8 +253,13 @@ open class MutableProjection(val projection:Projectable): Projection {
         val center = projection.project(lambda, phi)
         dx = x - (center[0] * k)
         dy = y + (center[1] * k)
+        return reset()
+    }
+
+    fun reset(): Projection {
+        cache = null
+        cacheStream = null
         return this
-//        return reset()
     }
 }
 

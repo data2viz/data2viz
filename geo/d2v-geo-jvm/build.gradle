@@ -1,5 +1,6 @@
 dependencies {
     expectedBy project(":d2v-geo-common")
+    compile project(":d2v-path-common")
     compile project(":d2v-path-jvm")
     compile project(":d2v-core-jvm")
 }

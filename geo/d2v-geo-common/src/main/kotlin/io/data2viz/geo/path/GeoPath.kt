@@ -9,10 +9,19 @@ fun geoPath(projection: Projection, context: PathAdapter) = GeoPath(projection, 
 
 class GeoPath(val projection: Projection, val context: PathAdapter) {
 
+//    private val pathArea = Area()
+//    private val pathBounds = Bounds()
+    private val pathCentroid = Centroid()
+//    private val pathMeasure = Measure()
     private val contextStream: PathContext = PathContext(context)
 
     fun path(geo: GeoJSON): PathAdapter {
         stream(geo, projection.stream(contextStream))
         return context
+    }
+
+    fun centroid(geo: GeoJSON): DoubleArray {
+        stream(geo, projection.stream(pathCentroid))
+        return pathCentroid.result()
     }
 }
