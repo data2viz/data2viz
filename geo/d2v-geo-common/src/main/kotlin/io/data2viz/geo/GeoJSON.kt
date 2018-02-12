@@ -6,6 +6,7 @@ interface GeoJSON
     val coordinates: T
 }*/
 
+data class GeometryCollection(val geometries: List<GeoJSON>) : GeoJSON
 data class Point(val coordinates: DoubleArray) : GeoJSON
 data class MultiPoint(val coordinates: List<DoubleArray>) : GeoJSON
 data class Polygon(val coordinates: List<List<DoubleArray>>) : GeoJSON
