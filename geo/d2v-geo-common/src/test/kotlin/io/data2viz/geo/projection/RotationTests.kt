@@ -5,7 +5,7 @@ import kotlin.test.Test
 
 class RotationTests : TestBase() {
 
-    /*@Test
+    @Test
     fun a_rotation_of_90_0_only_rotates_longitude_LEGACY() {
         val rotation = rotation(doubleArrayOf(90.0, .0)).project(.0, .0)
         rotation[0] shouldBeClose 90.0
@@ -31,5 +31,5 @@ class RotationTests : TestBase() {
         val rotation = rotation(doubleArrayOf(-45.0, 45.0)).invert(-54.73561, 30.0)
         rotation[0] shouldBeClose .0
         rotation[1] shouldBeClose .0
-    }*/
+    }
 }

@@ -3,14 +3,17 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.ModifiedStream
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
-import kotlin.math.atan
-import kotlin.math.exp
-import kotlin.math.ln
-import kotlin.math.tan
+import kotlin.math.*
 
 class MercatorRaw
 
-class Mercator : Projection {
+fun mercator() = mercator {}
+fun mercator(init: Projection.() -> Unit) = projection(MercatorProjection()) {
+    scale = 961 / (2 * PI)
+    init()
+}
+
+class MercatorProjection : Projection {
 
     private var projectResample: (Stream) -> Stream = resampleNone(this)
     private lateinit var projectRotate: Projectable
