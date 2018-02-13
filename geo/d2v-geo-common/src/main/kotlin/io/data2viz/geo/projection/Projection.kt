@@ -19,11 +19,11 @@ data class Point(
     val y: Double
 )*/
 
-data class Extent (
-    var x0:Double,
-    var y0:Double,
-    var x1:Double,
-    var y1:Double
+data class Extent(
+    var x0: Double,
+    var y0: Double,
+    var x1: Double,
+    var y1: Double
 )
 
 interface Stream {
@@ -95,6 +95,11 @@ internal fun resampleNone(projection: Projectable): (Stream) -> Stream {
             }
         }
     }
+}
+
+class TransformRadians(stream: Stream) : ModifiedStream(stream) {
+    override fun point(x: Double, y: Double, z: Double) =
+        stream.point(x.toRadians(), y.toRadians(), z.toRadians())
 }
 
 fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)
@@ -193,7 +198,7 @@ open class MutableProjection(val projection: Projectable) : Projection {
 
     private lateinit var projectRotate: Projectable
 
-    private val projectTransform = object : Projectable {
+    private val projectTransform:Projectable = object : Projectable {
         override fun project(lambda: Double, phi: Double): DoubleArray {
             val p = projection.project(lambda, phi)
             return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
@@ -212,14 +217,14 @@ open class MutableProjection(val projection: Projectable) : Projection {
             //reset()
         }
 
-    private val transformRadians = { stream: Stream ->
+    private val transformRadians: (stream: Stream) -> ModifiedStream = { stream: Stream ->
         object : ModifiedStream(stream) {
             override fun point(x: Double, y: Double, z: Double) =
                 stream.point(x.toRadians(), y.toRadians(), z.toRadians())
         }
     }
 
-    private fun transformRotate(rotate: Projectable) = { stream: Stream ->
+    private fun transformRotate(rotate: Projectable): (stream: Stream) -> ModifiedStream = { stream: Stream ->
         object : ModifiedStream(stream) {
             override fun point(x: Double, y: Double, z: Double) {
                 val r = rotate.project(x, y)
@@ -242,7 +247,7 @@ open class MutableProjection(val projection: Projectable) : Projection {
 
     override fun stream(stream: Stream): Stream {
         var cachedStream = getCachedStream(stream)
-        if(cachedStream == null) {
+        if (cachedStream == null) {
             cachedStream = transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
             cache(cachedStream, cachedStream)
         }
