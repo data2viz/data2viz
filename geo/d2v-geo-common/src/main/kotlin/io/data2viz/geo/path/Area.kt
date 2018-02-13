@@ -3,6 +3,8 @@ package io.data2viz.geo.path
 import io.data2viz.geo.projection.Stream
 import kotlin.math.abs
 
+
+// TODO : check for use of D3 "adder" in Area and Measure....
 class Area : Stream {
 
     private var areaSum = .0
