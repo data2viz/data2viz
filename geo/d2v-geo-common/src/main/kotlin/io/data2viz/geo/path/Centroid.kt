@@ -2,7 +2,6 @@ package io.data2viz.geo.path
 
 import io.data2viz.geo.projection.Stream
 import kotlin.math.sqrt
-import kotlin.reflect.KFunction0
 
 class Centroid : Stream {
     private var _X0 = 0.0
