@@ -10,10 +10,10 @@ fun geoPath(projection: Projection, context: PathAdapter) = GeoPath(projection, 
 
 class GeoPath(val projection: Projection, val context: PathAdapter) {
 
-    private val pathArea = Area()
-    private val pathBounds = Bounds()
-    private val pathCentroid = Centroid()
-    private val pathMeasure = Measure()
+    private val pathArea = PathArea()
+    private val pathBounds = PathBounds()
+    private val pathCentroid = PathCentroid()
+    private val pathMeasure = PathMeasure()
     private val contextStream: PathContext = PathContext(context)
 
     fun path(geo: GeoJSON): PathAdapter {

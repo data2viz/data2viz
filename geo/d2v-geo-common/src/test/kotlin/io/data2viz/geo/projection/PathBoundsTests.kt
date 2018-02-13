@@ -7,7 +7,7 @@ import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
 
-class AreaTests : TestBase() {
+class PathBoundsTests : TestBase() {
 
     val equirectangular = io.data2viz.geo.projection.equirectangular() {
         scale = 900.0 / PI
@@ -15,9 +15,9 @@ class AreaTests : TestBase() {
     }
 
     @Test
-    fun geopath_area_of_a_polygon_with_no_holes_LEGACY() {
+    fun geopath_bounds_of_a_polygon_with_no_holes_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
-        geoPath.area(
+        val bounds = geoPath.bounds(
             Polygon(
                 listOf(
                     listOf(
@@ -29,13 +29,17 @@ class AreaTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 25.0
+        )
+        bounds.x0 shouldBe 980.0
+        bounds.y0 shouldBe 245.0
+        bounds.x1 shouldBe 985.0
+        bounds.y1 shouldBe 250.0
     }
 
     @Test
-    fun geopath_area_of_a_polygon_with_holes_LEGACY() {
+    fun geopath_bounds_of_a_polygon_with_holes_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
-        geoPath.area(
+        val bounds = geoPath.bounds(
             Polygon(
                 listOf(
                     listOf(
@@ -54,17 +58,19 @@ class AreaTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 16.0
+        )
+        bounds.x0 shouldBe 980.0
+        bounds.y0 shouldBe 245.0
+        bounds.x1 shouldBe 985.0
+        bounds.y1 shouldBe 250.0
     }
 
     /*
-
-tape("geoPath.area(…) of a sphere", function(test) {
-  test.equal(testArea(equirectangular, {
-    type: "Sphere",
-  }), 1620000);
+tape("geoPath.bounds(…) of a sphere", function(test) {
+  test.deepEqual(testBounds(equirectangular, {
+    type: "Sphere"
+  }), [[-420, -200], [1380, 700]]);
   test.end();
-});;
 });
      */
 }

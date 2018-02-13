@@ -9,7 +9,7 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.test.Test
 
-class EquirectangularTests : TestBase() {
+class EquirectangularProjectionTests : TestBase() {
 
     val util = ProjectionTests()
 

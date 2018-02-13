@@ -8,7 +8,7 @@ import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class MercatorTests : TestBase() {
+class MercatorProjectionTests : TestBase() {
 
     val util = ProjectionTests()
 

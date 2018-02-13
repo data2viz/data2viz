@@ -3,7 +3,7 @@ package io.data2viz.geo.path
 import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.Stream
 
-class Bounds : Stream {
+class PathBounds : Stream {
 
     private var bounds =
         Extent(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)

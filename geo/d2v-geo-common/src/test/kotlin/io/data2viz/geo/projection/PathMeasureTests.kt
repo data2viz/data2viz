@@ -7,7 +7,7 @@ import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
 
-class MeasureTests : TestBase() {
+class PathMeasureTests : TestBase() {
 
     val equirectangular = io.data2viz.geo.projection.equirectangular {
         scale = 180.0 / PI
