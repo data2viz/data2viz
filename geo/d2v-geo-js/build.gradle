@@ -1,0 +1,7 @@
+dependencies {
+    expectedBy project(":d2v-geo-common")
+    compile project(":d2v-path-common")
+    compile project(":d2v-path-js")
+    compile project(":d2v-core-js")
+}
+project.jsTests()
