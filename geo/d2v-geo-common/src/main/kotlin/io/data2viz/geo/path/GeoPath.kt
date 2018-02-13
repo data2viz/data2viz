@@ -13,7 +13,7 @@ class GeoPath(val projection: Projection, val context: PathAdapter) {
     private val pathArea = Area()
     private val pathBounds = Bounds()
     private val pathCentroid = Centroid()
-//    private val pathMeasure = Measure()
+    private val pathMeasure = Measure()
     private val contextStream: PathContext = PathContext(context)
 
     fun path(geo: GeoJSON): PathAdapter {
@@ -34,5 +34,10 @@ class GeoPath(val projection: Projection, val context: PathAdapter) {
     fun bounds(geo: GeoJSON): Extent {
         stream(geo, projection.stream(pathBounds))
         return pathBounds.result()
+    }
+
+    fun measure(geo: GeoJSON): Double {
+        stream(geo, projection.stream(pathMeasure))
+        return pathMeasure.result()
     }
 }
