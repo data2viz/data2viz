@@ -3,7 +3,7 @@ package io.data2viz.geo.path
 import io.data2viz.geo.projection.Stream
 import kotlin.math.sqrt
 
-class Measure : Stream {
+class PathMeasure : Stream {
 
     private var lengthSum = .0
     private var lengthRing = false

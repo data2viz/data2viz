@@ -7,7 +7,7 @@ import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
 
-class CentroidTests : TestBase() {
+class PathCentroidTests : TestBase() {
 
     val equirectangular = io.data2viz.geo.projection.equirectangular() {
         scale = 900.0 / PI
