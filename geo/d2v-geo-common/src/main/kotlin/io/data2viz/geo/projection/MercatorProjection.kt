@@ -95,13 +95,13 @@ class MercatorProjection : Projection {
         return transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
     }
 
-    private val transformRadians = { stream: Stream ->
+    val transformRadians: (stream:Stream) -> ModifiedStream = { stream: Stream ->
         object : ModifiedStream(stream) {
             override fun point(x: Double, y: Double, z: Double) = stream.point(x.toRadians(), y.toRadians(), z.toRadians())
         }
     }
 
-    private fun transformRotate(rotate: Projectable) = { stream: Stream ->
+    fun transformRotate(rotate: Projectable): (stream:Stream) -> ModifiedStream = { stream: Stream ->
         object : ModifiedStream(stream) {
             override fun point(x: Double, y: Double, z: Double) {
                 val r = rotate.project(x, y)

@@ -10,7 +10,7 @@ private fun identity(x: Double, y: Double) = when {
     else -> doubleArrayOf(x, y)
 }
 
-private fun rotationIdentity() = object : ProjectableInvertable {
+private fun rotationIdentity():ProjectableInvertable = object : ProjectableInvertable {
     override fun project(lambda: Double, phi: Double) = identity(lambda, phi)
     override fun invert(x: Double, y: Double) = identity(x, y)
 }

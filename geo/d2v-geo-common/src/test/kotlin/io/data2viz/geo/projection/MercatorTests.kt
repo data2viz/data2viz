@@ -23,24 +23,6 @@ class MercatorTests : TestBase() {
         projection.clipExtent shouldBe null
     }
 
-//    @Test
-//    fun mercatormultiPoint_projection() {
-//        val projection = MercatorProjection()
-//        projection.translate = doubleArrayOf(.0, .0)
-//        projection.scale = 1.0
-//        projection.clipExtent = null
-//        projection.precision = .0
-//
-//        val geoPath = geoPath(projection, svgPath())
-//        val path:SvgPath = geoPath.path(Point(doubleArrayOf(1.0, 2.0))) as SvgPath
-//        path.path shouldBe "M0.017453292519943295,-0.03491367596925956m0,4.5a4.5,4.5 0 1,1 0,-9a4.5,4.5 0 1,1 0,9z"
-//
-//        // M4.517453292519943,0.03491367596925945A4.5,4.5,0,1,1,-4.482546707480057,0.03491367596925945A4.5,4.5,0,1,1,4.517453292519943,0.03491367596925945
-//        // M0.017453292519943295,-0.03491367596925956m0,4.5a4.5,4.5 0 1,1 0,-9a4.5,4.5 0 1,1 0,9z
-//
-////        path.path shouldBe "M0.017453292519943295,-0.03491367596925956m0,4.5a4.5,4.5 0 1,1 0,-9a4.5,4.5 0 1,1 0,9zM0.06981317007977318,-0.08737743596203343m0,4.5a4.5,4.5 0 1,1 0,-9a4.5,4.5 0 1,1 0,9z"
-//    }
-
     @Test
     fun mercator_various_projects_1() {
         val projection = mercator {
