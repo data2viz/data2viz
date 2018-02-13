@@ -19,10 +19,12 @@ data class Point(
     val y: Double
 )*/
 
-interface Extent {
-    val from: DoubleArray
-    val to: DoubleArray
-}
+data class Extent (
+    var x0:Double,
+    var y0:Double,
+    var x1:Double,
+    var y1:Double
+)
 
 interface Stream {
     fun point(x: Double, y: Double, z: Double) {}
