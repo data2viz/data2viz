@@ -9,11 +9,6 @@ import kotlin.test.Test
 
 class GeoAreaTests : TestBase() {
 
-    val equirectangular = io.data2viz.geo.projection.equirectangular() {
-        scale = 900.0 / PI
-        precision = .0
-    }
-
     @Test
     fun geoarea_of_a_point_LEGACY() {
         GeoArea().result(Point(doubleArrayOf(.0, .0))) shouldBe .0

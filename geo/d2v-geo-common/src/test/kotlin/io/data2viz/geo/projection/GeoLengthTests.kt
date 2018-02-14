@@ -9,11 +9,6 @@ import kotlin.test.Test
 
 class GeoLengthTests : TestBase() {
 
-    val equirectangular = io.data2viz.geo.projection.equirectangular() {
-        scale = 900.0 / PI
-        precision = .0
-    }
-
     @Test
     fun geolength_point_returns_zero_LEGACY() {
         GeoLength().result(Point(doubleArrayOf(.0, .0))) shouldBeClose .0
