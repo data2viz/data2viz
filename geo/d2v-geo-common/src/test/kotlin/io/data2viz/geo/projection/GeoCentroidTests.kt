@@ -280,7 +280,7 @@ class GeoCentroidTests : TestBase() {
         GeoCentroid().result(
             Polygon(
                 listOf(
-                    (-180 .. 180).map { doubleArrayOf(it.toDouble(), -60.0) }
+                    (-180..180).map { doubleArrayOf(it.toDouble(), -60.0) }
                 )
             )
         )[1] shouldBeClose -90.0
@@ -319,10 +319,225 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_sphere_is_ambiguous_LEGACY() {
-        GeoCentroid().result(Sphere(doubleArrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        GeoCentroid().result(Sphere()) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+    }
+
+    @Test
+    fun geocentroid_of_a_small_circle_is_its_center_south_pole_LEGACY() {
+        GeoCentroid().result(
+            Polygon(
+                listOf(
+                    (-180..180).map { doubleArrayOf(it.toDouble(), -60.0) }
+                )
+            )
+        )[1] shouldBe -90.0
+    }
+
+    @Test
+    fun geocentroid_of_a_small_circle_is_its_center_equator_LEGACY() {
+        GeoCentroid().result(
+            Polygon(
+                listOf(
+                    listOf(
+                        doubleArrayOf(.0, -10.0),
+                        doubleArrayOf(.0, 10.0),
+                        doubleArrayOf(10.0, 10.0),
+                        doubleArrayOf(10.0, -10.0),
+                        doubleArrayOf(.0, -10.0)
+                    )
+                )
+            )
+        ) shouldBeClose doubleArrayOf(5.0, .0)
+    }
+
+    @Test
+    fun geocentroid_of_a_small_circle_is_its_center_equator_with_coincident_points_LEGACY() {
+        GeoCentroid().result(
+            Polygon(
+                listOf(
+                    listOf(
+                        doubleArrayOf(.0, -10.0),
+                        doubleArrayOf(.0, 10.0),
+                        doubleArrayOf(.0, 10.0),
+                        doubleArrayOf(10.0, 10.0),
+                        doubleArrayOf(10.0, -10.0),
+                        doubleArrayOf(.0, -10.0)
+                    )
+                )
+            )
+        ) shouldBeClose doubleArrayOf(5.0, .0)
+    }
+
+    @Test
+    fun geocentroid_of_a_small_circle_is_its_center_other_LEGACY() {
+        GeoCentroid().result(
+            Polygon(
+                listOf(
+                    listOf(
+                        doubleArrayOf(-180.0, .0),
+                        doubleArrayOf(-180.0, 10.0),
+                        doubleArrayOf(-179.0, 10.0),
+                        doubleArrayOf(-179.0, .0),
+                        doubleArrayOf(-180.0, .0)
+                    )
+                )
+            )
+        ) shouldBeClose doubleArrayOf(-179.5, 4.987448)
+    }
+
+    @Test
+    fun geocentroid_of_a_feature_is_the_center_of_its_constituent_geometry_LEGACY() {
+        GeoCentroid().result(
+            Feature(
+                LineString(
+                    listOf(
+                        doubleArrayOf(1.0, 1.0),
+                        doubleArrayOf(1.0, 1.0)
+                    )
+                )
+            )
+        ) shouldBeClose doubleArrayOf(1.0, 1.0)
+
+        GeoCentroid().result(
+            Feature(
+                Point(
+                    doubleArrayOf(1.0, 1.0)
+                )
+            )
+        ) shouldBeClose doubleArrayOf(1.0, 1.0)
+
+        GeoCentroid().result(
+            Feature(
+                Polygon(
+                    listOf(
+                        listOf(
+                            doubleArrayOf(.0, -90.0),
+                            doubleArrayOf(.0, .0),
+                            doubleArrayOf(.0, 90.0),
+                            doubleArrayOf(1.0, .0),
+                            doubleArrayOf(.0, -90.0)
+                        )
+                    )
+                )
+            )
+        ) shouldBeClose doubleArrayOf(.5, .0)
+    }
+
+    @Test
+    fun geocentroid_of_a_featureCollection_is_the_center_of_its_constituent_geometry_LEGACY() {
+        GeoCentroid().result(
+            FeatureCollection(
+                listOf(
+                    LineString(
+                        listOf(
+                            doubleArrayOf(179.0, .0),
+                            doubleArrayOf(180.0, .0)
+                        )
+                    ),
+                    Point(doubleArrayOf(.0, .0))
+                )
+            )
+        ) shouldBeClose doubleArrayOf(179.5, .0)
+    }
+
+    @Test
+    fun geocentroid_of_a_non_empty_linestring_and_a_point_only_considers_the_line_string_LEGACY() {
+        GeoCentroid().result(
+            GeometryCollection(
+                listOf(
+                    LineString(
+                        listOf(
+                            doubleArrayOf(179.0, .0),
+                            doubleArrayOf(180.0, .0)
+                        )
+                    ),
+                    Point(doubleArrayOf(.0, .0))
+                )
+            )
+        ) shouldBeClose doubleArrayOf(179.5, .0)
+    }
+
+    @Test
+    fun geocentroid_of_a_non_empty_polygon_a_non_empty_linestring_and_a_point_only_considers_the_polygon_LEGACY() {
+        GeoCentroid().result(
+            GeometryCollection(
+                listOf(
+                    Polygon(
+                        listOf(
+                            listOf(
+                                doubleArrayOf(-180.0, .0),
+                                doubleArrayOf(-180.0, 1.0),
+                                doubleArrayOf(-179.0, 1.0),
+                                doubleArrayOf(-179.0, .0),
+                                doubleArrayOf(-180.0, .0)
+                            )
+                        )
+                    ),
+                    LineString(
+                        listOf(
+                            doubleArrayOf(179.0, .0),
+                            doubleArrayOf(180.0, .0)
+                        )
+                    ),
+                    Point(doubleArrayOf(.0, .0))
+                )
+            )
+        ) shouldBeClose doubleArrayOf(-179.5, 0.500006)
+
+        GeoCentroid().result(
+            GeometryCollection(
+                listOf(
+                    Point(doubleArrayOf(.0, .0)),
+                    LineString(
+                        listOf(
+                            doubleArrayOf(179.0, .0),
+                            doubleArrayOf(180.0, .0)
+                        )
+                    ),
+                    Polygon(
+                        listOf(
+                            listOf(
+                                doubleArrayOf(-180.0, .0),
+                                doubleArrayOf(-180.0, 1.0),
+                                doubleArrayOf(-179.0, 1.0),
+                                doubleArrayOf(-179.0, .0),
+                                doubleArrayOf(-180.0, .0)
+                            )
+                        )
+                    )
+                )
+            )
+        ) shouldBeClose doubleArrayOf(-179.5, 0.500006)
+    }
+
+    @Test
+    fun geocentroid_of_a_the_sphere_and_a_point_is_the_point_LEGACY() {
+        GeoCentroid().result(
+            FeatureCollection(
+                listOf(
+                    Sphere(),
+                    Point(doubleArrayOf(1.0, 2.0))
+                )
+            )
+        ) shouldBeClose doubleArrayOf(1.0, 2.0)
+
+        GeoCentroid().result(
+            FeatureCollection(
+                listOf(
+                    Point(doubleArrayOf(2.0, 3.0)),
+                    Sphere()
+                )
+            )
+        ) shouldBeClose doubleArrayOf(2.0, 3.0)
     }
 
     /*
+tape("the centroid of a detailed feature is correct", function(test) {
+  var ny = require("./data/ny.json");
+  test.inDelta(d3.geoCentroid(ny), [-73.93079, 40.69447], 1e-5);
+  test.end();
+});
+
 tape("the centroid of a set of polygons is the (spherical) average of its surface", function(test) {
   var circle = d3.geoCircle();
   test.inDelta(d3.geoCentroid({
@@ -345,26 +560,6 @@ tape("the centroid of a small circle is its center: 135°", function(test) {
   test.end();
 });
 
-tape("the centroid of a small circle is its center: South Pole", function(test) {
-  test.equal(d3.geoCentroid({type: "Polygon", coordinates: [array.range(-180, 180 + 1 / 2, 1).map(function(x) { return [x, -60]; })]})[1], -90);
-  test.end();
-});
-
-tape("the centroid of a small circle is its center: equator", function(test) {
-  test.inDelta(d3.geoCentroid({type: "Polygon", coordinates: [[[0, -10], [0, 10], [10, 10], [10, -10], [0, -10]]]}), [5, 0], 1e-6);
-  test.end();
-});
-
-tape("the centroid of a small circle is its center: equator with coincident points", function(test) {
-  test.inDelta(d3.geoCentroid({type: "Polygon", coordinates: [[[0, -10], [0, 10], [0, 10], [10, 10], [10, -10], [0, -10]]]}), [5, 0], 1e-6);
-  test.end();
-});
-
-tape("the centroid of a small circle is its center: other", function(test) {
-  test.inDelta(d3.geoCentroid({type: "Polygon", coordinates: [[[-180, 0], [-180, 10], [-179, 10], [-179, 0], [-180, 0]]]}), [-179.5, 4.987448], 1e-6);
-  test.end();
-});
-
 tape("the centroid of a small circle is its center: concentric rings", function(test) {
   var circle = d3.geoCircle().center([0, 45]),
       coordinates = circle.radius(60)().coordinates;
@@ -378,61 +573,6 @@ tape("concentric rings", function(test) {
       coordinates = circle.radius(60)().coordinates;
   coordinates.push(circle.radius(45)().coordinates[0].reverse());
   test.inDelta(d3.geoCentroid({type: "Polygon", coordinates: coordinates}), [0, 45], 1e-6);
-  test.end();
-});
-
-tape("the centroid of a feature is the centroid of its constituent geometry", function(test) {
-  test.inDelta(d3.geoCentroid({type: "Feature", geometry: {type: "LineString", coordinates: [[1, 1], [1, 1]]}}), [1, 1], 1e-6);
-  test.inDelta(d3.geoCentroid({type: "Feature", geometry: {type: "Point", coordinates: [1, 1]}}), [1, 1], 1e-6);
-  test.inDelta(d3.geoCentroid({type: "Feature", geometry: {type: "Polygon", coordinates: [[[0, -90], [0, 0], [0, 90], [1, 0], [0, -90]]]}}), [0.5, 0], 1e-6);
-  test.end();
-});
-
-tape("the centroid of a feature collection is the centroid of its constituent geometry", function(test) {
-  test.inDelta(d3.geoCentroid({type: "FeatureCollection", features: [
-    {type: "Feature", geometry: {type: "LineString", coordinates: [[179, 0], [180, 0]]}},
-    {type: "Feature", geometry: {type: "Point", coordinates: [0, 0]}}
-  ]}), [179.5, 0], 1e-6);
-  test.end();
-});
-
-tape("the centroid of a non-empty line string and a point only considers the line string", function(test) {
-  test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [
-    {type: "LineString", coordinates: [[179, 0], [180, 0]]},
-    {type: "Point", coordinates: [0, 0]}
-  ]}), [179.5, 0], 1e-6);
-  test.end();
-});
-
-tape("the centroid of a non-empty polygon, a non-empty line string and a point only considers the polygon", function(test) {
-  test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [
-    {type: "Polygon", coordinates: [[[-180, 0], [-180, 1], [-179, 1], [-179, 0], [-180, 0]]]},
-    {type: "LineString", coordinates: [[179, 0], [180, 0]]},
-    {type: "Point", coordinates: [0, 0]}
-  ]}), [-179.5, 0.500006], 1e-6);
-  test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [
-    {type: "Point", coordinates: [0, 0]},
-    {type: "LineString", coordinates: [[179, 0], [180, 0]]},
-    {type: "Polygon", coordinates: [[[-180, 0], [-180, 1], [-179, 1], [-179, 0], [-180, 0]]]}
-  ]}), [-179.5, 0.500006], 1e-6);
-  test.end();
-});
-
-tape("the centroid of the sphere and a point is the point", function(test) {
-  test.deepEqual(d3.geoCentroid({type: "GeometryCollection", geometries: [
-    {type: "Sphere"},
-    {type: "Point", coordinates: [0, 0]}
-  ]}), [0, 0]);
-  test.deepEqual(d3.geoCentroid({type: "GeometryCollection", geometries: [
-    {type: "Point", coordinates: [0, 0]},
-    {type: "Sphere"}
-  ]}), [0, 0]);
-  test.end();
-});
-
-tape("the centroid of a detailed feature is correct", function(test) {
-  var ny = require("./data/ny.json");
-  test.inDelta(d3.geoCentroid(ny), [-73.93079, 40.69447], 1e-5);
   test.end();
 });
      */
