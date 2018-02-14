@@ -32,12 +32,14 @@ interface Matchers : StringMatchers,
     infix fun Double.shouldBeClose(other: Double): Unit = ToleranceMatcher(other, epsilon).test(this)
 
     infix fun DoubleArray.shouldBe(other: DoubleArray): Unit {
+        this.size shouldBe other.size
         this.forEachIndexed { index, doubleA ->
             val doubleB = other[index]
             doubleA shouldBe doubleB
         }
     }
     infix fun DoubleArray.shouldBeClose(other: DoubleArray): Unit {
+        this.size shouldBe other.size
         this.forEachIndexed { index, doubleA ->
             val doubleB = other[index]
             doubleA shouldBeClose doubleB
