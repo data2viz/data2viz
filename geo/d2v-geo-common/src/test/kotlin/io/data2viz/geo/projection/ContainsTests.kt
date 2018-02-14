@@ -16,9 +16,9 @@ class ContainsTests : TestBase() {
 
     @Test
     fun a_sphere_contains_any_point_LEGACY() {
-        contains(Sphere(doubleArrayOf(.0, .0)), doubleArrayOf(.0, .0)) shouldBe true
-        contains(Sphere(doubleArrayOf(.0, .0)), doubleArrayOf(10000.0, .0)) shouldBe true
-        contains(Sphere(doubleArrayOf(.0, .0)), doubleArrayOf(10000.0, -964524.0)) shouldBe true
+        contains(Sphere(), doubleArrayOf(.0, .0)) shouldBe true
+        contains(Sphere(), doubleArrayOf(10000.0, .0)) shouldBe true
+        contains(Sphere(), doubleArrayOf(10000.0, -964524.0)) shouldBe true
     }
 
     @Test

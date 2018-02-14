@@ -128,28 +128,49 @@ class GeoLengthTests : TestBase() {
                 )
             )
         ) shouldBeClose 0.209354
-
     }
 
-    /*
-tape("geoLength(FeatureCollection) returns the sum of its features’ lengths", function(test) {
-  test.inDelta(d3.geoLength({
-    type: "FeatureCollection", features: [
-      {type: "Feature", geometry: {type: "LineString", coordinates: [[-45, 0], [0, 0]]}},
-      {type: "Feature", geometry: {type: "LineString", coordinates: [[0, 0], [45, 0]]}}
-    ]
-  }), Math.PI / 2, 1e-6);
-  test.end();
-});
+    @Test
+    fun geolength_featurecollection_returns_the_sum_of_its_features_lengths_LEGACY() {
+        GeoLength().result(
+            FeatureCollection(
+                listOf(
+                    LineString(
+                        listOf(
+                            doubleArrayOf(-45.0, .0),
+                            doubleArrayOf(.0, .0)
+                        )
+                    ),
+                    LineString(
+                        listOf(
+                            doubleArrayOf(.0, .0),
+                            doubleArrayOf(45.0, .0)
+                        )
+                    )
+                )
+            )
+        ) shouldBeClose PI / 2
+    }
 
-tape("geoLength(GeometryCollection) returns the sum of its geometries’ lengths", function(test) {
-  test.inDelta(d3.geoLength({
-    type: "GeometryCollection", geometries: [
-      {type: "GeometryCollection", geometries: [{type: "LineString", coordinates: [[-45, 0], [0, 0]]}]},
-      {type: "LineString", coordinates: [[0, 0], [45, 0]]}
-    ]
-  }), Math.PI / 2, 1e-6);
-  test.end();
-});
-     */
+    @Test
+    fun geolength_geometrycollection_returns_the_sum_of_its_geometries_lengths_LEGACY() {
+        GeoLength().result(
+            GeometryCollection(
+                listOf(
+                    LineString(
+                        listOf(
+                            doubleArrayOf(-45.0, .0),
+                            doubleArrayOf(.0, .0)
+                        )
+                    ),
+                    LineString(
+                        listOf(
+                            doubleArrayOf(.0, .0),
+                            doubleArrayOf(45.0, .0)
+                        )
+                    )
+                )
+            )
+        ) shouldBeClose PI / 2
+    }
 }

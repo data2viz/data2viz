@@ -2,15 +2,19 @@ package io.data2viz.geo
 
 interface GeoJSON
 
-/*interface Geometry<out T> : GeoJSON {
+interface Geometry<out T> : GeoJSON {
     val coordinates: T
-}*/
+}
 
-data class GeometryCollection(val geometries: List<GeoJSON>) : GeoJSON
-data class Point(val coordinates: DoubleArray) : GeoJSON
-data class MultiPoint(val coordinates: List<DoubleArray>) : GeoJSON
-data class Polygon(val coordinates: List<List<DoubleArray>>) : GeoJSON
-data class MultiPolygon(val coordinates: List<List<List<DoubleArray>>>) : GeoJSON
-data class LineString(val coordinates: List<DoubleArray>) : GeoJSON
-data class MultiLineString(val coordinates: List<List<DoubleArray>>) : GeoJSON
-data class Sphere(val coordinates: DoubleArray) : GeoJSON
+// TODO check sphere as D3 also considers it a "geometry"
+class Sphere() : GeoJSON
+
+data class Feature(val geometry: Geometry<*>) : GeoJSON
+data class FeatureCollection(val features: List<GeoJSON>) : GeoJSON
+data class GeometryCollection(val geometries: List<Geometry<*>>) : GeoJSON
+data class Point(override val coordinates: DoubleArray) : Geometry<DoubleArray>
+data class MultiPoint(override val coordinates: List<DoubleArray>) : Geometry<List<DoubleArray>>
+data class Polygon(override val coordinates: List<List<DoubleArray>>) : Geometry<List<List<DoubleArray>>>
+data class MultiPolygon(override val coordinates: List<List<List<DoubleArray>>>) : Geometry<List<List<List<DoubleArray>>>>
+data class LineString(override val coordinates: List<DoubleArray>) : Geometry<List<DoubleArray>>
+data class MultiLineString(override val coordinates: List<List<DoubleArray>>) : Geometry<List<List<DoubleArray>>>
