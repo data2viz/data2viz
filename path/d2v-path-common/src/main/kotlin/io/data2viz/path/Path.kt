@@ -4,6 +4,8 @@ import kotlin.math.*
 
 fun svgPath(): SvgPath = SvgPath()
 
+
+// TODO : move to core ?
 val pi = PI
 val tau = 2 * pi
 val epsilon = 1e-6
