@@ -7,9 +7,9 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
-class GeoArea : Stream {
+const val quarterPi = PI / 4.0
 
-    private val quarterPi = PI / 4.0
+class GeoArea : Stream {
 
     private var areaSum = .0
     private var areaRingSum = .0
