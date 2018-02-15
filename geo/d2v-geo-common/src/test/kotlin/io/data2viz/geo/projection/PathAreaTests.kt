@@ -22,11 +22,11 @@ class PathAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(100.0, .0),
-                        doubleArrayOf(100.0, 1.0),
-                        doubleArrayOf(101.0, 1.0),
-                        doubleArrayOf(101.0, .0),
-                        doubleArrayOf(100.0, .0)
+                        pt(100.0, .0),
+                        pt(100.0, 1.0),
+                        pt(101.0, 1.0),
+                        pt(101.0, .0),
+                        pt(100.0, .0)
                     )
                 )
             )
@@ -40,18 +40,18 @@ class PathAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(100.0, .0),
-                        doubleArrayOf(100.0, 1.0),
-                        doubleArrayOf(101.0, 1.0),
-                        doubleArrayOf(101.0, .0),
-                        doubleArrayOf(100.0, .0)
+                        pt(100.0, .0),
+                        pt(100.0, 1.0),
+                        pt(101.0, 1.0),
+                        pt(101.0, .0),
+                        pt(100.0, .0)
                     ),
                     listOf(
-                        doubleArrayOf(100.2, .2),
-                        doubleArrayOf(100.8, .2),
-                        doubleArrayOf(100.8, .8),
-                        doubleArrayOf(100.2, .8),
-                        doubleArrayOf(100.2, .2)
+                        pt(100.2, .2),
+                        pt(100.8, .2),
+                        pt(100.8, .8),
+                        pt(100.2, .8),
+                        pt(100.2, .2)
                     )
                 )
             )

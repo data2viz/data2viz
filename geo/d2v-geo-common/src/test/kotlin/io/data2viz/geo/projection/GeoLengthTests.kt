@@ -11,24 +11,24 @@ class GeoLengthTests : TestBase() {
 
     @Test
     fun geolength_point_returns_zero_LEGACY() {
-        GeoLength().result(Point(doubleArrayOf(.0, .0))) shouldBeClose .0
+        GeoLength().result(Point(pt(.0, .0))) shouldBeClose .0
     }
 
     @Test
     fun geolength_multipoint_returns_zero_LEGACY() {
-        GeoLength().result(MultiPoint(listOf(doubleArrayOf(.0, 1.0), doubleArrayOf(2.0, 3.0)))) shouldBeClose .0
+        GeoLength().result(MultiPoint(listOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
     }
 
     @Test
     fun geolength_linestring_returns_the_sum_of_its_great_arc_segments_LEGACY() {
-        GeoLength().result(LineString(listOf(doubleArrayOf(-45.0, .0), doubleArrayOf(45.0, .0)))) shouldBeClose PI / 2
+        GeoLength().result(LineString(listOf(pt(-45.0, .0), pt(45.0, .0)))) shouldBeClose PI / 2
         GeoLength().result(
             LineString(
                 listOf(
-                    doubleArrayOf(-45.0, .0),
-                    doubleArrayOf(-30.0, .0),
-                    doubleArrayOf(-15.0, .0),
-                    doubleArrayOf(.0, .0)
+                    pt(-45.0, .0),
+                    pt(-30.0, .0),
+                    pt(-15.0, .0),
+                    pt(.0, .0)
                 )
             )
         ) shouldBeClose PI / 4
@@ -39,8 +39,8 @@ class GeoLengthTests : TestBase() {
         GeoLength().result(
             MultiLineString(
                 listOf(
-                    listOf(doubleArrayOf(-45.0, .0), doubleArrayOf(-30.0, .0)),
-                    listOf(doubleArrayOf(-15.0, .0), doubleArrayOf(.0, .0))
+                    listOf(pt(-45.0, .0), pt(-30.0, .0)),
+                    listOf(pt(-15.0, .0), pt(.0, .0))
                 )
             )
         ) shouldBeClose PI / 6
@@ -52,11 +52,11 @@ class GeoLengthTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(3.0, .0),
-                        doubleArrayOf(3.0, 3.0),
-                        doubleArrayOf(.0, 3.0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(3.0, .0),
+                        pt(3.0, 3.0),
+                        pt(.0, 3.0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -69,18 +69,18 @@ class GeoLengthTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(3.0, .0),
-                        doubleArrayOf(3.0, 3.0),
-                        doubleArrayOf(.0, 3.0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(3.0, .0),
+                        pt(3.0, 3.0),
+                        pt(.0, 3.0),
+                        pt(.0, .0)
                     ),
                     listOf(
-                        doubleArrayOf(1.0, 1.0),
-                        doubleArrayOf(2.0, 1.0),
-                        doubleArrayOf(2.0, 2.0),
-                        doubleArrayOf(1.0, 2.0),
-                        doubleArrayOf(1.0, 1.0)
+                        pt(1.0, 1.0),
+                        pt(2.0, 1.0),
+                        pt(2.0, 2.0),
+                        pt(1.0, 2.0),
+                        pt(1.0, 1.0)
                     )
                 )
             )
@@ -94,11 +94,11 @@ class GeoLengthTests : TestBase() {
                 listOf(
                     listOf(
                         listOf(
-                            doubleArrayOf(.0, .0),
-                            doubleArrayOf(3.0, .0),
-                            doubleArrayOf(3.0, 3.0),
-                            doubleArrayOf(.0, 3.0),
-                            doubleArrayOf(.0, .0)
+                            pt(.0, .0),
+                            pt(3.0, .0),
+                            pt(3.0, 3.0),
+                            pt(.0, 3.0),
+                            pt(.0, .0)
                         )
                     )
                 )
@@ -110,19 +110,19 @@ class GeoLengthTests : TestBase() {
                 listOf(
                     listOf(
                         listOf(
-                            doubleArrayOf(.0, .0),
-                            doubleArrayOf(3.0, .0),
-                            doubleArrayOf(3.0, 3.0),
-                            doubleArrayOf(.0, 3.0),
-                            doubleArrayOf(.0, .0)
+                            pt(.0, .0),
+                            pt(3.0, .0),
+                            pt(3.0, 3.0),
+                            pt(.0, 3.0),
+                            pt(.0, .0)
                         )
                     ), listOf(
                         listOf(
-                            doubleArrayOf(1.0, 1.0),
-                            doubleArrayOf(2.0, 1.0),
-                            doubleArrayOf(2.0, 2.0),
-                            doubleArrayOf(1.0, 2.0),
-                            doubleArrayOf(1.0, 1.0)
+                            pt(1.0, 1.0),
+                            pt(2.0, 1.0),
+                            pt(2.0, 2.0),
+                            pt(1.0, 2.0),
+                            pt(1.0, 1.0)
                         )
                     )
                 )
@@ -137,14 +137,14 @@ class GeoLengthTests : TestBase() {
                 listOf(
                     LineString(
                         listOf(
-                            doubleArrayOf(-45.0, .0),
-                            doubleArrayOf(.0, .0)
+                            pt(-45.0, .0),
+                            pt(.0, .0)
                         )
                     ),
                     LineString(
                         listOf(
-                            doubleArrayOf(.0, .0),
-                            doubleArrayOf(45.0, .0)
+                            pt(.0, .0),
+                            pt(45.0, .0)
                         )
                     )
                 )
@@ -159,14 +159,14 @@ class GeoLengthTests : TestBase() {
                 listOf(
                     LineString(
                         listOf(
-                            doubleArrayOf(-45.0, .0),
-                            doubleArrayOf(.0, .0)
+                            pt(-45.0, .0),
+                            pt(.0, .0)
                         )
                     ),
                     LineString(
                         listOf(
-                            doubleArrayOf(.0, .0),
-                            doubleArrayOf(45.0, .0)
+                            pt(.0, .0),
+                            pt(45.0, .0)
                         )
                     )
                 )

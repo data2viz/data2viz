@@ -12,12 +12,12 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_a_point_LEGACY() {
-        GeoArea().result(Point(doubleArrayOf(.0, .0))) shouldBe .0
+        GeoArea().result(Point(pt(.0, .0))) shouldBe .0
     }
 
     @Test
     fun geoarea_of_a_multipoint_LEGACY() {
-        GeoArea().result(MultiPoint(listOf(doubleArrayOf(.0, 1.0), doubleArrayOf(2.0, 3.0)))) shouldBe .0
+        GeoArea().result(MultiPoint(listOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBe .0
     }
 
     @Test
@@ -26,10 +26,10 @@ class GeoAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(-64.66070178517852, 18.33986913231323),
-                        doubleArrayOf(-64.66079715091509, 18.33994007490749),
-                        doubleArrayOf(-64.66074946804680, 18.33994007490749),
-                        doubleArrayOf(-64.66070178517852, 18.33986913231323)
+                        pt(-64.66070178517852, 18.33986913231323),
+                        pt(-64.66079715091509, 18.33994007490749),
+                        pt(-64.66074946804680, 18.33994007490749),
+                        pt(-64.66070178517852, 18.33986913231323)
                     )
                 )
             )
@@ -44,11 +44,11 @@ class GeoAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(96.79142432523281, 5.262704519048153),
-                        doubleArrayOf(96.81065389253769, 5.272455576551362),
-                        doubleArrayOf(96.82988345984256, 5.272455576551362),
-                        doubleArrayOf(96.81065389253769, 5.272455576551362),
-                        doubleArrayOf(96.79142432523281, 5.262704519048153)
+                        pt(96.79142432523281, 5.262704519048153),
+                        pt(96.81065389253769, 5.272455576551362),
+                        pt(96.82988345984256, 5.272455576551362),
+                        pt(96.81065389253769, 5.272455576551362),
+                        pt(96.79142432523281, 5.262704519048153)
                     )
                 )
             )
@@ -61,10 +61,10 @@ class GeoAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(.0, 90.0),
-                        doubleArrayOf(90.0, .0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(.0, 90.0),
+                        pt(90.0, .0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -77,11 +77,11 @@ class GeoAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(.0, 90.0),
-                        doubleArrayOf(90.0, .0),
-                        doubleArrayOf(.0, -90.0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(.0, 90.0),
+                        pt(90.0, .0),
+                        pt(.0, -90.0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -94,11 +94,11 @@ class GeoAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(-90.0, .0),
-                        doubleArrayOf(180.0, .0),
-                        doubleArrayOf(90.0, .0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(-90.0, .0),
+                        pt(180.0, .0),
+                        pt(90.0, .0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -111,11 +111,11 @@ class GeoAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(90.0, .0),
-                        doubleArrayOf(180.0, .0),
-                        doubleArrayOf(-90.0, .0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(90.0, .0),
+                        pt(180.0, .0),
+                        pt(-90.0, .0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -128,11 +128,11 @@ class GeoAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(.0, 90.0),
-                        doubleArrayOf(180.0, .0),
-                        doubleArrayOf(.0, -90.0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(.0, 90.0),
+                        pt(180.0, .0),
+                        pt(.0, -90.0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -145,11 +145,11 @@ class GeoAreaTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(.0, -90.0),
-                        doubleArrayOf(180.0, .0),
-                        doubleArrayOf(.0, 90.0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(.0, -90.0),
+                        pt(180.0, .0),
+                        pt(.0, 90.0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -163,20 +163,20 @@ class GeoAreaTests : TestBase() {
                 listOf(
                     listOf(
                         listOf(
-                            doubleArrayOf(.0, .0),
-                            doubleArrayOf(-90.0, .0),
-                            doubleArrayOf(180.0, .0),
-                            doubleArrayOf(90.0, .0),
-                            doubleArrayOf(.0, .0)
+                            pt(.0, .0),
+                            pt(-90.0, .0),
+                            pt(180.0, .0),
+                            pt(90.0, .0),
+                            pt(.0, .0)
                         )
                     ),
                     listOf(
                         listOf(
-                            doubleArrayOf(.0, .0),
-                            doubleArrayOf(90.0, .0),
-                            doubleArrayOf(180.0, .0),
-                            doubleArrayOf(-90.0, .0),
-                            doubleArrayOf(.0, .0)
+                            pt(.0, .0),
+                            pt(90.0, .0),
+                            pt(180.0, .0),
+                            pt(-90.0, .0),
+                            pt(.0, .0)
                         )
                     )
                 )
@@ -197,11 +197,11 @@ class GeoAreaTests : TestBase() {
                     Polygon(
                         listOf(
                             listOf(
-                                doubleArrayOf(.0, .0),
-                                doubleArrayOf(.0, -90.0),
-                                doubleArrayOf(180.0, .0),
-                                doubleArrayOf(.0, 90.0),
-                                doubleArrayOf(.0, .0)
+                                pt(.0, .0),
+                                pt(.0, -90.0),
+                                pt(180.0, .0),
+                                pt(.0, 90.0),
+                                pt(.0, .0)
                             )
                         )
                     )
@@ -222,13 +222,13 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_linestring_LEGACY() {
-        GeoArea().result(LineString(listOf(doubleArrayOf(.0, 1.0), doubleArrayOf(2.0, 3.0)))) shouldBe .0
+        GeoArea().result(LineString(listOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBe .0
     }
 
     @Test
     fun geoarea_of_multilinestring_LEGACY() {
-        GeoArea().result(MultiLineString(listOf(listOf(doubleArrayOf(.0, 1.0), doubleArrayOf(2.0, 3.0)),
-            listOf(doubleArrayOf(4.0, 5.0), doubleArrayOf(6.0, 7.0))))) shouldBe .0
+        GeoArea().result(MultiLineString(listOf(listOf(pt(.0, 1.0), pt(2.0, 3.0)),
+            listOf(pt(4.0, 5.0), pt(6.0, 7.0))))) shouldBe .0
     }
 
     /*

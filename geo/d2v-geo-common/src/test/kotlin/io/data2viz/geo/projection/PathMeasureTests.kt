@@ -17,7 +17,7 @@ class PathMeasureTests : TestBase() {
     @Test
     fun geopath_measure_of_a_point_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
-        geoPath.measure(Point(doubleArrayOf(.0, .0))) shouldBe .0
+        geoPath.measure(Point(pt(.0, .0))) shouldBe .0
     }
 
     @Test
@@ -26,10 +26,10 @@ class PathMeasureTests : TestBase() {
         geoPath.measure(
             MultiPoint(
                 listOf(
-                    doubleArrayOf(.0, .0),
-                    doubleArrayOf(.0, 1.0),
-                    doubleArrayOf(1.0, 1.0),
-                    doubleArrayOf(1.0, .0)
+                    pt(.0, .0),
+                    pt(.0, 1.0),
+                    pt(1.0, 1.0),
+                    pt(1.0, .0)
                 )
             )
         ) shouldBe .0
@@ -41,10 +41,10 @@ class PathMeasureTests : TestBase() {
         geoPath.measure(
             LineString(
                 listOf(
-                    doubleArrayOf(.0, .0),
-                    doubleArrayOf(.0, 1.0),
-                    doubleArrayOf(1.0, 1.0),
-                    doubleArrayOf(1.0, .0)
+                    pt(.0, .0),
+                    pt(.0, 1.0),
+                    pt(1.0, 1.0),
+                    pt(1.0, .0)
                 )
             )
         ) shouldBe 3.0
@@ -57,10 +57,10 @@ class PathMeasureTests : TestBase() {
             MultiLineString(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(.0, 1.0),
-                        doubleArrayOf(1.0, 1.0),
-                        doubleArrayOf(1.0, .0)
+                        pt(.0, .0),
+                        pt(.0, 1.0),
+                        pt(1.0, 1.0),
+                        pt(1.0, .0)
                     )
                 )
             )
@@ -74,11 +74,11 @@ class PathMeasureTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(.0, 1.0),
-                        doubleArrayOf(1.0, 1.0),
-                        doubleArrayOf(1.0, .0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(.0, 1.0),
+                        pt(1.0, 1.0),
+                        pt(1.0, .0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -92,18 +92,18 @@ class PathMeasureTests : TestBase() {
             Polygon(
                 listOf(
                     listOf(
-                        doubleArrayOf(-1.0, -1.0),
-                        doubleArrayOf(-1.0, 2.0),
-                        doubleArrayOf(2.0, 2.0),
-                        doubleArrayOf(2.0, -1.0),
-                        doubleArrayOf(-1.0, -1.0)
+                        pt(-1.0, -1.0),
+                        pt(-1.0, 2.0),
+                        pt(2.0, 2.0),
+                        pt(2.0, -1.0),
+                        pt(-1.0, -1.0)
                     ),
                     listOf(
-                        doubleArrayOf(.0, .0),
-                        doubleArrayOf(1.0, .0),
-                        doubleArrayOf(1.0, 1.0),
-                        doubleArrayOf(.0, 1.0),
-                        doubleArrayOf(.0, .0)
+                        pt(.0, .0),
+                        pt(1.0, .0),
+                        pt(1.0, 1.0),
+                        pt(.0, 1.0),
+                        pt(.0, .0)
                     )
                 )
             )
@@ -118,20 +118,20 @@ class PathMeasureTests : TestBase() {
                 listOf(
                     listOf(
                         listOf(
-                            doubleArrayOf(-1.0, -1.0),
-                            doubleArrayOf(-1.0, 2.0),
-                            doubleArrayOf(2.0, 2.0),
-                            doubleArrayOf(2.0, -1.0),
-                            doubleArrayOf(-1.0, -1.0)
+                            pt(-1.0, -1.0),
+                            pt(-1.0, 2.0),
+                            pt(2.0, 2.0),
+                            pt(2.0, -1.0),
+                            pt(-1.0, -1.0)
                         )
                     ),
                     listOf(
                         listOf(
-                            doubleArrayOf(.0, .0),
-                            doubleArrayOf(1.0, .0),
-                            doubleArrayOf(1.0, 1.0),
-                            doubleArrayOf(.0, 1.0),
-                            doubleArrayOf(.0, .0)
+                            pt(.0, .0),
+                            pt(1.0, .0),
+                            pt(1.0, 1.0),
+                            pt(.0, 1.0),
+                            pt(.0, .0)
                         )
                     )
                 )
