@@ -11,12 +11,11 @@ module.exports = function (config) {
             colors: true,
             autoWatch: false,
             browsers: [
-                'PhantomJS'
-                // , 'Chrome'
+                'Chrome'
             ],
             captureTimeout: 5000,
-            singleRun: true,
-        // singleRun: false,
+            // singleRun: true,
+        singleRun: false,
             reportSlowerThan: 500,
 
             preprocessors: {

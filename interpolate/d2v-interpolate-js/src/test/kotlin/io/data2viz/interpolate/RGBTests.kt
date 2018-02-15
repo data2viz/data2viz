@@ -100,25 +100,48 @@ class RGBTests : TestBase() {
      */
     @Test
     fun rgbSplineInterpolationColorbrewSpline() {
-        val iterator = interpolateRgbBasis(arrayListOf(Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
+        val iterator = interpolateRgbBasis(
+            arrayListOf(
+                Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
                 Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
-                Color(0x4d9221), Color(0x276419)))
-        displaySmallGradient("rgbSplineInterpolationColorbrewSpline", iterator, 880, imageReference = "http://data2viz.io/img/colorbrewSpline.png")
+                Color(0x4d9221), Color(0x276419)
+            )
+        )
+        displaySmallGradient(
+            "rgbSplineInterpolationColorbrewSpline",
+            iterator,
+            880,
+            imageReference = "http://data2viz.io/img/colorbrewSpline.png"
+        )
     }
 
 
     @Test
     fun rgbCyclicalSplineInterpolationColorbrewSpline() {
-        val iterator = interpolateRgbBasis(arrayListOf(Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
+        val iterator = interpolateRgbBasis(
+            arrayListOf(
+                Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
                 Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
-                Color(0x4d9221), Color(0x276419)), cyclical = true)
-        displaySmallGradient("rgbCyclicalSplineInterpolationColorbrewSpline", iterator, 880, imageReference = "http://data2viz.io/img/colorbrewSplineClosed.png")
+                Color(0x4d9221), Color(0x276419)
+            ), cyclical = true
+        )
+        displaySmallGradient(
+            "rgbCyclicalSplineInterpolationColorbrewSpline",
+            iterator,
+            880,
+            imageReference = "http://data2viz.io/img/colorbrewSplineClosed.png"
+        )
     }
 
     @Test
     fun rgbLinearInterpolatio_800080_ffa200() {
         val iterator = interpolateRgb(Color(0x800080), Color(0xffa200))
-        displaySmallGradient("rgbLinearInterpolatio_800080_ffa200", iterator, 888, imageReference = "http://data2viz.io/img/rgb.png")
+        displaySmallGradient(
+            "rgbLinearInterpolatio_800080_ffa200",
+            iterator,
+            888,
+            imageReference = "http://data2viz.io/img/rgb.png"
+        )
     }
 
     /**
@@ -127,13 +150,25 @@ class RGBTests : TestBase() {
     @Test
     fun rgbLinearInterpolation_800080_ffa200_corrected_gamma_2_2() {
         val iterator = interpolateRgb(Color(0x800080), Color(0xffa200), 2.2)
-        displaySmallGradient("rgbLinearInterpolation_800080_ffa200_corrected_gamma_2_2", iterator, 888, imageReference = "http://data2viz.io/img/rgbGamma.png")
+        displaySmallGradient(
+            "rgbLinearInterpolation_800080_ffa200_corrected_gamma_2_2",
+            iterator,
+            888,
+            imageReference = "http://data2viz.io/img/rgbGamma.png"
+        )
     }
 }
 
-fun displaySmallGradient(context: String, percentToColor: (Float) -> Color, width: Int = 256, imageReference: String? = null) {
-    h2(context)
-    document.body?.appendChild(
+fun displaySmallGradient(
+    context: String,
+    percentToColor: (Float) -> Color,
+    width: Int = 256,
+    imageReference: String? = null
+) {
+    if (browserEnabled) {
+
+        h2(context)
+        document.body?.appendChild(
             node("svg").apply {
                 setAttribute("width", "$width")
                 setAttribute("height", "20")
@@ -141,28 +176,30 @@ fun displaySmallGradient(context: String, percentToColor: (Float) -> Color, widt
                 setAttribute("y", "0")
                 (0 until width).forEach { index ->
                     appendChild(
-                            node("rect").apply {
-                                setAttribute("fill", percentToColor(index / (width).toFloat()).rgbHex)
-                                setAttribute("x", "$index")
-                                setAttribute("y", "0")
-                                setAttribute("width", "1")
-                                setAttribute("height", "20")
-                            }
+                        node("rect").apply {
+                            setAttribute("fill", percentToColor(index / (width).toFloat()).rgbHex)
+                            setAttribute("x", "$index")
+                            setAttribute("y", "0")
+                            setAttribute("width", "1")
+                            setAttribute("height", "20")
+                        }
                     )
                 }
             }
-    )
-    if (imageReference != null) {
-        val div = document.createElement("div")
-        div.appendChild(
+        )
+        if (imageReference != null) {
+            val div = document.createElement("div")
+            div.appendChild(
                 document.createElement("img").apply {
                     setAttribute("src", imageReference)
                     setAttribute("height", "20")
                     setAttribute("width", "$width")
                 }
-        )
-        document.body?.appendChild(div)
+            )
+            document.body?.appendChild(div)
+        }
     }
+
 }
 
 fun node(name: String) = document.createElementNS(namespace.svg, name)

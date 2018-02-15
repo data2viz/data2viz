@@ -10,11 +10,10 @@
     "karma-qunit": "^1.2.1",
     "mocha": "^3.5.0",
     "qunit": "^1.0.0",
-    "watchify": "^3.9.0",
-    "webpack": "^3.4.1"
+    "source-map-support": "0.5.3"
   },
   "scripts": {
-    "test": "karma start",
-    "bundle": "webpack"
+    "test": "mocha build/classes/test/*test.js --require=source-map-support/register",
+    "karma": "karma start"
   }
 }

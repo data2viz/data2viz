@@ -48,14 +48,27 @@ class HSLTests : TestBase() {
     @Test
     fun hslLongLinearInterpol() {
         val iterator = interpolateHslLong(HSL(38.deg, 1.0, .5), HSL(300.deg, 1.0, .25))
-        displaySmallGradient("HSL Long Reverse", iterator, 888, imageReference = "http://data2viz.io/img/hslLongReverse.png")
+        displaySmallGradient(
+            "HSL Long Reverse",
+            iterator,
+            888,
+            imageReference = "http://data2viz.io/img/hslLongReverse.png"
+        )
         iterator(0.5).toRgba().rgbHex shouldBe Color(0x00bf9c).rgbHex
     }
 
-    fun displaySmallGradient(context: String, percentToColor: (Double) -> HSL, width: Int = 256, imageReference: String? = null) {
+    fun displaySmallGradient(
+        context: String,
+        percentToColor: (Double) -> HSL,
+        width: Int = 256,
+        imageReference: String? = null
+    ) {
 
-        h2(context)
-        document.body?.appendChild(
+        if (browserEnabled) {
+
+
+            h2(context)
+            document.body?.appendChild(
                 nodeSVG("svg").apply {
                     setAttribute("width", "$width")
                     setAttribute("height", "20")
@@ -63,28 +76,30 @@ class HSLTests : TestBase() {
                     setAttribute("y", "0")
                     (0 until width).forEach { index ->
                         appendChild(
-                                nodeSVG("rect").apply {
-                                    setAttribute("fill", percentToColor(index / width.toDouble()).toRgba().rgbHex)
-                                    setAttribute("x", "$index")
-                                    setAttribute("y", "0")
-                                    setAttribute("width", "1")
-                                    setAttribute("height", "20")
-                                }
+                            nodeSVG("rect").apply {
+                                setAttribute("fill", percentToColor(index / width.toDouble()).toRgba().rgbHex)
+                                setAttribute("x", "$index")
+                                setAttribute("y", "0")
+                                setAttribute("width", "1")
+                                setAttribute("height", "20")
+                            }
                         )
                     }
                 }
-        )
-        if (imageReference != null) {
-            val div = document.createElement("div")
-            div.appendChild(
+            )
+            if (imageReference != null) {
+                val div = document.createElement("div")
+                div.appendChild(
                     document.createElement("img").apply {
                         setAttribute("src", imageReference)
                         setAttribute("height", "20")
                         setAttribute("width", "$width")
                     }
-            )
-            document.body?.appendChild(div)
+                )
+                document.body?.appendChild(div)
+            }
         }
+
     }
 
     fun nodeSVG(name: String) = document.createElementNS(namespace.svg, name)

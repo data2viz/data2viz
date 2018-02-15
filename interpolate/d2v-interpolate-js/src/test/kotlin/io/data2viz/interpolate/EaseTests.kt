@@ -6,6 +6,9 @@ import kotlin.browser.document
 import kotlin.dom.appendText
 import kotlin.test.Test
 
+
+val browserEnabled:Boolean = js("typeof document !== 'undefined'") as Boolean
+
 class EaseTests : TestBase() {
 
     @Test fun testQuad() { testAndGraph("quad", ::quad) }
@@ -23,28 +26,30 @@ class EaseTests : TestBase() {
         interpolateFunction(0.0) shouldBe (.0 plusOrMinus 0.01)
         interpolateFunction(1.0) shouldBe (1.0 plusOrMinus 0.01)
 
-        h2(interpolatorName)
-        document.body?.appendChild(
+        if(browserEnabled) {
+
+            h2(interpolatorName)
+            document.body?.appendChild(
                 document.createElementNS(namespace.svg, "svg").apply {
                     setAttribute("width", "100")
                     setAttribute("height", "100")
 
                     appendChild(
-                            document.createElementNS(namespace.svg, "path").apply {
-                                setAttribute("stroke", "black")
-                                setAttribute("fill", "transparent")
-                                val path = (0..100).map {
-                                    val x = it
-                                    val y = 100 - interpolateFunction(it.toDouble() / 100) * 100
-                                    "L $x $y"
-                                }.joinToString(separator = " ")
-                                setAttribute("d", "M 0 100 " + path)
-                            }
+                        document.createElementNS(namespace.svg, "path").apply {
+                            setAttribute("stroke", "black")
+                            setAttribute("fill", "transparent")
+                            val path = (0..100).map {
+                                val x = it
+                                val y = 100 - interpolateFunction(it.toDouble() / 100) * 100
+                                "L $x $y"
+                            }.joinToString(separator = " ")
+                            setAttribute("d", "M 0 100 " + path)
+                        }
                     )
                 }
 
-        )
-
+            )
+        }
     }
 
 }
