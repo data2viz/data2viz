@@ -14,7 +14,7 @@ module.exports = function (config) {
                 'PhantomJS'
                 // , 'Chrome'
             ],
-            captureTimeout: 50000,
+            captureTimeout: 10000,
             singleRun: true,
         // singleRun: false,
             reportSlowerThan: 500,

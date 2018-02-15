@@ -1,10 +1,7 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.*
-import io.data2viz.geo.path.geoPath
-import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
-import kotlin.math.PI
 import kotlin.test.Test
 
 class GraticuleTests : TestBase() {
