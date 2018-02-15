@@ -11,42 +11,73 @@ import kotlin.math.floor
 import kotlin.test.Ignore
 import kotlin.test.Test
 
+val browserEnabled:Boolean = js("typeof document !== 'undefined'") as Boolean
+
 class RandomTests : TestBase() {
-
-
+    
     val max = 1
     val min = 0
     val nbPoints = 60000
 
-
     @Test
     fun uniformRandomDistribution_0_1() {
         val randomFunction = randomUniform(min, max)
-        testAndGraphAndCheckMinMaxValues("uniformRandomDistribution_0_1", randomFunction, nbPoints, min, max) shouldBe true
+        testAndGraphAndCheckMinMaxValues(
+            "uniformRandomDistribution_0_1",
+            randomFunction,
+            nbPoints,
+            min,
+            max
+        ) shouldBe true
     }
 
     @Test
     fun normalRandomDistribution_mu05_sigma0_1() {
         val randomFunction = randomNormal(max / 2.0, max / 10.0)
-        testAndGraphAndCheckMinMaxValues("normalRandomDistribution_mu05_sigma0_1", randomFunction, nbPoints, min, max) shouldBe true
+        testAndGraphAndCheckMinMaxValues(
+            "normalRandomDistribution_mu05_sigma0_1",
+            randomFunction,
+            nbPoints,
+            min,
+            max
+        ) shouldBe true
     }
 
     @Test
     fun logNormalRandomDistribuitonMu_1_sigma_0_2() {
         val randomFunction = { randomLogNormal(1, .2)() / 10.0 }
-        testAndGraphAndCheckMinMaxValues("logNormalRandomDistribuitonMu_1_sigma_0_2", randomFunction, nbPoints, min, max) shouldBe true
+        testAndGraphAndCheckMinMaxValues(
+            "logNormalRandomDistribuitonMu_1_sigma_0_2",
+            randomFunction,
+            nbPoints,
+            min,
+            max
+        ) shouldBe true
     }
 
-    @Test @Ignore
+    @Test
+    @Ignore
     fun exponentialRandomDistributionLambda_1_4() {
         val randomFunction = { randomExponential(1.4)() / 10.0 }
-        testAndGraphAndCheckMinMaxValues("exponentialRandomDistributionLambda_1_4", randomFunction, nbPoints, min, max) shouldBe true
+        testAndGraphAndCheckMinMaxValues(
+            "exponentialRandomDistributionLambda_1_4",
+            randomFunction,
+            nbPoints,
+            min,
+            max
+        ) shouldBe true
     }
 
     @Test
     fun exponential_random_distribution_lambda_3() {
         val randomFunction = { randomExponential(3)() / 10.0 }
-        testAndGraphAndCheckMinMaxValues("exponential_random_distribution_lambda_3", randomFunction, nbPoints, min, max) shouldBe true
+        testAndGraphAndCheckMinMaxValues(
+            "exponential_random_distribution_lambda_3",
+            randomFunction,
+            nbPoints,
+            min,
+            max
+        ) shouldBe true
     }
 
     @Test
@@ -59,23 +90,47 @@ class RandomTests : TestBase() {
     @Test
     fun bates_20_random_distribution() {
         val randomFunction = randomBates(20)
-        testAndGraphAndCheckMinMaxValues("bates_20_random_distribution", randomFunction, nbPoints, min, max) shouldBe true
+        testAndGraphAndCheckMinMaxValues(
+            "bates_20_random_distribution",
+            randomFunction,
+            nbPoints,
+            min,
+            max
+        ) shouldBe true
     }
 
     @Test
     fun irwinHall_4_random_distribution() {
         val randomFunction = { randomIrwinHall(4)() / 4.0 }
-        testAndGraphAndCheckMinMaxValues("irwinHall_4_random_distribution", randomFunction, nbPoints, min, max) shouldBe true
+        testAndGraphAndCheckMinMaxValues(
+            "irwinHall_4_random_distribution",
+            randomFunction,
+            nbPoints,
+            min,
+            max
+        ) shouldBe true
     }
 
     @Test
     fun irwinHall_20_random_distribution() {
         val randomFunction = { randomIrwinHall(20)() / 20.0 }
-        testAndGraphAndCheckMinMaxValues("irwinHall_20_random_distribution", randomFunction, nbPoints, min, max) shouldBe true
+        testAndGraphAndCheckMinMaxValues(
+            "irwinHall_20_random_distribution",
+            randomFunction,
+            nbPoints,
+            min,
+            max
+        ) shouldBe true
     }
 }
 
-private fun testAndGraphAndCheckMinMaxValues(context: String, randomFunction: () -> Double, loops: Int, min: Int, max: Int): Boolean {
+private fun testAndGraphAndCheckMinMaxValues(
+    context: String,
+    randomFunction: () -> Double,
+    loops: Int,
+    min: Int,
+    max: Int
+): Boolean {
     var check = true
     val resultsXY: ArrayList<Double> = arrayListOf()
 
@@ -85,16 +140,16 @@ private fun testAndGraphAndCheckMinMaxValues(context: String, randomFunction: ()
         check = check && x >= min && x < max
     }
 
-    val groupedResults = resultsXY.map { value -> floor(value * 100) }.sorted().groupBy { it }
-    val maxResultsFound = groupedResults.values.map { it.size }.max()!!.toDouble()
-
-    h2(context)
-    document.body?.appendChild((
-            document.createElementNS(namespace.svg, "svg").apply {
-                setAttribute("width", "800")
-                setAttribute("height", "100")
-                groupedResults.forEach { entry ->
-                    appendChild(
+    if (browserEnabled) {
+        val groupedResults = resultsXY.map { value -> floor(value * 100) }.sorted().groupBy { it }
+        val maxResultsFound = groupedResults.values.map { it.size }.max()!!.toDouble()
+        h2(context)
+        document.body?.appendChild((
+                document.createElementNS(namespace.svg, "svg").apply {
+                    setAttribute("width", "800")
+                    setAttribute("height", "100")
+                    groupedResults.forEach { entry ->
+                        appendChild(
                             document.createElementNS(namespace.svg, "rect").apply {
                                 val height = entry.value.size / maxResultsFound * 100.0
                                 setAttribute("x", "${entry.key * 8}")
@@ -104,10 +159,14 @@ private fun testAndGraphAndCheckMinMaxValues(context: String, randomFunction: ()
                                 setAttribute("fill", colors.lightblue.rgbHex)
                             }
 
-                    )
+                        )
+                    }
                 }
-            }
-            ))
+                ))
+
+    }
+
+
 
     return check
 }
