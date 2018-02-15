@@ -3,4 +3,4 @@ dependencies {
     testCompile project(":d2v-format-common")
     testCompile project(":d2v-format-js")
 }
-project.jsTests()
+apply from: rootProject.file('gradle/test-js.gradle')

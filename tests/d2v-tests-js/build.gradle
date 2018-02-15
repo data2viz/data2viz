@@ -4,4 +4,4 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
-project.jsTests()
+apply from: rootProject.file('gradle/test-js.gradle')

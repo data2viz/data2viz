@@ -4,4 +4,4 @@ dependencies {
     compile project(":d2v-core-js")
 }
 
-project.jsTests()
+apply from: rootProject.file('gradle/test-js.gradle')
