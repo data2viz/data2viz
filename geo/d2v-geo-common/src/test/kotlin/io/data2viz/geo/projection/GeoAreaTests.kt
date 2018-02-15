@@ -5,6 +5,7 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class GeoAreaTests : TestBase() {
@@ -36,10 +37,9 @@ class GeoAreaTests : TestBase() {
     }
 
 
-    // TODO : pass in JVM not JS !!
-    /*@Test
+    @Test
     fun geoarea_of_a_zero_area_polygon_LEGACY() {
-        GeoArea().result(
+        val area = GeoArea().result(
             Polygon(
                 listOf(
                     listOf(
@@ -51,8 +51,9 @@ class GeoAreaTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe .0
-    }*/
+        )
+        area shouldBe (.0 plusOrMinus 1e-19) // .0 on JVM not on JS
+    }
 
     @Test
     fun geoarea_of_a_semilune_polygon_LEGACY() {
