@@ -5,11 +5,12 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class PathAreaTests : TestBase() {
 
-    val equirectangular = io.data2viz.geo.projection.equirectangular() {
+    val equirectangular = io.data2viz.geo.projection.equirectangular {
         scale = 900.0 / PI
         precision = .0
     }
@@ -57,14 +58,10 @@ class PathAreaTests : TestBase() {
         ) shouldBe 16.0
     }
 
-    /*
-
-tape("geoPath.area(…) of a sphere", function(test) {
-  test.equal(testArea(equirectangular, {
-    type: "Sphere",
-  }), 1620000);
-  test.end();
-});;
-});
-     */
+    // TODO : when clipping will be OK activate this one
+    @Test @Ignore
+    fun geopath_area_of_a_sphere_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
+        geoPath.area(Sphere()) shouldBe 1620000.0
+    }
 }

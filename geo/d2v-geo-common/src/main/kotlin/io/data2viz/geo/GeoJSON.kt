@@ -9,7 +9,7 @@ interface Geometry<out T> : GeoJSON {
 // TODO check sphere as D3 also considers it a "geometry"
 class Sphere() : GeoJSON
 
-data class Feature(val geometry: Geometry<*>) : GeoJSON
+data class Feature(val geometry: GeoJSON) : GeoJSON
 data class FeatureCollection(val features: List<GeoJSON>) : GeoJSON
 data class GeometryCollection(val geometries: List<Geometry<*>>) : GeoJSON
 data class Point(override val coordinates: DoubleArray) : Geometry<DoubleArray>

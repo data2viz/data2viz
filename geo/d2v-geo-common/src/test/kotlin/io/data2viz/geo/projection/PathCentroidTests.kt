@@ -5,6 +5,7 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class PathCentroidTests : TestBase() {
@@ -291,32 +292,39 @@ class PathCentroidTests : TestBase() {
         )) shouldBe doubleArrayOf(-417.5, 247.5)
     }
 
-    /*
-tape("geoPath.centroid(…) of a feature collection with a point", function(test) {
-  test.deepEqual(testCentroid(equirectangular, {type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Point", coordinates: [0, 0]}}]}), [480, 250]);
-  test.end();
-});
+    @Test
+    fun geopath_centroid_of_a_featureCollection_with_point_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
 
-tape("geoPath.centroid(…) of a feature collection with a point and a line string", function(test) {
-  test.deepEqual(testCentroid(equirectangular, {type: "FeatureCollection", features: [
-    {type: "Feature", geometry: {type: "LineString", coordinates: [[179, 0], [180, 0]]}},
-    {type: "Feature", geometry: {type: "Point", coordinates: [0, 0]}}
-  ]}), [1377.5, 250]);
-  test.end();
-});
+        geoPath.centroid(FeatureCollection(listOf(Feature(Point(doubleArrayOf(.0, .0)))))) shouldBe doubleArrayOf(480.0, 250.0)
+    }
 
-tape("geoPath.centroid(…) of a feature collection with a point, line string and polygon", function(test) {
-  test.deepEqual(testCentroid(equirectangular, {type: "FeatureCollection", features: [
-    {type: "Feature", geometry: {type: "Polygon", coordinates: [[[-180, 0], [-180, 1], [-179, 1], [-179, 0], [-180, 0]]]}},
-    {type: "Feature", geometry: {type: "LineString", coordinates: [[179, 0], [180, 0]]}},
-    {type: "Feature", geometry: {type: "Point", coordinates: [0, 0]}}
-  ]}), [-417.5, 247.5]);
-  test.end();
-});
+    @Test
+    fun geopath_centroid_of_a_FeatureCollection_with_point_and_lineString_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
 
-tape("geoPath.centroid(…) of a sphere", function(test) {
-  test.deepEqual(testCentroid(equirectangular, {type: "Sphere"}), [480, 250]);
-  test.end();
-});
-     */
+        geoPath.centroid(FeatureCollection(listOf(
+            Feature(LineString(listOf(doubleArrayOf(179.0, .0), doubleArrayOf(180.0, .0)))),
+            Feature(Point(doubleArrayOf(.0, .0))))
+        )) shouldBe doubleArrayOf(1377.5, 250.0)
+    }
+
+    @Test
+    fun geopath_centroid_of_a_FeatureCollection_with_point_and_lineString_and_polygon_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
+
+        geoPath.centroid(FeatureCollection(listOf(
+            Feature(Polygon(listOf(listOf(doubleArrayOf(-180.0, .0), doubleArrayOf(-180.0, 1.0), doubleArrayOf(-179.0, 1.0), doubleArrayOf(-179.0, .0), doubleArrayOf(-180.0, .0))))),
+            Feature(LineString(listOf(doubleArrayOf(179.0, .0), doubleArrayOf(180.0, .0)))),
+            Feature(Point(doubleArrayOf(.0, .0))))
+        )) shouldBe doubleArrayOf(-417.5, 247.5)
+    }
+
+    // TODO : when clipping will be OK activate this one
+    @Test @Ignore
+    fun geopath_centroid_of_a_sphere_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
+
+        geoPath.centroid(Sphere()) shouldBe doubleArrayOf(480.0, 250.0)
+    }
 }

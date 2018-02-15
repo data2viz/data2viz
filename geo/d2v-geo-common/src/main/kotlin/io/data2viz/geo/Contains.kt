@@ -8,7 +8,6 @@ fun contains(geo: GeoJSON, point: DoubleArray): Boolean {
     return containsGeometry(geo, point)
 }
 
-// TODO add GeometryCollection
 private fun containsGeometry(geo: GeoJSON, point: DoubleArray): Boolean {
     when (geo) {
         is Point -> return containsPoint(geo.coordinates, point)
@@ -27,6 +26,15 @@ private fun containsGeometry(geo: GeoJSON, point: DoubleArray): Boolean {
             return false
         }
         is Sphere -> return true
+        is GeometryCollection -> {
+            geo.geometries.forEach { if (containsGeometry(it, point)) return true }
+            return false
+        }
+        is FeatureCollection -> {
+            geo.features.forEach { if (containsGeometry(it, point)) return true }
+            return false
+        }
+        is Feature -> return containsGeometry(geo.geometry, point)
         else -> return false
     }
 }

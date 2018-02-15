@@ -31,30 +31,21 @@ class ContainsTests : TestBase() {
 
     @Test
     fun a_multipoint_contains_any_of_its_points_LEGACY() {
-        contains(
-            MultiPoint(listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0))),
-            doubleArrayOf(.0, .0)
-        ) shouldBe true
-        contains(
-            MultiPoint(listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0))),
-            doubleArrayOf(1.0, 2.0)
-        ) shouldBe true
-        contains(
-            MultiPoint(listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0))),
-            doubleArrayOf(1.0, 3.0)
-        ) shouldBe false
+        val multiPoint = MultiPoint(listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0)))
+
+        contains(multiPoint, doubleArrayOf(.0, .0)) shouldBe true
+        contains(multiPoint, doubleArrayOf(1.0, 2.0)) shouldBe true
+        contains(multiPoint, doubleArrayOf(1.0, 3.0)) shouldBe false
     }
 
     @Test
     fun a_linestring_contains_any_point_on_the_great_circle_path_LEGACY() {
-        contains(
-            LineString(listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0))),
-            doubleArrayOf(.0, .0)
-        ) shouldBe true
-        contains(
-            LineString(listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0))),
-            doubleArrayOf(1.0, 2.0)
-        ) shouldBe true
+        val lineString = LineString(listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0)))
+
+        contains(lineString, doubleArrayOf(.0, .0)) shouldBe true
+        contains(lineString, doubleArrayOf(1.0, 2.0)) shouldBe true
+
+        // TODO
         /*
         test.equal(d3.geoContains({type: "LineString", coordinates: [[0, 0], [1,2]]}, d3.geoInterpolate([0, 0], [1,2])(0.3)), true);
         test.equal(d3.geoContains({type: "LineString", coordinates: [[0, 0], [1,2]]}, d3.geoInterpolate([0, 0], [1,2])(1.3)), false);
@@ -63,26 +54,69 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun a_multilinestring_contains_any__point_on_one_of_its_components_LEGACY() {
-        contains(
-            MultiLineString(
-                listOf(
-                    listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0)),
-                    listOf(doubleArrayOf(2.0, 3.0), doubleArrayOf(4.0, 5.0))
-                )
-            ), doubleArrayOf(2.0, 3.0)
-        ) shouldBe true
-        contains(
-            MultiLineString(
-                listOf(
-                    listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0)),
-                    listOf(doubleArrayOf(2.0, 3.0), doubleArrayOf(4.0, 5.0))
-                )
-            ), doubleArrayOf(5.0, 6.0)
-        ) shouldBe false
+    fun a_multilinestring_contains_any_point_on_one_of_its_components_LEGACY() {
+        val multiLineString = MultiLineString(
+            listOf(
+                listOf(doubleArrayOf(.0, .0), doubleArrayOf(1.0, 2.0)),
+                listOf(doubleArrayOf(2.0, 3.0), doubleArrayOf(4.0, 5.0))
+            )
+        )
+
+        contains(multiLineString, doubleArrayOf(2.0, 3.0)) shouldBe true
+        contains(multiLineString, doubleArrayOf(5.0, 6.0)) shouldBe false
+    }
+
+    @Test
+    fun a_GeometryCollection_contains_a_point_LEGACY() {
+        val collection = GeometryCollection(
+            listOf(
+                LineString(listOf(doubleArrayOf(-45.0, .0), doubleArrayOf(.0, .0))),
+                LineString(listOf(doubleArrayOf(.0, .0), doubleArrayOf(45.0, .0)))
+            )
+        )
+
+        contains(collection, doubleArrayOf(-45.0, .0)) shouldBe true
+        contains(collection, doubleArrayOf(45.0, .0)) shouldBe true
+        contains(collection, doubleArrayOf(12.0, 25.0)) shouldBe false
+    }
+
+    @Test
+    fun a_feature_contains_a_point_LEGACY() {
+        val feature = Feature(LineString(listOf(doubleArrayOf(.0, .0), doubleArrayOf(45.0, .0))))
+
+        contains(feature, doubleArrayOf(45.0, .0)) shouldBe true
+        contains(feature, doubleArrayOf(12.0, 25.0)) shouldBe false
+    }
+
+    @Test
+    fun a_FeatureCollection_contains_a_point_LEGACY() {
+        val featureCollection = FeatureCollection(
+            listOf(
+                LineString(listOf(doubleArrayOf(.0, .0), doubleArrayOf(45.0, .0))),
+                LineString(listOf(doubleArrayOf(-45.0, .0), doubleArrayOf(.0, .0)))
+            )
+        )
+
+        contains(featureCollection, doubleArrayOf(45.0, .0)) shouldBe true
+        contains(featureCollection, doubleArrayOf(-45.0, .0)) shouldBe true
+        contains(featureCollection, doubleArrayOf(12.0, 25.0)) shouldBe false
+    }
+
+    @Test
+    fun null_contains_nothing_LEGACY() {
+        val featureCollection = FeatureCollection(listOf())
+
+        contains(featureCollection, doubleArrayOf(.0, .0)) shouldBe false
+        contains(featureCollection, doubleArrayOf(-45.0, .0)) shouldBe false
+        contains(featureCollection, doubleArrayOf(12.0, 25.0)) shouldBe false
     }
 
     /*
+tape("null contains nothing", function(test) {
+  test.equal(d3.geoContains(null, [0, 0]), false);
+  test.end();
+});
+
 tape("a Polygon contains a point", function(test) {
   var polygon = d3.geoCircle().radius(60)();
   test.equal(d3.geoContains(polygon, [1, 1]), true);
@@ -107,56 +141,6 @@ tape("a MultiPolygon contains a point", function(test) {
   test.equal(d3.geoContains(polygon, [1, 0]), true);
   test.equal(d3.geoContains(polygon, [90, 1]), true);
   test.equal(d3.geoContains(polygon, [90, 45]), false);
-  test.end();
-});
-
-tape("a GeometryCollection contains a point", function(test) {
-  var collection = {
-    type: "GeometryCollection", geometries: [
-      {type: "GeometryCollection", geometries: [{type: "LineString", coordinates: [[-45, 0], [0, 0]]}]},
-      {type: "LineString", coordinates: [[0, 0], [45, 0]]}
-    ]
-  };
-  test.equal(d3.geoContains(collection, [-45, 0]), true);
-  test.equal(d3.geoContains(collection, [45, 0]), true);
-  test.equal(d3.geoContains(collection, [12, 25]), false);
-  test.end();
-});
-
-tape("a Feature contains a point", function(test) {
-  var feature = {
-    type: "Feature", geometry: {
-      type: "LineString", coordinates: [[0, 0], [45, 0]]
-    }
-  };
-  test.equal(d3.geoContains(feature, [45, 0]), true);
-  test.equal(d3.geoContains(feature, [12, 25]), false);
-  test.end();
-});
-
-tape("a FeatureCollection contains a point", function(test) {
-  var feature1 = {
-    type: "Feature", geometry: {
-      type: "LineString", coordinates: [[0, 0], [45, 0]]
-    }
-  },
-  feature2 = {
-    type: "Feature", geometry: {
-      type: "LineString", coordinates: [[-45, 0], [0, 0]]
-    }
-  },
-  featureCollection = {
-    type: "FeatureCollection",
-    features: [ feature1, feature2 ]
-  };
-  test.equal(d3.geoContains(featureCollection, [45, 0]), true);
-  test.equal(d3.geoContains(featureCollection, [-45, 0]), true);
-  test.equal(d3.geoContains(featureCollection, [12, 25]), false);
-  test.end();
-});
-
-tape("null contains nothing", function(test) {
-  test.equal(d3.geoContains(null, [0, 0]), false);
   test.end();
 });
      */
