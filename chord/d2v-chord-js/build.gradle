@@ -2,3 +2,4 @@ dependencies {
     expectedBy project(":d2v-chord-common")
     compile project(":d2v-path-js")
 }
+apply from: rootProject.file('gradle/test-js.gradle')
