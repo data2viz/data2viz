@@ -1,5 +1,4 @@
 dependencies {
     expectedBy project(":d2v-contour-common")
 }
-
-project.jsTests()
+apply from: rootProject.file('gradle/test-js.gradle')

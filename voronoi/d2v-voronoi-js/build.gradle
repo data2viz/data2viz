@@ -7,5 +7,4 @@ dependencies {
     testCompile project(":d2v-timer-js")
 }
 
-project.jsTests()
-
+apply from: rootProject.file('gradle/test-js.gradle')

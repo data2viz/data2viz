@@ -1,3 +1,5 @@
+apply from: rootProject.file('gradle/test-js.gradle')
+
 dependencies {
     compile project(":d2v-color-common")
     compile project(":d2v-core-js")
@@ -6,4 +8,3 @@ dependencies {
     testCompile project(":d2v-format-js")
     expectedBy project(":d2v-axis-common")
 }
-project.jsTests()
