@@ -6,14 +6,15 @@ import io.data2viz.color.d2vColor
 import io.data2viz.color.jfxColor
 import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
-import io.data2viz.path.SvgPath
+import io.data2viz.path.PathJfx
 import javafx.beans.property.DoubleProperty
 import javafx.scene.Node
-import javafx.scene.shape.SVGPath
+import javafx.scene.shape.Path
 import kotlin.reflect.KProperty
 
 typealias JfxGroup          = javafx.scene.Group
 typealias JfxShape          = javafx.scene.shape.Shape
+typealias JfxPath           = javafx.scene.shape.Path
 typealias JfxCircle         = javafx.scene.shape.Circle
 typealias JfxLine           = javafx.scene.shape.Line
 typealias JfxRectangle      = javafx.scene.shape.Rectangle
@@ -37,19 +38,17 @@ fun JfxGroup.viz(init: VizContext.() -> Unit): VizContext {
 class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, JfxVizElement,
         StyledElement by StyleDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement){
-    
+
     override fun add(vizElement: VizElement) {
         jfxElement.children.add((vizElement as JfxVizElement).jfxElement)
     }
 
+
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
-        val path = SVGPath()
-        val svgPath = SvgPath()
-        val item = PathJfx(path, svgPath)
-        init(item)
-        path.content = svgPath.path
-        jfxElement.children.add(path)
-        return item
+        val pathJfx = PathVizJfx()
+        init(pathJfx)
+        jfxElement.children.add(pathJfx.jfxElement)
+        return pathJfx
     }
 
     override fun setStyle(style: String) {
@@ -98,11 +97,12 @@ interface JfxVizElement {
     val jfxElement: Node
 }
 
-class PathJfx(path: SVGPath, svgPath: SvgPath) : PathVizElement,
-        HasFill by FillDelegate(path),
-        HasStroke by StrokeDelegate(path),
-        Transformable by TransformNodeDelegate(path),
-        PathAdapter by svgPath
+
+class PathVizJfx(internal val pathJfx: PathJfx = PathJfx(), override val jfxElement: JfxPath = pathJfx.path) : PathVizElement, JfxVizElement,
+        PathAdapter by pathJfx,
+        HasFill by FillDelegate(jfxElement),
+        HasStroke by StrokeDelegate(jfxElement),
+        Transformable by TransformNodeDelegate(jfxElement)
     
 
 class CircleJfx(override val jfxElement: JfxCircle = JfxCircle()) : Circle, JfxVizElement,

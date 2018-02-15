@@ -65,7 +65,7 @@ class ParentElement(override val domElement: Element = createSVGElement("g")) : 
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val svgPath = SvgPath()
         val element = createSVGElement("path")
-        val item = PathElement(element, svgPath)
+        val item = PathDOM(element, svgPath)
         init(item)
         element.setAttribute("d", svgPath.path)
         domElement.append(element)
@@ -136,7 +136,7 @@ interface ElementWrapper : AccessByAttributes, DOMVizElement {
 
 }
 
-class PathElement(override val domElement: Element, svgPath: SvgPath) : PathVizElement, ElementWrapper,
+class PathDOM(override val domElement: Element, svgPath: SvgPath) : PathVizElement, ElementWrapper,
         PathAdapter by svgPath,
         HasFill by FillDelegate(domElement),
         HasStroke by StrokeDelegate(domElement),

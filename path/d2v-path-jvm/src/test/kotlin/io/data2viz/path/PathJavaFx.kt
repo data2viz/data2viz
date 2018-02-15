@@ -16,7 +16,7 @@ fun main(args: Array<String>) {
 class HelloApp: Application(){
     override fun start(primaryStage: Stage?) {
 
-        val path = svgPath().apply {
+        val path = PathJfx().apply {
             moveTo(10.0, 10.0)
             lineTo(70.0, 10.0)
             quadraticCurveTo(120.0, 60.0, 100.0, 20.0)
@@ -29,7 +29,7 @@ class HelloApp: Application(){
         }
 
         val root = Pane()
-        root.children.add(path.toJfxPath().apply {
+        root.children.add(path.path.apply {
             fill = null
             stroke = Color.BLACK
             strokeWidth = 2.0
