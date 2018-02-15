@@ -18,19 +18,19 @@ class PathCentroidTests : TestBase() {
     @Test
     fun geopath_centroid_of_a_point_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
-        geoPath.centroid(Point(doubleArrayOf(.0, .0))) shouldBe doubleArrayOf(480.0, 250.0)
+        geoPath.centroid(Point(pt(.0, .0))) shouldBe pt(480.0, 250.0)
     }
 
     @Test
     fun geopath_centroid_of_an_empty_multipoint_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
-        geoPath.centroid(MultiPoint(listOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        geoPath.centroid(MultiPoint(listOf())) shouldBe pt(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geopath_centroid_of_a_single_multipoint_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
-        geoPath.centroid(MultiPoint(listOf(doubleArrayOf(.0, .0)))) shouldBe doubleArrayOf(480.0, 250.0)
+        geoPath.centroid(MultiPoint(listOf(pt(.0, .0)))) shouldBe pt(480.0, 250.0)
     }
 
     @Test
@@ -39,48 +39,48 @@ class PathCentroidTests : TestBase() {
         geoPath.centroid(
             MultiPoint(
                 listOf(
-                    doubleArrayOf(-122.0, 37.0),
-                    doubleArrayOf(-74.0, 40.0)
+                    pt(-122.0, 37.0),
+                    pt(-74.0, 40.0)
                 )
             )
-        ) shouldBe doubleArrayOf(-10.0, 57.5)
+        ) shouldBe pt(-10.0, 57.5)
     }
 
     @Test
     fun geopath_centroid_of_an_empty_lineString_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
-        geoPath.centroid(LineString(listOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        geoPath.centroid(LineString(listOf())) shouldBe pt(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geopath_centroid_of_a_lineString_with_2_and_3_points_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
 
-        geoPath.centroid(LineString(listOf(doubleArrayOf(100.0, .0), doubleArrayOf(.0, .0)))) shouldBe doubleArrayOf(730.0, 250.0)
+        geoPath.centroid(LineString(listOf(pt(100.0, .0), pt(.0, .0)))) shouldBe pt(730.0, 250.0)
         geoPath.centroid(
             LineString(
                 listOf(
-                    doubleArrayOf(.0, .0),
-                    doubleArrayOf(100.0, .0),
-                    doubleArrayOf(101.0, .0)
+                    pt(.0, .0),
+                    pt(100.0, .0),
+                    pt(101.0, .0)
                 )
             )
-        ) shouldBe doubleArrayOf(732.5, 250.0)
+        ) shouldBe pt(732.5, 250.0)
     }
 
     @Test
     fun geopath_centroid_of_a_lineString_with_2_points_one_unique_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
 
-        geoPath.centroid(LineString(listOf(doubleArrayOf(-122.0, 37.0),doubleArrayOf(-122.0, 37.0)))) shouldBe doubleArrayOf(-130.0,65.0)
+        geoPath.centroid(LineString(listOf(pt(-122.0, 37.0),pt(-122.0, 37.0)))) shouldBe pt(-130.0,65.0)
         geoPath.centroid(
             LineString(
                 listOf(
-                    doubleArrayOf(-74.0, 40.0),
-                    doubleArrayOf(-74.0, 40.0)
+                    pt(-74.0, 40.0),
+                    pt(-74.0, 40.0)
                 )
             )
-        ) shouldBe doubleArrayOf(110.0, 50.0)
+        ) shouldBe pt(110.0, 50.0)
     }
 
     @Test
@@ -90,12 +90,12 @@ class PathCentroidTests : TestBase() {
         geoPath.centroid(
             LineString(
                 listOf(
-                    doubleArrayOf(-122.0, 37.0),
-                    doubleArrayOf(-74.0, 40.0),
-                    doubleArrayOf(-74.0, 40.0)
+                    pt(-122.0, 37.0),
+                    pt(-74.0, 40.0),
+                    pt(-74.0, 40.0)
                 )
             )
-        ) shouldBe doubleArrayOf(-10.0, 57.5)
+        ) shouldBe pt(-10.0, 57.5)
     }
 
     @Test
@@ -105,12 +105,12 @@ class PathCentroidTests : TestBase() {
         geoPath.centroid(
             LineString(
                 listOf(
-                    doubleArrayOf(-122.0, 37.0),
-                    doubleArrayOf(-74.0, 40.0),
-                    doubleArrayOf(-100.0, .0)
+                    pt(-122.0, 37.0),
+                    pt(-74.0, 40.0),
+                    pt(-100.0, .0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(17.389135, 103.563545)
+        ) shouldBeClose pt(17.389135, 103.563545)
     }
 
     @Test
@@ -120,11 +120,11 @@ class PathCentroidTests : TestBase() {
         geoPath.centroid(
             MultiLineString(
                 listOf(
-                    listOf(doubleArrayOf(100.0, .0),doubleArrayOf(.0, .0)),
-                    listOf(doubleArrayOf(-10.0, .0),doubleArrayOf(.0, .0))
+                    listOf(pt(100.0, .0),pt(.0, .0)),
+                    listOf(pt(-10.0, .0),pt(.0, .0))
                 )
             )
-        ) shouldBe doubleArrayOf(705.0, 250.0)
+        ) shouldBe pt(705.0, 250.0)
     }
 
     @Test
@@ -134,14 +134,14 @@ class PathCentroidTests : TestBase() {
         geoPath.centroid(
             Polygon(
                 listOf(
-                    listOf(doubleArrayOf(100.0, .0),
-                        doubleArrayOf(100.0, 1.0),
-                        doubleArrayOf(101.0, 1.0),
-                        doubleArrayOf(101.0, .0),
-                        doubleArrayOf(100.0, .0))
+                    listOf(pt(100.0, .0),
+                        pt(100.0, 1.0),
+                        pt(101.0, 1.0),
+                        pt(101.0, .0),
+                        pt(100.0, .0))
                 )
             )
-        ) shouldBe doubleArrayOf(982.5, 247.5)
+        ) shouldBe pt(982.5, 247.5)
     }
 
     @Test
@@ -151,13 +151,13 @@ class PathCentroidTests : TestBase() {
         geoPath.centroid(
             Polygon(
                 listOf(
-                    listOf(doubleArrayOf(1.0, .0),
-                        doubleArrayOf(2.0, .0),
-                        doubleArrayOf(3.0, .0),
-                        doubleArrayOf(1.0, .0))
+                    listOf(pt(1.0, .0),
+                        pt(2.0, .0),
+                        pt(3.0, .0),
+                        pt(1.0, .0))
                 )
             )
-        ) shouldBe doubleArrayOf(490.0, 250.0)
+        ) shouldBe pt(490.0, 250.0)
     }
 
     @Test
@@ -167,20 +167,20 @@ class PathCentroidTests : TestBase() {
         geoPath.centroid(
             Polygon(
                 listOf(
-                    listOf(doubleArrayOf(100.0, .0),
-                        doubleArrayOf(100.0, 1.0),
-                        doubleArrayOf(101.0, 1.0),
-                        doubleArrayOf(101.0, .0),
-                        doubleArrayOf(100.0, .0)
+                    listOf(pt(100.0, .0),
+                        pt(100.0, 1.0),
+                        pt(101.0, 1.0),
+                        pt(101.0, .0),
+                        pt(100.0, .0)
                     ),
-                    listOf(doubleArrayOf(100.1, .0),
-                        doubleArrayOf(100.2, .0),
-                        doubleArrayOf(100.3, .0),
-                        doubleArrayOf(100.1, .0)
+                    listOf(pt(100.1, .0),
+                        pt(100.2, .0),
+                        pt(100.3, .0),
+                        pt(100.1, .0)
                     )
                 )
             )
-        ) shouldBe doubleArrayOf(982.5, 247.5)
+        ) shouldBe pt(982.5, 247.5)
     }
 
     @Test
@@ -190,28 +190,28 @@ class PathCentroidTests : TestBase() {
         geoPath.centroid(
             Polygon(
                 listOf(
-                    listOf(doubleArrayOf(-2.0, -2.0),
-                        doubleArrayOf(2.0, -2.0),
-                        doubleArrayOf(2.0, 2.0),
-                        doubleArrayOf(-2.0, 2.0),
-                        doubleArrayOf(-2.0, -2.0)
+                    listOf(pt(-2.0, -2.0),
+                        pt(2.0, -2.0),
+                        pt(2.0, 2.0),
+                        pt(-2.0, 2.0),
+                        pt(-2.0, -2.0)
                     ).reversed(),
-                    listOf(doubleArrayOf(0.0, -1.0),
-                        doubleArrayOf(1.0, -1.0),
-                        doubleArrayOf(1.0, 1.0),
-                        doubleArrayOf(0.0, 1.0),
-                        doubleArrayOf(0.0, -1.0)
+                    listOf(pt(0.0, -1.0),
+                        pt(1.0, -1.0),
+                        pt(1.0, 1.0),
+                        pt(0.0, 1.0),
+                        pt(0.0, -1.0)
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(479.642857, 250.0)
+        ) shouldBeClose pt(479.642857, 250.0)
     }
 
     @Test
     fun geopath_centroid_of_an_empty_multipolygon_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
 
-        geoPath.centroid(MultiPolygon(listOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        geoPath.centroid(MultiPolygon(listOf())) shouldBe pt(Double.NaN, Double.NaN)
     }
 
     @Test
@@ -219,12 +219,12 @@ class PathCentroidTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
 
         geoPath.centroid(MultiPolygon(listOf(listOf(listOf(
-            doubleArrayOf(100.0, 0.0),
-            doubleArrayOf(100.0, 1.0),
-            doubleArrayOf(101.0, 1.0),
-            doubleArrayOf(101.0, 0.0),
-            doubleArrayOf(100.0, 0.0)
-        ))))) shouldBe doubleArrayOf(982.5, 247.5)
+            pt(100.0, 0.0),
+            pt(100.0, 1.0),
+            pt(101.0, 1.0),
+            pt(101.0, 0.0),
+            pt(100.0, 0.0)
+        ))))) shouldBe pt(982.5, 247.5)
     }
 
     @Test
@@ -232,18 +232,18 @@ class PathCentroidTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
 
         geoPath.centroid(MultiPolygon(listOf(listOf(listOf(
-            doubleArrayOf(100.0, 0.0),
-            doubleArrayOf(100.0, 1.0),
-            doubleArrayOf(101.0, 1.0),
-            doubleArrayOf(101.0, 0.0),
-            doubleArrayOf(100.0, 0.0)
+            pt(100.0, 0.0),
+            pt(100.0, 1.0),
+            pt(101.0, 1.0),
+            pt(101.0, 0.0),
+            pt(100.0, 0.0)
         ), listOf(
-            doubleArrayOf(0.0, 0.0),
-            doubleArrayOf(1.0, 0.0),
-            doubleArrayOf(1.0, -1.0),
-            doubleArrayOf(0.0, -1.0),
-            doubleArrayOf(0.0, 0.0)
-        ))))) shouldBe doubleArrayOf(732.5, 250.0)
+            pt(0.0, 0.0),
+            pt(1.0, 0.0),
+            pt(1.0, -1.0),
+            pt(0.0, -1.0),
+            pt(0.0, 0.0)
+        ))))) shouldBe pt(732.5, 250.0)
     }
 
     @Test
@@ -251,24 +251,24 @@ class PathCentroidTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
 
         geoPath.centroid(MultiPolygon(listOf(listOf(listOf(
-            doubleArrayOf(100.0, 0.0),
-            doubleArrayOf(100.0, 1.0),
-            doubleArrayOf(101.0, 1.0),
-            doubleArrayOf(101.0, 0.0),
-            doubleArrayOf(100.0, 0.0)
+            pt(100.0, 0.0),
+            pt(100.0, 1.0),
+            pt(101.0, 1.0),
+            pt(101.0, 0.0),
+            pt(100.0, 0.0)
         ), listOf(
-            doubleArrayOf(0.0, 0.0),
-            doubleArrayOf(1.0, 0.0),
-            doubleArrayOf(2.0, 0.0),
-            doubleArrayOf(0.0, 0.0)
-        ))))) shouldBe doubleArrayOf(982.5, 247.5)
+            pt(0.0, 0.0),
+            pt(1.0, 0.0),
+            pt(2.0, 0.0),
+            pt(0.0, 0.0)
+        ))))) shouldBe pt(982.5, 247.5)
     }
 
     @Test
     fun geopath_centroid_of_a_geometryCollection_with_single_point_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
 
-        geoPath.centroid(GeometryCollection(listOf(Point(doubleArrayOf(.0, .0))))) shouldBe doubleArrayOf(480.0, 250.0)
+        geoPath.centroid(GeometryCollection(listOf(Point(pt(.0, .0))))) shouldBe pt(480.0, 250.0)
     }
 
     @Test
@@ -276,9 +276,9 @@ class PathCentroidTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
 
         geoPath.centroid(GeometryCollection(listOf(
-            LineString(listOf(doubleArrayOf(179.0, .0), doubleArrayOf(180.0, .0))),
-            Point(doubleArrayOf(.0, .0)))
-        )) shouldBe doubleArrayOf(1377.5, 250.0)
+            LineString(listOf(pt(179.0, .0), pt(180.0, .0))),
+            Point(pt(.0, .0)))
+        )) shouldBe pt(1377.5, 250.0)
     }
 
     @Test
@@ -286,17 +286,17 @@ class PathCentroidTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
 
         geoPath.centroid(GeometryCollection(listOf(
-            Polygon(listOf(listOf(doubleArrayOf(-180.0, .0), doubleArrayOf(-180.0, 1.0), doubleArrayOf(-179.0, 1.0), doubleArrayOf(-179.0, .0), doubleArrayOf(-180.0, .0)))),
-            LineString(listOf(doubleArrayOf(179.0, .0), doubleArrayOf(180.0, .0))),
-            Point(doubleArrayOf(.0, .0)))
-        )) shouldBe doubleArrayOf(-417.5, 247.5)
+            Polygon(listOf(listOf(pt(-180.0, .0), pt(-180.0, 1.0), pt(-179.0, 1.0), pt(-179.0, .0), pt(-180.0, .0)))),
+            LineString(listOf(pt(179.0, .0), pt(180.0, .0))),
+            Point(pt(.0, .0)))
+        )) shouldBe pt(-417.5, 247.5)
     }
 
     @Test
     fun geopath_centroid_of_a_featureCollection_with_point_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
 
-        geoPath.centroid(FeatureCollection(listOf(Feature(Point(doubleArrayOf(.0, .0)))))) shouldBe doubleArrayOf(480.0, 250.0)
+        geoPath.centroid(FeatureCollection(listOf(Feature(Point(pt(.0, .0)))))) shouldBe pt(480.0, 250.0)
     }
 
     @Test
@@ -304,9 +304,9 @@ class PathCentroidTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
 
         geoPath.centroid(FeatureCollection(listOf(
-            Feature(LineString(listOf(doubleArrayOf(179.0, .0), doubleArrayOf(180.0, .0)))),
-            Feature(Point(doubleArrayOf(.0, .0))))
-        )) shouldBe doubleArrayOf(1377.5, 250.0)
+            Feature(LineString(listOf(pt(179.0, .0), pt(180.0, .0)))),
+            Feature(Point(pt(.0, .0))))
+        )) shouldBe pt(1377.5, 250.0)
     }
 
     @Test
@@ -314,10 +314,10 @@ class PathCentroidTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
 
         geoPath.centroid(FeatureCollection(listOf(
-            Feature(Polygon(listOf(listOf(doubleArrayOf(-180.0, .0), doubleArrayOf(-180.0, 1.0), doubleArrayOf(-179.0, 1.0), doubleArrayOf(-179.0, .0), doubleArrayOf(-180.0, .0))))),
-            Feature(LineString(listOf(doubleArrayOf(179.0, .0), doubleArrayOf(180.0, .0)))),
-            Feature(Point(doubleArrayOf(.0, .0))))
-        )) shouldBe doubleArrayOf(-417.5, 247.5)
+            Feature(Polygon(listOf(listOf(pt(-180.0, .0), pt(-180.0, 1.0), pt(-179.0, 1.0), pt(-179.0, .0), pt(-180.0, .0))))),
+            Feature(LineString(listOf(pt(179.0, .0), pt(180.0, .0)))),
+            Feature(Point(pt(.0, .0))))
+        )) shouldBe pt(-417.5, 247.5)
     }
 
     // TODO : when clipping will be OK activate this one
@@ -325,6 +325,6 @@ class PathCentroidTests : TestBase() {
     fun geopath_centroid_of_a_sphere_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
 
-        geoPath.centroid(Sphere()) shouldBe doubleArrayOf(480.0, 250.0)
+        geoPath.centroid(Sphere()) shouldBe pt(480.0, 250.0)
     }
 }
