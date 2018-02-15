@@ -5,8 +5,8 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
-import kotlin.test.Ignore
 import kotlin.test.Test
+import kotlin.test.Ignore
 
 class GeoAreaTests : TestBase() {
 
@@ -37,9 +37,10 @@ class GeoAreaTests : TestBase() {
     }
 
 
+    // TODO : pass in JVM not JS !!
     @Test @Ignore
     fun geoarea_of_a_zero_area_polygon_LEGACY() {
-        val area = GeoArea().result(
+        GeoArea().result(
             Polygon(
                 listOf(
                     listOf(
@@ -51,9 +52,7 @@ class GeoAreaTests : TestBase() {
                     )
                 )
             )
-        )
-        println(area)
-        area shouldBe (.0 plusOrMinus 1e-19) // .0 on JVM not on JS
+        ) shouldBe .0
     }
 
     @Test
@@ -157,13 +156,82 @@ class GeoAreaTests : TestBase() {
         ) shouldBeClose PI * 2
     }
 
+    @Test
+    fun geoarea_of_multipolygon_2_hemispheres_LEGACY() {
+        GeoArea().result(
+            MultiPolygon(
+                listOf(
+                    listOf(
+                        listOf(
+                            doubleArrayOf(.0, .0),
+                            doubleArrayOf(-90.0, .0),
+                            doubleArrayOf(180.0, .0),
+                            doubleArrayOf(90.0, .0),
+                            doubleArrayOf(.0, .0)
+                        )
+                    ),
+                    listOf(
+                        listOf(
+                            doubleArrayOf(.0, .0),
+                            doubleArrayOf(90.0, .0),
+                            doubleArrayOf(180.0, .0),
+                            doubleArrayOf(-90.0, .0),
+                            doubleArrayOf(.0, .0)
+                        )
+                    )
+                )
+            )
+        ) shouldBeClose PI * 4
+    }
+
+    @Test
+    fun geoarea_of_sphere_LEGACY() {
+        GeoArea().result(Sphere()) shouldBeClose PI * 4
+    }
+
+    @Test
+    fun geoarea_of_geometryCollection_polygon_LEGACY() {
+        GeoArea().result(
+            GeometryCollection(
+                listOf(
+                    Polygon(
+                        listOf(
+                            listOf(
+                                doubleArrayOf(.0, .0),
+                                doubleArrayOf(.0, -90.0),
+                                doubleArrayOf(180.0, .0),
+                                doubleArrayOf(.0, 90.0),
+                                doubleArrayOf(.0, .0)
+                            )
+                        )
+                    )
+                )
+            )
+        ) shouldBeClose PI * 2
+    }
+
+    @Test
+    fun geoarea_of_featureCollection_sphere_LEGACY() {
+        GeoArea().result(FeatureCollection(listOf(Sphere()))) shouldBeClose PI * 4
+    }
+
+    @Test
+    fun geoarea_of_feature_sphere_LEGACY() {
+        GeoArea().result(Feature(Sphere())) shouldBeClose PI * 4
+    }
+
+    @Test
+    fun geoarea_of_linestring_LEGACY() {
+        GeoArea().result(LineString(listOf(doubleArrayOf(.0, 1.0), doubleArrayOf(2.0, 3.0)))) shouldBe .0
+    }
+
+    @Test
+    fun geoarea_of_multilinestring_LEGACY() {
+        GeoArea().result(MultiLineString(listOf(listOf(doubleArrayOf(.0, 1.0), doubleArrayOf(2.0, 3.0)),
+            listOf(doubleArrayOf(4.0, 5.0), doubleArrayOf(6.0, 7.0))))) shouldBe .0
+    }
+
     /*
-var tape = require("tape"),
-    array = require("d3-array"),
-    d3 = require("../");
-
-require("./inDelta");
-
 function stripes(a, b) {
   return {type: "Polygon", coordinates: [a, b].map(function(d, i) {
     var stripe = array.range(-180, 180, 0.1).map(function(x) { return [x, d]; });
@@ -171,15 +239,6 @@ function stripes(a, b) {
     return i ? stripe.reverse() : stripe;
   })};
 }
-
-tape("area: LineString", function(test) {
-  test.equal(d3.geoArea({type: "LineString", coordinates: [[0, 1], [2, 3]]}), 0);
-  test.end();
-});
-
-tape("area: MultiLineString", function(test) {
-  test.equal(d3.geoArea({type: "MultiLineString", coordinates: [[[0, 1], [2, 3]], [[4, 5], [6, 7]]]}), 0);
-  test.end();
 
 tape("area: Polygon - graticule outline sphere", function(test) {
   test.inDelta(d3.geoArea(d3.geoGraticule().extent([[-180, -90], [180, 90]]).outline()), 4 * Math.PI, 1e-5);
@@ -299,34 +358,6 @@ tape("area: Polygon - stripes -45°, 45°", function(test) {
 
 tape("area: Polygon - stripes 45°, 30°", function(test) {
   test.inDelta(d3.geoArea(stripes(45, 30)), Math.PI * (Math.SQRT2 - 1), 1e-5);
-  test.end();
-});
-
-tape("area: MultiPolygon two hemispheres", function(test) {
-  test.equal(d3.geoArea({type: "MultiPolygon", coordinates: [
-    [[[0, 0], [-90, 0], [180, 0], [90, 0], [0, 0]]],
-    [[[0, 0], [90, 0], [180, 0], [-90, 0], [0, 0]]]
-  ]}), 4 * Math.PI);
-  test.end();
-});
-
-tape("area: Sphere", function(test) {
-  test.equal(d3.geoArea({type: "Sphere"}), 4 * Math.PI);
-  test.end();
-});
-
-tape("area: GeometryCollection", function(test) {
-  test.equal(d3.geoArea({type: "GeometryCollection", geometries: [{type: "Sphere"}]}), 4 * Math.PI);
-  test.end();
-});
-
-tape("area: FeatureCollection", function(test) {
-  test.equal(d3.geoArea({type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Sphere"}}]}), 4 * Math.PI);
-  test.end();
-});
-
-tape("area: Feature", function(test) {
-  test.equal(d3.geoArea({type: "Feature", geometry: {type: "Sphere"}}), 4 * Math.PI);
   test.end();
 });
      */

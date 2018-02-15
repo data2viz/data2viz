@@ -5,6 +5,7 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class PathBoundsTests : TestBase() {
@@ -65,12 +66,14 @@ class PathBoundsTests : TestBase() {
         bounds.y1 shouldBe 250.0
     }
 
-    /*
-tape("geoPath.bounds(…) of a sphere", function(test) {
-  test.deepEqual(testBounds(equirectangular, {
-    type: "Sphere"
-  }), [[-420, -200], [1380, 700]]);
-  test.end();
-});
-     */
+    // TODO : when clipping will be OK activate this one
+    @Test @Ignore
+    fun geopath_bounds_of_a_sphere_LEGACY() {
+        val geoPath = geoPath(equirectangular, svgPath())
+        val bounds = geoPath.bounds(Sphere())
+        bounds.x0 shouldBe -420.0
+        bounds.y0 shouldBe 1380.0
+        bounds.x1 shouldBe -200.0
+        bounds.y1 shouldBe 700.0
+    }
 }
