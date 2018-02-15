@@ -4,21 +4,23 @@ import io.data2viz.geo.projection.Stream
 
 fun stream(geo: GeoJSON, stream: Stream) {
     when (geo) {
-        is Geometry<*> -> streamGeometry(geo, stream)
-        is GeometryCollection -> geo.geometries.forEach { streamGeometry(it, stream) }
-        is Feature -> streamGeometry(geo.geometry, stream)
         is FeatureCollection -> geo.features.forEach { stream(it, stream) }
+        is Feature -> streamGeometry(geo.geometry, stream)
+        is GeometryCollection -> geo.geometries.forEach { streamGeometry(it, stream) }
+        is Geometry<*> -> streamGeometry(geo, stream)
         is Sphere -> streamSphere(stream)
     }
 }
 
 fun streamGeometry(geo: Geometry<*>, stream: Stream) {
-    if (geo is Point) streamPoint(geo.coordinates, stream)
-    if (geo is MultiPoint) geo.coordinates.forEach { streamPoint(it, stream) }
-    if (geo is MultiPolygon) geo.coordinates.forEach { streamPolygon(it, stream) }
-    if (geo is Polygon) streamPolygon(geo.coordinates, stream)
-    if (geo is LineString) streamLine(geo.coordinates, stream, false)
-    if (geo is MultiLineString) geo.coordinates.forEach { streamLine(it, stream, false) }
+    when (geo) {
+        is Point            -> streamPoint(geo.coordinates, stream)
+        is MultiPoint       -> geo.coordinates.forEach { streamPoint(it, stream) }
+        is MultiPolygon     -> geo.coordinates.forEach { streamPolygon(it, stream) }
+        is Polygon          -> streamPolygon(geo.coordinates, stream)
+        is LineString       -> streamLine(geo.coordinates, stream, false)
+        is MultiLineString  -> geo.coordinates.forEach { streamLine(it, stream, false) }
+    }
 }
 
 private fun streamSphere(stream: Stream) {
