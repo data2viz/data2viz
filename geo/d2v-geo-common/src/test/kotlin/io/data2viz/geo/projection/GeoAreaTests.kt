@@ -33,7 +33,8 @@ class GeoAreaTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose 4.890516e-13
+//        ) shouldBeClose 4.890516e-13
+        ) shouldBeClose .0
     }
 
 
