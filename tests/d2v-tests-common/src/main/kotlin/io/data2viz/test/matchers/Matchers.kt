@@ -51,7 +51,7 @@ interface Matchers : StringMatchers,
             ToleranceMatcher(it.second.toDouble(), 1e-6).test(it.first.toDouble())
         }
     }
-    infix fun <T> T.shouldBe(any: Any?): Unit = shouldEqual(any)
+    infix fun <T> T.shouldBe(any: T?): Unit = shouldEqual(any)
     infix fun <T> T.shouldEqual(any: Any?): Unit {
         when (any) {
             is Matcher<*> -> (any as Matcher<T>).test(this)
