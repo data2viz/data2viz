@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test-karma": "karma start",
-    "test": "mocha build/classes/test/*test.js --require=source-map-support/register"
+    "test": "mocha build/classes/kotlin/test/*test.js --require=source-map-support/register"
 
   }
 }

@@ -60,7 +60,6 @@ subprojects {
         compileKotlin2Js {
             kotlinOptions {
                 metaInfo = true
-                outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
                 sourceMap = true
                 sourceMapEmbedSources = "always"
                 moduleKind = 'umd'
