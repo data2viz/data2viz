@@ -1,7 +1,8 @@
 language: java
 
 cache:
-  - yarn
+  yarn: true
   directories: 
     - $HOME/.m2
     - $HOME/.gradle
+    
