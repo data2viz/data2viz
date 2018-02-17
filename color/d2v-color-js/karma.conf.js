@@ -11,8 +11,7 @@ module.exports = function (config) {
             colors: true,
             autoWatch: false,
             browsers: [
-                'PhantomJS'
-                // , 'Chrome'
+                , 'ChromeHeadless'
             ],
             captureTimeout: 5000,
             singleRun: true,

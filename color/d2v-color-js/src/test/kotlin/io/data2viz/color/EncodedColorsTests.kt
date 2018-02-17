@@ -12,6 +12,8 @@ import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.test.Test
 
+val browserEnabled:Boolean = js("typeof document !== 'undefined'") as Boolean
+
 class EncodedColorsTests: TestBase() {
 
     @Test fun category10() {
@@ -41,6 +43,7 @@ class EncodedColorsTests: TestBase() {
 
 
     fun displaySmallGradient(context: String, colors: EncodedColors, imageReference: String? = null) {
+        if (!browserEnabled) return
         val width = 20 * colors.colors.size
         document.body?.appendChild(document.createElement("h2").appendChild(document.createTextNode(context)))
         document.body?.appendChild(
@@ -74,15 +77,9 @@ class EncodedColorsTests: TestBase() {
     }
 
     fun testAndGraph(context: String, gradient: EncodedColors, imageReference: String? = null) {
+        if (!browserEnabled) return
+
         document.body?.appendChild(document.createElement("h2").appendChild(document.createTextNode(context)))
-
-
-        //generate a list of 6, 10, 20 colors from the gradient.
-        /*listOf(6, 10, 20).forEach { size ->
-            val colors = (0..size - 1)
-                    .map { gradient.color(it.toDouble() / (size - 1)) }
-            println(colors.joinToString(transform = { it.rgbHex }))
-        }*/
 
         document.body?.appendChild(
                 node("svg").apply {
