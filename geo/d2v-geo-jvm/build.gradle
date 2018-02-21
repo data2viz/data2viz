@@ -3,4 +3,5 @@ dependencies {
     compile project(":d2v-path-common")
     compile project(":d2v-path-jvm")
     compile project(":d2v-core-jvm")
+    compile "io.data2viz:geojson-jvm:$geojson_version"
 }
