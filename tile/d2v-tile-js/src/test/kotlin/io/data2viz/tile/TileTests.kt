@@ -3,8 +3,8 @@ package io.data2viz.tile
 import io.data2viz.core.Point
 import io.data2viz.core.namespace
 import io.data2viz.math.Angle
-import io.data2viz.math.PI
-import io.data2viz.math.THETA
+import io.data2viz.math.PI_ANGLE
+import io.data2viz.math.TAU_ANGLE
 import io.data2viz.math.deg
 import kotlin.browser.document
 import kotlin.math.cos
@@ -22,7 +22,7 @@ class TileTests {
     /**
      * http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
      */
-    fun GeoPoint.long2tile(zoom: Int) = ((longitude + PI) / THETA) * 2.0.pow(zoom.toDouble())
+    fun GeoPoint.long2tile(zoom: Int) = ((longitude + PI_ANGLE) / TAU_ANGLE) * 2.0.pow(zoom.toDouble())
 
     fun GeoPoint.lat2tile(zoom: Int) = (1 - ln(tan(latitude.rad) + 1 / cos(latitude.rad)) / kotlin.math.PI) / 2 * 2.0.pow(zoom.toDouble())
 
