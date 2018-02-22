@@ -1,17 +1,17 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.*
-import io.data2viz.geo.path.geoPath
-import io.data2viz.path.svgPath
+import io.data2viz.geo.Sphere
+import io.data2viz.geo.contains
+import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
 
-internal fun pt(a:Double, b:Double) = doubleArrayOf(a, b)
-internal fun pt(a:Double, b:Double, c:Double) = doubleArrayOf(a, b, c)
+internal fun pt(a: Double, b: Double) = arrayOf(a, b)
+internal fun pt(a: Double, b: Double, c: Double) = arrayOf(a, b, c)
 
 class ContainsTests : TestBase() {
-    
+
     val equirectangular = io.data2viz.geo.projection.equirectangular() {
         scale = 900.0 / PI
         precision = .0
@@ -34,7 +34,7 @@ class ContainsTests : TestBase() {
 
     @Test
     fun a_multipoint_contains_any_of_its_points_LEGACY() {
-        val multiPoint = MultiPoint(listOf(pt(.0, .0), pt(1.0, 2.0)))
+        val multiPoint = MultiPoint(arrayOf(pt(.0, .0), pt(1.0, 2.0)))
 
         contains(multiPoint, pt(.0, .0)) shouldBe true
         contains(multiPoint, pt(1.0, 2.0)) shouldBe true
@@ -43,7 +43,7 @@ class ContainsTests : TestBase() {
 
     @Test
     fun a_linestring_contains_any_point_on_the_great_circle_path_LEGACY() {
-        val lineString = LineString(listOf(pt(.0, .0), pt(1.0, 2.0)))
+        val lineString = LineString(arrayOf(pt(.0, .0), pt(1.0, 2.0)))
 
         contains(lineString, pt(.0, .0)) shouldBe true
         contains(lineString, pt(1.0, 2.0)) shouldBe true
@@ -59,9 +59,9 @@ class ContainsTests : TestBase() {
     @Test
     fun a_multilinestring_contains_any_point_on_one_of_its_components_LEGACY() {
         val multiLineString = MultiLineString(
-            listOf(
-                listOf(pt(.0, .0), pt(1.0, 2.0)),
-                listOf(pt(2.0, 3.0), pt(4.0, 5.0))
+            arrayOf(
+                arrayOf(pt(.0, .0), pt(1.0, 2.0)),
+                arrayOf(pt(2.0, 3.0), pt(4.0, 5.0))
             )
         )
 
@@ -72,9 +72,9 @@ class ContainsTests : TestBase() {
     @Test
     fun a_GeometryCollection_contains_a_point_LEGACY() {
         val collection = GeometryCollection(
-            listOf(
-                LineString(listOf(pt(-45.0, .0), pt(.0, .0))),
-                LineString(listOf(pt(.0, .0), pt(45.0, .0)))
+            arrayOf(
+                LineString(arrayOf(pt(-45.0, .0), pt(.0, .0))),
+                LineString(arrayOf(pt(.0, .0), pt(45.0, .0)))
             )
         )
 
@@ -85,7 +85,7 @@ class ContainsTests : TestBase() {
 
     @Test
     fun a_feature_contains_a_point_LEGACY() {
-        val feature = Feature(LineString(listOf(pt(.0, .0), pt(45.0, .0))))
+        val feature = Feature(LineString(arrayOf(pt(.0, .0), pt(45.0, .0))))
 
         contains(feature, pt(45.0, .0)) shouldBe true
         contains(feature, pt(12.0, 25.0)) shouldBe false
@@ -94,9 +94,9 @@ class ContainsTests : TestBase() {
     @Test
     fun a_FeatureCollection_contains_a_point_LEGACY() {
         val featureCollection = FeatureCollection(
-            listOf(
-                LineString(listOf(pt(.0, .0), pt(45.0, .0))),
-                LineString(listOf(pt(-45.0, .0), pt(.0, .0)))
+            arrayOf(
+                Feature(LineString(arrayOf(pt(.0, .0), pt(45.0, .0)))),
+                Feature(LineString(arrayOf(pt(-45.0, .0), pt(.0, .0))))
             )
         )
 
@@ -107,7 +107,7 @@ class ContainsTests : TestBase() {
 
     @Test
     fun null_contains_nothing_LEGACY() {
-        val featureCollection = FeatureCollection(listOf())
+        val featureCollection = FeatureCollection(arrayOf())
 
         contains(featureCollection, pt(.0, .0)) shouldBe false
         contains(featureCollection, pt(-45.0, .0)) shouldBe false

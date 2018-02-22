@@ -1,8 +1,8 @@
 package io.data2viz.geo.path
 
 import io.data2viz.geo.projection.Stream
+import io.data2viz.math.TAU
 import io.data2viz.path.PathAdapter
-import kotlin.math.PI
 
 class PathContext(private val context: PathAdapter) : Stream {
     var pointRadius = 4.5
@@ -23,12 +23,12 @@ class PathContext(private val context: PathAdapter) : Stream {
     }
 
     override fun lineEnd() {
-        if(line) context.closePath()
+        if (line) context.closePath()
         point = -1
     }
 
     override fun point(x: Double, y: Double, z: Double) {
-        when(point) {
+        when (point) {
             0 -> {
                 context.moveTo(x, y)
                 point = 1
@@ -36,7 +36,7 @@ class PathContext(private val context: PathAdapter) : Stream {
             1 -> context.lineTo(x, y)
             else -> {
                 context.moveTo(x + pointRadius, y)
-                context.arc(x, y, pointRadius, 0.0, 2 * PI, false)
+                context.arc(x, y, pointRadius, 0.0, TAU, false)
             }
         }
     }

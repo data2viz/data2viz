@@ -1,24 +1,24 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.math.TAU
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
 private fun identity(x: Double, y: Double) = when {
-    x > PI -> doubleArrayOf(x - (2 * PI), y)
-    x < -PI -> doubleArrayOf(x + (2 * PI), y)
+    x > PI -> doubleArrayOf(x - TAU, y)
+    x < -PI -> doubleArrayOf(x + TAU, y)
     else -> doubleArrayOf(x, y)
 }
 
-private fun rotationIdentity():ProjectableInvertable = object : ProjectableInvertable {
+private fun rotationIdentity(): ProjectableInvertable = object : ProjectableInvertable {
     override fun project(lambda: Double, phi: Double) = identity(lambda, phi)
     override fun invert(x: Double, y: Double) = identity(x, y)
 }
 
 fun forwardRotationLambda(deltaLambda: Double): (Double, Double) -> DoubleArray {
     return { lambda: Double, phi: Double ->
-        val l = lambda + deltaLambda
-        identity(l, phi)
+        identity(lambda + deltaLambda, phi)
     }
 }
 
@@ -62,7 +62,7 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
 }
 
 fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Projectable {
-    val newDeltaLambda = deltaLambda % (2 * PI)
+    val newDeltaLambda = deltaLambda % TAU
     return if (newDeltaLambda != .0) {
         if (deltaPhi != .0 || deltaGamma != .0) compose(
             RotationLambda(deltaLambda),

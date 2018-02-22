@@ -1,45 +1,53 @@
 package io.data2viz.geo
 
 import io.data2viz.geo.projection.Stream
+import io.data2viz.geojson.*
 
-fun stream(geo: GeoJSON, stream: Stream) {
+internal val noop: () -> Unit = { }
+internal val noop3: (Double, Double, Double) -> Unit = { x, y, z -> }
+
+fun stream(geo: GeoJsonObject, stream: Stream) {
     when (geo) {
-        is Geometry<*> -> streamGeometry(geo, stream)
-        is GeometryCollection -> geo.geometries.forEach { streamGeometry(it, stream) }
-        is Feature -> stream(geo.geometry, stream)
         is FeatureCollection -> geo.features.forEach { stream(it, stream) }
-        is Sphere -> streamSphere(stream)
+        is Feature -> stream(geo.geometry, stream)
+        is GeometryCollection -> geo.geometries.forEach { streamGeometry(it, stream) }
+        is Geometry -> streamGeometry(geo, stream)              // keep it last !
     }
 }
 
-fun streamGeometry(geo: GeoJSON, stream: Stream) {
-    if (geo is Point) streamPoint(geo.coordinates, stream)
-    if (geo is MultiPoint) geo.coordinates.forEach { streamPoint(it, stream) }
-    if (geo is MultiPolygon) geo.coordinates.forEach { streamPolygon(it, stream) }
-    if (geo is Polygon) streamPolygon(geo.coordinates, stream)
-    if (geo is LineString) streamLine(geo.coordinates, stream, false)
-    if (geo is MultiLineString) geo.coordinates.forEach { streamLine(it, stream, false) }
+fun streamGeometry(geo: GeoJsonObject, stream: Stream) {
+    when (geo) {
+        is Point -> streamPoint(geo.coordinates, stream)
+        is LineString -> streamLine(geo.coordinates, stream, false)
+        is MultiPoint -> geo.coordinates.forEach { streamPoint(it, stream) }
+        is MultiPolygon -> geo.coordinates.forEach { streamPolygon(it, stream) }
+        is Polygon -> streamPolygon(geo.coordinates, stream)
+        is MultiLineString -> geo.coordinates.forEach { streamLine(it, stream, false) }
+        is Sphere -> streamSphere(stream)
+    }
 }
 
 private fun streamSphere(stream: Stream) {
     stream.sphere()
 }
 
-private fun streamPoint(coordinates: DoubleArray, stream: Stream) {
-    stream.point(coordinates[0], coordinates[1], if (coordinates.size > 2) coordinates[2] else .0)
+private fun streamPoint(coordinates: Position, stream: Stream) {
+    var z = coordinates.alt
+    if (z == null) z = .0
+    stream.point(coordinates.lon, coordinates.lat, z)
 }
 
-private fun streamPolygon(coords: List<List<DoubleArray>>, stream: Stream) {
+private fun streamPolygon(coords: Lines, stream: Stream) {
     stream.polygonStart()
     coords.forEach { streamLine(it, stream, true) }
     stream.polygonEnd()
 }
 
-private fun streamLine(coords: List<DoubleArray>, stream: Stream, closed: Boolean) {
-    val n = if (closed) coords.size - 1 else coords.size
+private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
+    val size = if (closed) coords.size - 1 else coords.size
 
     stream.lineStart()
-    for (i in 0 until n) {
+    for (i in 0 until size) {
         val p = coords[i]
         stream.point(p[0], p[1], if (p.size > 2) p[2] else .0)
     }

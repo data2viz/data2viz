@@ -1,14 +1,15 @@
 package io.data2viz.geo
 
 import io.data2viz.geo.projection.Stream
+import io.data2viz.geojson.GeoJsonObject
+import io.data2viz.math.EPSILON
+import io.data2viz.math.EPSILON2
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
-import io.data2viz.path.epsilon
 import kotlin.math.*
 
 // TODO : fun geoCentroid(geo) = GeoCentroid().result(geo) and generalizes to all measurements classes
 
-const val epsilon2 = 1e-12
 
 /**
  * Returns the spherical centroid of the specified GeoJSON object.
@@ -38,7 +39,7 @@ class GeoCentroid : Stream {
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
     // TODO : invoke ?
-    fun result(geo: GeoJSON): DoubleArray {
+    fun result(geo: GeoJsonObject): DoubleArray {
         _W0 = .0
         _W1 = .0
         _X0 = .0
@@ -58,21 +59,21 @@ class GeoCentroid : Stream {
         var m = x * x + y * y + z * z;
 
         // If the area-weighted centroid is undefined, fall back to length-weighted ccentroid.
-        if (m < epsilon2) {
+        if (m < EPSILON2) {
             x = _X1
             y = _Y1
             z = _Z1
 
             // If the feature has zero length, fall back to arithmetic mean of point vectors.
-            if (_W1 < epsilon) {
+            if (_W1 < EPSILON) {
                 x = _X0
                 y = _Y0
                 z = _Z0
             }
             m = x * x + y * y + z * z
 
-            // If the feature still has an undefined ccentroid, then return.
-            if (m < epsilon2) return doubleArrayOf(Double.NaN, Double.NaN)
+            // If the feature still has an undefined centroid, then return.
+            if (m < EPSILON2) return doubleArrayOf(Double.NaN, Double.NaN)
         }
 
         return doubleArrayOf(atan2(y, x).toDegrees(), asin(z / sqrt(m)).toDegrees())
@@ -92,25 +93,25 @@ class GeoCentroid : Stream {
     }
 
     // Arithmetic mean of Cartesian vectors.
-    private fun centroidPoint(x:Double, y:Double, z:Double) {
+    private fun centroidPoint(x: Double, y: Double, z: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val cosPhi = cos(phi)
         centroidPointCartesian(cosPhi * cos(lambda), cosPhi * sin(lambda), sin(phi))
     }
 
-    private fun  centroidPointCartesian(x:Double, y:Double, z:Double) {
+    private fun centroidPointCartesian(x: Double, y: Double, z: Double) {
         ++_W0
         _X0 += (x - _X0) / _W0
         _Y0 += (y - _Y0) / _W0
         _Z0 += (z - _Z0) / _W0
     }
 
-    private fun  centroidLineStart() {
+    private fun centroidLineStart() {
         currentPoint = ::centroidLinePointFirst
     }
 
-    private fun  centroidLinePointFirst(x:Double, y:Double, z:Double) {
+    private fun centroidLinePointFirst(x: Double, y: Double, z: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val cosPhi = cos(phi)
@@ -121,7 +122,7 @@ class GeoCentroid : Stream {
         centroidPointCartesian(x0, y0, z0)
     }
 
-    private fun  centroidLinePoint(x:Double, y:Double, z:Double) {
+    private fun centroidLinePoint(x: Double, y: Double, z: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val cosPhi = cos(phi)
@@ -142,13 +143,13 @@ class GeoCentroid : Stream {
         centroidPointCartesian(x0, y0, z0)
     }
 
-    private fun  centroidLineEnd() {
+    private fun centroidLineEnd() {
         currentPoint = ::centroidPoint
     }
 
     // See J. E. Brock, The Inertia Tensor for a Spherical Triangle,
     // J. Applied Mechanics 42, 239 (1975).
-    private fun  centroidRingStart() {
+    private fun centroidRingStart() {
         currentPoint = ::centroidRingPointFirst
     }
 
@@ -157,7 +158,7 @@ class GeoCentroid : Stream {
         currentPoint = ::centroidPoint
     }
 
-    private fun centroidRingPointFirst(x:Double, y:Double, z:Double) {
+    private fun centroidRingPointFirst(x: Double, y: Double, z: Double) {
         lambda00 = x
         phi00 = y
         val lambda = x.toRadians()
@@ -170,7 +171,7 @@ class GeoCentroid : Stream {
         centroidPointCartesian(x0, y0, z0)
     }
 
-    private fun centroidRingPoint(x:Double, y:Double, z:Double) {
+    private fun centroidRingPoint(x: Double, y: Double, z: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val cosPhi = cos(phi)

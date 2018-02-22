@@ -2,14 +2,17 @@ package io.data2viz.geo
 
 import io.data2viz.core.range
 import io.data2viz.geo.projection.Extent
+import io.data2viz.geojson.LineString
+import io.data2viz.geojson.MultiLineString
+import io.data2viz.geojson.Polygon
 import io.data2viz.path.epsilon
 import kotlin.math.abs
 import kotlin.math.ceil
 
 // TODO : use Extent
-fun graticule() = graticule {}
+fun geoGraticule() = geoGraticule {}
 
-fun graticule(init: Graticule.() -> Unit): Graticule {
+fun geoGraticule(init: Graticule.() -> Unit): Graticule {
     val g = Graticule()
     g.extentMajor = Extent(-180.0, -90.0 + epsilon, 180.0, 90.0 - epsilon)
     g.extentMinor = Extent(-180.0, -80.0 - epsilon, 180.0, 80.0 + epsilon)
@@ -98,9 +101,9 @@ class Graticule {
             stepMinor = value
         }
 
-    fun graticule() = MultiLineString(_lines().map { it.map { doubleArrayOf(it[0], it[1]) } })
+    fun graticule() = MultiLineString(_lines().map { it.map { arrayOf(it[0], it[1]) }.toTypedArray() }.toTypedArray())
 
-    fun lines() = _lines().map { LineString(it.map { doubleArrayOf(it[0], it[1]) }) }
+    fun lines() = _lines().map { LineString(it.map { arrayOf(it[0], it[1]) }.toTypedArray()) }
 
     fun outline(): Polygon {
         val coords = majorX(majorExtent.x0).toMutableList()
@@ -108,16 +111,25 @@ class Graticule {
         coords += majorX(majorExtent.x1).asReversed().subList(1, majorX(majorExtent.x1).lastIndex)
         coords += majorY(majorExtent.y0).asReversed().subList(1, majorY(majorExtent.y0).lastIndex)
 
-        return Polygon(listOf(coords.map { doubleArrayOf(it[0], it[1]) }))
+        return Polygon(arrayOf(coords.map { arrayOf(it[0], it[1]) }.toTypedArray()))
     }
 
     private fun _lines(): List<List<DoubleArray>> {
-        val lines = range(ceil(majorExtent.x0 / majorStepX) * majorStepX, majorExtent.x1, majorStepX).map(majorX).toMutableList()
+        val lines = range(ceil(majorExtent.x0 / majorStepX) * majorStepX, majorExtent.x1, majorStepX).map(majorX)
+            .toMutableList()
         lines += range(ceil(majorExtent.y0 / majorStepY) * majorStepY, majorExtent.y1, majorStepY).map(majorY)
-        lines += range(ceil(minorExtent.x0 / minorStepX) * minorStepX, minorExtent.x1, minorStepX).filter { abs(it % majorStepX) > epsilon }.map(
+        lines += range(
+            ceil(minorExtent.x0 / minorStepX) * minorStepX,
+            minorExtent.x1,
+            minorStepX
+        ).filter { abs(it % majorStepX) > epsilon }.map(
             minorX
         )
-        lines += range(ceil(minorExtent.y0 / minorStepY) * minorStepY, minorExtent.y1, minorStepY).filter { abs(it % majorStepY) > epsilon }.map(
+        lines += range(
+            ceil(minorExtent.y0 / minorStepY) * minorStepY,
+            minorExtent.y1,
+            minorStepY
+        ).filter { abs(it % majorStepY) > epsilon }.map(
             minorY
         )
 

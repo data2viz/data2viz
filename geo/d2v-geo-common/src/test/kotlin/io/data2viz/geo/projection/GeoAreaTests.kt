@@ -1,12 +1,12 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.*
-import io.data2viz.geo.path.geoPath
-import io.data2viz.path.svgPath
+import io.data2viz.geo.GeoArea
+import io.data2viz.geo.Sphere
+import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.math.PI
-import kotlin.test.Test
 import kotlin.test.Ignore
+import kotlin.test.Test
 
 class GeoAreaTests : TestBase() {
 
@@ -17,15 +17,15 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_a_multipoint_LEGACY() {
-        GeoArea().result(MultiPoint(listOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBe .0
+        GeoArea().result(MultiPoint(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBe .0
     }
 
     @Test
     fun geoarea_of_a_tiny_polygon_LEGACY() {
         GeoArea().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(-64.66070178517852, 18.33986913231323),
                         pt(-64.66079715091509, 18.33994007490749),
                         pt(-64.66074946804680, 18.33994007490749),
@@ -39,12 +39,13 @@ class GeoAreaTests : TestBase() {
 
 
     // TODO : pass in JVM not JS !!
-    @Test @Ignore
+    @Test
+    @Ignore
     fun geoarea_of_a_zero_area_polygon_LEGACY() {
         GeoArea().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(96.79142432523281, 5.262704519048153),
                         pt(96.81065389253769, 5.272455576551362),
                         pt(96.82988345984256, 5.272455576551362),
@@ -60,8 +61,8 @@ class GeoAreaTests : TestBase() {
     fun geoarea_of_a_semilune_polygon_LEGACY() {
         GeoArea().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(.0, 90.0),
                         pt(90.0, .0),
@@ -76,8 +77,8 @@ class GeoAreaTests : TestBase() {
     fun geoarea_of_a_lune_polygon_LEGACY() {
         GeoArea().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(.0, 90.0),
                         pt(90.0, .0),
@@ -93,8 +94,8 @@ class GeoAreaTests : TestBase() {
     fun geoarea_of_hemisphere_north_LEGACY() {
         GeoArea().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(-90.0, .0),
                         pt(180.0, .0),
@@ -110,8 +111,8 @@ class GeoAreaTests : TestBase() {
     fun geoarea_of_hemisphere_south_LEGACY() {
         GeoArea().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(90.0, .0),
                         pt(180.0, .0),
@@ -127,8 +128,8 @@ class GeoAreaTests : TestBase() {
     fun geoarea_of_hemisphere_east_LEGACY() {
         GeoArea().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(.0, 90.0),
                         pt(180.0, .0),
@@ -144,8 +145,8 @@ class GeoAreaTests : TestBase() {
     fun geoarea_of_hemisphere_west_LEGACY() {
         GeoArea().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(.0, -90.0),
                         pt(180.0, .0),
@@ -161,9 +162,9 @@ class GeoAreaTests : TestBase() {
     fun geoarea_of_multipolygon_2_hemispheres_LEGACY() {
         GeoArea().result(
             MultiPolygon(
-                listOf(
-                    listOf(
-                        listOf(
+                arrayOf(
+                    arrayOf(
+                        arrayOf(
                             pt(.0, .0),
                             pt(-90.0, .0),
                             pt(180.0, .0),
@@ -171,8 +172,8 @@ class GeoAreaTests : TestBase() {
                             pt(.0, .0)
                         )
                     ),
-                    listOf(
-                        listOf(
+                    arrayOf(
+                        arrayOf(
                             pt(.0, .0),
                             pt(90.0, .0),
                             pt(180.0, .0),
@@ -194,10 +195,10 @@ class GeoAreaTests : TestBase() {
     fun geoarea_of_geometryCollection_polygon_LEGACY() {
         GeoArea().result(
             GeometryCollection(
-                listOf(
+                arrayOf(
                     Polygon(
-                        listOf(
-                            listOf(
+                        arrayOf(
+                            arrayOf(
                                 pt(.0, .0),
                                 pt(.0, -90.0),
                                 pt(180.0, .0),
@@ -213,7 +214,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_featureCollection_sphere_LEGACY() {
-        GeoArea().result(FeatureCollection(listOf(Sphere()))) shouldBeClose PI * 4
+        GeoArea().result(FeatureCollection(arrayOf(Feature(Sphere())))) shouldBeClose PI * 4
     }
 
     @Test
@@ -223,13 +224,19 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_linestring_LEGACY() {
-        GeoArea().result(LineString(listOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBe .0
+        GeoArea().result(LineString(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBe .0
     }
 
     @Test
     fun geoarea_of_multilinestring_LEGACY() {
-        GeoArea().result(MultiLineString(listOf(listOf(pt(.0, 1.0), pt(2.0, 3.0)),
-            listOf(pt(4.0, 5.0), pt(6.0, 7.0))))) shouldBe .0
+        GeoArea().result(
+            MultiLineString(
+                arrayOf(
+                    arrayOf(pt(.0, 1.0), pt(2.0, 3.0)),
+                    arrayOf(pt(4.0, 5.0), pt(6.0, 7.0))
+                )
+            )
+        ) shouldBe .0
     }
 
     /*
@@ -241,17 +248,17 @@ function stripes(a, b) {
   })};
 }
 
-tape("area: Polygon - graticule outline sphere", function(test) {
+tape("area: Polygon - geoGraticule outline sphere", function(test) {
   test.inDelta(d3.geoArea(d3.geoGraticule().extent([[-180, -90], [180, 90]]).outline()), 4 * Math.PI, 1e-5);
   test.end();
 });
 
-tape("area: Polygon - graticule outline hemisphere", function(test) {
+tape("area: Polygon - geoGraticule outline hemisphere", function(test) {
   test.inDelta(d3.geoArea(d3.geoGraticule().extent([[-180, 0], [180, 90]]).outline()), 2 * Math.PI, 1e-5);
   test.end();
 });
 
-tape("area: Polygon - graticule outline semilune", function(test) {
+tape("area: Polygon - geoGraticule outline semilune", function(test) {
   test.inDelta(d3.geoArea(d3.geoGraticule().extent([[0, 0], [90, 90]]).outline()), Math.PI / 2, 1e-5);
   test.end();
 });

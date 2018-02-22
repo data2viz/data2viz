@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.*
 import io.data2viz.geo.path.geoPath
+import io.data2viz.geojson.*
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
@@ -25,7 +25,7 @@ class PathMeasureTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.measure(
             MultiPoint(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(.0, 1.0),
                     pt(1.0, 1.0),
@@ -40,7 +40,7 @@ class PathMeasureTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.measure(
             LineString(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(.0, 1.0),
                     pt(1.0, 1.0),
@@ -55,8 +55,8 @@ class PathMeasureTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.measure(
             MultiLineString(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(.0, 1.0),
                         pt(1.0, 1.0),
@@ -72,8 +72,8 @@ class PathMeasureTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.measure(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(.0, 1.0),
                         pt(1.0, 1.0),
@@ -90,15 +90,15 @@ class PathMeasureTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.measure(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(-1.0, -1.0),
                         pt(-1.0, 2.0),
                         pt(2.0, 2.0),
                         pt(2.0, -1.0),
                         pt(-1.0, -1.0)
                     ),
-                    listOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(1.0, .0),
                         pt(1.0, 1.0),
@@ -115,9 +115,9 @@ class PathMeasureTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.measure(
             MultiPolygon(
-                listOf(
-                    listOf(
-                        listOf(
+                arrayOf(
+                    arrayOf(
+                        arrayOf(
                             pt(-1.0, -1.0),
                             pt(-1.0, 2.0),
                             pt(2.0, 2.0),
@@ -125,8 +125,8 @@ class PathMeasureTests : TestBase() {
                             pt(-1.0, -1.0)
                         )
                     ),
-                    listOf(
-                        listOf(
+                    arrayOf(
+                        arrayOf(
                             pt(.0, .0),
                             pt(1.0, .0),
                             pt(1.0, 1.0),

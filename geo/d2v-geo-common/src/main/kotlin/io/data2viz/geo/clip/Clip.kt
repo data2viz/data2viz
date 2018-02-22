@@ -2,7 +2,6 @@
 
 import io.data2viz.geo.polygonContains
 import io.data2viz.geo.projection.Stream
-import io.data2viz.path.epsilon
 
 interface Clippable {
     fun pointVisible(x: Double, y: Double): Boolean

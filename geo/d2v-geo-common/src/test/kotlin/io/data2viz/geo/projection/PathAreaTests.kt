@@ -1,7 +1,8 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.*
+import io.data2viz.geo.Sphere
 import io.data2viz.geo.path.geoPath
+import io.data2viz.geojson.Polygon
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
@@ -20,8 +21,8 @@ class PathAreaTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.area(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(100.0, .0),
                         pt(100.0, 1.0),
                         pt(101.0, 1.0),
@@ -38,15 +39,15 @@ class PathAreaTests : TestBase() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.area(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(100.0, .0),
                         pt(100.0, 1.0),
                         pt(101.0, 1.0),
                         pt(101.0, .0),
                         pt(100.0, .0)
                     ),
-                    listOf(
+                    arrayOf(
                         pt(100.2, .2),
                         pt(100.8, .2),
                         pt(100.8, .8),
@@ -59,7 +60,8 @@ class PathAreaTests : TestBase() {
     }
 
     // TODO : when clipping will be OK activate this one
-    @Test @Ignore
+    @Test
+    @Ignore
     fun geopath_area_of_a_sphere_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.area(Sphere()) shouldBe 1620000.0
