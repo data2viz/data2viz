@@ -3,11 +3,8 @@
 import io.data2viz.geo.ModifiedStream
 import io.data2viz.geo.projection.Stream
 import io.data2viz.path.epsilon
-import kotlin.math.*
 
 fun clipAntimeridian() = { stream: Stream -> ModifiedStream(AntimeridianClip(), stream) }
-
-val halfpi = (PI / 2)
 
 class AntimeridianClip : Clippable {
 

@@ -1,5 +1,7 @@
 package io.data2viz.geo.path
 
+import io.data2viz.geo.noop
+import io.data2viz.geo.noop3
 import io.data2viz.geo.projection.Stream
 import kotlin.math.abs
 
@@ -13,9 +15,6 @@ class PathArea : Stream {
     private var y00 = Double.NaN
     private var x0 = Double.NaN
     private var y0 = Double.NaN
-
-    private val noop: () -> Unit = { }
-    private val noop3: (Double, Double, Double) -> Unit = { x, y, z -> }
 
     private var currentPoint: (Double, Double, Double) -> Unit = noop3
     private var currentLineStart: () -> Unit = noop

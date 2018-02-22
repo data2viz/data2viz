@@ -1,7 +1,10 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geojson.Point
+import io.data2viz.geojson.lat
+import io.data2viz.geojson.lon
+import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.test.TestBase
-import io.data2viz.geojson.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

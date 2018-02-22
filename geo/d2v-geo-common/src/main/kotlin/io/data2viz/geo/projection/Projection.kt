@@ -3,21 +3,7 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.ModifiedStream
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
-import kotlin.math.PI
 import kotlin.math.sqrt
-
-const val HALF_PI = PI / 2
-
-/*data class GeoPoint(
-    val latitude: Double,           // equivalent to PHI (φ)
-    val longitude: Double,           // equivalent to lambda (λ)
-    val elevation: Double = .0
-)
-
-data class Point(
-    val x: Double,
-    val y: Double
-)*/
 
 data class Extent(
     var x0: Double,
@@ -198,7 +184,7 @@ open class MutableProjection(val projection: Projectable) : Projection {
 
     private lateinit var projectRotate: Projectable
 
-    private val projectTransform:Projectable = object : Projectable {
+    private val projectTransform: Projectable = object : Projectable {
         override fun project(lambda: Double, phi: Double): DoubleArray {
             val p = projection.project(lambda, phi)
             return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)

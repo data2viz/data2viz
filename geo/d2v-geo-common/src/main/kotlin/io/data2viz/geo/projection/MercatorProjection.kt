@@ -1,6 +1,8 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.ModifiedStream
+import io.data2viz.math.HALFPI
+import io.data2viz.math.TAU
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
@@ -9,7 +11,7 @@ class MercatorRaw
 
 fun mercator() = mercator {}
 fun mercator(init: Projection.() -> Unit) = projection(MercatorProjection()) {
-    scale = 961 / (2 * PI)
+    scale = 961.0 / TAU
     init()
 }
 
@@ -48,7 +50,7 @@ class MercatorProjection : Projection {
         set(value) {
             deltaLambda = (value[0] % 360).toRadians()
             deltaPhi = (value[1] % 360).toRadians()
-            deltaGamma = if(value.size > 2) (value[2] % 360).toRadians() else 0.0
+            deltaGamma = if (value.size > 2) (value[2] % 360).toRadians() else 0.0
             recenter()
         }
 
@@ -75,12 +77,12 @@ class MercatorProjection : Projection {
             if (value != null) reclip()
         }
 
-    override fun project(lambda:Double, phi:Double): DoubleArray {
-        return doubleArrayOf(lambda, ln(tan((HALF_PI + phi) / 2)))
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        return doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
     }
 
-    override fun invert(x:Double, y:Double): DoubleArray {
-        return doubleArrayOf(x, 2 * atan(exp(y)) - HALF_PI)
+    override fun invert(x: Double, y: Double): DoubleArray {
+        return doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
     }
 
     private var deltaLambda = .0
@@ -95,13 +97,14 @@ class MercatorProjection : Projection {
         return transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
     }
 
-    val transformRadians: (stream:Stream) -> ModifiedStream = { stream: Stream ->
+    val transformRadians: (stream: Stream) -> ModifiedStream = { stream: Stream ->
         object : ModifiedStream(stream) {
-            override fun point(x: Double, y: Double, z: Double) = stream.point(x.toRadians(), y.toRadians(), z.toRadians())
+            override fun point(x: Double, y: Double, z: Double) =
+                stream.point(x.toRadians(), y.toRadians(), z.toRadians())
         }
     }
 
-    fun transformRotate(rotate: Projectable): (stream:Stream) -> ModifiedStream = { stream: Stream ->
+    fun transformRotate(rotate: Projectable): (stream: Stream) -> ModifiedStream = { stream: Stream ->
         object : ModifiedStream(stream) {
             override fun point(x: Double, y: Double, z: Double) {
                 val r = rotate.project(x, y)

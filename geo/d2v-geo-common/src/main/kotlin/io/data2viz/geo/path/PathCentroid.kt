@@ -47,13 +47,14 @@ class PathCentroid : Stream {
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
-        currentLineStart  = ::centroidRingStart
-        currentLineEnd  = ::centroidRingEnd
+        currentLineStart = ::centroidRingStart
+        currentLineEnd = ::centroidRingEnd
     }
+
     override fun polygonEnd() {
         currentPoint = ::centroidPoint
-        currentLineStart  = ::centroidLineStart
-        currentLineEnd  = ::centroidLineEnd
+        currentLineStart = ::centroidLineStart
+        currentLineEnd = ::centroidLineEnd
     }
 
     private fun centroidPoint(x: Double, y: Double, z: Double) {

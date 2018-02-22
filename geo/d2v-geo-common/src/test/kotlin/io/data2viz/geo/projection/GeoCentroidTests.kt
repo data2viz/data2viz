@@ -1,207 +1,206 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.*
-import io.data2viz.geo.path.geoPath
-import io.data2viz.path.svgPath
+import io.data2viz.geo.GeoCentroid
+import io.data2viz.geo.Sphere
+import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
-import kotlin.math.PI
 import kotlin.test.Test
 
 class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_point_is_itself_LEGACY() {
-        GeoCentroid().result(Point(pt(.0, .0))) shouldBeClose pt(.0, .0)
-        GeoCentroid().result(Point(pt(1.0, 1.0))) shouldBeClose pt(1.0, 1.0)
-        GeoCentroid().result(Point(pt(2.0, 3.0))) shouldBeClose pt(2.0, 3.0)
-        GeoCentroid().result(Point(pt(-4.0, -5.0))) shouldBeClose pt(-4.0, -5.0)
+        GeoCentroid().result(Point(pt(.0, .0))) shouldBeClose doubleArrayOf(.0, .0)
+        GeoCentroid().result(Point(pt(1.0, 1.0))) shouldBeClose doubleArrayOf(1.0, 1.0)
+        GeoCentroid().result(Point(pt(2.0, 3.0))) shouldBeClose doubleArrayOf(2.0, 3.0)
+        GeoCentroid().result(Point(pt(-4.0, -5.0))) shouldBeClose doubleArrayOf(-4.0, -5.0)
     }
 
     @Test
     fun geocentroid_of_a_set_of_points_is_the_spherical_average_of_its_constituent_members_LEGACY() {
         GeoCentroid().result(
             MultiPoint(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(1.0, 2.0)
                 )
             )
-        ) shouldBeClose pt(0.499847, 1.000038)
+        ) shouldBeClose doubleArrayOf(0.499847, 1.000038)
 
         GeoCentroid().result(
             MultiPoint(
-                listOf(
+                arrayOf(
                     pt(179.0, .0),
                     pt(-179.0, .0)
                 )
             )
-        ) shouldBeClose pt(180.0, .0)
+        ) shouldBeClose doubleArrayOf(180.0, .0)
     }
 
     @Test
     fun geocentroid_of_a_set_of_points_and_their_antipodes_is_ambiguous_LEGACY() {
         GeoCentroid().result(
             MultiPoint(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(180.0, .0)
                 )
             )
-        ) shouldBe pt(Double.NaN, Double.NaN)
+        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
 
         GeoCentroid().result(
             MultiPoint(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(90.0, .0),
                     pt(180.0, .0),
                     pt(-90.0, .0)
                 )
             )
-        ) shouldBe pt(Double.NaN, Double.NaN)
+        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
 
         GeoCentroid().result(
             MultiPoint(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(.0, 90.0),
                     pt(180.0, .0),
                     pt(.0, -90.0)
                 )
             )
-        ) shouldBe pt(Double.NaN, Double.NaN)
+        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geocentroid_of_an_empty_set_of_points_is_ambiguous_LEGACY() {
-        GeoCentroid().result(MultiPoint(listOf())) shouldBe pt(Double.NaN, Double.NaN)
+        GeoCentroid().result(MultiPoint(arrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geocentroid_of_a_linestring_is_the_spherical_average_of_its_constituent_great_arc_segments_LEGACY() {
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(1.0, .0)
                 )
             )
-        ) shouldBeClose pt(0.5, .0)
+        ) shouldBeClose doubleArrayOf(0.5, .0)
 
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(.0, 90.0)
                 )
             )
-        ) shouldBeClose pt(.0, 45.0)
+        ) shouldBeClose doubleArrayOf(.0, 45.0)
 
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(.0, .0),
                     pt(.0, 45.0),
                     pt(.0, 90.0)
                 )
             )
-        ) shouldBeClose pt(.0, 45.0)
+        ) shouldBeClose doubleArrayOf(.0, 45.0)
 
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(-1.0, -1.0),
                     pt(1.0, 1.0)
                 )
             )
-        ) shouldBeClose pt(.0, .0)
+        ) shouldBeClose doubleArrayOf(.0, .0)
 
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(-60.0, -1.0),
                     pt(60.0, 1.0)
                 )
             )
-        ) shouldBeClose pt(.0, .0)
+        ) shouldBeClose doubleArrayOf(.0, .0)
 
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(179.0, -1.0),
                     pt(-179.0, 1.0)
                 )
             )
-        ) shouldBeClose pt(180.0, .0)
+        ) shouldBeClose doubleArrayOf(180.0, .0)
 
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(-179.0, .0),
                     pt(.0, .0),
                     pt(179.0, .0)
                 )
             )
-        ) shouldBeClose pt(.0, .0)
+        ) shouldBeClose doubleArrayOf(.0, .0)
 
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(-180.0, -90.0),
                     pt(.0, .0),
                     pt(.0, 90.0)
                 )
             )
-        ) shouldBeClose pt(.0, .0)
+        ) shouldBeClose doubleArrayOf(.0, .0)
     }
 
     @Test
     fun geocentroid_of_a_great_arc_from_a_point_to_its_antipode_is_ambiguous_LEGACY() {
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(180.0, .0),
                     pt(.0, .0)
                 )
             )
-        ) shouldBe pt(Double.NaN, Double.NaN)
+        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
 
         GeoCentroid().result(
             MultiLineString(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(180.0, .0),
                         pt(.0, .0)
                     )
                 )
             )
-        ) shouldBe pt(Double.NaN, Double.NaN)
+        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geocentroid_of_a_set_of_linestrings_is_the_spherical_average_of_its_constituent_great_arc_segments_LEGACY() {
         GeoCentroid().result(
             MultiLineString(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, .0),
                         pt(.0, 2.0)
                     )
                 )
             )
-        ) shouldBeClose pt(.0, 1.0)
+        ) shouldBeClose doubleArrayOf(.0, 1.0)
     }
 
     @Test
     fun geocentroid_a_line_of_zero_length_is_treated_as_points_LEGACY() {
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(1.0, 1.0),
                     pt(1.0, 1.0)
                 )
             )
-        ) shouldBeClose pt(1.0, 1.0)
+        ) shouldBeClose doubleArrayOf(1.0, 1.0)
 
         // TODO
 //        test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}, {type: "LineString", coordinates: [[1, 2], [1, 2]]}]}), [0.666534, 1.333408], 1e-6);
@@ -211,8 +210,8 @@ class GeoCentroidTests : TestBase() {
     fun geocentroid_an_empty_polygon_with_non_zero_extent_is_treated_as_a_line_LEGACY() {
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(1.0, 1.0),
                         pt(2.0, 1.0),
                         pt(3.0, 1.0),
@@ -221,7 +220,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(2.0, 1.000076)
+        ) shouldBeClose doubleArrayOf(2.0, 1.000076)
 
         // TODO
 //        test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}, {type: "Polygon", coordinates: [[[1, 2], [1, 2], [1, 2], [1, 2]]]}]}), [0.799907, 1.600077], 1e-6);
@@ -231,8 +230,8 @@ class GeoCentroidTests : TestBase() {
     fun geocentroid_an_empty_polygon_with_zero_extent_is_treated_as_a_point_LEGACY() {
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(1.0, 1.0),
                         pt(1.0, 1.0),
                         pt(1.0, 1.0),
@@ -241,7 +240,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(1.0, 1.0)
+        ) shouldBeClose doubleArrayOf(1.0, 1.0)
 
         // TODO
 //        test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}, {type: "Polygon", coordinates: [[[1, 2], [1, 2], [1, 2], [1, 2]]]}]}), [0.799907, 1.600077], 1e-6);
@@ -251,22 +250,22 @@ class GeoCentroidTests : TestBase() {
     fun geocentroid_of_the_equator_is_ambiguous_LEGACY() {
         GeoCentroid().result(
             LineString(
-                listOf(
+                arrayOf(
                     pt(0.0, .0),
                     pt(120.0, .0),
                     pt(-120.0, .0),
                     pt(.0, .0)
                 )
             )
-        ) shouldBe pt(Double.NaN, Double.NaN)
+        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geocentroid_of_a_polygon_is_the_spherical_average_of_its_surface_LEGACY() {
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, -90.0),
                         pt(.0, .0),
                         pt(.0, 90.0),
@@ -275,20 +274,20 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(0.5, .0)
+        ) shouldBeClose doubleArrayOf(0.5, .0)
 
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    (-180..180).map { pt(it.toDouble(), -60.0) }
+                arrayOf(
+                    (-180..180).map { pt(it.toDouble(), -60.0) }.toTypedArray()
                 )
             )
         )[1] shouldBeClose -90.0
 
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, -10.0),
                         pt(.0, 10.0),
                         pt(10.0, 10.0),
@@ -297,15 +296,15 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(5.0, .0)
+        ) shouldBeClose doubleArrayOf(5.0, .0)
     }
 
     @Test
     fun geocentroid_of_a_spherical_square_touching_the_antimeridian_LEGACY() {
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(-180.0, .0),
                         pt(-180.0, 10.0),
                         pt(-179.0, 10.0),
@@ -314,20 +313,20 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(-179.5, 4.987448)
+        ) shouldBeClose doubleArrayOf(-179.5, 4.987448)
     }
 
     @Test
     fun geocentroid_of_a_sphere_is_ambiguous_LEGACY() {
-        GeoCentroid().result(Sphere()) shouldBe pt(Double.NaN, Double.NaN)
+        GeoCentroid().result(Sphere()) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geocentroid_of_a_small_circle_is_its_center_south_pole_LEGACY() {
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    (-180..180).map { pt(it.toDouble(), -60.0) }
+                arrayOf(
+                    (-180..180).map { pt(it.toDouble(), -60.0) }.toTypedArray()
                 )
             )
         )[1] shouldBe -90.0
@@ -337,8 +336,8 @@ class GeoCentroidTests : TestBase() {
     fun geocentroid_of_a_small_circle_is_its_center_equator_LEGACY() {
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, -10.0),
                         pt(.0, 10.0),
                         pt(10.0, 10.0),
@@ -347,15 +346,15 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(5.0, .0)
+        ) shouldBeClose doubleArrayOf(5.0, .0)
     }
 
     @Test
     fun geocentroid_of_a_small_circle_is_its_center_equator_with_coincident_points_LEGACY() {
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(.0, -10.0),
                         pt(.0, 10.0),
                         pt(.0, 10.0),
@@ -365,15 +364,15 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(5.0, .0)
+        ) shouldBeClose doubleArrayOf(5.0, .0)
     }
 
     @Test
     fun geocentroid_of_a_small_circle_is_its_center_other_LEGACY() {
         GeoCentroid().result(
             Polygon(
-                listOf(
-                    listOf(
+                arrayOf(
+                    arrayOf(
                         pt(-180.0, .0),
                         pt(-180.0, 10.0),
                         pt(-179.0, 10.0),
@@ -382,7 +381,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(-179.5, 4.987448)
+        ) shouldBeClose doubleArrayOf(-179.5, 4.987448)
     }
 
     @Test
@@ -390,13 +389,13 @@ class GeoCentroidTests : TestBase() {
         GeoCentroid().result(
             Feature(
                 LineString(
-                    listOf(
+                    arrayOf(
                         pt(1.0, 1.0),
                         pt(1.0, 1.0)
                     )
                 )
             )
-        ) shouldBeClose pt(1.0, 1.0)
+        ) shouldBeClose doubleArrayOf(1.0, 1.0)
 
         GeoCentroid().result(
             Feature(
@@ -404,13 +403,13 @@ class GeoCentroidTests : TestBase() {
                     pt(1.0, 1.0)
                 )
             )
-        ) shouldBeClose pt(1.0, 1.0)
+        ) shouldBeClose doubleArrayOf(1.0, 1.0)
 
         GeoCentroid().result(
             Feature(
                 Polygon(
-                    listOf(
-                        listOf(
+                    arrayOf(
+                        arrayOf(
                             pt(.0, -90.0),
                             pt(.0, .0),
                             pt(.0, 90.0),
@@ -420,33 +419,35 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(.5, .0)
+        ) shouldBeClose doubleArrayOf(.5, .0)
     }
 
     @Test
     fun geocentroid_of_a_featureCollection_is_the_center_of_its_constituent_geometry_LEGACY() {
         GeoCentroid().result(
             FeatureCollection(
-                listOf(
-                    LineString(
-                        listOf(
-                            pt(179.0, .0),
-                            pt(180.0, .0)
+                arrayOf(
+                    Feature(
+                        LineString(
+                            arrayOf(
+                                pt(179.0, .0),
+                                pt(180.0, .0)
+                            )
                         )
                     ),
-                    Point(pt(.0, .0))
+                    Feature(Point(pt(.0, .0)))
                 )
             )
-        ) shouldBeClose pt(179.5, .0)
+        ) shouldBeClose doubleArrayOf(179.5, .0)
     }
 
     @Test
     fun geocentroid_of_a_non_empty_linestring_and_a_point_only_considers_the_line_string_LEGACY() {
         GeoCentroid().result(
             GeometryCollection(
-                listOf(
+                arrayOf(
                     LineString(
-                        listOf(
+                        arrayOf(
                             pt(179.0, .0),
                             pt(180.0, .0)
                         )
@@ -454,17 +455,17 @@ class GeoCentroidTests : TestBase() {
                     Point(pt(.0, .0))
                 )
             )
-        ) shouldBeClose pt(179.5, .0)
+        ) shouldBeClose doubleArrayOf(179.5, .0)
     }
 
     @Test
     fun geocentroid_of_a_non_empty_polygon_a_non_empty_linestring_and_a_point_only_considers_the_polygon_LEGACY() {
         GeoCentroid().result(
             GeometryCollection(
-                listOf(
+                arrayOf(
                     Polygon(
-                        listOf(
-                            listOf(
+                        arrayOf(
+                            arrayOf(
                                 pt(-180.0, .0),
                                 pt(-180.0, 1.0),
                                 pt(-179.0, 1.0),
@@ -474,7 +475,7 @@ class GeoCentroidTests : TestBase() {
                         )
                     ),
                     LineString(
-                        listOf(
+                        arrayOf(
                             pt(179.0, .0),
                             pt(180.0, .0)
                         )
@@ -482,21 +483,21 @@ class GeoCentroidTests : TestBase() {
                     Point(pt(.0, .0))
                 )
             )
-        ) shouldBeClose pt(-179.5, 0.500006)
+        ) shouldBeClose doubleArrayOf(-179.5, 0.500006)
 
         GeoCentroid().result(
             GeometryCollection(
-                listOf(
+                arrayOf(
                     Point(pt(.0, .0)),
                     LineString(
-                        listOf(
+                        arrayOf(
                             pt(179.0, .0),
                             pt(180.0, .0)
                         )
                     ),
                     Polygon(
-                        listOf(
-                            listOf(
+                        arrayOf(
+                            arrayOf(
                                 pt(-180.0, .0),
                                 pt(-180.0, 1.0),
                                 pt(-179.0, 1.0),
@@ -507,28 +508,28 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose pt(-179.5, 0.500006)
+        ) shouldBeClose doubleArrayOf(-179.5, 0.500006)
     }
 
     @Test
     fun geocentroid_of_a_the_sphere_and_a_point_is_the_point_LEGACY() {
         GeoCentroid().result(
             FeatureCollection(
-                listOf(
-                    Sphere(),
-                    Point(pt(1.0, 2.0))
+                arrayOf(
+                    Feature(Sphere()),
+                    Feature(Point(pt(1.0, 2.0)))
                 )
             )
-        ) shouldBeClose pt(1.0, 2.0)
+        ) shouldBeClose doubleArrayOf(1.0, 2.0)
 
         GeoCentroid().result(
             FeatureCollection(
-                listOf(
-                    Point(pt(2.0, 3.0)),
-                    Sphere()
+                arrayOf(
+                    Feature(Point(pt(2.0, 3.0))),
+                    Feature(Sphere())
                 )
             )
-        ) shouldBeClose pt(2.0, 3.0)
+        ) shouldBeClose doubleArrayOf(2.0, 3.0)
     }
 
     /*

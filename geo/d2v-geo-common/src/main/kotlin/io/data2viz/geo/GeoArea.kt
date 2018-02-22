@@ -1,18 +1,19 @@
 package io.data2viz.geo
 
 import io.data2viz.geo.projection.Stream
+import io.data2viz.geojson.GeoJsonObject
+import io.data2viz.math.QUARTERPI
+import io.data2viz.math.TAU
 import io.data2viz.math.toRadians
-import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
-const val quarterPi = PI / 4.0
-
 class GeoArea : Stream {
 
     private var areaSum = .0
-    private var areaRingSum = .0
+    internal var areaRingSum = .0
+
     private var lambda00 = Double.NaN
     private var phi00 = Double.NaN
     private var lambda0 = Double.NaN
@@ -20,14 +21,11 @@ class GeoArea : Stream {
     private var cosPhi0 = Double.NaN
     private var sinPhi0 = Double.NaN
 
-    private val noop: () -> Unit = { }
-    private val noop3: (Double, Double, Double) -> Unit = { x, y, z -> }
-
     private var currentPoint: (Double, Double, Double) -> Unit = noop3
     private var currentLineStart: () -> Unit = noop
     private var currentLineEnd: () -> Unit = noop
 
-    fun result(geo:GeoJSON): Double {
+    fun result(geo: GeoJsonObject): Double {
         areaSum = .0
         stream(geo, this)
         return areaSum * 2
@@ -46,11 +44,11 @@ class GeoArea : Stream {
         currentLineStart = noop
         currentLineEnd = noop
         currentPoint = noop3
-        areaSum += areaRingSum + if (areaRingSum < 0) (2.0 * PI) else .0
+        areaSum += areaRingSum + if (areaRingSum < 0) TAU else .0
     }
 
     override fun sphere() {
-        areaSum += 2.0 * PI
+        areaSum += TAU
     }
 
     private fun areaRingStart() {
@@ -64,14 +62,14 @@ class GeoArea : Stream {
         lambda0 = x.toRadians()
         phi0 = y.toRadians()
 
-        val phi = y.toRadians() / 2.0 + quarterPi
+        val phi = y.toRadians() / 2.0 + QUARTERPI
         cosPhi0 = cos(phi)
         sinPhi0 = sin(phi)
     }
 
     private fun areaPoint(x: Double, y: Double, z: Double) {
         val lambda = x.toRadians()
-        val phi = y.toRadians() / 2.0 + quarterPi // half the angular distance from south pole
+        val phi = y.toRadians() / 2.0 + QUARTERPI // half the angular distance from south pole
 
         // Spherical excess E for a spherical triangle with vertices: south pole,
         // previous point, current point.  Uses a formula derived from Cagnoli’s

@@ -10,7 +10,12 @@ class PathBounds : Stream {
 
     fun result(): Extent {
         val result = bounds.copy()
-        bounds = Extent(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
+        bounds = Extent(
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY,
+            Double.NEGATIVE_INFINITY
+        )
         return result
     }
 

@@ -1,6 +1,9 @@
 package io.data2viz.geo
 
 import io.data2viz.geo.projection.Stream
+import io.data2viz.geojson.GeoJsonObject
+import io.data2viz.geojson.LineString
+import io.data2viz.geojson.Position
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
@@ -9,8 +12,8 @@ import kotlin.math.*
  * Each point must be specified as a two-element array [longitude, latitude] in degrees.
  * This is the spherical equivalent of PathMeasure given a LineString of two points.
  */
-fun geoDistance(from:DoubleArray, to:DoubleArray): Double {
-    val line = LineString(listOf(from, to))
+fun geoDistance(from: Position, to: Position): Double {
+    val line = LineString(arrayOf(from, to))
     return GeoLength().result(line)
 }
 
@@ -28,14 +31,11 @@ class GeoLength : Stream {
     private var cosPhi0 = Double.NaN
     private var sinPhi0 = Double.NaN
 
-    private val noop: () -> Unit = { }
-    private val noop3: (Double, Double, Double) -> Unit = { x, y, z -> }
-
     private var currentPoint: (Double, Double, Double) -> Unit = noop3
     private var currentLineEnd: () -> Unit = noop
 
     // TODO : invoke ?
-    fun result(geo:GeoJSON): Double {
+    fun result(geo: GeoJsonObject): Double {
         lengthSum = .0
         stream(geo, this)
         return lengthSum
@@ -46,6 +46,7 @@ class GeoLength : Stream {
         currentPoint = ::lengthPointFirst
         currentLineEnd = ::lengthLineEnd
     }
+
     override fun lineEnd() = currentLineEnd()
 
     private fun lengthPointFirst(x: Double, y: Double, z: Double) {
@@ -62,7 +63,7 @@ class GeoLength : Stream {
         currentLineEnd = noop
     }
 
-    private fun lengthPoint(x:Double, y:Double, z:Double) {
+    private fun lengthPoint(x: Double, y: Double, z: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val sinPhi = sin(phi)
