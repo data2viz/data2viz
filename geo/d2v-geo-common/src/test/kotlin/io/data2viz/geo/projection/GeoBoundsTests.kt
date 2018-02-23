@@ -10,8 +10,8 @@ class GeoBoundsTests : TestBase() {
     @Test
     fun geobounds_feature_LEGACY() {
         val result = GeoBounds().result(Feature(MultiPoint(arrayOf(pt(-123.0, 39.0), pt(-122.0, 38.0)))))
-        result[0] shouldBe doubleArrayOf(-123.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-122.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-122.0, 39.0)
     }
 
     @Test
@@ -24,8 +24,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-122.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-122.0, 39.0)
     }
 
     @Test
@@ -38,8 +38,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-122.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-122.0, 39.0)
     }
 
     @Test
@@ -52,8 +52,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-122.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-122.0, 39.0)
     }
 
     @Test
@@ -74,8 +74,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe result2[0]
-        result[1] shouldBe result2[1]
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(result2.x0, result2.y0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(result2.x1, result2.y1)
     }
 
     @Test
@@ -89,8 +89,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-122.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-122.0, 39.0)
     }
 
     @Test
@@ -104,8 +104,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(.0, .0)
-        result[1] shouldBe doubleArrayOf(.0, 60.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(.0, .0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(.0, 60.0)
     }
 
     @Test
@@ -119,8 +119,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(.0, .0)
-        result[1] shouldBe doubleArrayOf(60.0, .0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(.0, .0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(60.0, .0)
     }
 
     @Test
@@ -133,8 +133,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-45.0, 60.0)
-        result[1] shouldBeClose doubleArrayOf(45.0, 67.792345)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-45.0, 60.0)
+        doubleArrayOf(result.x1, result.y1) shouldBeClose doubleArrayOf(45.0, 67.792345)
     }
 
     @Test
@@ -147,8 +147,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBeClose doubleArrayOf(-45.0, -67.792345)
-        result[1] shouldBe doubleArrayOf(45.0, -60.0)
+        doubleArrayOf(result.x0, result.y0) shouldBeClose doubleArrayOf(-45.0, -67.792345)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(45.0, -60.0)
     }
 
     @Test
@@ -163,8 +163,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-122.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-122.0, 39.0)
     }
 
     @Test
@@ -177,8 +177,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-122.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-122.0, 39.0)
     }
 
     @Test
@@ -191,8 +191,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(179.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-179.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(179.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-179.0, 39.0)
     }
 
     @Test
@@ -207,8 +207,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-1.0, .0)
-        result[1] shouldBe doubleArrayOf(-179.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-1.0, .0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-179.0, 39.0)
     }
 
     @Test
@@ -223,8 +223,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-1.0, .0)
-        result[1] shouldBe doubleArrayOf(-179.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-1.0, .0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-179.0, 39.0)
     }
 
     @Test
@@ -239,8 +239,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-1.0, .0)
-        result[1] shouldBe doubleArrayOf(-179.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-1.0, .0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-179.0, 39.0)
     }
 
     @Test
@@ -254,8 +254,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(178.0, 37.0)
-        result[1] shouldBe doubleArrayOf(-179.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(178.0, 37.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-179.0, 39.0)
     }
 
     @Test
@@ -270,8 +270,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(178.0, 38.0)
-        result[1] shouldBe doubleArrayOf(-178.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(178.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-178.0, 39.0)
     }
 
     @Test
@@ -299,8 +299,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 10.0)
-        result[1] shouldBeClose doubleArrayOf(20.0, 39.001067)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 10.0)
+        doubleArrayOf(result.x1, result.y1) shouldBeClose doubleArrayOf(20.0, 39.001067)
     }
 
     @Test
@@ -310,8 +310,8 @@ class GeoBoundsTests : TestBase() {
                 pt(-123.0, 39.0)
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 39.0)
-        result[1] shouldBe doubleArrayOf(-123.0, 39.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 39.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-123.0, 39.0)
     }
 
     @Test
@@ -328,8 +328,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-123.0, 38.0)
-        result[1] shouldBeClose doubleArrayOf(-122.0, 39.001067)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-123.0, 38.0)
+        doubleArrayOf(result.x1, result.y1) shouldBeClose doubleArrayOf(-122.0, 39.001067)
     }
 
     @Test
@@ -347,8 +347,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-180.0, -90.0)
-        result[1] shouldBe doubleArrayOf(180.0, 90.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-180.0, -90.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(180.0, 90.0)
     }
 
     @Test
@@ -368,8 +368,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBeClose doubleArrayOf(-170.0, -89.119552)
-        result[1] shouldBeClose doubleArrayOf(170.0, 89.119552)
+        doubleArrayOf(result.x0, result.y0) shouldBeClose doubleArrayOf(-170.0, -89.119552)
+        doubleArrayOf(result.x1, result.y1) shouldBeClose doubleArrayOf(170.0, 89.119552)
     }
 
     @Test
@@ -387,8 +387,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-180.0, -90.0)
-        result[1] shouldBeClose doubleArrayOf(180.0, 88.246216)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-180.0, -90.0)
+        doubleArrayOf(result.x1, result.y1) shouldBeClose doubleArrayOf(180.0, 88.246216)
     }
 
     @Test
@@ -412,8 +412,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBeClose doubleArrayOf(10.0, -88.246216)
-        result[1] shouldBeClose doubleArrayOf(-10.0, 88.246216)
+        doubleArrayOf(result.x0, result.y0) shouldBeClose doubleArrayOf(10.0, -88.246216)
+        doubleArrayOf(result.x1, result.y1) shouldBeClose doubleArrayOf(-10.0, 88.246216)
     }
 
     @Test
@@ -430,8 +430,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-180.0, -90.0)
-        result[1] shouldBe doubleArrayOf(180.0, -80.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-180.0, -90.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(180.0, -80.0)
     }
 
     @Test
@@ -454,8 +454,8 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBeClose doubleArrayOf(-180.0, -89.499961)
-        result[1] shouldBe doubleArrayOf(180.0, -80.0)
+        doubleArrayOf(result.x0, result.y0) shouldBeClose doubleArrayOf(-180.0, -89.499961)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(180.0, -80.0)
     }
 
     @Test
@@ -478,15 +478,15 @@ class GeoBoundsTests : TestBase() {
                 )
             )
         )
-        result[0] shouldBe doubleArrayOf(-120.0, 46.0)
-        result[1] shouldBe doubleArrayOf(-119.0, 47.0)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(-120.0, 46.0)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(-119.0, 47.0)
     }
 
     /*@Test
     fun geobounds_null_geometries_LEGACY() {
         val result = GeoBounds().result(Feature(null))
 
-        result[0] shouldBe doubleArrayOf(Double.NaN, Double.NaN)
-        result[1] shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        doubleArrayOf(result.x0, result.y0) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        doubleArrayOf(result.x1, result.y1) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }*/
 }

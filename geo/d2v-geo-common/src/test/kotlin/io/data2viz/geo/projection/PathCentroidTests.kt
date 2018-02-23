@@ -391,9 +391,7 @@ class PathCentroidTests : TestBase() {
         ) shouldBe doubleArrayOf(-417.5, 247.5)
     }
 
-    // TODO : when clipping will be OK activate this one
     @Test
-    @Ignore
     fun geopath_centroid_of_a_sphere_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
 

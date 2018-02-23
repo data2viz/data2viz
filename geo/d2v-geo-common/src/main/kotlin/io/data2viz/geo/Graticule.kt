@@ -35,6 +35,12 @@ private fun reorderExtent(extent: Extent) {
     }
 }
 
+/**
+ * Constructs a geometry generator for creating graticules: a uniform grid of meridians and parallels for showing
+ * projection distortion.
+ * The default graticule has meridians and parallels every 10° between ±80° latitude;
+ * for the polar regions, there are meridians every 90°.
+ */
 class Graticule {
     private var minorExtent = Extent(Double.NaN, Double.NaN, Double.NaN, Double.NaN)
     private var majorExtent = Extent(Double.NaN, Double.NaN, Double.NaN, Double.NaN)
@@ -49,6 +55,11 @@ class Graticule {
     private lateinit var majorX: (Double) -> List<DoubleArray>
     private lateinit var majorY: (Double) -> List<DoubleArray>
 
+    // TODO fun geoGraticule10() {
+
+    /**
+     * The precision for this graticule, in degrees which defaults to 2.5°.
+     */
     var precision = 2.5
         set(value) {
             minorX = graticuleX(minorExtent.y0, minorExtent.y1, 90.0)
@@ -57,6 +68,10 @@ class Graticule {
             majorY = graticuleY(majorExtent.x0, majorExtent.x1, precision)
         }
 
+    /**
+     * Set: sets the major and minor extents of this graticule.
+     * Get: returns the current minor extent, which defaults to ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
+     */
     var extent: Extent
         get() = minorExtent
         set(value) {
@@ -64,6 +79,10 @@ class Graticule {
             extentMinor = value
         }
 
+    /**
+     * Set: sets the major extent of this graticule.
+     * Get: returns the current major extent, which defaults to ⟨⟨-180°, -90° + ε⟩, ⟨180°, 90° - ε⟩⟩.
+     */
     var extentMajor: Extent
         get() = majorExtent
         set(value) {
@@ -72,6 +91,10 @@ class Graticule {
             precision = precision
         }
 
+    /**
+     * Set: sets the minor extent of this graticule.
+     * Get: returns the current minor extent, which defaults to ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
+     */
     var extentMinor: Extent
         get() = minorExtent
         set(value) {
@@ -80,6 +103,10 @@ class Graticule {
             precision = precision
         }
 
+    /**
+     * Set: sets the major step for this graticule.
+     * Get: returns the current major step, which defaults to ⟨90°, 360°⟩.
+     */
     var stepMajor: DoubleArray
         get() = doubleArrayOf(majorStepX, majorStepY)
         set(value) {
@@ -87,6 +114,10 @@ class Graticule {
             majorStepY = value[1]
         }
 
+    /**
+     * Set: sets the minor step for this graticule.
+     * Get: returns the current minor step, which defaults to ⟨10°, 10°⟩.
+     */
     var stepMinor: DoubleArray
         get() = doubleArrayOf(minorStepX, minorStepY)
         set(value) {
@@ -94,6 +125,10 @@ class Graticule {
             minorStepY = value[1]
         }
 
+    /**
+     * Set: sets the major and minor step for this graticule.
+     * Get: returns the current minor step, which defaults to ⟨10°, 10°⟩.
+     */
     var step: DoubleArray
         get() = stepMinor
         set(value) {
@@ -101,10 +136,20 @@ class Graticule {
             stepMinor = value
         }
 
-    fun graticule() = MultiLineString(_lines().map { it.map { arrayOf(it[0], it[1]) }.toTypedArray() }.toTypedArray())
+    /**
+     * Returns a GeoJSON MultiLineString geometry object representing all meridians and parallels for this graticule.
+     */
+    fun graticule() = MultiLineString(buildLines().map { it.map { arrayOf(it[0], it[1]) }.toTypedArray() }.toTypedArray())
 
-    fun lines() = _lines().map { LineString(it.map { arrayOf(it[0], it[1]) }.toTypedArray()) }
+    /**
+     * Returns an array of GeoJSON LineString geometry objects, one for each meridian or parallel for this graticule.
+     */
+    fun lines() = buildLines().map { LineString(it.map { arrayOf(it[0], it[1]) }.toTypedArray()) }
 
+    /**
+     * Returns a GeoJSON Polygon geometry object representing the outline of this graticule, i.e. along the
+     * meridians and parallels defining its extent.
+     */
     fun outline(): Polygon {
         val coords = majorX(majorExtent.x0).toMutableList()
         coords += majorY(majorExtent.y1).subList(1, majorY(majorExtent.y1).lastIndex)
@@ -114,7 +159,7 @@ class Graticule {
         return Polygon(arrayOf(coords.map { arrayOf(it[0], it[1]) }.toTypedArray()))
     }
 
-    private fun _lines(): List<List<DoubleArray>> {
+    private fun buildLines(): List<List<DoubleArray>> {
         val lines = range(ceil(majorExtent.x0 / majorStepX) * majorStepX, majorExtent.x1, majorStepX).map(majorX)
             .toMutableList()
         lines += range(ceil(majorExtent.y0 / majorStepY) * majorStepY, majorExtent.y1, majorStepY).map(majorY)

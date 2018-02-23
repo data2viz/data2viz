@@ -1,6 +1,7 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.ModifiedStream
+import io.data2viz.geo.clip.clipAntimeridian
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.sqrt
@@ -106,9 +107,11 @@ open class MutableProjection(val projection: Projectable) : Projection {
         cacheStream = stream1
     }
 
+    val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()
     val noClip: (Stream) -> Stream = { it }
+
     override var preClip: (Stream) -> Stream
-        get() = noClip
+        get() = clipAntimeridian
         set(value) {}
 
     override var postClip: (Stream) -> Stream
