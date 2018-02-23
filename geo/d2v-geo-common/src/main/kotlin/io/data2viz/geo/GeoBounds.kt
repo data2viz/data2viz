@@ -1,5 +1,6 @@
 package io.data2viz.geo
 
+import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.EPSILON
@@ -7,6 +8,20 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.abs
 
+/**
+ * Returns the spherical bounding box for the specified GeoJSON object.
+ * The bounding box is represented by an Extent where:
+ *  - x0 is the minimum longitude,
+ *  - y0 is the minimum latitude,
+ *  - x1 is maximum longitude,
+ *  - and y1 is the maximum latitude.
+ *
+ * All coordinates are given in degrees.
+ *
+ * (Note that in projected planar coordinates, the minimum latitude is typically the maximum y-value, and the
+ * maximum latitude is typically the minimum y-value.)
+ * This is the spherical equivalent of PathBounds.
+ */
 class GeoBounds : Stream {
 
     private val areaStream = GeoArea()
@@ -36,7 +51,7 @@ class GeoBounds : Stream {
     private var currentLineStart: () -> Unit = ::boundsLineStart
     private var currentLineEnd: () -> Unit = ::boundsLineEnd
 
-    fun result(geo: GeoJsonObject): Array<DoubleArray> {
+    fun result(geo: GeoJsonObject): Extent {
         phi0 = Double.POSITIVE_INFINITY
         lambda0 = phi0
         phi1 = -lambda0
@@ -81,8 +96,8 @@ class GeoBounds : Stream {
         ranges.clear()
 
         return if (lambda0 == Double.POSITIVE_INFINITY || phi0 == Double.POSITIVE_INFINITY)
-            arrayOf(doubleArrayOf(Double.NaN, Double.NaN), doubleArrayOf(Double.NaN, Double.NaN))
-        else arrayOf(doubleArrayOf(lambda0, phi0), doubleArrayOf(lambda1, phi1))
+            Extent(Double.NaN, Double.NaN, Double.NaN, Double.NaN)
+        else Extent(lambda0, phi0,lambda1, phi1)
     }
 
     override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)

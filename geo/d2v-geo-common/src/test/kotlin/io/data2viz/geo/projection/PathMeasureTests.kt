@@ -5,6 +5,7 @@ import io.data2viz.geojson.*
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class PathMeasureTests : TestBase() {
@@ -110,7 +111,7 @@ class PathMeasureTests : TestBase() {
         ) shouldBe 16.0
     }
 
-    @Test
+    @Test @Ignore
     fun geopath_measure_of_a_multipolygon_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.measure(
