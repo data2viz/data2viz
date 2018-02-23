@@ -1,0 +1,14 @@
+body {
+    font-family: Sans-Serif,serif;
+    font-size: 12px;
+}
+
+svg {
+    position: absolute;
+    top: 0;
+}
+
+circle {
+    stroke: #666;
+    stroke-width: 1px;
+}

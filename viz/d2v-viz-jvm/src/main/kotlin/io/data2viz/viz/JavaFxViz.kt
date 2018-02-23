@@ -38,6 +38,10 @@ class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, Jfx
         StyledElement by StyleDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement){
     
+    override fun add(vizElement: VizElement) {
+        jfxElement.children.add((vizElement as JfxVizElement).jfxElement)
+    }
+
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val path = SVGPath()
         val svgPath = SvgPath()

@@ -57,6 +57,11 @@ class ParentElement(override val domElement: Element = createSVGElement("g")) : 
         check(domElement.namespaceURI == "http://www.w3.org/2000/svg")
     }
 
+    override fun add(vizElement: VizElement) {
+        domElement.appendChild((vizElement as DOMVizElement).domElement)
+    }
+
+
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val svgPath = SvgPath()
         val element = createSVGElement("path")
