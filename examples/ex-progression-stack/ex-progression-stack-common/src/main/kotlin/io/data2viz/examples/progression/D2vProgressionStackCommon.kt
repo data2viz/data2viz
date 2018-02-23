@@ -5,7 +5,6 @@ import io.data2viz.color.*
 import io.data2viz.scale.*
 import io.data2viz.shape.stack.*
 import io.data2viz.viz.*
-import kotlin.math.absoluteValue
 
 val legendLineHeight = 30.0
 
@@ -147,7 +146,7 @@ private fun VizContext.legend() {
     }
 }
 
-private fun ParentItem.colorLegend(color: Color, legend: String, line: Int = 0) =
+private fun Group.colorLegend(color: Color, legend: String, line: Int = 0) =
         group {
             transform {
                 translate(y = line * legendLineHeight)

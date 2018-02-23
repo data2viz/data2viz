@@ -7,18 +7,18 @@ import io.data2viz.path.PathAdapter
 /**
  * Common interface to bootstrap visualization into different platform contexts.
  */
-interface VizContext : ParentItem
+interface VizContext : Group
 
-interface VizItem
+interface VizElement
 
 
-interface ParentItem: Transformable, StyledElement {
-    fun group(init: ParentItem.() -> Unit): ParentItem
-    fun circle(init: CircleVizItem.() -> Unit): CircleVizItem
-    fun rect(init: RectVizItem.() -> Unit): RectVizItem
-    fun line(init: LineVizItem.() -> Unit): LineVizItem
-    fun text(init: TextVizItem.() -> Unit): TextVizItem
-    fun path(init: PathVizItem.() -> Unit): PathVizItem
+interface Group : Transformable, StyledElement {
+    fun group(init: Group.() -> Unit): Group
+    fun circle(init: Circle.() -> Unit): Circle
+    fun rect(init: Rect.() -> Unit): Rect
+    fun line(init: Line.() -> Unit): Line
+    fun text(init: Text.() -> Unit): Text
+    fun path(init: PathVizElement.() -> Unit): PathVizElement
     fun setStyle(style:String)
 }
 
@@ -38,22 +38,22 @@ interface StyledElement {
     fun addClass(cssClass: CssClass)
 }
 
-interface PathVizItem : VizItem, Shape, PathAdapter
+interface PathVizElement : VizElement, Shape, PathAdapter
 
-interface CircleVizItem : VizItem, Shape, Transformable, StyledElement {
+interface Circle : VizElement, Shape, Transformable, StyledElement {
     var cx: Double
     var cy: Double
     var radius: Double
 }
 
-interface LineVizItem : VizItem, Shape, Transformable, StyledElement {
+interface Line : VizElement, Shape, Transformable, StyledElement {
     var x1: Double
     var y1: Double
     var x2: Double
     var y2: Double
 }
 
-interface RectVizItem : VizItem, Shape, Transformable, StyledElement {
+interface Rect : VizElement, Shape, Transformable, StyledElement {
     var x: Double
     var y: Double
     var width: Double
@@ -62,7 +62,7 @@ interface RectVizItem : VizItem, Shape, Transformable, StyledElement {
     var ry: Double
 }
 
-interface TextVizItem : VizItem, Transformable, HasFill, StyledElement {
+interface Text : VizElement, Transformable, HasFill, StyledElement {
     var x: Double
     var y: Double
     var textContent: String
@@ -106,7 +106,7 @@ interface HasFill {
     var fill: Color?
 }
 
-interface VizFactory<V : VizItem> {
+interface VizFactory<V : VizElement> {
     fun createVizItem(): V
 }
 
@@ -114,3 +114,10 @@ data class Margins(val top: Double, val right: Double = top, val bottom: Double 
     val hMargins = right + left
     val vMargins = top + bottom
 }
+
+expect fun newGroup(): Group
+expect fun newLine(): Line
+expect fun newRect(): Rect
+expect fun newCircle(): Circle
+expect fun newText(): Text
+

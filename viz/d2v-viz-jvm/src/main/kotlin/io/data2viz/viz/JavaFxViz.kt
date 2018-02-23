@@ -8,130 +8,134 @@ import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
 import javafx.beans.property.DoubleProperty
-import javafx.scene.Group
 import javafx.scene.Node
-import javafx.scene.shape.Circle
-import javafx.scene.shape.Line
-import javafx.scene.shape.Rectangle
 import javafx.scene.shape.SVGPath
-import javafx.scene.text.Text
 import kotlin.reflect.KProperty
 
-typealias jxShape = javafx.scene.shape.Shape
+typealias JfxGroup          = javafx.scene.Group
+typealias JfxShape          = javafx.scene.shape.Shape
+typealias JfxCircle         = javafx.scene.shape.Circle
+typealias JfxLine           = javafx.scene.shape.Line
+typealias JfxRectangle      = javafx.scene.shape.Rectangle
+typealias JfxText           = javafx.scene.text.Text
+
+actual fun newGroup(): Group        = GroupJfx()
+actual fun newLine(): Line          = LineJfx()
+actual fun newRect(): Rect          = RectJfx()
+actual fun newCircle(): Circle      = CircleJfx()
+actual fun newText(): Text          = TextJfx()
 
 /**
  * Bootstrap a VizContext in JavaFx environment
  */
-fun Group.viz(init: VizContext.() -> Unit): VizContext {
-
-
-    val vizContext = ParentElement(this)
+fun JfxGroup.viz(init: VizContext.() -> Unit): VizContext {
+    val vizContext = GroupJfx(this)
     init(vizContext)
     return vizContext
 }
 
-class ParentElement(val parent: Group) : VizContext, 
-        StyledElement by StyleDelegate(parent),
-        Transformable by TransformNodeDelegate(parent){
+class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, JfxVizElement,
+        StyledElement by StyleDelegate(jfxElement),
+        Transformable by TransformNodeDelegate(jfxElement){
     
-    override fun path(init: PathVizItem.() -> Unit): PathVizItem {
+    override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val path = SVGPath()
         val svgPath = SvgPath()
-        val item = PathVizJfx(path, svgPath)
+        val item = PathJfx(path, svgPath)
         init(item)
         path.content = svgPath.path
-        parent.children.add(path)
+        jfxElement.children.add(path)
         return item
     }
 
     override fun setStyle(style: String) {
-        parent.style = style
+        jfxElement.style = style
     }
 
 
-    override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
-        val circle = Circle()
-        parent.children.add(circle)
-        val item = CircleVizJfx(parent, circle)
-        init(item)
-        return item
+    override fun circle(init: Circle.() -> Unit): Circle {
+        val circle = CircleJfx()
+        jfxElement.children.add(circle.jfxElement)
+        init(circle)
+        return circle
     }
 
-    override fun group(init: ParentItem.() -> Unit): ParentItem {
-        val group = ParentElement(Group())
+    override fun group(init: Group.() -> Unit): Group {
+        val group = GroupJfx(JfxGroup())
         init(group)
-        parent.children.add(group.parent)
+        jfxElement.children.add(group.jfxElement)
         return  group
     }
 
-    override fun line(init: LineVizItem.() -> Unit): LineVizItem {
-        val line = Line()
-        parent.children.add(line)
-        val item = LineVizJfx(parent, line)
-        init(item)
-        return item
+    override fun line(init: Line.() -> Unit): Line {
+        val line = LineJfx()
+        jfxElement.children.add(line.jfxElement)
+        init(line)
+        return line
     }
 
-    override fun rect(init: RectVizItem.() -> Unit): RectVizItem {
-        val rectangle = Rectangle()
-        parent.children.add(rectangle)
-        val item = RectVizJfx(parent, rectangle)
-        init(item)
-        return item
+    override fun rect(init: Rect.() -> Unit): Rect {
+        val rectangle = RectJfx()
+        jfxElement.children.add(rectangle.jfxElement)
+        init(rectangle)
+        return rectangle
     }
 
-    override fun text(init: TextVizItem.() -> Unit): TextVizItem {
-        val text = Text()
-        parent.children.add(text)
-        val item = TextVizJfx(parent, text)
-        init(item)
-        return  item
+    override fun text(init: Text.() -> Unit): Text {
+        val text = TextJfx()
+        jfxElement.children.add(text.jfxElement)
+        init(text)
+        return text
     }
 }
 
 
-class PathVizJfx(path: SVGPath, svgPath: SvgPath) : PathVizItem,
+interface JfxVizElement {
+    val jfxElement: Node
+}
+
+class PathJfx(path: SVGPath, svgPath: SvgPath) : PathVizElement,
         HasFill by FillDelegate(path),
         HasStroke by StrokeDelegate(path),
         Transformable by TransformNodeDelegate(path),
         PathAdapter by svgPath
     
 
-class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem,
-        HasFill by FillDelegate(circle),
-        StyledElement by StyleDelegate(circle),
-        HasStroke by StrokeDelegate(circle),
-        Transformable by TransformNodeDelegate(circle)
+class CircleJfx(override val jfxElement: JfxCircle = JfxCircle()) : Circle, JfxVizElement,
+        HasFill by FillDelegate(jfxElement),
+        StyledElement by StyleDelegate(jfxElement),
+        HasStroke by StrokeDelegate(jfxElement),
+        Transformable by TransformNodeDelegate(jfxElement)
 {
 
-    override var cx: Double by DoublePropertyDelegate(circle.centerXProperty())
-    override var cy: Double by DoublePropertyDelegate(circle.centerYProperty())
-    override var radius: Double by DoublePropertyDelegate(circle.radiusProperty())
+    override var cx: Double by DoublePropertyDelegate(jfxElement.centerXProperty())
+    override var cy: Double by DoublePropertyDelegate(jfxElement.centerYProperty())
+    override var radius: Double by DoublePropertyDelegate(jfxElement.radiusProperty())
 }
 
-class LineVizJfx(val parent: Group, val line: Line) : LineVizItem,
-        StyledElement by StyleDelegate(line),
-        HasFill by FillDelegate(line),
-        HasStroke by StrokeDelegate(line),
-        Transformable by TransformNodeDelegate(line) {
-    override var x1: Double by DoublePropertyDelegate(line.startXProperty())
-    override var y1: Double by DoublePropertyDelegate(line.startYProperty())
-    override var x2: Double by DoublePropertyDelegate(line.endXProperty())
-    override var y2: Double by DoublePropertyDelegate(line.endYProperty())
+class LineJfx(override val jfxElement: JfxLine = JfxLine()) : Line, JfxVizElement,
+        StyledElement by StyleDelegate(jfxElement),
+        HasFill by FillDelegate(jfxElement),
+        HasStroke by StrokeDelegate(jfxElement),
+        Transformable by TransformNodeDelegate(jfxElement) {
+    override var x1: Double by DoublePropertyDelegate(jfxElement.startXProperty())
+    override var y1: Double by DoublePropertyDelegate(jfxElement.startYProperty())
+    override var x2: Double by DoublePropertyDelegate(jfxElement.endXProperty())
+    override var y2: Double by DoublePropertyDelegate(jfxElement.endYProperty())
 }
 
-class RectVizJfx(val parent: Group, val rectangle: Rectangle) : RectVizItem,
-        StyledElement by StyleDelegate(rectangle),
-        HasFill by FillDelegate(rectangle),
-        HasStroke by StrokeDelegate(rectangle),
-        Transformable by TransformNodeDelegate(rectangle)
+class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle()) : Rect, JfxVizElement,
+        StyledElement by StyleDelegate(jfxElement),
+        HasFill by FillDelegate(jfxElement),
+        HasStroke by StrokeDelegate(jfxElement),
+        Transformable by TransformNodeDelegate(jfxElement)
 {
-    override var x: Double by DoublePropertyDelegate(rectangle.xProperty())
-    override var y: Double by DoublePropertyDelegate(rectangle.yProperty())
-    override var width: Double by DoublePropertyDelegate(rectangle.widthProperty())
-    override var height: Double by DoublePropertyDelegate(rectangle.heightProperty())
-    override var rx: Double by DoublePropertyDelegate(rectangle.arcWidthProperty())
-    override var ry: Double by DoublePropertyDelegate(rectangle.arcHeightProperty())
+    override var x: Double by DoublePropertyDelegate(jfxElement.xProperty())
+    override var y: Double by DoublePropertyDelegate(jfxElement.yProperty())
+    override var width: Double by DoublePropertyDelegate(jfxElement.widthProperty())
+    override var height: Double by DoublePropertyDelegate(jfxElement.heightProperty())
+    override var rx: Double by DoublePropertyDelegate(jfxElement.arcWidthProperty())
+    override var ry: Double by DoublePropertyDelegate(jfxElement.arcHeightProperty())
 
 }
 
@@ -159,13 +163,13 @@ class StyleDelegate(val node: Node): StyledElement {
 
 }
 
-class FillDelegate(val shape: jxShape): HasFill {
+class FillDelegate(val shape: JfxShape): HasFill {
     override var fill: Color?
         get() = (shape.fill as javafx.scene.paint.Color?)?.d2vColor
         set(value) { shape.fill = value?.jfxColor}
 }
 
-class StrokeDelegate(val shape: jxShape): HasStroke {
+class StrokeDelegate(val shape: JfxShape): HasStroke {
 
     override var stroke: Color?
         get() = (shape.stroke as javafx.scene.paint.Color?)?.d2vColor
@@ -183,8 +187,8 @@ class StrokeDelegate(val shape: jxShape): HasStroke {
 }
 
 class DoublePropertyDelegate(val property: DoubleProperty) {
-    operator fun getValue(vizItem: VizItem, prop: KProperty<*>): Double = property.get()
-    operator fun setValue(vizItem: VizItem, prop: KProperty<*>, d: Double) {
+    operator fun getValue(vizElement: VizElement, prop: KProperty<*>): Double = property.get()
+    operator fun setValue(vizElement: VizElement, prop: KProperty<*>, d: Double) {
         property.set(d)
     }
 }

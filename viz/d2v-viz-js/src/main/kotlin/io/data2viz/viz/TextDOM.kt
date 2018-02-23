@@ -2,10 +2,10 @@ package io.data2viz.viz
 
 import org.w3c.dom.Element
 
-class TextElement(override val element: Element) : ElementWrapper, TextVizItem,
-    StyledElement by StyledDelegate(element),
-    HasFill by FillDelegate(element),
-        Transformable by TransformableDelegate(element) {
+class TextDOM(override val domElement: Element = createSVGElement("text")) : ElementWrapper, Text,
+    StyledElement by StyledDelegate(domElement),
+    HasFill by FillDelegate(domElement),
+        Transformable by TransformableDelegate(domElement) {
     
     override var baseline: TextAlignmentBaseline
         get() = getAttribute("alignment-baseline")?.let { 
@@ -46,9 +46,9 @@ class TextElement(override val element: Element) : ElementWrapper, TextVizItem,
 
         }
     override var textContent: String
-        get() = element.textContent ?: ""
+        get() = domElement.textContent ?: ""
         set(value) {
-            element.textContent = value
+            domElement.textContent = value
         }
 
     override var x: Double by DoubleAttributePropertyDelegate()

@@ -13,8 +13,13 @@ import kotlin.browser.document
 import kotlin.reflect.KProperty
 
 
-val svgNamespaceURI = "http://www.w3.org/2000/svg"
-internal fun createSVGElement(name: String, classes: String = "") = document.createElementNS(svgNamespaceURI, name).apply {
+actual fun newRect(): Rect = RectDOM()
+actual fun newLine(): Line = LineDOM()
+actual fun newCircle(): Circle = CircleDOM()
+actual fun newGroup(): Group = ParentElement()
+actual fun newText(): Text = TextDOM()
+
+internal fun createSVGElement(name: String, classes: String = "") = document.createElementNS("http://www.w3.org/2000/svg", name).apply {
     if (classes.isNotBlank())
         setAttribute("class", classes)
 }
@@ -39,63 +44,68 @@ fun Element.viz(init: VizContext.() -> Unit): VizContext {
     return context
 }
 
-class ParentElement(val parent: Element) : VizContext,
-        StyledElement by StyledDelegate(parent),
-        Transformable by TransformableDelegate(parent) {
+
+interface DOMVizElement {
+    val domElement: Element
+}
+
+class ParentElement(override val domElement: Element = createSVGElement("g")) : VizContext, DOMVizElement,
+        StyledElement by StyledDelegate(domElement),
+        Transformable by TransformableDelegate(domElement) {
 
     init {
-        check(parent.namespaceURI == svgNamespaceURI)
+        check(domElement.namespaceURI == "http://www.w3.org/2000/svg")
     }
 
-    override fun path(init: PathVizItem.() -> Unit): PathVizItem {
+    override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val svgPath = SvgPath()
         val element = createSVGElement("path")
         val item = PathElement(element, svgPath)
         init(item)
         element.setAttribute("d", svgPath.path)
-        parent.append(element)
+        domElement.append(element)
         return item
     }
 
     override fun setStyle(style: String) {
-        parent.setAttribute("style", style)
+        domElement.setAttribute("style", style)
     }
 
-    override fun circle(init: CircleVizItem.() -> Unit): CircleVizItem {
+    override fun circle(init: Circle.() -> Unit): Circle {
 
-        val circle = CircleElement(createSVGElement("circle"))
+        val circle = CircleDOM(createSVGElement("circle"))
         init(circle)
-        parent.append(circle.element)
+        domElement.append(circle.domElement)
         return circle
     }
 
-    override fun group(init: ParentItem.() -> Unit): ParentItem {
+    override fun group(init: Group.() -> Unit): Group {
         val group = ParentElement(createSVGElement("g"))
         init(group)
-        parent.append(group.parent)
+        domElement.append(group.domElement)
         return group
     }
 
 
-    override fun line(init: LineVizItem.() -> Unit): LineVizItem {
-        val line = LineElement(createSVGElement("line"))
+    override fun line(init: Line.() -> Unit): Line {
+        val line = LineDOM()
         init(line)
-        parent.append(line.element)
+        domElement.append(line.domElement)
         return line
     }
 
-    override fun rect(init: RectVizItem.() -> Unit): RectVizItem {
+    override fun rect(init: Rect.() -> Unit): Rect {
 
-        val rect = RectElement(createSVGElement("rect"))
+        val rect = RectDOM()
         init(rect)
-        parent.append(rect.element)
+        domElement.append(rect.domElement)
         return rect
     }
 
-    override fun text(init: TextVizItem.() -> Unit): TextVizItem {
-        val text = TextElement(createSVGElement("text"))
+    override fun text(init: Text.() -> Unit): Text {
+        val text = TextDOM()
         init(text)
-        parent.append(text.element)
+        domElement.append(text.domElement)
         return text
     }
 
@@ -107,44 +117,44 @@ interface AccessByAttributes {
     fun getAttribute(name: String): String?
 }
 
-interface ElementWrapper : AccessByAttributes {
-    val element: Element
+interface ElementWrapper : AccessByAttributes, DOMVizElement {
+    override val domElement: Element
 
     override fun setAttribute(name: String, value: String?) {
         if (value != null)
-            element.setAttribute(name, value)
+            domElement.setAttribute(name, value)
         else
-            element.removeAttribute(name)
+            domElement.removeAttribute(name)
     }
 
-    override fun getAttribute(name: String) = element.getAttribute(name)
+    override fun getAttribute(name: String) = domElement.getAttribute(name)
 
 }
 
-class PathElement(val element: Element, svgPath: SvgPath) : PathVizItem,
+class PathElement(override val domElement: Element, svgPath: SvgPath) : PathVizElement, ElementWrapper,
         PathAdapter by svgPath,
-        HasFill by FillDelegate(element),
-        HasStroke by StrokeDelegate(element),
-        StyledElement by StyledDelegate(element),
-        Transformable by TransformableDelegate(element)
+        HasFill by FillDelegate(domElement),
+        HasStroke by StrokeDelegate(domElement),
+        StyledElement by StyledDelegate(domElement),
+        Transformable by TransformableDelegate(domElement)
 
 //@SvgTagMarker
-class CircleElement(override val element: Element) : ElementWrapper, CircleVizItem,
-        HasFill by FillDelegate(element),
-        HasStroke by StrokeDelegate(element),
-        StyledElement by StyledDelegate(element),
-        Transformable by TransformableDelegate(element) {
+class CircleDOM(override val domElement: Element = createSVGElement("circle")) : ElementWrapper, Circle,
+        HasFill by FillDelegate(domElement),
+        HasStroke by StrokeDelegate(domElement),
+        StyledElement by StyledDelegate(domElement),
+        Transformable by TransformableDelegate(domElement) {
 
     override var cx: Double by DoubleAttributePropertyDelegate()
     override var cy: Double by DoubleAttributePropertyDelegate()
     override var radius: Double by DoubleAttributePropertyDelegate()
 }
 
-class LineElement(override val element: Element) : ElementWrapper, LineVizItem,
-        HasFill by FillDelegate(element),
-        HasStroke by StrokeDelegate(element),
-    StyledElement by StyledDelegate(element),
-    Transformable by TransformableDelegate(element) {
+class LineDOM(override val domElement: Element = createSVGElement("line")) : ElementWrapper, Line,
+        HasFill by FillDelegate(domElement),
+        HasStroke by StrokeDelegate(domElement),
+    StyledElement by StyledDelegate(domElement),
+    Transformable by TransformableDelegate(domElement) {
 
     override var x1: Double by DoubleAttributePropertyDelegate()
     override var y1: Double by DoubleAttributePropertyDelegate()
@@ -152,11 +162,11 @@ class LineElement(override val element: Element) : ElementWrapper, LineVizItem,
     override var y2: Double by DoubleAttributePropertyDelegate()
 }
 
-class RectElement(override val element: Element) : ElementWrapper, RectVizItem,
-        HasFill by FillDelegate(element),
-        HasStroke by StrokeDelegate(element),
-        StyledElement by StyledDelegate(element),
-        Transformable by TransformableDelegate(element) {
+class RectDOM(override val domElement: Element = createSVGElement("rect")) : ElementWrapper, Rect,
+        HasFill by FillDelegate(domElement),
+        HasStroke by StrokeDelegate(domElement),
+        StyledElement by StyledDelegate(domElement),
+        Transformable by TransformableDelegate(domElement) {
 
     override var x: Double by DoubleAttributePropertyDelegate()
     override var y: Double by DoubleAttributePropertyDelegate()
@@ -247,10 +257,10 @@ class StrokeDelegate(val element: Element) : HasStroke {
 
 class DoubleAttributePropertyDelegate {
     operator fun getValue(elementWrapper: ElementWrapper, property: KProperty<*>): Double =
-            elementWrapper.element.getAttribute(propertyMapping.getOrElse(property.name, { property.name }))?.toDouble() ?: 0.0
+            elementWrapper.domElement.getAttribute(propertyMapping.getOrElse(property.name, { property.name }))?.toDouble() ?: 0.0
 
     operator fun setValue(element: ElementWrapper, property: KProperty<*>, d: Double) {
-        element.element.setAttribute(propertyMapping.getOrElse(property.name, { property.name }), d.toString())
+        element.domElement.setAttribute(propertyMapping.getOrElse(property.name, { property.name }), d.toString())
     }
 
 }
