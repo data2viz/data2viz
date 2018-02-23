@@ -8,8 +8,8 @@
 <script src="require.js"></script>
 <body style="overflow: hidden;">
 <script>
-    require.config({baseUrl: "lib"});
-    require(['experiments'],
+    require.config({baseUrl: "../../../build/node_modules"});
+    require(['d2v-experiments-js'],
         function (all) {
             all.io.data2viz.experiments.fantasymap.buildFinalFantasyMap();
         });
