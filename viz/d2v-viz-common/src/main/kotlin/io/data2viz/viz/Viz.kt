@@ -12,7 +12,9 @@ interface VizContext : Group
 interface VizElement
 
 
-interface Group : Transformable, StyledElement {
+interface Group : Transformable, StyledElement, VizElement {
+    fun add(vizElement: VizElement)
+    
     fun group(init: Group.() -> Unit): Group
     fun circle(init: Circle.() -> Unit): Circle
     fun rect(init: Rect.() -> Unit): Rect
