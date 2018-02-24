@@ -107,16 +107,17 @@ open class MutableProjection(val projection: Projectable) : Projection {
         cacheStream = stream1
     }
 
-    val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()
-    val noClip: (Stream) -> Stream = { it }
+    private val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()
+    private val noClip: (Stream) -> Stream = { it }
 
-    override var preClip: (Stream) -> Stream
-        get() = clipAntimeridian
-        set(value) {}
+    override var preClip: (Stream) -> Stream = clipAntimeridian
+        set(value) {
+            field = value
+        }
 
-    override var postClip: (Stream) -> Stream
-        get() = noClip
-        set(value) {}
+    override var postClip: (Stream) -> Stream = noClip
+//        get() = noClip
+        set(value) { field = value}
 
     override var clipAngle: Double
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.

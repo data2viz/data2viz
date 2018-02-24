@@ -38,9 +38,8 @@ class GeoAreaTests : TestBase() {
     }
 
 
-    // TODO : pass in JVM not JS !!
+    // TODO : pass in JVM not JS !! (shouldBe .0 but delta is 5e-13)
     @Test
-    @Ignore
     fun geoarea_of_a_zero_area_polygon_LEGACY() {
         GeoArea().result(
             Polygon(
@@ -54,7 +53,7 @@ class GeoAreaTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe .0
+        ) shouldBeClose .0
     }
 
     @Test

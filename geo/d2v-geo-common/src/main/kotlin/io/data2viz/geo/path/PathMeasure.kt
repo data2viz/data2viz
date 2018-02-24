@@ -16,9 +16,9 @@ class PathMeasure : Stream {
     private var currentPoint: (Double, Double, Double) -> Unit = noop3
 
     fun result(): Double {
-        val a = lengthSum
+        val result = lengthSum
         lengthSum = .0
-        return a
+        return result
     }
 
     override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)

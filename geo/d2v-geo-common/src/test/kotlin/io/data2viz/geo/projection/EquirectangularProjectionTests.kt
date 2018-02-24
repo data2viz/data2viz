@@ -10,7 +10,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     /*@Test
     fun multiPoint_projection() {
-        val projection = equirectangular {
+        val projection = projection {
             translate = doubleArrayOf(.0, .0)
             scale = 1.0
             clipExtent = null

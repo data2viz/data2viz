@@ -67,15 +67,13 @@ class PathBoundsTests : TestBase() {
         bounds.y1 shouldBe 250.0
     }
 
-    // TODO : when clipping will be OK activate this one
     @Test
-    @Ignore
     fun geopath_bounds_of_a_sphere_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
         val bounds = geoPath.bounds(Sphere())
         bounds.x0 shouldBe -420.0
-        bounds.y0 shouldBe 1380.0
-        bounds.x1 shouldBe -200.0
+        bounds.y0 shouldBe -200.0
+        bounds.x1 shouldBe 1380.0
         bounds.y1 shouldBe 700.0
     }
 }

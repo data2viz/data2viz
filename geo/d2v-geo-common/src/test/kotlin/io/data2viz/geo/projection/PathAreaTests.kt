@@ -59,9 +59,7 @@ class PathAreaTests : TestBase() {
         ) shouldBe 16.0
     }
 
-    // TODO : when clipping will be OK activate this one
     @Test
-    @Ignore
     fun geopath_area_of_a_sphere_LEGACY() {
         val geoPath = geoPath(equirectangular, svgPath())
         geoPath.area(Sphere()) shouldBe 1620000.0

@@ -4,26 +4,21 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.geojson.*
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
-import kotlin.math.PI
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 class PathMeasureTests : TestBase() {
 
-    val equirectangular = io.data2viz.geo.projection.equirectangular {
-        scale = 180.0 / PI
-        precision = .0
-    }
+    val projection = identity()
 
     @Test
     fun geopath_measure_of_a_point_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(projection, svgPath())
         geoPath.measure(Point(pt(.0, .0))) shouldBe .0
     }
 
     @Test
     fun geopath_measure_of_a_multipoint_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(projection, svgPath())
         geoPath.measure(
             MultiPoint(
                 arrayOf(
@@ -38,7 +33,7 @@ class PathMeasureTests : TestBase() {
 
     @Test
     fun geopath_measure_of_a_lineString_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(projection, svgPath())
         geoPath.measure(
             LineString(
                 arrayOf(
@@ -53,7 +48,7 @@ class PathMeasureTests : TestBase() {
 
     @Test
     fun geopath_measure_of_a_multilineString_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(projection, svgPath())
         geoPath.measure(
             MultiLineString(
                 arrayOf(
@@ -66,11 +61,24 @@ class PathMeasureTests : TestBase() {
                 )
             )
         ) shouldBe 3.0
+
+        geoPath.measure(
+            MultiLineString(
+                arrayOf(
+                    arrayOf(
+                        pt(.0, .0),
+                        pt(1.0, .0),
+                        pt(1.0, 1.0),
+                        pt(.0, 1.0)
+                    )
+                )
+            )
+        ) shouldBe 3.0
     }
 
     @Test
     fun geopath_measure_of_a_polygon_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(projection, svgPath())
         geoPath.measure(
             Polygon(
                 arrayOf(
@@ -84,11 +92,25 @@ class PathMeasureTests : TestBase() {
                 )
             )
         ) shouldBe 4.0
+
+        geoPath.measure(
+            Polygon(
+                arrayOf(
+                    arrayOf(
+                        pt(.0, .0),
+                        pt(1.0, .0),
+                        pt(1.0, 1.0),
+                        pt(.0, 1.0),
+                        pt(.0, .0)
+                    )
+                )
+            )
+        ) shouldBe 4.0
     }
 
     @Test
     fun geopath_measure_of_a_polygon_with_a_hole_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(projection, svgPath())
         geoPath.measure(
             Polygon(
                 arrayOf(
@@ -111,9 +133,9 @@ class PathMeasureTests : TestBase() {
         ) shouldBe 16.0
     }
 
-    @Test @Ignore
+    @Test
     fun geopath_measure_of_a_multipolygon_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(projection, svgPath())
         geoPath.measure(
             MultiPolygon(
                 arrayOf(
@@ -132,6 +154,31 @@ class PathMeasureTests : TestBase() {
                             pt(1.0, .0),
                             pt(1.0, 1.0),
                             pt(.0, 1.0),
+                            pt(.0, .0)
+                        )
+                    )
+                )
+            )
+        ) shouldBe 16.0
+
+        geoPath.measure(
+            MultiPolygon(
+                arrayOf(
+                    arrayOf(
+                        arrayOf(
+                            pt(-1.0, -1.0),
+                            pt(-1.0, 2.0),
+                            pt(2.0, 2.0),
+                            pt(2.0, -1.0),
+                            pt(-1.0, -1.0)
+                        )
+                    ),
+                    arrayOf(
+                        arrayOf(
+                            pt(.0, .0),
+                            pt(.0, 1.0),
+                            pt(1.0, 1.0),
+                            pt(1.0, .0),
                             pt(.0, .0)
                         )
                     )
