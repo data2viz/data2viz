@@ -3,8 +3,8 @@ module.exports = function (config) {
             frameworks: ['qunit', 'browserify'],
             reporters: ['mocha'],
             files: [
-                'build/classes/main/*.js',
-                'build/classes/test/*.js',
+                'build/classes/kotlin/main/*.js',
+                'build/classes/kotlin/test/*.js',
                 'build/node_modules/*.js'
             ],
             exclude: [],

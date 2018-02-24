@@ -4,6 +4,6 @@
     "source-map-support": "0.5.3"
   },
   "scripts": {
-    "test": "mocha build/classes/test/*test.js --require=source-map-support/register"
+    "test": "mocha build/classes/kotlin/test/*test.js --require=source-map-support/register"
   }
 }
