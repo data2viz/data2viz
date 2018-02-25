@@ -1,0 +1,87 @@
+// Configures publishing of Maven artifacts to Bintray
+
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+def platform = platformOf(project)
+def module = moduleOf(project)
+
+// --------------- pom configuration ---------------
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "Data2viz"
+            name "Data2viz team"
+            organization "Data2viz"
+            organizationUrl "http://data2viz.io"
+        }
+    }
+
+    scm {
+        url "https://github.com/data2viz/data2viz"
+    }
+}
+
+// ------------- tasks
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    
+    from sourceSets.main.allSource
+    if (platform != "common") {
+        // add common source, too
+        from rootProject.file("$module/d2v-$module-common/src/main/kotlin")
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+//            artifact javadocJar
+            artifact sourcesJar
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', project.name)
+                root.appendNode('url', 'https://github.com/data2viz/data2viz')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+
+if (project.hasProperty("bintray.user")) {
+    bintray {
+        user = project.property('bintray.user')
+        key = project.property('bintray.key')
+        configurations = ['archives']
+        publications = ['maven']
+
+        pkg {
+            repo = 'data2viz'
+            name = 'data2viz'
+            userOrg = 'data2viz'
+            licenses = ['Apache-2.0']
+            vcsUrl = 'https://github.com/data2viz/data2viz.git'
+            version {
+                name = project.version
+                vcsTag = "v${project.version}"
+            }
+        }
+
+    }
+
+    bintrayUpload.doLast {
+        println("Uploaded $project.name version $project.version")
+    }
+}
