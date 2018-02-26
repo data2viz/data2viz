@@ -6,7 +6,6 @@ import io.data2viz.geojson.*
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 class PathCentroidTests : TestBase() {
@@ -18,25 +17,25 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_point_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
         geoPath.centroid(Point(pt(.0, .0))) shouldBe doubleArrayOf(480.0, 250.0)
     }
 
     @Test
     fun geopath_centroid_of_an_empty_multipoint_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
         geoPath.centroid(MultiPoint(arrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geopath_centroid_of_a_single_multipoint_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
         geoPath.centroid(MultiPoint(arrayOf(pt(.0, .0)))) shouldBe doubleArrayOf(480.0, 250.0)
     }
 
     @Test
     fun geopath_centroid_of_a_double_multipoint_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
         geoPath.centroid(
             MultiPoint(
                 arrayOf(
@@ -49,13 +48,13 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_an_empty_lineString_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
         geoPath.centroid(LineString(arrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geopath_centroid_of_a_lineString_with_2_and_3_points_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(LineString(arrayOf(pt(100.0, .0), pt(.0, .0)))) shouldBe doubleArrayOf(730.0, 250.0)
         geoPath.centroid(
@@ -71,7 +70,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_lineString_with_2_points_one_unique_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(LineString(arrayOf(pt(-122.0, 37.0), pt(-122.0, 37.0)))) shouldBe doubleArrayOf(-130.0, 65.0)
         geoPath.centroid(
@@ -86,7 +85,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_lineString_with_3_points_2_unique_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             LineString(
@@ -101,7 +100,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_lineString_with_3_points_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             LineString(
@@ -116,7 +115,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_multilineString_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             MultiLineString(
@@ -130,7 +129,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_single_ring_polygon_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             Polygon(
@@ -149,7 +148,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_zero_area_polygon_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             Polygon(
@@ -167,7 +166,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_polygon_with_2_rings_one_with_a_zero_area_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             Polygon(
@@ -192,7 +191,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_polygon_with_clockwise_exterior_and_anticlockwise_interior_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             Polygon(
@@ -218,14 +217,14 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_an_empty_multipolygon_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(MultiPolygon(arrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geopath_centroid_of_a_singleton_multipolygon_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             MultiPolygon(
@@ -246,7 +245,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_multipolygon_with_2_polygons_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             MultiPolygon(
@@ -273,7 +272,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_multipolygon_with_2_polygons_1_zone_area_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             MultiPolygon(
@@ -299,14 +298,14 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_geometryCollection_with_single_point_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(GeometryCollection(arrayOf(Point(pt(.0, .0))))) shouldBe doubleArrayOf(480.0, 250.0)
     }
 
     @Test
     fun geopath_centroid_of_a_geometryCollection_with_point_and_lineString_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             GeometryCollection(
@@ -320,7 +319,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_geometryCollection_with_point_and_lineString_and_polygon_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             GeometryCollection(
@@ -345,14 +344,14 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_featureCollection_with_point_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(FeatureCollection(arrayOf(Feature(Point(pt(.0, .0)))))) shouldBe doubleArrayOf(480.0, 250.0)
     }
 
     @Test
     fun geopath_centroid_of_a_FeatureCollection_with_point_and_lineString_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             FeatureCollection(
@@ -366,7 +365,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_FeatureCollection_with_point_and_lineString_and_polygon_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(
             FeatureCollection(
@@ -393,7 +392,7 @@ class PathCentroidTests : TestBase() {
 
     @Test
     fun geopath_centroid_of_a_sphere_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
 
         geoPath.centroid(Sphere()) shouldBe doubleArrayOf(480.0, 250.0)
     }

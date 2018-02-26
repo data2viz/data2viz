@@ -6,7 +6,6 @@ import io.data2viz.geojson.Polygon
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 class PathAreaTests : TestBase() {
@@ -18,7 +17,7 @@ class PathAreaTests : TestBase() {
 
     @Test
     fun geopath_area_of_a_polygon_with_no_holes_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
         geoPath.area(
             Polygon(
                 arrayOf(
@@ -36,7 +35,7 @@ class PathAreaTests : TestBase() {
 
     @Test
     fun geopath_area_of_a_polygon_with_holes_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
         geoPath.area(
             Polygon(
                 arrayOf(
@@ -61,7 +60,7 @@ class PathAreaTests : TestBase() {
 
     @Test
     fun geopath_area_of_a_sphere_LEGACY() {
-        val geoPath = geoPath(equirectangular, svgPath())
+        val geoPath = geoPath(equirectangular)
         geoPath.area(Sphere()) shouldBe 1620000.0
     }
 }
