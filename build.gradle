@@ -109,6 +109,13 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         compileKotlin     { kotlinOptions.jvmTarget = 1.8 }
         compileTestKotlin { kotlinOptions.jvmTarget = 1.8 }
 
+        test {
+            testLogging {
+                events "passed", "skipped", "failed"
+                exceptionFormat "full"
+            }
+        }
+
     }
 }
 
