@@ -1,4 +1,12 @@
 language: java
+jdk:
+  - oraclejdk8
+
+# install the newest java.
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 
 dist: trusty # needs Ubuntu Trusty
 # Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
@@ -12,3 +20,11 @@ cache:
     - $HOME/.m2
     - $HOME/.gradle
       
+
+# configure xvfb screen.
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+
+# skip install stage.
+install: true
