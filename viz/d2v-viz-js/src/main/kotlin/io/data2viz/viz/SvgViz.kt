@@ -47,6 +47,12 @@ class ParentElement(val parent: Element) : VizContext,
         check(parent.namespaceURI == svgNamespaceURI)
     }
 
+    override fun addPath(path: PathAdapter) {
+        val element = createSVGElement("path")
+        element.setAttribute("d", (path as SvgPath).path)
+        parent.append(element)
+    }
+
     override fun path(init: PathVizItem.() -> Unit): PathVizItem {
         val svgPath = SvgPath()
         val element = createSVGElement("path")

@@ -34,6 +34,11 @@ class ParentElement(val parent: Group) : VizContext,
         StyledElement by StyleDelegate(parent),
         Transformable by TransformNodeDelegate(parent){
     
+    
+    override fun addPath(path: PathAdapter) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun path(init: PathVizItem.() -> Unit): PathVizItem {
         val path = SVGPath()
         val svgPath = SvgPath()
