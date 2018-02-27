@@ -2,12 +2,12 @@ package io.data2viz.geo.path
 
 import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.Projection
-import io.data2viz.geo.projection.identity
+import io.data2viz.geo.projection.identityProjection
 import io.data2viz.geo.stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.path.PathAdapter
 
-fun geoPath(projection: Projection? = null, context: PathAdapter? = null) = GeoPath(if (projection == null) identity() else projection, context)
+fun geoPath(projection: Projection? = null, context: PathAdapter? = null) = GeoPath(if (projection == null) identityProjection() else projection, context)
 
 /**
  * If a projection is specified, sets the current projection to the specified projection.

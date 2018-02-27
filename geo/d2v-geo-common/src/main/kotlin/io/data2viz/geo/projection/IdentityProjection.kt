@@ -2,11 +2,10 @@ package io.data2viz.geo.projection
 
 import io.data2viz.math.PI
 
-fun identity() = projection(IdentityProjection()) {
-    preClip = {it}
-    postClip = {it}
-    scale = 180/ PI
-//    recenter()
+fun identityProjection() = projection(IdentityProjection()) {
+    preClip = { it }
+    postClip = { it }
+    scale = 180 / PI
 }
 
 class IdentityProjection : ProjectableInvertable {

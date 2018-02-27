@@ -12,7 +12,7 @@ internal fun pt(a: Double, b: Double, c: Double) = arrayOf(a, b, c)
 
 class ContainsTests : TestBase() {
 
-    val equirectangular = io.data2viz.geo.projection.equirectangular() {
+    val equirectangular = io.data2viz.geo.projection.equirectangularProjection() {
         scale = 900.0 / PI
         precision = .0
     }

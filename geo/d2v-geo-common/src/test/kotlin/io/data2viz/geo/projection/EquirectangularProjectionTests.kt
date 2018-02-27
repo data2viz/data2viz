@@ -24,7 +24,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     @Test
     fun equirectangular_various_projects_1() {
-        val projection = equirectangular {
+        val projection = equirectangularProjection {
             translate = doubleArrayOf(.0, .0)
             rotate = doubleArrayOf(20.0, 10.0, 30.0)
             scale = 1.0
@@ -37,7 +37,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     @Test
     fun equirectangular_various_projects_2() {
-        val projection = equirectangular {
+        val projection = equirectangularProjection {
             translate = doubleArrayOf(40.0, 200.0)
             rotate = doubleArrayOf(5.0, .0, -30.0)
             scale = 1.0
@@ -50,7 +50,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     @Test
     fun equirectangular_various_projects_3() {
-        val projection = equirectangular {
+        val projection = equirectangularProjection {
             translate = doubleArrayOf(-100.0, 20.0)
             rotate = doubleArrayOf(-15.0, 20.0, .0)
             scale = 1.0
@@ -64,7 +64,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     @Test
     fun equirectangular_point_returns_the_expected_result_LEGACY() {
-        val projection = equirectangular {
+        val projection = equirectangularProjection {
             translate = doubleArrayOf(.0, .0)
             scale = 1.0
         }
@@ -82,7 +82,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     @Test
     fun equirectangular_rotate_30_0_point_returns_the_expected_result_LEGACY() {
-        val projection = equirectangular {
+        val projection = equirectangularProjection {
             translate = doubleArrayOf(.0, .0)
             rotate = doubleArrayOf(30.0, .0)
             scale = 1.0
@@ -101,7 +101,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     @Test
     fun equirectangular_rotate_30_30_point_returns_the_expected_result_LEGACY() {
-        val projection = equirectangular {
+        val projection = equirectangularProjection {
             translate = doubleArrayOf(.0, .0)
             rotate = doubleArrayOf(30.0, 30.0)
             scale = 1.0
@@ -120,7 +120,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     @Test
     fun equirectangular_rotate_0_0_30_point_returns_the_expected_result_LEGACY() {
-        val projection = equirectangular {
+        val projection = equirectangularProjection {
             translate = doubleArrayOf(.0, .0)
             rotate = doubleArrayOf(.0, .0, 30.0)
             scale = 1.0
@@ -139,7 +139,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     @Test
     fun equirectangular_rotate_30_30_30_point_returns_the_expected_result_LEGACY() {
-        val projection = equirectangular {
+        val projection = equirectangularProjection {
             translate = doubleArrayOf(.0, .0)
             rotate = doubleArrayOf(30.0, 30.0, 30.0)
             scale = 1.0

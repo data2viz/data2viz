@@ -20,7 +20,7 @@ class MercatorProjectionTests : TestBase() {
 
     @Test
     fun mercator_various_projects_1() {
-        val projection = mercator {
+        val projection = mercatorProjection {
             translate = doubleArrayOf(.0, .0)
             rotate = doubleArrayOf(20.0, 10.0, 30.0)
         }
@@ -32,7 +32,7 @@ class MercatorProjectionTests : TestBase() {
 
     @Test
     fun mercator_various_projects_2() {
-        val projection = mercator {
+        val projection = mercatorProjection {
             translate = doubleArrayOf(40.0, 200.0)
             rotate = doubleArrayOf(5.0, .0, -30.0)
         }
@@ -44,7 +44,7 @@ class MercatorProjectionTests : TestBase() {
 
     @Test
     fun mercator_various_projects_3() {
-        val projection = mercator {
+        val projection = mercatorProjection {
             translate = doubleArrayOf(-100.0, 20.0)
             rotate = doubleArrayOf(-15.0, 20.0, .0)
             scale = 1.0

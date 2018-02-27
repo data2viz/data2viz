@@ -5,20 +5,20 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
-private fun identity(x: Double, y: Double) = when {
+private fun identityProjection(x: Double, y: Double) = when {
     x > PI -> doubleArrayOf(x - TAU, y)
     x < -PI -> doubleArrayOf(x + TAU, y)
     else -> doubleArrayOf(x, y)
 }
 
 private fun rotationIdentity(): ProjectableInvertable = object : ProjectableInvertable {
-    override fun project(lambda: Double, phi: Double) = identity(lambda, phi)
-    override fun invert(x: Double, y: Double) = identity(x, y)
+    override fun project(lambda: Double, phi: Double) = identityProjection(lambda, phi)
+    override fun invert(x: Double, y: Double) = identityProjection(x, y)
 }
 
 fun forwardRotationLambda(deltaLambda: Double): (Double, Double) -> DoubleArray {
     return { lambda: Double, phi: Double ->
-        identity(lambda + deltaLambda, phi)
+        identityProjection(lambda + deltaLambda, phi)
     }
 }
 

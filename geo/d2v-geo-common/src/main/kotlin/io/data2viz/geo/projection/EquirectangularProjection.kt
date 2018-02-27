@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
-fun equirectangular() = equirectangular {}
-fun equirectangular(init: Projection.() -> Unit) = projection(EquirectangularProjection()) {
+fun equirectangularProjection() = equirectangularProjection {}
+fun equirectangularProjection(init: Projection.() -> Unit) = projection(EquirectangularProjection()) {
     scale = 152.63
     init()
 }

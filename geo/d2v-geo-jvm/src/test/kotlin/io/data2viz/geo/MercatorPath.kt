@@ -2,10 +2,8 @@ package io.data2viz.geo
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.data2viz.geo.path.geoPath
-import io.data2viz.geo.projection.MercatorProjection
-import io.data2viz.geo.projection.equirectangular
+import io.data2viz.geo.projection.equirectangularProjection
 import io.data2viz.geojson.JacksonGeoJsonObject
-import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.path.SvgPath
 import javafx.application.Application
@@ -43,7 +41,7 @@ class MercatorPath : Application() {
         val geoJsonObject = geojson.toGeoJsonObject()
         timer.log("parsing")
 
-        val projection = equirectangular()
+        val projection = equirectangularProjection()
         projection.center = doubleArrayOf(-74.0, 40.7)
         projection.translate = doubleArrayOf(480.0, 350.0)
         projection.scale = 85000.0

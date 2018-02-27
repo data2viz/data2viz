@@ -3,14 +3,13 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.Sphere
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geojson.Polygon
-import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
 
 class PathAreaTests : TestBase() {
 
-    val equirectangular = io.data2viz.geo.projection.equirectangular {
+    val equirectangular = io.data2viz.geo.projection.equirectangularProjection {
         scale = 900.0 / PI
         precision = .0
     }

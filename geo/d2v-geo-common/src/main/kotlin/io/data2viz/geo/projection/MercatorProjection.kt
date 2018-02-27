@@ -9,8 +9,8 @@ import kotlin.math.*
 
 class MercatorRaw
 
-fun mercator() = mercator {}
-fun mercator(init: Projection.() -> Unit) = projection(MercatorProjection()) {
+fun mercatorProjection() = mercatorProjection {}
+fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProjection()) {
     scale = 961.0 / TAU
     init()
 }
