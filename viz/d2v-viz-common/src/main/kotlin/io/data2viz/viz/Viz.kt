@@ -19,6 +19,7 @@ interface ParentItem: Transformable, StyledElement {
     fun line(init: LineVizItem.() -> Unit): LineVizItem
     fun text(init: TextVizItem.() -> Unit): TextVizItem
     fun path(init: PathVizItem.() -> Unit): PathVizItem
+    fun addPath(path:PathAdapter)
     fun setStyle(style:String)
 }
 
