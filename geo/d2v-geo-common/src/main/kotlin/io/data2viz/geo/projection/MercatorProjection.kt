@@ -90,11 +90,15 @@ class MercatorProjection : Projection {
     private var deltaGamma = .0
     private lateinit var rotator: Projectable
 
-    override fun stream(stream: Stream): Stream {
-        // TODO manage cache
-        recenter()
+    protected var cache: Stream? = null
+    protected var cacheStream: Stream? = null
 
-        return transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
+    override fun stream(stream: Stream): Stream {
+        if (cacheStream == null) {
+            recenter()
+            cacheStream = transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
+        }
+        return cacheStream!!
     }
 
     val transformRadians: (stream: Stream) -> ModifiedStream = { stream: Stream ->
