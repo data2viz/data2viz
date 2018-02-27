@@ -22,16 +22,26 @@ fun main(args: Array<String>) {
 }
 
 class MercatorPath : Application() {
+    
+    class Timer {
+        var last = System.currentTimeMillis()
+        
+        fun log(msg:String) {
+            val newTime = System.currentTimeMillis()
+            println("$msg in ${newTime - last} ms")
+            last = newTime
+        }
+    }
+    
+    private val timer = Timer()
+    
     override fun start(primaryStage: Stage?) {
 
-        var time = System.currentTimeMillis()
         val input = this.javaClass.getResourceAsStream("/ny.json")
         val geojson = ObjectMapper().readValue(input, JacksonGeoJsonObject::class.java)
+        timer.log("loading")
         val geoJsonObject = geojson.toGeoJsonObject()
-
-        println("loading in ${System.currentTimeMillis()  -time} ms.")
-        time = System.currentTimeMillis()
-
+        timer.log("parsing")
 
         val projection = equirectangular()
         projection.center = doubleArrayOf(-74.0, 40.7)
@@ -39,19 +49,15 @@ class MercatorPath : Application() {
         projection.scale = 85000.0
 //        projection.clipExtent = null
         projection.precision = .0
-
-        println("projection in ${System.currentTimeMillis()  -time} ms.")
-        time = System.currentTimeMillis()
+        timer.log("projection")
 
         val geoPath = geoPath(projection, svgPath())
 
-        println("geoPath in ${System.currentTimeMillis()  -time} ms.")
-        time = System.currentTimeMillis()
+        timer.log("geoPath")
 
         val path: SvgPath = geoPath.path(geoJsonObject) as SvgPath
 
-        println("path in ${System.currentTimeMillis()  -time} ms.")
-        time = System.currentTimeMillis()
+        timer.log("path")
 
         val root = Pane()
         root.children.add(path.toJfxPath().apply {
@@ -61,8 +67,8 @@ class MercatorPath : Application() {
         })
         primaryStage!!.scene = (Scene(root, 960.0, 700.0))
         primaryStage.show()
-
-        println("primaryStage in ${System.currentTimeMillis()  -time} ms.")
+        
+        timer.log("primaryStage")
     }
 
 }
