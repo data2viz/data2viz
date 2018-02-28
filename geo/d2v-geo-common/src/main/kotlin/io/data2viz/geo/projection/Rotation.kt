@@ -61,14 +61,12 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
     }
 }
 
-fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Projectable {
+fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): ProjectableInvertable {
     val newDeltaLambda = deltaLambda % TAU
     return if (newDeltaLambda != .0) {
-        if (deltaPhi != .0 || deltaGamma != .0) compose(
-            RotationLambda(deltaLambda),
-            RotationPhiGamma(deltaPhi, deltaGamma)
-        )
-        else RotationLambda(deltaLambda)
+        if (deltaPhi != .0 || deltaGamma != .0) {
+            compose(RotationLambda(deltaLambda), RotationPhiGamma(deltaPhi, deltaGamma)) as ProjectableInvertable
+        } else RotationLambda(deltaLambda)
     } else if (deltaPhi != .0 || deltaGamma != .0) RotationPhiGamma(deltaPhi, deltaGamma)
     else rotationIdentity()
 }
