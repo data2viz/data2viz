@@ -19,10 +19,13 @@ interface Clippable {
     fun pointVisible(x: Double, y: Double): Boolean
     fun clipLine(stream: Stream): ClipStream
     fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream)
+}
+
+interface ClippableHasStart : Clippable {
     val start: DoubleArray
 }
 
-class Clip(val clip: Clippable, val sink: Stream) : Stream {
+class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
     private val line = clip.clipLine(sink)
 

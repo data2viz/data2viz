@@ -137,6 +137,6 @@ fun link(list: List<Intersection>) {
     b.previous = a
 }
 
-private fun pointEqual(p0: DoubleArray, p1: DoubleArray): Boolean {
+internal fun pointEqual(p0: DoubleArray, p1: DoubleArray): Boolean {
     return abs(p0[0] - p1[0]) < EPSILON && abs(p0[1] - p1[1]) < EPSILON
 }

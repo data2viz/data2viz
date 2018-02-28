@@ -11,7 +11,7 @@ import kotlin.math.sin
 
 fun clipAntimeridian() = { stream: Stream -> Clip(AntimeridianClip(), stream) }
 
-class AntimeridianClip : Clippable {
+class AntimeridianClip : ClippableHasStart {
 
     override var start = doubleArrayOf(-PI, -HALFPI)
     override fun pointVisible(x: Double, y: Double) = true
