@@ -4,19 +4,17 @@ import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.Stream
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
 private const val CLIPMAX = 1e9
 private const val CLIPMIN = -CLIPMAX
 
-fun clipRectangle(extent:Extent) = ClipRectangle(extent)::clipLine
+fun clipRectangle(extent: Extent) = ClipRectangle(extent)::clipLine
 
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by The given Extent.
  * Typically used for post-clipping.
  */
-class ClipRectangle(val extent:Extent) : Clippable {
+class ClipRectangle(val extent: Extent) : Clippable {
 
     override fun pointVisible(x: Double, y: Double): Boolean {
         return x in extent.x0..extent.x1 && y in extent.y0..extent.y1
@@ -114,7 +112,9 @@ class ClipRectangle(val extent:Extent) : Clippable {
             }
 
             private fun justPoint(x: Double, y: Double, z: Double) {
-                if (pointVisible(x, y)) activeStream.point(x, y, 0.0)
+                if (pointVisible(x, y)) {
+                    activeStream.point(x, y, 0.0)
+                }
             }
 
             private fun linePoint(x: Double, y: Double, z: Double) {
@@ -135,10 +135,10 @@ class ClipRectangle(val extent:Extent) : Clippable {
                 } else {
                     if (v && v_) activeStream.point(newX, newY, 0.0)
                     else {
-                        x_ = max(CLIPMIN, min(CLIPMAX, x_))
-                        y_ = max(CLIPMIN, min(CLIPMAX, y_))
-                        newX = max(CLIPMIN, min(CLIPMAX, newX))
-                        newY = max(CLIPMIN, min(CLIPMAX, newY))
+                        x_ = x_.coerceIn(CLIPMIN, CLIPMAX)
+                        y_ = y_.coerceIn(CLIPMIN, CLIPMAX)
+                        newX = newX.coerceIn(CLIPMIN, CLIPMAX)
+                        newY = newY.coerceIn(CLIPMIN, CLIPMAX)
                         val a = doubleArrayOf(x_, y_)
                         val b = doubleArrayOf(newX, newY)
 
@@ -163,6 +163,7 @@ class ClipRectangle(val extent:Extent) : Clippable {
                 v_ = v
             }
 
+            // TODO rework
             private fun polygonInside(): Int {
                 var winding = 0
 
@@ -189,8 +190,12 @@ class ClipRectangle(val extent:Extent) : Clippable {
                         point = ring[j]
                         b0 = point[0]
                         b1 = point[1]
+
                         if (a1 <= extent.y1) {
-                            if (b1 > extent.y1 && (b0 - a0) * (extent.y1 - a1) > (b1 - a1) * (extent.x0 - a0)) ++winding; } else if (b1 <= extent.y1 && (b0 - a0) * (extent.y1 - a1) < (b1 - a1) * (extent.x0 - a0)) --winding
+                            if (b1 > extent.y1 && ((b0 - a0) * (extent.y1 - a1)) > ((b1 - a1) * (extent.x0 - a0))) ++winding
+                        } else {
+                            if (b1 <= extent.y1 && ((b0 - a0) * (extent.y1 - a1)) < ((b1 - a1) * (extent.x0 - a0))) --winding
+                        }
                         ++j
                     }
                 }
@@ -216,20 +221,21 @@ class ClipRectangle(val extent:Extent) : Clippable {
         } else if (to != null) stream.point(to[0], to[1], 0.0)
     }
 
-    private fun corner(p: DoubleArray?, direction: Int) = when {
-        direction > 0 -> when {
-            p == null -> 3
-            abs(p[0] - extent.x0) < EPSILON -> 0
-            abs(p[0] - extent.x1) < EPSILON -> 2
-            abs(p[1] - extent.y1) < EPSILON -> 1
-            else -> 3
-        }
-        else -> when {
-            p == null -> 2
-            abs(p[0] - extent.x0) < EPSILON -> 3
-            abs(p[0] - extent.x1) < EPSILON -> 1
-            abs(p[1] - extent.y1) < EPSILON -> 0
-            else -> 2
+    private fun corner(p: DoubleArray?, direction: Int): Int {
+        if (p == null) return if (direction > 0) 3 else 2
+        return when {
+            direction > 0 -> when {
+                abs(p[0] - extent.x0) < EPSILON -> 0
+                abs(p[0] - extent.x1) < EPSILON -> 2
+                abs(p[1] - extent.y1) < EPSILON -> 1
+                else -> 3
+            }
+            else -> when {
+                abs(p[0] - extent.x0) < EPSILON -> 0
+                abs(p[0] - extent.x1) < EPSILON -> 2
+                abs(p[1] - extent.y1) < EPSILON -> 1
+                else -> 3
+            }
         }
     }
 
@@ -246,7 +252,16 @@ class ClipRectangle(val extent:Extent) : Clippable {
         }
     }
 
-    private fun clipLine(a: DoubleArray, b: DoubleArray, extent:Extent): Boolean {
+    /*function comparePoint(a, b) {
+        var ca = corner(a, 1),
+        cb = corner(b, 1);
+        return ca !== cb ? ca - cb
+        : ca === 0 ? b[1] - a[1]
+        : ca === 1 ? a[0] - b[0]
+        : ca === 2 ? a[1] - b[1]
+        : b[0] - a[0];
+    }    */
+    private fun clipLine(a: DoubleArray, b: DoubleArray, extent: Extent): Boolean {
         val ax = a[0]
         val ay = a[1]
         val bx = b[0]
@@ -255,8 +270,8 @@ class ClipRectangle(val extent:Extent) : Clippable {
         var t1 = 1.0
         val dx = bx - ax
         val dy = by - ay
-        var r = extent.x0 - ax
 
+        var r = extent.x0 - ax
         if (dx == .0 && r > 0) return false
 
         r /= dx

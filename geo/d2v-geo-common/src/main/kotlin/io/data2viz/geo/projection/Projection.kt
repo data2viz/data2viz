@@ -111,12 +111,9 @@ open class MutableProjection(val projection: Projectable) : Projection {
     private val noClip: (Stream) -> Stream = { it }
 
     override var preClip: (Stream) -> Stream = clipAntimeridian
-        set(value) {
-            field = value
-        }
+        set(value) { field = value }
 
     override var postClip: (Stream) -> Stream = noClip
-//        get() = noClip
         set(value) { field = value}
 
     override var clipAngle: Double

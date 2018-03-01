@@ -7,7 +7,8 @@ import io.data2viz.geo.stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.path.PathAdapter
 
-fun geoPath(projection: Projection? = null, context: PathAdapter? = null) = GeoPath(if (projection == null) identityProjection() else projection, context)
+fun geoPath(projection: Projection? = null, context: PathAdapter? = null) =
+    GeoPath(if (projection == null) identityProjection() else projection, context)
 
 /**
  * If a projection is specified, sets the current projection to the specified projection.
@@ -46,8 +47,8 @@ class GeoPath(val projection: Projection, val context: PathAdapter?) {
      * However, distinct path elements are useful for styling and interaction (e.g., click or mouseover).
      */
     fun path(geo: GeoJsonObject): PathAdapter {
-        requireNotNull(context, {"Cannot use GeoPath.path() without a valid context."})
-        requireNotNull(contextStream, {"Cannot use GeoPath.path() without a valid context."})
+        requireNotNull(context, { "Cannot use GeoPath.path() without a valid context." })
+        requireNotNull(contextStream, { "Cannot use GeoPath.path() without a valid context." })
         stream(geo, projection.stream(contextStream!!))
         return context!!
     }
