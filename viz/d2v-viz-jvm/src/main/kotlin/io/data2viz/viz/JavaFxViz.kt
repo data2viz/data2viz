@@ -10,6 +10,7 @@ import io.data2viz.path.PathJfx
 import javafx.beans.property.DoubleProperty
 import javafx.scene.Node
 import javafx.scene.shape.Path
+import javafx.scene.shape.StrokeLineCap
 import kotlin.reflect.KProperty
 
 typealias JfxGroup          = javafx.scene.Group
@@ -102,7 +103,13 @@ class PathVizJfx(internal val pathJfx: PathJfx = PathJfx(), override val jfxElem
         PathAdapter by pathJfx,
         HasFill by FillDelegate(jfxElement),
         HasStroke by StrokeDelegate(jfxElement),
-        Transformable by TransformNodeDelegate(jfxElement)
+        Transformable by TransformNodeDelegate(jfxElement) {
+    
+    init {
+        jfxElement.strokeLineCap = StrokeLineCap.BUTT 
+    }
+    
+}
     
 
 class CircleJfx(override val jfxElement: JfxCircle = JfxCircle()) : Circle, JfxVizElement,
