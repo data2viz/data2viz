@@ -3,6 +3,7 @@ package io.data2viz.viz
 import io.data2viz.color.Color
 import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
+import io.data2viz.path.SvgPath
 
 /**
  * Common interface to bootstrap visualization into different platform contexts.
@@ -21,6 +22,7 @@ interface Group : Transformable, StyledElement, VizElement {
     fun line(init: Line.() -> Unit): Line
     fun text(init: Text.() -> Unit): Text
     fun path(init: PathVizElement.() -> Unit): PathVizElement
+    fun addPath(path: PathAdapter)
     fun setStyle(style:String)
 }
 

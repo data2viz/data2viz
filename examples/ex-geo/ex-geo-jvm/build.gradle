@@ -4,5 +4,11 @@ dependencies {
     compile project(":d2v-geo-common")
     compile project(":d2v-geo-jvm")
     compile project(":d2v-data2viz-jvm")
-//    expectedBy project(":ex-natural-logscale-common")
 }
+
+task copyJsonTestFiles(type: Copy) {
+    from "../ex-geo-common/src/main/resources"
+    into "${buildDir}/classes/kotlin/main"
+}
+
+build.dependsOn copyJsonTestFiles

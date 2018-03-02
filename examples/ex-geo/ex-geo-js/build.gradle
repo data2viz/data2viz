@@ -30,4 +30,11 @@ afterEvaluate {
     }
 }
 
+task copyJsonTestFiles(type: Copy) {
+    from "../ex-geo-common/src/main/resources"
+    into "."
+}
+
+test.dependsOn copyJsonTestFiles
+
 //build.dependsOn bundle

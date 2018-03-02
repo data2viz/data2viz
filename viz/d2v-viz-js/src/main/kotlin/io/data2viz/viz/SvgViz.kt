@@ -61,6 +61,11 @@ class ParentElement(override val domElement: Element = createSVGElement("g")) : 
         domElement.appendChild((vizElement as DOMVizElement).domElement)
     }
 
+    override fun addPath(path: PathAdapter) {
+        val element = createSVGElement("path")
+        element.setAttribute("d", (path as SvgPath).path)
+        domElement.append(element)
+    }
 
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val svgPath = SvgPath()

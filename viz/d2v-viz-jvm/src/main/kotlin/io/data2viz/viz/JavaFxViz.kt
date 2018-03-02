@@ -39,6 +39,10 @@ fun JfxGroup.viz(init: VizContext.() -> Unit): VizContext {
 class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, JfxVizElement,
         StyledElement by StyleDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement){
+    
+    override fun addPath(path: PathAdapter) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun add(vizElement: VizElement) {
         jfxElement.children.add((vizElement as JfxVizElement).jfxElement)
