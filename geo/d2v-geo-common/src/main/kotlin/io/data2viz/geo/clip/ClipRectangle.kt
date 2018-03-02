@@ -39,7 +39,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
             private var y_ = Double.NaN
             private var v_ = false
 
-            private var segments: ArrayList<List<List<DoubleArray>>>? = null
+            private var segments: MutableList<List<DoubleArray>>? = null
             private var ring: ArrayList<DoubleArray>? = null
             private var polygon: ArrayList<List<DoubleArray>>? = null
             private var first = false
@@ -70,7 +70,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 if (segments != null) {
                     linePoint(x__, y__, .0)
                     if (v__ && v_) bufferStream.rejoin()
-                    segments!!.add(bufferStream.result())
+                    segments!!.add(bufferStream.result().flatten())
                 }
                 currentPoint = ::justPoint
                 if (v_) activeStream.lineEnd()
@@ -86,8 +86,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
             override fun polygonEnd() {
                 val startInside = polygonInside() != 0
                 val cleanInside = clean != 0 && startInside
-                val flattenedSegments = segments?.flatten() ?: emptyList()
-                val visible = flattenedSegments.isNotEmpty()
+                val visible = segments?.isNotEmpty() ?: false
 
                 if (cleanInside || visible) {
                     stream.polygonStart()
@@ -97,7 +96,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
                         stream.lineEnd()
                     }
                     if (visible) rejoin(
-                        flattenedSegments,
+                        segments!!,
                         Comparator { o1: Intersection, o2 -> comparePoint(o1.point, o2.point) },
                         startInside,
                         ::interpolate,

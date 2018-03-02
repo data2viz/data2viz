@@ -40,30 +40,30 @@ class MercatorPath : Application() {
 
     override fun start(primaryStage: Stage?) {
 
-//        val input = this.javaClass.getResourceAsStream("/world-110m.geojson")
-//        val geojson = ObjectMapper().readValue(input, JacksonGeoJsonObject::class.java)
-//        val geoJsonObject = geojson.toGeoJsonObject()
+        val input = this.javaClass.getResourceAsStream("/world-110m.geojson")
+        val geojson = ObjectMapper().readValue(input, JacksonGeoJsonObject::class.java)
+        val geoJsonObject = geojson.toGeoJsonObject()
 
-        val geoJsonObject = MultiPolygon(
-            arrayOf(
-                arrayOf(
-                    arrayOf(
-                        arrayOf(5.0, 5.0),
-                        arrayOf(2.50, 7.5),
-                        arrayOf(5.0, 10.0),
-                        arrayOf(10.0, 10.0),
-                        arrayOf(12.5, 7.5),
-                        arrayOf(10.0, 5.0),
-                        arrayOf(5.0, 5.0)
-                    )
-                )
-            )
-        )
+//        val geoJsonObject = MultiPolygon(
+//            arrayOf(
+//                arrayOf(
+//                    arrayOf(
+//                        arrayOf(5.0, 5.0),
+//                        arrayOf(2.50, 7.5),
+//                        arrayOf(5.0, 10.0),
+//                        arrayOf(10.0, 10.0),
+//                        arrayOf(12.5, 7.5),
+//                        arrayOf(10.0, 5.0),
+//                        arrayOf(5.0, 5.0)
+//                    )
+//                )
+//            )
+//        )
 
         val projection = equirectangularProjection()
         projection.center = doubleArrayOf(10.0, 5.0)
         projection.translate = doubleArrayOf(480.0, 350.0)
-        projection.scale = 2000.0
+        projection.scale = 200.0
         projection.precision = .0
         projection.postClip = clipRectangle(Extent(48.0, 50.0, 498.0, 500.0))
 

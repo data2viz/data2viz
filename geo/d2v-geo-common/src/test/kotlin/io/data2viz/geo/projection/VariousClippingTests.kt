@@ -39,17 +39,17 @@ class VariousClippingTests : TestBase() {
         val geoPath = geoPath(getProjection(), svgPath())
         val path: SvgPath = geoPath.path(polygon) as SvgPath
 
-        path.path shouldBe "M305.46707480056705,350.0L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480.0,175.46707480056705L567.2664625997165,262.7335374002835L480.0,350.0Z"
+        path.path.round() shouldBe "M305.46707480056705,350L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480,175.46707480056705L567.2664625997165,262.7335374002835L480,350Z".round()
     }
 
-//    @Test
-//    fun equirectangular_rectangle_clipping_east() {
-//        val projection = getProjection()
-//        projection.postClip = clipRectangle(Extent(48.0, 50.0, 498.0, 500.0))
-//
-//        val geoPath = geoPath(projection, svgPath())
-//        val path: SvgPath = geoPath.path(polygon) as SvgPath
-//
-//        path.path shouldBe "M498.0,332.0L480.0,350.0L305.46707480056705,350.0L305.46707480056705,350.0L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480.0,175.46707480056705L498.0,193.46707480056705L498.0,332.0Z"
-//    }
+    @Test
+    fun equirectangular_rectangle_clipping_east() {
+        val projection = getProjection()
+        projection.postClip = clipRectangle(Extent(48.0, 50.0, 498.0, 500.0))
+
+        val geoPath = geoPath(projection, svgPath())
+        val path: SvgPath = geoPath.path(polygon) as SvgPath
+
+        path.path.round() shouldBe "M498,332L480,350L305.46707480056705,350L305.46707480056705,350L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480,175.46707480056705L498,193.46707480056705L498,332Z".round()
+    }
 }
