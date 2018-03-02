@@ -1,0 +1,14 @@
+dependencies {
+    expectedBy project(":d2v-geo-common")
+    compile project(":d2v-path-common")
+    compile project(":d2v-path-jvm")
+    compile project(":d2v-core-jvm")
+    compile "io.data2viz:geojson-jvm:$geojson_version"
+}
+
+task copyJsonTestFiles(type: Copy) {
+    from "../d2v-geo-common/src/test/resources"
+    into "${buildDir}/classes/kotlin/test"
+}
+
+build.dependsOn copyJsonTestFiles

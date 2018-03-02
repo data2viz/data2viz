@@ -4,16 +4,22 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
 
-val EPS = 1e-6
-val EPS2 = EPS * EPS
+const val EPSILON = 1e-6
+const val EPSILON2 = EPSILON * EPSILON
 
-val PI = Angle(kotlin.math.PI)
-val halfPI = PI / 2
-val THETA = PI * 2
-//val THETA_EPS = THETA - EPS
+const val PI = kotlin.math.PI
+const val HALFPI = PI / 2.0
+const val QUARTERPI = PI / 4.0
 
-val DEG_TO_RAD = kotlin.math.PI / 180
-val RAD_TO_DEG = 180 / kotlin.math.PI
+const val TAU = PI * 2.0
+const val TAU_EPSILON = TAU - EPSILON
+
+val PI_ANGLE = Angle(kotlin.math.PI)
+val HALFPI_ANGLE = PI_ANGLE / 2
+val TAU_ANGLE = PI_ANGLE * 2
+
+private val DEG_TO_RAD = kotlin.math.PI / 180
+private val RAD_TO_DEG = 180 / kotlin.math.PI
 
 /**
  * Assuming this represents a value in degrees, converts the value to radians.
@@ -35,8 +41,8 @@ data class Angle(val rad: Double){
     val deg:Double get() = rad * RAD_TO_DEG
 
     fun normalize():Angle =
-            if (rad >= 0) Angle(rad % THETA.rad)
-            else Angle((rad % THETA.rad) + THETA.rad)
+            if (rad >= 0) Angle(rad % TAU_ANGLE.rad)
+            else Angle((rad % TAU_ANGLE.rad) + TAU_ANGLE.rad)
 
     operator fun plus(angle: Angle)     = Angle(rad + angle.rad)
     operator fun minus(angle: Angle)    = Angle(rad - angle.rad)

@@ -13,7 +13,7 @@ module.exports = function (config) {
                 , 'Chrome'
                 // 'ChromeHeadless'
             ],
-            captureTimeout: 5000,
+            captureTimeout: 10000,
             // singleRun: true,
         singleRun: false,
             reportSlowerThan: 500,

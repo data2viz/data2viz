@@ -19,6 +19,7 @@ class ToleranceMatcher(val expected: Double, val tolerance: Double) : Matcher<Do
   override fun test(value: Double) {
     if (tolerance == 0.0)
       println("[WARN] When comparing doubles consider using tolerance, eg: a shouldBe b plusOrMinus c")
+    if (value.isNaN() && !expected.isNaN()) throw AssertionError("$value is not equal to $expected")
     val diff = abs(value - expected)
     if (diff > tolerance)
       throw AssertionError("$value is not equal to $expected")
