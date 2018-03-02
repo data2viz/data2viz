@@ -1,10 +1,12 @@
 package io.data2viz.geo
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geo.clip.clipRectangle
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.equirectangularProjection
+import io.data2viz.geo.projection.mercatorProjection
 import io.data2viz.geojson.JacksonGeoJsonObject
 import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geojson.toGeoJsonObject
@@ -60,12 +62,14 @@ class MercatorPath : Application() {
 //            )
 //        )
 
-        val projection = equirectangularProjection()
-        projection.center = doubleArrayOf(10.0, 5.0)
-        projection.translate = doubleArrayOf(480.0, 350.0)
-        projection.scale = 200.0
-        projection.precision = .0
-        projection.postClip = clipRectangle(Extent(48.0, 50.0, 498.0, 500.0))
+        val projection = equirectangularProjection {
+            center = doubleArrayOf(10.0, 5.0)
+            translate = doubleArrayOf(480.0, 350.0)
+            scale = 200.0
+            precision = .0
+//          postClip = clipRectangle(Extent(48.0, 50.0, 498.0, 500.0))
+//          preClip = clipCircle(45.0)
+        }
 
         var geoPath = geoPath(projection, svgPath())
         var path: SvgPath = geoPath.path(geoJsonObject) as SvgPath
