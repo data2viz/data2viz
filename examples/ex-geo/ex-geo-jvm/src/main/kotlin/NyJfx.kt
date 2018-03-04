@@ -2,13 +2,12 @@ package io.data2viz.examples.geo
 
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.data2viz.color.colors
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.equirectangularProjection
 import io.data2viz.geojson.JacksonGeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
-import io.data2viz.path.SvgPath
-import io.data2viz.path.svgPath
-import io.data2viz.path.toJfxPath
+import io.data2viz.viz.PathVizJfx
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.layout.Pane
@@ -52,16 +51,21 @@ class NyJfx : Application() {
         projection.precision = .0
         timer.log("projection")
 
-        val geoPath = geoPath(projection, svgPath())
+
+        val pathVizJfx = PathVizJfx().apply {
+            stroke = colors.black
+            fill = null
+        }
+        val geoPath = geoPath(projection, pathVizJfx)
 
         timer.log("geoPath")
 
-        val path: SvgPath = geoPath.path(geoJsonObject) as SvgPath
+        geoPath.path(geoJsonObject)
 
         timer.log("path")
 
         val root = Pane()
-        root.children.add(path.toJfxPath())
+        root.children.add(pathVizJfx.jfxElement)
         primaryStage!!.scene = (Scene(root, width, height))
         primaryStage.show()
 
