@@ -46,14 +46,11 @@ val films = listOf(
     filmThor, filmThor2, filmThor3
     )
 
-val avengers    = listOf (blackWidow, captainAmerica, hawkeye, theHulk, ironMan, thor)
-val colors      = listOf (0x301E1E, 0x083E77, 0x342350, 0x567235, 0x8B161C, 0xDF7C00).map { Color(it) }
+val avengers    = listOf (blackWidow,   captainAmerica, hawkeye,    theHulk,    ironMan,    thor)
+val colors      = listOf (0x301E1E,     0x083E77,       0x342350,   0x567235,   0x8B161C,   0xDF7C00).map { Color(it) }
 
-val Avenger.color: Color
-        get() = io.data2viz.examples.chord.colors[avengers.indexOf(this)]
-
-val width = 600.0
-val height = width
+const val width = 600.0
+const val height = width
 val outer = minOf(width, height) * 0.5 - 40.0
 val inner = outer - 30
 
@@ -78,6 +75,7 @@ val ribbon = io.data2viz.chord.ribbon(inner)
 fun VizContext.chordViz() {
     transform { translate(width / 2, height / 2) }
 
+    //Drawing external groups representing avengers
     chords.groups.forEachIndexed { index, it ->
         path {
             fill = io.data2viz.examples.chord.colors[index]
@@ -86,6 +84,7 @@ fun VizContext.chordViz() {
         }
     }
 
+    //Todo Move in API
     fun Chord.toGradient() = LinearGradient().apply {
             x1 = inner * cos((source.endAngle - source.startAngle)/2 + source.startAngle - PI/2)
             y1 = inner * sin((source.endAngle - source.startAngle)/2 + source.startAngle - PI/2)
@@ -97,6 +96,7 @@ fun VizContext.chordViz() {
             addColor(1.0, io.data2viz.examples.chord.colors[target.index].apply { alpha = .6 })
     }
 
+    //drawing ribbons
     chords.chords.forEach { chord ->
         path {
             fill = chord.toGradient()
