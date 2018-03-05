@@ -7,9 +7,6 @@ import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
 
-internal fun pt(a: Double, b: Double) = arrayOf(a, b)
-internal fun pt(a: Double, b: Double, c: Double) = arrayOf(a, b, c)
-
 class ContainsTests : TestBase() {
 
     val equirectangular = io.data2viz.geo.projection.equirectangularProjection() {

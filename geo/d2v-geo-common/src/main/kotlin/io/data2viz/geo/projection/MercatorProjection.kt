@@ -1,6 +1,8 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.ModifiedStream
+import io.data2viz.geo.clip.clipRectangle
+import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.HALFPI
 import io.data2viz.math.TAU
 import io.data2viz.math.toDegrees
@@ -74,7 +76,11 @@ class MercatorProjection : Projection {
     override var clipExtent: Extent? = null
         set(value) {
             field = value
-            if (value != null) reclip()
+            if (value != null) {
+                postClip = io.data2viz.geo.clip.clipExtent(value)
+            } else {
+                postClip = noClip
+            }
         }
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
@@ -83,6 +89,10 @@ class MercatorProjection : Projection {
 
     override fun invert(x: Double, y: Double): DoubleArray {
         return doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
+    }
+
+    override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
+        return io.data2viz.geo.fitExtent(this, extent, geo)
     }
 
     private var deltaLambda = .0
@@ -128,7 +138,7 @@ class MercatorProjection : Projection {
     }
 
     private fun reclip() {
-        // TODO
+        // TODO (mercator only ?)
     }
 
 }

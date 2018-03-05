@@ -2,16 +2,30 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.ModifiedStream
 import io.data2viz.geo.clip.clipAntimeridian
+import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.sqrt
 
-data class Extent(
-    var x0: Double,
-    var y0: Double,
-    var x1: Double,
-    var y1: Double
-)
+class Extent(var x0: Double, var y0: Double, var x1: Double, var y1: Double) {
+    var width
+        get() = x1 - x0
+        set(value) {
+            x0 = .0
+            x1 = value
+        }
+
+    var height
+        get() = y1 - y0
+        set(value) {
+            y0 = .0
+            y1 = value
+        }
+
+    fun copy(): Extent {
+        return Extent(x0, y0, x1, y1)
+    }
+}
 
 interface Stream {
     fun point(x: Double, y: Double, z: Double) {}
@@ -46,6 +60,8 @@ interface Projection : ProjectableInvertable {
 
     //fun rotate(angle: Double)
     fun stream(stream: Stream): Stream
+
+    fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection
 
     // TODO : fits
 }
@@ -110,10 +126,14 @@ open class MutableProjection(val projection: Projectable) : Projection {
     private val noClip: (Stream) -> Stream = { it }
 
     override var preClip: (Stream) -> Stream = clipAntimeridian
-        set(value) { field = value }
+        set(value) {
+            field = value
+        }
 
     override var postClip: (Stream) -> Stream = noClip
-        set(value) { field = value}
+        set(value) {
+            field = value
+        }
 
     override var clipAngle: Double
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
@@ -122,16 +142,16 @@ open class MutableProjection(val projection: Projectable) : Projection {
     override var clipExtent: Extent? = null
         set(value) {
             field = value
-            //if (value != null) reclip()
+            if (value != null) {
+                postClip = io.data2viz.geo.clip.clipExtent(value)
+            } else {
+                postClip = noClip
+            }
         }
 
-    /*constructor(projector: Projector) : this(object : ProjectorFactory {
-        override fun create(): Projector {
-            return projector
-        }
-    })
-
-    protected var project: Projector = factory.create()*/
+    override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
+        return io.data2viz.geo.fitExtent(this, extent, geo)
+    }
 
     // Scale
     private var k = 150.0

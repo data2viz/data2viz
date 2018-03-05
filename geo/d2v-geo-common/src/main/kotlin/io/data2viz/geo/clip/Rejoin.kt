@@ -73,8 +73,6 @@ fun rejoin(
     }
 
     val start = subject[0]
-    /*points,
-    point*/
 
     while (true) {
 

@@ -135,55 +135,47 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
 
     private fun ringEnd() {
-        val currentRing = ring
+        requireNotNull(ring, { "Error on Clip.ringEnd, ring can't be null." })
 
-        // TODO test not needed
-        if (currentRing != null) {
-            pointRing(currentRing[0][0], currentRing[0][1], 0.0)
-            ringSink.lineEnd()
+        pointRing(ring!![0][0], ring!![0][1], 0.0)
+        ringSink.lineEnd()
 
-            val clean = ringSink.clean
-            val ringSegments: MutableList<List<DoubleArray>> = ringBuffer.result().toMutableList()
+        val clean = ringSink.clean
+        val ringSegments: MutableList<List<DoubleArray>> = ringBuffer.result().toMutableList()
 
-            currentRing.removeAt(currentRing.lastIndex)
-            polygon.add(currentRing)
-            ring = null
+        ring!!.removeAt(ring!!.lastIndex)
+        polygon.add(ring!!)
+        this.ring = null
 
-            if (ringSegments.isEmpty()) return
+        if (ringSegments.isEmpty()) return
 
-            // No intersections
-            if ((clean and 1) != 0) {
-                val segment = ringSegments[0]
-                val m = segment.lastIndex
-                if (m > 0) {
-                    if (!polygonStarted) {
-                        sink.polygonStart()
-                        polygonStarted = true
-                    }
-                    sink.lineStart()
-                    (0 until m).forEach { sink.point(segment[it][0], segment[it][1], 0.0) }
-                    sink.lineEnd()
+        // No intersections
+        if ((clean and 1) != 0) {
+            val segment = ringSegments[0]
+            val m = segment.lastIndex
+            if (m > 0) {
+                if (!polygonStarted) {
+                    sink.polygonStart()
+                    polygonStarted = true
                 }
-                return
+                sink.lineStart()
+                (0 until m).forEach { sink.point(segment[it][0], segment[it][1], 0.0) }
+                sink.lineEnd()
             }
-
-            // Rejoin connected segments
-            // TODO reuse ringBuffer.rejoin()?
-            // TODO rework !!
-            if (ringSegments.size > 1 && (clean and 2) != 0) {
-                val first = ringSegments.removeAt(0)
-                val last = ringSegments.removeAt(ringSegments.lastIndex)
-                ringSegments.add(last)
-                ringSegments.add(first)
-            }
-
-            /**
-             *  // Rejoin connected segments.
-            // TODO reuse ringBuffer.rejoin()?
-            if (n > 1 && clean & 2) ringSegments.push(ringSegments.pop().concat(ringSegments.shift()));
-             */
-
-            segments.add(ringSegments.flatten().filter { it.size > 1 })
+            return
         }
+
+        // Rejoin connected segments
+        // TODO reuse ringBuffer.rejoin()?
+        // TODO rework !!
+        if (ringSegments.size > 1 && (clean and 2) != 0) {
+            require(ringSegments.size < 3, { "Too much ring segments to rejoin on Clip.ringEnd" })
+            val first = ringSegments.removeAt(0)
+            val last = ringSegments.removeAt(ringSegments.lastIndex)
+            ringSegments.add(last)
+            ringSegments.add(first)
+        }
+
+        segments.add(ringSegments.flatten().filter { it.size > 1 })
     }
 }

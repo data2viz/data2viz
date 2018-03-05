@@ -8,7 +8,8 @@ import kotlin.math.abs
 private const val CLIPMAX = 1e9
 private const val CLIPMIN = -CLIPMAX
 
-fun clipRectangle(extent: Extent) = ClipRectangle(extent)::clipLine
+fun clipExtent(extent: Extent) = ClipRectangle(extent)::clipLine
+fun clipRectangle(x0:Double, y0:Double, x1:Double, y1:Double) = ClipRectangle(Extent(x0, y0, x1, y1))::clipLine
 
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by The given Extent.

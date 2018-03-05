@@ -11,8 +11,6 @@ import kotlin.math.sqrt
 
 
 fun clipCircle(radius: Double) = { stream: Stream -> Clip(ClipCircle(radius), stream) }
-//fun clipCircle(radius: Double) = ClipCircle(radius)
-
 //clip(visible, clipLine, interpolate, smallRadius ? [0, -radius] : [-pi, radius - pi]);
 
 /**
@@ -72,17 +70,18 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
                         v = pointVisible(point1[0], point1[1])
                     }
                 }
+
                 if (v != v0) {
                     _clean = 0
                     if (v) {
                         // outside going in
                         stream.lineStart()
                         point2 = intersect(point1, point0!!)
-                        if (point2 != null) stream.point(point2!![0], point2[1], .0) else stream.point(.0, .0, .0)
+                        stream.point(point2!![0], point2[1], .0)            // TODO : point2 may be null ??
                     } else {
                         // inside going out
                         point2 = intersect(point0!!, point1)
-                        if (point2 != null) stream.point(point2!![0], point2[1], .0) else stream.point(.0, .0, .0)
+                        stream.point(point2!![0], point2[1], .0)            // TODO : point2 may be null ??
                         stream.lineEnd()
                     }
                     point0 = point2

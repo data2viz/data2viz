@@ -1,22 +1,16 @@
 package io.data2viz.geo
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.data2viz.geo.clip.clipCircle
-import io.data2viz.geo.clip.clipRectangle
+import io.data2viz.color.colors
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.equirectangularProjection
-import io.data2viz.geo.projection.mercatorProjection
 import io.data2viz.geojson.JacksonGeoJsonObject
-import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geojson.toGeoJsonObject
-import io.data2viz.path.SvgPath
-import io.data2viz.path.svgPath
-import io.data2viz.path.toJfxPath
+import io.data2viz.viz.PathVizJfx
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.layout.Pane
-import javafx.scene.paint.Color
 import javafx.stage.Stage
 
 class Timer {
@@ -42,6 +36,8 @@ class MercatorPath : Application() {
 
     override fun start(primaryStage: Stage?) {
 
+        val extent = Extent(10.0, 10.0, 500.0, 500.0)
+
         val input = this.javaClass.getResourceAsStream("/world-110m.geojson")
         val geojson = ObjectMapper().readValue(input, JacksonGeoJsonObject::class.java)
         val geoJsonObject = geojson.toGeoJsonObject()
@@ -62,25 +58,32 @@ class MercatorPath : Application() {
 //            )
 //        )
 
-        val projection = equirectangularProjection {
-            center = doubleArrayOf(10.0, 5.0)
-            translate = doubleArrayOf(480.0, 350.0)
-            scale = 200.0
-            precision = .0
-//          postClip = clipRectangle(Extent(48.0, 50.0, 498.0, 500.0))
-            preClip = clipCircle(45.0)
-        }
+//        val projection = mercatorProjection {
+//            center = doubleArrayOf(10.0, 5.0)
+//            translate = doubleArrayOf(480.0, 350.0)
+//            scale = 200.0
+//            precision = .0
+//        }
 
-        var geoPath = geoPath(projection, svgPath())
-        var path: SvgPath = geoPath.path(geoJsonObject) as SvgPath
+        val projection = equirectangularProjection()
+        projection.fitExtent(extent, geoJsonObject)
+
+        val pathVizJfx = PathVizJfx().apply {
+            stroke = colors.black
+            fill = null
+        }
+        val geoPath = geoPath(projection, pathVizJfx)
+        geoPath.path(geoJsonObject)
+
+//        timer.log("geoPath")
+
+
+//        var geoPath = geoPath(projection, PathVizJfx())
+//        var path: PathVizJfx = geoPath.path(geoJsonObject) as PathVizJfx
 
         val root = Pane()
-        root.children.add(path.toJfxPath().apply {
-            fill = null
-            stroke = Color.BLACK
-            strokeWidth = 1.0
-        })
-        primaryStage!!.scene = (Scene(root, 960.0, 700.0))
+        root.children.add(pathVizJfx.jfxElement)
+        primaryStage!!.scene = (Scene(root, extent.width + 20, extent.height + 20))
         primaryStage.show()
     }
 
