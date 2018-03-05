@@ -28,7 +28,7 @@ class ChordJfx : Application() {
         stage?.let {
             it.scene = (Scene(root, width, height))
             it.show()
-            stage.title = "JavaFx - data2viz - NaturalLogScale.kt"
+            stage.title = "JavaFx - data2viz - ChordJfx.kt"
         }
     }
 
