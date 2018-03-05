@@ -14,7 +14,7 @@ import io.data2viz.shape.const
 import io.data2viz.viz.VizContext
 
 
-data class Film(val name:String, val avengers:List<Avenger>)
+data class Movie(val name:String, val avengers:List<Avenger>)
 
 data class Avenger(val name:String)
 
@@ -25,19 +25,19 @@ val ironMan         = Avenger("Iron Man")
 val thor            = Avenger("Thor")
 val hawkeye         = Avenger("hawkeye")
 
-val films = listOf (
-    Film("Avengers", listOf(ironMan, captainAmerica, theHulk, thor, hawkeye, blackWidow)),
-    Film("Avengers, L'ère d'Ultron", listOf(ironMan, captainAmerica, theHulk, thor, hawkeye, blackWidow)),
-    Film("Avengers, Infinity War", listOf(ironMan, captainAmerica, theHulk, hawkeye, blackWidow)),
-    Film("Captain America, First Avenger", listOf(captainAmerica)),
-    Film("Captain America, Le Soldat de l'hiver", listOf(captainAmerica, blackWidow)),
-    Film("Captain America, Civil War", listOf(captainAmerica, ironMan, hawkeye, blackWidow)),
-    Film("Iron Man 1", listOf(ironMan)),
-    Film("Iron Man 2", listOf(ironMan,blackWidow)), 
-    Film("Iron Man 3", listOf(ironMan, theHulk)),
-    Film("Thor", listOf(thor, hawkeye)),
-    Film("Thor, le monde des ténèbres", listOf(thor, captainAmerica)), 
-    Film("Thor, Ragnakok", listOf(thor))
+val movies = listOf (
+    Movie("Avengers", listOf(ironMan, captainAmerica, theHulk, thor, hawkeye, blackWidow)),
+    Movie("Avengers, L'ère d'Ultron", listOf(ironMan, captainAmerica, theHulk, thor, hawkeye, blackWidow)),
+    Movie("Avengers, Infinity War", listOf(ironMan, captainAmerica, theHulk, hawkeye, blackWidow)),
+    Movie("Captain America, First Avenger", listOf(captainAmerica)),
+    Movie("Captain America, Le Soldat de l'hiver", listOf(captainAmerica, blackWidow)),
+    Movie("Captain America, Civil War", listOf(captainAmerica, ironMan, hawkeye, blackWidow)),
+    Movie("Iron Man 1", listOf(ironMan)),
+    Movie("Iron Man 2", listOf(ironMan,blackWidow)), 
+    Movie("Iron Man 3", listOf(ironMan, theHulk)),
+    Movie("Thor", listOf(thor, hawkeye)),
+    Movie("Thor, le monde des ténèbres", listOf(thor, captainAmerica)), 
+    Movie("Thor, Ragnakok", listOf(thor))
 )
 
 val avengers    = listOf (blackWidow,   captainAmerica, hawkeye,    theHulk,    ironMan,    thor)
@@ -52,7 +52,7 @@ val chord = ChordLayout<Avenger>().apply {
     padAngle = .15
 }
 
-fun collaborations(avengers:List<Avenger>) = films.filter { it.avengers.containsAll(avengers) }.size.toDouble()
+fun collaborations(avengers:List<Avenger>) = movies.filter { it.avengers.containsAll(avengers) }.size.toDouble()
 
 val chords: Chords = chord.chord(avengers, { a, b -> if (a==b) .0 else collaborations(listOf(a,b))})
 
