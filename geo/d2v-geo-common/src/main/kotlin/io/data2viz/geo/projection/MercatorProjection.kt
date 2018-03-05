@@ -95,6 +95,18 @@ class MercatorProjection : Projection {
         return io.data2viz.geo.fitExtent(this, extent, geo)
     }
 
+    override fun fitWidth(width: Double, geo: GeoJsonObject): Projection {
+        return io.data2viz.geo.fitWidth(this, width, geo)
+    }
+
+    override fun fitHeight(height: Double, geo: GeoJsonObject): Projection {
+        return io.data2viz.geo.fitHeight(this, height, geo)
+    }
+
+    override fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
+        return io.data2viz.geo.fitSize(this, width, height, geo)
+    }
+
     private var deltaLambda = .0
     private var deltaPhi = .0
     private var deltaGamma = .0

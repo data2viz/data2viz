@@ -62,6 +62,9 @@ interface Projection : ProjectableInvertable {
     fun stream(stream: Stream): Stream
 
     fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection
+    fun fitWidth(width: Double, geo: GeoJsonObject): Projection
+    fun fitHeight(height: Double, geo: GeoJsonObject): Projection
+    fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection
 
     // TODO : fits
 }
@@ -151,6 +154,18 @@ open class MutableProjection(val projection: Projectable) : Projection {
 
     override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
         return io.data2viz.geo.fitExtent(this, extent, geo)
+    }
+
+    override fun fitWidth(width: Double, geo: GeoJsonObject): Projection {
+        return io.data2viz.geo.fitWidth(this, width, geo)
+    }
+
+    override fun fitHeight(height: Double, geo: GeoJsonObject): Projection {
+        return io.data2viz.geo.fitHeight(this, height, geo)
+    }
+
+    override fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
+        return io.data2viz.geo.fitSize(this, width, height, geo)
     }
 
     // Scale
