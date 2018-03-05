@@ -58,6 +58,7 @@ val root = Paths.get(".")!!
 val reports = mutableListOf<Category>()
 val files = walkFileTree(root, ReportsVisitor(path, reports))!!
 
+
 var totalCommon = 0
 var totalJs = 0
 var totalJVM = 0
@@ -87,14 +88,23 @@ reports.forEach {
 
 
 println("""
-
+Data2viz Kotlin Lines Of Code
+=============================
 Sources
     common :: $totalCommon
-    js     :: $totalJs
-    jvm    :: $totalJVM
+    js     :: $totalJs (${(100 * totalJs / (totalJs + totalCommon))} %)
+    jvm    :: $totalJVM (${(100 * totalJVM / (totalJVM + totalCommon))} %)
 
 Test Sources
     common :: $testTotalCommon
     js     :: $testTotalJs
     jvm    :: $testTotalJVM
     """)
+
+
+if (reports.size == 0){
+    println("""
+        
+        You have to call the gradle task stats before running this script.
+        """.trimIndent())
+}
