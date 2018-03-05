@@ -93,8 +93,8 @@ fun VizContext.chordViz() {
             y2 = inner * sin((target.endAngle - target.startAngle)/2 + target.startAngle - PI/2)
 
             //Set the starting color (at 0%)
-            addColor(.0, io.data2viz.examples.chord.colors[source.index].apply { alpha = .8})
-            addColor(1.0, io.data2viz.examples.chord.colors[target.index].apply { alpha = .8 })
+            addColor(.0, io.data2viz.examples.chord.colors[source.index].apply { alpha = .6})
+            addColor(1.0, io.data2viz.examples.chord.colors[target.index].apply { alpha = .6 })
     }
 
     chords.chords.forEach { chord ->

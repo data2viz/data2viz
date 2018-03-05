@@ -2,6 +2,7 @@ package io.data2viz.viz
 
 import io.data2viz.color.Color
 import io.data2viz.color.ColorOrGradient
+import io.data2viz.color.LinearGradient
 import io.data2viz.color.color
 import io.data2viz.core.CssClass
 import io.data2viz.core.Point
@@ -9,6 +10,7 @@ import io.data2viz.math.Angle
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
 import org.w3c.dom.Element
+import org.w3c.dom.asList
 import org.w3c.dom.svg.SVGElement
 import kotlin.browser.document
 import kotlin.reflect.KProperty
@@ -32,6 +34,24 @@ fun selectOrCreateSvg(): SVGElement {
         document.querySelector("body")!!.append(svgElement)
     }
     return svgElement
+}
+
+/**
+ * Looks for the first parent which is a svg Element.
+ * @throws IllegalStateException if the current element has no svg as parent
+ */
+fun Element.svg():Element {
+
+    fun parent(child:Element, predicate:(Element) -> Boolean): Element {
+        var parent = child.parentElement
+        while (parent != null && !predicate(parent)){
+            parent = parent.parentElement
+        }
+        if (parent == null) throw IllegalArgumentException("No parent matching the predicate")
+        return parent
+    }
+
+    return parent(this) {it.localName == "svg"}
 }
 
 /**
@@ -71,10 +91,10 @@ class ParentElement(override val domElement: Element = createSVGElement("g")) : 
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val svgPath = SvgPath()
         val element = createSVGElement("path")
+        domElement.append(element)
         val item = PathDOM(element, svgPath)
         init(item)
         element.setAttribute("d", svgPath.path)
-        domElement.append(element)
         return item
     }
 
@@ -242,10 +262,54 @@ class FillDelegate(val element: Element) : HasFill {
     override var fill: ColorOrGradient?
         get() = element.getAttribute("fill")?.color
         set(value) {
-            element.setAttribute("fill", value?.toString() ?: "none")
+            when (value) {
+                null                -> element.setAttribute("fill", "none")
+                is LinearGradient   -> addGradient(element, value)
+                else                -> element.setAttribute("fill", value.toString())
+            }
         }
 
+    private fun addGradient(element: Element, linearGradient: LinearGradient) {
+        val id = nextId("LinearGradient")
+        element.setAttribute("fill", "url(#$id)")
+        val linearGradientElement = createSVGElement("linearGradient").apply {
+            setAttribute("id", id)
+            setAttribute("gradientUnits", "userSpaceOnUse")
+            setAttribute("x1", linearGradient.x1.toString())
+            setAttribute("y1", linearGradient.y1.toString())
+            setAttribute("x2", linearGradient.x2.toString())
+            setAttribute("y2", linearGradient.y2.toString())
+            linearGradient.colorStops.forEach {
+                val stop = createSVGElement("stop").apply {
+                    setAttribute("offset", "${100 * it.percent}%")
+                    setAttribute("stop-color", "${it.color}")
+                }
+                appendChild(stop)
+            }
+        }
+        element.defs.appendChild(linearGradientElement)
+    }
+
+
 }
+
+var ids = 1
+private fun nextId(name: String): String = "$name${ids++}"
+
+private val Element.defs: Element
+    get() {
+        val svg = this.svg()
+        val defs = svg.childNodes.asList()
+            .filterIsInstance<Element>()
+            .firstOrNull { it.localName == "defs" }
+        return if (defs == null){
+            val newDefs = createSVGElement("defs")
+            svg.appendChild(newDefs)
+            newDefs
+        } else {
+            defs
+        }
+    }
 
 class StrokeDelegate(val element: Element) : HasStroke {
 
