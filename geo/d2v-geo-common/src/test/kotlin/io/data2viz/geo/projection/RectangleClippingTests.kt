@@ -6,7 +6,6 @@ import io.data2viz.geojson.MultiPolygon
 import io.data2viz.path.SvgPath
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
-import kotlin.math.PI
 import kotlin.test.Test
 
 class RectangleClippingTests : TestBase() {
@@ -35,7 +34,7 @@ class RectangleClippingTests : TestBase() {
     )
 
     @Test
-    fun equirectangular_no_clipping() {
+    fun no_clipping() {
         val geoPath = geoPath(getProjection(), svgPath())
         val path: SvgPath = geoPath.path(polygon) as SvgPath
 
@@ -43,7 +42,7 @@ class RectangleClippingTests : TestBase() {
     }
 
     @Test
-    fun equirectangular_rectangle_clipping_east() {
+    fun rectangle_clipping_east() {
         val projection = getProjection()
         projection.postClip = clipRectangle(Extent(48.0, 50.0, 498.0, 500.0))
 
@@ -54,7 +53,7 @@ class RectangleClippingTests : TestBase() {
     }
 
     @Test
-    fun equirectangular_rectangle_clipping_north() {
+    fun rectangle_clipping_north() {
         val projection = getProjection()
         projection.postClip = clipRectangle(Extent(200.0, 200.0, 700.0, 500.0))
 
@@ -65,7 +64,7 @@ class RectangleClippingTests : TestBase() {
     }
 
     @Test
-    fun equirectangular_rectangle_clipping_south() {
+    fun rectangle_clipping_south() {
         val projection = getProjection()
         projection.postClip = clipRectangle(Extent(48.0, 50.0, 700.0, 300.0))
 
@@ -76,7 +75,7 @@ class RectangleClippingTests : TestBase() {
     }
 
     @Test
-    fun equirectangular_rectangle_clipping_west() {
+    fun rectangle_clipping_west() {
         val projection = getProjection()
         projection.postClip = clipRectangle(Extent(250.0, 50.0, 700.0, 500.0))
 

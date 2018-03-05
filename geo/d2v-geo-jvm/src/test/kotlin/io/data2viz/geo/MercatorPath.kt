@@ -50,13 +50,13 @@ class MercatorPath : Application() {
 //            arrayOf(
 //                arrayOf(
 //                    arrayOf(
-//                        arrayOf(5.0, 5.0),
-//                        arrayOf(2.50, 7.5),
-//                        arrayOf(5.0, 10.0),
-//                        arrayOf(10.0, 10.0),
-//                        arrayOf(12.5, 7.5),
-//                        arrayOf(10.0, 5.0),
-//                        arrayOf(5.0, 5.0)
+//                        arrayOf(50.0, 50.0),
+//                        arrayOf(25.5, 75.5),
+//                        arrayOf(50.0, 100.0),
+//                        arrayOf(100.0, 100.0),
+//                        arrayOf(125.5, 75.5),
+//                        arrayOf(100.0, 50.0),
+//                        arrayOf(50.0, 50.0)
 //                    )
 //                )
 //            )
@@ -68,7 +68,7 @@ class MercatorPath : Application() {
             scale = 200.0
             precision = .0
 //          postClip = clipRectangle(Extent(48.0, 50.0, 498.0, 500.0))
-//          preClip = clipCircle(45.0)
+            preClip = clipCircle(45.0)
         }
 
         var geoPath = geoPath(projection, svgPath())

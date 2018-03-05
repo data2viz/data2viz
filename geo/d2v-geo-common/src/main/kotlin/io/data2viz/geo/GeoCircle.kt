@@ -93,7 +93,7 @@ fun geoCircle(
     } else {
         newT0 = circleRadius(cosRadius, t0)
         newT1 = circleRadius(cosRadius, t1!!)
-        if ((direction > 0 && newT0 < newT1) || (newT0 > newT1)) {
+        if ((direction > 0 && newT0 < newT1) || (direction < 0 && newT0 > newT1)) {
             newT0 += direction * tau
         }
     }

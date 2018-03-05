@@ -85,8 +85,7 @@ internal fun resampleNone(projection: Projectable): (Stream) -> Stream {
 }
 
 class TransformRadians(stream: Stream) : ModifiedStream(stream) {
-    override fun point(x: Double, y: Double, z: Double) =
-        stream.point(x.toRadians(), y.toRadians(), z.toRadians())
+    override fun point(x: Double, y: Double, z: Double) = stream.point(x.toRadians(), y.toRadians(), z.toRadians())
 }
 
 fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)

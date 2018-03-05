@@ -9,7 +9,11 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sqrt
 
-fun clipCircle(radius: Double) = ClipCircle(radius)::clipLine
+
+fun clipCircle(radius: Double) = { stream: Stream -> Clip(ClipCircle(radius), stream) }
+//fun clipCircle(radius: Double) = ClipCircle(radius)
+
+//clip(visible, clipLine, interpolate, smallRadius ? [0, -radius] : [-pi, radius - pi]);
 
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by a small circle of
@@ -27,7 +31,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         get() = if (smallRadius) doubleArrayOf(0.0, -radius) else doubleArrayOf(-PI, radius - PI)
 
     override fun pointVisible(x: Double, y: Double): Boolean {
-        return cos(x) * cos(x) > cr
+        return cos(x) * cos(y) > cr
     }
 
     override fun clipLine(stream: Stream): ClipStream {
@@ -40,7 +44,8 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
             private var v0 = false                              // visibility of previous point
             private var v00 = false                             // visibility of first point
 
-            override var clean: Int = _clean or ((if (v00 && v0) 1 else 0) shl 1)
+            override var clean: Int = 0
+                get() = _clean or ((if (v00 && v0) 1 else 0) shl 1)
 
             override fun point(x: Double, y: Double, z: Double) {
                 val point1 = doubleArrayOf(x, y)
@@ -68,16 +73,16 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
                     }
                 }
                 if (v != v0) {
-                    clean = 0
+                    _clean = 0
                     if (v) {
                         // outside going in
                         stream.lineStart()
                         point2 = intersect(point1, point0!!)
-                        stream.point(point2!![0], point2[1], .0)
+                        if (point2 != null) stream.point(point2!![0], point2[1], .0) else stream.point(.0, .0, .0)
                     } else {
                         // inside going out
                         point2 = intersect(point0!!, point1)
-                        stream.point(point2!![0], point2[1], .0)
+                        if (point2 != null) stream.point(point2!![0], point2[1], .0) else stream.point(.0, .0, .0)
                         stream.lineEnd()
                     }
                     point0 = point2
@@ -88,7 +93,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
                     if ((c and c0) == 0) {
                         val t = intersects(point1, point0!!)
                         if (t != null) {
-                            clean = 0
+                            _clean = 0
                             if (smallRadius) {
                                 stream.lineStart()
                                 stream.point(t[0][0], t[0][1], .0)
@@ -115,7 +120,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
             override fun lineStart() {
                 v00 = false
                 v0 = false
-                clean = 1
+                _clean = 1
             }
 
             override fun lineEnd() {

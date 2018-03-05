@@ -30,11 +30,11 @@ fun Group.viz(init: VizContext.() -> Unit): VizContext {
     return vizContext
 }
 
-class ParentElement(val parent: Group) : VizContext, 
+class ParentElement(val parent: Group) : VizContext,
         StyledElement by StyleDelegate(parent),
         Transformable by TransformNodeDelegate(parent){
-    
-    
+
+
     override fun addPath(path: PathAdapter) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -100,7 +100,7 @@ class PathVizJfx(path: SVGPath, svgPath: SvgPath) : PathVizItem,
         HasStroke by StrokeDelegate(path),
         Transformable by TransformNodeDelegate(path),
         PathAdapter by svgPath
-    
+
 
 class CircleVizJfx(val parent: Group, val circle: Circle) : CircleVizItem,
         HasFill by FillDelegate(circle),

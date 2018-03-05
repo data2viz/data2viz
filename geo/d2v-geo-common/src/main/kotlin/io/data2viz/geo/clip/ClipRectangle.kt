@@ -251,15 +251,6 @@ class ClipRectangle(val extent: Extent) : Clippable {
         }
     }
 
-    /*function comparePoint(a, b) {
-        var ca = corner(a, 1),
-        cb = corner(b, 1);
-        return ca !== cb ? ca - cb
-        : ca === 0 ? b[1] - a[1]
-        : ca === 1 ? a[0] - b[0]
-        : ca === 2 ? a[1] - b[1]
-        : b[0] - a[0];
-    }    */
     private fun clipLine(a: DoubleArray, b: DoubleArray, extent: Extent): Boolean {
         val ax = a[0]
         val ay = a[1]
