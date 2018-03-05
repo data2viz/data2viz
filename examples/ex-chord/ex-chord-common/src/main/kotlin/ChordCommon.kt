@@ -14,9 +14,9 @@ import io.data2viz.shape.const
 import io.data2viz.viz.VizContext
 
 
-class Film(val name:String, val avengers:List<Avenger>)
+data class Film(val name:String, val avengers:List<Avenger>)
 
-class Avenger(val name:String)
+data class Avenger(val name:String)
 
 val blackWidow      = Avenger("Black Widow")
 val captainAmerica  = Avenger("Captain America")
