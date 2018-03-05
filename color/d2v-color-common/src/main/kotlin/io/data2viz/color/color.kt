@@ -52,6 +52,25 @@ private object ConversionHelper {
 }
 
 
+
+interface ColorOrGradient
+
+class LinearGradient:ColorOrGradient {
+    var x1:Double = .0
+    var y1:Double = .0
+    var x2:Double = .0
+    var y2:Double = .0
+
+    data class ColorStop(val percent:Double, val color: Color)
+
+    val colorStops = mutableListOf<ColorStop>()
+
+    fun addColor(percent: Double, color: Color){
+        val checkedPercent = percent.coerceIn(.0, 1.0)
+        colorStops.add(ColorStop(checkedPercent, color))
+    }
+}
+
 /**
  * Implementation of Color as an rgb integer and an alpha channel.
  *
@@ -63,7 +82,7 @@ private object ConversionHelper {
  * TODO must be immutable
  * TODO extract a color interface including alpha (alpha is common to all color spaces)
  */
-class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
+class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient {
 
     // TODO : coerce in place of require check ??
     // TODO store color value in double
@@ -158,9 +177,26 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f) {
 
 
 
-    override operator fun equals(other: Any?): Boolean = (other != null && other is Color && r == other.r && g == other.g && b == other.b && alpha == other.alpha)
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as Color
+
+        if (rgb != other.rgb) return false
+        if (_alpha != other._alpha) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = rgb
+        result = 31 * result + _alpha.hashCode()
+        return result
+    }
 
     override fun toString() = if (alpha.toFloat() < 1.0) "rgba($r, $g, $b, $alpha)" else rgbHex
+
 }
 
 internal expect fun Int.toString(radix: Int): String

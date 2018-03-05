@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Color
+import io.data2viz.color.ColorOrGradient
 import io.data2viz.color.color
 import io.data2viz.core.CssClass
 import io.data2viz.core.Point
@@ -235,8 +236,10 @@ class StyledDelegate(val element: Element): StyledElement {
 
 }
 
+
+
 class FillDelegate(val element: Element) : HasFill {
-    override var fill: Color?
+    override var fill: ColorOrGradient?
         get() = element.getAttribute("fill")?.color
         set(value) {
             element.setAttribute("fill", value?.toString() ?: "none")

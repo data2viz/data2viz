@@ -1,10 +1,15 @@
 package io.data2viz.examples.chord
 
+
+import kotlin.math.*
+
+import io.data2viz.chord.Chord
 import io.data2viz.chord.ChordGroup
 import io.data2viz.core.random
 import io.data2viz.chord.ChordLayout
 import io.data2viz.chord.Chords
 import io.data2viz.color.Color
+import io.data2viz.color.LinearGradient
 import io.data2viz.color.colors
 import io.data2viz.shape.arc
 import io.data2viz.shape.const
@@ -34,8 +39,6 @@ val filmThor3           = Film("Thor, Ragnakok", listOf(thor))
 val filmCaptainAmerica1 = Film("Captain America, First Avenger", listOf(captainAmerica))
 val filmCaptainAmerica2 = Film("Captain America, Le Soldat de l'hiver", listOf(captainAmerica, blackWidow))
 val filmCaptainAmerica3 = Film("Captain America, Civil War", listOf(captainAmerica, ironMan, hawkeye, blackWidow))
-
-
 val films = listOf(
     filmAvengers1, filmAvengers2, filmAvengers3,
     filmCaptainAmerica1, filmCaptainAmerica2, filmCaptainAmerica3,
@@ -83,9 +86,20 @@ fun VizContext.chordViz() {
         }
     }
 
+    fun Chord.toGradient() = LinearGradient().apply {
+            x1 = inner * cos((source.endAngle - source.startAngle)/2 + source.startAngle - PI/2)
+            y1 = inner * sin((source.endAngle - source.startAngle)/2 + source.startAngle - PI/2)
+            x2 = inner * cos((target.endAngle - target.startAngle)/2 + target.startAngle - PI/2)
+            y2 = inner * sin((target.endAngle - target.startAngle)/2 + target.startAngle - PI/2)
+
+            //Set the starting color (at 0%)
+            addColor(.0, io.data2viz.examples.chord.colors[source.index].apply { alpha = .8})
+            addColor(1.0, io.data2viz.examples.chord.colors[target.index].apply { alpha = .8 })
+    }
+
     chords.chords.forEach { chord ->
         path {
-            fill = io.data2viz.examples.chord.colors[chord.source.index].apply { alpha = .8 }
+            fill = chord.toGradient()
             stroke = null
             ribbon(chord, this)
         }

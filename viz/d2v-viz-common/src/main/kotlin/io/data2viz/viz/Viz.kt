@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Color
+import io.data2viz.color.ColorOrGradient
 import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
@@ -107,7 +108,7 @@ interface HasStroke {
 }
 
 interface HasFill {
-    var fill: Color?
+    var fill: ColorOrGradient?
 }
 
 interface VizFactory<V : VizElement> {

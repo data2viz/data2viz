@@ -1,18 +1,18 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
-import io.data2viz.color.colors
-import io.data2viz.color.d2vColor
-import io.data2viz.color.jfxColor
+import io.data2viz.color.*
 import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.PathJfx
 import javafx.beans.property.DoubleProperty
 import javafx.scene.Node
+import javafx.scene.paint.CycleMethod
+import javafx.scene.paint.Stop
 import javafx.scene.shape.Path
 import javafx.scene.shape.StrokeLineCap
 import kotlin.reflect.KProperty
 
+typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
 typealias JfxGroup          = javafx.scene.Group
 typealias JfxShape          = javafx.scene.shape.Shape
 typealias JfxPath           = javafx.scene.shape.Path
@@ -175,13 +175,27 @@ class StyleDelegate(val node: Node): StyledElement {
     override fun addClass(cssClass: CssClass) {
         node.styleClass.add(cssClass.name)
     }
-
 }
 
-class FillDelegate(val shape: JfxShape): HasFill {
-    override var fill: Color?
+fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient  = JfxLinearGradient(x1, y1, x2, y2,
+    false,
+    CycleMethod.NO_CYCLE, colorStops.toStops())
+
+private fun List<LinearGradient.ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
+
+class FillDelegate(val shape: JfxShape) : HasFill {
+    override var fill: ColorOrGradient?
+
         get() = (shape.fill as javafx.scene.paint.Color?)?.d2vColor
-        set(value) { shape.fill = value?.jfxColor}
+
+        set(value) {
+            shape.fill = when (value) {
+                null -> null
+                is Color -> value.jfxColor
+                is LinearGradient -> value.toLinearGradientJFX()
+                else ->  throw IllegalStateException("$value not managed")
+            }
+        }
 }
 
 class StrokeDelegate(val shape: JfxShape): HasStroke {
