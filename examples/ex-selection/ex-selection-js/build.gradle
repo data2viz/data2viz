@@ -2,18 +2,8 @@ apply plugin: 'com.moowork.node'
 apply plugin: 'kotlin-dce-js'
 
 dependencies {
-    expectedBy project(":ex-geo-common")
-    compile project(":d2v-geo-common")
-    compile project(":d2v-geo-js")
+    expectedBy project(":ex-selection-common")
     compile project(":d2v-data2viz-js")
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
-}
-
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
 }
 
 task yarnInstall(type: YarnTask) {
@@ -29,12 +19,5 @@ afterEvaluate {
         tasks.unpackDependenciesTestKotlinJs.enabled = false
     }
 }
-
-task copyJsonTestFiles(type: Copy) {
-    from "../ex-geo-common/src/main/resources"
-    into "."
-}
-
-test.dependsOn copyJsonTestFiles
 
 //build.dependsOn bundle

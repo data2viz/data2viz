@@ -3,28 +3,26 @@ package io.data2viz.viz
 import javafx.beans.value.ObservableValue
 import javafx.geometry.Bounds
 import javafx.geometry.VPos
-import javafx.scene.Group
-import javafx.scene.text.Text
 
 
 /**
  * TextViz Jfx implementation. As Text Jfx has no anchor property we must implement
  * it.
  */
-class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
-        StyledElement by StyleDelegate(text),
-        HasFill by FillDelegate(text),
-        Transformable by TransformNodeDelegate(text) {
+class TextJfx(override val jfxElement: JfxText = JfxText()) : Text, JfxVizElement,
+    StyledElement by StyleDelegate(jfxElement),
+    HasFill by FillDelegate(jfxElement),
+    Transformable by TransformNodeDelegate(jfxElement) {
 
 
     override var textContent: String
-        get() = text.text
+        get() = jfxElement.text
         set(value) {
-            text.text = value
+            jfxElement.text = value
         }
 
     var _x: Double = 0.0
-    
+
     /**
      * Using deltaX in case of Anchor != TextAnchor.START
      */
@@ -36,7 +34,7 @@ class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
         get() = _x
 
     private fun updateXWithAnchor() {
-        text.x = _x - deltaX
+        jfxElement.x = _x - deltaX
     }
 
     private var _anchor = TextAnchor.START
@@ -46,9 +44,13 @@ class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
         get() = _anchor
         set(value) {
             _anchor = value
-            text.layoutBoundsProperty().removeListener(::updateDeltaX)
-            text.layoutBoundsProperty().addListener(::updateDeltaX)
-            updateDeltaX(text.layoutBoundsProperty(), text.layoutBounds, text.layoutBounds) // first two params are not used.
+            jfxElement.layoutBoundsProperty().removeListener(::updateDeltaX)
+            jfxElement.layoutBoundsProperty().addListener(::updateDeltaX)
+            updateDeltaX(
+                jfxElement.layoutBoundsProperty(),
+                jfxElement.layoutBounds,
+                jfxElement.layoutBounds
+            ) // first two params are not used.
         }
 
     private fun updateDeltaX(value: ObservableValue<out Bounds>, old: Bounds, newBounds: Bounds) {
@@ -61,14 +63,14 @@ class TextVizJfx(val parent: Group, val text: Text) : TextVizItem,
     }
 
 
-    override var y: Double by DoublePropertyDelegate(text.yProperty())
+    override var y: Double by DoublePropertyDelegate(jfxElement.yProperty())
 
     private var _baseline = TextAlignmentBaseline.BASELINE
     override var baseline: TextAlignmentBaseline
         get() = _baseline
         set(value) {
             _baseline = value
-            text.textOrigin = when (value){
+            jfxElement.textOrigin = when (value) {
                 TextAlignmentBaseline.BASELINE -> VPos.BASELINE
                 TextAlignmentBaseline.HANGING -> VPos.TOP
                 TextAlignmentBaseline.MIDDLE -> VPos.CENTER

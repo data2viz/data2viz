@@ -36,8 +36,8 @@ class SvgPath : PathAdapter {
     private var y1:Double? = null
 
     var _path = StringBuilder()
-    val path:String
-        get() = _path.toString()
+    val path:String 
+            get() = _path.toString()
 
     override fun moveTo(x:Double, y:Double) {
         x0 = x
@@ -164,7 +164,7 @@ class SvgPath : PathAdapter {
                 _path.append("M$x0,$y0")
             }
             else if (abs(this.toDouble() - x0) > epsilon || abs(y1!!.toDouble() - y0) > epsilon){
-                _path.append("L$x0,$y0")
+                _path.append("L$x0,$y0") 
             } else {}
         }
 

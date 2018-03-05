@@ -1,3 +1,7 @@
+allprojects {
+    group = 'io.data2viz'
+}
+
 buildscript {
 
     repositories {
@@ -7,41 +11,62 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath "com.moowork.gradle:gradle-node-plugin:${gradle_node_version}"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.kordamp.gradle:stats-gradle-plugin:0.2.0'
+        classpath "org.kordamp.gradle:stats-gradle-plugin:$stats_version"
     }
 }
 
-apply plugin: 'com.jfrog.bintray'
+// Report Kotlin compiler version when building project
+println("Using Kotlin compiler version: $org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION")
 
-allprojects {
+// --------------- Configure sub-projects with Kotlin sources ---------------
+
+def sourceless = ['site']
+
+static def moduleOf(project) {
+    def projectName = project.name
+    if (projectName.startsWith("d2v-")) {
+        return projectName.substring(4, projectName.lastIndexOf('-'))
+    } 
+    else 
+        return ""
+}
+
+static def platformOf(project) {
+    if (project.name.endsWith("-common")) return "common"
+    if (project.name.endsWith("-js")) return "js"
+    return "jvm"
+}
+
+static def platformLib(base, platform) {
+    if (platform == "jvm") return base
+    return "$base-$platform"
+}
+
+configure(subprojects.findAll { !sourceless.contains(it.name) }) {
+
+    def platform = platformOf(it)
+    apply plugin: "kotlin-platform-$platform"
+    
     repositories {
         jcenter()
         maven { url 'http://dl.bintray.com/kotlin/kotlin-dev' }
         maven { url 'http://dl.bintray.com/data2viz/geojson-kotlin' }
     }
-    apply plugin: 'maven'
-
-}
-
-subprojects {
-    repositories {
-        jcenter()
-    }
+    
     apply plugin: 'com.jfrog.bintray'
-    apply plugin: 'org.jetbrains.dokka'
-    apply plugin: 'org.kordamp.gradle.stats'
-    apply plugin: 'maven-publish'
+//    apply plugin: 'org.jetbrains.dokka'
+    
 
-    dokka {
-        outputFormat = 'html'
-        outputDirectory = "$buildDir/javadoc"
-    }
+//    dokka {
+//        outputFormat = 'html'
+//        outputDirectory = "$buildDir/javadoc"
+//    }
 
-    if (project.name.contains('-common')) {
+    if (project.name.endsWith('-common')) {
         apply plugin: 'kotlin-platform-common'
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
@@ -50,7 +75,7 @@ subprojects {
             testCompile project(":d2v-tests-common")
         }
     }
-    if (project.name.contains('-js')) {
+    if (project.name.endsWith('-js')) {
         apply plugin: 'kotlin-platform-js'
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
@@ -69,12 +94,14 @@ subprojects {
         }
         compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
     }
-    if (project.name.contains('-jvm')) {
+    if (project.name.endsWith('-jvm')) {
         apply plugin: 'kotlin-platform-jvm'
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+            testCompile "org.testfx:testfx-core:$textfx_version"
+            testCompile "org.testfx:testfx-junit:$textfx_version"
             testCompile project(":d2v-tests-common")
             testCompile project(":d2v-tests-jvm")
             testCompile 'junit:junit:4.12'
@@ -84,72 +111,24 @@ subprojects {
         compileKotlin     { kotlinOptions.jvmTarget = 1.8 }
         compileTestKotlin { kotlinOptions.jvmTarget = 1.8 }
 
-    }
-
-
-    if (project.hasProperty("bintray.user")) {
-        bintray {
-            user = project.property('bintray.user')
-            key = project.property('bintray.key')
-            configurations = ['archives']
-
-            pkg {
-                repo = 'data2viz'
-                name = 'data2viz'
-                userOrg = 'data2viz'
-                licenses = ['Apache-2.0']
-                vcsUrl = 'https://github.com/data2viz/data2viz.git'
-                version {
-                    name = "${project.version}"
-//                desc = "data2viz-${project.name}"
-//                released  = new Date()
-                    vcsTag = "v${project.version}"
-                }
+        test {
+            testLogging {
+                events "passed", "skipped", "failed"
+                exceptionFormat "full"
             }
         }
 
     }
-
-    if (!project.name.contains('-common') &&
-            !project.name.contains('-js') &&
-            !project.name.contains('-jvm')
-    ) {
-        apply plugin: 'kotlin2js'
-
-        dependencies {
-            testCompile project(":d2v-tests-common")
-            testCompile project(":d2v-tests-js")
-            testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-            compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-        }
-
-        compileKotlin2Js {
-            kotlinOptions {
-                metaInfo = true
-                outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
-                sourceMap = true
-                sourceMapEmbedSources = "always"
-                moduleKind = 'umd'
-                main = "call"
-            }
-        }
-        compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
-
-        configurations {
-            testArtifacts.extendsFrom testRuntime
-        }
-        task testJar(type: Jar) {
-            classifier "test"
-            from sourceSets.test.output
-        }
-        artifacts {
-            testArtifacts testJar
-        }
-
-
-    }
-
 }
 
+// --------------- Configure sub-projects that are published ---------------
+
+configure(subprojects.findAll { it.name.startsWith('d2v-') }) {
+    apply plugin: 'org.kordamp.gradle.stats'
+    
+    apply from: rootProject.file('gradle/publish-bintray.gradle')  
+}
+
+apply plugin: 'base'
 
 task aggregateStatsReport(type: org.kordamp.gradle.stats.AggregateStatsReportTask) {}

@@ -1,6 +1,20 @@
  This directory holds examples on how you can use data2viz.
 
 
+## [Selection performance sample](ex-selection)
+
+- Animated circle, deployed inside JavaFx and Js
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-selection/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-selection)
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-selection" >
+<img src="images/selection.png" width="400">
+</a>
+
 ## [Natural Log Scale](ex-natural-logscale)
 
 - Common Plot, deployed inside JavaFx and Js

@@ -3,7 +3,7 @@ package io.data2viz.axis
 import io.data2viz.color.colors
 import io.data2viz.core.cssclass
 import io.data2viz.scale.*
-import io.data2viz.viz.ParentItem
+import io.data2viz.viz.Group
 import io.data2viz.viz.TextAlignmentBaseline
 import io.data2viz.viz.TextAnchor
 import kotlin.math.round
@@ -14,7 +14,7 @@ val axis by cssclass()
 /**
  * Create an Axis 
  */
-fun <D> ParentItem.axis(orient: Orient, scale: FirstLastRange<D,Double>, init:AxisElement<D>.() -> Unit = {}):AxisElement<D> =
+fun <D> Group.axis(orient: Orient, scale: FirstLastRange<D,Double>, init:AxisElement<D>.() -> Unit = {}):AxisElement<D> =
 
         AxisElement(orient, scale).apply {
             init(this)
@@ -40,7 +40,7 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
     fun number(scale: Scale<D,Double>) : (D) -> Double  = { d -> scale(d) }
 
-    fun render(content:ParentItem) {
+    fun render(content: Group) {
         
         val values: List<D> = if (tickValues.isEmpty() && scale is Tickable<*>) scale.ticks() as List<D> else tickValues
         val spacing = tickSizeInner.coerceAtLeast(0.0) + tickPadding

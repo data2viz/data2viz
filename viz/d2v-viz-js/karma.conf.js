@@ -10,11 +10,11 @@ module.exports = function (config) {
             colors: true,
             autoWatch: false,
             browsers: [
-                'ChromeHeadless'
+                , 'Chrome'
             ],
-            captureTimeout: 10000,
-            singleRun: true,
-        // singleRun: false,
+            captureTimeout: 5000,
+            // singleRun: true,
+        singleRun: false,
             reportSlowerThan: 500,
 
             preprocessors: {
