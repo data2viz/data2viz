@@ -2,9 +2,11 @@ package io.data2viz.geo
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.data2viz.color.colors
+import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.equirectangularProjection
+import io.data2viz.geo.projection.mercatorProjection
 import io.data2viz.geojson.JacksonGeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.viz.PathVizJfx
@@ -36,7 +38,7 @@ class MercatorPath : Application() {
 
     override fun start(primaryStage: Stage?) {
 
-        val extent = Extent(10.0, 10.0, 500.0, 500.0)
+        val extent = Extent(10.0, 10.0, 800.0, 500.0)
 
         val input = this.javaClass.getResourceAsStream("/world-110m.geojson")
         val geojson = ObjectMapper().readValue(input, JacksonGeoJsonObject::class.java)
@@ -58,15 +60,17 @@ class MercatorPath : Application() {
 //            )
 //        )
 
-//        val projection = mercatorProjection {
-//            center = doubleArrayOf(10.0, 5.0)
-//            translate = doubleArrayOf(480.0, 350.0)
-//            scale = 200.0
-//            precision = .0
-//        }
+        val projection = equirectangularProjection {
+            center = doubleArrayOf(.0, .0)
+            rotate = doubleArrayOf(90.0, 45.0)
+            translate = doubleArrayOf(480.0, 300.0)
+            scale = 150.0
+            precision = .0
+//            preClip = clipCircle(45.0)
+        }
 
-        val projection = equirectangularProjection()
-        projection.fitExtent(extent, geoJsonObject)
+//        val projection = mercatorProjection()
+//        projection.fitExtent(extent, geoJsonObject)
 
         val pathVizJfx = PathVizJfx().apply {
             stroke = colors.black

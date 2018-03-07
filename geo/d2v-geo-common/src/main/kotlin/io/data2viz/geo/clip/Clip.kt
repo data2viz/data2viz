@@ -35,7 +35,7 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     private var polygonStarted = false
 
     private val polygon: MutableList<List<DoubleArray>> = mutableListOf()
-    private val segments: MutableList<List<DoubleArray>> = mutableListOf()
+    private val segments: MutableList<List<List<DoubleArray>>> = mutableListOf()
     private var ring: MutableList<DoubleArray>? = null
 
     private var currentPoint: (Double, Double, Double) -> Unit = ::defaultPoint
@@ -81,7 +81,7 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
                 polygonStarted = true
             }
 
-            rejoin(segments, compareIntersection, startInside, clip::interpolate, sink)
+            rejoin(segments.flatten(), compareIntersection, startInside, clip::interpolate, sink)
         } else if (startInside) {
             if (!polygonStarted) {
                 sink.polygonStart()
@@ -169,13 +169,11 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
         // TODO reuse ringBuffer.rejoin()?
         // TODO rework !!
         if (ringSegments.size > 1 && (clean and 2) != 0) {
-            require(ringSegments.size < 3, { "Too much ring segments to rejoin on Clip.ringEnd" })
-            val first = ringSegments.removeAt(0)
-            val last = ringSegments.removeAt(ringSegments.lastIndex)
-            ringSegments.add(last)
-            ringSegments.add(first)
+            val concat = ringSegments.removeAt(ringSegments.lastIndex).toMutableList()
+            concat.addAll(ringSegments.removeAt(0))
+            ringSegments.add(concat)
         }
 
-        segments.add(ringSegments.flatten().filter { it.size > 1 })
+        segments.add(ringSegments.filter { it.size > 1 })
     }
 }

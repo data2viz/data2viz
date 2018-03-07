@@ -1,7 +1,6 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.ModifiedStream
-import io.data2viz.geo.clip.clipRectangle
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.HALFPI
 import io.data2viz.math.TAU
@@ -19,7 +18,7 @@ fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProject
 
 class MercatorProjection : Projection {
 
-    private var projectResample: (Stream) -> Stream = resampleNone(this)
+    private var projectResample: (Stream) -> Stream = resampleNone(this)            // ?? TODO
     private lateinit var projectRotate: Projectable
 
     private var k = 150.0
