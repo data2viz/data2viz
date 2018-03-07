@@ -37,7 +37,7 @@ val movies = listOf (
     Movie("Iron Man 3", listOf(ironMan, theHulk)),
     Movie("Thor", listOf(thor, hawkeye)),
     Movie("Thor, le monde des ténèbres", listOf(thor, captainAmerica)), 
-    Movie("Thor, Ragnakok", listOf(thor))
+    Movie("Thor, Ragnarok", listOf(thor, theHulk))
 )
 
 val avengers    = listOf (blackWidow,   captainAmerica, hawkeye,    theHulk,    ironMan,    thor)
