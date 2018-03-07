@@ -34,10 +34,15 @@ class SvgPath : PathAdapter {
     private var y0:Double = 0.0
     private var x1:Double? = null
     private var y1:Double? = null
+    
 
     var _path = StringBuilder()
     val path:String 
             get() = _path.toString()
+
+    fun clearPath() {
+        _path = StringBuilder()
+    }
 
     override fun moveTo(x:Double, y:Double) {
         x0 = x
