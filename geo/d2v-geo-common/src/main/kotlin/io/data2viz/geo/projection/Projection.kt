@@ -2,6 +2,7 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.ModifiedStream
 import io.data2viz.geo.clip.clipAntimeridian
+import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
@@ -138,9 +139,19 @@ open class MutableProjection(val projection: Projectable) : Projection {
             field = value
         }
 
+    private var theta:Double = Double.NaN
     override var clipAngle: Double
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+        get() = theta
+        set(value) {
+            if(value.isNaN()) {
+                theta = Double.NaN
+                preClip = clipAntimeridian()
+            }
+            else {
+                theta = value.toRadians()
+                preClip = clipCircle(theta)
+            }
+        }
 
     override var clipExtent: Extent? = null
         set(value) {
