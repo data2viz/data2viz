@@ -9,6 +9,7 @@ import io.data2viz.chord.ChordLayout
 import io.data2viz.chord.Chords
 import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
+import io.data2viz.path.PathAdapter
 import io.data2viz.shape.arc
 import io.data2viz.shape.const
 import io.data2viz.viz.VizContext
@@ -63,7 +64,7 @@ val arc = arc<ChordGroup> {
     endAngle = { it.endAngle }
 }
 
-val ribbon = io.data2viz.chord.ribbon(inner)
+val ribbon: (Chord, PathAdapter) -> Unit = io.data2viz.chord.ribbon(inner)
 
 
 fun VizContext.chordViz() {
