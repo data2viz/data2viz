@@ -3,17 +3,11 @@ package io.data2viz.path
 import javafx.scene.shape.*
 import kotlin.math.*
 
-fun SvgPath.toJfxPath() = SVGPath().apply { content = this@toJfxPath.path }
-
 
 class PathJfx: PathAdapter {
     
     val path = Path()
     
-    
-
-//    val path = mutableListOf<PathElement>()
-
     private var x0:Double = 0.0
     private var y0:Double = 0.0
     private var x1:Double? = null
