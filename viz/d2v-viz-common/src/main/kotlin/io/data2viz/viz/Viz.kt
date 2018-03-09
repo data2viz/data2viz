@@ -23,7 +23,6 @@ interface Group : Transformable, StyledElement, VizElement {
     fun line(init: Line.() -> Unit): Line
     fun text(init: Text.() -> Unit): Text
     fun path(init: PathVizElement.() -> Unit): PathVizElement
-    fun addPath(path: PathAdapter)
     fun setStyle(style:String)
 }
 
@@ -125,4 +124,5 @@ expect fun newLine(): Line
 expect fun newRect(): Rect
 expect fun newCircle(): Circle
 expect fun newText(): Text
+expect fun newPath(): PathVizElement
 

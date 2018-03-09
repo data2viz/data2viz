@@ -26,6 +26,7 @@ actual fun newLine(): Line          = LineJfx()
 actual fun newRect(): Rect          = RectJfx()
 actual fun newCircle(): Circle      = CircleJfx()
 actual fun newText(): Text          = TextJfx()
+actual fun newPath(): PathVizElement          = PathVizJfx()
 
 /**
  * Bootstrap a VizContext in JavaFx environment
@@ -40,10 +41,6 @@ class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, Jfx
         StyledElement by StyleDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement){
     
-    override fun addPath(path: PathAdapter) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun add(vizElement: VizElement) {
         jfxElement.children.add((vizElement as JfxVizElement).jfxElement)
     }
@@ -51,8 +48,8 @@ class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, Jfx
 
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val pathJfx = PathVizJfx()
-        init(pathJfx)
         jfxElement.children.add(pathJfx.jfxElement)
+        init(pathJfx)
         return pathJfx
     }
 
@@ -70,8 +67,8 @@ class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, Jfx
 
     override fun group(init: Group.() -> Unit): Group {
         val group = GroupJfx(JfxGroup())
-        init(group)
         jfxElement.children.add(group.jfxElement)
+        init(group)
         return  group
     }
 

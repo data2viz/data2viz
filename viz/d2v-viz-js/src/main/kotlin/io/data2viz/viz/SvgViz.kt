@@ -21,8 +21,9 @@ actual fun newLine(): Line = LineDOM()
 actual fun newCircle(): Circle = CircleDOM()
 actual fun newGroup(): Group = ParentElement()
 actual fun newText(): Text = TextDOM()
+actual fun newPath(): PathVizElement = PathDOM()
 
-internal fun createSVGElement(name: String, classes: String = "") = document.createElementNS("http://www.w3.org/2000/svg", name).apply {
+fun createSVGElement(name: String, classes: String = "") = document.createElementNS("http://www.w3.org/2000/svg", name).apply {
     if (classes.isNotBlank())
         setAttribute("class", classes)
 }
@@ -79,14 +80,18 @@ class ParentElement(override val domElement: Element = createSVGElement("g")) : 
     }
 
     override fun add(vizElement: VizElement) {
-        domElement.appendChild((vizElement as DOMVizElement).domElement)
+
+        when (vizElement) {
+            is PathDOM -> {
+                val element = createSVGElement("path")
+                domElement.append(element)
+                element.setAttribute("d", vizElement.svgPath.path)
+
+            }
+            else -> domElement.appendChild((vizElement as DOMVizElement).domElement)
+        }
     }
 
-    override fun addPath(path: PathAdapter) {
-        val element = createSVGElement("path")
-        element.setAttribute("d", (path as SvgPath).path)
-        domElement.append(element)
-    }
 
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val svgPath = SvgPath()
@@ -162,7 +167,7 @@ interface ElementWrapper : AccessByAttributes, DOMVizElement {
 
 }
 
-class PathDOM(override val domElement: Element, svgPath: SvgPath) : PathVizElement, ElementWrapper,
+class PathDOM(override val domElement: Element = createSVGElement("path"), val svgPath: SvgPath = SvgPath()) : PathVizElement, ElementWrapper,
         PathAdapter by svgPath,
         HasFill by FillDelegate(domElement),
         HasStroke by StrokeDelegate(domElement),
