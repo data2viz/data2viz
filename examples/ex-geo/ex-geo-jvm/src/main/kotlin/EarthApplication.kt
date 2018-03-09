@@ -6,6 +6,7 @@ import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.orthographic
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.viz.PathVizJfx
+import io.data2viz.viz.newPath
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.layout.Pane
@@ -23,7 +24,7 @@ class EarthApplication : Application() {
     override fun start(primaryStage: Stage?) {
 
         val extent = Extent(.0, .0, 800.0, 600.0)
-
+        
         val world = this.javaClass.getResourceAsStream("/world-110m.geojson")
             .reader().readText().toGeoJsonObject()
 
@@ -32,11 +33,11 @@ class EarthApplication : Application() {
             translate = doubleArrayOf(400.0, 300.0)
             scale = 250.0
         }
-        val pathVizJfxOuter = PathVizJfx().apply {
+        val pathOuter = newPath().apply {
             stroke = colors.black
             fill = colors.white
         }
-        val geoPathOuter = geoPath(projectionOuter, pathVizJfxOuter)
+        val geoPathOuter = geoPath(projectionOuter, pathOuter)
         geoPathOuter.path(world)
 
         // INNER GLOBE
@@ -45,29 +46,28 @@ class EarthApplication : Application() {
             scale = 250.0
             clipAngle = Double.NaN          // remove angle clipping in order to see-through
         }
-        val pathVizJfxInner = PathVizJfx().apply {
-            stroke = colors.black
+        val pathVizJfxInner = newPath().apply {
+            stroke = colors.grey
             fill = colors.grey
         }
         val geoPathInner = geoPath(projectionInner, pathVizJfxInner)
         geoPathInner.path(world)
 
-
-        val root = Pane()
-        root.children.add(pathVizJfxInner.jfxElement)                   // first the "see-through" globe
-        root.children.add(pathVizJfxOuter.jfxElement)                   // then the "outer" globe
-        primaryStage!!.scene = (Scene(root, extent.width, extent.height))
-        primaryStage.show()
-
         var initX = .0
         var initY = .0
         var initRotate: DoubleArray = geoPathInner.projection.rotate
+
+        val root = Pane()
+        root.children.add((pathVizJfxInner as PathVizJfx).jfxElement)                   // first the "see-through" globe
+        root.children.add((pathOuter as PathVizJfx).jfxElement)                   // then the "outer" globe
+        primaryStage!!.scene = (Scene(root, extent.width, extent.height))
+        primaryStage.show()
+
 
         root.setOnMousePressed { event ->
             initX = event.x
             initY = event.y
             initRotate = geoPathInner.projection.rotate
-
         }
 
 
@@ -78,7 +78,7 @@ class EarthApplication : Application() {
             )
 
             pathVizJfxInner.jfxElement.elements.clear()
-            pathVizJfxOuter.jfxElement.elements.clear()
+            pathOuter.jfxElement.elements.clear()
 
             geoPathInner.projection.rotate = rotate
             geoPathOuter.projection.rotate = rotate

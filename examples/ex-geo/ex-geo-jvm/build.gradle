@@ -1,7 +1,6 @@
 dependencies {
     expectedBy project(":ex-geo-common")
     compile project(":d2v-geo-common")
-    compile project(":d2v-geo-common")
     compile project(":d2v-geo-jvm")
     compile project(":d2v-data2viz-jvm")
 }
