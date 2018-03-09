@@ -12,7 +12,7 @@ private val halfPi = PI / 2
 /**
  * Generates a ribbon for a Chord Diagram with the given radius.
  */
-fun ribbon(radius: Double): (Chord, PathAdapter) -> PathAdapter = { chord, path ->
+fun ribbon(radius: Double): (Chord, PathAdapter) -> Unit = { chord, path ->
     val s = chord.source
     val t = chord.target
     val sa0 = s.startAngle - halfPi
@@ -30,5 +30,4 @@ fun ribbon(radius: Double): (Chord, PathAdapter) -> PathAdapter = { chord, path 
     }
     path.quadraticCurveTo(.0, .0, sx0, sy0)
     path.closePath()
-    path
 }
