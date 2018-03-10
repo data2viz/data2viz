@@ -329,7 +329,7 @@ class GeoCentroidTests : TestBase() {
                     (-180..180).map { pt(it.toDouble(), -60.0) }.toTypedArray()
                 )
             )
-        )[1] shouldBe -90.0
+        )[1] shouldBeClose -90.0
     }
 
     @Test

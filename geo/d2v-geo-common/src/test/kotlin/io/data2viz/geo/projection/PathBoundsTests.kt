@@ -30,10 +30,10 @@ class PathBoundsTests : TestBase() {
                 )
             )
         )
-        bounds.x0 shouldBe 980.0
-        bounds.y0 shouldBe 245.0
-        bounds.x1 shouldBe 985.0
-        bounds.y1 shouldBe 250.0
+        bounds.x0 shouldBeClose 980.0
+        bounds.y0 shouldBeClose 245.0
+        bounds.x1 shouldBeClose 985.0
+        bounds.y1 shouldBeClose 250.0
     }
 
     @Test
@@ -59,19 +59,19 @@ class PathBoundsTests : TestBase() {
                 )
             )
         )
-        bounds.x0 shouldBe 980.0
-        bounds.y0 shouldBe 245.0
-        bounds.x1 shouldBe 985.0
-        bounds.y1 shouldBe 250.0
+        bounds.x0 shouldBeClose 980.0
+        bounds.y0 shouldBeClose 245.0
+        bounds.x1 shouldBeClose 985.0
+        bounds.y1 shouldBeClose 250.0
     }
 
     @Test
     fun geopath_bounds_of_a_sphere_LEGACY() {
         val geoPath = geoPath(equirectangular)
         val bounds = geoPath.bounds(Sphere())
-        bounds.x0 shouldBe -420.0
-        bounds.y0 shouldBe -200.0
-        bounds.x1 shouldBe 1380.0
-        bounds.y1 shouldBe 700.0
+        bounds.x0 shouldBeClose -420.0
+        bounds.y0 shouldBeClose -200.0
+        bounds.x1 shouldBeClose 1380.0
+        bounds.y1 shouldBeClose 700.0
     }
 }

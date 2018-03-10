@@ -11,7 +11,7 @@ class GeoInterpolateTests : TestBase() {
         geoInterpolate(
             doubleArrayOf(140.63289, -29.95101),
             doubleArrayOf(140.63289, -29.95101)
-        )(.5) shouldBe doubleArrayOf(140.63289, -29.95101)
+        )(.5) shouldBeClose  doubleArrayOf(140.63289, -29.95101)
     }
 
     @Test

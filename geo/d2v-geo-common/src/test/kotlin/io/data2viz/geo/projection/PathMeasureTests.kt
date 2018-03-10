@@ -11,7 +11,7 @@ class PathMeasureTests : TestBase() {
     @Test
     fun geopath_measure_of_a_point_LEGACY() {
         val geoPath = geoPath()
-        geoPath.measure(Point(pt(.0, .0))) shouldBe .0
+        geoPath.measure(Point(pt(.0, .0))) shouldBeClose .0
     }
 
     @Test
@@ -26,7 +26,7 @@ class PathMeasureTests : TestBase() {
                     pt(1.0, .0)
                 )
             )
-        ) shouldBe .0
+        ) shouldBeClose .0
     }
 
     @Test
@@ -41,7 +41,7 @@ class PathMeasureTests : TestBase() {
                     pt(1.0, .0)
                 )
             )
-        ) shouldBe 3.0
+        ) shouldBeClose 3.0
     }
 
     @Test
@@ -58,7 +58,7 @@ class PathMeasureTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 3.0
+        ) shouldBeClose 3.0
 
         geoPath.measure(
             MultiLineString(
@@ -71,7 +71,7 @@ class PathMeasureTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 3.0
+        ) shouldBeClose 3.0
     }
 
     @Test
@@ -89,7 +89,7 @@ class PathMeasureTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 4.0
+        ) shouldBeClose 4.0
 
         geoPath.measure(
             Polygon(
@@ -103,7 +103,7 @@ class PathMeasureTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 4.0
+        ) shouldBeClose 4.0
     }
 
     @Test
@@ -128,7 +128,7 @@ class PathMeasureTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 16.0
+        ) shouldBeClose 16.0
     }
 
     @Test
@@ -157,7 +157,7 @@ class PathMeasureTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 16.0
+        ) shouldBeClose 16.0
 
         geoPath.measure(
             MultiPolygon(
@@ -182,6 +182,6 @@ class PathMeasureTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 16.0
+        ) shouldBeClose 16.0
     }
 }

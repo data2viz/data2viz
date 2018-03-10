@@ -29,7 +29,7 @@ class PathAreaTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 25.0
+        ) shouldBeClose 25.0
     }
 
     @Test
@@ -54,12 +54,12 @@ class PathAreaTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe 16.0
+        ) shouldBeClose 16.0
     }
 
     @Test
     fun geopath_area_of_a_sphere_LEGACY() {
         val geoPath = geoPath(equirectangular)
-        geoPath.area(Sphere()) shouldBe 1620000.0
+        geoPath.area(Sphere()) shouldBeClose 1620000.0
     }
 }

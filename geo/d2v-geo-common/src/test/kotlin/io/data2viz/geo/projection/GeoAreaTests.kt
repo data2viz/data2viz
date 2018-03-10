@@ -12,12 +12,12 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_a_point_LEGACY() {
-        GeoArea().result(Point(pt(.0, .0))) shouldBe .0
+        GeoArea().result(Point(pt(.0, .0))) shouldBeClose .0
     }
 
     @Test
     fun geoarea_of_a_multipoint_LEGACY() {
-        GeoArea().result(MultiPoint(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBe .0
+        GeoArea().result(MultiPoint(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
     }
 
     @Test
@@ -38,7 +38,7 @@ class GeoAreaTests : TestBase() {
     }
 
 
-    // TODO : pass in JVM not JS !! (shouldBe .0 but delta is 5e-13)
+    // TODO : pass in JVM not JS !! (shouldBeClose .0 but delta is 5e-13)
     @Test
     fun geoarea_of_a_zero_area_polygon_LEGACY() {
         GeoArea().result(
@@ -223,7 +223,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_linestring_LEGACY() {
-        GeoArea().result(LineString(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBe .0
+        GeoArea().result(LineString(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
     }
 
     @Test
@@ -235,7 +235,7 @@ class GeoAreaTests : TestBase() {
                     arrayOf(pt(4.0, 5.0), pt(6.0, 7.0))
                 )
             )
-        ) shouldBe .0
+        ) shouldBeClose .0
     }
 
     /*
