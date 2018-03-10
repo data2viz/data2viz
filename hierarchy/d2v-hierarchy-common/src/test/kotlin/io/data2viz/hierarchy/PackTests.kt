@@ -98,9 +98,9 @@ class PackTests : TestBase() {
 
         val pack = packLayout.pack(hierarchy)
         pack.each { packNode ->
-            packNode.x shouldBe packNode.data.x
-            packNode.y shouldBe packNode.data.y
-            packNode.r shouldBe packNode.data.r
+            packNode.x shouldBeClose packNode.data.x
+            packNode.y shouldBeClose packNode.data.y
+            packNode.r shouldBeClose packNode.data.r
         }
     }
 }

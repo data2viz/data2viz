@@ -67,16 +67,16 @@ class PartitionTests : TestBase() {
         partitionLayout.size(width, height)
 
         val partition = partitionLayout.partition(hierarchy)
-        partition.x0 shouldBe .0
-        partition.y0 shouldBe .0
+        partition.x0 shouldBeClose .0
+        partition.y0 shouldBeClose .0
         partition.children.size shouldBe 2
         partition.depth shouldBe 0
         partition.height shouldBe 3
         partition.each { partitionNode ->
-            partitionNode.x0 shouldBe partitionNode.data.x0
-            partitionNode.x1 shouldBe partitionNode.data.x1
-            partitionNode.y0 shouldBe partitionNode.data.y0
-            partitionNode.y1 shouldBe partitionNode.data.y1
+            partitionNode.x0 shouldBeClose partitionNode.data.x0
+            partitionNode.x1 shouldBeClose partitionNode.data.x1
+            partitionNode.y0 shouldBeClose partitionNode.data.y0
+            partitionNode.y1 shouldBeClose partitionNode.data.y1
         }
     }
 }
