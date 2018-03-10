@@ -12,12 +12,12 @@ class ScaleQuantizeTests : TestBase() {
 
         scale.domain shouldBe intervalOf(.0, 1.0)
         scale.range shouldBe listOf(.0, 1.0)
-        scale(-1.0) shouldBe .0
-        scale(.0) shouldBe .0
-        scale(.25) shouldBe .0
-        scale(.75) shouldBe 1.0
-        scale(1.0) shouldBe 1.0
-        scale(2.0) shouldBe 1.0
+        scale(-1.0) shouldBeClose .0
+        scale(.0) shouldBeClose .0
+        scale(.25) shouldBeClose .0
+        scale(.75) shouldBeClose 1.0
+        scale(1.0) shouldBeClose 1.0
+        scale(2.0) shouldBeClose 1.0
     }
 
     @Test
@@ -25,12 +25,12 @@ class ScaleQuantizeTests : TestBase() {
         val scale = scales.quantize<Double>()
         scale.range = listOf(.0, 1.0, 2.0)
 
-        scale(.0) shouldBe .0
-        scale(.2) shouldBe .0
-        scale(.4) shouldBe 1.0
-        scale(.6) shouldBe 1.0
-        scale(.8) shouldBe 2.0
-        scale(1.0) shouldBe 2.0
+        scale(.0) shouldBeClose .0
+        scale(.2) shouldBeClose .0
+        scale(.4) shouldBeClose 1.0
+        scale(.6) shouldBeClose 1.0
+        scale(.8) shouldBeClose 2.0
+        scale(1.0) shouldBeClose 2.0
     }
 
     @Test
@@ -129,9 +129,9 @@ class ScaleQuantizeTests : TestBase() {
 
         scale.range.forEach { r ->
             val e = scale.invertExtent(r)
-            scale(e[0]) shouldBe r
-            if (r < 9.0) scale(e[1]) shouldBe (r + 1.0)
-            else scale(e[1]) shouldBe r
+            scale(e[0]) shouldBeClose r
+            if (r < 9.0) scale(e[1]) shouldBeClose (r + 1.0)
+            else scale(e[1]) shouldBeClose r
         }
     }
 }

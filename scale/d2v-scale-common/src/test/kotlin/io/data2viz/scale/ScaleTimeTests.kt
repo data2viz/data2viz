@@ -28,14 +28,14 @@ class ScaleTimeTests : TestBase() {
         scale.range = listOf(.0, 100.0)
 
         scale.clamp shouldBe false
-        scale(date(2015, 1, 1)) shouldBe 600.0
-        scale(date(1998, 1, 1)) shouldBe -1100.0
+        scale(date(2015, 1, 1)) shouldBeClose 600.0
+        scale(date(1998, 1, 1)) shouldBeClose -1100.0
 
         scale.clamp = true
-        scale(date(2015, 1, 1)) shouldBe 100.0
-        scale(date(9999, 1, 1)) shouldBe 100.0
-        scale(date(1998, 1, 1)) shouldBe .0
-        scale(date(2, 1, 1)) shouldBe .0
+        scale(date(2015, 1, 1)) shouldBeClose 100.0
+        scale(date(9999, 1, 1)) shouldBeClose 100.0
+        scale(date(1998, 1, 1)) shouldBeClose .0
+        scale(date(2, 1, 1)) shouldBeClose .0
     }
 
     @Test

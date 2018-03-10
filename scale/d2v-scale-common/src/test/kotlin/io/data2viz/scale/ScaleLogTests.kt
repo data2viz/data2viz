@@ -11,8 +11,8 @@ class ScaleLogTests : TestBase() {
         scale.domain = listOf(1.0, 100.0)
         scale.range = listOf(.0, 1.0)
 
-        scale(1.0) shouldBe .0
-        scale(100.0) shouldBe 1.0
+        scale(1.0) shouldBeClose .0
+        scale(100.0) shouldBeClose 1.0
     }
 
     private fun scaleLog(): LogScale  = scales.continuous.log() as LogScale
@@ -28,7 +28,7 @@ class ScaleLogTests : TestBase() {
         scale(1.5) shouldBeClose 0.5849625
         scale(2.0) shouldBeClose 1.0000000
         scale(2.5) shouldBeClose 1.3219282
-        scale.base shouldBe 10.0
+        scale.base shouldBeClose 10.0
     }
 
     
@@ -43,7 +43,7 @@ class ScaleLogTests : TestBase() {
         scale.invert(0.5849625) shouldBeClose 1.5
         scale.invert(1.0000000) shouldBeClose 2.0
         scale.invert(1.3219281) shouldBeClose 2.5
-        scale.base shouldBe 10.0
+        scale.base shouldBeClose 10.0
     }
 
     @Test
@@ -97,8 +97,8 @@ class ScaleLogTests : TestBase() {
         scale.range = listOf(.0, 1.0)
         scale.nice()
         scale.domain shouldBe arrayListOf(1.0, 100.0)
-        scale(1.0) shouldBe .0
-        scale(100.0) shouldBe 1.0
+        scale(1.0) shouldBeClose .0
+        scale(100.0) shouldBeClose 1.0
     }
 
 

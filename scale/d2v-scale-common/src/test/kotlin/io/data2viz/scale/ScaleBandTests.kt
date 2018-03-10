@@ -12,12 +12,12 @@ class ScaleBandTests : TestBase() {
 
         scale.domain shouldBe listOf()
         scale.range shouldBe intervalOf(.0, 1.0)
-        scale.bandwidth shouldBe 1.0
-        scale.step shouldBe 1.0
+        scale.bandwidth shouldBeClose 1.0
+        scale.step shouldBeClose 1.0
         scale.round shouldBe false
-        scale.paddingInner shouldBe .0
-        scale.paddingOuter shouldBe .0
-        scale.align shouldBe .5
+        scale.paddingInner shouldBeClose .0
+        scale.paddingOuter shouldBeClose .0
+        scale.align shouldBeClose .5
     }
 
     @Test
@@ -28,21 +28,21 @@ class ScaleBandTests : TestBase() {
         scale("foo") shouldBe Double.NaN
 
         scale.domain = listOf("foo", "bar")
-        scale("foo") shouldBe 0.0
-        scale("bar") shouldBe 480.0
+        scale("foo") shouldBeClose 0.0
+        scale("bar") shouldBeClose 480.0
 
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(.0, 120.0)
-        scale("a") shouldBe 0.0
-        scale("b") shouldBe 40.0
-        scale("c") shouldBe 80.0
-        scale.bandwidth shouldBe 40.0
+        scale("a") shouldBeClose 0.0
+        scale("b") shouldBeClose 40.0
+        scale("c") shouldBeClose 80.0
+        scale.bandwidth shouldBeClose 40.0
 
         scale.padding = .2
-        scale("a") shouldBe 7.5
-        scale("b") shouldBe 45.0
-        scale("c") shouldBe 82.5
-        scale.bandwidth shouldBe 30.0
+        scale("a") shouldBeClose 7.5
+        scale("b") shouldBeClose 45.0
+        scale("c") shouldBeClose 82.5
+        scale.bandwidth shouldBeClose 30.0
     }
 
     @Test
@@ -71,20 +71,20 @@ class ScaleBandTests : TestBase() {
         scale.range = intervalOf(.0, 960.0)
 
         scale.domain = listOf("a")
-        scale.step shouldBe 960.0
+        scale.step shouldBeClose 960.0
 
         scale.domain = listOf("a", "b")
-        scale.step shouldBe 480.0
+        scale.step shouldBeClose 480.0
 
         scale.domain = listOf("a", "b", "c")
-        scale.step shouldBe 320.0
+        scale.step shouldBeClose 320.0
 
         scale.padding = .5
         scale.domain = listOf("a")
-        scale.step shouldBe 640.0
+        scale.step shouldBeClose 640.0
 
         scale.domain = listOf("a", "b")
-        scale.step shouldBe 384.0
+        scale.step shouldBeClose 384.0
     }
 
     @Test
@@ -93,26 +93,26 @@ class ScaleBandTests : TestBase() {
         scale.range = intervalOf(.0, 960.0)
 
         scale.domain = listOf()
-        scale.bandwidth shouldBe 960.0
+        scale.bandwidth shouldBeClose 960.0
 
         scale.domain = listOf("a")
-        scale.bandwidth shouldBe 960.0
+        scale.bandwidth shouldBeClose 960.0
 
         scale.domain = listOf("a", "b")
-        scale.bandwidth shouldBe 480.0
+        scale.bandwidth shouldBeClose 480.0
 
         scale.domain = listOf("a", "b", "c")
-        scale.bandwidth shouldBe 320.0
+        scale.bandwidth shouldBeClose 320.0
 
         scale.padding = .5
         scale.domain = listOf()
-        scale.bandwidth shouldBe 480.0
+        scale.bandwidth shouldBeClose 480.0
 
         scale.domain = listOf("a")
-        scale.bandwidth shouldBe 320.0
+        scale.bandwidth shouldBeClose 320.0
 
         scale.domain = listOf("a", "b")
-        scale.bandwidth shouldBe 192.0
+        scale.bandwidth shouldBeClose 192.0
     }
 
     @Test
@@ -121,16 +121,16 @@ class ScaleBandTests : TestBase() {
         scale.range = intervalOf(.0, 960.0)
         scale.domain = listOf()
 
-        scale.step shouldBe 960.0
-        scale.bandwidth shouldBe 960.0
+        scale.step shouldBeClose 960.0
+        scale.bandwidth shouldBeClose 960.0
 
         scale.padding = .5
-        scale.step shouldBe 960.0
-        scale.bandwidth shouldBe 480.0
+        scale.step shouldBeClose 960.0
+        scale.bandwidth shouldBeClose 480.0
 
         scale.padding = 1.0
-        scale.step shouldBe 960.0
-        scale.bandwidth shouldBe .0
+        scale.step shouldBeClose 960.0
+        scale.bandwidth shouldBeClose .0
     }
 
     @Test
@@ -139,19 +139,19 @@ class ScaleBandTests : TestBase() {
         scale.range = intervalOf(.0, 960.0)
         scale.domain = listOf("foo")
 
-        scale("foo") shouldBe .0
-        scale.step shouldBe 960.0
-        scale.bandwidth shouldBe 960.0
+        scale("foo") shouldBeClose .0
+        scale.step shouldBeClose 960.0
+        scale.bandwidth shouldBeClose 960.0
 
         scale.padding = .5
-        scale("foo") shouldBe 320.0
-        scale.step shouldBe 640.0
-        scale.bandwidth shouldBe 320.0
+        scale("foo") shouldBeClose 320.0
+        scale.step shouldBeClose 640.0
+        scale.bandwidth shouldBeClose 320.0
 
         scale.padding = 1.0
-        scale("foo") shouldBe 480.0
-        scale.step shouldBe 480.0
-        scale.bandwidth shouldBe .0
+        scale("foo") shouldBeClose 480.0
+        scale.step shouldBeClose 480.0
+        scale.bandwidth shouldBeClose .0
     }
 
     @Test
@@ -160,20 +160,20 @@ class ScaleBandTests : TestBase() {
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(.0, 100.0)
 
-        scale("a") shouldBe .0
+        scale("a") shouldBeClose .0
         scale("b") shouldBeClose 33.333333
         scale("c") shouldBeClose 66.666666
 
         scale.round = true
-        scale("a") shouldBe .0          // TODO 1.0
-        scale("b") shouldBe 33.0        // TODO 34.0
-        scale("c") shouldBe 66.0        // TODO 67.0
+        scale("a") shouldBeClose .0          // TODO 1.0
+        scale("b") shouldBeClose 33.0        // TODO 34.0
+        scale("c") shouldBeClose 66.0        // TODO 67.0
 
         scale.domain = listOf("a", "b", "c", "d")
-        scale("a") shouldBe .0
-        scale("b") shouldBe 25.0
-        scale("c") shouldBe 50.0
-        scale("d") shouldBe 75.0
+        scale("a") shouldBeClose .0
+        scale("b") shouldBeClose 25.0
+        scale("c") shouldBeClose 50.0
+        scale("d") shouldBeClose 75.0
     }
 
     @Test
@@ -192,16 +192,16 @@ class ScaleBandTests : TestBase() {
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(120.0, .0)
 
-        scale("a") shouldBe 80.0
-        scale("b") shouldBe 40.0
-        scale("c") shouldBe 0.0
-        scale.bandwidth shouldBe 40.0
+        scale("a") shouldBeClose 80.0
+        scale("b") shouldBeClose 40.0
+        scale("c") shouldBeClose 0.0
+        scale.bandwidth shouldBeClose 40.0
 
         scale.padding = .2
-        scale("a") shouldBe 82.5
-        scale("b") shouldBe 45.0
-        scale("c") shouldBe 7.5
-        scale.bandwidth shouldBe 30.0
+        scale("a") shouldBeClose 82.5
+        scale("b") shouldBeClose 45.0
+        scale("c") shouldBeClose 7.5
+        scale.bandwidth shouldBeClose 30.0
     }
 
 
@@ -213,13 +213,13 @@ class ScaleBandTests : TestBase() {
         scale.round = true
         scale.paddingInner = .1
 
-        scale("a") shouldBe 83.0
-        scale("b") shouldBe 42.0
-        scale("c") shouldBe 1.0
-        scale.bandwidth shouldBe 37.0
+        scale("a") shouldBeClose 83.0
+        scale("b") shouldBeClose 42.0
+        scale("c") shouldBeClose 1.0
+        scale.bandwidth shouldBeClose 37.0
 
         scale.paddingInner = .2
-        scale.bandwidth shouldBe 34.0
+        scale.bandwidth shouldBeClose 34.0
     }
 
     @Test
@@ -227,13 +227,13 @@ class ScaleBandTests : TestBase() {
         val scale = scales.band<String>()
 
         scale.paddingInner = 1.0
-        scale.paddingInner shouldBe 1.0
+        scale.paddingInner shouldBeClose 1.0
 
         scale.paddingInner = -1.0
-        scale.paddingInner shouldBe .0
+        scale.paddingInner shouldBeClose .0
 
         scale.paddingInner = 2.0
-        scale.paddingInner shouldBe 1.0
+        scale.paddingInner shouldBeClose 1.0
 
         scale.paddingInner = Double.NaN
         scale.paddingInner shouldBe Double.NaN
@@ -248,16 +248,16 @@ class ScaleBandTests : TestBase() {
         scale.paddingInner = .2
         scale.paddingOuter = .1
 
-        scale("a") shouldBe 84.0
-        scale("b") shouldBe 44.0
-        scale("c") shouldBe 4.0
-        scale.bandwidth shouldBe 32.0
+        scale("a") shouldBeClose 84.0
+        scale("b") shouldBeClose 44.0
+        scale("c") shouldBeClose 4.0
+        scale.bandwidth shouldBeClose 32.0
 
         scale.paddingOuter = 1.0
-        scale("a") shouldBe 75.0
-        scale("b") shouldBe 50.0
-        scale("c") shouldBe 25.0
-        scale.bandwidth shouldBe 20.0
+        scale("a") shouldBeClose 75.0
+        scale("b") shouldBeClose 50.0
+        scale("c") shouldBeClose 25.0
+        scale.bandwidth shouldBeClose 20.0
     }
 
     @Test
@@ -265,13 +265,13 @@ class ScaleBandTests : TestBase() {
         val scale = scales.band<String>()
 
         scale.paddingOuter = 1.0
-        scale.paddingOuter shouldBe 1.0
+        scale.paddingOuter shouldBeClose 1.0
 
         scale.paddingOuter = -1.0
-        scale.paddingOuter shouldBe .0
+        scale.paddingOuter shouldBeClose .0
 
         scale.paddingOuter = 2.0
-        scale.paddingOuter shouldBe 1.0
+        scale.paddingOuter shouldBeClose 1.0
 
         scale.paddingOuter = Double.NaN
         scale.paddingOuter shouldBe Double.NaN
@@ -284,16 +284,16 @@ class ScaleBandTests : TestBase() {
         scale.range = intervalOf(.0, 100.0)
         scale.round = true
 
-        scale("a") shouldBe .0          // TODO 1.0
-        scale("b") shouldBe 33.0        // TODO 34.0
-        scale("c") shouldBe 66.0        // TODO 67.0
-        scale.bandwidth shouldBe 33.0
+        scale("a") shouldBeClose .0          // TODO 1.0
+        scale("b") shouldBeClose 33.0        // TODO 34.0
+        scale("c") shouldBeClose 66.0        // TODO 67.0
+        scale.bandwidth shouldBeClose 33.0
 
         scale.padding = .2
-        scale("a") shouldBe 7.0
-        scale("b") shouldBe 38.0
-        scale("c") shouldBe 69.0
-        scale.bandwidth shouldBe 25.0
+        scale("a") shouldBeClose 7.0
+        scale("b") shouldBeClose 38.0
+        scale("c") shouldBeClose 69.0
+        scale.bandwidth shouldBeClose 25.0
     }
 
     // TODO align tests for padding & round

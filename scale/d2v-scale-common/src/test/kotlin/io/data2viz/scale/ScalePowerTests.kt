@@ -14,19 +14,19 @@ class ScalePowerTests : TestBase() {
         scale(1.0) shouldBeClose .0
         scale(1.5) shouldBeClose 0.5425821
         scale(2.0) shouldBeClose 1.0
-        scale.exponent shouldBe .5
+        scale.exponent shouldBeClose .5
 
         scale.exponent = 2.0
         scale(1.0) shouldBeClose .0
         scale(1.5) shouldBeClose 0.41666667
         scale(2.0) shouldBeClose 1.0
-        scale.exponent shouldBe 2.0
+        scale.exponent shouldBeClose 2.0
 
         scale.exponent = -1.0
         scale(1.0) shouldBeClose .0
         scale(1.5) shouldBeClose 0.6666667
         scale(2.0) shouldBeClose 1.0
-        scale.exponent shouldBe -1.0
+        scale.exponent shouldBeClose -1.0
     }
 
     @Test
@@ -50,7 +50,7 @@ class ScalePowerTests : TestBase() {
 
         scale.domain = listOf(.0, 1.0)
         scale.range = listOf(.0, 10.0)
-        scale(0.59) shouldBe 6.0
+        scale(0.59) shouldBeClose 6.0
     }
 
     @Test

@@ -11,11 +11,11 @@ class ScalePointTests : TestBase() {
 
         scale.domain shouldBe listOf()
         scale.range shouldBe intervalOf(.0, 1.0)
-        scale.bandwidth shouldBe .0
-        scale.step shouldBe 1.0
+        scale.bandwidth shouldBeClose .0
+        scale.step shouldBeClose 1.0
         scale.round shouldBe false
-        scale.padding shouldBe .0
-        scale.align shouldBe .5
+        scale.padding shouldBeClose .0
+        scale.align shouldBeClose .5
     }
 
     @Test
@@ -38,8 +38,8 @@ class ScalePointTests : TestBase() {
 
         bandScale.domain shouldBe pointScale.domain
         bandScale.range shouldBe pointScale.range
-        bandScale.bandwidth shouldBe pointScale.bandwidth
-        bandScale.step shouldBe pointScale.step
+        bandScale.bandwidth shouldBeClose pointScale.bandwidth
+        bandScale.step shouldBeClose pointScale.step
     }
 
     @Test
@@ -57,8 +57,8 @@ class ScalePointTests : TestBase() {
 
         bandScale.domain shouldBe pointScale.domain
         bandScale.range shouldBe pointScale.range
-        bandScale.bandwidth shouldBe pointScale.bandwidth
-        bandScale.step shouldBe pointScale.step
+        bandScale.bandwidth shouldBeClose pointScale.bandwidth
+        bandScale.step shouldBeClose pointScale.step
     }
 
     // TODO align tests for padding & round

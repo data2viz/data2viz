@@ -14,10 +14,10 @@ class ScaleSequentialTests : TestBase() {
 
         scale.domain shouldBe intervalOf(.0, 1.0)
         scale.clamp shouldBe false
-        scale(-.5) shouldBe -.5
-        scale(0.0) shouldBe 0.0
-        scale(0.5) shouldBe 0.5
-        scale(1.5) shouldBe 1.5
+        scale(-.5) shouldBeClose -.5
+        scale(0.0) shouldBeClose 0.0
+        scale(0.5) shouldBeClose 0.5
+        scale(1.5) shouldBeClose 1.5
     }
 
     @Test
@@ -25,11 +25,11 @@ class ScaleSequentialTests : TestBase() {
         val scale = scales.continuous.sequential(identity)
         scale.clamp = true
 
-        scale(-.5) shouldBe .0
-        scale(0.0) shouldBe 0.0
-        scale(0.5) shouldBe 0.5
-        scale(1.0) shouldBe 1.0
-        scale(1.5) shouldBe 1.0
+        scale(-.5) shouldBeClose .0
+        scale(0.0) shouldBeClose 0.0
+        scale(0.5) shouldBeClose 0.5
+        scale(1.0) shouldBeClose 1.0
+        scale(1.5) shouldBeClose 1.0
     }
 
     @Test
@@ -37,9 +37,9 @@ class ScaleSequentialTests : TestBase() {
         val scale = scales.continuous.sequential(identity)
         scale.domain = intervalOf(-1.2, 2.4)
 
-        scale(-1.2) shouldBe 0.0
-        scale( 0.6) shouldBe 0.5
-        scale( 2.4) shouldBe 1.0
+        scale(-1.2) shouldBeClose 0.0
+        scale( 0.6) shouldBeClose 0.5
+        scale( 2.4) shouldBeClose 1.0
     }
 
     @Test
@@ -49,22 +49,22 @@ class ScaleSequentialTests : TestBase() {
         scale.domain = intervalOf(1.0, 3.0)
         scale.interpolator = { t: Double -> 2 * t }
 
-        scale(-.5) shouldBe .0
-        scale(.0) shouldBe .0
-        scale(.5) shouldBe .0
-        scale(1.0) shouldBe .0
-        scale(2.0) shouldBe 1.0
-        scale(3.0) shouldBe 2.0
-        scale(4.0) shouldBe 2.0
+        scale(-.5) shouldBeClose .0
+        scale(.0) shouldBeClose .0
+        scale(.5) shouldBeClose .0
+        scale(1.0) shouldBeClose .0
+        scale(2.0) shouldBeClose 1.0
+        scale(3.0) shouldBeClose 2.0
+        scale(4.0) shouldBeClose 2.0
 
         scale.clamp = false
-        scale(-.5) shouldBe -1.5
-        scale(.0) shouldBe -1.0
-        scale(.5) shouldBe -0.5
-        scale(1.0) shouldBe .0
-        scale(2.0) shouldBe 1.0
-        scale(3.0) shouldBe 2.0
-        scale(4.0) shouldBe 3.0
+        scale(-.5) shouldBeClose -1.5
+        scale(.0) shouldBeClose -1.0
+        scale(.5) shouldBeClose -0.5
+        scale(1.0) shouldBeClose .0
+        scale(2.0) shouldBeClose 1.0
+        scale(3.0) shouldBeClose 2.0
+        scale(4.0) shouldBeClose 3.0
     }
 
 }

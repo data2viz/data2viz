@@ -224,32 +224,32 @@ class ColorTests : TestBase() {
         color1.alpha shouldBe 0.0f
 
         val color2 = Color(0x695a87, 1).toLab().toHcla()
-        round(color2.h.deg) shouldBe 305.0
-        round(color2.c) shouldBe 28.0
+        round(color2.h.deg) shouldBeClose  305.0
+        round(color2.c) shouldBeClose 28.0
         round(color2.l) shouldBe 41.0f
         color2.alpha shouldBe 1.0f
 
         val color3 = Color(0x510151, .3).toLab().toHcla()
-        round(color3.h.deg) shouldBe 328.0
-        round(color3.c) shouldBe 50.0
+        round(color3.h.deg) shouldBeClose 328.0
+        round(color3.c) shouldBeClose 50.0
         round(color3.l) shouldBe 17.0f
         color3.alpha shouldBe .3f
 
         val color4 = Color(0x67260f, .5).toLab().toHcla()
-        round(color4.h.deg) shouldBe 46.0
-        round(color4.c) shouldBe 40.0
+        round(color4.h.deg) shouldBeClose 46.0
+        round(color4.c) shouldBeClose 40.0
         round(color4.l) shouldBe 25.0f
         color4.alpha shouldBe .5f
 
         val color5 = Color(0x6a6a6a, .2).toLab().toHcla()
         //round(color5.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
-        round(color5.c) shouldBe 0.0
+        round(color5.c) shouldBeClose 0.0
         round(color5.l) shouldBe 45.0f
         color5.alpha shouldBe .2f
 
         val color6 = white.toLab().toHcla()
-        //round(color6.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
-        round(color6.c) shouldBe 0.0
+        //round(color6.h.deg) shouldBeClose 267                     // achromatic, hue value irrelevant
+        round(color6.c) shouldBeClose 0.0
         round(color6.l) shouldBe 100.0f
 
         val color7 = black.toLab().toHcla()

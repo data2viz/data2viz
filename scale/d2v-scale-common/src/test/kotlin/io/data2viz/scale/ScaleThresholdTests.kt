@@ -12,8 +12,8 @@ class ScaleThresholdTests : TestBase() {
         scale.range = listOf(.0, 1.0)
 
         scale.domain shouldBe arrayListOf(.5)
-        scale(0.5) shouldBe 1.0
-        scale(0.49) shouldBe .0
+        scale(0.5) shouldBeClose 1.0
+        scale(0.49) shouldBeClose .0
     }
 
     @Test
