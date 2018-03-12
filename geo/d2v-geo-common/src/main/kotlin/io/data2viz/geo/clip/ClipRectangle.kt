@@ -48,7 +48,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
             private var currentPoint = ::justPoint
 
             override fun point(x: Double, y: Double, z: Double) {
-                currentPoint(x, y, z)
+                currentPoint(x, y)
             }
 
             override fun lineStart() {
@@ -69,7 +69,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
 
             override fun lineEnd() {
                 if (segments != null) {
-                    linePoint(x__, y__, .0)
+                    linePoint(x__, y__)
                     if (v__ && v_) bufferStream.rejoin()
                     segments!!.add(bufferStream.result().flatten())
                 }
@@ -111,13 +111,13 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 ring = null
             }
 
-            private fun justPoint(x: Double, y: Double, z: Double) {
+            private fun justPoint(x: Double, y: Double) {
                 if (pointVisible(x, y)) {
                     activeStream.point(x, y, 0.0)
                 }
             }
 
-            private fun linePoint(x: Double, y: Double, z: Double) {
+            private fun linePoint(x: Double, y: Double) {
                 var newX = x
                 var newY = y
 

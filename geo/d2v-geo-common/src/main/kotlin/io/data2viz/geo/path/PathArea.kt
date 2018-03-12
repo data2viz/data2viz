@@ -1,7 +1,7 @@
 package io.data2viz.geo.path
 
 import io.data2viz.geo.noop
-import io.data2viz.geo.noop3
+import io.data2viz.geo.noop2
 import io.data2viz.geo.projection.Stream
 import kotlin.math.abs
 
@@ -16,7 +16,7 @@ class PathArea : Stream {
     private var x0 = Double.NaN
     private var y0 = Double.NaN
 
-    private var currentPoint: (Double, Double, Double) -> Unit = noop3
+    private var currentPoint: (Double, Double) -> Unit = noop2
     private var currentLineStart: () -> Unit = noop
     private var currentLineEnd: () -> Unit = noop
 
@@ -26,7 +26,7 @@ class PathArea : Stream {
         return a
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)
+    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -37,7 +37,7 @@ class PathArea : Stream {
     override fun polygonEnd() {
         currentLineStart = noop
         currentLineEnd = noop
-        currentPoint = noop3
+        currentPoint = noop2
         areaSum += abs(areaRingSum)
         areaRingSum = .0
     }
@@ -46,7 +46,7 @@ class PathArea : Stream {
         currentPoint = ::areaPointFirst
     }
 
-    private fun areaPointFirst(x: Double, y: Double, z: Double) {
+    private fun areaPointFirst(x: Double, y: Double) {
         currentPoint = ::areaPoint
         x00 = x
         x0 = x
@@ -54,13 +54,13 @@ class PathArea : Stream {
         y0 = y
     }
 
-    private fun areaPoint(x: Double, y: Double, z: Double) {
+    private fun areaPoint(x: Double, y: Double) {
         areaRingSum += y0 * x - x0 * y
         x0 = x
         y0 = y
     }
 
     private fun areaRingEnd() {
-        areaPoint(x00, y00, .0)
+        areaPoint(x00, y00)
     }
 }

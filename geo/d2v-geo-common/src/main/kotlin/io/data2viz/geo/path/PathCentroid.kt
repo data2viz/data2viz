@@ -18,7 +18,7 @@ class PathCentroid : Stream {
     private var x0 = Double.NaN
     private var y0 = Double.NaN
 
-    private var currentPoint: (Double, Double, Double) -> Unit = ::centroidPoint
+    private var currentPoint: (Double, Double) -> Unit = ::centroidPoint
     private var currentLineStart: () -> Unit = ::centroidLineStart
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
@@ -43,7 +43,7 @@ class PathCentroid : Stream {
         return centroid
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)
+    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -57,7 +57,7 @@ class PathCentroid : Stream {
         currentLineEnd = ::centroidLineEnd
     }
 
-    private fun centroidPoint(x: Double, y: Double, z: Double) {
+    private fun centroidPoint(x: Double, y: Double) {
         _X0 += x
         _Y0 += y
         ++_Z0
@@ -67,14 +67,14 @@ class PathCentroid : Stream {
         currentPoint = ::centroidPointFirstLine
     }
 
-    private fun centroidPointFirstLine(x: Double, y: Double, z: Double) {
+    private fun centroidPointFirstLine(x: Double, y: Double) {
         currentPoint = ::centroidPointLine
         x0 = x
         y0 = y
-        centroidPoint(x, y, .0)
+        centroidPoint(x, y)
     }
 
-    private fun centroidPointLine(x: Double, y: Double, z: Double) {
+    private fun centroidPointLine(x: Double, y: Double) {
         val dx = x - x0
         val dy = y - y0
         val dz = sqrt(dx * dx + dy * dy)
@@ -83,7 +83,7 @@ class PathCentroid : Stream {
         _Z1 += dz
         x0 = x
         y0 = y
-        centroidPoint(x, y, .0)
+        centroidPoint(x, y)
     }
 
     private fun centroidLineEnd() {
@@ -94,18 +94,18 @@ class PathCentroid : Stream {
         currentPoint = ::centroidPointFirstRing
     }
 
-    private fun centroidRingEnd() = centroidPointRing(x00, y00, 0.0)
+    private fun centroidRingEnd() = centroidPointRing(x00, y00)
 
-    private fun centroidPointFirstRing(x: Double, y: Double, z: Double) {
+    private fun centroidPointFirstRing(x: Double, y: Double) {
         currentPoint = ::centroidPointRing
         x00 = x
         y00 = y
         x0 = x
         y0 = y
-        centroidPoint(x, y, 0.0)
+        centroidPoint(x, y)
     }
 
-    private fun centroidPointRing(x: Double, y: Double, z: Double) {
+    private fun centroidPointRing(x: Double, y: Double) {
         val dx = x - x0
         val dy = y - y0
         var dz = sqrt((dx * dx) + (dy * dy))
@@ -120,6 +120,6 @@ class PathCentroid : Stream {
         _Z2 += dz * 3
         x0 = x
         y0 = y
-        centroidPoint(x, y, 0.0)
+        centroidPoint(x, y)
     }
 }

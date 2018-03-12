@@ -1,6 +1,6 @@
 package io.data2viz.geo.path
 
-import io.data2viz.geo.noop3
+import io.data2viz.geo.noop2
 import io.data2viz.geo.projection.Stream
 import kotlin.math.sqrt
 
@@ -13,7 +13,7 @@ class PathMeasure : Stream {
     private var x0 = Double.NaN
     private var y0 = Double.NaN
 
-    private var currentPoint: (Double, Double, Double) -> Unit = noop3
+    private var currentPoint: (Double, Double) -> Unit = noop2
 
     fun result(): Double {
         val result = lengthSum
@@ -21,14 +21,14 @@ class PathMeasure : Stream {
         return result
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)
+    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
     override fun lineStart() {
         currentPoint = ::lengthPointFirst
     }
 
     override fun lineEnd() {
-        if (lengthRing) lengthPoint(x00, y00, .0)
-        currentPoint = noop3
+        if (lengthRing) lengthPoint(x00, y00)
+        currentPoint = noop2
     }
 
     override fun polygonStart() {
@@ -39,7 +39,7 @@ class PathMeasure : Stream {
         lengthRing = false
     }
 
-    private fun lengthPointFirst(x: Double, y: Double, z: Double) {
+    private fun lengthPointFirst(x: Double, y: Double) {
         currentPoint = ::lengthPoint
         x0 = x
         x00 = x
@@ -47,7 +47,7 @@ class PathMeasure : Stream {
         y00 = y
     }
 
-    private fun lengthPoint(x: Double, y: Double, z: Double) {
+    private fun lengthPoint(x: Double, y: Double) {
         x0 -= x
         y0 -= y
         lengthSum += sqrt(x0 * x0 + y0 * y0)

@@ -24,7 +24,7 @@ class GeoInterpolate(
         val y = A * ky0 + B * ky1
         val z = A * sy0 + B * sy1
         return doubleArrayOf(atan2(y, x).toDegrees(), atan2(z, sqrt(x * x + y * y)).toDegrees())
-    } else fun(t: Double): DoubleArray {
+    } else fun(_: Double): DoubleArray {
         return doubleArrayOf(x0.toDegrees(), y0.toDegrees())
     }
 
@@ -52,7 +52,7 @@ fun geoInterpolate(a: DoubleArray, b: DoubleArray): GeoInterpolate {
     val kx1 = cy1 * cos(x1)
     val ky1 = cy1 * sin(x1)
     val d = 2 * asin(sqrt(haversin(y1 - y0) + cy0 * cy1 * haversin(x1 - x0)))
-    val k = sin(d);
+    val k = sin(d)
 
     return GeoInterpolate(d, k, kx0, kx1, ky0, ky1, sy0, sy1, x0, y0)
 }

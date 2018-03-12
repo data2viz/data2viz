@@ -77,7 +77,7 @@ fun rotation(rotate: DoubleArray): ProjectableInvertable {
             rotate[0].toRadians(),
             rotate[1].toRadians(),
             if (rotate.size > 2) rotate[2].toRadians() else 0.0
-        ) as ProjectableInvertable
+        )
 
     return object : ProjectableInvertable {
         override fun project(lambda: Double, phi: Double): DoubleArray {

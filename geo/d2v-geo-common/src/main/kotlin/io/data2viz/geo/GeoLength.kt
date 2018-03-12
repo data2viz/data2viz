@@ -31,7 +31,7 @@ class GeoLength : Stream {
     private var cosPhi0 = Double.NaN
     private var sinPhi0 = Double.NaN
 
-    private var currentPoint: (Double, Double, Double) -> Unit = noop3
+    private var currentPoint: (Double, Double) -> Unit = noop2
     private var currentLineEnd: () -> Unit = noop
 
     // TODO : invoke ?
@@ -41,7 +41,7 @@ class GeoLength : Stream {
         return lengthSum
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)
+    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
     override fun lineStart() {
         currentPoint = ::lengthPointFirst
         currentLineEnd = ::lengthLineEnd
@@ -49,7 +49,7 @@ class GeoLength : Stream {
 
     override fun lineEnd() = currentLineEnd()
 
-    private fun lengthPointFirst(x: Double, y: Double, z: Double) {
+    private fun lengthPointFirst(x: Double, y: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         lambda0 = lambda
@@ -59,11 +59,11 @@ class GeoLength : Stream {
     }
 
     private fun lengthLineEnd() {
-        currentPoint = noop3
+        currentPoint = noop2
         currentLineEnd = noop
     }
 
-    private fun lengthPoint(x: Double, y: Double, z: Double) {
+    private fun lengthPoint(x: Double, y: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val sinPhi = sin(phi)

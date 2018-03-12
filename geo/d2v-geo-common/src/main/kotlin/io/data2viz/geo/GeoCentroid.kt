@@ -34,7 +34,7 @@ class GeoCentroid : Stream {
     private var y0 = Double.NaN
     private var z0 = Double.NaN         // previous point
 
-    private var currentPoint: (Double, Double, Double) -> Unit = ::centroidPoint
+    private var currentPoint: (Double, Double) -> Unit = ::centroidPoint
     private var currentLineStart: () -> Unit = ::centroidLineStart
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
@@ -79,7 +79,7 @@ class GeoCentroid : Stream {
         return doubleArrayOf(atan2(y, x).toDegrees(), asin(z / sqrt(m)).toDegrees())
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)
+    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -93,7 +93,7 @@ class GeoCentroid : Stream {
     }
 
     // Arithmetic mean of Cartesian vectors.
-    private fun centroidPoint(x: Double, y: Double, z: Double) {
+    private fun centroidPoint(x: Double, y: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val cosPhi = cos(phi)
@@ -111,7 +111,7 @@ class GeoCentroid : Stream {
         currentPoint = ::centroidLinePointFirst
     }
 
-    private fun centroidLinePointFirst(x: Double, y: Double, z: Double) {
+    private fun centroidLinePointFirst(x: Double, y: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val cosPhi = cos(phi)
@@ -122,7 +122,7 @@ class GeoCentroid : Stream {
         centroidPointCartesian(x0, y0, z0)
     }
 
-    private fun centroidLinePoint(x: Double, y: Double, z: Double) {
+    private fun centroidLinePoint(x: Double, y: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val cosPhi = cos(phi)
@@ -154,11 +154,11 @@ class GeoCentroid : Stream {
     }
 
     private fun centroidRingEnd() {
-        centroidRingPoint(lambda00, phi00, .0)
+        centroidRingPoint(lambda00, phi00)
         currentPoint = ::centroidPoint
     }
 
-    private fun centroidRingPointFirst(x: Double, y: Double, z: Double) {
+    private fun centroidRingPointFirst(x: Double, y: Double) {
         lambda00 = x
         phi00 = y
         val lambda = x.toRadians()
@@ -171,7 +171,7 @@ class GeoCentroid : Stream {
         centroidPointCartesian(x0, y0, z0)
     }
 
-    private fun centroidRingPoint(x: Double, y: Double, z: Double) {
+    private fun centroidRingPoint(x: Double, y: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians()
         val cosPhi = cos(phi)

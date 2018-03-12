@@ -47,7 +47,7 @@ class GeoBounds : Stream {
     private var range: DoubleArray = doubleArrayOf(Double.NaN, Double.NaN)
     private val ranges = mutableListOf<DoubleArray>()
 
-    private var currentPoint: (Double, Double, Double) -> Unit = ::boundsPoint
+    private var currentPoint: (Double, Double) -> Unit = ::boundsPoint
     private var currentLineStart: () -> Unit = ::boundsLineStart
     private var currentLineEnd: () -> Unit = ::boundsLineEnd
 
@@ -100,7 +100,7 @@ class GeoBounds : Stream {
         else Extent(lambda0, phi0,lambda1, phi1)
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)
+    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -132,7 +132,7 @@ class GeoBounds : Stream {
         return if (range[0] <= range[1]) range[0] <= x && x <= range[1] else x < range[0] || range[1] < x
     }
 
-    private fun boundsPoint(x: Double, y: Double, z: Double) {
+    private fun boundsPoint(x: Double, y: Double) {
         lambda0 = x
         lambda1 = x
         range = doubleArrayOf(lambda0, lambda1)
@@ -141,7 +141,7 @@ class GeoBounds : Stream {
         if (y > phi1) phi1 = y
     }
 
-    private fun linePoint(x: Double, y: Double, z: Double) {
+    private fun linePoint(x: Double, y: Double) {
 //        val lambda = x.toRadians()
 //        val phi = y.toRadians()
         val p = cartesian(doubleArrayOf(x.toRadians(), y.toRadians()))
@@ -214,7 +214,7 @@ class GeoBounds : Stream {
         p0 = null
     }
 
-    private fun boundsRingPoint(x: Double, y: Double, z: Double) {
+    private fun boundsRingPoint(x: Double, y: Double) {
         if (p0 != null) {
             val delta = x - lambda2
             deltaSum += if (abs(delta) > 180.0) {
@@ -225,7 +225,7 @@ class GeoBounds : Stream {
             phi00 = y
         }
         areaStream.point(x, y, .0)
-        linePoint(x, y, .0)
+        linePoint(x, y)
     }
 
     private fun boundsRingStart() {
@@ -233,7 +233,7 @@ class GeoBounds : Stream {
     }
 
     private fun boundsRingEnd() {
-        boundsRingPoint(lambda00, phi00, .0)
+        boundsRingPoint(lambda00, phi00)
         areaStream.lineEnd()
         if (abs(deltaSum) > EPSILON) {
             lambda1 = 180.0
