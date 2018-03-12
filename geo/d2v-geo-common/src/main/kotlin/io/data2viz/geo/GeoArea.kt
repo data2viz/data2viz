@@ -25,7 +25,7 @@ class GeoArea : Stream {
     private var cosPhi0 = Double.NaN
     private var sinPhi0 = Double.NaN
 
-    private var currentPoint: (Double, Double, Double) -> Unit = noop3
+    private var currentPoint: (Double, Double) -> Unit = noop2
     private var currentLineStart: () -> Unit = noop
     private var currentLineEnd: () -> Unit = noop
 
@@ -35,7 +35,7 @@ class GeoArea : Stream {
         return areaSum * 2
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y, z)
+    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -47,7 +47,7 @@ class GeoArea : Stream {
     override fun polygonEnd() {
         currentLineStart = noop
         currentLineEnd = noop
-        currentPoint = noop3
+        currentPoint = noop2
         areaSum += areaRingSum + if (areaRingSum < 0) TAU else .0
     }
 
@@ -59,7 +59,7 @@ class GeoArea : Stream {
         currentPoint = ::areaPointFirst
     }
 
-    private fun areaPointFirst(x: Double, y: Double, z: Double) {
+    private fun areaPointFirst(x: Double, y: Double) {
         currentPoint = ::areaPoint
         lambda00 = x
         phi00 = y
@@ -71,7 +71,7 @@ class GeoArea : Stream {
         sinPhi0 = sin(phi)
     }
 
-    private fun areaPoint(x: Double, y: Double, z: Double) {
+    private fun areaPoint(x: Double, y: Double) {
         val lambda = x.toRadians()
         val phi = y.toRadians() / 2.0 + QUARTERPI // half the angular distance from south pole
 
@@ -95,6 +95,6 @@ class GeoArea : Stream {
     }
 
     private fun areaRingEnd() {
-        areaPoint(lambda00, phi00, .0)
+        areaPoint(lambda00, phi00)
     }
 }

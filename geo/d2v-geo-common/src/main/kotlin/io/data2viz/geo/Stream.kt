@@ -4,7 +4,8 @@ import io.data2viz.geo.projection.Stream
 import io.data2viz.geojson.*
 
 internal val noop: () -> Unit = { }
-internal val noop3: (Double, Double, Double) -> Unit = { x, y, z -> }
+internal val noop2: (Double, Double) -> Unit = { _, _ -> }
+internal val noop3: (Double, Double, Double) -> Unit = { _, _, _ -> }
 
 fun stream(geo: GeoJsonObject, stream: Stream) {
     when (geo) {
