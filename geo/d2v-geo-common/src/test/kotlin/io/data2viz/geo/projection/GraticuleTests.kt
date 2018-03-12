@@ -191,7 +191,6 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    // TODO check and finish test (last coordinates are KO)
     fun graticule_outline_returns_a_polygon_encompassing_the_major_extent_LEGACY() {
         val g = geoGraticule {
             extentMajor = Extent(-90.0, -45.0, 90.0, 45.0)
@@ -199,32 +198,14 @@ class GraticuleTests : TestBase() {
         }
         val outline = g.outline()
 
-        outline.coordinates[0][0] shouldBeClose arrayOf(-90.0, -45.0)
-        outline.coordinates[0][1] shouldBeClose arrayOf(-90.0, 45.0)         // meridian
-//        outline.coordinates[0][2] shouldBeClose doubleArrayOf(-87.0, 45.0)
-//        outline.coordinates[0][3] shouldBeClose doubleArrayOf(-84.0, 45.0)         // meridian
-//        outline.coordinates[2][0] shouldBeClose doubleArrayOf(.0, -45.0)
-//        outline.coordinates[2][1] shouldBeClose doubleArrayOf(.0, 45.0)            // meridian
-//        outline.coordinates[3][0] shouldBeClose doubleArrayOf(45.0, -45.0)
-//        outline.coordinates[3][1] shouldBeClose doubleArrayOf(45.0, 45.0)          // meridian
+        val coords = outline.coordinates[0]
+        coords[0] shouldBeClose arrayOf(-90.0, -45.0)
+        coords[1] shouldBeClose arrayOf(-90.0, 45.0)         // meridian
+        coords[2] shouldBeClose arrayOf(-87.0, 45.0)
+        coords[3] shouldBeClose arrayOf(-84.0, 45.0)
+        coords[4] shouldBeClose arrayOf(-81.0, 45.0)
+        coords[5] shouldBeClose arrayOf(-78.0, 45.0)
+        coords[6] shouldBeClose arrayOf(-75.0, 45.0)
+        coords[7] shouldBeClose arrayOf(-72.0, 45.0)
     }
-
-
-    /*
-tape("geoGraticule.outline() returns a Polygon encompassing the major extent", function(test) {
-  test.deepEqual(d3.geoGraticule()
-      .extentMajor([[-90, -45], [90, 45]])
-      .precision(3)
-      .outline(), {
-    type: "Polygon",
-    coordinates: [[
-      [-90,-45],[-90,45], // meridian
-      [-87,45],[-84,45],[-81,45],[-78,45],[-75,45],[-72,45],[-69,45],[-66,45],[-63,45],[-60,45],[-57,45],[-54,45],[-51,45],[-48,45],[-45,45],[-42,45],[-39,45],[-36,45],[-33,45],[-30,45],[-27,45],[-24,45],[-21,45],[-18,45],[-15,45],[-12,45],[-9,45],[-6,45],[-3,45],[0,45],[3,45],[6,45],[9,45],[12,45],[15,45],[18,45],[21,45],[24,45],[27,45],[30,45],[33,45],[36,45],[39,45],[42,45],[45,45],[48,45],[51,45],[54,45],[57,45],[60,45],[63,45],[66,45],[69,45],[72,45],[75,45],[78,45],[81,45],[84,45],[87,45],
-      [90,45],[90,-45], // meridian
-      [87,-45],[84,-45],[81,-45],[78,-45],[75,-45],[72,-45],[69,-45],[66,-45],[63,-45],[60,-45],[57,-45],[54,-45],[51,-45],[48,-45],[45,-45],[42,-45],[39,-45],[36,-45],[33,-45],[30,-45],[27,-45],[24,-45],[21,-45],[18,-45],[15,-45],[12,-45],[9,-45],[6,-45],[3,-45],[0,-45],[-3,-45],[-6,-45],[-9,-45],[-12,-45],[-15,-45],[-18,-45],[-21,-45],[-24,-45],[-27,-45],[-30,-45],[-33,-45],[-36,-45],[-39,-45],[-42,-45],[-45,-45],[-48,-45],[-51,-45],[-54,-45],[-57,-45],[-60,-45],[-63,-45],[-66,-45],[-69,-45],[-72,-45],[-75,-45],[-78,-45],[-81,-45],[-84,-45],[-87,-45],[-90,-45]
-    ]]
-  });
-  test.end();
-});
-     */
 }
