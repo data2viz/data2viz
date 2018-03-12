@@ -1,6 +1,6 @@
 module.exports = function (config) {
     config.set({
-            frameworks: ['qunit', 'browserify'],
+            frameworks: ['mocha', 'browserify'],
             reporters: ['mocha'],
             files: [
                 'build/classes/kotlin/test/*.js',
@@ -10,15 +10,20 @@ module.exports = function (config) {
             colors: true,
             autoWatch: false,
             browsers: [
-                'ChromeHeadless'
+                'Chrome'
             ],
             captureTimeout: 10000,
-            singleRun: true,
-        // singleRun: false,
+            // singleRun: true,
+            singleRun: false,
             reportSlowerThan: 500,
 
             preprocessors: {
-                '**/*.js': ['browserify']
+                'build/classes/kotlin/test/*.js': ['browserify']
+            },
+
+            browserify: {
+                // debug: true,
+                transform: [ 'brfs' ]
             }
         }
     )

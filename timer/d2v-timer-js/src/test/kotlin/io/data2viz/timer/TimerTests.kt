@@ -7,7 +7,6 @@ import kotlin.browser.window
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-
 class TimerTests : TestBase() {
 
     @Test
@@ -23,4 +22,24 @@ class TimerTests : TestBase() {
         delay(50)
         count shouldBe 2
     }
+
+    @Test
+    @JsName("callbackMeanTime")
+    fun `timer(callback) invokes the callback about every 17ms`() = promise {
+        val then = now()
+        var elapsedTime = 0.0
+        var count = 0
+        timer {
+            if (count++ > 10) {
+                stop()
+                elapsedTime = now() - then
+            }
+        }
+        delay(200)
+        println("ElapsedTime:: $elapsedTime")
+        elapsedTime shouldBe (17.0 * count plusOrMinus 5.0 * count)
+    }
+    
+
 }
+
