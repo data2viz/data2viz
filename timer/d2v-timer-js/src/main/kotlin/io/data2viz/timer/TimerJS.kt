@@ -22,7 +22,7 @@ var clockSkew = 0.0
 /**
  * Effective AnimationFrame
  */
-var setFrame = window::requestAnimationFrame //Todo use timeout if not available
+var setFrame: (callback: (Double) -> Unit) -> Int = window::requestAnimationFrame //Todo use timeout if not available
 
 /**
  * Returns the current time as defined by performance.now if available, and Date.now if not.
@@ -43,6 +43,10 @@ actual fun now(): Double {
     }
     return clockNow
 }
+
+//val clock: () -> Double by lazy { 
+//    if(js("typeof performance === 'object' && performance.now"))
+//}
 
 private fun getTime() = Date().getTime()
 
