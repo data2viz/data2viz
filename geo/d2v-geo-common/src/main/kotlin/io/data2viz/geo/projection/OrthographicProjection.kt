@@ -8,14 +8,12 @@ import kotlin.math.sin
 fun orthographic(init: MutableProjection.() -> Unit) = projection(OrthographicProjector()) {
     scale = 249.5
     clipAngle = 90 + EPSILON
-
     init()
 }
 
 class OrthographicProjector : ProjectableInvertable {
-    private val cacheInvert = azimuthalInvert(::asin)
+    private val invertFunction = azimuthalInvert(::asin)
 
     override fun project(lambda: Double, phi: Double) = doubleArrayOf(cos(phi) * sin(lambda), sin(phi))
-
-    override fun invert(x: Double, y: Double) = cacheInvert(x, y)
+    override fun invert(x: Double, y: Double) = invertFunction(x, y)
 }

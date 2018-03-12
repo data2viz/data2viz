@@ -11,15 +11,14 @@ fun azimuthalInvert(angle: (Double) -> Double) = { x: Double, y: Double ->
     val c = angle(z)
     val sc = sin(c)
     val cc = cos(c)
-    doubleArrayOf(atan2(x * sc, z * cc), asin(if (z == 0.0) z else y * sc / z))
+    doubleArrayOf(atan2(x * sc, z * cc), (if (z == 0.0) z else y * sc / z).asin)
 }
 
-abstract class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Double) : ProjectableInvertable {
+open class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Double) : ProjectableInvertable {
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cx = cos(lambda)
         val cy = cos(phi)
         val k = scale(cx * cy)
-
         return doubleArrayOf(k * cy * sin(lambda), k * sin(phi))
     }
 
@@ -28,7 +27,6 @@ abstract class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> D
         val c = angle(z)
         val sc = sin(c)
         val cc = cos(c)
-
-        return doubleArrayOf(atan2(x * sc, z * cc), asin(if (z != .0) y * sc / z else z))
+        return doubleArrayOf(atan2(x * sc, z * cc), (if (z != .0) y * sc / z else z).asin)
     }
 }

@@ -8,9 +8,6 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
-class MercatorRaw
-
-fun mercatorProjection() = mercatorProjection {}
 fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProjection()) {
     scale = 961.0 / TAU
     init()
@@ -18,7 +15,8 @@ fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProject
 
 class MercatorProjection : Projection {
 
-    private var projectResample: (Stream) -> Stream = resampleNone(this)            // ?? TODO
+    // TODO : change !!
+    private var projectResample: (Stream) -> Stream = resample(this, .5*.5)
     private lateinit var projectRotate: Projectable
 
     private var k = 150.0
@@ -55,9 +53,9 @@ class MercatorProjection : Projection {
             recenter()
         }
 
-    override var precision: Double
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+    override var precision: Double = .5
+        get() = .5
+        set(value) {field = value}
 
     val noClip: (Stream) -> Stream = { it }
     override var preClip: (Stream) -> Stream
@@ -138,18 +136,16 @@ class MercatorProjection : Projection {
         }
     }
 
-    fun recenter(): Projection {
+    override fun recenter() {
         rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
         projectRotate = compose(rotator, this) /// project ??!,?
         val center = project(lambda, phi)
         dx = x - center[0] * k
         dy = y + center[1] * k
-        return this
-//        return reset()
     }
 
     private fun reclip() {
-        // TODO (mercator only ?)
+
     }
 
 }

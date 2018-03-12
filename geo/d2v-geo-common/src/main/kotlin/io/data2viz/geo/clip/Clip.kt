@@ -167,7 +167,6 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
         // Rejoin connected segments
         // TODO reuse ringBuffer.rejoin()?
-        // TODO rework !!
         if (ringSegments.size > 1 && (clean and 2) != 0) {
             val concat = ringSegments.removeAt(ringSegments.lastIndex).toMutableList()
             concat.addAll(ringSegments.removeAt(0))

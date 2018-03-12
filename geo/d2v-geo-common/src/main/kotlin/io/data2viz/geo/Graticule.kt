@@ -62,6 +62,7 @@ class Graticule {
      */
     var precision = 2.5
         set(value) {
+            field = value
             minorX = graticuleX(minorExtent.y0, minorExtent.y1, 90.0)
             minorY = graticuleY(minorExtent.x0, minorExtent.x1, precision)
             majorX = graticuleX(majorExtent.y0, majorExtent.y1, 90.0)

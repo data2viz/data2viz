@@ -59,15 +59,14 @@ interface Projection : ProjectableInvertable {
     var clipAngle: Double
     var clipExtent: Extent?
 
-    //fun rotate(angle: Double)
     fun stream(stream: Stream): Stream
+
+    fun recenter()
 
     fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection
     fun fitWidth(width: Double, geo: GeoJsonObject): Projection
     fun fitHeight(height: Double, geo: GeoJsonObject): Projection
     fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection
-
-    // TODO : fits
 }
 
 fun compose(a: Projectable, b: Projectable): Projectable {
@@ -88,17 +87,6 @@ fun compose(a: Projectable, b: Projectable): Projectable {
             override fun project(lambda: Double, phi: Double): DoubleArray {
                 val p = a.project(lambda, phi)
                 return b.project(p[0], p[1])
-            }
-        }
-    }
-}
-
-internal fun resampleNone(projection: Projectable): (Stream) -> Stream {
-    return { stream: Stream ->
-        object : ModifiedStream(stream) {
-            override fun point(x: Double, y: Double, z: Double) {
-                val p = projection.project(x, y)
-                stream.point(p[0], p[1], 0.0)
             }
         }
     }
@@ -139,6 +127,7 @@ open class MutableProjection(val projection: Projectable) : Projection {
             field = value
         }
 
+    // TODO : manage angles-range (ex. -180..-90 & 90..180) to permit see-through ?
     private var theta:Double = Double.NaN
     override var clipAngle: Double
         get() = theta
@@ -239,14 +228,13 @@ open class MutableProjection(val projection: Projectable) : Projection {
 
     // Precision
     private var delta2 = 0.5
-    private var projectResample: (Stream) -> Stream = resampleNone(projectTransform)
-    //private var projectResample = resample(projectTransform, delta2)
+    private var projectResample = resample(projectTransform, delta2)
     override var precision: Double
         get() = sqrt(delta2)
         set(value) {
             delta2 = value * value
-            //projectResample = resample(projectTransform, delta2)
-            //reset()
+            projectResample = resample(projectTransform, delta2)
+            reset()
         }
 
     private val transformRadians: (stream: Stream) -> ModifiedStream = { stream: Stream ->
@@ -286,19 +274,17 @@ open class MutableProjection(val projection: Projectable) : Projection {
         return cachedStream
     }
 
-    fun recenter(): Projection {
+    override fun recenter() {
         rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
         projectRotate = compose(rotator, projection)
         val center = projection.project(lambda, phi)
         dx = x - (center[0] * k)
         dy = y + (center[1] * k)
-        return reset()
     }
 
-    fun reset(): Projection {
+    fun reset() {
         cache = null
         cacheStream = null
-        return this
     }
 }
 
