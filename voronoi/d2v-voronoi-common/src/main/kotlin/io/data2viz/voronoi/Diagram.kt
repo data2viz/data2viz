@@ -75,9 +75,9 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
         val x1 = clipEnd.x
         val y1 = clipEnd.y
 
-        wCells!!.forEach { cell ->
-                site = cell!!.site
-                halfedges = cell.halfedges
+        wCells!!.forEach { cel ->
+                site = cel!!.site
+                halfedges = cel.halfedges
                 iHalfedge = halfedges.size
 
                 // Remove any dangling clipped edges.
@@ -91,8 +91,8 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
                 iHalfedge = 0
                 nHalfedges = halfedges.size
                 while (iHalfedge < nHalfedges) {
-                    end = cell.cellHalfedgeEnd(wEdges[halfedges[iHalfedge]]!!)!!
-                    start = cell.cellHalfedgeStart(wEdges[halfedges[++iHalfedge % nHalfedges]]!!)!!
+                    end = cel.cellHalfedgeEnd(wEdges[halfedges[iHalfedge]]!!)!!
+                    start = cel.cellHalfedgeStart(wEdges[halfedges[++iHalfedge % nHalfedges]]!!)!!
                     val startX = start.x
                     val startY = start.y
                     val endX = end.x
@@ -154,13 +154,13 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
                 wEdges.add(createBorderEdge(site!!, v11, v10))
                 wEdges.add(createBorderEdge(site!!, v10, v00))
 
-                (wEdges.size-5..wEdges.size-1).forEach { coverCel!!.halfedges.add(it) }
+                (wEdges.size-5..wEdges.size-1).forEach { coverCel.halfedges.add(it) }
             }
         }
 
         // Lastly delete any cells with no edges; these were entirely clipped.
-        wCells!!.forEachIndexed { index, cell ->
-            if (cell?.halfedges?.size == 0) { wEdges[index] = null }
+        wCells!!.forEachIndexed { index, cel ->
+            if (cel?.halfedges?.size == 0) { wEdges[index] = null }
         }
     }
 
@@ -214,7 +214,7 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
             i1 = null
             cell!!.halfedges.forEach { e ->
                 val edge = that.edges[e]
-                val opposite = edge?.opposite(cell!!.site) ?: return@forEach
+                val opposite = edge?.opposite(cell.site) ?: return@forEach
                 val v2 = point.squareDistance(opposite.pos)
                 if (v2 < d2) {
                     d2 = v2

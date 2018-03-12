@@ -112,12 +112,11 @@ class RedBlackTreeTest : Matchers {
     @Test
     fun `remove child in the middle`() {
         val tree = tree()
-        val n1 = tree.insert(1.node())
-        val n2 = tree.insert(2.node())
-        val n3 = tree.insert(3.node())
+        tree.insert(1.node())
+        tree.insert(2.node())
+        tree.insert(3.node())
         val n4 = tree.insert(4.node())
-        val n5 = tree.insert(5.node())
-
+        tree.insert(5.node())
         tree.remove(n4)
 
     }

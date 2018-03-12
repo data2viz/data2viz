@@ -57,8 +57,8 @@ class AreaGenerator<T> {
     fun <C : PathAdapter> render(data: Array<T>, context: C): C {
         val n = data.size
 
-        val x0z = Array(n, { it -> 0.0 })
-        val y0z = Array(n, { it -> 0.0 })
+        val x0z = Array(n, { 0.0 })
+        val y0z = Array(n, { 0.0 })
 
         var j = 0
         var defined0 = false

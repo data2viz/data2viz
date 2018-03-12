@@ -1,9 +1,7 @@
+@file:Suppress("DEPRECATION")
 
 import io.data2viz.viz.ParentElement
 import io.data2viz.viz.selectOrCreateSvg
-
-
-import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.js.Date
 

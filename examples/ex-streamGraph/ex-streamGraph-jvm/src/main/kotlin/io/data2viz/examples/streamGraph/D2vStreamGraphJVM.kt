@@ -1,17 +1,16 @@
 package io.data2viz.examples.streamGraph
 
+import io.data2viz.viz.viz
 import javafx.application.Application
-import javafx.scene.Group
-import javafx.scene.Scene
-import javafx.stage.Stage
-import io.data2viz.viz.*
-import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.geometry.Insets
+import javafx.scene.Group
+import javafx.scene.Scene
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
+import javafx.stage.Stage
 
 class D2vStreamGraphJVM : Application() {
 
@@ -59,7 +58,7 @@ class D2vStreamGraphJVM : Application() {
         grid.add(Label("Curve type"), 0,0)
         val curveBox = ChoiceBox<String>().apply {
             items =  FXCollections.observableList(curveOptions.map { it.first })
-            selectionModel.selectedIndexProperty().addListener({ observable, oldValue, newValue ->
+            selectionModel.selectedIndexProperty().addListener({ _, _, newValue ->
                 vizConfig.curve = curveOptions[newValue.toInt()].second
                 renderChart()
             })
@@ -71,7 +70,7 @@ class D2vStreamGraphJVM : Application() {
         grid.add(Label("Offset"), 0,1)
         val offsetBox = ChoiceBox<String>().apply {
             items =  FXCollections.observableList(offsetOptions.map { it.first })
-            selectionModel.selectedIndexProperty().addListener({ observable, oldValue, newValue ->
+            selectionModel.selectedIndexProperty().addListener({ _, _, newValue ->
                 vizConfig.offset = offsetOptions[newValue.toInt()].second
                 renderChart()
             })
@@ -82,7 +81,7 @@ class D2vStreamGraphJVM : Application() {
         grid.add(Label("Order"), 0,2)
         val orderBox = ChoiceBox<String>().apply {
             items =  FXCollections.observableList(orderOptions.map { it.first })
-            selectionModel.selectedIndexProperty().addListener({ observable, oldValue, newValue ->
+            selectionModel.selectedIndexProperty().addListener({ _, _, newValue ->
                 vizConfig.order = orderOptions[newValue.toInt()].second
                 renderChart()
             })

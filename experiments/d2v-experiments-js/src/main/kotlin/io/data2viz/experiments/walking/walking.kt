@@ -77,7 +77,7 @@ fun walkingDead() {
                             translate(margin.left, margin.top)
                         }
 
-                        episodes.forEachIndexed { index, episode ->
+                        episodes.forEach { episode ->
                             g {
                                 transform {
                                     translate(bands(episode.key()), graphHeight - yScale(episode.USViewers).toDouble())

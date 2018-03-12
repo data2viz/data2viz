@@ -34,7 +34,7 @@ class ChordTests : TestBase() {
         sankeyLayout.height = height
 
         val sankey = sankeyLayout.sankey(data, ::fromTo)
-        data.forEachIndexed { index, d ->
+        data.forEachIndexed { index, _ ->
             sankey.nodes[index].x0 shouldBeClose dataX0[index]
             sankey.nodes[index].x1 shouldBeClose dataX1[index]
             sankey.nodes[index].y0 shouldBeClose dataY0[index]

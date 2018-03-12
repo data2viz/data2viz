@@ -31,14 +31,14 @@ interface Matchers : StringMatchers,
     infix fun Double.shouldBe(other: Double): Unit = ToleranceMatcher(other, 0.0).test(this)
     infix fun Double.shouldBeClose(other: Double): Unit = ToleranceMatcher(other, epsilon).test(this)
 
-    infix fun Array<Double>.shouldBe(other: Array<Double>): Unit {
+    infix fun Array<Double>.shouldBe(other: Array<Double>) {
         this.size shouldBe other.size
         this.forEachIndexed { index, doubleA ->
             val doubleB = other[index]
             doubleA shouldBe doubleB
         }
     }
-    infix fun Array<Double>.shouldBeClose(other: Array<Double>): Unit {
+    infix fun Array<Double>.shouldBeClose(other: Array<Double>) {
         this.size shouldBe other.size
         this.forEachIndexed { index, doubleA ->
             val doubleB = other[index]
@@ -46,14 +46,14 @@ interface Matchers : StringMatchers,
         }
     }
 
-    infix fun DoubleArray.shouldBe(other: DoubleArray): Unit {
+    infix fun DoubleArray.shouldBe(other: DoubleArray) {
         this.size shouldBe other.size
         this.forEachIndexed { index, doubleA ->
             val doubleB = other[index]
             doubleA shouldBe doubleB
         }
     }
-    infix fun DoubleArray.shouldBeClose(other: DoubleArray): Unit {
+    infix fun DoubleArray.shouldBeClose(other: DoubleArray) {
         this.size shouldBe other.size
         this.forEachIndexed { index, doubleA ->
             val doubleB = other[index]
@@ -69,7 +69,8 @@ interface Matchers : StringMatchers,
         }
     }
     infix fun <T> T.shouldBe(any: T?): Unit = shouldEqual(any)
-    infix fun <T> T.shouldEqual(any: Any?): Unit {
+    infix fun <T> T.shouldEqual(any: Any?) {
+        @Suppress("UNCHECKED_CAST")
         when (any) {
             is Matcher<*> -> (any as Matcher<T>).test(this)
             else -> {
@@ -94,13 +95,13 @@ interface Matchers : StringMatchers,
 
 }
 
-interface Matcher<T> {
+interface Matcher<in T> {
     fun test(value: T)
 }
 
-class HaveWrapper<T>(val value: T)
-class BeWrapper<T>(val value: T)
-class StartWrapper<T>(val value: T)
-class EndWrapper<T>(val value: T)
-class IncludeWrapper<T>(val value: T)
-class ContainWrapper<T>(val value: T)
+class HaveWrapper<out T>(val value: T)
+class BeWrapper<out T>(val value: T)
+class StartWrapper<out T>(val value: T)
+class EndWrapper<out T>(val value: T)
+class IncludeWrapper<out T>(val value: T)
+class ContainWrapper<out T>(val value: T)

@@ -84,7 +84,7 @@ class PackTests : TestBase() {
         packLayout.padding = { .0 }
         packLayout.size(width, height)
 
-        val pack = packLayout.pack(hierarchy)
+        packLayout.pack(hierarchy)
     }
 
     @Test

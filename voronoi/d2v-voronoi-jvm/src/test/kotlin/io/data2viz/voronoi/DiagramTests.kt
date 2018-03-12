@@ -12,7 +12,7 @@ class DiagramTests : Matchers {
 
     @Test
     fun `diagram 1 site`() {
-        val diagram = Diagram(listOf(pt(10, 10)).sites())
+        Diagram(listOf(pt(10, 10)).sites())
     }
 
     @Test

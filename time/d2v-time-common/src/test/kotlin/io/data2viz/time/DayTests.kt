@@ -188,9 +188,9 @@ class DayTests : TestDate() {
     // TODO : finish
     @Test
     fun day_count_start_end_does_not_exhibit_floating_point_error_LEGACY() {
-        val timeDay = timeDay
+//        val timeDay = timeDay
 //        val timeYear = timeYear()
-        val date = date(2011, 5, 9)
+//        val date = date(2011, 5, 9)
 
 //        timeDay.count(timeYear.floor(date), date) shouldBe 128
     }

@@ -1,6 +1,5 @@
 package io.data2viz.shape
 
-import io.data2viz.path.PathAdapter
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -21,9 +20,9 @@ class PieGenerator<D> {
     fun pie(data: Array<D>): Array<ArcParams<D>> {
         val n = data.size
         var sum = .0
-        val index = Array<Int>(n, { it -> 0 })
-        val arcs = Array<ArcParams<D>>(n, { it -> ArcParams<D>(.0, .0, .0, null, null, null) })
-        val values = Array<Double>(n, {it -> .0})
+        val index: Array<Int> = Array(n, { 0 })
+        val arcs: Array<ArcParams<D>> = Array(n, { ArcParams<D>(.0, .0, .0, null, null, null) })
+        val values: Array<Double> = Array(n, { .0})
         var a0 = startAngle(data)
         val da = min(tau, max(-tau, endAngle(data) - a0))
         val p =  min(abs(da) / n, padAngle(data)) //  min(abs(da) / n, .0)

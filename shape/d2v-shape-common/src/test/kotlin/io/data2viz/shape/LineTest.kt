@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package io.data2viz.shape
 
 import io.data2viz.path.SvgPath
