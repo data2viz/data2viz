@@ -3,19 +3,17 @@ package io.data2viz.timer
 import io.data2viz.test.TestBase
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.promise
-import kotlin.test.Ignore
 import kotlin.test.Test
 
+@Suppress("unused")
 class TimerTests : TestBase() {
 
     @Test
     fun timerStop() = promise {
         var count = 0
-        timer { ti ->
-            println("timer execution:: ${ti.toInt()} ms")
+        timer {
             if (++count == 2) {
                 stop()
-                println("stopped")
             }
         }
         delay(50)
@@ -55,12 +53,10 @@ class TimerTests : TestBase() {
     @Test
     @JsName("elapsedRelativeToDelay")
     fun `computes the elapsed time relative to the delay`() = promise {
-        val then = now()
         val delay = 100.0
         timer(delay = delay) { elapsed ->
             stop()
             elapsed shouldBe (.0 plusOrMinus 10.0)
-
         }
         delay(delay.toInt() + 10)
     }
@@ -100,27 +96,36 @@ class TimerTests : TestBase() {
             stop()
             results shouldBe listOf(1, 2, 3)
         }
-        delay(10)
+        delay(50)
     }
-
 
     @Test
     @JsName("flushTimersAsyncWithDelay")
-    @Ignore
+//    @Ignore
     fun `timer(callback, delay) invokes callbacks in scheduling order during asynchronous flush`() = promise {
-        val then = now()
         val results = mutableListOf<Int>()
-        timer(delay = 60.0,  startTime = then) { results.add(1); stop() }
-        timer(delay = 40.0,  startTime = then) { results.add(2); stop() }
-        timer(delay = 80.0,  startTime = then) { results.add(3); stop() }
-        timer(delay = 100.0, startTime = then) {
+        timer { results.add(1); stop() }
+        timer { results.add(2); stop() }
+        timer { results.add(3); stop() }
+        timer {
             stop()
             println(results)
             results shouldBe listOf(1, 2, 3)
         }
-        delay(120)
+        delay(50)
     }
 
+    @Test
+    @JsName("timerWithinAFrame")
+    fun `timer(callback) within a frame invokes the callback at the end of the same frame`() = promise {
+        timer {
+            timer { elapsed2 ->
+                stop()
+                elapsed2 shouldBeClose 0.0
+            }
+            stop()
+        }
+        delay(30)
+    }
 
 }
-
