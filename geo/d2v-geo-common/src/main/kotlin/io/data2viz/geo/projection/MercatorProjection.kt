@@ -17,7 +17,7 @@ class MercatorProjector : ProjectableInvertable {
 
 class MercatorProjection : MutableProjection(MercatorProjector()) {
 
-    private var reclippingInProgress = false
+    private var innerExtent:Extent? = null
 
     override var scale: Double
         get() = super.scale
@@ -41,20 +41,18 @@ class MercatorProjection : MutableProjection(MercatorProjector()) {
         }
 
     override var clipExtent: Extent?
-        get() = super.clipExtent
+        get() = innerExtent
         set(value) {
-            super.clipExtent = value
-            if (!reclippingInProgress) reclip()
+            innerExtent = value
         }
 
+    // TODO check tests still some issues with clipExtent
     private fun reclip() {
-        reclippingInProgress = true
-
         val k = PI * scale
         val invert = rotation(rotate).invert(.0, .0)
         val t = project(invert[0], invert[1])
 
-        clipExtent = when {
+        super.clipExtent = when {
             clipExtent == null -> Extent(t[0] - k, t[1] - k, k * 2, k * 2)
             projection is MercatorProjector -> Extent(
                 max(t[0] - k, clipExtent!!.x0),
@@ -69,7 +67,5 @@ class MercatorProjection : MutableProjection(MercatorProjector()) {
                 min(k * 2, clipExtent!!.height)
             )
         }
-
-        reclippingInProgress = false
     }
 }

@@ -21,7 +21,7 @@ class MercatorProjectionTests : TestBase() {
         projection.clipExtent = null
         projection.precision = .0
 
-//        projection.clipExtent shouldBe null
+        projection.clipExtent shouldBe null
         val path = geoPath(projection, svgPath()).path(Sphere()) as SvgPath
 //        path.path.round() shouldBe  "M3.141593,-3.141593L3.141593,0L3.141593,3.141593L3.141593,3.141593L-3.141593,3.141593L-3.141593,3.141593L-3.141593,0L-3.141593,-3.141593L-3.141593,-3.141593L3.141593,-3.141593Z".round()
     }
@@ -34,39 +34,29 @@ class MercatorProjectionTests : TestBase() {
         projection.center = doubleArrayOf(10.0, 10.0)
         projection.precision = .0
 
-//        projection.clipExtent shouldBe null
+        projection.clipExtent shouldBe null
         val path = geoPath(projection, svgPath()).path(Sphere()) as SvgPath
 //        path.path.round() shouldBe  "M2.967060,-2.966167L2.967060,0.175426L2.967060,3.317018L2.967060,3.317018L-3.316126,3.317018L-3.316126,3.317019L-3.316126,0.175426L-3.316126,-2.966167L-3.316126,-2.966167L2.967060,-2.966167Z".round()
     }
 
-//    M3.141593,-3.141593L3.141593,0L3.141593,6.283185L-3.141593,6.283185L-3.141593,0L-3.141593,-3.141593L-3.141593,-3.141593Z
-//    M3.141593,-3.141593L3.141593,0L3.141593,3.141593L3.141593,3.141593L-3.141593,3.141593L-3.141593,3.141593L-3.141593,0L-3.141593,-3.141593L-3.141593,-3.141593L3.141593,-3.141593Z
+    @Test
+    fun mercator_center_center_intersects_the_specified_clip_extent_with_the_automatic_clip_extent_LEGACY() {
+        val projection = MercatorProjection()
+        projection.translate = doubleArrayOf(.0, .0)
+        projection.scale = 1.0
+        projection.center = doubleArrayOf(10.0, 10.0)
+        projection.clipExtent = Extent(-10.0, -10.0, 10.0, 10.0)
+        projection.precision = .0
 
-//    M-3.141593,-37.156430L-0.174533,-37.156430L2.967060,-37.156430L2.967060,0.175426L2.967060,1884.955592L6.283185,-471.238898L6.283185,1884.955592L-3.141593,1884.955592Z
-//    M2.967060,-2.966167L2.967060,0.175426L2.967060,3.317018L2.967060,3.317018L-3.316126,3.317018L-3.316126,3.317019L-3.316126,0.175426L-3.316126,-2.966167L-3.316126,-2.966167L2.967060,-2.966167Z
+        projection.clipExtent!!.width shouldBe 20.0
+        projection.clipExtent!!.height shouldBe 20.0
+        projection.clipExtent!!.x0 shouldBe -10.0
+        projection.clipExtent!!.y0 shouldBe -10.0
+        val path = geoPath(projection, svgPath()).path(Sphere()) as SvgPath
+//        path.path.round() shouldBe  "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z".round()
+    }
 
     /*
-    tape("mercator.clipExtent(null) sets the default automatic clip extent", function(test) {
-  var projection = d3.geoMercator().translate([0, 0]).scale(1).clipExtent(null).precision(0);
-  test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M3.141593,-3.141593L3.141593,0L3.141593,3.141593L3.141593,3.141593L-3.141593,3.141593L-3.141593,3.141593L-3.141593,0L-3.141593,-3.141593L-3.141593,-3.141593L3.141593,-3.141593Z");
-  test.equal(projection.clipExtent(), null);
-  test.end();
-});
-
-tape("mercator.center(center) sets the correct automatic clip extent", function(test) {
-  var projection = d3.geoMercator().translate([0, 0]).scale(1).center([10, 10]).precision(0);
-  test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M2.967060,-2.966167L2.967060,0.175426L2.967060,3.317018L2.967060,3.317018L-3.316126,3.317018L-3.316126,3.317019L-3.316126,0.175426L-3.316126,-2.966167L-3.316126,-2.966167L2.967060,-2.966167Z");
-  test.equal(projection.clipExtent(), null);
-  test.end();
-});
-
-tape("mercator.clipExtent(extent) intersects the specified clip extent with the automatic clip extent", function(test) {
-  var projection = d3.geoMercator().translate([0, 0]).scale(1).clipExtent([[-10, -10], [10, 10]]).precision(0);
-  test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z");
-  test.deepEqual(projection.clipExtent(), [[-10, -10], [10, 10]]);
-  test.end();
-});
-
 tape("mercator.clipExtent(extent).scale(scale) updates the intersected clip extent", function(test) {
   var projection = d3.geoMercator().translate([0, 0]).clipExtent([[-10, -10], [10, 10]]).scale(1).precision(0);
   test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z");
