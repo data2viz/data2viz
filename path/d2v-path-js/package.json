@@ -6,11 +6,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.4",
-    "karma-qunit": "^1.2.1",
-    "mocha": "^5.0.1",
-    "qunitjs": "^2.0.0",
-    "watchify": "^3.9.0",
-    "webpack": "^3.4.1"
+    "mocha": "^5.0.1"
   },
   "scripts": {
     "test": "karma start",

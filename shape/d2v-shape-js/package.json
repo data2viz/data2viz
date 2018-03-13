@@ -6,13 +6,10 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.4",
-    "karma-qunit": "^1.2.1",
-    "mocha": "^3.5.0",
-    "qunit": "^1.0.0",
-    "source-map-support": "0.5.3"
+    "mocha": "^5.0.1"
   },
   "scripts": {
-    "test": "mocha build/classes/kotlin/test/*test.js --require=source-map-support/register",
-    "karma": "karma start"
+    "test": "karma start",
+    "bundle": "webpack"
   }
 }
