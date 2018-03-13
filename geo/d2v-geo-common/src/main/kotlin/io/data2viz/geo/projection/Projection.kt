@@ -98,7 +98,7 @@ class TransformRadians(stream: Stream) : ModifiedStream(stream) {
 
 fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)
 
-// TODO clipping
+
 open class MutableProjection(val projection: Projectable) : Projection {
 
     protected var cache: Stream? = null

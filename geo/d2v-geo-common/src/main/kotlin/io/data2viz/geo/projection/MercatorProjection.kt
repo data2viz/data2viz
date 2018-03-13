@@ -1,151 +1,75 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ModifiedStream
-import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.HALFPI
+import io.data2viz.math.PI
 import io.data2viz.math.TAU
-import io.data2viz.math.toDegrees
-import io.data2viz.math.toRadians
 import kotlin.math.*
 
-fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProjection()) {
-    scale = 961.0 / TAU
+fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProjector()) {
+    scale = 961 / TAU
     init()
 }
 
-class MercatorProjection : Projection {
+class MercatorProjector : ProjectableInvertable {
+    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
+    override fun invert(x: Double, y: Double) = doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
+}
 
-    // TODO : change !!
-    private var projectResample: (Stream) -> Stream = resample(this, .5*.5)
-    private lateinit var projectRotate: Projectable
+class MercatorProjection : MutableProjection(MercatorProjector()) {
 
-    private var k = 150.0
-    override var scale: Double = 150.0
+    private var reclippingInProgress = false
+
+    override var scale: Double
+        get() = super.scale
         set(value) {
-            field = value
+            super.scale = value
             reclip()
         }
 
-    private var x = 480.0
-    private var y = 250.0
-    override var translate: DoubleArray = doubleArrayOf(480.0, 250.0)
+    override var translate: DoubleArray
+        get() = super.translate
         set(value) {
-            field = value
+            super.translate = value
             reclip()
         }
 
-    private var dx = 0.0
-    private var dy = 0.0
-    private var lambda = .0
-    private var phi = .0
-    override var center: DoubleArray = doubleArrayOf(.0, .0)
+    override var center: DoubleArray
+        get() = super.center
         set(value) {
-            field = value
+            super.center = value
             reclip()
         }
 
-    override var rotate: DoubleArray
-        get() = doubleArrayOf(deltaLambda.toDegrees(), deltaPhi.toDegrees(), deltaGamma.toDegrees())
+    override var clipExtent: Extent?
+        get() = super.clipExtent
         set(value) {
-            deltaLambda = (value[0] % 360).toRadians()
-            deltaPhi = (value[1] % 360).toRadians()
-            deltaGamma = if (value.size > 2) (value[2] % 360).toRadians() else 0.0
-            recenter()
+            super.clipExtent = value
+            if (!reclippingInProgress) reclip()
         }
-
-    override var precision: Double = .5
-        get() = .5
-        set(value) {field = value}
-
-    val noClip: (Stream) -> Stream = { it }
-    override var preClip: (Stream) -> Stream
-        get() = noClip
-        set(value) {}
-
-    override var postClip: (Stream) -> Stream
-        get() = noClip
-        set(value) {}
-
-    override var clipAngle: Double
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-
-    override var clipExtent: Extent? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                postClip = io.data2viz.geo.clip.clipExtent(value)
-            } else {
-                postClip = noClip
-            }
-        }
-
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        return doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
-    }
-
-    override fun invert(x: Double, y: Double): DoubleArray {
-        return doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
-    }
-
-    override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitExtent(this, extent, geo)
-    }
-
-    override fun fitWidth(width: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitWidth(this, width, geo)
-    }
-
-    override fun fitHeight(height: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitHeight(this, height, geo)
-    }
-
-    override fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitSize(this, width, height, geo)
-    }
-
-    private var deltaLambda = .0
-    private var deltaPhi = .0
-    private var deltaGamma = .0
-    private lateinit var rotator: Projectable
-
-    protected var cache: Stream? = null
-    protected var cacheStream: Stream? = null
-
-    override fun stream(stream: Stream): Stream {
-        if (cacheStream == null) {
-            recenter()
-            cacheStream = transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
-        }
-        return cacheStream!!
-    }
-
-    val transformRadians: (stream: Stream) -> ModifiedStream = { stream: Stream ->
-        object : ModifiedStream(stream) {
-            override fun point(x: Double, y: Double, z: Double) =
-                stream.point(x.toRadians(), y.toRadians(), z.toRadians())
-        }
-    }
-
-    fun transformRotate(rotate: Projectable): (stream: Stream) -> ModifiedStream = { stream: Stream ->
-        object : ModifiedStream(stream) {
-            override fun point(x: Double, y: Double, z: Double) {
-                val r = rotate.project(x, y)
-                stream.point(r[0], r[1], 0.0)
-            }
-        }
-    }
-
-    override fun recenter() {
-        rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
-        projectRotate = compose(rotator, this) /// project ??!,?
-        val center = project(lambda, phi)
-        dx = x - center[0] * k
-        dy = y + center[1] * k
-    }
 
     private fun reclip() {
+        reclippingInProgress = true
 
+        val k = PI * scale
+        val invert = rotation(rotate).invert(.0, .0)
+        val t = project(invert[0], invert[1])
+
+        clipExtent = when {
+            clipExtent == null -> Extent(t[0] - k, t[1] - k, k * 2, k * 2)
+            projection is MercatorProjector -> Extent(
+                max(t[0] - k, clipExtent!!.x0),
+                clipExtent!!.y0,
+                max(0.0, min(k * 2, clipExtent!!.width)),
+                clipExtent!!.height
+            )
+            else -> Extent(
+                clipExtent!!.x0,
+                max(t[1] - k, clipExtent!!.y0),
+                clipExtent!!.width,
+                min(k * 2, clipExtent!!.height)
+            )
+        }
+
+        reclippingInProgress = false
     }
-
 }

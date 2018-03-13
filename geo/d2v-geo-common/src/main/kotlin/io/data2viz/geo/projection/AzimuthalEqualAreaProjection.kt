@@ -1,9 +1,6 @@
-package kubed.geo.projection
+package io.data2viz.geo.projection
 
 import io.data2viz.geo.asin
-import io.data2viz.geo.projection.Azimuthal
-import io.data2viz.geo.projection.MutableProjection
-import io.data2viz.geo.projection.projection
 import kotlin.math.sqrt
 
 fun azimuthalEqualAreaProjection(init: MutableProjection.() -> Unit) = projection(AzimuthalEqualArea()) {

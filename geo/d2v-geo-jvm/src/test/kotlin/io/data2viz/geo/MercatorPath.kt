@@ -5,6 +5,7 @@ import io.data2viz.color.colors
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.equirectangularProjection
+import io.data2viz.geo.projection.mercatorProjection
 import io.data2viz.geojson.JacksonGeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.viz.PathVizJfx
@@ -44,7 +45,7 @@ class MercatorPath : Application() {
 
         val startLon = 0.0
         val startLat = 0.0
-        val projection = equirectangularProjection {
+        val projection = mercatorProjection {
             center = doubleArrayOf(.0, .0)
             rotate = doubleArrayOf(startLon, startLat)
             translate = doubleArrayOf(480.0, 300.0)
