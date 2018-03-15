@@ -6,10 +6,10 @@ import io.data2viz.color.HSL
 import io.data2viz.interpolate.*
 
 /**
- * Generic signature of scales. 
- * 
+ * Generic signature of scales.
+ *
  * A scale can map a domain object dimension D to a representation value.
- * 
+ *
  * Then at runtime, one can ask an R object for a specific value of domain.
  * The rules defining the returns of R from D depends a lot on the type and
  * implementation of the Scale.
@@ -103,7 +103,7 @@ object scales{
     object continuous {
 
         fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
-        
+
         fun log(base: Double = 10.0, init:ContinuousScale<Double, Double>.() -> Unit = {}): ContinuousScale<Double, Double> =
                 LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 
@@ -141,19 +141,20 @@ object scales{
 
     object colors {
 
-        fun <D> category10()       = OrdinalScale<D, Color> (EncodedColors.category10.colors )
-        fun <D> category20()       = OrdinalScale<D, Color> (EncodedColors.category20.colors )
-        fun <D> category20b()      = OrdinalScale<D, Color> (EncodedColors.category20b.colors)
-        fun <D> category20c()      = OrdinalScale<D, Color> (EncodedColors.category20c.colors)
-        fun <D> categoryViridis()  = OrdinalScale<D, Color> (EncodedColors.viridis.colors   )
-        fun <D> categoryMagma()    = OrdinalScale<D, Color> (EncodedColors.magma.colors     )
-        fun <D> categoryInferno()  = OrdinalScale<D, Color> (EncodedColors.inferno.colors   )
-        fun <D> categoryPlasma()   = OrdinalScale<D, Color> (EncodedColors.plasma.colors    )
+        fun <D> category10()       = OrdinalScale<D, Color>(EncodedColors.category10.colors )
+        fun <D> category20()       = OrdinalScale<D, Color>(EncodedColors.category20.colors )
+        fun <D> category20b()      = OrdinalScale<D, Color>(EncodedColors.category20b.colors)
+        fun <D> category20c()      = OrdinalScale<D, Color>(EncodedColors.category20c.colors)
+        fun <D> categoryViridis()  = OrdinalScale<D, Color>(EncodedColors.viridis.colors    )
+        fun <D> categoryMagma()    = OrdinalScale<D, Color>(EncodedColors.magma.colors      )
+        fun <D> categoryInferno()  = OrdinalScale<D, Color>(EncodedColors.inferno.colors    )
+        fun <D> categoryPlasma()   = OrdinalScale<D, Color>(EncodedColors.plasma.colors     )
 
-        fun <D>sequentialViridis() = SequentialScale<Color> (interpolateRgbBasis(EncodedColors.viridis.colors))
-        fun <D>sequentialMagma()   = SequentialScale<Color> (interpolateRgbBasis(EncodedColors.magma.colors))
-        fun <D>sequentialInferno() = SequentialScale<Color> (interpolateRgbBasis(EncodedColors.inferno.colors))
-        fun <D>sequentialPlasma()  = SequentialScale<Color> (interpolateRgbBasis(EncodedColors.plasma.colors))
+        fun sequentialViridis() = SequentialScale(interpolateRgbBasis(EncodedColors.viridis.colors))
+        fun sequentialMagma()   = SequentialScale(interpolateRgbBasis(EncodedColors.magma.colors))
+        fun sequentialInferno() = SequentialScale(interpolateRgbBasis(EncodedColors.inferno.colors))
+        fun sequentialPlasma()  = SequentialScale(interpolateRgbBasis(EncodedColors.plasma.colors))
+        fun sequentialOranges() = SequentialScale(interpolateRgbBasis(EncodedColors.oranges.last().colors))
 
     }
 }
