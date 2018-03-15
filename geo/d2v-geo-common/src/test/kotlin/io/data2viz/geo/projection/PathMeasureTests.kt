@@ -2,6 +2,7 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geojson.*
+import io.data2viz.math.toRadians
 import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.test.Test
@@ -183,5 +184,14 @@ class PathMeasureTests : TestBase() {
                 )
             )
         ) shouldBeClose 16.0
+    }
+
+    @Test
+    fun geopath_measure_of_2_points() {
+        val geoPath = geoPath()
+
+        // distance from one site to the other of the bridge of the coullouvrenière Genève 272.28m
+        val measure = geoPath.measure(LineString(arrayOf(pt(46.2041005, 6.1399304), pt(46.2065154, 6.1395255))))
+        measure.toRadians() * 6371000 shouldBeClose 272.272898
     }
 }
