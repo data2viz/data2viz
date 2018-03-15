@@ -28,6 +28,6 @@ internal actual fun callInNextFrame(block: () -> Unit) {
 /**
  * Use performance.now when available
  */
-internal actual fun delegateNow(): Double = (if (performanceAvailable) js("performance.now()") as Double else Date.now()).apply { println("now ::${this.toInt()}") }
+internal actual fun delegateNow(): Double = (if (performanceAvailable) js("performance.now()") as Double else Date.now())
 
 val performanceAvailable:Boolean = js("((typeof performance === 'object') && performance.now) ? true : false ") as Boolean   
