@@ -149,5 +149,11 @@ object scales{
         fun <D> categoryMagma()    = OrdinalScale<D, Color> (EncodedColors.magma.colors     )
         fun <D> categoryInferno()  = OrdinalScale<D, Color> (EncodedColors.inferno.colors   )
         fun <D> categoryPlasma()   = OrdinalScale<D, Color> (EncodedColors.plasma.colors    )
+
+        fun <D>sequentialViridis() = SequentialScale<Color> (interpolateRgbBasis(EncodedColors.viridis.colors))
+        fun <D>sequentialMagma()   = SequentialScale<Color> (interpolateRgbBasis(EncodedColors.magma.colors))
+        fun <D>sequentialInferno() = SequentialScale<Color> (interpolateRgbBasis(EncodedColors.inferno.colors))
+        fun <D>sequentialPlasma()  = SequentialScale<Color> (interpolateRgbBasis(EncodedColors.plasma.colors))
+
     }
 }
