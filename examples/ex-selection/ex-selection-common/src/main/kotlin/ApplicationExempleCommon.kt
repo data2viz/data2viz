@@ -1,5 +1,6 @@
 
 import io.data2viz.scale.scales
+import io.data2viz.timer.timer
 import io.data2viz.viz.*
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
@@ -17,6 +18,10 @@ val particuleCount = newText().apply {
 val root = newGroup().apply { 
     add(fps)
     add(particuleCount)
+	timer { now ->
+		loop(now)
+	}
+	
 }
 val particules: MutableList<Particule> = mutableListOf()
 
