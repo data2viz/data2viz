@@ -8,6 +8,13 @@ import kotlin.test.Test
 
 
 class Rounding: TestBase() {
+    
+    @Test
+    @JsName("specialChars")
+    fun `Un nom avec des caractères non autorisés`(){
+        true shouldBe true
+    }
+    
     @Test
     fun normalizeDoublesInString(){
         "0".round() shouldBe "0"

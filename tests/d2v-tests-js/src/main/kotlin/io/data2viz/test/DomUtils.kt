@@ -4,6 +4,8 @@ import org.w3c.dom.Element
 import kotlin.browser.document
 
 
+actual typealias JsName = kotlin.js.JsName
+
 class DomUtils {
     companion object {
         val body by lazy { document.querySelector("body")!! }
