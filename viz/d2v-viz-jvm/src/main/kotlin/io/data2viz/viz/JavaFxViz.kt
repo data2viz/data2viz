@@ -199,7 +199,7 @@ class StrokeDelegate(val shape: JfxShape): HasStroke {
 
     override var stroke: Color?
         get() = (shape.stroke as javafx.scene.paint.Color?)?.d2vColor
-        set(value) { shape.stroke = value?.jfxColor}
+        set(value) { shape.stroke = value?.jfxColor }
 
 
     override var strokeWidth: Double?
@@ -207,7 +207,7 @@ class StrokeDelegate(val shape: JfxShape): HasStroke {
         set(value) {if (value != null) shape.strokeWidth = value}
 
     init {
-        stroke = colors.black
+//        stroke = colors.black
     }
 
 }

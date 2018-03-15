@@ -319,7 +319,7 @@ private val Element.defs: Element
 class StrokeDelegate(val element: Element) : HasStroke {
 
     init {
-        element.setAttribute("stroke", "#000")
+//        element.setAttribute("stroke", "#000")
     }
 
     override var stroke: Color?
