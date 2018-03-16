@@ -11,6 +11,8 @@ on each platform.
 
 It is currently possible to use it in the browser (JavaScript + SVG) or in the JVM (Bytecode + JavaFx).
 
+A very important part of current version is a port of [d3js](https://github.com/d3/d3) modules.
+
 The code is separated in modules that can be independently used. Some are specifically designed for visualization 
 ([d2v-axis](https://github.com/data2viz/data2viz/tree/master/axis),
 [d2v-path](https://github.com/data2viz/data2viz/tree/master/path),
@@ -23,100 +25,143 @@ can be used as a multiplatform kotlin format library outside of any dataviz proj
 data2viz proposes to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
  visualizations by helping developer with IDE’s suggestions based on the current context.
 
-<img src="docs/img/rendering-jfx-dom.png" alt="Isomorphic visualization" width="800">
 
-## Some DSL samples
-The internal DSL allows to create data visualization using hierarchical
-code that should be easy to understand.
+## Some samples
 
-```kotlin
-group {
-    transform {
-        translate(margin.left, margin.top)
-        rotate(20.deg)
-    }
+All examples are available in [examples](examples) directory. Here is a first selection that shows you what you can
+do with data2viz. All example are running in the browser and as JavaFx applications. You can open each js version
+using the links below.
 
-    rect {
-        width = totalWidth - margin.horizontalMargins
-        height = totalHeight - margin.verticalMargins
-        fill = rgba(0, 0, 0, .1)
-    }
-}
-```
 
-In that code, `group` adds a new group. The next `{` starts a new block of code that is
-applicable in the current context. Inside a group, we can apply a transformation. The
-`transform {` code starts a new block of code to define the properties of the transformation.
+#### [Stream Graph](ex-streamGraph)
 
-Having a typed DSL, the IDE proposes accurate suggestions depending on the position of
-  the caret. Inside a `transform` block, we can call `translate`, `rotate`, `scale`,
-  `skewX`, `skewY`,...
+- Stack,
+- Curves, stream grapth
 
-The `rect {` code opens a block for adding a rectangle and configure it. Its width
-height, and fill color are defined using an affectation. Again, having a strong DSL
-allows to benefit from the IDE assistance to choose the correct values. `fill` is a
-property of type `Color`. It can be created from a call on `rgb`, `rgba`, `hsl`, `hsla` functions
- or converted from an hex string. `"#ab1212".col()` or just by referencing a CSS color
- (`steelblue`, `grey`,... ).
-
-In any case, due to the strong typed language used, any error will be notified during the
-compilation phase.
-
-<a href="http://data2viz.io/examples/chart/index.html">
- <img src="http://data2viz.io/img/chart.png" width="300">
- <br>a sample with axis, animation, scaling, ...
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-streamGraph-js/index.html" >
+Open online js version.
 </a>
+
+[See code](ex-streamGraph)
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/stream-graph.png" width="400">
+</a>
+
+#### [Selection performance sample](ex-selection)
+
+- Animated circle, deployed inside JavaFx and Js
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-selection/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-selection)
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-selection" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/selection.png" width="400">
+</a>
+
+#### [Chord Graph](ex-chord)
+
+- Chord diagram,
+- Arcs, Path
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-chord-js/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-chord)
+
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/chord.png" width="400">
+</a>
+
+#### [Natural Log Scale](ex-natural-logscale)
+
+- Common Plot, deployed inside JavaFx and Js
+- LogScale, ContinuousScale.
+- Path
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-natural-logscale-js/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-natural-logscale)
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/natural-log-scale-jfx.png" width="400">
+</a>
+
+#### [Geo projection](ex-geo)
+
+This code uses the geo module to show how to load a GeoJson file and render it using a
+projection.
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-geo-js/index.html" >
+Open online js version.
+</a>
+
+[See code](ex-geo)
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/geo.png" width="400">
+</a>
+
+
 
 ## Current status && Roadmap
 
-[<img src="docs/img/current-progress.png" width="850">](https://raw.githubusercontent.com/data2viz/data2viz/master/docs/img/current-progress.png)
+The project is currently in a very active devlopment phase. APIs are expected to change and we don't
+encourage you to use it already in production.
 
-### V0.3 (working) : 
-The main purpose of this version is to propose the multiplatform bootstrap API allowing to build
-visualizations in a common module and deploy them indifferently in the browser or as a JavaFx 
-application.
+### Current version (v0.5): 
 
-The content of the available visual elements is: 
-  - basic elements like lines, circle, text, rectangle, ...
-  - path and shapes: curves, pie, ...
+The current version contains the following modules:
 
-This version also contains some utility packages:
-  - format: to simplify and provide an uniform way of formating numbers in Js and JVM,
-  - time and time-format: unified way of managing time for dataviz. 
+  - core: some main elements like trigonometric functions, namespace constants.
+  - random: various randomize functions.
+  - test: an internal module used to simplify multiplatform testing with a higher DSL.
+  - colors: manage different color spaces (RGBA, HSLA, LAB), gradients, categories of colors, ...
+  - viz: multiplatform abstraction over visual elements (circle, rectangle, ...)
+  - path: abstraction over path generation.
+  - shape: provides some generators for curves, areas, lines, stack, symbols,...
+  - format: a multiplatform formatting library with a DSL
+  - selection: a way of selecting visual elements of a datavisualization in order to apply some modifications.
+  - time: a multiplatform module to simplify time management inside datavisualizations.
+  - time-format: formatting date and time.
+  - timer: multiplatform way of managing animations through shared frames.
+  - scale: manage the transformation between domain objects and visualizations.
+  - ease: a collection of functions used by transitions.
+  - axis: a module that display axis for scales.
+  - geo: mechanism and algorithms to project GeoJson objects on a visualization.
+  - dsv: parsing of CSV, TSV files.
+  - chord: generator for chord charts.
+  - sankey: generator for sankey charts.
+  - hierarchy: generator for hierarchical charts.
+  - tile: manage the loading, and display of tiles.
+  - voronoi: the voronoi algorithm
 
-### V0.4 (in dev) :
-This version proposes to add some layout elements and diagrams for charting  : [chord](https://en.wikipedia.org/wiki/Chord_diagram), 
-[sankey](https://en.wikipedia.org/wiki/Sankey_diagram), [cluster](https://en.wikipedia.org/wiki/Cluster_diagram), 
-[treemap](https://en.wikipedia.org/wiki/Treemapping)...
 
-### V0.5:
-First version of a charting API (inspired by vega-lite)
+### Coming soon:
+The modules that are currently in development or coming soon:
 
-### V0.6:
-selection API (preparing dynamic visualizations)
+  - transitions: modifying visual elements through animated transitions.
+  - zoom: zoom and pan management.
+  - force: collision and force algorithms.
+  - drag: manage the drag of elements.
+  - brush: selection of visual elements.
 
-### V0.7:
-DSL for dynamic visualisations (timer, transition, ease, zoom, drag)
 
-### V0.8:
-Provide the geographic API with some geo projections.
+### and next:
+We plan to release a chart module inspired by vega-lite to enable very fast charting development.
 
-### V0.9:
-Polishing APIs and DSLs.
+We'll create all the necessary geographic projections.
 
-## Performances
+Before the v1.0 release, we'll spend some time on polishing APIs and DSLs in order to provide
+a very consistent way of using our library.
 
-Performances is a difficult subject because a lot of parameter have an influence on the global 
-performance of a JavaScript application: the browser, the type of executed code.
-
-However, this is a example of a quite heavy algorithm (Voronoi Diagram coputation) with a lot of rendering. 
-The number of points is increased until FPS gets below 40. Click on the link to 
-test it inside your browser.
-
-<a href="http://data2viz.io/examples/voronoisphere/index.html">
- <img src="http://data2viz.io/img/voronoisphere.png" width="300">
- <br>a sample with voronoi, animation.
-</a>
 
 ## Tests
 Tests are executed through karma and mocha and included in the build.

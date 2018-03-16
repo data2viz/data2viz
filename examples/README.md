@@ -12,7 +12,7 @@ Open online js version.
 [See code](ex-streamGraph)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
-<img src="images/stream-graph.png" width="400">
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/stream-graph.png" width="400">
 </a>
 
 ## [Selection performance sample](ex-selection)
@@ -26,7 +26,7 @@ Open online js version.
 [See code](ex-selection)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-selection" >
-<img src="images/selection.png" width="400">
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/selection.png" width="400">
 </a>
 
 ## [Chord Graph](ex-chord)
@@ -42,7 +42,7 @@ Open online js version.
 
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
-<img src="images/chord.png" width="400">
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/chord.png" width="400">
 </a>
 
 ## [Natural Log Scale](ex-natural-logscale)
@@ -58,7 +58,7 @@ Open online js version.
 [See code](ex-natural-logscale)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
-<img src="images/natural-log-scale-jfx.png" width="400">
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/natural-log-scale-jfx.png" width="400">
 </a>
 
 ## [Geo projection](ex-geo)
@@ -73,7 +73,7 @@ Open online js version.
 [See code](ex-geo)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
-<img src="images/geo.png" width="400">
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/geo.png" width="400">
 </a>
 
 
@@ -90,7 +90,7 @@ Open online js version.
 
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-sankey" >
-<img src="images/sankey-graph.png" width="400">
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/sankey-graph.png" width="400">
 </a>
 
 
@@ -107,5 +107,5 @@ Open online js version.
 [See code](ex-progression-stack)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-progression-stack" >
-<img src="images/d2v-progression-javaFx.png" width="400">
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/d2v-progression-javaFx.png" width="400">
 </a>
