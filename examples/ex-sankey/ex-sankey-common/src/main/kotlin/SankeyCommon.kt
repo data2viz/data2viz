@@ -1,10 +1,13 @@
 package io.data2viz.examples.sankey
 
+import io.data2viz.color.LinearGradient
 import io.data2viz.viz.VizContext
 import io.data2viz.color.colors
 import io.data2viz.sankey.SankeyAlignment
 import io.data2viz.sankey.SankeyLayout
 import io.data2viz.sankey.sankeyLinkHorizontal
+import io.data2viz.scale.scales
+import kotlin.math.cos
 import kotlin.math.max
 
 data class Element(
@@ -174,9 +177,11 @@ val sankey = sankeyLayout.sankey(
 fun VizContext.sankeyViz() {
     transform { translate(margin, margin) }
 
-    sankey.nodes.forEach { node ->
+    val fills = scales.colors.category20<Int>()
+
+    sankey.nodes.forEachIndexed { index, node ->
         rect {
-            fill = colors.steelblue
+            fill = fills(index%20)
             stroke = colors.black
             x = node.x0
             y = node.y0
@@ -186,6 +191,16 @@ fun VizContext.sankeyViz() {
     }
 
     sankey.links.forEach { link ->
+        /*LinearGradient().apply {
+            x1 = link.source.x1
+            y1 = link.source.y1
+            x2 = link.target.x0
+            y2 = link.target.y0
+
+            //Set the starting color (at 0%)
+            addColor(.0, fills(20).apply { alpha = .6})
+            addColor(1.0, fills(18).apply { alpha = .6 })
+        }*/
         path {
             stroke = colors.rgba(0, 0, 0, 0.2)
             fill = colors.rgba(0, 0, 0, 0)
