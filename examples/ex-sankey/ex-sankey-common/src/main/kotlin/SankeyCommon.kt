@@ -21,134 +21,58 @@ data class EnergyFlux(
 )
 
 val elements = listOf(
-    Element("Energy"),
-    Element("Industrial Processes"),
-    Element("Electricity and heat"),
-    Element("Industry"),
-    Element("Land Use Change"),
-    Element("Agriculture"),
-    Element("Waste"),
-    Element("Transportation"),
-    Element("Other Fuel Combustion"),
-    Element("Fugitive Emissions"),
-    Element("Road"),
-    Element("Air"),
-    Element("Rail - Ship and Other Transport"),
-    Element("Residential Buildings"),
-    Element("Commercial Buildings"),
-    Element("Unallocated Fuel Combustion"),
-    Element("Iron and Steel"),
-    Element("Aluminium Non-Ferrous Metals"),
-    Element("Machinery"),
-    Element("Pulp - Paper and Printing"),
-    Element("Food and Tobacco"),
-    Element("Chemicals"),
-    Element("Cement"),
-    Element("Other Industry"),
-    Element("T and D Losses"),
-    Element("Coal Mining"),
-    Element("Oil and Gas Processing"),
-    Element("Deforestation"),
-    Element("Harvest / Management"),
-    Element("Agricultural Energy Use"),
-    Element("Agriculture Soils"),
-    Element("Livestock and Manure"),
-    Element("Rice Cultivation"),
-    Element("Other Agriculture"),
-    Element("Landfills"),
-    Element("Waste water - Other Waste"),
-    Element("Carbon Dioxide"),
-    Element("HFCs - PFCs"),
-    Element("Methane"),
-    Element("Nitrous Oxide")
+    Element("from1"),
+    Element("from2"),
+    Element("from3"),
+
+    Element("mid1"),
+    Element("mid2"),
+    Element("mid3"),
+    Element("mid4"),
+//    Element("mid5"),
+
+    Element("next1"),
+    Element("next2"),
+    Element("next3"),
+    Element("next4"),
+    Element("next5"),
+
+    Element("last1"),
+    Element("last2"),
+    Element("last3"),
+    Element("last4")
 )
 
 val energyFluxes = listOf(
-    buildFlux("Agricultural Energy Use", "Carbon Dioxide", 1.4),
-    buildFlux("Agriculture", "Agriculture Soils", 5.2),
-    buildFlux("Agriculture", "Livestock and Manure", 5.4),
-    buildFlux("Agriculture", "Other Agriculture", 1.7),
-    buildFlux("Agriculture", "Rice Cultivation", 1.5),
-    buildFlux("Agriculture Soils", "Nitrous Oxide", 5.2),
-    buildFlux("Air", "Carbon Dioxide", 1.7),
-    buildFlux("Aluminium Non-Ferrous Metals", "Carbon Dioxide", 1.0),
-    buildFlux("Aluminium Non-Ferrous Metals", "HFCs - PFCs", 0.2),
-    buildFlux("Cement", "Carbon Dioxide", 5.0),
-    buildFlux("Chemicals", "Carbon Dioxide", 3.4),
-    buildFlux("Chemicals", "HFCs - PFCs", 0.5),
-    buildFlux("Chemicals", "Nitrous Oxide", 0.2),
-    buildFlux("Coal Mining", "Carbon Dioxide", 0.1),
-    buildFlux("Coal Mining", "Methane", 1.2),
-    buildFlux("Commercial Buildings", "Carbon Dioxide", 6.3),
-    buildFlux("Deforestation", "Carbon Dioxide", 10.9),
-    buildFlux("Electricity and heat", "Agricultural Energy Use", 0.4),
-    buildFlux("Electricity and heat", "Aluminium Non-Ferrous Metals", 0.4),
-    buildFlux("Electricity and heat", "Cement", 0.3),
-    buildFlux("Electricity and heat", "Chemicals", 1.3),
-    buildFlux("Electricity and heat", "Commercial Buildings", 5.0),
-    buildFlux("Electricity and heat", "Food and Tobacco", 0.5),
-    buildFlux("Electricity and heat", "Iron and Steel", 1.0),
-    buildFlux("Electricity and heat", "Machinery", 1.0),
-    buildFlux("Electricity and heat", "Oil and Gas Processing", 0.4),
-    buildFlux("Electricity and heat", "Other Industry", 2.7),
-    buildFlux("Electricity and heat", "Pulp - Paper and Printing", 0.6),
-    buildFlux("Electricity and heat", "Residential Buildings", 5.2),
-    buildFlux("Electricity and heat", "T and D Losses", 2.2),
-    buildFlux("Electricity and heat", "Unallocated Fuel Combustion", 2.0),
-    buildFlux("Energy", "Electricity and heat", 24.9),
-    buildFlux("Energy", "Fugitive Emissions", 4.0),
-    buildFlux("Energy", "Industry", 14.7),
-    buildFlux("Energy", "Other Fuel Combustion", 8.6),
-    buildFlux("Energy", "Transportation", 14.3),
-    buildFlux("Food and Tobacco", "Carbon Dioxide", 1.0),
-    buildFlux("Fugitive Emissions", "Coal Mining", 1.3),
-    buildFlux("Fugitive Emissions", "Oil and Gas Processing", 3.2),
-    buildFlux("Harvest / Management", "Carbon Dioxide", 1.3),
-    buildFlux("Industrial Processes", "Aluminium Non-Ferrous Metals", 0.4),
-    buildFlux("Industrial Processes", "Cement", 2.8),
-    buildFlux("Industrial Processes", "Chemicals", 1.4),
-    buildFlux("Industrial Processes", "Other Industry", 0.5),
-    buildFlux("Industry", "Aluminium Non-Ferrous Metals", 0.4),
-    buildFlux("Industry", "Cement", 1.9),
-    buildFlux("Industry", "Chemicals", 1.4),
-    buildFlux("Industry", "Food and Tobacco", 0.5),
-    buildFlux("Industry", "Iron and Steel", 3.0),
-    buildFlux("Industry", "Oil and Gas Processing", 2.8),
-    buildFlux("Industry", "Other Industry", 3.8),
-    buildFlux("Industry", "Pulp - Paper and Printing", 0.5),
-    buildFlux("Iron and Steel", "Carbon Dioxide", 4.0),
-    buildFlux("Land Use Change", "Deforestation", 10.9),
-    buildFlux("Land Use Change", "Harvest / Management", 1.3),
-    buildFlux("Landfills", "Methane", 1.7),
-    buildFlux("Livestock and Manure", "Methane", 5.1),
-    buildFlux("Livestock and Manure", "Nitrous Oxide", 0.3),
-    buildFlux("Machinery", "Carbon Dioxide", 1.0),
-    buildFlux("Oil and Gas Processing", "Carbon Dioxide", 3.6),
-    buildFlux("Oil and Gas Processing", "Methane", 2.8),
-    buildFlux("Other Agriculture", "Methane", 1.4),
-    buildFlux("Other Agriculture", "Nitrous Oxide", 0.3),
-    buildFlux("Other Fuel Combustion", "Agricultural Energy Use", 1.0),
-    buildFlux("Other Fuel Combustion", "Commercial Buildings", 1.3),
-    buildFlux("Other Fuel Combustion", "Residential Buildings", 5.0),
-    buildFlux("Other Fuel Combustion", "Unallocated Fuel Combustion", 1.8),
-    buildFlux("Other Industry", "Carbon Dioxide", 6.6),
-    buildFlux("Other Industry", "HFCs - PFCs", 0.4),
-    buildFlux("Pulp - Paper and Printing", "Carbon Dioxide", 1.1),
-    buildFlux("Rail - Ship and Other Transport", "Carbon Dioxide", 2.5),
-    buildFlux("Residential Buildings", "Carbon Dioxide", 10.2),
-    buildFlux("Rice Cultivation", "Methane", 1.5),
-    buildFlux("Road", "Carbon Dioxide", 10.5),
-    buildFlux("T and D Losses", "Carbon Dioxide", 2.2),
-    buildFlux("Transportation", "Air", 1.7),
-    buildFlux("Transportation", "Rail - Ship and Other Transport", 2.5),
-    buildFlux("Transportation", "Road", 10.5),
-    buildFlux("Unallocated Fuel Combustion", "Carbon Dioxide", 3.0),
-    buildFlux("Unallocated Fuel Combustion", "Methane", 0.4),
-    buildFlux("Unallocated Fuel Combustion", "Nitrous Oxide", 0.4),
-    buildFlux("Waste", "Landfills", 1.7),
-    buildFlux("Waste", "Waste water - Other Waste", 1.5),
-    buildFlux("Waste water - Other Waste", "Methane", 1.2),
-    buildFlux("Waste water - Other Waste", "Nitrous Oxide", 0.3)
+    buildFlux("from1", "mid1", 1.4),
+    buildFlux("from1", "mid2", 2.4),
+    buildFlux("from1", "mid3", 1.0),
+    buildFlux("from2", "mid2", 1.4),
+    buildFlux("from2", "mid3", 2.2),
+    buildFlux("from2", "mid4", 1.7),
+    buildFlux("from3", "mid3", 1.0),
+    buildFlux("from3", "mid4", 1.2),
+
+    buildFlux("mid1", "next1", 1.0),
+    buildFlux("mid1", "next2", 0.4),
+    buildFlux("mid2", "next2", 2.0),
+    buildFlux("mid2", "next4", 0.9),
+    buildFlux("mid2", "next5", 0.9),
+    buildFlux("mid3", "next2", 0.9),
+    buildFlux("mid3", "next3", 1.1),
+    buildFlux("mid3", "next4", 1.6),
+    buildFlux("mid3", "next5", 0.6),
+    buildFlux("mid4", "next5", 2.9),
+
+    buildFlux("next1", "last1", 0.5),
+    buildFlux("next1", "last2", 0.5),
+    buildFlux("next2", "last2", 2.0),
+    buildFlux("next2", "last4", 1.3),
+    buildFlux("next3", "last4", 1.1),
+    buildFlux("next4", "last4", 2.5),
+    buildFlux("next5", "last3", 1.4),
+    buildFlux("next5", "last4", 3.0)
+
 )
 
 fun buildFlux(from: String, to: String, value: Double): EnergyFlux {
@@ -191,19 +115,19 @@ fun VizContext.sankeyViz() {
     }
 
     sankey.links.forEach { link ->
-        /*LinearGradient().apply {
+        val gradient = LinearGradient().apply {
             x1 = link.source.x1
             y1 = link.source.y1
             x2 = link.target.x0
             y2 = link.target.y0
 
             //Set the starting color (at 0%)
-            addColor(.0, fills(20).apply { alpha = .6})
-            addColor(1.0, fills(18).apply { alpha = .6 })
-        }*/
+            addColor(.0, fills(link.source.index%20).apply { alpha = .6 })
+            addColor(1.0, fills(link.target.index%20).apply { alpha = .6 })
+        }
         path {
-            stroke = colors.rgba(0, 0, 0, 0.2)
-            fill = colors.rgba(0, 0, 0, 0)
+            stroke = gradient
+            fill = null
             strokeWidth = max(1.0, link.width)
             sankeyLinkHorizontal.link(link, this)
         }
