@@ -1,6 +1,5 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.color
@@ -269,15 +268,19 @@ class FillDelegate(val element: Element) : HasFill {
         set(value) {
             when (value) {
                 null                -> element.setAttribute("fill", "none")
-                is LinearGradient   -> addGradient(element, value)
+                is LinearGradient   -> addGradient(element, value, "fill")
                 else                -> element.setAttribute("fill", value.toString())
             }
         }
 }
 
-internal fun addGradient(element: Element, linearGradient: LinearGradient) {
+internal fun addGradient(
+    element: Element,
+    linearGradient: LinearGradient,
+    attribute: String
+) {
     val id = nextId("LinearGradient")
-    element.setAttribute("fill", "url(#$id)")
+    element.setAttribute(attribute, "url(#$id)")
     val linearGradientElement = createSVGElement("linearGradient").apply {
         setAttribute("id", id)
         setAttribute("gradientUnits", "userSpaceOnUse")
@@ -322,7 +325,7 @@ class StrokeDelegate(val element: Element) : HasStroke {
         set(value) {
             when (value) {
                 null                -> element.setAttribute("stroke", "none")
-                is LinearGradient   -> addGradient(element, value)
+                is LinearGradient   -> addGradient(element, value, "stroke")
                 else                -> element.setAttribute("stroke", value.toString())
             }
         }
