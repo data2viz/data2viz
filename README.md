@@ -33,7 +33,7 @@ do with data2viz. All example are running in the browser and as JavaFx applicati
 using the links below.
 
 
-#### [Stream Graph](ex-streamGraph)
+#### [Stream Graph](examples/ex-streamGraph)
 
 - Stack,
 - Curves, stream grapth
@@ -42,13 +42,13 @@ using the links below.
 Open online js version.
 </a>
 
-[See code](ex-streamGraph)
+[See code](examples/ex-streamGraph)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/stream-graph.png" width="400">
 </a>
 
-#### [Selection performance sample](ex-selection)
+#### [Selection performance sample](examples/ex-selection)
 
 - Animated circle, deployed inside JavaFx and Js
 
@@ -56,13 +56,13 @@ Open online js version.
 Open online js version.
 </a>
 
-[See code](ex-selection)
+[See code](examples/ex-selection)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-selection" >
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/selection.png" width="400">
 </a>
 
-#### [Chord Graph](ex-chord)
+#### [Chord Graph](examples/ex-chord)
 
 - Chord diagram,
 - Arcs, Path
@@ -71,14 +71,14 @@ Open online js version.
 Open online js version.
 </a>
 
-[See code](ex-chord)
+[See code](examples/ex-chord)
 
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/chord.png" width="400">
 </a>
 
-#### [Natural Log Scale](ex-natural-logscale)
+#### [Natural Log Scale](examples/ex-natural-logscale)
 
 - Common Plot, deployed inside JavaFx and Js
 - LogScale, ContinuousScale.
@@ -88,13 +88,13 @@ Open online js version.
 Open online js version.
 </a>
 
-[See code](ex-natural-logscale)
+[See code](examples/ex-natural-logscale)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/natural-log-scale-jfx.png" width="400">
 </a>
 
-#### [Geo projection](ex-geo)
+#### [Geo projection](examples/ex-geo)
 
 This code uses the geo module to show how to load a GeoJson file and render it using a
 projection.
@@ -103,7 +103,7 @@ projection.
 Open online js version.
 </a>
 
-[See code](ex-geo)
+[See code](examples/ex-geo)
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/geo.png" width="400">
@@ -169,7 +169,7 @@ Tests are executed through karma and mocha and included in the build.
 
 ## How can I use it?
 
-The journey to version 1.0 should take few more months but you can play with it.
+We plan to be near v1.0 in Q2 2018 but you can already play with it.
 
 Artefacts are published on [Bintray](https://bintray.com/data2viz/data2viz/data2viz).
 
