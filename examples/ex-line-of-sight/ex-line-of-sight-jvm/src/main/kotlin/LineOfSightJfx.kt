@@ -1,5 +1,4 @@
-package io.data2viz.examples.chord
-
+package io.data2viz.examples.lineOfSight
 
 import io.data2viz.viz.viz
 import javafx.application.Application
@@ -8,12 +7,12 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 
 
-class ChordJfx : Application() {
+class LineOfSightJfx : Application() {
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Application.launch(ChordJfx::class.java)
+            Application.launch(LineOfSightJfx::class.java)
         }
     }
 
@@ -22,13 +21,13 @@ class ChordJfx : Application() {
         val root = Group()
 
         root.viz {
-            chordViz()
+            lineOfSightViz()
         }
 
         stage?.let {
             it.scene = (Scene(root, width, height))
             it.show()
-            stage.title = "JavaFx - data2viz - ChordJfx.kt"
+            stage.title = "JavaFx - data2viz - Line Of SightJfx.kt"
         }
     }
 
