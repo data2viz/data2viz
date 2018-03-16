@@ -273,30 +273,29 @@ class FillDelegate(val element: Element) : HasFill {
                 else                -> element.setAttribute("fill", value.toString())
             }
         }
-
-    private fun addGradient(element: Element, linearGradient: LinearGradient) {
-        val id = nextId("LinearGradient")
-        element.setAttribute("fill", "url(#$id)")
-        val linearGradientElement = createSVGElement("linearGradient").apply {
-            setAttribute("id", id)
-            setAttribute("gradientUnits", "userSpaceOnUse")
-            setAttribute("x1", linearGradient.x1.toString())
-            setAttribute("y1", linearGradient.y1.toString())
-            setAttribute("x2", linearGradient.x2.toString())
-            setAttribute("y2", linearGradient.y2.toString())
-            linearGradient.colorStops.forEach {
-                val stop = createSVGElement("stop").apply {
-                    setAttribute("offset", "${100 * it.percent}%")
-                    setAttribute("stop-color", "${it.color}")
-                }
-                appendChild(stop)
-            }
-        }
-        element.defs.appendChild(linearGradientElement)
-    }
-
-
 }
+
+internal fun addGradient(element: Element, linearGradient: LinearGradient) {
+    val id = nextId("LinearGradient")
+    element.setAttribute("fill", "url(#$id)")
+    val linearGradientElement = createSVGElement("linearGradient").apply {
+        setAttribute("id", id)
+        setAttribute("gradientUnits", "userSpaceOnUse")
+        setAttribute("x1", linearGradient.x1.toString())
+        setAttribute("y1", linearGradient.y1.toString())
+        setAttribute("x2", linearGradient.x2.toString())
+        setAttribute("y2", linearGradient.y2.toString())
+        linearGradient.colorStops.forEach {
+            val stop = createSVGElement("stop").apply {
+                setAttribute("offset", "${100 * it.percent}%")
+                setAttribute("stop-color", "${it.color}")
+            }
+            appendChild(stop)
+        }
+    }
+    element.defs.appendChild(linearGradientElement)
+}
+
 
 var ids = 1
 private fun nextId(name: String): String = "$name${ids++}"
@@ -318,16 +317,14 @@ private val Element.defs: Element
 
 class StrokeDelegate(val element: Element) : HasStroke {
 
-    init {
-//        element.setAttribute("stroke", "#000")
-    }
-
-    override var stroke: Color?
+    override var stroke: ColorOrGradient?
         get() = element.getAttribute("stroke")?.color
         set(value) {
-            if(value!= null){
-                element.setAttribute("stroke", value.toString())
-            } else element.removeAttribute("stroke")
+            when (value) {
+                null                -> element.setAttribute("stroke", "none")
+                is LinearGradient   -> addGradient(element, value)
+                else                -> element.setAttribute("stroke", value.toString())
+            }
         }
 
     override var strokeWidth: Double?

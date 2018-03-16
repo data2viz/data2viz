@@ -197,9 +197,16 @@ class FillDelegate(val shape: JfxShape) : HasFill {
 
 class StrokeDelegate(val shape: JfxShape): HasStroke {
 
-    override var stroke: Color?
+    override var stroke: ColorOrGradient?
         get() = (shape.stroke as javafx.scene.paint.Color?)?.d2vColor
-        set(value) { shape.stroke = value?.jfxColor }
+        set(value) { 
+            shape.stroke = when (value) {
+                null -> null
+                is Color -> value.jfxColor
+                is LinearGradient -> value.toLinearGradientJFX()
+                else -> throw IllegalStateException("$value not managed")
+            }
+        }
 
 
     override var strokeWidth: Double?

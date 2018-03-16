@@ -102,7 +102,7 @@ interface Shape : HasFill, HasStroke
  * Todo add remaining common properties
  */
 interface HasStroke {
-    var stroke: Color?
+    var stroke: ColorOrGradient?
     var strokeWidth: Double?
 }
 
