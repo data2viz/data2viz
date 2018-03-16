@@ -1,10 +1,14 @@
 package io.data2viz.examples.geo
 
 import io.data2viz.color.colors
+import io.data2viz.geo.path.GeoPath
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.orthographic
+import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.path.SvgPath
+import io.data2viz.svg.SVGElement
+import io.data2viz.viz.PathVizElement
 import io.data2viz.viz.createSVGElement
 import io.data2viz.viz.selectOrCreateSvg
 import kotlinx.coroutines.experimental.await
@@ -29,13 +33,22 @@ class Timer {
 private val timer = Timer()
 
 
+lateinit var outer: SvgPath
+lateinit var inner: SvgPath
+lateinit var geoPathInner: GeoPath
+lateinit var geoPathOuter: GeoPath
+lateinit var pathInnerElement: Element
+lateinit var pathOuterElement: Element
+lateinit var world: GeoJsonObject
+
+
 @Suppress("unused")
 fun main(args: Array<String>) {
 
     promise {
         val request = window.fetch(Request("world-110m.geojson"))
         val response = request.await()
-        val world = response.text().await().toGeoJsonObject()
+        world = response.text().await().toGeoJsonObject()
 
         // OUTER GLOBE
         val projectionOuter = orthographic {
@@ -50,20 +63,20 @@ fun main(args: Array<String>) {
             scale = 250.0
             clipAngle = Double.NaN          // remove angle clipping in order to see-through
         }
-        val pathInnerElement:Element = createSVGElement("path").apply {
+        pathInnerElement = createSVGElement("path").apply {
             setAttribute("stroke", colors.grey.rgbHex)
             setAttribute("fill", colors.grey.rgbHex)
         }
-        val pathOuterElement:Element = createSVGElement("path").apply {
+        pathOuterElement = createSVGElement("path").apply {
             setAttribute("stroke", colors.black.rgbHex)
             setAttribute("fill", colors.white.rgbHex)
         }
         
-        val inner = SvgPath()
-        val outer = SvgPath()
+        inner = SvgPath()
+        outer = SvgPath()
 
-        val geoPathOuter = geoPath(projectionOuter, outer)
-        val geoPathInner = geoPath(projectionInner, inner)
+        geoPathOuter = geoPath(projectionOuter, outer)
+        geoPathInner = geoPath(projectionInner, inner)
         geoPathOuter.path(world)
         geoPathInner.path(world)
         
@@ -84,8 +97,11 @@ fun main(args: Array<String>) {
       
         timer.log("adding path")
 
+        io.data2viz.timer.timer { now ->
+            loop(now)
+        }
 
-        var drag = false
+        /*var drag = false
 
         root.addEventListener("mousedown", { event ->
             val mEvent = event as MouseEvent
@@ -125,9 +141,29 @@ fun main(args: Array<String>) {
 
                 timer.log("update paths")
             }
-        })
+        })*/
 
     }
 
+}
 
+fun loop(now: Double) {
+    val rotate = geoPathInner.projection.rotate
+
+    rotate[0] += .5
+    rotate[1] = -10.0
+
+    outer.clearPath()
+    inner.clearPath()
+
+    geoPathInner.projection.rotate = rotate
+    geoPathOuter.projection.rotate = rotate
+
+    geoPathOuter.path(world)
+    geoPathInner.path(world)
+
+    pathInnerElement.setAttribute("d", inner.path)
+    pathOuterElement.setAttribute("d", outer.path)
+
+    timer.log("update paths")
 }
