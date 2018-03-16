@@ -212,10 +212,8 @@ private fun nap() {
  */
 private fun sleep(time: Double? = null) {
 
-//    log("sleep ${time?.toInt()}")
     if (frame > 0) return // Soonest alarm already set, or will be.
     timeoutHandle?.let {
-        println("clearEventualTimeout $it")
         clearTimeout(it)
         timeoutHandle = null
     }
@@ -225,7 +223,6 @@ private fun sleep(time: Double? = null) {
         if (delay > 24) {
             if (time < Double.POSITIVE_INFINITY) {
                 timeoutHandle = setTimeout(::wake, delay.toInt())
-                println("HANDLE $timeoutHandle")
             }
             pokeHandle?.let {
                 clearInterval(it)
