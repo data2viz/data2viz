@@ -369,7 +369,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeElasticInAmpPer")
-    fun `easeElasticIn amplitude(1.5) period(1)(t) returns the expected results`() {
+    fun `easeElasticIn amplitude(1,5) period(1)(t) returns the expected results`() {
         ease.elasticIn.amplitude(1.5).period(1.0)(0.0) shouldBeClose  0.000977
         ease.elasticIn.amplitude(1.5).period(1.0)(0.1) shouldBeClose  0.000297
         ease.elasticIn.amplitude(1.5).period(1.0)(0.2) shouldBeClose -0.002946
