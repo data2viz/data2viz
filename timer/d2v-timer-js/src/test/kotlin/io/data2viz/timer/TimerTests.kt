@@ -7,10 +7,14 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 
 @Suppress("unused")
-@Ignore
 class TimerTests : TestBase() {
-
+    
     @Test
+    fun keepOneTest() {
+        true shouldBe true
+    }
+
+    @Test @Ignore
     fun timerStop() = promise {
         var count = 0
         timer {
@@ -22,7 +26,7 @@ class TimerTests : TestBase() {
         count shouldBe 2
     }
 
-    @Test
+    @Test @Ignore
     @JsName("callbackMeanTime")
     fun `timer(callback) invokes the callback about every 17ms`() = promise {
         val then = now()
@@ -38,7 +42,7 @@ class TimerTests : TestBase() {
         elapsedTime shouldBe (17.0 * count plusOrMinus 5.0 * count)
     }
 
-    @Test
+    @Test @Ignore
     @JsName("callbackDelayed")
     fun `timer(callback, delay) first invokes the callback after the specified delay`() = promise {
         val then = now()
@@ -52,7 +56,7 @@ class TimerTests : TestBase() {
         delay(10 + delay.toInt())
     }
 
-    @Test
+    @Test @Ignore
     @JsName("elapsedRelativeToDelay")
     fun `computes the elapsed time relative to the delay`() = promise {
         val delay = 100.0
@@ -63,7 +67,7 @@ class TimerTests : TestBase() {
         delay(delay.toInt() + 10)
     }
 
-    @Test
+    @Test @Ignore
     @JsName("elapsedRelativeToDelayAndTime")
     fun `timer(callback, delay, time) computes the effective delay relative to the specified time`() = promise {
         val delay = 100.0
@@ -76,7 +80,7 @@ class TimerTests : TestBase() {
         delay(delay.toInt() + 10)
     }
 
-    @Test
+    @Test @Ignore
     @JsName("flushTimers")
     fun `timer(callback) invokes callbacks in scheduling order during synchronous flush`() {
         val results = mutableListOf<Int>()
@@ -87,7 +91,7 @@ class TimerTests : TestBase() {
         results shouldBe listOf(1, 2, 3)
     }
 
-    @Test
+    @Test @Ignore
     @JsName("flushTimersAsync")
     fun `timer(callback) invokes callbacks in scheduling order during asynchronous flush`() = promise {
         val results = mutableListOf<Int>()
@@ -101,7 +105,7 @@ class TimerTests : TestBase() {
         delay(50)
     }
 
-    @Test
+    @Test @Ignore
     @JsName("flushTimersAsyncWithDelay")
 //    @Ignore
     fun `timer(callback, delay) invokes callbacks in scheduling order during asynchronous flush`() = promise {
@@ -117,7 +121,7 @@ class TimerTests : TestBase() {
         delay(50)
     }
 
-    @Test
+    @Test @Ignore
     @JsName("timerWithinAFrame")
     fun `timer(callback) within a frame invokes the callback at the end of the same frame`() = promise {
         timer {
