@@ -9,7 +9,7 @@ class TicksTests : Matchers {
 
     @Test
     fun js_log_to_kotlin_log(){
-        log(10.0, E) shouldBe Math.log(10.0)
+        log(10.0, E) shouldBeClose Math.log(10.0)
     }
 
 
