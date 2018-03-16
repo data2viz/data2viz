@@ -17,7 +17,8 @@ actual inline fun <reified E : VizElement, D> VizElement.selectElement(
 
     val creator: () -> VizElement = when (E::class) {
         Circle::class -> { { newCircle()}}
-        Line::class -> { { newCircle() }}
+        Line::class -> { { newLine() }}
+        Rect::class -> { { newRect() }}
         else -> {
             throw IllegalArgumentException("Unknown type ${E::class}")
         }
