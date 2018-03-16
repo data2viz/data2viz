@@ -144,6 +144,7 @@ The current version contains the following modules:
   - voronoi: the voronoi algorithm
 
 
+
 ### Coming soon:
 The modules that are currently in development or coming soon:
 
