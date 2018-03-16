@@ -3,9 +3,11 @@ package io.data2viz.timer
 import io.data2viz.test.TestBase
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.promise
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 @Suppress("unused")
+@Ignore
 class TimerTests : TestBase() {
 
     @Test
