@@ -44,7 +44,9 @@ class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, Jfx
     override fun add(vizElement: VizElement) {
         jfxElement.children.add((vizElement as JfxVizElement).jfxElement)
     }
-
+    override fun remove(vizElement: VizElement) {
+        jfxElement.children.remove((vizElement as JfxVizElement).jfxElement)
+    }
 
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val pathJfx = PathVizJfx()

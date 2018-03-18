@@ -16,6 +16,7 @@ interface VizElement
 
 interface Group : Transformable, StyledElement, VizElement {
     fun add(vizElement: VizElement)
+    fun remove(vizElement: VizElement)
     
     fun group(init: Group.() -> Unit): Group
     fun circle(init: Circle.() -> Unit): Circle

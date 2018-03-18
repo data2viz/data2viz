@@ -23,7 +23,8 @@ val root = newGroup().apply {
 
 }
 val particules: MutableList<Particule> = mutableListOf()
-
+var add = 1
+var noAdd = 0
 
 fun loop(now: Double) {
 
@@ -34,10 +35,24 @@ fun loop(now: Double) {
         particuleCount.textContent = "${particules.count()} particules"
     }
 
-    if (FPS.value > 25) {
+    if (FPS.value > 25 && noAdd > 0) {
         particules.addAll((1..50).map { Particule() })
+        noAdd = 0
+        println("Total particules :: ${particules.size}")
+    } else {
+        noAdd++
+    }
+
+    
+    if ( noAdd == 200 ) {
+        add = -1
+    }
+    
+    if (add < 0 && particules.size > 0){
+        (1..50).forEach { particules.removeAt(0) }
         println("Total particules :: ${particules.size}")
     }
+
 
     root.selectElement(circle, particules) {
         onEnter = {
@@ -54,6 +69,10 @@ fun loop(now: Double) {
             element.cx = domainToViz(datum.x)
             element.cy = domainToViz(datum.y)
             element.radius = (1.0 + (datum.vx * datum.vy).absoluteValue * 1000).coerceAtMost(10.0)
+        }
+
+        onExit = {
+            root.remove(element)
         }
 
     }
@@ -83,10 +102,10 @@ object FPS {
 
 
 data class Particule(
-        var x: Double = .0,
-        var y: Double = .0,
-        var vx: Double = .0,
-        var vy: Double = .0
+    var x: Double = .0,
+    var y: Double = .0,
+    var vx: Double = .0,
+    var vy: Double = .0
 ) {
 
     fun nextState() {

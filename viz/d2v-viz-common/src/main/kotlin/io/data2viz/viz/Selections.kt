@@ -9,6 +9,7 @@ expect inline fun <reified E : VizElement, D> VizElement.selectElement(
 
 class SelectionEnterAccessor<E, D>(var index: Int, var element: E, var datum: D)
 class SelectionUpdateAccessor<E, D>(var index: Int, var element: E, var datum: D)
+class SelectionExitAccessor<E, D>(var element: E)
 
 class Selection<E : VizElement, D>(
 	selectedElements: List<E>,
@@ -21,6 +22,7 @@ class Selection<E : VizElement, D>(
 
 	var onEnter: (SelectionEnterAccessor<E, D>.() -> Unit) = {}
 	var onUpdate: (SelectionUpdateAccessor<E, D>.() -> Unit) = {}
+	var onExit: (SelectionExitAccessor<E, D>.() -> Unit) = {}
 
 
 	/**
@@ -29,17 +31,20 @@ class Selection<E : VizElement, D>(
 	 */
 	fun processEnterUpdateExit() {
 		val enterdata = if (elements.size < data.size) data.drop(elements.size) else listOf()
+		val exitElements = if (data.size < elements.size) elements.drop(data.size) else listOf()
 
-		if (enterdata.isNotEmpty()) {
-			enterdata.forEachIndexed { index, datum ->
-				val element = creator()
-				onEnter(SelectionEnterAccessor(index, element as E, datum))
-				elements.add(element)
-			}
+		enterdata.forEachIndexed { index, datum ->
+			val element = creator()
+			onEnter(SelectionEnterAccessor(index, element as E, datum))
+			elements.add(element)
 		}
 
 		data.forEachIndexed { i, datum ->
-			onUpdate(SelectionUpdateAccessor(i, elements[i] as E, datum))
+			onUpdate(SelectionUpdateAccessor(i, elements[i], datum))
 		}
+		
+		exitElements.forEachIndexed {i, element ->
+			onExit(SelectionExitAccessor(element))
+		} 
 	}
 }

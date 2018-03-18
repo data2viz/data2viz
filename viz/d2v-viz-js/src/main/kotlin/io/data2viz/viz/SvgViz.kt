@@ -91,6 +91,9 @@ class ParentElement(override val domElement: Element = createSVGElement("g")) : 
         }
     }
 
+    override fun remove(vizElement: VizElement) {
+        domElement.removeChild((vizElement as DOMVizElement).domElement)
+    }
 
     override fun path(init: PathVizElement.() -> Unit): PathVizElement {
         val svgPath = SvgPath()
