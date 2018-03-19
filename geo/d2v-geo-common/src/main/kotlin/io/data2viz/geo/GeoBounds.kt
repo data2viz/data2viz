@@ -1,6 +1,6 @@
 package io.data2viz.geo
 
-import io.data2viz.geo.projection.Extent
+import io.data2viz.core.Extent
 import io.data2viz.geo.projection.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.EPSILON

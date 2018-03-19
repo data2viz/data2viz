@@ -1,7 +1,7 @@
 package io.data2viz.geo
 
+import io.data2viz.core.Extent
 import io.data2viz.core.range
-import io.data2viz.geo.projection.Extent
 import io.data2viz.geojson.LineString
 import io.data2viz.geojson.MultiLineString
 import io.data2viz.geojson.Polygon

@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.core.Extent
 import io.data2viz.geo.geoGraticule
 import io.data2viz.path.epsilon
 import io.data2viz.test.TestBase

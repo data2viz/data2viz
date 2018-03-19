@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.core.Extent
 import io.data2viz.geo.clip.clipExtent
 import io.data2viz.geo.clip.clipRectangle
 import io.data2viz.geo.path.geoPath
