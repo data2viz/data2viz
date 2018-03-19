@@ -1,9 +1,9 @@
 package io.data2viz.examples.geo
 
 import io.data2viz.color.colors
+import io.data2viz.core.Extent
 import io.data2viz.geo.path.GeoPath
 import io.data2viz.geo.path.geoPath
-import io.data2viz.geo.projection.Extent
 import io.data2viz.geo.projection.orthographic
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
