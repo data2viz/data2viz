@@ -2,13 +2,6 @@ package io.data2viz.time
 
 typealias JsDate = io.data2viz.time.js.Date
 
-actual fun currentYear(): Int = JsDate().getFullYear()
-actual fun currentMonth(): Int = JsDate().getMonth() + 1
-actual fun currentDay(): Int = JsDate().getDay()
-actual fun currentHour(): Int = JsDate().getHours()
-actual fun currentMinute(): Int = JsDate().getMinutes()
-actual fun currentSecond(): Int = JsDate().getSeconds()
-
 actual class Date {
 
     private var date: JsDate = JsDate()

@@ -27,12 +27,12 @@ fun date(): Date {
     return Date(currentYear(), currentMonth(), currentDay(), currentHour(), currentMinute(), currentSecond(), 0)
 }
 
-expect fun currentYear(): Int
-expect fun currentMonth(): Int
-expect fun currentDay(): Int
-expect fun currentHour(): Int
-expect fun currentMinute(): Int
-expect fun currentSecond(): Int
+fun currentYear(): Int = Date().year()
+fun currentMonth():Int = Date().month() 
+fun currentDay():Int = Date().dayOfMonth() 
+fun currentHour():Int = Date().hour() 
+fun currentMinute():Int = Date().minute() 
+fun currentSecond():Int = Date().second() 
 
 /**
  * A date-time without a time-zone in the ISO-8601 calendar system,

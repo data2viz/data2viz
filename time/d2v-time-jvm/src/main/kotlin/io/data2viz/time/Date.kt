@@ -9,12 +9,6 @@ import java.time.temporal.ChronoUnit
 val UNIX_TIME = date(1970)
 val milliToNano = 1000000
 
-actual fun currentYear(): Int = LocalDateTime.now().year
-actual fun currentMonth(): Int = LocalDateTime.now().monthValue
-actual fun currentDay(): Int = LocalDateTime.now().dayOfMonth
-actual fun currentHour(): Int = LocalDateTime.now().hour
-actual fun currentMinute(): Int = LocalDateTime.now().minute
-actual fun currentSecond(): Int = LocalDateTime.now().second
 
 actual class Date {
 
