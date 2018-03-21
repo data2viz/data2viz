@@ -86,7 +86,7 @@ class QuadtreeRemoveTests : TestBase() {
     }
 
     @Test
-    @JsName("quadtree_remove_5")
+    @JsName("quadtree_remove_6")
     fun `quadtree remove(datum) removes another non-root point in the quadtree LEGACY`() {
         val p0 = arrayOf(0, 0)
         val p1 = arrayOf(1, 1)
@@ -103,7 +103,7 @@ class QuadtreeRemoveTests : TestBase() {
     }
 
     @Test
-    @JsName("quadtree_remove_6")
+    @JsName("quadtree_remove_7")
     fun `quadtree remove(datum) ignores a point not in the quadtree LEGACY`() {
         val p0 = arrayOf(0, 0)
         val p1 = arrayOf(1, 1)
@@ -122,7 +122,7 @@ class QuadtreeRemoveTests : TestBase() {
     }
 
     @Test
-    @JsName("quadtree_remove_7")
+    @JsName("quadtree_remove_8")
     fun `quadtree remove(datum) ignores a coincident point not in the quadtree LEGACY`() {
         val p0 = arrayOf(0, 0)
         val p1 = arrayOf(0, 0)
@@ -141,7 +141,7 @@ class QuadtreeRemoveTests : TestBase() {
     }
 
     @Test
-    @JsName("quadtree_remove_8")
+    @JsName("quadtree_remove_9")
     fun `quadtree remove(datum) another point in the quadtree LEGACY`() {
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 959.0, 959.0)

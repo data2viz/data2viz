@@ -195,7 +195,7 @@ class QuadtreeCoverTests : TestBase() {
     }
 
     /*
-    // TODO
+    // TODO (maybe..)
 tape("quadtree.cover(x, y) repeatedly wraps the root node if it has children", function(test) {
   test.deepEqual(q.copy().cover(-1, 3).root(), [,[{data: [0, 0]},,, {data: [2, 2]}],, ]);
   test.deepEqual(q.copy().cover(3, -1).root(), [,, [{data: [0, 0]},,, {data: [2, 2]}], ]);
