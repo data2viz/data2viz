@@ -4,7 +4,7 @@ typealias JsDate = io.data2viz.time.js.Date
 
 actual class Date {
 
-    private var date: JsDate = JsDate()
+    private var date: JsDate
 
     actual constructor() {
         date = JsDate()

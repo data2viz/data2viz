@@ -12,9 +12,9 @@ val milliToNano = 1000000
 
 actual class Date {
 
-    private var date: LocalDateTime = LocalDateTime.now()
+    private var date: LocalDateTime
 
-    actual public constructor() {
+    actual constructor() {
         date = LocalDateTime.now()
     }
 
@@ -22,11 +22,11 @@ actual class Date {
         date = localDate
     }
 
-    actual public constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int) {
+    actual constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int) {
         date = LocalDateTime.of(year, month, day, hour, minute, second, millisecond * milliToNano)
     }
 
-    actual public constructor(date: Date) {
+    actual constructor(date: Date) {
         this.date = date.date
     }
 
