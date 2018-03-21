@@ -101,3 +101,9 @@ fun <D> Quadtree<D>.remove(datum: D) {
         else root = node
     }
 }
+
+/**
+ * Removes the specified data from the quadtree.
+ * @see Quadtree.remove(datum)
+ */
+fun <D> Quadtree<D>.removeAll(data: List<D>) = data.forEach { datum -> remove(datum) }

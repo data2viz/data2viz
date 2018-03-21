@@ -92,4 +92,42 @@ class QuadtreeVisitTests : TestBase() {
         })
         results.size shouldBe 0
     }
+
+    @Test
+    @JsName("quadtree_visitafter_1")
+    fun `quadtree visitafter(callback) pass through each node`() {
+        val results = mutableListOf<List<Double>>()
+        val quadtree = buildQuadtree() {
+            addAll(listOf(arrayOf(0, 0), arrayOf(1, 0), arrayOf(0, 1), arrayOf(1, 1)))
+        }
+
+        quadtree.visitAfter({ _, x0, y0, x1, y1 ->
+            results.add(listOf(x0, y0, x1, y1))
+        })
+        results[0] shouldBe listOf(0.0, 0.0, 0.5, 0.5)
+        results[1] shouldBe listOf(0.5, 0.0, 1.0, 0.5)
+        results[2] shouldBe listOf(0.0, 0.5, 0.5, 1.0)
+        results[3] shouldBe listOf(0.5, 0.5, 1.0, 1.0)
+        results[4] shouldBe listOf(0.0, 0.0, 1.0, 1.0)
+    }
+
+    @Test
+    @JsName("quadtree_visitafter_2")
+    fun `quadtree visitafter(callback) pass in order`() {
+        val results = mutableListOf<List<Double>>()
+        val quadtree = buildQuadtree() {
+            extent = Extent(.0, .0, 960.0, 960.0)
+            addAll(listOf(arrayOf(100, 100), arrayOf(200, 200), arrayOf(300, 300)))
+        }
+
+        quadtree.visitAfter({ _, x0, y0, x1, y1 ->
+            results.add(listOf(x0, y0, x1, y1))
+        })
+        results[0] shouldBe listOf(0.0, 0.0, 128.0, 128.0)
+        results[1] shouldBe listOf(128.0, 128.0, 256.0, 256.0)
+        results[2] shouldBe listOf(0.0, 0.0, 256.0, 256.0)
+        results[3] shouldBe listOf(256.0, 256.0, 512.0, 512.0)
+        results[4] shouldBe listOf(0.0, 0.0, 512.0, 512.0)
+        results[5] shouldBe listOf(0.0, 0.0, 1024.0, 1024.0)
+    }
 }
