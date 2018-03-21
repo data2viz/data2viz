@@ -6,9 +6,7 @@ import io.data2viz.math.Angle
 import io.data2viz.math.PI
 import io.data2viz.math.deg
 import io.data2viz.timer.timer
-import io.data2viz.viz.VizContext
-import io.data2viz.viz.line
-import io.data2viz.viz.selectElement
+import io.data2viz.viz.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -19,7 +17,7 @@ val height = 600.0
 
 lateinit var viz: VizContext
 
-val polygonNb = 25
+val polygonNb = 8
 val randomPointsNb = 10
 val randomPoints = List(polygonNb, { mutableListOf<Point>() })
 val polygons = mutableListOf<Polygon>()
@@ -27,15 +25,24 @@ val allCorners = mutableListOf<Point>()
 val allSegments = mutableListOf<Ray>()
 
 lateinit var from: Point
+lateinit var fromList: List<Point>
 var xSpeed: Double = .0
 var ySpeed: Double = .0
+
+lateinit var sightGroup: Group
+lateinit var pointGroup: Group
 
 data class Ray(val from: Point, val to: Point)
 data class Intersection(val point: Point, val param: Double, var angle: Angle = 0.deg)
 
 fun VizContext.lineOfSightViz() {
 
+    sightGroup = newGroup()
+    pointGroup = newGroup()
+
     viz = this
+    viz.add(sightGroup)
+    viz.add(pointGroup)
 
     // drawing random points around random locations
     (0 until polygonNb).forEach { i ->
@@ -88,6 +95,7 @@ fun VizContext.lineOfSightViz() {
 
     initSpeeds()
     initStartPoint()
+    fromList = listOf(from)
 
     timer { now ->
         loop(now)
@@ -97,16 +105,17 @@ fun VizContext.lineOfSightViz() {
 fun loop(now: Double) {
     movePoint()
 
-    val intersections = getSightPolygon()
+    val sightPolygon = getSightPolygon()
+    val points = sightPolygon.points
 
-    viz.selectElement(line, intersections) {
+    viz.selectElement(line, sightPolygon.points) {
         onEnter = {
             element.apply {
                 stroke = colors.red
                 x1 = from.x
                 y1 = from.y
-                x2 = datum.point.x
-                y2 = datum.point.y
+                x2 = datum.x
+                y2 = datum.y
             }
             viz.add(element)
         }
@@ -114,13 +123,47 @@ fun loop(now: Double) {
         onUpdate = {
             element.x1 = from.x
             element.y1 = from.y
-            element.x2 = datum.point.x
-            element.y2 = datum.point.y
+            element.x2 = datum.x
+            element.y2 = datum.y
+        }
+
+        onExit = {
+            viz.remove(element)
         }
     }
+
+    /*sightGroup.apply {
+        path {
+            moveTo(points[0].x, points[0].y)
+            fill = colors.red
+            stroke = colors.red
+            points.forEach { point ->
+                lineTo(point.x, point.y)
+            }
+            lineTo(points[0].x, points[0].y)
+        }
+    }*/
+
+    /*pointGroup.selectElement(circle, fromList) {
+        onEnter = {
+            element.apply {
+                stroke = colors.black
+                fill = colors.black
+                radius = 5.0
+                cx = from.x
+                cy = from.y
+            }
+            viz.add(element)
+        }
+
+        onUpdate = {
+            element.cx = from.x
+            element.cy = from.y
+        }
+    }*/
 }
 
-private fun getSightPolygon(): MutableList<Intersection> {
+private fun getSightPolygon(): Polygon {
     val allAngles = mutableListOf<Angle>()
     allCorners.forEach {
         val rad = atan2(it.y - from.y, it.x - from.x)
@@ -160,7 +203,7 @@ private fun getSightPolygon(): MutableList<Intersection> {
     intersections.sortBy { it.angle.rad }
 
     // Polygon is intersects, in order of angle
-    return intersections
+    return Polygon(intersections.map { it.point })
 }
 
 // Find intersection of RAY & SEGMENT
@@ -197,7 +240,7 @@ private fun getIntersection(ray: Ray, segment: Ray): Intersection? {
     if (T1 < 0) return null
     if (T2 < 0 || T2 > 1) return null
     // Return the POINT OF INTERSECTION
-    return Intersection(Point(r_px+r_dx*T1, r_py+r_dy*T1), T1)
+    return Intersection(Point(r_px + r_dx * T1, r_py + r_dy * T1), T1)
 }
 
 private fun initStartPoint() {
