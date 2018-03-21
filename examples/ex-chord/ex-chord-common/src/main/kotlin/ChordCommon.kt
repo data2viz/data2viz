@@ -58,8 +58,8 @@ fun collaborations(avengers:List<Avenger>) = movies.filter { it.avengers.contain
 val chords: Chords = chord.chord(avengers, { a, b -> if (a==b) .0 else collaborations(listOf(a,b))})
 
 val arc = arc<ChordGroup> {
-    innerRadius = const(inner + 3)
-    outerRadius = const(outer)
+    innerRadius = { inner + 3 }
+    outerRadius = { outer }
     startAngle = { it.startAngle }
     endAngle = { it.endAngle }
 }
