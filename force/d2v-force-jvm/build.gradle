@@ -1,0 +1,6 @@
+dependencies {
+    expectedBy project(":d2v-force-common")
+    compile project(":d2v-core-jvm")
+    compile project(":d2v-quadtree-jvm")
+    compile project(":d2v-timer-jvm")
+}

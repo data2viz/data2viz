@@ -1,0 +1,6 @@
+dependencies {
+    compile project(":d2v-core-common")
+    compile project(":d2v-timer-common")
+    compile project(":d2v-quadtree-common")
+    testCompile project(":d2v-tests-common")
+}

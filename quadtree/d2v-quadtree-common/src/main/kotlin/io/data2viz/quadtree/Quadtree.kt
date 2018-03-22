@@ -1,6 +1,7 @@
 package io.data2viz.quadtree
 
 import io.data2viz.core.Extent
+import io.data2viz.core.Point
 
 fun Boolean.toInt() = if (this) 1 else 0
 
@@ -9,20 +10,27 @@ internal data class NodePair<D>(
     val target: QuadtreeNode<D>
 )
 
-interface QuadtreeNode<D>
+interface QuadtreeNode<D> {
+    var value:Double?
+    var position:Point
+}
 
 data class InternalNode<D>(
     var NE_0: QuadtreeNode<D>? = null,
     var NW_1: QuadtreeNode<D>? = null,
     var SE_2: QuadtreeNode<D>? = null,
-    var SW_3: QuadtreeNode<D>? = null
-) : QuadtreeNode<D>
+    var SW_3: QuadtreeNode<D>? = null,
+    override var value:Double? = null,
+    override var position:Point = Point(Double.NaN, Double.NaN)
+    ) : QuadtreeNode<D>
 
 fun <D> InternalNode<D>.toList() = listOf(this.NE_0, this.NW_1, this.SE_2, this.SW_3)
 
 data class LeafNode<D>(
     val data: D,
-    var next: LeafNode<D>?
+    var next: LeafNode<D>?,
+    override var value:Double? = null,
+    override var position:Point = Point(Double.NaN, Double.NaN)
 ) : QuadtreeNode<D>
 
 // TODO : still needed ?
