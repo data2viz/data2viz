@@ -4,4 +4,3 @@ dependencies {
     compile project(":d2v-quadtree-js")
     compile project(":d2v-timer-js")
 }
-apply from: rootProject.file('gradle/test-js.gradle')
