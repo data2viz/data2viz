@@ -21,7 +21,7 @@ fun <D> Quadtree<D>.find(x: Double, y: Double, radius: Double = Double.POSITIVE_
     val quads = mutableListOf<Quad<D>>()
     var node = root
 
-    if (node != null) quads.add(Quad(node, Extent(x0, y0, x3, y3)))
+    if (node != null) quads.add(Quad(node, x0, y0, x3, y3))
     if (newRadius < Double.POSITIVE_INFINITY) {
         x0 = x - newRadius
         y0 = y - newRadius
@@ -36,10 +36,10 @@ fun <D> Quadtree<D>.find(x: Double, y: Double, radius: Double = Double.POSITIVE_
 
         // Stop searching if this quadrant can’t contain a closer node.
         node = quad.node
-        val x1 = quad.extent.x0
-        val y1 = quad.extent.y0
-        val x2 = quad.extent.x1
-        val y2 = quad.extent.y1
+        val x1 = quad.x0
+        val y1 = quad.y0
+        val x2 = quad.x1
+        val y2 = quad.y1
 
         if (node == null || x1 > x3 || y1 > y3 || x2 < x0 || y2 < y0) continue
 
@@ -48,10 +48,10 @@ fun <D> Quadtree<D>.find(x: Double, y: Double, radius: Double = Double.POSITIVE_
             val xm = (x1 + x2) / 2
             val ym = (y1 + y2) / 2
 
-            quads.add(Quad(node.SW_3, Extent(xm, ym, x2, y2)))
-            quads.add(Quad(node.SE_2, Extent(x1, ym, xm, y2)))
-            quads.add(Quad(node.NW_1, Extent(xm, y1, x2, ym)))
-            quads.add(Quad(node.NE_0, Extent(x1, y1, xm, ym)))
+            quads.add(Quad(node.SW_3, xm, ym, x2, y2))
+            quads.add(Quad(node.SE_2, x1, ym, xm, y2))
+            quads.add(Quad(node.NW_1, xm, y1, x2, ym))
+            quads.add(Quad(node.NE_0, x1, y1, xm, ym))
 
             // Visit the closest quadrant first.
             val i = (y >= ym).toInt() shl 1 or (x >= xm).toInt()

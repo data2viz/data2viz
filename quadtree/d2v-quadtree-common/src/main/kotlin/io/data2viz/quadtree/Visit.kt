@@ -19,22 +19,21 @@ import io.data2viz.core.Extent
 fun <D> Quadtree<D>.visit(callback: (QuadtreeNode<D>, Double, Double, Double, Double) -> Boolean) {
     val quads = mutableListOf<Quad<D>>()
     var node = root
-    if (node != null) quads.add(Quad(node, extent.copy()))
+    if (node != null) quads.add(Quad(node, extent.x0, extent.y0, extent.x1, extent.y1))
     while (quads.isNotEmpty()) {
         val q = quads.removeAt(quads.lastIndex)
         node = q.node
-        val ext = q.extent
-        val x0 = ext.x0
-        val y0 = ext.y0
-        val x1 = ext.x1
-        val y1 = ext.y1
+        val x0 = q.x0
+        val y0 = q.y0
+        val x1 = q.x1
+        val y1 = q.y1
         if (!callback(node!!, x0, y0, x1, y1) && node is InternalNode) {
             val xm = (x0 + x1) / 2
             val ym = (y0 + y1) / 2
-            if (node.SW_3 != null) quads.add(Quad(node.SW_3, Extent(xm, ym, x1, y1)))
-            if (node.SE_2 != null) quads.add(Quad(node.SE_2, Extent(x0, ym, xm, y1)))
-            if (node.NW_1 != null) quads.add(Quad(node.NW_1, Extent(xm, y0, x1, ym)))
-            if (node.NE_0 != null) quads.add(Quad(node.NE_0, Extent(x0, y0, xm, ym)))
+            if (node.SW_3 != null) quads.add(Quad(node.SW_3, xm, ym, x1, y1))
+            if (node.SE_2 != null) quads.add(Quad(node.SE_2, x0, ym, xm, y1))
+            if (node.NW_1 != null) quads.add(Quad(node.NW_1, xm, y0, x1, ym))
+            if (node.NE_0 != null) quads.add(Quad(node.NE_0, x0, y0, xm, ym))
         }
     }
 }
@@ -50,27 +49,26 @@ fun <D> Quadtree<D>.visit(callback: (QuadtreeNode<D>, Double, Double, Double, Do
 fun <D> Quadtree<D>.visitAfter(callback: (QuadtreeNode<D>, Double, Double, Double, Double) -> Unit) {
     val quads = mutableListOf<Quad<D>>()
     val next = mutableListOf<Quad<D>>()
-    if (root != null) quads.add(Quad(root, extent.copy()))
+    if (root != null) quads.add(Quad(root, extent.x0, extent.y0, extent.x1, extent.y1))
     while (quads.isNotEmpty()) {
         val q = quads.removeAt(quads.lastIndex)
         val node = q.node
         if (node is InternalNode) {
-            val ext = q.extent
-            val x0 = ext.x0
-            val y0 = ext.y0
-            val x1 = ext.x1
-            val y1 = ext.y1
+            val x0 = q.x0
+            val y0 = q.y0
+            val x1 = q.x1
+            val y1 = q.y1
             val xm = (x0 + x1) / 2
             val ym = (y0 + y1) / 2
-            if (node.NE_0 != null) quads.add(Quad(node.NE_0, Extent(x0, y0, xm, ym)))
-            if (node.NW_1 != null) quads.add(Quad(node.NW_1, Extent(xm, y0, x1, ym)))
-            if (node.SE_2 != null) quads.add(Quad(node.SE_2, Extent(x0, ym, xm, y1)))
-            if (node.SW_3 != null) quads.add(Quad(node.SW_3, Extent(xm, ym, x1, y1)))
+            if (node.NE_0 != null) quads.add(Quad(node.NE_0, x0, y0, xm, ym))
+            if (node.NW_1 != null) quads.add(Quad(node.NW_1, xm, y0, x1, ym))
+            if (node.SE_2 != null) quads.add(Quad(node.SE_2, x0, ym, xm, y1))
+            if (node.SW_3 != null) quads.add(Quad(node.SW_3, xm, ym, x1, y1))
         }
         next.add(q)
     }
     while (next.isNotEmpty()) {
         val q = next.removeAt(next.lastIndex)
-        if (q.node != null) callback(q.node, q.extent.x0, q.extent.y0, q.extent.x1, q.extent.y1)
+        if (q.node != null) callback(q.node, q.x0, q.y0, q.x1, q.y1)
     }
 }

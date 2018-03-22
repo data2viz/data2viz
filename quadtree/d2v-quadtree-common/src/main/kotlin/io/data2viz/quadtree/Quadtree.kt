@@ -4,12 +4,12 @@ import io.data2viz.core.Extent
 
 fun Boolean.toInt() = if (this) 1 else 0
 
-interface QuadtreeNode<D>
-
 internal data class NodePair<D>(
     val source: QuadtreeNode<D>,
     val target: QuadtreeNode<D>
 )
+
+interface QuadtreeNode<D>
 
 data class InternalNode<D>(
     var NE_0: QuadtreeNode<D>? = null,
@@ -18,14 +18,20 @@ data class InternalNode<D>(
     var SW_3: QuadtreeNode<D>? = null
 ) : QuadtreeNode<D>
 
+fun <D> InternalNode<D>.toList() = listOf(this.NE_0, this.NW_1, this.SE_2, this.SW_3)
+
 data class LeafNode<D>(
     val data: D,
     var next: LeafNode<D>?
 ) : QuadtreeNode<D>
 
+// TODO : still needed ?
 internal data class Quad<D>(
     val node: QuadtreeNode<D>?,
-    val extent: Extent
+    val x0:Double,
+    val y0:Double,
+    val x1:Double,
+    val y1:Double
 )
 
 internal fun <D> getNodeFromIndex(node: InternalNode<D>, index: Int): QuadtreeNode<D>? {
@@ -64,6 +70,7 @@ fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>, init: Quadt
 }
 
 // TODO : use Point ?
+// TODO : remove x and y from class constructor ?
 /**
  * A quadtree recursively partitions two-dimensional space into squares, dividing each square into four equally-sized
  * squares. Each distinct point exists in a unique leaf node; coincident points are represented by a linked list.
