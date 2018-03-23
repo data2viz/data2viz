@@ -4,7 +4,8 @@ import io.data2viz.core.Point
 
 fun forceCenter(center:Point) = ForceCenter(center)
 
-
+// TODO : strength
+// TODO : doc
 class ForceCenter(val center:Point = Point(.0, .0)) : Force {
 
     private val _nodes = mutableListOf<ForceNode>()

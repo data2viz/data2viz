@@ -45,29 +45,37 @@ class ForceRadial : Force {
     /**
      * Sets the coordinate of the circle center which defaults to (0, 0).
      */
-    var center: Point = Point(.0, .0)
+    var center: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Point = { _, _, _ -> defaultCenter }
+        set(value) {
+            field = value
+            initialize(nodes)
+        }
+    private val defaultCenter = Point(.0, .0)
 
     private var nodes: List<ForceNode> = listOf()
     private val strengths = mutableListOf<Double>()
+    private val centers = mutableListOf<Point>()
     private val radiuses = mutableListOf<Double>()
 
     override fun initialize(nodes: List<ForceNode>) {
         this.nodes = nodes
 
         radiuses.clear()
+        centers.clear()
         strengths.clear()
 
         nodes.forEachIndexed { index, node ->
             radiuses.add(radius(node, index, nodes))
+            centers.add(center(node, index, nodes))
             strengths.add(strength(node, index, nodes))
         }
     }
 
     override fun invoke(alpha: Double) {
         nodes.forEachIndexed { index, node ->
-            var dx = node.position.x - center.x
+            var dx = node.position.x - centers[index].x
             if (dx == .0) dx = EPSILON
-            var dy = node.position.y - center.y
+            var dy = node.position.y - centers[index].y
             if (dy == .0) dy = EPSILON
 
             val r = sqrt(dx * dx + dy * dy)
