@@ -60,7 +60,7 @@ class ForceX : Force {
 
     override fun invoke(alpha: Double) {
         nodes.forEachIndexed { index, node ->
-            node.velocity = Speed((xz[index] - node.position.x) * strengths[index] * alpha, node.velocity.vy)
+            node.velocity += Speed((xz[index] - node.position.x) * strengths[index] * alpha, node.velocity.vy)
         }
     }
 }

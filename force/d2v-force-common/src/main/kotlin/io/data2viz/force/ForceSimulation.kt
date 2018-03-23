@@ -43,13 +43,15 @@ data class ForceNode(
 private val initialRadius = 10.0
 private val initialAngle = PI * (3.0 - sqrt(5.0))
 
+fun forceSimulation(init: ForceSimulation.() -> Unit) = ForceSimulation().apply(init)
+
 /**
  * Creates a new simulation with the specified array of nodes and no forces.
  * If nodes is not specified, it defaults to the empty array.
  * The simulator starts automatically; use simulation.on to listen for tick events as the simulation runs.
  * If you wish to run the simulation manually instead, call simulation.stop, and then call simulation.tick as desired.
  */
-open class ForceSimulation {
+class ForceSimulation {
 
     var nodes = listOf<ForceNode>()
         set(value) {
