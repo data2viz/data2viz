@@ -1,0 +1,2 @@
+
+apply from: rootProject.file('gradle/test-js.gradle')
