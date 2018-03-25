@@ -11,6 +11,10 @@ import kotlin.math.*
 
 data class Point(val x: Double, val y: Double)
 
+
+@JsName("delaunator")
+fun delaunautor(points: Array<Array<Double>>) = Delaunator(points)
+
 class Delaunator(points: Array<Array<Double>>) {
 
     val getX = { point: Array<Double> -> point[0] }
@@ -40,7 +44,9 @@ class Delaunator(points: Array<Array<Double>>) {
         var maxY = Double.NEGATIVE_INFINITY
 
         val ids = Uint32Array(points.size)
-
+        
+        //points -> coords
+        // minX, minY, maxX, maxY
         for (i in 0 until points.size) {
             val p = points[i]
             val x = getX(p)

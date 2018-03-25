@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "benchmark": "^2.1.4",
     "browserify": "^14.5.0",
     "karma": "^1.7.1",
     "karma-browserify": "^5.1.2",

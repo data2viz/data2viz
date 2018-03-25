@@ -1,8 +1,10 @@
 {
   "devDependencies": {
+    "benchmark": "^2.1.4",
     "browserify": "^14.5.0",
     "eslint": "^4.0.0",
     "eslint-config-mourner": "^2.0.1",
+    "esm": "^3.0.8",
     "tape": "^4.6.3",
     "uglify-js": "^3.2.0",
     "karma": "^1.7.1",
@@ -17,6 +19,7 @@
   "scripts": {
     "test": "karma start",
     "tape": "tape test.js",
+    "bench": "node -r esm bench.js",
     "bundle": "webpack"
   }
 }
