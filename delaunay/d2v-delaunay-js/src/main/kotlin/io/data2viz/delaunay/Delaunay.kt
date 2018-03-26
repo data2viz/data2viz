@@ -1,11 +1,11 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package io.data2viz.delaunay
 
 import org.khronos.webgl.Int32Array
 import org.khronos.webgl.Uint32Array
 import org.khronos.webgl.get
 import org.khronos.webgl.set
-import kotlin.browser.document
-import kotlin.js.Date
 import kotlin.math.*
 
 
@@ -20,16 +20,19 @@ class Delaunator(points: Array<Array<Double>>) {
     val getX = { point: Array<Double> -> point[0] }
     val getY = { point: Array<Double> -> point[1] }
 
-    val coords:Array<Double> = emptyArray()
+    private val coords:Array<Double> = emptyArray()
 
-    private var _cx: Double
+    private val _cx: Double
     private var _cy: Double
 
-    private var _hashSize: Int
+    /**
+     * ceil(sqrt(points.size))
+     */
+    private val _hashSize: Int
 
     var hull: Node
 
-    private var _hash: Array<Node?>
+    private val _hash: Array<Node?>
 
     var triangles: Uint32Array
 
@@ -44,7 +47,7 @@ class Delaunator(points: Array<Array<Double>>) {
         var maxY = Double.NEGATIVE_INFINITY
 
         val ids = Uint32Array(points.size)
-        
+
         //points -> coords
         // minX, minY, maxX, maxY
         for (i in 0 until points.size) {
@@ -110,9 +113,7 @@ class Delaunator(points: Array<Array<Double>>) {
             }
         }
 
-        if (minRadius == Double.POSITIVE_INFINITY) {
-            throw Error("No Delaunay triangulation exists for this input.")
-        }
+        require(minRadius != Double.POSITIVE_INFINITY) { "No Delaunay triangulation exists for this input." }
 
         // swap the order of the seed points for counter-clockwise orientation
         if (area(
@@ -132,18 +133,18 @@ class Delaunator(points: Array<Array<Double>>) {
         val i2x = coords[2 * i2]; val i2y = coords[2 * i2 + 1]
 
         val center = circumcenter(i0x, i0y, i1x, i1y, i2x, i2y)
-        this._cx = center.x
-        this._cy = center.y
+        _cx = center.x
+        _cy = center.y
 
         // sort the points by distance from the seed triangle circumcenter
         quicksort(ids, coords, 0, ids.length - 1, center.x, center.y)
 
         // initialize a hash table for storing edges of the advancing convex hull
         _hashSize = ceil(sqrt(points.size.toDouble())).toInt()
-        this._hash = arrayOfNulls(_hashSize)
+        _hash = arrayOfNulls(_hashSize)
 
         // initialize a circular doubly-linked list that will hold an advancing convex hull
-        this.hull = insertNode(coords, i0)
+        hull = insertNode(coords, i0)
         var e = hull
         this.hashEdge(e)
         e.t = 0
@@ -248,20 +249,20 @@ class Delaunator(points: Array<Array<Double>>) {
     }
 
 
-    fun hashEdge(e: Node) {
+    private fun hashEdge(e: Node) {
         this._hash[hashKey(e.x, e.y)] = e
     }
 
-    fun hashKey(x: Double, y: Double):Int {
-        val dx = x - this._cx
-        val dy = y - this._cy
+    private fun hashKey(x: Double, y: Double):Int {
+        val dx = x - _cx
+        val dy = y - _cy
         // use pseudo-angle: a measure that monotonically increases
         // with real angle, but doesn't require expensive trigonometry
         val p: Double = 1 - dx / (abs(dx) + abs(dy))
         return floor((2.0 + if (dy < 0) -p else p) / 4 * this._hashSize).toInt()
     }
 
-    fun legalize(a: Int): Int {
+    private fun legalize(a: Int): Int {
         val triangles = this.triangles
         val coords = this.coords
         val halfedges = this.halfedges
@@ -302,13 +303,13 @@ class Delaunator(points: Array<Array<Double>>) {
         return ar
     }
 
-    fun link(a:Int, b:Int) {
+    private fun link(a:Int, b:Int) {
         this.halfedges[a] = b
         if (b != -1) this.halfedges[b] = a
     }
 
     // add a new triangle given vertex indices and adjacent half-edge ids
-    fun addTriangle(i0:Int, i1:Int, i2:Int, a:Int, b:Int, c:Int): Int {
+    private fun addTriangle(i0:Int, i1:Int, i2:Int, a:Int, b:Int, c:Int): Int {
         val t = this.trianglesLen
 
         this.triangles[t] = i0
@@ -350,7 +351,7 @@ class Node(
 
 
 // create a new node in a doubly linked list
-fun insertNode(coords: Array<Double>, i: Int, prev: Node? = null): Node {
+internal fun insertNode(coords: Array<Double>, i: Int, prev: Node? = null): Node {
     val node = Node(i, coords[2 * i], coords[2 * i + 1], 0, null, null, false)
 
     if (prev == null) {
@@ -367,8 +368,8 @@ fun insertNode(coords: Array<Double>, i: Int, prev: Node? = null): Node {
 }
 
 
-fun area(px: Double, py: Double, qx: Double, qy: Double, rx: Double, ry: Double) =
-    (qy - py) * (rx - qx) - (qx - px) * (ry - qy)
+fun area(ax: Double, ay: Double, bx: Double, by: Double, cx: Double, cy: Double) =
+    (by - ay) * (cx - bx) - (bx - ax) * (cy - by)
 
 
 fun inCircle(ax: Double, ay: Double,
@@ -438,13 +439,14 @@ fun circumcenter(ax: Double, ay: Double, bx: Double, by: Double, cx: Double, cy:
 inline fun Double?.isFalsy() = this == null || this == -0.0 || this == 0.0 || isNaN()
 inline fun Double?.orNull(): Double? = if (this.isFalsy()) null else this
 
-fun quicksort(ids: Uint32Array, coords: Array<Double>, left: Int, right: Int, cx: Double, cy: Double) {
 
-    fun compare(coords: Array<Double>, i: Int, j: Int, cx: Double, cy: Double): Double {
-        val d1: Double = dist(coords[2 * i], coords[2 * i + 1], cx, cy)
-        val d2: Double = dist(coords[2 * j], coords[2 * j + 1], cx, cy)
-        return (d1 - d2).orNull() ?: (coords[2 * i] - coords[2 * j]) ?: (coords[2 * i + 1] - coords[2 * j + 1])
-    }
+private inline fun compare(coords: Array<Double>, i: Int, j: Int, cx: Double, cy: Double): Double {
+    val d1: Double = dist(coords[2 * i], coords[2 * i + 1], cx, cy)
+    val d2: Double = dist(coords[2 * j], coords[2 * j + 1], cx, cy)
+    return (d1 - d2).orNull() ?: (coords[2 * i] - coords[2 * j]) ?: (coords[2 * i + 1] - coords[2 * j + 1])
+}
+
+fun quicksort(ids: Uint32Array, coords: Array<Double>, left: Int, right: Int, cx: Double, cy: Double) {
 
     var j: Int
     var temp: Int
@@ -498,7 +500,7 @@ fun dist(ax: Double, ay: Double, bx: Double, by: Double): Double {
     return dx * dx + dy * dy
 }
 
-fun swap(arr:Uint32Array, i: Int, j: Int) {
+private fun swap(arr:Uint32Array, i: Int, j: Int) {
     val tmp = arr[i]
     arr[i] = arr[j]
     arr[j] = tmp

@@ -19,13 +19,12 @@
     const suite = new Benchmark.Suite;
     let points = uniform(10000);
     suite
-        .add('Dealaunay#triangles', function () {
-            delaunay.delaunator(points);
-        })
         .add('Delaunator#triangles', function () {
             Delaunator.from(points);
         })
-
+        .add('Dealaunay#triangles', function () {
+            delaunay.delaunator(points);
+        })
         .on('cycle', function (event) {
             console.log(String(event.target));
         })
