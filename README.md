@@ -178,5 +178,7 @@ You can also clone this repo and have a look on the [example directory](examples
 
 ## Inspirations
  - [d3js](https://github.com/d3/d3): a lot of concepts ported in this project
+ - [delaunator](https://github.com/mapbox/delaunator): A really fast JavaScript library for Delaunay triangulation of 2D points.
  - [kotlinx.html](https://github.com/Kotlin/kotlinx.html): isomorphic html rendering 
  - [kotlintest](https://github.com/kotlintest/kotlintest): nice DSL for testing (partly ported in [test](tests))
+ 
