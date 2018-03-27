@@ -1,0 +1,3 @@
+body { margin: 0; text-align: center; font-family: sans-serif; }
+canvas { border: 1px solid #ccc; position: relative; }
+a, a:visited { color: #09f }
