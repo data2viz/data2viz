@@ -120,7 +120,7 @@ class ForceCollision : Force {
         }
         quad.value = .0
         (quad as InternalNode).toList().forEach { node ->
-            if (node != null && node.value != null && node.value!! > quad.value!!) {
+            if (node?.value != null && node.value!! > quad.value!!) {
                 quad.value = node.value
             }
         }
