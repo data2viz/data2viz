@@ -1,2 +1,5 @@
+dependencies {
+    expectedBy project(":d2v-delaunay-common")
+}
 
 apply from: rootProject.file('gradle/test-js.gradle')
