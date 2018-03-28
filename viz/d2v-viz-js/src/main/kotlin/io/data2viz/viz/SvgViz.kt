@@ -1,18 +1,13 @@
 package io.data2viz.viz
 
-import io.data2viz.color.ColorOrGradient
-import io.data2viz.color.LinearGradient
-import io.data2viz.color.color
 import io.data2viz.core.CssClass
 import io.data2viz.core.Point
 import io.data2viz.math.Angle
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
 import org.w3c.dom.Element
-import org.w3c.dom.asList
 import org.w3c.dom.svg.SVGElement
 import kotlin.browser.document
-import kotlin.reflect.KProperty
 
 
 actual fun newRect(): Rect = RectDOM()
@@ -204,7 +199,7 @@ class LineDOM(override val domElement: Element = createSVGElement("line")) : Ele
 
 class RectDOM(override val domElement: Element = createSVGElement("rect"),
               private val stateManager: StateManager = StateManager() ) : ElementWrapper, Rect,
-        HasFill by FillDelegate(domElement),
+        HasFill by FillDelegate(domElement, stateManager),
         HasStroke by StrokeDelegate(domElement),
         StyledElement by StyledDelegate(domElement),
         Transformable by TransformableDelegate(domElement) {
@@ -275,118 +270,3 @@ class StyledDelegate(val element: Element): StyledElement {
     }
 
 }
-
-
-
-class FillDelegate(val element: Element) : HasFill {
-    override var fill: ColorOrGradient?
-        get() = element.getAttribute("fill")?.color
-        set(value) {
-            when (value) {
-                null                -> element.setAttribute("fill", "none")
-                is LinearGradient   -> addGradient(element, value, "fill")
-                else                -> element.setAttribute("fill", value.toString())
-            }
-        }
-}
-
-internal fun addGradient(
-    element: Element,
-    linearGradient: LinearGradient,
-    attribute: String
-) {
-    val id = nextId("LinearGradient")
-    element.setAttribute(attribute, "url(#$id)")
-    val linearGradientElement = createSVGElement("linearGradient").apply {
-        setAttribute("id", id)
-        setAttribute("gradientUnits", "userSpaceOnUse")
-        setAttribute("x1", linearGradient.x1.toString())
-        setAttribute("y1", linearGradient.y1.toString())
-        setAttribute("x2", linearGradient.x2.toString())
-        setAttribute("y2", linearGradient.y2.toString())
-        linearGradient.colorStops.forEach {
-            val stop = createSVGElement("stop").apply {
-                setAttribute("offset", "${100 * it.percent}%")
-                setAttribute("stop-color", "${it.color}")
-            }
-            appendChild(stop)
-        }
-    }
-    element.defs.appendChild(linearGradientElement)
-}
-
-
-var ids = 1
-private fun nextId(name: String): String = "$name${ids++}"
-
-private val Element.defs: Element
-    get() {
-        val svg = this.svg()
-        val defs = svg.childNodes.asList()
-            .filterIsInstance<Element>()
-            .firstOrNull { it.localName == "defs" }
-        return if (defs == null){
-            val newDefs = createSVGElement("defs")
-            svg.appendChild(newDefs)
-            newDefs
-        } else {
-            defs
-        }
-    }
-
-class StrokeDelegate(val element: Element) : HasStroke {
-
-    override var stroke: ColorOrGradient?
-        get() = element.getAttribute("stroke")?.color
-        set(value) {
-            when (value) {
-                null                -> element.setAttribute("stroke", "none")
-                is LinearGradient   -> addGradient(element, value, "stroke")
-                else                -> element.setAttribute("stroke", value.toString())
-            }
-        }
-
-    override var strokeWidth: Double?
-        get() = element.getAttribute("stroke-width")?.toDouble()
-        set(value) {
-            element.setAttribute("stroke-width", value?.toString() ?: "")
-        }
-}
-
-class DoubleAttributePropertyDelegate(val stateManager: StateManager? = null) : StateProperties {
-
-    var propName:String? = null
-
-    private lateinit var stateTarget: Element
-
-    override fun setPercent(percent: Double) {
-        stateTarget.setAttribute(propName!!, (states[0] + percent * (states[1]- states[0])).toString())
-    }
-
-    val states by lazy { mutableListOf<Double>() }
-
-    operator fun getValue(elementWrapper: ElementWrapper, property: KProperty<*>): Double =
-            elementWrapper.domElement.getAttribute(
-                propName ?: propertyMapping.getOrElse(property.name, { property.name }).also { propName = it })?.toDouble() ?: 0.0
-
-
-    operator fun setValue(element: ElementWrapper, property: KProperty<*>, d: Double) {
-
-        if (stateManager?.status == StateManagerStatus.RECORD){
-            stateTarget = element.domElement
-            if (states.size == 0){
-                states.add(getValue(element, property))
-
-            }
-            states.add(d)
-            stateManager.addStateProperty(this)
-        } else {
-            element.domElement.setAttribute(
-                propName ?: propertyMapping.getOrElse(property.name, { property.name }).also { propName = it }, d.toString())
-
-        }
-    }
-
-}
-
-

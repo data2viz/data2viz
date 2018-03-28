@@ -11,11 +11,12 @@ fun Group.rectanglesWithTransition() {
             y = 10.0
             width = 10.0
             height = 10.0
-            fill = colors.grey
+            fill = colors.orange
 
             transition {
                 x = 110.0
                 y = 110.0
+                fill = colors.grey
             }
         }
     }

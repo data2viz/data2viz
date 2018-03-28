@@ -2,6 +2,7 @@ dependencies {
     expectedBy project(":d2v-viz-common")
     compile project(":d2v-color-common")
     compile project(":d2v-color-js")
+    compile project(":d2v-interpolate-js")
     compile project(":d2v-path-common")
     compile project(":d2v-path-js")
 }
