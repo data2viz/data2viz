@@ -1,0 +1,12 @@
+dependencies {
+    compile project(":d2v-ease-common")
+    compile project(":d2v-timer-common")
+    compile project(":d2v-viz-common")
+    testCompile project(":d2v-viz-common")
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

@@ -138,22 +138,25 @@ class LineJfx(override val jfxElement: JfxLine = JfxLine()) : Line, JfxVizElemen
     override var y2: Double by DoublePropertyDelegate(jfxElement.endYProperty())
 }
 
-class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle()) : Rect, JfxVizElement,
+class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle(),
+              private val stateManager: StateManager = StateManager()
+              ) : Rect, JfxVizElement,
         StyledElement by StyleDelegate(jfxElement),
         HasFill by FillDelegate(jfxElement),
         HasStroke by StrokeDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement)
 {
     override fun addState(initState: Rect.() -> Unit) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        stateManager.status = StateManagerStatus.RECORD
+        initState(this)
+        stateManager.status = StateManagerStatus.REST
     }
 
     override fun percentToState(percent: Double) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        stateManager.percentToState(percent)    }
 
-    override var x: Double by DoublePropertyDelegate(jfxElement.xProperty())
-    override var y: Double by DoublePropertyDelegate(jfxElement.yProperty())
+    override var x: Double by DoublePropertyDelegate(jfxElement.xProperty(), stateManager)
+    override var y: Double by DoublePropertyDelegate(jfxElement.yProperty(), stateManager)
     override var width: Double by DoublePropertyDelegate(jfxElement.widthProperty())
     override var height: Double by DoublePropertyDelegate(jfxElement.heightProperty())
     override var rx: Double by DoublePropertyDelegate(jfxElement.arcWidthProperty())
@@ -229,9 +232,27 @@ class StrokeDelegate(val shape: JfxShape): HasStroke {
 
 }
 
-class DoublePropertyDelegate(val property: DoubleProperty) {
+class DoublePropertyDelegate(val property: DoubleProperty, val stateManager: StateManager? = null): StateProperties {
+
+    val states by lazy { mutableListOf<Double>() }
+
+
+    override fun setPercent(percent: Double) {
+        property.set((states[0] + percent * (states[1]- states[0])))
+    }
+
     operator fun getValue(vizElement: VizElement, prop: KProperty<*>): Double = property.get()
     operator fun setValue(vizElement: VizElement, prop: KProperty<*>, d: Double) {
-        property.set(d)
+        if (stateManager?.status == StateManagerStatus.RECORD){
+            if (states.size == 0){
+                states.add(property.get())
+
+            }
+            states.add(d)
+            stateManager.addStateProperty(this)
+        } else {
+            property.set(d)
+        }
+
     }
 }

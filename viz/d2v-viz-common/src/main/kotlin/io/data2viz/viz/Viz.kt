@@ -13,6 +13,8 @@ interface VizContext : Group
 
 interface VizElement
 
+
+
 interface StateableElement<T> {
     fun addState(initState: T.() -> Unit)
     fun percentToState(percent:Double)
@@ -132,3 +134,29 @@ expect fun newCircle(): Circle
 expect fun newText(): Text
 expect fun newPath(): PathVizElement
 
+
+class StateManager() {
+    var status = StateManagerStatus.REST
+
+    val properties = mutableListOf<StateProperties>()
+
+    fun addStateProperty(property: StateProperties){
+        properties.add(property)
+    }
+
+    fun percentToState(percent: Double) {
+//        println("percentToState $percent")
+        status = StateManagerStatus.UPDATE_PROPERTIES
+        properties.forEach {
+            it.setPercent(percent)
+        }
+        status = StateManagerStatus.REST
+    }
+}
+enum class StateManagerStatus {
+    REST, RECORD, UPDATE_PROPERTIES
+}
+
+interface StateProperties {
+    fun setPercent(percent: Double)
+}

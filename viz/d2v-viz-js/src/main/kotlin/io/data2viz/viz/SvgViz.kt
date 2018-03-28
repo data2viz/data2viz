@@ -200,31 +200,6 @@ class LineDOM(override val domElement: Element = createSVGElement("line")) : Ele
     override var y2: Double by DoubleAttributePropertyDelegate()
 }
 
-class StateManager() {
-    var status = StateManagerStatus.REST
-
-    val properties = mutableListOf<StateProperties>()
-
-    fun addStateProperty(property: StateProperties){
-        properties.add(property)
-    }
-
-    fun percentToState(percent: Double) {
-//        println("percentToState $percent")
-        status = StateManagerStatus.UPDATE_PROPERTIES
-        properties.forEach {
-            it.setPercent(percent)
-        }
-        status = StateManagerStatus.REST
-    }
-}
-enum class StateManagerStatus {
-    REST, RECORD, UPDATE_PROPERTIES
-}
-
-interface StateProperties {
-    fun setPercent(percent: Double)
-}
 
 
 class RectDOM(override val domElement: Element = createSVGElement("rect"),
@@ -405,10 +380,11 @@ class DoubleAttributePropertyDelegate(val stateManager: StateManager? = null) : 
             }
             states.add(d)
             stateManager.addStateProperty(this)
-        }
+        } else {
+            element.domElement.setAttribute(
+                propName ?: propertyMapping.getOrElse(property.name, { property.name }).also { propName = it }, d.toString())
 
-        element.domElement.setAttribute(
-            propName ?: propertyMapping.getOrElse(property.name, { property.name }).also { propName = it }, d.toString())
+        }
     }
 
 }
