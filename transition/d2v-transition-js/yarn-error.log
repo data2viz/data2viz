@@ -1,8 +1,8 @@
 Arguments:
-  /Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js/.gradle/nodejs/node-v8.9.3-darwin-x64/bin/node /Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js/.gradle/yarn/yarn-latest/bin/yarn test
+  /Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js/.gradle/nodejs/node-v8.9.3-darwin-x64/bin/node /Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js/.gradle/yarn/yarn-latest/bin/yarn test
 
 PATH:
-  /Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js/.gradle/yarn/yarn-latest/bin:/Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js/.gradle/npm/npm-v5.5.1/bin:/Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js/.gradle/nodejs/node-v8.9.3-darwin-x64/bin:/Users/gaetanzoritchak/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+  /Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js/.gradle/yarn/yarn-latest/bin:/Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js/.gradle/npm/npm-v5.5.1/bin:/Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js/.gradle/nodejs/node-v8.9.3-darwin-x64/bin:/Users/gaetanzoritchak/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
 
 Yarn version:
   1.5.1
@@ -3247,12 +3247,12 @@ Trace:
   Exit code: 1
   Command: sh
   Arguments: -c karma start
-  Directory: /Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js
+  Directory: /Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js
   Output:
 
-      at ProcessTermError.MessageError (/Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js/.gradle/yarn/yarn-latest/lib/node_modules/yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js/.gradle/yarn/yarn-latest/lib/node_modules/yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/Users/gaetanzoritchak/dev/data2viz/data2viz/timer/d2v-timer-js/.gradle/yarn/yarn-latest/lib/node_modules/yarn/lib/cli.js:30281:17)
+      at ProcessTermError.MessageError (/Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js/.gradle/yarn/yarn-latest/lib/node_modules/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js/.gradle/yarn/yarn-latest/lib/node_modules/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/Users/gaetanzoritchak/dev/data2viz/data2viz/transition/d2v-transition-js/.gradle/yarn/yarn-latest/lib/node_modules/yarn/lib/cli.js:30281:17)
       at emitTwo (events.js:126:13)
       at ChildProcess.emit (events.js:214:7)
       at maybeClose (internal/child_process.js:925:16)

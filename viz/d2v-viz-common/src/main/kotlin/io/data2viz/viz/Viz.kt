@@ -13,6 +13,11 @@ interface VizContext : Group
 
 interface VizElement
 
+interface StateableElement<T> {
+    fun addState(initState: T.() -> Unit)
+    fun percentToState(percent:Double)
+}
+
 
 interface Group : Transformable, StyledElement, VizElement {
     fun add(vizElement: VizElement)
@@ -58,7 +63,7 @@ interface Line : VizElement, Shape, Transformable, StyledElement {
     var y2: Double
 }
 
-interface Rect : VizElement, Shape, Transformable, StyledElement {
+interface Rect : VizElement, Shape, Transformable, StyledElement, StateableElement<Rect> {
     var x: Double
     var y: Double
     var width: Double

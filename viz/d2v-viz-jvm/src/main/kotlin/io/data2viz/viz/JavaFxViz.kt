@@ -144,6 +144,14 @@ class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle()) : Rect, Jf
         HasStroke by StrokeDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement)
 {
+    override fun addState(initState: Rect.() -> Unit) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun percentToState(percent: Double) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override var x: Double by DoublePropertyDelegate(jfxElement.xProperty())
     override var y: Double by DoublePropertyDelegate(jfxElement.yProperty())
     override var width: Double by DoublePropertyDelegate(jfxElement.widthProperty())

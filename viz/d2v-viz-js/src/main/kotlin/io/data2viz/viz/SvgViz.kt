@@ -200,14 +200,52 @@ class LineDOM(override val domElement: Element = createSVGElement("line")) : Ele
     override var y2: Double by DoubleAttributePropertyDelegate()
 }
 
-class RectDOM(override val domElement: Element = createSVGElement("rect")) : ElementWrapper, Rect,
+class StateManager() {
+    var status = StateManagerStatus.REST
+
+    val properties = mutableListOf<StateProperties>()
+
+    fun addStateProperty(property: StateProperties){
+        properties.add(property)
+    }
+
+    fun percentToState(percent: Double) {
+//        println("percentToState $percent")
+        status = StateManagerStatus.UPDATE_PROPERTIES
+        properties.forEach {
+            it.setPercent(percent)
+        }
+        status = StateManagerStatus.REST
+    }
+}
+enum class StateManagerStatus {
+    REST, RECORD, UPDATE_PROPERTIES
+}
+
+interface StateProperties {
+    fun setPercent(percent: Double)
+}
+
+
+class RectDOM(override val domElement: Element = createSVGElement("rect"),
+              private val stateManager: StateManager = StateManager() ) : ElementWrapper, Rect,
         HasFill by FillDelegate(domElement),
         HasStroke by StrokeDelegate(domElement),
         StyledElement by StyledDelegate(domElement),
         Transformable by TransformableDelegate(domElement) {
 
-    override var x: Double by DoubleAttributePropertyDelegate()
-    override var y: Double by DoubleAttributePropertyDelegate()
+    override fun addState(initState: Rect.() -> Unit) {
+        stateManager.status = StateManagerStatus.RECORD
+        initState(this)
+        stateManager.status = StateManagerStatus.REST
+    }
+
+    override fun percentToState(percent: Double) {
+        stateManager.percentToState(percent)
+    }
+
+    override var x: Double by DoubleAttributePropertyDelegate(stateManager)
+    override var y: Double by DoubleAttributePropertyDelegate(stateManager)
     override var width: Double by DoubleAttributePropertyDelegate()
     override var height: Double by DoubleAttributePropertyDelegate()
     override var rx: Double by DoubleAttributePropertyDelegate()
@@ -340,12 +378,37 @@ class StrokeDelegate(val element: Element) : HasStroke {
         }
 }
 
-class DoubleAttributePropertyDelegate {
+class DoubleAttributePropertyDelegate(val stateManager: StateManager? = null) : StateProperties {
+
+    var propName:String? = null
+
+    private lateinit var stateTarget: Element
+
+    override fun setPercent(percent: Double) {
+        stateTarget.setAttribute(propName!!, (states[0] + percent * (states[1]- states[0])).toString())
+    }
+
+    val states by lazy { mutableListOf<Double>() }
+
     operator fun getValue(elementWrapper: ElementWrapper, property: KProperty<*>): Double =
-            elementWrapper.domElement.getAttribute(propertyMapping.getOrElse(property.name, { property.name }))?.toDouble() ?: 0.0
+            elementWrapper.domElement.getAttribute(
+                propName ?: propertyMapping.getOrElse(property.name, { property.name }).also { propName = it })?.toDouble() ?: 0.0
+
 
     operator fun setValue(element: ElementWrapper, property: KProperty<*>, d: Double) {
-        element.domElement.setAttribute(propertyMapping.getOrElse(property.name, { property.name }), d.toString())
+
+        if (stateManager?.status == StateManagerStatus.RECORD){
+            stateTarget = element.domElement
+            if (states.size == 0){
+                states.add(getValue(element, property))
+
+            }
+            states.add(d)
+            stateManager.addStateProperty(this)
+        }
+
+        element.domElement.setAttribute(
+            propName ?: propertyMapping.getOrElse(property.name, { property.name }).also { propName = it }, d.toString())
     }
 
 }
