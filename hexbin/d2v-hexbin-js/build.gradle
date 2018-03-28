@@ -1,0 +1,6 @@
+dependencies {
+    expectedBy project(":d2v-hexbin-common")
+    compile project(":d2v-core-js")
+    compile project(":d2v-viz-js")
+    testCompile project(":d2v-tests-js")
+}

@@ -9,6 +9,7 @@ const val EPSILON2 = EPSILON * EPSILON
 
 const val PI = kotlin.math.PI
 const val HALFPI = PI / 2.0
+const val THIRDPI = PI / 3.0
 const val QUARTERPI = PI / 4.0
 
 const val TAU = PI * 2.0
