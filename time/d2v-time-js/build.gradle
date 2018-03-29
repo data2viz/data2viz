@@ -1,4 +1,4 @@
 dependencies {
-    expectedBy project(":d2v-time-common")
+    expectedBy project(":time:d2v-time-common")
 }
 apply from: rootProject.file('gradle/test-js.gradle')

@@ -3,7 +3,7 @@
 dependencies {
     System.getProperty("all_d2v").split(",").each {
         if (it.contains("-common")) {
-            compile project(":$it")
+            compile project("$it")
         }
     }
 }

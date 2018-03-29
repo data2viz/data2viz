@@ -1,5 +1,5 @@
 dependencies {
-    compile project(":d2v-delaunay-js")
+    compile project(":delaunay:d2v-delaunay-js")
 }
 
 apply from: rootProject.file('gradle/bundle-example.gradle')

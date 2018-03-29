@@ -1,4 +1,4 @@
 dependencies {
-    compile project(":d2v-time-common")
-    testCompile project(":d2v-tests-common")
+    compile project(":time:d2v-time-common")
+    testCompile project(":tests:d2v-tests-common")
 }

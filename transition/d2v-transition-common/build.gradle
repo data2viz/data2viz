@@ -1,8 +1,8 @@
 dependencies {
-    compile project(":d2v-ease-common")
-    compile project(":d2v-timer-common")
-    compile project(":d2v-viz-common")
-    testCompile project(":d2v-viz-common")
+    compile project(":ease:d2v-ease-common")
+    compile project(":timer:d2v-timer-common")
+    compile project(":viz:d2v-viz-common")
+    testCompile project(":viz:d2v-viz-common")
 }
 
 kotlin {

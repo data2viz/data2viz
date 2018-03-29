@@ -15,7 +15,7 @@ allExampleProjects.forEach {
     def projectName = it
     println projectName
     
-    def srcBuildDir = project(":$projectName-js").buildDir
+    def srcBuildDir = project(":$it:$projectName-js").buildDir
 
     allExampleProjectsCopy += ":site:copy-$projectName"
     

@@ -1,5 +1,5 @@
 dependencies {
-    compile project(":d2v-time-js")
-    expectedBy project(":d2v-timeFormat-common")
+    compile project(":time:d2v-time-js")
+    expectedBy project(":timeFormat:d2v-timeFormat-common")
 }
 apply from: rootProject.file('gradle/test-js.gradle')

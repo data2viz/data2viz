@@ -1,5 +1,5 @@
 
 dependencies{
-    expectedBy project(":d2v-core-common")
+    expectedBy project(":core:d2v-core-common")
 }
 

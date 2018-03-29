@@ -1,4 +1,4 @@
 dependencies {
-    expectedBy project(":d2v-chord-common")
-    compile project(":d2v-path-jvm")
+    expectedBy project(":chord:d2v-chord-common")
+    compile project(":path:d2v-path-jvm")
 }

@@ -1,4 +1,4 @@
 dependencies {
-    compile project(":d2v-core-common")
-    compile project(":d2v-core-js")
+    compile project(":core:d2v-core-common")
+    compile project(":core:d2v-core-js")
 }

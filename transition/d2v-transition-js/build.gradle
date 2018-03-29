@@ -1,9 +1,9 @@
 dependencies {
-    expectedBy project(":d2v-transition-common")
-    compile project(":d2v-ease-js")
-    compile project(":d2v-timer-js")
-    compile project(":d2v-viz-js")
-    testCompile project(":d2v-viz-js")
+    expectedBy project(":transition:d2v-transition-common")
+    compile project(":ease:d2v-ease-js")
+    compile project(":timer:d2v-timer-js")
+    compile project(":viz:d2v-viz-js")
+    testCompile project(":viz:d2v-viz-js")
     testCompile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
 }
 

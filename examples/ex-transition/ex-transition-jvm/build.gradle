@@ -1,4 +1,4 @@
 dependencies {
-    compile project(":d2v-data2viz-jvm")
-    expectedBy project(":ex-transition-common")
+    expectedBy project(":ex-transition:ex-transition-common")
+    compile project(":data2viz:d2v-data2viz-jvm")
 }

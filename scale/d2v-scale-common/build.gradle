@@ -1,7 +1,7 @@
 dependencies {
-    compile project(":d2v-interpolate-common")
-    compile project(":d2v-core-common")
-    compile project(":d2v-time-common")
-    compile project(":d2v-timeFormat-common")
-    compile project(":d2v-color-common")
+    compile project(":interpolate:d2v-interpolate-common")
+    compile project(":core:d2v-core-common")
+    compile project(":time:d2v-time-common")
+    compile project(":timeFormat:d2v-timeFormat-common")
+    compile project(":color:d2v-color-common")
 }

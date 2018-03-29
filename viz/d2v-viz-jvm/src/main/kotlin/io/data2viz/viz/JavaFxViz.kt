@@ -142,7 +142,7 @@ class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle(),
               private val stateManager: StateManager = StateManager()
               ) : Rect, JfxVizElement,
         StyledElement by StyleDelegate(jfxElement),
-        HasFill by FillDelegate(jfxElement),
+        HasFill by FillDelegate(jfxElement, stateManager),
         HasStroke by StrokeDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement)
 {
@@ -193,7 +193,7 @@ fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient  = JfxLinearGradient
 
 private fun List<LinearGradient.ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
 
-class FillDelegate(val shape: JfxShape) : HasFill {
+class FillDelegate(val shape: JfxShape, val stateManager: StateManager? = null) : HasFill {
     override var fill: ColorOrGradient?
 
         get() = (shape.fill as javafx.scene.paint.Color?)?.d2vColor
@@ -235,7 +235,6 @@ class StrokeDelegate(val shape: JfxShape): HasStroke {
 class DoublePropertyDelegate(val property: DoubleProperty, val stateManager: StateManager? = null): StateProperties {
 
     val states by lazy { mutableListOf<Double>() }
-
 
     override fun setPercent(percent: Double) {
         property.set((states[0] + percent * (states[1]- states[0])))

@@ -1,54 +1,166 @@
-/**
- * All modules are discovered and added if they respect a convention name. 
- * 
- * First, all d2v-moduleName-common, d2v-moduleName-js,d2v-moduleName-jvm (with the exception of the "data2viz" modules)
- * are discovered and included in the build.
- * 
- * Then, the data2viz modules (d2v-data2viz-common, d2v-data2viz-js and d2v-data2viz-jvm) are included with
- * dependencies on the first list of projects.
- * 
- * Finally, all examples projects are included with dependencies on d2v-data2viz-common, d2v-data2viz-js and
- * d2v-data2viz-jvm. 
- */
+def d2v = [
+        ":axis:d2v-axis-common", 
+        ":axis:d2v-axis-js", 
+        ":axis:d2v-axis-jvm", 
+        ":chord:d2v-chord-common", 
+        ":chord:d2v-chord-js", 
+        ":chord:d2v-chord-jvm", 
+        ":color:d2v-color-common", 
+        ":color:d2v-color-js", 
+        ":color:d2v-color-jvm", 
+        ":contour:d2v-contour-common", 
+        ":contour:d2v-contour-js", 
+        ":contour:d2v-contour-jvm", 
+        ":core:d2v-core-common", 
+        ":core:d2v-core-js", 
+        ":core:d2v-core-jvm", 
+        ":delaunay:d2v-delaunay-common", 
+        ":delaunay:d2v-delaunay-js", 
+        ":delaunay:d2v-delaunay-jvm", 
+        ":dsv:d2v-dsv-common", 
+        ":dsv:d2v-dsv-js", 
+        ":dsv:d2v-dsv-jvm", 
+        ":ease:d2v-ease-common", 
+        ":ease:d2v-ease-js", 
+        ":ease:d2v-ease-jvm", 
+        ":force:d2v-force-common", 
+        ":force:d2v-force-js", 
+        ":force:d2v-force-jvm", 
+        ":format:d2v-format-common", 
+        ":format:d2v-format-js", 
+        ":format:d2v-format-jvm", 
+        ":geo:d2v-geo-common", 
+        ":geo:d2v-geo-js", 
+        ":geo:d2v-geo-jvm", 
+        ":hexbin:d2v-hexbin-common", 
+        ":hexbin:d2v-hexbin-js", 
+        ":hexbin:d2v-hexbin-jvm", 
+        ":hierarchy:d2v-hierarchy-common", 
+        ":hierarchy:d2v-hierarchy-js", 
+        ":hierarchy:d2v-hierarchy-jvm", 
+        ":interpolate:d2v-interpolate-common", 
+        ":interpolate:d2v-interpolate-js", 
+        ":interpolate:d2v-interpolate-jvm", 
+        ":path:d2v-path-common", 
+        ":path:d2v-path-js", 
+        ":path:d2v-path-jvm", 
+        ":quadtree:d2v-quadtree-common", 
+        ":quadtree:d2v-quadtree-js", 
+        ":quadtree:d2v-quadtree-jvm", 
+        ":random:d2v-random-common", 
+        ":random:d2v-random-js", 
+        ":random:d2v-random-jvm", 
+        ":request:d2v-request-common", 
+        ":request:d2v-request-js", 
+        ":request:d2v-request-jvm", 
+        ":sankey:d2v-sankey-common", 
+        ":sankey:d2v-sankey-js", 
+        ":sankey:d2v-sankey-jvm", 
+        ":scale:d2v-scale-common", 
+        ":scale:d2v-scale-js", 
+        ":scale:d2v-scale-jvm", 
+        ":shape:d2v-shape-common", 
+        ":shape:d2v-shape-js", 
+        ":shape:d2v-shape-jvm", 
+        ":tests:d2v-tests-common", 
+        ":tests:d2v-tests-js", 
+        ":tests:d2v-tests-jvm", 
+        ":tile:d2v-tile-common", 
+        ":tile:d2v-tile-js", 
+        ":tile:d2v-tile-jvm", 
+        ":time:d2v-time-common", 
+        ":time:d2v-time-js", 
+        ":time:d2v-time-jvm", 
+        ":timeFormat:d2v-timeFormat-common", 
+        ":timeFormat:d2v-timeFormat-js", 
+        ":timeFormat:d2v-timeFormat-jvm", 
+        ":timer:d2v-timer-common", 
+        ":timer:d2v-timer-js", 
+        ":timer:d2v-timer-jvm", 
+        ":transition:d2v-transition-common", 
+        ":transition:d2v-transition-js", 
+        ":transition:d2v-transition-jvm", 
+        ":viz:d2v-viz-common", 
+        ":viz:d2v-viz-js", 
+        ":viz:d2v-viz-jvm", 
+        ":voronoi:d2v-voronoi-common", 
+        ":voronoi:d2v-voronoi-js", 
+        ":voronoi:d2v-voronoi-jvm"]
 
-includeAll()
-
-def includeAll(){
-
-    def allProjects = []
-    //All d2v- projects except the one that holds global dependencies
-    rootDir.eachDir {
-        if(!it.name.contains("data2viz") && !it.name.contains("site")){
-            allProjects += includeMulti(it.name)
-        }
-    }
-
-    System.setProperty("all_d2v", allProjects.join(","))
-    
-    includeMulti("data2viz")
-    
-    new File(rootDir, "examples").eachDir { includeMulti("examples/" +it.name) }
-    
-    include(":site")
+System.setProperty("all_d2v", d2v.join(","))
+d2v.forEach{
+    include(it)
 }
 
-def includeMulti(String path){
-    def ret = []
-    new File(rootDir, path).eachDir{ 
-        def name = includeAndNormalizeName(path + '/' + it.name)
-        if ( !name.isEmpty()){
-            ret += name
-        }
-    }
-    return ret
+include ":data2viz:d2v-data2viz-common",
+        ":data2viz:d2v-data2viz-js",
+        ":data2viz:d2v-data2viz-jvm"
+
+def examples = [ 
+        ":ex-chord", 
+        ":ex-chord:ex-chord-common", 
+        ":ex-chord:ex-chord-js", 
+        ":ex-chord:ex-chord-jvm", 
+        
+        ":ex-delaunay", 
+        ":ex-delaunay:ex-delaunay-js", 
+ 
+        ":ex-force", 
+        ":ex-force:ex-force-common", 
+        ":ex-force:ex-force-js", 
+        ":ex-force:ex-force-jvm", 
+
+        ":ex-hexbin", 
+        ":ex-hexbin:ex-hexbin-common", 
+        ":ex-hexbin:ex-hexbin-js", 
+        ":ex-hexbin:ex-hexbin-jvm", 
+
+        
+        ":ex-geo", 
+        ":ex-geo:ex-geo-common", 
+        ":ex-geo:ex-geo-js", 
+        ":ex-geo:ex-geo-jvm", 
+        
+        ":ex-line-of-sight", 
+        ":ex-line-of-sight:ex-line-of-sight-common", 
+        ":ex-line-of-sight:ex-line-of-sight-js", 
+        ":ex-line-of-sight:ex-line-of-sight-jvm",
+        
+        ":ex-natural-logscale", 
+        ":ex-natural-logscale:ex-natural-logscale-common", 
+        ":ex-natural-logscale:ex-natural-logscale-js", 
+        ":ex-natural-logscale:ex-natural-logscale-jvm", 
+        
+        ":ex-progression-stack", 
+        ":ex-progression-stack:ex-progression-stack-common", 
+        ":ex-progression-stack:ex-progression-stack-js", 
+        ":ex-progression-stack:ex-progression-stack-jvm", 
+        
+        ":ex-sankey", 
+        ":ex-sankey:ex-sankey-common", 
+        ":ex-sankey:ex-sankey-js", 
+        ":ex-sankey:ex-sankey-jvm", 
+        
+        ":ex-selection", 
+        ":ex-selection:ex-selection-common", 
+        ":ex-selection:ex-selection-js", 
+        ":ex-selection:ex-selection-jvm", 
+        
+        ":ex-streamGraph", 
+        ":ex-streamGraph:ex-streamGraph-common", 
+        ":ex-streamGraph:ex-streamGraph-js", 
+        ":ex-streamGraph:ex-streamGraph-jvm", 
+        
+        ":ex-transition", 
+        ":ex-transition:ex-transition-common", 
+        ":ex-transition:ex-transition-js", 
+        ":ex-transition:ex-transition-jvm"]
+
+
+rootProject.name = "data2viz"
+
+examples.forEach{
+    include(it)
+    project(it).projectDir = "examples${it.replace(':', '/')}" as File
 }
 
-def includeAndNormalizeName(String path) {
-    def name = path.substring(path.lastIndexOf('/')+1)
-    if(name.endsWith("-common") || name.endsWith("-jvm") || name.endsWith("-js")) {
-        include(name)
-        project(":$name").projectDir = file(path)
-        return name
-    }
-    return ""
-}

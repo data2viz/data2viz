@@ -1,4 +1,4 @@
 dependencies {
-//    compile project(":d2v-path-common")
-    testCompile project(":d2v-tests-common")
+//    compile project(":path:d2v-path-common")
+    testCompile project(":tests:d2v-tests-common")
 }

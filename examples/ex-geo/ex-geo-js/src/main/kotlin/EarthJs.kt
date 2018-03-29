@@ -7,14 +7,11 @@ import io.data2viz.geo.projection.orthographic
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.path.SvgPath
-import io.data2viz.svg.SVGElement
-import io.data2viz.viz.PathVizElement
 import io.data2viz.viz.createSVGElement
 import io.data2viz.viz.selectOrCreateSvg
 import kotlinx.coroutines.experimental.await
 import kotlinx.coroutines.experimental.promise
 import org.w3c.dom.Element
-import org.w3c.dom.events.MouseEvent
 import org.w3c.fetch.Request
 import kotlin.browser.window
 import kotlin.js.Date

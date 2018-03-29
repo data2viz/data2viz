@@ -1,6 +1,6 @@
 
 dependencies {
-    expectedBy project(":d2v-tests-common")
+    expectedBy project(":tests:d2v-tests-common")
     compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 

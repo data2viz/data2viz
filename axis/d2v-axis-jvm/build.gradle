@@ -1,8 +1,8 @@
 dependencies {
-    compile project(":d2v-color-jvm")
-    compile project(":d2v-core-jvm")
-    compile project(":d2v-scale-jvm")
-    compile project(":d2v-viz-jvm")
-    testCompile project(":d2v-format-jvm")
-    expectedBy project(":d2v-axis-common")
+    compile project(":color:d2v-color-jvm")
+    compile project(":core:d2v-core-jvm")
+    compile project(":scale:d2v-scale-jvm")
+    compile project(":viz:d2v-viz-jvm")
+    testCompile project(":format:d2v-format-jvm")
+    expectedBy project(":axis:d2v-axis-common")
 }

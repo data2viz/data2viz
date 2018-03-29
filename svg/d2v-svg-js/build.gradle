@@ -1,5 +1,0 @@
-dependencies {
-    compile project(":d2v-core-js")
-    compile project(":d2v-color-common")
-    compile project(":d2v-color-js")
-}

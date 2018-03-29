@@ -1,7 +1,7 @@
 
 dependencies {
-    compile project(":d2v-data2viz-js")
-    expectedBy project(":ex-transition-common")
+    expectedBy project(":ex-transition:ex-transition-common")
+    compile project(":data2viz:d2v-data2viz-js")
     compile "org.jetbrains.kotlinx:kotlinx-html-js:$html_version"
 }
 

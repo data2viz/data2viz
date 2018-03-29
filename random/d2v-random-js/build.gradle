@@ -1,8 +1,8 @@
 
 dependencies{
-    expectedBy project(":d2v-random-common")
-    testCompile project(":d2v-color-common")
-    testCompile project(":d2v-color-js")
+    expectedBy project(":random:d2v-random-common")
+    testCompile project(":color:d2v-color-common")
+    testCompile project(":color:d2v-color-js")
 }
 
 apply from: rootProject.file('gradle/test-js.gradle')

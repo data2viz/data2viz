@@ -1,6 +1,6 @@
 dependencies {
-    expectedBy project(":ex-sankey-common")
-    compile project(":d2v-data2viz-js")
+    expectedBy project(":ex-sankey:ex-sankey-common")
+    compile project(":data2viz:d2v-data2viz-js")
 }
 
 apply from: rootProject.file('gradle/bundle-example.gradle')

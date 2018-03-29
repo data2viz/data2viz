@@ -1,4 +1,4 @@
 dependencies {
-    expectedBy project(":d2v-quadtree-common")
-    compile project(":d2v-core-jvm")
+    expectedBy project(":quadtree:d2v-quadtree-common")
+    compile project(":core:d2v-core-jvm")
 }

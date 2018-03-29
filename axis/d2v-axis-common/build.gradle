@@ -1,6 +1,6 @@
 dependencies {
-    compile project(":d2v-color-common")
-    compile project(":d2v-scale-common")
-    compile project(":d2v-viz-common")
-    testCompile project(":d2v-format-common")
+    compile project(":color:d2v-color-common")
+    compile project(":scale:d2v-scale-common")
+    compile project(":viz:d2v-viz-common")
+    testCompile project(":format:d2v-format-common")
 }

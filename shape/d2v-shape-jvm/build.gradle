@@ -1,10 +1,10 @@
 dependencies {
-    expectedBy project(":d2v-shape-common")
-    compile project(":d2v-path-common")
-    compile project(":d2v-path-jvm")
-    testCompile project(":d2v-tests-common")
-    testCompile project(":d2v-tests-jvm")
-    testCompile project(":d2v-format-common")
-    testCompile project(":d2v-format-jvm")
+    expectedBy project(":shape:d2v-shape-common")
+    compile project(":path:d2v-path-common")
+    compile project(":path:d2v-path-jvm")
+    testCompile project(":tests:d2v-tests-common")
+    testCompile project(":tests:d2v-tests-jvm")
+    testCompile project(":format:d2v-format-common")
+    testCompile project(":format:d2v-format-jvm")
 //    testCompile 'no.tornado:tornadofx:1.7.11'
 }

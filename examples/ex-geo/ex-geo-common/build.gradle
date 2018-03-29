@@ -1,5 +1,5 @@
 dependencies {
-    compile project(":d2v-geo-common")
-    compile project(":d2v-shape-common")
-    compile project(":d2v-data2viz-common")
+    compile project(":geo:d2v-geo-common")
+    compile project(":shape:d2v-shape-common")
+    compile project(":data2viz:d2v-data2viz-common")
 }

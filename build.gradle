@@ -72,7 +72,7 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
             compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
-            testCompile project(":d2v-tests-common")
+            testCompile project(":tests:d2v-tests-common")
         }
     }
     if (project.name.endsWith('-js')) {
@@ -80,8 +80,8 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-            testCompile project(":d2v-tests-common")
-            testCompile project(":d2v-tests-js")
+            testCompile project(":tests:d2v-tests-common")
+            testCompile project(":tests:d2v-tests-js")
         }
         compileKotlin2Js {
             kotlinOptions {
@@ -103,8 +103,8 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
             testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
             testCompile "org.testfx:testfx-core:$textfx_version"
             testCompile "org.testfx:testfx-junit:$textfx_version"
-            testCompile project(":d2v-tests-common")
-            testCompile project(":d2v-tests-jvm")
+            testCompile project(":tests:d2v-tests-common")
+            testCompile project(":tests:d2v-tests-jvm")
             testCompile 'junit:junit:4.12'
         }
 
@@ -127,7 +127,6 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
 
 configure(subprojects.findAll { it.name.startsWith('d2v-') }) {
     apply plugin: 'org.kordamp.gradle.stats'
-    
     apply from: rootProject.file('gradle/publish-bintray.gradle')  
 }
 

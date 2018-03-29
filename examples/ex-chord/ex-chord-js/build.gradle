@@ -1,8 +1,8 @@
 dependencies {
-    expectedBy project(":ex-chord-common")
-    compile project(":d2v-chord-common")
-    compile project(":d2v-chord-js")
-    compile project(":d2v-data2viz-js")
+    expectedBy project(":ex-chord:ex-chord-common")
+    compile project(":chord:d2v-chord-common")
+    compile project(":chord:d2v-chord-js")
+    compile project(":data2viz:d2v-data2viz-js")
 }
 
 apply from: rootProject.file('gradle/bundle-example.gradle')

@@ -7,9 +7,8 @@ import io.data2viz.viz.StateableElement
 
 
 
-inline fun <reified T: StateableElement<T>> T.transition(noinline configure: T.() -> Unit ){
+inline fun <reified T: StateableElement<T>> T.transition(noinline configure: T.() -> Unit ) = 
     Transition(this, configure)
-}
 
 class Transition<T: StateableElement<T>>(
     private val target: T,
@@ -32,7 +31,7 @@ class Transition<T: StateableElement<T>>(
     private fun scheduleTransition(){
 //        println("Schedule transition")
         target.addState(configure)
-        timer { time ->
+        timer (delay) { time ->
             var percent  = time / duration
             if (percent> .999999){
                 stop()

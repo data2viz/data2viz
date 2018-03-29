@@ -1,4 +1,4 @@
 dependencies {
-    expectedBy project(":d2v-format-common")
+    expectedBy project(":format:d2v-format-common")
 }
 apply from: rootProject.file('gradle/test-js.gradle')

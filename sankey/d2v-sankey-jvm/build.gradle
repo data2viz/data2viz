@@ -1,4 +1,4 @@
 dependencies {
-    expectedBy project(":d2v-sankey-common")
-    compile project(":d2v-shape-jvm")
+    expectedBy project(":sankey:d2v-sankey-common")
+    compile project(":shape:d2v-shape-jvm")
 }

@@ -1,5 +1,5 @@
 dependencies {
-    expectedBy project(":d2v-hierarchy-common")
+    expectedBy project(":hierarchy:d2v-hierarchy-common")
 }
 
 apply from: rootProject.file('gradle/test-js.gradle')

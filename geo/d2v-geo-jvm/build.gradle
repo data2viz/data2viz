@@ -1,9 +1,9 @@
 dependencies {
-    expectedBy project(":d2v-geo-common")
-    compile project(":d2v-path-common")
-    compile project(":d2v-path-jvm")
-    compile project(":d2v-core-jvm")
-    testCompile project(":d2v-viz-jvm")
+    expectedBy project(":geo:d2v-geo-common")
+    compile project(":path:d2v-path-common")
+    compile project(":path:d2v-path-jvm")
+    compile project(":core:d2v-core-jvm")
+    testCompile project(":viz:d2v-viz-jvm")
     compile "io.data2viz:geojson-jvm:$geojson_version"
 }
 

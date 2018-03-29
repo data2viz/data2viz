@@ -10,5 +10,6 @@ class AxisTests : TestBase() {
     fun one(){
         //Todo remove after the first real test.
         true shouldBe true
+        
     }
 }

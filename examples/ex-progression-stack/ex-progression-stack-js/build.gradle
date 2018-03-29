@@ -1,7 +1,7 @@
 
 dependencies {
-    compile project(":d2v-data2viz-js")
-    expectedBy project(":ex-progression-stack-common")
+    compile project(":data2viz:d2v-data2viz-js")
+    expectedBy project(":ex-progression-stack:ex-progression-stack-common")
 }
 
 apply from: rootProject.file('gradle/bundle-example.gradle')

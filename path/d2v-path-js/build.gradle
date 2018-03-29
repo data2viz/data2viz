@@ -1,6 +1,6 @@
 dependencies {
-    expectedBy project(":d2v-path-common")
-    testCompile project(":d2v-format-common")
-    testCompile project(":d2v-format-js")
+    expectedBy project(":path:d2v-path-common")
+    testCompile project(":format:d2v-format-common")
+    testCompile project(":format:d2v-format-js")
 }
 apply from: rootProject.file('gradle/test-js.gradle')

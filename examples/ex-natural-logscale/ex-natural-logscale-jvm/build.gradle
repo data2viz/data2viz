@@ -1,4 +1,4 @@
 dependencies {
-    compile project(":d2v-data2viz-jvm")
-    expectedBy project(":ex-natural-logscale-common")
+    compile project(":data2viz:d2v-data2viz-jvm")
+    expectedBy project(":ex-natural-logscale:ex-natural-logscale-common")
 }
