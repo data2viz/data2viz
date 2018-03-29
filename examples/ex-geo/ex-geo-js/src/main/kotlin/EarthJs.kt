@@ -46,7 +46,7 @@ lateinit var world: GeoJsonObject
 fun main(args: Array<String>) {
 
     promise {
-        val request = window.fetch(Request("world-110m.geojson"))
+        val request = window.fetch(Request("world-110m-30percent.json"))
         val response = request.await()
         world = response.text().await().toGeoJsonObject()
 
