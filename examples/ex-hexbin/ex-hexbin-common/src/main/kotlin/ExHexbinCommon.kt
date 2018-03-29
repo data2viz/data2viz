@@ -31,6 +31,7 @@ val root = newGroup().apply {
     timer { now ->
         loop()
     }
+    add(hexView)
 }
 val hexbin = hexbinGenerator {
     radius = 20.0
