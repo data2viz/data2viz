@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data2viz - Force example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+
+</head>
+<body>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" id="root" width="600" height="600">
+
+</svg>
+
+<script>
+    require.config({baseUrl: "build/kotlin-js-min/main"});
+    require(['build/kotlin-js-min/main/ex-hexbin-js.js']);
+</script>
+</body>
+</html>

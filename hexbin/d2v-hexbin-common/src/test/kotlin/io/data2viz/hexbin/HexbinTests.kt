@@ -89,7 +89,8 @@ class HexbinTests : TestBase() {
         hexbin.height shouldBeClose 6.0
     }
 
-    @Test
+    /*@Test
+    // TODO convert relative to absolute
     @JsName("hexbin_test_5")
     fun `hexbin mesh() observes the extent LEGACY`() {
         val hexbin = hexbinGenerator {
@@ -99,10 +100,8 @@ class HexbinTests : TestBase() {
 
         val path = path()
         hexbin.mesh(path)
-
-        // TODO : convert relative coordinates (m / l) to absolute ones (M / L) for test to pass !
-//        path.path.round() shouldBe "M-0.433013,-0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0.433013,-0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M1.299038,-0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M-0.866025,0m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0,0m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0.866025,0m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M-0.433013,0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0.433013,0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M1.299038,0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M-0.866025,1.500000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0,1.500000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0.866025,1.500000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000".round()
-    }
+        path.path.round().substring(0, 427) shouldBe "M-0.433013,-1.25L0,-1L0,1.5L-0.433013,1.7M0.433013,-1.250000L0.866026,1.000000L0.866026,1.500000L0.4330130,1.750000M1.299038,-1.250000L1.732051,1.000000L1.732051,1.500000L1.2990380,1.750000M-1.366025,0L-0.933012,0.250000L-0.933012,0.750000L-1.366025,1.000000M0,-0.500000L0.433013,-0.250000L0.433013,0.250000L0.0000000,0.500000M0.866025,-0.500000L1.299038,-0.250000L1.299038,0.250000L0.8660250,0.500000".round() //M-0.433013,0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0.433013,0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M1.299038,0.750000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M-0.866025,1.500000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0,1.500000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000M0.866025,1.500000m0,-0.500000l0.433013,0.250000l0,0.500000l-0.433013,0.250000".round()
+    }*/
 
     @Test
     @JsName("hexbin_test_6")
@@ -112,7 +111,7 @@ class HexbinTests : TestBase() {
         val path = path()
         hexbin.hexagon(path, Point.origin)
 
-        path.path.round() shouldBe "M0,-1L0.866025,0.500000L0,1L-0.866025,0.500000L-0.866025,-0.500000L-0,-1Z".round()
+        path.path.round() shouldBe "M0,-1L0.866025,-0.5L0.866025,0.5L0,1.0L-0.866025,0.5L-0.866025,-0.5Z".round()
     }
 
     @Test
@@ -124,12 +123,12 @@ class HexbinTests : TestBase() {
 
         val path = path()
         hexbin.hexagon(path, Point.origin)
-        path.path.round() shouldBe "M0,-2L1.732051,1L0,2L-1.732051,1L-1.732051,-1L-0,-2Z".round()
+        path.path.round() shouldBe "M0,-2L1.732051,-1L1.732051,1L0,2L-1.732051,1L-1.732051,-1Z".round()
 
         path.clearPath()
         hexbin.radius = 4.0
         hexbin.hexagon(path, Point.origin)
-        path.path.round() shouldBe "M0,-4L3.464102,2L0,4L-3.464102,2L-3.464102,-2L-0,-4Z".round()
+        path.path.round() shouldBe "M0,-4L3.464102,-2L3.464102,2L0,4L-3.464102,2L-3.464102,-2Z".round()
     }
 
     @Test
@@ -139,11 +138,11 @@ class HexbinTests : TestBase() {
 
         val path = path()
         hexbin.hexagon(path, Point.origin, 2.0)
-        path.path.round() shouldBe "M0,-2L1.732051,1L0,2L-1.732051,1L-1.732051,-1L-0,-2Z".round()
+        path.path.round() shouldBe "M0,-2L1.732051,-1L1.732051,1L0,2L-1.732051,1L-1.732051,-1Z".round()
 
         path.clearPath()
         hexbin.hexagon(path, Point.origin, 4.0)
-        path.path.round() shouldBe "M0,-4L3.464102,2L0,4L-3.464102,2L-3.464102,-2L-0,-4Z".round()
+        path.path.round() shouldBe "M0,-4L3.464102,-2L3.464102,2L0,4L-3.464102,2L-3.464102,-2Z".round()
     }
 
     @Test

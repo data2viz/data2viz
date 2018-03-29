@@ -9,7 +9,7 @@ import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
 
-val angles = listOf(.0, THIRDPI, 2 * THIRDPI, 3 * THIRDPI, 4 * THIRDPI, 5 * THIRDPI)
+private val hexagon = (0..5).map { THIRDPI * it }.map { angle -> Point(sin(angle), -cos(angle))}
 
 data class Bin(
     val points: MutableList<Point> = mutableListOf(),
@@ -144,18 +144,7 @@ class HexbinGenerator {
     }
 
     private fun hexagon(radius: Double): List<Point> {
-        var x0 = .0
-        var y0 = .0
-
-        return angles.map { angle ->
-            val x1 = sin(angle) * radius
-            val y1 = -cos(angle) * radius
-            val px = x1 - x0
-            val py = y1 - y0
-            x0 = x1
-            y0 = y1
-            Point(px, py)
-        }
+        return hexagon.map { it * radius }
     }
 
     /**
@@ -196,13 +185,6 @@ class HexbinGenerator {
         }
         return centers
     }
-    /*
-    for (var y = j * dy; y < y1 + r; y += dy, ++j) {
-      for (var x = i * dx + (j & 1) * dx / 2; x < x1 + dx / 2; x += dx) {
-        centers.push([x, y]);
-      }
-    }
-     */
 
     /**
      * Returns an path representing the hexagonal mesh that covers the extent; the returned path is intended to be stroked.
