@@ -3,6 +3,7 @@ dependencies {
     compile project(":core:d2v-core-js")
     testCompile project(":color:d2v-color-common")
     testCompile project(":interpolate:d2v-interpolate-js")
+    testCompile project(":viz:d2v-viz-js")
     testCompile project(":timer:d2v-timer-js")
 }
 
