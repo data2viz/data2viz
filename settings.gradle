@@ -96,6 +96,8 @@ include ":data2viz:d2v-data2viz-common",
         ":data2viz:d2v-data2viz-js",
         ":data2viz:d2v-data2viz-jvm"
 
+include ":site"
+
 def examples = [ 
         ":ex-chord", 
         ":ex-chord:ex-chord-common", 
