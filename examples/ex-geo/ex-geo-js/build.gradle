@@ -1,5 +1,3 @@
-apply plugin: 'com.moowork.node'
-apply plugin: 'kotlin-dce-js'
 
 dependencies {
     expectedBy project(":ex-geo-common")
@@ -16,25 +14,18 @@ kotlin {
     }
 }
 
-task yarnInstall(type: YarnTask) {
-    args = ['install']
-}
-
-task bundle(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
-    args = ["run", "bundle"]
-}
-
-afterEvaluate {
-    if (tasks.findByName('unpackDependenciesTestKotlinJs')) {
-        tasks.unpackDependenciesTestKotlinJs.enabled = false
-    }
-}
-
 task copyJsonTestFiles(type: Copy) {
     from "../ex-geo-common/src/main/resources"
     into "."
 }
 
-test.dependsOn copyJsonTestFiles
+task copyJsonToDist(type: Copy) {
+    from "../ex-geo-common/src/main/resources"
+    into "build/dist"
+}
 
-//build.dependsOn bundle
+
+build.dependsOn copyJsonTestFiles
+build.dependsOn copyJsonToDist
+
+apply from: rootProject.file('gradle/bundle-example.gradle')

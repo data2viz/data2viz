@@ -13,11 +13,13 @@ fun Group.rectanglesWithTransition() {
             height = 10.0
             fill = colors.orange
 
-            transition {
-                x = 110.0
+            val t = transition {
+                x = 495.0
                 y = 110.0
                 fill = colors.grey
             }
+            
+//            t.delay = 30.0 * it
         }
     }
 

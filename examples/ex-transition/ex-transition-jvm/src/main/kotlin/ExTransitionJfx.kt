@@ -27,9 +27,9 @@ class ExTransitionJfx : Application() {
         }
 
         stage?.let {
-            it.scene = (Scene(root, 600.0, 600.0))
+            it.scene = (Scene(root, 1020.0, 600.0))
             it.show()
-            stage.title = "JavaFx - data2viz - ChordJfx.kt"
+            stage.title = "JavaFx - data2viz"
         }
     }
 
