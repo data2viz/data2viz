@@ -2,7 +2,6 @@ package io.data2viz.viz
 
 import io.data2viz.core.CssClass
 import io.data2viz.core.Point
-import io.data2viz.math.Angle
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.SvgPath
 import org.w3c.dom.Element
@@ -166,29 +165,34 @@ interface ElementWrapper : AccessByAttributes, DOMVizElement {
 
 class PathDOM(override val domElement: Element = createSVGElement("path"), val svgPath: SvgPath = SvgPath()) : PathVizElement, ElementWrapper,
         PathAdapter by svgPath,
-        HasFill by FillDelegate(domElement),
-        HasStroke by StrokeDelegate(domElement),
-        StyledElement by StyledDelegate(domElement),
-        Transformable by TransformableDelegate(domElement)
-
-//@SvgTagMarker
-class CircleDOM(override val domElement: Element = createSVGElement("circle")) : ElementWrapper, Circle,
-        HasFill by FillDelegate(domElement),
+        HasFill,
         HasStroke by StrokeDelegate(domElement),
         StyledElement by StyledDelegate(domElement),
         Transformable by TransformableDelegate(domElement) {
 
+    override var fill by FillDelegate()
+}
+
+//@SvgTagMarker
+class CircleDOM(override val domElement: Element = createSVGElement("circle")) : ElementWrapper, Circle,
+        HasFill,
+        HasStroke by StrokeDelegate(domElement),
+        StyledElement by StyledDelegate(domElement),
+        Transformable by TransformableDelegate(domElement) {
+    override var stateManager: StateManager? = null
+    override var fill by FillDelegate()
     override var cx: Double by DoubleAttributePropertyDelegate()
     override var cy: Double by DoubleAttributePropertyDelegate()
     override var radius: Double by DoubleAttributePropertyDelegate()
 }
 
 class LineDOM(override val domElement: Element = createSVGElement("line")) : ElementWrapper, Line,
-        HasFill by FillDelegate(domElement),
+        HasFill,
         HasStroke by StrokeDelegate(domElement),
     StyledElement by StyledDelegate(domElement),
     Transformable by TransformableDelegate(domElement) {
 
+    override var fill by FillDelegate()
     override var x1: Double by DoubleAttributePropertyDelegate()
     override var y1: Double by DoubleAttributePropertyDelegate()
     override var x2: Double by DoubleAttributePropertyDelegate()
@@ -197,25 +201,16 @@ class LineDOM(override val domElement: Element = createSVGElement("line")) : Ele
 
 
 
-class RectDOM(override val domElement: Element = createSVGElement("rect"),
-              private val stateManager: StateManager = StateManager() ) : ElementWrapper, Rect,
-        HasFill by FillDelegate(domElement, stateManager),
+class RectDOM(override val domElement: Element = createSVGElement("rect")) : ElementWrapper, Rect,
+        HasFill,
         HasStroke by StrokeDelegate(domElement),
         StyledElement by StyledDelegate(domElement),
         Transformable by TransformableDelegate(domElement) {
 
-    override fun addState(initState: Rect.() -> Unit) {
-        stateManager.status = StateManagerStatus.RECORD
-        initState(this)
-        stateManager.status = StateManagerStatus.REST
-    }
-
-    override fun percentToState(percent: Double) {
-        stateManager.percentToState(percent)
-    }
-
-    override var x: Double by DoubleAttributePropertyDelegate(stateManager)
-    override var y: Double by DoubleAttributePropertyDelegate(stateManager)
+    override var stateManager: StateManager? = null
+    override var fill by FillDelegate()
+    override var x: Double by DoubleAttributePropertyDelegate()
+    override var y: Double by DoubleAttributePropertyDelegate()
     override var width: Double by DoubleAttributePropertyDelegate()
     override var height: Double by DoubleAttributePropertyDelegate()
     override var rx: Double by DoubleAttributePropertyDelegate()
@@ -256,8 +251,8 @@ class TransformSvg : Transform {
         commands.put("skewY", "skewX($a)")
     }
 
-    fun rotate(angle: Angle, x: Number = 0, y: Number = 0) {
-        commands.put("rotate", "rotate(${angle.deg}, $x, $y)")
+    override fun rotate(degrees: Double, x: Double, y: Double) {
+        commands.put("rotate", "rotate($degrees, $x, $y)")
     }
 
     internal fun toCommand(): String = commands.values.joinToString(" ")

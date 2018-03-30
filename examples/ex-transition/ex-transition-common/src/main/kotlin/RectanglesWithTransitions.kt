@@ -1,26 +1,30 @@
 package io.data2viz.transition
 
 import io.data2viz.color.colors
+import io.data2viz.ease.ease
 import io.data2viz.viz.Group
 
 fun Group.rectanglesWithTransition() {
 
-    (1..50).forEach {
-        rect {
-            x = 10.0 * 2 * it
-            y = 10.0
-            width = 10.0
-            height = 10.0
-            fill = colors.orange
+    rect {
+        width = 10.0
+        height = width
+        fill = colors.black
 
-            val t = transition {
-                x = 495.0
-                y = 110.0
-                fill = colors.grey
-            }
-            
-//            t.delay = 30.0 * it
+        transitionTo {
+            x = 100.0
+            fill = colors.orange
+        }.thenTransitionTo {
+            y = 100.0
+            fill = colors.blueviolet
+        }.thenTransitionTo {
+            x = 0.0
+            fill = colors.aquamarine
+        }.thenTransitionTo {
+            y = 0.0
+            fill = colors.black
         }
     }
+
 
 }

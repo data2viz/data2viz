@@ -4,9 +4,11 @@ import org.w3c.dom.Element
 
 class TextDOM(override val domElement: Element = createSVGElement("text")) : ElementWrapper, Text,
     StyledElement by StyledDelegate(domElement),
-    HasFill by FillDelegate(domElement),
+    HasFill,
         Transformable by TransformableDelegate(domElement) {
-    
+
+    override var fill by FillDelegate()
+
     override var baseline: TextAlignmentBaseline
         get() = getAttribute("alignment-baseline")?.let { 
             when (it) {

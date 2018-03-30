@@ -35,7 +35,7 @@ fun loop(now: Double) {
         particuleCount.textContent = "${particules.count()} particules"
     }
 
-    if (FPS.value > 25 && noAdd > 0) {
+    if (FPS.value > 24 && noAdd > 0) {
         particules.addAll((1..50).map { Particule() })
         noAdd = 0
         println("Total particules :: ${particules.size}")

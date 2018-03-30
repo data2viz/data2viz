@@ -1,5 +1,6 @@
 package io.data2viz.viz
 
+import io.data2viz.color.ColorOrGradient
 import javafx.beans.value.ObservableValue
 import javafx.geometry.Bounds
 import javafx.geometry.VPos
@@ -11,8 +12,10 @@ import javafx.geometry.VPos
  */
 class TextJfx(override val jfxElement: JfxText = JfxText()) : Text, JfxVizElement,
     StyledElement by StyleDelegate(jfxElement),
-    HasFill by FillDelegate(jfxElement),
+    HasFill,
     Transformable by TransformNodeDelegate(jfxElement) {
+
+    override var fill: ColorOrGradient? by FillDelegate(this)
 
 
     override var textContent: String

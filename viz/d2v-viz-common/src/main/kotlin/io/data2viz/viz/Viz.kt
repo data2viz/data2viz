@@ -1,10 +1,8 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
-import io.data2viz.path.SvgPath
 
 /**
  * Common interface to bootstrap visualization into different platform contexts.
@@ -15,9 +13,8 @@ interface VizElement
 
 
 
-interface StateableElement<T> {
-    fun addState(initState: T.() -> Unit)
-    fun percentToState(percent:Double)
+interface StateableElement {
+    var stateManager: StateManager?
 }
 
 
@@ -44,6 +41,7 @@ interface Transformable {
 
 interface Transform {
     fun translate(x: Double = 0.0, y: Double = 0.0)
+    fun rotate(degrees: Double, x: Double = 0.0, y: Double = 0.0)
 }
 
 interface StyledElement {
@@ -52,7 +50,7 @@ interface StyledElement {
 
 interface PathVizElement : VizElement, Shape, PathAdapter
 
-interface Circle : VizElement, Shape, Transformable, StyledElement {
+interface Circle : VizElement, Shape, Transformable, StyledElement, StateableElement {
     var cx: Double
     var cy: Double
     var radius: Double
@@ -65,7 +63,7 @@ interface Line : VizElement, Shape, Transformable, StyledElement {
     var y2: Double
 }
 
-interface Rect : VizElement, Shape, Transformable, StyledElement, StateableElement<Rect> {
+interface Rect : VizElement, Shape, Transformable, StyledElement, StateableElement {
     var x: Double
     var y: Double
     var width: Double
@@ -134,29 +132,3 @@ expect fun newCircle(): Circle
 expect fun newText(): Text
 expect fun newPath(): PathVizElement
 
-
-class StateManager() {
-    var status = StateManagerStatus.REST
-
-    val properties = mutableListOf<StateProperties>()
-
-    fun addStateProperty(property: StateProperties){
-        properties.add(property)
-    }
-
-    fun percentToState(percent: Double) {
-//        println("percentToState $percent")
-        status = StateManagerStatus.UPDATE_PROPERTIES
-        properties.forEach {
-            it.setPercent(percent)
-        }
-        status = StateManagerStatus.REST
-    }
-}
-enum class StateManagerStatus {
-    REST, RECORD, UPDATE_PROPERTIES
-}
-
-interface StateProperties {
-    fun setPercent(percent: Double)
-}

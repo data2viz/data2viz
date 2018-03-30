@@ -4,13 +4,8 @@ import io.data2viz.color.*
 import io.data2viz.core.CssClass
 import io.data2viz.path.PathAdapter
 import io.data2viz.path.PathJfx
-import javafx.beans.property.DoubleProperty
 import javafx.scene.Node
-import javafx.scene.paint.CycleMethod
-import javafx.scene.paint.Stop
-import javafx.scene.shape.Path
 import javafx.scene.shape.StrokeLineCap
-import kotlin.reflect.KProperty
 
 typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
 typealias JfxRadialGradient = javafx.scene.paint.RadialGradient
@@ -40,11 +35,12 @@ fun JfxGroup.viz(init: VizContext.() -> Unit): VizContext {
 
 class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, JfxVizElement,
         StyledElement by StyleDelegate(jfxElement),
-        Transformable by TransformNodeDelegate(jfxElement){
+        Transformable by TransformNodeDelegate(jfxElement) {
     
     override fun add(vizElement: VizElement) {
         jfxElement.children.add((vizElement as JfxVizElement).jfxElement)
     }
+
     override fun remove(vizElement: VizElement) {
         jfxElement.children.remove((vizElement as JfxVizElement).jfxElement)
     }
@@ -72,7 +68,7 @@ class GroupJfx(override val jfxElement: JfxGroup = JfxGroup()) : VizContext, Jfx
         val group = GroupJfx(JfxGroup())
         jfxElement.children.add(group.jfxElement)
         init(group)
-        return  group
+        return group
     }
 
     override fun line(init: Line.() -> Unit): Line {
@@ -102,13 +98,13 @@ interface JfxVizElement {
     val jfxElement: Node
 }
 
-
 class PathVizJfx(internal val pathJfx: PathJfx = PathJfx(), override val jfxElement: JfxPath = pathJfx.path) : PathVizElement, JfxVizElement,
         PathAdapter by pathJfx,
-        HasFill by FillDelegate(jfxElement),
         HasStroke by StrokeDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement) {
-    
+
+    override var fill: ColorOrGradient? by FillDelegate(this)
+
     init {
         jfxElement.strokeLineCap = StrokeLineCap.BUTT 
     }
@@ -117,12 +113,12 @@ class PathVizJfx(internal val pathJfx: PathJfx = PathJfx(), override val jfxElem
     
 
 class CircleJfx(override val jfxElement: JfxCircle = JfxCircle()) : Circle, JfxVizElement,
-        HasFill by FillDelegate(jfxElement),
         StyledElement by StyleDelegate(jfxElement),
         HasStroke by StrokeDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement)
 {
-
+    override var stateManager: StateManager? = null
+    override var fill: ColorOrGradient? by FillDelegate(this)
     override var cx: Double by DoublePropertyDelegate(jfxElement.centerXProperty())
     override var cy: Double by DoublePropertyDelegate(jfxElement.centerYProperty())
     override var radius: Double by DoublePropertyDelegate(jfxElement.radiusProperty())
@@ -130,34 +126,26 @@ class CircleJfx(override val jfxElement: JfxCircle = JfxCircle()) : Circle, JfxV
 
 class LineJfx(override val jfxElement: JfxLine = JfxLine()) : Line, JfxVizElement,
         StyledElement by StyleDelegate(jfxElement),
-        HasFill by FillDelegate(jfxElement),
         HasStroke by StrokeDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement) {
+
+    override var fill: ColorOrGradient? by FillDelegate(this)
     override var x1: Double by DoublePropertyDelegate(jfxElement.startXProperty())
     override var y1: Double by DoublePropertyDelegate(jfxElement.startYProperty())
     override var x2: Double by DoublePropertyDelegate(jfxElement.endXProperty())
     override var y2: Double by DoublePropertyDelegate(jfxElement.endYProperty())
 }
 
-class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle(),
-              private val stateManager: StateManager = StateManager()
-              ) : Rect, JfxVizElement,
+class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle()) : Rect, JfxVizElement,
         StyledElement by StyleDelegate(jfxElement),
-        HasFill by FillDelegate(jfxElement, stateManager),
         HasStroke by StrokeDelegate(jfxElement),
         Transformable by TransformNodeDelegate(jfxElement)
 {
-    override fun addState(initState: Rect.() -> Unit) {
-        stateManager.status = StateManagerStatus.RECORD
-        initState(this)
-        stateManager.status = StateManagerStatus.REST
-    }
+    override var fill: ColorOrGradient? by FillDelegate(this)
+    override var stateManager: StateManager? = null
 
-    override fun percentToState(percent: Double) {
-        stateManager.percentToState(percent)    }
-
-    override var x: Double by DoublePropertyDelegate(jfxElement.xProperty(), stateManager)
-    override var y: Double by DoublePropertyDelegate(jfxElement.yProperty(), stateManager)
+    override var x: Double by DoublePropertyDelegate(jfxElement.xProperty())
+    override var y: Double by DoublePropertyDelegate(jfxElement.yProperty())
     override var width: Double by DoublePropertyDelegate(jfxElement.widthProperty())
     override var height: Double by DoublePropertyDelegate(jfxElement.heightProperty())
     override var rx: Double by DoublePropertyDelegate(jfxElement.arcWidthProperty())
@@ -165,101 +153,33 @@ class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle(),
 
 }
 
-class TransformNodeDelegate(val node:Node) : Transformable {
+class TransformNodeDelegate(val node: Node) : Transformable {
 
-    class TransformFx(val node: Node) : Transform{
+    class TransformFx(val node: Node) : Transform {
+        override fun rotate(degrees: Double, x: Double, y: Double) {
+            node.transforms.add(javafx.scene.transform.Rotate.rotate(degrees, x, y))
+        }
+
         override fun translate(x: Double, y: Double) {
-            val transforms = node.transforms.filterIsInstance(javafx.scene.transform.Transform::class.java)
-            node.transforms.removeAll(transforms)
-            node.transforms.add(javafx.scene.transform.Transform.translate(x,y))
+            node.transforms.add(javafx.scene.transform.Transform.translate(x, y))
         }
 
     }
 
     override fun transform(init: Transform.() -> Unit) {
-        TransformFx(node).apply(init)
+        TransformFx(node).apply {
+            val transforms = node.transforms.filterIsInstance(javafx.scene.transform.Transform::class.java)
+            node.transforms.removeAll(transforms)
+            init(this)
+        }
+
     }
 
 }
 
-class StyleDelegate(val node: Node): StyledElement {
+class StyleDelegate(val node: Node) : StyledElement {
     override fun addClass(cssClass: CssClass) {
         node.styleClass.add(cssClass.name)
     }
 }
 
-fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient  = JfxLinearGradient(x1, y1, x2, y2,
-    false,
-    CycleMethod.NO_CYCLE, colorStops.toStops())
-
-// TODO : if r == null maybe proportionnal ?
-fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient(.0, .0, cx, cy, r,
-        false,
-    CycleMethod.NO_CYCLE, colorStops.toStops())
-
-private fun List<ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
-
-class FillDelegate(val shape: JfxShape, val stateManager: StateManager? = null) : HasFill {
-    override var fill: ColorOrGradient?
-
-        get() = (shape.fill as javafx.scene.paint.Color?)?.d2vColor
-
-        set(value) {
-            shape.fill = when (value) {
-                null -> null
-                is Color -> value.jfxColor
-                is LinearGradient -> value.toLinearGradientJFX()
-                is RadialGradient -> value.toRadialGradientJFX()
-                else ->  throw IllegalStateException("$value not managed")
-            }
-        }
-}
-
-class StrokeDelegate(val shape: JfxShape): HasStroke {
-
-    override var stroke: ColorOrGradient?
-        get() = (shape.stroke as javafx.scene.paint.Color?)?.d2vColor
-        set(value) { 
-            shape.stroke = when (value) {
-                null -> null
-                is Color -> value.jfxColor
-                is LinearGradient -> value.toLinearGradientJFX()
-                is RadialGradient -> value.toRadialGradientJFX()
-                else -> throw IllegalStateException("$value not managed")
-            }
-        }
-
-
-    override var strokeWidth: Double?
-        get() = shape.strokeWidth
-        set(value) {if (value != null) shape.strokeWidth = value}
-
-    init {
-//        stroke = colors.black
-    }
-
-}
-
-class DoublePropertyDelegate(val property: DoubleProperty, val stateManager: StateManager? = null): StateProperties {
-
-    val states by lazy { mutableListOf<Double>() }
-
-    override fun setPercent(percent: Double) {
-        property.set((states[0] + percent * (states[1]- states[0])))
-    }
-
-    operator fun getValue(vizElement: VizElement, prop: KProperty<*>): Double = property.get()
-    operator fun setValue(vizElement: VizElement, prop: KProperty<*>, d: Double) {
-        if (stateManager?.status == StateManagerStatus.RECORD){
-            if (states.size == 0){
-                states.add(property.get())
-
-            }
-            states.add(d)
-            stateManager.addStateProperty(this)
-        } else {
-            property.set(d)
-        }
-
-    }
-}

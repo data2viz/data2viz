@@ -1,8 +1,9 @@
+apply plugin: 'kotlin-dce-js'
+
 
 if (examples_dist.toBoolean()) {
     
     apply plugin: 'com.moowork.node'
-    apply plugin: 'kotlin-dce-js'
 
     task yarnInstall(type: YarnTask) {
         args = ['install']
@@ -17,5 +18,7 @@ if (examples_dist.toBoolean()) {
             tasks.unpackDependenciesTestKotlinJs.enabled = false
         }
     }    
+} else {
+    runDceKotlinJs.dceOptions.devMode = true
 }
 

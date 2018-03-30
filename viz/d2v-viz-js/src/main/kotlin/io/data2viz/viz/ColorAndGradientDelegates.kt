@@ -4,8 +4,8 @@ import io.data2viz.color.*
 import io.data2viz.interpolate.interpolateRgb
 import org.w3c.dom.Element
 import org.w3c.dom.asList
+import kotlin.reflect.KProperty
 import kotlin.browser.document
-
 
 var ids = 1
 private fun nextId(name: String): String = "$name${ids++}"
@@ -26,41 +26,43 @@ private val Element.defs: Element
     }
 
 
-class FillDelegate(val element: Element, val stateManager: StateManager? = null) : HasFill, StateProperties {
+class FillDelegate : StateProperty {
 
-    val states by lazy { mutableListOf<Color>() }
+    var start: Color? = null
+    var end: Color? = null
     var iterator: ((Number) -> Color)? = null
+
+    private lateinit var element: Element
 
     override fun setPercent(percent: Double) {
         val value = iterator?.let { it(percent) }.toString()
         element.setAttribute("fill", value)
     }
 
-    override var fill: ColorOrGradient?
-
-    //todo parse gradient from string
-        get() = element.getAttribute("fill")?.color
-        set(value) {
-
-            if (stateManager?.status == StateManagerStatus.RECORD) {
-                if (states.size == 0) {
-                    states.add(element.getAttribute("fill")?.color!!) //todo manage null
-                }
-                states.add(value as Color)
-                stateManager.addStateProperty(this)
-
-                iterator = interpolateRgb(states[0], states[1])
-            } else {
-
-
-                when (value) {
-                    null -> element.setAttribute("fill", "none")
-                    is LinearGradient -> addLinearGradient(element, value, "fill")
-                    is RadialGradient -> setRadialGradient(element, value, "fill")
-                    else -> element.setAttribute("fill", value.toString())
-                }
+    operator fun getValue(domElement: ElementWrapper, property: KProperty<*>): ColorOrGradient? {
+        return domElement.domElement.getAttribute("fill")?.color
+    }
+    operator fun setValue(wrapper: ElementWrapper, property: KProperty<*>, value: ColorOrGradient?) {
+        (wrapper as? StateableElement)?.stateManager?.let {
+            if (it.status == StateManagerStatus.RECORD) {
+                element = wrapper.domElement
+                //Todo manage null color with alpha
+                start = element.getAttribute("fill")?.color!!
+                end = value as Color
+                it.addStateProperty(this)
+                iterator = interpolateRgb(start!!, end!!)
+                return
             }
         }
+
+        when (value) {
+            null -> wrapper.domElement.setAttribute("fill", "none")
+            is LinearGradient -> addLinearGradient(wrapper.domElement, value, "fill")
+            is RadialGradient -> setRadialGradient(wrapper.domElement, value, "fill")
+            else -> wrapper.domElement.setAttribute("fill", value.toString())
+        }
+    }
+
 }
 
 internal fun addLinearGradient(
