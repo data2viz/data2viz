@@ -28,7 +28,7 @@ var ySpeed: Double = .0
 
 lateinit var sightGroupParent: Group
 lateinit var sightGroup: Group
-lateinit var pointGroup: Group
+lateinit var lightGroup: Group
 
 
 val radialGradient by lazy {
@@ -82,11 +82,11 @@ fun VizContext.lineOfSightViz() {
 
     sightGroupParent = newGroup()
     sightGroup = newGroup()
-    pointGroup = newGroup()
+    lightGroup = newGroup()
 
     add(sightGroupParent)
     sightGroupParent.add(sightGroup)
-    add(pointGroup)
+    add(lightGroup)
 
     polygons.forEach { polygon ->
         path {
@@ -145,7 +145,7 @@ fun loop(polygons: List<Polygon>) {
 
     sightGroupParent.add(sightGroup)
 
-    pointGroup.selectElement(circle, fromList) {
+    lightGroup.selectElement(circle, fromList) {
         onEnter = {
             element.apply {
                 stroke = null
@@ -154,7 +154,7 @@ fun loop(polygons: List<Polygon>) {
                 cx = from.x
                 cy = from.y
             }
-            pointGroup.add(element)
+            lightGroup.add(element)
         }
 
         onUpdate = {
@@ -163,7 +163,7 @@ fun loop(polygons: List<Polygon>) {
         }
 
         onExit = {
-            pointGroup.remove(element)
+            lightGroup.remove(element)
         }
     }
 }
