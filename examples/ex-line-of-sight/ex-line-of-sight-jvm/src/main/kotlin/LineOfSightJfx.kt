@@ -25,7 +25,7 @@ class LineOfSightJfx : Application() {
         }
 
         stage?.let {
-            it.scene = (Scene(root, width, height))
+            it.scene = (Scene(root, vizWidth, vizHeight))
             it.show()
             stage.title = "JavaFx - data2viz - Line Of SightJfx.kt"
         }

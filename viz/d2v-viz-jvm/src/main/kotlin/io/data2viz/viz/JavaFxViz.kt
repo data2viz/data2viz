@@ -13,6 +13,7 @@ import javafx.scene.shape.StrokeLineCap
 import kotlin.reflect.KProperty
 
 typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
+typealias JfxRadialGradient = javafx.scene.paint.RadialGradient
 typealias JfxGroup          = javafx.scene.Group
 typealias JfxShape          = javafx.scene.shape.Shape
 typealias JfxPath           = javafx.scene.shape.Path
@@ -191,7 +192,12 @@ fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient  = JfxLinearGradient
     false,
     CycleMethod.NO_CYCLE, colorStops.toStops())
 
-private fun List<LinearGradient.ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
+// TODO : if r == null maybe proportionnal ?
+fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient(.0, .0, cx, cy, r,
+        false,
+    CycleMethod.NO_CYCLE, colorStops.toStops())
+
+private fun List<ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
 
 class FillDelegate(val shape: JfxShape, val stateManager: StateManager? = null) : HasFill {
     override var fill: ColorOrGradient?
@@ -203,6 +209,7 @@ class FillDelegate(val shape: JfxShape, val stateManager: StateManager? = null) 
                 null -> null
                 is Color -> value.jfxColor
                 is LinearGradient -> value.toLinearGradientJFX()
+                is RadialGradient -> value.toRadialGradientJFX()
                 else ->  throw IllegalStateException("$value not managed")
             }
         }
@@ -217,6 +224,7 @@ class StrokeDelegate(val shape: JfxShape): HasStroke {
                 null -> null
                 is Color -> value.jfxColor
                 is LinearGradient -> value.toLinearGradientJFX()
+                is RadialGradient -> value.toRadialGradientJFX()
                 else -> throw IllegalStateException("$value not managed")
             }
         }

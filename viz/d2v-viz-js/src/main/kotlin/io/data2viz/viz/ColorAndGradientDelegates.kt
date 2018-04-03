@@ -1,12 +1,10 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
-import io.data2viz.color.ColorOrGradient
-import io.data2viz.color.LinearGradient
-import io.data2viz.color.color
+import io.data2viz.color.*
 import io.data2viz.interpolate.interpolateRgb
 import org.w3c.dom.Element
 import org.w3c.dom.asList
+import kotlin.browser.document
 
 
 var ids = 1
@@ -16,9 +14,9 @@ private val Element.defs: Element
     get() {
         val svg = this.svg()
         val defs = svg.childNodes.asList()
-            .filterIsInstance<Element>()
-            .firstOrNull { it.localName == "defs" }
-        return if (defs == null){
+                .filterIsInstance<Element>()
+                .firstOrNull { it.localName == "defs" }
+        return if (defs == null) {
             val newDefs = createSVGElement("defs")
             svg.appendChild(newDefs)
             newDefs
@@ -26,7 +24,6 @@ private val Element.defs: Element
             defs
         }
     }
-
 
 
 class FillDelegate(val element: Element, val stateManager: StateManager? = null) : HasFill, StateProperties {
@@ -41,7 +38,7 @@ class FillDelegate(val element: Element, val stateManager: StateManager? = null)
 
     override var fill: ColorOrGradient?
 
-            //todo parse gradient from string
+    //todo parse gradient from string
         get() = element.getAttribute("fill")?.color
         set(value) {
 
@@ -58,17 +55,18 @@ class FillDelegate(val element: Element, val stateManager: StateManager? = null)
 
                 when (value) {
                     null -> element.setAttribute("fill", "none")
-                    is LinearGradient -> addGradient(element, value, "fill")
+                    is LinearGradient -> addLinearGradient(element, value, "fill")
+                    is RadialGradient -> setRadialGradient(element, value, "fill")
                     else -> element.setAttribute("fill", value.toString())
                 }
             }
         }
 }
 
-internal fun addGradient(
-    element: Element,
-    linearGradient: LinearGradient,
-    attribute: String
+internal fun addLinearGradient(
+        element: Element,
+        linearGradient: LinearGradient,
+        attribute: String
 ) {
     val id = nextId("LinearGradient")
     element.setAttribute(attribute, "url(#$id)")
@@ -90,7 +88,37 @@ internal fun addGradient(
     element.defs.appendChild(linearGradientElement)
 }
 
+internal fun setRadialGradient(
+        element: Element,
+        gradient: RadialGradient,
+        attribute: String
+) {
+    val gradientElement: Element
+    if (gradient.asDynamic().gradientId != null)
+        gradientElement = document.querySelector("#${gradient.asDynamic().gradientId}")!!
+    else {
+        val id = nextId("RadialGradient")
+        element.setAttribute(attribute, "url(#$id)")
+        element.asDynamic().gradientId = id
+        gradientElement = createSVGElement("radialGradient")
+        element.defs.appendChild(gradientElement)
+    }
 
+    gradientElement.apply {
+        setAttribute("id", id)
+        setAttribute("gradientUnits", "userSpaceOnUse")
+        setAttribute("cx", gradient.cx.toString())
+        setAttribute("cy", gradient.cy.toString())
+        setAttribute("r", gradient.r.toString())
+        gradient.colorStops.forEach {
+            val stop = createSVGElement("stop").apply {
+                setAttribute("offset", "${100 * it.percent}%")
+                setAttribute("stop-color", "${it.color}")
+            }
+            appendChild(stop)
+        }
+    }
+}
 
 
 class StrokeDelegate(val element: Element) : HasStroke {
@@ -99,9 +127,10 @@ class StrokeDelegate(val element: Element) : HasStroke {
         get() = element.getAttribute("stroke")?.color
         set(value) {
             when (value) {
-                null                -> element.setAttribute("stroke", "none")
-                is LinearGradient -> addGradient(element, value, "stroke")
-                else                -> element.setAttribute("stroke", value.toString())
+                null -> element.setAttribute("stroke", "none")
+                is LinearGradient -> addLinearGradient(element, value, "stroke")
+                is RadialGradient -> setRadialGradient(element, value, "stroke")
+                else -> element.setAttribute("stroke", value.toString())
             }
         }
 

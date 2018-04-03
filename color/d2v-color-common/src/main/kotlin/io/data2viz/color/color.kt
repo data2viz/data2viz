@@ -55,13 +55,26 @@ private object ConversionHelper {
 
 interface ColorOrGradient
 
+data class ColorStop(val percent:Double, val color: Color)
+
 class LinearGradient:ColorOrGradient {
     var x1:Double = .0
     var y1:Double = .0
     var x2:Double = .0
     var y2:Double = .0
 
-    data class ColorStop(val percent:Double, val color: Color)
+    val colorStops = mutableListOf<ColorStop>()
+
+    fun addColor(percent: Double, color: Color){
+        val checkedPercent = percent.coerceIn(.0, 1.0)
+        colorStops.add(ColorStop(checkedPercent, color))
+    }
+}
+
+class RadialGradient:ColorOrGradient {
+    var cx:Double = .0
+    var cy:Double = .0
+    var r:Double = .0
 
     val colorStops = mutableListOf<ColorStop>()
 
