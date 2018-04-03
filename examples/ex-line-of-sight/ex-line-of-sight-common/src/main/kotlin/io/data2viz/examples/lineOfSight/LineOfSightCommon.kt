@@ -1,8 +1,6 @@
 package io.data2viz.examples.lineOfSight
 
-import io.data2viz.color.Color
-import io.data2viz.color.RadialGradient
-import io.data2viz.color.colors
+import io.data2viz.color.*
 import io.data2viz.core.*
 import io.data2viz.math.Angle
 import io.data2viz.math.PI
@@ -14,7 +12,6 @@ import kotlin.math.*
 
 const val vizWidth = 800.0
 const val vizHeight = 800.0
-
 
 const val polygonNb = 15
 const val randomPointsNb = 10
@@ -49,7 +46,7 @@ data class Intersection(val point: Point, val param: Double, var angle: Angle = 
 
 fun VizContext.lineOfSightViz() {
     
-    // black background
+    //background
     rect {
         fill = darkColor
         x = .0
@@ -57,7 +54,6 @@ fun VizContext.lineOfSightViz() {
         width = vizWidth
         height = vizHeight
     }
-
 
     val NW = Point(.0, .0)
     val NE = Point(vizWidth, .0)
@@ -74,7 +70,7 @@ fun VizContext.lineOfSightViz() {
     allSegments.add(Ray(SE, SW))
     allSegments.add(Ray(SW, NW))
 
-    initSpeeds()
+    randomSpeed()
     
     val polygons = createPolygons()
     initStartPoint(polygons)
@@ -125,7 +121,7 @@ private fun createPolygons(): List<Polygon> {
 }
 
 fun loop(polygons: List<Polygon>) {
-    movePoint(polygons)
+    moveToNextPoint(polygons)
     val sightPolygon = getSightPolygon()
     val points = sightPolygon.points
 
@@ -183,7 +179,7 @@ private fun getSightPolygon(): Polygon {
 
     val intersections = mutableListOf<Intersection>()
     allAngles.forEach { angle ->
-        // Calculate dx & dy from angle
+        
         val dx = angle.cos
         val dy = angle.sin
 
@@ -210,13 +206,15 @@ private fun getSightPolygon(): Polygon {
         }
     }
 
-    // Sort intersects by angle
     intersections.sortBy { it.angle.rad }
 
     // Polygon is intersects, in order of angle
     return Polygon(intersections.map { it.point })
 }
 
+/**
+ * Return the POINT OF INTERSECTION 
+ */
 private fun getIntersection(ray: Ray, segment: Ray): Intersection? {
 
     // RAY in parametric: Point + Delta*T1
@@ -249,7 +247,7 @@ private fun getIntersection(ray: Ray, segment: Ray): Intersection? {
     // Must be within parametic whatevers for RAY/SEGMENT
     if (t1 < 0) return null
     if (t2 < 0 || t2 > 1) return null
-    // Return the POINT OF INTERSECTION
+    
     return Intersection(Point(rpx + rdx * t1, rpy + rdy * t1), t1)
 }
 
@@ -262,26 +260,28 @@ private fun initStartPoint(polygons:List<Polygon>) {
     if (collision) initStartPoint(polygons)
 }
 
-private fun initSpeeds() {
+private fun moveToNextPoint(polygons:List<Polygon>) {
+    val nextPoint = Point(from.x + xSpeed, from.y + ySpeed)
+    
+    fun outsideOfViz(point: Point) =            
+            point.x <= .0 ||
+            point.x >= vizWidth ||
+            point.y <= 0 ||
+            point.y >= vizHeight
+
+    val collision = polygons.any { it.contains(nextPoint) } || outsideOfViz(nextPoint) 
+
+    if (collision) {
+        randomSpeed()
+        moveToNextPoint(polygons)
+    } else {
+        from = nextPoint
+    }
+}
+
+private fun randomSpeed() {
     val angle = random() * PI * 2
     xSpeed = cos(angle) * 3
     ySpeed = sin(angle) * 3
 }
 
-private fun movePoint(polygons:List<Polygon>) {
-    val nextPoint = Point(from.x + xSpeed, from.y + ySpeed)
-
-    var collision = polygons.any { it.contains(nextPoint) }
-    collision = collision || 
-            nextPoint.x <= .0 || 
-            nextPoint.x >= vizWidth || 
-            nextPoint.y <= 0 || 
-            nextPoint.y >= vizHeight
-
-    if (collision) {
-        initSpeeds()
-        movePoint(polygons)
-    } else {
-        from = nextPoint
-    }
-}
