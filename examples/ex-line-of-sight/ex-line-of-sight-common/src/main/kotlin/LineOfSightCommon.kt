@@ -18,6 +18,7 @@ const val vizHeight = 800.0
 
 const val polygonNb = 15
 const val randomPointsNb = 10
+
 val darkColor = Color(0x111111)
 
 lateinit var viz: VizContext
@@ -50,8 +51,6 @@ data class Intersection(val point: Point, val param: Double, var angle: Angle = 
 
 fun VizContext.lineOfSightViz() {
     
-    
-    
     // black background
     rect {
         fill = darkColor
@@ -61,25 +60,6 @@ fun VizContext.lineOfSightViz() {
         height = vizHeight
     }
 
-    val randomPoints: List<MutableList<Point>> = List(polygonNb, { mutableListOf<Point>() })
-    // drawing random points around random locations
-    (0 until polygonNb).forEach { i ->
-        val x0 = random() * vizWidth * .9
-        val y0 = random() * vizHeight * .9
-        (0 until randomPointsNb).forEach { _ ->
-            val x = (x0 + (random() * (vizWidth / 7))).coerceIn(.0, vizWidth)
-            val y = (y0 + (random() * (vizHeight / 7))).coerceIn(.0, vizHeight)
-            randomPoints[i].add(Point(x, y))
-        }
-    }
-
-    val polygons = mutableListOf<Polygon>()
-
-
-    // transform points in Polygons using convex hull
-    randomPoints.forEach { points ->
-        polygons.add(polygonHull(points)!!)
-    }
 
     val NW = Point(.0, .0)
     val NE = Point(vizWidth, .0)
@@ -97,6 +77,7 @@ fun VizContext.lineOfSightViz() {
     allSegments.add(Ray(SW, NW))
 
     initSpeeds()
+    val polygons = createPolygons()
     initStartPoint(polygons)
     fromList = listOf(from)
 
@@ -132,7 +113,20 @@ fun VizContext.lineOfSightViz() {
     }
 }
 
-fun loop(polygons: MutableList<Polygon>) {
+private fun createPolygons(): List<Polygon> {
+    return (1..polygonNb).mapNotNull {
+        val polygonCenter = Point(random() * vizWidth * .9, random() * vizHeight * .9)
+        val polygonPoints = (1..randomPointsNb).map {
+            Point(
+                polygonCenter.x + (random() * (vizWidth / 7)).coerceIn(.0, vizWidth),
+                polygonCenter.y + (random() * (vizWidth / 7)).coerceIn(.0, vizWidth)
+            )
+        }
+        polygonHull(polygonPoints)
+    }
+}
+
+fun loop(polygons: List<Polygon>) {
     movePoint(polygons)
     val sightPolygon = getSightPolygon()
     val points = sightPolygon.points
