@@ -75,6 +75,7 @@ fun VizContext.lineOfSightViz() {
     allSegments.add(Ray(SW, NW))
 
     initSpeeds()
+    
     val polygons = createPolygons()
     initStartPoint(polygons)
     fromList = listOf(from)
@@ -219,21 +220,21 @@ private fun getSightPolygon(): Polygon {
 private fun getIntersection(ray: Ray, segment: Ray): Intersection? {
 
     // RAY in parametric: Point + Delta*T1
-    val r_px = ray.from.x
-    val r_py = ray.from.y
-    val r_dx = ray.to.x - ray.from.x
-    val r_dy = ray.to.y - ray.from.y
+    val rpx = ray.from.x
+    val rpy = ray.from.y
+    val rdx = ray.to.x - ray.from.x
+    val rdy = ray.to.y - ray.from.y
 
     // SEGMENT in parametric: Point + Delta*T2
-    val s_px = segment.from.x
-    val s_py = segment.from.y
-    val s_dx = segment.to.x - segment.from.x
-    val s_dy = segment.to.y - segment.from.y
+    val spx = segment.from.x
+    val spy = segment.from.y
+    val sdx = segment.to.x - segment.from.x
+    val sdy = segment.to.y - segment.from.y
 
     // Are they parallel? If so, no intersect
-    val r_mag = sqrt(r_dx * r_dx + r_dy * r_dy)
-    val s_mag = sqrt(s_dx * s_dx + s_dy * s_dy)
-    if (r_dx / r_mag == s_dx / s_mag && r_dy / r_mag == s_dy / s_mag) {
+    val rmag = sqrt(rdx * rdx + rdy * rdy)
+    val smag = sqrt(sdx * sdx + sdy * sdy)
+    if (rdx / rmag == sdx / smag && rdy / rmag == sdy / smag) {
         // Unit vectors are the same.
         return null
     }
@@ -242,14 +243,14 @@ private fun getIntersection(ray: Ray, segment: Ray): Intersection? {
     // ==> T1 = (s_px+s_dx*T2-r_px)/r_dx = (s_py+s_dy*T2-r_py)/r_dy
     // ==> s_px*r_dy + s_dx*T2*r_dy - r_px*r_dy = s_py*r_dx + s_dy*T2*r_dx - r_py*r_dx
     // ==> T2 = (r_dx*(s_py-r_py) + r_dy*(r_px-s_px))/(s_dx*r_dy - s_dy*r_dx)
-    val T2 = (r_dx * (s_py - r_py) + r_dy * (r_px - s_px)) / (s_dx * r_dy - s_dy * r_dx)
-    val T1 = (s_px + s_dx * T2 - r_px) / r_dx
+    val t2 = (rdx * (spy - rpy) + rdy * (rpx - spx)) / (sdx * rdy - sdy * rdx)
+    val t1 = (spx + sdx * t2 - rpx) / rdx
 
     // Must be within parametic whatevers for RAY/SEGMENT
-    if (T1 < 0) return null
-    if (T2 < 0 || T2 > 1) return null
+    if (t1 < 0) return null
+    if (t2 < 0 || t2 > 1) return null
     // Return the POINT OF INTERSECTION
-    return Intersection(Point(r_px + r_dx * T1, r_py + r_dy * T1), T1)
+    return Intersection(Point(rpx + rdx * t1, rpy + rdy * t1), t1)
 }
 
 private fun initStartPoint(polygons:List<Polygon>) {
@@ -268,18 +269,19 @@ private fun initSpeeds() {
 }
 
 private fun movePoint(polygons:List<Polygon>) {
-    val newfrom = Point(from.x + xSpeed, from.y + ySpeed)
+    val nextPoint = Point(from.x + xSpeed, from.y + ySpeed)
 
-    var collision = false
-    polygons.forEach { polygon ->
-        collision = collision || polygon.contains(newfrom)
-    }
-    collision = collision || newfrom.x <= .0 || newfrom.x >= vizWidth || newfrom.y <= 0 || newfrom.y >= vizHeight
+    var collision = polygons.any { it.contains(nextPoint) }
+    collision = collision || 
+            nextPoint.x <= .0 || 
+            nextPoint.x >= vizWidth || 
+            nextPoint.y <= 0 || 
+            nextPoint.y >= vizHeight
 
     if (collision) {
         initSpeeds()
         movePoint(polygons)
     } else {
-        from = newfrom
+        from = nextPoint
     }
 }
