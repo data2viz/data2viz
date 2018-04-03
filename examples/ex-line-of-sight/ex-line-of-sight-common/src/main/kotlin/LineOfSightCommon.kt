@@ -21,8 +21,6 @@ const val randomPointsNb = 10
 
 val darkColor = Color(0x111111)
 
-lateinit var viz: VizContext
-
 val allCorners = mutableListOf<Point>()
 val allSegments = mutableListOf<Ray>()
 
@@ -89,10 +87,9 @@ fun VizContext.lineOfSightViz() {
     sightGroup = newGroup()
     pointGroup = newGroup()
 
-    viz = this
-    viz.add(sightGroupParent)
+    add(sightGroupParent)
     sightGroupParent.add(sightGroup)
-    viz.add(pointGroup)
+    add(pointGroup)
 
     polygons.forEach { polygon ->
         path {
