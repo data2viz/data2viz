@@ -107,17 +107,15 @@ fun VizContext.lineOfSightViz() {
     }
 }
 
-private fun createPolygons(): List<Polygon> {
-    return (1..polygonNb).mapNotNull {
-        val polygonCenter = Point(random() * vizWidth * .9, random() * vizHeight * .9)
-        val polygonPoints = (1..randomPointsNb).map {
-            Point(
-                polygonCenter.x + (random() * (vizWidth / 7)).coerceIn(.0, vizWidth),
-                polygonCenter.y + (random() * (vizWidth / 7)).coerceIn(.0, vizWidth)
-            )
-        }
-        polygonHull(polygonPoints)
+private fun createPolygons(): List<Polygon> = (1..polygonNb).mapNotNull {
+    val center = Point(random() * vizWidth * .9, random() * vizHeight * .9)
+    val points = (1..randomPointsNb).map {
+        Point(
+            center.x + (random() * (vizWidth / 7)).coerceIn(.0, vizWidth),
+            center.y + (random() * (vizWidth / 7)).coerceIn(.0, vizWidth)
+        )
     }
+    polygonHull(points)
 }
 
 fun loop(polygons: List<Polygon>) {
