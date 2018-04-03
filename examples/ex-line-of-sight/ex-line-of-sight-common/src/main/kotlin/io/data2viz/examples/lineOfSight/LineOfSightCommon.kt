@@ -16,7 +16,7 @@ const val vizHeight = 800.0
 const val polygonNb = 15
 const val randomPointsNb = 10
 
-val darkColor = Color(0x111111)
+val darkColor = Color(0x131c2b)
 
 val allCorners = mutableListOf<Point>()
 val allSegments = mutableListOf<Ray>()
@@ -35,7 +35,7 @@ val radialGradient by lazy {
     RadialGradient().apply {
         cx = .0
         cy = .0
-        r = vizWidth
+        r = .7 * vizWidth
         addColor(.0, colors.yellow)
         addColor(1.0, darkColor)
     }
