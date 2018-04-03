@@ -21,7 +21,7 @@ val darkColor = Color(0x131c2b)
 val allCorners = mutableListOf<Point>()
 val allSegments = mutableListOf<Ray>()
 
-lateinit var from: Point
+lateinit var light: Point
 lateinit var fromList: List<Point>
 var xSpeed: Double = .0
 var ySpeed: Double = .0
@@ -74,7 +74,7 @@ fun VizContext.lineOfSightViz() {
     
     val polygons = createPolygons()
     initStartPoint(polygons)
-    fromList = listOf(from)
+    fromList = listOf(light)
 
     timer {
         loop(polygons)
@@ -126,8 +126,8 @@ fun loop(polygons: List<Polygon>) {
     sightGroupParent.remove(sightGroup)
     sightGroup = newGroup()
 
-    radialGradient.cx = from.x
-    radialGradient.cy = from.y
+    radialGradient.cx = light.x
+    radialGradient.cy = light.y
 
     sightGroup.apply {
         path {
@@ -149,15 +149,15 @@ fun loop(polygons: List<Polygon>) {
                 stroke = null
                 this.fill = colors.white
                 radius = 7.0
-                cx = from.x
-                cy = from.y
+                cx = light.x
+                cy = light.y
             }
             lightGroup.add(element)
         }
 
         onUpdate = {
-            element.cx = from.x
-            element.cy = from.y
+            element.cx = light.x
+            element.cy = light.y
         }
 
         onExit = {
@@ -169,7 +169,7 @@ fun loop(polygons: List<Polygon>) {
 private fun getSightPolygon(): Polygon {
     val allAngles = mutableListOf<Angle>()
     allCorners.forEach {
-        val rad = atan2(it.y - from.y, it.x - from.x)
+        val rad = atan2(it.y - light.y, it.x - light.x)
         allAngles.add(Angle(rad))
         allAngles.add(Angle(rad + .00001))
         allAngles.add(Angle(rad - .00001))
@@ -182,7 +182,7 @@ private fun getSightPolygon(): Polygon {
         val dy = angle.sin
 
         // Ray from center of screen to mouse
-        val ray = Ray(from, Point(from.x + dx, from.y + dy))
+        val ray = Ray(light, Point(light.x + dx, light.y + dy))
 
         // Find CLOSEST intersection
         var closestIntersection: Intersection? = null
@@ -250,16 +250,16 @@ private fun getIntersection(ray: Ray, segment: Ray): Intersection? {
 }
 
 private fun initStartPoint(polygons:List<Polygon>) {
-    from = Point(random() * vizWidth, random() * vizHeight)
+    light = Point(random() * vizWidth, random() * vizHeight)
     var collision = false
     polygons.forEach { polygon ->
-        collision = collision || polygon.contains(from)
+        collision = collision || polygon.contains(light)
     }
     if (collision) initStartPoint(polygons)
 }
 
 private fun moveToNextPoint(polygons:List<Polygon>) {
-    val nextPoint = Point(from.x + xSpeed, from.y + ySpeed)
+    val nextPoint = Point(light.x + xSpeed, light.y + ySpeed)
     
     fun outsideOfViz(point: Point) =            
             point.x <= .0 ||
@@ -273,7 +273,7 @@ private fun moveToNextPoint(polygons:List<Polygon>) {
         randomSpeed()
         moveToNextPoint(polygons)
     } else {
-        from = nextPoint
+        light = nextPoint
     }
 }
 
