@@ -19,8 +19,8 @@ val vizHeight = 800.0
 
 lateinit var viz: VizContext
 
-val polygonNb = 25
-val randomPointsNb = 6
+val polygonNb = 15
+val randomPointsNb = 10
 val randomPoints = List(polygonNb, { mutableListOf<Point>() })
 val polygons = mutableListOf<Polygon>()
 val allCorners = mutableListOf<Point>()
@@ -35,14 +35,14 @@ lateinit var sightGroupParent: Group
 lateinit var sightGroup: Group
 lateinit var pointGroup: Group
 
-val darkColor = Color(0x080808)
+val darkColor = Color(0x111111)
 
 val radialGradient by lazy {
     RadialGradient().apply {
         cx = .0
         cy = .0
         r = vizWidth
-        addColor(.0, colors.lightyellow)
+        addColor(.0, colors.yellow)
         addColor(1.0, darkColor)
     }
 }
@@ -65,8 +65,8 @@ fun VizContext.lineOfSightViz() {
         val x0 = random() * vizWidth * .9
         val y0 = random() * vizHeight * .9
         (0 until randomPointsNb).forEach { j ->
-            val x = (x0 + (random() * (vizWidth / 10))).coerceIn(.0, vizWidth)
-            val y = (y0 + (random() * (vizHeight / 10))).coerceIn(.0, vizHeight)
+            val x = (x0 + (random() * (vizWidth / 7))).coerceIn(.0, vizWidth)
+            val y = (y0 + (random() * (vizHeight / 7))).coerceIn(.0, vizHeight)
             randomPoints[i].add(Point(x, y))
         }
     }
@@ -183,8 +183,8 @@ fun loop(now: Double) {
         onEnter = {
             element.apply {
                 stroke = null
-                this.fill = colors.red
-                radius = 5.0
+                this.fill = colors.white
+                radius = 7.0
                 cx = from.x
                 cy = from.y
             }
