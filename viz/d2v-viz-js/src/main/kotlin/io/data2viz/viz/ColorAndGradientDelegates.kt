@@ -90,35 +90,44 @@ internal fun addLinearGradient(
     element.defs.appendChild(linearGradientElement)
 }
 
+
+//TODO manage all gradients the same way, 
+//Todo tests
+//Todo are colors stops modified during an animation?
 internal fun setRadialGradient(
         element: Element,
         gradient: RadialGradient,
         attribute: String
 ) {
+    
     val gradientElement: Element
-    if (element.getAttribute("gradientId") != null)
-        gradientElement = document.querySelector("#${element.getAttribute("gradientId")}")!!
+    if (gradient.asDynamic().gradientId != null){
+        val gradientId = gradient.asDynamic().gradientId
+        gradientElement = document.querySelector("#$gradientId")!!
+        element.setAttribute(attribute, "url(#$gradientId)")
+    }
     else {
         val id = nextId("RadialGradient")
+        gradient.asDynamic().gradientId = id
         element.setAttribute(attribute, "url(#$id)")
-        element.setAttribute("gradientId", id)
-        gradientElement = createSVGElement("radialGradient")
+        gradientElement = createSVGElement("radialGradient").apply {
+            setAttribute("id", id)
+            setAttribute("gradientUnits", "userSpaceOnUse")
+            gradient.colorStops.forEach {
+                val stop = createSVGElement("stop").apply {
+                    setAttribute("offset", "${100 * it.percent}%")
+                    setAttribute("stop-color", "${it.color}")
+                }
+                appendChild(stop)
+            }
+        }
         element.defs.appendChild(gradientElement)
     }
 
     gradientElement.apply {
-        setAttribute("id", id)
-        setAttribute("gradientUnits", "userSpaceOnUse")
         setAttribute("cx", gradient.cx.toString())
         setAttribute("cy", gradient.cy.toString())
         setAttribute("r", gradient.r.toString())
-        gradient.colorStops.forEach {
-            val stop = createSVGElement("stop").apply {
-                setAttribute("offset", "${100 * it.percent}%")
-                setAttribute("stop-color", "${it.color}")
-            }
-            appendChild(stop)
-        }
     }
 }
 

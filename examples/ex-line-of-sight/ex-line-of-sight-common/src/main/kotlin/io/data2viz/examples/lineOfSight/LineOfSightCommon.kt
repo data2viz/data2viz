@@ -14,76 +14,51 @@ const val vizHeight = 800.0
 
 val darkColor = Color(0x131c2b)
 
-lateinit var sightGroupParent: Group
-lateinit var sightGroup: Group
-lateinit var lightGroup: Group
+fun VizContext.lineOfSightViz() {
 
+    val model = LineOfSightModel(LineOfSightConfig(vizWidth, vizHeight))
 
-data class Segment(val from: Point, val to: Point)
-data class Intersection(val point: Point, val param: Double, var angle: Angle = 0.deg)
+    renderBackground()
+    renderPolygons(model.polygons)
+    
+    var light: Circle? = null
 
-val radialGradient by lazy {
-    RadialGradient().apply {
+    val radialGradient = RadialGradient().apply {
         r = .7 * vizWidth
         addColor(.0, colors.yellow)
         addColor(1.0, darkColor)
     }
-}
 
-fun VizContext.lineOfSightViz() {
-    
-    val model = LOSModel(LOSConfig())
+    var path:PathVizElement? = null
 
-    renderBackground()
-    renderPolygons(model.polygons)
-
-    sightGroupParent = newGroup()
-    sightGroup = newGroup()
-    lightGroup = newGroup()
-
-    add(sightGroupParent)
-    sightGroupParent.add(sightGroup)
-    add(lightGroup)
-
-    
-    val light = circle {
-        stroke = null
-        this.fill = colors.white
-        radius = 7.0
-        cx = model.lightPoint.x
-        cy = model.lightPoint.y
-
-    }
-
-    timer {
-        
-        model.moveLight()
-
-        radialGradient.cx = model.lightPoint.x
-        radialGradient.cy = model.lightPoint.y
-        
-        light.cx = model.lightPoint.x
-        light.cy = model.lightPoint.y
-
-        sightGroupParent.remove(sightGroup)
-        sightGroup = newGroup()
-        sightGroupParent.add(sightGroup)
-
-        val points = model.getSightPolygon().points
-        sightGroup.apply {
-            path {
+    group {
+        timer {
+            path?.let { remove(it) }
+            model.moveLight()
+            radialGradient.cx = model.lightPoint.x
+            radialGradient.cy = model.lightPoint.y
+            light?.cx = model.lightPoint.x
+            light?.cy = model.lightPoint.y
+            val points = model.getSightPolygon().points
+            path = path {
                 moveTo(points.first().x, points.first().y)
                 fill = radialGradient
                 stroke = null
                 points.forEach { point ->
                     lineTo(point.x, point.y)
                 }
-                lineTo(points.first().x, points.first().y)
+                closePath()
             }
         }
-
     }
 
+    light = circle {
+        stroke = null
+        this.fill = colors.white
+        radius = 7.0
+        cx = model.lightPoint.x
+        cy = model.lightPoint.y
+    }
 }
 
 private fun VizContext.renderPolygons(polygons: List<Polygon>) {
@@ -110,39 +85,42 @@ private fun VizContext.renderBackground() {
     }
 }
 
+data class Segment(val from: Point, val to: Point)
+data class Intersection(val point: Point, val param: Double, var angle: Angle = 0.deg)
 
-data class LOSConfig(
-    val width:Double = vizHeight,
-    val height:Double = vizWidth,
-    val polygonNb:Int = 15,
-    val randomPointsNb:Int = 10
+data class LineOfSightConfig(
+    val width: Double,
+    val height: Double,
+    val polygonNb: Int = 15,
+    val randomPointsNb: Int = 10
 )
 
-class LOSModel(config: LOSConfig) {
+class LineOfSightModel(config: LineOfSightConfig) {
 
-    val allCorners: List<Point>
-    val allSegments: List<Segment>
     var lightPoint: Point
-    var xSpeed: Double = .0
-    var ySpeed: Double = .0
 
-    val polygons:List<Polygon>
-    
-    fun Polygon.segments(): List<Segment> =
-        List(points.size) { i -> Segment(points[i], points[ if(i < points.size -2) i + 1 else 0]) }
+    val polygons: List<Polygon>
+    private val corners: List<Point>
+    private val segments: List<Segment>
+    private var xSpeed: Double = .0
+    private var ySpeed: Double = .0
+    private val extentPolygon: Polygon
+
+    private fun Polygon.segments(): List<Segment> =
+        List(points.size) { i ->
+            Segment(
+                points[i],
+                if (i == points.size - 1) points[0] else points[i + 1]
+            )
+        }
 
     init {
         polygons = createPolygons(config.polygonNb, config.randomPointsNb)
-
-        val extent = listOf(Point(.0, .0), Point(vizWidth, .0), Point(vizWidth, vizHeight), Point(.0, vizHeight))
-        allCorners = extent + polygons.flatMap { it.points }
-        
-        val extentPolygon = Polygon(extent)
-        
-        allSegments = extentPolygon.segments() + polygons.flatMap { it.segments() } 
-
-        newRandomSpeed()
+        extentPolygon = Polygon(listOf(Point(.0, .0), Point(vizWidth, .0), Point(vizWidth, vizHeight), Point(.0, vizHeight)))
+        corners = extentPolygon.points + polygons.flatMap { it.points }
+        segments = extentPolygon.segments() + polygons.flatMap { it.segments() }
         lightPoint = posOutsideOf(polygons)
+        newRandomSpeed()
     }
 
     private fun createPolygons(polygonNb: Int, randomPointsNb: Int): List<Polygon> = (1..polygonNb).mapNotNull {
@@ -157,7 +135,7 @@ class LOSModel(config: LOSConfig) {
     }
 
     fun getSightPolygon(): Polygon {
-        val allAngles = allCorners.flatMap {
+        val allAngles = corners.flatMap {
             val rad = atan2(it.y - lightPoint.y, it.x - lightPoint.x)
             listOf(Angle(rad), Angle(rad + .00001), Angle(rad - .00001))
         }
@@ -168,13 +146,12 @@ class LOSModel(config: LOSConfig) {
             val dx = angle.cos
             val dy = angle.sin
 
-            // Ray from center of screen to mouse
             val ray = Segment(lightPoint, Point(lightPoint.x + dx, lightPoint.y + dy))
 
             // Find CLOSEST intersection
             var closestIntersection: Intersection? = null
 
-            allSegments
+            segments
                 .mapNotNull { getIntersection(ray, it) }
                 .forEach { intersection ->
                     if (closestIntersection == null || (intersection.param < closestIntersection!!.param)) {
@@ -200,25 +177,23 @@ class LOSModel(config: LOSConfig) {
     /**
      * @return the point of intersection or null if rays are parallel.
      */
-    private fun getIntersection(ray: Segment, segment: Segment): Intersection? {
+    private fun getIntersection(s1: Segment, s2: Segment): Intersection? {
 
-        // RAY in parametric: Point + Delta*T1
-        val rpx = ray.from.x
-        val rpy = ray.from.y
-        val rdx = ray.to.x - ray.from.x
-        val rdy = ray.to.y - ray.from.y
+        val px1 = s1.from.x
+        val py1 = s1.from.y
+        val dx1 = s1.to.x - s1.from.x
+        val dy1 = s1.to.y - s1.from.y
 
-        // SEGMENT in parametric: Point + Delta*T2
-        val spx = segment.from.x
-        val spy = segment.from.y
-        val sdx = segment.to.x - segment.from.x
-        val sdy = segment.to.y - segment.from.y
+        val px2 = s2.from.x
+        val py2 = s2.from.y
+        val dx2 = s2.to.x - s2.from.x
+        val dy2 = s2.to.y - s2.from.y
 
         // Are they parallel? If so, no intersect
-        val rmag = sqrt(rdx * rdx + rdy * rdy)
-        val smag = sqrt(sdx * sdx + sdy * sdy)
-        if (rdx / rmag == sdx / smag && rdy / rmag == sdy / smag) {
-            // Unit vectors are the same.
+        val l1 = sqrt(dx1 * dx1 + dy1 * dy1)
+        val l2 = sqrt(dx2 * dx2 + dy2 * dy2)
+        if (dx1 / l1 == dx2 / l2 && 
+            dy1 / l1 == dy2 / l2) {
             return null
         }
         // SOLVE FOR T1 & T2
@@ -226,31 +201,27 @@ class LOSModel(config: LOSConfig) {
         // ==> T1 = (s_px+s_dx*T2-r_px)/r_dx = (s_py+s_dy*T2-r_py)/r_dy
         // ==> s_px*r_dy + s_dx*T2*r_dy - r_px*r_dy = s_py*r_dx + s_dy*T2*r_dx - r_py*r_dx
         // ==> T2 = (r_dx*(s_py-r_py) + r_dy*(r_px-s_px))/(s_dx*r_dy - s_dy*r_dx)
-        val t2 = (rdx * (spy - rpy) + rdy * (rpx - spx)) / (sdx * rdy - sdy * rdx)
-        val t1 = (spx + sdx * t2 - rpx) / rdx
+        val t2 = (dx1 * (py2 - py1) + dy1 * (px1 - px2)) / (dx2 * dy1 - dy2 * dx1)
+        val t1 = (px2 + dx2 * t2 - px1) / dx1
 
         // Must be within parametic whatevers for RAY/SEGMENT
         if (t1 < 0) return null
         if (t2 < 0 || t2 > 1) return null
 
-        return Intersection(Point(rpx + rdx * t1, rpy + rdy * t1), t1)
+        return Intersection(Point(px1 + dx1 * t1, py1 + dy1 * t1), t1)
     }
 
-    private fun posOutsideOf(polygons: List<Polygon>): Point {
+    private tailrec fun posOutsideOf(polygons: List<Polygon>): Point {
         val pos = Point(random() * vizWidth, random() * vizHeight)
         val insidePolygon = polygons.any { it.contains(pos) }
         return if (insidePolygon)
             posOutsideOf(polygons) else pos
     }
 
-    fun moveLight() {
+    internal tailrec fun moveLight() {
         val newPos = Point(lightPoint.x + xSpeed, lightPoint.y + ySpeed)
-
-        fun inViz(point: Point) = (.0..vizWidth).contains(point.x) && (.0..vizHeight).contains(point.y)
-
-        val inPolygonOrOutsideViz = polygons.any { it.contains(newPos) } || !inViz(newPos)
-
-        if (inPolygonOrOutsideViz) {
+        if (polygons.any { it.contains(newPos) } ||
+            !extentPolygon.contains(newPos)) {
             newRandomSpeed()
             moveLight()
         } else {
