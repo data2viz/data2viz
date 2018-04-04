@@ -96,12 +96,12 @@ internal fun setRadialGradient(
         attribute: String
 ) {
     val gradientElement: Element
-    if (gradient.asDynamic().gradientId != null)
-        gradientElement = document.querySelector("#${gradient.asDynamic().gradientId}")!!
+    if (element.getAttribute("gradientId") != null)
+        gradientElement = document.querySelector("#${element.getAttribute("gradientId")}")!!
     else {
         val id = nextId("RadialGradient")
         element.setAttribute(attribute, "url(#$id)")
-        element.asDynamic().gradientId = id
+        element.setAttribute("gradientId", id)
         gradientElement = createSVGElement("radialGradient")
         element.defs.appendChild(gradientElement)
     }
