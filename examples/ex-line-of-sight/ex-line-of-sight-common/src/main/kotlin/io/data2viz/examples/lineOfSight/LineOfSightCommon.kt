@@ -21,24 +21,21 @@ fun VizContext.lineOfSightViz() {
     renderBackground()
     renderPolygons(model.polygons)
     
-    var light: Circle? = null
-
     val radialGradient = RadialGradient().apply {
         r = .7 * vizWidth
-        addColor(.0, colors.yellow)
+        addColor(.0, colors.white)
+        addColor(.01, colors.white)
+        addColor(.02, colors.yellow)
         addColor(1.0, darkColor)
     }
 
     var path:PathVizElement? = null
-
     group {
         timer {
             path?.let { remove(it) }
             model.moveLight()
             radialGradient.cx = model.lightPoint.x
             radialGradient.cy = model.lightPoint.y
-            light?.cx = model.lightPoint.x
-            light?.cy = model.lightPoint.y
             val points = model.getSightPolygon().points
             path = path {
                 moveTo(points.first().x, points.first().y)
@@ -50,14 +47,6 @@ fun VizContext.lineOfSightViz() {
                 closePath()
             }
         }
-    }
-
-    light = circle {
-        stroke = null
-        this.fill = colors.white
-        radius = 7.0
-        cx = model.lightPoint.x
-        cy = model.lightPoint.y
     }
 }
 
