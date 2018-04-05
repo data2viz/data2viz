@@ -57,7 +57,7 @@ fun loop(now: Double) {
     root.selectElement(circle, particules) {
         onEnter = {
             element.apply {
-                stroke = null
+                stroke = io.data2viz.color.colors.grey
                 radius = 5.0
                 fill = colors(now % 1000 / 1000.0)
             }

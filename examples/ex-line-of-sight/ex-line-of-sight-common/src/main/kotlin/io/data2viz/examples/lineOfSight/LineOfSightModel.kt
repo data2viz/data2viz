@@ -1,78 +1,13 @@
 package io.data2viz.examples.lineOfSight
 
-import io.data2viz.color.*
 import io.data2viz.core.*
 import io.data2viz.math.Angle
 import io.data2viz.math.PI
 import io.data2viz.math.deg
-import io.data2viz.timer.timer
-import io.data2viz.viz.*
-import kotlin.math.*
-
-const val vizWidth = 800.0
-const val vizHeight = 800.0
-
-val darkColor = Color(0x131c2b)
-
-fun VizContext.lineOfSightViz() {
-
-    val model = LineOfSightModel(LineOfSightConfig(vizWidth, vizHeight))
-
-    renderBackground()
-    renderPolygons(model.polygons)
-    
-    val radialGradient = RadialGradient().apply {
-        r = .7 * vizWidth
-        addColor(.0, colors.white)
-        addColor(.01, colors.white)
-        addColor(.02, colors.yellow)
-        addColor(1.0, darkColor)
-    }
-
-    var path:PathVizElement? = null
-    group {
-        timer {
-            path?.let { remove(it) }
-            model.moveLight()
-            radialGradient.cx = model.lightPoint.x
-            radialGradient.cy = model.lightPoint.y
-            val points = model.getSightPolygon().points
-            path = path {
-                moveTo(points.first().x, points.first().y)
-                fill = radialGradient
-                stroke = null
-                points.forEach { point ->
-                    lineTo(point.x, point.y)
-                }
-                closePath()
-            }
-        }
-    }
-}
-
-private fun VizContext.renderPolygons(polygons: List<Polygon>) {
-    polygons.forEach { polygon ->
-        path {
-            fill = colors.black
-            stroke = null
-            moveTo(polygon.points.first().x, polygon.points.first().y)
-            (1 until polygon.points.size).forEach {
-                lineTo(polygon.points[it].x, polygon.points[it].y)
-            }
-            closePath()
-        }
-    }
-}
-
-private fun VizContext.renderBackground() {
-    rect {
-        fill = darkColor
-        x = .0
-        y = .0
-        width = vizWidth
-        height = vizHeight
-    }
-}
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 data class Segment(val from: Point, val to: Point)
 data class Intersection(val point: Point, val param: Double, var angle: Angle = 0.deg)
@@ -83,6 +18,7 @@ data class LineOfSightConfig(
     val polygonNb: Int = 15,
     val randomPointsNb: Int = 10
 )
+
 
 class LineOfSightModel(config: LineOfSightConfig) {
 
@@ -105,7 +41,17 @@ class LineOfSightModel(config: LineOfSightConfig) {
 
     init {
         polygons = createPolygons(config.polygonNb, config.randomPointsNb)
-        extentPolygon = Polygon(listOf(Point(.0, .0), Point(vizWidth, .0), Point(vizWidth, vizHeight), Point(.0, vizHeight)))
+        extentPolygon = Polygon(
+            listOf(
+                Point(.0, .0),
+                Point(vizWidth, .0),
+                Point(
+                    vizWidth,
+                    vizHeight
+                ),
+                Point(.0, vizHeight)
+            )
+        )
         corners = extentPolygon.points + polygons.flatMap { it.points }
         segments = extentPolygon.segments() + polygons.flatMap { it.segments() }
         lightPoint = posOutsideOf(polygons)
@@ -113,11 +59,20 @@ class LineOfSightModel(config: LineOfSightConfig) {
     }
 
     private fun createPolygons(polygonNb: Int, randomPointsNb: Int): List<Polygon> = (1..polygonNb).mapNotNull {
-        val center = Point(random() * vizWidth * .9, random() * vizHeight * .9)
+        val center = Point(
+            random() * vizWidth * .9,
+            random() * vizHeight * .9
+        )
         val points = (1..randomPointsNb).map {
             Point(
-                center.x + (random() * (vizWidth / 7)).coerceIn(.0, vizWidth),
-                center.y + (random() * (vizWidth / 7)).coerceIn(.0, vizWidth)
+                center.x + (random() * (vizWidth / 7)).coerceIn(
+                    .0,
+                    vizWidth
+                ),
+                center.y + (random() * (vizWidth / 7)).coerceIn(
+                    .0,
+                    vizWidth
+                )
             )
         }
         polygonHull(points)
@@ -126,7 +81,11 @@ class LineOfSightModel(config: LineOfSightConfig) {
     fun getSightPolygon(): Polygon {
         val allAngles = corners.flatMap {
             val rad = atan2(it.y - lightPoint.y, it.x - lightPoint.x)
-            listOf(Angle(rad), Angle(rad + .00001), Angle(rad - .00001))
+            listOf(
+                Angle(rad),
+                Angle(rad + .00001),
+                Angle(rad - .00001)
+            )
         }
 
         val intersections = mutableListOf<Intersection>()
@@ -135,7 +94,10 @@ class LineOfSightModel(config: LineOfSightConfig) {
             val dx = angle.cos
             val dy = angle.sin
 
-            val ray = Segment(lightPoint, Point(lightPoint.x + dx, lightPoint.y + dy))
+            val ray = Segment(
+                lightPoint,
+                Point(lightPoint.x + dx, lightPoint.y + dy)
+            )
 
             // Find CLOSEST intersection
             var closestIntersection: Intersection? = null
@@ -201,7 +163,10 @@ class LineOfSightModel(config: LineOfSightConfig) {
     }
 
     private tailrec fun posOutsideOf(polygons: List<Polygon>): Point {
-        val pos = Point(random() * vizWidth, random() * vizHeight)
+        val pos = Point(
+            random() * vizWidth,
+            random() * vizHeight
+        )
         val insidePolygon = polygons.any { it.contains(pos) }
         return if (insidePolygon)
             posOutsideOf(polygons) else pos
