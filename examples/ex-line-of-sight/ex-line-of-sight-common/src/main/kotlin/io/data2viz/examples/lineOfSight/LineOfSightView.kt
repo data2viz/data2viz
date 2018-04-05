@@ -11,8 +11,6 @@ import io.data2viz.viz.VizContext
 const val vizWidth = 800.0
 const val vizHeight = 800.0
 
-val darkColor = Color(0x131c2b)
-
 fun VizContext.lineOfSightViz() {
     
     val model = LineOfSightModel(LineOfSightConfig(vizWidth, vizHeight))
@@ -42,12 +40,15 @@ fun VizContext.lineOfSightViz() {
 }
 
 private fun lightGradient(): RadialGradient {
+    val lightColor = Color(0xFFFFFF)
+    val fromColor = Color(0xFFFF00)
+    val endColor = Color(0xFFFF00, .0)
     return RadialGradient().apply {
         r = .7 * vizWidth
-        addColor(.0, colors.white)
-        addColor(.01, colors.white)
-        addColor(.02, colors.yellow)
-        addColor(1.0, darkColor)
+        addColor(.0, lightColor)
+        addColor(.01, lightColor)
+        addColor(.02, fromColor)
+        addColor(1.0, endColor)
     }
 }
 
@@ -67,7 +68,7 @@ private fun VizContext.renderPolygons(polygons: List<Polygon>) {
 
 private fun VizContext.renderBackground() {
     rect {
-        fill = darkColor
+        fill = Color(0x131c2b)
         x = .0
         y = .0
         width = vizWidth
