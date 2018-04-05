@@ -7,7 +7,7 @@ import kotlin.test.Test
 class ScaleCategoryTests : TestBase() {
 
     @Test
-    fun category_10_LEGACY() {
+    fun category_10_Int() {
         val scale = scales.colors.category10<Int>()
         scale(0) shouldBe Color(0x1f77b4)
         scale(1) shouldBe Color(0xff7f0e)

@@ -11,17 +11,17 @@ import kotlin.test.Test
 class GeoAreaTests : TestBase() {
 
     @Test
-    fun geoarea_of_a_point_LEGACY() {
+    fun geoarea_of_a_point() {
         GeoArea().result(Point(pt(.0, .0))) shouldBeClose .0
     }
 
     @Test
-    fun geoarea_of_a_multipoint_LEGACY() {
+    fun geoarea_of_a_multipoint() {
         GeoArea().result(MultiPoint(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
     }
 
     @Test
-    fun geoarea_of_a_tiny_polygon_LEGACY() {
+    fun geoarea_of_a_tiny_polygon() {
         GeoArea().result(
             Polygon(
                 arrayOf(
@@ -40,7 +40,7 @@ class GeoAreaTests : TestBase() {
 
     // TODO : pass in JVM not JS !! (shouldBeClose .0 but delta is 5e-13)
     @Test
-    fun geoarea_of_a_zero_area_polygon_LEGACY() {
+    fun geoarea_of_a_zero_area_polygon() {
         GeoArea().result(
             Polygon(
                 arrayOf(
@@ -57,7 +57,7 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_a_semilune_polygon_LEGACY() {
+    fun geoarea_of_a_semilune_polygon() {
         GeoArea().result(
             Polygon(
                 arrayOf(
@@ -73,7 +73,7 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_a_lune_polygon_LEGACY() {
+    fun geoarea_of_a_lune_polygon() {
         GeoArea().result(
             Polygon(
                 arrayOf(
@@ -90,7 +90,7 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_hemisphere_north_LEGACY() {
+    fun geoarea_of_hemisphere_north() {
         GeoArea().result(
             Polygon(
                 arrayOf(
@@ -107,7 +107,7 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_hemisphere_south_LEGACY() {
+    fun geoarea_of_hemisphere_south() {
         GeoArea().result(
             Polygon(
                 arrayOf(
@@ -124,7 +124,7 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_hemisphere_east_LEGACY() {
+    fun geoarea_of_hemisphere_east() {
         GeoArea().result(
             Polygon(
                 arrayOf(
@@ -141,7 +141,7 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_hemisphere_west_LEGACY() {
+    fun geoarea_of_hemisphere_west() {
         GeoArea().result(
             Polygon(
                 arrayOf(
@@ -158,7 +158,7 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_multipolygon_2_hemispheres_LEGACY() {
+    fun geoarea_of_multipolygon_2_hemispheres() {
         GeoArea().result(
             MultiPolygon(
                 arrayOf(
@@ -186,12 +186,12 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_sphere_LEGACY() {
+    fun geoarea_of_sphere() {
         GeoArea().result(Sphere()) shouldBeClose PI * 4
     }
 
     @Test
-    fun geoarea_of_geometryCollection_polygon_LEGACY() {
+    fun geoarea_of_geometryCollection_polygon() {
         GeoArea().result(
             GeometryCollection(
                 arrayOf(
@@ -212,22 +212,22 @@ class GeoAreaTests : TestBase() {
     }
 
     @Test
-    fun geoarea_of_featureCollection_sphere_LEGACY() {
+    fun geoarea_of_featureCollection_sphere() {
         GeoArea().result(FeatureCollection(arrayOf(Feature(Sphere())))) shouldBeClose PI * 4
     }
 
     @Test
-    fun geoarea_of_feature_sphere_LEGACY() {
+    fun geoarea_of_feature_sphere() {
         GeoArea().result(Feature(Sphere())) shouldBeClose PI * 4
     }
 
     @Test
-    fun geoarea_of_linestring_LEGACY() {
+    fun geoarea_of_linestring() {
         GeoArea().result(LineString(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
     }
 
     @Test
-    fun geoarea_of_multilinestring_LEGACY() {
+    fun geoarea_of_multilinestring() {
         GeoArea().result(
             MultiLineString(
                 arrayOf(

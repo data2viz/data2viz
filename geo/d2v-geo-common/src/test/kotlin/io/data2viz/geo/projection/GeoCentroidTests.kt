@@ -9,7 +9,7 @@ import kotlin.test.Test
 class GeoCentroidTests : TestBase() {
 
     @Test
-    fun geocentroid_of_a_point_is_itself_LEGACY() {
+    fun geocentroid_of_a_point_is_itself() {
         GeoCentroid().result(Point(pt(.0, .0))) shouldBeClose doubleArrayOf(.0, .0)
         GeoCentroid().result(Point(pt(1.0, 1.0))) shouldBeClose doubleArrayOf(1.0, 1.0)
         GeoCentroid().result(Point(pt(2.0, 3.0))) shouldBeClose doubleArrayOf(2.0, 3.0)
@@ -17,7 +17,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_set_of_points_is_the_spherical_average_of_its_constituent_members_LEGACY() {
+    fun geocentroid_of_a_set_of_points_is_the_spherical_average_of_its_constituent_members() {
         GeoCentroid().result(
             MultiPoint(
                 arrayOf(
@@ -38,7 +38,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_set_of_points_and_their_antipodes_is_ambiguous_LEGACY() {
+    fun geocentroid_of_a_set_of_points_and_their_antipodes_is_ambiguous() {
         GeoCentroid().result(
             MultiPoint(
                 arrayOf(
@@ -72,12 +72,12 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_an_empty_set_of_points_is_ambiguous_LEGACY() {
+    fun geocentroid_of_an_empty_set_of_points_is_ambiguous() {
         GeoCentroid().result(MultiPoint(arrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
-    fun geocentroid_of_a_linestring_is_the_spherical_average_of_its_constituent_great_arc_segments_LEGACY() {
+    fun geocentroid_of_a_linestring_is_the_spherical_average_of_its_constituent_great_arc_segments() {
         GeoCentroid().result(
             LineString(
                 arrayOf(
@@ -155,7 +155,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_great_arc_from_a_point_to_its_antipode_is_ambiguous_LEGACY() {
+    fun geocentroid_of_a_great_arc_from_a_point_to_its_antipode_is_ambiguous() {
         GeoCentroid().result(
             LineString(
                 arrayOf(
@@ -178,7 +178,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_set_of_linestrings_is_the_spherical_average_of_its_constituent_great_arc_segments_LEGACY() {
+    fun geocentroid_of_a_set_of_linestrings_is_the_spherical_average_of_its_constituent_great_arc_segments() {
         GeoCentroid().result(
             MultiLineString(
                 arrayOf(
@@ -192,7 +192,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_a_line_of_zero_length_is_treated_as_points_LEGACY() {
+    fun geocentroid_a_line_of_zero_length_is_treated_as_points() {
         GeoCentroid().result(
             LineString(
                 arrayOf(
@@ -207,7 +207,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_an_empty_polygon_with_non_zero_extent_is_treated_as_a_line_LEGACY() {
+    fun geocentroid_an_empty_polygon_with_non_zero_extent_is_treated_as_a_line() {
         GeoCentroid().result(
             Polygon(
                 arrayOf(
@@ -227,7 +227,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_an_empty_polygon_with_zero_extent_is_treated_as_a_point_LEGACY() {
+    fun geocentroid_an_empty_polygon_with_zero_extent_is_treated_as_a_point() {
         GeoCentroid().result(
             Polygon(
                 arrayOf(
@@ -247,7 +247,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_the_equator_is_ambiguous_LEGACY() {
+    fun geocentroid_of_the_equator_is_ambiguous() {
         GeoCentroid().result(
             LineString(
                 arrayOf(
@@ -261,7 +261,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_polygon_is_the_spherical_average_of_its_surface_LEGACY() {
+    fun geocentroid_of_a_polygon_is_the_spherical_average_of_its_surface() {
         GeoCentroid().result(
             Polygon(
                 arrayOf(
@@ -300,7 +300,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_spherical_square_touching_the_antimeridian_LEGACY() {
+    fun geocentroid_of_a_spherical_square_touching_the_antimeridian() {
         GeoCentroid().result(
             Polygon(
                 arrayOf(
@@ -317,12 +317,12 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_sphere_is_ambiguous_LEGACY() {
+    fun geocentroid_of_a_sphere_is_ambiguous() {
         GeoCentroid().result(Sphere()) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
-    fun geocentroid_of_a_small_circle_is_its_center_south_pole_LEGACY() {
+    fun geocentroid_of_a_small_circle_is_its_center_south_pole() {
         GeoCentroid().result(
             Polygon(
                 arrayOf(
@@ -333,7 +333,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_small_circle_is_its_center_equator_LEGACY() {
+    fun geocentroid_of_a_small_circle_is_its_center_equator() {
         GeoCentroid().result(
             Polygon(
                 arrayOf(
@@ -350,7 +350,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_small_circle_is_its_center_equator_with_coincident_points_LEGACY() {
+    fun geocentroid_of_a_small_circle_is_its_center_equator_with_coincident_points() {
         GeoCentroid().result(
             Polygon(
                 arrayOf(
@@ -368,7 +368,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_small_circle_is_its_center_other_LEGACY() {
+    fun geocentroid_of_a_small_circle_is_its_center_other() {
         GeoCentroid().result(
             Polygon(
                 arrayOf(
@@ -385,7 +385,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_feature_is_the_center_of_its_constituent_geometry_LEGACY() {
+    fun geocentroid_of_a_feature_is_the_center_of_its_constituent_geometry() {
         GeoCentroid().result(
             Feature(
                 LineString(
@@ -423,7 +423,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_featureCollection_is_the_center_of_its_constituent_geometry_LEGACY() {
+    fun geocentroid_of_a_featureCollection_is_the_center_of_its_constituent_geometry() {
         GeoCentroid().result(
             FeatureCollection(
                 arrayOf(
@@ -442,7 +442,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_non_empty_linestring_and_a_point_only_considers_the_line_string_LEGACY() {
+    fun geocentroid_of_a_non_empty_linestring_and_a_point_only_considers_the_line_string() {
         GeoCentroid().result(
             GeometryCollection(
                 arrayOf(
@@ -459,7 +459,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_non_empty_polygon_a_non_empty_linestring_and_a_point_only_considers_the_polygon_LEGACY() {
+    fun geocentroid_of_a_non_empty_polygon_a_non_empty_linestring_and_a_point_only_considers_the_polygon() {
         GeoCentroid().result(
             GeometryCollection(
                 arrayOf(
@@ -512,7 +512,7 @@ class GeoCentroidTests : TestBase() {
     }
 
     @Test
-    fun geocentroid_of_a_the_sphere_and_a_point_is_the_point_LEGACY() {
+    fun geocentroid_of_a_the_sphere_and_a_point_is_the_point() {
         GeoCentroid().result(
             FeatureCollection(
                 arrayOf(

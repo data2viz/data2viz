@@ -7,7 +7,7 @@ import kotlin.test.Test
 class GeoInterpolateTests : TestBase() {
 
     @Test
-    fun geoInterpolate_a_a_returns_a_LEGACY() {
+    fun geoInterpolate_a_a_returns_a() {
         geoInterpolate(
             doubleArrayOf(140.63289, -29.95101),
             doubleArrayOf(140.63289, -29.95101)
@@ -15,12 +15,12 @@ class GeoInterpolateTests : TestBase() {
     }
 
     @Test
-    fun geoInterpolate_a_b_returns_the_expected_values_when_a_and_b_lie_on_the_equator_LEGACY() {
+    fun geoInterpolate_a_b_returns_the_expected_values_when_a_and_b_lie_on_the_equator() {
         geoInterpolate(doubleArrayOf(10.0, .0), doubleArrayOf(20.0, .0))(.5) shouldBeClose doubleArrayOf(15.0, .0)
     }
 
     @Test
-    fun geoInterpolate_a_b_returns_the_expected_values_when_a_and_b_lie_on_the_meridian_LEGACY() {
+    fun geoInterpolate_a_b_returns_the_expected_values_when_a_and_b_lie_on_the_meridian() {
         geoInterpolate(doubleArrayOf(10.0, -20.0), doubleArrayOf(10.0, 40.0))(.5) shouldBeClose doubleArrayOf(
             10.0,
             10.0

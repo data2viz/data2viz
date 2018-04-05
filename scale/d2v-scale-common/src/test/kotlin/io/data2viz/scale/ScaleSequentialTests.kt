@@ -9,7 +9,7 @@ class ScaleSequentialTests : TestBase() {
     val identity = { t: Double -> t }
 
     @Test
-    fun sequential_has_expected_defaults_LEGACY() {
+    fun sequential_has_expected_defaults() {
         val scale = scales.continuous.sequential(identity)
 
         scale.domain shouldBe intervalOf(.0, 1.0)
@@ -21,7 +21,7 @@ class ScaleSequentialTests : TestBase() {
     }
 
     @Test
-    fun sequential_enable_clamping_LEGACY() {
+    fun sequential_enable_clamping() {
         val scale = scales.continuous.sequential(identity)
         scale.clamp = true
 

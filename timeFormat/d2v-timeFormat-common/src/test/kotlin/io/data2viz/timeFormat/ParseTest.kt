@@ -17,7 +17,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_amdY_parses_abbreviated_weekday_and_date_LEGACY() {
+    fun parse_amdY_parses_abbreviated_weekday_and_date() {
         val parser = parse("%a %m/%d/%Y")
 
         parser("Sun 01/01/1990") shouldBe date(1990,1,1)
@@ -26,7 +26,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_AmdY_parses_weekday_and_date_LEGACY() {
+    fun parse_AmdY_parses_weekday_and_date() {
         val parser = parse("%A %m/%d/%Y")
 
         // note : ignores the day name
@@ -40,7 +40,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_UY_parses_week_number_sunday_and_year_LEGACY() {
+    fun parse_UY_parses_week_number_sunday_and_year() {
         val parser = parse("%U %Y")
 
         parser("00 1990") shouldBe date(1989,12,31)
@@ -49,7 +49,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_aUY_parses_abbreviated_weekday_week_number_sunday_and_year_LEGACY() {
+    fun parse_aUY_parses_abbreviated_weekday_week_number_sunday_and_year() {
         val parser = parse("%a %U %Y")
 
         parser("Mon 00 1990") shouldBe date(1990,1,1)
@@ -59,7 +59,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_AUY_parses_weekday_week_number_sunday_and_year_LEGACY() {
+    fun parse_AUY_parses_weekday_week_number_sunday_and_year() {
         val parser = parse("%A %U %Y")
 
         parser("Monday 00 1990") shouldBe date(1990,1,1)
@@ -69,7 +69,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_wUY_parses_numeric_weekday_week_number_sunday_and_year_LEGACY() {
+    fun parse_wUY_parses_numeric_weekday_week_number_sunday_and_year() {
         val parser = parse("%w %U %Y")
 
         parser("1 00 1990") shouldBe date(1990,1,1)
@@ -79,7 +79,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_WY_parses_week_number_monday_and_year_LEGACY() {
+    fun parse_WY_parses_week_number_monday_and_year() {
         val parser = parse("%W %Y")
 
         parser("01 1990") shouldBe date(1990,1,1)
@@ -88,7 +88,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_aWY_parses_abbreviated_weekday_week_number_monday_and_year_LEGACY() {
+    fun parse_aWY_parses_abbreviated_weekday_week_number_monday_and_year() {
         val parser = parse("%a %W %Y")
 
         parser("Mon 01 1990") shouldBe date(1990,1,1)
@@ -98,7 +98,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_AWY_parses_weekday_week_number_monday_and_year_LEGACY() {
+    fun parse_AWY_parses_weekday_week_number_monday_and_year() {
         val parser = parse("%A %W %Y")
 
         parser("Monday 01 1990") shouldBe date(1990,1,1)
@@ -108,7 +108,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_AWY_parses_numeric_weekday_week_number_monday_and_year_LEGACY() {
+    fun parse_AWY_parses_numeric_weekday_week_number_monday_and_year() {
         val parser = parse("%w %W %Y")
 
         parser("1 01 1990") shouldBe date(1990,1,1)
@@ -118,7 +118,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_mdy_parses_month_date_and_2_digits_year_LEGACY() {
+    fun parse_mdy_parses_month_date_and_2_digits_year() {
         val parser = parse("%m/%d/%y")
 
         parser("02/03/69") shouldBe date(1969,2,3)
@@ -129,7 +129,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_x_parses_local_date_LEGACY() {
+    fun parse_x_parses_local_date() {
         val parser = parse("%x")
 
         parser("1/1/1990") shouldBe date(1990,1,1)
@@ -138,7 +138,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_bdY_parses_abbreviated_month_date_and_year_LEGACY() {
+    fun parse_bdY_parses_abbreviated_month_date_and_year() {
         val parser = parse("%b %d, %Y")
 
         parser("jan 01, 1990") shouldBe date(1990,1,1)
@@ -147,7 +147,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_bdY_parses_month_date_and_year_LEGACY() {
+    fun parse_bdY_parses_month_date_and_year() {
         val parser = parse("%B %d, %Y")
 
         parser("January 01, 1990") shouldBe date(1990,1,1)
@@ -156,7 +156,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_jmdY_parses_day_of_year_and_date_LEGACY() {
+    fun parse_jmdY_parses_day_of_year_and_date() {
         val parser = parse("%j %m/%d/%Y")
 
         parser("001 01/01/1990") shouldBe date(1990,1,1)
@@ -165,14 +165,14 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_c_parses_localdate_and_time_LEGACY() {
+    fun parse_c_parses_localdate_and_time() {
         val parser = parse("%c")
 
         parser("1/1/1990, 12:00:00 AM") shouldBe date(1990,1,1)
     }
 
     @Test
-    fun parse_HMS_parses_24_hour_minute_second_LEGACY() {
+    fun parse_HMS_parses_24_hour_minute_second() {
         val parser = parse("%H:%M:%S")
 
         parser("00:00:00") shouldBe date(1900,1,1, 0, 0, 0)
@@ -183,7 +183,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_X_parses_locale_date_time_LEGACY() {
+    fun parse_X_parses_locale_date_time() {
         val parser = parse("%X")
 
         parser("12:00:00 AM") shouldBe date(1900,1,1, 0, 0, 0)
@@ -194,7 +194,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_IMSp_parses_12_hour_minute_second_LEGACY() {
+    fun parse_IMSp_parses_12_hour_minute_second() {
         val parser = parse("%I:%M:%S %p")
 
         parser("12:00:00 am") shouldBe date(1900,1,1, 0, 0, 0)
@@ -205,7 +205,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_IMSp_parses_period_in_non_english_locale_LEGACY() {
+    fun parse_IMSp_parses_period_in_non_english_locale() {
         val parser = Locale(Locales.fi_FI()).parse("%I:%M:%S %p")
 
         parser("12:00:00 a.m.") shouldBe date(1900,1,1, 0, 0, 0)
@@ -216,7 +216,7 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_percentSign_mdY_parses_literal_percent_LEGACY() {
+    fun parse_percentSign_mdY_parses_literal_percent() {
         val parser = parse("%% %m/%d/%Y")
 
         parser("% 01/01/1990") shouldBe date(1990,1,1)
@@ -225,14 +225,14 @@ class ParseTest : TestDate() {
     }
 
     @Test
-    fun parse_minus_m_0d_underscoreY_ignores_optional_padding_modifier_skipping_zero_and_spaces_LEGACY() {
+    fun parse_minus_m_0d_underscoreY_ignores_optional_padding_modifier_skipping_zero_and_spaces() {
         val parser = parse("%-m/%0d/%_Y")
 
         parser("01/ 1/1990") shouldBe date(1990,1,1)
     }
 
     @Test
-    fun parse_bdY_doent_crash_when_given_weird_strings_LEGACY() {
+    fun parse_bdY_doent_crash_when_given_weird_strings() {
         val parser = parse("%b %d, %Y")
 
         parser("foo 1/1990") shouldBe null

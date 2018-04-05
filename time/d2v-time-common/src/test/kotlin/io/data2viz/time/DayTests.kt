@@ -6,7 +6,7 @@ class DayTests : TestDate() {
 
 
     @Test
-    fun day_floor_date_returns_days_LEGACY() {
+    fun day_floor_date_returns_days() {
         val time = timeDay
 
         time.floor(date(2010, 12, 31, 23)) shouldBe date(2010, 12, 31)
@@ -15,14 +15,14 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_handles_years_in_first_century_LEGACY() {
+    fun day_handles_years_in_first_century() {
         val time = timeDay
 
         time.floor(date(11, 10, 6, 7)) shouldBe date(11, 10, 6)
     }
 
     @Test
-    fun day_round_date_returns_days_LEGACY() {
+    fun day_round_date_returns_days() {
         val time = timeDay
 
         time.round(date(2010, 12, 30, 13)) shouldBe date(2010, 12, 31)
@@ -30,7 +30,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_round_date_handles_midnight_in_leap_years_days_LEGACY() {
+    fun day_round_date_handles_midnight_in_leap_years_days() {
         val time = timeDay
 
         time.round(date(2012, 3, 1, 0)) shouldBe date(2012, 3, 1)
@@ -38,7 +38,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_ceil_returns_day_LEGACY() {
+    fun day_ceil_returns_day() {
         val time = timeDay
 
         time.ceil(date(2010, 12, 30, 23)) shouldBe date(2010, 12, 31)
@@ -47,7 +47,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_offset_null_is_an_alias_for_offset_1_LEGACY() {
+    fun day_offset_null_is_an_alias_for_offset_1() {
         val time = timeDay
 
         val date1 = time.offset(date(2010, 12, 31, 23, 59, 59, 999))
@@ -56,7 +56,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_offset_date_step_does_not_modify_the_passed_date_LEGACY() {
+    fun day_offset_date_step_does_not_modify_the_passed_date() {
         val time = timeDay
         val date = date(2010, 12, 31, 23, 59, 59, 999)
 
@@ -65,7 +65,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_offset_date_step_does_not_round_the_passed_date_LEGACY() {
+    fun day_offset_date_step_does_not_round_the_passed_date() {
         val time = timeDay
         val date1 = date(2010, 12, 31, 23, 59, 59, 456)
 
@@ -77,7 +77,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_offset_allows_negative_positive_zero_step_LEGACY() {
+    fun day_offset_allows_negative_positive_zero_step() {
         val time = timeDay
 
         time.offset(date(2010, 12, 31), -1) shouldBe date(2010, 12, 30)
@@ -95,7 +95,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_range_start_stop_returns_days_between_start_inclusive_and_stop_exclusive_LEGACY() {
+    fun day_range_start_stop_returns_days_between_start_inclusive_and_stop_exclusive() {
         val time = timeDay
         val result = listOf(
                 date(2011, 11, 4),
@@ -113,7 +113,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_range_start_stop_returns_days_LEGACY() {
+    fun day_range_start_stop_returns_days() {
         val time = timeDay
         val result = listOf(
                 date(2011, 11, 5),
@@ -131,7 +131,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_range_return_empty_array_if_start_later_or_equal_than_stop_LEGACY() {
+    fun day_range_return_empty_array_if_start_later_or_equal_than_stop() {
         val time = timeDay
 
         time.range(date(2011, 11, 10), date(2011, 11, 4)) shouldBe listOf<Date>()
@@ -139,7 +139,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_range_start_stop_step_returns_every_step_days_LEGACY() {
+    fun day_range_start_stop_step_returns_every_step_days() {
         val time = timeDay
         val result = listOf(
                 date(2011, 11, 5),
@@ -155,7 +155,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_range_return_empty_array_if_step_is_zero_or_negative_LEGACY() {
+    fun day_range_return_empty_array_if_step_is_zero_or_negative() {
         val time = timeDay
 
         time.range(date(2011, 1, 1, 0), date(2011, 5, 9, 0), 0) shouldBe listOf<Date>()
@@ -163,7 +163,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_count_start_end_counts_days_after_start_exclusive_and_before_end_inclusive_LEGACY() {
+    fun day_count_start_end_counts_days_after_start_exclusive_and_before_end_inclusive() {
         val time = timeDay
 
         time.count(date(2011, 1, 1, 0), date(2011, 5, 9, 0)) shouldBe 128
@@ -174,7 +174,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_count_start_end_observes_daylight_saving_LEGACY() {
+    fun day_count_start_end_observes_daylight_saving() {
         val time = timeDay
 
         time.count(date(2011, 1, 1), date(2011, 3, 13, 1)) shouldBe 71
@@ -187,7 +187,7 @@ class DayTests : TestDate() {
 
     // TODO : finish
     @Test
-    fun day_count_start_end_does_not_exhibit_floating_point_error_LEGACY() {
+    fun day_count_start_end_does_not_exhibit_floating_point_error() {
 //        val timeDay = timeDay
 //        val timeYear = timeYear()
 //        val date = date(2011, 5, 9)
@@ -196,7 +196,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_count_start_end_returns_364_or_365_for_a_full_year_LEGACY() {
+    fun day_count_start_end_returns_364_or_365_for_a_full_year() {
         val time = timeDay
 
         time.count(date(1999, 1, 1), date(1999, 12, 31)) shouldBe 364
@@ -215,7 +215,7 @@ class DayTests : TestDate() {
     }
 
     @Test
-    fun day_every_step_returns_every_stepth_day_starting_with_the_first_day_of_the_month_LEGACY() {
+    fun day_every_step_returns_every_stepth_day_starting_with_the_first_day_of_the_month() {
         val time = timeDay
 
         var result = listOf(
@@ -249,7 +249,7 @@ class DayTests : TestDate() {
     }
 
     /*@Test
-    fun day_floor_date_observes_daylight_saving_LEGACY() {
+    fun day_floor_date_observes_daylight_saving() {
         val time = timeDay()
 
 //        time.floor(date(2011, 3, 13, 7)) shouldBe date(2011, 3, 12)

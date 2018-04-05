@@ -15,7 +15,7 @@ class PathBoundsTests : TestBase() {
     }
 
     @Test
-    fun geopath_bounds_of_a_polygon_with_no_holes_LEGACY() {
+    fun geopath_bounds_of_a_polygon_with_no_holes() {
         val geoPath = geoPath(equirectangular)
         val bounds = geoPath.bounds(
             Polygon(
@@ -37,7 +37,7 @@ class PathBoundsTests : TestBase() {
     }
 
     @Test
-    fun geopath_bounds_of_a_polygon_with_holes_LEGACY() {
+    fun geopath_bounds_of_a_polygon_with_holes() {
         val geoPath = geoPath(equirectangular)
         val bounds = geoPath.bounds(
             Polygon(
@@ -66,7 +66,7 @@ class PathBoundsTests : TestBase() {
     }
 
     @Test
-    fun geopath_bounds_of_a_sphere_LEGACY() {
+    fun geopath_bounds_of_a_sphere() {
         val geoPath = geoPath(equirectangular)
         val bounds = geoPath.bounds(Sphere())
         bounds.x0 shouldBeClose -420.0

@@ -22,7 +22,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_1")
-    fun `hexbin has the expected defaults LEGACY`() {
+    fun `hexbin has the expected defaults`() {
         val hexbin = hexbinGenerator()
 
         hexbin.extent.toArray() shouldBe Extent(.0, .0, 1.0, 1.0).toArray()
@@ -35,7 +35,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_2")
-    fun `hexbin (points) bins the specified points into hexagonal bins LEGACY`() {
+    fun `hexbin (points) bins the specified points into hexagonal bins`() {
         val hexbin = hexbinGenerator()
         val bins = hexbin(points)
 
@@ -56,7 +56,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_3")
-    fun `hexbin (points) observes the current radius LEGACY`() {
+    fun `hexbin (points) observes the current radius`() {
         val hexbin = hexbinGenerator {
             radius = 2.0
         }
@@ -76,7 +76,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_4")
-    fun `hexbin width height gets or sets the extent LEGACY`() {
+    fun `hexbin width height gets or sets the extent`() {
         val hexbin = hexbinGenerator {
             width = 2.0
             height = 3.0
@@ -92,7 +92,7 @@ class HexbinTests : TestBase() {
     /*@Test
     // TODO convert relative to absolute
     @JsName("hexbin_test_5")
-    fun `hexbin mesh() observes the extent LEGACY`() {
+    fun `hexbin mesh() observes the extent`() {
         val hexbin = hexbinGenerator {
             radius = .5
             extent = Extent(-1.1, -1.1, 1.1, 1.1)
@@ -105,7 +105,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_6")
-    fun `hexbin hexagon() returns the expected path LEGACY`() {
+    fun `hexbin hexagon() returns the expected path`() {
         val hexbin = hexbinGenerator ()
 
         val path = path()
@@ -116,7 +116,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_7")
-    fun `hexbin hexagon() observes the current bin radius LEGACY`() {
+    fun `hexbin hexagon() observes the current bin radius`() {
         val hexbin = hexbinGenerator {
             radius = 2.0
         }
@@ -133,7 +133,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_8")
-    fun `hexbin hexagon() observes the specified bin radius LEGACY`() {
+    fun `hexbin hexagon() observes the specified bin radius`() {
         val hexbin = hexbinGenerator()
 
         val path = path()
@@ -147,7 +147,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_9")
-    fun `hexbin centers() returns an array of bin centers LEGACY`() {
+    fun `hexbin centers() returns an array of bin centers`() {
         val hexbin = hexbinGenerator()
 
         val centers = hexbin.centers()
@@ -159,7 +159,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_10")
-    fun `hexbin centers() observes the current bin radius LEGACY`() {
+    fun `hexbin centers() observes the current bin radius`() {
         val hexbin = hexbinGenerator {
             radius = .5
         }
@@ -174,7 +174,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_11")
-    fun `hexbin centers() observes the current extent LEGACY`() {
+    fun `hexbin centers() observes the current extent`() {
         val hexbin = hexbinGenerator {
             radius = .5
             extent = Extent(-1.1, -1.1, 1.1, 1.1)

@@ -8,7 +8,7 @@ class QuadtreeDataTests : TestBase() {
 
     @Test
     @JsName("quadtree_data_1")
-    fun `quadtree data() returns an array of data in the quadtree LEGACY`() {
+    fun `quadtree data() returns an array of data in the quadtree`() {
         val quadtree = buildQuadtree()
         quadtree.data() shouldBe listOf()
 
@@ -20,7 +20,7 @@ class QuadtreeDataTests : TestBase() {
 
     @Test
     @JsName("quadtree_data_2")
-    fun `quadtree data() correctly handles coincident nodes LEGACY`() {
+    fun `quadtree data() correctly handles coincident nodes`() {
         val quadtree = buildQuadtree()
         quadtree.addAll(listOf(arrayOf(0, 0), arrayOf(0, 0)))
         quadtree.data()[0] shouldBe arrayOf(0, 0)

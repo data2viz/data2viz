@@ -8,7 +8,7 @@ class QuadtreeSizeTests : TestBase() {
 
     @Test
     @JsName("quadtree_size_1")
-    fun `quadtree size() returns the number of points in the quadtree LEGACY`() {
+    fun `quadtree size() returns the number of points in the quadtree`() {
         val quadtree = buildQuadtree()
         quadtree.size() shouldBe 0
 
@@ -20,7 +20,7 @@ class QuadtreeSizeTests : TestBase() {
 
     @Test
     @JsName("quadtree_size_2")
-    fun `quadtree size() correctly counts coincident nodes LEGACY`() {
+    fun `quadtree size() correctly counts coincident nodes`() {
         val quadtree = buildQuadtree()
         quadtree.add(arrayOf(0, 0))
         quadtree.add(arrayOf(0, 0))

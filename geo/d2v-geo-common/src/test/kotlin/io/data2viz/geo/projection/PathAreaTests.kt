@@ -15,7 +15,7 @@ class PathAreaTests : TestBase() {
     }
 
     @Test
-    fun geopath_area_of_a_polygon_with_no_holes_LEGACY() {
+    fun geopath_area_of_a_polygon_with_no_holes() {
         val geoPath = geoPath(equirectangular)
         geoPath.area(
             Polygon(
@@ -33,7 +33,7 @@ class PathAreaTests : TestBase() {
     }
 
     @Test
-    fun geopath_area_of_a_polygon_with_holes_LEGACY() {
+    fun geopath_area_of_a_polygon_with_holes() {
         val geoPath = geoPath(equirectangular)
         geoPath.area(
             Polygon(
@@ -58,7 +58,7 @@ class PathAreaTests : TestBase() {
     }
 
     @Test
-    fun geopath_area_of_a_sphere_LEGACY() {
+    fun geopath_area_of_a_sphere() {
         val geoPath = geoPath(equirectangular)
         geoPath.area(Sphere()) shouldBeClose 1620000.0
     }

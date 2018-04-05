@@ -18,7 +18,7 @@ class ScaleLogTests : TestBase() {
     private fun scaleLog(): LogScale  = scales.continuous.log() as LogScale
 
     @Test
-    fun log_x_maps_a_number_x_to_a_number_y_LEGACY() {
+    fun log_x_maps_a_number_x_to_a_number_y() {
         val scale = scaleLog()
         scale.range = listOf(.0, 1.0)
 
@@ -33,7 +33,7 @@ class ScaleLogTests : TestBase() {
 
     
     @Test
-    fun log_invert_x_maps_a_number_x_to_a_number_y_LEGACY() {
+    fun log_invert_x_maps_a_number_x_to_a_number_y() {
         val scale =  scaleLog()
         scale.range = listOf(.0, 1.0)
 
@@ -47,7 +47,7 @@ class ScaleLogTests : TestBase() {
     }
 
     @Test
-    fun log_base_b_sets_log_base_changing_ticks_LEGACY() {
+    fun log_base_b_sets_log_base_changing_ticks() {
         val scale =  scaleLog()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(1.0, 32.0)
@@ -60,7 +60,7 @@ class ScaleLogTests : TestBase() {
     }
 
     @Test
-    fun log_base_b_tickes_generate_expected_power_of_base_ticks_LEGACY() {
+    fun log_base_b_tickes_generate_expected_power_of_base_ticks() {
         val scale =  scaleLog()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(0.1, 100.0)
@@ -70,7 +70,7 @@ class ScaleLogTests : TestBase() {
     }
 
     @Test
-    fun log_nice_nices_domain_extending_it_to_powers_of_ten_LEGACY() {
+    fun log_nice_nices_domain_extending_it_to_powers_of_ten() {
         val scale =  scaleLog() 
 
         scale.domain = listOf(1.1, 10.9)

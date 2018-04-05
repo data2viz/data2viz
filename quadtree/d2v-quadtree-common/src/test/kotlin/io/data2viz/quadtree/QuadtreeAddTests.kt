@@ -9,7 +9,7 @@ class QuadtreeAddTests : TestBase() {
 
     @Test
     @JsName("quadtree_add_1")
-    fun `quadtree add(datum) creates a new point and adds it to the quadtree LEGACY`() {
+    fun `quadtree add(datum) creates a new point and adds it to the quadtree`() {
         val quadtree = buildQuadtree()
 
         quadtree.add(arrayOf(0, 0))
@@ -50,7 +50,7 @@ class QuadtreeAddTests : TestBase() {
 
     @Test
     @JsName("quadtree_add_2")
-    fun `quadtree add(datum) handles points being on the perimeter of the quadtree bounds LEGACY`() {
+    fun `quadtree add(datum) handles points being on the perimeter of the quadtree bounds`() {
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 1.0, 1.0)
         }
@@ -82,7 +82,7 @@ class QuadtreeAddTests : TestBase() {
 
     @Test
     @JsName("quadtree_add_3")
-    fun `quadtree add(datum) handles points being to the top of the quadtree bounds LEGACY`() {
+    fun `quadtree add(datum) handles points being to the top of the quadtree bounds`() {
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 2.0, 2.0)
             add(arrayOf(1, -1))
@@ -93,7 +93,7 @@ class QuadtreeAddTests : TestBase() {
 
     @Test
     @JsName("quadtree_add_4")
-    fun `quadtree add(datum) handles points being to the right of the quadtree bounds LEGACY`() {
+    fun `quadtree add(datum) handles points being to the right of the quadtree bounds`() {
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 2.0, 2.0)
             add(arrayOf(3, 1))
@@ -104,7 +104,7 @@ class QuadtreeAddTests : TestBase() {
 
     @Test
     @JsName("quadtree_add_5")
-    fun `quadtree add(datum) handles points being to the bottom of the quadtree bounds LEGACY`() {
+    fun `quadtree add(datum) handles points being to the bottom of the quadtree bounds`() {
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 2.0, 2.0)
             add(arrayOf(1, 3))
@@ -115,7 +115,7 @@ class QuadtreeAddTests : TestBase() {
 
     @Test
     @JsName("quadtree_add_6")
-    fun `quadtree add(datum) handles points being to the left of the quadtree bounds LEGACY`() {
+    fun `quadtree add(datum) handles points being to the left of the quadtree bounds`() {
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 2.0, 2.0)
             add(arrayOf(-1, 1))
@@ -126,7 +126,7 @@ class QuadtreeAddTests : TestBase() {
 
     @Test
     @JsName("quadtree_add_7")
-    fun `quadtree add(datum) handles coincident points by creating a linked list LEGACY`() {
+    fun `quadtree add(datum) handles coincident points by creating a linked list`() {
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 1.0, 1.0)
         }
@@ -159,7 +159,7 @@ class QuadtreeAddTests : TestBase() {
 
     @Test
     @JsName("quadtree_add_8")
-    fun `quadtree add(datum) implicitly defines trivial bounds for the first point LEGACY`() {
+    fun `quadtree add(datum) implicitly defines trivial bounds for the first point`() {
         val quadtree = buildQuadtree() {
             add(arrayOf(1, 2))
         }

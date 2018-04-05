@@ -10,7 +10,7 @@ import kotlin.test.Test
 class GraticuleTests : TestBase() {
 
     @Test
-    fun graticule_extent_sets_extendMinor_and_extentMajor_LEGACY() {
+    fun graticule_extent_sets_extendMinor_and_extentMajor() {
         val graticule = geoGraticule()
         graticule.extent = Extent(90.0, -45.0, 90.0, 45.0)
 
@@ -25,7 +25,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_extent_gets_extendMinor_LEGACY() {
+    fun graticule_extent_gets_extendMinor() {
         val graticule = geoGraticule()
         graticule.extentMinor = Extent(-90.0, -45.0, 90.0, 45.0)
 
@@ -36,7 +36,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_extentMajor_default_longitude_ranges_from_180W_inclusive_to_180E_inclusive_LEGACY() {
+    fun graticule_extentMajor_default_longitude_ranges_from_180W_inclusive_to_180E_inclusive() {
         val graticule = geoGraticule().extentMajor
 
         graticule.x0 shouldBeClose -180.0
@@ -44,7 +44,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_extentMajor_default_latitude_ranges_from_90S_exclusive_to_90N_exclusive_LEGACY() {
+    fun graticule_extentMajor_default_latitude_ranges_from_90S_exclusive_to_90N_exclusive() {
         val graticule = geoGraticule().extentMajor
 
         graticule.y0 shouldBeClose -90.0
@@ -52,7 +52,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_extentMinor_default_longitude_ranges_from_180W_inclusive_to_180E_inclusive_LEGACY() {
+    fun graticule_extentMinor_default_longitude_ranges_from_180W_inclusive_to_180E_inclusive() {
         val graticule = geoGraticule().extentMinor
 
         graticule.x0 shouldBeClose -180.0
@@ -60,7 +60,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_extentMinor_default_latitude_ranges_from_80S_exclusive_to_80N_inclusive_LEGACY() {
+    fun graticule_extentMinor_default_latitude_ranges_from_80S_exclusive_to_80N_inclusive() {
         val graticule = geoGraticule().extentMinor
 
         graticule.y0 shouldBeClose -80.0
@@ -68,7 +68,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_step_sets_minor_and_major_step_LEGACY() {
+    fun graticule_step_sets_minor_and_major_step() {
         val graticule = geoGraticule()
         graticule.step = doubleArrayOf(22.5, 22.5)
 
@@ -77,7 +77,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_step_gets_the_minor_step_LEGACY() {
+    fun graticule_step_gets_the_minor_step() {
         val graticule = geoGraticule()
         graticule.stepMinor = doubleArrayOf(22.5, 22.5)
 
@@ -85,19 +85,19 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_stepminor_defaults_to_10_10_LEGACY() {
+    fun graticule_stepminor_defaults_to_10_10() {
         val graticule = geoGraticule()
         graticule.stepMinor shouldBeClose doubleArrayOf(10.0, 10.0)
     }
 
     @Test
-    fun graticule_stepmajor_defaults_to_90_360_LEGACY() {
+    fun graticule_stepmajor_defaults_to_90_360() {
         val graticule = geoGraticule()
         graticule.stepMajor shouldBeClose doubleArrayOf(90.0, 360.0)
     }
 
     @Test
-    fun graticule_lines_default_longitude_ranges_from_180W_inclusive_to_180E_exclusive_LEGACY() {
+    fun graticule_lines_default_longitude_ranges_from_180W_inclusive_to_180E_exclusive() {
         val lines = geoGraticule().lines()
             .filter { it.coordinates[0][0] == it.coordinates[1][0] }
             .sortedBy { it.coordinates[0][0] }
@@ -107,7 +107,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_lines_default_latitude_ranges_from_90S_exclusive_to_90N_exclusive_LEGACY() {
+    fun graticule_lines_default_latitude_ranges_from_90S_exclusive_to_90N_exclusive() {
         val lines = geoGraticule().lines()
             .filter { it.coordinates[0][1] == it.coordinates[1][1] }
             .sortedBy { it.coordinates[0][1] }
@@ -117,7 +117,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_lines_default_minor_longitude_lines_extend_from_80S_to_80N_LEGACY() {
+    fun graticule_lines_default_minor_longitude_lines_extend_from_80S_to_80N() {
         val lines = geoGraticule().lines()
             .filter { it.coordinates[0][0] == it.coordinates[1][0] }
             .filter { abs(it.coordinates[0][0] % 90.0) > epsilon }
@@ -129,7 +129,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_lines_default_major_longitude_lines_extend_from_90S_to_90N_LEGACY() {
+    fun graticule_lines_default_major_longitude_lines_extend_from_90S_to_90N() {
         val lines = geoGraticule().lines()
             .filter { it.coordinates[0][0] == it.coordinates[1][0] }
             .filter { abs(it.coordinates[0][0] % 90.0) < epsilon }
@@ -141,7 +141,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_lines_default_latitude_lines_extend_from_180W_to_180E_LEGACY() {
+    fun graticule_lines_default_latitude_lines_extend_from_180W_to_180E() {
         val lines = geoGraticule().lines()
             .filter { it.coordinates[0][1] == it.coordinates[1][1] }
 
@@ -152,7 +152,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_lines_returns_array_of_linestrings_LEGACY() {
+    fun graticule_lines_returns_array_of_linestrings() {
         val graticule = geoGraticule {
             extent = Extent(-90.0, -45.0, 90.0, 45.0)
             step = doubleArrayOf(45.0, 45.0)
@@ -173,7 +173,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_graticule_returns_a_multistring_of_all_lines_LEGACY() {
+    fun graticule_graticule_returns_a_multistring_of_all_lines() {
         val g = geoGraticule {
             extent = Extent(-90.0, -45.0, 90.0, 45.0)
             step = doubleArrayOf(45.0, 45.0)
@@ -192,7 +192,7 @@ class GraticuleTests : TestBase() {
     }
 
     @Test
-    fun graticule_outline_returns_a_polygon_encompassing_the_major_extent_LEGACY() {
+    fun graticule_outline_returns_a_polygon_encompassing_the_major_extent() {
         val g = geoGraticule {
             extentMajor = Extent(-90.0, -45.0, 90.0, 45.0)
             precision = 3.0

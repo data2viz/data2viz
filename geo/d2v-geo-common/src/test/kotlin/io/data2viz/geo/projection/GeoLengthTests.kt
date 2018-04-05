@@ -9,17 +9,17 @@ import kotlin.test.Test
 class GeoLengthTests : TestBase() {
 
     @Test
-    fun geolength_point_returns_zero_LEGACY() {
+    fun geolength_point_returns_zero() {
         GeoLength().result(Point(pt(.0, .0))) shouldBeClose .0
     }
 
     @Test
-    fun geolength_multipoint_returns_zero_LEGACY() {
+    fun geolength_multipoint_returns_zero() {
         GeoLength().result(MultiPoint(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
     }
 
     @Test
-    fun geolength_linestring_returns_the_sum_of_its_great_arc_segments_LEGACY() {
+    fun geolength_linestring_returns_the_sum_of_its_great_arc_segments() {
         GeoLength().result(LineString(arrayOf(pt(-45.0, .0), pt(45.0, .0)))) shouldBeClose PI / 2
         GeoLength().result(
             LineString(
@@ -34,7 +34,7 @@ class GeoLengthTests : TestBase() {
     }
 
     @Test
-    fun geolength_multilinestring_returns_the_sum_of_its_great_arc_segments_LEGACY() {
+    fun geolength_multilinestring_returns_the_sum_of_its_great_arc_segments() {
         GeoLength().result(
             MultiLineString(
                 arrayOf(
@@ -46,7 +46,7 @@ class GeoLengthTests : TestBase() {
     }
 
     @Test
-    fun geolength_polygons_returns_the_length_of_its_perimeter_LEGACY() {
+    fun geolength_polygons_returns_the_length_of_its_perimeter() {
         GeoLength().result(
             Polygon(
                 arrayOf(
@@ -63,7 +63,7 @@ class GeoLengthTests : TestBase() {
     }
 
     @Test
-    fun geolength_polygons_returns_the_length_of_its_perimeter_including_holes_LEGACY() {
+    fun geolength_polygons_returns_the_length_of_its_perimeter_including_holes() {
         GeoLength().result(
             Polygon(
                 arrayOf(
@@ -87,7 +87,7 @@ class GeoLengthTests : TestBase() {
     }
 
     @Test
-    fun geolength_multipolygons_returns_the_summedlength_of_its_perimeter_including_holes_LEGACY() {
+    fun geolength_multipolygons_returns_the_summedlength_of_its_perimeter_including_holes() {
         GeoLength().result(
             MultiPolygon(
                 arrayOf(
@@ -130,7 +130,7 @@ class GeoLengthTests : TestBase() {
     }
 
     @Test
-    fun geolength_featurecollection_returns_the_sum_of_its_features_lengths_LEGACY() {
+    fun geolength_featurecollection_returns_the_sum_of_its_features_lengths() {
         GeoLength().result(
             FeatureCollection(
                 arrayOf(
@@ -156,7 +156,7 @@ class GeoLengthTests : TestBase() {
     }
 
     @Test
-    fun geolength_geometrycollection_returns_the_sum_of_its_geometries_lengths_LEGACY() {
+    fun geolength_geometrycollection_returns_the_sum_of_its_geometries_lengths() {
         GeoLength().result(
             GeometryCollection(
                 arrayOf(

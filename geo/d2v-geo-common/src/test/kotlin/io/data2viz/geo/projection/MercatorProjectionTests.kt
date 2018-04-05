@@ -15,7 +15,7 @@ class MercatorProjectionTests : TestBase() {
     // TODO add more tests
 
     @Test
-    fun mercator_clip_extent_null_sets_default_automatic_clip_extent_LEGACY() {
+    fun mercator_clip_extent_null_sets_default_automatic_clip_extent() {
         val projection = MercatorProjection()
         projection.translate = doubleArrayOf(.0, .0)
         projection.scale = 1.0
@@ -28,7 +28,7 @@ class MercatorProjectionTests : TestBase() {
     }
 
     @Test
-    fun mercator_center_center_sets_correct_automatic_clip_extent_LEGACY() {
+    fun mercator_center_center_sets_correct_automatic_clip_extent() {
         val projection = MercatorProjection()
         projection.translate = doubleArrayOf(.0, .0)
         projection.scale = 1.0
@@ -41,7 +41,7 @@ class MercatorProjectionTests : TestBase() {
     }
 
     @Test
-    fun mercator_center_center_intersects_the_specified_clip_extent_with_the_automatic_clip_extent_LEGACY() {
+    fun mercator_center_center_intersects_the_specified_clip_extent_with_the_automatic_clip_extent() {
         val projection = MercatorProjection()
         projection.translate = doubleArrayOf(.0, .0)
         projection.scale = 1.0

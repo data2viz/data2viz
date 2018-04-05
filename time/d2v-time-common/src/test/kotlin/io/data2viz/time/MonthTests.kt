@@ -6,7 +6,7 @@ class MonthTests : TestDate() {
 
 
     @Test
-    fun month_floor_date_returns_months_LEGACY() {
+    fun month_floor_date_returns_months() {
         val time = timeMonth
 
         time.floor(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2010, 12, 1)
@@ -15,28 +15,28 @@ class MonthTests : TestDate() {
     }
 
     @Test
-    fun month_floor_observes_start_of_DST_LEGACY() {
+    fun month_floor_observes_start_of_DST() {
         val time = timeMonth
 
         time.floor(date(2011, 3, 13, 1)) shouldBe date(2011, 3, 1)
     }
 
     @Test
-    fun month_floor_observes_end_of_DST_LEGACY() {
+    fun month_floor_observes_end_of_DST() {
         val time = timeMonth
 
         time.floor(date(2011, 11, 6, 1)) shouldBe date(2011, 11, 1)
     }
 
     @Test
-    fun month_floor_handles_years_in_first_century_LEGACY() {
+    fun month_floor_handles_years_in_first_century() {
         val time = timeMonth
 
         time.floor(date(11, 11, 6, 7)) shouldBe date(11, 11, 1)
     }
 
     @Test
-    fun month_ceil_returns_months_LEGACY() {
+    fun month_ceil_returns_months() {
         val time = timeMonth
 
         time.ceil(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2011, 1, 1)
@@ -45,21 +45,21 @@ class MonthTests : TestDate() {
     }
 
     @Test
-    fun month_ceil_observes_start_of_DST_LEGACY() {
+    fun month_ceil_observes_start_of_DST() {
         val time = timeMonth
 
         time.ceil(date(2011, 3, 13, 1)) shouldBe date(2011, 4, 1)
     }
 
     @Test
-    fun month_ceil_observes_end_of_DST_LEGACY() {
+    fun month_ceil_observes_end_of_DST() {
         val time = timeMonth
 
         time.ceil(date(2011, 11, 6, 1)) shouldBe date(2011, 12, 1)
     }
 
     @Test
-    fun month_offset_does_not_modify_passed_in_date_LEGACY() {
+    fun month_offset_does_not_modify_passed_in_date() {
         val time = timeMonth
         val date = date(2010, 12, 31, 23, 59, 59, 999)
 
@@ -68,7 +68,7 @@ class MonthTests : TestDate() {
     }
 
     @Test
-    fun month_offset_does_not_round_passed_in_date_LEGACY() {
+    fun month_offset_does_not_round_passed_in_date() {
         val time = timeMonth
 
         time.offset(date(2010, 12, 31, 23, 59, 59, 999), 1) shouldBe date(2011, 1, 31, 23, 59, 59, 999)
@@ -76,7 +76,7 @@ class MonthTests : TestDate() {
     }
 
     @Test
-    fun month_offset_allows_negative_offsets_LEGACY() {
+    fun month_offset_allows_negative_offsets() {
         val time = timeMonth
 
         time.offset(date(2010, 12, 1), -1) shouldBe date(2010, 11, 1)
@@ -85,7 +85,7 @@ class MonthTests : TestDate() {
     }
 
     @Test
-    fun month_offset_allows_positive_offsets_LEGACY() {
+    fun month_offset_allows_positive_offsets() {
         val time = timeMonth
 
         time.offset(date(2010, 11, 1), 1) shouldBe date(2010, 12, 1)
@@ -94,7 +94,7 @@ class MonthTests : TestDate() {
     }
 
     @Test
-    fun month_offset_allows_zero_offsets_LEGACY() {
+    fun month_offset_allows_zero_offsets() {
         val time = timeMonth
 
         time.offset(date(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe date(2010, 12, 31, 23, 59, 59, 999)

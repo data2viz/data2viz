@@ -7,7 +7,7 @@ class ScaleBandTests : TestBase() {
 
 
     @Test
-    fun band_has_expected_defaults_LEGACY() {
+    fun band_has_expected_defaults() {
         val scale = scales.band<Int>()
 
         scale.domain shouldBe listOf()
@@ -21,7 +21,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_value_computes_discrete_bands_in_a_continuous_range_LEGACY() {
+    fun band_value_computes_discrete_bands_in_a_continuous_range() {
         val scale = scales.band<String>()
         scale.range = intervalOf(.0, 960.0)
 
@@ -46,7 +46,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_value_returns_undefined_for_values_outside_the_domain_LEGACY() {
+    fun band_value_returns_undefined_for_values_outside_the_domain() {
         val scale = scales.band<String>()
         scale.domain = listOf("a", "b", "c")
 
@@ -56,7 +56,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_value_does_not_implicitly_add_values_to_the_domain_LEGACY() {
+    fun band_value_does_not_implicitly_add_values_to_the_domain() {
         val scale = scales.band<String>()
         scale.domain = listOf("a", "b", "c")
 
@@ -66,7 +66,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_step_returns_the_distance_between_the_starts_of_adjacent_bands_LEGACY() {
+    fun band_step_returns_the_distance_between_the_starts_of_adjacent_bands() {
         val scale = scales.band<String>()
         scale.range = intervalOf(.0, 960.0)
 
@@ -88,7 +88,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_bandwidth_returns_the_width_of_the_band_LEGACY() {
+    fun band_bandwidth_returns_the_width_of_the_band() {
         val scale = scales.band<String>()
         scale.range = intervalOf(.0, 960.0)
 
@@ -116,7 +116,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_domain_computes_reasonable_band_and_step_values_LEGACY() {
+    fun band_domain_computes_reasonable_band_and_step_values() {
         val scale = scales.band<String>()
         scale.range = intervalOf(.0, 960.0)
         scale.domain = listOf()
@@ -134,7 +134,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_domain_value_compute_a_reasonable_singleton_band_even_with_padding_LEGACY() {
+    fun band_domain_value_compute_a_reasonable_singleton_band_even_with_padding() {
         val scale = scales.band<String>()
         scale.range = intervalOf(.0, 960.0)
         scale.domain = listOf("foo")
@@ -155,7 +155,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_domain_values_recomputes_the_bands_LEGACY() {
+    fun band_domain_values_recomputes_the_bands() {
         val scale = scales.band<String>()
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(.0, 100.0)
@@ -177,7 +177,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_domain_makes_a_copy_of_the_domain_LEGACY() {
+    fun band_domain_makes_a_copy_of_the_domain() {
         val scale = scales.band<String>()
         val domain = arrayListOf("red", "blue")
 
@@ -187,7 +187,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_range_values_can_be_descending_LEGACY() {
+    fun band_range_values_can_be_descending() {
         val scale = scales.band<String>()
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(120.0, .0)
@@ -206,7 +206,7 @@ class ScaleBandTests : TestBase() {
 
 
     @Test
-    fun band_paddingInner_p_specifies_the_inner_padding_LEGACY() {
+    fun band_paddingInner_p_specifies_the_inner_padding() {
         val scale = scales.band<String>()
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(120.0, .0)
@@ -223,7 +223,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_paddingInner_coerces_padding_to_0_1_LEGACY() {
+    fun band_paddingInner_coerces_padding_to_0_1() {
         val scale = scales.band<String>()
 
         scale.paddingInner = 1.0
@@ -240,7 +240,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_paddingOutr_p_specifies_the_outer_padding_LEGACY() {
+    fun band_paddingOutr_p_specifies_the_outer_padding() {
         val scale = scales.band<String>()
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(120.0, .0)
@@ -261,7 +261,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_paddingOuter_coerces_padding_to_0_1_LEGACY() {
+    fun band_paddingOuter_coerces_padding_to_0_1() {
         val scale = scales.band<String>()
 
         scale.paddingOuter = 1.0
@@ -278,7 +278,7 @@ class ScaleBandTests : TestBase() {
     }
 
     @Test
-    fun band_round_true_computes_discrete_rounded_bands_in_a_continuous_range_LEGACY() {
+    fun band_round_true_computes_discrete_rounded_bands_in_a_continuous_range() {
         val scale = scales.band<String>()
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(.0, 100.0)

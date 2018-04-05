@@ -10,7 +10,7 @@ class QuadtreeFindTests : TestBase() {
 
     @Test
     @JsName("quadtree_find_1")
-    fun `quadtree find(x, y) returns the closest point to the given (x, y) LEGACY`() {
+    fun `quadtree find(x, y) returns the closest point to the given (x, y)`() {
         val dx = 17
         val dy = 17
         val quadtree = buildQuadtree()
@@ -27,7 +27,7 @@ class QuadtreeFindTests : TestBase() {
 
     @Test
     @JsName("quadtree_find_2")
-    fun `quadtree find(x, y, radius) returns the closest point within the search radius to the given (x, y) LEGACY`() {
+    fun `quadtree find(x, y, radius) returns the closest point within the search radius to the given (x, y)`() {
         val quadtree = buildQuadtree() {
             add(arrayOf(0, 0))
             add(arrayOf(100, 0))
@@ -46,7 +46,7 @@ class QuadtreeFindTests : TestBase() {
 
     @Test
     @JsName("quadtree_find_3")
-    fun `quadtree find(x, y) treats the radius as Infinity LEGACY`() {
+    fun `quadtree find(x, y) treats the radius as Infinity`() {
         val quadtree = buildQuadtree() {
             add(arrayOf(0, 0))
             add(arrayOf(100, 0))

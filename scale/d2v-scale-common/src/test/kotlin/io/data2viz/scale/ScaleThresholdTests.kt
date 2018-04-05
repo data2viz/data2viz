@@ -7,7 +7,7 @@ class ScaleThresholdTests : TestBase() {
 
 
     @Test
-    fun threshold_expected_defaults_LEGACY() {
+    fun threshold_expected_defaults() {
         val scale = scales.threshold<Double>()
         scale.range = listOf(.0, 1.0)
 
@@ -17,7 +17,7 @@ class ScaleThresholdTests : TestBase() {
     }
 
     @Test
-    fun threshold_maps_a_value_to_a_discrete_value_in_range_LEGACY() {
+    fun threshold_maps_a_value_to_a_discrete_value_in_range() {
         val scale = scales.threshold<String>()
         scale.domain = listOf(1 / 3.0, 2 / 3.0)
         scale.range = listOf("a", "b", "c")
@@ -31,7 +31,7 @@ class ScaleThresholdTests : TestBase() {
     }
 
     @Test
-    fun threshold_returns_NaN_if_specified_value_is_not_orderable_LEGACY() {
+    fun threshold_returns_NaN_if_specified_value_is_not_orderable() {
         val scale = scales.threshold<String>()
         scale.domain = listOf(1 / 3.0, 2 / 3.0)
         scale.range = listOf("a", "b", "c")
@@ -40,7 +40,7 @@ class ScaleThresholdTests : TestBase() {
     }
 
     @Test
-    fun threshold_range_supports_arbitrary_values_LEGACY() {
+    fun threshold_range_supports_arbitrary_values() {
         val scale = scales.threshold<() -> Unit>()
         val a = {}
         val b = {}
@@ -58,7 +58,7 @@ class ScaleThresholdTests : TestBase() {
 
 
     @Test
-    fun threshold_invertExtent_r_returns_the_domain_extent_for_the_specified_range_value_LEGACY() {
+    fun threshold_invertExtent_r_returns_the_domain_extent_for_the_specified_range_value() {
         val scale = scales.threshold<() -> Unit>()
         val a = {}
         val b = {}

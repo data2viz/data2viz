@@ -10,7 +10,7 @@ import kotlin.test.Test
 class FitTests : TestBase() {
 
     @Test
-    fun fitExtent_sphere_equirectangular_LEGACY() {
+    fun fitExtent_sphere_equirectangular() {
         val projection = equirectangularProjection()
         projection.fitExtent(Extent(50.0, 50.0, 950.0, 950.0), Sphere())
 

@@ -6,7 +6,7 @@ import kotlin.test.Test
 class ScaleQuantizeTests : TestBase() {
 
     @Test
-    fun quantize_expected_defaults_LEGACY() {
+    fun quantize_expected_defaults() {
         val scale = scales.quantize<Double>()
         scale.range = listOf(.0, 1.0)
 
@@ -21,7 +21,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_values_give_expected_discreet_results_LEGACY() {
+    fun quantize_values_give_expected_discreet_results() {
         val scale = scales.quantize<Double>()
         scale.range = listOf(.0, 1.0, 2.0)
 
@@ -34,7 +34,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_values_clamps_input_values_to_domain() {
+    fun quantize_values_clamps_input_values_to_domain_string() {
         val scale = scales.quantize<String>()
         scale.range = listOf("red", "green", "blue")
 
@@ -47,7 +47,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_values_clamps_input_values_to_domain_LEGACY() {
+    fun quantize_values_clamps_input_values_to_domain() {
         val scale = scales.quantize<() -> Unit>()
         val a = {}
         val b = {}
@@ -63,7 +63,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_range_cardinality_determines_degre_of_quantization_LEGACY() {
+    fun quantize_range_cardinality_determines_degre_of_quantization() {
         val scale = scales.quantize<Double>()
         val aThird = 1.0 / 3.0
         
@@ -81,7 +81,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_invertExtent_maps_value_in_the_range_to_domain_extent_LEGACY() {
+    fun quantize_invertExtent_maps_value_in_the_range_to_domain_extent() {
         val scale = scales.quantize<Double>()
         scale.range = listOf(0.0, 1.0, 2.0, 3.0)
 
@@ -92,7 +92,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_invertExtent_allows_arbitrary_range_values_LEGACY() {
+    fun quantize_invertExtent_allows_arbitrary_range_values() {
         val scale = scales.quantize<() -> Unit>()
         val a = {}
         val b = {}
@@ -103,7 +103,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_invertExtent_returns_NaN_NaN_when_given_value_not_in_the_range_LEGACY() {
+    fun quantize_invertExtent_returns_NaN_NaN_when_given_value_not_in_the_range() {
         val scale = scales.quantize<Double>()
 
         val notFound = listOf(Double.NaN, Double.NaN)
@@ -113,7 +113,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_invertExtent_returns_first_match_if_duplicates_values_exists_in_the_range_LEGACY() {
+    fun quantize_invertExtent_returns_first_match_if_duplicates_values_exists_in_the_range() {
         val scale = scales.quantize<Double>()
         scale.range = listOf(0.0, 1.0, 2.0, 0.0)
 
@@ -122,7 +122,7 @@ class ScaleQuantizeTests : TestBase() {
     }
 
     @Test
-    fun quantize_invertExtent_y_is_exactly_consistent_with_quantize_x_LEGACY() {
+    fun quantize_invertExtent_y_is_exactly_consistent_with_quantize_x() {
         val scale = scales.quantize<Double>()
         scale.range = (0 until 10).map({it.toDouble()}).toList()
         scale.domain = intervalOf(4.2, 6.2)

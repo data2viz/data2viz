@@ -9,7 +9,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_1")
-    fun `quadtree visit(callback) visits each node in a quadtree LEGACY`() {
+    fun `quadtree visit(callback) visits each node in a quadtree`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             addAll(listOf(arrayOf(0, 0), arrayOf(1, 0), arrayOf(0, 1), arrayOf(1, 1)))
@@ -28,7 +28,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_2")
-    fun `quadtree visit(callback) applies pre-order traversal LEGACY`() {
+    fun `quadtree visit(callback) applies pre-order traversal`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 960.0, 960.0)
@@ -49,7 +49,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_3")
-    fun `quadtree visit(callback) does not recurse if the callback returns true LEGACY`() {
+    fun `quadtree visit(callback) does not recurse if the callback returns true`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 960.0, 960.0)
@@ -67,7 +67,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_4")
-    fun `quadtree visit(callback) on an empty quadtree with no bounds does nothing LEGACY`() {
+    fun `quadtree visit(callback) on an empty quadtree with no bounds does nothing`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 960.0, 960.0)
@@ -82,7 +82,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_5")
-    fun `quadtree visit(callback) on an empty quadtree with bounds does nothing LEGACY`() {
+    fun `quadtree visit(callback) on an empty quadtree with bounds does nothing`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree()
 

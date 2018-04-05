@@ -58,7 +58,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_nice_can_nice_multi_year_domains_LEGACY() {
+    fun time_nice_can_nice_multi_year_domains() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
 
@@ -75,7 +75,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_nice_is_an_alias_for_nice_10_LEGACY() {
+    fun time_nice_is_an_alias_for_nice_10() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
 
@@ -86,7 +86,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_nice_can_nice_subsecond_domains_LEGACY() {
+    fun time_nice_can_nice_subsecond_domains() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
 
@@ -97,7 +97,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_nice_can_nice_empty_domains_LEGACY() {
+    fun time_nice_can_nice_empty_domains() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
 
@@ -108,7 +108,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_nice_count_use_the_specified_tick_count_LEGACY() {
+    fun time_nice_count_use_the_specified_tick_count() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2009, 1, 1, 0, 17), date(2009, 1, 1, 23, 42))
@@ -123,7 +123,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_subsecond_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_subsecond_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 0, 1))
@@ -145,7 +145,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_1_second_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_1_second_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 0, 4))
@@ -166,7 +166,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_5_seconds_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_5_seconds_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 0, 20))
@@ -187,7 +187,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_15_seconds_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_15_seconds_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 0, 50))
@@ -207,7 +207,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_30_seconds_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_30_seconds_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 1, 50))
@@ -227,7 +227,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_1_minute_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_1_minute_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 0, 27), date(2011, 1, 1, 12, 4, 12))
@@ -247,7 +247,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_5_minutes_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_5_minutes_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 3, 27), date(2011, 1, 1, 12, 21, 12))
@@ -267,7 +267,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_15_minutes_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_15_minutes_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 8, 27), date(2011, 1, 1, 13, 4, 12))
@@ -287,7 +287,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_30_minutes_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_30_minutes_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 28, 27), date(2011, 1, 1, 14, 4, 12))
@@ -307,7 +307,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_1_hour_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_1_hour_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 12, 28, 27), date(2011, 1, 1, 16, 34, 12))
@@ -327,7 +327,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_3_hours_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_3_hours_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(
@@ -349,7 +349,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_6_hours_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_6_hours_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 16, 28, 27), date(2011, 1, 2, 14, 34, 12))
@@ -369,7 +369,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_12_hours_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_12_hours_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 16, 28, 27), date(2011, 1, 3, 21, 34, 12))
@@ -389,7 +389,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_1_day_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_1_day_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 16, 28, 27), date(2011, 1, 5, 21, 34, 12))
@@ -409,7 +409,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_2_days_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_2_days_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 2, 16, 28, 27), date(2011, 1, 9, 21, 34, 12))
@@ -431,7 +431,7 @@ class ScaleTimeTests : TestBase() {
     // TODO : actually test don't pass due to a bug in timeWeek (timeSunday used here)
     // check timeSunday as it seems to returns mondays !! :D
     /*@Test
-    fun time_ticks_count_can_generate_1_week_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_1_week_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 1, 16, 28, 27), date(2011, 1, 23, 21, 34, 12))
@@ -451,7 +451,7 @@ class ScaleTimeTests : TestBase() {
     }*/
 
     @Test
-    fun time_ticks_count_can_generate_1_month_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_1_month_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2011, 1, 18), date(2011, 5, 2))
@@ -471,7 +471,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_3_months_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_3_months_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2010, 11, 18), date(2011, 10, 2))
@@ -491,7 +491,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_1_year_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_1_year_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2010, 12, 18), date(2014, 3, 2))
@@ -528,7 +528,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_can_generate_multi_years_ticks_LEGACY() {
+    fun time_ticks_count_can_generate_multi_years_ticks() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(0, 12, 18), date(2014, 3, 2))
@@ -548,7 +548,7 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
-    fun time_ticks_count_returns_no_ticks_for_empty_domain_LEGACY() {
+    fun time_ticks_count_returns_no_ticks_for_empty_domain() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2014, 3, 2), date(2014, 3, 2))
@@ -560,7 +560,7 @@ class ScaleTimeTests : TestBase() {
 
 
     @Test
-    fun time_ticks_count_returns_descending_ticks_for_descending_domain_LEGACY() {
+    fun time_ticks_count_returns_descending_ticks_for_descending_domain() {
         val scale = scales.continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(date(2014, 3, 2), date(2010, 12, 18))

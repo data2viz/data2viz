@@ -6,7 +6,7 @@ import kotlin.test.Test
 class ScalePointTests : TestBase() {
 
     @Test
-    fun point_has_expected_defaults_LEGACY() {
+    fun point_has_expected_defaults() {
         val scale = scales.point<Int>()
 
         scale.domain shouldBe listOf()
@@ -19,14 +19,14 @@ class ScalePointTests : TestBase() {
     }
 
     @Test
-    fun point_no_paddingInner_paddingOuter_LEGACY() {
+    fun point_no_paddingInner_paddingOuter() {
 //        val scale = scalePoint<Int>()
 
 //        scale.pa
     }
 
     @Test
-    fun pointScale_is_similar_to_bandscale_paddinginner_1_LEGACY() {
+    fun pointScale_is_similar_to_bandscale_paddinginner_1() {
         val pointScale = scales.point<String>()
         pointScale.range = intervalOf(.0, 960.0)
         pointScale.domain = listOf("foo", "bar")
@@ -43,7 +43,7 @@ class ScalePointTests : TestBase() {
     }
 
     @Test
-    fun point_padding_p_sets_band_outer_padding_to_p_LEGACY() {
+    fun point_padding_p_sets_band_outer_padding_to_p() {
         val pointScale = scales.point<String>()
         pointScale.range = intervalOf(.0, 960.0)
         pointScale.domain = listOf("foo", "bar")

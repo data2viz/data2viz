@@ -10,13 +10,13 @@ import kotlin.test.Test
 class PathMeasureTests : TestBase() {
 
     @Test
-    fun geopath_measure_of_a_point_LEGACY() {
+    fun geopath_measure_of_a_point() {
         val geoPath = geoPath()
         geoPath.measure(Point(pt(.0, .0))) shouldBeClose .0
     }
 
     @Test
-    fun geopath_measure_of_a_multipoint_LEGACY() {
+    fun geopath_measure_of_a_multipoint() {
         val geoPath = geoPath()
         geoPath.measure(
             MultiPoint(
@@ -31,7 +31,7 @@ class PathMeasureTests : TestBase() {
     }
 
     @Test
-    fun geopath_measure_of_a_lineString_LEGACY() {
+    fun geopath_measure_of_a_lineString() {
         val geoPath = geoPath()
         geoPath.measure(
             LineString(
@@ -46,7 +46,7 @@ class PathMeasureTests : TestBase() {
     }
 
     @Test
-    fun geopath_measure_of_a_multilineString_LEGACY() {
+    fun geopath_measure_of_a_multilineString() {
         val geoPath = geoPath()
         geoPath.measure(
             MultiLineString(
@@ -76,7 +76,7 @@ class PathMeasureTests : TestBase() {
     }
 
     @Test
-    fun geopath_measure_of_a_polygon_LEGACY() {
+    fun geopath_measure_of_a_polygon() {
         val geoPath = geoPath()
         geoPath.measure(
             Polygon(
@@ -108,7 +108,7 @@ class PathMeasureTests : TestBase() {
     }
 
     @Test
-    fun geopath_measure_of_a_polygon_with_a_hole_LEGACY() {
+    fun geopath_measure_of_a_polygon_with_a_hole() {
         val geoPath = geoPath()
         geoPath.measure(
             Polygon(
@@ -133,7 +133,7 @@ class PathMeasureTests : TestBase() {
     }
 
     @Test
-    fun geopath_measure_of_a_multipolygon_LEGACY() {
+    fun geopath_measure_of_a_multipolygon() {
         val geoPath = geoPath()
         geoPath.measure(
             MultiPolygon(

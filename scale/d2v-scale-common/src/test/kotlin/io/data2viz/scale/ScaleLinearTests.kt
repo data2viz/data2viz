@@ -261,10 +261,10 @@ class ScaleLinearTests : TestBase() {
         scale(90.0) shouldBe HSL(162.deg)
     }
 
-    /////////////// LEGACY TESTS /////////////////////////////////////////
+    /////////////// TESTS /////////////////////////////////////////
 
     @Test
-    fun linear_expected_defaults_value_LEGACY() {
+    fun linear_expected_defaults_value() {
         val scale = scales.continuous.linear()
 
         scale.domain.size shouldBe 2
@@ -274,7 +274,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_expected_scaling_with_defaults_value_LEGACY() {
+    fun linear_expected_scaling_with_defaults_value() {
         val scale = scales.continuous.linear()
 
         scale.range = listOf(1.0, 2.0)
@@ -282,7 +282,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_ignores_extra_range_values_for_smaller_domain_LEGACY() {
+    fun linear_ignores_extra_range_values_for_smaller_domain() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(-10.0, .0)
@@ -299,7 +299,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_ignores_extra_domain_values_for_smaller_range_LEGACY() {
+    fun linear_ignores_extra_domain_values_for_smaller_range() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(-10.0, .0, 2000.0)
@@ -315,7 +315,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_maps_empty_domain_to_range_start_if_not_clamped_LEGACY() {
+    fun linear_maps_empty_domain_to_range_start_if_not_clamped() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(.0, .0)
@@ -332,7 +332,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_maps_bilinear_domain_to_corresponding_range_LEGACY() {
+    fun linear_maps_bilinear_domain_to_corresponding_range() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(1.0, 2.0)
@@ -362,7 +362,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_maps_polylinear_domain_with_more_than_2_values_to_corresponding_range_LEGACY() {
+    fun linear_maps_polylinear_domain_with_more_than_2_values_to_corresponding_range() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(1.0, 2.0, 4.0)
@@ -381,7 +381,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_ticks_nice_OK_LEGACY() {
+    fun linear_ticks_nice_OK() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(12.0, 87.0)
@@ -404,7 +404,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_invert_maps_empty_range_to_domain_start_LEGACY() {
+    fun linear_invert_maps_empty_range_to_domain_start() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(1.0, 2.0)
@@ -421,7 +421,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_accept_array_of_values_LEGACY() {
+    fun linear_accept_array_of_values() {
         val scale = scales.continuous.linear()
 
         scale.domain = arrayListOf()
@@ -438,7 +438,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_no_binding_for_domain_setter_LEGACY() {
+    fun linear_no_binding_for_domain_setter() {
         val scale = scales.continuous.linear()
 
         val array:MutableList<Double> = arrayListOf(1.0, 2.0)
@@ -453,7 +453,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_no_binding_for_domain_getter_LEGACY() {
+    fun linear_no_binding_for_domain_getter() {
         val scale = scales.continuous.linear()
 
         scale.domain = arrayListOf(1.0, 2.0)
@@ -468,7 +468,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_no_binding_for_range_setter_LEGACY() {
+    fun linear_no_binding_for_range_setter() {
         val scale = scales.continuous.linear()
 
         val array:MutableList<Double> = arrayListOf(1.0, 2.0)
@@ -483,7 +483,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_no_binding_for_range_getter_LEGACY() {
+    fun linear_no_binding_for_range_getter() {
         val scale = scales.continuous.linear()
 
         scale.range = arrayListOf(1.0, 2.0)
@@ -500,7 +500,7 @@ class ScaleLinearTests : TestBase() {
     // TODO tape("linear.rangeRound(range) is an alias for linear.range(range).interpolate(interpolateRound)", function(test) {
 
     @Test
-    fun linear_clamp_is_false_by_default_LEGACY() {
+    fun linear_clamp_is_false_by_default() {
         val scale = scales.continuous.linear()
 
         scale.clamp shouldBe false
@@ -512,7 +512,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_clamp_restricts_output_to_the_range_LEGACY() {
+    fun linear_clamp_restricts_output_to_the_range() {
         val scale = scales.continuous.linear()
 
         scale.clamp = true
@@ -522,7 +522,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_clamp_restricts_input_to_the_domain_LEGACY() {
+    fun linear_clamp_restricts_input_to_the_domain() {
         val scale = scales.continuous.linear()
 
         scale.clamp = true
@@ -534,7 +534,7 @@ class ScaleLinearTests : TestBase() {
     // TODO tape("linear.interpolate(interpolate) takes a custom interpolator factory", function(test) {
 
     @Test
-    fun linear_nice_is_10_ticks_by_default_LEGACY() {
+    fun linear_nice_is_10_ticks_by_default() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(.0, .96)
@@ -549,7 +549,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_nice_extends_domain_to_match_desired_ticks_LEGACY() {
+    fun linear_nice_extends_domain_to_match_desired_ticks() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(.0, .96)
@@ -590,7 +590,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_nice_extends_domain_to_round_numbers_LEGACY() {
+    fun linear_nice_extends_domain_to_round_numbers() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(1.1, 10.9)
@@ -625,7 +625,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_nice_no_effect_on_invalid_domains_LEGACY() {
+    fun linear_nice_no_effect_on_invalid_domains() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(.0, .0)
@@ -638,7 +638,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_nice_only_the_extent_of_a_polydomain_LEGACY() {
+    fun linear_nice_only_the_extent_of_a_polydomain() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(1.1, 1.0, 2.0, 3.0, 10.9)
@@ -651,7 +651,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_nice_accept_a_tick_to_control_nicing_step_LEGACY() {
+    fun linear_nice_accept_a_tick_to_control_nicing_step() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(12.0, 87.0)
@@ -668,7 +668,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_ticks_return_expected_ticks_LEGACY() {
+    fun linear_ticks_return_expected_ticks() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(.0, 1.0)
@@ -698,7 +698,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_ticks_descending_domain_return_expected_ticks_LEGACY() {
+    fun linear_ticks_descending_domain_return_expected_ticks() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(1.0, .0)
@@ -728,7 +728,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_ticks_polylinear_domain_return_expected_ticks_LEGACY() {
+    fun linear_ticks_polylinear_domain_return_expected_ticks() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(.0, 0.25, 0.9, 1.0)
@@ -758,7 +758,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_ticks_count_should_be_greater_than_zero_LEGACY() {
+    fun linear_ticks_count_should_be_greater_than_zero() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(.0, 1.0)
@@ -773,7 +773,7 @@ class ScaleLinearTests : TestBase() {
     }
 
     @Test
-    fun linear_ticks_count_without_arguments_should_be_count_equals_10_LEGACY() {
+    fun linear_ticks_count_without_arguments_should_be_count_equals_10() {
         val scale = scales.continuous.linear()
 
         scale.domain = listOf(.0, 1.0)

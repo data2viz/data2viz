@@ -9,7 +9,7 @@ class QuadtreeAccessorsTests : TestBase() {
 
     @Test
     @JsName("quadtree_accessor_1")
-    fun `quadtree sets the accessors used by quadtree add LEGACY`() {
+    fun `quadtree sets the accessors used by quadtree add`() {
         val quadtree = Quadtree<Point>({ point -> point.x }, { point -> point.y })
         quadtree.add(Point(1.0, 2.0))
 
@@ -19,7 +19,7 @@ class QuadtreeAccessorsTests : TestBase() {
 
     @Test
     @JsName("quadtree_accessor_2")
-    fun `quadtree sets the accessors used by quadtree addAll LEGACY`() {
+    fun `quadtree sets the accessors used by quadtree addAll`() {
         val quadtree = Quadtree<Point>({ point -> point.x }, { point -> point.y })
         quadtree.addAll(listOf(Point(1.0, 2.0)))
 
@@ -29,7 +29,7 @@ class QuadtreeAccessorsTests : TestBase() {
 
     @Test
     @JsName("quadtree_accessor_3")
-    fun `quadtree sets the accessors used by quadtree remove LEGACY`() {
+    fun `quadtree sets the accessors used by quadtree remove`() {
         val p0 = Point(.0, 1.0)
         val p1 = Point(1.0, 2.0)
         val quadtree = Quadtree<Point>({ point -> point.x }, { point -> point.y })

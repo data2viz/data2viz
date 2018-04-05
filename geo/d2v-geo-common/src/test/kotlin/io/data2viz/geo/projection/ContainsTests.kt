@@ -15,14 +15,14 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun a_sphere_contains_any_point_LEGACY() {
+    fun a_sphere_contains_any_point() {
         contains(Sphere(), pt(.0, .0)) shouldBe true
         contains(Sphere(), pt(10000.0, .0)) shouldBe true
         contains(Sphere(), pt(10000.0, -964524.0)) shouldBe true
     }
 
     @Test
-    fun a_point_contains_itself_and_not_some_other_point_LEGACY() {
+    fun a_point_contains_itself_and_not_some_other_point() {
         contains(Point(pt(.0, .0)), pt(.0, .0)) shouldBe true
         contains(Point(pt(1.0, 2.0)), pt(1.0, 2.0)) shouldBe true
         contains(Point(pt(.0, .0)), pt(.0, 1.0)) shouldBe false
@@ -30,7 +30,7 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun a_multipoint_contains_any_of_its_points_LEGACY() {
+    fun a_multipoint_contains_any_of_its_points() {
         val multiPoint = MultiPoint(arrayOf(pt(.0, .0), pt(1.0, 2.0)))
 
         contains(multiPoint, pt(.0, .0)) shouldBe true
@@ -39,7 +39,7 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun a_linestring_contains_any_point_on_the_great_circle_path_LEGACY() {
+    fun a_linestring_contains_any_point_on_the_great_circle_path() {
         val lineString = LineString(arrayOf(pt(.0, .0), pt(1.0, 2.0)))
 
         contains(lineString, pt(.0, .0)) shouldBe true
@@ -54,7 +54,7 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun a_multilinestring_contains_any_point_on_one_of_its_components_LEGACY() {
+    fun a_multilinestring_contains_any_point_on_one_of_its_components() {
         val multiLineString = MultiLineString(
             arrayOf(
                 arrayOf(pt(.0, .0), pt(1.0, 2.0)),
@@ -67,7 +67,7 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun a_GeometryCollection_contains_a_point_LEGACY() {
+    fun a_GeometryCollection_contains_a_point() {
         val collection = GeometryCollection(
             arrayOf(
                 LineString(arrayOf(pt(-45.0, .0), pt(.0, .0))),
@@ -81,7 +81,7 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun a_feature_contains_a_point_LEGACY() {
+    fun a_feature_contains_a_point() {
         val feature = Feature(LineString(arrayOf(pt(.0, .0), pt(45.0, .0))))
 
         contains(feature, pt(45.0, .0)) shouldBe true
@@ -89,7 +89,7 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun a_FeatureCollection_contains_a_point_LEGACY() {
+    fun a_FeatureCollection_contains_a_point() {
         val featureCollection = FeatureCollection(
             arrayOf(
                 Feature(LineString(arrayOf(pt(.0, .0), pt(45.0, .0)))),
@@ -103,7 +103,7 @@ class ContainsTests : TestBase() {
     }
 
     @Test
-    fun null_contains_nothing_LEGACY() {
+    fun null_contains_nothing() {
         val featureCollection = FeatureCollection(arrayOf())
 
         contains(featureCollection, pt(.0, .0)) shouldBe false

@@ -7,7 +7,7 @@ import kotlin.test.Test
 class GeoCircleTests : TestBase() {
 
     @Test
-    fun geoCircle_generates_a_polygon_LEGACY() {
+    fun geoCircle_generates_a_polygon() {
         val circle = GeoCircle<Int>().circle()
         val coords = circle.coordinates[0]
 
@@ -75,7 +75,7 @@ class GeoCircleTests : TestBase() {
     }
 
     @Test
-    fun geoCircle_center_0_90_LEGACY() {
+    fun geoCircle_center_0_90() {
         val geoCircle = GeoCircle<Int>()
         geoCircle.center = { doubleArrayOf(.0, 90.0) }
 
@@ -89,7 +89,7 @@ class GeoCircleTests : TestBase() {
     }
 
     @Test
-    fun geoCircle_center_45_45_LEGACY() {
+    fun geoCircle_center_45_45() {
         val geoCircle = GeoCircle<Int>()
         geoCircle.center = { doubleArrayOf(45.0, 45.0) }
         geoCircle.radius = { .0 }
@@ -99,7 +99,7 @@ class GeoCircleTests : TestBase() {
     }
 
     @Test
-    fun geoCircle_first_and_last_points_are_coincident_LEGACY() {
+    fun geoCircle_first_and_last_points_are_coincident() {
         val geoCircle = GeoCircle<Int>()
         geoCircle.center = { doubleArrayOf(.0, .0) }
         geoCircle.radius = { .002 }
