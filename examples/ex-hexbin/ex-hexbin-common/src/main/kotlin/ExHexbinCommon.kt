@@ -18,7 +18,7 @@ data class Particule(
     var speed: Speed
 )
 
-private val numParticule = 10000
+private val numParticule = 100
 private val particules: MutableList<Particule> = mutableListOf()
 
 private val colors = scales.colors.sequentialViridis()
