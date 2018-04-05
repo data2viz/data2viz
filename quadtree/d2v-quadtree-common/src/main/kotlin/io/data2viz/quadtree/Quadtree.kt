@@ -43,7 +43,6 @@ internal data class Quad<D>(
 )
 
 internal fun <D> getNodeFromIndex(node: InternalNode<D>, index: Int): QuadtreeNode<D>? {
-    require(index in 0..3, { "No $index index in node." })
     return when (index) {
         0 -> node.NE_0
         1 -> node.NW_1
@@ -53,7 +52,6 @@ internal fun <D> getNodeFromIndex(node: InternalNode<D>, index: Int): QuadtreeNo
 }
 
 internal fun <D> setNodeFromIndex(node: InternalNode<D>, index: Int, value: QuadtreeNode<D>?) {
-    require(index in 0..3, { "No $index index in node." })
     when (index) {
         0 -> node.NE_0 = value
         1 -> node.NW_1 = value

@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "benchmark": "^2.1.4",
     "mocha": "^5.0.1",
     "source-map-support": "0.5.3"
   },

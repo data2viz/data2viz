@@ -64,7 +64,7 @@ private fun <D> Quadtree<D>._add(x: Double, y: Double, datum: D) {
         }
     }
 
-    // Otherwise, split the leaf node until the old and new point are separated.
+// Otherwise, split the leaf node until the old and new point are separated.
     do {
         if (parent != null) {
             setNodeFromIndex(parent, index, InternalNode())
@@ -91,20 +91,18 @@ private fun <D> Quadtree<D>._add(x: Double, y: Double, datum: D) {
 }
 
 fun <D> Quadtree<D>.addAll(data: List<D>) {
-    val xz = mutableListOf<Double>()
-    val yz = mutableListOf<Double>()
+    val xz: Array<Double> = Array(data.size, { x(data[it]) })
+    val yz: Array<Double> = Array(data.size, { y(data[it]) })
     var x0 = Double.POSITIVE_INFINITY
     var y0 = Double.POSITIVE_INFINITY
     var x1 = Double.NEGATIVE_INFINITY
     var y1 = Double.NEGATIVE_INFINITY
 
     // Compute the points and their extent.
-    data.forEach { datum ->
-        val cx = x(datum)
-        val cy = y(datum)
-
-        xz.add(cx)
-        yz.add(cy)
+    // TODO min/max ?
+    (0 until data.size).forEach { index ->
+        val cx = xz[index]
+        val cy = yz[index]
 
         if (cx.isNaN() || cy.isNaN()) return@forEach
 
