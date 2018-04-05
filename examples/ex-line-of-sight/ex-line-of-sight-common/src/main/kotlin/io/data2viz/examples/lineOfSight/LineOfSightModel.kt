@@ -13,10 +13,11 @@ data class Segment(val from: Point, val to: Point)
 data class Intersection(val point: Point, val param: Double, var angle: Angle = 0.deg)
 
 data class LineOfSightConfig(
-    val width: Double,
-    val height: Double,
-    val polygonNb: Int = 15,
-    val randomPointsNb: Int = 10
+        val width: Double,
+        val height: Double,
+        val polygonNb: Int = 15,
+        val polygonSize: Double = 0.15,
+        val randomPointsNb: Int = 10
 )
 
 
@@ -32,25 +33,25 @@ class LineOfSightModel(config: LineOfSightConfig) {
     private val extentPolygon: Polygon
 
     private fun Polygon.segments(): List<Segment> =
-        List(points.size) { i ->
-            Segment(
-                points[i],
-                if (i == points.size - 1) points[0] else points[i + 1]
-            )
-        }
+            List(points.size) { i ->
+                Segment(
+                        points[i],
+                        if (i == points.size - 1) points[0] else points[i + 1]
+                )
+            }
 
     init {
-        polygons = createPolygons(config.polygonNb, config.randomPointsNb)
+        polygons = createPolygons(config.polygonNb, config.polygonSize, config.randomPointsNb)
         extentPolygon = Polygon(
-            listOf(
-                Point(.0, .0),
-                Point(vizWidth, .0),
-                Point(
-                    vizWidth,
-                    vizHeight
-                ),
-                Point(.0, vizHeight)
-            )
+                listOf(
+                        Point(.0, .0),
+                        Point(vizWidth, .0),
+                        Point(
+                                vizWidth,
+                                vizHeight
+                        ),
+                        Point(.0, vizHeight)
+                )
         )
         corners = extentPolygon.points + polygons.flatMap { it.points }
         segments = extentPolygon.segments() + polygons.flatMap { it.segments() }
@@ -58,33 +59,60 @@ class LineOfSightModel(config: LineOfSightConfig) {
         newRandomSpeed()
     }
 
-    private fun createPolygons(polygonNb: Int, randomPointsNb: Int): List<Polygon> = (1..polygonNb).mapNotNull {
-        val center = Point(
-            random() * vizWidth * .9,
-            random() * vizHeight * .9
-        )
-        val points = (1..randomPointsNb).map {
-            Point(
-                center.x + (random() * (vizWidth / 7)).coerceIn(
-                    .0,
-                    vizWidth
-                ),
-                center.y + (random() * (vizWidth / 7)).coerceIn(
-                    .0,
-                    vizWidth
-                )
+    private fun createPolygons(polygonNb: Int, polygonSize:Double, randomPointsNb: Int): List<Polygon> {
+
+        // build random polygons
+        val polygons = (1..polygonNb).mapNotNull {
+            val center = Point(
+                    random() * vizWidth * (1.0 - polygonSize),
+                    random() * vizHeight * (1.0 - polygonSize)
             )
+            val points = (1..randomPointsNb).map {
+                Point(
+                        center.x + (random() * (vizWidth * polygonSize)).coerceIn(
+                                .0,
+                                vizWidth
+                        ),
+                        center.y + (random() * (vizWidth * polygonSize)).coerceIn(
+                                .0,
+                                vizWidth
+                        )
+                )
+            }
+            polygonHull(points)
+        }.toMutableList()
+
+        // if a polygon touch another one, fuse the two polygons
+        fuseAdjacentPolygons(polygons)
+
+        return polygons.toList()
+    }
+
+    private fun fuseAdjacentPolygons(polygons: MutableList<Polygon>) {
+        polygons.forEachIndexed { index, polygon ->
+            polygons.forEachIndexed { otherIndex, otherPolygon ->
+                if (index != otherIndex) {
+                    polygon.points.forEach { point ->
+                        if (otherPolygon.contains(point)) {
+                            polygons[index] = polygonHull(listOf(polygon.points, otherPolygon.points).flatMap { it })!!
+                            polygons.removeAt(otherIndex)
+                            println("$index fused with $otherIndex")
+                            fuseAdjacentPolygons(polygons)
+                            return
+                        }
+                    }
+                }
+            }
         }
-        polygonHull(points)
     }
 
     fun getSightPolygon(): Polygon {
         val allAngles = corners.flatMap {
             val rad = atan2(it.y - lightPoint.y, it.x - lightPoint.x)
             listOf(
-                Angle(rad),
-                Angle(rad + .00001),
-                Angle(rad - .00001)
+                    Angle(rad),
+                    Angle(rad + .00001),
+                    Angle(rad - .00001)
             )
         }
 
@@ -95,20 +123,20 @@ class LineOfSightModel(config: LineOfSightConfig) {
             val dy = angle.sin
 
             val ray = Segment(
-                lightPoint,
-                Point(lightPoint.x + dx, lightPoint.y + dy)
+                    lightPoint,
+                    Point(lightPoint.x + dx, lightPoint.y + dy)
             )
 
             // Find CLOSEST intersection
             var closestIntersection: Intersection? = null
 
             segments
-                .mapNotNull { getIntersection(ray, it) }
-                .forEach { intersection ->
-                    if (closestIntersection == null || (intersection.param < closestIntersection!!.param)) {
-                        closestIntersection = intersection
+                    .mapNotNull { getIntersection(ray, it) }
+                    .forEach { intersection ->
+                        if (closestIntersection == null || (intersection.param < closestIntersection!!.param)) {
+                            closestIntersection = intersection
+                        }
                     }
-                }
 
             // Intersect angle
             closestIntersection?.let {
@@ -143,8 +171,8 @@ class LineOfSightModel(config: LineOfSightConfig) {
         // Are they parallel? If so, no intersect
         val l1 = sqrt(dx1 * dx1 + dy1 * dy1)
         val l2 = sqrt(dx2 * dx2 + dy2 * dy2)
-        if (dx1 / l1 == dx2 / l2 && 
-            dy1 / l1 == dy2 / l2) {
+        if (dx1 / l1 == dx2 / l2 &&
+                dy1 / l1 == dy2 / l2) {
             return null
         }
         // SOLVE FOR T1 & T2
@@ -164,8 +192,8 @@ class LineOfSightModel(config: LineOfSightConfig) {
 
     private tailrec fun posOutsideOf(polygons: List<Polygon>): Point {
         val pos = Point(
-            random() * vizWidth,
-            random() * vizHeight
+                random() * vizWidth,
+                random() * vizHeight
         )
         val insidePolygon = polygons.any { it.contains(pos) }
         return if (insidePolygon)
@@ -175,7 +203,7 @@ class LineOfSightModel(config: LineOfSightConfig) {
     internal tailrec fun moveLight() {
         val newPos = Point(lightPoint.x + xSpeed, lightPoint.y + ySpeed)
         if (polygons.any { it.contains(newPos) } ||
-            !extentPolygon.contains(newPos)) {
+                !extentPolygon.contains(newPos)) {
             newRandomSpeed()
             moveLight()
         } else {
@@ -185,8 +213,8 @@ class LineOfSightModel(config: LineOfSightConfig) {
 
     private fun newRandomSpeed() {
         val angle = random() * PI * 2
-        xSpeed = cos(angle) * 3
-        ySpeed = sin(angle) * 3
+        xSpeed = cos(angle) * 2
+        ySpeed = sin(angle) * 2
     }
 
 }
