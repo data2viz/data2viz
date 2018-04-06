@@ -56,7 +56,7 @@ class LineOfSightModel(config: LineOfSightConfig) {
         corners = extentPolygon.points + polygons.flatMap { it.points }
         segments = extentPolygon.segments() + polygons.flatMap { it.segments() }
         lightPoint = posOutsideOf(polygons)
-        newRandomSpeed()
+        newSpeed()
     }
 
     private fun createPolygons(polygonNb: Int, polygonSize: Double, randomPointsNb: Int): List<Polygon> {
@@ -149,14 +149,6 @@ class LineOfSightModel(config: LineOfSightConfig) {
         return Polygon(intersections.map { it.point })
     }
 
-    /*public boolean lineSegmentTouchesOrCrossesLine(LineSegment a,
-        LineSegment b) {
-    return isPointOnLine(a, b.first)
-            || isPointOnLine(a, b.second)
-            || (isPointRightOfLine(a, b.first) ^
-                isPointRightOfLine(a, b.second));
-}*/
-
     /**
      * @return the point of intersection or null if rays are parallel.
      */
@@ -178,10 +170,6 @@ class LineOfSightModel(config: LineOfSightConfig) {
         if (((dx1 / l1) == (dx2 / l2)) && ((dy1 / l1) == (dy2 / l2))) return null
 
         // SOLVE FOR T1 & T2
-        // r_px+r_dx*T1 = s_px+s_dx*T2 && r_py+r_dy*T1 = s_py+s_dy*T2
-        // ==> T1 = (s_px+s_dx*T2-r_px)/r_dx = (s_py+s_dy*T2-r_py)/r_dy
-        // ==> s_px*r_dy + s_dx*T2*r_dy - r_px*r_dy = s_py*r_dx + s_dy*T2*r_dx - r_py*r_dx
-        // ==> T2 = (r_dx*(s_py-r_py) + r_dy*(r_px-s_px))/(s_dx*r_dy - s_dy*r_dx)
         val t2 = (dx1 * (py2 - py1) + dy1 * (px1 - px2)) / (dx2 * dy1 - dy2 * dx1)
         val t1 = (px2 + dx2 * t2 - px1) / dx1
 
@@ -219,12 +207,6 @@ class LineOfSightModel(config: LineOfSightConfig) {
             return false                                    // No collision
 
         // Collision detected
-        val t = tNumer / denom
-        /*if (i_x != NULL)
-        *i_x = p0_x + (t * s10_x)
-        if (i_y != NULL)
-        *i_y = p0_y + (t * s10_y)*/
-
         return true
     }
 
@@ -267,21 +249,17 @@ class LineOfSightModel(config: LineOfSightConfig) {
 
                 val a1 = atan2(dy1, dx1)                // movement angle
                 val a2 = atan2(dy2, dx2)                // normal angle
-                val newAngle = a2 + (a2 - a1)
 
-                xSpeed = cos(newAngle) * 3
-                ySpeed = sin(newAngle) * 3
-
+                newSpeed(a2 + (a2 - a1))
                 newPos = Point(lightPoint.x + xSpeed, lightPoint.y + ySpeed)
             }
         }
         lightPoint = newPos
     }
 
-    private fun newRandomSpeed() {
-        val angle = random() * PI * 2
-        xSpeed = cos(angle) * 3
-        ySpeed = sin(angle) * 3
+    private fun newSpeed(angle:Double = random() * PI * 2) {
+        xSpeed = cos(angle) * 0.004 * vizWidth
+        ySpeed = sin(angle) * 0.004 * vizWidth
     }
 
 }
