@@ -128,6 +128,11 @@ def examples = [
         ":ex-line-of-sight:ex-line-of-sight-js", 
         ":ex-line-of-sight:ex-line-of-sight-jvm",
         
+        ":ex-mouse", 
+        ":ex-mouse:ex-mouse-common", 
+        ":ex-mouse:ex-mouse-js", 
+        ":ex-mouse:ex-mouse-jvm", 
+        
         ":ex-natural-logscale", 
         ":ex-natural-logscale:ex-natural-logscale-common", 
         ":ex-natural-logscale:ex-natural-logscale-js", 
