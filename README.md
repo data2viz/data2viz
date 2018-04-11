@@ -116,7 +116,7 @@ Open online js version.
 The project is currently in a very active devlopment phase. APIs are expected to change and we don't
 encourage you to use it already in production.
 
-### Current version (v0.5): 
+### Current version (v0.6): 
 
 The current version contains the following modules:
 
@@ -142,15 +142,15 @@ The current version contains the following modules:
   - hierarchy: generator for hierarchical charts.
   - tile: manage the loading, and display of tiles.
   - voronoi: the voronoi algorithm
+  - transitions: modifying visual elements through animated transitions.
+  - force: collision and force algorithms.
 
 
 
 ### Coming soon:
 The modules that are currently in development or coming soon:
 
-  - transitions: modifying visual elements through animated transitions.
   - zoom: zoom and pan management.
-  - force: collision and force algorithms.
   - drag: manage the drag of elements.
   - brush: selection of visual elements.
 
