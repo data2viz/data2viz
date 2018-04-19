@@ -32,6 +32,51 @@ All examples are available in [examples](examples) directory. Here is a first se
 do with data2viz. All example are running in the browser and as JavaFx applications. You can open each js version
 using the links below.
 
+#### [Geo projection](examples/ex-geo)
+
+This code uses the geo module to show how to load a GeoJson file and render it using a
+projection.
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-geo-js/index.html" >
+Open online js version.
+</a>
+
+[See code](examples/ex-geo)
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-geo" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/geo.png" width="400">
+</a>
+
+#### [Forces](examples/ex-force)
+
+This funny demo shows how to use different aspects of forces: radial, nbody, x, y forces.
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-force-js/index.html" >
+Open online js version.
+</a>
+
+[See code](examples/ex-force)
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-force" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/force.png" width="400">
+</a>
+
+#### [Chord Graph](examples/ex-chord)
+
+- Chord diagram,
+- Arcs, Path
+
+<a target="_blank" href="https://data2viz.github.io/data2viz/ex-chord-js/index.html" >
+Open online js version.
+</a>
+
+[See code](examples/ex-chord)
+
+
+<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/chord.png" width="400">
+</a>
+
 
 #### [Stream Graph](examples/ex-streamGraph)
 
@@ -62,21 +107,6 @@ Open online js version.
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/selection.png" width="400">
 </a>
 
-#### [Chord Graph](examples/ex-chord)
-
-- Chord diagram,
-- Arcs, Path
-
-<a target="_blank" href="https://data2viz.github.io/data2viz/ex-chord-js/index.html" >
-Open online js version.
-</a>
-
-[See code](examples/ex-chord)
-
-
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/chord.png" width="400">
-</a>
 
 #### [Natural Log Scale](examples/ex-natural-logscale)
 
@@ -94,20 +124,6 @@ Open online js version.
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/natural-log-scale-jfx.png" width="400">
 </a>
 
-#### [Geo projection](examples/ex-geo)
-
-This code uses the geo module to show how to load a GeoJson file and render it using a
-projection.
-
-<a target="_blank" href="https://data2viz.github.io/data2viz/ex-geo-js/index.html" >
-Open online js version.
-</a>
-
-[See code](examples/ex-geo)
-
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/geo.png" width="400">
-</a>
 
 
 
@@ -120,32 +136,29 @@ encourage you to use it already in production.
 
 The current version contains the following modules:
 
-  - core: some main elements like trigonometric functions, namespace constants.
-  - random: various randomize functions.
-  - test: an internal module used to simplify multiplatform testing with a higher DSL.
+  - axis: a module that display axis for scales.
+  - chord: generator for chord charts.
   - colors: manage different color spaces (RGBA, HSLA, LAB), gradients, categories of colors, ...
-  - viz: multiplatform abstraction over visual elements (circle, rectangle, ...)
-  - path: abstraction over path generation.
-  - shape: provides some generators for curves, areas, lines, stack, symbols,...
+  - core: some main elements like trigonometric functions, namespace constants.
+  - dsv: parsing of CSV, TSV files.
+  - ease: a collection of functions used by transitions.
   - format: a multiplatform formatting library with a DSL
+  - geo: mechanism and algorithms to project GeoJson objects on a visualization.
+  - hierarchy: generator for hierarchical charts.
+  - path: abstraction over path generation.
+  - random: various randomize functions.
+  - sankey: generator for sankey charts.
+  - scale: manage the transformation between domain objects and visualizations.
   - selection: a way of selecting visual elements of a datavisualization in order to apply some modifications.
+  - shape: provides some generators for curves, areas, lines, stack, symbols,...
+  - test: an internal module used to simplify multiplatform testing with a higher DSL.
+  - tile: manage the loading, and display of tiles.
   - time: a multiplatform module to simplify time management inside datavisualizations.
   - time-format: formatting date and time.
   - timer: multiplatform way of managing animations through shared frames.
-  - scale: manage the transformation between domain objects and visualizations.
-  - ease: a collection of functions used by transitions.
-  - axis: a module that display axis for scales.
-  - geo: mechanism and algorithms to project GeoJson objects on a visualization.
-  - dsv: parsing of CSV, TSV files.
-  - chord: generator for chord charts.
-  - sankey: generator for sankey charts.
-  - hierarchy: generator for hierarchical charts.
-  - tile: manage the loading, and display of tiles.
-  - voronoi: the voronoi algorithm
   - transitions: modifying visual elements through animated transitions.
-  - force: collision and force algorithms.
-
-
+  - viz: multiplatform abstraction over visual elements (circle, rectangle, ...)
+  - voronoi: the voronoi algorithm
 
 ### Coming soon:
 The modules that are currently in development or coming soon:
