@@ -17,7 +17,7 @@ class PieGenerator<D> {
     /**
      * Use the data to generate a line on the context
      */
-    fun pie(data: Array<D>): Array<ArcParams<D>> {
+    fun render(data: Array<D>): Array<ArcParams<D>> {
         val n = data.size
         var sum = .0
         val index: Array<Int> = Array(n, { 0 })

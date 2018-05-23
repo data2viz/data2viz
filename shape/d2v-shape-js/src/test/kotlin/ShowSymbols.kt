@@ -8,7 +8,7 @@ import org.w3c.dom.HTMLCanvasElement
 import kotlin.browser.document
 import kotlin.dom.appendElement
 
-val symbolGenerator = symbol<String> {
+val symbolGenerator = render<String> {
     size = { 1000.0 }
     type = {
         when (it) {
@@ -42,7 +42,7 @@ fun render(symbolGenerator: SymbolGenerator<String>, symbolName: String) {
         strokeStyle = "blue"
         fillStyle = "#ccf"
         translate(32.0, 32.0)
-        symbolGenerator.symbol(symbolName, CanvasDrawContext(this))
+        symbolGenerator.render(symbolName, CanvasDrawContext(this))
         fill()
         stroke()
     }
@@ -58,7 +58,7 @@ fun render(symbolGenerator: SymbolGenerator<String>, symbolName: String) {
             setAttribute("height", "100")
             setAttribute("stroke", "green")
             appendChild(createSvgElement("path").apply {
-                val line = symbolGenerator.symbol(symbolName, SvgPath()).path
+                val line = symbolGenerator.render(symbolName, SvgPath()).path
                 setAttribute("d", line)
                 setAttribute("fill", "#cfc")
                 setAttribute("transform", "translate(32,32)");

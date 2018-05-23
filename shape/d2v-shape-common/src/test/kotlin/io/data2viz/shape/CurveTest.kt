@@ -20,7 +20,7 @@ open class CurveTest(val curve: (PathAdapter) -> Curve, val defined: (Point) -> 
             y = { it.y.toDouble() }
         }
         val context = SvgPath()
-        return lineGenerator.line(points as Array<Point>, context).path.round()
+        return lineGenerator.render(points as Array<Point>, context).path.round()
     }
 
 }

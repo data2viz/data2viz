@@ -115,7 +115,7 @@ private fun render(title: String, lineGen:LineGenerator<Point>, curve: (PathAdap
     }
     lineGen.curve = curve
     renderCanvas(lineGen, arrayOfPoints)
-    renderSvg(lineGen.line(arrayOfPoints, SvgPath()), lineGen, "none", "d2vSamples", arrayOfPoints)
+    renderSvg(lineGen.render(arrayOfPoints, SvgPath()), lineGen, "none", "d2vSamples", arrayOfPoints)
 }
 
 private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
@@ -148,7 +148,7 @@ private fun renderCanvas(lineGen: LineGenerator<Point>, arrayOfPoints: Array<Poi
         beginPath()
         lineWidth = 1.0
         strokeStyle = "blue"
-        lineGen.line(arrayOfPoints, CanvasDrawContext(this))
+        lineGen.render(arrayOfPoints, CanvasDrawContext(this))
         stroke()
     }
 }

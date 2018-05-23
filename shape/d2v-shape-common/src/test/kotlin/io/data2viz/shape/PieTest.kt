@@ -40,14 +40,14 @@ class PieTest : TestBase() {
 
     @Test
     fun pie_layout_start_end_angles() {
-        val result = pieLayout.pie(data)
+        val result = pieLayout.render(data)
         assertEquals(pi / 3, result[0].startAngle)
         assertEquals(round(pi), round(result[result.size - 1].endAngle))
     }
 
     /*@Test
     fun pie_layout_pad_angles() {
-        val result = pieLayout2.pie(data2)
+        val result = pieLayout2.render(data2)
         assertEquals(pi / 20, result[1].startAngle - result[0].endAngle)
         assertEquals(pi / 20, result[0].startAngle - result[1].endAngle)
     }*/
@@ -55,7 +55,7 @@ class PieTest : TestBase() {
 
     /*@Test
     fun pie_draw() {
-        val params = pieLayout.pie(data)
+        val params = pieLayout.render(data)
 
         val arcGenerator = arc<ArcParams<MyObject>> {
             startAngle = { it.startAngle }

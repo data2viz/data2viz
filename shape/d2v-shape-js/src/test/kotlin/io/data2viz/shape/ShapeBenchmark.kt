@@ -67,6 +67,6 @@ val points = arrayOf(
 
 @JsName("generatePath")
 fun generatePath() {
-    lineGenerator.line(points, SvgPath())
+    lineGenerator.render(points, SvgPath())
 }
 

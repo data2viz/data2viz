@@ -83,7 +83,7 @@ private fun renderPie(title: String, arcGenerator: ArcGenerator<ArcValues>, gene
     document.getElementById("d2vSamples")!!.appendElement("h2") {
         textContent = title
     }
-    val pie = generator.pie(pieData)
+    val pie = generator.render(pieData)
     renderPieSvg(arcGenerator,pie,  arcParameters, "#cfc", "d2vSamples")
 //    renderCanvas(generator, arcParameters)
 }

@@ -42,5 +42,5 @@ class LineTest : TestBase() {
     }
 
     private fun LineGenerator<Point>.toPath(vararg points: Point) =
-            this.line(points as Array<Point>, SvgPath()).path
+            this.render(points as Array<Point>, SvgPath()).path
 }

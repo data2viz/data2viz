@@ -16,7 +16,7 @@ class LineGenerator<T> {
     /**
      * Use the data to generate a line on the context
      */
-    fun <C : PathAdapter> line(data: Array<T>, context: C): C {
+    fun <C : PathAdapter> render(data: Array<T>, context: C): C {
         val dataSize = data.size
 
         var defined0 = false
