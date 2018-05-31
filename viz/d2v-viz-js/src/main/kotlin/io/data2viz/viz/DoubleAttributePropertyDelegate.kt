@@ -23,7 +23,7 @@ class DoubleAttributePropertyDelegate :
                 ?: 0.0
 
     operator fun setValue(element: ElementWrapper, property: KProperty<*>, d: Double) {
-        (element as StateableElement).stateManager?.let {
+        (element as? StateableElement)?.stateManager?.let {
             if (it.status == StateManagerStatus.RECORD) {
                 stateTarget = element.domElement
                 startState = getValue(element, property)
