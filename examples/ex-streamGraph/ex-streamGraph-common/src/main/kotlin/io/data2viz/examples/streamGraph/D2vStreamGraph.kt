@@ -127,10 +127,10 @@ fun VizContext.streamGraph() {
     // PathArea Generator for streams : X is the index of the serie, Y is defined by our stack
     // We plug the rendering curve to our Viz Config
     val area = area<StackSpace<Score>> {
-        x0 = { xScale(it.paramIndex.toDouble()) }
-        x1 = { xScale(it.paramIndex.toDouble()) }
-        y0 = { yScale(it.from) }
-        y1 = { yScale(it.to) }
+        xBaseline = { xScale(it.paramIndex.toDouble()) }
+        xTopline = { xScale(it.paramIndex.toDouble()) }
+        yBaseline = { yScale(it.from) }
+        yTopline = { yScale(it.to) }
         curve = vizConfig.curve
     }
 

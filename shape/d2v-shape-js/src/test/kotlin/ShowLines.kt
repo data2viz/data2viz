@@ -24,9 +24,9 @@ val lineGeneratorWithHoles = line<Point> {
 }
 
 val areaGenerator = area<Point> {
-    x {it.x.toDouble()}
-    y0 = { 60.0 }
-    y1 = { it.y.toDouble() }
+    xBaseline = { it.x.toDouble() }
+    yBaseline = { 60.0 }
+    yTopline = { it.y.toDouble() }
 }
 
 val points = arrayOf(

@@ -2,7 +2,7 @@ package io.data2viz.shape
 
 import io.data2viz.path.PathAdapter
 
-fun <T> area(init: AreaGenerator<T>.() -> Unit) = AreaGenerator<T>().apply(init)
+fun <D> area(init: AreaGenerator<D>.() -> Unit) = AreaGenerator<D>().apply(init)
 
 /**
  * The area generator produces an area, as in an area chart. An area is defined by two bounding lines, either splines
@@ -11,26 +11,42 @@ fun <T> area(init: AreaGenerator<T>.() -> Unit) = AreaGenerator<T>().apply(init)
  * and is rendered first; the second line (the baseline) is defined by x0 and y0 and is rendered second, with the
  * points in reverse order. With a curveLinear curve, this produces a clockwise polygon.
  */
-class AreaGenerator<T> {
+class AreaGenerator<D> {
 
+    /**
+     * The type of curve used to draw the bounding lines of the area.
+     */
     var curve: (PathAdapter) -> Curve = curves.linear
-    var x0: (T) -> Double = const(.0)
-    var x1: ((T) -> Double)? = null
-    var y0: (T) -> Double = const(.0)
-    var y1: ((T) -> Double)? = const(.0)
-    var defined: (T) -> Boolean = const(true)
 
-    // TODO : keep these ?
-    fun x(x: (T) -> Double) {
-        x0 = x
-        x1 = null
-    }
+    /**
+     * X-value for the base-line, should take a Domain object and return a Double.
+     */
+    var xBaseline: (D) -> Double = const(.0)
 
-    // TODO : keep these ?
-    fun y(y: (T) -> Double) {
-        y0 = y
-        y1 = null
-    }
+    /**
+     * Y-value for the base-line, should take a Domain object and return a Double.
+     */
+    var yBaseline: (D) -> Double = const(.0)
+
+    /**
+     * X-value for the top-line, should take a Domain object and return a Double.
+     * If xTopline is the same as xBaseline you may let it null.
+     */
+    var xTopline: ((D) -> Double)? = null
+
+    /**
+     * Y-value for the top-line, should take a Domain object and return a Double.
+     * If yTopline is the same as yBaseline you may let it null.
+     */
+    var yTopline: ((D) -> Double)? = null
+
+    /**
+     * This will indicate if a Domain value should be displayed.
+     * If defined(d) returns true, the point is on the line.
+     * If defined(d) returns false, the point is omitted.
+     */
+    var defined: (D) -> Boolean = const(true)
+
 
     // TODO : implements ?
     /*fun arealine() {
@@ -54,7 +70,7 @@ class AreaGenerator<T> {
     /**
      * Use the data to generate an area on the context
      */
-    fun <C : PathAdapter> render(data: Array<T>, context: C): C {
+    fun <C : PathAdapter> render(data: Array<D>, context: C): C {
         val n = data.size
 
         val x0z = Array(n, { 0.0 })
@@ -64,7 +80,7 @@ class AreaGenerator<T> {
         var defined0 = false
         val output = curve(context)
 
-        for (i in 0 .. n) {
+        for (i in 0..n) {
             val areaNotEnded = i < n
             val undefined = !(areaNotEnded && defined(data[i]))
             if (undefined == defined0) {
@@ -85,10 +101,10 @@ class AreaGenerator<T> {
             }
             if (defined0) {
                 val d = data[i]
-                x0z[i] = x0(d)
-                y0z[i] = y0(d)
-                val outputX = if (x1 != null) x1!!(d) else x0z[i]
-                val outputY = if (y1 != null) y1!!(d) else y0z[i]
+                x0z[i] = xBaseline(d)
+                y0z[i] = yBaseline(d)
+                val outputX = if (xTopline != null) xTopline!!(d) else x0z[i]
+                val outputY = if (yTopline != null) yTopline!!(d) else y0z[i]
                 output.point(outputX, outputY)
             }
         }

@@ -12,6 +12,7 @@ interface Curve {
     fun point(x: Double, y: Double)
 }
 
+// TODO maybe give an alias name for a "(PathAdapter) -> Curve" object
 object curves {
     val basis                   = {context: PathAdapter -> Basis(context) }
     val basisClosed             = {context: PathAdapter -> BasisClosed(context) }
