@@ -96,6 +96,7 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
 
                 var x = target.position.x + target.velocity.vx - source.position.x - source.velocity.vx
                 if (x == .0) x = jiggle()
+
                 var y = target.position.y + target.velocity.vy - source.position.y - source.velocity.vy
                 if (y == .0) y = jiggle()
 
@@ -108,7 +109,7 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
                 target.velocity -= Speed(x * b, y * b)
 
                 b = 1 - b
-                target.velocity -= Speed(x * b, y * b)
+                source.velocity += Speed(x * b, y * b)
             }
         }
     }
