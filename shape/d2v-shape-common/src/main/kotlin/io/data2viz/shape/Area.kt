@@ -70,7 +70,7 @@ class AreaGenerator<D> {
     /**
      * Use the data to generate an area on the context
      */
-    fun <C : PathAdapter> render(data: Array<D>, context: C): C {
+    fun <C : PathAdapter> render(data: List<D>, context: C): C {
         val n = data.size
 
         val x0z = Array(n, { 0.0 })

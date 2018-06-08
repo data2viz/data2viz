@@ -29,7 +29,7 @@ val areaGenerator = area<Point> {
     yTopline = { it.y.toDouble() }
 }
 
-val points = arrayOf(
+val points = listOf(
         Point(20,20),
         Point(30, 60),
         Point(70, 70),
@@ -39,7 +39,7 @@ val points = arrayOf(
         Point(150, 80),
         Point(155, 80),
         Point(180,20))
-val radialPoints = arrayOf(Point(0,10), Point(1, 20), Point(2,10), Point(3,30), Point(4, 30), Point(5,20))
+val radialPoints = listOf(Point(0,10), Point(1, 20), Point(2,10), Point(3,30), Point(4, 30), Point(5,20))
 
 
 @JsName("showLines")
@@ -109,7 +109,7 @@ fun showLines() {
     renderArea("StepAfter", curves.stepAfter, points)
 }
 
-private fun render(title: String, lineGen:LineGenerator<Point>, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
+private fun render(title: String, lineGen:LineGenerator<Point>, curve: (PathAdapter) -> Curve, arrayOfPoints: List<Point>) {
     document.getElementById("d2vSamples")!!.appendElement("h2") {
         textContent = title
     }
@@ -118,7 +118,7 @@ private fun render(title: String, lineGen:LineGenerator<Point>, curve: (PathAdap
     renderSvg(lineGen.render(arrayOfPoints, SvgPath()), lineGen, "none", "d2vSamples", arrayOfPoints)
 }
 
-private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: Array<Point>) {
+private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: List<Point>) {
     document.getElementById("d2vSamplesArea")!!.appendElement("h2") {
         textContent = " "
     }
@@ -136,7 +136,7 @@ private fun newCanvas(elementId: String): HTMLCanvasElement {
     return canvas
 }
 
-private fun renderCanvas(lineGen: LineGenerator<Point>, arrayOfPoints: Array<Point>) {
+private fun renderCanvas(lineGen: LineGenerator<Point>, arrayOfPoints: List<Point>) {
     val canvas = newCanvas("d2vSamples").getContext("2d") as CanvasRenderingContext2D
     with(canvas) {
         arrayOfPoints.forEach { point ->
@@ -153,7 +153,7 @@ private fun renderCanvas(lineGen: LineGenerator<Point>, arrayOfPoints: Array<Poi
     }
 }
 
-private fun renderAreaCanvas(arrayOfPoints: Array<Point>) {
+private fun renderAreaCanvas(arrayOfPoints: List<Point>) {
     with(newCanvas("d2vSamplesArea").getContext("2d") as CanvasRenderingContext2D) {
         beginPath()
         lineWidth = 1.0
@@ -166,7 +166,7 @@ private fun renderAreaCanvas(arrayOfPoints: Array<Point>) {
 }
 
 
-private fun renderSvg(svgPath: SvgPath, lineGen:LineGenerator<Point>, fill: String, elementId: String, arrayOfPoints:Array<Point>) {
+private fun renderSvg(svgPath: SvgPath, lineGen:LineGenerator<Point>, fill: String, elementId: String, arrayOfPoints:List<Point>) {
 
     fun createSvgElement(name: String): Element {
         val namespaceSvg = "http://www.w3.org/2000/svg"

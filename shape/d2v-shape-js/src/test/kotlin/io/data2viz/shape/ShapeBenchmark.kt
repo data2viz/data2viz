@@ -11,7 +11,7 @@ var lineGenerator = line<Point> {
     }
 
 
-val points = arrayOf(
+val points = listOf(
         Point(0, 0),
         Point(1, 1),
         Point(2, 2),

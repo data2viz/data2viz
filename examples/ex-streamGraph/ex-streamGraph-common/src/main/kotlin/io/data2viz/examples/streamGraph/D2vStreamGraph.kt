@@ -137,7 +137,7 @@ fun VizContext.streamGraph() {
 
     // Finally, we just need to render each serie as an area
     stack.forEach { serieStream ->
-        val stackData = serieStream.stackedValues.toTypedArray()
+        val stackData = serieStream.stackedValues
         group {
             path {
                 area.render(stackData, this)
