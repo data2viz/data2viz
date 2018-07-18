@@ -1,9 +1,9 @@
 package io.data2viz.geo.clip
 
 import io.data2viz.geo.projection.Stream
+import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 import io.data2viz.math.PI
-import io.data2viz.path.epsilon
 import kotlin.math.abs
 import kotlin.math.atan
 import kotlin.math.cos
@@ -40,7 +40,7 @@ class AntimeridianClip : ClippableHasStart {
                 val phi1 = y
                 val sign1 = if (lambda1 > 0) PI else -PI
                 val delta = abs(lambda1 - lambda0)
-                if (abs(delta - PI) < epsilon) { // Line crosses pole
+                if (abs(delta - PI) < EPSILON) { // Line crosses pole
                     phi0 = if ((phi0 + phi1) / 2 > 0) HALFPI else -HALFPI
                     stream.point(lambda0, phi0, 0.0)
                     stream.point(sign0, phi0, 0.0)
@@ -50,8 +50,8 @@ class AntimeridianClip : ClippableHasStart {
                     stream.point(lambda1, phi0, 0.0)
                     clean = 0
                 } else if (sign0 != sign1 && delta >= PI) {
-                    if (abs(lambda0 - sign0) < epsilon) lambda0 -= sign0 * epsilon
-                    if (abs(lambda1 - sign1) < epsilon) lambda1 -= sign1 * epsilon
+                    if (abs(lambda0 - sign0) < EPSILON) lambda0 -= sign0 * EPSILON
+                    if (abs(lambda1 - sign1) < EPSILON) lambda1 -= sign1 * EPSILON
                     phi0 = intersect(lambda0, phi0, lambda1, phi1)
                     stream.point(sign0, phi0, 0.0)
                     stream.lineEnd()
@@ -74,7 +74,7 @@ class AntimeridianClip : ClippableHasStart {
             private fun intersect(lambda0: Double, phi0: Double, lambda1: Double, phi1: Double): Double {
                 val sinLambda0Lambda1 = sin(lambda0 - lambda1)
                 return when {
-                    abs(sinLambda0Lambda1) > epsilon -> {
+                    abs(sinLambda0Lambda1) > EPSILON -> {
                         val cosPhi0 = cos(phi0)
                         val cosPhi1 = cos(phi1)
                         atan(
@@ -101,7 +101,7 @@ class AntimeridianClip : ClippableHasStart {
             stream.point(-PI, -phi, 0.0)
             stream.point(-PI, 0.0, 0.0)
             stream.point(-PI, phi, 0.0)
-        } else if (abs(from[0] - to[0]) > epsilon) {
+        } else if (abs(from[0] - to[0]) > EPSILON) {
             val lambda = if (from[0] < to[0]) PI else -PI
             val phi = direction * lambda / 2
             stream.point(-lambda, phi, 0.0)

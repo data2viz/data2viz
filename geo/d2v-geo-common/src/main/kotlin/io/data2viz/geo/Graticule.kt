@@ -5,7 +5,7 @@ import io.data2viz.core.range
 import io.data2viz.geojson.LineString
 import io.data2viz.geojson.MultiLineString
 import io.data2viz.geojson.Polygon
-import io.data2viz.path.epsilon
+import io.data2viz.math.EPSILON
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -14,8 +14,8 @@ fun geoGraticule() = geoGraticule {}
 
 fun geoGraticule(init: Graticule.() -> Unit): Graticule {
     val g = Graticule()
-    g.extentMajor = Extent(-180.0, -90.0 + epsilon, 180.0, 90.0 - epsilon)
-    g.extentMinor = Extent(-180.0, -80.0 - epsilon, 180.0, 80.0 + epsilon)
+    g.extentMajor = Extent(-180.0, -90.0 + EPSILON, 180.0, 90.0 - EPSILON)
+    g.extentMinor = Extent(-180.0, -80.0 - EPSILON, 180.0, 80.0 + EPSILON)
 
     g.init()
     return g
@@ -168,14 +168,14 @@ class Graticule {
             ceil(minorExtent.x0 / minorStepX) * minorStepX,
             minorExtent.x1,
             minorStepX
-        ).filter { abs(it % majorStepX) > epsilon }.map(
+        ).filter { abs(it % majorStepX) > EPSILON }.map(
             minorX
         )
         lines += range(
             ceil(minorExtent.y0 / minorStepY) * minorStepY,
             minorExtent.y1,
             minorStepY
-        ).filter { abs(it % majorStepY) > epsilon }.map(
+        ).filter { abs(it % majorStepY) > EPSILON }.map(
             minorY
         )
 
@@ -183,13 +183,13 @@ class Graticule {
     }
 
     private fun graticuleX(y0: Double, y1: Double, dy: Double): (Double) -> List<DoubleArray> {
-        val y = range(y0, y1 - epsilon, dy).toMutableList()
+        val y = range(y0, y1 - EPSILON, dy).toMutableList()
         y += y1
         return { x: Double -> y.map { doubleArrayOf(x, it) } }
     }
 
     private fun graticuleY(x0: Double, x1: Double, dx: Double): (Double) -> List<DoubleArray> {
-        val x = range(x0, x1 - epsilon, dx).toMutableList()
+        val x = range(x0, x1 - EPSILON, dx).toMutableList()
         x += x1
         return { y: Double -> x.map { doubleArrayOf(it, y) } }
     }

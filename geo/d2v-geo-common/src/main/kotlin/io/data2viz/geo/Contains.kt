@@ -1,8 +1,8 @@
 package io.data2viz.geo
 
 import io.data2viz.geojson.*
+import io.data2viz.math.EPSILON
 import io.data2viz.math.toRadians
-import io.data2viz.path.epsilon
 
 fun contains(geo: GeoJsonObject, point: Position): Boolean {
     // TODO add containsObjectType for features...
@@ -54,7 +54,7 @@ private fun containsLine(coordinates: Positions, point: Position): Boolean {
     val ab = geoDistance(coordinates[0], coordinates[1])
     val ao = geoDistance(coordinates[0], point)
     val ob = geoDistance(point, coordinates[1])
-    return ao + ob <= ab + epsilon
+    return ao + ob <= ab + EPSILON
 }
 
 private fun containsPoint(coordinates: Position, point: Position): Boolean {

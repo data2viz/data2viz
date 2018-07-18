@@ -3,10 +3,10 @@ package io.data2viz.geo
 import io.data2viz.geo.projection.Stream
 import io.data2viz.geo.projection.rotateRadians
 import io.data2viz.geojson.Polygon
+import io.data2viz.math.EPSILON
+import io.data2viz.math.TAU
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
-import io.data2viz.path.epsilon
-import io.data2viz.path.tau
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
@@ -88,13 +88,13 @@ fun geoCircle(
     var newT0: Double
     val newT1: Double
     if (t0 == null) {
-        newT0 = radius + direction * tau
+        newT0 = radius + direction * TAU
         newT1 = radius - (step / 2)
     } else {
         newT0 = circleRadius(cosRadius, t0)
         newT1 = circleRadius(cosRadius, t1!!)
         if ((direction > 0 && newT0 < newT1) || (direction < 0 && newT0 > newT1)) {
-            newT0 += direction * tau
+            newT0 += direction * TAU
         }
     }
 
@@ -114,5 +114,5 @@ private fun circleRadius(cosRadius: Double, point: DoubleArray): Double {
     p[0] -= cosRadius
     p = cartesianNormalize(p)
     val radius = acos(-p[1])
-    return ((if (-p[2] < 0) -radius else radius) + tau - epsilon) % tau
+    return ((if (-p[2] < 0) -radius else radius) + TAU - EPSILON) % TAU
 }

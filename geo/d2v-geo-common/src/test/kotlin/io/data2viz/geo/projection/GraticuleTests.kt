@@ -2,7 +2,7 @@ package io.data2viz.geo.projection
 
 import io.data2viz.core.Extent
 import io.data2viz.geo.geoGraticule
-import io.data2viz.path.epsilon
+import io.data2viz.math.EPSILON
 import io.data2viz.test.TestBase
 import kotlin.math.abs
 import kotlin.test.Test
@@ -120,7 +120,7 @@ class GraticuleTests : TestBase() {
     fun graticule_lines_default_minor_longitude_lines_extend_from_80S_to_80N() {
         val lines = geoGraticule().lines()
             .filter { it.coordinates[0][0] == it.coordinates[1][0] }
-            .filter { abs(it.coordinates[0][0] % 90.0) > epsilon }
+            .filter { abs(it.coordinates[0][0] % 90.0) > EPSILON }
 
         lines.forEach {
             it.coordinates.minBy { it[1] }!![1] shouldBeClose (-80.0)
@@ -132,7 +132,7 @@ class GraticuleTests : TestBase() {
     fun graticule_lines_default_major_longitude_lines_extend_from_90S_to_90N() {
         val lines = geoGraticule().lines()
             .filter { it.coordinates[0][0] == it.coordinates[1][0] }
-            .filter { abs(it.coordinates[0][0] % 90.0) < epsilon }
+            .filter { abs(it.coordinates[0][0] % 90.0) < EPSILON }
 
         lines.forEach {
             it.coordinates.minBy { it[1] }!![1] shouldBeClose  (-90.0)

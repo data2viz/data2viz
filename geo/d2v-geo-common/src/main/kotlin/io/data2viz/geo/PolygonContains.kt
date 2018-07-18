@@ -1,8 +1,8 @@
 package io.data2viz.geo
 
+import io.data2viz.math.EPSILON
 import io.data2viz.math.QUARTERPI
 import io.data2viz.math.TAU
-import io.data2viz.path.epsilon
 import kotlin.math.*
 
 fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
@@ -68,5 +68,5 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
     // from the point to the South pole.  If it is zero, then the point is the
     // same side as the South pole.
 
-    return (angle < -epsilon || angle < epsilon && sum < -epsilon) xor ((winding and 1) != 0)
+    return (angle < -EPSILON || angle < EPSILON && sum < -EPSILON) xor ((winding and 1) != 0)
 }
