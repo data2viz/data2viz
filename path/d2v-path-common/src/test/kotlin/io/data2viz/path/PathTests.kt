@@ -153,12 +153,12 @@ class PathTests : TestBase() {
     @Test
     fun path_arc_may_append_only_an_M_command_if_the_path_was_empty() {
         with(path()) {
-            arc(100, 100, 50, 0, pi * 2)
+            arc(100, 100, 50, 0, PI * 2)
             path.round() shouldBe "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100"
         }
 
         with(path()) {
-            arc(0, 50, 50, -pi / 2, 0)
+            arc(0, 50, 50, -PI / 2, 0)
             path.round() shouldBe "M0,0A50,50,0,0,1,50,50"
         }
     }

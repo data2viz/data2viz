@@ -76,12 +76,12 @@ class PathJfx: PathAdapter {
                 path.elements += MoveTo(x1,y1)
             }
             // Or, is (x1,y1) coincident with (x0,y0)? Do nothing.
-            else if (l01_2 <= epsilon){}
+            else if (l01_2 <= EPSILON){}
 
             // Or, are (x0,y0), (x1,y1) and (x2,y2) collinear?
             // Equivalently, is (x1,y1) coincident with (x2,y2)?
             // Or, is the radius zero? Line to (x1,y1).
-            else if (abs(y01 * x21 - y21 * x01) <= epsilon || r == .0) {
+            else if (abs(y01 * x21 - y21 * x01) <= EPSILON || r == .0) {
                 this@PathJfx.x1 = x1
                 this@PathJfx.y1 = y1
                 path.elements += LineTo(x1, y1)
@@ -95,12 +95,12 @@ class PathJfx: PathAdapter {
                 val l20_2 = x20 * x20 + y20 * y20
                 val l21 = sqrt(l21_2)
                 val l01 = sqrt(l01_2)
-                val l = r * tan((pi - acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2)
+                val l = r * tan((PI - acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2)
                 val t01 = l / l01
                 val t21 = l / l21
 
                 // If the start tangent is not coincident with (x0,y0), line to.
-                if (abs(t01 - 1) > epsilon) {
+                if (abs(t01 - 1) > EPSILON) {
                     path.elements += LineTo(x1 + t01 * x01,y1 + t01 * y01)
                 }
 
@@ -141,14 +141,14 @@ class PathJfx: PathAdapter {
             if(this == null)
                 path.elements += MoveTo(x0, y0)
 
-            else if (abs(this.toDouble() - x0) > epsilon || abs(y1!!.toDouble() - y0) > epsilon){
+            else if (abs(this.toDouble() - x0) > EPSILON || abs(y1!!.toDouble() - y0) > EPSILON){
                 path.elements += LineTo(x0, y0)
             }
         }
 
-        if (r < epsilon) return
+        if (r < EPSILON) return
 
-        if (da < 0) da = da % tau + tau
+        if (da < 0) da = da % TAU + TAU
 
         //complete circle
         if (da > tauEpsilon) {
@@ -159,10 +159,10 @@ class PathJfx: PathAdapter {
         }
 
         // Is this arc non-empty? Draw an arc!
-        else if (da > epsilon) {
+        else if (da > EPSILON) {
             x1 = x + r * cos(a1)
             y1 = y + r * sin(a1)
-            path.elements += ArcTo(r, r, .0, x1!!, y1!!, da >= pi, cw)
+            path.elements += ArcTo(r, r, .0, x1!!, y1!!, da >= PI, cw)
         }
     }
 
