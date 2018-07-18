@@ -3,10 +3,15 @@ package io.data2viz.path
 import javafx.scene.shape.*
 import kotlin.math.*
 
+typealias JfxPath = javafx.scene.shape.Path
+typealias JfxMoveTo = javafx.scene.shape.MoveTo
+typealias JfxLineTo = javafx.scene.shape.LineTo
+typealias JfxClosePath = javafx.scene.shape.ClosePath
+
 
 class PathJfx: PathAdapter {
     
-    val path = Path()
+    val path = JfxPath()
     
     private var x0:Double = 0.0
     private var y0:Double = 0.0
@@ -19,20 +24,20 @@ class PathJfx: PathAdapter {
         y0 = y
         x1 = x
         y1 = y
-        path.elements += MoveTo(x,y)
+        path.elements += JfxMoveTo(x,y)
     }
 
     override fun lineTo(x: Double, y: Double) {
         x1 = x
         y1 = y
-        path.elements += LineTo(x, y)
+        path.elements += JfxLineTo(x, y)
     }
 
     override fun closePath() {
         if(x1 != null){
             x1 = x0
             y1 = y0
-            path.elements += ClosePath()
+            path.elements += JfxClosePath()
         }
     }
 
@@ -50,8 +55,7 @@ class PathJfx: PathAdapter {
     }
 
     override fun arcTo(fromX: Double, fromY: Double, toX: Double, toY: Double, radius: Double) {
-        val r = radius
-        if (r < 0.0) throw IllegalArgumentException("Negative radius:" + radius)
+        if (radius < 0.0) throw IllegalArgumentException("Negative radius:" + radius)
 
         val x1 = fromX
         val y1 = fromY
@@ -73,7 +77,7 @@ class PathJfx: PathAdapter {
                 // Is this path empty? Move to (x1,y1).
                 this@PathJfx.x1 = x1
                 this@PathJfx.y1 = y1
-                path.elements += MoveTo(x1,y1)
+                path.elements += JfxMoveTo(x1,y1)
             }
             // Or, is (x1,y1) coincident with (x0,y0)? Do nothing.
             else if (l01_2 <= EPSILON){}
@@ -81,10 +85,10 @@ class PathJfx: PathAdapter {
             // Or, are (x0,y0), (x1,y1) and (x2,y2) collinear?
             // Equivalently, is (x1,y1) coincident with (x2,y2)?
             // Or, is the radius zero? Line to (x1,y1).
-            else if (abs(y01 * x21 - y21 * x01) <= EPSILON || r == .0) {
+            else if (abs(y01 * x21 - y21 * x01) <= EPSILON || radius == .0) {
                 this@PathJfx.x1 = x1
                 this@PathJfx.y1 = y1
-                path.elements += LineTo(x1, y1)
+                path.elements += JfxLineTo(x1, y1)
             }
 
             // Otherwise, draw an arc!
@@ -95,19 +99,19 @@ class PathJfx: PathAdapter {
                 val l20_2 = x20 * x20 + y20 * y20
                 val l21 = sqrt(l21_2)
                 val l01 = sqrt(l01_2)
-                val l = r * tan((PI - acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2)
+                val l = radius * tan((PI - acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2)
                 val t01 = l / l01
                 val t21 = l / l21
 
                 // If the start tangent is not coincident with (x0,y0), line to.
                 if (abs(t01 - 1) > EPSILON) {
-                    path.elements += LineTo(x1 + t01 * x01,y1 + t01 * y01)
+                    path.elements += JfxLineTo(x1 + t01 * x01,y1 + t01 * y01)
                 }
 
                 this@PathJfx.x1 = x1 + t21 * x21
                 this@PathJfx.y1 = y1 + t21 * y21
                 val sweepFlag = y01 * x20 > x01 * y20
-                path.elements += ArcTo(r,r,0.0, x1, y1, false, sweepFlag)
+                path.elements += ArcTo(radius, radius,0.0, x1, y1, false, sweepFlag)
             }
         }
     }
@@ -139,10 +143,10 @@ class PathJfx: PathAdapter {
 
             //path is empty, introduce private function?
             if(this == null)
-                path.elements += MoveTo(x0, y0)
+                path.elements += JfxMoveTo(x0, y0)
 
             else if (abs(this.toDouble() - x0) > EPSILON || abs(y1!!.toDouble() - y0) > EPSILON){
-                path.elements += LineTo(x0, y0)
+                path.elements += JfxLineTo(x0, y0)
             }
         }
 
@@ -171,11 +175,11 @@ class PathJfx: PathAdapter {
         x1 = x
         y0 = y
         y1 = y
-        path.elements += MoveTo(x,y)
+        path.elements += JfxMoveTo(x,y)
         path.elements += HLineTo(w)
         path.elements += VLineTo(h)
         path.elements += HLineTo(-w)
-        path.elements += ClosePath()
+        path.elements += JfxClosePath()
     }
 
 }
