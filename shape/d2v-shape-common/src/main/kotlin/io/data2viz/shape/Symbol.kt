@@ -7,7 +7,20 @@ interface Symbol {
     fun <C : PathAdapter> draw(context: C, size: Double): C
 }
 
-val symbols = arrayOf("Circle", "Cross", "Diamond", "Square", "Star", "Triangle", "Wye")
+enum class Symbols {
+    Circle, Cross, Diamond, Square, Star, Triangle, Wye
+}
+
+val Symbols.symbol: Symbol
+    get() = when (this) {
+        Symbols.Cross -> Cross()
+        Symbols.Diamond -> Diamond()
+        Symbols.Square -> Square()
+        Symbols.Star -> Star()
+        Symbols.Triangle -> Triangle()
+        Symbols.Wye -> Wye()
+        else -> Circle()
+    }
 
 fun <T> render(init: SymbolGenerator<T>.() -> Unit) = SymbolGenerator<T>().apply(init)
 class SymbolGenerator<T> {

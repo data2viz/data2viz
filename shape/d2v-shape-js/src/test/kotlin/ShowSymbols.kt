@@ -24,6 +24,8 @@ val symbolGenerator = render<String> {
     }
 }
 
+val symbols = arrayOf("Circle", "Cross", "Diamond", "Square", "Star", "Triangle", "Wye")
+
 @JsName("showSymbols")
 fun showSymbols() {
     symbols.forEach { symbolName ->
