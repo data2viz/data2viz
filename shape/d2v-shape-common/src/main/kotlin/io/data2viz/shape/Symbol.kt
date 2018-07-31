@@ -4,7 +4,7 @@ import io.data2viz.path.PathAdapter
 import io.data2viz.shape.symbol.*
 
 interface Symbol {
-    fun <C : PathAdapter> draw(context: C, size: Double): C
+    fun <C : PathAdapter> render(context: C, size: Double): C
 }
 
 enum class Symbols {
@@ -29,7 +29,7 @@ class SymbolGenerator<T> {
     var type: (T) -> Symbol = { Circle() }
 
     fun <C : PathAdapter> render(args: T, context: C): C {
-        type(args).draw(context, size(args))
+        type(args).render(context, size(args))
         return context
     }
 }
