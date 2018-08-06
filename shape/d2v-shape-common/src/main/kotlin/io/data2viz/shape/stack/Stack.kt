@@ -24,7 +24,7 @@ class StackGenerator<T> {
     var order: StackOrder = StackOrder.NONE
     var offset: StackOffset = StackOffset.NONE
 
-    fun stack(data: Array<T>): Array<StackParam<T>> {
+    fun stack(data: List<T>): Array<StackParam<T>> {
         val ret = mutableListOf<StackParam<T>>()
 
         // BUILDING : build the StackParam and StackSpace that function will return

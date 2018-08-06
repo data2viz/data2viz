@@ -15,7 +15,7 @@ class StackTest : TestBase() {
 
 
     // see https://github.com/d3/d3-shape#stacks
-    private val data = arrayOf(
+    private val data = listOf(
             dataClass(3840, 1920, 960, 400),
             dataClass(1600, 3440, 960, 400),
             dataClass(640, 960, 640, 400),
@@ -23,21 +23,21 @@ class StackTest : TestBase() {
             dataClass(100, 4800, 640, 100)
     )
 
-    private val dataForOffset = arrayOf(
+    private val dataForOffset = listOf(
             dataClass(100, 100, 100, 100),
             dataClass(0, 200, 200, 0),
             dataClass(50, 100, 150, 100),
             dataClass(100, 200, 50, 50)
     )
 
-    private val dataDiverging = arrayOf(
+    private val dataDiverging = listOf(
             dataClass(100, 100, -100, 100),
             dataClass(0, -200, 200, 0),
             dataClass(-50, 100, -150, 100),
             dataClass(-100, 200, -50, -50)
     )
 
-    private val otherData = arrayOf(
+    private val otherData = listOf(
             dataClass(100, 100, -100, 100),
             dataClass(0, -200, -200, 0),
             dataClass(-50, -100, -150, 100),
