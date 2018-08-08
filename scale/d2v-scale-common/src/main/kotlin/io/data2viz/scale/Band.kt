@@ -18,6 +18,8 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
     protected var _paddingInner: Double = 0.0
     protected var _paddingOuter: Double = 0.0
 
+    abstract var padding:Double
+
     override var domain: List<D>
         get() = indexableDomain._domain
         set(value) {
@@ -98,7 +100,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
  */
 class BandScale<D> : BandedScale<D>() {
 
-    var padding: Double
+    override var padding: Double
         get() = _paddingInner
         set(value) {
             _paddingInner = value
@@ -134,7 +136,7 @@ class PointScale<D> : BandedScale<D>() {
      * The outer padding determines the ratio of the range that is reserved for blank space before the first
      * point and after the last point. Equivalent to band.paddingOuter.
      */
-    var padding:Double
+    override var padding:Double
         get() = _paddingOuter
         set(value) {
             _paddingOuter = value
