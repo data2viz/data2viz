@@ -3,7 +3,7 @@ package io.data2viz.scale
 import io.data2viz.core.tickStep
 import io.data2viz.time.*
 
-val dateComparator = Comparator<Date> { a, b -> if (a.millisecondsBetween(b) > 0) 1 else if (a.millisecondsBetween(b) < 0) -1 else 0 }
+val dateComparator = Comparator<Date> { a, b -> if (a.millisecondsBetween(b) > 0) -1 else if (a.millisecondsBetween(b) < 0) 1 else 0 }
 
 private data class TickInterval(
         val interval: Interval,
@@ -52,7 +52,7 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
     override fun uninterpolateDomain(from: Date, to: Date): (Date) -> Double {
         return { date ->
             if (from.millisecondsBetween(to) != 0L)
-                ((from.millisecondsBetween(date)) / (from.millisecondsBetween(to))).toDouble()
+                ((from.millisecondsBetween(date)) / (from.millisecondsBetween(to)).toDouble())
             else .0
         }
     }
@@ -67,9 +67,7 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         }
     }
 
-    override fun domainComparator(): Comparator<Date> {
-        return dateComparator
-    }
+    override fun domainComparator(): Comparator<Date> = dateComparator
 
     /**
      * Extends the domain so that it starts and ends on nice round values. This method typically modifies

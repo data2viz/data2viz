@@ -3,6 +3,7 @@ package io.data2viz.scale
 import io.data2viz.test.TestBase
 import io.data2viz.time.Date
 import io.data2viz.time.date
+import kotlin.math.roundToInt
 import kotlin.test.Test
 
 class ScaleTimeTests : TestBase() {
@@ -21,6 +22,26 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
+    fun time_scale_returns_limit_values() {
+        val scale = scales.continuous.time()
+
+        scale.domain = listOf(date(2000, 1, 1), date(2010, 1, 1))
+        scale.range = listOf(.0, 100.0)
+
+        scale.clamp shouldBe false
+
+        scale(date(2001, 1, 1)).roundToInt() shouldBe 10
+        scale(date(2002, 1, 1)).roundToInt() shouldBe 20
+        scale(date(2003, 1, 1)).roundToInt() shouldBe 30
+        scale(date(2004, 1, 1)).roundToInt() shouldBe 40
+        scale(date(2005, 1, 1)).roundToInt() shouldBe 50
+        scale(date(2006, 1, 1)).roundToInt() shouldBe 60
+        scale(date(2007, 1, 1)).roundToInt() shouldBe 70
+        scale(date(2008, 1, 1)).roundToInt() shouldBe 80
+        scale(date(2009, 1, 1)).roundToInt() shouldBe 90
+    }
+
+    @Test
     fun time_clamp_returns_limit_values() {
         val scale = scales.continuous.time()
 
@@ -28,14 +49,14 @@ class ScaleTimeTests : TestBase() {
         scale.range = listOf(.0, 100.0)
 
         scale.clamp shouldBe false
-        scale(date(2015, 1, 1)) shouldBeClose 600.0
-        scale(date(1998, 1, 1)) shouldBeClose -1100.0
+        scale(date(2015, 1, 1)).roundToInt() shouldBe 600
+        scale(date(1998, 1, 1)).roundToInt() shouldBe -1101
 
         scale.clamp = true
-        scale(date(2015, 1, 1)) shouldBeClose 100.0
-        scale(date(9999, 1, 1)) shouldBeClose 100.0
-        scale(date(1998, 1, 1)) shouldBeClose .0
-        scale(date(2, 1, 1)) shouldBeClose .0
+        scale(date(2015, 1, 1)).roundToInt() shouldBe 100
+        scale(date(9999, 1, 1)).roundToInt() shouldBe 100
+        scale(date(1998, 1, 1)).roundToInt() shouldBe 0
+        scale(date(2, 1, 1)).roundToInt() shouldBe 0
     }
 
     @Test
