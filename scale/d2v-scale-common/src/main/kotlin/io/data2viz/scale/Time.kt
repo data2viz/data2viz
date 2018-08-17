@@ -3,6 +3,8 @@ package io.data2viz.scale
 import io.data2viz.core.tickStep
 import io.data2viz.time.*
 
+val dateComparator = Comparator<Date> { a, b -> if (a.millisecondsBetween(b) > 0) 1 else if (a.millisecondsBetween(b) < 0) -1 else 0 }
+
 private data class TickInterval(
         val interval: Interval,
         val step: Int,
@@ -42,8 +44,6 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         NiceableScale<Date>,
         Tickable<Date> {
 
-    val comparator = Comparator<Date> { a, b -> if (a.millisecondsBetween(b) > 0) 1 else if (a.millisecondsBetween(b) < 0) -1 else 0 }
-
     init {
         _domain.clear()
         _domain.addAll(listOf(date(2000, 1, 1), date(2000, 1, 2)))
@@ -68,7 +68,7 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
     }
 
     override fun domainComparator(): Comparator<Date> {
-        return comparator
+        return dateComparator
     }
 
     /**
