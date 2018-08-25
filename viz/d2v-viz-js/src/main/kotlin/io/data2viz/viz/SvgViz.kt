@@ -251,10 +251,6 @@ class TransformSvg : Transform {
         commands.put("skewY", "skewX($a)")
     }
 
-    override fun rotate(degrees: Double, x: Double, y: Double) {
-        commands.put("rotate", "rotate($degrees, $x, $y)")
-    }
-
     internal fun toCommand(): String = commands.values.joinToString(" ")
 }
 

@@ -41,7 +41,6 @@ interface Transformable {
 
 interface Transform {
     fun translate(x: Double = 0.0, y: Double = 0.0)
-    fun rotate(degrees: Double, x: Double = 0.0, y: Double = 0.0)
 }
 
 interface StyledElement {
@@ -50,20 +49,20 @@ interface StyledElement {
 
 interface PathVizElement : VizElement, Shape, PathAdapter
 
-interface Circle : VizElement, Shape, Transformable, StyledElement, StateableElement {
+interface Circle : VizElement, Shape, StyledElement, StateableElement {
     var cx: Double
     var cy: Double
     var radius: Double
 }
 
-interface Line : VizElement, Shape, Transformable, StyledElement {
+interface Line : VizElement, Shape, StyledElement {
     var x1: Double
     var y1: Double
     var x2: Double
     var y2: Double
 }
 
-interface Rect : VizElement, Shape, Transformable, StyledElement, StateableElement {
+interface Rect : VizElement, Shape, StyledElement, StateableElement {
     var x: Double
     var y: Double
     var width: Double
@@ -72,7 +71,7 @@ interface Rect : VizElement, Shape, Transformable, StyledElement, StateableEleme
     var ry: Double
 }
 
-interface Text : VizElement, Transformable, HasFill, StyledElement {
+interface Text : VizElement, HasFill, StyledElement {
     var x: Double
     var y: Double
     var textContent: String

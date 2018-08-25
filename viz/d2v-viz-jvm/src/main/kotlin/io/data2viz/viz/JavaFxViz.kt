@@ -156,9 +156,6 @@ class RectJfx(override val jfxElement: JfxRectangle = JfxRectangle()) : Rect, Jf
 class TransformNodeDelegate(val node: Node) : Transformable {
 
     class TransformFx(val node: Node) : Transform {
-        override fun rotate(degrees: Double, x: Double, y: Double) {
-            node.transforms.add(javafx.scene.transform.Rotate.rotate(degrees, x, y))
-        }
 
         override fun translate(x: Double, y: Double) {
             node.transforms.add(javafx.scene.transform.Transform.translate(x, y))

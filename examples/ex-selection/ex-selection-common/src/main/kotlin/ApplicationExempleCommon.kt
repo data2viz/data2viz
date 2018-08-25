@@ -8,15 +8,21 @@ val widthHeight = 600.0
 val domainToViz = { pos: Double -> (widthHeight / 2) + pos * .3 * widthHeight }
 
 
-val fps = newText().apply {
-    transform { translate(y = 20.0) }
-}
-val particuleCount = newText().apply {
-    transform { translate(y = 40.0) }
-}
+val fps = newText()
+
+val particuleCount = newText()
+
 val root = newGroup().apply {
-    add(fps)
-    add(particuleCount)
+    group {
+        transform { translate(y = 20.0) }
+        add(fps)
+    }
+
+    group {
+        transform { translate(y = 40.0) }
+        add(particuleCount)
+    }
+
     timer { now ->
         loop(now)
     }
