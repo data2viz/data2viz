@@ -8,11 +8,6 @@ val line    = TypeSelector(newLine())
 val rect    = TypeSelector(newRect())
 val text    = TypeSelector(newText())
 
-// css classes
-val axis by cssclass()
-val ticks by cssclass()
-val blue by cssclass()
-
 
 fun cssclass() = CssClassDelegate()
 
