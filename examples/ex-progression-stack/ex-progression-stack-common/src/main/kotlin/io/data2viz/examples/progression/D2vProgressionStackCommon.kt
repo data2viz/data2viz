@@ -75,7 +75,7 @@ fun VizContext.progression() {
 
     // the stack will give all stacked coordinates so we just need to pass them through our scale.
     // note : the stack is computed/ordered by SERIES (here the different types of LOC) not by module !
-    val stack = stackLayout.stack(modules.toTypedArray())
+    val stack = stackLayout.stack(modules)
 
     legend()
 

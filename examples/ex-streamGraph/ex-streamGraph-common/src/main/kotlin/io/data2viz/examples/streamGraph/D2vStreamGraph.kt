@@ -54,7 +54,7 @@ fun randomScore(size: Int): Double {
     rand *= rand * rand * size
     return if (rand < .1) .0 else rand
 }
-val data = (0..30).map { Score(it) }.toTypedArray()
+val data = (0..30).map { Score(it) }
 
 
 val curveOptions = listOf(
