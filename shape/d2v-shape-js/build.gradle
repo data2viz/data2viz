@@ -1,3 +1,9 @@
+apply plugin: 'kotlin-dce-js'
+
+runDceKotlinJs.dceOptions.devMode = true
+runDceTestKotlinJs.dceOptions.devMode = true
+
+
 dependencies {
     expectedBy project(":shape:d2v-shape-common")
     compile project(":path:d2v-path-js")
