@@ -3,10 +3,10 @@ package io.data2viz.viz
 import kotlin.reflect.KProperty
 
 // types
-val circle  = TypeSelector(newCircle())
-val line    = TypeSelector(newLine())
-val rect    = TypeSelector(newRect())
-val text    = TypeSelector(newText())
+//val circle  = TypeSelector(newCircle())
+//val line    = TypeSelector(newLine())
+//val rect    = TypeSelector(newRect())
+//val text    = TypeSelector(newText())
 
 
 fun cssclass() = CssClassDelegate()
