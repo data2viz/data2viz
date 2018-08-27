@@ -9,15 +9,15 @@ internal const val EPSILON = 1e-6
 internal const val tauEpsilon = TAU - EPSILON
 
 /**
- * Common denominator between Canvas, SVG, JavaFX
+ * Common path denominator between Canvas, SVG, JavaFX, Android
  */
 interface PathAdapter {
     fun moveTo(x: Double, y: Double)
     fun lineTo(x: Double, y: Double)
     fun closePath()
-    fun quadraticCurveTo(x1: Double, y1: Double, x: Double, y: Double)
-    fun bezierCurveTo(x1: Double, y1: Double, x2: Double, y2: Double, x: Double, y: Double)
-    fun arcTo(fromX: Double, fromY: Double, toX: Double, toY: Double, radius: Double)
+    fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double)
+    fun bezierCurveTo(cpx1: Double, cpy1: Double, cpx2: Double, cpy2: Double, x: Double, y: Double)
+    fun arcTo(cpx: Double, cpy: Double, x: Double, y: Double, radius: Double)
     fun arc(
         centerX: Double,
         centerY: Double,

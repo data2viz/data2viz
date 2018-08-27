@@ -43,7 +43,7 @@ class SvgPath(private val cmdPath: Path = Path()) : PathAdapter by cmdPath {
                     is QuadraticCurveTo -> {
                         tempX1 = cmd.x
                         tempY1 = cmd.y
-                        sb.append("Q${cmd.x1},${cmd.y1},${cmd.x},${cmd.y}")
+                        sb.append("Q${cmd.cpx},${cmd.cpy},${cmd.x},${cmd.y}")
                     }
 
                     is Rect -> {
@@ -57,7 +57,7 @@ class SvgPath(private val cmdPath: Path = Path()) : PathAdapter by cmdPath {
                     is BezierCurveTo -> {
                         tempX1 = cmd.x
                         tempY1 = cmd.y
-                        sb.append("C${cmd.x1},${cmd.y1},${cmd.x2},${cmd.y2},${cmd.x},${cmd.y}")
+                        sb.append("C${cmd.cpx1},${cmd.cpy1},${cmd.cpx2},${cmd.cpy2},${cmd.x},${cmd.y}")
                         
                     }
                     
@@ -65,8 +65,8 @@ class SvgPath(private val cmdPath: Path = Path()) : PathAdapter by cmdPath {
                         val X0 = tempX1 ?: .0
                         val Y0 = tempY1 ?: .0
 
-                        val x21 = cmd.toX - cmd.fromX
-                        val y21 = cmd.toY - cmd.fromY
+                        val x21 = cmd.x - cmd.fromX
+                        val y21 = cmd.y - cmd.fromY
                         val x01 = X0 - cmd.fromX
                         val y01 = Y0 - cmd.fromY
                         val l01_2 = x01 * x01 + y01 * y01
@@ -93,8 +93,8 @@ class SvgPath(private val cmdPath: Path = Path()) : PathAdapter by cmdPath {
 
                             // Otherwise, draw an arc!
                             else {
-                                val x20 = cmd.toX - X0
-                                val y20 = cmd.toY - Y0
+                                val x20 = cmd.x - X0
+                                val y20 = cmd.y - Y0
                                 val l21_2 = x21 * x21 + y21 * y21
                                 val l20_2 = x20 * x20 + y20 * y20
                                 val l21 = sqrt(l21_2)

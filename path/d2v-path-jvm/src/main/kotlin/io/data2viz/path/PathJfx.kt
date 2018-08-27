@@ -41,26 +41,26 @@ class PathJfx: PathAdapter {
         }
     }
 
-    override fun quadraticCurveTo(x1: Double, y1: Double, x: Double, y: Double) {
+    override fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double) {
         this.x1 = x
         this.y1 = y
-        path.elements += QuadCurveTo(x1,y1,x,y)
+        path.elements += QuadCurveTo(cpx,cpy,x,y)
     }
 
-    override fun bezierCurveTo(x1: Double, y1: Double, x2: Double, y2: Double, x: Double, y: Double) {
+    override fun bezierCurveTo(cpx1: Double, cpy1: Double, cpx2: Double, cpy2: Double, x: Double, y: Double) {
         this.x1 = x
         this.y1 = y
-        path.elements += CubicCurveTo(x1,y1, x2, y2, x, y)
+        path.elements += CubicCurveTo(cpx1,cpy1, cpx2, cpy2, x, y)
 
     }
 
-    override fun arcTo(fromX: Double, fromY: Double, toX: Double, toY: Double, radius: Double) {
+    override fun arcTo(cpx: Double, cpy: Double, x: Double, y: Double, radius: Double) {
         if (radius < 0.0) throw IllegalArgumentException("Negative radius:" + radius)
 
-        val x1 = fromX
-        val y1 = fromY
-        val x2 = toX
-        val y2 = toY
+        val x1 = cpx
+        val y1 = cpy
+        val x2 = x
+        val y2 = y
 
         val x0 = this.x1 ?: .0
         val y0 = this.y1 ?: .0

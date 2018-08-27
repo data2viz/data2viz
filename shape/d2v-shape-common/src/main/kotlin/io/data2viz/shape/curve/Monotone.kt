@@ -18,12 +18,12 @@ private class ReflectContext(val context: PathAdapter) : PathAdapter {
         context.closePath()
     }
 
-    override fun bezierCurveTo(x1: Double, y1: Double, x2: Double, y2: Double, x: Double, y: Double) {
-        context.bezierCurveTo(y1, x1, y2, x2, y, x)
+    override fun bezierCurveTo(cpx1: Double, cpy1: Double, cpx2: Double, cpy2: Double, x: Double, y: Double) {
+        context.bezierCurveTo(cpy1, cpx1, cpy2, cpx2, y, x)
     }
 
-    override fun quadraticCurveTo(x1: Double, y1: Double, x: Double, y: Double) {}
-    override fun arcTo(fromX: Double, fromY: Double, toX: Double, toY: Double, radius: Double) {}
+    override fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double) {}
+    override fun arcTo(cpx: Double, cpy: Double, x: Double, y: Double, radius: Double) {}
     override fun arc(centerX: Double, centerY: Double, radius: Double, startAngle: Double, endAngle: Double, counterClockWise: Boolean) {}
     override fun rect(x: Double, y: Double, w: Double, h: Double) {}
 }
