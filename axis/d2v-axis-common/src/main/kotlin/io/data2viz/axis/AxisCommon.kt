@@ -15,7 +15,7 @@ fun <D> Group.axis(orient: Orient, scale: FirstLastRange<D,Double>, init:AxisEle
 
         AxisElement(orient, scale).apply {
             init(this)
-            render(this@axis)
+            build(this@axis)
         }
 
 
@@ -37,7 +37,7 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
     fun number(scale: Scale<D,Double>) : (D) -> Double  = { d -> scale(d) }
 
-    fun render(content: Group) {
+    fun build(content: Group) {
         
         val values: List<D> = if (tickValues.isEmpty() && scale is Tickable<*>) scale.ticks() as List<D> else tickValues
         val spacing = tickSizeInner.coerceAtLeast(0.0) + tickPadding
