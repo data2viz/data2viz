@@ -188,7 +188,10 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient
                 ((rgb shr 4) and 0xf).toString(16) +
                 (rgb and 0xf).toString(16)
 
+    val rgba: String
+        get() = "rgba($r, $g, $b, $alpha)"
 
+    fun withAlpha(alpha: Number): Color = Color(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -208,7 +211,7 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient
         return result
     }
 
-    override fun toString() = if (alpha.toFloat() < 1.0) "rgba($r, $g, $b, $alpha)" else rgbHex
+    override fun toString() = if (alpha.toFloat() < 1.0) rgba else rgbHex
 
 }
 
