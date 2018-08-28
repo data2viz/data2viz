@@ -1,9 +1,6 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
-import io.data2viz.color.ColorOrGradient
-import io.data2viz.color.LinearGradient
-import io.data2viz.color.colors
+import io.data2viz.color.*
 import io.data2viz.path.*
 import org.w3c.dom.CanvasGradient
 import org.w3c.dom.CanvasRenderingContext2D
@@ -76,11 +73,20 @@ class JsCanvasRenderer(val context: CanvasRenderingContext2D) : VizRenderer {
 fun ColorOrGradient.toCanvasPaint(context: CanvasRenderingContext2D):Any = when(this) {
     is Color -> this.rgba
     is LinearGradient -> this.toCanvasGradient(context)
-    else -> TODO("Implement radial gradient")
+    is RadialGradient -> this.toCanvasGradient(context)
+    else -> error("Unknown type :: ${this::class}")
 }
 
 fun LinearGradient.toCanvasGradient(context: CanvasRenderingContext2D): CanvasGradient {
     val gradient = context.createLinearGradient(x1, y1, x2, y2)
+    this.colorStops.forEach { cs ->
+        gradient.addColorStop(cs.percent, cs.color.rgba)
+    }
+    return gradient
+}
+
+fun RadialGradient.toCanvasGradient(context: CanvasRenderingContext2D): CanvasGradient {
+    val gradient = context.createRadialGradient(.0, .0, .0, cx, cy, r)
     this.colorStops.forEach { cs ->
         gradient.addColorStop(cs.percent, cs.color.rgba)
     }
