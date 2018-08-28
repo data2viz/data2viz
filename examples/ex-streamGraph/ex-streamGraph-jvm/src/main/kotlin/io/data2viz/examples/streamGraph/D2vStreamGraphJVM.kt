@@ -1,11 +1,12 @@
 package io.data2viz.examples.streamGraph
 
-import io.data2viz.viz.viz
+import io.data2viz.viz.JFxVizRenderer
 import javafx.application.Application
 import javafx.collections.FXCollections
 import javafx.geometry.Insets
 import javafx.scene.Group
 import javafx.scene.Scene
+import javafx.scene.canvas.Canvas
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
@@ -14,39 +15,40 @@ import javafx.stage.Stage
 
 class D2vStreamGraphJVM : Application() {
 
+    val canvas = Canvas(width, height)
+    val renderer = JFxVizRenderer(canvas)
+
+
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
             Application.launch(D2vStreamGraphJVM::class.java)
         }
     }
-    
-    val chart = Group()
 
-    override fun start(primaryStage: Stage?) {
+    fun renderChart() {
+        val viz = streamGraph()
+        viz.renderer = renderer
+        viz.render()
+    }
+
+
+    override fun start(stage: Stage?) {
+
+        println("Building viz")
         val root = VBox()
 
-        renderChart()
+        stage?.let {
+            it.scene = (Scene(root, width, height))
+            it.show()
+            root.children.add(canvas)
+            renderChart()
+        }
 
         val form = getForm()
         root.children.add(form)
-        root.children.add(chart)
-        primaryStage?.let {
-            it.scene = (Scene(root, 1400.0, 800.0))
-            it.show()
-            it.title = "JavaFx - data2viz - StreamGraph.kt"
-        }
     }
 
-    fun renderChart() {
-        while (chart.children.size > 0){
-            chart.children.removeAt(0)
-        }
-        chart.viz {
-            streamGraph()
-        }
-        chart.prefHeight(height + margins.vMargins)
-    }
 
     private fun getForm(): GridPane {
         val grid = GridPane().apply {
