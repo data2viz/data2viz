@@ -6,13 +6,17 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.orthographic
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
-import io.data2viz.path.SvgPath
-import io.data2viz.viz.createSVGElement
-import io.data2viz.viz.selectOrCreateSvg
+import io.data2viz.timer.timer
+import io.data2viz.viz.JsCanvasRenderer
+import io.data2viz.viz.PathNode
+import io.data2viz.viz.Viz
 import kotlinx.coroutines.experimental.await
 import kotlinx.coroutines.experimental.promise
+import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
+import org.w3c.dom.HTMLCanvasElement
 import org.w3c.fetch.Request
+import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.js.Date
 
@@ -30,17 +34,18 @@ class Timer {
 private val timer = Timer()
 
 
-lateinit var outer: SvgPath
-lateinit var inner: SvgPath
-lateinit var geoPathInner: GeoPath
+lateinit var outer: PathNode
 lateinit var geoPathOuter: GeoPath
-lateinit var pathInnerElement: Element
-lateinit var pathOuterElement: Element
 lateinit var world: GeoJsonObject
 
-
-@Suppress("unused")
 fun main(args: Array<String>) {
+    val (canvas, context) = newCanvas(width.toInt(), height.toInt())
+    val viz = Viz()
+    viz.renderer = JsCanvasRenderer(context)
+
+    timer {
+        viz.render()
+    }
 
     promise {
         val request = window.fetch(Request("world-110m-30percent.json"))
@@ -53,114 +58,45 @@ fun main(args: Array<String>) {
             scale = 250.0
         }
 
-
-        // INNER GLOBE
-        val projectionInner = orthographic {
-            translate = doubleArrayOf(400.0, 300.0)
-            scale = 250.0
-            clipAngle = Double.NaN          // remove angle clipping in order to see-through
+        outer = PathNode().apply {
+            stroke = colors.black
+            fill = colors.white
         }
-        pathInnerElement = createSVGElement("path").apply {
-            setAttribute("stroke", colors.grey.rgbHex)
-            setAttribute("fill", colors.grey.rgbHex)
-        }
-        pathOuterElement = createSVGElement("path").apply {
-            setAttribute("stroke", colors.black.rgbHex)
-            setAttribute("fill", colors.white.rgbHex)
-        }
-        
-        inner = SvgPath()
-        outer = SvgPath()
 
         geoPathOuter = geoPath(projectionOuter, outer)
-        geoPathInner = geoPath(projectionInner, inner)
         geoPathOuter.path(world)
-        geoPathInner.path(world)
-        
-        pathInnerElement.setAttribute("d", inner.path)
-        pathOuterElement.setAttribute("d", outer.path)
+
 
         var initX = .0
         var initY = .0
-        var initRotate: DoubleArray = geoPathInner.projection.rotate
+        var initRotate: DoubleArray = geoPathOuter.projection.rotate
 
-        val root = selectOrCreateSvg().apply {
-            setAttribute("width", "$width")
-            setAttribute("height", "$height")
-            appendChild(pathInnerElement)
-            appendChild(pathOuterElement)
-        }
+        viz.root.add(outer)
 
-      
+
         timer.log("adding path")
 
         io.data2viz.timer.timer { now ->
-            loop(now)
+            val rotate = geoPathOuter.projection.rotate
+            rotate[0] += .5
+            rotate[1] = -10.0
+            outer.clearPath()
+            geoPathOuter.projection.rotate = rotate
+            geoPathOuter.path(world)
+            viz.render()
+            timer.log("update paths")
         }
-
-        /*var drag = false
-
-        root.addEventListener("mousedown", { event ->
-            val mEvent = event as MouseEvent
-            initX = mEvent.clientX.toDouble()
-            initY = mEvent.clientY.toDouble()
-            initRotate = geoPathInner.projection.rotate
-            drag = true
-        })
-
-        root.addEventListener("mouseup", {
-            drag = false
-        })
-
-
-        root.addEventListener("mousemove", {
-
-            if (drag) {
-
-                val timer = Timer()
-                val mEvent = it as MouseEvent
-                val rotate = doubleArrayOf(
-                    initRotate[0] + .25 * (mEvent.clientX - initX),
-                    initRotate[1] - .25 * (mEvent.clientY - initY)
-                )
-
-                outer.clearPath()
-                inner.clearPath()
-
-                geoPathInner.projection.rotate = rotate
-                geoPathOuter.projection.rotate = rotate
-
-                geoPathOuter.path(world)
-                geoPathInner.path(world)
-
-                pathInnerElement.setAttribute("d", inner.path)
-                pathOuterElement.setAttribute("d", outer.path)
-
-                timer.log("update paths")
-            }
-        })*/
-
     }
 
 }
 
-fun loop(now: Double) {
-    val rotate = geoPathInner.projection.rotate
+data class CanvasContext(val canvas: HTMLCanvasElement, val context2D: CanvasRenderingContext2D)
 
-    rotate[0] += .5
-    rotate[1] = -10.0
-
-    outer.clearPath()
-    inner.clearPath()
-
-    geoPathInner.projection.rotate = rotate
-    geoPathOuter.projection.rotate = rotate
-
-    geoPathOuter.path(world)
-    geoPathInner.path(world)
-
-    pathInnerElement.setAttribute("d", inner.path)
-    pathOuterElement.setAttribute("d", outer.path)
-
-    timer.log("update paths")
+private fun newCanvas(width: Int, height: Int): CanvasContext {
+    val canvas = document.createElement("canvas") as HTMLCanvasElement
+    val context = canvas.getContext("2d") as CanvasRenderingContext2D
+    context.canvas.width = width
+    context.canvas.height = height
+    document.querySelector("body")!!.appendChild(canvas)
+    return CanvasContext(canvas, context)
 }

@@ -5,6 +5,10 @@ open class Path : PathAdapter {
 
     val commands = mutableListOf<PathCommand>()
 
+    fun clearPath(){
+        commands.clear()
+    }
+
     override fun moveTo(x: Double, y: Double) { commands += MoveTo(x, y) }
     override fun lineTo(x: Double, y: Double) { commands += LineTo(x, y) }
     override fun closePath() { commands += ClosePath() }
