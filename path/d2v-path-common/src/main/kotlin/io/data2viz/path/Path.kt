@@ -62,7 +62,7 @@ data class Arc(val centerX: Double, val centerY: Double, val radius: Double, val
 data class ArcTo(val fromX: Double, val fromY: Double, override val x: Double, override val y: Double, val radius: Double) :
     PathCommand
 
-internal class ClosePath: PathCommand {
+class ClosePath: PathCommand {
     override val x: Double
         get() = .0
     override val y: Double
