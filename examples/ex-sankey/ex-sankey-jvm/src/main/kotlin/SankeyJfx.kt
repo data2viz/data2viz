@@ -1,9 +1,10 @@
 package io.data2viz.examples.sankey
 
-import io.data2viz.viz.viz
+import io.data2viz.viz.JFxVizRenderer
 import javafx.application.Application
 import javafx.scene.Group
 import javafx.scene.Scene
+import javafx.scene.canvas.Canvas
 import javafx.stage.Stage
 
 
@@ -19,15 +20,16 @@ class SankeyJfx : Application() {
     override fun start(stage: Stage?) {
         println("Building viz")
         val root = Group()
-
-        root.viz {
-            sankeyViz()
-        }
-
         stage?.let {
             it.scene = (Scene(root, vizWidth, vizHeight))
             it.show()
-            stage.title = "Data2viz - JavaFx Sankey Diagram example"
+            val canvas = Canvas(vizWidth, vizHeight)
+            root.children.add(canvas)
+            val renderer = JFxVizRenderer(canvas)
+
+            val viz = sankeyViz()
+            viz.renderer = renderer
+            viz.render()
         }
     }
 
