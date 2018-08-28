@@ -19,6 +19,7 @@ fun PathNode.render(context: CanvasRenderingContext2D) {
     }
     stroke?.let {
         context.strokeStyle = it.toCanvasPaint(context)
+        context.lineWidth = strokeWidth?: 1.0
         context.stroke()
     }
 
