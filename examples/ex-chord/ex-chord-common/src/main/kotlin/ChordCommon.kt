@@ -54,7 +54,7 @@ val chord = ChordLayout<Avenger>().apply {
 
 fun collaborations(avengers: List<Avenger>) = movies.filter { it.avengers.containsAll(avengers) }.size.toDouble()
 
-val chords: Chords = chord.chord(avengers, { a, b -> if (a == b) .0 else collaborations(listOf(a, b)) })
+val chords: Chords = chord.chord(avengers) { a, b -> if (a == b) .0 else collaborations(listOf(a, b)) }
 
 val arc = arc<ChordGroup> {
     innerRadius = { inner + 3 }
