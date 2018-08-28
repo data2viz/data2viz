@@ -3,16 +3,17 @@ import io.data2viz.core.Point
 import io.data2viz.core.random
 import io.data2viz.force.*
 import io.data2viz.timer.timer
-import io.data2viz.viz.circle
+import io.data2viz.viz.Circle
+import io.data2viz.viz.Viz
 import io.data2viz.viz.newGroup
-import io.data2viz.viz.selectElement
 
-val width = 800.0
-val height = 500.0
+const val width = 800.0
+const val height = 500.0
+
+val pointCount = 800
 
 // random points to init scene
-val points = (0 until 800).map { ForceNode(it, Point(random() * width, random() * height)) }
-
+val points = (0 until pointCount).map { ForceNode(it, Point(random() * width, random() * height)) }
 
 // olympic colors and centers positions
 val olympicColors = listOf(Color(0x0081C8), Color(0x000000), Color(0xEE334E), Color(0xFCB131), Color(0x00A651))
@@ -48,8 +49,6 @@ val spriteIndexes = olympicColors.mapIndexed { index, color ->
     }.filterNotNull()
 }
 
-// force simulations and forces (radial for positionning and n-body force for element repulsion)
-lateinit var simulation: ForceSimulation
 val olympicForces = listOf(
     forceRadial {
         center = { _, index, _ -> olympicCenters[index % 5] }
@@ -135,14 +134,27 @@ val forces = listOf(
 )
 var forceIndex = 0
 
-
-val root = newGroup().apply {
-    simulation = forceSimulation {
-        alphaDecay = 0.01
+// force simulations and forces (radial for positionning and n-body force for element repulsion)
+val simulation: ForceSimulation = forceSimulation {
+    alphaDecay = 0.01
 //        velocityDecay = .3
-        nodes = points
-        on(SimulationEvent.TICK, "tickEvent", ::refresh)
-        on(SimulationEvent.END, "endEvent", { println("SIMULATION ENDS") })
+    nodes = points
+    on(SimulationEvent.TICK, "tickEvent", ::refresh)
+    on(SimulationEvent.END, "endEvent", { println("SIMULATION ENDS") })
+}
+
+
+val forcesViz:Viz = Viz().apply {
+    with(root){
+        simulation.nodes.forEach { node ->
+            circle {
+                stroke = null
+                radius = 2.0 + (node.index / 150)
+                fill = olympicColors[node.index % 5]
+                x = node.position.x
+                y = node.position.y
+            }
+        }
     }
     updateSimulation()
 }
@@ -165,21 +177,10 @@ private fun updateSimulation() {
 
 
 fun refresh(sim: ForceSimulation) {
-    root.selectElement(circle, sim.nodes) {
-        onEnter = {
-            element.apply {
-                stroke = null
-                radius = 2.0 + (index / 150)
-                fill = olympicColors[index % 5]
-                cx = datum.position.x
-                cy = datum.position.y
-            }
-            root.add(element)
-        }
-
-        onUpdate = {
-            element.cx = datum.position.x
-            element.cy = datum.position.y
-        }
+    forcesViz.root.children.forEachIndexed { index, node ->
+        val forceNode = sim.nodes[index]
+        val circle = node as Circle
+        circle.x = forceNode.position.x
+        circle.y = forceNode.position.y
     }
 }

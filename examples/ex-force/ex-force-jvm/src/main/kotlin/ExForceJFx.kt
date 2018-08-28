@@ -1,6 +1,9 @@
-import io.data2viz.viz.GroupJfx
+import io.data2viz.viz.JFxVizRenderer
+import javafx.animation.AnimationTimer
 import javafx.application.Application
+import javafx.scene.Group
 import javafx.scene.Scene
+import javafx.scene.canvas.Canvas
 import javafx.stage.Stage
 
 class ExForceJFx : Application() {
@@ -12,10 +15,27 @@ class ExForceJFx : Application() {
         }
     }
 
-    override fun start(primaryStage: Stage?) {
-        primaryStage?.let {
-            it.scene = (Scene((root as GroupJfx).jfxElement, width, height))
+    override fun start(stage: Stage) {
+        val root = Group()
+        val canvas = Canvas(width, height)
+        val renderer = JFxVizRenderer(canvas)
+
+        forcesViz.renderer = renderer
+
+        root.children.add(canvas)
+
+        stage.let {
+            it.scene = (Scene(root, width, height))
             it.show()
         }
+
+        val timer = object : AnimationTimer() {
+            override fun handle(now: Long) {
+                forcesViz.render()
+            }
+        }
+
+        timer.start()
     }
+
 }
