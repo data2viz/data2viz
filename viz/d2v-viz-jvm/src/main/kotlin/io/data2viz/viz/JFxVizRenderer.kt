@@ -14,13 +14,29 @@ fun Circle.render(canvas: Canvas) {
     val context = canvas.graphicsContext2D
 
     fill?.let {
-        context.fill = it.jfxColor
+        context.fill = it.toPaint()
         context.fillOval(x - radius, y - radius, radius * 2, radius * 2)
+        context.fill()
     }
 
     stroke?.let {
-        context.stroke = it.jfxColor
+        context.stroke = it.toPaint()
         context.strokeOval(x - radius, y - radius, radius * 2, radius * 2)
+        context.stroke()
+    }
+}
+
+fun Rect.render(canvas: Canvas) {
+    val context = canvas.graphicsContext2D
+
+    fill?.let {
+        context.fill = it.toPaint()
+        context.fillRect(x, y, width, height)
+    }
+
+    stroke?.let {
+        context.stroke = it.toPaint()
+        context.strokeRect(x, y, width, height)
     }
 }
 
@@ -36,8 +52,10 @@ fun Group.render(context: Canvas) {
     children.forEach { node ->
         when (node) {
             is Circle       -> node.render(context)
+            is Rect         -> node.render(context)
             is Group        -> node.render(context)
             is PathNode     -> node.render(context)
+            else -> error("Unknow type ${node::class}")
         }
     }
 
