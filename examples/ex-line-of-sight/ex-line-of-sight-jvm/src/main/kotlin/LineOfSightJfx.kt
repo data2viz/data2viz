@@ -1,9 +1,11 @@
 package io.data2viz.examples.lineOfSight
 
-import io.data2viz.viz.viz
+import io.data2viz.timer.timer
+import io.data2viz.viz.JFxVizRenderer
 import javafx.application.Application
 import javafx.scene.Group
 import javafx.scene.Scene
+import javafx.scene.canvas.Canvas
 import javafx.stage.Stage
 
 
@@ -19,15 +21,22 @@ class LineOfSightJfx : Application() {
     override fun start(stage: Stage?) {
         println("Building viz")
         val root = Group()
+        val canvas = Canvas(vizWidth, vizHeight)
+        val renderer = JFxVizRenderer(canvas)
 
-        root.viz {
-            lineOfSightViz()
-        }
+        val viz = lineOfSightViz()
+        viz.renderer = renderer
+
+        root.children.add(canvas)
 
         stage?.let {
             it.scene = (Scene(root, vizWidth, vizHeight))
             it.show()
             stage.title = "JavaFx - data2viz - Line Of SightJfx.kt"
+        }
+
+        timer {
+            viz.render()
         }
     }
 
