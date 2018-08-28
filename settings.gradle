@@ -148,12 +148,7 @@ def examples = [
         ":ex-sankey:ex-sankey-js", 
         ":ex-sankey:ex-sankey-jvm", 
         
-        ":ex-selection", 
-        ":ex-selection:ex-selection-common", 
-        ":ex-selection:ex-selection-js", 
-        ":ex-selection:ex-selection-jvm", 
-        
-        ":ex-streamGraph", 
+        ":ex-streamGraph",
         ":ex-streamGraph:ex-streamGraph-common", 
         ":ex-streamGraph:ex-streamGraph-js", 
         ":ex-streamGraph:ex-streamGraph-jvm", 

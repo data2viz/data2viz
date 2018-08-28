@@ -1,4 +1,0 @@
-dependencies {
-    expectedBy project(":ex-selection:ex-selection-common")
-    compile project(":data2viz:d2v-data2viz-jvm")
-}
