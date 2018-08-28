@@ -3,6 +3,7 @@ package io.data2viz.path
 import io.data2viz.viz.PathNode
 import io.data2viz.viz.toPaint
 import javafx.scene.canvas.Canvas
+import javafx.scene.shape.StrokeLineCap
 import kotlin.math.absoluteValue
 
 
@@ -23,6 +24,8 @@ fun PathNode.render(canvas: Canvas) {
 
     stroke?.let {
         gc.stroke = it.toPaint()
+        gc.lineWidth = strokeWidth?: 1.0
+        gc.lineCap = StrokeLineCap.BUTT
         gc.stroke()
     }
 
