@@ -21,7 +21,7 @@ fun Group.render(context: CanvasRenderingContext2D) {
 
     children.forEach { node ->  
         when (node) {
-            is Rectangle    -> node.render(context)
+            is Rect         -> node.render(context)
             is Circle       -> node.render(context)
             is Group        -> node.render(context)
             is PathNode     -> node.render(context)
@@ -31,9 +31,18 @@ fun Group.render(context: CanvasRenderingContext2D) {
     context.translate(.0, .0)
 }
 
-fun Rectangle.render(context: CanvasRenderingContext2D) {
-    context.fillStyle = colors.black.rgbHex
-    context.fillRect(x, y, width, height)
+fun Rect.render(context: CanvasRenderingContext2D) {
+
+    stroke?.let {
+        context.strokeStyle = it.toCanvasPaint(context)
+        context.strokeRect(x, y, width, height)
+    }
+
+    fill?.let {
+        context.fillStyle = it.toCanvasPaint(context)
+        context.fillRect(x, y, width, height)
+    }
+
 }
 
 fun Circle.render(context: CanvasRenderingContext2D) {
