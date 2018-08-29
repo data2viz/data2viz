@@ -4,14 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.data2viz.color.colors
 import io.data2viz.core.Extent
 import io.data2viz.geo.path.geoPath
-import io.data2viz.geo.projection.equirectangularProjection
 import io.data2viz.geo.projection.mercatorProjection
 import io.data2viz.geojson.JacksonGeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
-import io.data2viz.viz.PathVizJfx
+import io.data2viz.viz.JFxVizRenderer
+import io.data2viz.viz.PathNode
+import io.data2viz.viz.Viz
 import javafx.application.Application
+import javafx.scene.Group
 import javafx.scene.Scene
-import javafx.scene.layout.Pane
+import javafx.scene.canvas.Canvas
 import javafx.stage.Stage
 
 class Timer {
@@ -37,7 +39,17 @@ class MercatorPath : Application() {
 
     override fun start(primaryStage: Stage?) {
 
+        val root = Group()
         val extent = Extent(10.0, 10.0, 800.0, 500.0)
+        val width = extent.width + 20
+        val height = extent.height + 20
+        val canvas = Canvas(width, height)
+        val renderer = JFxVizRenderer(canvas)
+        val viz = Viz()
+        viz.renderer = renderer
+        root.children.add(canvas)
+
+
 
         val input = this.javaClass.getResourceAsStream("/world-110m.geojson")
         val geojson = ObjectMapper().readValue(input, JacksonGeoJsonObject::class.java)
@@ -57,12 +69,12 @@ class MercatorPath : Application() {
 //        val projection = mercatorProjection()
 //        projection.fitExtent(extent, geoJsonObject)
 
-        val pathVizJfx = PathVizJfx().apply {
+        val path = PathNode().apply {
             stroke = colors.black
             fill = null
         }
         
-        val geoPath = geoPath(projection, pathVizJfx)
+        val geoPath = geoPath(projection, path)
         
         
         val timer = Timer()
@@ -70,9 +82,7 @@ class MercatorPath : Application() {
         timer.log("geoPath")
 
 
-
-        val root = Pane()
-        root.children.add(pathVizJfx.jfxElement)
+        viz.root.add(path)
         
         var initX = .0
         var initY = .0
@@ -90,14 +100,14 @@ class MercatorPath : Application() {
             )
 
             
-            pathVizJfx.jfxElement.elements.clear()
+            path.clearPath()
             
             val newTimer = Timer()
             geoPath.path(geoJsonObject)
             newTimer.log("path update")
         }
         
-        primaryStage!!.scene = (Scene(root, extent.width + 20, extent.height + 20))
+        primaryStage!!.scene = (Scene(root, width, height))
         primaryStage.show()
         primaryStage.title = "JavaFx - data2viz - MercatorPath.kt"
     }
