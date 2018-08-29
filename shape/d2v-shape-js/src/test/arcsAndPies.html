@@ -13,12 +13,13 @@
 
 <script>
     require.config({
-        baseUrl: "../../node_modules",
+        baseUrl: "../../build/kotlin-js-min/test",
         paths: {
-            d3: "http://d3js.org/d3.v4"
+            d3: "http://d3js.org/d3.v4",
+            'd2v-shape-js': '../main/d2v-shape-js'
         }
     });
-    require(['../classes/test/d2v-shape-js_test'], function (test) {
+    require(['d2v-shape-js_test'], function (test) {
         test.showArcs();
     });
 
