@@ -43,15 +43,23 @@ class Transform {
     fun translate(x: Double = 0.0, y: Double = 0.0) {
         translate = Translation(x,y)
     }
+
+    operator fun plusAssign(transform: Transform) {
+        translate?.apply {
+            x += transform.translate?.x ?: .0
+            y += transform.translate?.y ?: .0
+        }
+    }
+
+    operator fun minusAssign(transform: Transform) {
+        translate?.apply {
+            x -= transform.translate?.x ?: .0
+            y -= transform.translate?.y ?: .0
+        }
+    }
 }
 
 data class Translation(var x: Double = 0.0, var y: Double = 0.0)
-
-interface StyledElement {
-    fun addClass(cssClass: CssClass)
-}
-
-interface PathVizElement : VizElement, Shape, PathAdapter
 
 
 interface Shape : HasFill, HasStroke
@@ -76,10 +84,6 @@ data class Margins(val top: Double, val right: Double = top, val bottom: Double 
     val vMargins = top + bottom
 }
 
-fun newGroup(): Group = Group()
-fun newLine(): Line = Line()
-fun newRect(): Rect = Rect()
-fun newCircle(): Circle = Circle()
-fun newText(): Text = Text()
-fun newPath(): PathNode = PathNode()
-
+interface HasTransform {
+    val transform:Transform?
+}
