@@ -47,7 +47,7 @@ class EarthApplication : Application() {
             translate = doubleArrayOf(400.0, 300.0)
             scale = 250.0
         }
-        pathOuter = newPath().apply {
+        pathOuter = PathNode().apply {
             stroke = colors.black
             fill = colors.white
         }
