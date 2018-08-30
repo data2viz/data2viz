@@ -48,13 +48,12 @@ fun Circle.render(context: CanvasRenderingContext2D) {
     context.arc(x, y, radius, .0, 2 * PI, false)
     
     fill?.let {
-        context.fillStyle = it.rgbHex
-//                    context.globalAlpha = fill?.alpha?.toDouble()
+        context.fillStyle = it.toCanvasPaint(context)
         context.fill()
     }
 
     stroke?.let {
-        context.strokeStyle = it.rgbHex
+        context.strokeStyle = it.toCanvasPaint(context)
         context.stroke()
     }
 
