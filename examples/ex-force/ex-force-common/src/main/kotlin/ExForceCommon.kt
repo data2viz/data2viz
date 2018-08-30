@@ -5,7 +5,6 @@ import io.data2viz.force.*
 import io.data2viz.timer.timer
 import io.data2viz.viz.Circle
 import io.data2viz.viz.Viz
-import io.data2viz.viz.newGroup
 
 const val width = 800.0
 const val height = 500.0
