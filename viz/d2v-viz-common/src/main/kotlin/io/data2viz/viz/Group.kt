@@ -1,11 +1,11 @@
 package io.data2viz.viz
 
 
-class Group : Node {
+class Group : Node, HasTransform {
 
     val children = mutableListOf<Node>()
 
-    var transform: Transform? = null
+    override var transform: Transform? = null
 
     fun transform(init: Transform.() -> Unit){
         transform = Transform().apply(init)
