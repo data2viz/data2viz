@@ -1,14 +1,14 @@
 package io.data2viz.path
 
+import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.PathNode
 import io.data2viz.viz.toPaint
-import javafx.scene.canvas.Canvas
 import javafx.scene.shape.StrokeLineCap
 import kotlin.math.absoluteValue
 
 
-fun PathNode.render(canvas: Canvas) {
-    val gc = canvas.graphicsContext2D
+fun PathNode.render(renderer: JFxVizRenderer) {
+    val gc = renderer.gc
     gc.beginPath()
     commands.forEach { cmd ->
         when (cmd) {

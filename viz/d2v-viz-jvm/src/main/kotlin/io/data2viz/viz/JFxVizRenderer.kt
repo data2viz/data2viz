@@ -10,8 +10,8 @@ typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
 typealias JfxRadialGradient = javafx.scene.paint.RadialGradient
 
 
-fun Circle.render(canvas: Canvas) {
-    val context = canvas.graphicsContext2D
+fun Circle.render(renderer: JFxVizRenderer) {
+    val context = renderer.gc
 
     fill?.let {
         context.fill = it.toPaint()
@@ -26,41 +26,62 @@ fun Circle.render(canvas: Canvas) {
     }
 }
 
-fun Rect.render(canvas: Canvas) {
-    val context = canvas.graphicsContext2D
+fun Rect.render(renderer: JFxVizRenderer) {
+    val gc = renderer.gc
 
     fill?.let {
-        context.fill = it.toPaint()
-        context.fillRect(x, y, width, height)
+        gc.fill = it.toPaint()
+        gc.fillRect(x, y, width, height)
     }
 
     stroke?.let {
-        context.stroke = it.toPaint()
-        context.strokeRect(x, y, width, height)
+        gc.stroke = it.toPaint()
+        gc.strokeRect(x, y, width, height)
     }
 }
 
+fun Text.render(renderer: JFxVizRenderer){
+    val gc = renderer.gc
+    gc.fillText(textContent, x, y)
+}
+
+fun Line.render(renderer: JFxVizRenderer){
+    val gc = renderer.gc
+    gc.lineWidth = 1.0
+    gc.moveTo(x1, y1)
+    gc.lineTo(x2, y2)
+    stroke?.let { gc.stroke = it.toPaint() }
+    gc.stroke()
+}
 
 
-
-fun Group.render(context: Canvas) {
-    transform?.run {
-        context.graphicsContext2D.translate(this.translate?.x ?:.0, this.translate?.y ?:.0)
-    }
-
+fun Group.render(renderer: JFxVizRenderer) {
 
     children.forEach { node ->
-        when (node) {
-            is Circle       -> node.render(context)
-            is Rect         -> node.render(context)
-            is Group        -> node.render(context)
-            is PathNode     -> node.render(context)
-            else -> error("Unknow type ${node::class}")
-        }
-    }
 
-//    context.translateX = .0
-//    context.translateY = .0
+        if (node is HasTransform) {
+            node.transform?.also {
+                renderer.addTransform(it)
+            }
+        }
+
+        when (node) {
+            is Circle       -> node.render(renderer)
+            is Rect         -> node.render(renderer)
+            is Group        -> node.render(renderer)
+            is PathNode     -> node.render(renderer)
+            is Text         -> node.render(renderer)
+            is Line         -> node.render(renderer)
+            else            -> error("Unknow type ${node::class}")
+        }
+
+        if (node is HasTransform) {
+            node.transform?.also {
+                renderer.removeTransform(it)
+            }
+        }
+
+    }
 
 }
 
@@ -70,10 +91,24 @@ fun Group.render(context: Canvas) {
  */
 class JFxVizRenderer(val canvas: Canvas) : VizRenderer {
 
+    val gc = canvas.graphicsContext2D
+
+    private var transform:Transform = Transform().apply { translate(.0, .0) }
+
     override fun render(viz: Viz) {
         val context = canvas.graphicsContext2D
         context.clearRect(.0, .0, context.canvas.width, context.canvas.height)
-        viz.root.render(canvas)
+        viz.root.render(this)
+    }
+
+    fun addTransform(transform: Transform) {
+        this.transform += transform
+        gc.translate(this.transform.translate?.x ?:.0, this.transform.translate?.y ?:.0)
+    }
+
+    fun removeTransform(transform: Transform) {
+        this.transform -= transform
+        gc.translate(this.transform.translate?.x ?:.0, this.transform.translate?.y ?:.0)
     }
 
 }
