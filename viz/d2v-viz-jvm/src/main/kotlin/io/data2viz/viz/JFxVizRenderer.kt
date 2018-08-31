@@ -1,7 +1,6 @@
 package io.data2viz.viz
 
 import io.data2viz.color.*
-import io.data2viz.path.render
 import javafx.scene.canvas.Canvas
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.Stop
@@ -9,6 +8,49 @@ import javafx.scene.paint.Stop
 typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
 typealias JfxRadialGradient = javafx.scene.paint.RadialGradient
 
+/**
+ * JFx Canvas version. See https://docs.oracle.com/javafx/2/canvas/jfxpub-canvas.htm
+ */
+class JFxVizRenderer(val canvas: Canvas) : VizRenderer {
+
+    internal val gc = canvas.graphicsContext2D
+
+
+    override fun render(viz: Viz) {
+        gc.clearRect(.0, .0, canvas.width, canvas.height)
+        viz.root.render(this)
+    }
+
+    fun addTransform(transform: Transform) {
+        gc.translate(transform.translate?.x ?: .0, transform.translate?.y ?:.0)
+    }
+
+    fun removeTransform(transform: Transform) {
+        gc.translate(-(transform.translate?.x ?:.0), -(transform.translate?.y ?:.0))
+    }
+
+}
+
+fun ColorOrGradient.toPaint() = when(this) {
+    is LinearGradient -> toLinearGradientJFX()
+    is RadialGradient -> toRadialGradientJFX()
+    is Color -> jfxColor
+    else -> error("Unknown type $this")
+}
+
+
+fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient = JfxLinearGradient(
+        x1, y1, x2, y2,
+        false,
+        CycleMethod.NO_CYCLE, colorStops.toStops()
+)
+
+
+fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient(.0, .0, cx, cy, r,
+        false,
+        CycleMethod.NO_CYCLE, colorStops.toStops())
+
+private fun List<ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
 
 fun Circle.render(renderer: JFxVizRenderer) {
     val context = renderer.gc
@@ -84,53 +126,3 @@ fun Group.render(renderer: JFxVizRenderer) {
     }
 
 }
-
-
-/**
- * JFx Canvas version. See https://docs.oracle.com/javafx/2/canvas/jfxpub-canvas.htm
- */
-class JFxVizRenderer(val canvas: Canvas) : VizRenderer {
-
-    val gc = canvas.graphicsContext2D
-
-    private var transform:Transform = Transform().apply { translate(.0, .0) }
-
-    override fun render(viz: Viz) {
-        val context = canvas.graphicsContext2D
-        context.clearRect(.0, .0, context.canvas.width, context.canvas.height)
-        viz.root.render(this)
-    }
-
-    fun addTransform(transform: Transform) {
-        this.transform += transform
-        gc.translate(this.transform.translate?.x ?:.0, this.transform.translate?.y ?:.0)
-    }
-
-    fun removeTransform(transform: Transform) {
-        this.transform -= transform
-        gc.translate(this.transform.translate?.x ?:.0, this.transform.translate?.y ?:.0)
-    }
-
-}
-
-fun ColorOrGradient.toPaint() = when(this) {
-    is LinearGradient -> toLinearGradientJFX()
-    is RadialGradient -> toRadialGradientJFX()
-    is Color -> jfxColor
-    else -> error("Unknown type $this")
-}
-
-
-fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient = JfxLinearGradient(
-        x1, y1, x2, y2,
-        false,
-        CycleMethod.NO_CYCLE, colorStops.toStops()
-)
-
-
-fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient(.0, .0, cx, cy, r,
-        false,
-        CycleMethod.NO_CYCLE, colorStops.toStops())
-
-private fun List<ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
-
