@@ -39,12 +39,20 @@ fun Group.render(renderer: JFxVizRenderer) {
     children.forEach { node ->
 
         val gc = renderer.gc
-        gc.save()
 
         if (node is HasTransform) {
             node.transform?.also {
                 renderer.addTransform(it)
             }
+        }
+
+        if (node is HasFill) {
+            gc.fill = node.fill?.toPaint()
+        }
+
+        if (node is HasStroke) {
+            gc.stroke = node.stroke?.toPaint()
+            gc.lineWidth = node.strokeWidth ?: 1.0
         }
 
         when (node) {
@@ -57,13 +65,11 @@ fun Group.render(renderer: JFxVizRenderer) {
             else            -> error("Unknow type ${node::class}")
         }
 
-        gc.restore()
-
-//        if (node is HasTransform) {
-//            node.transform?.also {
-//                renderer.removeTransform(it)
-//            }
-//        }
+        if (node is HasTransform) {
+            node.transform?.also {
+                renderer.removeTransform(it)
+            }
+        }
 
     }
 
@@ -83,7 +89,6 @@ fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient = JfxLinearGradient(
         CycleMethod.NO_CYCLE, colorStops.toStops()
 )
 
-
 fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient(.0, .0, cx, cy, r,
         false,
         CycleMethod.NO_CYCLE, colorStops.toStops())
@@ -94,15 +99,11 @@ fun Circle.render(renderer: JFxVizRenderer) {
     val context = renderer.gc
 
     fill?.let {
-        context.fill = it.toPaint()
         context.fillOval(x - radius, y - radius, radius * 2, radius * 2)
-        context.fill()
     }
 
     stroke?.let {
-        context.stroke = it.toPaint()
         context.strokeOval(x - radius, y - radius, radius * 2, radius * 2)
-        context.stroke()
     }
 }
 
@@ -110,12 +111,10 @@ fun Rect.render(renderer: JFxVizRenderer) {
     val gc = renderer.gc
 
     fill?.let {
-        gc.fill = it.toPaint()
         gc.fillRect(x, y, width, height)
     }
 
     stroke?.let {
-        gc.stroke = it.toPaint()
         gc.strokeRect(x, y, width, height)
     }
 }
@@ -144,10 +143,9 @@ val TextAnchor.jfx: TextAlignment
 
 fun Line.render(renderer: JFxVizRenderer){
     val gc = renderer.gc
-    gc.lineWidth = 1.0
+    gc.beginPath()
     gc.moveTo(x1, y1)
     gc.lineTo(x2, y2)
-    stroke?.let { gc.stroke = it.toPaint() }
     gc.stroke()
 }
 

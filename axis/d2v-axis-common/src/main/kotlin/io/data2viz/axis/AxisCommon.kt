@@ -69,7 +69,16 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                     transform { 
                         if (orient.isHorizontal()) translate(x = position(it)) else translate(y = position(it))
                     }
-                    if (orient.isHorizontal()) line { y2 = k * tickSizeInner } else line { x2 = k * tickSizeInner }
+                    if (orient.isHorizontal())
+                        line {
+                            y2 = k * tickSizeInner
+                            stroke = colors.black
+                        }
+                    else
+                        line {
+                            x2 = k * tickSizeInner
+                            stroke = colors.black
+                        }
                     text {
                         anchor = when (orient) {
                             Orient.LEFT -> TextAnchor.END

@@ -22,17 +22,15 @@ fun PathNode.render(renderer: JFxVizRenderer) {
         }
     }
 
+    fill?.let {
+        gc.fill()
+    }
+
     stroke?.let {
-        gc.stroke = it.toPaint()
-        gc.lineWidth = strokeWidth?: 1.0
         gc.lineCap = StrokeLineCap.BUTT
         gc.stroke()
     }
 
-    fill?.let {
-        gc.fill = it.toPaint()
-        gc.fill()
-    }
 }
 
 fun Double.toDegrees() = Math.toDegrees(this)
