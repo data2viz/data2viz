@@ -1,15 +1,16 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
-import io.data2viz.color.colors
+import io.data2viz.color.ColorOrGradient
 
 
-class Rect : Node {
+class Rect : Node, HasStroke, HasFill {
     var x: Double = .0
     var y: Double = .0
     var width: Double = .0
     var height: Double = .0
-    var fill: Color? = null
-    var stroke: Color? = null
-    var strokeWidth: Double? = 1.0
+
+    override var fill: ColorOrGradient? = null
+    override var stroke: ColorOrGradient? = null
+    override var strokeWidth: Double? = .0
+
 }

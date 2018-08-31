@@ -8,8 +8,8 @@ class PathNode: Path(), Node, HasStroke, HasFill {
 
     override var fill: ColorOrGradient? = colors.black
     override var stroke: ColorOrGradient? = colors.black
-
     override var strokeWidth: Double? = .0
+
     var strokeStyle: Double = .0
 
 }

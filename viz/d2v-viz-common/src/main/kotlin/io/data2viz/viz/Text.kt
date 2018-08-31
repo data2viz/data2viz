@@ -1,16 +1,17 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
+import io.data2viz.color.ColorOrGradient
 import io.data2viz.color.colors
+import io.data2viz.viz.TextAnchor.*
 
 
-class Text : Node {
+class Text : Node, HasFill {
     var x: Double = .0
     var y: Double = .0
     var textContent: String = ""
     var anchor: TextAnchor = TextAnchor.START
     var baseline: TextAlignmentBaseline = TextAlignmentBaseline.BASELINE
-    var fill: Color = colors.black
+    override var fill: ColorOrGradient? = colors.black
 }
 
 
