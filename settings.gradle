@@ -5,8 +5,8 @@ def d2v = [
         ":chord:d2v-chord-common", 
         ":chord:d2v-chord-js", 
         ":chord:d2v-chord-jvm", 
-        ":color:d2v-color-common", 
-        ":color:d2v-color-js", 
+        ":color:d2v-color-common",
+        ":color:d2v-color-js",
         ":color:d2v-color-jvm", 
         ":contour:d2v-contour-common", 
         ":contour:d2v-contour-js", 
@@ -80,8 +80,9 @@ def d2v = [
         ":transition:d2v-transition-common", 
         ":transition:d2v-transition-js", 
         ":transition:d2v-transition-jvm", 
-        ":viz:d2v-viz-common", 
-        ":viz:d2v-viz-js", 
+        ":viz:d2v-viz-android",
+        ":viz:d2v-viz-common",
+        ":viz:d2v-viz-js",
         ":viz:d2v-viz-jvm", 
         ":voronoi:d2v-voronoi-common", 
         ":voronoi:d2v-voronoi-js", 
@@ -159,7 +160,7 @@ def examples = [
         ":ex-transition:ex-transition-jvm"]
 
 
-rootProject.name = "data2viz"
+rootProject.name = "data2vizandroid"
 
 examples.forEach{
     include(it)
