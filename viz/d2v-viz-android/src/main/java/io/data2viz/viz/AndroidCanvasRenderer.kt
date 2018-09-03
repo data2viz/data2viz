@@ -19,125 +19,140 @@ val paint = Paint().apply {
 
 class AndroidCanvasRenderer(val context: Context, var canvas: Canvas) : VizRenderer {
 
+    var scale = 1F
+
     override fun render(viz: Viz) {
         println("Start rendering")
-        viz.root.render(context, canvas)
+        viz.root.render(this)
     }
+
+    val Double.dp: Float
+        get() = (this * scale).toFloat()
 
 }
 
-fun Group.render(context: Context, canvas: Canvas) {
+fun Group.render(renderer: AndroidCanvasRenderer) {
 
-    children.forEach { node ->
+    val canvas = renderer.canvas
 
-        if (node is HasTransform) {
-            node.transform?.also {
-                canvas.translate(it.translate?.x?.toFloat() ?:.0f, it.translate?.y?.toFloat() ?:.0f)
+    with(renderer) {
+        children.forEach { node ->
+
+            if (node is HasTransform) {
+                node.transform?.also {
+                    canvas.translate(it.translate?.x?.dp ?: .0f, it.translate?.y?.dp ?: .0f)
+                }
             }
-        }
 
-
-        when (node) {
-            is Circle       -> node.render(canvas)
-            is Rect         -> node.render(canvas)
-            is Group        -> node.render(context, canvas)
-            is PathNode     -> node.render(context, canvas)
-            else            -> error("Unknow type ${node::class}")
-        }
-
-        if (node is HasTransform) {
-            node.transform?.also {
-                canvas.translate(-(it.translate?.x?.toFloat() ?:.0f), -(it.translate?.y?.toFloat() ?:.0f))
+            when (node) {
+                is Circle -> node.render(renderer)
+                is Rect -> node.render(renderer)
+                is Group -> node.render(renderer)
+                is PathNode -> node.render(renderer)
+                else -> error("Unknow type ${node::class}")
             }
+
+            if (node is HasTransform) {
+                node.transform?.also {
+                    canvas.translate(-(it.translate?.x?.dp ?: .0f), -(it.translate?.y?.dp ?: .0f))
+                }
+            }
+
         }
-
     }
 }
 
 
-fun Circle.render(canvas: Canvas) {
-    fill?.let {
-        paint.style = Paint.Style.FILL
-        it.updatePaint(paint)
-        canvas.drawCircle(
-                x.toFloat(),
-                y.toFloat(),
-                radius.toFloat(),
-                paint)
-    }
-    stroke?.let {
-        paint.style = Paint.Style.STROKE
-        it.updatePaint(paint)
-        canvas.drawCircle(
-                x.toFloat(),
-                y.toFloat(),
-                radius.toFloat(),
-                paint)
+fun Circle.render(renderer: AndroidCanvasRenderer) {
+    val canvas = renderer.canvas
+    with(renderer) {
+        fill?.let {
+            paint.style = Paint.Style.FILL
+            it.updatePaint(paint, renderer)
+            canvas.drawCircle(
+                    x.dp,
+                    y.dp,
+                    radius.dp,
+                    paint)
+        }
+        stroke?.let {
+            paint.style = Paint.Style.STROKE
+            it.updatePaint(paint, renderer)
+            canvas.drawCircle(
+                    x.dp,
+                    y.dp,
+                    radius.dp,
+                    paint)
+        }
     }
 }
 
-fun Rect.render(canvas: Canvas) {
-    fill?.let {
-        paint.style = Paint.Style.FILL
-        it.updatePaint(paint)
-        canvas.drawRect(
-                android.graphics.RectF(
-                        x.toFloat(),
-                        y.toFloat(),
-                        (x + width).toFloat(),
-                        (y + height).toFloat()
-                        ),
-                paint)
+fun Rect.render(renderer: AndroidCanvasRenderer) {
+    val canvas = renderer.canvas
+    with(renderer) {
+        fill?.let {
+            paint.style = Paint.Style.FILL
+            it.updatePaint(paint, renderer)
+            canvas.drawRect(
+                    x.dp,
+                    y.dp,
+                    (x + width).dp,
+                    (y + height).dp,
+                    paint)
+        }
+        stroke?.let {
+            paint.style = Paint.Style.STROKE
+            it.updatePaint(paint, renderer)
+            canvas.drawRect(
+                    x.dp,
+                    y.dp,
+                    (x + width).dp,
+                    (y + height).dp,
+                    paint)
+        }
     }
-    stroke?.let {
-        paint.style = Paint.Style.STROKE
-        it.updatePaint(paint)
-        canvas.drawRect(
-                android.graphics.RectF(
-                        x.toFloat(),
-                        y.toFloat(),
-                        (x + width).toFloat(),
-                        (y + height).toFloat()
-                ),
-                paint)
-    }
+
 }
 
 
 fun Double.radToDegrees() = Math.toDegrees(this).toFloat()
 
 
-fun ColorOrGradient.updatePaint(paint: Paint){
+fun ColorOrGradient.updatePaint(paint: Paint, renderer: AndroidCanvasRenderer){
     when(this) {
         is Color -> {
             paint.color = this.toColor()
             paint.shader = null
         }
-        is LinearGradient -> paint.shader = this.toLinearGradient()
-        is RadialGradient -> paint.shader = this.toRadialGradient()
+        is LinearGradient -> paint.shader = this.toLinearGradient(renderer)
+        is RadialGradient -> paint.shader = this.toRadialGradient(renderer)
         else -> error("Unknown type :: ${this::class}")
     }
 }
 
-private fun RadialGradient.toRadialGradient() =
-        ARadialGradient(
-                this.cx.toFloat(),
-                this.cy.toFloat(),
-                this.r.toFloat(),
-                IntArray(colorStops.size){ colorStops[it].color.toColor() },
-                FloatArray(colorStops.size){ colorStops[it].percent.toFloat() },
-                Shader.TileMode.CLAMP)
+private fun RadialGradient.toRadialGradient(renderer: AndroidCanvasRenderer) =
+        with(renderer){
+            ARadialGradient(
+                    cx.dp,
+                    cy.dp,
+                    r.dp,
+                    IntArray(colorStops.size){ colorStops[it].color.toColor() },
+                    FloatArray(colorStops.size){ colorStops[it].percent.toFloat() },
+                    Shader.TileMode.CLAMP)
+        }
 
 
-private fun LinearGradient.toLinearGradient() =
-         ALinearGradient(
-                 this.x1.toFloat(),
-                 this.y1.toFloat(),
-                 this.x2.toFloat(),
-                 this.y2.toFloat(),
-                 IntArray(colorStops.size){ colorStops[it].color.toColor() },
-                 FloatArray(colorStops.size){ colorStops[it].percent.toFloat() },
-                 Shader.TileMode.CLAMP)
+private fun LinearGradient.toLinearGradient(renderer: AndroidCanvasRenderer) =
+        with(renderer){
+            ALinearGradient(
+                    x1.dp,
+                    y1.dp,
+                    x2.dp,
+                    y2.dp,
+                    IntArray(colorStops.size) { colorStops[it].color.toColor() },
+                    FloatArray(colorStops.size) { colorStops[it].percent.toFloat() },
+                    Shader.TileMode.CLAMP)
+        }
 
 fun Color.toColor() =
             ((255 * this.alpha.toFloat()).toInt() and 0xff shl 24) or 
@@ -155,7 +170,3 @@ fun Boolean.toSign() = if (this) 1 else -1
 
 val Number.radToDeg: Double
     get() = this.toDouble() * 180 / PI
-
-fun Float.dipToPx(c: Context) = this * c.resources.displayMetrics.density
-fun Double.dipToPx(c: Context) = this.toFloat() * c.resources.displayMetrics.density
-fun Int.dipToPx(c: Context) = this.toFloat() * c.resources.displayMetrics.density
