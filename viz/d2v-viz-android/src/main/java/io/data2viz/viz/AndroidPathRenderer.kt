@@ -83,7 +83,12 @@ fun PathNode.render(context: Context, canvas:Canvas) {
     }
     stroke?.let {
         paint.style = Paint.Style.STROKE
-        paint.color = it.asAndroidColor()
+        it.updatePaint(paint)
+        canvas.drawPath(path, paint)
     }
-    canvas.drawPath(path, paint)
+    fill?.let {
+        paint.style = Paint.Style.FILL
+        it.updatePaint(paint)
+        canvas.drawPath(path, paint)
+    }
 }

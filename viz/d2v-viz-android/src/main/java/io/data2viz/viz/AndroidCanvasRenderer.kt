@@ -2,10 +2,16 @@ package io.data2viz.viz
 
 import io.data2viz.color.Color
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Shader
 import io.data2viz.color.ColorOrGradient
-import io.data2viz.path.*
+import io.data2viz.color.LinearGradient
+import io.data2viz.color.RadialGradient
 import kotlin.math.*
+
+typealias ALinearGradient = android.graphics.LinearGradient
+typealias ARadialGradient = android.graphics.RadialGradient
 
 val paint = Paint().apply {
     isAntiAlias = true
@@ -14,19 +20,37 @@ val paint = Paint().apply {
 class AndroidCanvasRenderer(val context: Context, var canvas: Canvas) : VizRenderer {
 
     override fun render(viz: Viz) {
+        println("Start rendering")
         viz.root.render(context, canvas)
     }
 
 }
 
 fun Group.render(context: Context, canvas: Canvas) {
+
     children.forEach { node ->
+
+        if (node is HasTransform) {
+            node.transform?.also {
+                canvas.translate(it.translate?.x?.toFloat() ?:.0f, it.translate?.y?.toFloat() ?:.0f)
+            }
+        }
+
+
         when (node) {
             is Circle       -> node.render(canvas)
+            is Rect         -> node.render(canvas)
             is Group        -> node.render(context, canvas)
             is PathNode     -> node.render(context, canvas)
             else            -> error("Unknow type ${node::class}")
         }
+
+        if (node is HasTransform) {
+            node.transform?.also {
+                canvas.translate(-(it.translate?.x?.toFloat() ?:.0f), -(it.translate?.y?.toFloat() ?:.0f))
+            }
+        }
+
     }
 }
 
@@ -34,7 +58,7 @@ fun Group.render(context: Context, canvas: Canvas) {
 fun Circle.render(canvas: Canvas) {
     fill?.let {
         paint.style = Paint.Style.FILL
-        paint.color = it.asAndroidColor()
+        it.updatePaint(paint)
         canvas.drawCircle(
                 x.toFloat(),
                 y.toFloat(),
@@ -43,7 +67,7 @@ fun Circle.render(canvas: Canvas) {
     }
     stroke?.let {
         paint.style = Paint.Style.STROKE
-        paint.color = it.asAndroidColor()
+        it.updatePaint(paint)
         canvas.drawCircle(
                 x.toFloat(),
                 y.toFloat(),
@@ -52,23 +76,68 @@ fun Circle.render(canvas: Canvas) {
     }
 }
 
+fun Rect.render(canvas: Canvas) {
+    fill?.let {
+        paint.style = Paint.Style.FILL
+        it.updatePaint(paint)
+        canvas.drawRect(
+                android.graphics.RectF(
+                        x.toFloat(),
+                        y.toFloat(),
+                        (x + width).toFloat(),
+                        (y + height).toFloat()
+                        ),
+                paint)
+    }
+    stroke?.let {
+        paint.style = Paint.Style.STROKE
+        it.updatePaint(paint)
+        canvas.drawRect(
+                android.graphics.RectF(
+                        x.toFloat(),
+                        y.toFloat(),
+                        (x + width).toFloat(),
+                        (y + height).toFloat()
+                ),
+                paint)
+    }
+}
+
 
 fun Double.radToDegrees() = Math.toDegrees(this).toFloat()
 
-fun ColorOrGradient.asAndroidColor() = when(this) {
-    is Color -> this.toColor()
-    is LinearGradient -> this.toLinearGradient()
-    is RadialGradient -> this.toRadialGradient()
-    else -> error("Unknown type :: ${this::class}")
+
+fun ColorOrGradient.updatePaint(paint: Paint){
+    when(this) {
+        is Color -> {
+            paint.color = this.toColor()
+            paint.shader = null
+        }
+        is LinearGradient -> paint.shader = this.toLinearGradient()
+        is RadialGradient -> paint.shader = this.toRadialGradient()
+        else -> error("Unknown type :: ${this::class}")
+    }
 }
 
-private fun RadialGradient.toRadialGradient(): Int {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-}
+private fun RadialGradient.toRadialGradient() =
+        ARadialGradient(
+                this.cx.toFloat(),
+                this.cy.toFloat(),
+                this.r.toFloat(),
+                IntArray(colorStops.size){ colorStops[it].color.toColor() },
+                FloatArray(colorStops.size){ colorStops[it].percent.toFloat() },
+                Shader.TileMode.CLAMP)
 
-private fun LinearGradient.toLinearGradient(): Int {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-}
+
+private fun LinearGradient.toLinearGradient() =
+         ALinearGradient(
+                 this.x1.toFloat(),
+                 this.y1.toFloat(),
+                 this.x2.toFloat(),
+                 this.y2.toFloat(),
+                 IntArray(colorStops.size){ colorStops[it].color.toColor() },
+                 FloatArray(colorStops.size){ colorStops[it].percent.toFloat() },
+                 Shader.TileMode.CLAMP)
 
 fun Color.toColor() =
             ((255 * this.alpha.toFloat()).toInt() and 0xff shl 24) or 
