@@ -1,12 +1,35 @@
 package io.data2viz.timer
 
 
-
+/**
+ * used to make the timer sleep until next frame or event.
+ */
 internal expect fun setTimeout(handler: () -> Unit, timeout: Int):Any
+
+/**
+ * clears previous timeout
+ */
 internal expect fun clearTimeout(handle:Any)
+
+/**
+ * Used to launch the update skew task every second
+ */
 internal expect fun setInterval(handler: () -> Unit, interval: Int):Any
+
+/**
+ * remove a potential update skew task
+ */
 internal expect fun clearInterval(handle:Any)
+
+/**
+ * Used to call clearNow() and wake()
+ */
 internal expect fun callInNextFrame(block: () -> Unit)
+
+
+/**
+ * Platform implementation of now in ms.
+ */
 internal expect fun delegateNow(): Double
 
 

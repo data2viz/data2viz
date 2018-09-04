@@ -11,15 +11,37 @@ import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.TimeUnit
 
 
-internal actual fun setTimeout(handler: () -> Unit, timeout: Int): Any =    timer.setTimeout   (handler, timeout)
-internal actual fun clearTimeout(handle: Any)                             { timer.clearTimeout (handle)}
-internal actual fun setInterval(handler: () -> Unit, interval: Int): Any =  timer.setInterval  (handler, interval)
-internal actual fun clearInterval(handle: Any)                            { timer.clearInterval(handle) }
+internal actual fun setTimeout(handler: () -> Unit, timeout: Int): Any = Timeline(KeyFrame(Duration.millis(timeout.toDouble()), EventHandler {
+    handler()
+})).apply {
+    cycleCount = 1
+    play()
+}
 
-internal actual fun callInNextFrame(block: () -> Unit)                    { timer.callInNextFrame(block) }
+
+internal actual fun clearTimeout(handle: Any) {
+    (handle as Timeline).stop()
+}
+
+internal actual fun setInterval(handler: () -> Unit, interval: Int): Any = Timeline(KeyFrame(Duration.millis(interval.toDouble()), EventHandler {
+    handler()
+})).apply {
+    cycleCount = Animation.INDEFINITE
+    play()
+}
+
+internal actual fun clearInterval(handle: Any) {
+    (handle as Timeline).stop()
+}
+
+
+internal val fxTimer: JavaFxTimer by lazy { JavaFxTimer().apply { start() } }
+
+internal actual fun callInNextFrame(block: () -> Unit) {
+    fxTimer.callInNextFrame(block)
+}
 internal actual fun delegateNow(): Double = TimeUnit.NANOSECONDS.toMillis(System.nanoTime()).toDouble()
 
-val timer: JavaFxTimer by lazy { JavaFxTimer().apply { start() } }
 
 class JavaFxTimer : AnimationTimer() {
 
@@ -42,26 +64,5 @@ class JavaFxTimer : AnimationTimer() {
         blocks += block
     }
 
-    fun setInterval(block: () -> Unit, interval: Int): Any =
-        Timeline(KeyFrame(Duration.millis(interval.toDouble()), EventHandler {
-            block()
-        })).apply {
-            cycleCount = Animation.INDEFINITE
-            play() 
-        }
-
-    fun clearInterval(timeline: Any) { (timeline as Timeline).stop() }
-
-
-    fun setTimeout(block: () -> Unit, timeout: Int): Any =
-        Timeline(KeyFrame(Duration.millis(timeout.toDouble()), EventHandler {
-            block()
-        })).apply {
-            cycleCount = 1
-            play() 
-        }
-
-
-    fun clearTimeout(timeline: Any) { (timeline as Timeline).stop() }
-
 }
+
