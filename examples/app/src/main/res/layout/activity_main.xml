@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:app="http://schemas.android.com/apk/res-auto"
+			  xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical"
+			  tools:context=".MainActivity">
+
+
+	<Button
+			android:id="@+id/button_show_chord"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Chord"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="79dp" />
+	<Button
+			android:id="@+id/button_show_force"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Force"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="79dp" />
+	<Button
+			android:id="@+id/button_show_geo"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Geo"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="79dp" />
+	<Button
+			android:id="@+id/button_show_line_of_sight"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Line of sight"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="79dp" />
+	<Button
+			android:id="@+id/button_show_sankey"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Sankey"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="79dp" />
+	<Button
+			android:id="@+id/button_show_streamGraph"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Stream Graph"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="79dp" />
+
+	<Button
+			android:id="@+id/button_show_animation"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Animation"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="16dp" />
+
+
+</LinearLayout>
