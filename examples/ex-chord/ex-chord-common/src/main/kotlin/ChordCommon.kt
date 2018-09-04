@@ -68,26 +68,31 @@ val ribbon: (Chord, PathAdapter) -> Unit = io.data2viz.chord.ribbon(inner)
 
 fun chordViz(): Viz = Viz().apply {
     with(root) {
-        transform { translate(width / 2, height / 2) }
 
-        //Drawing external groups representing avengers
-        chords.groups.forEachIndexed { index, it ->
-            path {
-                fill = io.data2viz.examples.chord.colors[index]
-                stroke = null
-                arc.arc(it, this)
+        group {
+            transform { translate(width / 2, height / 2) }
+
+
+            //Drawing external groups representing avengers
+            chords.groups.forEachIndexed { index, it ->
+                path {
+                    fill = io.data2viz.examples.chord.colors[index]
+                    stroke = null
+                    arc.arc(it, this)
+                }
+            }
+
+
+            //drawing ribbons
+            chords.chords.forEach { chord ->
+                path {
+                    fill = chord.toGradient()
+                    stroke = null
+                    ribbon(chord, this)
+                }
             }
         }
 
-
-        //drawing ribbons
-        chords.chords.forEach { chord ->
-            path {
-                fill = chord.toGradient()
-                stroke = null
-                ribbon(chord, this)
-            }
-        }
     }
 }
 
