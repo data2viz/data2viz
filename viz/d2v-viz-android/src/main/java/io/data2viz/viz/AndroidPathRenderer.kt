@@ -47,7 +47,7 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
                     startAngle,
                     sweepAngle, false)
             path.lineTo(x.dp, y.dp)
-            canvas.drawPath(path, paint)
+//            canvas.drawPath(path, paint)
         }
     }
 

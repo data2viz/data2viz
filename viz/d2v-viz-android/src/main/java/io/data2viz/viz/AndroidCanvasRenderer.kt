@@ -22,7 +22,6 @@ class AndroidCanvasRenderer(val context: Context, var canvas: Canvas) : VizRende
     var scale = 1F
 
     override fun render(viz: Viz) {
-        println("Start rendering")
         viz.root.render(this)
     }
 
@@ -43,6 +42,11 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
                     canvas.translate(it.translate?.x?.dp ?: .0f, it.translate?.y?.dp ?: .0f)
                 }
             }
+
+            if (node is HasStroke) {
+                paint.strokeWidth = (node.strokeWidth?: 1.0).toFloat()
+            }
+
 
             when (node) {
                 is Circle -> node.render(renderer)
