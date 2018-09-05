@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         R.id.button_show_animation.showActivity(AnimationActivity::class.java)
         R.id.button_show_chord.showActivity(ChordActivity::class.java)
         R.id.button_show_force.showActivity(ForceActivity::class.java)
+        R.id.button_show_line_of_sight.showActivity(LineOfSightActivity::class.java)
         R.id.button_show_sankey.showActivity(SankeyActivity::class.java)
 
     }

@@ -37,7 +37,7 @@ class AnimationView(context: Context) : View(context) {
     val renderer = AndroidCanvasRenderer(context, Canvas())
 
     val timeAnimator = TimeAnimator().apply { 
-        setTimeListener { animation, totalTime, deltaTime ->
+        setTimeListener { _, _, _ ->
 //            loop(totalTime.toDouble())
             invalidate()
         }

@@ -58,6 +58,8 @@ dependencies {
     compile project(":force:d2v-force-common")
     compile project(":force:d2v-force-android")
 
+    expectedBy project(":ex-line-of-sight:ex-line-of-sight-common")
+
     expectedBy project(":ex-chord:ex-chord-common")
     compile project(":chord:d2v-chord-common")
     compile project(":chord:d2v-chord-jvm")

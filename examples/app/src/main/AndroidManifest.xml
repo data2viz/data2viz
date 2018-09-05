@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".ChordActivity"/>
         <activity android:name=".ForceActivity"/>
+        <activity android:name=".LineOfSightActivity"/>
         <activity android:name=".SankeyActivity"/>
     </application>
 

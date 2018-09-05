@@ -1,23 +1,23 @@
 package io.data2viz.viz.sample
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-
 import android.content.Context
 import android.graphics.Canvas
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
-import forcesViz
+import io.data2viz.examples.lineOfSight.lineOfSightViz
 import io.data2viz.timer.Timer
 import io.data2viz.viz.AndroidCanvasRenderer
+import io.data2viz.viz.Viz
 
 
-class ForceActivity : AppCompatActivity() {
+class LineOfSightActivity : AppCompatActivity() {
 
-    lateinit var view:ForceView
+    lateinit var view:LineOfSightView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        view = ForceView(this)
+        view = LineOfSightView(this)
         setContentView(view)
     }
 
@@ -33,9 +33,11 @@ class ForceActivity : AppCompatActivity() {
 
 }
 
-class ForceView(context: Context) : View(context) {
+class LineOfSightView(context: Context) : View(context) {
 
     private var timer: Timer? = null
+    private val viz: Viz = lineOfSightViz()
+
 
     private val renderer = AndroidCanvasRenderer(context, Canvas()).apply {
         scale = 1.35F
@@ -57,7 +59,7 @@ class ForceView(context: Context) : View(context) {
 
     override fun onDraw(canvas: Canvas) {
         renderer.canvas = canvas
-        renderer.render(forcesViz)
+        renderer.render(viz)
     }
 
 }
