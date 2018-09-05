@@ -9,7 +9,7 @@ import io.data2viz.viz.Viz
 const val width = 800.0
 const val height = 500.0
 
-val pointCount = 800
+const val pointCount = 800
 
 // random points to init scene
 val points = (0 until pointCount).map { ForceNode(it, Point(random() * width, random() * height)) }
@@ -42,7 +42,7 @@ val sprite = listOf(
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
 )
 
-val spriteIndexes = olympicColors.mapIndexed { index, color ->
+val spriteIndexes = olympicColors.mapIndexed { index, _ ->
     sprite.mapIndexed { idx, i ->
         if (i == index) idx else null
     }.filterNotNull()
@@ -55,7 +55,7 @@ val olympicForces = listOf(
         strength = { _, _, _ -> 8.5 }
     },
     forceNBody {
-        strength = { _, index, _ -> -80.0 }
+        strength = { _, _, _ -> -80.0 }
         distanceMax = 30.0
     }
 )
@@ -67,7 +67,7 @@ val radialForces = listOf(
         strength = { _, _, _ -> 0.3 }
     },
     forceNBody {
-        strength = { _, index, _ -> -20.0 }
+        strength = { _, _, _ -> -20.0 }
         distanceMax = 30.0
     }
 )
@@ -82,7 +82,7 @@ val diagonalForces = listOf(
             val pos = ((index % 10) + .5) * height / 10
             if (index % 4 < 2) pos else height - pos
         }
-        strength = { _, index, _ -> .06 }
+        strength = { _, _, _ -> .06 }
     },
     forceX {
         x = { _, index, _ ->
@@ -90,7 +90,7 @@ val diagonalForces = listOf(
             pos
 //            if (index % 5 == 0) pos else width - pos
         }
-        strength = { _, index, _ -> .06 }
+        strength = { _, _, _ -> .06 }
     }
 )
 
@@ -109,7 +109,7 @@ val spriteForces = listOf(
                 170.0 + (((spritePosition % sprite.size) / 16) * height) / 70.0
             }
         }
-        strength = { _, index, _ -> .08 }
+        strength = { _, _, _ -> .08 }
     },
     forceX {
         x = { _, index, _ ->
@@ -121,7 +121,7 @@ val spriteForces = listOf(
                 300.0 + ((spritePosition % 16) * width) / 70.0
             }
         }
-        strength = { _, index, _ -> .08 }
+        strength = { _, _, _ -> .08 }
     }
 )
 
@@ -139,7 +139,7 @@ val simulation: ForceSimulation = forceSimulation {
 //        velocityDecay = .3
     nodes = points
     on(SimulationEvent.TICK, "tickEvent", ::refresh)
-    on(SimulationEvent.END, "endEvent", { println("SIMULATION ENDS") })
+    on(SimulationEvent.END, "endEvent") { println("SIMULATION ENDS") }
 }
 
 
