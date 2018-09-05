@@ -126,7 +126,7 @@ fun LinearGradient.toCanvasGradient(context: CanvasRenderingContext2D): CanvasGr
 }
 
 fun RadialGradient.toCanvasGradient(context: CanvasRenderingContext2D): CanvasGradient {
-    val gradient = context.createRadialGradient(.0, .0, .0, cx, cy, r)
+    val gradient = context.createRadialGradient(cx, cy, 0.0, cx, cy, r)
     this.colorStops.forEach { cs ->
         gradient.addColorStop(cs.percent, cs.color.rgba)
     }
