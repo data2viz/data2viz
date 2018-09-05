@@ -150,4 +150,7 @@ fun Line.render(renderer: JFxVizRenderer){
     gc.stroke()
 }
 
+val Color.jfxColor: javafx.scene.paint.Color
+    get() = javafx.scene.paint.Color.rgb(r, g, b, alpha.toDouble())
+
 
