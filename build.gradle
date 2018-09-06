@@ -45,7 +45,9 @@ static def platformOf(project) {
     if (project.name.endsWith("-android")) return "android"
     if (project.name.endsWith("-common")) return "common"
     if (project.name.endsWith("-js")) return "js"
-    return "jvm"
+    if (project.name.endsWith("-jfx")) return "jfx"
+    if (project.name.endsWith("-jvm")) return "jvm"
+    return "example"
 }
 
 static def platformLib(base, platform) {
@@ -56,6 +58,9 @@ static def platformLib(base, platform) {
 configure(subprojects.findAll { !sourceless.contains(it.name) }) {
 
     def platform = platformOf(it)
+
+    def platform = platformOf(project)
+
 
     repositories {
         jcenter()
@@ -72,7 +77,7 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
 //        outputDirectory = "$buildDir/javadoc"
 //    }
 
-    if (project.name.endsWith('-common')) {
+    if (platform == "common") {
         apply plugin: 'kotlin-platform-common'
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
@@ -81,7 +86,7 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
             testCompile project(":tests:d2v-tests-common")
         }
     }
-    if (project.name.endsWith('-js')) {
+    if ( platform == "js") {
         apply plugin: 'kotlin-platform-js'
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
@@ -100,7 +105,7 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         }
         compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
     }
-    if (project.name.endsWith('-android')) {
+    if ( platform == "android") {
         apply plugin: 'com.android.library'
         apply plugin: 'kotlin-platform-android'
 
@@ -132,13 +137,15 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
             implementation 'com.android.support:appcompat-v7:26.1.0'
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 
+            testCompile project(":tests:d2v-tests-common")
+            testCompile project(":tests:d2v-tests-jvm")
             testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
             testCompile 'junit:junit:4.12'
         }
 
     }
-    if (project.name.endsWith('-jvm')) {
+    if (platform == 'jfx') {
         apply plugin: 'kotlin-platform-jvm'
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -155,6 +162,29 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         //for tornadoFx
         compileKotlin     { kotlinOptions.jvmTarget = 1.8 }
         compileTestKotlin { kotlinOptions.jvmTarget = 1.8 }
+
+        test {
+            jvmArgs "-noverify"
+            testLogging {
+                events "passed", "skipped", "failed"
+                exceptionFormat "full"
+            }
+        }
+
+    }
+    if (platform == 'jvm') {
+        apply plugin: 'kotlin-platform-jvm'
+        dependencies {
+            compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+            compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+            testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+            testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+            testCompile "org.testfx:testfx-core:$textfx_version"
+            testCompile "org.testfx:testfx-junit:$textfx_version"
+            testCompile project(":tests:d2v-tests-common")
+            testCompile project(":tests:d2v-tests-jvm")
+            testCompile 'junit:junit:4.12'
+        }
 
         test {
             jvmArgs "-noverify"

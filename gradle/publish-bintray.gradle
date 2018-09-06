@@ -35,8 +35,11 @@ def pomConfig = {
 
 task sourcesJar(type: Jar) {
     classifier = 'sources'
-    
-    from sourceSets.main.allSource
+    if (platform == "android") {
+        from android.sourceSets.main.java.sourceFiles
+    } else {
+        from sourceSets.main.allSource
+    }
     if (platform != "common") {
         // add common source, too
         from rootProject.file("$module/d2v-$module-common/src/main/kotlin")
@@ -46,7 +49,10 @@ task sourcesJar(type: Jar) {
 publishing {
     publications {
         maven(MavenPublication) {
-            from components.java
+            println "project:: $project components:: $components"
+            if (platform != "android") {
+                from components.java
+            }
 //            artifact javadocJar
             artifact sourcesJar
             pom.withXml {
