@@ -1,9 +1,11 @@
 package io.data2viz.viz
 
 import io.data2viz.color.*
+import javafx.geometry.VPos
 import javafx.scene.canvas.Canvas
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.Stop
+import javafx.scene.text.TextAlignment
 
 typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
 typealias JfxRadialGradient = javafx.scene.paint.RadialGradient
@@ -27,6 +29,42 @@ class JFxVizRenderer(val canvas: Canvas) : VizRenderer {
 
     fun removeTransform(transform: Transform) {
         gc.translate(-(transform.translate?.x ?:.0), -(transform.translate?.y ?:.0))
+    }
+
+}
+
+
+fun Group.render(renderer: JFxVizRenderer) {
+
+    children.forEach { node ->
+
+        val gc = renderer.gc
+        gc.save()
+
+        if (node is HasTransform) {
+            node.transform?.also {
+                renderer.addTransform(it)
+            }
+        }
+
+        when (node) {
+            is Circle       -> node.render(renderer)
+            is Rect         -> node.render(renderer)
+            is Group        -> node.render(renderer)
+            is PathNode     -> node.render(renderer)
+            is Text         -> node.render(renderer)
+            is Line         -> node.render(renderer)
+            else            -> error("Unknow type ${node::class}")
+        }
+
+        gc.restore()
+
+//        if (node is HasTransform) {
+//            node.transform?.also {
+//                renderer.removeTransform(it)
+//            }
+//        }
+
     }
 
 }
@@ -84,8 +122,25 @@ fun Rect.render(renderer: JFxVizRenderer) {
 
 fun Text.render(renderer: JFxVizRenderer){
     val gc = renderer.gc
+    gc.textAlign = this.anchor.jfx
+    gc.textBaseline = this.baseline.jfx
     gc.fillText(textContent, x, y)
 }
+
+val TextAlignmentBaseline.jfx: VPos
+    get() = when(this){
+        TextAlignmentBaseline.BASELINE  -> VPos.BASELINE
+        TextAlignmentBaseline.HANGING   -> VPos.TOP
+        TextAlignmentBaseline.MIDDLE    -> VPos.CENTER
+    }
+
+val TextAnchor.jfx: TextAlignment
+    get() = when(this){
+        TextAnchor.START    -> TextAlignment.LEFT
+        TextAnchor.END      -> TextAlignment.RIGHT
+        TextAnchor.MIDDLE   -> TextAlignment.CENTER
+    }
+
 
 fun Line.render(renderer: JFxVizRenderer){
     val gc = renderer.gc
@@ -97,32 +152,3 @@ fun Line.render(renderer: JFxVizRenderer){
 }
 
 
-fun Group.render(renderer: JFxVizRenderer) {
-
-    children.forEach { node ->
-
-        if (node is HasTransform) {
-            node.transform?.also {
-                renderer.addTransform(it)
-            }
-        }
-
-        when (node) {
-            is Circle       -> node.render(renderer)
-            is Rect         -> node.render(renderer)
-            is Group        -> node.render(renderer)
-            is PathNode     -> node.render(renderer)
-            is Text         -> node.render(renderer)
-            is Line         -> node.render(renderer)
-            else            -> error("Unknow type ${node::class}")
-        }
-
-        if (node is HasTransform) {
-            node.transform?.also {
-                renderer.removeTransform(it)
-            }
-        }
-
-    }
-
-}
