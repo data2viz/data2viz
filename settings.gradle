@@ -1,7 +1,9 @@
 def d2v = [
-        ":axis:d2v-axis-common", 
-        ":axis:d2v-axis-js", 
-        ":axis:d2v-axis-jvm", 
+        ":axis:d2v-axis-android",
+        ":axis:d2v-axis-common",
+        ":axis:d2v-axis-js",
+        ":axis:d2v-axis-jvm",
+
         ":chord:d2v-chord-common", 
         ":chord:d2v-chord-js", 
         ":chord:d2v-chord-jvm",

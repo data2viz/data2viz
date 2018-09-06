@@ -1,4 +1,0 @@
-dependencies {
-    compile project(":data2viz:d2v-data2viz-jvm")
-    expectedBy project(":ex-progression-stack:ex-progression-stack-common")
-}

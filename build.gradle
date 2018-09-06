@@ -57,8 +57,6 @@ static def platformLib(base, platform) {
 
 configure(subprojects.findAll { !sourceless.contains(it.name) }) {
 
-    def platform = platformOf(it)
-
     def platform = platformOf(project)
 
 
