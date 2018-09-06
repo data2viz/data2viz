@@ -49,7 +49,6 @@ task sourcesJar(type: Jar) {
 publishing {
     publications {
         maven(MavenPublication) {
-            println "project:: $project components:: $components"
             if (platform != "android") {
                 from components.java
             }
