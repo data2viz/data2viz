@@ -2,27 +2,60 @@ package io.data2viz.viz
 
 import io.data2viz.color.*
 import io.data2viz.path.*
-import org.w3c.dom.CanvasGradient
-import org.w3c.dom.CanvasRenderingContext2D
+import org.w3c.dom.*
 import kotlin.math.PI
 
 fun Viz.configRenderTo(root: CanvasRenderingContext2D) {
     this.renderer = JsCanvasRenderer(root)
 }
 
-fun Group.render(context: CanvasRenderingContext2D) {
 
-    transform?.run {
-        context.translate(this.translate?.x ?:.0, this.translate?.y ?:.0)
+class JsCanvasRenderer(val context: CanvasRenderingContext2D) : VizRenderer {
+
+    override fun render(viz: Viz) {
+        context.clearRect(.0, .0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
+        viz.root.render(context)
     }
 
-    children.forEach { node ->  
+}
+
+fun Group.render(context: CanvasRenderingContext2D) {
+
+
+    children.forEach { node ->
+
+        if (node is HasTransform) {
+            node.transform?.also {
+                context.translate(it.translate?.x ?:.0, it.translate?.y ?:.0)
+            }
+        }
+
+        if (node is HasFill) {
+            context.fillStyle = node.fill?.toCanvasPaint(context)
+        }
+
+        if (node is HasStroke) {
+            context.strokeStyle = node.stroke?.toCanvasPaint(context)
+            context.lineWidth = node.strokeWidth ?: 1.0
+        }
+
+
         when (node) {
-            is Rect         -> node.render(context)
             is Circle       -> node.render(context)
+            is Rect         -> node.render(context)
             is Group        -> node.render(context)
             is PathNode     -> node.render(context)
+            is Text         -> node.render(context)
+            is Line         -> node.render(context)
+            else            -> error("Unknow type ${node::class}")
         }
+
+        if (node is HasTransform) {
+            node.transform?.also {
+                context.translate(-(it.translate?.x ?:.0), -(it.translate?.y ?:.0))
+            }
+        }
+
     }
 
     context.translate(.0, .0)
@@ -48,25 +81,33 @@ fun Circle.render(context: CanvasRenderingContext2D) {
     context.arc(x, y, radius, .0, 2 * PI, false)
     
     fill?.let {
-        context.fillStyle = it.toCanvasPaint(context)
         context.fill()
     }
 
     stroke?.let {
-        context.strokeStyle = it.toCanvasPaint(context)
         context.stroke()
     }
-
 }
 
-class JsCanvasRenderer(val context: CanvasRenderingContext2D) : VizRenderer {
+fun Text.render(context: CanvasRenderingContext2D) {
+    context.textAlign = this.anchor.js
+    context.textBaseline = this.baseline.js
+    context.fillText(textContent, x, y)
+}
 
-    override fun render(viz: Viz) {
-        context.clearRect(.0, .0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
-        viz.root.render(context)
+val TextAlignmentBaseline.js: CanvasTextBaseline
+    get() = when(this){
+        TextAlignmentBaseline.BASELINE  -> CanvasTextBaseline.BOTTOM
+        TextAlignmentBaseline.HANGING   -> CanvasTextBaseline.HANGING
+        TextAlignmentBaseline.MIDDLE    -> CanvasTextBaseline.MIDDLE
     }
 
-}
+val TextAnchor.js: CanvasTextAlign
+    get() = when(this){
+        TextAnchor.START    -> CanvasTextAlign.LEFT
+        TextAnchor.END      -> CanvasTextAlign.RIGHT
+        TextAnchor.MIDDLE   -> CanvasTextAlign.CENTER
+    }
 
 
 fun ColorOrGradient.toCanvasPaint(context: CanvasRenderingContext2D):Any = when(this) {
@@ -90,4 +131,11 @@ fun RadialGradient.toCanvasGradient(context: CanvasRenderingContext2D): CanvasGr
         gradient.addColorStop(cs.percent, cs.color.rgba)
     }
     return gradient
+}
+
+fun Line.render(context: CanvasRenderingContext2D) {
+    context.beginPath()
+    context.moveTo(x1, y1)
+    context.lineTo(x2, y2)
+    context.stroke()
 }

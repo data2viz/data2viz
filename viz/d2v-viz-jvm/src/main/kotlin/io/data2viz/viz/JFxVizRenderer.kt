@@ -34,6 +34,7 @@ class JFxVizRenderer(val canvas: Canvas) : VizRenderer {
 }
 
 
+
 fun Group.render(renderer: JFxVizRenderer) {
 
     children.forEach { node ->
