@@ -1,8 +1,6 @@
-package io.data2viz.path
+package io.data2viz.viz
 
-import io.data2viz.viz.JFxVizRenderer
-import io.data2viz.viz.PathNode
-import io.data2viz.viz.toPaint
+import io.data2viz.path.*
 import javafx.scene.shape.StrokeLineCap
 import kotlin.math.absoluteValue
 
