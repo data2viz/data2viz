@@ -9,7 +9,6 @@
 data2viz is a multiplatform data visualization library based on kotlin. The rendering produces the same result
 on each platform.
 
-It is currently possible to use it in the browser (JavaScript + SVG) or in the JVM (Bytecode + JavaFx).
 
 A very important part of current version is a port of [d3js](https://github.com/d3/d3) modules.
 
@@ -125,8 +124,6 @@ Open online js version.
 </a>
 
 
-
-
 ## Current status && Roadmap
 
 The project is currently in a very active devlopment phase. APIs are expected to change and we don't
@@ -182,7 +179,6 @@ Tests are executed through karma and mocha and included in the build.
 
 ## How can I use it?
 
-We plan to be near v1.0 in Q2 2018 but you can already play with it.
 
 Artefacts are published on [Bintray](https://bintray.com/data2viz/data2viz/data2viz).
 
