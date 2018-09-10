@@ -1,6 +1,6 @@
 package io.data2viz.interpolate
 
-import io.data2viz.color.Color
+import io.data2viz.color.RgbColor
 import io.data2viz.color.colors
 import io.data2viz.color.colors.blue
 import io.data2viz.color.colors.green
@@ -59,7 +59,7 @@ class RGBTests : TestBase() {
         val iterator = interpolateRgb(white, blue)
         iterator(-1) shouldBe white
         iterator(0) shouldBe white
-        iterator(0.5) shouldBe Color(0x8080ff)
+        iterator(0.5) shouldBe RgbColor(0x8080ff)
         iterator(1) shouldBe blue
         iterator(2) shouldBe blue
     }
@@ -69,7 +69,7 @@ class RGBTests : TestBase() {
         val iterator = interpolateRgb(blue, white)
         iterator(-1) shouldBe blue
         iterator(0) shouldBe blue
-        iterator(0.5) shouldBe Color(0x8080ff)
+        iterator(0.5) shouldBe RgbColor(0x8080ff)
         iterator(1) shouldBe white
         iterator(2) shouldBe white
     }
@@ -102,9 +102,9 @@ class RGBTests : TestBase() {
     fun rgbSplineInterpolationColorbrewSpline() {
         val iterator = interpolateRgbBasis(
             arrayListOf(
-                Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
-                Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
-                Color(0x4d9221), Color(0x276419)
+                RgbColor(0x8e0152), RgbColor(0xc51b7d), RgbColor(0xde77ae), RgbColor(0xf1b6da),
+                RgbColor(0xfde0ef), RgbColor(0xf7f7f7), RgbColor(0xe6f5d0), RgbColor(0xb8e186), RgbColor(0x7fbc41),
+                RgbColor(0x4d9221), RgbColor(0x276419)
             )
         )
         displaySmallGradient(
@@ -120,9 +120,9 @@ class RGBTests : TestBase() {
     fun rgbCyclicalSplineInterpolationColorbrewSpline() {
         val iterator = interpolateRgbBasis(
             arrayListOf(
-                Color(0x8e0152), Color(0xc51b7d), Color(0xde77ae), Color(0xf1b6da),
-                Color(0xfde0ef), Color(0xf7f7f7), Color(0xe6f5d0), Color(0xb8e186), Color(0x7fbc41),
-                Color(0x4d9221), Color(0x276419)
+                RgbColor(0x8e0152), RgbColor(0xc51b7d), RgbColor(0xde77ae), RgbColor(0xf1b6da),
+                RgbColor(0xfde0ef), RgbColor(0xf7f7f7), RgbColor(0xe6f5d0), RgbColor(0xb8e186), RgbColor(0x7fbc41),
+                RgbColor(0x4d9221), RgbColor(0x276419)
             ), cyclical = true
         )
         displaySmallGradient(
@@ -135,7 +135,7 @@ class RGBTests : TestBase() {
 
     @Test
     fun rgbLinearInterpolatio_800080_ffa200() {
-        val iterator = interpolateRgb(Color(0x800080), Color(0xffa200))
+        val iterator = interpolateRgb(RgbColor(0x800080), RgbColor(0xffa200))
         displaySmallGradient(
             "rgbLinearInterpolatio_800080_ffa200",
             iterator,
@@ -149,7 +149,7 @@ class RGBTests : TestBase() {
      */
     @Test
     fun rgbLinearInterpolation_800080_ffa200_corrected_gamma_2_2() {
-        val iterator = interpolateRgb(Color(0x800080), Color(0xffa200), 2.2)
+        val iterator = interpolateRgb(RgbColor(0x800080), RgbColor(0xffa200), 2.2)
         displaySmallGradient(
             "rgbLinearInterpolation_800080_ffa200_corrected_gamma_2_2",
             iterator,
@@ -160,10 +160,10 @@ class RGBTests : TestBase() {
 }
 
 fun displaySmallGradient(
-    context: String,
-    percentToColor: (Float) -> Color,
-    width: Int = 256,
-    imageReference: String? = null
+        context: String,
+        percentToColor: (Float) -> RgbColor,
+        width: Int = 256,
+        imageReference: String? = null
 ) {
     if (browserEnabled) {
 

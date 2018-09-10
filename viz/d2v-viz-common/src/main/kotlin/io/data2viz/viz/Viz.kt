@@ -15,6 +15,10 @@ import io.data2viz.path.PathAdapter
  */
 class Viz {
 
+    /**
+     * The root element. All the visual elements of the current Viz are
+     * children of this root.
+     */
     val root = Group()
 
     lateinit var renderer: VizRenderer

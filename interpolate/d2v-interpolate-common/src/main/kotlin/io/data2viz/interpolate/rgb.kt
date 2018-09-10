@@ -1,6 +1,6 @@
 package io.data2viz.interpolate
 
-import io.data2viz.color.Color
+import io.data2viz.color.RgbColor
 import io.data2viz.color.colors.rgba
 
 
@@ -8,7 +8,7 @@ import io.data2viz.color.colors.rgba
 // TODO add alpha interpolation
 // TODO List instead of start, end ? (validate and check size !!)
 // TODO rename interpolate
-fun interpolateRgb(start:Color, end:Color, gamma: Double = 1.0): (Number) -> Color {
+fun interpolateRgb(start:RgbColor, end:RgbColor, gamma: Double = 1.0): (Number) -> RgbColor {
     val interpolator = gamma(gamma)
 
     val r = interpolator(start.r.toDouble(), end.r.toDouble())
@@ -19,7 +19,7 @@ fun interpolateRgb(start:Color, end:Color, gamma: Double = 1.0): (Number) -> Col
 }
 
 // TODO add alpha interpolation (alpha is linear not spline ?)
-fun interpolateRgbBasis(colors: List<Color>, cyclical: Boolean = false): (Number) -> Color {
+fun interpolateRgbBasis(colors: List<RgbColor>, cyclical: Boolean = false): (Number) -> RgbColor {
     val spline = getSplineInterpolator(cyclical)
 
     val r = spline(colors.map { item -> item.r })
@@ -29,4 +29,4 @@ fun interpolateRgbBasis(colors: List<Color>, cyclical: Boolean = false): (Number
     return fun(percent: Number) = rgba(r(percent.toDouble()), g(percent.toDouble()), b(percent.toDouble()))
 }
 
-fun interpolateRgbBasisClosed(colors: List<Color>) = interpolateRgbBasis(colors, true)
+fun interpolateRgbBasisClosed(colors: List<RgbColor>) = interpolateRgbBasis(colors, true)

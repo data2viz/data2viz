@@ -1,6 +1,6 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
+import io.data2viz.color.RgbColor
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -172,7 +172,7 @@ fun Double.radToDegrees() = Math.toDegrees(this).toFloat()
 
 fun ColorOrGradient.updatePaint(paint: Paint, renderer: AndroidCanvasRenderer) {
     when (this) {
-        is Color -> {
+        is RgbColor -> {
             paint.color = this.toColor()
             paint.shader = null
         }
@@ -206,7 +206,7 @@ private fun LinearGradient.toLinearGradient(renderer: AndroidCanvasRenderer) =
                     Shader.TileMode.CLAMP)
         }
 
-fun Color.toColor() =
+fun RgbColor.toColor() =
         ((255 * this.alpha.toFloat()).toInt() and 0xff shl 24) or
                 (this.r and 0xff shl 16) or
                 (this.g and 0xff shl 8) or

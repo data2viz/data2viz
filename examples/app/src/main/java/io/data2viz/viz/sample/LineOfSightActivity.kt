@@ -44,6 +44,7 @@ class LineOfSightView(context: Context) : View(context) {
     }
 
     init {
+
         startRendering()
     }
 
@@ -58,6 +59,7 @@ class LineOfSightView(context: Context) : View(context) {
     }
 
     override fun onDraw(canvas: Canvas) {
+        println("width::$width height::$height density::${canvas.density}")
         renderer.canvas = canvas
         renderer.render(viz)
     }

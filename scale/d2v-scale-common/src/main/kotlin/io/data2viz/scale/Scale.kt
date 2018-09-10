@@ -1,8 +1,8 @@
 package io.data2viz.scale
 
-import io.data2viz.color.Color
+import io.data2viz.color.RgbColor
 import io.data2viz.color.EncodedColors
-import io.data2viz.color.HSL
+import io.data2viz.color.HslColor
 import io.data2viz.interpolate.*
 
 /**
@@ -127,7 +127,7 @@ object scales{
 
         fun linear(init:LinearScale<Double>.() -> Unit = {}): LinearScale<Double> = LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
         fun linearRound(): LinearScale<Double> = LinearScale(::interpolateRound, ::uninterpolateNumber, naturalOrder())
-        fun linearHSL(): LinearScale<HSL> = LinearScale(::interpolateHsl)
+        fun linearHSL(): LinearScale<HslColor> = LinearScale(::interpolateHsl)
 
 
         fun pow(exponent: Double = 1.0): PowerScale<Double> = PowerScale(exponent, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
@@ -141,10 +141,10 @@ object scales{
 
     object colors {
 
-        fun <D> category10()       = OrdinalScale<D, Color>(EncodedColors.category10.colors )
-        fun <D> category20()       = OrdinalScale<D, Color>(EncodedColors.category20.colors )
-        fun <D> category20b()      = OrdinalScale<D, Color>(EncodedColors.category20b.colors)
-        fun <D> category20c()      = OrdinalScale<D, Color>(EncodedColors.category20c.colors)
+        fun <D> category10()       = OrdinalScale<D, RgbColor>(EncodedColors.category10.colors )
+        fun <D> category20()       = OrdinalScale<D, RgbColor>(EncodedColors.category20.colors )
+        fun <D> category20b()      = OrdinalScale<D, RgbColor>(EncodedColors.category20b.colors)
+        fun <D> category20c()      = OrdinalScale<D, RgbColor>(EncodedColors.category20c.colors)
         /*fun <D> categoryViridis()  = OrdinalScale<D, Color>(EncodedColors.viridis.colors    )
         fun <D> categoryMagma()    = OrdinalScale<D, Color>(EncodedColors.magma.colors      )
         fun <D> categoryInferno()  = OrdinalScale<D, Color>(EncodedColors.inferno.colors    )

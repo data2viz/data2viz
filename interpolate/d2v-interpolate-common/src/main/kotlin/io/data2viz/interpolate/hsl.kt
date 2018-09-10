@@ -1,6 +1,6 @@
 package io.data2viz.interpolate
 
-import io.data2viz.color.HSL
+import io.data2viz.color.HslColor
 import io.data2viz.color.colors.hsla
 import io.data2viz.math.deg
 
@@ -9,7 +9,7 @@ import io.data2viz.math.deg
 // TODO List instead of start, end ? (validate and check size !!)
 // TODO use type for parameter percent ?
 // TODO use gamma ?
-private fun interpolateHsl(start:HSL, end:HSL, long:Boolean): (Double) -> HSL {
+private fun interpolateHsl(start:HslColor, end:HslColor, long:Boolean): (Double) -> HslColor {
     val colorInterpolator = gamma()
 
     val h = if (!long) hue(start.h, end.h) else colorInterpolator(start.h.deg, end.h.deg)
@@ -31,6 +31,6 @@ private fun interpolateHsl(start:HSL, end:HSL, long:Boolean): (Double) -> HSL {
     return { .0 }
 }*/
 
-fun interpolateHslLong(start:HSL, end:HSL) = interpolateHsl(start, end, long = true)
-fun interpolateHsl(start:HSL, end:HSL) = interpolateHsl(start, end, long = false)
+fun interpolateHslLong(start:HslColor, end:HslColor) = interpolateHsl(start, end, long = true)
+fun interpolateHsl(start:HslColor, end:HslColor) = interpolateHsl(start, end, long = false)
 

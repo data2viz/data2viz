@@ -111,7 +111,7 @@ val TextAnchor.js: CanvasTextAlign
 
 
 fun ColorOrGradient.toCanvasPaint(context: CanvasRenderingContext2D):Any = when(this) {
-    is Color -> this.rgba
+    is RgbColor -> this.rgba
     is LinearGradient -> this.toCanvasGradient(context)
     is RadialGradient -> this.toCanvasGradient(context)
     else -> error("Unknown type :: ${this::class}")

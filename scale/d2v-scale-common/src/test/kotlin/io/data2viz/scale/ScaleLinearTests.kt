@@ -1,6 +1,6 @@
 package io.data2viz.scale
 
-import io.data2viz.color.HSL
+import io.data2viz.color.HslColor
 import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
@@ -255,10 +255,10 @@ class ScaleLinearTests : TestBase() {
         val scale = scales.continuous.linearHSL()
 
         scale.domain = listOf(.0, 100.0)
-        scale.range = listOf(HSL(0.deg), HSL(180.deg))
-        scale(50.0) shouldBe HSL(90.deg)
-        scale(20.0) shouldBe HSL(36.deg)
-        scale(90.0) shouldBe HSL(162.deg)
+        scale.range = listOf(HslColor(0.deg), HslColor(180.deg))
+        scale(50.0) shouldBe HslColor(90.deg)
+        scale(20.0) shouldBe HslColor(36.deg)
+        scale(90.0) shouldBe HslColor(162.deg)
     }
 
     /////////////// TESTS /////////////////////////////////////////
