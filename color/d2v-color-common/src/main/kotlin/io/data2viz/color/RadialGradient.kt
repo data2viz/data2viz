@@ -7,7 +7,7 @@ class RadialGradient: ColorOrGradient {
 
     val colorStops = mutableListOf<ColorStop>()
 
-    fun addColor(percent: Double, color: RgbColor){
+    fun addColor(percent: Double, color: Color){
         val checkedPercent = percent.coerceIn(.0, 1.0)
         colorStops.add(ColorStop(checkedPercent, color))
     }

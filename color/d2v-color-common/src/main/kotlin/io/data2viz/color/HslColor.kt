@@ -25,7 +25,7 @@ class HslColor(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: N
     fun brighter(strength: Double = 1.0) = HslColor(h, s, (l * brighter.pow(strength)), alpha)
     fun darker(strength: Double = 1.0) = HslColor(h, s, (l * brighter.pow(strength)), alpha)
 
-    fun toRgba(): RgbColor =
+    fun toRgba(): Color =
             if (s == 0.0)     // achromatic
                 colors.rgba(
                         r = round(l * 255),

@@ -20,15 +20,15 @@ internal const val t2 = 3f * t1 * t1
 internal const val t3 = t1 * t1 * t1
 
 
-val String.color: RgbColor
-    get():RgbColor {
+val String.color: Color
+    get():Color {
         val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
         if (!this.matches(regex)) error("Conversion of string to io.data2viz.color.getColor works for encoded colors like #12abCD")
-        return RgbColor(this.substring(1).toInt(16))
+        return Color(substring(1).toInt(16))
     }
 
 
-fun RgbColor.toLab(): LabColor {
+fun Color.toLab(): LabColor {
     val labB = rgb2xyz(r)
     val labA = rgb2xyz(g)
     val labL = rgb2xyz(b)
@@ -39,7 +39,7 @@ fun RgbColor.toLab(): LabColor {
 }
 
 
-fun LabColor.toRgba(): RgbColor {
+fun LabColor.toRgba(): Color {
     // map CIE LAB to CIE XYZ
     var y = (l + 16) / 116f
     var x = y + (a / 500f)

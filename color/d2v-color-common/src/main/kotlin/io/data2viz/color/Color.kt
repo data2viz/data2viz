@@ -15,7 +15,7 @@ import kotlin.math.round
  * TODO must be immutable
  * TODO extract a color interface including alpha (alpha is common to all color spaces)
  */
-class RgbColor(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient {
+class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient {
 
     // TODO : coerce in place of require check ??
     // TODO store color value in double
@@ -102,13 +102,13 @@ class RgbColor(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradi
     val rgba: String
         get() = "rgba($r, $g, $b, $alpha)"
 
-    fun withAlpha(alpha: Number): RgbColor = RgbColor(rgb, alpha)
+    fun withAlpha(alpha: Number): Color = Color(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as RgbColor
+        other as Color
 
         if (rgb != other.rgb) return false
         if (_alpha != other._alpha) return false

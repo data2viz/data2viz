@@ -1,6 +1,6 @@
 package io.data2viz.examples.lineOfSight
 
-import io.data2viz.color.RgbColor
+import io.data2viz.color.Color
 import io.data2viz.color.RadialGradient
 import io.data2viz.color.colors
 import io.data2viz.core.Polygon
@@ -43,9 +43,9 @@ fun lineOfSightViz(): Viz = Viz().apply {
 }
 
 private fun lightGradient(): RadialGradient {
-    val lightColor = RgbColor(0xFFFFFF)
-    val fromColor = RgbColor(0xFFFF00)
-    val endColor = RgbColor(0xFFFF00, .0)
+    val lightColor = Color(0xFFFFFF)
+    val fromColor = Color(0xFFFF00)
+    val endColor = Color(0xFFFF00, .0)
     return RadialGradient().apply {
         r = .7 * vizWidth
         addColor(.0, lightColor)
@@ -71,7 +71,7 @@ private fun Viz.renderPolygons(polygons: List<Polygon>) = with(root) {
 
 private fun Viz.renderBackground() = with(root) {
     rect {
-        fill = RgbColor(0x131c2b)
+        fill = Color(0x131c2b)
         x = .0
         y = .0
         width = vizWidth

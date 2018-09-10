@@ -7,7 +7,7 @@ import io.data2viz.math.Angle
 
 interface ColorOrGradient
 
-data class ColorStop(val percent:Double, val color: RgbColor)
+data class ColorStop(val percent:Double, val color: Color)
 
 internal expect fun Int.toString(radix: Int): String
 
@@ -24,12 +24,12 @@ internal expect fun Int.toString(radix: Int): String
 object colors {
 
 
-    fun rgba(r: Number, g: Number, b: Number, a: Number = 1f) = RgbColor().apply { rgba(r, g, b, a) }
+    fun rgba(r: Number, g: Number, b: Number, a: Number = 1f) = Color().apply { rgba(r, g, b, a) }
     fun hsla(h: Angle, s: Number, l: Number, a: Number = 1f) = HslColor(h, s, l, a)
     fun lab(l: Number = 100, a: Number = 0, b: Number = 0, alpha: Number = 1f) = LabColor(l, a, b, alpha)
 
-    val Int.col: RgbColor
-        get() = RgbColor(this)
+    val Int.col: Color
+        get() = Color(this)
 
     val aliceblue               = 0xf0f8ff.col
     val antiquewhite            = 0xfaebd7.col

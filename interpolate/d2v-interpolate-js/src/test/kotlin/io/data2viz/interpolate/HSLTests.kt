@@ -1,6 +1,6 @@
 package io.data2viz.interpolate
 
-import io.data2viz.color.RgbColor
+import io.data2viz.color.Color
 import io.data2viz.color.HslColor
 import io.data2viz.core.namespace
 import io.data2viz.math.deg
@@ -19,7 +19,7 @@ class HSLTests : TestBase() {
 
         val iterator = interpolateHsl(HslColor(300.deg, 1.0, .25), HslColor(38.deg, 1.0, .5))
         displaySmallGradient("HslColor", iterator, 888, imageReference = "http://data2viz.io/img/hsl.png")
-        iterator(0.5).toRgba().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
+        iterator(0.5).toRgba().rgbHex shouldBe Color(0xbf0023).rgbHex
     }
 
     /**
@@ -29,7 +29,7 @@ class HSLTests : TestBase() {
     fun hslLongLinearInterpolation() {
         val iterator = interpolateHslLong(HslColor(300.deg, 1.0, .25), HslColor(38.deg, 1.0, .5))
         displaySmallGradient("HslColor Long", iterator, 888, imageReference = "http://data2viz.io/img/hslLong.png")
-        iterator(0.5).toRgba().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
+        iterator(0.5).toRgba().rgbHex shouldBe Color(0x00bf9c).rgbHex
     }
 
     /**
@@ -39,7 +39,7 @@ class HSLTests : TestBase() {
     fun hslShortLinea() {
         val iterator = interpolateHsl(HslColor(38.deg, 1.0, .5), HslColor(300.deg, 1.0, .25))
         displaySmallGradient("HslColor Reverse", iterator, 888, imageReference = "http://data2viz.io/img/hslReverse.png")
-        iterator(0.5).toRgba().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
+        iterator(0.5).toRgba().rgbHex shouldBe Color(0xbf0023).rgbHex
     }
 
     /**
@@ -54,7 +54,7 @@ class HSLTests : TestBase() {
             888,
             imageReference = "http://data2viz.io/img/hslLongReverse.png"
         )
-        iterator(0.5).toRgba().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
+        iterator(0.5).toRgba().rgbHex shouldBe Color(0x00bf9c).rgbHex
     }
 
     fun displaySmallGradient(

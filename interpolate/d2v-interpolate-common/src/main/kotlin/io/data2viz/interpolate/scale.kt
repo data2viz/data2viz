@@ -1,6 +1,6 @@
 package io.data2viz.interpolate
 
-import io.data2viz.color.RgbColor
+import io.data2viz.color.Color
 import io.data2viz.core.Point
 import kotlin.math.floor
 
@@ -12,7 +12,7 @@ data class DomainToViz<out A, out B>(
 
 infix fun <A, B> A.linkedTo(that: B): DomainToViz<A, B> = DomainToViz(this, that)
 
-class NumberToColor(start: DomainToViz<Number, RgbColor>, end: DomainToViz<Number, RgbColor>){
+class NumberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>){
     val domainToNormalized = uninterpolateNumber(start.domain, end.domain)
     val normalizedToColor = interpolateRgb(start.viz, end.viz)
     val numberToColor = {number:Number ->  normalizedToColor(domainToNormalized(number as Double)) }
@@ -43,7 +43,7 @@ class scale {
 //                            uninterpolateNumber(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double
 //                }
 
-        fun numberToColor(start: DomainToViz<Number, RgbColor>, end: DomainToViz<Number, RgbColor>): (Number) -> RgbColor = NumberToColor(start, end).numberToColor
+        fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color = NumberToColor(start, end).numberToColor
 
         // TODO maybe think of a function accepting a list of domainToViz
         /*fun numberToColor(domainsToViz: List<DomainToViz<Number, Color>>): (Number) -> Color =

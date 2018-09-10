@@ -79,7 +79,7 @@ fun Group.render(renderer: JFxVizRenderer) {
 fun ColorOrGradient.toPaint() = when(this) {
     is LinearGradient -> toLinearGradientJFX()
     is RadialGradient -> toRadialGradientJFX()
-    is RgbColor -> jfxColor
+    is Color -> jfxColor
     else -> error("Unknown type $this")
 }
 
@@ -150,7 +150,7 @@ fun Line.render(renderer: JFxVizRenderer){
     gc.stroke()
 }
 
-val RgbColor.jfxColor: javafx.scene.paint.Color
+val Color.jfxColor: javafx.scene.paint.Color
     get() = javafx.scene.paint.Color.rgb(r, g, b, alpha.toDouble())
 
 

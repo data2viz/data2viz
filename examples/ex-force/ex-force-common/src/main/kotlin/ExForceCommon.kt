@@ -1,4 +1,4 @@
-import io.data2viz.color.RgbColor
+import io.data2viz.color.Color
 import io.data2viz.core.Point
 import io.data2viz.core.random
 import io.data2viz.force.*
@@ -15,7 +15,7 @@ const val pointCount = 800
 val points = (0 until pointCount).map { ForceNode(it, Point(random() * width, random() * height)) }
 
 // olympic colors and centers positions
-val olympicColors = listOf(RgbColor(0x0081C8), RgbColor(0x000000), RgbColor(0xEE334E), RgbColor(0xFCB131), RgbColor(0x00A651))
+val olympicColors = listOf(Color(0x0081C8), Color(0x000000), Color(0xEE334E), Color(0xFCB131), Color(0x00A651))
 val olympicCenters =
     listOf(Point(160.0, 180.0), Point(400.0, 180.0), Point(640.0, 180.0), Point(280.0, 320.0), Point(520.0, 320.0))
 
