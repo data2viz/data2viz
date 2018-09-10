@@ -64,31 +64,6 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient
         return rgba(r * str, g * str, b * str, alpha)
     }
 
-    fun toHsla(): HslColor {
-        val rPercent = r.toFloat() / 255f
-        val gPercent = g.toFloat() / 255f
-        val bPercent = b.toFloat() / 255f
-        val minPercent = minOf(rPercent, gPercent, bPercent)
-        val maxPercent = maxOf(rPercent, gPercent, bPercent)
-
-        var h = 0f
-        var s = maxPercent - minPercent
-        val l = (maxPercent + minPercent) / 2f
-
-        if (s != 0f) {
-            when {
-                (rPercent == maxPercent) -> h = if (gPercent < bPercent) ((gPercent - bPercent) / s) + 6f else ((gPercent - bPercent) / s)
-                (gPercent == maxPercent) -> h = (bPercent - rPercent) / s + 2f
-                else -> h = (rPercent - gPercent) / s + 4f
-            }
-            s /= if (l < 0.5f) maxPercent + minPercent else 2 - maxPercent - minPercent
-            h *= 60f
-        } else {
-            s = if (l > 0 && l < 1) 0f else h
-        }
-        return HslColor(h.deg, s, l, alpha)
-    }
-
 
     val rgbHex: String
         get() = "#" +

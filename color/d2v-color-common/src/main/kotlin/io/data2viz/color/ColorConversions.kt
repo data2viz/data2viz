@@ -1,5 +1,6 @@
 package io.data2viz.color
 
+import io.data2viz.math.deg
 import kotlin.math.pow
 import kotlin.math.round
 
@@ -38,6 +39,30 @@ fun Color.toLab(): LabColor {
     return LabColor(116 * y - 16, 500 * (x - y), 200 * (y - z), alpha)
 }
 
+fun Color.toHsla(): HslColor {
+    val rPercent = r.toFloat() / 255f
+    val gPercent = g.toFloat() / 255f
+    val bPercent = b.toFloat() / 255f
+    val minPercent = minOf(rPercent, gPercent, bPercent)
+    val maxPercent = maxOf(rPercent, gPercent, bPercent)
+
+    var h = 0f
+    var s = maxPercent - minPercent
+    val l = (maxPercent + minPercent) / 2f
+
+    if (s != 0f) {
+        when {
+            (rPercent == maxPercent) -> h = if (gPercent < bPercent) ((gPercent - bPercent) / s) + 6f else ((gPercent - bPercent) / s)
+            (gPercent == maxPercent) -> h = (bPercent - rPercent) / s + 2f
+            else -> h = (rPercent - gPercent) / s + 4f
+        }
+        s /= if (l < 0.5f) maxPercent + minPercent else 2 - maxPercent - minPercent
+        h *= 60f
+    } else {
+        s = if (l > 0 && l < 1) 0f else h
+    }
+    return HslColor(h.deg, s, l, alpha)
+}
 
 fun LabColor.toRgba(): Color {
     // map CIE LAB to CIE XYZ

@@ -11,15 +11,8 @@ data class ColorStop(val percent:Double, val color: Color)
 
 internal expect fun Int.toString(radix: Int): String
 
-/********************************************************/
-/****************** HSL SPECIFIC ************************/
-/********************************************************/
 
 // TODO in a java implementation of LAB they used Double
-
-/********************************************************/
-/****************** HCL SPECIFIC ************************/
-/********************************************************/
 
 object colors {
 
