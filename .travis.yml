@@ -31,7 +31,7 @@ matrix:
       # skip install stage.
       #install: true
 
-    - language:android
+    - language: android
       android:
         components:
         # Uncomment the lines below if you want to
