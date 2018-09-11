@@ -1,57 +1,30 @@
-matrix:
-  include:
-    - language: java
-      jdk:
-        - oraclejdk8
+language: java
+jdk:
+  - oraclejdk8
 
-      # install the newest java.
-      addons:
-        chrome: stable # have Travis install chrome stable.
-        apt:
-          packages:
-            - oracle-java8-installer
+# install the newest java.
+addons:
+  chrome: stable # have Travis install chrome stable.
+  apt:
+    packages:
+      - oracle-java8-installer
 
-      dist: trusty # needs Ubuntu Trusty
-      # Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
-      # See https://github.com/travis-ci/travis-ci/issues/8836
-      sudo: required
+dist: trusty # needs Ubuntu Trusty
+# Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
+# See https://github.com/travis-ci/travis-ci/issues/8836
+sudo: required
 
-      cache:
-        yarn: true
-        directories:
-          - $HOME/.m2
-          - $HOME/.gradle
+cache:
+  yarn: true
+  directories:
+    - $HOME/.m2
+    - $HOME/.gradle
 
 
-      # configure xvfb screen.
-      before_install:
-        - "export DISPLAY=:99.0"
-        - "sh -e /etc/init.d/xvfb start"
+# configure xvfb screen.
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 
-      # skip install stage.
-      #install: true
-
-    - language: android
-      android:
-        components:
-        # Uncomment the lines below if you want to
-        # use the latest revision of Android SDK Tools
-        # - tools
-        # - platform-tools
-
-        # The BuildTools version used by your project
-        - build-tools-27.0.3
-
-        # The SDK version used to compile your project
-        - android-28
-
-        # Additional components
-      #  - extra-google-google_play_services
-      #  - extra-google-m2repository
-      #  - extra-android-m2repository
-      #  - addon-google_apis-google-26
-
-        # Specify at least one system image,
-        # if you need to run emulator(s) during your tests
-      #  - sys-img-armeabi-v7a-android-26
-      #  - sys-img-armeabi-v7a-android-17
+# skip install stage.
+install: true
