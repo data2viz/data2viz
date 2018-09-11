@@ -122,8 +122,8 @@ fun sankeyViz(): Viz = Viz().apply {
                 y2 = link.target.y0
 
                 //Set the starting color (at 0%)
-                addColor(.0, fills(link.source.index % 20).withAlpha(.6 ))
-                addColor(1.0, fills(link.target.index % 20).withAlpha(.6 ))
+                addColor(.0, fills(link.source.index % 20).withAlpha(.6f ))
+                addColor(1.0, fills(link.target.index % 20).withAlpha(.6f ))
             }
             path {
                 stroke = gradient

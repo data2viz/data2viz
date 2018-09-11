@@ -24,7 +24,9 @@ internal const val t3 = t1 * t1 * t1
 val String.color: Color
     get():Color {
         val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
-        if (!this.matches(regex)) error("Conversion of string to io.data2viz.color.getColor works for encoded colors like #12abCD")
+        require(this.matches(regex)) {
+            "Conversion of string to io.data2viz.color.getColor works for encoded colors like #12abCD"
+        }
         return Color(substring(1).toInt(16))
     }
 
@@ -51,10 +53,10 @@ fun Color.toHsla(): HslColor {
     val l = (maxPercent + minPercent) / 2f
 
     if (s != 0f) {
-        when {
-            (rPercent == maxPercent) -> h = if (gPercent < bPercent) ((gPercent - bPercent) / s) + 6f else ((gPercent - bPercent) / s)
-            (gPercent == maxPercent) -> h = (bPercent - rPercent) / s + 2f
-            else -> h = (rPercent - gPercent) / s + 4f
+        h = when {
+            (rPercent == maxPercent) -> if (gPercent < bPercent) ((gPercent - bPercent) / s) + 6f else ((gPercent - bPercent) / s)
+            (gPercent == maxPercent) -> (bPercent - rPercent) / s + 2f
+            else -> (rPercent - gPercent) / s + 4f
         }
         s /= if (l < 0.5f) maxPercent + minPercent else 2 - maxPercent - minPercent
         h *= 60f

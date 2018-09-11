@@ -17,7 +17,8 @@ internal expect fun Int.toString(radix: Int): String
 object colors {
 
 
-    fun rgba(r: Number, g: Number, b: Number, a: Number = 1f) = Color().apply { rgba(r, g, b, a) }
+    fun rgba(r: Number, g: Number, b: Number, a: Number = 1f) =
+            Color().rgba(r.toInt(), g.toInt(), b.toInt(), a.toFloat())
     fun hsla(h: Angle, s: Number, l: Number, a: Number = 1f) = HslColor(h, s, l, a)
     fun lab(l: Number = 100, a: Number = 0, b: Number = 0, alpha: Number = 1f) = LabColor(l, a, b, alpha)
 

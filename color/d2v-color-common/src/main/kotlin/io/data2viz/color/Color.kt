@@ -1,8 +1,7 @@
 package io.data2viz.color
 
-import io.data2viz.math.deg
 import kotlin.math.pow
-import kotlin.math.round
+import kotlin.math.roundToInt
 
 /**
  * Implementation of Color as an rgb integer and an alpha channel.
@@ -12,58 +11,50 @@ import kotlin.math.round
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  *
- * TODO must be immutable
  * TODO extract a color interface including alpha (alpha is common to all color spaces)
+ * TODO store color value in double
+ * TODO : coerce in place of require check ??
  */
-class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient {
+class Color(val rgb: Int = 0xffffff, val alpha: Float = 1.0f): ColorOrGradient {
 
-    // TODO : coerce in place of require check ??
-    // TODO store color value in double
-    var r: Int
+    val r: Int
         get() = (rgb shr 16) and 0xff
-        set(value) {
-            rgb = (rgb and 0x00ffff) + (value.coerceIn(0, 255) shl 16)
-        }
 
-    var g: Int
+    val g: Int
         get() = (rgb shr 8) and 0xff
-        set(value) {
-            rgb = (rgb and 0xff00ff) + (value.coerceIn(0, 255) shl 8)
-        }
 
-    var b: Int
+    val b: Int
         get() = rgb and 0xff
-        set(value) {
-            rgb = (rgb and 0xffff00) + value.coerceIn(0, 255)
-        }
 
-    var alpha: Number
-        get() = _alpha
-        set(value) {
-            _alpha = value.toFloat().coerceIn(0f, 1f)
-        }
-
-    fun rgba(r: Number, g: Number, b: Number, a: Number) {
-        this.r = round(r.toDouble()).toInt()
-        this.g = round(g.toDouble()).toInt()
-        this.b = round(b.toDouble()).toInt()
-        alpha = a.toFloat()
+    fun withRed(red:Int): Color {
+        val rgb = (rgb and 0x00ffff) + (red.coerceIn(0, 255) shl 16)
+        return Color(rgb, alpha)
     }
 
-    // TODO : always true ?!
-    val displayable: Boolean
-        get() = (r in 0..255) && (g in 0..255) && (b in 0..255) && (alpha in 0..1)
+    fun withGreen(green:Int): Color {
+        val rgb = (rgb and 0xff00ff) + (green.coerceIn(0, 255) shl 8)
+        return Color(rgb, alpha)
+    }
 
-    fun brighter(strength: Double = 1.0) {
+    fun withBlue(blue: Int): Color {
+        val rgb = (rgb and 0xffff00) + blue.coerceIn(0, 255)
+        return Color(rgb, alpha)
+    }
+
+    fun rgba(red: Int, green: Int, blue: Int, alpha: Float): Color {
+        val rgb = (red.coerceIn(0, 255) shl 16) + (green.coerceIn(0, 255) shl 8) + blue.coerceIn(0, 255)
+        return Color(rgb, alpha.coerceIn(0f, 1f))
+    }
+
+    fun brighter(strength: Double = 1.0):Color {
         val str = brighter.pow(strength)
-        return rgba(r * str, g * str, b * str, alpha)
+        return rgba((r * str).roundToInt(), (g * str).roundToInt(), (b * str).roundToInt(), alpha)
     }
 
-    fun darker(strength: Double = 1.0) {
+    fun darker(strength: Double = 1.0):Color {
         val str = darker.pow(strength)
-        return rgba(r * str, g * str, b * str, alpha)
+        return rgba((r * str).roundToInt(), (g * str).roundToInt(), (b * str).roundToInt(), alpha)
     }
-
 
     val rgbHex: String
         get() = "#" +
@@ -77,7 +68,7 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient
     val rgba: String
         get() = "rgba($r, $g, $b, $alpha)"
 
-    fun withAlpha(alpha: Number): Color = Color(rgb, alpha)
+    fun withAlpha(alpha: Float): Color = Color(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -86,17 +77,17 @@ class Color(var rgb: Int = 0xffffff, var _alpha: Number = 1.0f): ColorOrGradient
         other as Color
 
         if (rgb != other.rgb) return false
-        if (_alpha != other._alpha) return false
+        if (alpha != other.alpha) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = rgb
-        result = 31 * result + _alpha.hashCode()
+        result = 31 * result + alpha.hashCode()
         return result
     }
 
-    override fun toString() = if (alpha.toFloat() < 1.0) rgba else rgbHex
+    override fun toString() = if (alpha < 1.0) rgba else rgbHex
 
 }
