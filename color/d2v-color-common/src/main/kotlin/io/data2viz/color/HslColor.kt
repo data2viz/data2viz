@@ -4,6 +4,7 @@ import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import kotlin.math.pow
 import kotlin.math.round
+import kotlin.math.roundToInt
 
 /**
  * Create a color in the HSL color space
@@ -27,19 +28,19 @@ class HslColor(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: N
 
     fun toRgba(): Color =
             if (s == 0.0)     // achromatic
-                colors.rgba(
-                        r = round(l * 255),
-                        g = round(l * 255),
-                        b = round(l * 255),
-                        a = alpha)
+                rgba(
+                        (l * 255).roundToInt(),
+                        (l * 255).roundToInt(),
+                        (l * 255).roundToInt(),
+                        alpha)
             else {
                 val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
                 val p = 2 * l - q
-                colors.rgba(
-                        r = round(hue2rgb(p, q, h + 120.deg) * 255),
-                        g = round(hue2rgb(p, q, h) * 255),
-                        b = round(hue2rgb(p, q, h - 120.deg) * 255),
-                        a = alpha)
+                rgba(
+                        (hue2rgb(p, q, h + 120.deg) * 255).roundToInt(),
+                        (hue2rgb(p, q, h) * 255).roundToInt(),
+                        (hue2rgb(p, q, h - 120.deg) * 255).roundToInt(),
+                        alpha)
             }
 
     private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {

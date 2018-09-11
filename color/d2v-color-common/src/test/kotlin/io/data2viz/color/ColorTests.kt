@@ -2,9 +2,6 @@ package io.data2viz.color
 
 import io.data2viz.color.colors.aliceblue
 import io.data2viz.color.colors.black
-import io.data2viz.color.colors.hsla
-import io.data2viz.color.colors.lab
-import io.data2viz.color.colors.rgba
 import io.data2viz.color.colors.white
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
@@ -51,8 +48,8 @@ class ColorTests : TestBase() {
 
     @Test
     fun RGB_coercing_under_0_and_over_255_color_channel() {
-        rgba(300, -300, 256.8, -2.5) shouldBe rgba(255, 0, 255, 0)
-        rgba(-300, 300, -256.8, 2.5) shouldBe rgba(0, 255, 0, 1)
+        rgba(300, -300, 256, -2.5f) shouldBe rgba(255, 0, 255, 0f)
+        rgba(-300, 300, -256, 2.5f) shouldBe rgba(0, 255, 0, 1f)
     }
 
     /**

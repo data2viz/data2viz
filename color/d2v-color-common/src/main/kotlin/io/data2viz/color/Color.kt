@@ -41,11 +41,6 @@ class Color(val rgb: Int = 0xffffff, val alpha: Float = 1.0f): ColorOrGradient {
         return Color(rgb, alpha)
     }
 
-    fun rgba(red: Int, green: Int, blue: Int, alpha: Float): Color {
-        val rgb = (red.coerceIn(0, 255) shl 16) + (green.coerceIn(0, 255) shl 8) + blue.coerceIn(0, 255)
-        return Color(rgb, alpha.coerceIn(0f, 1f))
-    }
-
     fun brighter(strength: Double = 1.0):Color {
         val str = brighter.pow(strength)
         return rgba((r * str).roundToInt(), (g * str).roundToInt(), (b * str).roundToInt(), alpha)

@@ -1,7 +1,7 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.HslColor
-import io.data2viz.color.colors.hsla
+import io.data2viz.color.hsla
 import io.data2viz.math.deg
 
 // TODO must take all types of colors in args (currently HSL only)

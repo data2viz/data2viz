@@ -76,11 +76,11 @@ fun LabColor.toRgba(): Color {
     z = Zn * lab2xyz(z)
 
     // map CIE XYZ to RGB
-    return colors.rgba(
-            r = xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z),
-            g = xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
-            b = xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
-            a = alpha)
+    return rgba(
+            xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z),
+            xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
+            xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
+            alpha)
 }
 
 
