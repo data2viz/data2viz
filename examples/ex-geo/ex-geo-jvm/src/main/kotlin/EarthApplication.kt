@@ -49,7 +49,7 @@ class EarthApplication : Application() {
         }
         pathOuter = PathNode().apply {
             stroke = colors.black
-            fill = colors.white
+            fill = colors.whitesmoke
         }
         geoPathOuter = geoPath(projectionOuter, pathOuter)
         geoPathOuter.path(world)
@@ -63,7 +63,10 @@ class EarthApplication : Application() {
             val rotate = geoPathOuter.projection.rotate
             rotate[0] += .5
             rotate[1] = -10.0
+
             pathOuter.clearPath()
+            geoPathOuter.path(world)
+
             geoPathOuter.projection.rotate = rotate
             viz.render()
         }

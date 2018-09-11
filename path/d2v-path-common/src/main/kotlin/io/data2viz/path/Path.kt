@@ -44,31 +44,18 @@ open class Path : PathAdapter {
 
 }
 
-interface PathCommand {
-    val x:Double
-    val y:Double
-}
+interface PathCommand
 
-data class MoveTo(override val x: Double, override val y: Double) : PathCommand
-data class LineTo(override val x: Double, override val y: Double) : PathCommand
-data class Rect(override val x: Double, override val y: Double, val w: Double, val h: Double) : PathCommand
-data class QuadraticCurveTo(val cpx: Double, val cpy: Double, override val x: Double, override val y: Double) : PathCommand
-data class BezierCurveTo(val cpx1: Double, val cpy1: Double, val cpx2: Double, val cpy2: Double, override val x: Double, override val y: Double) :
+data class MoveTo(val x: Double, val y: Double) : PathCommand
+data class LineTo(val x: Double, val y: Double) : PathCommand
+data class Rect(val x: Double, val y: Double, val w: Double, val h: Double) : PathCommand
+data class QuadraticCurveTo(val cpx: Double, val cpy: Double, val x: Double, val y: Double) : PathCommand
+data class BezierCurveTo(val cpx1: Double, val cpy1: Double, val cpx2: Double, val cpy2: Double, val x: Double, val y: Double) :
     PathCommand
 
-data class Arc(val centerX: Double, val centerY: Double, val radius: Double, val startAngle: Double, val endAngle: Double, val counterClockWise: Boolean): PathCommand {
-    override val x: Double
-        get() = TODO("not implemented")
-    override val y: Double
-        get() = TODO("not implemented")
-}
+class Arc(val centerX: Double, val centerY: Double, val radius: Double, val startAngle: Double, val endAngle: Double, val counterClockWise: Boolean): PathCommand
 
-data class ArcTo(val fromX: Double, val fromY: Double, override val x: Double, override val y: Double, val radius: Double) :
+data class ArcTo(val fromX: Double, val fromY: Double, val x: Double, val y: Double, val radius: Double) :
     PathCommand
 
-class ClosePath: PathCommand {
-    override val x: Double
-        get() = .0
-    override val y: Double
-        get() = .0
-}
+class ClosePath: PathCommand

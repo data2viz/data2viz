@@ -60,19 +60,18 @@ fun main(args: Array<String>) {
 
         outer = PathNode().apply {
             stroke = colors.black
-            fill = colors.white
+            fill = colors.whitesmoke
         }
 
         geoPathOuter = geoPath(projectionOuter, outer)
         geoPathOuter.path(world)
 
 
-        var initX = .0
-        var initY = .0
-        var initRotate: DoubleArray = geoPathOuter.projection.rotate
+//        var initX = .0
+//        var initY = .0
+//        var initRotate: DoubleArray = geoPathOuter.projection.rotate
 
         viz.root.add(outer)
-
 
         timer.log("adding path")
 
