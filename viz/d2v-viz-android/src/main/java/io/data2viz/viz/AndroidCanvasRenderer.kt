@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Shader
+import android.view.View
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RadialGradient
@@ -18,6 +19,30 @@ val paint = Paint().apply {
 }
 
 
+fun Viz.toView(context: Context): View = VizView(this, context)
+
+class VizView(val viz: Viz, context: Context) : View(context) {
+
+    val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context)
+
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        updateScale()
+    }
+
+    fun updateScale() {
+        renderer.scale = (width / viz.width).toFloat()
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        renderer.canvas = canvas
+        renderer.render(viz)
+    }
+
+}
+
+
+
 
 fun Paint.getNumberHeight(): Int {
     val rect = android.graphics.Rect()
@@ -25,7 +50,7 @@ fun Paint.getNumberHeight(): Int {
     return rect.height()
 }
 
-class AndroidCanvasRenderer(val context: Context, var canvas: Canvas) : VizRenderer {
+class AndroidCanvasRenderer(val context: Context, var canvas: Canvas = Canvas()) : VizRenderer {
 
     var scale = 1F
 
