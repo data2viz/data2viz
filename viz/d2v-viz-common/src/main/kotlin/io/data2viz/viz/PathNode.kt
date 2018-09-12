@@ -13,5 +13,14 @@ class PathNode(val path: Path = Path()): Node(), HasStroke, HasFill, PathAdapter
 
     var strokeStyle: Double = .0
 
+
+    /**
+     * Remove all segments of the path.
+     * Todo should it be defined as a function of PathAdapter.
+     */
+    fun clearPath() {
+        path.clearPath()
+    }
+
 }
 
