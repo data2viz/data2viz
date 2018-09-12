@@ -1,25 +1,38 @@
 package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
-import io.data2viz.core.CssClass
-import io.data2viz.path.PathAdapter
-
-/**
- * Common interface to bootstrap visualization into different platform contexts.
- */
-//interface VizContext : Group
 
 
 /**
- * Base class for holding both memory version of
+ * Viz is the base element of a visualization.
+ *
+ * It is associated with a renderer which is used to perform the rendering depending on
+ * the current platform.
+ *
+ * It has at least one layer (the activeLayer). Layers provides a way of managing what is
+ * drawn on the background and what is drawn on frontend. The rendering process start with
+ * the layer with the lower index.
+ *
+ * Viz respects the `HasChildren` interface. It is possible to directly invoke some creation
+ * function on its context. The created element are then added to the active layer. It provides
+ * a very easy way to start a visualization.
+ *
+ *
  */
-class Viz {
+class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer{
+
+    val config = VizConfig()
+
+    var width: Double = 100.0
+    var height: Double = 100.0
 
     /**
      * The root element. All the visual elements of the current Viz are
      * children of this root.
      */
     val root = Group()
+
+    val layers = mutableListOf(activeLayer)
 
     lateinit var renderer: VizRenderer
 
@@ -29,6 +42,7 @@ class Viz {
 
 }
 
+fun viz(init: Viz.() -> Unit): Viz  = Viz().apply(init)
 
 interface VizElement
 
@@ -90,4 +104,16 @@ data class Margins(val top: Double, val right: Double = top, val bottom: Double 
 
 interface HasTransform {
     val transform:Transform?
+}
+
+interface HasChildren {
+
+    fun add(node: Node)
+    fun remove(node: Node)
+    fun group(init: Group.() -> Unit): Group
+    fun line(init: Line.() -> Unit): Line
+    fun circle(init: Circle.() -> Unit): Circle
+    fun rect(init: Rect.() -> Unit): Rect
+    fun text(init: Text.() -> Unit): Text
+    fun path(init: PathNode.() -> Unit): PathNode
 }

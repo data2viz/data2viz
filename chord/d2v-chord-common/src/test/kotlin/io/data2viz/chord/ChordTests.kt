@@ -57,10 +57,10 @@ class ChordTests : TestBase() {
 
         chords.chords.size shouldBe chordsSize
         chords.chords.forEach { chord ->
-            chord.source.startAngle shouldBeClose angles[chord.source.index][chord.source.subindex].from
-            chord.source.endAngle shouldBeClose angles[chord.source.index][chord.source.subindex].to
-            chord.target.startAngle shouldBeClose angles[chord.target.index][chord.target.subindex].from
-            chord.target.endAngle shouldBeClose angles[chord.target.index][chord.target.subindex].to
+            chord.source.startAngle shouldBeClose angles[chord.source.index][chord.source.subIndex].from
+            chord.source.endAngle shouldBeClose angles[chord.source.index][chord.source.subIndex].to
+            chord.target.startAngle shouldBeClose angles[chord.target.index][chord.target.subIndex].from
+            chord.target.endAngle shouldBeClose angles[chord.target.index][chord.target.subIndex].to
         }
 
         chords.groups.size shouldBe 4

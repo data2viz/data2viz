@@ -7,37 +7,40 @@ import io.data2viz.core.Polygon
 import io.data2viz.timer.timer
 import io.data2viz.viz.PathNode
 import io.data2viz.viz.Viz
+import io.data2viz.viz.viz
 
 const val vizWidth = 800.0
 const val vizHeight = 800.0
 
-fun lineOfSightViz(): Viz = Viz().apply {
-    with(root) {
+fun lineOfSightViz(): Viz = viz {
 
+    width = vizWidth
+    height = vizHeight
 
-        val model = LineOfSightModel(LineOfSightConfig(vizWidth, vizHeight))
+    config.autoUpdate = false
 
-        renderBackground()
-        renderPolygons(model.polygons)
+    val model = LineOfSightModel(LineOfSightConfig(width, height))
 
-        val radialGradient = lightGradient()
+    renderBackground()
+    renderPolygons(model.polygons)
 
-        var path: PathNode? = null
-        timer {
-            path?.let { remove(it) }
-            model.moveLight()
-            radialGradient.cx = model.lightPoint.x
-            radialGradient.cy = model.lightPoint.y
-            val points = model.getSightPolygon().points
-            path = path {
-                moveTo(points.first().x, points.first().y)
-                fill = radialGradient
-                stroke = null
-                points.forEach { point ->
-                    lineTo(point.x, point.y)
-                }
-                closePath()
+    val radialGradient = lightGradient()
+
+    var path: PathNode? = null
+    timer {
+        path?.let { remove(it) }
+        model.moveLight()
+        radialGradient.cx = model.lightPoint.x
+        radialGradient.cy = model.lightPoint.y
+        val points = model.getSightPolygon().points
+        path = path {
+            moveTo(points.first().x, points.first().y)
+            fill = radialGradient
+            stroke = null
+            points.forEach { point ->
+                lineTo(point.x, point.y)
             }
+            closePath()
         }
     }
 }
@@ -55,7 +58,7 @@ private fun lightGradient(): RadialGradient {
     }
 }
 
-private fun Viz.renderPolygons(polygons: List<Polygon>) = with(root) {
+private fun Viz.renderPolygons(polygons: List<Polygon>) {
     polygons.forEach { polygon ->
         path {
             fill = colors.black
@@ -69,7 +72,7 @@ private fun Viz.renderPolygons(polygons: List<Polygon>) = with(root) {
     }
 }
 
-private fun Viz.renderBackground() = with(root) {
+private fun Viz.renderBackground() {
     rect {
         fill = Color(0x131c2b)
         x = .0

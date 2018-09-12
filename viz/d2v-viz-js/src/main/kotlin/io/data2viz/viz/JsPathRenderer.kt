@@ -1,12 +1,11 @@
-package io.data2viz.path
+package io.data2viz.viz
 
-import io.data2viz.viz.PathNode
-import io.data2viz.viz.toCanvasPaint
+import io.data2viz.path.*
 import org.w3c.dom.CanvasRenderingContext2D
 
 fun PathNode.render(context: CanvasRenderingContext2D) {
     context.beginPath()
-    commands.forEach { cmd ->
+    path.commands.forEach { cmd ->
         when (cmd) {
             is MoveTo -> context.moveTo(cmd.x, cmd.y)
             is LineTo -> context.lineTo(cmd.x, cmd.y)

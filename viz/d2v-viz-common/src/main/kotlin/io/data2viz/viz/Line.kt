@@ -3,7 +3,7 @@ package io.data2viz.viz
 import io.data2viz.color.ColorOrGradient
 
 
-class Line : Node, HasStroke {
+class Line : Node(), HasStroke {
 
     var x1: Double = .0
     var y1: Double = .0

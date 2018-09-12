@@ -12,6 +12,7 @@ import io.data2viz.color.LinearGradient
 import io.data2viz.path.PathAdapter
 import io.data2viz.shape.arc
 import io.data2viz.viz.Viz
+import io.data2viz.viz.viz
 
 
 data class Movie(val name: String, val avengers: List<Avenger>)
@@ -54,9 +55,9 @@ val chord = ChordLayout<Avenger>().apply {
 
 fun collaborations(avengers: List<Avenger>) = movies.filter { it.avengers.containsAll(avengers) }.size.toDouble()
 
-val chords: Chords = chord.chord(avengers) { a, b -> if (a == b) .0 else collaborations(listOf(a, b)) }
+val avengersChords: Chords = chord.chord(avengers) { a, b -> if (a == b) .0 else collaborations(listOf(a, b)) }
 
-val arc = arc<ChordGroup> {
+val avengersArcGenerator = arc<ChordGroup> {
     innerRadius = { inner + 3 }
     outerRadius = { outer }
     startAngle = { it.startAngle }
@@ -65,34 +66,33 @@ val arc = arc<ChordGroup> {
 
 val ribbon: (Chord, PathAdapter) -> Unit = io.data2viz.chord.ribbon(inner)
 
+fun chordViz(): Viz = viz {
 
-fun chordViz(): Viz = Viz().apply {
-    with(root) {
+    width = 600.0
+    height = 600.0
 
-        group {
-            transform { translate(width / 2, height / 2) }
+    group {
+        //todo create a center function
+        transform { translate(width / 2, height / 2) }
 
-
-            //Drawing external groups representing avengers
-            chords.groups.forEachIndexed { index, it ->
-                path {
-                    fill = io.data2viz.examples.chord.colors[index]
-                    stroke = null
-                    arc.arc(it, this)
-                }
-            }
-
-
-            //drawing ribbons
-            chords.chords.forEach { chord ->
-                path {
-                    fill = chord.toGradient()
-                    stroke = null
-                    ribbon(chord, this)
-                }
+        //Drawing external groups representing avengers
+        avengersChords.groups.forEachIndexed { index, it ->
+            path {
+                fill = io.data2viz.examples.chord.colors[index]
+                avengersArcGenerator.arc(it, this)
+                stroke = null
             }
         }
 
+
+        //drawing ribbons
+        avengersChords.chords.forEach { chord ->
+            path {
+                fill = chord.toGradient()
+                stroke = null
+                ribbon(chord, this)
+            }
+        }
     }
 }
 

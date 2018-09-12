@@ -98,7 +98,8 @@ val sankey = sankeyLayout.sankey(
         { from, to -> energyFluxes.find { it.fromIndex == from && it.toIndex == to }?.volume })
 
 fun sankeyViz(): Viz = Viz().apply {
-    with(root) {
+
+    group {
         transform { translate(margin, margin) }
 
         val fills = scales.colors.category20<Int>()
@@ -134,4 +135,5 @@ fun sankeyViz(): Viz = Viz().apply {
             return@forEach
         }
     }
+
 }

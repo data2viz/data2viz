@@ -3,7 +3,8 @@ package io.data2viz.viz
 import io.data2viz.color.ColorOrGradient
 
 
-class Rect : Node, HasStroke, HasFill {
+class Rect : Node(), HasStroke, HasFill {
+
     var x: Double = .0
     var y: Double = .0
     var width: Double = .0

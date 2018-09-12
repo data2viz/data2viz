@@ -43,8 +43,7 @@ class PathJfx : Application() {
 
     private fun getPathViz(): Viz =
         Viz().apply {
-            with(root) {
-
+            group {
                 transform {
                     translate(300.0, 300.0)
                 }

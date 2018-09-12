@@ -85,7 +85,7 @@ val orderOptions = listOf(
 
 // Main function
 fun streamGraph(): Viz = Viz().apply {
-    with(root) {
+    group {
         // Add margins for visualization
         transform {
             translate(x = margins.left, y = margins.top)

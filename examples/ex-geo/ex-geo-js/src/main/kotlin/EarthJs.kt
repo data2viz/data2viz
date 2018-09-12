@@ -71,9 +71,7 @@ fun main(args: Array<String>) {
 //        var initY = .0
 //        var initRotate: DoubleArray = geoPathOuter.projection.rotate
 
-        viz.root.add(outer)
-
-        timer.log("adding path")
+        viz.add(outer)
 
         io.data2viz.timer.timer { now ->
             val rotate = geoPathOuter.projection.rotate
@@ -83,7 +81,6 @@ fun main(args: Array<String>) {
             geoPathOuter.projection.rotate = rotate
             geoPathOuter.path(world)
             viz.render()
-            timer.log("update paths")
         }
     }
 

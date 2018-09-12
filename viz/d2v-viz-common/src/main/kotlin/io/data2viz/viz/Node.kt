@@ -1,3 +1,6 @@
 package io.data2viz.viz
 
-interface Node
+open class Node {
+    var parent: Node? = null
+    var visible: Boolean = true
+}

@@ -15,11 +15,11 @@ import kotlin.math.max
 
 // TODO : use Angle
 data class ChordSubgroup(
-    val index: Int = 0,
-    val subindex: Int = 0,
-    val startAngle: Double = .0,
-    val endAngle: Double = .0,
-    val value: Double = .0
+        val index: Int = 0,
+        val subIndex: Int = 0,
+        val startAngle: Double = .0,
+        val endAngle: Double = .0,
+        val value: Double = .0
 )
 
 // TODO : use Angle
@@ -60,14 +60,14 @@ val emptySubgroup = ChordSubgroup()
  *          - endAngle:  the end angle in radians
  *          - value: the flow value (Double >= 0)
  *          - index - the node index A
- *          - subindex - the node index B
+ *          - subIndex - the node index B
  *
  * The chords are typically passed to a ChordRibbon to display the network relationships.
  * The returned array includes only chord objects for which the value flow(A, B) or flow(B, A) is non-zero.
  * Furthermore, the returned array only contains unique chords: a given chord AB represents the bidirectional
  * flow from A to B and from B to A, and does not contain a duplicate chord BA;
  * A and B are chosen such that the chord’s source always represents the larger of flow(A, B) and flow(B, A).
- * In other words, chord.source.index equals chord.target.subindex, chord.source.subindex equals chord.target.index,
+ * In other words, chord.source.index equals chord.target.subIndex, chord.source.subIndex equals chord.target.index,
  * chord.source.value is greater than or equal to chord.target.value, and chord.source.value is always > 0.
  *
  * 2- groups : an array of size = data.size, where each group represents the combined outflow for node A,

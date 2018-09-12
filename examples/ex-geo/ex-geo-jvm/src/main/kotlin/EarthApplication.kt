@@ -54,7 +54,7 @@ class EarthApplication : Application() {
         geoPathOuter = geoPath(projectionOuter, pathOuter)
         geoPathOuter.path(world)
 
-        viz.root.add(pathOuter)
+        viz.add(pathOuter)
         primaryStage!!.scene = (Scene(root, extent.width, extent.height))
         primaryStage.show()
         viz.render()

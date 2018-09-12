@@ -144,15 +144,13 @@ val simulation: ForceSimulation = forceSimulation {
 
 
 val forcesViz:Viz = Viz().apply {
-    with(root){
-        simulation.nodes.forEach { node ->
-            circle {
-                stroke = null
-                radius = 2.0 + (node.index / 150)
-                fill = olympicColors[node.index % 5]
-                x = node.position.x
-                y = node.position.y
-            }
+    simulation.nodes.forEach { node ->
+        circle {
+            stroke = null
+            radius = 2.0 + (node.index / 150)
+            fill = olympicColors[node.index % 5]
+            x = node.position.x
+            y = node.position.y
         }
     }
     updateSimulation()
@@ -176,7 +174,7 @@ private fun updateSimulation() {
 
 
 fun refresh(sim: ForceSimulation) {
-    forcesViz.root.children.forEachIndexed { index, node ->
+    forcesViz.activeLayer.children.forEachIndexed { index, node ->
         val forceNode = sim.nodes[index]
         val circle = node as Circle
         circle.x = forceNode.position.x
