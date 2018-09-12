@@ -7,6 +7,7 @@ import io.data2viz.sankey.SankeyLayout
 import io.data2viz.sankey.sankeyLinkHorizontal
 import io.data2viz.scale.scales
 import io.data2viz.viz.Viz
+import io.data2viz.viz.viz
 import kotlin.math.max
 
 data class Element(
@@ -97,7 +98,7 @@ val sankey = sankeyLayout.sankey(
         elements,
         { from, to -> energyFluxes.find { it.fromIndex == from && it.toIndex == to }?.volume })
 
-fun sankeyViz(): Viz = Viz().apply {
+fun sankeyViz(): Viz = viz {
 
     group {
         transform { translate(margin, margin) }

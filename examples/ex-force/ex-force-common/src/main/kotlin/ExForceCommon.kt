@@ -5,6 +5,7 @@ import io.data2viz.force.*
 import io.data2viz.timer.timer
 import io.data2viz.viz.Circle
 import io.data2viz.viz.Viz
+import io.data2viz.viz.viz
 
 const val width = 800.0
 const val height = 500.0
@@ -143,7 +144,7 @@ val simulation: ForceSimulation = forceSimulation {
 }
 
 
-val forcesViz:Viz = Viz().apply {
+val forcesViz:Viz = viz {
     simulation.nodes.forEach { node ->
         circle {
             stroke = null

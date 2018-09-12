@@ -1,9 +1,11 @@
 package io.data2viz.examples.chord
 
 
+import com.sun.tools.internal.xjc.model.Multiplicity.group
 import io.data2viz.math.PI
 import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.Viz
+import io.data2viz.viz.viz
 import javafx.application.Application
 import javafx.scene.Group
 import javafx.scene.Scene
@@ -41,8 +43,7 @@ class PathJfx : Application() {
     }
 
 
-    private fun getPathViz(): Viz =
-        Viz().apply {
+    private fun getPathViz(): Viz = viz {
             group {
                 transform {
                     translate(300.0, 300.0)
