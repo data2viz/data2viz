@@ -26,12 +26,6 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer{
     var width: Double = 100.0
     var height: Double = 100.0
 
-    /**
-     * The root element. All the visual elements of the current Viz are
-     * children of this root.
-     */
-    val root = Group()
-
     val layers = mutableListOf(activeLayer)
 
     lateinit var renderer: VizRenderer

@@ -9,7 +9,7 @@ import android.view.View
 import io.data2viz.color.colors
 import io.data2viz.examples.chord.chordViz
 import io.data2viz.viz.AndroidCanvasRenderer
-import io.data2viz.viz.Viz
+import io.data2viz.viz.viz
 
 
 class ChordActivity : AppCompatActivity() {
@@ -24,16 +24,21 @@ class ChordActivity : AppCompatActivity() {
 
 val size = 10.0
 
-val translateViz = Viz().apply {
+val translateViz = viz {
 
-    with(root){
+    rect {
+        width = size
+        height = size
+        fill = colors.black
+    }
 
+    group {
+        transform { translate(size, size) }
         rect {
             width = size
             height = size
             fill = colors.black
         }
-
         group {
             transform { translate(size, size) }
             rect {
@@ -48,6 +53,7 @@ val translateViz = Viz().apply {
                     height = size
                     fill = colors.black
                 }
+
                 group {
                     transform { translate(size, size) }
                     rect {
@@ -56,43 +62,33 @@ val translateViz = Viz().apply {
                         fill = colors.black
                     }
 
-                    group {
-                        transform { translate(size, size) }
-                        rect {
-                            width = size
-                            height = size
-                            fill = colors.black
-                        }
-
-                    }
-                    rect {
-                        y = size * 2
-                        width = size
-                        height = size
-                        fill = colors.black
-                    }
                 }
                 rect {
-                    y = size * 4
+                    y = size * 2
                     width = size
                     height = size
                     fill = colors.black
                 }
             }
             rect {
-                y = size * 6
+                y = size * 4
                 width = size
                 height = size
                 fill = colors.black
             }
         }
         rect {
-            y = size * 8
+            y = size * 6
             width = size
             height = size
             fill = colors.black
         }
-
+    }
+    rect {
+        y = size * 8
+        width = size
+        height = size
+        fill = colors.black
     }
 }
 

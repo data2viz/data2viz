@@ -31,7 +31,9 @@ class AndroidCanvasRenderer(val context: Context, var canvas: Canvas) : VizRende
 
 
     override fun render(viz: Viz) {
-        viz.root.render(this)
+        viz.layers.forEach {
+            it.render(this)
+        }
     }
 
     val Double.dp: Float
