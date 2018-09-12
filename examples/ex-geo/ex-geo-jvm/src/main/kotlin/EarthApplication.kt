@@ -18,7 +18,9 @@ import javafx.stage.Stage
 class EarthApplication : Application() {
 
     lateinit var geoPathOuter: GeoPath
+    lateinit var geoPathInner: GeoPath
     lateinit var pathOuter: PathNode
+    lateinit var pathInner: PathNode
     lateinit var world: GeoJsonObject
 
     companion object {
@@ -47,6 +49,7 @@ class EarthApplication : Application() {
             translate = doubleArrayOf(400.0, 300.0)
             scale = 250.0
         }
+
         pathOuter = PathNode().apply {
             stroke = colors.black
             fill = colors.whitesmoke
@@ -54,7 +57,27 @@ class EarthApplication : Application() {
         geoPathOuter = geoPath(projectionOuter, pathOuter)
         geoPathOuter.path(world)
 
+
+        // INNER GLOBE
+        val projectionInner = orthographic {
+            translate = doubleArrayOf(400.0, 300.0)
+            scale = 250.0
+            clipAngle = Double.NaN
+        }
+
+        pathInner = PathNode().apply {
+            stroke = null
+            fill = colors.darkgray
+        }
+        geoPathInner = geoPath(projectionInner, pathInner)
+        geoPathInner.path(world)
+
+
+
+        viz.root.add(pathInner)
         viz.root.add(pathOuter)
+
+
         primaryStage!!.scene = (Scene(root, extent.width, extent.height))
         primaryStage.show()
         viz.render()
@@ -64,10 +87,16 @@ class EarthApplication : Application() {
             rotate[0] += .5
             rotate[1] = -10.0
 
+
+            pathInner.clearPath()
+            geoPathInner.path(world)
+
             pathOuter.clearPath()
             geoPathOuter.path(world)
 
+
             geoPathOuter.projection.rotate = rotate
+            geoPathInner.projection.rotate = rotate
             viz.render()
         }
 

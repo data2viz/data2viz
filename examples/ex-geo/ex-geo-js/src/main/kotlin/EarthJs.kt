@@ -35,7 +35,9 @@ private val timer = Timer()
 
 
 lateinit var outer: PathNode
+lateinit var inner: PathNode
 lateinit var geoPathOuter: GeoPath
+lateinit var geoPathInner: GeoPath
 lateinit var world: GeoJsonObject
 
 fun main(args: Array<String>) {
@@ -51,6 +53,23 @@ fun main(args: Array<String>) {
         val request = window.fetch(Request("world-110m-30percent.json"))
         val response = request.await()
         world = response.text().await().toGeoJsonObject()
+
+        // INNER GLOBE
+        val projectionInner = orthographic {
+            translate = doubleArrayOf(400.0, 300.0)
+            scale = 250.0
+            clipAngle = Double.NaN
+        }
+
+        inner = PathNode().apply {
+            stroke = null
+            fill = colors.darkgray
+        }
+
+        geoPathInner = geoPath(projectionInner, inner)
+        geoPathInner.path(world)
+
+
 
         // OUTER GLOBE
         val projectionOuter = orthographic {
@@ -71,6 +90,7 @@ fun main(args: Array<String>) {
 //        var initY = .0
 //        var initRotate: DoubleArray = geoPathOuter.projection.rotate
 
+        viz.root.add(inner)
         viz.root.add(outer)
 
         timer.log("adding path")
@@ -79,9 +99,15 @@ fun main(args: Array<String>) {
             val rotate = geoPathOuter.projection.rotate
             rotate[0] += .5
             rotate[1] = -10.0
+
             outer.clearPath()
             geoPathOuter.projection.rotate = rotate
             geoPathOuter.path(world)
+
+            inner.clearPath()
+            geoPathInner.projection.rotate = rotate
+            geoPathInner.path(world)
+
             viz.render()
             timer.log("update paths")
         }
