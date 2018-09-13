@@ -58,7 +58,6 @@ class LoopView(context: Context) : View(context) {
             drawCount = -1
         }
         canvas.drawText("${fps} FPS", 30f, 200f, paint)
-        invalidate()
-
+        postInvalidate()
     }
 }
