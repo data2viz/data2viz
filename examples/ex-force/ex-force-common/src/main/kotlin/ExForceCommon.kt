@@ -154,7 +154,10 @@ val forcesViz:Viz = viz {
             y = node.position.y
         }
     }
-    updateSimulation()
+
+    onFrame {
+        updateSimulation()
+    }
 }
 
 private fun updateSimulation() {

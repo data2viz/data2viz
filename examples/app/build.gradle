@@ -40,6 +40,7 @@ android {
 
 
 dependencies {
+    implementation 'com.android.support:design:28.0.0-rc02'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile project(":color:d2v-color-common")
@@ -81,7 +82,7 @@ dependencies {
 }
 
 
-task generateImages(type: Exec){
+task generateImages(type: Exec) {
     commandLine android.getAdbExe(), 'shell', 'am', 'instrument', '-w', '-r', '-e', 'debug', 'false', '-e', 'class', 'io.data2viz.charting.RenderingOnDeviceTest', 'io.data2viz.data2canvas.test/android.support.test.runner.AndroidJUnitRunner'
 }
 
@@ -98,8 +99,10 @@ task syncRenderedImages(type: com.novoda.gradle.command.Files, dependsOn: genera
             if (line.endsWith(".png")) {
                 def fileName = line.split()[7]
                 println "Pulling $fileName"
-                pull deviceImageDir + fileName , backupDir.path
+                pull deviceImageDir + fileName, backupDir.path
             }
         }
     }
 }
+
+apply plugin: 'kotlin-android'

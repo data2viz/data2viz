@@ -11,8 +11,8 @@ import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.TimeUnit
 
 
-internal actual fun setTimeout(handler: () -> Unit, timeout: Int): Any = Timeline(KeyFrame(Duration.millis(timeout.toDouble()), EventHandler {
-    handler()
+internal actual fun setTimeout(callback: () -> Unit, timeout: Int): Any = Timeline(KeyFrame(Duration.millis(timeout.toDouble()), EventHandler {
+    callback()
 })).apply {
     cycleCount = 1
     play()
@@ -23,8 +23,8 @@ internal actual fun clearTimeout(handle: Any) {
     (handle as Timeline).stop()
 }
 
-internal actual fun setInterval(handler: () -> Unit, interval: Int): Any = Timeline(KeyFrame(Duration.millis(interval.toDouble()), EventHandler {
-    handler()
+internal actual fun setInterval(block: () -> Unit, interval: Int): Any = Timeline(KeyFrame(Duration.millis(interval.toDouble()), EventHandler {
+    block()
 })).apply {
     cycleCount = Animation.INDEFINITE
     play()

@@ -40,16 +40,16 @@ internal var frame = 0                   // is an animation frame pending? todo 
 /** how frequently we check for clock skew */
 const val pokeDelay = 1000      
 
-var taskHead: Timer? = null
-var taskTail: Timer? = null
-var clockLast = 0.0
+internal var taskHead: Timer? = null
+internal var taskTail: Timer? = null
+internal var clockLast = 0.0
 
 
 /**
  * now set for all timers
  */
-var clockNow = 0.0
-var clockSkew = 0.0
+internal var clockNow = 0.0
+internal var clockSkew = 0.0
 
 
 /**
@@ -106,8 +106,8 @@ class Timer {
      * update taskTail and taskHead (the first timer is both tail and head)
      */
     fun restart(
-        delay: Double,
-        startTime: Double,
+        delay: Double = .0,
+        startTime: Double = now(),
         callback: Timer.(Double) -> Unit
     ) {
         val newTime = startTime + delay

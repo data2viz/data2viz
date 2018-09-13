@@ -1,7 +1,6 @@
 package io.data2viz.examples.chord
 
 
-import com.sun.tools.internal.xjc.model.Multiplicity.group
 import io.data2viz.math.PI
 import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.Viz

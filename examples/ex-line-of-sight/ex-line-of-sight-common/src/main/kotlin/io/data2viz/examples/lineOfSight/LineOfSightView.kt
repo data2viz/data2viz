@@ -4,7 +4,6 @@ import io.data2viz.color.Color
 import io.data2viz.color.RadialGradient
 import io.data2viz.color.colors
 import io.data2viz.core.Polygon
-import io.data2viz.timer.timer
 import io.data2viz.viz.PathNode
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
@@ -17,8 +16,6 @@ fun lineOfSightViz(): Viz = viz {
     width = vizWidth
     height = vizHeight
 
-    config.autoUpdate = false
-
     val model = LineOfSightModel(LineOfSightConfig(width, height))
 
     renderBackground()
@@ -27,8 +24,9 @@ fun lineOfSightViz(): Viz = viz {
     val radialGradient = lightGradient()
 
     var path: PathNode? = null
-    timer {
-        path?.let { remove(it) }
+
+    onFrame {
+        path?.remove()
         model.moveLight()
         radialGradient.cx = model.lightPoint.x
         radialGradient.cy = model.lightPoint.y

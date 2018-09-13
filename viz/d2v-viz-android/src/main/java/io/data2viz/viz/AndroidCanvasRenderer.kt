@@ -9,6 +9,7 @@ import android.view.View
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RadialGradient
+import io.data2viz.timer.Timer
 import kotlin.math.*
 
 typealias ALinearGradient = android.graphics.LinearGradient
@@ -19,11 +20,15 @@ val paint = Paint().apply {
 }
 
 
-fun Viz.toView(context: Context): View = VizView(this, context)
+fun Viz.toView(context: Context): VizView = VizView(this, context)
 
 class VizView(val viz: Viz, context: Context) : View(context) {
 
-    val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context)
+    private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context)
+
+    init {
+
+    }
 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -34,15 +39,24 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         renderer.scale = (width / viz.width).toFloat()
     }
 
+    var drawCount = -1
+    private var startTime = System.currentTimeMillis()
+
     override fun onDraw(canvas: Canvas) {
+        drawCount++
+        if (drawCount == 100){
+            val delta = System.currentTimeMillis() - startTime
+            val fps = 100_000 / delta
+            println("FPS::$fps")
+            startTime = System.currentTimeMillis()
+            drawCount = -1
+        }
+
         renderer.canvas = canvas
         renderer.render(viz)
     }
 
 }
-
-
-
 
 fun Paint.getNumberHeight(): Int {
     val rect = android.graphics.Rect()
@@ -82,7 +96,6 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
             if (node is HasStroke) {
                 paint.strokeWidth = (node.strokeWidth ?: 1.0).toFloat()
             }
-
 
             when (node) {
                 is Circle   -> node.render(renderer)
@@ -234,7 +247,7 @@ private fun LinearGradient.toLinearGradient(renderer: AndroidCanvasRenderer) =
         }
 
 fun Color.toColor() =
-        ((255 * this.alpha.toFloat()).toInt() and 0xff shl 24) or
+        ((255 * this.alpha).toInt() and 0xff shl 24) or
                 (this.r and 0xff shl 16) or
                 (this.g and 0xff shl 8) or
                 (this.b and 0xff)

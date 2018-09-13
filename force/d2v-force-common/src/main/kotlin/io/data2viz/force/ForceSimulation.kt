@@ -65,7 +65,7 @@ class ForceSimulation {
     private val tickEvents = mutableMapOf<String, (ForceSimulation) -> Unit>()
     private val endEvents = mutableMapOf<String, (ForceSimulation) -> Unit>()
 
-    private val stepper = timer(callback = { elapsed: Double -> step(elapsed) })
+    private val stepper = timer(callback = { elapsed: Double -> step() })
 
     init {
         initializeNodes()
@@ -152,7 +152,7 @@ class ForceSimulation {
         force.initialize(nodes)
     }
 
-    private fun step(elapsed:Double) {
+    private fun step() {
         tick()
         tickEvents.values.forEach { callback ->
             callback(this)
@@ -268,5 +268,18 @@ class ForceSimulation {
             SimulationEvent.END -> endEvents.put(name, callback)
         }
     }
+
+    /**
+     * stops the current simulation
+     */
+    fun stop(){
+        stepper.stop()
+    }
+
+    fun restart() {
+        stepper.restart { step() }
+    }
+
+
 }
 
