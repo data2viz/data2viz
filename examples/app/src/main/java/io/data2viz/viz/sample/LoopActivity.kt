@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
+import android.os.Looper.myLooper
 import android.support.v7.app.AppCompatActivity
+import android.view.Choreographer
 import android.view.View
-import android.widget.Button
 
 class LoopActivity : AppCompatActivity() {
 
@@ -45,12 +45,33 @@ val paint = Paint().apply {
 
 class LoopView(context: Context) : View(context) {
 
+
+    init {
+        startLoop()
+    }
+
+    fun startLoop(){
+        println("LoopActivity.startLoop")
+        updateModel()
+    }
+
+    fun updateModel() {
+        drawCount++
+        invalidate()
+        Choreographer.getInstance().postFrameCallback { updateModel() }
+    }
+
+    fun stopLoop(){
+        println("LoopActivity.stopLoop")
+        Looper.myLooper()?.quit()
+    }
+
     var drawCount = -1
     var fps = 0L
     private var startTime = System.currentTimeMillis()
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawText("${drawCount++}", 30f, 100f, paint)
+        canvas.drawText("${drawCount}", 30f, 100f, paint)
         if (drawCount == 100){
             val delta = System.currentTimeMillis() - startTime
             fps = 100_000 / delta
@@ -58,6 +79,5 @@ class LoopView(context: Context) : View(context) {
             drawCount = -1
         }
         canvas.drawText("${fps} FPS", 30f, 200f, paint)
-        postInvalidate()
     }
 }
