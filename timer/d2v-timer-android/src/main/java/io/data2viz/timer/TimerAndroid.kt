@@ -8,7 +8,7 @@ internal actual fun setTimeout(handler: () -> Unit, timeout: Int): Any {
     val callback: Choreographer.FrameCallback = Choreographer.FrameCallback {handler()}
     val choreographer = Choreographer.getInstance()
     choreographer.postFrameCallbackDelayed(callback, timeout.toLong())
-    println("setTimeout:: $choreographer $callback")
+    println("setTimeout:: $timeout, $choreographer $callback")
     return callback
 }
 
@@ -19,17 +19,23 @@ internal actual fun clearTimeout(handle: Any) {
 }
 
 internal actual fun setInterval(handler: () -> Unit, interval: Int): Any{
-    Choreographer.getInstance().postFrameCallbackDelayed(
-            {time:Long ->
-                handler()
-                setInterval(handler, interval)
-            }
-            , interval.toLong())
 
-    return true
+    val callback = Choreographer.FrameCallback {
+        handler()
+        setInterval(handler, interval)
+    }
+
+    Choreographer.getInstance()
+            .postFrameCallbackDelayed( callback, interval.toLong())
+
+    return callback
 }
 
-internal actual fun clearInterval(handle: Any) {}
+internal actual fun clearInterval(handle: Any) {
+    val choreographer = Choreographer.getInstance()
+    println("clearInterval:: $choreographer $handle")
+    choreographer.removeFrameCallback(handle as Choreographer.FrameCallback)
+}
 
 internal actual fun callInNextFrame(block: () -> Unit) {
     val choreographer = Choreographer.getInstance()

@@ -199,12 +199,13 @@ fun timerFlush() {
  * Sleep the minimum of timers time.
  */
 private fun nap() {
-//    log("before nap")
     var t0: Timer? = null
     var t1 = taskHead
     var t2: Timer?
     var time = Double.POSITIVE_INFINITY
+    var timerCount = 0
     while (t1 != null) {
+        timerCount++
         if (t1._call != null) {
             if (time > t1._time) {
                 time = t1._time
@@ -225,7 +226,7 @@ private fun nap() {
         }
     }
     taskTail = t0
-//    log("after nap")
+    log("after nap, timerCount $timerCount")
     sleep(time)
 }
 
