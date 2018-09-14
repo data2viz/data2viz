@@ -1,0 +1,6 @@
+dependencies {
+    expectedBy project(":ex-lets-make-a-barchart:ex-lets-make-a-barchart-common")
+    compile project(":data2viz:d2v-data2viz-js")
+}
+
+apply from: rootProject.file('gradle/bundle-example.gradle')

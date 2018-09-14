@@ -142,8 +142,13 @@ def examples = [
         ":ex-chord:ex-chord-jvm", 
         
         ":ex-delaunay", 
-        ":ex-delaunay:ex-delaunay-js", 
- 
+        ":ex-delaunay:ex-delaunay-js",
+
+        ":ex-lets-make-a-barchart",
+        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-common",
+        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-js",
+        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-jvm",
+
         ":ex-force", 
         ":ex-force:ex-force-common",
         ":ex-force:ex-force-js",
