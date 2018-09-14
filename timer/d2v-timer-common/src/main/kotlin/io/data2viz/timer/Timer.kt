@@ -80,6 +80,7 @@ internal var clockSkew = 0.0
  */
 fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer =
     Timer().apply {
+        println("new timer")
         restart(delay, startTime, callback)
     }
 
@@ -121,7 +122,7 @@ class Timer {
         }
         _call = callback
         _time = newTime
-//        log("after restart")
+        log("after restart")
         sleep()
     }
 
@@ -234,6 +235,8 @@ private fun nap() {
  * If time is not set or short (<= 24 ms), wake up at the next frame.
  */
 private fun sleep(time: Double? = null) {
+
+    println("sleep $time")
 
     if (frame > 0) return // Soonest alarm already set, or will be.
     timeoutHandle?.let {

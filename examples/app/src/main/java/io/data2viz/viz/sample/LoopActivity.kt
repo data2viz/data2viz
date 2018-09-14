@@ -9,6 +9,7 @@ import android.os.Looper.myLooper
 import android.support.v7.app.AppCompatActivity
 import android.view.Choreographer
 import android.view.View
+import io.data2viz.timer.timer
 
 class LoopActivity : AppCompatActivity() {
 
@@ -52,13 +53,14 @@ class LoopView(context: Context) : View(context) {
 
     fun startLoop(){
         println("LoopActivity.startLoop")
-        updateModel()
+        timer {
+            updateModel()
+        }
     }
 
     fun updateModel() {
         drawCount++
         invalidate()
-        Choreographer.getInstance().postFrameCallback { updateModel() }
     }
 
     fun stopLoop(){

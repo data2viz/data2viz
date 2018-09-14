@@ -9,8 +9,6 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-data class Segment(val from: Point, val to: Point)
-data class Intersection(val point: Point, val param: Double, var angle: Angle = 0.deg)
 
 data class LineOfSightConfig(
     val width: Double,
@@ -20,29 +18,35 @@ data class LineOfSightConfig(
     val randomPointsNb: Int = 8
 )
 
-
 class LineOfSightModel(config: LineOfSightConfig) {
 
-    var lightPoint: Point
+    var lightPos: Point
 
+    /**
+     * Randomly created polygons
+     */
     val polygons: List<Polygon>
+
+    /**
+     * All corners: view corners + polygons corners
+     */
     private val corners: List<Point>
+
+    /**
+     * All segments: view segments + polygons segments
+     */
     private val segments: List<Segment>
+
+
     private var xSpeed: Double = .0
     private var ySpeed: Double = .0
-    private val extentPolygon: Polygon
 
-    private fun Polygon.segments(): List<Segment> =
-        List(points.size) { i ->
-            Segment(
-                points[i],
-                if (i == points.size - 1) points[0] else points[i + 1]
-            )
-        }
+    private val viewAsPolygon: Polygon
+
 
     init {
         polygons = createPolygons(config.polygonNb, config.polygonSize, config.randomPointsNb)
-        extentPolygon = Polygon(
+        viewAsPolygon = Polygon(
             listOf(
                 Point(.0, .0),
                 Point(vizWidth, .0),
@@ -53,50 +57,44 @@ class LineOfSightModel(config: LineOfSightConfig) {
                 Point(.0, vizHeight)
             )
         )
-        corners = extentPolygon.points + polygons.flatMap { it.points }
-        segments = extentPolygon.segments() + polygons.flatMap { it.segments() }
-        lightPoint = posOutsideOf(polygons)
-        newSpeed()
+        corners = viewAsPolygon.points + polygons.flatMap { it.points }
+        segments = viewAsPolygon.segments() + polygons.flatMap { it.segments() }
+        lightPos = findInitialRandomPointOutsideOf(polygons)
+        newSpeed(random() * PI * 2)
     }
 
     private fun createPolygons(polygonNb: Int, polygonSize: Double, randomPointsNb: Int): List<Polygon> {
 
         // build random polygons
-        val polygons = (1..polygonNb).mapNotNull {
+        val polygons = (1..polygonNb).map {
             val center = Point(
                 random() * vizWidth * (1.0 - polygonSize),
                 random() * vizHeight * (1.0 - polygonSize)
             )
-            val points = (1..randomPointsNb).map {
+            val points = (1..randomPointsNb).map { _ ->
                 Point(
-                    center.x + (random() * (vizWidth * polygonSize)).coerceIn(
-                        .0,
-                        vizWidth
-                    ),
-                    center.y + (random() * (vizWidth * polygonSize)).coerceIn(
-                        .0,
-                        vizWidth
-                    )
+                    center.x + (random() * (vizWidth * polygonSize)).coerceIn(.0, vizWidth),
+                    center.y + (random() * (vizHeight * polygonSize)).coerceIn(.0, vizHeight)
                 )
             }
             polygonHull(points)
         }.toMutableList()
 
         // if a polygon touch another one, fuse the two polygons
-        fuseAdjacentPolygons(polygons)
+        mergeAdjacentPolygons(polygons)
 
-        return polygons.toList()
+        return polygons
     }
 
-    private fun fuseAdjacentPolygons(polygons: MutableList<Polygon>) {
+    private fun mergeAdjacentPolygons(polygons: MutableList<Polygon>) {
         polygons.forEachIndexed { index, polygon ->
             polygons.forEachIndexed { otherIndex, otherPolygon ->
                 if (index != otherIndex) {
                     polygon.points.forEach { point ->
                         if (otherPolygon.contains(point)) {
-                            polygons[index] = polygonHull(listOf(polygon.points, otherPolygon.points).flatMap { it })!!
+                            polygons[index] = polygonHull(listOf(polygon.points, otherPolygon.points).flatMap { it })
                             polygons.removeAt(otherIndex)
-                            fuseAdjacentPolygons(polygons)
+                            mergeAdjacentPolygons(polygons)
                             return
                         }
                     }
@@ -107,7 +105,7 @@ class LineOfSightModel(config: LineOfSightConfig) {
 
     fun getSightPolygon(): Polygon {
         val allAngles = corners.flatMap {
-            val rad = atan2(it.y - lightPoint.y, it.x - lightPoint.x)
+            val rad = atan2(it.y - lightPos.y, it.x - lightPos.x)
             listOf(
                 Angle(rad),
                 Angle(rad + .00001),
@@ -121,13 +119,13 @@ class LineOfSightModel(config: LineOfSightConfig) {
             val dx = angle.cos
             val dy = angle.sin
 
-            val ray = Segment(lightPoint, Point(lightPoint.x + dx, lightPoint.y + dy))
+            val ray = Segment(lightPos, Point(lightPos.x + dx, lightPos.y + dy))
 
             // Find CLOSEST intersection
             var closestIntersection: Intersection? = null
 
             segments
-                .mapNotNull { getIntersection(ray, it) }
+                .mapNotNull { segment ->  ray.intersect(segment) }
                 .forEach { intersection ->
                     if (closestIntersection == null || (intersection.param < closestIntersection!!.param)) {
                         closestIntersection = intersection
@@ -149,20 +147,91 @@ class LineOfSightModel(config: LineOfSightConfig) {
         return Polygon(intersections.map { it.point })
     }
 
+    private tailrec fun findInitialRandomPointOutsideOf(polygons: List<Polygon>): Point {
+        val pos = Point(
+            random() * vizWidth,
+            random() * vizHeight
+        )
+        val insidePolygon = polygons.any { it.contains(pos) }
+        return if (insidePolygon)
+            findInitialRandomPointOutsideOf(polygons) else pos
+    }
+
+    internal fun moveLight() {
+
+        var newPos = Point(lightPos.x + xSpeed, lightPos.y + ySpeed)
+
+        // check for polygon collision for next position (on the extent or one of the polygons on screen)
+        val collidedPolygon =
+                if (viewAsPolygon.contains(newPos))
+                    polygons.find { it.contains(newPos) }
+                else
+                    viewAsPolygon
+
+        // if collision is detected, compute rebound and recompute next position
+        if (collidedPolygon != null) {
+
+            // compute movement vector
+            val movement = Segment(lightPos, newPos)
+            val collidedSegment = collidedPolygon.segments().find { movement.isIntersection(it) }
+            if (collidedSegment != null) {
+
+                // find intersection and compute normal vector of collided segment
+                val dx = collidedSegment.to.x - collidedSegment.from.x
+                val dy = collidedSegment.to.y - collidedSegment.from.y
+                val intersection = movement.intersect(collidedSegment)!!.point
+                val normal = Segment(intersection, Point(intersection.x - dy, intersection.y + dx))
+
+                val dx1 = movement.from.x - movement.to.x
+                val dx2 = normal.from.x - normal.to.x
+                val dy1 = movement.from.y - movement.to.y
+                val dy2 = normal.from.y - normal.to.y
+
+                val movementAngle = atan2(dy1, dx1)
+                val normalAngle = atan2(dy2, dx2)
+
+                newSpeed(normalAngle + (normalAngle - movementAngle))
+                newPos = Point(lightPos.x + xSpeed, lightPos.y + ySpeed)
+            }
+        }
+        lightPos = newPos
+    }
+
+    private fun newSpeed(currentDirection:Double) {
+        xSpeed = cos(currentDirection) * 0.004 * vizWidth
+        ySpeed = sin(currentDirection) * 0.004 * vizHeight
+    }
+
+}
+
+private fun Polygon.segments(): List<Segment> =
+        List(points.size) { i ->
+            Segment(
+                    points[i],
+                    if (i == points.size - 1) points[0] else points[i + 1]
+            )
+        }
+
+
+/**
+ * Todo move to core?
+ */
+data class Segment(val from: Point, val to: Point) {
+
     /**
      * @return the point of intersection or null if rays are parallel.
      */
-    private fun getIntersection(s1: Segment, s2: Segment): Intersection? {
+    fun intersect(other: Segment): Intersection? {
 
-        val px1 = s1.from.x
-        val py1 = s1.from.y
-        val dx1 = s1.to.x - s1.from.x
-        val dy1 = s1.to.y - s1.from.y
+        val px1 = from.x
+        val py1 = from.y
+        val dx1 = to.x - from.x
+        val dy1 = to.y - from.y
 
-        val px2 = s2.from.x
-        val py2 = s2.from.y
-        val dx2 = s2.to.x - s2.from.x
-        val dy2 = s2.to.y - s2.from.y
+        val px2 = other.from.x
+        val py2 = other.from.y
+        val dx2 = other.to.x - other.from.x
+        val dy2 = other.to.y - other.from.y
 
         // Are they parallel? If so, no intersect
         val l1 = sqrt(dx1 * dx1 + dy1 * dy1)
@@ -171,7 +240,7 @@ class LineOfSightModel(config: LineOfSightConfig) {
 
         // SOLVE FOR T1 & T2
         val t2 = (dx1 * (py2 - py1) + dy1 * (px1 - px2)) / (dx2 * dy1 - dy2 * dx1)
-        val t1 = (px2 + dx2 * t2 - px1) / dx1
+        val t1 = (px2 + dx2 * t2 - px1) / dx1  //todo dx1 can be 0 => division by 0 !!
 
         // Must be within parametic whatevers for RAY/SEGMENT
         if (t1 < 0) return null
@@ -180,12 +249,12 @@ class LineOfSightModel(config: LineOfSightConfig) {
         return Intersection(Point(px1 + dx1 * t1, py1 + dy1 * t1), t1)
     }
 
-    private fun isIntersection(s1: Segment, s2: Segment): Boolean {
+    fun isIntersection(other: Segment): Boolean {
 
-        val dx1 = s1.to.x - s1.from.x
-        val dy1 = s1.to.y - s1.from.y
-        val dx2 = s2.to.x - s2.from.x
-        val dy2 = s2.to.y - s2.from.y
+        val dx1 = to.x - from.x
+        val dy1 = to.y - from.y
+        val dx2 = other.to.x - other.from.x
+        val dy2 = other.to.y - other.from.y
 
         val denom = (dx1 * dy2) - (dx2 * dy1)
         if (denom == .0)
@@ -193,8 +262,8 @@ class LineOfSightModel(config: LineOfSightConfig) {
 
         val denomPositive = denom > 0
 
-        val s02x = s1.from.x - s2.from.x
-        val s02y = s1.from.y - s2.from.y
+        val s02x = from.x - other.from.x
+        val s02y = from.y - other.from.y
         val sNumer = dx1 * s02y - dy1 * s02x
         if ((sNumer < 0) == denomPositive)
             return false                                    // No collision
@@ -210,56 +279,8 @@ class LineOfSightModel(config: LineOfSightConfig) {
         return true
     }
 
-    private tailrec fun posOutsideOf(polygons: List<Polygon>): Point {
-        val pos = Point(
-            random() * vizWidth,
-            random() * vizHeight
-        )
-        val insidePolygon = polygons.any { it.contains(pos) }
-        return if (insidePolygon)
-            posOutsideOf(polygons) else pos
-    }
+}
 
-    internal fun moveLight() {
-        // compute next position
-        var newPos = Point(lightPoint.x + xSpeed, lightPoint.y + ySpeed)
-
-        // check for polygon collision for next position (on the extent or one of the polygons on screen)
-        val collidedPolygon =
-            if (!extentPolygon.contains(newPos)) extentPolygon else polygons.find { it.contains(newPos) }
-
-        // if collision is detected, compute rebound and recompute next position
-        if (collidedPolygon != null) {
-
-            // compute movement vector
-            val movement = Segment(lightPoint, newPos)
-            val collidedSegment = collidedPolygon.segments().find { isIntersection(movement, it) }
-            if (collidedSegment != null) {
-
-                // find intersection and compute normal vector of collided segment
-                val dx = collidedSegment.to.x - collidedSegment.from.x
-                val dy = collidedSegment.to.y - collidedSegment.from.y
-                val intersection = getIntersection(movement, collidedSegment)!!.point
-                val normal = Segment(intersection, Point(intersection.x - dy, intersection.y + dx))
-
-                val dx1 = movement.from.x - movement.to.x
-                val dx2 = normal.from.x - normal.to.x
-                val dy1 = movement.from.y - movement.to.y
-                val dy2 = normal.from.y - normal.to.y
-
-                val a1 = atan2(dy1, dx1)                // movement angle
-                val a2 = atan2(dy2, dx2)                // normal angle
-
-                newSpeed(a2 + (a2 - a1))
-                newPos = Point(lightPoint.x + xSpeed, lightPoint.y + ySpeed)
-            }
-        }
-        lightPoint = newPos
-    }
-
-    private fun newSpeed(angle:Double = random() * PI * 2) {
-        xSpeed = cos(angle) * 0.004 * vizWidth
-        ySpeed = sin(angle) * 0.004 * vizWidth
-    }
-
+data class Intersection(val point: Point, val param: Double) {
+    var angle: Angle = 0.deg
 }

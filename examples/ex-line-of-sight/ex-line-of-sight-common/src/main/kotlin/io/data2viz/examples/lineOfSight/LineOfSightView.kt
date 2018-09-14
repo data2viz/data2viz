@@ -28,8 +28,8 @@ fun lineOfSightViz(): Viz = viz {
     onFrame {
         path?.remove()
         model.moveLight()
-        radialGradient.cx = model.lightPoint.x
-        radialGradient.cy = model.lightPoint.y
+        radialGradient.cx = model.lightPos.x
+        radialGradient.cy = model.lightPos.y
         val points = model.getSightPolygon().points
         path = path {
             moveTo(points.first().x, points.first().y)

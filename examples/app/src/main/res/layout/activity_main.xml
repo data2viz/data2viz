@@ -9,6 +9,14 @@
 
 
 	<Button
+			android:id="@+id/button_show_geo"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="World"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="79dp"/>
+
+	<Button
 			android:id="@+id/button_show_bounce"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

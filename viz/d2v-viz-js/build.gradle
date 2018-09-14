@@ -5,6 +5,8 @@ dependencies {
     compile project(":interpolate:d2v-interpolate-js")
     compile project(":path:d2v-path-common")
     compile project(":path:d2v-path-js")
+    compile project(":timer:d2v-timer-common")
+    compile project(":timer:d2v-timer-js")
 }
 
 task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {

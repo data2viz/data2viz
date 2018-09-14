@@ -10,6 +10,7 @@ import io.data2viz.color.ColorOrGradient
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RadialGradient
 import io.data2viz.timer.Timer
+import io.data2viz.timer.timer
 import kotlin.math.*
 
 typealias ALinearGradient = android.graphics.LinearGradient
@@ -25,9 +26,28 @@ fun Viz.toView(context: Context): VizView = VizView(this, context)
 class VizView(val viz: Viz, context: Context) : View(context) {
 
     private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context)
+    private val timers = mutableListOf<Timer>()
 
-    init {
+    fun startAnimations() {
+        println("Number of animations:: ${viz.animations.size}")
+        if (viz.animations.isNotEmpty()) {
+            viz.animations.forEach { anim ->
+                timers += timer { time ->
+                    anim(time)
+                }
+            }
+            timers += timer {
+                println("invalidate")
+                invalidate()
+            }
+        }
+    }
 
+    fun stopAnimations(){
+        for (timer in timers) {
+            timer.stop()
+        }
+        timers.clear()
     }
 
 

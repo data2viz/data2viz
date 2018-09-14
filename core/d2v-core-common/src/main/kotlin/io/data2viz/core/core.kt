@@ -22,9 +22,6 @@ data class Speed(val vx: Double = 0.0, val vy: Double = 0.0) {
 
 expect fun random():Double
 
-
-
-
 fun cssclass() = CssClassDelegate()
 
 class CssClassDelegate {

@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.*
+import io.data2viz.timer.timer
 import org.w3c.dom.*
 import kotlin.browser.document
 import kotlin.math.PI
@@ -23,8 +24,6 @@ fun Viz.bindRendererOn(canvasId: String) {
     bindRendererOn(canvas)
 }
 
-
-
 fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
     val context = canvas.getContext("2d") as CanvasRenderingContext2D
     context.canvas.width = width.toInt()
@@ -32,13 +31,27 @@ fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
 
     this.renderer = JsCanvasRenderer(context)
 
+
+    fun startAnimations() {
+        if (animations.isNotEmpty()) {
+            animations.forEach { anim ->
+                timer { time ->
+                    anim(time)
+                }
+            }
+            timer {
+                render()
+            }
+        }
+    }
+
+
     if (config.autoUpdate) {
         render()
+        startAnimations()
     }
-}
 
-fun Viz.configRenderTo(root: CanvasRenderingContext2D) {
-    this.renderer = JsCanvasRenderer(root)
+
 }
 
 

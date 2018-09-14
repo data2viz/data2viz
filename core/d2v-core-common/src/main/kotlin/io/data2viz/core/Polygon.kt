@@ -105,9 +105,10 @@ fun Polygon.contains(point: Point): Boolean {
  * order.
  * Returns null if points has fewer than three elements.
  */
-fun polygonHull(points: List<Point>): Polygon? {
+fun polygonHull(points: List<Point>): Polygon {
     val size = points.size
-    if (size < 3) return null
+    require(size > 2) {"A polygon must have at least 3 points"}
+
 
     data class PointIndex(val point: Point, val index: Int)
 

@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         R.id.button_show_bounce.showActivity(BounceActivity::class.java)
+        R.id.button_show_geo.showActivity(GeoActivity::class.java)
         R.id.button_show_chord.showActivity(ChordActivity::class.java)
         R.id.button_show_force.showActivity(ForceActivity::class.java)
         R.id.button_show_line_of_sight.showActivity(LineOfSightActivity::class.java)

@@ -145,6 +145,10 @@ val simulation: ForceSimulation = forceSimulation {
 
 
 val forcesViz:Viz = viz {
+
+    width = 800.0
+    height = 500.0
+
     simulation.nodes.forEach { node ->
         circle {
             stroke = null
@@ -156,8 +160,12 @@ val forcesViz:Viz = viz {
     }
 
     onFrame {
-        updateSimulation()
+        refresh(simulation)
     }
+
+
+}.also {
+    updateSimulation()
 }
 
 private fun updateSimulation() {
