@@ -76,13 +76,15 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
             }
         }
     }
-    stroke?.let {
-        paint.style = Paint.Style.STROKE
+
+    fill?.let {
+        paint.style = Paint.Style.FILL
         it.updatePaint(paint, renderer)
         canvas.drawPath(path, paint)
     }
-    fill?.let {
-        paint.style = Paint.Style.FILL
+
+    stroke?.let {
+        paint.style = Paint.Style.STROKE
         it.updatePaint(paint, renderer)
         canvas.drawPath(path, paint)
     }
