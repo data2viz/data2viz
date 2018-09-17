@@ -1,0 +1,8 @@
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    expectedBy project(":logging:d2v-logging-common")
+    compile "org.slf4j:slf4j-api:$sl4j_version"
+}
