@@ -1,0 +1,3 @@
+dependencies {
+    compile project(":logging:d2v-logging-common")
+}

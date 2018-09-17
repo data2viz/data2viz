@@ -1,5 +1,7 @@
 package io.data2viz.timer
 
+import io.data2viz.logging.KotlinLogging
+
 
 /**
  * used to make the timer sleep until next frame or event.
@@ -35,22 +37,35 @@ internal expect fun delegateNow(): Double
 
 internal var timeoutHandle:Any? = null
 internal var pokeHandle:Any? = null
-internal var frame = 0                   // is an animation frame pending? todo use boolean?
 
-/** how frequently we check for clock skew */
-const val pokeDelay = 1000      
+/**
+ * is animation frame pending
+ * Todo use boolean?
+ */
+internal var frame = 0
 
-internal var taskHead: Timer? = null
-internal var taskTail: Timer? = null
-internal var clockLast = 0.0
+/**
+ * how frequently we check for clock skew
+ */
+private const val pokeDelay = 1000
+
+private var taskHead: Timer? = null
+private var taskTail: Timer? = null
+private var clockLast = 0.0
 
 
 /**
  * now set for all timers
  */
 internal var clockNow = 0.0
+
+/**
+ *
+ */
 internal var clockSkew = 0.0
 
+
+private val log = KotlinLogging.logger{}
 
 /**
  * Schedules a new timer, invoking the specified callback repeatedly until the
@@ -78,11 +93,69 @@ internal var clockSkew = 0.0
  * rather than waiting until the next frame. Within a frame, timer callbacks are guaranteed
  * to be invoked in the order they were scheduled, regardless of their start time.
  */
-fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer =
-    Timer().apply {
-        println("new timer")
+fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
+    log.debug { "timer with delay::${delay.toInt()} ms, startTime::${startTime.toInt()} ms" }
+    return Timer().apply {
         restart(delay, startTime, callback)
     }
+}
+
+
+/**
+ * Like timer, except the timer automatically stops on its first callback. A suitable
+ * replacement for setTimeout that is guaranteed to not run in the background.
+ * The callback is passed the elapsed time.
+ */
+fun timeout(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
+    log.debug { "timeout with delay::$delay, startTime::${startTime.toInt()}" }
+    return Timer().apply {
+        restart(delay, startTime) { time ->
+            stop()
+            callback(time)
+        }
+    }
+}
+
+fun interval(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
+
+//
+//    export default function(callback, delay, time) {
+//        var t = new Timer, total = delay;
+//        if (delay == null) return t.restart(callback, delay, time), t;
+//        delay = +delay, time = time == null ? now() : +time;
+//        t.restart(function tick(elapsed) {
+//            elapsed += total;
+//            t.restart(tick, total += delay, time);
+//            callback(elapsed);
+//        }, delay, time);
+//        return t;
+//    }
+
+    fun tick(elapsed:Double){
+
+    }
+
+    var total = delay
+    val timer = Timer()
+    if (delay == 0.0){
+
+    }
+
+    log.debug { "timeout with delay::$delay, startTime::${startTime.toInt()}" }
+    return Timer().apply {
+        restart(delay, startTime) { time ->
+            stop()
+            callback(time)
+        }
+    }
+}
+
+fun testSetTimeout(timeout: Int, block:() -> Unit) = setTimeout(block, timeout)
+fun testStopTimeout(handle: Any) = clearTimeout(handle)
+
+fun testSetInterval(timeout: Int, block:() -> Unit) = setInterval(block, timeout)
+fun testStopInterval(handle: Any) = clearInterval(handle)
+
 
 class Timer {
 
@@ -90,7 +163,9 @@ class Timer {
     internal var _time: Double = 0.0
 
     /**
-     * The lambda to be call
+     * The lambda to be called.
+     * Set to null when stopped
+     * (todo: should be notnullable, use another param to indicate a stopped timer)
      */
     internal var _call: (Timer.(Double) -> Unit)? = null
 
@@ -105,12 +180,15 @@ class Timer {
      * the specified arguments, although this timer retains the original invocation priority.
      *
      * update taskTail and taskHead (the first timer is both tail and head)
+     *
+     * todo rename `restartWith`
      */
     fun restart(
         delay: Double = .0,
         startTime: Double = now(),
         callback: Timer.(Double) -> Unit
     ) {
+        log.debug { "restart.begin" }
         val newTime = startTime + delay
         if (_next == null && taskTail !== this) {
             val tail = taskTail
@@ -122,7 +200,7 @@ class Timer {
         }
         _call = callback
         _time = newTime
-        log("after restart")
+        log.debug { "restart.end" }
         sleep()
     }
 
@@ -131,6 +209,7 @@ class Timer {
      * This method has no effect if the timer has already stopped.
      */
     fun stop() {
+        log.debug { "stop" }
         if (_call != null) {
             _call = null
             _time = Double.POSITIVE_INFINITY
@@ -145,15 +224,15 @@ class Timer {
 }
 
 /**
- * Returns the current time as defined by performance.now if available, and Date.now if not.
+ * Returns the current time as defined by performance.now (elapsed time since document creation) if available,
+ * and Date.now if not (elapsed time since 1970/01/01 00:00:00).
  *
  * The current time is updated at the start of a frame; it is thus
  * consistent during the frame, and any timers scheduled during the same frame will be
  * synchronized.
  *
- * If this method is called outside of a frame, such as in response to a
- * user event, the current time is calculated and then fixed until the next frame, again
- * ensuring consistent timing during event handling.
+ * If this method is called outside of a frame, such as in response to a user event, the current
+ * time is calculated and then fixed until the next frame, again ensuring consistent timing during event handling.
  */
 fun now(): Double {
     if (clockNow == 0.0) {
@@ -176,7 +255,7 @@ private fun clearNow() {
  * you can run any zero-delay timers immediately and avoid the flicker.
  */
 fun timerFlush() {
-//    log("timerFlush")
+    log("timerFlush")
     now()                       // Get the current time, if not already set.
     ++frame                     // Pretend we’ve set an alarm, if we haven’t already.
     var t = taskHead
@@ -196,9 +275,9 @@ fun timerFlush() {
 /**
  * Before sleeping, cleans timers, starting from head.
  * If taskHead is null, set taskTail to null.
- * Sleep the minimum of timers time.
+ * @return the time of the sooner timer to execute
  */
-private fun nap() {
+private fun updateTimers():Double {
     var t0: Timer? = null
     var t1 = taskHead
     var t2: Timer?
@@ -226,8 +305,8 @@ private fun nap() {
         }
     }
     taskTail = t0
-    log("after nap, timerCount $timerCount")
-    sleep(time)
+    log("after updateTimers, timerCount $timerCount")
+    return time
 }
 
 /**
@@ -237,7 +316,7 @@ private fun nap() {
  */
 private fun sleep(time: Double? = null) {
 
-    println("sleep $time")
+    log.debug { "sleep ${time?.toInt()}"}
 
     if (frame > 0) return // Soonest alarm already set, or will be.
     timeoutHandle?.let {
@@ -271,7 +350,7 @@ private fun sleep(time: Double? = null) {
  * Every second update the skew
  */
 private fun updateSkew() {
-//    log("updateSkew")
+    log("updateSkew")
     val now = now()
     val delay = now - clockLast
     if (delay > pokeDelay) {
@@ -282,7 +361,7 @@ private fun updateSkew() {
 
 
 private fun wake() {
-//    log("wake")
+    log("wake")
     clockLast = now()
     clockNow = clockLast + clockSkew
     frame = 0
@@ -291,16 +370,14 @@ private fun wake() {
         timerFlush()
     } finally {
         frame = 0
-        nap()
+        val time = updateTimers()
+        sleep(time)
         clockNow = 0.0
     }
 }
 
-/**
- * Todo remove after dev
- */
 private fun log(msg:String) {
-    println("${now().toInt()} ${msg.padEnd(20)}handle:: $timeoutHandle timers::${logTimers()}")
+    log.debug { ("${now().toInt()} ${msg.padEnd(20)}handle:: $timeoutHandle timers::${logTimers()}")}
 }
 
 private fun logTimers(): String {
