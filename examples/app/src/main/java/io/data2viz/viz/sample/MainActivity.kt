@@ -24,28 +24,6 @@ class MainActivity : AppCompatActivity() {
         R.id.button_show_line_of_sight.showActivity(LineOfSightActivity::class.java)
         R.id.button_show_sankey.showActivity(SankeyActivity::class.java)
 
-        log.debug { "now:: ${now().toInt()} ms" }
-
-        val t1 = testSetTimeout(1000) { log.debug { "t1.timeout(1000.0) ${now().toInt()} ms" } }
-        val t2 = testSetTimeout(1000) { log.debug { "t2.timeout(1000.0) ${now().toInt()} ms" } }
-        val t3 = testSetTimeout(2000) { log.debug { "t3.timeout(2000.0) ${now().toInt()} ms" } }
-
-        val i1 = testSetInterval(1000) { log.debug { "i1.interval(1000.0) ${now().toInt()} ms" } }
-        val i2 = testSetInterval(1000) { log.debug { "i2.interval(1000.0) ${now().toInt()} ms" } }
-        val i3 = testSetInterval(1000) { log.debug { "i3.interval(1000.0) ${now().toInt()} ms" } }
-
-        testStopTimeout(t2)
-
-        testStopInterval(i1)
-        testSetTimeout(3000) {
-            log.debug { "testStopInterval(i2)" }
-            testStopInterval(i2)
-        }
-        testSetTimeout(5500) {
-            log.debug { "testStopInterval(i3)" }
-            testStopInterval(i3)
-        }
-
     }
 
     fun <T : AppCompatActivity> Int.showActivity(activity: Class<T>) {
