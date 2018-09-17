@@ -82,7 +82,7 @@ class MercatorPath : Application() {
         timer.log("geoPath")
 
 
-        viz.root.add(path)
+        viz.add(path)
         
         var initX = .0
         var initY = .0

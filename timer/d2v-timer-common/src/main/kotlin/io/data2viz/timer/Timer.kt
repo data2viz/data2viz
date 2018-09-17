@@ -40,16 +40,16 @@ internal var frame = 0                   // is an animation frame pending? todo 
 /** how frequently we check for clock skew */
 const val pokeDelay = 1000      
 
-var taskHead: Timer? = null
-var taskTail: Timer? = null
-var clockLast = 0.0
+internal var taskHead: Timer? = null
+internal var taskTail: Timer? = null
+internal var clockLast = 0.0
 
 
 /**
  * now set for all timers
  */
-var clockNow = 0.0
-var clockSkew = 0.0
+internal var clockNow = 0.0
+internal var clockSkew = 0.0
 
 
 /**
@@ -80,6 +80,7 @@ var clockSkew = 0.0
  */
 fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer =
     Timer().apply {
+        println("new timer")
         restart(delay, startTime, callback)
     }
 
@@ -106,8 +107,8 @@ class Timer {
      * update taskTail and taskHead (the first timer is both tail and head)
      */
     fun restart(
-        delay: Double,
-        startTime: Double,
+        delay: Double = .0,
+        startTime: Double = now(),
         callback: Timer.(Double) -> Unit
     ) {
         val newTime = startTime + delay
@@ -121,7 +122,7 @@ class Timer {
         }
         _call = callback
         _time = newTime
-//        log("after restart")
+        log("after restart")
         sleep()
     }
 
@@ -198,12 +199,13 @@ fun timerFlush() {
  * Sleep the minimum of timers time.
  */
 private fun nap() {
-//    log("before nap")
     var t0: Timer? = null
     var t1 = taskHead
     var t2: Timer?
     var time = Double.POSITIVE_INFINITY
+    var timerCount = 0
     while (t1 != null) {
+        timerCount++
         if (t1._call != null) {
             if (time > t1._time) {
                 time = t1._time
@@ -224,7 +226,7 @@ private fun nap() {
         }
     }
     taskTail = t0
-//    log("after nap")
+    log("after nap, timerCount $timerCount")
     sleep(time)
 }
 
@@ -234,6 +236,8 @@ private fun nap() {
  * If time is not set or short (<= 24 ms), wake up at the next frame.
  */
 private fun sleep(time: Double? = null) {
+
+    println("sleep $time")
 
     if (frame > 0) return // Soonest alarm already set, or will be.
     timeoutHandle?.let {

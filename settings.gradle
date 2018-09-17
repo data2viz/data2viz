@@ -154,7 +154,10 @@ def examples = [
         ":ex-force:ex-force-js",
         ":ex-force:ex-force-jvm", 
 
-        ":ex-geo", 
+        ":ex-full",
+        ":ex-full:ex-full-js",
+
+        ":ex-geo",
         ":ex-geo:ex-geo-common", 
         ":ex-geo:ex-geo-js", 
         ":ex-geo:ex-geo-jvm", 

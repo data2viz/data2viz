@@ -5,6 +5,7 @@ import io.data2viz.force.*
 import io.data2viz.timer.timer
 import io.data2viz.viz.Circle
 import io.data2viz.viz.Viz
+import io.data2viz.viz.viz
 
 const val width = 800.0
 const val height = 500.0
@@ -143,18 +144,27 @@ val simulation: ForceSimulation = forceSimulation {
 }
 
 
-val forcesViz:Viz = Viz().apply {
-    with(root){
-        simulation.nodes.forEach { node ->
-            circle {
-                stroke = null
-                radius = 2.0 + (node.index / 150)
-                fill = olympicColors[node.index % 5]
-                x = node.position.x
-                y = node.position.y
-            }
+val forcesViz:Viz = viz {
+
+    width = 800.0
+    height = 500.0
+
+    simulation.nodes.forEach { node ->
+        circle {
+            stroke = null
+            radius = 2.0 + (node.index / 150)
+            fill = olympicColors[node.index % 5]
+            x = node.position.x
+            y = node.position.y
         }
     }
+
+    onFrame {
+        refresh(simulation)
+    }
+
+
+}.also {
     updateSimulation()
 }
 
@@ -176,7 +186,7 @@ private fun updateSimulation() {
 
 
 fun refresh(sim: ForceSimulation) {
-    forcesViz.root.children.forEachIndexed { index, node ->
+    forcesViz.activeLayer.children.forEachIndexed { index, node ->
         val forceNode = sim.nodes[index]
         val circle = node as Circle
         circle.x = forceNode.position.x

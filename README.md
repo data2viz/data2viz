@@ -157,13 +157,15 @@ The current version contains the following modules:
   - viz: multiplatform abstraction over visual elements (circle, rectangle, ...)
   - voronoi: the voronoi algorithm
 
-### Coming soon:
-The modules that are currently in development or coming soon:
+### upcoming v0.7:
 
-  - zoom: zoom and pan management.
-  - drag: manage the drag of elements.
-  - brush: selection of visual elements.
+This major version brings the support of android. This addition of android as a target 
+platform had a big impact on the design of data2viz. Before v0.7 basic visual elements 
+(rectangles, circles, ...) were wrappers on specific platform elements. Now, these elements
+are a memory version of the visualization. Elements are just rendered on each platform 
+using canvas. 
 
+This version includes a cleaner hierarchy with layers at its base.
 
 ### and next:
 We plan to release a chart module inspired by vega-lite to enable very fast charting development.
@@ -186,7 +188,8 @@ You can also clone this repo and have a look on the [example directory](examples
 
 
 ## Inspirations
- - [d3js](https://github.com/d3/d3): a lot of concepts ported in this project
+ - [d3js](https://github.com/d3/d3): a lot of modules and algorithms come from d3js
+ - [paperjs](https://github.com/paperjs/paper.js): another source of inspiration for viz hierarchy and simple API.
  - [delaunator](https://github.com/mapbox/delaunator): A really fast JavaScript library for Delaunay triangulation of 2D points.
  - [kotlinx.html](https://github.com/Kotlin/kotlinx.html): isomorphic html rendering 
  - [kotlintest](https://github.com/kotlintest/kotlintest): nice DSL for testing (partly ported in [test](tests))

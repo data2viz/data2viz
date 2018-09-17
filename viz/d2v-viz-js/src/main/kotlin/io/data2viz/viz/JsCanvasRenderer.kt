@@ -1,12 +1,57 @@
 package io.data2viz.viz
 
 import io.data2viz.color.*
-import io.data2viz.path.*
+import io.data2viz.timer.timer
 import org.w3c.dom.*
+import kotlin.browser.document
 import kotlin.math.PI
 
-fun Viz.configRenderTo(root: CanvasRenderingContext2D) {
-    this.renderer = JsCanvasRenderer(root)
+
+/**
+ * Allows to quickly bind a renderer on an existing canvas in the current document.
+ * This is a way to display multiple visualizations in a unique page. Each viz
+ * location in the page can be prepared with by providing a `canvas` tag with a
+ * unique id.
+ *
+ * Raises an error if there is no canvas element with the given id.
+ *
+ * The viz is immediately rendered if the autoUpdate property of the viz configuration
+ * is set to true.
+ */
+fun Viz.bindRendererOn(canvasId: String) {
+    val canvas = requireNotNull(document.getElementById(canvasId) as HTMLCanvasElement?)
+        {"No canvas in the document corresponding to $canvasId"}
+    bindRendererOn(canvas)
+}
+
+fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
+    val context = canvas.getContext("2d") as CanvasRenderingContext2D
+    context.canvas.width = width.toInt()
+    context.canvas.height = height.toInt()
+
+    this.renderer = JsCanvasRenderer(context)
+
+
+    fun startAnimations() {
+        if (animations.isNotEmpty()) {
+            animations.forEach { anim ->
+                timer { time ->
+                    anim(time)
+                }
+            }
+            timer {
+                render()
+            }
+        }
+    }
+
+
+    if (config.autoUpdate) {
+        render()
+        startAnimations()
+    }
+
+
 }
 
 
@@ -14,7 +59,9 @@ class JsCanvasRenderer(val context: CanvasRenderingContext2D) : VizRenderer {
 
     override fun render(viz: Viz) {
         context.clearRect(.0, .0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
-        viz.root.render(context)
+        viz.layers.forEach {
+            it.render(context)
+        }
     }
 
 }
@@ -63,15 +110,16 @@ fun Group.render(context: CanvasRenderingContext2D) {
 
 fun Rect.render(context: CanvasRenderingContext2D) {
 
+    fill?.let {
+        context.fillStyle = it.toCanvasPaint(context)
+        context.fillRect(x, y, width, height)
+    }
+
     stroke?.let {
         context.strokeStyle = it.toCanvasPaint(context)
         context.strokeRect(x, y, width, height)
     }
 
-    fill?.let {
-        context.fillStyle = it.toCanvasPaint(context)
-        context.fillRect(x, y, width, height)
-    }
 
 }
 

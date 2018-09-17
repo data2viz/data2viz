@@ -5,7 +5,8 @@ import io.data2viz.color.colors
 import io.data2viz.viz.TextAnchor.*
 
 
-class Text : Node, HasFill {
+class Text : Node(), HasFill {
+
     var x: Double = .0
     var y: Double = .0
     var textContent: String = ""

@@ -14,6 +14,7 @@ import io.data2viz.shape.stack.StackSpace
 import io.data2viz.shape.stack.stack
 import io.data2viz.viz.Margins
 import io.data2viz.viz.Viz
+import io.data2viz.viz.viz
 
 
 // Graphical bounds
@@ -84,8 +85,8 @@ val orderOptions = listOf(
 )
 
 // Main function
-fun streamGraph(): Viz = Viz().apply {
-    with(root) {
+fun streamGraph(): Viz = viz {
+    group {
         // Add margins for visualization
         transform {
             translate(x = margins.left, y = margins.top)

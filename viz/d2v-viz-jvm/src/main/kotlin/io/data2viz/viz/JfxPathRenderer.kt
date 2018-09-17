@@ -8,7 +8,7 @@ import kotlin.math.absoluteValue
 fun PathNode.render(renderer: JFxVizRenderer) {
     val gc = renderer.gc
     gc.beginPath()
-    commands.forEach { cmd ->
+    path.commands.forEach { cmd ->
         when (cmd) {
             is MoveTo -> gc.moveTo(cmd.x, cmd.y)
             is LineTo -> gc.lineTo(cmd.x, cmd.y)

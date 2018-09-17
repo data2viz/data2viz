@@ -1,7 +1,7 @@
 package io.data2viz.viz
 
 
-class Group : Node, HasTransform {
+open class Group : Node(), HasChildren, HasTransform {
 
     val children = mutableListOf<Node>()
 
@@ -11,53 +11,43 @@ class Group : Node, HasTransform {
         transform = Transform().apply(init)
     }
 
-    fun add(node: Node) {
+    override fun add(node: Node) {
         children.add(node)
+        node.parent = this
     }
 
-    fun remove(node: Node) {
+    override fun remove(node: Node) {
+        node.parent = null
         children.remove(node)
     }
 
-    fun group(init: Group.() -> Unit): Group {
-        val node = Group().apply(init)
-        add(node)
-        return node
-    }
-
-    fun line(init: Line.() -> Unit): Line {
-        val node = Line().apply(init)
-        add(node)
-        return node
-    }
-
-    fun circle(init: Circle.() -> Unit): Circle {
-        val node = Circle().apply(init)
-        add(node)
-        return node
-
-    }
-    fun rect(init: Rect.() -> Unit): Rect {
-        val node = Rect().apply(init)
-        add(node)
-        return node
-
-    }
+    override fun group(init: Group.() -> Unit): Group = Group()
+            .apply(init)
+            .also { add(it) }
 
 
-    fun text(init: Text.() -> Unit): Text {
-        val node = Text().apply(init)
-        add(node)
-        return node
+    override fun line(init: Line.() -> Unit): Line = Line()
+            .apply(init)
+            .also { add(it) }
 
-    }
+    override fun circle(init: Circle.() -> Unit): Circle = Circle()
+            .apply(init)
+            .also { add(it) }
 
 
-    fun path(init: PathNode.() -> Unit): PathNode {
-        val node = PathNode().apply(init)
-        add(node)
-        return node
-    }
+    override fun rect(init: Rect.() -> Unit): Rect = Rect()
+            .apply(init)
+            .also { add(it) }
+
+
+    override fun text(init: Text.() -> Unit): Text = Text()
+            .apply(init)
+            .also { add(it) }
+
+
+    override fun path(init: PathNode.() -> Unit): PathNode = PathNode()
+            .apply(init)
+            .also { add(it) }
 
 
 }

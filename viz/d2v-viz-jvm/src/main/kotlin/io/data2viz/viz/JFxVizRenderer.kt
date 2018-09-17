@@ -20,7 +20,9 @@ class JFxVizRenderer(val canvas: Canvas) : VizRenderer {
 
     override fun render(viz: Viz) {
         gc.clearRect(.0, .0, canvas.width, canvas.height)
-        viz.root.render(this)
+        viz.layers.forEach {
+            it.render(this)
+        }
     }
 
     fun addTransform(transform: Transform) {

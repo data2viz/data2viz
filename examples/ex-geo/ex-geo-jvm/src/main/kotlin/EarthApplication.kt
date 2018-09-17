@@ -74,8 +74,8 @@ class EarthApplication : Application() {
 
 
 
-        viz.root.add(pathInner)
-        viz.root.add(pathOuter)
+        viz.add(pathInner)
+        viz.add(pathOuter)
 
 
         primaryStage!!.scene = (Scene(root, extent.width, extent.height))
@@ -87,13 +87,11 @@ class EarthApplication : Application() {
             rotate[0] += .5
             rotate[1] = -10.0
 
-
             pathInner.clearPath()
             geoPathInner.path(world)
 
             pathOuter.clearPath()
             geoPathOuter.path(world)
-
 
             geoPathOuter.projection.rotate = rotate
             geoPathInner.projection.rotate = rotate

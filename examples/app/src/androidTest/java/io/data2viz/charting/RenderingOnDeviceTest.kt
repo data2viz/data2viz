@@ -36,9 +36,9 @@ class RenderingOnDeviceTest {
         val androidCanvasRenderer = AndroidCanvasRenderer(
                 InstrumentationRegistry.getContext(), canvas)
 
-        val viz = Viz().apply {
+        val viz = viz {
             renderer = androidCanvasRenderer
-            root.add(rendereredNode)
+            add(rendereredNode)
         }
         viz.render()
         val appContext = InstrumentationRegistry.getTargetContext()

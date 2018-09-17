@@ -15,9 +15,8 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
 
     fun PathNode.last(index:Int): PathCommand {
         require(index>0) {"Index should be up to 0"}
-        return commands[index - 1]
+        return path.commands[index - 1]
     }
-
 
     val path = android.graphics.Path()
 
@@ -51,7 +50,7 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
         }
     }
 
-    commands.forEachIndexed { index, cmd ->
+    this@render.path.commands.forEachIndexed { index, cmd ->
         with(renderer){
             when (cmd) {
                 is MoveTo -> path.moveTo(cmd.x.dp, cmd.y.dp)
@@ -77,13 +76,15 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
             }
         }
     }
-    stroke?.let {
-        paint.style = Paint.Style.STROKE
+
+    fill?.let {
+        paint.style = Paint.Style.FILL
         it.updatePaint(paint, renderer)
         canvas.drawPath(path, paint)
     }
-    fill?.let {
-        paint.style = Paint.Style.FILL
+
+    stroke?.let {
+        paint.style = Paint.Style.STROKE
         it.updatePaint(paint, renderer)
         canvas.drawPath(path, paint)
     }
