@@ -150,13 +150,6 @@ fun interval(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Do
     }
 }
 
-fun testSetTimeout(timeout: Int, block:() -> Unit) = setTimeout(block, timeout)
-fun testStopTimeout(handle: Any) = clearTimeout(handle)
-
-fun testSetInterval(timeout: Int, block:() -> Unit) = setInterval(block, timeout)
-fun testStopInterval(handle: Any) = clearInterval(handle)
-
-
 class Timer {
 
 
