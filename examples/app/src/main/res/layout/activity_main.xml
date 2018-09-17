@@ -53,13 +53,4 @@
 			tools:layout_editor_absoluteX="16dp"
 			tools:layout_editor_absoluteY="79dp"/>
 
-	<Button
-			android:id="@+id/button_show_loop"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="Loop"
-			tools:layout_editor_absoluteX="16dp"
-			tools:layout_editor_absoluteY="79dp"/>
-
-
 </LinearLayout>
