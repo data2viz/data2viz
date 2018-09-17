@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import io.data2viz.logging.KotlinLogging
-import io.data2viz.timer.*
-
 
 class MainActivity : AppCompatActivity() {
 
