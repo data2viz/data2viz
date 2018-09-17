@@ -6,6 +6,7 @@ import android.os.Bundle
 import forcesViz
 import io.data2viz.viz.VizView
 import io.data2viz.viz.toView
+import simulation
 
 
 class ForceActivity : AppCompatActivity() {
@@ -17,11 +18,13 @@ class ForceActivity : AppCompatActivity() {
         view = forcesViz.toView(this)
         setContentView(view)
         view.startAnimations()
+        simulation.restart()
     }
 
     override fun onStop() {
         super.onStop()
         view.stopAnimations()
+        simulation.stop()
     }
 
 }
