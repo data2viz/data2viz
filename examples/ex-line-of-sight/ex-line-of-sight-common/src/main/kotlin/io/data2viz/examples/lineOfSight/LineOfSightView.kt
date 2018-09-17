@@ -26,7 +26,7 @@ fun lineOfSightViz(): Viz = viz {
     fun buildBackground() {
         backgroundLayer.clear()
         backgroundLayer.rect {
-            fill = Color(0x131c2b, .5f)
+            fill = Color(0x131c2b)
             x = .0
             y = .0
             width = vizWidth

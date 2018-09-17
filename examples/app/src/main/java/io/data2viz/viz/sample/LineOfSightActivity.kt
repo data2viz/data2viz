@@ -3,8 +3,6 @@ package io.data2viz.viz.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.data2viz.examples.lineOfSight.lineOfSightViz
-import io.data2viz.timer.Timer
-import io.data2viz.timer.timer
 import io.data2viz.viz.VizView
 import io.data2viz.viz.toView
 
