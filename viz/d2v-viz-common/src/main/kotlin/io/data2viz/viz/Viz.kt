@@ -31,6 +31,8 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer{
 
     val layers = mutableListOf(activeLayer)
 
+    private var resizeBehavior:((Double, Double) -> Unit)? = null
+
     lateinit var renderer: VizRenderer
 
     fun render() {
@@ -39,12 +41,24 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer{
 
     internal val animations = mutableListOf<(Double)-> Unit>()
 
-
     fun onFrame(block: (Double) -> Unit) {
         animations.add(block)
     }
 
+    fun onResize(block: (newWidth:Double, newHeight:Double) -> Unit) {
+        resizeBehavior = block
+    }
 
+    fun resize(newWidth:Double, newHeight:Double) {
+        resizeBehavior?.invoke(newWidth, newHeight)
+    }
+
+    fun layer(): Layer {
+        val layer = Layer()
+        layers.add(layer)
+        activeLayer = layer
+        return layer
+    }
 }
 
 fun viz(init: Viz.() -> Unit): Viz  = Viz().apply(init)
@@ -115,6 +129,7 @@ interface HasChildren {
 
     fun add(node: Node)
     fun remove(node: Node)
+    fun clear()
     fun group(init: Group.() -> Unit): Group
     fun line(init: Line.() -> Unit): Line
     fun circle(init: Circle.() -> Unit): Circle

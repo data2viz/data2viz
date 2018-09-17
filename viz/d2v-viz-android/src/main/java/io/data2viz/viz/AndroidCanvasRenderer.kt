@@ -2,6 +2,7 @@ package io.data2viz.viz
 
 import io.data2viz.color.Color
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Shader
@@ -50,8 +51,8 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         timers.clear()
     }
 
-
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        viz.resize(w.toDouble(), h.toDouble())
         updateScale()
     }
 

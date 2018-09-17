@@ -21,6 +21,10 @@ open class Group : Node(), HasChildren, HasTransform {
         children.remove(node)
     }
 
+    override fun clear() {
+        children.clear()
+    }
+
     override fun group(init: Group.() -> Unit): Group = Group()
             .apply(init)
             .also { add(it) }
