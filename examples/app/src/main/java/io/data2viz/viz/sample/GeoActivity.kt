@@ -111,7 +111,7 @@ class GeoView(context: Context, val world: GeoJsonObject) : View(context) {
     }
 
     fun updateScale() {
-        val scale = (width / viz.width).toFloat()
+        val scale = (width / geoViz.width).toFloat()
 
         println("updateScale:: $scale current width::$width")
         renderer.scale = 1.3f
