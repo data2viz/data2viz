@@ -1,7 +1,5 @@
 package io.data2viz.timer
 
-import io.data2viz.logging.KotlinLogging
-
 
 /**
  * used to make the timer sleep until next frame or event.
@@ -65,7 +63,6 @@ internal var clockNow = 0.0
 internal var clockSkew = 0.0
 
 
-private val log = KotlinLogging.logger{}
 
 /**
  * Schedules a new timer, invoking the specified callback repeatedly until the
@@ -94,7 +91,6 @@ private val log = KotlinLogging.logger{}
  * to be invoked in the order they were scheduled, regardless of their start time.
  */
 fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
-    log.debug { "timer with delay::${delay.toInt()} ms, startTime::${startTime.toInt()} ms" }
     return Timer().apply {
         restart(delay, startTime, callback)
     }
@@ -107,7 +103,6 @@ fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Doubl
  * The callback is passed the elapsed time.
  */
 fun timeout(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
-    log.debug { "timeout with delay::$delay, startTime::${startTime.toInt()}" }
     return Timer().apply {
         restart(delay, startTime) { time ->
             stop()
@@ -141,7 +136,6 @@ fun interval(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Do
 
     }
 
-    log.debug { "timeout with delay::$delay, startTime::${startTime.toInt()}" }
     return Timer().apply {
         restart(delay, startTime) { time ->
             stop()
@@ -181,7 +175,6 @@ class Timer {
         startTime: Double = now(),
         callback: Timer.(Double) -> Unit
     ) {
-        log.debug { "restart.begin" }
         val newTime = startTime + delay
         if (_next == null && taskTail !== this) {
             val tail = taskTail
@@ -193,7 +186,6 @@ class Timer {
         }
         _call = callback
         _time = newTime
-        log.debug { "restart.end" }
         sleep()
     }
 
@@ -202,7 +194,6 @@ class Timer {
      * This method has no effect if the timer has already stopped.
      */
     fun stop() {
-        log.debug { "stop" }
         if (_call != null) {
             _call = null
             _time = Double.POSITIVE_INFINITY
@@ -309,7 +300,6 @@ private fun updateTimers():Double {
  */
 private fun sleep(time: Double? = null) {
 
-    log.debug { "sleep ${time?.toInt()}"}
 
     if (frame > 0) return // Soonest alarm already set, or will be.
     timeoutHandle?.let {
@@ -370,7 +360,7 @@ private fun wake() {
 }
 
 private fun log(msg:String) {
-    log.debug { ("${now().toInt()} ${msg.padEnd(20)}handle:: $timeoutHandle timers::${logTimers()}")}
+//    println( ("${now().toInt()} ${msg.padEnd(20)}handle:: $timeoutHandle timers::${logTimers()}"))
 }
 
 private fun logTimers(): String {

@@ -1,3 +1,0 @@
-dependencies {
-    expectedBy project(":logging:d2v-logging-common")
-}

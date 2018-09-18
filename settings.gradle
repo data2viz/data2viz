@@ -57,11 +57,6 @@ def d2v = [
         ":interpolate:d2v-interpolate-js",
         ":interpolate:d2v-interpolate-jvm",
 
-        ":logging:d2v-logging-android",
-        ":logging:d2v-logging-common",
-        ":logging:d2v-logging-js",
-        ":logging:d2v-logging-jvm",
-
         ":path:d2v-path-common",
         ":path:d2v-path-js",
         ":path:d2v-path-jvm",
