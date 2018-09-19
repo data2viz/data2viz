@@ -2,6 +2,7 @@ package io.data2viz.core
 
 import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
+import io.data2viz.test.shouldThrow
 import kotlin.math.sqrt
 import kotlin.test.Test
 
@@ -157,10 +158,10 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest15")
-    fun `polygonHull(points) returns null if points has fewer than three elements`() {
-        polygonHull(listOf()) shouldBe null
-        polygonHull(listOf(Point(1.0, .0))) shouldBe null
-        polygonHull(listOf(Point(1.0, .0), Point(.0, 1.0))) shouldBe null
+    fun `polygonHull(points) raise IllegalArgumentException if points has fewer than three elements`() {
+        shouldThrow<IllegalArgumentException>{polygonHull(listOf())}
+        shouldThrow<IllegalArgumentException>{polygonHull(listOf(Point(1.0, .0)))}
+        shouldThrow<IllegalArgumentException>{polygonHull(listOf(Point(1.0, .0), Point(.0, 1.0)))}
     }
 
     @Test
@@ -173,7 +174,7 @@ class PolygonTests : TestBase() {
                 Point(500.0, 500.0)
             )
         )
-        polygon!!.points[0] shouldBe Point(760.0, 300.0)
+        polygon.points[0] shouldBe Point(760.0, 300.0)
         polygon.points[1] shouldBe Point(200.0, 200.0)
         polygon.points[2] shouldBe Point(500.0, 500.0)
 
@@ -185,7 +186,7 @@ class PolygonTests : TestBase() {
                 Point(400.0, 400.0)
             )
         )
-        polygon2!!.points[0] shouldBe Point(760.0, 300.0)
+        polygon2.points[0] shouldBe Point(760.0, 300.0)
         polygon2.points[1] shouldBe Point(200.0, 200.0)
         polygon2.points[2] shouldBe Point(500.0, 500.0)
     }
@@ -201,7 +202,7 @@ class PolygonTests : TestBase() {
                 Point(-10.0, 10.0)
             )
         )
-        polygon!!.points[0] shouldBe Point(10.0, 10.0)
+        polygon.points[0] shouldBe Point(10.0, 10.0)
         polygon.points[1] shouldBe Point(10.0, -10.0)
         polygon.points[2] shouldBe Point(-10.0, -10.0)
         polygon.points[3] shouldBe Point(-10.0, 10.0)
@@ -219,7 +220,7 @@ class PolygonTests : TestBase() {
                 Point(-10.0, .0)
             )
         )
-        polygon!!.points[0] shouldBe Point(10.0, .0)
+        polygon.points[0] shouldBe Point(10.0, .0)
         polygon.points[1] shouldBe Point(.0, -10.0)
         polygon.points[2] shouldBe Point(-10.0, .0)
         polygon.points[3] shouldBe Point(.0, 10.0)
@@ -239,7 +240,7 @@ class PolygonTests : TestBase() {
                 Point(60.0, 20.0)
             )
         )
-        polygon!!.points[0] shouldBe Point(250.0, 140.0)
+        polygon.points[0] shouldBe Point(250.0, 140.0)
         polygon.points[1] shouldBe Point(60.0, 20.0)
         polygon.points[2] shouldBe Point(50.0, 60.0)
         polygon.points[3] shouldBe Point(79.0, 140.0)
@@ -261,7 +262,7 @@ class PolygonTests : TestBase() {
                 Point(50.0, 60.0)
             )
         )
-        polygon2!!.points[0] shouldBe Point(250.0, 140.0)
+        polygon2.points[0] shouldBe Point(250.0, 140.0)
         polygon2.points[1] shouldBe Point(60.0, 20.0)
         polygon2.points[2] shouldBe Point(50.0, 60.0)
         polygon2.points[3] shouldBe Point(79.0, 140.0)
@@ -286,7 +287,7 @@ class PolygonTests : TestBase() {
                 Point(30.0, 30.0)
             )
         )
-        polygon3!!.points[0] shouldBe Point(300.0, 200.0)
+        polygon3.points[0] shouldBe Point(300.0, 200.0)
         polygon3.points[1] shouldBe Point(250.0, 50.0)
         polygon3.points[2] shouldBe Point(60.0, 20.0)
         polygon3.points[3] shouldBe Point(30.0, 30.0)
