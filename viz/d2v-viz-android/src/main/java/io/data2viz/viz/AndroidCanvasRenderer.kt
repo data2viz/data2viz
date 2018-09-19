@@ -26,7 +26,7 @@ fun Viz.toView(context: Context): VizView = VizView(this, context)
 
 class VizView(val viz: Viz, context: Context) : View(context) {
 
-    private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context)
+    private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz)
     private val timers = mutableListOf<Timer>()
 
     fun startAnimations() {
@@ -82,9 +82,11 @@ fun Paint.getNumberHeight(): Int {
     return rect.height()
 }
 
-class AndroidCanvasRenderer(val context: Context, var canvas: Canvas = Canvas()) : VizRenderer {
+class AndroidCanvasRenderer(val context: Context, val viz: Viz, var canvas: Canvas = Canvas()) : VizRenderer {
 
     var scale = 1F
+
+    private val animationTimers = mutableListOf<Timer>()
 
 
     override fun render(viz: Viz) {
@@ -92,6 +94,24 @@ class AndroidCanvasRenderer(val context: Context, var canvas: Canvas = Canvas())
             it.render(this)
         }
     }
+
+    override fun startAnimations() {
+        if (viz.animations.isNotEmpty()) {
+            viz.animations.forEach { anim ->
+                animationTimers += timer { time ->
+                    anim(time)
+                }
+            }
+            animationTimers += timer {
+                render(viz)
+            }
+        }
+    }
+
+    override fun stopAnimations() {
+        animationTimers.forEach { it.stop() }
+    }
+
 
     val Double.dp: Float
         get() = (this * scale).toFloat()

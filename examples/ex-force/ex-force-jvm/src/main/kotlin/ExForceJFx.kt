@@ -18,10 +18,7 @@ class ExForceJFx : Application() {
     override fun start(stage: Stage) {
         val root = Group()
         val canvas = Canvas(width, height)
-        val renderer = JFxVizRenderer(canvas)
-
-        forcesViz.renderer = renderer
-
+        JFxVizRenderer(canvas, forcesViz)
         root.children.add(canvas)
 
         stage.let {

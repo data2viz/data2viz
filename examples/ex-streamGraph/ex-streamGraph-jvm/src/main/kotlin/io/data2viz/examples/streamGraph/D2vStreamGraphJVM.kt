@@ -16,8 +16,12 @@ import javafx.stage.Stage
 class D2vStreamGraphJVM : Application() {
 
     val canvas = Canvas(width, height)
-    val renderer = JFxVizRenderer(canvas)
+    val viz = streamGraph()
+    val renderer = JFxVizRenderer(canvas, viz)
 
+    init {
+        viz.renderer = renderer
+    }
 
     companion object {
         @JvmStatic
@@ -27,8 +31,6 @@ class D2vStreamGraphJVM : Application() {
     }
 
     fun renderChart() {
-        val viz = streamGraph()
-        viz.renderer = renderer
         viz.render()
     }
 
@@ -92,9 +94,6 @@ class D2vStreamGraphJVM : Application() {
         grid.add(orderBox, 1,2)
         
         return grid
-        
-        
-        
     }
 
 

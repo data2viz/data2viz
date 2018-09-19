@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
 
     val (canvas, context) = newCanvas(vizWidth.toInt(), vizHeight.toInt())
     val viz = sankeyViz()
-    viz.renderer = JsCanvasRenderer(context)
+    viz.renderer = JsCanvasRenderer(context, viz)
     viz.render()
     println("ChordViz rendered")
 

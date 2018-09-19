@@ -26,10 +26,8 @@ class ChordJfx : Application() {
             it.show()
             val canvas = Canvas(chordWidth, chordHeight)
             root.children.add(canvas)
-            val renderer = JFxVizRenderer(canvas)
-
             val viz = chordViz()
-            viz.renderer = renderer
+            JFxVizRenderer(canvas, viz)
             viz.render()
         }
     }

@@ -44,12 +44,9 @@ class MercatorPath : Application() {
         val width = extent.width + 20
         val height = extent.height + 20
         val canvas = Canvas(width, height)
-        val renderer = JFxVizRenderer(canvas)
         val viz = Viz()
-        viz.renderer = renderer
+        JFxVizRenderer(canvas, viz)
         root.children.add(canvas)
-
-
 
         val input = this.javaClass.getResourceAsStream("/world-110m.geojson")
         val geojson = ObjectMapper().readValue(input, JacksonGeoJsonObject::class.java)

@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.*
+import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 import org.w3c.dom.*
 import kotlin.browser.document
@@ -29,39 +30,42 @@ fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
     context.canvas.width = width.toInt()
     context.canvas.height = height.toInt()
 
-    this.renderer = JsCanvasRenderer(context)
-
-
-    fun startAnimations() {
-        if (animations.isNotEmpty()) {
-            animations.forEach { anim ->
-                timer { time ->
-                    anim(time)
-                }
-            }
-            timer {
-                render()
-            }
-        }
-    }
-
+    this.renderer = JsCanvasRenderer(context, this)
 
     if (config.autoUpdate) {
         render()
         startAnimations()
     }
 
-
 }
 
 
-class JsCanvasRenderer(val context: CanvasRenderingContext2D) : VizRenderer {
+class JsCanvasRenderer(val context: CanvasRenderingContext2D, val viz: Viz) : VizRenderer {
+
+    private val animationTimers = mutableListOf<Timer>()
 
     override fun render(viz: Viz) {
         context.clearRect(.0, .0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
         viz.layers.forEach {
             it.render(context)
         }
+    }
+
+    override fun startAnimations() {
+        if (viz.animations.isNotEmpty()) {
+            viz.animations.forEach { anim ->
+                animationTimers += timer { time ->
+                    anim(time)
+                }
+            }
+            animationTimers += timer {
+                render(viz)
+            }
+        }
+    }
+
+    override fun stopAnimations() {
+        animationTimers.forEach { it.stop() }
     }
 
 }

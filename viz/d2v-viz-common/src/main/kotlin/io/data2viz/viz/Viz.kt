@@ -39,6 +39,14 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer{
         renderer.render(this)
     }
 
+    fun startAnimations(){
+        renderer.startAnimations()
+    }
+
+    fun stopAnimations(){
+        renderer.stopAnimations()
+    }
+
     internal val animations = mutableListOf<(Double)-> Unit>()
 
     fun onFrame(block: (Double) -> Unit) {

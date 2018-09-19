@@ -11,7 +11,7 @@ import kotlin.browser.document
 fun main(args: Array<String>) {
     val (canvas, context) = newCanvas(600, 600)
     val viz = barchartViz()
-    viz.renderer = JsCanvasRenderer(context)
+    viz.renderer = JsCanvasRenderer(context, viz)
     viz.render()
     println("barchart rendered")
 

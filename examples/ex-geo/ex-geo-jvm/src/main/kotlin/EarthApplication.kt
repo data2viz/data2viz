@@ -25,13 +25,11 @@ class EarthApplication : Application() {
 
         val root = Group()
         val canvas = Canvas(vizWidth, vizHeight)
-        val renderer = JFxVizRenderer(canvas)
 
         val world = this.javaClass.getResourceAsStream("/world-110m.geojson").reader().readText().toGeoJsonObject()
 
         val viz = geoViz(world)
-        viz.renderer = renderer
-
+        JFxVizRenderer(canvas,viz)
         root.children.add(canvas)
 
         stage?.let {

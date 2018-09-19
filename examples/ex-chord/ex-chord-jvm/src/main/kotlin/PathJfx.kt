@@ -30,10 +30,8 @@ class PathJfx : Application() {
         val size = 600.0
         val canvas = Canvas(size, size)
 
-        val renderer = JFxVizRenderer(canvas)
-
         val viz = getPathViz()
-        viz.renderer = renderer
+        JFxVizRenderer(canvas,viz)
         viz.render()
 //        drawShapes(canvas.graphicsContext2D)
         root.children.add(canvas)
