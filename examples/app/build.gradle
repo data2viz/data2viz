@@ -59,6 +59,7 @@ dependencies {
     compile project(":force:d2v-force-common")
     compile project(":force:d2v-force-android")
 
+    expectedBy project(":ex-geo:ex-geo-common")
     compile project(":geo:d2v-geo-common")
     compile project(":geo:d2v-geo-jvm")
 
