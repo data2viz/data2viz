@@ -43,18 +43,22 @@ class GeoActivity : AppCompatActivity() {
 
 class GeoView(context: Context, val world: GeoJsonObject) : View(context) {
 
-    val renderer = AndroidCanvasRenderer(context, Canvas())
+    private val renderer = AndroidCanvasRenderer(context, Canvas())
 
-    val timeAnimator = TimeAnimator().apply {
+    private val timeAnimator = TimeAnimator().apply {
         setTimeListener { _, _, _ ->
             rotate()
         }
-
     }
 
-    val geoViz = viz {
+    private val geoViz = viz {
         height = 600.0
         width = 800.0
+
+        onResize { newWidth, newHeight ->
+            width = newWidth
+            height = newHeight
+        }
     }
 
     private var pathOuter: PathNode
