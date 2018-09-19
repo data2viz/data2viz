@@ -3,7 +3,6 @@ package io.data2viz.viz.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.data2viz.color.colors
-import io.data2viz.logging.KotlinLogging
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 import io.data2viz.viz.Circle
@@ -11,7 +10,6 @@ import io.data2viz.viz.VizView
 import io.data2viz.viz.toView
 import io.data2viz.viz.viz
 
-private val log = KotlinLogging.logger{}
 
 class BounceActivity : AppCompatActivity() {
 
@@ -36,7 +34,6 @@ class BounceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         view = viz.toView(this)
         setContentView(view)
-        log.debug { "onCreate"}
         timer = timer {
             if (circle.x > 100.0)
                 circle.x = .0
@@ -47,7 +44,6 @@ class BounceActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        log.debug {"onStop"}
         timer.stop()
     }
 }

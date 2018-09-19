@@ -2,7 +2,6 @@ package io.data2viz.viz
 
 import io.data2viz.color.Color
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Shader
@@ -10,7 +9,6 @@ import android.view.View
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RadialGradient
-import io.data2viz.logging.KotlinLogging
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 import kotlin.math.*
@@ -25,8 +23,6 @@ val paint = Paint().apply {
 
 fun Viz.toView(context: Context): VizView = VizView(this, context)
 
-private val log = KotlinLogging.logger{}
-
 
 class VizView(val viz: Viz, context: Context) : View(context) {
 
@@ -34,7 +30,6 @@ class VizView(val viz: Viz, context: Context) : View(context) {
     private val timers = mutableListOf<Timer>()
 
     fun startAnimations() {
-        log.debug { "Number of animations:: ${viz.animations.size}"}
         if (viz.animations.isNotEmpty()) {
             viz.animations.forEach { anim ->
                 timers += timer { time ->
@@ -42,7 +37,6 @@ class VizView(val viz: Viz, context: Context) : View(context) {
                 }
             }
             timers += timer {
-                log.debug {"invalidate"}
                 invalidate()
             }
         }
@@ -72,7 +66,6 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         if (drawCount == 100){
             val delta = System.currentTimeMillis() - startTime
             val fps = 100_000 / delta
-            log.debug { "FPS::$fps"}
             startTime = System.currentTimeMillis()
             drawCount = -1
         }

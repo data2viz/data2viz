@@ -2,7 +2,6 @@ dependencies {
     expectedBy project(":timer:d2v-timer-common")
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-    compile project(":logging:d2v-logging-android")
 }
 
 kotlin {

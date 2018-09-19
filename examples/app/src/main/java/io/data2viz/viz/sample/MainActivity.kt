@@ -4,15 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
-import io.data2viz.logging.KotlinLogging
 
 class MainActivity : AppCompatActivity() {
 
-    val log = KotlinLogging.logger {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        log.debug { "onCreate" }
         setContentView(R.layout.activity_main)
 
 //        R.id.button_show_bounce.showActivity(BounceActivity::class.java)
