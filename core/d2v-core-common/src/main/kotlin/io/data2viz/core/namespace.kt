@@ -1,5 +1,6 @@
 package io.data2viz.core
 
+@Deprecated ("data2viz does not generate SVG. No reason to have this class in the project.")
 class namespace {
     companion object {
         val svg = "http://www.w3.org/2000/svg"
