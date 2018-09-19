@@ -44,9 +44,9 @@ val movies = listOf(
 val avengers = listOf(blackWidow, captainAmerica, hawkeye, theHulk, ironMan, thor)
 val colors = listOf(0x301E1E, 0x083E77, 0x342350, 0x567235, 0x8B161C, 0xDF7C00).map { Color(it) }
 
-const val width = 600.0
-const val height = width
-val outer = minOf(width, height) * 0.5 - 40.0
+const val chordWidth = 600.0
+const val chordHeight = chordWidth
+val outer = minOf(chordWidth, chordHeight) * 0.5 - 40.0
 val inner = outer - 30
 
 val chord = ChordLayout<Avenger>().apply {
@@ -68,8 +68,8 @@ val ribbon: (Chord, PathAdapter) -> Unit = io.data2viz.chord.ribbon(inner)
 
 fun chordViz(): Viz = viz {
 
-    width = 600.0
-    height = 600.0
+    width = chordWidth
+    height = chordHeight
 
     group {
         //todo create a center function

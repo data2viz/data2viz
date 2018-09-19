@@ -1,34 +1,22 @@
 package io.data2viz.viz.sample
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-
-import android.content.Context
-import android.graphics.Canvas
-import android.view.View
+import android.support.v7.app.AppCompatActivity
 import io.data2viz.examples.sankey.sankeyViz
-import io.data2viz.viz.AndroidCanvasRenderer
+import io.data2viz.viz.VizView
+import io.data2viz.viz.toView
 
 
 class SankeyActivity : AppCompatActivity() {
 
+    lateinit var view: VizView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(SankeyView(this))
+
+        view = sankeyViz().toView(this)
+        setContentView(view)
     }
-}
-
-class SankeyView(context: Context) : View(context) {
-
-    private val renderer = AndroidCanvasRenderer(context, Canvas()).apply {
-        scale = 1F
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        renderer.canvas = canvas
-        renderer.render(sankeyViz())
-    }
-
 }
 
 

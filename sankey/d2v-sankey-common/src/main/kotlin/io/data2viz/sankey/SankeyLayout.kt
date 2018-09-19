@@ -1,6 +1,7 @@
 package io.data2viz.sankey
 
 import io.data2viz.shape.link.linkHorizontal
+import io.data2viz.shape.link.linkVertical
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
@@ -14,6 +15,13 @@ val sankeyLinkHorizontal = linkHorizontal<SankeyLink<*>> {
     y0 = { it.y0 }
     x1 = { it.target.x0 }
     y1 = { it.y1 }
+}
+
+val sankeyLinkVertical = linkVertical<SankeyLink<*>> {
+    x0 = { it.y0 }
+    y0 = { it.source.x0 }
+    x1 = { it.y1 }
+    y1 = { it.target.x1 }
 }
 
 /**
@@ -107,6 +115,8 @@ class SankeyLayout<D> {
     val links = mutableListOf<SankeyLink<D>>()
 
     fun sankey(data: List<D>, flow: (from: D, to: D) -> Double?): SankeyGraph<D> {
+        nodes.clear()
+        links.clear()
         computeNodeLinks(data, flow)
         computeNodeValues()
         computeNodeDepths()

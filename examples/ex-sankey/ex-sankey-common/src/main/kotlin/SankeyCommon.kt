@@ -5,10 +5,13 @@ import io.data2viz.color.colors
 import io.data2viz.sankey.SankeyAlignment
 import io.data2viz.sankey.SankeyLayout
 import io.data2viz.sankey.sankeyLinkHorizontal
+import io.data2viz.sankey.sankeyLinkVertical
 import io.data2viz.scale.scales
+import io.data2viz.viz.Group
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
 import kotlin.math.max
+import kotlin.math.min
 
 data class Element(
         val name: String
@@ -83,58 +86,81 @@ fun buildFlux(from: String, to: String, value: Double): EnergyFlux {
     return EnergyFlux(elementFrom!!, elementTo!!, value)
 }
 
-val vizWidth = 1200.0
-val vizHeight = 800.0
+var vizWidth = 800.0
+var vizHeight = 800.0
 val margin = 20.0
-
-val sankeyLayout = SankeyLayout<Element>().apply {
-    extent(.0, vizWidth - (2 * margin), .0, vizHeight - (2 * margin))
-    nodePadding = 15.0
-    nodeWidth = 10.0
-    align = SankeyAlignment.JUSTIFY
-}
-
-val sankey = sankeyLayout.sankey(
-        elements,
-        { from, to -> energyFluxes.find { it.fromIndex == from && it.toIndex == to }?.volume })
 
 fun sankeyViz(): Viz = viz {
 
-    group {
+    width = vizWidth
+    height = vizHeight
+
+    val sankeyGroup = group {
         transform { translate(margin, margin) }
 
-        val fills = scales.colors.category20<Int>()
+        buildSankey()
+    }
 
-        sankey.nodes.forEachIndexed { index, node ->
-            rect {
-                fill = fills(index % 20)
-                stroke = colors.black
-                x = node.x0
-                y = node.y0
-                width = node.x1 - node.x0
-                height = node.y1 - node.y0
-            }
-        }
+    onResize { newWidth, newHeight ->
+        vizWidth = newWidth
+        vizHeight = newHeight
 
-        sankey.links.forEach { link ->
-            val gradient = LinearGradient().apply {
-                x1 = link.source.x1
-                y1 = link.source.y1
-                x2 = link.target.x0
-                y2 = link.target.y0
+        width = vizWidth
+        height = vizHeight
 
-                //Set the starting color (at 0%)
-                addColor(.0, fills(link.source.index % 20).withAlpha(.6f ))
-                addColor(1.0, fills(link.target.index % 20).withAlpha(.6f ))
-            }
-            path {
-                stroke = gradient
-                fill = null
-                strokeWidth = max(1.0, link.width)
-                sankeyLinkHorizontal.link(link, this)
-            }
-            return@forEach
+        sankeyGroup.clear()
+        sankeyGroup.buildSankey()
+    }
+
+}
+
+fun Group.buildSankey() {
+    val fills = scales.colors.category20<Int>()
+
+    val sankeyHorizontal = vizWidth >= vizHeight
+    val sankeyWidth = max(vizWidth, vizHeight)
+    val sankeyHeight = min(vizWidth, vizHeight)
+
+    val sankeyLayout = SankeyLayout<Element>().apply {
+        extent(.0, sankeyWidth - (2 * margin), .0, sankeyHeight - (2 * margin))
+        nodePadding = 15.0
+        nodeWidth = 10.0
+        align = SankeyAlignment.JUSTIFY
+    }
+
+    val sankey = sankeyLayout.sankey(elements) { from, to ->
+        energyFluxes.find { it.fromIndex == from && it.toIndex == to }?.volume
+    }
+
+    sankey.nodes.forEachIndexed { index, node ->
+        rect {
+            fill = fills(index % 20)
+            stroke = colors.black
+            x = if (sankeyHorizontal) node.x0 else node.y0
+            y = if (sankeyHorizontal) node.y0 else node.x0
+            width = if (sankeyHorizontal) node.x1 - node.x0 else node.y1 - node.y0
+            height = if (sankeyHorizontal) node.y1 - node.y0 else node.x1 - node.x0
         }
     }
 
+    sankey.links.forEach { link ->
+        val gradient = LinearGradient().apply {
+            x1 = if (sankeyHorizontal) link.source.x1 else link.source.y1
+            y1 = if (sankeyHorizontal) link.source.y1 else link.source.x1
+            x2 = if (sankeyHorizontal) link.target.x0 else link.target.y0
+            y2 = if (sankeyHorizontal) link.target.y0 else link.target.x0
+
+            //Set the starting color (at 0%)
+            addColor(.0, fills(link.source.index % 20).withAlpha(.6f))
+            addColor(1.0, fills(link.target.index % 20).withAlpha(.6f))
+        }
+        path {
+            stroke = gradient
+            fill = null
+            strokeWidth = max(1.0, link.width)
+
+            if (sankeyHorizontal) sankeyLinkHorizontal.link(link, this) else sankeyLinkVertical.link(link, this)
+        }
+        return@forEach
+    }
 }
