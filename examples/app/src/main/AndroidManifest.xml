@@ -18,19 +18,55 @@
         </activity>
 
 
-        <activity
-                android:name=".LoopActivity"
-                android:label="@string/title_activity_loop"
-                android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".AnimationActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"
+            />
         </activity>
-
-        <activity android:name=".AnimationActivity"/>
-        <activity android:name=".BounceActivity"/>
-        <activity android:name=".ChordActivity"/>
-        <activity android:name=".ForceActivity"/>
-        <activity android:name=".GeoActivity"/>
-        <activity android:name=".LineOfSightActivity"/>
-        <activity android:name=".SankeyActivity"/>
+        <activity android:name=".BounceActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"
+            />
+        </activity>
+        <activity android:name=".ChordActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"
+            />
+        </activity>
+        <activity android:name=".ForceActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"
+            />
+        </activity>
+        <activity android:name=".GeoActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"
+            />
+        </activity>
+        <activity android:name=".LineOfSightActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"
+            />
+        </activity>
+        <activity android:name=".SankeyActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"
+            />
+        </activity>
     </application>
 
 </manifest>
