@@ -1,6 +1,6 @@
 dependencies {
     expectedBy project(":hexbin:d2v-hexbin-common")
     compile project(":core:d2v-core-jvm")
-    compile project(":viz:d2v-viz-jvm")
+    compile project(":viz:d2v-viz-jfx")
     testCompile project(":tests:d2v-tests-jvm")
 }

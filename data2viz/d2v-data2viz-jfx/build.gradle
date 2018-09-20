@@ -1,6 +1,6 @@
 dependencies {
     System.getProperty("all_d2v").split(",").each {
-        if (it.contains("-jvm")) {
+        if (it.contains("-jvm") || it.contains("-jfx")) {
             compile project(":$it")
         }
     }

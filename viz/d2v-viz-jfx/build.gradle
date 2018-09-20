@@ -6,5 +6,5 @@ dependencies {
     compile project(":path:d2v-path-common")
     compile project(":path:d2v-path-jvm")
     compile project(":timer:d2v-timer-common")
-    compile project(":timer:d2v-timer-jvm")
+    compile project(":timer:d2v-timer-jfx")
 }

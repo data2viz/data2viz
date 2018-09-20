@@ -1,9 +1,9 @@
 dependencies {
     expectedBy project(":transition:d2v-transition-common")
     compile project(":ease:d2v-ease-jvm")
-    compile project(":timer:d2v-timer-jvm")
-    compile project(":viz:d2v-viz-jvm")
-    testCompile project(":viz:d2v-viz-jvm")
+    compile project(":timer:d2v-timer-jfx")
+    compile project(":viz:d2v-viz-jfx")
+    testCompile project(":viz:d2v-viz-jfx")
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-javafx:$coroutines_version"
 }

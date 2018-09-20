@@ -2,7 +2,7 @@ def d2v = [
         ":axis:d2v-axis-android",
         ":axis:d2v-axis-common",
         ":axis:d2v-axis-js",
-        ":axis:d2v-axis-jvm",
+        ":axis:d2v-axis-jfx",
 
         ":chord:d2v-chord-common",
         ":chord:d2v-chord-js",
@@ -35,7 +35,7 @@ def d2v = [
         ":force:d2v-force-android",
         ":force:d2v-force-common",
         ":force:d2v-force-js",
-        ":force:d2v-force-jvm",
+        ":force:d2v-force-jfx",
 
         ":format:d2v-format-common",
         ":format:d2v-format-js",
@@ -107,7 +107,7 @@ def d2v = [
         ":timer:d2v-timer-android",
         ":timer:d2v-timer-common",
         ":timer:d2v-timer-js",
-        ":timer:d2v-timer-jvm",
+        ":timer:d2v-timer-jfx",
 
         ":transition:d2v-transition-common",
         ":transition:d2v-transition-js",
@@ -116,7 +116,7 @@ def d2v = [
         ":viz:d2v-viz-android",
         ":viz:d2v-viz-common",
         ":viz:d2v-viz-js",
-        ":viz:d2v-viz-jvm",
+        ":viz:d2v-viz-jfx",
 
         ":voronoi:d2v-voronoi-common",
         ":voronoi:d2v-voronoi-js",
@@ -130,7 +130,7 @@ d2v.forEach {
 
 include ":data2viz:d2v-data2viz-common",
         ":data2viz:d2v-data2viz-js",
-        ":data2viz:d2v-data2viz-jvm"
+        ":data2viz:d2v-data2viz-jfx"
 
 include ":site"
 
@@ -140,7 +140,7 @@ def examples = [
         ":ex-chord",
         ":ex-chord:ex-chord-common",
         ":ex-chord:ex-chord-js", 
-        ":ex-chord:ex-chord-jvm", 
+        ":ex-chord:ex-chord-jfx",
         
         ":ex-delaunay", 
         ":ex-delaunay:ex-delaunay-js",
@@ -148,12 +148,12 @@ def examples = [
         ":ex-lets-make-a-barchart",
         ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-common",
         ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-js",
-        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-jvm",
+        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-jfx",
 
         ":ex-force", 
         ":ex-force:ex-force-common",
         ":ex-force:ex-force-js",
-        ":ex-force:ex-force-jvm", 
+        ":ex-force:ex-force-jfx",
 
         ":ex-full",
         ":ex-full:ex-full-js",
@@ -161,22 +161,22 @@ def examples = [
         ":ex-geo",
         ":ex-geo:ex-geo-common", 
         ":ex-geo:ex-geo-js", 
-        ":ex-geo:ex-geo-jvm", 
+        ":ex-geo:ex-geo-jfx",
         
         ":ex-line-of-sight", 
         ":ex-line-of-sight:ex-line-of-sight-common", 
         ":ex-line-of-sight:ex-line-of-sight-js", 
-        ":ex-line-of-sight:ex-line-of-sight-jvm",
+        ":ex-line-of-sight:ex-line-of-sight-jfx",
         
         ":ex-sankey",
         ":ex-sankey:ex-sankey-common", 
         ":ex-sankey:ex-sankey-js", 
-        ":ex-sankey:ex-sankey-jvm", 
+        ":ex-sankey:ex-sankey-jfx",
         
         ":ex-streamGraph",
         ":ex-streamGraph:ex-streamGraph-common", 
         ":ex-streamGraph:ex-streamGraph-js", 
-        ":ex-streamGraph:ex-streamGraph-jvm", 
+        ":ex-streamGraph:ex-streamGraph-jfx",
         
 ]
 

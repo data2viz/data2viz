@@ -2,7 +2,7 @@ dependencies {
     expectedBy project(":ex-geo:ex-geo-common")
     compile project(":geo:d2v-geo-common")
     compile project(":geo:d2v-geo-jvm")
-    compile project(":data2viz:d2v-data2viz-jvm")
+    compile project(":data2viz:d2v-data2viz-jfx")
 }
 
 task copyJsonTestFiles(type: Copy) {
