@@ -7,7 +7,7 @@ import io.data2viz.color.EncodedColors.Companion.inferno
 import io.data2viz.color.EncodedColors.Companion.magma
 import io.data2viz.color.EncodedColors.Companion.plasma
 import io.data2viz.color.EncodedColors.Companion.viridis
-import io.data2viz.core.namespace
+import io.data2viz.test.namespace
 import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.test.Test

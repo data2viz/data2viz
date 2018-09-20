@@ -1,6 +1,6 @@
 import io.data2viz.color.Color
-import io.data2viz.core.Point
-import io.data2viz.core.random
+import io.data2viz.geom.Point
+import io.data2viz.math.random
 import io.data2viz.force.*
 import io.data2viz.timer.timer
 import io.data2viz.viz.Circle

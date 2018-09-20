@@ -1,6 +1,6 @@
 package io.data2viz.interpolate
 
-import io.data2viz.core.namespace
+import io.data2viz.test.namespace
 import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.dom.appendText

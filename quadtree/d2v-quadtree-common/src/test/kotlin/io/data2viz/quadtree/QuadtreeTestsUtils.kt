@@ -1,6 +1,6 @@
 package io.data2viz.quadtree
 
-import io.data2viz.core.Extent
+import io.data2viz.geom.Extent
 
 internal fun Extent.toArray() = arrayOf(this.x0, this.y0, this.x1, this.y1)
 internal fun InternalNode<Array<Int>>.toData(): Array<Any?> {

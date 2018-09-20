@@ -1,7 +1,7 @@
 package io.data2viz.force
 
-import io.data2viz.core.Point
-import io.data2viz.core.Speed
+import io.data2viz.geom.Point
+import io.data2viz.geom.Vector
 import io.data2viz.math.PI
 import io.data2viz.timer.timer
 import kotlin.math.cos
@@ -34,10 +34,10 @@ enum class SimulationEvent {
 }
 
 data class ForceNode(
-    var index: Int,
-    var position: Point = Point(Double.NaN, Double.NaN),
-    var velocity: Speed = Speed(Double.NaN, Double.NaN),
-    var fixedPosition: Point = Point(Double.NaN, Double.NaN)
+        var index: Int,
+        var position: Point = Point(Double.NaN, Double.NaN),
+        var velocity: Vector = Vector(Double.NaN, Double.NaN),
+        var fixedPosition: Point = Point(Double.NaN, Double.NaN)
 )
 
 private val initialRadius = 10.0
@@ -189,16 +189,16 @@ class ForceSimulation {
 
         nodes.forEach { node ->
             if (node.fixedPosition.x != Double.NaN) {
-                node.velocity = Speed(node.velocity.vx * velocityDecay, node.velocity.vy)
+                node.velocity = Vector(node.velocity.vx * velocityDecay, node.velocity.vy)
             } else {
                 node.position = Point(node.fixedPosition.x, node.position.y)
-                node.velocity = Speed(.0, node.velocity.vy)
+                node.velocity = Vector(.0, node.velocity.vy)
             }
             if (node.fixedPosition.y != Double.NaN) {
-                node.velocity = Speed(node.velocity.vx, node.velocity.vy * velocityDecay)
+                node.velocity = Vector(node.velocity.vx, node.velocity.vy * velocityDecay)
             } else {
                 node.position = Point(node.position.x, node.fixedPosition.y)
-                node.velocity = Speed(node.velocity.vx, .0)
+                node.velocity = Vector(node.velocity.vx, .0)
             }
             node.position = node.position.plus(node.velocity)
         }
@@ -213,7 +213,7 @@ class ForceSimulation {
                 node.position = Point(radius * cos(angle), radius * sin(angle))
             }
             if (node.velocity.vx.isNaN() || node.velocity.vy.isNaN()) {
-                node.velocity = Speed(.0, .0)
+                node.velocity = Vector(.0, .0)
             }
         }
     }

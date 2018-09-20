@@ -26,6 +26,6 @@ class SequentialScale<R>(var interpolator: Interpolator<R>) : Tickable<Double>, 
         return interpolator(uninterpolatedDomain)
     }
 
-    override fun ticks(count: Int) = io.data2viz.core.ticks(domain.start, domain.end, count)
+    override fun ticks(count: Int) = io.data2viz.math.ticks(domain.start, domain.end, count)
 }
 

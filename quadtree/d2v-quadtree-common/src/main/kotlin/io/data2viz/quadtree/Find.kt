@@ -1,6 +1,5 @@
 package io.data2viz.quadtree
 
-import io.data2viz.core.Extent
 import kotlin.math.sqrt
 
 /**

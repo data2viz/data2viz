@@ -1,7 +1,5 @@
 package io.data2viz.quadtree
 
-import io.data2viz.core.Extent
-
 /**
  * Visits each node in the quadtree in pre-order traversal, invoking the specified callback with arguments
  * node, x0, y0, x1, y1 for each node, where node is the node being visited, ⟨x0, y0⟩ are the lower bounds of the

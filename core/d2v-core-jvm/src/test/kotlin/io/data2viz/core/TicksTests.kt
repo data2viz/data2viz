@@ -1,5 +1,6 @@
 package io.data2viz.core
 
+import io.data2viz.math.ticks
 import io.data2viz.test.matchers.Matchers
 import org.junit.Test
 import kotlin.math.E

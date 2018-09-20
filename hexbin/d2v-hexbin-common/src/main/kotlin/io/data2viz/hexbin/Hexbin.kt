@@ -1,7 +1,7 @@
 package io.data2viz.hexbin
 
-import io.data2viz.core.Extent
-import io.data2viz.core.Point
+import io.data2viz.geom.Extent
+import io.data2viz.geom.Point
 import io.data2viz.math.THIRDPI
 import io.data2viz.path.PathAdapter
 import kotlin.math.abs
@@ -9,12 +9,12 @@ import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
 
-private val hexagon = (0..5).map { THIRDPI * it }.map { angle -> Point(sin(angle), -cos(angle))}
+private val hexagon = (0..5).map { THIRDPI * it }.map { angle -> Point(sin(angle), -cos(angle)) }
 
 data class Bin(
-    val points: MutableList<Point> = mutableListOf(),
-    val x: Double,
-    val y: Double
+        val points: MutableList<Point> = mutableListOf(),
+        val x: Double,
+        val y: Double
 )
 
 fun hexbinGenerator(init: HexbinGenerator.()->Unit) = HexbinGenerator().apply(init)

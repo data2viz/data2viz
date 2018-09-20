@@ -1,7 +1,7 @@
 package io.data2viz.hexbin
 
-import io.data2viz.core.Extent
-import io.data2viz.core.Point
+import io.data2viz.geom.Extent
+import io.data2viz.geom.Point
 import io.data2viz.path.SvgPath
 import io.data2viz.test.JsName
 import io.data2viz.test.TestBase

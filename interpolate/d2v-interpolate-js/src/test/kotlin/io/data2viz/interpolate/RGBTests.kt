@@ -6,7 +6,7 @@ import io.data2viz.color.colors.blue
 import io.data2viz.color.colors.green
 import io.data2viz.color.colors.red
 import io.data2viz.color.colors.white
-import io.data2viz.core.namespace
+import io.data2viz.test.namespace
 import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.test.Test

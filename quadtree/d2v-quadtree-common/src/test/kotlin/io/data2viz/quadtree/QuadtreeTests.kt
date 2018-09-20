@@ -1,6 +1,6 @@
 package io.data2viz.quadtree
 
-import io.data2viz.core.Extent
+import io.data2viz.geom.Extent
 import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
 import kotlin.test.Test

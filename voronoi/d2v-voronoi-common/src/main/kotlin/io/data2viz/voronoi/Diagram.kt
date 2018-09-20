@@ -1,12 +1,12 @@
 package io.data2viz.voronoi
 
-import io.data2viz.core.Point
+import io.data2viz.geom.Point
 import kotlin.math.abs
 
 
 fun <T> MutableList<T>.pop(): T? = if(isEmpty()) null else removeAt(lastIndex)
 
-class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipEnd:Point? = null) {
+class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipEnd: Point? = null) {
 
     private var x: Double? = null
     private var y: Double? = null
@@ -234,7 +234,7 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
             cell.halfedges.map { edges[it]?.let { e -> cell.halfedgeStart(e) } }.filterNotNull()
         }?.toList() ?: emptyList()
 
-    data class Link(val source:Point, val target: Point)
+    data class Link(val source: Point, val target: Point)
 
     fun links() =
         edges.filter { it?.right != null}
@@ -268,7 +268,7 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
     }
 
 
-    fun triangleArea(a:Point, b:Point, c:Point) = (a.x - c.x) * (b.y - a.y) - (a.x - b.x) * (c.y - a.y)
+    fun triangleArea(a: Point, b: Point, c: Point) = (a.x - c.x) * (b.y - a.y) - (a.x - b.x) * (c.y - a.y)
 
 }
 

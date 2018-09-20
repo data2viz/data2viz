@@ -1,6 +1,6 @@
 package io.data2viz.scale
 
-import io.data2viz.core.tickStep
+import io.data2viz.math.tickStep
 import io.data2viz.time.*
 
 val dateComparator = Comparator<Date> { a, b -> if (a.millisecondsBetween(b) > 0) -1 else if (a.millisecondsBetween(b) < 0) 1 else 0 }

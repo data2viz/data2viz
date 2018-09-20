@@ -1,7 +1,7 @@
 package io.data2viz.voronoi
 
 import java.util.*
-import io.data2viz.core.Point
+import io.data2viz.geom.Point
 
 
 
@@ -36,7 +36,7 @@ var diagram:Diagram? = null
 
 private fun improvePoints(cycles: Int): Unit {
 
-    fun List<Point>.centroid():Point {
+    fun List<Point>.centroid(): Point {
         var x = 0.0
         var y = 0.0
         forEach {

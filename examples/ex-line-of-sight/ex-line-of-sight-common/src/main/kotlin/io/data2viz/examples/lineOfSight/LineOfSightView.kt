@@ -3,8 +3,7 @@ package io.data2viz.examples.lineOfSight
 import io.data2viz.color.Color
 import io.data2viz.color.RadialGradient
 import io.data2viz.color.colors
-import io.data2viz.core.Polygon
-import io.data2viz.viz.PathNode
+import io.data2viz.geom.Polygon
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
 

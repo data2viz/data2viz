@@ -110,7 +110,7 @@ internal class LogScale(var base: Double = 10.0, interpolateRange: (Double, Doub
                 }
             }
         } else {
-            tickList = io.data2viz.core.ticks(i, j, min((j - i).toInt(), count)).map({ base.pow(it) }) as ArrayList<Double>
+            tickList = io.data2viz.math.ticks(i, j, min((j - i).toInt(), count)).map({ base.pow(it) }) as ArrayList<Double>
         }
 
         return if (domainReversed) tickList.reversed() else tickList

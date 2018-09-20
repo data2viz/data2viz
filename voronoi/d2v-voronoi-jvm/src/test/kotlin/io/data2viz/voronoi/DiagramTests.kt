@@ -1,6 +1,6 @@
 package io.data2viz.voronoi
 
-import io.data2viz.core.Point
+import io.data2viz.geom.Point
 import io.data2viz.test.matchers.Matchers
 import org.junit.Test
 import java.lang.Math.random

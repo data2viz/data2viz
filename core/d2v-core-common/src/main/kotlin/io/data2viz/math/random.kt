@@ -1,4 +1,4 @@
-package io.data2viz.core
+package io.data2viz.math
 
 /**
  * Todo remove with Kotlin 1.3 and Random generators

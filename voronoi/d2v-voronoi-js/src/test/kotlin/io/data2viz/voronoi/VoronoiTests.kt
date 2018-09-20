@@ -1,6 +1,6 @@
 package io.data2viz.voronoi
 
-import io.data2viz.core.Point
+import io.data2viz.geom.Point
 import kotlin.js.Math
 
 @Suppress("unused")

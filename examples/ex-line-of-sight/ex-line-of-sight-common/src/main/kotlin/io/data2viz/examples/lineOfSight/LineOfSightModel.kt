@@ -1,9 +1,13 @@
 package io.data2viz.examples.lineOfSight
 
-import io.data2viz.core.*
+import io.data2viz.geom.Point
+import io.data2viz.geom.Polygon
+import io.data2viz.geom.contains
+import io.data2viz.geom.polygonHull
 import io.data2viz.math.Angle
 import io.data2viz.math.PI
 import io.data2viz.math.deg
+import io.data2viz.math.random
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin

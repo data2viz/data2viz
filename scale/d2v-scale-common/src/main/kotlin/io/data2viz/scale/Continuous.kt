@@ -1,6 +1,6 @@
 package io.data2viz.scale
 
-import io.data2viz.core.tickStep
+import io.data2viz.math.tickStep
 import io.data2viz.interpolate.interpolateNumber
 import io.data2viz.interpolate.uninterpolateNumber
 import kotlin.math.ceil
@@ -58,7 +58,7 @@ open class LinearScale<R>(
     }
 
     override fun ticks(count: Int): List<Double> {
-        return io.data2viz.core.ticks(_domain.first(), _domain.last(), count)
+        return io.data2viz.math.ticks(_domain.first(), _domain.last(), count)
     }
 }
 

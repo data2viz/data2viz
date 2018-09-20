@@ -1,7 +1,7 @@
 package io.data2viz.force
 
-import io.data2viz.core.Point
-import io.data2viz.core.Speed
+import io.data2viz.geom.Point
+import io.data2viz.geom.Vector
 import io.data2viz.math.EPSILON
 import kotlin.math.sqrt
 
@@ -81,7 +81,7 @@ class ForceRadial : Force {
             val r = sqrt(dx * dx + dy * dy)
             val k = (radiuses[index] - r) * strengths[index] * alpha / r
 
-            node.velocity += Speed(dx * k, dy * k)
+            node.velocity += Vector(dx * k, dy * k)
         }
     }
 }

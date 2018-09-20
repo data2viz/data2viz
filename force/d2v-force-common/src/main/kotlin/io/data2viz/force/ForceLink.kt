@@ -1,6 +1,6 @@
 package io.data2viz.force
 
-import io.data2viz.core.Speed
+import io.data2viz.geom.Vector
 import kotlin.math.min
 import kotlin.math.sqrt
 
@@ -106,10 +106,10 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
                 y *= l
 
                 var b = bias[index]
-                target.velocity -= Speed(x * b, y * b)
+                target.velocity -= Vector(x * b, y * b)
 
                 b = 1 - b
-                source.velocity += Speed(x * b, y * b)
+                source.velocity += Vector(x * b, y * b)
             }
         }
     }

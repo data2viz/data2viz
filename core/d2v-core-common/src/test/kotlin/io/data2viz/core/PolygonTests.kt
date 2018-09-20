@@ -1,5 +1,6 @@
 package io.data2viz.core
 
+import io.data2viz.geom.*
 import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
@@ -159,9 +160,9 @@ class PolygonTests : TestBase() {
     @Test
     @JsName("PolygonTest15")
     fun `polygonHull(points) raise IllegalArgumentException if points has fewer than three elements`() {
-        shouldThrow<IllegalArgumentException>{polygonHull(listOf())}
-        shouldThrow<IllegalArgumentException>{polygonHull(listOf(Point(1.0, .0)))}
-        shouldThrow<IllegalArgumentException>{polygonHull(listOf(Point(1.0, .0), Point(.0, 1.0)))}
+        shouldThrow<IllegalArgumentException>{ polygonHull(listOf()) }
+        shouldThrow<IllegalArgumentException>{ polygonHull(listOf(Point(1.0, .0))) }
+        shouldThrow<IllegalArgumentException>{ polygonHull(listOf(Point(1.0, .0), Point(.0, 1.0))) }
     }
 
     @Test

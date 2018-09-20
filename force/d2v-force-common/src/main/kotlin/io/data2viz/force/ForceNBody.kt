@@ -1,8 +1,8 @@
 package io.data2viz.force
 
-import io.data2viz.core.Point
-import io.data2viz.core.Speed
-import io.data2viz.core.random
+import io.data2viz.geom.Point
+import io.data2viz.geom.Vector
+import io.data2viz.math.random
 import io.data2viz.math.EPSILON
 import io.data2viz.quadtree.*
 import kotlin.math.abs
@@ -137,7 +137,7 @@ class ForceNBody : Force {
                 }
                 if (l < distanceMin2) l = sqrt(distanceMin2 * l)
                 val increment: Double = quad.value!! * currentAlpha / l
-                currentNode.velocity += Speed(x * increment, y * increment)
+                currentNode.velocity += Vector(x * increment, y * increment)
             }
 
             return true
@@ -163,7 +163,7 @@ class ForceNBody : Force {
         do {
             if (newQuad!!.data !== currentNode) {
                 w = strengths[newQuad!!.data.index] * currentAlpha / l
-                currentNode.velocity += Speed(x * w, y * w)
+                currentNode.velocity += Vector(x * w, y * w)
             }
             newQuad = newQuad!!.next
         } while (newQuad != null)

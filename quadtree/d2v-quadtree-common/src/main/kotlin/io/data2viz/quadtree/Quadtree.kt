@@ -1,7 +1,7 @@
 package io.data2viz.quadtree
 
-import io.data2viz.core.Extent
-import io.data2viz.core.Point
+import io.data2viz.geom.Extent
+import io.data2viz.geom.Point
 
 fun Boolean.toInt() = if (this) 1 else 0
 
@@ -12,7 +12,7 @@ internal data class NodePair<D>(
 
 interface QuadtreeNode<D> {
     var value:Double?
-    var position:Point
+    var position: Point
 }
 
 data class InternalNode<D>(
@@ -21,7 +21,7 @@ data class InternalNode<D>(
     var SE_2: QuadtreeNode<D>? = null,
     var SW_3: QuadtreeNode<D>? = null,
     override var value:Double? = null,
-    override var position:Point = Point(Double.NaN, Double.NaN)
+    override var position: Point = Point(Double.NaN, Double.NaN)
     ) : QuadtreeNode<D>
 
 fun <D> InternalNode<D>.toList() = listOf(this.NE_0, this.NW_1, this.SE_2, this.SW_3)
@@ -30,7 +30,7 @@ data class LeafNode<D>(
     val data: D,
     var next: LeafNode<D>?,
     override var value:Double? = null,
-    override var position:Point = Point(Double.NaN, Double.NaN)
+    override var position: Point = Point(Double.NaN, Double.NaN)
 ) : QuadtreeNode<D>
 
 // TODO : still needed ?

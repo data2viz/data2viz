@@ -1,6 +1,6 @@
 package io.data2viz.tile
 
-import io.data2viz.core.Point
+import io.data2viz.geom.Point
 import kotlin.math.*
 
 val LN2 = ln(2.0)
@@ -65,7 +65,7 @@ class TilesLayout {
             return field
         }
 
-    var translate:Point? = null
+    var translate: Point? = null
 
 
     private fun eventualyRecompute(){

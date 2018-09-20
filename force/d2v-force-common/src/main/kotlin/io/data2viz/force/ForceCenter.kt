@@ -1,12 +1,12 @@
 package io.data2viz.force
 
-import io.data2viz.core.Point
+import io.data2viz.geom.Point
 
-fun forceCenter(center:Point) = ForceCenter(center)
+fun forceCenter(center: Point) = ForceCenter(center)
 
 // TODO : strength
 // TODO : doc
-class ForceCenter(val center:Point = Point(.0, .0)) : Force {
+class ForceCenter(val center: Point = Point(.0, .0)) : Force {
 
     private val _nodes = mutableListOf<ForceNode>()
 

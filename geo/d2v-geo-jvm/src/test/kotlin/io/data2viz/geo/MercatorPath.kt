@@ -2,7 +2,7 @@ package io.data2viz.geo
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.data2viz.color.colors
-import io.data2viz.core.Extent
+import io.data2viz.geom.Extent
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.mercatorProjection
 import io.data2viz.geojson.JacksonGeoJsonObject

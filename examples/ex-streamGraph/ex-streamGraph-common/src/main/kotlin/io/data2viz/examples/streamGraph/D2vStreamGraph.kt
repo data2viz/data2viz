@@ -2,7 +2,7 @@ package io.data2viz.examples.streamGraph
 
 import io.data2viz.color.EncodedColors
 import io.data2viz.color.EncodedColors.Companion.category20b
-import io.data2viz.core.random
+import io.data2viz.math.random
 import io.data2viz.path.PathAdapter
 import io.data2viz.scale.scales
 import io.data2viz.shape.Curve

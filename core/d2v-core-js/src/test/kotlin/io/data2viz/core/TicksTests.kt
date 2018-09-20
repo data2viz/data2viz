@@ -1,7 +1,7 @@
 package io.data2viz.core
 
+import io.data2viz.math.ticks
 import io.data2viz.test.TestBase
-import kotlin.math.ln
 import kotlin.test.Test
 
 class TicksTests : TestBase() {

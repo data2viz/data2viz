@@ -1,6 +1,6 @@
 package io.data2viz.force
 
-import io.data2viz.core.Speed
+import io.data2viz.geom.Vector
 
 fun forceX(init:ForceX.()->Unit) = ForceX().apply(init)
 
@@ -60,7 +60,7 @@ class ForceX : Force {
 
     override fun invoke(alpha: Double) {
         nodes.forEachIndexed { index, node ->
-            node.velocity += Speed((xz[index] - node.position.x) * strengths[index] * alpha, node.velocity.vy)
+            node.velocity += Vector((xz[index] - node.position.x) * strengths[index] * alpha, node.velocity.vy)
         }
     }
 }

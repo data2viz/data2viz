@@ -1,7 +1,7 @@
 package io.data2viz.tile
 
-import io.data2viz.core.Point
-import io.data2viz.core.namespace
+import io.data2viz.geom.Point
+import io.data2viz.test.namespace
 import io.data2viz.math.Angle
 import io.data2viz.math.PI_ANGLE
 import io.data2viz.math.TAU_ANGLE

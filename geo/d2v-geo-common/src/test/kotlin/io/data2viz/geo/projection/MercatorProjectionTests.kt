@@ -1,10 +1,9 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.core.Extent
+import io.data2viz.geom.Extent
 import io.data2viz.geo.Sphere
 import io.data2viz.geo.path.geoPath
 import io.data2viz.path.SvgPath
-import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 

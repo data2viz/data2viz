@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.core.Extent
+import io.data2viz.geom.Extent
 import io.data2viz.geo.Sphere
 import io.data2viz.math.PI
 import io.data2viz.math.TAU

@@ -1,4 +1,4 @@
-package io.data2viz.core
+package io.data2viz.geom
 
 import kotlin.math.sqrt
 

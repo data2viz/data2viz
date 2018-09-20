@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.core.Extent
+import io.data2viz.geom.Extent
 import io.data2viz.geo.ModifiedStream
 import io.data2viz.geo.clip.clipAntimeridian
 import io.data2viz.geo.clip.clipCircle

@@ -1,17 +1,17 @@
 package io.data2viz.geo
 
-import io.data2viz.core.Extent
+import io.data2viz.geom.Extent
 import io.data2viz.geo.path.PathBounds
 import io.data2viz.geo.projection.Projection
 import io.data2viz.geojson.GeoJsonObject
 import kotlin.math.min
 
 fun fitSize(projection: Projection, width: Double, height:Double, geo: GeoJsonObject): Projection {
-    return fitExtent(projection,Extent(.0, .0, width, height), geo)
+    return fitExtent(projection, Extent(.0, .0, width, height), geo)
 }
 
 fun fitHeight(projection: Projection, height:Double, geo: GeoJsonObject): Projection {
-    val fitBounds = { size:Extent ->
+    val fitBounds = { size: Extent ->
         val k = height / size.height
         val x = -k * size.x0
         val y = (height - (k * (size.y1 + size.y0))) / 2
@@ -22,7 +22,7 @@ fun fitHeight(projection: Projection, height:Double, geo: GeoJsonObject): Projec
 }
 
 fun fitWidth(projection: Projection, width:Double, geo: GeoJsonObject): Projection {
-    val fitBounds = { size:Extent ->
+    val fitBounds = { size: Extent ->
         val k = width / size.width
         val x = (width - (k * (size.x1 + size.x0))) / 2
         val y = -k * size.y0
@@ -33,7 +33,7 @@ fun fitWidth(projection: Projection, width:Double, geo: GeoJsonObject): Projecti
 }
 
 fun fitExtent(projection: Projection, extent: Extent, geo: GeoJsonObject): Projection {
-    val fitBounds = { size:Extent ->
+    val fitBounds = { size: Extent ->
         val w = extent.width
         val h = extent.height
         val k = min(w / (size.width), h / (size.height))

@@ -1,11 +1,11 @@
 package io.data2viz.voronoi
 
-import io.data2viz.core.Point
+import io.data2viz.geom.Point
 
 
 internal var wEdges = mutableListOf<Edge?>()
 
-fun createBorderEdge(left:Site, v0: Point, v1:Point?): Edge {
+fun createBorderEdge(left:Site, v0: Point, v1: Point?): Edge {
     val ret = Edge (left)
     ret.start = v0
     ret.end = v1

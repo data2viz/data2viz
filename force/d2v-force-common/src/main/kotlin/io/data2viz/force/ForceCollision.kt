@@ -1,7 +1,7 @@
 package io.data2viz.force
 
-import io.data2viz.core.Point
-import io.data2viz.core.Speed
+import io.data2viz.geom.Point
+import io.data2viz.geom.Vector
 import io.data2viz.quadtree.*
 import kotlin.math.sqrt
 
@@ -103,9 +103,9 @@ class ForceCollision : Force {
                     y *= l
                     rj *= rj
                     r = rj / (ri2 + rj)
-                    currentNode.velocity += Speed(x * r, y * r)
+                    currentNode.velocity += Vector(x * r, y * r)
                     r = 1 - r
-                    data.velocity -= Speed(x * r, y * r)
+                    data.velocity -= Vector(x * r, y * r)
                 }
             }
             return false
