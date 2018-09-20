@@ -6,6 +6,7 @@ import io.data2viz.geo.clip.clipRectangle
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geojson.MultiPolygon
 import io.data2viz.path.SvgPath
+import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
