@@ -14,13 +14,91 @@ const val height = 500.0
 
 const val pointCount = 800
 
-// random points to init scene
-val points = (0 until pointCount).map { ForceNode(it, Point(random() * width, random() * height)) }
+val simulation: ForceSimulation = forceSimulation {
+    alphaDecay = 0.01
+    nodes = (0 until pointCount).map { ForceNode(it, random() * width, random() * height) }
+    on(SimulationEvent.TICK, "tickEvent", ::refresh)
+    on(SimulationEvent.END, "endEvent") { println("SIMULATION ENDS") }
+}
+
+val olympicColors = listOf(
+        Color(0x0081C8),
+        Color(0x000000),
+        Color(0xEE334E),
+        Color(0xFCB131),
+        Color(0x00A651)
+)
+
+val forces = listOf(
+        "radial" to radialForces(),
+        "diagonal" to diagonalForces(),
+        "olympic" to olympicForces(),
+        "sprite" to spriteForces()
+)
+
+var forceIndex = 0
+
+val forcesViz:Viz = viz {
+
+    width = 800.0
+    height = 500.0
+
+    simulation.nodes.forEach { node ->
+        circle {
+            stroke = null
+            radius = 2.0 + (node.index / 150)
+            fill = olympicColors[node.index % 5]
+            x = node.x
+            y = node.y
+        }
+    }
+
+    onFrame {
+        refresh(simulation)
+    }
+}.also {
+    simulationLoop()
+}
+
+fun refresh(sim: ForceSimulation) {
+    forcesViz.activeLayer.children.forEachIndexed { index, node ->
+        val forceNode = sim.nodes[index]
+        val circle = node as Circle
+        circle.x = forceNode.x
+        circle.y = forceNode.y
+    }
+}
+
+/**
+ * Change simulation forces every 3,5 secondes
+ */
+private fun simulationLoop() {
+    println(forces[forceIndex].first)
+    (0 until forces[forceIndex].second.size).forEach { index ->
+        simulation.addForce("${forces[forceIndex].first}_$index", forces[forceIndex].second[index])
+    }
+    simulation.alpha = 1.0
+    simulation.velocityDecay = if (forceIndex == 2) 0.05 else 0.4
+    timer(delay = 3500.0) {
+        (0 until forces[forceIndex].second.size).forEach { index ->
+            simulation.removeForce("${forces[forceIndex].first}_$index")
+        }
+        forceIndex = (forceIndex + 1) % forces.size
+        stop()
+        simulationLoop()
+    }
+}
+
 
 // olympic colors and centers positions
-val olympicColors = listOf(Color(0x0081C8), Color(0x000000), Color(0xEE334E), Color(0xFCB131), Color(0x00A651))
 val olympicCenters =
-    listOf(Point(160.0, 180.0), Point(400.0, 180.0), Point(640.0, 180.0), Point(280.0, 320.0), Point(520.0, 320.0))
+    listOf(
+            Point(160.0, 180.0),
+            Point(400.0, 180.0),
+            Point(640.0, 180.0),
+            Point(280.0, 320.0),
+            Point(520.0, 320.0)
+    )
 
 val sprite = listOf(
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3,
@@ -51,7 +129,7 @@ val spriteIndexes = olympicColors.mapIndexed { index, _ ->
     }.filterNotNull()
 }
 
-val olympicForces = listOf(
+fun olympicForces() = listOf(
     forceRadial {
         center = { _, index, _ -> olympicCenters[index % 5] }
         radius = { _, _, _ -> 110.0 }
@@ -63,7 +141,7 @@ val olympicForces = listOf(
     }
 )
 
-val radialForces = listOf(
+fun radialForces() = listOf(
     forceRadial {
         center = { _, _, _ -> Point(width / 2, height / 2) }
         radius = { _, _, _ -> 200.0 }
@@ -75,7 +153,7 @@ val radialForces = listOf(
     }
 )
 
-val diagonalForces = listOf(
+fun diagonalForces() = listOf(
     forceNBody {
         strength = { _, _, _ -> -1.0 }
         distanceMax = 30.0
@@ -85,7 +163,7 @@ val diagonalForces = listOf(
             val pos = ((index % 10) + .5) * height / 10
             if (index % 4 < 2) pos else height - pos
         }
-        strength = { _, _, _ -> .06 }
+        strength = { _, _, _ -> .12 }
     },
     forceX {
         x = { _, index, _ ->
@@ -93,11 +171,11 @@ val diagonalForces = listOf(
             pos
 //            if (index % 5 == 0) pos else width - pos
         }
-        strength = { _, _, _ -> .06 }
+        strength = { _, _, _ -> .12 }
     }
 )
 
-val spriteForces = listOf(
+fun spriteForces() = listOf(
     forceNBody {
         strength = { _, _, _ -> -.2 }
         distanceMax = 15.0
@@ -127,71 +205,3 @@ val spriteForces = listOf(
         strength = { _, _, _ -> .08 }
     }
 )
-
-val forces = listOf(
-    Pair("radial", radialForces),
-    Pair("diagonal", diagonalForces),
-    Pair("olympic", olympicForces),
-    Pair("sprite", spriteForces)
-)
-var forceIndex = 0
-
-// force simulations and forces (radial for positionning and n-body force for element repulsion)
-val simulation: ForceSimulation = forceSimulation {
-    alphaDecay = 0.01
-//        velocityDecay = .3
-    nodes = points
-    on(SimulationEvent.TICK, "tickEvent", ::refresh)
-    on(SimulationEvent.END, "endEvent") { println("SIMULATION ENDS") }
-}
-
-
-val forcesViz:Viz = viz {
-
-    width = 800.0
-    height = 500.0
-
-    simulation.nodes.forEach { node ->
-        circle {
-            style.stroke = null
-            radius = 2.0 + (node.index / 150)
-            style.fill = olympicColors[node.index % 5]
-            x = node.position.x
-            y = node.position.y
-        }
-    }
-
-    onFrame {
-        refresh(simulation)
-    }
-
-
-}.also {
-    updateSimulation()
-}
-
-private fun updateSimulation() {
-    (0 until forces[forceIndex].second.size).forEach { index ->
-        simulation.addForce("${forces[forceIndex].first}_$index", forces[forceIndex].second[index])
-    }
-    simulation.alpha = 1.0
-    simulation.velocityDecay = if (forceIndex == 2) 0.05 else 0.4
-    timer(delay = 3500.0) {
-        (0 until forces[forceIndex].second.size).forEach { index ->
-            simulation.removeForce("${forces[forceIndex].first}_$index")
-        }
-        forceIndex = (forceIndex + 1) % forces.size
-        stop()
-        updateSimulation()
-    }
-}
-
-
-fun refresh(sim: ForceSimulation) {
-    forcesViz.activeLayer.children.forEachIndexed { index, node ->
-        val forceNode = sim.nodes[index]
-        val circle = node as Circle
-        circle.x = forceNode.position.x
-        circle.y = forceNode.position.y
-    }
-}
