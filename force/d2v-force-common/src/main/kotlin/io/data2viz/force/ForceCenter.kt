@@ -5,31 +5,39 @@ import io.data2viz.geom.Point
 fun forceCenter(center: Point) = ForceCenter(center)
 
 // TODO : strength
-// TODO : doc
+/**
+ * The centering force translates nodes uniformly so that the mean position of all nodes
+ * (the center of mass if all nodes have equal weight) is at the given position ⟨x,y⟩.
+ * This force modifies the positions of nodes on each application; it does not modify velocities,
+ * as doing so would typically cause the nodes to overshoot and oscillate around the desired center.
+ * This force helps keeps nodes in the center of the viewport, and unlike the positioning force,
+ * it does not distort their relative positions.
+ */
 class ForceCenter(val center: Point = Point(.0, .0)) : Force {
 
-    private val _nodes = mutableListOf<ForceNode>()
+    private var _nodes = listOf<ForceNode>()
 
-    override fun initialize(nodes: List<ForceNode>) {
-        _nodes.addAll(nodes)
+    override fun assignNodes(nodes: List<ForceNode>) {
+        _nodes = nodes
     }
 
-    override fun invoke(alpha: Double) {
+    override fun applyForceToNodes(alpha: Double) {
         val size = _nodes.size.toDouble()
 
         var sx = .0
         var sy = .0
 
         _nodes.forEach { node ->
-            sx += node.position.x
-            sy += node.position.y
+            sx += node.x
+            sy += node.y
         }
 
         sx = sx / size - center.x
         sy = sy / size - center.y
 
         _nodes.forEach { node ->
-            node.position = Point(node.position.x - sx, node.position.y - sy)
+            node.x = node.x - sx
+            node.y = node.y - sy
         }
     }
 }

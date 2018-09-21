@@ -15,13 +15,14 @@ fun forceCollision(init: ForceCollision.() -> Unit) = ForceCollision().apply(ini
  */
 class ForceCollision : Force {
 
-    private val x = { node: ForceNode -> node.position.x }
-    private val y = { node: ForceNode -> node.position.y }
+    private val x = { node: ForceNode -> node.x }
+    private val y = { node: ForceNode -> node.y }
 
     // variables stored during tree parsing for current node
     private var ri: Double = .0
     private var ri2: Double = .0
-    private lateinit var pointi: Point
+    private var xi: Double = Double.NaN
+    private var yi: Double = Double.NaN
     private lateinit var currentNode: ForceNode
 
     /**
@@ -51,13 +52,13 @@ class ForceCollision : Force {
     var radius: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 100.0 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     private var nodes: List<ForceNode> = listOf()
     private val radiuses = mutableListOf<Double>()
 
-    override fun initialize(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode>) {
         this.nodes = nodes
         radiuses.clear()
         nodes.forEachIndexed { index, node ->
@@ -65,15 +66,16 @@ class ForceCollision : Force {
         }
     }
 
-    override fun invoke(alpha: Double) {
-        (0 until iterations).forEach {
+    override fun applyForceToNodes(alpha: Double) {
+        (0 until iterations).forEach { _ ->
             val tree = quadtree(x, y, nodes)
             tree.visitAfter(::prepare)
             nodes.forEachIndexed { index, node ->
                 currentNode = node
                 ri = radiuses[node.index]
                 ri2 = ri * ri
-                pointi = node.position.plus(node.velocity)
+                xi = node.x + node.vx
+                yi = node.y + node.vy
                 tree.visit(::applyForce)
             }
         }
@@ -85,8 +87,8 @@ class ForceCollision : Force {
         var r = ri + rj
         if (data != null) {
             if (data.index > currentNode.index) {
-                var x = pointi.x - data.position.x - data.velocity.vx
-                var y = pointi.y - data.position.y - data.velocity.vy
+                var x = xi - data.x - data.vx
+                var y = yi - data.y - data.vy
                 var l = x * x + y * y
                 if (l < (r * r)) {
                     if (x == .0) {
@@ -103,14 +105,16 @@ class ForceCollision : Force {
                     y *= l
                     rj *= rj
                     r = rj / (ri2 + rj)
-                    currentNode.velocity += Vector(x * r, y * r)
+                    currentNode.vx += x * r
+                    currentNode.vy += y * r
                     r = 1 - r
-                    data.velocity -= Vector(x * r, y * r)
+                    data.vx -= x * r
+                    data.vy -= y * r
                 }
             }
             return false
         }
-        return x0 > pointi.x + r || x1 < pointi.x - r || y0 > pointi.y + r || y1 < pointi.y - r
+        return x0 > xi + r || x1 < xi - r || y0 >yi + r || y1 < yi - r
     }
 
     private fun prepare(quad: QuadtreeNode<ForceNode>, x0: Double, y0: Double, x1: Double, y1: Double) {

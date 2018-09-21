@@ -1,6 +1,5 @@
 package io.data2viz.force
 
-import io.data2viz.geom.Vector
 
 fun forceY(init:ForceY.()->Unit) = ForceY().apply(init)
 
@@ -20,7 +19,7 @@ class ForceY : Force {
     var y: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> .0 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     /**
@@ -39,14 +38,14 @@ class ForceY : Force {
     var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 0.1 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     private var nodes: List<ForceNode> = listOf()
     private val strengths = mutableListOf<Double>()
     private val yz = mutableListOf<Double>()
 
-    override fun initialize(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode>) {
         this.nodes = nodes
 
         yz.clear()
@@ -58,9 +57,9 @@ class ForceY : Force {
         }
     }
 
-    override fun invoke(alpha: Double) {
+    override fun applyForceToNodes(alpha: Double) {
         nodes.forEachIndexed { index, node ->
-            node.velocity += Vector(node.velocity.vx, (yz[index] - node.position.y) * strengths[index] * alpha)
+            node.vy += (yz[index] - node.y) * strengths[index] * alpha
         }
     }
 }

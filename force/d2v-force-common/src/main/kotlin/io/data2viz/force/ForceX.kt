@@ -20,7 +20,7 @@ class ForceX : Force {
     var x: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> .0 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     /**
@@ -39,14 +39,14 @@ class ForceX : Force {
     var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 0.1 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     private var nodes: List<ForceNode> = listOf()
     private val strengths = mutableListOf<Double>()
     private val xz = mutableListOf<Double>()
 
-    override fun initialize(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode>) {
         this.nodes = nodes
 
         xz.clear()
@@ -58,9 +58,9 @@ class ForceX : Force {
         }
     }
 
-    override fun invoke(alpha: Double) {
+    override fun applyForceToNodes(alpha: Double) {
         nodes.forEachIndexed { index, node ->
-            node.velocity += Vector((xz[index] - node.position.x) * strengths[index] * alpha, node.velocity.vy)
+            node.vx += (xz[index] - node.x) * strengths[index] * alpha
         }
     }
 }

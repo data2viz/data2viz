@@ -21,7 +21,7 @@ class ForceRadial : Force {
     var radius: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 100.0 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     /**
@@ -39,7 +39,7 @@ class ForceRadial : Force {
     var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 0.1 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     /**
@@ -48,7 +48,7 @@ class ForceRadial : Force {
     var center: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Point = { _, _, _ -> defaultCenter }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
     private val defaultCenter = Point(.0, .0)
 
@@ -57,7 +57,7 @@ class ForceRadial : Force {
     private val centers = mutableListOf<Point>()
     private val radiuses = mutableListOf<Double>()
 
-    override fun initialize(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode>) {
         this.nodes = nodes
 
         radiuses.clear()
@@ -71,17 +71,18 @@ class ForceRadial : Force {
         }
     }
 
-    override fun invoke(alpha: Double) {
+    override fun applyForceToNodes(alpha: Double) {
         nodes.forEachIndexed { index, node ->
-            var dx = node.position.x - centers[index].x
+            var dx = node.x - centers[index].x
             if (dx == .0) dx = EPSILON
-            var dy = node.position.y - centers[index].y
+            var dy = node.y - centers[index].y
             if (dy == .0) dy = EPSILON
 
             val r = sqrt(dx * dx + dy * dy)
             val k = (radiuses[index] - r) * strengths[index] * alpha / r
 
-            node.velocity += Vector(dx * k, dy * k)
+            node.vx += dx * k
+            node.vy += dy * k
         }
     }
 }

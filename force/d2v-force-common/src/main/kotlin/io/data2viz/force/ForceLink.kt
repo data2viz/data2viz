@@ -40,7 +40,7 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
     var strength: (link: Link, index: Int, links: List<Link>) -> Double = { link, _, _ -> 1.0 / min(count[link.source.index], count[link.target.index]) }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     /**
@@ -49,10 +49,10 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
     var distance: (link: Link, index: Int, links: List<Link>) -> Double = { _, _, _ -> 30.0 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
-    override fun initialize(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode>) {
         this.nodes = nodes
 
         // build links
@@ -88,16 +88,16 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
         }
     }
 
-    override fun invoke(alpha: Double) {
+    override fun applyForceToNodes(alpha: Double) {
         (0 until iterations).forEach {
             links.forEachIndexed { index, link ->
                 val source = link.source
                 val target = link.target
 
-                var x = target.position.x + target.velocity.vx - source.position.x - source.velocity.vx
+                var x = target.x + target.vx - source.x - source.vx
                 if (x == .0) x = jiggle()
 
-                var y = target.position.y + target.velocity.vy - source.position.y - source.velocity.vy
+                var y = target.y + target.vy - source.y - source.vy
                 if (y == .0) y = jiggle()
 
                 var l = sqrt(x * x + y * y)
@@ -106,10 +106,12 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
                 y *= l
 
                 var b = bias[index]
-                target.velocity -= Vector(x * b, y * b)
+                target.vx -= x * b
+                target.vy -= y * b
 
                 b = 1 - b
-                source.velocity += Vector(x * b, y * b)
+                source.vx += x * b
+                source.vy += y * b
             }
         }
     }

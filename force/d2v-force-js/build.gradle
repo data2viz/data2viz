@@ -1,6 +1,12 @@
+apply plugin: 'kotlin-dce-js'
+
+runDceKotlinJs.dceOptions.devMode = true
+runDceTestKotlinJs.dceOptions.devMode = true
+
 dependencies {
     expectedBy project(":force:d2v-force-common")
     compile project(":core:d2v-core-js")
     compile project(":quadtree:d2v-quadtree-js")
     compile project(":timer:d2v-timer-js")
+    testCompile project(":viz:d2v-viz-js")
 }

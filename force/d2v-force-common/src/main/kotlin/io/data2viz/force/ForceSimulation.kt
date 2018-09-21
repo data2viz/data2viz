@@ -1,7 +1,6 @@
 package io.data2viz.force
 
 import io.data2viz.geom.Point
-import io.data2viz.geom.Vector
 import io.data2viz.math.PI
 import io.data2viz.timer.timer
 import kotlin.math.cos
@@ -9,45 +8,15 @@ import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-interface Force {
 
-    /**
-     * Assigns the array of nodes to this force.
-     * This method is called when a force is bound to a simulation via simulation.force and when the simulation’s
-     * nodes change via simulation.nodes.
-     * A force may perform necessary work during initialization, such as evaluating per-node parameters, to avoid
-     * repeatedly performing work during each application of the force.
-     */
-    fun initialize(nodes: List<ForceNode>)
-
-    /**
-     * Applies this force, optionally observing the specified alpha.
-     * Typically, the force is applied to the array of nodes previously passed to force.initialize, however, some
-     * forces may apply to a subset of nodes, or behave differently.
-     * For example, forceLink applies to the source and target of each link.
-     */
-    operator fun invoke(alpha: Double)
-}
-
-enum class SimulationEvent {
-    TICK, END
-}
-
-data class ForceNode(
-        var index: Int,
-        var position: Point = Point(Double.NaN, Double.NaN),
-        var velocity: Vector = Vector(Double.NaN, Double.NaN),
-        var fixedPosition: Point = Point(Double.NaN, Double.NaN)
-)
-
-private val initialRadius = 10.0
+private const val initialRadius = 10.0
 private val initialAngle = PI * (3.0 - sqrt(5.0))
 
 fun forceSimulation(init: ForceSimulation.() -> Unit) = ForceSimulation().apply(init)
 
 /**
  * Creates a new simulation with the specified array of nodes and no forces.
- * If nodes is not specified, it defaults to the empty array.
+ * If nodes is not specified, it defaults to the empty list.
  * The simulator starts automatically; use simulation.on to listen for tick events as the simulation runs.
  * If you wish to run the simulation manually instead, call simulation.stop, and then call simulation.tick as desired.
  */
@@ -65,12 +34,40 @@ class ForceSimulation {
     private val tickEvents = mutableMapOf<String, (ForceSimulation) -> Unit>()
     private val endEvents = mutableMapOf<String, (ForceSimulation) -> Unit>()
 
-    private val stepper = timer(callback = { elapsed: Double -> step() })
+    private val stepper = timer { step() }
 
     init {
         initializeNodes()
-
     }
+
+    /**
+     * Restarts current simulation
+     */
+    fun restart() {
+        stepper.restart { step() }
+    }
+
+    /**
+     * stops the current simulation
+     */
+    fun stop(){
+        stepper.stop()
+    }
+
+    private fun step() {
+        tick()
+        tickEvents.values.forEach { callback ->
+            callback(this)
+        }
+        if (alpha < alphaMin) {
+            stepper.stop()
+            endEvents.values.forEach { callback ->
+                callback(this)
+            }
+        }
+    }
+
+
 
     /**
      * Sets the current alpha to the specified number in the range [0,1] which defaults to 1.0.
@@ -138,7 +135,7 @@ class ForceSimulation {
      */
     fun addForce(name: String, force: Force) {
         initializeForce(force)
-        forces.put(name, force)
+        forces[name] = force
     }
 
     /**
@@ -149,21 +146,9 @@ class ForceSimulation {
     }
 
     private fun initializeForce(force: Force) {
-        force.initialize(nodes)
+        force.assignNodes(nodes)
     }
 
-    private fun step() {
-        tick()
-        tickEvents.values.forEach { callback ->
-            callback(this)
-        }
-        if (alpha < alphaMin) {
-            stepper.stop()
-            endEvents.values.forEach { callback ->
-                callback(this)
-            }
-        }
-    }
 
     /**
      * Increments the current alpha by (alphaTarget - alpha) × alphaDecay;
@@ -180,40 +165,44 @@ class ForceSimulation {
      * This method can be used in conjunction with simulation.stop to compute a static force layout.
      */
     // TODO For large graphs, static layouts should be computed in a web worker to avoid freezing the user interface.
-    private fun tick() {
+    fun tick() {
         alpha += (alphaTarget - alpha) * alphaDecay
 
+
         forces.values.forEach { force ->
-            force(alpha)
+            force.applyForceToNodes(alpha)
         }
 
         nodes.forEach { node ->
-            if (node.fixedPosition.x != Double.NaN) {
-                node.velocity = Vector(node.velocity.vx * velocityDecay, node.velocity.vy)
+            if (node.fixedX != null) {
+                node.x = node.fixedX!!
+                node.vx = .0
             } else {
-                node.position = Point(node.fixedPosition.x, node.position.y)
-                node.velocity = Vector(.0, node.velocity.vy)
+                node.vx *= velocityDecay
+                node.x += node.vx
             }
-            if (node.fixedPosition.y != Double.NaN) {
-                node.velocity = Vector(node.velocity.vx, node.velocity.vy * velocityDecay)
+            if (node.fixedY != null) {
+                node.y = node.fixedY!!
+                node.vy = .0
             } else {
-                node.position = Point(node.position.x, node.fixedPosition.y)
-                node.velocity = Vector(node.velocity.vx, .0)
+                node.vy *= velocityDecay
+                node.y  += node.vy
             }
-            node.position = node.position.plus(node.velocity)
         }
     }
 
     private fun initializeNodes() {
         nodes.forEachIndexed { index, node ->
             node.index = index
-            if (node.position.x.isNaN() || node.position.y.isNaN()) {
+            if (node.x.isNaN() || node.y.isNaN()) {
                 val radius = initialRadius * sqrt(index.toDouble())
                 val angle = index * initialAngle
-                node.position = Point(radius * cos(angle), radius * sin(angle))
+                node.x = radius * cos(angle)
+                node.y = radius * sin(angle)
             }
-            if (node.velocity.vx.isNaN() || node.velocity.vy.isNaN()) {
-                node.velocity = Vector(.0, .0)
+            if (node.vx.isNaN() || node.vy.isNaN()) {
+                node.vx = .0
+                node.vy = .0
             }
         }
     }
@@ -228,8 +217,8 @@ class ForceSimulation {
         var closest: ForceNode? = null
 
         nodes.forEach { node ->
-            val dx = point.x - node.position.x
-            val dy = point.y - node.position.y
+            val dx = point.x - node.x
+            val dy = point.y - node.y
             val d2 = dx * dx + dy * dy
             if (d2 < newRadius) {
                 closest = node
@@ -264,22 +253,14 @@ class ForceSimulation {
     // TODO : change doc and plug to dispatch (?)
     fun on(type: SimulationEvent, name: String, callback: (ForceSimulation) -> Unit) {
         when (type) {
-            SimulationEvent.TICK -> tickEvents.put(name, callback)
-            SimulationEvent.END -> endEvents.put(name, callback)
+            SimulationEvent.TICK -> tickEvents[name] = callback
+            SimulationEvent.END -> endEvents[name] = callback
         }
     }
 
-    /**
-     * stops the current simulation
-     */
-    fun stop(){
-        stepper.stop()
-    }
+}
 
-    fun restart() {
-        stepper.restart { step() }
-    }
-
-
+enum class SimulationEvent {
+    TICK, END
 }
 

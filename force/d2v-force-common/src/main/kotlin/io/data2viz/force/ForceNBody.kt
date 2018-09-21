@@ -28,8 +28,8 @@ class ForceNBody : Force {
     private var distanceMin2 = 1.0
     private var distanceMax2 = 10000.0
 
-    private val x = { node: ForceNode -> node.position.x }
-    private val y = { node: ForceNode -> node.position.y }
+    private val x = { node: ForceNode -> node.x }
+    private val y = { node: ForceNode -> node.y }
 
     // store the alpha value for the current force(alpha) call
     private var currentAlpha: Double = .0
@@ -91,13 +91,13 @@ class ForceNBody : Force {
     var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> -30.0 }
         set(value) {
             field = value
-            initialize(nodes)
+            assignNodes(nodes)
         }
 
     private var nodes: List<ForceNode> = listOf()
     private val strengths = mutableListOf<Double>()
 
-    override fun initialize(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode>) {
         this.nodes = nodes
         strengths.clear()
         nodes.forEachIndexed { index, node ->
@@ -105,7 +105,7 @@ class ForceNBody : Force {
         }
     }
 
-    override fun invoke(alpha: Double) {
+    override fun applyForceToNodes(alpha: Double) {
         currentAlpha = alpha
         val tree = quadtree(x, y, nodes)
         tree.visitAfter(::accumulate)
@@ -118,8 +118,8 @@ class ForceNBody : Force {
     private fun applyForce(quad: QuadtreeNode<ForceNode>, x0: Double, y0: Double, x1: Double, y1: Double): Boolean {
         if (quad.value == null) return true
 
-        var x: Double = quad.position.x - currentNode.position.x
-        var y: Double = quad.position.y - currentNode.position.y
+        var x: Double = quad.position.x - currentNode.x
+        var y: Double = quad.position.y - currentNode.y
         var w = x1 - x0
         var l = x * x + y * y
 
@@ -137,7 +137,8 @@ class ForceNBody : Force {
                 }
                 if (l < distanceMin2) l = sqrt(distanceMin2 * l)
                 val increment: Double = quad.value!! * currentAlpha / l
-                currentNode.velocity += Vector(x * increment, y * increment)
+                currentNode.vx += x * increment
+                currentNode.vy += y * increment
             }
 
             return true
@@ -163,7 +164,8 @@ class ForceNBody : Force {
         do {
             if (newQuad!!.data !== currentNode) {
                 w = strengths[newQuad!!.data.index] * currentAlpha / l
-                currentNode.velocity += Vector(x * w, y * w)
+                currentNode.vx += x * w
+                currentNode.vy += y * w
             }
             newQuad = newQuad!!.next
         } while (newQuad != null)
@@ -176,29 +178,31 @@ class ForceNBody : Force {
         var weight = .0
 
         // For internal nodes, accumulate forces from child quadrants.
-        if (quad is InternalNode) {
-            var x = .0
-            var y = .0
-            quad.toList().forEach { q ->
-                if (q != null && q.value != null) {
-                    val c = abs(q.value!!)
-                    strength += q.value!!
-                    weight += c
-                    x += c * q.position.x
-                    y += c * q.position.y
+        when (quad) {
+            is InternalNode -> {
+                var x = .0
+                var y = .0
+                quad.toList().forEach { q ->
+                    if (q?.value != null) {
+                        val c = abs(q.value!!)
+                        strength += q.value!!
+                        weight += c
+                        x += c * q.position.x
+                        y += c * q.position.y
+                    }
                 }
+                quad.position = Point(x / weight, y / weight)
             }
-            quad.position = Point(x / weight, y / weight)
-        }
 
-        // For leaf nodes, accumulate forces from coincident quadrants.
-        else {
-            var q = quad as LeafNode?
-            q!!.position = Point(q.data.position.x, q.data.position.y)
-            do {
-                strength += strengths[q!!.data.index]
-                q = q.next
-            } while (q != null)
+            // For leaf nodes, accumulate forces from coincident quadrants.
+            is LeafNode -> {
+                var q: LeafNode<ForceNode>? = quad
+                q!!.position = Point(q.data.x, q.data.y)
+                do {
+                    strength += strengths[q!!.data.index]
+                    q = q.next
+                } while (q != null)
+            }
         }
 
         quad.value = strength
