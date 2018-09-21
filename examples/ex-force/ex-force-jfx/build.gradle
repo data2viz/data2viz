@@ -1,3 +1,8 @@
+apply plugin: 'application'
+
+mainClassName="io.data2viz.examples.force.ExForceJFx"
+
+
 dependencies {
     expectedBy project(":ex-force:ex-force-common")
     compile project(":data2viz:d2v-data2viz-jfx")
