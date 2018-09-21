@@ -6,3 +6,4 @@ target/
 node_modules/
 build/
 .gradle/
+*.iml
