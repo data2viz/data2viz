@@ -1,3 +1,5 @@
+package io.data2viz.examples.force
+
 import io.data2viz.color.Color
 import io.data2viz.geom.Point
 import io.data2viz.math.random

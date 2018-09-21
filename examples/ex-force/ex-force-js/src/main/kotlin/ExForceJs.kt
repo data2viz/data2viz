@@ -1,3 +1,4 @@
+package io.data2viz.examples.force
 
 import io.data2viz.viz.bindRendererOn
 

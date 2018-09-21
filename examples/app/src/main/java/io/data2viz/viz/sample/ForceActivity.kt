@@ -3,10 +3,10 @@ package io.data2viz.viz.sample
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
-import forcesViz
+import io.data2viz.examples.force.forcesViz
+import io.data2viz.examples.force.simulation
 import io.data2viz.viz.VizView
 import io.data2viz.viz.toView
-import simulation
 
 
 class ForceActivity : AppCompatActivity() {

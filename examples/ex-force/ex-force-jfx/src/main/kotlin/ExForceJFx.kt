@@ -1,3 +1,5 @@
+package io.data2viz.examples.force
+
 import io.data2viz.viz.JFxVizRenderer
 import javafx.animation.AnimationTimer
 import javafx.application.Application
