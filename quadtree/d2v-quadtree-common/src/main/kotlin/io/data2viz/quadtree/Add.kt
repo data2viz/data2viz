@@ -91,8 +91,8 @@ private fun <D> Quadtree<D>._add(x: Double, y: Double, datum: D) {
 }
 
 fun <D> Quadtree<D>.addAll(data: List<D>) {
-    val xz: Array<Double> = Array(data.size, { x(data[it]) })
-    val yz: Array<Double> = Array(data.size, { y(data[it]) })
+    val xz: Array<Double> = Array(data.size) { x(data[it]) }
+    val yz: Array<Double> = Array(data.size) { y(data[it]) }
     var x0 = Double.POSITIVE_INFINITY
     var y0 = Double.POSITIVE_INFINITY
     var x1 = Double.NEGATIVE_INFINITY
@@ -127,5 +127,7 @@ fun <D> Quadtree<D>.addAll(data: List<D>) {
     cover(x1, y1)
 
     // Add the new points.
-    data.forEachIndexed { index, datum -> _add(xz[index], yz[index], datum) }
+    data.forEachIndexed { index, datum ->
+        _add(xz[index], yz[index], datum)
+    }
 }

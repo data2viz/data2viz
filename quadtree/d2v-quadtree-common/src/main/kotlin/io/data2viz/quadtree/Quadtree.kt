@@ -3,7 +3,7 @@ package io.data2viz.quadtree
 import io.data2viz.geom.Extent
 import io.data2viz.geom.Point
 
-fun Boolean.toInt() = if (this) 1 else 0
+inline internal fun Boolean.toInt() = if (this) 1 else 0
 
 internal data class NodePair<D>(
     val source: QuadtreeNode<D>,
@@ -60,20 +60,13 @@ internal fun <D> setNodeFromIndex(node: InternalNode<D>, index: Int, value: Quad
     }
 }
 
-fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, init: Quadtree<D>.() -> Unit) = Quadtree(x, y).apply(init)
 fun <D> quadtree(x: (D) -> Double, y: (D) -> Double) = Quadtree(x, y)
-fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>): Quadtree<D> {
-    val quadtree = Quadtree(x, y)
-    quadtree.addAll(nodes)
-    return quadtree
-}
 
-fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>, init: Quadtree<D>.() -> Unit): Quadtree<D> {
-    val quadtree = Quadtree(x, y)
-    quadtree.addAll(nodes)
-    quadtree.apply(init)
-    return quadtree
-}
+/**
+ * Create quadtree and add all nodes.
+ */
+fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>): Quadtree<D> = Quadtree(x,y).apply { addAll(nodes)}
+
 
 // TODO : use Point ?
 // TODO : remove x and y from class constructor ?
@@ -82,7 +75,11 @@ fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>, init: Quadt
  * squares. Each distinct point exists in a unique leaf node; coincident points are represented by a linked list.
  * Quadtrees can accelerate various spatial operations, such as the Barnes–Hut approximation for computing
  * many-body forces, collision detection, and searching for nearby points.
- */
+ *
+ * x and y accessor are used to derive the coordinates of data when adding to and removing from the tree.
+ * It is also used when finding to re-access the coordinates of data previously added to the tree;
+ * therefore, the x- and y-accessors must be consistent, returning the same value given the same input.
+*/
 class Quadtree<D>(val x: (D) -> Double, val y: (D) -> Double) {
 
     /**
@@ -100,22 +97,5 @@ class Quadtree<D>(val x: (D) -> Double, val y: (D) -> Double) {
             cover(value.x0, value.y0)
             cover(value.x1, value.y1)
         }
-
-    /**
-     * Sets the current x-coordinate accessor.
-     * The x-acccessor is used to derive the x-coordinate of data when adding to and removing from the tree.
-     * It is also used when finding to re-access the coordinates of data previously added to the tree;
-     * therefore, the x- and y-accessors must be consistent, returning the same value given the same input.
-     */
-//    var x: (D) -> Double = { .0 }
-
-    /**
-     * Sets the current y-coordinate accessor.
-     * The y-acccessor is used to derive the y-coordinate of data when adding to and removing from the tree.
-     * It is also used when finding to re-access the coordinates of data previously added to the tree;
-     * therefore, the x- and y-accessors must be consistent, returning the same value given the same input.
-     */
-//    var y: (D) -> Double = { .0 }
-
 
 }
