@@ -1,3 +1,5 @@
+apply from: rootProject.file('gradle/bundle-example.gradle')
+
 dependencies {
     expectedBy project(":viz:d2v-viz-common")
     compile project(":color:d2v-color-common")
@@ -9,15 +11,25 @@ dependencies {
     compile project(":timer:d2v-timer-js")
 }
 
-task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {
 
-    from compileKotlin2Js.destinationDir
+apply plugin: 'com.moowork.node'
 
-    configurations.testCompile.each {
-        from zipTree(it.absolutePath).matching { include '*.js' }
-    }
-
-    into "${buildDir}/node_modules"
+node {
+    version = "$node_version"
+    npmVersion = "$npm_version"
+    download = true
 }
 
-build.dependsOn populateNodeModules
+task installDependencies(type: YarnTask) {
+    args = ['install']
+}
+
+task generateRenderingTestImages(type: YarnTask, dependsOn: [compileTestKotlin2Js, installDependencies, runDceKotlinJs, runDceTestKotlinJs]) {
+    args = ['render']
+}
+
+task diffImagesWithReference(type: YarnTask, dependsOn: generateRenderingTestImages) {
+    args = ['diffs']
+}
+
+test.dependsOn diffImagesWithReference

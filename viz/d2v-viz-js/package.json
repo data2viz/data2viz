@@ -1,15 +1,19 @@
 {
   "devDependencies": {
     "browserify": "^14.5.0",
+    "fs": "^0.0.1-security",
     "karma": "^1.7.1",
     "karma-browserify": "^5.1.2",
     "karma-chrome-launcher": "^2.2.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.4",
-    "mocha": "^5.0.1"
+    "mocha": "^5.0.1",
+    "pixelmatch": "^4.0.2",
+    "puppeteer": "^1.6.2"
   },
   "scripts": {
     "test": "karma start",
-    "bundle": "webpack"
-  }
-}
+    "render": "node puppeteer.js",
+    "bundle": "webpack",
+    "diffs": "node diff.js"
+  }}
