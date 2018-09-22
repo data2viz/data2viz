@@ -10,18 +10,17 @@ data class Link(
     var index: Int = 0
 )
 
-fun forceLink(linker: (from: ForceNode, to:ForceNode) -> Boolean, init: ForceLink.() -> Unit) = ForceLink(linker).apply(init)
-fun forceLink(linker: (from: ForceNode, to:ForceNode) -> Boolean) = ForceLink(linker)
+fun forceLink(links: List<Link>, init: ForceLink.() -> Unit = {}) = ForceLink(links).apply(init)
 
 /**
  * The link force pushes linked nodes together or apart according to the desired link distance.
  * The strength of the force is proportional to the difference between the linked nodes’ distance and the target
  * distance, similar to a spring force.
  */
-class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force {
+class ForceLink(links: List<Link>) : Force {
 
     private var nodes: List<ForceNode> = listOf()
-    private val links = mutableListOf<Link>()
+    private val links = links.toMutableList()
     private val distances = mutableListOf<Double>()
     private val strengths = mutableListOf<Double>()
     private val bias = mutableListOf<Double>()
@@ -37,7 +36,9 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
     /**
      * TODO
      */
-    var strength: (link: Link, index: Int, links: List<Link>) -> Double = { link, _, _ -> 1.0 / min(count[link.source.index], count[link.target.index]) }
+    var strength: (link: Link, index: Int, links: List<Link>) -> Double = {
+            link, _, _ -> 1.0 / min(count[link.source.index], count[link.target.index])
+        }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -56,12 +57,12 @@ class ForceLink(val linker: (from: ForceNode, to:ForceNode) -> Boolean) : Force 
         this.nodes = nodes
 
         // build links
-        links.clear()
-        nodes.forEach { from ->
-            nodes.forEach { to->
-                if (linker(from, to)) links.add(Link(from, to))
-            }
-        }
+//        links.clear()
+//        nodes.forEach { from ->
+//            nodes.forEach { to->
+//                if (linker(from, to)) links.add(Link(from, to))
+//            }
+//        }
 
         // count links for each nodes
         count.clear()
