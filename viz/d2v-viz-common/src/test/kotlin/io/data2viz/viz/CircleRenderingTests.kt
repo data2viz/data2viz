@@ -1,6 +1,5 @@
 package io.data2viz.viz
 
-import io.data2viz.color.color
 import io.data2viz.color.colors
 
 

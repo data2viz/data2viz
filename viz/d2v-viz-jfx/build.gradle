@@ -8,3 +8,25 @@ dependencies {
     compile project(":timer:d2v-timer-common")
     compile project(":timer:d2v-timer-jfx")
 }
+
+
+apply plugin: 'com.moowork.node'
+
+node {
+    version = "$node_version"
+    npmVersion = "$npm_version"
+    download = true
+}
+
+task installDependencies(type: YarnTask) {
+    args = ['install']
+}
+
+
+task diffImagesWithReference(type: YarnTask, dependsOn: installDependencies) {
+    args = ['diffs']
+}
+
+test.doLast {
+    tasks.diffImagesWithReference.execute()
+}
