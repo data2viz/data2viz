@@ -2,7 +2,7 @@ package io.data2viz.force
 
 import io.data2viz.geom.Vector
 
-fun forceX(init:ForceX.()->Unit) = ForceX().apply(init)
+fun forceX(init:ForceX.()->Unit = {}) = ForceX().apply(init)
 
 /**
  * Creates a new positioning force along the x-axis towards the given position x.

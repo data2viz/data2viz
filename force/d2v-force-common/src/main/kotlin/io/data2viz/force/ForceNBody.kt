@@ -8,7 +8,7 @@ import io.data2viz.quadtree.*
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-fun forceNBody(init: ForceNBody.() -> Unit) = ForceNBody().apply(init)
+fun forceNBody(init: ForceNBody.() -> Unit = {}) = ForceNBody().apply(init)
 
 internal fun jiggle() = (random() - 0.5) * EPSILON
 

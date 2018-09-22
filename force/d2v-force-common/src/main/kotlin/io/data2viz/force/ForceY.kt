@@ -1,7 +1,7 @@
 package io.data2viz.force
 
 
-fun forceY(init:ForceY.()->Unit) = ForceY().apply(init)
+fun forceY(init: ForceY.() -> Unit = {}) = ForceY().apply(init)
 
 /**
  * Creates a new positioning force along the y-axis towards the given position y.
