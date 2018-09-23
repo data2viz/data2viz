@@ -27,6 +27,10 @@ task diffImagesWithReference(type: YarnTask, dependsOn: installDependencies) {
     args = ['diffs']
 }
 
-test.doLast {
-    tasks.diffImagesWithReference.execute()
+
+if(include_jfx_renderings.toBoolean()) {
+    test.doLast {
+        tasks.diffImagesWithReference.execute()
+    }
 }
+
