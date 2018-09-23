@@ -3,9 +3,13 @@ package io.data2viz.viz
 import io.data2viz.color.colors
 
 
+/**
+ * Todo: move in test sources https://github.com/data2viz/data2viz/issues/24
+ */
+@Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 data class RenderingTest(val name: String, val viz: Viz)
 
-
+@Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 val allRenderingTests = listOf(
         renderingTest("circle1") {
             circle {
