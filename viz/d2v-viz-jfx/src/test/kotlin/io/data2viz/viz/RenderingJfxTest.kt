@@ -38,7 +38,7 @@ class RenderingJfxTest : ApplicationTest() {
 
 
         Platform.runLater {
-            circleTests.forEach{
+            allRenderingTests.forEach{
                 renderNode(it.viz, it.name)
             }
         }

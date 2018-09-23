@@ -4,7 +4,7 @@ import org.w3c.dom.HTMLCanvasElement
 import kotlin.browser.document
 
 fun main(args: Array<String>) {
-    val tests = circleTests
+    val tests = allRenderingTests
 
     tests.forEach {
         val canvas = document.createElement("canvas") as HTMLCanvasElement

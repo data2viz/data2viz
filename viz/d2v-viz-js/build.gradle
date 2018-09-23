@@ -28,8 +28,8 @@ task generateRenderingTestImages(type: YarnTask, dependsOn: [compileTestKotlin2J
     args = ['render']
 }
 
-task diffImagesWithReference(type: YarnTask, dependsOn: generateRenderingTestImages) {
+task diffs(type: YarnTask, dependsOn: generateRenderingTestImages) {
     args = ['diffs']
 }
 
-test.dependsOn diffImagesWithReference
+test.dependsOn diffs

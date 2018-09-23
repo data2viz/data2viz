@@ -11,8 +11,6 @@ class PathNode(val path: Path = Path()): Node(), HasStroke, HasFill, PathAdapter
     override var stroke: ColorOrGradient? = colors.black
     override var strokeWidth: Double? = .0
 
-    var strokeStyle: Double = .0
-
 
     /**
      * Remove all segments of the path.
