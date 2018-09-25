@@ -1,5 +1,6 @@
 package io.data2viz.viz
 
+import io.data2viz.math.toDegrees
 import io.data2viz.path.*
 import javafx.scene.shape.StrokeLineCap
 import kotlin.math.absoluteValue
@@ -30,8 +31,6 @@ fun PathNode.render(renderer: JFxVizRenderer) {
     }
 
 }
-
-fun Double.toDegrees() = Math.toDegrees(this)
 
 val Arc.start:Double
     get() = -startAngle.toDegrees()

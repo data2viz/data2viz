@@ -1,6 +1,8 @@
 package io.data2viz.viz
 
 import io.data2viz.color.colors
+import io.data2viz.math.PI
+import io.data2viz.math.deg
 
 
 /**
@@ -46,6 +48,89 @@ val allRenderingTests = listOf(
                 strokeWidth = 20.0
             }
         },
+        renderingTest("arc1-positive-clockwise") {
+
+            var x = -25.0
+            var y = 25.0
+
+            fun next(){
+                if (x >=375.0) {
+                    x = 25.0
+                    y += 50.0
+                }
+                else x += 50.0
+            }
+
+            path {
+                next()
+                moveTo(x, y)
+                arc(x, y, 25.0, .0, .001 * PI)
+                closePath()
+                fill = colors.grey
+                stroke = null
+            }
+            path {
+                next()
+                moveTo(x, y)
+                arc(x, y, 25.0, +0.0, .25 * PI)
+                closePath()
+                fill = colors.grey
+                stroke = null
+            }
+            path {
+                next()
+                moveTo(x, y)
+                arc(x, y, 25.0, +0.0, 2 * PI)
+                closePath()
+                fill = colors.grey
+                stroke = null
+            }
+            path {
+                next()
+                moveTo(x, y)
+                arc(x, y, 25.0, .25 * PI, 2 * PI)
+                closePath()
+                fill = colors.grey
+                stroke = null
+            }
+            path {
+                next()
+                moveTo(x, y)
+                arc(x, y, 25.0, .25 * PI, 2.25 * PI)
+                closePath()
+                fill = colors.grey
+                stroke = null
+            }
+
+//            path {
+//                moveTo(250.0, 50.0)
+//                arc(250.0, 50.0, 50.0, .0, PI / 4, true)
+//                stroke = colors.grey
+//                fill = null
+//            }
+//            path {
+//                moveTo(350.0, 50.0)
+//                arc(350.0, 50.0, 50.0, PI / 4, .0, true)
+//                stroke = colors.grey
+//                fill = null
+//            }
+//            path {
+//                moveTo(50.0, 150.0)
+//                arc(50.0, 150.0, 50.0, PI / 4, 7*PI / 4)
+//                closePath()
+//                fill = colors.grey
+//                stroke = null
+//            }
+//            path {
+//                moveTo(150.0, 150.0)
+//                arc(150.0, 150.0, 50.0, 7 * PI / 4, PI/4)
+//                closePath()
+//                fill = colors.grey
+//                stroke = null
+//            }
+
+
+        },
         renderingTest("path1") {
             path {
                 moveTo(20.0,20.0)
@@ -56,6 +141,7 @@ val allRenderingTests = listOf(
                 stroke = colors.red
             }
         }
+
 )
 
 fun renderingTest(name: String, init: Viz.() -> Unit): RenderingTest {

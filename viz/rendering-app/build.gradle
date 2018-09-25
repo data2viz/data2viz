@@ -65,7 +65,7 @@ task syncRenderedImages(type: com.novoda.gradle.command.Files, dependsOn: genera
 
     script {
         def backupDir = mkdir('build/images')
-        def deviceImageDir = '/storage/emulated/0/Android/data/io.data2viz.data2canvas/files/Pictures/data2canvas/'
+        def deviceImageDir = '/storage/emulated/0/Android/data/io.data2viz.data2viz.testrenderings/files/Pictures/data2canvas/'
         ls(deviceImageDir).eachLine { line ->
             if (line.endsWith(".png")) {
                 def fileName = line.split()[7]
