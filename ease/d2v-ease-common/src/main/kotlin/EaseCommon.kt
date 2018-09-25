@@ -4,18 +4,18 @@ import kotlin.math.*
 
 typealias EaseFun = (Double) -> (Double)
 
-private val tau = 2 * PI
-private val halfPi = PI / 2
-private val b1 = 4.0 / 11
-private val b2 = 6.0 / 11
-private val b3 = 8.0 / 11
-private val b4 = 3.0 / 4
-private val b5 = 9.0 / 11
-private val b6 = 10.0 / 11
-private val b7 = 15.0 / 16
-private val b8 = 21.0 / 22
-private val b9 = 63.0 / 64
-private val b0 = 1.0 / b1 / b1
+private const val tau = 2 * PI
+private const val halfPi = PI / 2
+private const val b1 = 4.0 / 11
+private const val b2 = 6.0 / 11
+private const val b3 = 8.0 / 11
+private const val b4 = 3.0 / 4
+private const val b5 = 9.0 / 11
+private const val b6 = 10.0 / 11
+private const val b7 = 15.0 / 16
+private const val b8 = 21.0 / 22
+private const val b9 = 63.0 / 64
+private const val b0 = 1.0 / b1 / b1
 
 class ease {
     companion object {

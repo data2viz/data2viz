@@ -4,9 +4,9 @@ import kotlin.math.*
 
 fun svgPath(): SvgPath = SvgPath()
 
-internal val TAU = 2 * PI
-internal val EPSILON = 1e-6
-internal val tauEpsilon = TAU - EPSILON
+internal const val TAU = 2 * PI
+internal const val EPSILON = 1e-6
+internal const val tauEpsilon = TAU - EPSILON
 
 /**
  * Common path denominator between Canvas, SVG, JavaFX, Android
