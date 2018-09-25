@@ -107,19 +107,21 @@ class Transform {
 data class Translation(var x: Double = 0.0, var y: Double = 0.0)
 
 
-interface Shape : HasFill, HasStroke
-
-
 /**
  * All properties of stroke
  * Todo add remaining common properties
  */
-interface HasStroke {
+interface HasStroke: HasStyle {
+
+    @Deprecated("Use style.stroke", ReplaceWith("style.stroke"))
     var stroke: ColorOrGradient?
+
+    @Deprecated("Use style.strokeWidth", ReplaceWith("style.strokeWidth"))
     var strokeWidth: Double?
 }
 
-interface HasFill {
+interface HasFill: HasStyle {
+    @Deprecated("Use style.fill", ReplaceWith("style.fill"))
     var fill: ColorOrGradient?
 }
 
@@ -133,7 +135,7 @@ interface HasTransform {
     val transform:Transform?
 }
 
-interface HasChildren {
+interface HasChildren: HasStyle {
 
     fun add(node: Node)
     fun remove(node: Node)

@@ -75,12 +75,12 @@ fun Group.render(renderer: JFxVizRenderer) {
         }
 
         if (node is HasFill) {
-            gc.fill = node.fill?.toPaint()
+            gc.fill = node.style.fill?.toPaint()
         }
 
         if (node is HasStroke) {
-            gc.stroke = node.stroke?.toPaint()
-            gc.lineWidth = node.strokeWidth ?: 1.0
+            gc.stroke = node.style.stroke?.toPaint()
+            gc.lineWidth = node.style.strokeWidth ?: 1.0
         }
 
         when (node) {
@@ -126,11 +126,11 @@ private fun List<ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.
 fun Circle.render(renderer: JFxVizRenderer) {
     val context = renderer.gc
 
-    fill?.let {
+    style.fill?.let {
         context.fillOval(x - radius, y - radius, radius * 2, radius * 2)
     }
 
-    stroke?.let {
+    style.stroke?.let {
         context.strokeOval(x - radius, y - radius, radius * 2, radius * 2)
     }
 }
@@ -138,19 +138,19 @@ fun Circle.render(renderer: JFxVizRenderer) {
 fun Rect.render(renderer: JFxVizRenderer) {
     val gc = renderer.gc
 
-    fill?.let {
+    style.fill?.let {
         gc.fillRect(x, y, width, height)
     }
 
-    stroke?.let {
+    style.stroke?.let {
         gc.strokeRect(x, y, width, height)
     }
 }
 
 fun Text.render(renderer: JFxVizRenderer){
     val gc = renderer.gc
-    gc.textAlign = this.anchor.jfx
-    gc.textBaseline = this.baseline.jfx
+    gc.textAlign = this.style.anchor.jfx
+    gc.textBaseline = this.style.baseline.jfx
     gc.fillText(textContent, x, y)
 }
 

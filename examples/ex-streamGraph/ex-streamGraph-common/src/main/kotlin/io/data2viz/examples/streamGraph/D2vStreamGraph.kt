@@ -143,8 +143,8 @@ fun streamGraph(): Viz = viz {
                 path {
                     area.render(stackData, this)
                     val color = vizConfig.colors.color(serieStream.index / stack.size.toDouble())
-                    fill = color
-                    stroke = color
+                    style.fill = color
+                    style.stroke = color
                 }
             }
         }

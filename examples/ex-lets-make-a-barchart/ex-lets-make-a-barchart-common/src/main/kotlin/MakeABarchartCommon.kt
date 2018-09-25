@@ -32,15 +32,15 @@ fun barchartViz() = Viz().apply {
             rect {
                 width = xScale(nameValue.value)
                 height = barHeight - 1.0
-                fill = colors.steelblue
+                style.fill = colors.steelblue
             }
             text {
                 x = xScale(nameValue.value) - 3.0
                 y = barHeight / 2.0
                 textContent = nameValue.value.toString()
-                fill = colors.white
-                anchor = TextAnchor.END
-                baseline = TextAlignmentBaseline.MIDDLE
+                style.fill = colors.white
+                style.anchor = TextAnchor.END
+                style.baseline = TextAlignmentBaseline.MIDDLE
             }
         }
     }

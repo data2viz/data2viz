@@ -78,9 +78,9 @@ fun chordViz(): Viz = viz {
         //Drawing external groups representing avengers
         avengersChords.groups.forEachIndexed { index, it ->
             path {
-                fill = io.data2viz.examples.chord.colors[index]
+                style.fill = io.data2viz.examples.chord.colors[index]
                 avengersArcGenerator.arc(it, this)
-                stroke = null
+                style.stroke = null
             }
         }
 
@@ -88,8 +88,8 @@ fun chordViz(): Viz = viz {
         //drawing ribbons
         avengersChords.chords.forEach { chord ->
             path {
-                fill = chord.toGradient()
-                stroke = null
+                style.fill = chord.toGradient()
+                style.stroke = null
                 ribbon(chord, this)
             }
         }

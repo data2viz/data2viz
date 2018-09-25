@@ -2,7 +2,6 @@ package io.data2viz.viz
 
 import io.data2viz.color.colors
 import io.data2viz.math.PI
-import io.data2viz.math.deg
 
 
 /**
@@ -18,7 +17,7 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                fill = colors.red
+                style.fill = colors.red
             }
         },
         renderingTest("circle2") {
@@ -26,8 +25,8 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                stroke = colors.red
-                strokeWidth = 20.0
+                style.stroke = colors.red
+                style.strokeWidth = 20.0
             }
         },
         renderingTest("circle3") {
@@ -35,7 +34,7 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                stroke = colors.red
+                style.stroke = colors.red
             }
         },
         renderingTest("circle4") {
@@ -43,9 +42,9 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                fill = colors.blue
-                stroke = colors.red.withAlpha(.5f)
-                strokeWidth = 20.0
+                style.fill = colors.blue
+                style.stroke = colors.red.withAlpha(.5f)
+                style.strokeWidth = 20.0
             }
         },
         renderingTest("arc1-positive-clockwise") {
@@ -66,40 +65,40 @@ val allRenderingTests = listOf(
                 moveTo(x, y)
                 arc(x, y, 25.0, .0, .001 * PI)
                 closePath()
-                fill = colors.grey
-                stroke = null
+                style.fill = colors.grey
+                style.stroke = null
             }
             path {
                 next()
                 moveTo(x, y)
                 arc(x, y, 25.0, +0.0, .25 * PI)
                 closePath()
-                fill = colors.grey
-                stroke = null
+                style.fill = colors.grey
+                style.stroke = null
             }
             path {
                 next()
                 moveTo(x, y)
                 arc(x, y, 25.0, +0.0, 2 * PI)
                 closePath()
-                fill = colors.grey
-                stroke = null
+                style.fill = colors.grey
+                style.stroke = null
             }
             path {
                 next()
                 moveTo(x, y)
                 arc(x, y, 25.0, .25 * PI, 2 * PI)
                 closePath()
-                fill = colors.grey
-                stroke = null
+                style.fill = colors.grey
+                style.stroke = null
             }
             path {
                 next()
                 moveTo(x, y)
                 arc(x, y, 25.0, .25 * PI, 2.25 * PI)
                 closePath()
-                fill = colors.grey
-                stroke = null
+                style.fill = colors.grey
+                style.stroke = null
             }
 
 //            path {
@@ -138,7 +137,7 @@ val allRenderingTests = listOf(
                 lineTo(60.0,20.0)
                 moveTo(80.0,40.0)
                 lineTo(100.0,20.0)
-                stroke = colors.red
+                style.stroke = colors.red
             }
         }
 

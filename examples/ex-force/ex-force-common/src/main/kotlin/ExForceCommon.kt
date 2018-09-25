@@ -153,9 +153,9 @@ val forcesViz:Viz = viz {
 
     simulation.nodes.forEach { node ->
         circle {
-            stroke = null
+            style.stroke = null
             radius = 2.0 + (node.index / 150)
-            fill = olympicColors[node.index % 5]
+            style.fill = olympicColors[node.index % 5]
             x = node.position.x
             y = node.position.y
         }

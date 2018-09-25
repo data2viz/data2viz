@@ -134,8 +134,8 @@ fun Group.buildSankey() {
 
     sankey.nodes.forEachIndexed { index, node ->
         rect {
-            fill = fills(index % 20)
-            stroke = colors.black
+            style.fill = fills(index % 20)
+            style.stroke = colors.black
             x = if (sankeyHorizontal) node.x0 else node.y0
             y = if (sankeyHorizontal) node.y0 else node.x0
             width = if (sankeyHorizontal) node.x1 - node.x0 else node.y1 - node.y0
@@ -155,9 +155,9 @@ fun Group.buildSankey() {
             addColor(1.0, fills(link.target.index % 20).withAlpha(.6f))
         }
         path {
-            stroke = gradient
-            fill = null
-            strokeWidth = max(1.0, link.width)
+            style.stroke = gradient
+            style.fill = null
+            style.strokeWidth = max(1.0, link.width)
 
             if (sankeyHorizontal) sankeyLinkHorizontal.link(link, this) else sankeyLinkVertical.link(link, this)
         }

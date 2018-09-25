@@ -82,12 +82,12 @@ fun Group.render(context: CanvasRenderingContext2D) {
         }
 
         if (node is HasFill) {
-            context.fillStyle = node.fill?.toCanvasPaint(context)
+            context.fillStyle = node.style.fill?.toCanvasPaint(context)
         }
 
         if (node is HasStroke) {
-            context.strokeStyle = node.stroke?.toCanvasPaint(context)
-            context.lineWidth = node.strokeWidth ?: 1.0
+            context.strokeStyle = node.style.stroke?.toCanvasPaint(context)
+            context.lineWidth = node.style.strokeWidth ?: 1.0
         }
 
 
@@ -114,12 +114,12 @@ fun Group.render(context: CanvasRenderingContext2D) {
 
 fun Rect.render(context: CanvasRenderingContext2D) {
 
-    fill?.let {
+    style.fill?.let {
         context.fillStyle = it.toCanvasPaint(context)
         context.fillRect(x, y, width, height)
     }
 
-    stroke?.let {
+    style.stroke?.let {
         context.strokeStyle = it.toCanvasPaint(context)
         context.strokeRect(x, y, width, height)
     }
@@ -132,18 +132,18 @@ fun Circle.render(context: CanvasRenderingContext2D) {
     context.beginPath()
     context.arc(x, y, radius, .0, 2 * PI, false)
     
-    fill?.let {
+    style.fill?.let {
         context.fill()
     }
 
-    stroke?.let {
+    style.stroke?.let {
         context.stroke()
     }
 }
 
 fun Text.render(context: CanvasRenderingContext2D) {
-    context.textAlign = this.anchor.js
-    context.textBaseline = this.baseline.js
+    context.textAlign = this.style.anchor.js
+    context.textBaseline = this.style.baseline.js
     context.fillText(textContent, x, y)
 }
 
