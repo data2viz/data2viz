@@ -1,6 +1,5 @@
-package io.data2viz.core
+package io.data2viz.geom
 
-import io.data2viz.geom.*
 import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
