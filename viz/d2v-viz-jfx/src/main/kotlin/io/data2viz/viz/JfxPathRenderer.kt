@@ -21,11 +21,11 @@ fun PathNode.render(renderer: JFxVizRenderer) {
         }
     }
 
-    fill?.let {
+    style.fill?.let {
         gc.fill()
     }
 
-    stroke?.let {
+    style.stroke?.let {
         gc.lineCap = StrokeLineCap.BUTT
         gc.stroke()
     }

@@ -132,7 +132,7 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
             }
 
             if (node is HasStroke) {
-                paint.strokeWidth = (node.strokeWidth ?: 1.0).toFloat()
+                paint.strokeWidth = (node.style.strokeWidth ?: 1.0).toFloat()
             }
 
             when (node) {
@@ -159,7 +159,7 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
 fun Circle.render(renderer: AndroidCanvasRenderer) {
     val canvas = renderer.canvas
     with(renderer) {
-        fill?.let {
+        style.fill?.let {
             paint.style = Paint.Style.FILL
             it.updatePaint(paint, renderer)
             canvas.drawCircle(
@@ -168,7 +168,7 @@ fun Circle.render(renderer: AndroidCanvasRenderer) {
                     radius.dp,
                     paint)
         }
-        stroke?.let {
+        style.stroke?.let {
             paint.style = Paint.Style.STROKE
             it.updatePaint(paint, renderer)
             canvas.drawCircle(
@@ -183,10 +183,10 @@ fun Circle.render(renderer: AndroidCanvasRenderer) {
 fun Text.render(renderer: AndroidCanvasRenderer) {
     with(renderer) {
         paint.style = Paint.Style.FILL
-        paint.textAlign = anchor.android
+        paint.textAlign = style.anchor.android
         paint.color = android.graphics.Color.BLACK
         paint.textSize = 12.0.dp
-        val dy = baseline.dy(renderer, paint.fontMetrics)
+        val dy = style.baseline.dy(renderer, paint.fontMetrics)
         renderer.canvas.drawText(textContent, x.dp, y.dp - dy, paint )
     }
 
@@ -220,7 +220,7 @@ val TextAnchor.android: Paint.Align
 fun Rect.render(renderer: AndroidCanvasRenderer) {
     val canvas = renderer.canvas
     with(renderer) {
-        fill?.let {
+        style.fill?.let {
             paint.style = Paint.Style.FILL
             it.updatePaint(paint, renderer)
             canvas.drawRect(
@@ -230,7 +230,7 @@ fun Rect.render(renderer: AndroidCanvasRenderer) {
                     (y + height).dp,
                     paint)
         }
-        stroke?.let {
+        style.stroke?.let {
             paint.style = Paint.Style.STROKE
             it.updatePaint(paint, renderer)
             canvas.drawRect(
@@ -304,9 +304,9 @@ val Number.radToDeg: Double
 
 fun Line.render(renderer: AndroidCanvasRenderer) {
     with(renderer){
-        stroke?.let {
+        style.stroke?.let {
             paint.style = Paint.Style.STROKE
-            paint.strokeWidth = strokeWidth?.dp ?: 1f
+            paint.strokeWidth = style.strokeWidth?.dp ?: 1f
             it.updatePaint(paint, renderer)
             with(renderer) {
                 canvas.drawLine(x1.dp, y1.dp, x2.dp, y2.dp, paint)

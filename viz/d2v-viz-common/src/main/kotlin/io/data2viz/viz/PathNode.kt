@@ -7,10 +7,6 @@ import io.data2viz.path.PathAdapter
 
 class PathNode(val path: Path = Path()): Node(), HasStroke, HasFill, PathAdapter by path {
 
-    override var fill: ColorOrGradient? = colors.black
-    override var stroke: ColorOrGradient? = colors.black
-    override var strokeWidth: Double? = .0
-
 
     /**
      * Remove all segments of the path.
@@ -19,6 +15,29 @@ class PathNode(val path: Path = Path()): Node(), HasStroke, HasFill, PathAdapter
     fun clearPath() {
         path.clearPath()
     }
+
+
+    @Deprecated("Use style.fill", ReplaceWith("style.fill"))
+    override var fill: ColorOrGradient?
+        get() = style.fill
+        set(value) {
+            style.fill = value
+        }
+
+    @Deprecated("Use style.stroke", ReplaceWith("style.stroke"))
+    override var stroke: ColorOrGradient?
+        get() = style.stroke
+        set(value) {
+            style.stroke = value
+        }
+
+    @Deprecated("Use style.strokeWidth", ReplaceWith("style.strokeWidth"))
+    override var strokeWidth: Double?
+        get() = style.strokeWidth
+        set(value) {
+            style.strokeWidth = value
+        }
+
 
 }
 

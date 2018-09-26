@@ -67,8 +67,8 @@ class MercatorPath : Application() {
 //        projection.fitExtent(extent, geoJsonObject)
 
         val path = PathNode().apply {
-            stroke = colors.black
-            fill = null
+            style.stroke = colors.black
+            style.fill = null
         }
         
         val geoPath = geoPath(projection, path)

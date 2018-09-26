@@ -63,10 +63,11 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
                     val top = (cmd.centerY - cmd.radius).dp
                     val bottom = (cmd.centerY + cmd.radius).dp
                     val startAngle = cmd.startAngle.radToDegrees()
-                    var sweepAngle = (cmd.endAngle.radToDegrees() + 360 - cmd.startAngle.radToDegrees()) % 360
+                    var sweepAngle = (cmd.endAngle.radToDegrees() - cmd.startAngle.radToDegrees())
                     if (cmd.counterClockWise) {
                         sweepAngle -= 360
                     }
+//                    println("startAngle:: $startAngle sweepAngle:: $sweepAngle")
                     path.arcTo(RectF(left, top, right, bottom), startAngle, sweepAngle)
                 }
                 is ArcTo -> arcTo(last(index).x, last(index).y, cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
@@ -77,13 +78,13 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
         }
     }
 
-    fill?.let {
+    style.fill?.let {
         paint.style = Paint.Style.FILL
         it.updatePaint(paint, renderer)
         canvas.drawPath(path, paint)
     }
 
-    stroke?.let {
+    style.stroke?.let {
         paint.style = Paint.Style.STROKE
         it.updatePaint(paint, renderer)
         canvas.drawPath(path, paint)

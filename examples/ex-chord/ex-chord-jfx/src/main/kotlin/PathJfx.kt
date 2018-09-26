@@ -51,8 +51,8 @@ class PathJfx : Application() {
                     arc(.0, .0, 100.0, -.0, -PI / 3, false)
                     arc(.0, .0, 80.0, -PI / 3, .0)
                     closePath()
-                    stroke = null
-                    fill = io.data2viz.color.colors.black
+                    style.stroke = null
+                    style.fill = io.data2viz.color.colors.black
                 }
             }
         }

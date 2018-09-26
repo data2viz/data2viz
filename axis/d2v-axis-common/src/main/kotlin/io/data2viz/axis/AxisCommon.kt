@@ -47,9 +47,9 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
         with(content){
             path {
-                stroke = colors.black
-                fill = null
-                strokeWidth = 1.0
+                style.stroke = colors.black
+                style.fill = null
+                style.strokeWidth = 1.0
 
                 if(orient.isVertical()) {
                     moveTo(tickSizeOuter * k, range0)
@@ -72,26 +72,26 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                     if (orient.isHorizontal())
                         line {
                             y2 = k * tickSizeInner
-                            stroke = colors.black
+                            style.stroke = colors.black
                         }
                     else
                         line {
                             x2 = k * tickSizeInner
-                            stroke = colors.black
+                            style.stroke = colors.black
                         }
                     text {
-                        anchor = when (orient) {
+                        style.anchor = when (orient) {
                             Orient.LEFT -> TextAnchor.END
                             Orient.RIGHT -> TextAnchor.START
                             else -> TextAnchor.MIDDLE
                         }
                         
-                        baseline = when (orient){
+                        style.baseline = when (orient){
                             Orient.TOP -> TextAlignmentBaseline.BASELINE
                             Orient.BOTTOM -> TextAlignmentBaseline.HANGING
                             else -> TextAlignmentBaseline.MIDDLE
                         }
-                        fill = colors.black
+                        style.fill = colors.black
                         if(orient.isHorizontal()) 
                             y = spacing * k
                         else
