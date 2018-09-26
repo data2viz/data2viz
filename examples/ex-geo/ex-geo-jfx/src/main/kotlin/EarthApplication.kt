@@ -1,7 +1,6 @@
 package io.data2viz.examples.geo
 
 import io.data2viz.geojson.toGeoJsonObject
-import io.data2viz.timer.timer
 import io.data2viz.viz.JFxVizRenderer
 import javafx.application.Application
 import javafx.scene.Group
@@ -38,9 +37,8 @@ class EarthApplication : Application() {
             stage.title = "JavaFx - data2viz - Earth Application.kt"
         }
 
-        timer {
-            viz.render()
-        }
+        viz.startAnimations()
+
     }
 
 }

@@ -1,3 +1,7 @@
+apply plugin: 'application'
+
+mainClassName="io.data2viz.examples.geo.EarthApplication"
+
 dependencies {
     expectedBy project(":ex-geo:ex-geo-common")
     compile project(":geo:d2v-geo-common")
