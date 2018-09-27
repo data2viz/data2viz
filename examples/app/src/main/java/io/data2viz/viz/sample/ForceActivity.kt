@@ -2,30 +2,87 @@ package io.data2viz.viz.sample
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import io.data2viz.color.colors
 
-import io.data2viz.examples.force.forcesViz
-import io.data2viz.examples.force.simulation
-import io.data2viz.viz.VizView
-import io.data2viz.viz.toView
+import io.data2viz.force.*
+import io.data2viz.math.random
+import io.data2viz.viz.*
+import kotlin.math.floor
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
+const val nodeCount = 200
+const val canvasWidth = 400.0
+const val canvasHeight = 400.0
+
+lateinit var sim: ForceSimulation
+
+fun initSim() {
+    sim = forceSimulation(randomForceNodes()) {
+        addForce("charge", forceNBody())
+        addForce("link", forceLink {
+            linksAccessor = { nodes ->
+                (0 until nodeCount - 1).map { Link(nodes[floor(sqrt(it.toDouble())).roundToInt()], nodes[it + 1]) }
+            }
+            distancesAccessor = { links -> (0 until links.size).map { 30.0 } }
+            strengthsAccessor = { links -> (0 until links.size).map { 1.0 } }
+        })
+        addForce("x", forceX { x = { _, _, _ -> canvasWidth / 2 } })
+        addForce("y", forceY { y = { _, _, _ -> canvasHeight / 2 } })
+        on(SimulationEvent.END, "endEvent") {
+            stopTimers()
+        }
+    }
+}
+
+val viz = viz {
+    width = canvasWidth
+    height = canvasHeight
+
+    onFrame {
+        activeLayer.clear()
+        path {
+            (sim.forces["link"] as ForceLink).links.forEach { link ->
+                moveTo(link.source.x, link.source.y)
+                lineTo(link.target.x, link.target.y)
+            }
+            strokeWidth = 1.0
+            stroke = colors.grey
+        }
+
+        sim.nodes.forEach { d ->
+            circle {
+                x = d.x
+                y = d.y
+                radius = 3.0
+                fill = colors.black
+            }
+        }
+    }
+}
+
+fun randomForceNodes() = (0 until nodeCount).map { ForceNode(it, random() * canvasWidth, random() * canvasHeight) }
+
+lateinit var view: VizView
+
+fun stopTimers() {
+    viz.stopAnimations()
+    view.stopAnimations()
+}
 
 class ForceActivity : AppCompatActivity() {
 
-    lateinit var view:VizView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        view = forcesViz.toView(this)
+        initSim()
+        view = viz.toView(this)
         setContentView(view)
         view.startAnimations()
-        simulation.restart()
     }
 
     override fun onStop() {
         super.onStop()
-        view.stopAnimations()
-        simulation.stop()
+        stopTimers()
     }
 
 }
-

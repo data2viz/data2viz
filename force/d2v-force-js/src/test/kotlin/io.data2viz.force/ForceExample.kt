@@ -8,45 +8,34 @@ import kotlin.math.roundToInt
 import kotlin.math.floor
 import kotlin.math.sqrt
 
+const val nodeCount = 400
+const val canvasWidth = 400.0
+const val canvasHeight = 400.0
 
-const val nodeCount = 1000
-const val width = 1000.0
-const val height = 1000.0
-
-val fnodes = (0 until nodeCount).map { ForceNode(it, random() * width - width/2, random() * height - height/2) }
+val fnodes = (0 until nodeCount).map { ForceNode(it, random() * canvasWidth, random() * canvasHeight) }
 val links = (0 until nodeCount - 1).map { Link(fnodes[floor(sqrt(it.toDouble())).roundToInt()], fnodes[it + 1]) }
 
-val sim = forceSimulation {
-
-    nodes = fnodes
-
+val sim = forceSimulation(fnodes) {
     addForce("charge", forceNBody())
-    addForce("link", forceLink(links))
-    addForce("x", forceX())
-    addForce("y", forceY())
-    on(SimulationEvent.TICK, "tickEvent", ::refresh)
-    on(SimulationEvent.END, "endEvent") { println("SIMULATION ENDS") }
-}
-
-val renderGroup: Group = Group().apply {
-    transform {
-        translate( width / 2, height / 2)
+    addForce("link", forceLink {
+        linksAccessor = { links }
+        distancesAccessor = { links -> (0 until links.size).map { 30.0 } }
+        strengthsAccessor = { links -> (0 until links.size).map { 1.0 } }
+    })
+    addForce("x", forceX { x = { _, _, _ -> canvasWidth / 2 } })
+    addForce("y", forceY { y = { _, _, _ -> canvasHeight / 2 } })
+    on(SimulationEvent.END, "endEvent") {
+        stopRenderer()
     }
+
 }
 
 val viz = viz {
-    width = 1000.0
-    height = 1000.0
-    add(renderGroup)
+    width = canvasWidth
+    height = canvasHeight
 
     onFrame {
-        refresh(sim)
-    }
-}
-
-fun refresh(sim: ForceSimulation) {
-    renderGroup.apply {
-        children.clear()
+        activeLayer.clear()
         path {
             links.forEach { link ->
                 moveTo(link.source.x, link.source.y)
@@ -65,7 +54,10 @@ fun refresh(sim: ForceSimulation) {
             strokeWidth = 1.0
         }
     }
+}
 
+fun stopRenderer(){
+    viz.stopAnimations()
 }
 
 

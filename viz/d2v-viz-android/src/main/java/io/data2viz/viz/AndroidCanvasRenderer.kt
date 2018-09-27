@@ -89,6 +89,10 @@ class AndroidCanvasRenderer(val context: Context, val viz: Viz, var canvas: Canv
     private val animationTimers = mutableListOf<Timer>()
 
 
+    init {
+        viz.renderer = this
+    }
+
     override fun render(viz: Viz) {
         viz.layers.forEach {
             it.render(this)
