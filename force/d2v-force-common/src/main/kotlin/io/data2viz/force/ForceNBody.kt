@@ -118,8 +118,8 @@ class ForceNBody : Force {
     private fun applyForce(quad: QuadtreeNode<ForceNode>, x0: Double, y0: Double, x1: Double, y1: Double): Boolean {
         if (quad.value == null) return true
 
-        var x: Double = quad.position.x - currentNode.x
-        var y: Double = quad.position.y - currentNode.y
+        var x: Double = quad.x - currentNode.x
+        var y: Double = quad.y - currentNode.y
         var w = x1 - x0
         var l = x * x + y * y
 
@@ -187,17 +187,19 @@ class ForceNBody : Force {
                         val c = abs(q.value!!)
                         strength += q.value!!
                         weight += c
-                        x += c * q.position.x
-                        y += c * q.position.y
+                        x += c * q.x
+                        y += c * q.y
                     }
                 }
-                quad.position = Point(x / weight, y / weight)
+                quad.x = x / weight
+                quad.y = y / weight
             }
 
             // For leaf nodes, accumulate forces from coincident quadrants.
             is LeafNode -> {
                 var q: LeafNode<ForceNode>? = quad
-                q!!.position = Point(q.data.x, q.data.y)
+                q!!.x = q.data.x
+                q.y =  q.data.y
                 do {
                     strength += strengths[q!!.data.index]
                     q = q.next

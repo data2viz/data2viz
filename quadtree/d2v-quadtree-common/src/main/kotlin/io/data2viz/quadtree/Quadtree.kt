@@ -1,7 +1,6 @@
 package io.data2viz.quadtree
 
 import io.data2viz.geom.Extent
-import io.data2viz.geom.Point
 
 inline internal fun Boolean.toInt() = if (this) 1 else 0
 
@@ -12,7 +11,8 @@ internal data class NodePair<D>(
 
 interface QuadtreeNode<D> {
     var value:Double?
-    var position: Point
+    var x: Double
+    var y: Double
 }
 
 data class InternalNode<D>(
@@ -21,16 +21,18 @@ data class InternalNode<D>(
     var SE_2: QuadtreeNode<D>? = null,
     var SW_3: QuadtreeNode<D>? = null,
     override var value:Double? = null,
-    override var position: Point = Point(Double.NaN, Double.NaN)
+    override var x: Double = Double.NaN,
+    override var y: Double = Double.NaN
     ) : QuadtreeNode<D>
 
 fun <D> InternalNode<D>.toList() = listOf(this.NE_0, this.NW_1, this.SE_2, this.SW_3)
 
 data class LeafNode<D>(
-    val data: D,
-    var next: LeafNode<D>?,
-    override var value:Double? = null,
-    override var position: Point = Point(Double.NaN, Double.NaN)
+        val data: D,
+        var next: LeafNode<D>?,
+        override var value:Double? = null,
+        override var x: Double = Double.NaN,
+        override var y: Double = Double.NaN
 ) : QuadtreeNode<D>
 
 // TODO : still needed ?
@@ -68,7 +70,6 @@ fun <D> quadtree(x: (D) -> Double, y: (D) -> Double) = Quadtree(x, y)
 fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>): Quadtree<D> = Quadtree(x,y).apply { addAll(nodes)}
 
 
-// TODO : use Point ?
 // TODO : remove x and y from class constructor ?
 /**
  * A quadtree recursively partitions two-dimensional space into squares, dividing each square into four equally-sized
