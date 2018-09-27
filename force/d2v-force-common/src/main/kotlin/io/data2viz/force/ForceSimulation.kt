@@ -12,7 +12,10 @@ import kotlin.math.sqrt
 private const val initialRadius = 10.0
 private val initialAngle = PI * (3.0 - sqrt(5.0))
 
-fun forceSimulation(init: ForceSimulation.() -> Unit) = ForceSimulation().apply(init)
+fun forceSimulation(nodes:List<ForceNode> = listOf(), init: ForceSimulation.() -> Unit) = ForceSimulation().apply {
+    this.nodes = nodes
+    init()
+}
 
 /**
  * Creates a new simulation with the specified array of nodes and no forces.
@@ -26,11 +29,15 @@ class ForceSimulation {
         set(value) {
             field = value
             initializeNodes()
-            forces.values.forEach { initializeForce(it) }
+            _forces.values.forEach { force -> initializeForce(force) }
         }
 
 
-    private val forces = mutableMapOf<String, Force>()
+    private val _forces = mutableMapOf<String, Force>()
+
+    val forces:Map<String,Force>
+        get() = _forces
+
     private val tickEvents = mutableMapOf<String, (ForceSimulation) -> Unit>()
     private val endEvents = mutableMapOf<String, (ForceSimulation) -> Unit>()
 
@@ -135,14 +142,14 @@ class ForceSimulation {
      */
     fun addForce(name: String, force: Force) {
         initializeForce(force)
-        forces[name] = force
+        _forces[name] = force
     }
 
     /**
      * Removes the force for the specified name in this simulation.
      */
     fun removeForce(name: String) {
-        forces.remove(name)
+        _forces.remove(name)
     }
 
     private fun initializeForce(force: Force) {
@@ -169,7 +176,7 @@ class ForceSimulation {
         alpha += (alphaTarget - alpha) * alphaDecay
 
 
-        forces.values.forEach { force ->
+        _forces.values.forEach { force ->
             force.applyForceToNodes(alpha)
         }
 
