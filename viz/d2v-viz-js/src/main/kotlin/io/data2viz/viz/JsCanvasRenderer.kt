@@ -46,8 +46,9 @@ class JsCanvasRenderer(val context: CanvasRenderingContext2D, val viz: Viz) : Vi
 
     override fun render(viz: Viz) {
         context.clearRect(.0, .0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
-        viz.layers.forEach {
-            it.render(context)
+        viz.layers.forEach { layer ->
+            if (layer.visible)
+                layer.render(context)
         }
     }
 
@@ -90,16 +91,16 @@ fun Group.render(context: CanvasRenderingContext2D) {
             context.lineWidth = node.style.strokeWidth ?: 1.0
         }
 
-
-        when (node) {
-            is Circle       -> node.render(context)
-            is Rect         -> node.render(context)
-            is Group        -> node.render(context)
-            is PathNode     -> node.render(context)
-            is Text         -> node.render(context)
-            is Line         -> node.render(context)
-            else            -> error("Unknow type ${node::class}")
-        }
+        if (node.visible)
+            when (node) {
+                is Circle       -> node.render(context)
+                is Rect         -> node.render(context)
+                is Group        -> node.render(context)
+                is PathNode     -> node.render(context)
+                is Text         -> node.render(context)
+                is Line         -> node.render(context)
+                else            -> error("Unknow type ${node::class}")
+            }
 
         if (node is HasTransform) {
             node.transform?.also {

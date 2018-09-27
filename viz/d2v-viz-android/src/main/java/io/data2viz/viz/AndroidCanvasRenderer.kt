@@ -94,8 +94,9 @@ class AndroidCanvasRenderer(val context: Context, val viz: Viz, var canvas: Canv
     }
 
     override fun render(viz: Viz) {
-        viz.layers.forEach {
-            it.render(this)
+        viz.layers.forEach { layer ->
+            if (layer.visible)
+                layer.render(this)
         }
     }
 
@@ -139,15 +140,16 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
                 paint.strokeWidth = (node.style.strokeWidth ?: 1.0).toFloat()
             }
 
-            when (node) {
-                is Circle   -> node.render(renderer)
-                is Rect     -> node.render(renderer)
-                is Group    -> node.render(renderer)
-                is PathNode -> node.render(renderer)
-                is Text     -> node.render(renderer)
-                is Line     -> node.render(renderer)
-                else -> error("Unknow type ${node::class}")
-            }
+            if (node.visible)
+                when (node) {
+                    is Circle   -> node.render(renderer)
+                    is Rect     -> node.render(renderer)
+                    is Group    -> node.render(renderer)
+                    is PathNode -> node.render(renderer)
+                    is Text     -> node.render(renderer)
+                    is Line     -> node.render(renderer)
+                    else -> error("Unknow type ${node::class}")
+                }
 
             if (node is HasTransform) {
                 node.transform?.also {

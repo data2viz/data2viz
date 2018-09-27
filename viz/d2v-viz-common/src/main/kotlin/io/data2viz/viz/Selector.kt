@@ -67,7 +67,7 @@ enum class Combinator(val asText: String) {
     CHILDREN(">"), DESCENDENT(" ")
 }
 
-
+@Deprecated("Old design, do not use.")
 class TypeSelector<E : VizElement>(val prototype: E) : Selector() {
     val name: String
         get() = prototype::class.simpleName!!

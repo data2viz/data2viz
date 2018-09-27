@@ -28,8 +28,9 @@ class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
 
     override fun render(viz: Viz) {
         gc.clearRect(.0, .0, canvas.width, canvas.height)
-        viz.layers.forEach {
-            it.render(this)
+        viz.layers.forEach { layer ->
+            if (layer.visible)
+                layer.render(this)
         }
     }
 
@@ -83,15 +84,16 @@ fun Group.render(renderer: JFxVizRenderer) {
             gc.lineWidth = node.style.strokeWidth ?: 1.0
         }
 
-        when (node) {
-            is Circle       -> node.render(renderer)
-            is Rect         -> node.render(renderer)
-            is Group        -> node.render(renderer)
-            is PathNode     -> node.render(renderer)
-            is Text         -> node.render(renderer)
-            is Line         -> node.render(renderer)
-            else            -> error("Unknow type ${node::class}")
-        }
+        if (node.visible)
+            when (node) {
+                is Circle       -> node.render(renderer)
+                is Rect         -> node.render(renderer)
+                is Group        -> node.render(renderer)
+                is PathNode     -> node.render(renderer)
+                is Text         -> node.render(renderer)
+                is Line         -> node.render(renderer)
+                else            -> error("Unknow type ${node::class}")
+            }
 
         if (node is HasTransform) {
             node.transform?.also {

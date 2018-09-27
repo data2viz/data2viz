@@ -51,7 +51,7 @@ fs.readdirSync(referenceFolder).forEach(file => {
 function checkPixelErrors() {
     if (fiteTested < testFileCount)
         return;
-    if (max_diff_pixel > 100) {
+    if (max_diff_pixel > 200) {
         throw new Error('To much pixel diff');
     }
 }

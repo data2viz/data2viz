@@ -139,7 +139,33 @@ val allRenderingTests = listOf(
                 lineTo(100.0,20.0)
                 style.stroke = colors.red
             }
+        },
+        renderingTest("visible1") {
+            circle {
+                x = 50.0
+                y = 50.0
+                radius = 50.0
+                style.fill = colors.black
+                visible = false
+            }
+            circle {
+                x = 150.0
+                y = 50.0
+                radius = 50.0
+                style.fill = colors.black
+            }
+        },
+        renderingTest("visible2-layer") {
+            activeLayer.visible = false
+            circle {
+                x = 50.0
+                y = 50.0
+                radius = 50.0
+                style.fill = colors.black
+            }
         }
+
+
 
 )
 

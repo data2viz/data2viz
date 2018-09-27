@@ -71,6 +71,8 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer{
 
 fun viz(init: Viz.() -> Unit): Viz  = Viz().apply(init)
 
+
+@Deprecated("Old design, should be replaced.")
 interface VizElement
 
 
