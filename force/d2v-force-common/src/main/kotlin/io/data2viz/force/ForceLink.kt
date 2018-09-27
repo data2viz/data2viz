@@ -1,97 +1,122 @@
 package io.data2viz.force
 
-import io.data2viz.geom.Vector
 import kotlin.math.min
 import kotlin.math.sqrt
 
 data class Link(
     val source: ForceNode,
     val target: ForceNode,
-    var index: Int = 0
-)
+    internal var _index: Int = 0
+) {
+    val index: Int
+        get() = _index
 
-fun forceLink(links: List<Link>, init: ForceLink.() -> Unit = {}) = ForceLink(links).apply(init)
+}
+
+
+/**
+ * Todo evaluate having a signature with a fixed list of links and one with an accessor from nodes
+ */
+fun forceLink(init: ForceLink.() -> Unit = {}) = ForceLink().apply(init)
 
 /**
  * The link force pushes linked nodes together or apart according to the desired link distance.
  * The strength of the force is proportional to the difference between the linked nodes’ distance and the target
  * distance, similar to a spring force.
+ *
+ *
+ *
  */
-class ForceLink(links: List<Link>) : Force {
+class ForceLink : Force {
 
-    private var nodes: List<ForceNode> = listOf()
-    private val links = links.toMutableList()
-    private val distances = mutableListOf<Double>()
-    private val strengths = mutableListOf<Double>()
-    private val bias = mutableListOf<Double>()
-    private val count = mutableListOf<Int>()
+    private var nodes       = listOf<ForceNode>()
+
+    private var _links       = listOf<Link>()
+    val links: List<Link>
+        get() = _links
+
+    private var distances   = listOf<Double>()
+    private var strengths   = listOf<Double>()
+
+    private var bias: Array<Double> =  arrayOf()
+    private var count:Array<Int> = arrayOf()
 
     /**
-     * If iterations is specified, sets the number of iterations per application to the specified number.
+     * Number of iterations per application.
      * Increasing the number of iterations greatly increases the rigidity of the constraint and avoids partial overlap
      * of nodes, but also increases the runtime cost to evaluate the force.
      */
     var iterations = 1
 
+    var linksAccessor: (List<ForceNode>)-> List<Link> = { listOf() }
+
     /**
-     * TODO
+     * sets the strength accessor to the specified number or function, re-evaluates
+     * the strength accessor for each link, and returns this force.
+     *
+     * ```
+     * ```
      */
-    var strength: (link: Link, index: Int, links: List<Link>) -> Double = {
-            link, _, _ -> 1.0 / min(count[link.source.index], count[link.target.index])
+    var strengthsAccessor: (List<Link>) -> List<Double> = { links ->
+            links.map { link ->
+                1.0 / min(count[link.source.index], count[link.target.index])
+            }
+
         }
         set(value) {
             field = value
-            assignNodes(nodes)
+            initializeStrengths()
         }
 
     /**
-     * TODO
+     * sets the distance accessor to the specified number or function,
+     * re-evaluates the distance accessor for each link, and returns this force.
+     *
+     * The distance accessor is invoked for each link, being passed the link and its zero-based index.
+     * The resulting number is then stored internally, such that the distance of each link is only
+     * recomputed when the force is initialized or when this method is called with a new distance,
+     * and not on every application of the force.
      */
-    var distance: (link: Link, index: Int, links: List<Link>) -> Double = { _, _, _ -> 30.0 }
+    var distancesAccessor: (List<Link>) -> List<Double> = { links -> (0 until links.size).map { 30.0 } }
         set(value) {
             field = value
-            assignNodes(nodes)
+            initializeDistances()
         }
 
     override fun assignNodes(nodes: List<ForceNode>) {
         this.nodes = nodes
-
-        // build links
-//        links.clear()
-//        nodes.forEach { from ->
-//            nodes.forEach { to->
-//                if (linker(from, to)) links.add(Link(from, to))
-//            }
-//        }
+        _links = linksAccessor(nodes)
 
         // count links for each nodes
-        count.clear()
-        count.addAll(nodes.map { 0 })
-        links.forEachIndexed { index, link ->
-            link.index = index
+        count = Array(nodes.size){ 0 }
+        _links.forEachIndexed { index, link ->
+            link._index = index
             count[link.source.index] += 1
             count[link.target.index] += 1
         }
 
         // count bias
-        bias.clear()
-        bias.addAll(links.map { .0 })
-        links.forEachIndexed { index, link ->
+        bias = Array(_links.size) {.0}
+        _links.forEachIndexed { index, link ->
             bias[index] = count[link.source.index].toDouble() / (count[link.source.index] + count[link.target.index])
         }
 
-        // compute strengths and distances
-        strengths.clear()
-        distances.clear()
-        links.forEachIndexed { index, link ->
-            strengths.add(strength(link, index, links))
-            distances.add(distance(link, index, links))
-        }
+        initializeStrengths()
+        initializeDistances()
+
+    }
+
+    private fun initializeDistances() {
+        distances = distancesAccessor(_links)
+    }
+
+    private fun initializeStrengths() {
+        strengths = strengthsAccessor(_links)
     }
 
     override fun applyForceToNodes(alpha: Double) {
-        (0 until iterations).forEach {
-            links.forEachIndexed { index, link ->
+        (0 until iterations).forEach { _ ->
+            _links.forEachIndexed { index, link ->
                 val source = link.source
                 val target = link.target
 
