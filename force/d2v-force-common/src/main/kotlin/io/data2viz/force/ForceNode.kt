@@ -1,8 +1,5 @@
 package io.data2viz.force
 
-import io.data2viz.geom.Point
-import io.data2viz.geom.Vector
-
 
 /**
  * The position ⟨x,y⟩ and velocity ⟨vx,vy⟩ may be subsequently modified by forces and by the simulation.
