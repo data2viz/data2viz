@@ -7,7 +7,7 @@
 # Isomorphic dataviz
 
 data2viz is a multiplatform data visualization library based on kotlin. The rendering produces the same result
-on each platform.
+on each platform: android, JS and JavaFx.
 
 
 A very important part of current version is a port of [d3js](https://github.com/d3/d3) modules.
@@ -129,7 +129,17 @@ Open online js version.
 The project is currently in a very active devlopment phase. APIs are expected to change and we don't
 encourage you to use it already in production.
 
-### Current version (v0.6): 
+### current version (v0.7):
+
+This major version brings the support of android. This addition of android as a target 
+platform had a big impact on the design of data2viz. Before v0.7 basic visual elements 
+(rectangles, circles, ...) were wrappers on specific platform elements. Now, these elements
+are a memory version of the visualization. Elements are just rendered on each platform 
+using canvas. 
+
+This version includes a cleaner hierarchy with layers at its base.
+
+###  Version 0.6: 
 
 The current version contains the following modules:
 
@@ -157,15 +167,6 @@ The current version contains the following modules:
   - viz: multiplatform abstraction over visual elements (circle, rectangle, ...)
   - voronoi: the voronoi algorithm
 
-### upcoming v0.7:
-
-This major version brings the support of android. This addition of android as a target 
-platform had a big impact on the design of data2viz. Before v0.7 basic visual elements 
-(rectangles, circles, ...) were wrappers on specific platform elements. Now, these elements
-are a memory version of the visualization. Elements are just rendered on each platform 
-using canvas. 
-
-This version includes a cleaner hierarchy with layers at its base.
 
 ### and next:
 We plan to release a chart module inspired by vega-lite to enable very fast charting development.
