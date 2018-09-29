@@ -67,13 +67,6 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
     }
     
     apply plugin: 'com.jfrog.bintray'
-//    apply plugin: 'org.jetbrains.dokka'
-    
-
-//    dokka {
-//        outputFormat = 'html'
-//        outputDirectory = "$buildDir/javadoc"
-//    }
 
     if (platform == "common") {
         apply plugin: 'kotlin-platform-common'
@@ -198,8 +191,15 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
 // --------------- Configure sub-projects that are published ---------------
 
 configure(subprojects.findAll { it.name.startsWith('d2v-') }) {
+    def platform = platformOf(project)
+    if( platform == "jvm" || platform == "jfx"){
+        apply from: rootProject.file('gradle/dokka.gradle')
+    }
+
     apply plugin: 'org.kordamp.gradle.stats'
-    apply from: rootProject.file('gradle/publish-bintray.gradle')  
+    apply from: rootProject.file('gradle/publish-bintray.gradle')
+
+
 }
 
 apply plugin: 'base'

@@ -3,6 +3,8 @@
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'signing'
+
 
 def platform = platformOf(project)
 def module = moduleOf(project)
@@ -22,7 +24,7 @@ def pomConfig = {
             id "Data2viz"
             name "Data2viz team"
             organization "Data2viz"
-            organizationUrl "http://data2viz.io"
+            organizationUrl "https://data2viz.io"
         }
     }
 
@@ -52,17 +54,29 @@ publishing {
             if (platform != "android") {
                 from components.java
             }
-//            artifact javadocJar
+
+            if( platform == "jfx" || platform == "jvm")
+                artifact javadocJar
             artifact sourcesJar
+
+            def description = project.description
+            if (description == null) {
+                description = "$platform lib of ${project.name}"
+            }
             pom.withXml {
                 def root = asNode()
                 root.appendNode('name', project.name)
+                root.appendNode('description', description)
                 root.appendNode('url', 'https://github.com/data2viz/data2viz')
                 root.children().last() + pomConfig
             }
         }
     }
 }
+
+//signing {
+//    sign configurations.archives
+//}
 
 
 if (project.hasProperty("bintray.user")) {
@@ -90,3 +104,5 @@ if (project.hasProperty("bintray.user")) {
         println("Uploaded $project.name version $project.version")
     }
 }
+
+//publishToMavenLocal.dependsOn(project.tasks.signArchives)

@@ -1,0 +1,22 @@
+
+apply plugin: 'org.jetbrains.dokka'
+
+tasks.withType(dokka.getClass()) {
+    jdkVersion = 8
+    includes = ['README.md']
+}
+
+dokka {
+    outputFormat = 'kotlin-website'
+}
+
+// real xxx-javadoc.jar for JVM
+task dokkaJavadoc(type: dokka.getClass()) {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/javadoc"
+}
+
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    classifier = 'javadoc'
+    from "$buildDir/javadoc"
+}
