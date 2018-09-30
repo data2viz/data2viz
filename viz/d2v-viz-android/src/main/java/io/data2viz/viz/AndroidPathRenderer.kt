@@ -63,7 +63,7 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
                     val top = (cmd.centerY - cmd.radius).dp
                     val bottom = (cmd.centerY + cmd.radius).dp
                     val startAngle = cmd.startAngle.radToDegrees()
-                    var sweepAngle = (cmd.endAngle.radToDegrees() - cmd.startAngle.radToDegrees())
+                    var sweepAngle = (cmd.endAngle.radToDegrees() + 360 - cmd.startAngle.radToDegrees()) % 360
                     if (cmd.counterClockWise) {
                         sweepAngle -= 360
                     }
