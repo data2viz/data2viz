@@ -3,6 +3,6 @@ dependencies {
     compile project(":path:d2v-path-common")
     compile project(":path:d2v-path-js")
     compile project(":core:d2v-core-js")
-    compile "io.data2viz:geojson-js:$geojson_version"
+    compile "io.data2viz.geojson:geojson-js:$geojson_version"
 }
 apply from: rootProject.file('gradle/test-js.gradle')
