@@ -10,7 +10,8 @@ data2viz is a multiplatform data visualization library based on kotlin. The rend
 on each platform: android, JS and JavaFx.
 
 
-A very important part of current version is a port of [d3js](https://github.com/d3/d3) modules.
+A important part of current version, mainly the algorithms,  is a port of [d3js](https://github.com/d3/d3) modules.
+
 
 The code is separated in modules that can be independently used. Some are specifically designed for visualization 
 ([d2v-axis](https://github.com/data2viz/data2viz/tree/master/axis),
@@ -24,12 +25,60 @@ can be used as a multiplatform kotlin format library outside of any dataviz proj
 data2viz proposes to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
  visualizations by helping developer with IDE’s suggestions based on the current context.
 
+## How can I use it?
+Artefacts are published on [maven central](https://repo.maven.apache.org/maven2/io/data2viz/).
+
+So if you want to use it for a Js project, you have to define your repositories and dependencies 
+like this:
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "io.data2viz:d2v-data2viz-js:$data2viz_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+}
+```
+
+You can then create a visualization in your code and render it in the context of your application. For example:
+```kotlin
+fun main(args: Array<String>) {
+    println("starting a first viz")
+    viz {
+        width = 400.0
+        height = 400.0
+
+        rect {
+            width = 50.0
+            height = 50.0
+            x = 100.0
+            y = 100.0
+            style.fill = colors.red
+        }
+
+    }.bindRendererOn("viz")     // <- the canvas id of which the viz is rendered.
+
+}
+```
+
+You can also [clone this repo](https://github.com/data2viz/data2viz-examples) or have a look 
+to the [example directory](examples).
+
 
 ## Some samples
 
 All examples are available in [examples](examples) directory. Here is a first selection that shows you what you can
 do with data2viz. All example are running in the browser and as JavaFx applications. You can open each js version
 using the links below.
+
+You can also install the android demo of it [directly from the playstore](https://play.google.com/store/apps/details?id=io.data2viz.data2canvas).
+
+
+<a href="https://play.google.com/store/apps/details?id=io.data2viz.data2canvas" >
+<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/docs/img/android-world-animation.png" width="250">
+</a>
 
 #### [Geo projection](examples/ex-geo)
 
@@ -180,12 +229,7 @@ a very consistent way of using our library.
 ## Tests
 Tests are executed through karma and mocha and included in the build.
 
-## How can I use it?
 
-
-Artefacts are published on [Bintray](https://bintray.com/data2viz/data2viz/data2viz).
-
-You can also clone this repo and have a look on the [example directory](examples).
 
 
 ## Inspirations
