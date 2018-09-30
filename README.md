@@ -126,57 +126,11 @@ Open online js version.
 </a>
 
 
-#### [Stream Graph](examples/ex-streamGraph)
-
-- Stack,
-- Curves, stream grapth
-
-<a target="_blank" href="https://data2viz.github.io/data2viz/ex-streamGraph-js/index.html" >
-Open online js version.
-</a>
-
-[See code](examples/ex-streamGraph)
-
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-streamGraph" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/stream-graph.png" width="400">
-</a>
-
-#### [Selection performance sample](examples/ex-selection)
-
-- Animated circle, deployed inside JavaFx and Js
-
-<a target="_blank" href="https://data2viz.github.io/data2viz/ex-selection/index.html" >
-Open online js version.
-</a>
-
-[See code](examples/ex-selection)
-
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-selection" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/selection.png" width="400">
-</a>
-
-
-#### [Natural Log Scale](examples/ex-natural-logscale)
-
-- Common Plot, deployed inside JavaFx and Js
-- LogScale, ContinuousScale.
-- Path
-
-<a target="_blank" href="https://data2viz.github.io/data2viz/ex-natural-logscale-js/index.html" >
-Open online js version.
-</a>
-
-[See code](examples/ex-natural-logscale)
-
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-natural-logscale" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/natural-log-scale-jfx.png" width="400">
-</a>
-
-
 ## Current status && Roadmap
 
-The project is currently in a very active devlopment phase. APIs are expected to change and we don't
-encourage you to use it already in production.
+APIs are now stabilize for a good part and you can start using the project. It may still change before
+version 1.0 but we'll try to use the features of kotlin to update existing code bases the more smoothly
+that we can.
 
 ### current version (v0.7):
 
@@ -218,16 +172,13 @@ The current version contains the following modules:
 
 
 ### and next:
+
 We plan to release a chart module inspired by vega-lite to enable very fast charting development.
 
 We'll create all the necessary geographic projections.
 
 Before the v1.0 release, we'll spend some time on polishing APIs and DSLs in order to provide
 a very consistent way of using our library.
-
-
-## Tests
-Tests are executed through karma and mocha and included in the build.
 
 
 
