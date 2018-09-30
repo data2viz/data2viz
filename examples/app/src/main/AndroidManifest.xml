@@ -26,6 +26,7 @@
             />
         </activity>
         <activity android:name=".ChordActivity"
+                  android:label="Chord Diagram"
                   android:parentActivityName=".MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -33,6 +34,7 @@
             />
         </activity>
         <activity android:name=".ForceActivity"
+                  android:label="Animated Forces"
                   android:parentActivityName=".MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -40,13 +42,16 @@
             />
         </activity>
         <activity android:name=".GeoActivity"
-                  android:parentActivityName=".MainActivity">
+                  android:parentActivityName=".MainActivity"
+                  android:label="Animated World"
+        >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainActivity"
             />
         </activity>
         <activity android:name=".LineOfSightActivity"
+                  android:label="Line of Sight animation"
                   android:parentActivityName=".MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -54,6 +59,7 @@
             />
         </activity>
         <activity android:name=".SankeyActivity"
+                  android:label="Sankey diagram"
                   android:parentActivityName=".MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
