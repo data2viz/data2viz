@@ -140,6 +140,12 @@ val allRenderingTests = listOf(
                 style.stroke = colors.red
             }
         },
+        renderingTest("path.rect") {
+            path {
+                rect(10.0, 10.0, 200.0, 100.0)
+                style.fill = colors.red
+            }
+        },
         renderingTest("visible1") {
             circle {
                 x = 50.0

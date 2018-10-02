@@ -3,6 +3,8 @@ package io.data2viz.viz
 import io.data2viz.path.*
 import org.w3c.dom.CanvasRenderingContext2D
 
+typealias PathRect = io.data2viz.path.Rect
+
 fun PathNode.render(context: CanvasRenderingContext2D) {
     context.beginPath()
     path.commands.forEach { cmd ->
@@ -14,7 +16,7 @@ fun PathNode.render(context: CanvasRenderingContext2D) {
             is Arc -> context.arc(cmd.centerX, cmd.centerY, cmd.radius, cmd.startAngle, cmd.endAngle, cmd.counterClockWise)
             is ArcTo -> context.arcTo(cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
             is ClosePath -> context.closePath()
-//            is Rect -> context.rect(cmd.centerX, cmd.centerY, cmd.radius, cmd.startAngle, cmd.endAngle, cmd.counterClockWise)
+            is PathRect -> context.rect(cmd.x, cmd.y, cmd.w, cmd.h)
             else -> error("Unknown canvas command: ${cmd::class}")
         }
     }

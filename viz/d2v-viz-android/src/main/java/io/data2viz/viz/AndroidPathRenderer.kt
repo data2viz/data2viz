@@ -3,6 +3,7 @@ package io.data2viz.viz
 import android.graphics.Paint
 import android.graphics.RectF
 import io.data2viz.path.*
+import io.data2viz.path.Rect
 import kotlin.math.absoluteValue
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -71,7 +72,7 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
                     path.arcTo(RectF(left, top, right, bottom), startAngle, sweepAngle)
                 }
                 is ArcTo -> arcTo(last(index).x, last(index).y, cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
-//                is Rect -> path.addRect(cmd.x.dp, cmd.y.dp, (cmd.x + cmd.width).dp, (cmd.y + cmd.height).dp, android.graphics.Path.Direction.CW )
+                is Rect -> path.addRect(cmd.x.dp, cmd.y.dp, (cmd.x + cmd.w).dp, (cmd.y + cmd.h).dp, android.graphics.Path.Direction.CW )
                 is ClosePath -> path.close()
                 else -> error("Unknown path command:: ${cmd::class}")
             }

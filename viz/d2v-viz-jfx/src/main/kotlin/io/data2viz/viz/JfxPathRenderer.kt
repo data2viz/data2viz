@@ -2,6 +2,7 @@ package io.data2viz.viz
 
 import io.data2viz.math.toDegrees
 import io.data2viz.path.*
+import io.data2viz.path.Rect
 import javafx.scene.shape.StrokeLineCap
 import kotlin.math.absoluteValue
 
@@ -18,6 +19,8 @@ fun PathNode.render(renderer: JFxVizRenderer) {
             is Arc -> gc.arc(cmd.centerX, cmd.centerY, cmd.radius, cmd.radius, cmd.start, cmd.length)
             is ArcTo -> gc.arcTo(cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
             is ClosePath -> gc.closePath()
+            is Rect -> gc.rect(cmd.x, cmd.y, cmd.w, cmd.h)
+            else -> error("Unknown canvas command: ${cmd::class}")
         }
     }
 
