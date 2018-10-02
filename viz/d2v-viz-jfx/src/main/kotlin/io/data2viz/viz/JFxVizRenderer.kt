@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.Stop
 import javafx.scene.text.TextAlignment
+import kotlin.math.PI
 
 typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
 typealias JfxRadialGradient = javafx.scene.paint.RadialGradient
@@ -53,10 +54,12 @@ class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
 
     fun addTransform(transform: Transform) {
         gc.translate(transform.translate?.x ?: .0, transform.translate?.y ?:.0)
+        gc.rotate(+ (transform.rotate?.delta ?: .0) * 180 / PI)
     }
 
     fun removeTransform(transform: Transform) {
         gc.translate(-(transform.translate?.x ?:.0), -(transform.translate?.y ?:.0))
+        gc.rotate(- (transform.rotate?.delta ?: .0) * 180 / PI)
     }
 
 }

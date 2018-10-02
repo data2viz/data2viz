@@ -91,11 +91,21 @@ class Transform {
         translate = Translation(x,y)
     }
 
+    var rotate:Rotation? = null
+    fun rotate(delta: Double) {
+        rotate = Rotation(delta)
+    }
+
     operator fun plusAssign(transform: Transform) {
         translate?.apply {
             x += transform.translate?.x ?: .0
             y += transform.translate?.y ?: .0
         }
+
+        rotate?.apply {
+            delta += transform.rotate?.delta ?: .0
+        }
+
     }
 
     operator fun minusAssign(transform: Transform) {
@@ -103,10 +113,15 @@ class Transform {
             x -= transform.translate?.x ?: .0
             y -= transform.translate?.y ?: .0
         }
+        rotate?.apply {
+            delta -= transform.rotate?.delta ?: .0
+        }
+
     }
 }
 
 data class Translation(var x: Double = 0.0, var y: Double = 0.0)
+data class Rotation(var delta:Double = 0.0)
 
 
 /**

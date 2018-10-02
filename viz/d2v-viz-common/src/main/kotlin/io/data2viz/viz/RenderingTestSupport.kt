@@ -130,6 +130,38 @@ val allRenderingTests = listOf(
 
 
         },
+        renderingTest("transform") {
+            var depth = 0
+            fun addToParent(parent:Group){
+                depth++
+                if(depth == 41) return
+
+                with(Group()) {
+                    parent.add(this)
+                    transform {
+                        translate(x = 10.0, y = 10.0)
+                        rotate(0.1 * PI / 2)
+                    }
+                    rect {
+                        height = 10.0
+                        width = 10.0
+                        style.fill = colors.black
+                    }
+                    addToParent(this)
+                }
+                depth--
+            }
+            addToParent(group {
+                transform {
+                    translate(x = 250.0, y = 125.0)
+                }
+                rect {
+                    height = 10.0
+                    width = 10.0
+                    style.fill = colors.black
+                }
+            })
+        },
         renderingTest("path1") {
             path {
                 moveTo(20.0,20.0)

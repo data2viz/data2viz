@@ -133,6 +133,7 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
             if (node is HasTransform) {
                 node.transform?.also {
                     canvas.translate(it.translate?.x?.dp ?: .0f, it.translate?.y?.dp ?: .0f)
+                    canvas.rotate((+ (it.rotate?.delta ?: .0) * 180 / PI).toFloat())
                 }
             }
 
@@ -154,6 +155,8 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
             if (node is HasTransform) {
                 node.transform?.also {
                     canvas.translate(-(it.translate?.x?.dp ?: .0f), -(it.translate?.y?.dp ?: .0f))
+                    canvas.rotate((- (it.rotate?.delta ?: .0) * 180 / PI).toFloat())
+
                 }
             }
 
