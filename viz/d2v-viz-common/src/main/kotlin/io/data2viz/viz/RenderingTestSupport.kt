@@ -1,5 +1,6 @@
 package io.data2viz.viz
 
+import io.data2viz.color.color
 import io.data2viz.color.colors
 import io.data2viz.math.PI
 
@@ -42,9 +43,10 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                style.fill = colors.blue
-                style.stroke = colors.red.withAlpha(.5f)
-                style.strokeWidth = 20.0
+                style.fill = 0xfdc658.color
+                style.stroke = 0x0c0887.color
+                        .withAlpha(.5f)
+                style.strokeWidth = 40.0
             }
         },
         renderingTest("arc1-positive-clockwise") {
