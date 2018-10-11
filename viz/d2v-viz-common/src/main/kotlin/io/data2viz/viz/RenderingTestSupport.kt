@@ -13,6 +13,14 @@ data class RenderingTest(val name: String, val viz: Viz)
 
 @Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 val allRenderingTests = listOf(
+//        renderingTest("text1") { //add text tests when font-familly will be enabled in style.
+//            group {
+//                transform { translate( 100.0, 100.0) }
+//                text {
+//                    textContent = "Bépo"
+//                }
+//            }
+//        },
         renderingTest("circle1") {
             circle {
                 x = 200.0

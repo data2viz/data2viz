@@ -25,10 +25,39 @@ fun Viz.bindRendererOn(canvasId: String) {
     bindRendererOn(canvas)
 }
 
+/**
+ * Add a new canvas directly as a body child and render the viz on it.
+ * It can be interesting for the playground where the code is executed in an iframe.
+ */
+fun Viz.bindRendererOnNewCanvas() {
+    val canvas = document.createElement("canvas") as HTMLCanvasElement
+    val body = requireNotNull(document.querySelector("body"))
+    body.appendChild(canvas)
+    bindRendererOn(canvas)
+}
+
+
+/**
+ * Creates a JsCanvasRenderer on the given canvas. If config.autoUpdate is true,
+ * do immediately the rendering.
+ *
+ * If the pixel ratio of the screen differs from 1.0 (HPDi screen for example) a bigger
+ * canvas is used with a scale.
+ */
 fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
     val context = canvas.getContext("2d") as CanvasRenderingContext2D
     context.canvas.width = width.toInt()
     context.canvas.height = height.toInt()
+
+    val pixelRatio = getPixelRatio()
+    //manage HDPi screens
+    if (pixelRatio > 1.0) {
+        canvas.style.width = "${canvas.width}px"
+        canvas.style.height = "${canvas.height}px"
+        canvas.width = (canvas.width * pixelRatio).toInt()
+        canvas.height = (canvas.height * pixelRatio).toInt()
+        context.scale(pixelRatio, pixelRatio)
+    }
 
     this.renderer = JsCanvasRenderer(context, this)
 
@@ -37,6 +66,17 @@ fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
         startAnimations()
     }
 
+}
+
+private fun getPixelRatio(): Double{
+    var pixelRatio = 1.0
+    js("""
+        if((typeof window.devicePixelRatio) !== 'undefined') {
+            pixelRatio = window.devicePixelRatio
+    }
+    """)
+
+    return pixelRatio
 }
 
 
