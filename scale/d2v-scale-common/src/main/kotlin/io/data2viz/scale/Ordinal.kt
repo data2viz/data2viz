@@ -4,8 +4,6 @@ package io.data2viz.scale
  * Unlike continuous scales, ordinal scales have a discrete domain and range.
  * For example, an ordinal scale might map a set of named categories to a set of colors, or determine the
  * horizontal positions of columns in a column chart.
- *
- *
  */
 class IndexableDomain<D> : DiscreteDomain<D>{
 
