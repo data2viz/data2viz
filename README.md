@@ -6,11 +6,11 @@
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) 
 # Isomorphic dataviz
 
-data2viz is a multiplatform data visualization library based on kotlin. The rendering produces the same result
-on each platform: android, JS and JavaFx.
+Data2viz is a multiplatform data visualization library based on Kotlin. The rendering produces the same result
+on each platform: Android, JavaScript and JavaFX.
 
 
-A important part of current version, mainly the algorithms,  is a port of [d3js](https://github.com/d3/d3) modules.
+The algorithms and other portions are ported from [d3js](https://github.com/d3/d3) modules.
 
 
 The code is separated in modules that can be independently used. Some are specifically designed for visualization 
@@ -20,16 +20,15 @@ The code is separated in modules that can be independently used. Some are specif
 [d2v-viz](https://github.com/data2viz/data2viz/tree/master/viz)) while others can be used outside of dataviz projects. 
 For example, 
 [d2v-format](https://github.com/data2viz/data2viz/tree/master/format) 
-can be used as a multiplatform kotlin format library outside of any dataviz project.
+can be used as a multiplatform Kotlin format library outside of any dataviz project.
 
-data2viz proposes to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
- visualizations by helping developer with IDE’s suggestions based on the current context.
+Data2viz allows you to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
+ visualizations via the IDE’s context-based suggestions.
 
 ## How can I use it?
-Artefacts are published on [maven central](https://repo.maven.apache.org/maven2/io/data2viz/).
+Artifacts are published on [Maven Central](https://repo.maven.apache.org/maven2/io/data2viz/) and [Bintray](https://bintray.com/data2viz/data2viz/data2viz).
 
-So if you want to use it for a Js project, you have to define your repositories and dependencies 
-like this:
+For example: to use data2viz in a Kotlin Javascript project, you need to add the following to the repositories and dependencies blocks:
 
 ```kotlin
 repositories {
@@ -63,17 +62,17 @@ fun main(args: Array<String>) {
 }
 ```
 
-You can also [clone this repo](https://github.com/data2viz/data2viz-examples) or have a look 
-to the [example directory](examples).
+You can also [clone the examples repo](https://github.com/data2viz/data2viz-examples) or have a look
+at the [example directory](examples) in this repo.
 
 
 ## Some samples
 
-All examples are available in [examples](examples) directory. Here is a first selection that shows you what you can
-do with data2viz. All example are running in the browser and as JavaFx applications. You can open each js version
-using the links below.
+All examples are available in the [examples](examples) directory. Here is a small sample you what you can
+do with data2viz. All examples are able to run in the browser and as JavaFX applications. You can open the JavaScript version
+of each example using the links below.
 
-You can also install the android demo of it [directly from the playstore](https://play.google.com/store/apps/details?id=io.data2viz.data2canvas).
+You can also install the Android demo app [directly from the Play Store](https://play.google.com/store/apps/details?id=io.data2viz.data2canvas).
 
 
 <a href="https://play.google.com/store/apps/details?id=io.data2viz.data2canvas" >
@@ -86,7 +85,7 @@ This code uses the geo module to show how to load a GeoJson file and render it u
 projection.
 
 <a target="_blank" href="https://data2viz.github.io/data2viz/ex-geo-js/index.html" >
-Open online js version.
+Open live JavaScript version
 </a>
 
 [See code](examples/ex-geo)
@@ -97,10 +96,10 @@ Open online js version.
 
 #### [Forces](examples/ex-force)
 
-This funny demo shows how to use different aspects of forces: radial, nbody, x, y forces.
+This demo shows how to use different types of forces: radial, nbody, x, and y forces.
 
 <a target="_blank" href="https://data2viz.github.io/data2viz/ex-force-js/index.html" >
-Open online js version.
+Open live JavaScript version
 </a>
 
 [See code](examples/ex-force)
@@ -111,30 +110,26 @@ Open online js version.
 
 #### [Chord Graph](examples/ex-chord)
 
-- Chord diagram,
-- Arcs, Path
+This demonstrates a chord diagram, which shows relationships between entities using arcs.
 
 <a target="_blank" href="https://data2viz.github.io/data2viz/ex-chord-js/index.html" >
-Open online js version.
+Open live JavaScript version
 </a>
 
 [See code](examples/ex-chord)
-
 
 <a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/chord.png" width="400">
 </a>
 
 
-## Current status && Roadmap
+## Current status and roadmap
 
-APIs are now stabilize for a good part and you can start using the project. It may still change before
-version 1.0 but we'll try to use the features of kotlin to update existing code bases the more smoothly
-that we can.
+APIs are mostly stabilized now, but there may still be some breaking changes before v1.0.
 
-### current version (v0.7):
+### Version v0.7 (Current):
 
-This major version brings the support of android. This addition of android as a target 
+This major version brings support for Android. This addition of Android as a target
 platform had a big impact on the design of data2viz. Before v0.7 basic visual elements 
 (rectangles, circles, ...) were wrappers on specific platform elements. Now, these elements
 are a memory version of the visualization. Elements are just rendered on each platform 
@@ -142,7 +137,7 @@ using canvas.
 
 This version includes a cleaner hierarchy with layers at its base.
 
-###  Version 0.6: 
+### Version v0.6:
 
 The current version contains the following modules:
 
@@ -171,16 +166,12 @@ The current version contains the following modules:
   - voronoi: the voronoi algorithm
 
 
-### and next:
+### Roadmap:
 
-We plan to release a chart module inspired by vega-lite to enable very fast charting development.
-
-We'll create all the necessary geographic projections.
-
-Before the v1.0 release, we'll spend some time on polishing APIs and DSLs in order to provide
-a very consistent way of using our library.
-
-
+- We plan to release a chart module inspired by [vega-lite](https://vega.github.io/vega-lite/) to enable very fast charting development
+- We'll create all necessary geographic projections
+- Before the v1.0 release, we'll spend some time on polishing APIs and DSLs in order to improve the consistency
+of the library
 
 
 ## Inspirations
