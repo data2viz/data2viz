@@ -144,7 +144,7 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
             if (node.visible)
                 when (node) {
                     is Circle   -> node.render(renderer)
-                    is Rect     -> node.render(renderer)
+                    is RectNode     -> node.render(renderer)
                     is Group    -> node.render(renderer)
                     is PathNode -> node.render(renderer)
                     is Text     -> node.render(renderer)
@@ -226,7 +226,7 @@ val TextAnchor.android: Paint.Align
     }
 
 
-fun Rect.render(renderer: AndroidCanvasRenderer) {
+fun RectNode.render(renderer: AndroidCanvasRenderer) {
     val canvas = renderer.canvas
     with(renderer) {
         style.fill?.let {

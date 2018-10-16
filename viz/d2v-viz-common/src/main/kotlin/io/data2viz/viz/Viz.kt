@@ -160,7 +160,7 @@ interface HasChildren: HasStyle {
     fun group(init: Group.() -> Unit): Group
     fun line(init: Line.() -> Unit): Line
     fun circle(init: Circle.() -> Unit): Circle
-    fun rect(init: Rect.() -> Unit): Rect
+    fun rect(init: RectNode.() -> Unit): RectNode
     fun text(init: Text.() -> Unit): Text
     fun path(init: PathNode.() -> Unit): PathNode
 }

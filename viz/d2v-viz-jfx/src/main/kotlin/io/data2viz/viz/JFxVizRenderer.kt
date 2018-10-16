@@ -90,7 +90,7 @@ fun Group.render(renderer: JFxVizRenderer) {
         if (node.visible)
             when (node) {
                 is Circle       -> node.render(renderer)
-                is Rect         -> node.render(renderer)
+                is RectNode         -> node.render(renderer)
                 is Group        -> node.render(renderer)
                 is PathNode     -> node.render(renderer)
                 is Text         -> node.render(renderer)
@@ -140,7 +140,7 @@ fun Circle.render(renderer: JFxVizRenderer) {
     }
 }
 
-fun Rect.render(renderer: JFxVizRenderer) {
+fun RectNode.render(renderer: JFxVizRenderer) {
     val gc = renderer.gc
 
     style.fill?.let {

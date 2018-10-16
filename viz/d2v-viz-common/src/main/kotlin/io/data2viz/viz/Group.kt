@@ -39,7 +39,7 @@ open class Group : Node(), HasChildren, HasTransform {
             .also { add(it) }
 
 
-    override fun rect(init: Rect.() -> Unit): Rect = Rect()
+    override fun rect(init: RectNode.() -> Unit): RectNode = RectNode()
             .apply(init)
             .also { add(it) }
 

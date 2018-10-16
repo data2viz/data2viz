@@ -1,14 +1,11 @@
 package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
+import io.data2viz.geom.Rect
+import io.data2viz.geom.RectGeom
 
 
-class Rect : Node(), HasStroke, HasFill {
-
-    var x: Double = .0
-    var y: Double = .0
-    var width: Double = .0
-    var height: Double = .0
+class RectNode(rect: Rect = RectGeom()) : Node(), Rect by rect, HasStroke, HasFill {
 
     @Deprecated("Use style.fill", ReplaceWith("style.fill"))
     override var fill: ColorOrGradient?

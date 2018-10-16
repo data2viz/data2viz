@@ -19,6 +19,7 @@ abstract class Node: HasStyle {
     var _style:Style? = null
 
 
+    //todo we should not use the parent style. We could modify a parent style without notification
     override val style: Style
         get() = _style ?: parent?.style ?: Style().also { _style = it }
 
