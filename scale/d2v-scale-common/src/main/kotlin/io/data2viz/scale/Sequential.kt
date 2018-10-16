@@ -10,8 +10,6 @@ import io.data2viz.interpolate.uninterpolateNumber
  * by its interpolator and not configurable.
  *
  * These scales do not expose invert, range, rangeRound and interpolate methods.
- *
- * TODO Domain take only list of 2 items... -> use a type
  */
 class SequentialScale<R>(var interpolator: Interpolator<R>) : Tickable<Double>, ClampableScale, StrictlyContinuousDomain<Double> {
 

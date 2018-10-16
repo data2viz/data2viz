@@ -85,6 +85,10 @@ interface Tickable<D> {
     fun ticks(count: Int = 10): List<D>
 }
 
+/**
+ * Access the data2viz collection of scales:
+ *  - Continuous scales : linear, power, log, identity, time...
+ */
 object scales {
 
     fun <D, R> ordinal(init: OrdinalScale<D, R>.() -> Unit = {}) = OrdinalScale<D, R>().apply(init)
@@ -100,9 +104,14 @@ object scales {
         }
 
 
+    /**
+     * Continuous scales map a continuous, quantitative input domain to a continuous output range.
+     * If the range is also numeric, the mapping may be inverted.
+     * Available continuous scales : linear, power, log, identity or time.
+     */
     object continuous {
 
-        fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
+        internal fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
 
         fun log(
             base: Double = 10.0,
@@ -121,7 +130,6 @@ object scales {
          * Identity scales are a special case of linear scales where the domain and range are identical;
          * the scale and its invert method are thus the identity function. These scales are occasionally useful when
          * working with pixel coordinates, say in conjunction with an axis or brush.
-         * Identity scales do not support rangeRound, clamp or interpolate.
          */
         fun identity() = LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply {
             domain = listOf(.0, 1.0)
@@ -146,7 +154,6 @@ object scales {
 
         fun sqrtRound(init: PowerScale<Double>.() -> Unit = {}) =
             PowerScale(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder()).apply(init)
-
 
         fun time(init: TimeScale<Double>.() -> Unit = {}) =
             TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
