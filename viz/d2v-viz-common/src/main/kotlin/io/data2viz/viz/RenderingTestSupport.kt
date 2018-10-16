@@ -11,6 +11,16 @@ import io.data2viz.math.PI
 @Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 data class RenderingTest(val name: String, val viz: Viz)
 
+private fun Pair<Double, Double>.next(): Pair<Double, Double> {
+    var x = first
+    var y = second
+    if (x >= 350) {
+        x = 25.0
+        y += 50.0
+    } else x += 50.0
+    return Pair(x, y)
+}
+
 @Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 val allRenderingTests = listOf(
 //        renderingTest("text1") { //add text tests when font-familly will be enabled in style.
@@ -21,198 +31,272 @@ val allRenderingTests = listOf(
 //                }
 //            }
 //        },
-        renderingTest("circle1") {
-            circle {
-                x = 200.0
-                y = 200.0
-                radius = 100.0
-                style.fill = colors.red
-            }
-        },
-        renderingTest("circle2") {
-            circle {
-                x = 200.0
-                y = 200.0
-                radius = 100.0
-                style.stroke = colors.red
-                style.strokeWidth = 20.0
-            }
-        },
-        renderingTest("circle3") {
-            circle {
-                x = 200.0
-                y = 200.0
-                radius = 100.0
-                style.stroke = colors.red
-            }
-        },
-        renderingTest("circle4") {
-            circle {
-                x = 200.0
-                y = 200.0
-                radius = 100.0
-                style.fill = 0xfdc658.color
-                style.stroke = 0x0c0887.color
-                        .withAlpha(.5f)
-                style.strokeWidth = 40.0
-            }
-        },
-        renderingTest("arc1-positive-clockwise") {
 
-            var x = -25.0
-            var y = 25.0
 
-            fun next(){
-                if (x >=375.0) {
-                    x = 25.0
-                    y += 50.0
-                }
-                else x += 50.0
-            }
+    ///////////// CIRCLES /////////////////////////////////
 
+    renderingTest("circle1") {
+        circle {
+            x = 200.0
+            y = 200.0
+            radius = 100.0
+            style.fill = colors.red
+        }
+    },
+    renderingTest("circle2") {
+        circle {
+            x = 200.0
+            y = 200.0
+            radius = 100.0
+            style.stroke = colors.red
+            style.strokeWidth = 20.0
+        }
+    },
+    renderingTest("circle3") {
+        circle {
+            x = 200.0
+            y = 200.0
+            radius = 100.0
+            style.stroke = colors.red
+        }
+    },
+    renderingTest("circle4") {
+        circle {
+            x = 200.0
+            y = 200.0
+            radius = 100.0
+            style.fill = 0xfdc658.color
+            style.stroke = 0x0c0887.color
+                .withAlpha(.5f)
+            style.strokeWidth = 40.0
+        }
+    },
+
+
+
+    ///////////// ARCS /////////////////////////////////
+
+    renderingTest("arc1-positive-clockwise") {
+        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+        (0..15).forEach {
             path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, .0, .001 * PI)
+                pos = pos.next()
+                moveTo(pos.first, pos.second)
+                arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), false)
                 closePath()
                 style.fill = colors.grey
                 style.stroke = null
             }
+        }
+    },
+
+    renderingTest("arc2-negative-clockwise") {
+        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+        (0..15).forEach {
             path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, +0.0, .25 * PI)
+                pos = pos.next()
+                moveTo(pos.first, pos.second)
+                arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), false)
                 closePath()
                 style.fill = colors.grey
                 style.stroke = null
             }
+        }
+    },
+
+    renderingTest("arc3-positive-counterclockwise") {
+        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+        (0..15).forEach {
             path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, +0.0, 2 * PI)
+                pos = pos.next()
+                moveTo(pos.first, pos.second)
+                arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), true)
                 closePath()
                 style.fill = colors.grey
                 style.stroke = null
             }
+        }
+    },
+
+    renderingTest("arc4-negative-counterclockwise") {
+        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+        (0..15).forEach {
             path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, .25 * PI, 2 * PI)
+                pos = pos.next()
+                moveTo(pos.first, pos.second)
+                arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), true)
                 closePath()
                 style.fill = colors.grey
                 style.stroke = null
             }
+        }
+    },
+
+    renderingTest("arc5-positive-negative-clockwise") {
+        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+        var posNeg = 1.0
+
+        (0..15).forEach {
             path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, .25 * PI, 2.25 * PI)
+                pos = pos.next()
+                posNeg *= -1
+                moveTo(pos.first, pos.second)
+                arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
                 closePath()
                 style.fill = colors.grey
                 style.stroke = null
             }
+        }
+    },
+
+    renderingTest("arc6-positive-negative-counterclockwise") {
+        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+        var posNeg = 1.0
+
+        (0..15).forEach {
+            path {
+                pos = pos.next()
+                posNeg *= -1
+                moveTo(pos.first, pos.second)
+                arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
+                closePath()
+                style.fill = colors.grey
+                style.stroke = null
+            }
+        }
+    },
+
+//    renderingTest("arc1-positive-counterclockwise") {
+//
+//        (0..15).forEach {
+//            path {
+//                pos.next()
+//                moveTo(pos.first, pos.second)
+//                arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), true)
+//                closePath()
+//                style.fill = colors.grey
+//                style.stroke = null
+//            }
+//        }
+//        (0..15).forEach {
+//            path {
+//                pos.next()
+//                moveTo(pos.first, pos.second)
+//                arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), false)
+//                closePath()
+//                style.fill = colors.grey
+//                style.stroke = null
+//            }
+//        }
+//    },
 
 //            path {
-//                moveTo(250.0, 50.0)
-//                arc(250.0, 50.0, 50.0, .0, PI / 4, true)
-//                stroke = colors.grey
-//                fill = null
+//                next()
+//                moveTo(x, y)
+//                arc(x, y, 25.0, .25, PI / 4, true)
+//                style.fill = colors.grey
+//                style.stroke = null
 //            }
 //            path {
+//                next()
 //                moveTo(350.0, 50.0)
 //                arc(350.0, 50.0, 50.0, PI / 4, .0, true)
-//                stroke = colors.grey
-//                fill = null
+//                style.stroke = colors.grey
+//                style.fill = null
 //            }
 //            path {
+//                next()
 //                moveTo(50.0, 150.0)
 //                arc(50.0, 150.0, 50.0, PI / 4, 7*PI / 4)
 //                closePath()
-//                fill = colors.grey
-//                stroke = null
+//                style.fill = colors.grey
+//                style.stroke = null
 //            }
 //            path {
+//                next()
 //                moveTo(150.0, 150.0)
 //                arc(150.0, 150.0, 50.0, 7 * PI / 4, PI/4)
 //                closePath()
-//                fill = colors.grey
-//                stroke = null
+//                style.fill = colors.grey
+//                style.stroke = null
 //            }
 
+    renderingTest("transform") {
+        var depth = 0
+        fun addToParent(parent: Group) {
+            depth++
+            if (depth == 41) return
 
-        },
-        renderingTest("transform") {
-            var depth = 0
-            fun addToParent(parent:Group){
-                depth++
-                if(depth == 41) return
-
-                with(Group()) {
-                    parent.add(this)
-                    transform {
-                        translate(x = 10.0, y = 10.0)
-                        rotate(0.1 * PI / 2)
-                    }
-                    rect {
-                        height = 10.0
-                        width = 10.0
-                        style.fill = colors.black
-                    }
-                    addToParent(this)
-                }
-                depth--
-            }
-            addToParent(group {
+            with(Group()) {
+                parent.add(this)
                 transform {
-                    translate(x = 250.0, y = 125.0)
+                    translate(x = 10.0, y = 10.0)
+                    rotate(0.1 * PI / 2)
                 }
                 rect {
                     height = 10.0
                     width = 10.0
                     style.fill = colors.black
                 }
-            })
-        },
-        renderingTest("path1") {
-            path {
-                moveTo(20.0,20.0)
-                lineTo(40.0,40.0)
-                lineTo(60.0,20.0)
-                moveTo(80.0,40.0)
-                lineTo(100.0,20.0)
-                style.stroke = colors.red
+                addToParent(this)
             }
-        },
-        renderingTest("path.rect") {
-            path {
-                rect(10.0, 10.0, 200.0, 100.0)
-                style.fill = colors.red
-            }
-        },
-        renderingTest("visible1") {
-            circle {
-                x = 50.0
-                y = 50.0
-                radius = 50.0
-                style.fill = colors.black
-                visible = false
-            }
-            circle {
-                x = 150.0
-                y = 50.0
-                radius = 50.0
-                style.fill = colors.black
-            }
-        },
-        renderingTest("visible2-layer") {
-            activeLayer.visible = false
-            circle {
-                x = 50.0
-                y = 50.0
-                radius = 50.0
-                style.fill = colors.black
-            }
+            depth--
         }
-
+        addToParent(group {
+            transform {
+                translate(x = 250.0, y = 125.0)
+            }
+            rect {
+                height = 10.0
+                width = 10.0
+                style.fill = colors.black
+            }
+        })
+    },
+    renderingTest("path1") {
+        path {
+            moveTo(20.0, 20.0)
+            lineTo(40.0, 40.0)
+            lineTo(60.0, 20.0)
+            moveTo(80.0, 40.0)
+            lineTo(100.0, 20.0)
+            style.stroke = colors.red
+        }
+    },
+    renderingTest("path.rect") {
+        path {
+            rect(10.0, 10.0, 200.0, 100.0)
+            style.fill = colors.red
+        }
+    },
+    renderingTest("visible1") {
+        circle {
+            x = 50.0
+            y = 50.0
+            radius = 50.0
+            style.fill = colors.black
+            visible = false
+        }
+        circle {
+            x = 150.0
+            y = 50.0
+            radius = 50.0
+            style.fill = colors.black
+        }
+    },
+    renderingTest("visible2-layer") {
+        activeLayer.visible = false
+        circle {
+            x = 50.0
+            y = 50.0
+            radius = 50.0
+            style.fill = colors.black
+        }
+    }
 
 
 )
@@ -225,5 +309,5 @@ fun renderingTest(name: String, init: Viz.() -> Unit): RenderingTest {
         init()
     }
 
-    return RenderingTest(name,viz)
+    return RenderingTest(name, viz)
 }
