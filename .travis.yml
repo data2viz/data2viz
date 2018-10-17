@@ -1,30 +1,26 @@
-language: java
-jdk:
-  - oraclejdk8
+matrix:
+  include:
+    - language: java
+      jdk: oraclejdk8
+      addons:
+        chrome: stable # have Travis install chrome stable.
+        packages:
+          - oracle-java8-installer
+      dist: trusty # needs Ubuntu Trusty
+      # Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
+      # See https://github.com/travis-ci/travis-ci/issues/8836
+      sudo: required
 
-# install the newest java.
-addons:
-  chrome: stable # have Travis install chrome stable.
-  apt:
-    packages:
-      - oracle-java8-installer
+      cache:
+        yarn: true
+        directories:
+        - $HOME/.m2
+        - $HOME/.gradle
 
-dist: trusty # needs Ubuntu Trusty
-# Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
-# See https://github.com/travis-ci/travis-ci/issues/8836
-sudo: required
+      # configure xvfb screen.
+      before_install:
+      - "export DISPLAY=:99.0"
+      - "sh -e /etc/init.d/xvfb start"
 
-cache:
-  yarn: true
-  directories:
-    - $HOME/.m2
-    - $HOME/.gradle
-
-
-# configure xvfb screen.
-before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-
-# skip install stage.
-install: true
+      # skip install stage.
+      install: true
