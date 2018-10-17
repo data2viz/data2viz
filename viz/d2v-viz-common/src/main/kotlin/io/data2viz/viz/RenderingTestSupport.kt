@@ -170,6 +170,44 @@ val allRenderingTests = listOf(
         }
     },
 
+    renderingTest("arc7-checking-points-order-clockwise") {
+        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+        var posNeg = 1.0
+
+        (0..15).forEach {
+            path {
+                pos = pos.next()
+                posNeg *= -1
+                moveTo(pos.first - 15.0, pos.second - 15.0)
+                lineTo(pos.first - 15.0, pos.second - 5.0)
+                arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
+                lineTo(pos.first + 15.0, pos.second + 15.0)
+                closePath()
+                style.fill = colors.grey
+                style.stroke = null
+            }
+        }
+    },
+
+    renderingTest("arc8-checking-points-order-counterclockwise") {
+        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+        var posNeg = 1.0
+
+        (0..15).forEach {
+            path {
+                pos = pos.next()
+                posNeg *= -1
+                moveTo(pos.first - 15.0, pos.second - 15.0)
+                lineTo(pos.first - 15.0, pos.second - 5.0)
+                arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
+                lineTo(pos.first + 15.0, pos.second + 15.0)
+                closePath()
+                style.fill = colors.grey
+                style.stroke = null
+            }
+        }
+    },
+
 //    renderingTest("arc1-positive-counterclockwise") {
 //
 //        (0..15).forEach {
