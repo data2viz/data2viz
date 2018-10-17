@@ -1,10 +1,10 @@
 package io.data2viz.viz
 
+import io.data2viz.math.Angle
 import io.data2viz.math.toDegrees
 import io.data2viz.path.*
 import io.data2viz.path.Rect
 import javafx.scene.shape.StrokeLineCap
-import kotlin.math.absoluteValue
 
 
 fun PathNode.render(renderer: JFxVizRenderer) {
@@ -35,8 +35,18 @@ fun PathNode.render(renderer: JFxVizRenderer) {
 
 }
 
-val Arc.start:Double
+val Arc.start: Double
     get() = -startAngle.toDegrees()
 
-val Arc.length:Double
-    get() = (if (counterClockWise) 1 else -1) * (endAngle - startAngle).absoluteValue.toDegrees()
+val Arc.length: Double
+    get() {
+        var length = Angle(endAngle - startAngle)
+
+        if (counterClockWise && length.rad > io.data2viz.math.EPSILON)
+            length = Angle(length.rad % io.data2viz.math.TAU - io.data2viz.math.TAU)
+
+        if (!counterClockWise && length.rad < -io.data2viz.math.EPSILON)
+            length = Angle(length.rad % io.data2viz.math.TAU + io.data2viz.math.TAU)
+
+        return -length.deg
+    }
