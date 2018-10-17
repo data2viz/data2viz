@@ -37,4 +37,4 @@ matrix:
         - $HOME/.gradle/caches/
         - $HOME/.gradle/wrapper/
         - $HOME/.android/build-cache
-      script: ./gradlew check -Dinclude_android=true
+      script: ./gradlew check -Pinclude_android=true -Pinclude_js=false
