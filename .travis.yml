@@ -40,4 +40,9 @@ matrix:
         - $HOME/.gradle/caches/
         - $HOME/.gradle/wrapper/
         - $HOME/.android/build-cache
-      script: ./gradlew check -Pinclude_android=true -Pinclude_js=false
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - xvfb
+      script: xvfb-run ./gradlew check -Pinclude_android=true -Pinclude_js=false
