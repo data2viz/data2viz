@@ -128,13 +128,15 @@ d2v.forEach {
     includeAndFilter(it)
 }
 
-include ":data2viz:d2v-data2viz-common",
-        ":data2viz:d2v-data2viz-js",
-        ":data2viz:d2v-data2viz-jfx"
+[":data2viz:d2v-data2viz-common",
+ ":data2viz:d2v-data2viz-js",
+ ":data2viz:d2v-data2viz-jfx"].forEach{includeAndFilter(it)}
 
 includeAndFilter(":viz:rendering-app")
 
-include ":site"
+if (include_js.toBoolean()) {
+    include ":site"
+}
 
 def examples = [ 
         ":app",
@@ -193,7 +195,19 @@ examples.forEach{
 
 def includeAndFilter(project){
     if (project.endsWith("-android") || (project.endsWith("app"))) {
-        if(include_android.toBoolean()) {
+        if (include_android.toBoolean()) {
+            include(project)
+            return true
+        }
+        return false
+    } else if (project.endsWith("-js")) {
+        if (include_js.toBoolean()) {
+            include(project)
+            return true
+        }
+        return false
+    } else if (project.endsWith("-jfx")) {
+        if (include_jfx.toBoolean()) {
             include(project)
             return true
         }
