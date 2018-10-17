@@ -7,3 +7,4 @@ node_modules/
 build/
 .gradle/
 *.iml
+local.properties
