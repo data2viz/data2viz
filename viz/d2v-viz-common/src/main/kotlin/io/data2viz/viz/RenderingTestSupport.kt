@@ -184,7 +184,7 @@ val allRenderingTests = listOf(
                 lineTo(pos.first + 15.0, pos.second + 15.0)
                 closePath()
                 style.fill = colors.grey
-                style.stroke = null
+                style.stroke = colors.blue
             }
         }
     },
@@ -203,65 +203,10 @@ val allRenderingTests = listOf(
                 lineTo(pos.first + 15.0, pos.second + 15.0)
                 closePath()
                 style.fill = colors.grey
-                style.stroke = null
+                style.stroke = colors.blue
             }
         }
     },
-
-//    renderingTest("arc1-positive-counterclockwise") {
-//
-//        (0..15).forEach {
-//            path {
-//                pos.next()
-//                moveTo(pos.first, pos.second)
-//                arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), true)
-//                closePath()
-//                style.fill = colors.grey
-//                style.stroke = null
-//            }
-//        }
-//        (0..15).forEach {
-//            path {
-//                pos.next()
-//                moveTo(pos.first, pos.second)
-//                arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), false)
-//                closePath()
-//                style.fill = colors.grey
-//                style.stroke = null
-//            }
-//        }
-//    },
-
-//            path {
-//                next()
-//                moveTo(x, y)
-//                arc(x, y, 25.0, .25, PI / 4, true)
-//                style.fill = colors.grey
-//                style.stroke = null
-//            }
-//            path {
-//                next()
-//                moveTo(350.0, 50.0)
-//                arc(350.0, 50.0, 50.0, PI / 4, .0, true)
-//                style.stroke = colors.grey
-//                style.fill = null
-//            }
-//            path {
-//                next()
-//                moveTo(50.0, 150.0)
-//                arc(50.0, 150.0, 50.0, PI / 4, 7*PI / 4)
-//                closePath()
-//                style.fill = colors.grey
-//                style.stroke = null
-//            }
-//            path {
-//                next()
-//                moveTo(150.0, 150.0)
-//                arc(150.0, 150.0, 50.0, 7 * PI / 4, PI/4)
-//                closePath()
-//                style.fill = colors.grey
-//                style.stroke = null
-//            }
 
     renderingTest("transform") {
         var depth = 0
