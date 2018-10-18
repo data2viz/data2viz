@@ -252,7 +252,7 @@ class ScaleLinearTests : TestBase() {
 
     @Test
     fun linear_HSL() {
-        val scale = scales.continuous.linearHSL()
+        val scale = scales.colors.linearHSL()
 
         scale.domain = listOf(.0, 100.0)
         scale.range = listOf(HslColor(0.deg), HslColor(180.deg))
