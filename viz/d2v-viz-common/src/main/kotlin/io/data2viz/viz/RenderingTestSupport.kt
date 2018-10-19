@@ -33,253 +33,305 @@ val allRenderingTests = listOf(
 //        },
 
 
-    ///////////// CIRCLES /////////////////////////////////
+        ///////////// CIRCLES /////////////////////////////////
 
-    renderingTest("circle1") {
-        circle {
-            x = 200.0
-            y = 200.0
-            radius = 100.0
-            style.fill = colors.red
-        }
-    },
-    renderingTest("circle2") {
-        circle {
-            x = 200.0
-            y = 200.0
-            radius = 100.0
-            style.stroke = colors.red
-            style.strokeWidth = 20.0
-        }
-    },
-    renderingTest("circle3") {
-        circle {
-            x = 200.0
-            y = 200.0
-            radius = 100.0
-            style.stroke = colors.red
-        }
-    },
-    renderingTest("circle4") {
-        circle {
-            x = 200.0
-            y = 200.0
-            radius = 100.0
-            style.fill = 0xfdc658.color
-            style.stroke = 0x0c0887.color
-                .withAlpha(.5f)
-            style.strokeWidth = 40.0
-        }
-    },
-
-
-
-    ///////////// ARCS /////////////////////////////////
-
-    renderingTest("arc1-positive-clockwise") {
-        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
-
-        (0..15).forEach {
-            path {
-                pos = pos.next()
-                moveTo(pos.first, pos.second)
-                arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), false)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
+        renderingTest("circle1") {
+            circle {
+                x = 200.0
+                y = 200.0
+                radius = 100.0
+                style.fill = colors.red
             }
-        }
-    },
-
-    renderingTest("arc2-negative-clockwise") {
-        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
-
-        (0..15).forEach {
-            path {
-                pos = pos.next()
-                moveTo(pos.first, pos.second)
-                arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), false)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
+        },
+        renderingTest("circle2") {
+            circle {
+                x = 200.0
+                y = 200.0
+                radius = 100.0
+                style.stroke = colors.red
+                style.strokeWidth = 20.0
             }
-        }
-    },
-
-    renderingTest("arc3-positive-counterclockwise") {
-        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
-
-        (0..15).forEach {
-            path {
-                pos = pos.next()
-                moveTo(pos.first, pos.second)
-                arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), true)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
+        },
+        renderingTest("circle3") {
+            circle {
+                x = 200.0
+                y = 200.0
+                radius = 100.0
+                style.stroke = colors.red
             }
-        }
-    },
-
-    renderingTest("arc4-negative-counterclockwise") {
-        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
-
-        (0..15).forEach {
-            path {
-                pos = pos.next()
-                moveTo(pos.first, pos.second)
-                arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), true)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
+        },
+        renderingTest("circle4") {
+            circle {
+                x = 200.0
+                y = 200.0
+                radius = 100.0
+                style.fill = 0xfdc658.color
+                style.stroke = 0x0c0887.color
+                        .withAlpha(.5f)
+                style.strokeWidth = 40.0
             }
-        }
-    },
+        },
 
-    renderingTest("arc5-positive-negative-clockwise") {
-        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
-        var posNeg = 1.0
 
-        (0..15).forEach {
-            path {
-                pos = pos.next()
-                posNeg *= -1
-                moveTo(pos.first, pos.second)
-                arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
+        ///////////// ARCS /////////////////////////////////
+
+        renderingTest("arc1-positive-clockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), false)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
             }
-        }
-    },
+        },
 
-    renderingTest("arc6-positive-negative-counterclockwise") {
-        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
-        var posNeg = 1.0
+        renderingTest("arc2-negative-clockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
 
-        (0..15).forEach {
-            path {
-                pos = pos.next()
-                posNeg *= -1
-                moveTo(pos.first, pos.second)
-                arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), false)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
             }
-        }
-    },
+        },
 
-    renderingTest("arc7-checking-points-order-clockwise") {
-        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
-        var posNeg = 1.0
+        renderingTest("arc3-positive-counterclockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
 
-        (0..15).forEach {
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), true)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc4-negative-counterclockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), true)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc5-positive-negative-clockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+            var posNeg = 1.0
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    posNeg *= -1
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc6-positive-negative-counterclockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+            var posNeg = 1.0
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    posNeg *= -1
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc7-checking-points-order-clockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+            var posNeg = 1.0
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    posNeg *= -1
+                    moveTo(pos.first - 15.0, pos.second - 15.0)
+                    lineTo(pos.first - 15.0, pos.second - 5.0)
+                    arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
+                    lineTo(pos.first + 15.0, pos.second + 15.0)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = colors.blue
+                }
+            }
+        },
+
+        renderingTest("arc8-checking-points-order-counterclockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+            var posNeg = 1.0
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    posNeg *= -1
+                    moveTo(pos.first - 15.0, pos.second - 15.0)
+                    lineTo(pos.first - 15.0, pos.second - 5.0)
+                    arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
+                    lineTo(pos.first + 15.0, pos.second + 15.0)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = colors.blue
+                }
+            }
+        },
+
+        renderingTest("arc9-complex-drawing") {
             path {
-                pos = pos.next()
-                posNeg *= -1
-                moveTo(pos.first - 15.0, pos.second - 15.0)
-                lineTo(pos.first - 15.0, pos.second - 5.0)
-                arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
-                lineTo(pos.first + 15.0, pos.second + 15.0)
+                moveTo(.0, .0)
+                lineTo(20.0, 80.0)
+                moveTo(60.0, 70.0)
+                lineTo(20.0, 80.0)
+                arc(.0, 60.0, 20.0, .0, 40.0, false)
+                lineTo(100.0, 112.0)
+
+                lineTo(120.0, 180.0)
+                moveTo(160.0, 170.0)
+                lineTo(120.0, 180.0)
+                arc(100.0, 160.0, 20.0, .0, -40.0, false)
+                lineTo(200.0, 212.0)
+
+                lineTo(220.0, 280.0)
+                moveTo(260.0, 270.0)
+                lineTo(220.0, 280.0)
+                arc(200.0, 260.0, 20.0, .0, 2.0, false)
+                lineTo(300.0, 312.0)
                 closePath()
                 style.fill = colors.grey
                 style.stroke = colors.blue
             }
-        }
-    },
+        },
 
-    renderingTest("arc8-checking-points-order-counterclockwise") {
-        var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
-        var posNeg = 1.0
-
-        (0..15).forEach {
+        // TODO make it works on Android (issue with the path going over the arc fill and "delete it")
+        /*renderingTest("arc10-complex-drawing-counterclockwise") {
             path {
-                pos = pos.next()
-                posNeg *= -1
-                moveTo(pos.first - 15.0, pos.second - 15.0)
-                lineTo(pos.first - 15.0, pos.second - 5.0)
-                arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
-                lineTo(pos.first + 15.0, pos.second + 15.0)
+                moveTo(.0, .0)
+                lineTo(20.0, 80.0)
+                moveTo(60.0, 70.0)
+                lineTo(20.0, 80.0)
+                arc(.0, 60.0, 20.0, .0, 40.0, true)
+                lineTo(100.0, 112.0)
+
+                lineTo(120.0, 180.0)
+                moveTo(160.0, 170.0)
+                lineTo(120.0, 180.0)
+                arc(100.0, 160.0, 20.0, .0, -40.0, true)
+                lineTo(200.0, 212.0)
+
+                lineTo(220.0, 280.0)
+                moveTo(260.0, 270.0)
+                lineTo(220.0, 280.0)
+                arc(200.0, 260.0, 20.0, .0, 2.0, true)
+                lineTo(300.0, 312.0)
                 closePath()
                 style.fill = colors.grey
                 style.stroke = colors.blue
             }
-        }
-    },
+        },*/
 
-    renderingTest("transform") {
-        var depth = 0
-        fun addToParent(parent: Group) {
-            depth++
-            if (depth == 41) return
+        renderingTest("transform") {
+            var depth = 0
+            fun addToParent(parent: Group) {
+                depth++
+                if (depth == 41) return
 
-            with(Group()) {
-                parent.add(this)
+                with(Group()) {
+                    parent.add(this)
+                    transform {
+                        translate(x = 10.0, y = 10.0)
+                        rotate(0.1 * PI / 2)
+                    }
+                    rect {
+                        height = 10.0
+                        width = 10.0
+                        style.fill = colors.black
+                    }
+                    addToParent(this)
+                }
+                depth--
+            }
+            addToParent(group {
                 transform {
-                    translate(x = 10.0, y = 10.0)
-                    rotate(0.1 * PI / 2)
+                    translate(x = 250.0, y = 125.0)
                 }
                 rect {
                     height = 10.0
                     width = 10.0
                     style.fill = colors.black
                 }
-                addToParent(this)
+            })
+        },
+        renderingTest("path1") {
+            path {
+                moveTo(20.0, 20.0)
+                lineTo(40.0, 40.0)
+                lineTo(60.0, 20.0)
+                moveTo(80.0, 40.0)
+                lineTo(100.0, 20.0)
+                style.stroke = colors.red
             }
-            depth--
-        }
-        addToParent(group {
-            transform {
-                translate(x = 250.0, y = 125.0)
+        },
+        renderingTest("path.rect") {
+            path {
+                rect(10.0, 10.0, 200.0, 100.0)
+                style.fill = colors.red
             }
-            rect {
-                height = 10.0
-                width = 10.0
+        },
+        renderingTest("visible1") {
+            circle {
+                x = 50.0
+                y = 50.0
+                radius = 50.0
+                style.fill = colors.black
+                visible = false
+            }
+            circle {
+                x = 150.0
+                y = 50.0
+                radius = 50.0
                 style.fill = colors.black
             }
-        })
-    },
-    renderingTest("path1") {
-        path {
-            moveTo(20.0, 20.0)
-            lineTo(40.0, 40.0)
-            lineTo(60.0, 20.0)
-            moveTo(80.0, 40.0)
-            lineTo(100.0, 20.0)
-            style.stroke = colors.red
+        },
+        renderingTest("visible2-layer") {
+            activeLayer.visible = false
+            circle {
+                x = 50.0
+                y = 50.0
+                radius = 50.0
+                style.fill = colors.black
+            }
         }
-    },
-    renderingTest("path.rect") {
-        path {
-            rect(10.0, 10.0, 200.0, 100.0)
-            style.fill = colors.red
-        }
-    },
-    renderingTest("visible1") {
-        circle {
-            x = 50.0
-            y = 50.0
-            radius = 50.0
-            style.fill = colors.black
-            visible = false
-        }
-        circle {
-            x = 150.0
-            y = 50.0
-            radius = 50.0
-            style.fill = colors.black
-        }
-    },
-    renderingTest("visible2-layer") {
-        activeLayer.visible = false
-        circle {
-            x = 50.0
-            y = 50.0
-            radius = 50.0
-            style.fill = colors.black
-        }
-    }
 
 
 )
