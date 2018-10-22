@@ -32,7 +32,7 @@ fs.readdirSync(referenceFolder).forEach(file => {
         var img_tested = PNG.sync.read(png_tested);
 
         var diff_js = new PNG({width: img_ref.width, height: img_ref.height});
-        var numDiffPixels_js = pixelmatch(img_ref.data, img_tested.data, diff_js.data, img_ref.width, img_ref.height, {threshold: 0.1});
+        var numDiffPixels_js = pixelmatch(img_ref.data, img_tested.data, diff_js.data, img_ref.width, img_ref.height, {threshold: 0.2});
         console.log("Diffs pixels ref/" + suffix + " for " + name + "::" + numDiffPixels_js);
         if (numDiffPixels_js > max_diff_pixel) {
             max_diff_pixel = numDiffPixels_js;

@@ -11,6 +11,16 @@ import io.data2viz.math.PI
 @Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 data class RenderingTest(val name: String, val viz: Viz)
 
+private fun Pair<Double, Double>.next(): Pair<Double, Double> {
+    var x = first
+    var y = second
+    if (x >= 350) {
+        x = 25.0
+        y += 50.0
+    } else x += 50.0
+    return Pair(x, y)
+}
+
 @Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 val allRenderingTests = listOf(
 //        renderingTest("text1") { //add text tests when font-familly will be enabled in style.
@@ -21,6 +31,10 @@ val allRenderingTests = listOf(
 //                }
 //            }
 //        },
+
+
+        ///////////// CIRCLES /////////////////////////////////
+
         renderingTest("circle1") {
             circle {
                 x = 200.0
@@ -57,94 +71,200 @@ val allRenderingTests = listOf(
                 style.strokeWidth = 40.0
             }
         },
+
+
+        ///////////// ARCS /////////////////////////////////
+
         renderingTest("arc1-positive-clockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
 
-            var x = -25.0
-            var y = 25.0
-
-            fun next(){
-                if (x >=375.0) {
-                    x = 25.0
-                    y += 50.0
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), false)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
                 }
-                else x += 50.0
             }
-
-            path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, .0, .001 * PI)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
-            }
-            path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, +0.0, .25 * PI)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
-            }
-            path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, +0.0, 2 * PI)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
-            }
-            path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, .25 * PI, 2 * PI)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
-            }
-            path {
-                next()
-                moveTo(x, y)
-                arc(x, y, 25.0, .25 * PI, 2.25 * PI)
-                closePath()
-                style.fill = colors.grey
-                style.stroke = null
-            }
-
-//            path {
-//                moveTo(250.0, 50.0)
-//                arc(250.0, 50.0, 50.0, .0, PI / 4, true)
-//                stroke = colors.grey
-//                fill = null
-//            }
-//            path {
-//                moveTo(350.0, 50.0)
-//                arc(350.0, 50.0, 50.0, PI / 4, .0, true)
-//                stroke = colors.grey
-//                fill = null
-//            }
-//            path {
-//                moveTo(50.0, 150.0)
-//                arc(50.0, 150.0, 50.0, PI / 4, 7*PI / 4)
-//                closePath()
-//                fill = colors.grey
-//                stroke = null
-//            }
-//            path {
-//                moveTo(150.0, 150.0)
-//                arc(150.0, 150.0, 50.0, 7 * PI / 4, PI/4)
-//                closePath()
-//                fill = colors.grey
-//                stroke = null
-//            }
-
-
         },
+
+        renderingTest("arc2-negative-clockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), false)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc3-positive-counterclockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), true)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc4-negative-counterclockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), true)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc5-positive-negative-clockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+            var posNeg = 1.0
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    posNeg *= -1
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc6-positive-negative-counterclockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+            var posNeg = 1.0
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    posNeg *= -1
+                    moveTo(pos.first, pos.second)
+                    arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = null
+                }
+            }
+        },
+
+        renderingTest("arc7-checking-points-order-clockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+            var posNeg = 1.0
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    posNeg *= -1
+                    moveTo(pos.first - 15.0, pos.second - 15.0)
+                    lineTo(pos.first - 15.0, pos.second - 5.0)
+                    arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
+                    lineTo(pos.first + 15.0, pos.second + 15.0)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = colors.blue
+                }
+            }
+        },
+
+        renderingTest("arc8-checking-points-order-counterclockwise") {
+            var pos: Pair<Double, Double> = Pair(-25.0, 25.0)
+            var posNeg = 1.0
+
+            (0..15).forEach {
+                path {
+                    pos = pos.next()
+                    posNeg *= -1
+                    moveTo(pos.first - 15.0, pos.second - 15.0)
+                    lineTo(pos.first - 15.0, pos.second - 5.0)
+                    arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
+                    lineTo(pos.first + 15.0, pos.second + 15.0)
+                    closePath()
+                    style.fill = colors.grey
+                    style.stroke = colors.blue
+                }
+            }
+        },
+
+        renderingTest("arc9-complex-drawing") {
+            path {
+                moveTo(.0, .0)
+                lineTo(20.0, 80.0)
+                moveTo(60.0, 70.0)
+                lineTo(20.0, 80.0)
+                arc(.0, 60.0, 20.0, .0, 40.0, false)
+                lineTo(100.0, 112.0)
+
+                lineTo(120.0, 180.0)
+                moveTo(160.0, 170.0)
+                lineTo(120.0, 180.0)
+                arc(100.0, 160.0, 20.0, .0, -40.0, false)
+                lineTo(200.0, 212.0)
+
+                lineTo(220.0, 280.0)
+                moveTo(260.0, 270.0)
+                lineTo(220.0, 280.0)
+                arc(200.0, 260.0, 20.0, .0, 2.0, false)
+                lineTo(300.0, 312.0)
+                closePath()
+                style.fill = colors.grey
+                style.stroke = colors.blue
+            }
+        },
+
+        // TODO make it works on Android (issue with the path going over the arc fill and "delete it")
+        /*renderingTest("arc10-complex-drawing-counterclockwise") {
+            path {
+                moveTo(.0, .0)
+                lineTo(20.0, 80.0)
+                moveTo(60.0, 70.0)
+                lineTo(20.0, 80.0)
+                arc(.0, 60.0, 20.0, .0, 40.0, true)
+                lineTo(100.0, 112.0)
+
+                lineTo(120.0, 180.0)
+                moveTo(160.0, 170.0)
+                lineTo(120.0, 180.0)
+                arc(100.0, 160.0, 20.0, .0, -40.0, true)
+                lineTo(200.0, 212.0)
+
+                lineTo(220.0, 280.0)
+                moveTo(260.0, 270.0)
+                lineTo(220.0, 280.0)
+                arc(200.0, 260.0, 20.0, .0, 2.0, true)
+                lineTo(300.0, 312.0)
+                closePath()
+                style.fill = colors.grey
+                style.stroke = colors.blue
+            }
+        },*/
+
         renderingTest("transform") {
             var depth = 0
-            fun addToParent(parent:Group){
+            fun addToParent(parent: Group) {
                 depth++
-                if(depth == 41) return
+                if (depth == 41) return
 
                 with(Group()) {
                     parent.add(this)
@@ -174,11 +294,11 @@ val allRenderingTests = listOf(
         },
         renderingTest("path1") {
             path {
-                moveTo(20.0,20.0)
-                lineTo(40.0,40.0)
-                lineTo(60.0,20.0)
-                moveTo(80.0,40.0)
-                lineTo(100.0,20.0)
+                moveTo(20.0, 20.0)
+                lineTo(40.0, 40.0)
+                lineTo(60.0, 20.0)
+                moveTo(80.0, 40.0)
+                lineTo(100.0, 20.0)
                 style.stroke = colors.red
             }
         },
@@ -214,7 +334,6 @@ val allRenderingTests = listOf(
         }
 
 
-
 )
 
 fun renderingTest(name: String, init: Viz.() -> Unit): RenderingTest {
@@ -225,5 +344,5 @@ fun renderingTest(name: String, init: Viz.() -> Unit): RenderingTest {
         init()
     }
 
-    return RenderingTest(name,viz)
+    return RenderingTest(name, viz)
 }

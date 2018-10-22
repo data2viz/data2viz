@@ -10,18 +10,21 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
+private const val EPSILON_FLOAT = 0.0001f
+private const val EPSILON_CIRCLE = 360 - EPSILON_FLOAT
+
 fun PathNode.render(renderer: AndroidCanvasRenderer) {
 
     val canvas = renderer.canvas
 
-    fun PathNode.last(index:Int): PathCommand {
-        require(index>0) {"Index should be up to 0"}
+    fun PathNode.last(index: Int): PathCommand {
+        require(index > 0) { "Index should be up to 0" }
         return path.commands[index - 1]
     }
 
     val path = android.graphics.Path()
 
-    fun arcTo(lastX: Double, lastY: Double, cpX: Double, cpY:Double, x: Double, y: Double, r: Double) {
+    fun arcTo(lastX: Double, lastY: Double, cpX: Double, cpY: Double, x: Double, y: Double, r: Double) {
 
         with(renderer) {
 
@@ -40,40 +43,40 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
                     else
                         (-180f - alpha.radToDeg.toFloat()) % 360f
 
-//            paint.color = android.graphics.Color.BLACK
             path.moveTo(lastX.dp, lastY.dp)
             path.arcTo(
                     RectF((cx - r).dp, (cy - r).dp, (cx + r).dp, (cy + r).dp),
                     startAngle,
                     sweepAngle, false)
             path.lineTo(x.dp, y.dp)
-//            canvas.drawPath(path, paint)
         }
     }
 
     this@render.path.commands.forEachIndexed { index, cmd ->
-        with(renderer){
+        with(renderer) {
             when (cmd) {
                 is MoveTo -> path.moveTo(cmd.x.dp, cmd.y.dp)
                 is LineTo -> path.lineTo(cmd.x.dp, cmd.y.dp)
                 is QuadraticCurveTo -> path.quadTo(cmd.cpx.dp, cmd.cpy.dp, cmd.x.dp, cmd.y.dp)
                 is BezierCurveTo -> path.cubicTo(cmd.cpx1.dp, cmd.cpy1.dp, cmd.cpx2.dp, cmd.cpy2.dp, cmd.x.dp, cmd.y.dp)
-                is Arc -> {
-                    val left = (cmd.centerX - cmd.radius).dp
-                    val right = (cmd.centerX + cmd.radius).dp
-                    val top = (cmd.centerY - cmd.radius).dp
-                    val bottom = (cmd.centerY + cmd.radius).dp
-                    val startAngle = cmd.startAngle.radToDegrees()
-                    var sweepAngle = (cmd.endAngle.radToDegrees() + 360 - cmd.startAngle.radToDegrees()) % 360
-                    if (cmd.counterClockWise) {
-                        sweepAngle -= 360
-                    }
-//                    println("startAngle:: $startAngle sweepAngle:: $sweepAngle")
-                    path.arcTo(RectF(left, top, right, bottom), startAngle, sweepAngle)
-                }
                 is ArcTo -> arcTo(last(index).x, last(index).y, cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
-                is Rect -> path.addRect(cmd.x.dp, cmd.y.dp, (cmd.x + cmd.w).dp, (cmd.y + cmd.h).dp, android.graphics.Path.Direction.CW )
+                is Rect -> path.addRect(cmd.x.dp, cmd.y.dp, (cmd.x + cmd.w).dp, (cmd.y + cmd.h).dp, android.graphics.Path.Direction.CW)
                 is ClosePath -> path.close()
+                is Arc -> {
+                    val r = cmd.radius
+                    val rect = RectF((cmd.centerX - r).dp, (cmd.centerY - r).dp, (cmd.centerX + r).dp, (cmd.centerY + r).dp)
+                    val startAngle = cmd.startAngle.radToDegrees()
+                    var sweepAngle = cmd.endAngle.radToDegrees() - startAngle
+
+                    if (!cmd.counterClockWise && sweepAngle < -EPSILON_FLOAT) sweepAngle = (sweepAngle % 360) + 360
+                    if (cmd.counterClockWise && sweepAngle > EPSILON_FLOAT) sweepAngle = (sweepAngle % 360) - 360
+
+                    // on Android an arc with an angle of 360 is not drawn !
+                    if (sweepAngle.absoluteValue > 360) sweepAngle = EPSILON_CIRCLE
+                    else if (sweepAngle.absoluteValue < -360) sweepAngle = -EPSILON_CIRCLE
+
+                    path.arcTo(rect, startAngle, sweepAngle)
+                }
                 else -> error("Unknown path command:: ${cmd::class}")
             }
         }
@@ -91,3 +94,4 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
         canvas.drawPath(path, paint)
     }
 }
+
