@@ -1,5 +1,5 @@
 import io.data2viz.path.CanvasDrawContext
-import io.data2viz.path.SvgPath
+import io.data2viz.path.Path
 import io.data2viz.shape.*
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
@@ -75,7 +75,7 @@ private fun render(title: String, generator: ArcGenerator<ArcValues>, data: ArcV
     document.getElementById("d2vSamples")!!.appendElement("h2") {
         textContent = title
     }
-    renderSvg(generator.arc(data, SvgPath()), "#cfc", "d2vSamples")
+    renderSvg(generator.arc(data, Path()), "#cfc", "d2vSamples")
     renderCanvas(generator, data)
 }
 
@@ -115,7 +115,7 @@ fun createSvgElement(name: String): Element {
     return document.createElementNS(namespaceSvg, name)
 }
 
-private fun renderSvg(svgPath: SvgPath, fill: String, elementId: String) {
+private fun renderSvg(svgPath: Path, fill: String, elementId: String) {
     with(document.getElementById(elementId)!!) {
         appendChild(createSvgElement("svg").apply {
             setAttribute("width", "200")
@@ -123,7 +123,7 @@ private fun renderSvg(svgPath: SvgPath, fill: String, elementId: String) {
             setAttribute("stroke", "green")
             setAttribute("fill", fill)
             appendChild(createSvgElement("path").apply {
-                val line = svgPath.path
+                val line = svgPath.svgPath
                 setAttribute("d", line)
                 setAttribute("transform", "translate(100,50)");
             })
@@ -132,7 +132,7 @@ private fun renderSvg(svgPath: SvgPath, fill: String, elementId: String) {
 }
 
 private fun renderPieSvg(arcGenerator: ArcGenerator<ArcValues>, arcParams: Array<ArcParams<WData>>, arcParameters: ArcValues, fill: String, elementId: String) {
-    val svgPath = SvgPath()
+    val svgPath = Path()
     with(document.getElementById(elementId)!!) {
         appendChild(createSvgElement("svg").apply {
             setAttribute("width", "200")
@@ -143,7 +143,7 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<ArcValues>, arcParams: Array
                 appendChild(createSvgElement("path").apply {
                     arcGenerator.startAngle = {arcParam.startAngle}
                     arcGenerator.endAngle = {arcParam.endAngle}
-                    val line = arcGenerator.arc(arcParameters, svgPath).path
+                    val line = arcGenerator.arc(arcParameters, svgPath).svgPath
                     setAttribute("d", line)
                     setAttribute("transform", "translate(100,50)");
                 })

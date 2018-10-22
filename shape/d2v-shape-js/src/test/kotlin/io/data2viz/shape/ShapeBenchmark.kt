@@ -1,7 +1,7 @@
 package io.data2viz.shape
 
+import io.data2viz.path.Path
 import io.data2viz.shape.curve.Point
-import io.data2viz.path.SvgPath
 
 
 var lineGenerator = line<Point> {
@@ -67,6 +67,6 @@ val points = listOf(
 
 @JsName("generatePath")
 fun generatePath() {
-    lineGenerator.render(points, SvgPath())
+    lineGenerator.render(points, Path())
 }
 

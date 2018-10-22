@@ -47,8 +47,8 @@ class GeoPath(val projection: Projection, val context: PathAdapter?) {
      * However, distinct path elements are useful for styling and interaction (e.g., click or mouseover).
      */
     fun path(geo: GeoJsonObject): PathAdapter {
-        requireNotNull(context) { "Cannot use GeoPath.path() without a valid context." }
-        requireNotNull(contextStream) { "Cannot use GeoPath.path() without a valid context." }
+        requireNotNull(context) { "Cannot use GeoPath.svgPath() without a valid context." }
+        requireNotNull(contextStream) { "Cannot use GeoPath.svgPath() without a valid context." }
         stream(geo, projection.stream(contextStream!!))
         return context!!
     }

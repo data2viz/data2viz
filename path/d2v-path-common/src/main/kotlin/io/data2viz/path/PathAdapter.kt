@@ -2,8 +2,6 @@ package io.data2viz.path
 
 import kotlin.math.*
 
-fun svgPath(): SvgPath = SvgPath()
-
 
 // TODO present in math remove from here ?
 internal const val TAU = 2 * PI

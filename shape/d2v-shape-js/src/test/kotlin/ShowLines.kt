@@ -1,8 +1,8 @@
-import io.data2viz.shape.curve.Point
 import io.data2viz.path.CanvasDrawContext
+import io.data2viz.path.Path
 import io.data2viz.path.PathAdapter
-import io.data2viz.path.SvgPath
 import io.data2viz.shape.*
+import io.data2viz.shape.curve.Point
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLCanvasElement
@@ -115,7 +115,7 @@ private fun render(title: String, lineGen:LineGenerator<Point>, curve: (PathAdap
     }
     lineGen.curve = curve
     renderCanvas(lineGen, arrayOfPoints)
-    renderSvg(lineGen.render(arrayOfPoints, SvgPath()), lineGen, "none", "d2vSamples", arrayOfPoints)
+    renderSvg(lineGen.render(arrayOfPoints, Path()), lineGen, "none", "d2vSamples", arrayOfPoints)
 }
 
 private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoints: List<Point>) {
@@ -124,7 +124,7 @@ private fun renderArea(title: String, curve: (PathAdapter) -> Curve, arrayOfPoin
     }
     areaGenerator.curve = curve
     renderAreaCanvas(arrayOfPoints)
-    renderSvg(areaGenerator.render(arrayOfPoints, SvgPath()), lineGenerator, "#cfc", "d2vSamplesArea", arrayOfPoints)
+    renderSvg(areaGenerator.render(arrayOfPoints, Path()), lineGenerator, "#cfc", "d2vSamplesArea", arrayOfPoints)
 }
 
 private fun newCanvas(elementId: String): HTMLCanvasElement {
@@ -166,7 +166,7 @@ private fun renderAreaCanvas(arrayOfPoints: List<Point>) {
 }
 
 
-private fun renderSvg(svgPath: SvgPath, lineGen:LineGenerator<Point>, fill: String, elementId: String, arrayOfPoints:List<Point>) {
+private fun renderSvg(svgPath: Path, lineGen:LineGenerator<Point>, fill: String, elementId: String, arrayOfPoints:List<Point>) {
 
     fun createSvgElement(name: String): Element {
         val namespaceSvg = "http://www.w3.org/2000/svg"
@@ -180,7 +180,7 @@ private fun renderSvg(svgPath: SvgPath, lineGen:LineGenerator<Point>, fill: Stri
             setAttribute("stroke", "green")
             setAttribute("fill", fill)
             appendChild(createSvgElement("path").apply {
-                val line = svgPath.path
+                val line = svgPath.svgPath
                 setAttribute("d", line)
             })
         }

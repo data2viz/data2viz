@@ -1,6 +1,7 @@
 import io.data2viz.path.CanvasDrawContext
-import io.data2viz.path.SvgPath
-import io.data2viz.shape.*
+import io.data2viz.path.Path
+import io.data2viz.shape.SymbolGenerator
+import io.data2viz.shape.render
 import io.data2viz.shape.symbol.*
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
@@ -60,7 +61,7 @@ fun render(symbolGenerator: SymbolGenerator<String>, symbolName: String) {
             setAttribute("height", "100")
             setAttribute("stroke", "green")
             appendChild(createSvgElement("path").apply {
-                val line = symbolGenerator.render(symbolName, SvgPath()).path
+                val line = symbolGenerator.render(symbolName, Path()).svgPath
                 setAttribute("d", line)
                 setAttribute("fill", "#cfc")
                 setAttribute("transform", "translate(32,32)");

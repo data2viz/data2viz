@@ -1,9 +1,5 @@
 package io.data2viz.shape
 
-import io.data2viz.path.SvgPath
-import kotlin.test.Test
-import kotlin.test.assertEquals
-
 class CurveMonotoneXTest : CurveTest(curves.monotoneY, { it.y != 40 }) {
 
     val data = arrayOf(

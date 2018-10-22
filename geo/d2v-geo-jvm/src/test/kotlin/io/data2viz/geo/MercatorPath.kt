@@ -101,7 +101,7 @@ class MercatorPath : Application() {
             
             val newTimer = Timer()
             geoPath.path(geoJsonObject)
-            newTimer.log("path update")
+            newTimer.log("svgPath update")
         }
         
         primaryStage!!.scene = (Scene(root, width, height))

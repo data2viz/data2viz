@@ -1,7 +1,7 @@
 package io.data2viz.shape.curve
 
+import io.data2viz.path.Path
 import io.data2viz.path.PathAdapter
-import io.data2viz.path.SvgPath
 import io.data2viz.shape.Curve
 import io.data2viz.shape.LineGenerator
 import io.data2viz.shape.const
@@ -20,8 +20,8 @@ open class CurveTest(val curve: (PathAdapter) -> Curve, val defined: (Point) -> 
             x = { it.x.toDouble() }
             y = { it.y.toDouble() }
         }
-        val context = SvgPath()
-        return lineGenerator.render(listOf(*points), context).path.round()
+        val context = Path()
+        return lineGenerator.render(listOf(*points), context).svgPath.round()
     }
 
 }

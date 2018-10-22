@@ -2,7 +2,7 @@ package io.data2viz.hexbin
 
 import io.data2viz.geom.Extent
 import io.data2viz.geom.Point
-import io.data2viz.path.SvgPath
+import io.data2viz.path.Path
 import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
 import kotlin.test.Test
@@ -12,7 +12,7 @@ private fun pt(a: Int, b: Int) = Point(a.toDouble(), b.toDouble())
 
 class HexbinTests : TestBase() {
 
-    fun path(): SvgPath = SvgPath()
+    fun path(): Path = Path()
 
     val points = listOf(
         pt(0, 0), pt(0, 1), pt(0, 2),
@@ -111,7 +111,7 @@ class HexbinTests : TestBase() {
         val path = path()
         hexbin.hexagon(path, Point.origin)
 
-        path.path.round() shouldBe "M0,-1L0.866025,-0.5L0.866025,0.5L0,1.0L-0.866025,0.5L-0.866025,-0.5Z".round()
+        path.svgPath.round() shouldBe "M0,-1L0.866025,-0.5L0.866025,0.5L0,1.0L-0.866025,0.5L-0.866025,-0.5Z".round()
     }
 
     @Test
@@ -123,12 +123,12 @@ class HexbinTests : TestBase() {
 
         val path = path()
         hexbin.hexagon(path, Point.origin)
-        path.path.round() shouldBe "M0,-2L1.732051,-1L1.732051,1L0,2L-1.732051,1L-1.732051,-1Z".round()
+        path.svgPath.round() shouldBe "M0,-2L1.732051,-1L1.732051,1L0,2L-1.732051,1L-1.732051,-1Z".round()
 
         path.clearPath()
         hexbin.radius = 4.0
         hexbin.hexagon(path, Point.origin)
-        path.path.round() shouldBe "M0,-4L3.464102,-2L3.464102,2L0,4L-3.464102,2L-3.464102,-2Z".round()
+        path.svgPath.round() shouldBe "M0,-4L3.464102,-2L3.464102,2L0,4L-3.464102,2L-3.464102,-2Z".round()
     }
 
     @Test
@@ -138,11 +138,11 @@ class HexbinTests : TestBase() {
 
         val path = path()
         hexbin.hexagon(path, Point.origin, 2.0)
-        path.path.round() shouldBe "M0,-2L1.732051,-1L1.732051,1L0,2L-1.732051,1L-1.732051,-1Z".round()
+        path.svgPath.round() shouldBe "M0,-2L1.732051,-1L1.732051,1L0,2L-1.732051,1L-1.732051,-1Z".round()
 
         path.clearPath()
         hexbin.hexagon(path, Point.origin, 4.0)
-        path.path.round() shouldBe "M0,-4L3.464102,-2L3.464102,2L0,4L-3.464102,2L-3.464102,-2Z".round()
+        path.svgPath.round() shouldBe "M0,-4L3.464102,-2L3.464102,2L0,4L-3.464102,2L-3.464102,-2Z".round()
     }
 
     @Test

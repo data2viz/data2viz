@@ -3,7 +3,6 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geojson.*
 import io.data2viz.math.toRadians
-import io.data2viz.path.svgPath
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
