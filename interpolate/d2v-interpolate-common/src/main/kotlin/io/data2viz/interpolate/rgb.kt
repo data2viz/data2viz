@@ -37,3 +37,4 @@ fun interpolateRgbBasis(colors: List<Color>, cyclical: Boolean = false): (Number
 }
 
 fun interpolateRgbBasisClosed(colors: List<Color>) = interpolateRgbBasis(colors, true)
+fun interpolateRgbDefault(start:Color, end:Color) = interpolateRgb(start, end, 1.0)

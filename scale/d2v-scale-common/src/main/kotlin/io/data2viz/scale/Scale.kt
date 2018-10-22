@@ -32,45 +32,45 @@ interface StrictlyContinuousDomain<D> {
     var domain: StrictlyContinuous<D>
 }
 
-interface ContinuousRangeScale<D, R>: Scale<D, R>, FirstLastRange<D,R>{
+interface ContinuousRangeScale<D, R> : Scale<D, R>, FirstLastRange<D, R> {
     var range: List<R>
     override fun start() = range.first()
     override fun end() = range.last()
 }
 
 interface DiscreteRange<R> {
-    var range:List<R>
+    var range: List<R>
 }
 
-interface StrictlyContinuousRange<D, R>: FirstLastRange<D, R> {
+interface StrictlyContinuousRange<D, R> : FirstLastRange<D, R> {
     var range: StrictlyContinuous<R>
     override fun start() = range.start
     override fun end() = range.end
 }
 
-interface FirstLastRange<D,R>: Scale<D,R>{
-    fun start():R
-    fun end():R
+interface FirstLastRange<D, R> : Scale<D, R> {
+    fun start(): R
+    fun end(): R
 }
 
 /**
  * A stricly continuous dimension is only defined by its start and end.
  * There is not intermediary value.
  */
-data class StrictlyContinuous<D>(val start:D, val end:D)
+data class StrictlyContinuous<D>(val start: D, val end: D)
 
-fun <D> intervalOf(start:D, end:D) = StrictlyContinuous(start,end)
-fun <D> intervalOf(vararg  values:D) = StrictlyContinuous(values.first(), values.last())
+fun <D> intervalOf(start: D, end: D) = StrictlyContinuous(start, end)
+fun <D> intervalOf(vararg values: D) = StrictlyContinuous(values.first(), values.last())
 
 
 /**
  * Indicates a scale for which the resulting R
  */
-interface ClampableScale  {
+interface ClampableScale {
     val clamp: Boolean
 }
 
-interface NiceableScale<D> :ContinuousDomain<D> {
+interface NiceableScale<D> : ContinuousDomain<D> {
     fun nice(count: Int = 10)
 }
 
@@ -81,108 +81,208 @@ interface InvertableScale<D, R> : Scale<D, R> {
 /**
  * Can provide ticks from Domain D.
  */
-interface Tickable<D>{
+interface Tickable<D> {
     fun ticks(count: Int = 10): List<D>
 }
 
-object scales{
+/**
+ * Access the data2viz collection of scales:
+ *  - Continuous scales : linear, power, log, identity, time...
+ */
+object scales {
 
-    fun <D, R> ordinal() = OrdinalScale<D, R>()
-    fun <R> quantile(): QuantileScale<R> = QuantileScale()
-    fun <R> quantize(): QuantizeScale<R> = QuantizeScale()
-    fun <R> threshold(): ThresholdScale<R> = ThresholdScale()
-    fun <D> point() = PointScale<D>()
-    fun <D> band() = BandScale<D>()
+    fun <D, R> ordinal(init: OrdinalScale<D, R>.() -> Unit = {}) = OrdinalScale<D, R>().apply(init)
+    fun <R> quantile(init: QuantileScale<R>.() -> Unit = {}): QuantileScale<R> = QuantileScale<R>().apply(init)
+    fun <R> quantize(init: QuantizeScale<R>.() -> Unit = {}): QuantizeScale<R> = QuantizeScale<R>().apply(init)
+    fun <R> threshold(init: ThresholdScale<R>.() -> Unit = {}): ThresholdScale<R> = ThresholdScale<R>().apply(init)
+    fun <D> point(init: PointScale<D>.() -> Unit = {}) = PointScale<D>().apply(init)
+    fun <D> band(init: BandScale<D>.() -> Unit = {}) = BandScale<D>().apply(init)
     fun <D> band(domain: List<D>, init: BandScale<D>.() -> Unit) =
-            BandScale<D>().apply {
-                this.domain = domain
-                init(this)
+        BandScale<D>().apply {
+            this.domain = domain
+            init(this)
         }
 
 
+    /**
+     * Continuous scales map a continuous, quantitative input domain to a continuous output range.
+     * If the range is also numeric, the mapping may be inverted.
+     * Available continuous scales : linear, power, log, identity or time.
+     */
     object continuous {
 
-        fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
+        internal fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
 
-        fun log(base: Double = 10.0, init:ContinuousScale<Double, Double>.() -> Unit = {}): ContinuousScale<Double, Double> =
-                LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
+        fun log(
+            base: Double = 10.0,
+            init: ContinuousScale<Double, Double>.() -> Unit = {}
+        ): ContinuousScale<Double, Double> =
+            LogScale(base, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 
         /**
          * TODO Test
          */
         fun logRound(base: Double = 10.0): ContinuousScale<Double, Double> =
-                LogScale(base, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
+            LogScale(base, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
 
 
         /**
          * Identity scales are a special case of linear scales where the domain and range are identical;
          * the scale and its invert method are thus the identity function. These scales are occasionally useful when
          * working with pixel coordinates, say in conjunction with an axis or brush.
-         * Identity scales do not support rangeRound, clamp or interpolate.
          */
         fun identity() = LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply {
             domain = listOf(.0, 1.0)
             range = listOf(.0, 1.0)
         }
 
-        fun linear(init:LinearScale<Double>.() -> Unit = {}): LinearScale<Double> = LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
-        fun linearRound(): LinearScale<Double> = LinearScale(::interpolateRound, ::uninterpolateNumber, naturalOrder())
-        fun linearHSL(): LinearScale<HslColor> = LinearScale(::interpolateHsl)
+        fun linear(init: LinearScale<Double>.() -> Unit = {}) =
+            LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
+
+        fun linearRound(init: LinearScale<Double>.() -> Unit = {}) =
+            LinearScale(::interpolateRound, ::uninterpolateNumber, naturalOrder()).apply(init)
+
+        fun pow(exponent: Double = 1.0, init: PowerScale<Double>.() -> Unit = {}) =
+            PowerScale(exponent, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
+
+        fun powRound(exponent: Double = 1.0, init: PowerScale<Double>.() -> Unit = {}) =
+            PowerScale(exponent, ::interpolateRound, ::uninterpolateNumber, naturalOrder()).apply(init)
 
 
-        fun pow(exponent: Double = 1.0): PowerScale<Double> = PowerScale(exponent, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
-        fun powRound(exponent: Double = 1.0): PowerScale<Double> = PowerScale(exponent, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
+        fun sqrt(init: PowerScale<Double>.() -> Unit = {}) =
+            PowerScale(.5, ::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 
-        fun sqrt(): PowerScale<Double> = PowerScale(.5, ::interpolateNumber, ::uninterpolateNumber, naturalOrder())
-        fun sqrtRound(): PowerScale<Double> = PowerScale(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder())
+        fun sqrtRound(init: PowerScale<Double>.() -> Unit = {}) =
+            PowerScale(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder()).apply(init)
 
-        fun time(): TimeScale<Double> = TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder())
+        fun time(init: TimeScale<Double>.() -> Unit = {}) =
+            TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
     }
 
     object colors {
 
-        fun <D> category10()       = OrdinalScale<D, Color>(EncodedColors.category10.colors )
-        fun <D> category20()       = OrdinalScale<D, Color>(EncodedColors.category20.colors )
-        fun <D> category20b()      = OrdinalScale<D, Color>(EncodedColors.category20b.colors)
-        fun <D> category20c()      = OrdinalScale<D, Color>(EncodedColors.category20c.colors)
-        /*fun <D> categoryViridis()  = OrdinalScale<D, Color>(EncodedColors.viridis.colors    )
-        fun <D> categoryMagma()    = OrdinalScale<D, Color>(EncodedColors.magma.colors      )
-        fun <D> categoryInferno()  = OrdinalScale<D, Color>(EncodedColors.inferno.colors    )
-        fun <D> categoryPlasma()   = OrdinalScale<D, Color>(EncodedColors.plasma.colors     )*/
+        fun linearHSL(init: LinearScale<HslColor>.() -> Unit = {}) =
+            LinearScale(::interpolateHsl).apply(init)
 
-        fun sequentialBrBG()    = SequentialScale(interpolateRgbBasis(EncodedColors.BrBG.last().colors))
-        fun sequentialPiYG()    = SequentialScale(interpolateRgbBasis(EncodedColors.PiYG.last().colors))
-        fun sequentialPRGn()    = SequentialScale(interpolateRgbBasis(EncodedColors.PRGn.last().colors))
-        fun sequentialPuOR()    = SequentialScale(interpolateRgbBasis(EncodedColors.PuOR.last().colors))
-        fun sequentialRdBU()    = SequentialScale(interpolateRgbBasis(EncodedColors.RdBU.last().colors))
-        fun sequentialRdGY()    = SequentialScale(interpolateRgbBasis(EncodedColors.RdGY.last().colors))
-        fun sequentialRdYlBu()  = SequentialScale(interpolateRgbBasis(EncodedColors.RdYlBu.last().colors))
-        fun sequentialRdYlGn()  = SequentialScale(interpolateRgbBasis(EncodedColors.RdYlGn.last().colors))
-        fun sequentialSpectral()= SequentialScale(interpolateRgbBasis(EncodedColors.spectral.last().colors))
+        fun linearRGB(init: LinearScale<Color>.() -> Unit = {}) =
+            LinearScale(::interpolateRgbDefault).apply(init)
 
-        fun sequentialViridis() = SequentialScale(interpolateRgbBasis(EncodedColors.viridis.colors))
-        fun sequentialMagma()   = SequentialScale(interpolateRgbBasis(EncodedColors.magma.colors))
-        fun sequentialInferno() = SequentialScale(interpolateRgbBasis(EncodedColors.inferno.colors))
-        fun sequentialPlasma()  = SequentialScale(interpolateRgbBasis(EncodedColors.plasma.colors))
+        fun <D> category10(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.category10.colors).apply(init)
 
-        fun sequentialBuGN()    = SequentialScale(interpolateRgbBasis(EncodedColors.BuGN.last().colors))
-        fun sequentialBuPu()    = SequentialScale(interpolateRgbBasis(EncodedColors.BuPu.last().colors))
-        fun sequentialGnBu()    = SequentialScale(interpolateRgbBasis(EncodedColors.GnBu.last().colors))
-        fun sequentialOrRd()    = SequentialScale(interpolateRgbBasis(EncodedColors.OrRd.last().colors))
-        fun sequentialPuBu()    = SequentialScale(interpolateRgbBasis(EncodedColors.PuBu.last().colors))
-        fun sequentialPuBuGn()  = SequentialScale(interpolateRgbBasis(EncodedColors.PuBuGn.last().colors))
-        fun sequentialPuRd()    = SequentialScale(interpolateRgbBasis(EncodedColors.PuRd.last().colors))
-        fun sequentialRdPu()    = SequentialScale(interpolateRgbBasis(EncodedColors.RdPu.last().colors))
-        fun sequentialYlGn()    = SequentialScale(interpolateRgbBasis(EncodedColors.YlGn.last().colors))
-        fun sequentialYlGnbU()  = SequentialScale(interpolateRgbBasis(EncodedColors.YlGnbU.last().colors))
-        fun sequentialYlGnBr()  = SequentialScale(interpolateRgbBasis(EncodedColors.YlGnBr.last().colors))
-        fun sequentialYlGnRd()  = SequentialScale(interpolateRgbBasis(EncodedColors.YlGnRd.last().colors))
-        fun sequentialBlues()   = SequentialScale(interpolateRgbBasis(EncodedColors.blues.last().colors))
-        fun sequentialGreens()  = SequentialScale(interpolateRgbBasis(EncodedColors.greens.last().colors))
-        fun sequentialGreys()   = SequentialScale(interpolateRgbBasis(EncodedColors.greys.last().colors))
-        fun sequentialOranges() = SequentialScale(interpolateRgbBasis(EncodedColors.oranges.last().colors))
-        fun sequentialPurples() = SequentialScale(interpolateRgbBasis(EncodedColors.purples.last().colors))
-        fun sequentialReds()    = SequentialScale(interpolateRgbBasis(EncodedColors.reds.last().colors))
+        fun <D> category20(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.category20.colors).apply(init)
+
+        fun <D> category20b(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.category20b.colors).apply(init)
+
+        fun <D> category20c(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.category20c.colors).apply(init)
+
+        fun <D> categoryViridis(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.viridis.colors).apply(init)
+
+        fun <D> categoryMagma(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.magma.colors).apply(init)
+
+        fun <D> categoryInferno(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.inferno.colors).apply(init)
+
+        fun <D> categoryPlasma(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.plasma.colors).apply(init)
+
+        fun sequentialBrBG(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.BrBG.last().colors)).apply(init)
+
+        fun sequentialPiYG(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.PiYG.last().colors)).apply(init)
+
+        fun sequentialPRGn(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.PRGn.last().colors)).apply(init)
+
+        fun sequentialPuOR(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.PuOR.last().colors)).apply(init)
+
+        fun sequentialRdBU(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.RdBU.last().colors)).apply(init)
+
+        fun sequentialRdGY(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.RdGY.last().colors)).apply(init)
+
+        fun sequentialRdYlBu(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.RdYlBu.last().colors)).apply(init)
+
+        fun sequentialRdYlGn(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.RdYlGn.last().colors)).apply(init)
+
+        fun sequentialSpectral(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.spectral.last().colors)).apply(init)
+
+        fun sequentialViridis(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.viridis.colors)).apply(init)
+
+        fun sequentialMagma(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.magma.colors)).apply(init)
+
+        fun sequentialInferno(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.inferno.colors)).apply(init)
+
+        fun sequentialPlasma(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.plasma.colors)).apply(init)
+
+        fun sequentialBuGN(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.BuGN.last().colors)).apply(init)
+
+        fun sequentialBuPu(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.BuPu.last().colors)).apply(init)
+
+        fun sequentialGnBu(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.GnBu.last().colors)).apply(init)
+
+        fun sequentialOrRd(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.OrRd.last().colors)).apply(init)
+
+        fun sequentialPuBu(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.PuBu.last().colors)).apply(init)
+
+        fun sequentialPuBuGn(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.PuBuGn.last().colors)).apply(init)
+
+        fun sequentialPuRd(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.PuRd.last().colors)).apply(init)
+
+        fun sequentialRdPu(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.RdPu.last().colors)).apply(init)
+
+        fun sequentialYlGn(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.YlGn.last().colors)).apply(init)
+
+        fun sequentialYlGnbU(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.YlGnbU.last().colors)).apply(init)
+
+        fun sequentialYlGnBr(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.YlGnBr.last().colors)).apply(init)
+
+        fun sequentialYlGnRd(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.YlGnRd.last().colors)).apply(init)
+
+        fun sequentialBlues(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.blues.last().colors)).apply(init)
+
+        fun sequentialGreens(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.greens.last().colors)).apply(init)
+
+        fun sequentialGreys(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.greys.last().colors)).apply(init)
+
+        fun sequentialOranges(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.oranges.last().colors)).apply(init)
+
+        fun sequentialPurples(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.purples.last().colors)).apply(init)
+
+        fun sequentialReds(init: SequentialScale<Color>.() -> Unit = {}) =
+            SequentialScale(interpolateRgbBasis(EncodedColors.reds.last().colors)).apply(init)
 
     }
 }
