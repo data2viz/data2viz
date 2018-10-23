@@ -22,9 +22,9 @@ class ChordJfx : Application() {
         println("Building viz")
         val root = Group()
         stage?.let {
-            it.scene = (Scene(root, chordWidth, chordHeight))
+            it.scene = (Scene(root, chordSize.width, chordSize.height))
             it.show()
-            val canvas = Canvas(chordWidth, chordHeight)
+            val canvas = Canvas(chordSize.width, chordSize.height)
             root.children.add(canvas)
             val viz = chordViz()
             JFxVizRenderer(canvas, viz)

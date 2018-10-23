@@ -10,6 +10,7 @@ import io.data2viz.chord.Chords
 import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
 import io.data2viz.geom.Path
+import io.data2viz.geom.Size
 import io.data2viz.shape.arcBuilder
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
@@ -44,9 +45,9 @@ val movies = listOf(
 val avengers = listOf(blackWidow, captainAmerica, hawkeye, theHulk, ironMan, thor)
 val colors = listOf(0x301E1E, 0x083E77, 0x342350, 0x567235, 0x8B161C, 0xDF7C00).map { Color(it) }
 
-const val chordWidth = 600.0
-const val chordHeight = chordWidth
-val outer = minOf(chordWidth, chordHeight) * 0.5 - 40.0
+
+val chordSize = Size(600.0, 600.0)
+val outer = minOf(chordSize.width, chordSize.height) * 0.5 - 40.0
 val inner = outer - 30
 
 val chord = ChordLayout<Avenger>().apply {
@@ -68,8 +69,7 @@ val ribbon: (Chord, Path) -> Unit = io.data2viz.chord.ribbon(inner)
 
 fun chordViz(): Viz = viz {
 
-    width = chordWidth
-    height = chordHeight
+    size = chordSize
 
     group {
         //todo create a center function
