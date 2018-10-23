@@ -4,8 +4,10 @@ matrix:
       jdk: oraclejdk8
       addons:
         chrome: stable # have Travis install chrome stable.
-        packages:
-          - oracle-java8-installer
+        apt:
+          packages:
+            - oracle-java8-installer
+            - xvfb
       dist: trusty # needs Ubuntu Trusty
       # Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
       # See https://github.com/travis-ci/travis-ci/issues/8836
@@ -17,13 +19,6 @@ matrix:
         - $HOME/.m2
         - $HOME/.gradle
 
-      # configure xvfb screen.
-      before_install:
-      - "export DISPLAY=:99.0"
-      - "sh -e /etc/init.d/xvfb start"
-
-      # skip install stage.
-      install: true
     - language: android
       android:
         components:
@@ -45,4 +40,4 @@ matrix:
         apt:
           packages:
             - xvfb
-      script: xvfb-run ./gradlew check -Pinclude_android=true -Pinclude_js=false
+      script: xvfb-run ./gradlew check -Pinclude_android=true -Pinclude_js=false -Pinclude_jfx=false
