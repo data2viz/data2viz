@@ -4,7 +4,9 @@ import io.data2viz.shape.ArcGenerator
 import io.data2viz.shape.arc
 import io.data2viz.shape.pi
 import io.data2viz.shape.tau
+import org.w3c.dom.Document
 import org.w3c.dom.Text
+import org.w3c.dom.svg.SVGElement
 import kotlin.browser.document
 import kotlin.math.sqrt
 
@@ -165,6 +167,8 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: Stri
         })
     }
 }
+
+fun createSvgElement(name: String): SVGElement  = document.createElementNS("http://www.w3.org/2000/svg", name) as SVGElement
 
 fun createTextNode(content: String): Text {
     return document.createTextNode(content)
