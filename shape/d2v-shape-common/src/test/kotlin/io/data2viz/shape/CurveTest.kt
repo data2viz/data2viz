@@ -19,8 +19,8 @@ open class CurveTest(val curve: (Path) -> Curve, val defined: (Point) -> Boolean
             x = { it.x.toDouble() }
             y = { it.y.toDouble() }
         }
-        val context = PathGeom()
-        return lineGenerator.render(listOf(*points), context).svgPath.round()
+        val path = PathGeom()
+        return lineGenerator.render(listOf(*points), path).svgPath.round()
     }
 
 }

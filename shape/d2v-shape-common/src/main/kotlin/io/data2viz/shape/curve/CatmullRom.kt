@@ -6,7 +6,7 @@ import io.data2viz.shape.epsilon
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class CatmullRom(override val context: Path, val alpha: Double = 0.5) : Curve {
+class CatmullRom(override val path: Path, val alpha: Double = 0.5) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0
@@ -50,12 +50,12 @@ class CatmullRom(override val context: Path, val alpha: Double = 0.5) : Curve {
 
     override fun lineEnd() {
         when (pointStatus) {
-            2 -> context.lineTo(x2, y2)
+            2 -> path.lineTo(x2, y2)
             3 -> point(x2, y2)
         }
         if (lineStatus > -1) {
             if (lineStatus > 0) {
-                context.closePath()
+                path.closePath()
             }
             lineStatus = 1 - lineStatus
         }
@@ -81,7 +81,7 @@ class CatmullRom(override val context: Path, val alpha: Double = 0.5) : Curve {
             _y2 = (y2 * b + y1 * _l23_2a - y * _l12_2a) / m
         }
 
-        context.bezierCurveTo(_x1, _y1, _x2, _y2, x2, y2)
+        path.bezierCurveTo(_x1, _y1, _x2, _y2, x2, y2)
     }
 
     override fun point(x: Double, y: Double) {
@@ -94,7 +94,7 @@ class CatmullRom(override val context: Path, val alpha: Double = 0.5) : Curve {
         when (pointStatus) {
             0 -> {
                 pointStatus = 1
-                if (lineStatus > 0) context.lineTo(x, y) else context.moveTo(x, y)
+                if (lineStatus > 0) path.lineTo(x, y) else path.moveTo(x, y)
             }
             1 -> pointStatus = 2
             2 -> {

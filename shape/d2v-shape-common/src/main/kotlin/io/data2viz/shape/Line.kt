@@ -14,13 +14,13 @@ class LineGenerator<T> {
     var defined: (T) -> Boolean = const(true)
 
     /**
-     * Use the data to generate a line on the context
+     * Use the data to generate a line on the path
      */
-    fun <C : Path> render(data: List<T>, context: C): C {
+    fun <C : Path> render(data: List<T>, path: C): C {
         val dataSize = data.size
 
         var defined0 = false
-        val output = curve(context)
+        val output = curve(path)
 
         for (i in 0..dataSize) {
             if (!(i < dataSize && defined(data[i])) == defined0) {
@@ -33,6 +33,6 @@ class LineGenerator<T> {
                 output.point(x(d), y(d))
             }
         }
-        return context
+        return path
     }
 }

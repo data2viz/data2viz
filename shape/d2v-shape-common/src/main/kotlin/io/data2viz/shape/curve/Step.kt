@@ -4,7 +4,7 @@ import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
 // TODO : StepBefore, StepAfter, Step
-abstract class AbstractStep(override val context: Path, changePoint: Double = 0.5) : Curve {
+abstract class AbstractStep(override val path: Path, changePoint: Double = 0.5) : Curve {
 
     private var x = -1.0
     private var y = -1.0
@@ -29,8 +29,8 @@ abstract class AbstractStep(override val context: Path, changePoint: Double = 0.
     }
 
     override fun lineEnd() {
-        if (0 < _changePoint && _changePoint < 1 && pointStatus == 2) context.lineTo(x, y)
-        if (lineStatus > 0) context.closePath()
+        if (0 < _changePoint && _changePoint < 1 && pointStatus == 2) path.lineTo(x, y)
+        if (lineStatus > 0) path.closePath()
         if (lineStatus >= 0) {
             _changePoint = 1 - _changePoint
             lineStatus = 1 - lineStatus
@@ -41,7 +41,7 @@ abstract class AbstractStep(override val context: Path, changePoint: Double = 0.
         when (pointStatus) {
             0 -> {
                 pointStatus = 1
-                if (lineStatus > 0) context.lineTo(x, y) else context.moveTo(x, y)
+                if (lineStatus > 0) path.lineTo(x, y) else path.moveTo(x, y)
                 this.x = x
                 this.y = y
                 return
@@ -51,18 +51,18 @@ abstract class AbstractStep(override val context: Path, changePoint: Double = 0.
             }
         }
         if (_changePoint <= 0) {
-            context.lineTo(this.x, y)
-            context.lineTo(x, y)
+            path.lineTo(this.x, y)
+            path.lineTo(x, y)
         } else {
             val x1 = this.x * (1 - _changePoint) + x * _changePoint
-            context.lineTo(x1, this.y)
-            context.lineTo(x1, y)
+            path.lineTo(x1, this.y)
+            path.lineTo(x1, y)
         }
         this.x = x
         this.y = y
     }
 }
 
-class Step(override val context: Path) : AbstractStep(context, 0.5)
-class StepBefore(override val context: Path) : AbstractStep(context, 0.0)
-class StepAfter(override val context: Path) : AbstractStep(context, 1.0)
+class Step(override val path: Path) : AbstractStep(path, 0.5)
+class StepBefore(override val path: Path) : AbstractStep(path, 0.0)
+class StepAfter(override val path: Path) : AbstractStep(path, 1.0)

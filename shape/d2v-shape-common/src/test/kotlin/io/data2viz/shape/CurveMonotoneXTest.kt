@@ -22,7 +22,7 @@ class CurveMonotoneXTest : CurveTest(curves.monotoneY, { it.y != 40 }) {
             x = { it.x.toDouble() }
             y = { it.y.toDouble() }
         }
-        val context = SvgPath()
+        val path = SvgPath()
 
         assertEquals(("M20.0,20.0C23.333333333333332,39.16666666666667,26.666666666666668,58.333333333333336,30.0," +
                 "60.0C43.333333333333336,66.66666666666667,56.666666666666664,70.0,70.0,70.0C73.33333333333333,70.0," +
@@ -31,7 +31,7 @@ class CurveMonotoneXTest : CurveTest(curves.monotoneY, { it.y != 40 }) {
                 "80.0,150.0,80.0C151.66666666666666,80.0,153.33333333333334,80.0,155.0,80.0C163.33333333333334,80.0,171.66666666666666," +
                 "50.0,180.0,20.0"),
 
-                lineGenerator.line(data, context).path
+                lineGenerator.line(data, path).path
         )
     }
 
@@ -43,7 +43,7 @@ class CurveMonotoneXTest : CurveTest(curves.monotoneY, { it.y != 40 }) {
             x = { it.x.toDouble() }
             y = { it.y.toDouble() }
         }
-        val context = SvgPath()
+        val path = SvgPath()
 
         assertEquals(("M20.0,20.0C23.333333333333332,39.16666666666667,26.666666666666668,58.333333333333336," +
                 "30.0,60.0C43.333333333333336,66.66666666666667,56.666666666666664,70.0,70.0," +
@@ -51,7 +51,7 @@ class CurveMonotoneXTest : CurveTest(curves.monotoneY, { it.y != 40 }) {
                 "70.0,133.33333333333334,80.0,150.0,80.0C151.66666666666666,80.0,153.33333333333334,80.0,155.0," +
                 "80.0C163.33333333333334,80.0,171.66666666666666,50.0,180.0,20.0"),
 
-                lineGenerator.line(data, context).path
+                lineGenerator.line(data, path).path
         )
     }*/
 

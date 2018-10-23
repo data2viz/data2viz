@@ -4,7 +4,7 @@ import io.data2viz.geom.Path
 import io.data2viz.shape.curve.*
 
 interface Curve {
-    val context: Path
+    val path: Path
     fun areaStart()
     fun areaEnd()
     fun lineStart()
@@ -14,30 +14,30 @@ interface Curve {
 
 // TODO maybe give an alias name for a "(Path) -> Curve" object
 object curves {
-    val basis                   = {context: Path -> Basis(context) }
-    val basisClosed             = {context: Path -> BasisClosed(context) }
-    val basisOpen               = {context: Path -> BasisOpen(context) }
-    val bundle                  = {context: Path -> Bundle(context) }
-    val cardinal                = {context: Path -> Cardinal(context) }
-    val cardinalClosed          = {context: Path -> CardinalClosed(context) }
-    val cardinalOpen            = {context: Path -> CardinalOpen(context) }
-    val catmullRom              = {context: Path -> CatmullRom(context) }
-    val catmullRomClosed        = {context: Path -> CatmullRomClosed(context) }
-    val catmullRomOpen          = {context: Path -> CatmullRomOpen(context) }
-    val linear                  = {context: Path -> Linear(context) }
-    val linearClosed            = {context: Path -> LinearClosed(context) }
-    val monotoneX               = {context: Path -> MonotoneX(context) }
-    val monotoneY               = {context: Path -> MonotoneY(context) }
-    val natural                 = {context: Path -> Natural(context) }
-//    val radialLinear            = {context: Path -> RadialLinear(context) }
-//    val radialBasis             = {context: Path -> Radial(context, Basis(context)) }
-//    val radialLinearClosed      = {context: Path -> Radial(context, LinearClosed(context)) }
-    val step                    = {context: Path -> Step(context) }
-    val stepBefore              = {context: Path -> StepBefore(context) }
-    val stepAfter               = {context: Path -> StepAfter(context) }
+    val basis                   = {path: Path -> Basis(path) }
+    val basisClosed             = {path: Path -> BasisClosed(path) }
+    val basisOpen               = {path: Path -> BasisOpen(path) }
+    val bundle                  = {path: Path -> Bundle(path) }
+    val cardinal                = {path: Path -> Cardinal(path) }
+    val cardinalClosed          = {path: Path -> CardinalClosed(path) }
+    val cardinalOpen            = {path: Path -> CardinalOpen(path) }
+    val catmullRom              = {path: Path -> CatmullRom(path) }
+    val catmullRomClosed        = {path: Path -> CatmullRomClosed(path) }
+    val catmullRomOpen          = {path: Path -> CatmullRomOpen(path) }
+    val linear                  = {path: Path -> Linear(path) }
+    val linearClosed            = {path: Path -> LinearClosed(path) }
+    val monotoneX               = {path: Path -> MonotoneX(path) }
+    val monotoneY               = {path: Path -> MonotoneY(path) }
+    val natural                 = {path: Path -> Natural(path) }
+//    val radialLinear            = {path: Path -> RadialLinear(path) }
+//    val radialBasis             = {path: Path -> Radial(path, Basis(path)) }
+//    val radialLinearClosed      = {path: Path -> Radial(path, LinearClosed(path)) }
+    val step                    = {path: Path -> Step(path) }
+    val stepBefore              = {path: Path -> StepBefore(path) }
+    val stepAfter               = {path: Path -> StepAfter(path) }
 }
 
 object areas {
-    val default                 = {context: Path -> Linear(context) }
-    val basis                   = {context: Path -> Basis(context) }
+    val default                 = {path: Path -> Linear(path) }
+    val basis                   = {path: Path -> Basis(path) }
 }

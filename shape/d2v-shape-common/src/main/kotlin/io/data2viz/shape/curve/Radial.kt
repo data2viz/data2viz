@@ -5,7 +5,7 @@ import io.data2viz.shape.Curve
 import kotlin.math.cos
 import kotlin.math.sin
 
-abstract class AbstractRadial(override val context: Path, val curve: Curve) : Curve {
+abstract class AbstractRadial(override val path: Path, val curve: Curve) : Curve {
 
     override fun areaEnd() {
         curve.areaEnd()
@@ -29,5 +29,5 @@ abstract class AbstractRadial(override val context: Path, val curve: Curve) : Cu
     }
 }
 
-class RadialLinear(context: Path) : AbstractRadial(context, Linear(context))
-class Radial(context: Path, curve: Curve) : AbstractRadial(context, curve)
+class RadialLinear(path: Path) : AbstractRadial(path, Linear(path))
+class Radial(path: Path, curve: Curve) : AbstractRadial(path, curve)

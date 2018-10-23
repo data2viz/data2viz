@@ -4,7 +4,7 @@ import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
 
-class Linear(override val context: Path) : Curve {
+class Linear(override val path: Path) : Curve {
 
     private var pointStatus = -1
     private var lineStatus: Int = -1
@@ -23,7 +23,7 @@ class Linear(override val context: Path) : Curve {
 
     override fun lineEnd() {
         if (lineStatus > 0 || (lineStatus != 0 && pointStatus == 1)) {
-            context.closePath()
+            path.closePath()
         }
         if (lineStatus != -1) lineStatus = 1 - lineStatus
     }
@@ -31,13 +31,13 @@ class Linear(override val context: Path) : Curve {
     override fun point(x: Double, y: Double) {
         if (pointStatus == 0) {
             pointStatus = 1
-            if (lineStatus > 0) context.lineTo(x, y) else context.moveTo(x, y)
+            if (lineStatus > 0) path.lineTo(x, y) else path.moveTo(x, y)
             return
         }
         if (pointStatus == 1) {
             pointStatus = 2
         }
-        context.lineTo(x, y)
+        path.lineTo(x, y)
     }
 }
 

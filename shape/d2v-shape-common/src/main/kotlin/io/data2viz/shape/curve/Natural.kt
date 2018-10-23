@@ -3,7 +3,7 @@ package io.data2viz.shape.curve
 import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
-class Natural(override val context: Path) : Curve {
+class Natural(override val path: Path) : Curve {
 
     private var x = arrayListOf<Double>()
     private var y = arrayListOf<Double>()
@@ -26,17 +26,17 @@ class Natural(override val context: Path) : Curve {
     override fun lineEnd() {
         val n = x.size
         if (n > 0) {
-            if (lineStatus > 0) context.lineTo(x[0], y[0]) else context.moveTo(x[0], y[0])
+            if (lineStatus > 0) path.lineTo(x[0], y[0]) else path.moveTo(x[0], y[0])
 
             if (n > 1) {
-                if (n == 2) context.lineTo(x[1], y[1])
+                if (n == 2) path.lineTo(x[1], y[1])
                 else {
                     val px = controlPoints(x)
                     val py = controlPoints(y)
                     var i0 = 0
                     var i1 = 1
                     (1 until n).forEach {
-                        context.bezierCurveTo(px[0][i0], py[0][i0], px[1][i0], py[1][i0], x[i1], y[i1])
+                        path.bezierCurveTo(px[0][i0], py[0][i0], px[1][i0], py[1][i0], x[i1], y[i1])
                         i0++
                         i1++
                     }
@@ -46,7 +46,7 @@ class Natural(override val context: Path) : Curve {
 
         if (lineStatus > -1) {
             if (lineStatus > 0) {
-                context.closePath()
+                path.closePath()
             }
             lineStatus = 1 - lineStatus
         }

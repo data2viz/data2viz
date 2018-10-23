@@ -40,9 +40,9 @@ class ArcGenerator<D> {
     }
 
     /**
-     * Use the data to generate an arc on the context
+     * Use the data to generate an arc on the path
      */
-    fun <C : Path> arc(datum: D, context: C): C {
+    fun <C : Path> arc(datum: D, path: C): C {
         var r0 = innerRadius(datum)
         var r1 = outerRadius(datum)
         val a0 = startAngle(datum) - halfPi
@@ -58,15 +58,15 @@ class ArcGenerator<D> {
         }
 
         // Is it a point?
-        if (r1 <= epsilon) context.moveTo(0.0, 0.0)
+        if (r1 <= epsilon) path.moveTo(0.0, 0.0)
 
         // Or is it a circle or annulus?
         else if (da > tau - epsilon) {
-            context.moveTo(r1 * cos(a0), r1 * sin(a0));
-            context.arc(.0, .0, r1, a0, a1, !cw);
+            path.moveTo(r1 * cos(a0), r1 * sin(a0));
+            path.arc(.0, .0, r1, a0, a1, !cw);
             if (r0 > epsilon) {
-                context.moveTo(r0 * cos(a1), r0 * sin(a1));
-                context.arc(.0, .0, r0, a1, a0, cw);
+                path.moveTo(r0 * cos(a1), r0 * sin(a1));
+                path.arc(.0, .0, r0, a1, a0, cw);
             }
         }
 
@@ -141,60 +141,60 @@ class ArcGenerator<D> {
             }
 
             // Is the sector collapsed to a line?
-            if (!(da1 > epsilon)) context.moveTo(x01, y01)
+            if (!(da1 > epsilon)) path.moveTo(x01, y01)
 
             // Does the sector’s outer ring have rounded corners?
             else if (rc1 > epsilon) {
                 val t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw);
                 val t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw);
 
-                context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01);
+                path.moveTo(t0.cx + t0.x01, t0.cy + t0.y01);
 
                 // Have the corners merged?
-                if (rc1 < rc) context.arc(t0.cx, t0.cy, rc1, atan2(t0.y01, t0.x01), atan2(t1.y01, t1.x01), !cw);
+                if (rc1 < rc) path.arc(t0.cx, t0.cy, rc1, atan2(t0.y01, t0.x01), atan2(t1.y01, t1.x01), !cw);
 
                 // Otherwise, draw the two corners and the ring.
                 else {
-                    context.arc(t0.cx, t0.cy, rc1, atan2(t0.y01, t0.x01), atan2(t0.y11, t0.x11), !cw);
-                    context.arc(.0, .0, r1, atan2(t0.cy + t0.y11, t0.cx + t0.x11), atan2(t1.cy + t1.y11, t1.cx + t1.x11), !cw);
-                    context.arc(t1.cx, t1.cy, rc1, atan2(t1.y11, t1.x11), atan2(t1.y01, t1.x01), !cw);
+                    path.arc(t0.cx, t0.cy, rc1, atan2(t0.y01, t0.x01), atan2(t0.y11, t0.x11), !cw);
+                    path.arc(.0, .0, r1, atan2(t0.cy + t0.y11, t0.cx + t0.x11), atan2(t1.cy + t1.y11, t1.cx + t1.x11), !cw);
+                    path.arc(t1.cx, t1.cy, rc1, atan2(t1.y11, t1.x11), atan2(t1.y01, t1.x01), !cw);
                 }
             }
 
             // Or is the outer ring just a circular arc?
             else {
-                context.moveTo(x01, y01)
-                context.arc(.0, .0, r1, a01, a11, !cw)
+                path.moveTo(x01, y01)
+                path.arc(.0, .0, r1, a01, a11, !cw)
             }
 
             // Is there no inner ring, and it’s a circular sector?
             // Or perhaps it’s an annular sector collapsed due to padding?
-            if (!(r0 > epsilon) || !(da0 > epsilon)) context.lineTo(x10, y10)
+            if (!(r0 > epsilon) || !(da0 > epsilon)) path.lineTo(x10, y10)
 
             // Does the sector’s inner ring (or point) have rounded corners?
             else if (rc0 > epsilon) {
                 val t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw)
                 val t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw)
 
-                context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01)
+                path.lineTo(t0.cx + t0.x01, t0.cy + t0.y01)
 
                 // Have the corners merged?
-                if (rc0 < rc) context.arc(t0.cx, t0.cy, rc0, atan2(t0.y01, t0.x01), atan2(t1.y01, t1.x01), !cw)
+                if (rc0 < rc) path.arc(t0.cx, t0.cy, rc0, atan2(t0.y01, t0.x01), atan2(t1.y01, t1.x01), !cw)
 
                 // Otherwise, draw the two corners and the ring.
                 else {
-                    context.arc(t0.cx, t0.cy, rc0, atan2(t0.y01, t0.x01), atan2(t0.y11, t0.x11), !cw)
-                    context.arc(.0, .0, r0, atan2(t0.cy + t0.y11, t0.cx + t0.x11), atan2(t1.cy + t1.y11, t1.cx + t1.x11), cw)
-                    context.arc(t1.cx, t1.cy, rc0, atan2(t1.y11, t1.x11), atan2(t1.y01, t1.x01), !cw)
+                    path.arc(t0.cx, t0.cy, rc0, atan2(t0.y01, t0.x01), atan2(t0.y11, t0.x11), !cw)
+                    path.arc(.0, .0, r0, atan2(t0.cy + t0.y11, t0.cx + t0.x11), atan2(t1.cy + t1.y11, t1.cx + t1.x11), cw)
+                    path.arc(t1.cx, t1.cy, rc0, atan2(t1.y11, t1.x11), atan2(t1.y01, t1.x01), !cw)
                 }
             }
 
             // Or is the inner ring just a circular arc?
-            else context.arc(.0, .0, r0, a10, a00, cw);
+            else path.arc(.0, .0, r0, a10, a00, cw);
         }
 
-        context.closePath();
-        return context
+        path.closePath();
+        return path
     }
 
     // Compute perpendicular offset line of length rc.

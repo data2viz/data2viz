@@ -50,7 +50,7 @@ class AreaGenerator<D> {
 
     // TODO : implements ?
     /*fun arealine() {
-        return line().defined(defined).curve(curve).context(context);
+        return line().defined(defined).curve(curve).path(path);
     }
 
     fun lineX0() { return lineY0()}
@@ -68,9 +68,9 @@ class AreaGenerator<D> {
     }*/
 
     /**
-     * Use the data to generate an area on the context
+     * Use the data to generate an area on the path
      */
-    fun <C : Path> render(data: List<D>, context: C): C {
+    fun <C : Path> render(data: List<D>, path: C): C {
         val n = data.size
 
         val x0z = Array(n, { 0.0 })
@@ -78,7 +78,7 @@ class AreaGenerator<D> {
 
         var j = 0
         var defined0 = false
-        val output = curve(context)
+        val output = curve(path)
 
         for (i in 0..n) {
             val areaNotEnded = i < n
@@ -108,6 +108,6 @@ class AreaGenerator<D> {
                 output.point(outputX, outputY)
             }
         }
-        return context
+        return path
     }
 }
