@@ -1,11 +1,11 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 import kotlin.math.cos
 import kotlin.math.sin
 
-abstract class AbstractRadial(override val context: PathAdapter, val curve: Curve) : Curve {
+abstract class AbstractRadial(override val context: Path, val curve: Curve) : Curve {
 
     override fun areaEnd() {
         curve.areaEnd()
@@ -29,5 +29,5 @@ abstract class AbstractRadial(override val context: PathAdapter, val curve: Curv
     }
 }
 
-class RadialLinear(context: PathAdapter) : AbstractRadial(context, Linear(context))
-class Radial(context: PathAdapter, curve: Curve) : AbstractRadial(context, curve)
+class RadialLinear(context: Path) : AbstractRadial(context, Linear(context))
+class Radial(context: Path, curve: Curve) : AbstractRadial(context, curve)

@@ -1,12 +1,12 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 import io.data2viz.shape.epsilon
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class CatmullRomOpen(override val context: PathAdapter, val alpha: Double = 0.5) : Curve {
+class CatmullRomOpen(override val context: Path, val alpha: Double = 0.5) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0

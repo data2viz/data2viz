@@ -1,10 +1,10 @@
 package io.data2viz.shape
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.curve.*
 
 interface Curve {
-    val context: PathAdapter
+    val context: Path
     fun areaStart()
     fun areaEnd()
     fun lineStart()
@@ -12,32 +12,32 @@ interface Curve {
     fun point(x: Double, y: Double)
 }
 
-// TODO maybe give an alias name for a "(PathAdapter) -> Curve" object
+// TODO maybe give an alias name for a "(Path) -> Curve" object
 object curves {
-    val basis                   = {context: PathAdapter -> Basis(context) }
-    val basisClosed             = {context: PathAdapter -> BasisClosed(context) }
-    val basisOpen               = {context: PathAdapter -> BasisOpen(context) }
-    val bundle                  = {context: PathAdapter -> Bundle(context) }
-    val cardinal                = {context: PathAdapter -> Cardinal(context) }
-    val cardinalClosed          = {context: PathAdapter -> CardinalClosed(context) }
-    val cardinalOpen            = {context: PathAdapter -> CardinalOpen(context) }
-    val catmullRom              = {context: PathAdapter -> CatmullRom(context) }
-    val catmullRomClosed        = {context: PathAdapter -> CatmullRomClosed(context) }
-    val catmullRomOpen          = {context: PathAdapter -> CatmullRomOpen(context) }
-    val linear                  = {context: PathAdapter -> Linear(context) }
-    val linearClosed            = {context: PathAdapter -> LinearClosed(context) }
-    val monotoneX               = {context: PathAdapter -> MonotoneX(context) }
-    val monotoneY               = {context: PathAdapter -> MonotoneY(context) }
-    val natural                 = {context: PathAdapter -> Natural(context) }
-//    val radialLinear            = {context: PathAdapter -> RadialLinear(context) }
-//    val radialBasis             = {context: PathAdapter -> Radial(context, Basis(context)) }
-//    val radialLinearClosed      = {context: PathAdapter -> Radial(context, LinearClosed(context)) }
-    val step                    = {context: PathAdapter -> Step(context) }
-    val stepBefore              = {context: PathAdapter -> StepBefore(context) }
-    val stepAfter               = {context: PathAdapter -> StepAfter(context) }
+    val basis                   = {context: Path -> Basis(context) }
+    val basisClosed             = {context: Path -> BasisClosed(context) }
+    val basisOpen               = {context: Path -> BasisOpen(context) }
+    val bundle                  = {context: Path -> Bundle(context) }
+    val cardinal                = {context: Path -> Cardinal(context) }
+    val cardinalClosed          = {context: Path -> CardinalClosed(context) }
+    val cardinalOpen            = {context: Path -> CardinalOpen(context) }
+    val catmullRom              = {context: Path -> CatmullRom(context) }
+    val catmullRomClosed        = {context: Path -> CatmullRomClosed(context) }
+    val catmullRomOpen          = {context: Path -> CatmullRomOpen(context) }
+    val linear                  = {context: Path -> Linear(context) }
+    val linearClosed            = {context: Path -> LinearClosed(context) }
+    val monotoneX               = {context: Path -> MonotoneX(context) }
+    val monotoneY               = {context: Path -> MonotoneY(context) }
+    val natural                 = {context: Path -> Natural(context) }
+//    val radialLinear            = {context: Path -> RadialLinear(context) }
+//    val radialBasis             = {context: Path -> Radial(context, Basis(context)) }
+//    val radialLinearClosed      = {context: Path -> Radial(context, LinearClosed(context)) }
+    val step                    = {context: Path -> Step(context) }
+    val stepBefore              = {context: Path -> StepBefore(context) }
+    val stepAfter               = {context: Path -> StepAfter(context) }
 }
 
 object areas {
-    val default                 = {context: PathAdapter -> Linear(context) }
-    val basis                   = {context: PathAdapter -> Basis(context) }
+    val default                 = {context: Path -> Linear(context) }
+    val basis                   = {context: Path -> Basis(context) }
 }

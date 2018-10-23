@@ -57,10 +57,6 @@ def d2v = [
         ":interpolate:d2v-interpolate-js",
         ":interpolate:d2v-interpolate-jvm",
 
-        ":path:d2v-path-common",
-        ":path:d2v-path-js",
-        ":path:d2v-path-jvm",
-
         ":quadtree:d2v-quadtree-common",
         ":quadtree:d2v-quadtree-js",
         ":quadtree:d2v-quadtree-jvm",

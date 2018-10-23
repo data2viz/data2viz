@@ -1,9 +1,9 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
-class LinearClosed(override val context: PathAdapter) : Curve {
+class LinearClosed(override val context: Path) : Curve {
 
     private var pointStatus = -1
 

@@ -1,15 +1,15 @@
 package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
-import io.data2viz.path.Path
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.PathGeom
+import io.data2viz.geom.Path
 
-class PathNode(val path: Path = Path()): Node(), HasStroke, HasFill, PathAdapter by path {
+class PathNode(val path: PathGeom = PathGeom()): Node(), HasStroke, HasFill, Path by path {
 
 
     /**
      * Remove all segments of the path.
-     * Todo should it be defined as a function of PathAdapter.
+     * Todo should it be defined as a function of Path.
      */
     fun clearPath() {
         path.clearPath()

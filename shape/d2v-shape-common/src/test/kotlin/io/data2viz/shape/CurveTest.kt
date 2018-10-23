@@ -2,13 +2,13 @@
 
 package io.data2viz.shape
 
-import io.data2viz.path.Path
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.PathGeom
+import io.data2viz.geom.Path
 import io.data2viz.test.TestBase
 
 data class Point(val x: Int, val y: Int)
 
-open class CurveTest(val curve: (PathAdapter) -> Curve, val defined: (Point) -> Boolean = const(true)) : TestBase() {
+open class CurveTest(val curve: (Path) -> Curve, val defined: (Point) -> Boolean = const(true)) : TestBase() {
 
     fun pt(x: Int, y: Int) = Point(x, y)
 
@@ -19,7 +19,7 @@ open class CurveTest(val curve: (PathAdapter) -> Curve, val defined: (Point) -> 
             x = { it.x.toDouble() }
             y = { it.y.toDouble() }
         }
-        val context = Path()
+        val context = PathGeom()
         return lineGenerator.render(listOf(*points), context).svgPath.round()
     }
 

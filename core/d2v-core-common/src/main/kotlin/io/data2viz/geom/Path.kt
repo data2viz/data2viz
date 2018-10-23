@@ -1,4 +1,4 @@
-package io.data2viz.path
+package io.data2viz.geom
 
 import kotlin.math.*
 
@@ -11,7 +11,7 @@ internal const val tauEpsilon = TAU - EPSILON
 /**
  * Common path denominator between Canvas, SVG, JavaFX, Android
  */
-interface PathAdapter {
+interface Path {
     fun moveTo(x: Double, y: Double)
     fun lineTo(x: Double, y: Double)
     fun closePath()

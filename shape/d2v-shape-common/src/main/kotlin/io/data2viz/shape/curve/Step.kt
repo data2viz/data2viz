@@ -1,10 +1,10 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
 // TODO : StepBefore, StepAfter, Step
-abstract class AbstractStep(override val context: PathAdapter, changePoint: Double = 0.5) : Curve {
+abstract class AbstractStep(override val context: Path, changePoint: Double = 0.5) : Curve {
 
     private var x = -1.0
     private var y = -1.0
@@ -63,6 +63,6 @@ abstract class AbstractStep(override val context: PathAdapter, changePoint: Doub
     }
 }
 
-class Step(override val context: PathAdapter) : AbstractStep(context, 0.5)
-class StepBefore(override val context: PathAdapter) : AbstractStep(context, 0.0)
-class StepAfter(override val context: PathAdapter) : AbstractStep(context, 1.0)
+class Step(override val context: Path) : AbstractStep(context, 0.5)
+class StepBefore(override val context: Path) : AbstractStep(context, 0.0)
+class StepAfter(override val context: Path) : AbstractStep(context, 1.0)

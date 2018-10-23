@@ -2,8 +2,7 @@ package io.data2viz.viz
 
 import android.graphics.Paint
 import android.graphics.RectF
-import io.data2viz.path.*
-import io.data2viz.path.Rect
+import io.data2viz.geom.*
 import kotlin.math.absoluteValue
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -60,7 +59,7 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
                 is QuadraticCurveTo -> path.quadTo(cmd.cpx.dp, cmd.cpy.dp, cmd.x.dp, cmd.y.dp)
                 is BezierCurveTo -> path.cubicTo(cmd.cpx1.dp, cmd.cpy1.dp, cmd.cpx2.dp, cmd.cpy2.dp, cmd.x.dp, cmd.y.dp)
                 is ArcTo -> arcTo(last(index).x, last(index).y, cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
-                is Rect -> path.addRect(cmd.x.dp, cmd.y.dp, (cmd.x + cmd.w).dp, (cmd.y + cmd.h).dp, android.graphics.Path.Direction.CW)
+                is RectCmd -> path.addRect(cmd.x.dp, cmd.y.dp, (cmd.x + cmd.w).dp, (cmd.y + cmd.h).dp, android.graphics.Path.Direction.CW)
                 is ClosePath -> path.close()
                 is Arc -> {
                     val r = cmd.radius

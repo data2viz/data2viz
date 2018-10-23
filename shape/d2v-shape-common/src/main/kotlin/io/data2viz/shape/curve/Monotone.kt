@@ -1,11 +1,11 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 import kotlin.math.abs
 import kotlin.math.min
 
-private class ReflectContext(val context: PathAdapter) : PathAdapter {
+private class ReflectContext(val context: Path) : Path {
     override fun moveTo(x: Double, y: Double) {
         context.moveTo(y, x)
 }
@@ -28,7 +28,7 @@ private class ReflectContext(val context: PathAdapter) : PathAdapter {
     override fun rect(x: Double, y: Double, w: Double, h: Double) {}
 }
 
-open class AbstractMonotone(override val context: PathAdapter) : Curve {
+open class AbstractMonotone(override val context: Path) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0
@@ -140,8 +140,8 @@ open class AbstractMonotone(override val context: PathAdapter) : Curve {
     }
 }
 
-class MonotoneX(context: PathAdapter) : AbstractMonotone(context)
-class MonotoneY(context: PathAdapter) : AbstractMonotone(ReflectContext(context)) {
+class MonotoneX(context: Path) : AbstractMonotone(context)
+class MonotoneY(context: Path) : AbstractMonotone(ReflectContext(context)) {
 
     override fun point(x: Double, y: Double) {
         super.point(y, x)

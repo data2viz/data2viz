@@ -1,7 +1,8 @@
 @file:Suppress("unused")
 
-package io.data2viz.path
+package io.data2viz.geom
 
+import io.data2viz.geom.PathGeom
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
 import kotlin.math.PI
@@ -19,14 +20,14 @@ fun moveTo(x:Double) = "M$x"
 @Suppress("FunctionName")
 class PathTests : TestBase() {
 
-    fun path(): Path = Path()
+    fun path(): PathGeom = PathGeom()
 
-    private fun Path.moveTo(x:Int, y:Int) { moveTo(x.toDouble(), y.toDouble()) }
-    private fun Path.lineTo(x:Int, y:Int) { lineTo(x.toDouble(), y.toDouble()) }
-    private fun Path.bezierCurveTo(x1: Int, y1: Int, x2: Int, y2: Int, x: Int, y: Int) { bezierCurveTo(x1.toDouble(), y1.toDouble(), x2.toDouble(), y2.toDouble(), x.toDouble(), y.toDouble()  )}
-    private fun Path.arcTo(fromX:Number, fromY:Number, toX:Number, toY:Number, radius:Number) { arcTo(fromX.toDouble(), fromY.toDouble(), toX.toDouble(), toY.toDouble(), radius.toDouble())}
-    private fun Path.arc(centerX:Int, centerY:Int, radius:Int, startAngle:Number, endAngle:Number, counterClockWise:Boolean = false) { arc(centerX.toDouble(), centerY.toDouble(), radius.toDouble(), startAngle.toDouble(), endAngle.toDouble(), counterClockWise) }
-    private fun Path.quadraticCurveTo(x1: Int, y1: Int, x: Int, y: Int)  { this.quadraticCurveTo(x1.toDouble(), y1.toDouble(), x.toDouble(), y.toDouble())}
+    private fun PathGeom.moveTo(x:Int, y:Int) { moveTo(x.toDouble(), y.toDouble()) }
+    private fun PathGeom.lineTo(x:Int, y:Int) { lineTo(x.toDouble(), y.toDouble()) }
+    private fun PathGeom.bezierCurveTo(x1: Int, y1: Int, x2: Int, y2: Int, x: Int, y: Int) { bezierCurveTo(x1.toDouble(), y1.toDouble(), x2.toDouble(), y2.toDouble(), x.toDouble(), y.toDouble()  )}
+    private fun PathGeom.arcTo(fromX:Number, fromY:Number, toX:Number, toY:Number, radius:Number) { arcTo(fromX.toDouble(), fromY.toDouble(), toX.toDouble(), toY.toDouble(), radius.toDouble())}
+    private fun PathGeom.arc(centerX:Int, centerY:Int, radius:Int, startAngle:Number, endAngle:Number, counterClockWise:Boolean = false) { arc(centerX.toDouble(), centerY.toDouble(), radius.toDouble(), startAngle.toDouble(), endAngle.toDouble(), counterClockWise) }
+    private fun PathGeom.quadraticCurveTo(x1: Int, y1: Int, x: Int, y: Int)  { this.quadraticCurveTo(x1.toDouble(), y1.toDouble(), x.toDouble(), y.toDouble())}
 
 
     @Test

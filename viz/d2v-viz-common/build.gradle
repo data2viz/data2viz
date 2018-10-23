@@ -1,5 +1,5 @@
 dependencies {
     compile project(":color:d2v-color-common")
-    compile project(":path:d2v-path-common")
+    compile project(":core:d2v-core-common")
     compile project(":timer:d2v-timer-common")
 }

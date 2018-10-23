@@ -3,7 +3,7 @@ package io.data2viz.hexbin
 import io.data2viz.geom.Extent
 import io.data2viz.geom.Point
 import io.data2viz.math.THIRDPI
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.round
@@ -153,7 +153,7 @@ class HexbinGenerator {
      * If radius is specified, a hexagon with the specified radius is returned; this is useful for area-encoded bivariate
      * hexbins.
      */
-    fun hexagon(path: PathAdapter, origin: Point, radius: Double? = null) {
+    fun hexagon(path: Path, origin: Point, radius: Double? = null) {
         val hex = hexagon(if (radius == null) _radius else radius)
         path.moveTo(origin.x + hex[0].x, origin.y + hex[0].y)
         (1 until hex.size).forEach { index ->
@@ -190,7 +190,7 @@ class HexbinGenerator {
      * Returns an path representing the hexagonal mesh that covers the extent; the returned path is intended to be stroked.
      * The mesh may extend slightly beyond the extent and may need to be clipped.
      */
-    fun mesh(path: PathAdapter) {
+    fun mesh(path: Path) {
         val fragment = hexagon(_radius).subList(0, 4)
         val centers = centers()
         return centers.forEach { center ->

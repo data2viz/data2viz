@@ -1,6 +1,6 @@
 package io.data2viz.shape.symbol
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.pi
 import io.data2viz.shape.tau
 import io.data2viz.shape.Symbol
@@ -9,7 +9,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 class Circle : Symbol {
-    override fun <C : PathAdapter> render(context: C, size: Double): C {
+    override fun <C : Path> render(context: C, size: Double): C {
         val r = sqrt(size / pi)
         with(context) {
             moveTo(r, .0)
@@ -20,7 +20,7 @@ class Circle : Symbol {
 }
 
 class Cross : Symbol {
-    override fun <C : PathAdapter> render(context: C, size: Double): C {
+    override fun <C : Path> render(context: C, size: Double): C {
         val r = sqrt(size / 5) / 2
         val r3 = 3 * r
         with(context) {
@@ -47,7 +47,7 @@ class Diamond : Symbol {
     private val tan30 = sqrt(1 / 3.0)
     private val tan30_2 = tan30 * 2;
 
-    override fun <C : PathAdapter> render(context: C, size: Double): C {
+    override fun <C : Path> render(context: C, size: Double): C {
         val y = sqrt(size / tan30_2)
         val x = y * tan30
         with(context) {
@@ -62,7 +62,7 @@ class Diamond : Symbol {
 }
 
 class Square : Symbol {
-    override fun <C : PathAdapter> render(context: C, size: Double): C {
+    override fun <C : Path> render(context: C, size: Double): C {
         val w = sqrt(size)
         val x = -w / 2.0
         context.rect(x, x, w, w)
@@ -77,7 +77,7 @@ class Star : Symbol {
     private val kx = sin(tau / 10) * kr
     private val ky = -cos(tau / 10) * kr
 
-    override fun <C : PathAdapter> render(context: C, size: Double): C {
+    override fun <C : Path> render(context: C, size: Double): C {
         val r = sqrt(size * ka)
         val x = kx * r
         val y = ky * r
@@ -99,7 +99,7 @@ class Triangle : Symbol {
 
     private val sqrt3 = sqrt(3.0)
 
-    override fun <C : PathAdapter> render(context: C, size: Double): C {
+    override fun <C : Path> render(context: C, size: Double): C {
         val y = -sqrt(size / (sqrt3 * 3))
         with(context) {
             moveTo(.0, y * 2)
@@ -119,7 +119,7 @@ class Wye : Symbol {
     private val k = 1 / sqrt(12.0)
     private val a = (k / 2 + 1) * 3
 
-    override fun <C : PathAdapter> render(context: C, size: Double): C {
+    override fun <C : Path> render(context: C, size: Double): C {
         val r = sqrt(size / a)
         val x0 = r / 2
         val y0 = r * k

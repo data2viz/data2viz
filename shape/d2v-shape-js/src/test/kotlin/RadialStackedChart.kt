@@ -1,10 +1,9 @@
 import io.data2viz.format.formatter
-import io.data2viz.path.Path
+import io.data2viz.geom.PathGeom
 import io.data2viz.shape.ArcGenerator
 import io.data2viz.shape.arc
 import io.data2viz.shape.pi
 import io.data2viz.shape.tau
-import org.w3c.dom.Document
 import org.w3c.dom.Text
 import org.w3c.dom.svg.SVGElement
 import kotlin.browser.document
@@ -108,7 +107,7 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: Stri
                         arcGenerator.outerRadius = { outer }
                         arcGenerator.startAngle = { (i.toDouble() / states) * tau }
                         arcGenerator.endAngle = { ((i.toDouble() + 1.0) / states) * tau }
-                        val line = arcGenerator.arc(Population("", emptyArray()), Path()).svgPath
+                        val line = arcGenerator.arc(Population("", emptyArray()), PathGeom()).svgPath
                         setAttribute("d", line)
                         setAttribute("transform", "translate(400,670)")
                         setAttribute("stroke", colors[index + 1])

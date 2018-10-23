@@ -1,9 +1,9 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
-class CardinalOpen(override val context: PathAdapter, tension: Double = 0.0) : Curve {
+class CardinalOpen(override val context: Path, tension: Double = 0.0) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0

@@ -1,9 +1,9 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
-class BasisClosed(override val context: PathAdapter): Curve {
+class BasisClosed(override val context: Path): Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0

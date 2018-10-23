@@ -2,7 +2,7 @@
 
 package io.data2viz.shape
 
-import io.data2viz.path.Path
+import io.data2viz.geom.PathGeom
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -42,5 +42,5 @@ class LineTest : TestBase() {
     }
 
     private fun LineGenerator<Point>.toPath(vararg points: Point) =
-            this.render(listOf(*points), Path()).svgPath
+            this.render(listOf(*points), PathGeom()).svgPath
 }

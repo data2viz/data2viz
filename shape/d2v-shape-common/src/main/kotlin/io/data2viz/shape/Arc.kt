@@ -1,6 +1,6 @@
 package io.data2viz.shape
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import kotlin.math.*
 
 private data class CornerTangentValues(
@@ -42,7 +42,7 @@ class ArcGenerator<D> {
     /**
      * Use the data to generate an arc on the context
      */
-    fun <C : PathAdapter> arc(datum: D, context: C): C {
+    fun <C : Path> arc(datum: D, context: C): C {
         var r0 = innerRadius(datum)
         var r1 = outerRadius(datum)
         val a0 = startAngle(datum) - halfPi

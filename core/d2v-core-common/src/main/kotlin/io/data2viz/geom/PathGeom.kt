@@ -1,9 +1,9 @@
-package io.data2viz.path
+package io.data2viz.geom
 
 import kotlin.math.*
 
 
-class Path : PathAdapter {
+class PathGeom : Path {
 
     val commands = mutableListOf<PathCommand>()
 
@@ -11,12 +11,15 @@ class Path : PathAdapter {
         commands.clear()
     }
 
-    override fun moveTo(x: Double, y: Double) { commands += MoveTo(x, y) }
-    override fun lineTo(x: Double, y: Double) { commands += LineTo(x, y) }
-    override fun closePath() { commands += ClosePath() }
+    override fun moveTo(x: Double, y: Double) { commands += MoveTo(x, y)
+    }
+    override fun lineTo(x: Double, y: Double) { commands += LineTo(x, y)
+    }
+    override fun closePath() { commands += ClosePath()
+    }
 
     override fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double) {
-        commands += QuadraticCurveTo(cpx,cpy,x,y)
+        commands += QuadraticCurveTo(cpx, cpy, x, y)
     }
 
     override fun bezierCurveTo(cpx1: Double, cpy1: Double, cpx2: Double, cpy2: Double, x: Double, y: Double) {
@@ -41,7 +44,7 @@ class Path : PathAdapter {
     }
 
     override fun rect(x: Double, y: Double, w: Double, h: Double) {
-        commands += Rect(x,y, w,h)
+        commands += RectCmd(x, y, w, h)
     }
 
     val svgPath: String
@@ -82,7 +85,7 @@ class Path : PathAdapter {
                         sb.append("Q${cmd.cpx},${cmd.cpy},${cmd.x},${cmd.y}")
                     }
 
-                    is Rect -> {
+                    is RectCmd -> {
                         tempX0 = cmd.x
                         tempX1 = cmd.x
                         tempY0 = cmd.y
@@ -206,7 +209,7 @@ interface PathCommand {
 
 data class MoveTo(override val x: Double, override val y: Double) : PathCommand
 data class LineTo(override val x: Double, override val y: Double) : PathCommand
-data class Rect(override val x: Double, override val y: Double, val w: Double, val h: Double) : PathCommand
+data class RectCmd(override val x: Double, override val y: Double, val w: Double, val h: Double) : PathCommand
 data class QuadraticCurveTo(val cpx: Double, val cpy: Double, override val x: Double, override val y: Double) : PathCommand
 data class BezierCurveTo(val cpx1: Double, val cpy1: Double, val cpx2: Double, val cpy2: Double, override val x: Double, override val y: Double) :
         PathCommand

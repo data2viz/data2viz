@@ -5,9 +5,9 @@ import io.data2viz.geo.projection.Projection
 import io.data2viz.geo.projection.identityProjection
 import io.data2viz.geo.stream
 import io.data2viz.geojson.GeoJsonObject
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 
-fun geoPath(projection: Projection? = null, context: PathAdapter? = null) =
+fun geoPath(projection: Projection? = null, context: Path? = null) =
     GeoPath(if (projection == null) identityProjection() else projection, context)
 
 /**
@@ -20,7 +20,7 @@ fun geoPath(projection: Projection? = null, context: PathAdapter? = null) =
  * The given projection is typically one of built-in geographic projections; however, any object that exposes a
  * projection.stream function can be used, enabling the use of custom projections.
  */
-class GeoPath(val projection: Projection, val context: PathAdapter?) {
+class GeoPath(val projection: Projection, val context: Path?) {
 
     private val pathArea = PathArea()
     private val pathBounds = PathBounds()
@@ -46,7 +46,7 @@ class GeoPath(val projection: Projection, val context: PathAdapter?) {
      * Separate path elements are typically slower than a single path element.
      * However, distinct path elements are useful for styling and interaction (e.g., click or mouseover).
      */
-    fun path(geo: GeoJsonObject): PathAdapter {
+    fun path(geo: GeoJsonObject): Path {
         requireNotNull(context) { "Cannot use GeoPath.svgPath() without a valid context." }
         requireNotNull(contextStream) { "Cannot use GeoPath.svgPath() without a valid context." }
         stream(geo, projection.stream(contextStream!!))
