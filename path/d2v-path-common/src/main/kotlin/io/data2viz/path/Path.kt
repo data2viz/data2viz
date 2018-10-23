@@ -3,7 +3,7 @@ package io.data2viz.path
 import kotlin.math.*
 
 
-open class Path : PathAdapter {
+class Path : PathAdapter {
 
     val commands = mutableListOf<PathCommand>()
 
