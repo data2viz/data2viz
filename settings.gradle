@@ -105,9 +105,10 @@ def d2v = [
         ":timer:d2v-timer-js",
         ":timer:d2v-timer-jfx",
 
+        ":transition:d2v-transition-android",
         ":transition:d2v-transition-common",
         ":transition:d2v-transition-js",
-        ":transition:d2v-transition-jvm",
+        ":transition:d2v-transition-jfx",
 
         ":viz:d2v-viz-android",
         ":viz:d2v-viz-common",
