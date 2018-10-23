@@ -1,12 +1,5 @@
 package io.data2viz.geom
 
-import kotlin.math.*
-
-
-// TODO present in math remove from here ?
-internal const val TAU = 2 * PI
-internal const val EPSILON = 1e-6
-internal const val tauEpsilon = TAU - EPSILON
 
 /**
  * Common path denominator between Canvas, SVG, JavaFX, Android

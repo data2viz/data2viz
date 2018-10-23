@@ -1,5 +1,8 @@
 package io.data2viz.geom
 
+import io.data2viz.math.EPSILON
+import io.data2viz.math.TAU
+import io.data2viz.math.TAU_EPSILON
 import kotlin.math.*
 
 
@@ -11,12 +14,9 @@ class PathGeom : Path {
         commands.clear()
     }
 
-    override fun moveTo(x: Double, y: Double) { commands += MoveTo(x, y)
-    }
-    override fun lineTo(x: Double, y: Double) { commands += LineTo(x, y)
-    }
-    override fun closePath() { commands += ClosePath()
-    }
+    override fun moveTo(x: Double, y: Double) { commands += MoveTo(x, y) }
+    override fun lineTo(x: Double, y: Double) { commands += LineTo(x, y) }
+    override fun closePath() { commands += ClosePath() }
 
     override fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double) {
         commands += QuadraticCurveTo(cpx, cpy, x, y)
@@ -182,7 +182,7 @@ class PathGeom : Path {
                         if (da < 0) da = da % TAU + TAU
 
                         //complete circle
-                        if (da > tauEpsilon) {
+                        if (da > TAU_EPSILON) {
                             tempX1 = x0
                             tempY1 = y0
                             sb.append("A${cmd.radius},${cmd.radius},0,1,$cw,${cmd.centerX - dx},${cmd.centerY - dy}A${cmd.radius},${cmd.radius},0,1,$cw,$x0,$y0")
@@ -201,6 +201,10 @@ class PathGeom : Path {
         }
 
 }
+
+
+
+//Todo use sealed class
 
 interface PathCommand {
     val x:Double
