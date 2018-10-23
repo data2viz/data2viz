@@ -1,13 +1,11 @@
 package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
+import io.data2viz.geom.Circle
+import io.data2viz.geom.CircleGeom
 
 
-class Circle : Node(), HasStroke, HasFill {
-
-    var x: Double = 10.0
-    var y: Double = 10.0
-    var radius: Double = 10.0
+class CircleNode(val circle: Circle = CircleGeom()) : Node(), Circle by circle, HasStroke, HasFill {
 
 
     @Deprecated("Use style.fill", ReplaceWith("style.fill"))

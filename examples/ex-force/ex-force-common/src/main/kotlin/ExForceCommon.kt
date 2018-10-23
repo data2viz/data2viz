@@ -1,11 +1,11 @@
 package io.data2viz.examples.force
 
 import io.data2viz.color.Color
+import io.data2viz.geom.Circle
 import io.data2viz.geom.Point
 import io.data2viz.math.random
 import io.data2viz.force.*
 import io.data2viz.timer.timer
-import io.data2viz.viz.Circle
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
 

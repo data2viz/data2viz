@@ -34,7 +34,7 @@ open class Group : Node(), HasChildren, HasTransform {
             .apply(init)
             .also { add(it) }
 
-    override fun circle(init: Circle.() -> Unit): Circle = Circle()
+    override fun circle(init: CircleNode.() -> Unit): CircleNode = CircleNode()
             .apply(init)
             .also { add(it) }
 

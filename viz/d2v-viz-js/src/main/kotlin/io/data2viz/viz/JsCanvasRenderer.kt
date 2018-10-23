@@ -134,7 +134,7 @@ fun Group.render(context: CanvasRenderingContext2D) {
 
         if (node.visible)
             when (node) {
-                is Circle       -> node.render(context)
+                is CircleNode       -> node.render(context)
                 is RectNode         -> node.render(context)
                 is Group        -> node.render(context)
                 is PathNode     -> node.render(context)
@@ -170,7 +170,7 @@ fun RectNode.render(context: CanvasRenderingContext2D) {
 
 }
 
-fun Circle.render(context: CanvasRenderingContext2D) {
+fun CircleNode.render(context: CanvasRenderingContext2D) {
     
     context.beginPath()
     context.arc(x, y, radius, .0, 2 * PI, false)
