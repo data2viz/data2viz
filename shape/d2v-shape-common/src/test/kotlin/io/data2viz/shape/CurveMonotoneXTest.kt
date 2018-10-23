@@ -16,7 +16,7 @@ class CurveMonotoneXTest : CurveTest(curves.monotoneY, { it.y != 40 }) {
 
     /*@Test
     fun line_curve_monotoneX() {
-        val lineGenerator = LineGenerator<Point>().apply {
+        val lineGenerator = LineBuilder<Point>().apply {
             curve = curves.monotoneX
 //            defined = { it.y != 40 }
             x = { it.x.toDouble() }
@@ -37,7 +37,7 @@ class CurveMonotoneXTest : CurveTest(curves.monotoneY, { it.y != 40 }) {
 
     @Test
     fun line_curve_monotoneX_undefined_points() {
-        val lineGenerator = LineGenerator<Point>().apply {
+        val lineGenerator = LineBuilder<Point>().apply {
             curve = curves.monotoneX
             defined = { it.y != 40 }
             x = { it.x.toDouble() }

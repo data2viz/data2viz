@@ -3,11 +3,19 @@ package io.data2viz.shape.link
 import io.data2viz.geom.Path
 import io.data2viz.shape.const
 
-fun <D> linkHorizontal(init: LinkGenerator<D>.() -> Unit) = LinkGenerator<D>().apply {
+
+/**
+ * Instanciate and configure an horizontal link builder
+ */
+fun <D> linkBuilderH(init: LinkBuilder<D>.() -> Unit) = LinkBuilder<D>().apply {
     curve = this::curveHorizontal
     init()
 }
-fun <D> linkVertical(init: LinkGenerator<D>.() -> Unit) = LinkGenerator<D>().apply {
+
+/**
+ * Instanciates and configure a vertical link builder.
+ */
+fun <D> linkBuilderV(init: LinkBuilder<D>.() -> Unit) = LinkBuilder<D>().apply {
     curve = this::curveVertical
     init()
 }
@@ -16,7 +24,7 @@ fun <D> linkVertical(init: LinkGenerator<D>.() -> Unit) = LinkGenerator<D>().app
  * The link shape generates a smooth cubic Bézier curve from a source point to a target point.
  * The tangents of the curve at the start and end are either vertical, horizontal or radial.
  */
-class LinkGenerator<D> {
+class LinkBuilder<D> {
 
     var x0: (D) -> Double = const(.0)
     var x1: (D) -> Double = const(.0)

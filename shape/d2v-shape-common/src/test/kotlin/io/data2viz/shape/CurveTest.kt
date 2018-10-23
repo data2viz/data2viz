@@ -13,14 +13,14 @@ open class CurveTest(val curve: (Path) -> Curve, val defined: (Point) -> Boolean
     fun pt(x: Int, y: Int) = Point(x, y)
 
     fun line(vararg points: Point): String {
-        val lineGenerator = LineGenerator<Point>().apply {
+        val lineGenerator = LineBuilder<Point>().apply {
             curve = this@CurveTest.curve
             defined = this@CurveTest.defined
             x = { it.x.toDouble() }
             y = { it.y.toDouble() }
         }
         val path = PathGeom()
-        return lineGenerator.render(listOf(*points), path).svgPath.round()
+        return lineGenerator.buildLine(listOf(*points), path).svgPath.round()
     }
 
 }

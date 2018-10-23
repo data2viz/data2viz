@@ -16,7 +16,7 @@ fun exemple_of_api(){
 
     @Suppress("UNUSED_VARIABLE")
             /**
-     * Configuring a LineGenerator based on the domain object Match.
+     * Configuring a LineBuilder based on the domain object Match.
      *
      * x, y are used to defined the coordinate of the point representing the match.
      *

@@ -6,7 +6,7 @@ import io.data2viz.math.random
 import io.data2viz.geom.Path
 import io.data2viz.scale.scales
 import io.data2viz.shape.Curve
-import io.data2viz.shape.area
+import io.data2viz.shape.areaBuilder
 import io.data2viz.shape.curves
 import io.data2viz.shape.stack.StackOffset
 import io.data2viz.shape.stack.StackOrder
@@ -127,7 +127,7 @@ fun streamGraph(): Viz = viz {
 
         // PathArea Generator for streams : X is the index of the serie, Y is defined by our stack
         // We plug the rendering curve to our Viz Config
-        val area = area<StackSpace<Score>> {
+        val area = areaBuilder<StackSpace<Score>> {
             xBaseline = { xScale(it.paramIndex.toDouble()) }
             xTopline = { xScale(it.paramIndex.toDouble()) }
             yBaseline = { yScale(it.from) }

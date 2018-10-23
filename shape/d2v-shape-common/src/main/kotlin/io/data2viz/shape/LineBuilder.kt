@@ -2,11 +2,11 @@ package io.data2viz.shape
 
 import io.data2viz.geom.Path
 
-fun <T> line(init: LineGenerator<T>.() -> Unit) = LineGenerator<T>().apply(init)
+fun <T> line(init: LineBuilder<T>.() -> Unit) = LineBuilder<T>().apply(init)
 
 fun <T, D> const(constantValue: T): (D) -> T = { constantValue }
 
-class LineGenerator<T> {
+class LineBuilder<T> {
 
     var curve: (Path) -> Curve = curves.linear
     var x: (T) -> Double = const(.0)
@@ -16,7 +16,7 @@ class LineGenerator<T> {
     /**
      * Use the data to generate a line on the path
      */
-    fun <C : Path> render(data: List<T>, path: C): C {
+    fun <C : Path> buildLine(data: List<T>, path: C): C {
         val dataSize = data.size
 
         var defined0 = false

@@ -67,6 +67,6 @@ val points = listOf(
 
 @JsName("generatePath")
 fun generatePath() {
-    lineGenerator.render(points, PathGeom())
+    lineGenerator.buildLine(points, PathGeom())
 }
 

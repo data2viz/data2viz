@@ -2,7 +2,7 @@ package io.data2viz.shape
 
 import io.data2viz.geom.Path
 
-fun <D> area(init: AreaGenerator<D>.() -> Unit) = AreaGenerator<D>().apply(init)
+fun <D> areaBuilder(init: AreaBuilder<D>.() -> Unit) = AreaBuilder<D>().apply(init)
 
 /**
  * The area generator produces an area, as in an area chart. An area is defined by two bounding lines, either splines
@@ -11,7 +11,7 @@ fun <D> area(init: AreaGenerator<D>.() -> Unit) = AreaGenerator<D>().apply(init)
  * and is rendered first; the second line (the baseline) is defined by x0 and y0 and is rendered second, with the
  * points in reverse order. With a curveLinear curve, this produces a clockwise polygon.
  */
-class AreaGenerator<D> {
+class AreaBuilder<D> {
 
     /**
      * The type of curve used to draw the bounding lines of the area.

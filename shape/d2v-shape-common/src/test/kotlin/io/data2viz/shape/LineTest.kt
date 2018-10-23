@@ -37,10 +37,10 @@ class LineTest : TestBase() {
     data class Point(val x: Int, val y: Int)
 
 
-    fun line(init: LineGenerator<Point>.() -> Unit): LineGenerator<Point> {
-        return LineGenerator<Point>().apply(init)
+    fun line(init: LineBuilder<Point>.() -> Unit): LineBuilder<Point> {
+        return LineBuilder<Point>().apply(init)
     }
 
-    private fun LineGenerator<Point>.toPath(vararg points: Point) =
-            this.render(listOf(*points), PathGeom()).svgPath
+    private fun LineBuilder<Point>.toPath(vararg points: Point) =
+            this.buildLine(listOf(*points), PathGeom()).svgPath
 }

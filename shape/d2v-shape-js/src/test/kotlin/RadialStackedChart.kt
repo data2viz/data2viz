@@ -1,7 +1,7 @@
 import io.data2viz.format.formatter
 import io.data2viz.geom.PathGeom
-import io.data2viz.shape.ArcGenerator
-import io.data2viz.shape.arc
+import io.data2viz.shape.ArcBuilder
+import io.data2viz.shape.arcBuilder
 import io.data2viz.shape.pi
 import io.data2viz.shape.tau
 import org.w3c.dom.Text
@@ -76,13 +76,13 @@ val data = weave(arrayOf(
 
 @JsName("stackedChart")
 fun stackedChart() {
-    val generator = arc<Population> {
+    val generator = arcBuilder<Population> {
         cornerRadius = { .0 }
     }
     renderPieSvg(generator, "d2vSamples")
 }
 
-private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: String) {
+private fun renderPieSvg(arcBuilder: ArcBuilder<Population>, elementId: String) {
     val states = data.size
     val factorRatio = 140.0
     val innerMargin = 150.0
@@ -101,13 +101,13 @@ private fun renderPieSvg(arcGenerator: ArcGenerator<Population>, elementId: Stri
                 population.reparition.forEachIndexed { index, value ->
                     appendChild(createSvgElement("path").apply {
                         val inner = innerMargin + sqrt(sum)
-                        arcGenerator.innerRadius = { inner }
+                        arcBuilder.innerRadius = { inner }
                         val outer = innerMargin + sqrt(sum + (value.toDouble() / factorRatio))
-                        // arcGenerator.outerRadius = { pop -> pop.reparition.average() }
-                        arcGenerator.outerRadius = { outer }
-                        arcGenerator.startAngle = { (i.toDouble() / states) * tau }
-                        arcGenerator.endAngle = { ((i.toDouble() + 1.0) / states) * tau }
-                        val line = arcGenerator.arc(Population("", emptyArray()), PathGeom()).svgPath
+                        // arcBuilder.outerRadius = { pop -> pop.reparition.average() }
+                        arcBuilder.outerRadius = { outer }
+                        arcBuilder.startAngle = { (i.toDouble() / states) * tau }
+                        arcBuilder.endAngle = { ((i.toDouble() + 1.0) / states) * tau }
+                        val line = arcBuilder.buildArcForDatum(Population("", emptyArray()), PathGeom()).svgPath
                         setAttribute("d", line)
                         setAttribute("transform", "translate(400,670)")
                         setAttribute("stroke", colors[index + 1])

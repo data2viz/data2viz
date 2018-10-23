@@ -3,26 +3,16 @@ package io.data2viz.shape
 import io.data2viz.geom.Path
 import kotlin.math.*
 
-private data class CornerTangentValues(
-        val cx: Double,
-        val cy: Double,
-        val x01: Double,
-        val y01: Double,
-        val x11: Double,
-        val y11: Double
-)
+/**
+ * Instanciate a new ArcBuilder and use the lambda to initiate it.
+ */
+fun <T> arcBuilder(init: ArcBuilder<T>.() -> Unit) = ArcBuilder<T>().apply(init)
 
-data class ArcParams<T>(
-        val startAngle: Double,
-        val endAngle: Double,
-        val padAngle: Double?,
-        val value: Double?,
-        val index: Int?,
-        val data: T?
-)
 
-fun <T> arc(init: ArcGenerator<T>.() -> Unit) = ArcGenerator<T>().apply(init)
-class ArcGenerator<D> {
+/**
+ *
+ */
+class ArcBuilder<D> {
 
     var innerRadius: (D) -> Double = const(.0)
     var outerRadius: (D) -> Double = const(100.0)
@@ -40,9 +30,9 @@ class ArcGenerator<D> {
     }
 
     /**
-     * Use the data to generate an arc on the path
+     * Use the datum to generate an arc on the path
      */
-    fun <C : Path> arc(datum: D, path: C): C {
+    fun <C : Path> buildArcForDatum(datum: D, path: C): C {
         var r0 = innerRadius(datum)
         var r1 = outerRadius(datum)
         val a0 = startAngle(datum) - halfPi
@@ -244,3 +234,23 @@ class ArcGenerator<D> {
         return arrayOf(x0 + t * x10, y0 + t * y10)
     }
 }
+
+data class ArcParams<T>(
+        val startAngle: Double,
+        val endAngle: Double,
+        val padAngle: Double?,
+        val value: Double?,
+        val index: Int?,
+        val data: T?
+)
+
+
+private data class CornerTangentValues(
+        val cx: Double,
+        val cy: Double,
+        val x01: Double,
+        val y01: Double,
+        val x11: Double,
+        val y11: Double
+)
+

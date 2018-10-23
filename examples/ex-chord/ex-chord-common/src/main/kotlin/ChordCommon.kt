@@ -10,7 +10,7 @@ import io.data2viz.chord.Chords
 import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
 import io.data2viz.geom.Path
-import io.data2viz.shape.arc
+import io.data2viz.shape.arcBuilder
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
 
@@ -57,7 +57,7 @@ fun collaborations(avengers: List<Avenger>) = movies.filter { it.avengers.contai
 
 val avengersChords: Chords = chord.chord(avengers) { a, b -> if (a == b) .0 else collaborations(listOf(a, b)) }
 
-val avengersArcGenerator = arc<ChordGroup> {
+val avengersArcBuilder = arcBuilder<ChordGroup> {
     innerRadius = { inner + 3 }
     outerRadius = { outer }
     startAngle = { it.startAngle }
@@ -79,7 +79,7 @@ fun chordViz(): Viz = viz {
         avengersChords.groups.forEachIndexed { index, it ->
             path {
                 style.fill = io.data2viz.examples.chord.colors[index]
-                avengersArcGenerator.arc(it, this)
+                avengersArcBuilder.buildArcForDatum(it, this)
                 style.stroke = null
             }
         }
