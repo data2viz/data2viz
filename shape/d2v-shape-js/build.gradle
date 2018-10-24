@@ -6,8 +6,7 @@ runDceTestKotlinJs.dceOptions.devMode = true
 
 dependencies {
     expectedBy project(":shape:d2v-shape-common")
-    compile project(":path:d2v-path-js")
-    testCompile project(":path:d2v-path-js")
+    compile project(":core:d2v-core-js")
     testCompile project(":format:d2v-format-js")
 }
 

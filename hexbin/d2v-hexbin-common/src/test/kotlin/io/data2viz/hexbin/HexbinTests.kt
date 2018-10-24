@@ -2,7 +2,7 @@ package io.data2viz.hexbin
 
 import io.data2viz.geom.Extent
 import io.data2viz.geom.Point
-import io.data2viz.path.Path
+import io.data2viz.geom.PathGeom
 import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
 import kotlin.test.Test
@@ -12,7 +12,7 @@ private fun pt(a: Int, b: Int) = Point(a.toDouble(), b.toDouble())
 
 class HexbinTests : TestBase() {
 
-    fun path(): Path = Path()
+    fun path(): PathGeom = PathGeom()
 
     val points = listOf(
         pt(0, 0), pt(0, 1), pt(0, 2),

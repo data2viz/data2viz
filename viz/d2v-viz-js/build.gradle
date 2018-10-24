@@ -5,8 +5,8 @@ dependencies {
     compile project(":color:d2v-color-common")
     compile project(":color:d2v-color-js")
     compile project(":interpolate:d2v-interpolate-js")
-    compile project(":path:d2v-path-common")
-    compile project(":path:d2v-path-js")
+    compile project(":core:d2v-core-common")
+    compile project(":core:d2v-core-js")
     compile project(":timer:d2v-timer-common")
     compile project(":timer:d2v-timer-js")
 }

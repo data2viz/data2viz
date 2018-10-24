@@ -3,10 +3,10 @@ package io.data2viz.examples.streamGraph
 import io.data2viz.color.EncodedColors
 import io.data2viz.color.EncodedColors.Companion.category20b
 import io.data2viz.math.random
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.scale.scales
 import io.data2viz.shape.Curve
-import io.data2viz.shape.area
+import io.data2viz.shape.areaBuilder
 import io.data2viz.shape.curves
 import io.data2viz.shape.stack.StackOffset
 import io.data2viz.shape.stack.StackOrder
@@ -41,7 +41,7 @@ data class Score(
 
 // Visual configuration object
 data class VizConfig(
-        var curve: (PathAdapter) -> Curve = curves.basis,
+        var curve: (Path) -> Curve = curves.basis,
         var offset: StackOffset = StackOffset.WIGGLE,
         var order: StackOrder = StackOrder.NONE,
         var colors: EncodedColors = category20b
@@ -127,7 +127,7 @@ fun streamGraph(): Viz = viz {
 
         // PathArea Generator for streams : X is the index of the serie, Y is defined by our stack
         // We plug the rendering curve to our Viz Config
-        val area = area<StackSpace<Score>> {
+        val area = areaBuilder<StackSpace<Score>> {
             xBaseline = { xScale(it.paramIndex.toDouble()) }
             xTopline = { xScale(it.paramIndex.toDouble()) }
             yBaseline = { yScale(it.from) }

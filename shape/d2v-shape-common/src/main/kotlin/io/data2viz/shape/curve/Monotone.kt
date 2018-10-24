@@ -1,25 +1,25 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 import kotlin.math.abs
 import kotlin.math.min
 
-private class ReflectContext(val context: PathAdapter) : PathAdapter {
+private class ReflectContext(val path: Path) : Path {
     override fun moveTo(x: Double, y: Double) {
-        context.moveTo(y, x)
+        path.moveTo(y, x)
 }
 
     override fun lineTo(x: Double, y: Double) {
-        context.lineTo(y, x)
+        path.lineTo(y, x)
     }
 
     override fun closePath() {
-        context.closePath()
+        path.closePath()
     }
 
     override fun bezierCurveTo(cpx1: Double, cpy1: Double, cpx2: Double, cpy2: Double, x: Double, y: Double) {
-        context.bezierCurveTo(cpy1, cpx1, cpy2, cpx2, y, x)
+        path.bezierCurveTo(cpy1, cpx1, cpy2, cpx2, y, x)
     }
 
     override fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double) {}
@@ -28,7 +28,7 @@ private class ReflectContext(val context: PathAdapter) : PathAdapter {
     override fun rect(x: Double, y: Double, w: Double, h: Double) {}
 }
 
-open class AbstractMonotone(override val context: PathAdapter) : Curve {
+open class AbstractMonotone(override val path: Path) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0
@@ -58,12 +58,12 @@ open class AbstractMonotone(override val context: PathAdapter) : Curve {
 
     override fun lineEnd() {
         when (pointStatus) {
-            2 -> context.lineTo(x1, y1)
+            2 -> path.lineTo(x1, y1)
             3 -> curve(t0, slope2(t0))
         }
         if (lineStatus > -1) {
             if (lineStatus > 0) {
-                context.closePath()
+                path.closePath()
             }
             lineStatus = 1 - lineStatus
         }
@@ -76,7 +76,7 @@ open class AbstractMonotone(override val context: PathAdapter) : Curve {
         when (pointStatus) {
             0 -> {
                 pointStatus = 1
-                if (lineStatus > 0) context.lineTo(x, y) else context.moveTo(x, y)
+                if (lineStatus > 0) path.lineTo(x, y) else path.moveTo(x, y)
             }
             1 -> pointStatus = 2
             2 -> {
@@ -103,7 +103,7 @@ open class AbstractMonotone(override val context: PathAdapter) : Curve {
      */
     private fun curve(t0: Double, t1: Double) {
         val dx = (x1 - x0) / 3.0
-        context.bezierCurveTo(x0 + dx, y0 + dx * t0, x1 - dx, y1 - dx * t1, x1, y1)
+        path.bezierCurveTo(x0 + dx, y0 + dx * t0, x1 - dx, y1 - dx * t1, x1, y1)
     }
 
     /**
@@ -140,8 +140,8 @@ open class AbstractMonotone(override val context: PathAdapter) : Curve {
     }
 }
 
-class MonotoneX(context: PathAdapter) : AbstractMonotone(context)
-class MonotoneY(context: PathAdapter) : AbstractMonotone(ReflectContext(context)) {
+class MonotoneX(path: Path) : AbstractMonotone(path)
+class MonotoneY(path: Path) : AbstractMonotone(ReflectContext(path)) {
 
     override fun point(x: Double, y: Double) {
         super.point(y, x)

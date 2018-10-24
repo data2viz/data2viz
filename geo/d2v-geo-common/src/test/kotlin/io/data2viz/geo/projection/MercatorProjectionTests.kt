@@ -3,7 +3,7 @@ package io.data2viz.geo.projection
 import io.data2viz.geom.Extent
 import io.data2viz.geo.Sphere
 import io.data2viz.geo.path.geoPath
-import io.data2viz.path.Path
+import io.data2viz.geom.PathGeom
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -22,7 +22,7 @@ class MercatorProjectionTests : TestBase() {
         projection.precision = .0
 
         projection.clipExtent shouldBe null
-        val path = geoPath(projection, Path()).path(Sphere()) as Path
+        val path = geoPath(projection, PathGeom()).path(Sphere()) as PathGeom
 //        path.path.round() shouldBe  "M3.141593,-3.141593L3.141593,0L3.141593,3.141593L3.141593,3.141593L-3.141593,3.141593L-3.141593,3.141593L-3.141593,0L-3.141593,-3.141593L-3.141593,-3.141593L3.141593,-3.141593Z".round()
     }
 
@@ -35,7 +35,7 @@ class MercatorProjectionTests : TestBase() {
         projection.precision = .0
 
         projection.clipExtent shouldBe null
-        val path = geoPath(projection, Path()).path(Sphere()) as Path
+        val path = geoPath(projection, PathGeom()).path(Sphere()) as PathGeom
 //        path.path.round() shouldBe  "M2.967060,-2.966167L2.967060,0.175426L2.967060,3.317018L2.967060,3.317018L-3.316126,3.317018L-3.316126,3.317019L-3.316126,0.175426L-3.316126,-2.966167L-3.316126,-2.966167L2.967060,-2.966167Z".round()
     }
 
@@ -52,7 +52,7 @@ class MercatorProjectionTests : TestBase() {
         projection.clipExtent!!.height shouldBe 20.0
         projection.clipExtent!!.x0 shouldBe -10.0
         projection.clipExtent!!.y0 shouldBe -10.0
-        val path = geoPath(projection, Path()).path(Sphere()) as Path
+        val path = geoPath(projection, PathGeom()).path(Sphere()) as PathGeom
 //        path.path.round() shouldBe  "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z".round()
     }
 

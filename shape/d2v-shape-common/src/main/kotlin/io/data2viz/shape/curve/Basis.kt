@@ -1,10 +1,10 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
 
-class Basis(override val context: PathAdapter): Curve {
+class Basis(override val path: Path): Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0
@@ -33,18 +33,18 @@ class Basis(override val context: PathAdapter): Curve {
     override fun lineEnd() {
         if (pointStatus == 3) {
             curve(x1,y1)
-            context.lineTo(x1, y1)
+            path.lineTo(x1, y1)
         }
-        else if (pointStatus == 2) context.lineTo(x1, y1)
+        else if (pointStatus == 2) path.lineTo(x1, y1)
 
         if (lineStatus > 0 || pointStatus == 1) {
-            context.closePath()
+            path.closePath()
         }
         if (lineStatus > -1) lineStatus = 1 - lineStatus
     }
 
     private fun curve(x: Double, y: Double){
-        context.bezierCurveTo(
+        path.bezierCurveTo(
                 (2 * x0 + x1) / 3,
                 (2 * y0 + y1) / 3,
                 (x0 + 2 * x1) / 3,
@@ -57,12 +57,12 @@ class Basis(override val context: PathAdapter): Curve {
     override fun point(x: Double, y: Double) {
         if (pointStatus == 0) {
             pointStatus = 1
-            if (lineStatus > 0) context.lineTo(x, y) else context.moveTo(x, y)
+            if (lineStatus > 0) path.lineTo(x, y) else path.moveTo(x, y)
         } else if (pointStatus == 1) {
             pointStatus = 2
         } else if (pointStatus == 2) {
             pointStatus = 3
-            context.lineTo((5 * x0 + x1) / 6, (5 * y0 + y1) / 6)
+            path.lineTo((5 * x0 + x1) / 6, (5 * y0 + y1) / 6)
             curve(x, y)
         } else {
             curve(x, y)

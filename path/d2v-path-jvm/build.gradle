@@ -1,3 +1,0 @@
-dependencies {
-    expectedBy project(":path:d2v-path-common")
-}

@@ -100,11 +100,11 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         apply plugin: 'kotlin-platform-android'
 
         android {
-            compileSdkVersion 26
+            compileSdkVersion 28
             buildToolsVersion "27.0.3"
             defaultConfig {
                 minSdkVersion 17
-                targetSdkVersion 26
+                targetSdkVersion 28
                 versionCode 1
                 versionName "1.0"
                 testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

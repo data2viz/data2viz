@@ -15,7 +15,7 @@ class PieGenerator<D> {
     var padAngle: (Array<D>) -> Double = const(.0)
 
     /**
-     * Use the data to generate a line on the context
+     * Use the data to generate a line on the path
      */
     fun render(data: Array<D>): Array<ArcParams<D>> {
         val n = data.size

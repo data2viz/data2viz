@@ -4,36 +4,6 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
 
-const val EPSILON = 1e-6
-const val EPSILON2 = EPSILON * EPSILON
-
-const val PI = kotlin.math.PI
-const val HALFPI = PI / 2.0
-const val THIRDPI = PI / 3.0
-const val QUARTERPI = PI / 4.0
-
-const val TAU = PI * 2.0
-val TAU_EPSILON = TAU - EPSILON
-
-val PI_ANGLE = Angle(kotlin.math.PI)
-val HALFPI_ANGLE = PI_ANGLE / 2
-val TAU_ANGLE = PI_ANGLE * 2
-
-private val DEG_TO_RAD = kotlin.math.PI / 180
-private val RAD_TO_DEG = 180 / kotlin.math.PI
-
-/**
- * Assuming this represents a value in degrees, converts the value to radians.
- */
-fun Double.toRadians() = this * DEG_TO_RAD
-
-/**
- * Assuming this represents a value in radians, converts the value to degrees.
- */
-fun Double.toDegrees() = this * RAD_TO_DEG
-
-val Number.deg:Angle
-    get() = Angle(toDouble() * DEG_TO_RAD)
 
 data class Angle(val rad: Double){
     val cos:Double get() = cos(rad)
@@ -54,3 +24,15 @@ data class Angle(val rad: Double){
 }
 
 
+/**
+ * Assuming this represents a value in degrees, converts the value to radians.
+ */
+fun Double.toRadians() = this * DEG_TO_RAD
+
+/**
+ * Assuming this represents a value in radians, converts the value to degrees.
+ */
+fun Double.toDegrees() = this * RAD_TO_DEG
+
+val Number.deg:Angle
+    get() = Angle(toDouble() * DEG_TO_RAD)

@@ -1,7 +1,7 @@
 dependencies {
     expectedBy project(":shape:d2v-shape-common")
-    compile project(":path:d2v-path-common")
-    compile project(":path:d2v-path-jvm")
+    compile project(":core:d2v-core-common")
+    compile project(":core:d2v-core-jvm")
     testCompile project(":tests:d2v-tests-common")
     testCompile project(":tests:d2v-tests-jvm")
     testCompile project(":format:d2v-format-common")

@@ -1,9 +1,9 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
-class Cardinal(override val context: PathAdapter, tension:Double = 0.0): Curve {
+class Cardinal(override val path: Path, tension:Double = 0.0): Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0
@@ -37,19 +37,19 @@ class Cardinal(override val context: PathAdapter, tension:Double = 0.0): Curve {
 
     override fun lineEnd() {
         when (pointStatus) {
-            2 -> context.lineTo(x2, y2)
+            2 -> path.lineTo(x2, y2)
             3 -> curve(x1, y1)
         }
         if (lineStatus > -1) {
             if (lineStatus > 0) {
-                context.closePath()
+                path.closePath()
             }
             lineStatus = 1 - lineStatus
         }
     }
 
     private fun curve(x: Double, y: Double){
-        context.bezierCurveTo(
+        path.bezierCurveTo(
                 x1 + k * (x2 - x0),
                 y1 + k * (y2 - y0),
                 x2 + k * (x1 - x),
@@ -63,7 +63,7 @@ class Cardinal(override val context: PathAdapter, tension:Double = 0.0): Curve {
         when (pointStatus) {
             0 -> {
                 pointStatus = 1
-                if (lineStatus > 0) context.lineTo(x, y) else context.moveTo(x, y)
+                if (lineStatus > 0) path.lineTo(x, y) else path.moveTo(x, y)
             }
             1 -> {
                 pointStatus = 2

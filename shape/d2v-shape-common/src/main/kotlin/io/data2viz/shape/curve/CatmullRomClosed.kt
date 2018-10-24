@@ -1,12 +1,12 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 import io.data2viz.shape.epsilon
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class CatmullRomClosed(override val context: PathAdapter, val alpha: Double = 0.5) : Curve {
+class CatmullRomClosed(override val path: Path, val alpha: Double = 0.5) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0
@@ -52,12 +52,12 @@ class CatmullRomClosed(override val context: PathAdapter, val alpha: Double = 0.
     override fun lineEnd() {
         when (pointStatus) {
             1 -> {
-                context.moveTo(x3, y3)
-                context.closePath()
+                path.moveTo(x3, y3)
+                path.closePath()
             }
             2 -> {
-                context.lineTo(x3, y3)
-                context.closePath()
+                path.lineTo(x3, y3)
+                path.closePath()
             }
             3 -> {
                 point(x3, y3)
@@ -88,7 +88,7 @@ class CatmullRomClosed(override val context: PathAdapter, val alpha: Double = 0.
             _y2 = (y2 * b + y1 * _l23_2a - y * _l12_2a) / m
         }
 
-        context.bezierCurveTo(_x1, _y1, _x2, _y2, x2, y2)
+        path.bezierCurveTo(_x1, _y1, _x2, _y2, x2, y2)
     }
 
     override fun point(x: Double, y: Double) {
@@ -108,7 +108,7 @@ class CatmullRomClosed(override val context: PathAdapter, val alpha: Double = 0.
                 pointStatus = 2
                 x4 = x
                 y4 = y
-                context.moveTo(x4, y4)
+                path.moveTo(x4, y4)
             }
             2 -> {
                 pointStatus = 3

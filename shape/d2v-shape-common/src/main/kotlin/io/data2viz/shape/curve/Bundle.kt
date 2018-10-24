@@ -1,11 +1,11 @@
 package io.data2viz.shape.curve
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
-class Bundle(override val context: PathAdapter, val beta:Double = 0.85) : Curve {
+class Bundle(override val path: Path, val beta:Double = 0.85) : Curve {
 
-    private val basis = Basis(context)
+    private val basis = Basis(path)
 
     private var x = arrayListOf<Double>()
     private var y = arrayListOf<Double>()

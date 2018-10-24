@@ -1,10 +1,10 @@
 package io.data2viz.shape
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import io.data2viz.shape.symbol.*
 
 interface Symbol {
-    fun <C : PathAdapter> render(context: C, size: Double): C
+    fun <C : Path> render(path: C, size: Double): C
 }
 
 enum class Symbols {
@@ -28,8 +28,8 @@ class SymbolGenerator<T> {
     var size: (T) -> Double = const(64.0)
     var type: (T) -> Symbol = { Circle() }
 
-    fun <C : PathAdapter> render(args: T, context: C): C {
-        type(args).render(context, size(args))
-        return context
+    fun <C : Path> render(args: T, path: C): C {
+        type(args).render(path, size(args))
+        return path
     }
 }

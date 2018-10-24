@@ -89,8 +89,8 @@ fun Group.render(renderer: JFxVizRenderer) {
 
         if (node.visible)
             when (node) {
-                is Circle       -> node.render(renderer)
-                is Rect         -> node.render(renderer)
+                is CircleNode       -> node.render(renderer)
+                is RectNode         -> node.render(renderer)
                 is Group        -> node.render(renderer)
                 is PathNode     -> node.render(renderer)
                 is Text         -> node.render(renderer)
@@ -128,7 +128,7 @@ fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient
 
 private fun List<ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
 
-fun Circle.render(renderer: JFxVizRenderer) {
+fun CircleNode.render(renderer: JFxVizRenderer) {
     val context = renderer.gc
 
     style.fill?.let {
@@ -140,7 +140,7 @@ fun Circle.render(renderer: JFxVizRenderer) {
     }
 }
 
-fun Rect.render(renderer: JFxVizRenderer) {
+fun RectNode.render(renderer: JFxVizRenderer) {
     val gc = renderer.gc
 
     style.fill?.let {

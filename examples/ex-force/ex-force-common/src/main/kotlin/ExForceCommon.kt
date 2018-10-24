@@ -1,11 +1,12 @@
 package io.data2viz.examples.force
 
 import io.data2viz.color.Color
+import io.data2viz.geom.Circle
 import io.data2viz.geom.Point
 import io.data2viz.math.random
 import io.data2viz.force.*
+import io.data2viz.geom.Size
 import io.data2viz.timer.timer
-import io.data2viz.viz.Circle
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
 
@@ -40,8 +41,7 @@ var forceIndex = 0
 
 val forcesViz:Viz = viz {
 
-    width = 800.0
-    height = 500.0
+    size = Size(800.0, 500.0)
 
     simulation.nodes.forEach { node ->
         circle {

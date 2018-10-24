@@ -57,10 +57,6 @@ def d2v = [
         ":interpolate:d2v-interpolate-js",
         ":interpolate:d2v-interpolate-jvm",
 
-        ":path:d2v-path-common",
-        ":path:d2v-path-js",
-        ":path:d2v-path-jvm",
-
         ":quadtree:d2v-quadtree-common",
         ":quadtree:d2v-quadtree-js",
         ":quadtree:d2v-quadtree-jvm",
@@ -109,9 +105,10 @@ def d2v = [
         ":timer:d2v-timer-js",
         ":timer:d2v-timer-jfx",
 
+        ":transition:d2v-transition-android",
         ":transition:d2v-transition-common",
         ":transition:d2v-transition-js",
-        ":transition:d2v-transition-jvm",
+        ":transition:d2v-transition-jfx",
 
         ":viz:d2v-viz-android",
         ":viz:d2v-viz-common",
@@ -128,13 +125,15 @@ d2v.forEach {
     includeAndFilter(it)
 }
 
-include ":data2viz:d2v-data2viz-common",
-        ":data2viz:d2v-data2viz-js",
-        ":data2viz:d2v-data2viz-jfx"
+[":data2viz:d2v-data2viz-common",
+ ":data2viz:d2v-data2viz-js",
+ ":data2viz:d2v-data2viz-jfx"].forEach{includeAndFilter(it)}
 
 includeAndFilter(":viz:rendering-app")
 
-include ":site"
+if (include_js.toBoolean()) {
+    include ":site"
+}
 
 def examples = [ 
         ":app",
@@ -193,7 +192,19 @@ examples.forEach{
 
 def includeAndFilter(project){
     if (project.endsWith("-android") || (project.endsWith("app"))) {
-        if(include_android.toBoolean()) {
+        if (include_android.toBoolean()) {
+            include(project)
+            return true
+        }
+        return false
+    } else if (project.endsWith("-js")) {
+        if (include_js.toBoolean()) {
+            include(project)
+            return true
+        }
+        return false
+    } else if (project.endsWith("-jfx")) {
+        if (include_jfx.toBoolean()) {
             include(project)
             return true
         }

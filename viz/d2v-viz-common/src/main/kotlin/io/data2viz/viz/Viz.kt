@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
+import io.data2viz.geom.HasSize
 
 
 /**
@@ -22,12 +23,12 @@ import io.data2viz.color.ColorOrGradient
  * rendering process on each platform to adapt the visualisation to the target device, taking
  * in account the resolution of the screen, and the configuration of the viz.
  */
-class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer{
+class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
 
     val config = VizConfig()
 
-    var width: Double = 100.0
-    var height: Double = 100.0
+    override var width: Double = 100.0
+    override var height: Double = 100.0
 
     val layers = mutableListOf(activeLayer)
 
@@ -159,8 +160,8 @@ interface HasChildren: HasStyle {
     fun clear()
     fun group(init: Group.() -> Unit): Group
     fun line(init: Line.() -> Unit): Line
-    fun circle(init: Circle.() -> Unit): Circle
-    fun rect(init: Rect.() -> Unit): Rect
+    fun circle(init: CircleNode.() -> Unit): CircleNode
+    fun rect(init: RectNode.() -> Unit): RectNode
     fun text(init: Text.() -> Unit): Text
     fun path(init: PathNode.() -> Unit): PathNode
 }

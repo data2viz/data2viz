@@ -1,6 +1,6 @@
 package io.data2viz.shape
 
-import io.data2viz.path.Path
+import io.data2viz.geom.PathGeom
 import io.data2viz.shape.curve.Point
 
 
@@ -67,6 +67,6 @@ val points = listOf(
 
 @JsName("generatePath")
 fun generatePath() {
-    lineGenerator.render(points, Path())
+    lineGenerator.buildLine(points, PathGeom())
 }
 

@@ -1,6 +1,6 @@
 package io.data2viz.chord
 
-import io.data2viz.path.PathAdapter
+import io.data2viz.geom.Path
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -12,7 +12,7 @@ private val halfPi = PI / 2
 /**
  * Generates a ribbon for a Chord Diagram with the given radius.
  */
-fun ribbon(radius: Double): (Chord, PathAdapter) -> Unit = { chord, path ->
+fun ribbon(radius: Double): (Chord, Path) -> Unit = { chord, path ->
     val s = chord.source
     val t = chord.target
     val sa0 = s.startAngle - halfPi
