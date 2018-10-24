@@ -1,6 +1,7 @@
 package io.data2viz.examples.letsMakeABarchart
 
 import io.data2viz.color.colors
+import io.data2viz.geom.Size
 import io.data2viz.scale.scales
 import io.data2viz.viz.TextAlignmentBaseline
 import io.data2viz.viz.TextAnchor
@@ -8,7 +9,7 @@ import io.data2viz.viz.Viz
 
 data class NameValue(val name: String, val value: Double)
 
-val myData = listOf<NameValue>(
+val myData = listOf(
     NameValue("Locke", 4.0),
     NameValue("Reyes", 8.0),
     NameValue("Ford", 15.0),
@@ -18,8 +19,12 @@ val myData = listOf<NameValue>(
 )
 
 fun barchartViz() = Viz().apply {
+
+
     val vizWidth = 420.0
     val barHeight = 20.0
+
+    size = Size(vizWidth, myData.size * barHeight)
 
     val xScale = scales.continuous.linear {
         domain = listOf(.0, myData.maxBy { it.value }!!.value)
