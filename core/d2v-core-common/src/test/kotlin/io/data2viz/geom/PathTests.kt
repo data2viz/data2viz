@@ -2,22 +2,15 @@
 
 package io.data2viz.geom
 
-import io.data2viz.geom.PathGeom
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
 import kotlin.math.PI
 import kotlin.test.Test
 
-fun main(args: Array<String>) {
-    val dbl = 1.toDouble()
-    println("M$dbl")  				// M1.0 OK
-    println(moveTo(1.toDouble())) 	// M1   KO
-}
-
 fun moveTo(x:Double) = "M$x"
 
 
-@Suppress("FunctionName")
+@Suppress("FunctionName", "NonAsciiCharacters")
 class PathTests : TestBase() {
 
     fun path(): PathGeom = PathGeom()
@@ -101,8 +94,7 @@ class PathTests : TestBase() {
     fun path_arc_throws_an_error_if_radius_is_negative() {
         with(path()) {
             moveTo(150, 50)
-            val ex = shouldThrow<IllegalArgumentException> { arc(100, 100, -50, 0, PI / 2) }
-            //ex.message shouldBe "Negative radius:-50"
+            shouldThrow<IllegalArgumentException> { arc(100, 100, -50, 0, PI / 2) }
         }
     }
 
