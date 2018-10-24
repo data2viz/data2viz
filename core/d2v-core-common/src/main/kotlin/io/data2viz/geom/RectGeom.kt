@@ -7,6 +7,5 @@ data class RectGeom(
         override var width: Double = .0,
         override var height: Double = .0) : Rect {
 
-
 }
 

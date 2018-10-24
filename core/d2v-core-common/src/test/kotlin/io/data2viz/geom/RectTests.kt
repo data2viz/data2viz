@@ -32,4 +32,24 @@ class RectTests : TestBase() {
         rect.width shouldBeClose 10.0
         rect.height shouldBeClose 20.0
     }
+
+    @Test
+    fun rectContains(){
+        val rect = RectGeom(10.0, 10.0, 10.0, 10.0)
+        (Point(10.0, 9.99) in rect) shouldBe false
+        (Point(9.99, 10.0) in rect) shouldBe false
+        (Point(20.01, 10.0) in rect) shouldBe false
+        (Point(10.0, 20.01) in rect) shouldBe false
+
+        (Point(10.0, 10.0) in rect) shouldBe true
+        (Point(10.0, 20.0) in rect) shouldBe true
+        (Point(20.0, 10.0) in rect) shouldBe true
+        (Point(20.0, 20.0) in rect) shouldBe true
+
+        (RectGeom(10.0, 10.0, 10.0, 10.0) in rect) shouldBe true
+        (RectGeom(10.0, 9.99999, 10.0, 10.0) in rect) shouldBe false
+        (RectGeom(9.9999, 10.0, 10.0, 10.0) in rect) shouldBe false
+        (RectGeom(10.0, 10.0, 10.00001, 10.0) in rect) shouldBe false
+        (RectGeom(10.0, 10.0, 10.0, 10.0001) in rect) shouldBe false
+    }
 }

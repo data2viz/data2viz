@@ -32,4 +32,20 @@ interface Rect: HasSize {
 	val center: Point
 		get() = Point(x + .5 * width, y + .5 * height)
 
+	operator fun contains(point: Point):Boolean {
+		val x = point.x
+		val y = point.y
+		return x >= this.x && y >= this.y
+				&& x <= this.x + this.width
+				&& y <= this.y + this.height
+	}
+
+	operator fun contains(rect: Rect):Boolean {
+		val x = rect.x
+		val y = rect.y
+		return x >= this.x && y >= this.y
+                && x + rect.width <= this.x + this.width
+                && y + rect.height <= this.y + this.height;
+	}
+
 }
