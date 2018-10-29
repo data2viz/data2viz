@@ -30,6 +30,7 @@ interface Matchers : StringMatchers,
 
     infix fun Double.shouldBe(other: Double): Unit = ToleranceMatcher(other, 0.0).test(this)
     infix fun Double.shouldBeClose(other: Double): Unit = ToleranceMatcher(other, epsilon).test(this)
+    infix fun Float.shouldBeClose(other: Float): Unit = ToleranceMatcher(other.toDouble(), epsilon).test(this.toDouble())
 
     infix fun Array<Int>?.shouldBe(other: Array<Int>?) {
         if (this == null) {

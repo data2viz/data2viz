@@ -142,7 +142,7 @@ class ColorTests : TestBase() {
         round(color6.labB) shouldBe 0f
 
         val color7 = black.toLab()
-        round(color7.labL) shouldBe -0f
+        round(color7.labL) shouldBeClose 0f         // give -0 in JVM
         round(color7.labA) shouldBe 0f
         round(color7.labB) shouldBe 0f
     }
