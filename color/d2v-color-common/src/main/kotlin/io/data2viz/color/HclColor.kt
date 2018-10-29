@@ -30,6 +30,7 @@ class HclColor(val h: Angle = Angle(0.0), c: Number = 1, l: Number = 100, alpha:
     override fun darken(strength: Double): Color = HclColor(h, c, (l - (Kn * strength)).toFloat(), alpha)
     override fun saturate(strength: Double): Color = HclColor(h, max(.0, (c + (Kn * strength))).toFloat(), l, alpha)
     override fun desaturate(strength: Double): Color = HclColor(h, max(.0, (c - (Kn * strength))).toFloat(), l, alpha)
+    override fun withAlpha(alpha: Float) = HclColor(h, c, l, alpha)
 
     /*val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)*/

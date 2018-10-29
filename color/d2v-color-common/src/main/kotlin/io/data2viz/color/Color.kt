@@ -12,4 +12,5 @@ interface Color : ColorOrGradient {
     fun darken(strength: Double = 1.0):Color
     fun saturate(strength: Double = 1.0):Color
     fun desaturate(strength: Double = 1.0):Color
+    fun withAlpha(alpha: Float):Color
 }

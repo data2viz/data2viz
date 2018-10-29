@@ -61,7 +61,7 @@ class RgbColor(override val rgb: Int = 0xffffff, override val alpha: Float = 1.0
     override val rgba: String
         get() = "rgba($r, $g, $b, $alpha)"
 
-    fun withAlpha(alpha: Float): RgbColor = RgbColor(rgb, alpha)
+    override fun withAlpha(alpha: Float) = RgbColor(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

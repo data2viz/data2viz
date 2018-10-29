@@ -31,6 +31,7 @@ class HslColor(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: N
     override fun darken(strength: Double):Color = toRgba().darken(strength)
     override fun saturate(strength: Double):Color = toRgba().saturate(strength)
     override fun desaturate(strength: Double):Color = toRgba().desaturate(strength)
+    override fun withAlpha(alpha: Float) = HslColor(h, s, l, alpha)
 
     /*val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)

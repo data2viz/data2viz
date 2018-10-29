@@ -32,7 +32,7 @@ class LabColor(l: Number = 100, a: Number = 0, b: Number = 0, alpha: Number = 1)
     override fun darken(strength: Double):Color = LabColor((labL - (Kn * strength)).toFloat(), labA, labB, alpha)
     override fun saturate(strength: Double):Color = toHcla().saturate(strength)
     override fun desaturate(strength: Double):Color = toHcla().desaturate(strength)
-
+    override fun withAlpha(alpha: Float) = LabColor(labL, labA, labB, alpha)
 
     override val alpha: Float = alpha.toFloat().coerceIn(0f, 1f)
 
