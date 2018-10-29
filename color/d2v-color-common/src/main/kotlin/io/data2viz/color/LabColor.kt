@@ -13,26 +13,28 @@ import kotlin.math.sqrt
  * @param b "b"-component:Float for blue-yellow between -128 and +128
  * @param alpha:Opacity between 0 and 1
  */
-class LabColor(l: Number = 100, a: Number = 0, b: Number = 0, alpha: Number = 1) {
+class LabColor(l: Number = 100, a: Number = 0, b: Number = 0, alpha: Number = 1):Color {
 
     // TODO check for coerce values (coerce needed ?)
     // TODO check for type
-    val l: Float = l.toFloat().coerceIn(0f, 100f)
-    val a: Float = a.toFloat().coerceIn(-128f, 128f)
-    val b: Float = b.toFloat().coerceIn(-128f, 128f)
-    val alpha: Float = alpha.toFloat().coerceIn(0f, 1f)
+    val labL: Float = l.toFloat()
+    val labA: Float = a.toFloat()
+    val labB: Float = b.toFloat()
 
-    fun brighter(strength: Double = 1.0) = LabColor((l + (Kn * strength)).toFloat(), a, b, alpha)
-    fun darker(strength: Double = 1.0) = LabColor((l - (Kn * strength)).toFloat(), a, b, alpha)
+    override val rgb = toRgba().rgb
+    override val rgba = toRgba().rgba
+    override val r = toRgba().r
+    override val g = toRgba().g
+    override val b = toRgba().b
+    override val rgbHex:String = toRgba().rgbHex
+
+    override fun brighten(strength: Double):Color = LabColor((labL + (Kn * strength)).toFloat(), labA, labB, alpha)
+    override fun darken(strength: Double):Color = LabColor((labL - (Kn * strength)).toFloat(), labA, labB, alpha)
+    override fun saturate(strength: Double):Color = toHcla().saturate(strength)
+    override fun desaturate(strength: Double):Color = toHcla().desaturate(strength)
 
 
+    override val alpha: Float = alpha.toFloat().coerceIn(0f, 1f)
 
-    // TODO use RAD2DEG from angle ?
-    fun toHcla(): HclColor {
-        val h = atan2(b.toDouble(), a.toDouble()) * (180 / PI)
-        val hue = (h.deg).normalize()
-        return HclColor(hue, sqrt(a.toDouble() * a.toDouble() + b.toDouble() * b.toDouble()), l, alpha)
-    }
-
-    override fun toString() = "laba($l, $a, $b, $alpha)"
+    override fun toString() = "laba($labL, $labA, $labB, $alpha)"
 }

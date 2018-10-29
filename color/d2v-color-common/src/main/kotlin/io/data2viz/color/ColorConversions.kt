@@ -1,8 +1,8 @@
 package io.data2viz.color
 
+import io.data2viz.math.Angle
 import io.data2viz.math.deg
-import kotlin.math.pow
-import kotlin.math.round
+import kotlin.math.*
 
 
 internal const val darker = 0.7
@@ -27,11 +27,11 @@ val String.color: Color
         require(this.matches(regex)) {
             "Conversion of string to io.data2viz.color.getColor works for encoded colors like #12abCD"
         }
-        return Color(substring(1).toInt(16))
+        return RgbColor(substring(1).toInt(16))
     }
 
 
-fun Color.toLab(): LabColor {
+fun RgbColor.toLab(): LabColor {
     val labB = rgb2xyz(r)
     val labA = rgb2xyz(g)
     val labL = rgb2xyz(b)
@@ -41,7 +41,7 @@ fun Color.toLab(): LabColor {
     return LabColor(116 * y - 16, 500 * (x - y), 200 * (y - z), alpha)
 }
 
-fun Color.toHsla(): HslColor {
+fun RgbColor.toHsla(): HslColor {
     val rPercent = r.toFloat() / 255f
     val gPercent = g.toFloat() / 255f
     val bPercent = b.toFloat() / 255f
@@ -68,9 +68,9 @@ fun Color.toHsla(): HslColor {
 
 fun LabColor.toRgba(): Color {
     // map CIE LAB to CIE XYZ
-    var y = (l + 16) / 116f
-    var x = y + (a / 500f)
-    var z = y - (b / 200f)
+    var y = (labL + 16) / 116f
+    var x = y + (labA / 500f)
+    var z = y - (labB / 200f)
     y = Yn * lab2xyz(y)
     x = Xn * lab2xyz(x)
     z = Zn * lab2xyz(z)
@@ -81,6 +81,41 @@ fun LabColor.toRgba(): Color {
             xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
             xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
             alpha)
+}
+
+fun HslColor.toRgba(): Color =
+        if (s == 0.0)     // achromatic
+            rgba(
+                    (l * 255).roundToInt(),
+                    (l * 255).roundToInt(),
+                    (l * 255).roundToInt(),
+                    alpha)
+        else {
+            val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
+            val p = 2 * l - q
+            rgba(
+                    (hue2rgb(p, q, h + 120.deg) * 255).roundToInt(),
+                    (hue2rgb(p, q, h) * 255).roundToInt(),
+                    (hue2rgb(p, q, h - 120.deg) * 255).roundToInt(),
+                    alpha)
+        }
+
+fun HclColor.toLab() = LabColor(l, h.cos * c, h.sin * c, alpha)
+
+fun LabColor.toHcla(): HclColor {
+    val hue = Angle(atan2(labB, labA).toDouble()).normalize()
+    val c = sqrt(labA * labA + labB * labB)
+    return HclColor(hue, c, labL, alpha)
+}
+
+private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {
+    val hd = hue.normalize()
+    return when {
+        hd.deg < 60 -> (p + (q - p) * (hd.deg / 60.0))
+        hd.deg < 180 -> q
+        hd.deg < 240 -> (p + (q - p) * ((240 - hd.deg) / 60.0))
+        else -> p
+    }
 }
 
 

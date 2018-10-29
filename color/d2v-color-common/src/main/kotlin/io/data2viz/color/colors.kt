@@ -15,13 +15,13 @@ internal expect fun Int.toString(radix: Int): String
 // TODO in a java implementation of LAB they used Double
 
 
-val Int.color: Color
-    get() = Color(this)
+val Int.color: RgbColor
+    get() = RgbColor(this)
 
 
 fun rgba(red: Int, green: Int, blue: Int, alpha: Float = 1f): Color {
     val rgb = (red.coerceIn(0, 255) shl 16) + (green.coerceIn(0, 255) shl 8) + blue.coerceIn(0, 255)
-    return Color(rgb, alpha.coerceIn(0f, 1f))
+    return RgbColor(rgb, alpha.coerceIn(0f, 1f))
 }
 
 fun hsla(h: Angle, s: Number, l: Number, a: Number = 1f) = HslColor(h, s, l, a)

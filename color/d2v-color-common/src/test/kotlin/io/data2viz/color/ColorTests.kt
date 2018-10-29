@@ -14,7 +14,7 @@ class ColorTests : TestBase() {
 
     @Test
     fun color_defaults() {
-        val color = Color()
+        val color = RgbColor()
         color.rgb shouldBe 0xffffff
         color.r shouldBe 255
         color.g shouldBe 255
@@ -23,7 +23,7 @@ class ColorTests : TestBase() {
 
     @Test
     fun set_r_g_b() {
-        var color = Color()
+        var color = RgbColor()
         color = color.withRed(0xab)
         color.rgb shouldBe 0xabffff
 
@@ -59,44 +59,44 @@ class ColorTests : TestBase() {
     fun HSLA_to_RGBA_reference() {
         hsla(0.deg, 0, 0).toRgba() shouldBe black
         hsla(0.deg, 0, 1).toRgba() shouldBe white
-        hsla(32.deg, 0.80, 0.80, 0).toRgba() shouldBe Color(0xf5cfa3, 0.0f)
-        hsla(260.deg, 0.20, 0.44, 1).toRgba() shouldBe Color(0x695a87, 1f)
-        hsla(300.deg, 0.98, 0.16, .3).toRgba() shouldBe Color(0x510151, .3f)
-        hsla(16.deg, 0.75, 0.23, .5).toRgba() shouldBe Color(0x67260f, .5f)
+        hsla(32.deg, 0.80, 0.80, 0).toRgba() shouldBe RgbColor(0xf5cfa3, 0.0f)
+        hsla(260.deg, 0.20, 0.44, 1).toRgba() shouldBe RgbColor(0x695a87, 1f)
+        hsla(300.deg, 0.98, 0.16, .3).toRgba() shouldBe RgbColor(0x510151, .3f)
+        hsla(16.deg, 0.75, 0.23, .5).toRgba() shouldBe RgbColor(0x67260f, .5f)
     }
 
     @Test
     fun RGBA_to_HSLA_rounded() {
         //Color(0xf5cfa3, 0).toHsla() shouldBe hsla(32.deg, 0.80, 0.80, 0)
-        val color1 = Color(0xf5cfa3, 0f).toHsla()
+        val color1 = RgbColor(0xf5cfa3, 0f).toHsla()
         round(color1.h.deg) shouldBeClose 32.0
         round(color1.s * 100) shouldBeClose 80.0
         round(color1.l * 100) shouldBeClose 80.0
         color1.alpha shouldBe 0.0f
 
 //            hsla(260.deg, 0.20, 0.44, 1).toRgba() shouldBe Color(0x695a87, 1)
-        val color2 = Color(0x695a87, 1f).toHsla()
+        val color2 = RgbColor(0x695a87, 1f).toHsla()
         round(color2.h.deg) shouldBeClose 260.0
         round(color2.s * 100) shouldBeClose 20.0
         round(color2.l * 100) shouldBeClose 44.0
         color2.alpha shouldBe 1f
 
 //            hsla(300.deg, 0.98, 0.16, .3).toRgba() shouldBe Color(0x510151, .3)
-        val color3 = Color(0x510151, .3f).toHsla()
+        val color3 = RgbColor(0x510151, .3f).toHsla()
         round(color3.h.deg) shouldBeClose 300.0
         round(color3.s * 100) shouldBeClose 98.0
         round(color3.l * 100) shouldBeClose 16.0
         color3.alpha shouldBe .3f
 
 //            hsla(16.deg, 0.75, 0.23, .5).toRgba() shouldBe Color(0x67260f, .5)*/
-        val color4 = Color(0x67260f, .5f).toHsla()
+        val color4 = RgbColor(0x67260f, .5f).toHsla()
         round(color4.h.deg) shouldBeClose 16.0
         round(color4.s * 100) shouldBeClose 75.0
         round(color4.l * 100) shouldBeClose 23.0
         color4.alpha shouldBe .5f
 
 //            hsla(0.deg, 0, 0, .42).toRgba() shouldBe Color(0x6a6a6a, .2)*/
-        val color5 = Color(0x6a6a6a, .2f).toHsla()
+        val color5 = RgbColor(0x6a6a6a, .2f).toHsla()
         round(color5.h.deg) shouldBeClose 0.0
         round(color5.s * 100) shouldBeClose 0.0
         round(color5.l * 100) shouldBeClose 42.0
@@ -106,45 +106,45 @@ class ColorTests : TestBase() {
     @Test
     fun RGBA_to_LAB_rounded() {
 
-        val color1 = Color(0xf5cfa3, 0f).toLab()
-        round(color1.l) shouldBe 85.0f
-        round(color1.a) shouldBe 7f
-        round(color1.b) shouldBe 27f
+        val color1 = RgbColor(0xf5cfa3, 0f).toLab()
+        round(color1.labL) shouldBe 85.0f
+        round(color1.labA) shouldBe 7f
+        round(color1.labB) shouldBe 27f
         color1.alpha shouldBe 0f
 
-        val color2 = Color(0x695a87, 1f).toLab()
-        round(color2.l) shouldBe 41f
-        round(color2.a) shouldBe 16f
-        round(color2.b) shouldBe -23f
+        val color2 = RgbColor(0x695a87, 1f).toLab()
+        round(color2.labL) shouldBe 41f
+        round(color2.labA) shouldBe 16f
+        round(color2.labB) shouldBe -23f
         color2.alpha shouldBe 1f
 
-        val color3 = Color(0x510151, .3f).toLab()
-        round(color3.l) shouldBe 17f
-        round(color3.a) shouldBe 42f
-        round(color3.b) shouldBe -26f
+        val color3 = RgbColor(0x510151, .3f).toLab()
+        round(color3.labL) shouldBe 17f
+        round(color3.labA) shouldBe 42f
+        round(color3.labB) shouldBe -26f
         color3.alpha shouldBe .3f
 
-        val color4 = Color(0x67260f, .5f).toLab()
-        round(color4.l) shouldBe 25f
-        round(color4.a) shouldBe 28f
-        round(color4.b) shouldBe 29f
+        val color4 = RgbColor(0x67260f, .5f).toLab()
+        round(color4.labL) shouldBe 25f
+        round(color4.labA) shouldBe 28f
+        round(color4.labB) shouldBe 29f
         color4.alpha shouldBe .5f
 
-        val color5 = Color(0x6a6a6a, .2f).toLab()
-        round(color5.l) shouldBe 45f
-        round(color5.a) shouldBe -0f
-        round(color5.b) shouldBe 0f
+        val color5 = RgbColor(0x6a6a6a, .2f).toLab()
+        round(color5.labL) shouldBe 45f
+        round(color5.labA) shouldBe -0f
+        round(color5.labB) shouldBe 0f
         color5.alpha shouldBe .2f
 
         val color6 = white.toLab()
-        round(color6.l) shouldBe 100f
-        round(color6.a).absoluteValue shouldBe 0f
-        round(color6.b) shouldBe 0f
+        round(color6.labL) shouldBe 100f
+        round(color6.labA).absoluteValue shouldBe 0f
+        round(color6.labB) shouldBe 0f
 
         val color7 = black.toLab()
-        round(color7.l) shouldBe 0f
-        round(color7.a) shouldBe 0f
-        round(color7.b) shouldBe 0f
+        round(color7.labL) shouldBe -0f
+        round(color7.labA) shouldBe 0f
+        round(color7.labB) shouldBe 0f
     }
 
     @Test
@@ -159,7 +159,7 @@ class ColorTests : TestBase() {
     @Test
     fun Default_HSL_color_should_be_the_same_as_default_RGB_color_white() {
         val color = HslColor().toRgba()
-        color shouldBe Color()
+        color shouldBe RgbColor()
         color shouldBe white
     }
 
@@ -196,7 +196,7 @@ class ColorTests : TestBase() {
      */
     @Test
     fun LAB_CONVERSION() {
-        lab().toRgba() shouldBe Color()
+        lab().toRgba() shouldBe RgbColor()
     }
 
     @Test
@@ -216,31 +216,31 @@ class ColorTests : TestBase() {
 
     @Test
     fun RGB_to_LAB_to_HCL_checks_for_multiple_colors() {
-        val color1 = Color(0xf5cfa3, 0f).toLab().toHcla()
+        val color1 = RgbColor(0xf5cfa3, 0f).toLab().toHcla()
         round(color1.h.deg) shouldBeClose 75.0
         round(color1.c) shouldBeClose 28.0
         round(color1.l) shouldBe 85f
         color1.alpha shouldBe 0.0f
 
-        val color2 = Color(0x695a87, 1f).toLab().toHcla()
+        val color2 = RgbColor(0x695a87, 1f).toLab().toHcla()
         round(color2.h.deg) shouldBeClose 305.0
         round(color2.c) shouldBeClose 28.0
         round(color2.l) shouldBe 41.0f
         color2.alpha shouldBe 1.0f
 
-        val color3 = Color(0x510151, .3f).toLab().toHcla()
+        val color3 = RgbColor(0x510151, .3f).toLab().toHcla()
         round(color3.h.deg) shouldBeClose 328.0
         round(color3.c) shouldBeClose 50.0
         round(color3.l) shouldBe 17.0f
         color3.alpha shouldBe .3f
 
-        val color4 = Color(0x67260f, .5f).toLab().toHcla()
+        val color4 = RgbColor(0x67260f, .5f).toLab().toHcla()
         round(color4.h.deg) shouldBeClose 46.0
         round(color4.c) shouldBeClose 40.0
         round(color4.l) shouldBe 25.0f
         color4.alpha shouldBe .5f
 
-        val color5 = Color(0x6a6a6a, .2f).toLab().toHcla()
+        val color5 = RgbColor(0x6a6a6a, .2f).toLab().toHcla()
         //round(color5.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
         round(color5.c) shouldBeClose 0.0
         round(color5.l) shouldBe 45.0f
@@ -255,5 +255,78 @@ class ColorTests : TestBase() {
         //round(color7.h.deg) shouldBe 0                       // achromatic, hue value irrelevant
         round(color7.c) shouldBeClose 0.0
         round(color7.l) shouldBe 0.0f
+    }
+
+    @Test
+    fun HCL_to_LAB_to_RGB_checks_for_multiple_colors() {
+        val color1 = HclColor(75.deg, 28.0, 85, .0).toLab().toRgba()
+        color1.rgbHex shouldBe "#f4cea2"
+        color1.alpha shouldBe 0.0f
+
+        val color2 = HclColor(305.deg, 28.0, 41, .0).toLab().toRgba()
+        color2.rgbHex shouldBe "#685986"
+        color2.alpha shouldBe .0f
+
+        val color3 = HclColor(328.deg, 50.0, 17, .3).toLab().toRgba()
+        color3.rgbHex shouldBe "#500051"
+        color3.alpha shouldBe .3f
+
+        val color4 = HclColor(46.deg, 40.0, 25, .5).toLab().toRgba()
+        color4.rgbHex shouldBe "#682710"
+        color4.alpha shouldBe .5f
+
+        val color5 = HclColor(267.deg, 0.0, 45, .5).toLab().toRgba()
+        color5.rgbHex shouldBe "#6a6a6a"
+        color5.alpha shouldBe .5f
+
+        val color6 = HclColor(0.deg, 0.0, 100).toLab().toRgba()
+        color6.rgbHex shouldBe "#ffffff"
+
+        val color7 = HclColor(0.deg, 0.0, 0).toLab().toRgba()
+        color7.rgbHex shouldBe "#000000"
+    }
+
+    @Test
+    fun brighten_RGB() {
+        colors.hotpink.brighten().rgbHex shouldBe "#ff9ce6"
+        colors.hotpink.brighten(2.0).rgbHex shouldBe "#ffd1ff"
+        colors.hotpink.brighten(3.0).rgbHex shouldBe "#ffffff"
+
+        colors.darkseagreen.brighten().rgbHex shouldBe "#c0efbf"
+        colors.darkseagreen.brighten(2.0).rgbHex shouldBe "#f3fff2"
+        colors.darkseagreen.brighten(3.0).rgbHex shouldBe "#ffffff"
+
+        colors.teal.brighten().rgbHex shouldBe "#4cb0af"
+        colors.teal.brighten(2.0).rgbHex shouldBe "#81e2e1"
+        colors.teal.brighten(3.0).rgbHex shouldBe "#b5ffff"
+    }
+
+    @Test
+    fun darken_RGB() {
+        colors.hotpink.darken().rgbHex shouldBe "#c93384"
+        colors.hotpink.darken(2.0).rgbHex shouldBe "#930058"
+        colors.hotpink.darken(2.6).rgbHex shouldBe "#74003f"
+
+        colors.darkseagreen.darken().rgbHex shouldBe "#608c61"
+        colors.darkseagreen.darken(2.0).rgbHex shouldBe "#345e37"
+        colors.darkseagreen.darken(2.6).rgbHex shouldBe "#1b441f"
+
+        colors.teal.darken().rgbHex shouldBe "#005354"
+        colors.teal.darken(2.0).rgbHex shouldBe "#00292b"
+        colors.teal.darken(2.6).rgbHex shouldBe "#001715"
+    }
+
+    @Test
+    fun saturate_RGB() {
+        colors.slategray.saturate().rgbHex shouldBe "#4b83ae"
+        colors.slategray.saturate(2.0).rgbHex shouldBe "#0087cd"
+        colors.slategray.saturate(3.0).rgbHex shouldBe "#008bec"
+    }
+
+    @Test
+    fun desaturate_RGB() {
+        colors.hotpink.desaturate().rgbHex shouldBe "#e77dae"
+        colors.hotpink.desaturate(2.0).rgbHex shouldBe "#cd8ca8"
+        colors.hotpink.desaturate(3.0).rgbHex shouldBe "#b199a3"
     }
 }
