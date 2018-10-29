@@ -7,8 +7,8 @@ import io.data2viz.chord.Chord
 import io.data2viz.chord.ChordGroup
 import io.data2viz.chord.ChordLayout
 import io.data2viz.chord.Chords
-import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
+import io.data2viz.color.RgbColor
 import io.data2viz.geom.Path
 import io.data2viz.geom.Size
 import io.data2viz.shape.arcBuilder
@@ -43,7 +43,7 @@ val movies = listOf(
 )
 
 val avengers = listOf(blackWidow, captainAmerica, hawkeye, theHulk, ironMan, thor)
-val colors = listOf(0x301E1E, 0x083E77, 0x342350, 0x567235, 0x8B161C, 0xDF7C00).map { Color(it) }
+val colors = listOf(0x301E1E, 0x083E77, 0x342350, 0x567235, 0x8B161C, 0xDF7C00).map { RgbColor(it) }
 
 
 val chordSize = Size(600.0, 600.0)

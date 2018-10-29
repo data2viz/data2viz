@@ -1,11 +1,11 @@
 package io.data2viz.examples.force
 
-import io.data2viz.color.Color
+import io.data2viz.color.RgbColor
+import io.data2viz.force.*
 import io.data2viz.geom.Circle
 import io.data2viz.geom.Point
-import io.data2viz.math.random
-import io.data2viz.force.*
 import io.data2viz.geom.Size
+import io.data2viz.math.random
 import io.data2viz.timer.timer
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
@@ -23,11 +23,11 @@ val simulation: ForceSimulation = forceSimulation {
 }
 
 val olympicColors = listOf(
-        Color(0x0081C8),
-        Color(0x000000),
-        Color(0xEE334E),
-        Color(0xFCB131),
-        Color(0x00A651)
+        RgbColor(0x0081C8),
+        RgbColor(0x000000),
+        RgbColor(0xEE334E),
+        RgbColor(0xFCB131),
+        RgbColor(0x00A651)
 )
 
 val forces = listOf(
