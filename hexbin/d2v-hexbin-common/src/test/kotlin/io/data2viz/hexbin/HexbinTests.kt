@@ -3,6 +3,7 @@ package io.data2viz.hexbin
 import io.data2viz.geom.Extent
 import io.data2viz.geom.Point
 import io.data2viz.geom.PathGeom
+import io.data2viz.geom.svgPath
 import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
 import kotlin.test.Test

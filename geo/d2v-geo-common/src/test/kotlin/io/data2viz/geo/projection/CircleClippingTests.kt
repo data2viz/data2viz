@@ -4,6 +4,7 @@ import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geom.PathGeom
+import io.data2viz.geom.svgPath
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 

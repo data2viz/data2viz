@@ -3,6 +3,7 @@
 package io.data2viz.shape
 
 import io.data2viz.geom.PathGeom
+import io.data2viz.geom.svgPath
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 import kotlin.test.assertEquals
