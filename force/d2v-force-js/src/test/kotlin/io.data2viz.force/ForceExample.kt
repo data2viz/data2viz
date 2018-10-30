@@ -1,6 +1,6 @@
 package io.data2viz.force
 
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 import io.data2viz.math.random
 import io.data2viz.viz.*
 import kotlin.js.Math
@@ -42,15 +42,15 @@ val viz = viz {
                 lineTo(link.target.x, link.target.y)
             }
             strokeWidth = 1.0
-            stroke = colors.grey
+            stroke = Colors.Web.grey
         }
         path {
             sim.nodes.forEach { d ->
                 moveTo(d.x + 3, d.y)
                 arc(d.x, d.y, 3.0, 0.0, 2 * Math.PI);
             }
-            fill = colors.black
-            stroke = colors.white
+            fill = Colors.Web.black
+            stroke = Colors.Web.white
             strokeWidth = 1.0
         }
     }

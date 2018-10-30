@@ -1,6 +1,6 @@
 package io.data2viz.examples.letsMakeABarchart
 
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 import io.data2viz.geom.Size
 import io.data2viz.scale.scales
 import io.data2viz.viz.TextAlignmentBaseline
@@ -37,13 +37,13 @@ fun barchartViz() = Viz().apply {
             rect {
                 width = xScale(nameValue.value)
                 height = barHeight - 1.0
-                style.fill = colors.steelblue
+                style.fill = Colors.Web.steelblue
             }
             text {
                 x = xScale(nameValue.value) - 3.0
                 y = barHeight / 2.0
                 textContent = nameValue.value.toString()
-                style.fill = colors.white
+                style.fill = Colors.Web.white
                 style.anchor = TextAnchor.END
                 style.baseline = TextAlignmentBaseline.MIDDLE
             }

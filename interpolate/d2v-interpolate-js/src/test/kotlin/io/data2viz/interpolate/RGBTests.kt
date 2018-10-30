@@ -1,12 +1,12 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.Color
+import io.data2viz.color.Colors
 import io.data2viz.color.RgbColor
-import io.data2viz.color.colors
-import io.data2viz.color.colors.blue
-import io.data2viz.color.colors.green
-import io.data2viz.color.colors.red
-import io.data2viz.color.colors.white
+import io.data2viz.color.Colors.Web.blue
+import io.data2viz.color.Colors.Web.green
+import io.data2viz.color.Colors.Web.red
+import io.data2viz.color.Colors.Web.white
 import io.data2viz.test.TestBase
 import io.data2viz.test.namespace
 import kotlin.browser.document
@@ -16,17 +16,17 @@ class RGBTests : TestBase() {
 
     @Test
     fun interpolateSameColor() {
-        val iterator = interpolateRgb(colors.darkolivegreen, colors.darkolivegreen)
-        iterator(-1.0) shouldBe colors.darkolivegreen
-        iterator(0.0) shouldBe colors.darkolivegreen
-        iterator(0.5) shouldBe colors.darkolivegreen
-        iterator(1.0) shouldBe colors.darkolivegreen
-        iterator(2.0) shouldBe colors.darkolivegreen
+        val iterator = interpolateRgb(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen)
+        iterator(-1.0) shouldBe Colors.Web.darkolivegreen
+        iterator(0.0) shouldBe Colors.Web.darkolivegreen
+        iterator(0.5) shouldBe Colors.Web.darkolivegreen
+        iterator(1.0) shouldBe Colors.Web.darkolivegreen
+        iterator(2.0) shouldBe Colors.Web.darkolivegreen
     }
 
     @Test
     fun interpolateSameColorGamma2() {
-        val iterator = interpolateRgb(colors.darkolivegreen, colors.darkolivegreen, gamma = 2.0)
+        val iterator = interpolateRgb(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen, gamma = 2.0)
         iterator(-1.0) shouldBe iterator(0.0)
         iterator(0.0) shouldBe iterator(0.5)
         iterator(0.5) shouldBe iterator(1.0)
@@ -36,23 +36,23 @@ class RGBTests : TestBase() {
 
     @Test
     fun splineRGBSameColor() {
-        val iterator = interpolateRgbBasis(listOf(colors.darkolivegreen, colors.darkolivegreen))
-        iterator(-1.0) shouldBe colors.darkolivegreen
-        iterator(0.0) shouldBe colors.darkolivegreen
-        iterator(0.5) shouldBe colors.darkolivegreen
-        iterator(1.0) shouldBe colors.darkolivegreen
-        iterator(2.0) shouldBe colors.darkolivegreen
+        val iterator = interpolateRgbBasis(listOf(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen))
+        iterator(-1.0) shouldBe Colors.Web.darkolivegreen
+        iterator(0.0) shouldBe Colors.Web.darkolivegreen
+        iterator(0.5) shouldBe Colors.Web.darkolivegreen
+        iterator(1.0) shouldBe Colors.Web.darkolivegreen
+        iterator(2.0) shouldBe Colors.Web.darkolivegreen
     }
 
 
     @Test
     fun cyclicalSplineRGBSameColor() {
-        val iterator = interpolateRgbBasis(listOf(colors.darkolivegreen, colors.darkolivegreen), cyclical = true)
-        iterator(-1.0) shouldBe colors.darkolivegreen
-        iterator(0.0) shouldBe colors.darkolivegreen
-        iterator(0.5) shouldBe colors.darkolivegreen
-        iterator(1.0) shouldBe colors.darkolivegreen
-        iterator(2.0) shouldBe colors.darkolivegreen
+        val iterator = interpolateRgbBasis(listOf(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen), cyclical = true)
+        iterator(-1.0) shouldBe Colors.Web.darkolivegreen
+        iterator(0.0) shouldBe Colors.Web.darkolivegreen
+        iterator(0.5) shouldBe Colors.Web.darkolivegreen
+        iterator(1.0) shouldBe Colors.Web.darkolivegreen
+        iterator(2.0) shouldBe Colors.Web.darkolivegreen
     }
 
     @Test

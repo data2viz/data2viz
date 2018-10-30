@@ -1,6 +1,6 @@
 package io.data2viz.axis
 
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 import io.data2viz.scale.*
 import io.data2viz.viz.Group
 import io.data2viz.viz.TextAlignmentBaseline
@@ -47,7 +47,7 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
         with(content){
             path {
-                style.stroke = colors.black
+                style.stroke = Colors.Web.black
                 style.fill = null
                 style.strokeWidth = 1.0
 
@@ -72,12 +72,12 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                     if (orient.isHorizontal())
                         line {
                             y2 = k * tickSizeInner
-                            style.stroke = colors.black
+                            style.stroke = Colors.Web.black
                         }
                     else
                         line {
                             x2 = k * tickSizeInner
-                            style.stroke = colors.black
+                            style.stroke = Colors.Web.black
                         }
                     text {
                         style.anchor = when (orient) {
@@ -91,7 +91,7 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                             Orient.BOTTOM -> TextAlignmentBaseline.HANGING
                             else -> TextAlignmentBaseline.MIDDLE
                         }
-                        style.fill = colors.black
+                        style.fill = Colors.Web.black
                         if(orient.isHorizontal()) 
                             y = spacing * k
                         else

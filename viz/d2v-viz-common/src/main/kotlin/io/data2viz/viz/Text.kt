@@ -1,7 +1,6 @@
 package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
-import io.data2viz.color.colors
 import io.data2viz.viz.TextAnchor.*
 
 class Text : Node(), HasFill, HasStroke {

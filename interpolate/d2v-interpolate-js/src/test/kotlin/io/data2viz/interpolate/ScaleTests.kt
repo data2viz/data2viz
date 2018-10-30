@@ -1,8 +1,8 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.RgbColor
-import io.data2viz.color.colors.blue
-import io.data2viz.color.colors.red
+import io.data2viz.color.Colors.Web.blue
+import io.data2viz.color.Colors.Web.red
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 

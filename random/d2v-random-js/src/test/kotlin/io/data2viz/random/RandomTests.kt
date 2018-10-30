@@ -2,7 +2,7 @@
 
 package io.data2viz.random
 
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 import io.data2viz.test.namespace
 import io.data2viz.test.TestBase
 import kotlin.browser.document
@@ -156,7 +156,7 @@ private fun testAndGraphAndCheckMinMaxValues(
                                 setAttribute("y", "${100 - height}")
                                 setAttribute("width", "8")
                                 setAttribute("height", "$height")
-                                setAttribute("fill", colors.lightblue.rgbHex)
+                                setAttribute("fill", Colors.Web.lightblue.rgbHex)
                             }
 
                         )

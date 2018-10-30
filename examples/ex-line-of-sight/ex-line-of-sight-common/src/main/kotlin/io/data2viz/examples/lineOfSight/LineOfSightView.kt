@@ -1,9 +1,6 @@
 package io.data2viz.examples.lineOfSight
 
-import io.data2viz.color.Color
-import io.data2viz.color.RadialGradient
-import io.data2viz.color.RgbColor
-import io.data2viz.color.colors
+import io.data2viz.color.*
 import io.data2viz.geom.Polygon
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
@@ -39,7 +36,7 @@ fun lineOfSightViz(): Viz = viz {
         with(polygonsLayer) {
             polygons.forEach { polygon ->
                 path {
-                    style.fill = colors.black
+                    style.fill = Colors.Web.black
                     style.stroke = null
                     moveTo(polygon.points.first().x, polygon.points.first().y)
                     (1 until polygon.points.size).forEach {

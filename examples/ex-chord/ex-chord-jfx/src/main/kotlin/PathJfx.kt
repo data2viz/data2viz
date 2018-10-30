@@ -1,6 +1,7 @@
 package io.data2viz.examples.chord
 
 
+import io.data2viz.color.Colors
 import io.data2viz.math.PI
 import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.Viz
@@ -52,7 +53,7 @@ class PathJfx : Application() {
                     arc(.0, .0, 80.0, -PI / 3, .0)
                     closePath()
                     style.stroke = null
-                    style.fill = io.data2viz.color.colors.black
+                    style.fill = Colors.Web.black
                 }
             }
         }

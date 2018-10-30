@@ -1,7 +1,7 @@
 package io.data2viz.examples.sankey
 
+import io.data2viz.color.Colors
 import io.data2viz.color.LinearGradient
-import io.data2viz.color.colors
 import io.data2viz.sankey.SankeyAlignment
 import io.data2viz.sankey.SankeyLayout
 import io.data2viz.sankey.sankeyLinkHorizontal
@@ -135,7 +135,7 @@ fun Group.buildSankey() {
     sankey.nodes.forEachIndexed { index, node ->
         rect {
             style.fill = fills(index % 20)
-            style.stroke = colors.black
+            style.stroke = Colors.Web.black
             x = if (sankeyHorizontal) node.x0 else node.y0
             y = if (sankeyHorizontal) node.y0 else node.x0
             width = if (sankeyHorizontal) node.x1 - node.x0 else node.y1 - node.y0
