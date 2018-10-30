@@ -20,18 +20,18 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Doubl
     val l = lightness.coerceIn(.0, 1.0)
     override val alpha = a.coerceIn(.0, 1.0)
 
-    override val rgb = toRgbColor().rgb
-    override val rgba = toRgbColor().rgba
-    override val r = toRgbColor().r
-    override val g = toRgbColor().g
-    override val b = toRgbColor().b
-    override val rgbHex:String = toRgbColor().rgbHex
+    override val rgb = toRgb().rgb
+    override val rgba = toRgb().rgba
+    override val r = toRgb().r
+    override val g = toRgb().g
+    override val b = toRgb().b
+    override val rgbHex:String = toRgb().rgbHex
 
-    override fun toRgbColor():RgbColor = toRgba()
-    override fun brighten(strength: Double):Color = toRgbColor().brighten(strength)
-    override fun darken(strength: Double):Color = toRgbColor().darken(strength)
-    override fun saturate(strength: Double):Color = toRgbColor().saturate(strength)
-    override fun desaturate(strength: Double):Color = toRgbColor().desaturate(strength)
+    override fun toRgb():RgbColor = toRgba()
+    override fun brighten(strength: Double):Color = toRgb().brighten(strength)
+    override fun darken(strength: Double):Color = toRgb().darken(strength)
+    override fun saturate(strength: Double):Color = toRgb().saturate(strength)
+    override fun desaturate(strength: Double):Color = toRgb().desaturate(strength)
     override fun withAlpha(alpha: Double) = Colors.hsl(h, s, l, alpha)
 
     /*val displayable: Boolean

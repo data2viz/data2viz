@@ -2,7 +2,7 @@ package io.data2viz.viz.sample
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 
 import io.data2viz.force.*
 import io.data2viz.math.random
@@ -47,7 +47,7 @@ val viz = viz {
                 lineTo(link.target.x, link.target.y)
             }
             strokeWidth = 1.0
-            stroke = colors.grey
+            stroke = Colors.Web.grey
         }
 
         sim.nodes.forEach { d ->
@@ -55,7 +55,7 @@ val viz = viz {
                 x = d.x
                 y = d.y
                 radius = 3.0
-                fill = colors.black
+                fill = Colors.Web.black
             }
         }
     }

@@ -4,10 +4,6 @@ import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import kotlin.math.*
 
-
-internal const val darker = 0.7
-internal const val brighter = 1 / darker
-
 /**
  * Conversion references values
  */
@@ -20,9 +16,11 @@ internal const val t1 = 6f / 29f
 internal const val t2 = 3f * t1 * t1
 internal const val t3 = t1 * t1 * t1
 
+val Int.color: RgbColor
+    get() = RgbColor(this)
 
-val String.color: Color
-    get():Color {
+val String.color: RgbColor
+    get():RgbColor {
         val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
         require(this.matches(regex)) {
             "Conversion of string to io.data2viz.color.getColor works for encoded colors like #12abCD"

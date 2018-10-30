@@ -20,7 +20,7 @@ class HSLTests : TestBase() {
 
         val iterator = interpolateHsl(Colors.hsl(300.deg, 1.0, .25), Colors.hsl(38.deg, 1.0, .5))
         displaySmallGradient("HslColor", iterator, 888, imageReference = "http://data2viz.io/img/hsl.png")
-        iterator(0.5).toRgbColor().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
+        iterator(0.5).toRgb().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
     }
 
     /**
@@ -30,7 +30,7 @@ class HSLTests : TestBase() {
     fun hslLongLinearInterpolation() {
         val iterator = interpolateHslLong(Colors.hsl(300.deg, 1.0, .25), Colors.hsl(38.deg, 1.0, .5))
         displaySmallGradient("HslColor Long", iterator, 888, imageReference = "http://data2viz.io/img/hslLong.png")
-        iterator(0.5).toRgbColor().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
+        iterator(0.5).toRgb().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
     }
 
     /**
@@ -40,7 +40,7 @@ class HSLTests : TestBase() {
     fun hslShortLinea() {
         val iterator = interpolateHsl(Colors.hsl(38.deg, 1.0, .5), Colors.hsl(300.deg, 1.0, .25))
         displaySmallGradient("HslColor Reverse", iterator, 888, imageReference = "http://data2viz.io/img/hslReverse.png")
-        iterator(0.5).toRgbColor().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
+        iterator(0.5).toRgb().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
     }
 
     /**
@@ -55,7 +55,7 @@ class HSLTests : TestBase() {
             888,
             imageReference = "http://data2viz.io/img/hslLongReverse.png"
         )
-        iterator(0.5).toRgbColor().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
+        iterator(0.5).toRgb().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
     }
 
     fun displaySmallGradient(
@@ -78,7 +78,7 @@ class HSLTests : TestBase() {
                     (0 until width).forEach { index ->
                         appendChild(
                             nodeSVG("rect").apply {
-                                setAttribute("fill", percentToColor(index / width.toDouble()).toRgbColor().rgbHex)
+                                setAttribute("fill", percentToColor(index / width.toDouble()).toRgb().rgbHex)
                                 setAttribute("x", "$index")
                                 setAttribute("y", "0")
                                 setAttribute("width", "1")

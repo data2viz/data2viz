@@ -1,14 +1,9 @@
 package io.data2viz.color
 
-class RadialGradient: ColorOrGradient {
+class RadialGradient: Gradient {
     var cx:Double = .0
     var cy:Double = .0
     var r:Double = .0
 
-    val colorStops = mutableListOf<ColorStop>()
-
-    fun addColor(percent: Double, color: Color){
-        val checkedPercent = percent.coerceIn(.0, 1.0)
-        colorStops.add(ColorStop(checkedPercent, color))
-    }
+    override val colorStops = mutableListOf<ColorStop>()
 }

@@ -19,14 +19,14 @@ internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double =
     val l = luminance.coerceIn(.0, 100.0)
     override val alpha = a.coerceIn(.0, 1.0)
 
-    override val rgb = toRgbColor().rgb
-    override val rgba = toRgbColor().rgba
-    override val r = toRgbColor().r
-    override val g = toRgbColor().g
-    override val b = toRgbColor().b
-    override val rgbHex: String = toRgbColor().rgbHex
+    override val rgb = toRgb().rgb
+    override val rgba = toRgb().rgba
+    override val r = toRgb().r
+    override val g = toRgb().g
+    override val b = toRgb().b
+    override val rgbHex: String = toRgb().rgbHex
 
-    override fun toRgbColor():RgbColor = toLab().toRgbColor()
+    override fun toRgb():RgbColor = toLab().toRgb()
     override fun brighten(strength: Double): Color = Colors.hcl(h, c, (l + (Kn * strength)), alpha)
     override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - (Kn * strength)), alpha)
     override fun saturate(strength: Double): Color = Colors.hcl(h, max(.0, (c + (Kn * strength))), l, alpha)

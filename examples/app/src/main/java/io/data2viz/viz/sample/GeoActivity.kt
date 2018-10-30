@@ -2,7 +2,6 @@ package io.data2viz.viz.sample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import io.data2viz.color.colors
 import io.data2viz.examples.geo.geoViz
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.orthographic

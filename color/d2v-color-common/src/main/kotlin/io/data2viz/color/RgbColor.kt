@@ -21,7 +21,7 @@ class RgbColor(override val rgb: Int, a: Double = 1.0): Color {
     override val b: Int
         get() = rgb and 0xff
 
-    override fun toRgbColor():RgbColor = this
+    override fun toRgb():RgbColor = this
     override fun brighten(strength: Double):Color = toLab().brighten(strength)
     override fun darken(strength: Double):Color = toLab().darken(strength)
     override fun saturate(strength: Double):Color = toLab().saturate(strength)

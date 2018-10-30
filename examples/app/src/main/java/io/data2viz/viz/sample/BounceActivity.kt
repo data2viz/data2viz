@@ -2,7 +2,7 @@ package io.data2viz.viz.sample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 import io.data2viz.viz.CircleNode
@@ -25,7 +25,7 @@ class BounceActivity : AppCompatActivity() {
         circle = circle {
             x = 0.0
             y = 50.0
-            fill = colors.red
+            fill = Colors.Web.red
         }
 
     }
