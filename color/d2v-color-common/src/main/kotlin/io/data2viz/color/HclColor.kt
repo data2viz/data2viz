@@ -6,15 +6,18 @@ import kotlin.math.max
 /**
  * Create a color in the HCL color space (CIELCH)
  *
- * @param h hue:Angle in degree
- * @param c chroma:Float, the upper bound for chroma depends on hue and luminance (typically in 0..230)
- * @param l luminance:Float a value in the range [0,100] giving the luminance of the colour (in percent)
- * @param alpha:Float between 0 and 1
+ * @param h hue: Angle in degree
+ * @param c chroma: Float, the upper bound for chroma depends on hue and luminance (typically in 0..230)
+ * @param luminance: Float a value in the range [0,100] giving the luminance of the colour (in percent)
+ * @param alpha: Float between 0 and 1
  */
 class HclColor
 
 @Deprecated("Deprecated", ReplaceWith("Colors.hcl(h,c,l,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(val h: Angle, val c: Double, val l: Double, override val alpha: Double = 1.0) : Color {
+internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double = 1.0) : Color {
+
+    val l = luminance.coerceIn(.0, 100.0)
+    override val alpha = a.coerceIn(.0, 1.0)
 
     override val rgb = toRgbColor().rgb
     override val rgba = toRgbColor().rgba

@@ -12,8 +12,13 @@ import io.data2viz.math.Angle
  */
 class HslColor
 
-@Deprecated("Deprecated", ReplaceWith("Colors.hsl(h,s,l,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(val h: Angle, val s: Double, val l: Double, override val alpha: Double = 1.0):Color {
+@Deprecated("Deprecated", ReplaceWith("Colors.hsl(hue,saturation,lightness,a)", "io.data2viz.colors.Colors"))
+internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Double = 1.0):Color {
+
+    val h = hue
+    val s = saturation.coerceIn(.0, 1.0)
+    val l = lightness.coerceIn(.0, 1.0)
+    override val alpha = a.coerceIn(.0, 1.0)
 
     override val rgb = toRgbColor().rgb
     override val rgba = toRgbColor().rgba

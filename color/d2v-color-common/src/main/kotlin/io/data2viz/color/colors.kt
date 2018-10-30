@@ -13,17 +13,17 @@ object Colors {
 
     fun rgb(red: Int, green: Int, blue: Int, alpha: Double = 1.0): RgbColor {
         val rgb = (red.coerceIn(0, 255) shl 16) + (green.coerceIn(0, 255) shl 8) + blue.coerceIn(0, 255)
-        return RgbColor(rgb, alpha.coerceIn(.0, 1.0))
+        return RgbColor(rgb, alpha)
     }
 
     fun lab(lightness: Double, aComponent: Double, bComponent: Double, alpha: Double = 1.0) =
-            LabColor(lightness, aComponent, bComponent, alpha.coerceIn(.0, 1.0))
+            LabColor(lightness, aComponent, bComponent, alpha)
 
     fun hsl(hue: Angle, saturation: Double, lightness: Double, alpha: Double = 1.0) =
-            HslColor(hue, saturation, lightness, alpha.coerceIn(.0, 1.0))
+            HslColor(hue, saturation, lightness, alpha)
 
     fun hcl(hue: Angle, chroma: Double, luminance: Double, alpha: Double = 1.0) =
-            HclColor(hue, chroma, luminance, alpha.coerceIn(.0, 1.0))
+            HclColor(hue, chroma, luminance, alpha)
 
     fun lch(luminance: Double, chroma: Double, hue: Angle, alpha: Double = 1.0) = hcl(hue, chroma, luminance, alpha)
 

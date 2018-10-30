@@ -11,7 +11,9 @@ package io.data2viz.color
 class LabColor
 
 @Deprecated("Deprecated", ReplaceWith("Colors.lab(labL,labA,labB,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(val labL: Double, val labA: Double, val labB: Double, override val alpha: Double = 1.0):Color {
+internal constructor(val labL: Double, val labA: Double, val labB: Double, a: Double = 1.0):Color {
+
+    override val alpha = a.coerceIn(.0, 1.0)
 
     override val rgb = toRgbColor().rgb
     override val rgba = toRgbColor().rgba
