@@ -89,7 +89,7 @@ fun lineOfSightViz(): Viz = viz {
 private fun lightGradient(): RadialGradient {
     val lightColor = RgbColor(0xFFFFFF)
     val fromColor = RgbColor(0xFFFF00)
-    val endColor = RgbColor(0xFFFF00, 0f)
+    val endColor = RgbColor(0xFFFF00, 0.0)
     return RadialGradient().apply {
         r = .7 * vizWidth
         addColor(.0, lightColor)

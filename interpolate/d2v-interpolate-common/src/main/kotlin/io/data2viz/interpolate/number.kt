@@ -27,7 +27,7 @@ fun interpolateRound(a: Double, b: Double): Interpolator<Double> {
 
 // TODO : remove use only double
 // TODO warn : (end == start) -> crash
-fun uninterpolateNumber(start: Number, end: Number): (Double) -> Double = { t -> (t - start.toDouble()) / (end.toDouble() - start.toDouble()) }
+fun uninterpolateNumber(start: Float, end: Float): (Double) -> Float = { t -> (t.toFloat() - start) / (end - start) }
 
 fun uninterpolateNumber(start: Double, end: Double): (Double) -> Double = { if (end != start) ((it - start) / (end - start)) else start }
 

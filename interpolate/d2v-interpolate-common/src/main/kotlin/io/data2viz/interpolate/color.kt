@@ -35,24 +35,12 @@ internal fun hue(a: Angle, b:Angle): (Double) -> Double {
     }
 }
 
-
-/*fun hue(a:Int, b:Int) {
-    val d = b - a;
-    return d ? linear(a, d > 180 || d < -180 ? d - 360 * Math.round(d / 360) : d) : constant(isNaN(a) ? b : a);
-}*/
-
-
-/**
- * constant interpolation
- */
-//private fun constant(a: Int) = fun(_: Double) = a
-
 /**
  * Linear interpolation
  */
 // TODO remove coerce, color (RGB) should be able to manage it !
 // TODO why use this instead of standard linear not-clamped function ?
-private fun linear(a:Double, b:Double): (Double) -> Double = {t -> a + t.coerceIn(0.0, 1.0) * b }
+private fun linear(a:Double, b:Double): (Double) -> Double = {t -> a + t.coerceIn(.0, 1.0) * b }
 /*private fun linear(values: List<Number>): (Double) -> Double {
     val n = values.size - 1
     return fun(t: Double): Double {
@@ -72,7 +60,7 @@ private fun exponential(a:Double, b:Double, y: Double): (Double) -> Double {
     val na = a.pow(y)
     val nb = b.pow(y) - na
 
-    return fun(t): Double {
+    return fun(t:Double): Double {
         return (na + t * nb).pow(ny)
     }
 }

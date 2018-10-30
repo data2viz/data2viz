@@ -67,7 +67,7 @@ val allRenderingTests = listOf(
                 radius = 100.0
                 style.fill = 0xfdc658.color
                 style.stroke = 0x0c0887.color
-                        .withAlpha(.5f)
+                        .withAlpha(.5)
                 style.strokeWidth = 40.0
             }
         },

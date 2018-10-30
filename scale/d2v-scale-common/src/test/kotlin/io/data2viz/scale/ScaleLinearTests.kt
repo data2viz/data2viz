@@ -255,10 +255,10 @@ class ScaleLinearTests : TestBase() {
         val scale = scales.colors.linearHSL()
 
         scale.domain = listOf(.0, 100.0)
-        scale.range = listOf(HslColor(0.deg), HslColor(180.deg))
-        scale(50.0) shouldBe HslColor(90.deg)
-        scale(20.0) shouldBe HslColor(36.deg)
-        scale(90.0) shouldBe HslColor(162.deg)
+        scale.range = listOf(HslColor(0.deg, 1.0, 1.0), HslColor(180.deg, 1.0, 1.0))
+        scale(50.0) shouldBe HslColor(90.deg, 1.0, 1.0)
+        scale(20.0) shouldBe HslColor(36.deg, 1.0, 1.0)
+        scale(90.0) shouldBe HslColor(162.deg, 1.0, 1.0)
     }
 
     /////////////// TESTS /////////////////////////////////////////

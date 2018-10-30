@@ -1,7 +1,7 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.HslColor
-import io.data2viz.color.hsla
+import io.data2viz.color.colors
 import io.data2viz.math.deg
 
 // TODO must take all types of colors in args (currently HSL only)
@@ -16,7 +16,7 @@ private fun interpolateHsl(start:HslColor, end:HslColor, long:Boolean): (Double)
     val s = colorInterpolator(start.s, end.s)
     val l = colorInterpolator(start.l, end.l)
 
-    return fun(percent:Number) = hsla(h(percent.toDouble()).deg, s(percent.toDouble()), l(percent.toDouble()))
+    return fun(percent:Double) = colors.hsl(h(percent).deg, s(percent), l(percent))
 }
 
 /*fun uninterpolateHsl(start:HSL, end:HSL, long:Boolean): (HSL) -> Double {

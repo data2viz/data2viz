@@ -17,62 +17,62 @@ class RGBTests : TestBase() {
     @Test
     fun interpolateSameColor() {
         val iterator = interpolateRgb(colors.darkolivegreen, colors.darkolivegreen)
-        iterator(-1) shouldBe colors.darkolivegreen
-        iterator(0) shouldBe colors.darkolivegreen
+        iterator(-1.0) shouldBe colors.darkolivegreen
+        iterator(0.0) shouldBe colors.darkolivegreen
         iterator(0.5) shouldBe colors.darkolivegreen
-        iterator(1) shouldBe colors.darkolivegreen
-        iterator(2) shouldBe colors.darkolivegreen
+        iterator(1.0) shouldBe colors.darkolivegreen
+        iterator(2.0) shouldBe colors.darkolivegreen
     }
 
     @Test
     fun interpolateSameColorGamma2() {
         val iterator = interpolateRgb(colors.darkolivegreen, colors.darkolivegreen, gamma = 2.0)
-        iterator(-1) shouldBe iterator(0)
-        iterator(0) shouldBe iterator(0.5)
-        iterator(0.5) shouldBe iterator(1)
-        iterator(1) shouldBe iterator(2)
+        iterator(-1.0) shouldBe iterator(0.0)
+        iterator(0.0) shouldBe iterator(0.5)
+        iterator(0.5) shouldBe iterator(1.0)
+        iterator(1.0) shouldBe iterator(2.0)
     }
 
 
     @Test
     fun splineRGBSameColor() {
         val iterator = interpolateRgbBasis(listOf(colors.darkolivegreen, colors.darkolivegreen))
-        iterator(-1) shouldBe colors.darkolivegreen
-        iterator(0) shouldBe colors.darkolivegreen
+        iterator(-1.0) shouldBe colors.darkolivegreen
+        iterator(0.0) shouldBe colors.darkolivegreen
         iterator(0.5) shouldBe colors.darkolivegreen
-        iterator(1) shouldBe colors.darkolivegreen
-        iterator(2) shouldBe colors.darkolivegreen
+        iterator(1.0) shouldBe colors.darkolivegreen
+        iterator(2.0) shouldBe colors.darkolivegreen
     }
 
 
     @Test
     fun cyclicalSplineRGBSameColor() {
         val iterator = interpolateRgbBasis(listOf(colors.darkolivegreen, colors.darkolivegreen), cyclical = true)
-        iterator(-1) shouldBe colors.darkolivegreen
-        iterator(0) shouldBe colors.darkolivegreen
+        iterator(-1.0) shouldBe colors.darkolivegreen
+        iterator(0.0) shouldBe colors.darkolivegreen
         iterator(0.5) shouldBe colors.darkolivegreen
-        iterator(1) shouldBe colors.darkolivegreen
-        iterator(2) shouldBe colors.darkolivegreen
+        iterator(1.0) shouldBe colors.darkolivegreen
+        iterator(2.0) shouldBe colors.darkolivegreen
     }
 
     @Test
     fun linearRGBInterpolationWhiteToBlue() {
         val iterator = interpolateRgb(white, blue)
-        iterator(-1) shouldBe white
-        iterator(0) shouldBe white
+        iterator(-1.0) shouldBe white
+        iterator(0.0) shouldBe white
         iterator(0.5) shouldBe RgbColor(0x8080ff)
-        iterator(1) shouldBe blue
-        iterator(2) shouldBe blue
+        iterator(1.0) shouldBe blue
+        iterator(2.0) shouldBe blue
     }
 
     @Test
     fun linearRGBInterpolationBlueToWhite() {
         val iterator = interpolateRgb(blue, white)
-        iterator(-1) shouldBe blue
-        iterator(0) shouldBe blue
+        iterator(-1.0) shouldBe blue
+        iterator(0.0) shouldBe blue
         iterator(0.5) shouldBe RgbColor(0x8080ff)
-        iterator(1) shouldBe white
-        iterator(2) shouldBe white
+        iterator(1.0) shouldBe white
+        iterator(2.0) shouldBe white
     }
 
 
@@ -80,19 +80,19 @@ class RGBTests : TestBase() {
     fun rgbSplineInterpolationGBRBG() {
         val iterator = interpolateRgbBasis(listOf(green, blue, red, blue, green))
         displaySmallGradient("rgbSplineInterpolationGBRBG", iterator, 880)
-        iterator(-1) shouldBe green
-        iterator(0) shouldBe green
-        iterator(1) shouldBe green
-        iterator(2) shouldBe green
+        iterator(-1.0) shouldBe green
+        iterator(0.0) shouldBe green
+        iterator(1.0) shouldBe green
+        iterator(2.0) shouldBe green
     }
 
     @Test
     fun rgbSplineInterpolationGBRB() {
         val iterator = interpolateRgbBasis(listOf(green, blue, red, blue), cyclical = true)
         displaySmallGradient("rgbSplineInterpolationGBRB", iterator, 880)
-        iterator(-1) shouldBe iterator(0)
-        iterator(0) shouldBe iterator(1)
-        iterator(1) shouldBe iterator(2)
+        iterator(-1.0) shouldBe iterator(0.0)
+        iterator(0.0) shouldBe iterator(1.0)
+        iterator(1.0) shouldBe iterator(2.0)
     }
 
     /**
@@ -162,7 +162,7 @@ class RGBTests : TestBase() {
 
 fun displaySmallGradient(
         context: String,
-        percentToColor: (Float) -> Color,
+        percentToColor: (Double) -> Color,
         width: Int = 256,
         imageReference: String? = null
 ) {
@@ -178,7 +178,7 @@ fun displaySmallGradient(
                 (0 until width).forEach { index ->
                     appendChild(
                         node("rect").apply {
-                            setAttribute("fill", percentToColor(index / (width).toFloat()).rgbHex)
+                            setAttribute("fill", percentToColor(index / width.toDouble()).rgbHex)
                             setAttribute("x", "$index")
                             setAttribute("y", "0")
                             setAttribute("width", "1")

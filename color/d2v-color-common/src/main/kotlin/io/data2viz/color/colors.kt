@@ -4,31 +4,29 @@ package io.data2viz.color
 
 import io.data2viz.math.Angle
 
-
-interface ColorOrGradient
-
-data class ColorStop(val percent:Double, val color: Color)
-
 internal expect fun Int.toString(radix: Int): String
-
-
-// TODO in a java implementation of LAB they used Double
-
 
 val Int.color: RgbColor
     get() = RgbColor(this)
 
 
-fun rgba(red: Int, green: Int, blue: Int, alpha: Float = 1f): Color {
-    val rgb = (red.coerceIn(0, 255) shl 16) + (green.coerceIn(0, 255) shl 8) + blue.coerceIn(0, 255)
-    return RgbColor(rgb, alpha.coerceIn(0f, 1f))
-}
-
-fun hsla(h: Angle, s: Number, l: Number, a: Number = 1f) = HslColor(h, s, l, a)
-
-fun lab(l: Number = 100, a: Number = 0, b: Number = 0, alpha: Number = 1f) = LabColor(l, a, b, alpha)
-
 object colors {
+
+    fun rgb(red: Int, green: Int, blue: Int, alpha: Double = 1.0): RgbColor {
+        val rgb = (red.coerceIn(0, 255) shl 16) + (green.coerceIn(0, 255) shl 8) + blue.coerceIn(0, 255)
+        return RgbColor(rgb, alpha.coerceIn(.0, 1.0))
+    }
+
+    fun lab(lightness: Double, aComponent: Double, bComponent: Double, alpha: Double = 1.0) =
+            LabColor(lightness, aComponent, bComponent, alpha.coerceIn(.0, 1.0))
+
+    fun hsl(hue: Angle, saturation: Double, lightness: Double, alpha: Double = 1.0) =
+            HslColor(hue, saturation, lightness, alpha.coerceIn(.0, 1.0))
+
+    fun hcl(hue: Angle, chroma: Double, luminance: Double, alpha: Double = 1.0) =
+            HclColor(hue, chroma, luminance, alpha.coerceIn(.0, 1.0))
+
+    fun lch(luminance: Double, chroma: Double, hue: Angle, alpha: Double = 1.0) = hcl(hue, chroma, luminance, alpha)
 
 
     val aliceblue               = 0xf0f8ff.color

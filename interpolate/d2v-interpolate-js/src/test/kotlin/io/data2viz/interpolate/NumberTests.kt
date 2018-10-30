@@ -13,7 +13,7 @@ class NumberTests : TestBase() {
 
     @Test
     fun uninterpolate() {
-        val f = uninterpolateNumber(10, 20)
+        val f = uninterpolateNumber(10.0, 20.0)
         f(12.0) shouldBeClose 0.2
     }
 
@@ -24,31 +24,31 @@ class NumberTests : TestBase() {
     @Test
     fun domainToReverse() {
         val domainToViz = scale.linear.numberToNumber(
-            0 linkedTo 0,
-            100 linkedTo 1
+            0.0 linkedTo 0.0,
+            100.0 linkedTo 1.0
         )
 
-        domainToViz(50) shouldBe 0.5
+        domainToViz(50.0) shouldBe 0.5
     }
 
     @Test
     fun linearWithNegative() {
         val domainToViz = scale.linear.numberToNumber(
-            0 linkedTo -100,
-            100 linkedTo 100
+            0.0 linkedTo -100.0,
+            100.0 linkedTo 100.0
         )
 
-        domainToViz(50) shouldBe 0
+        domainToViz(50.0) shouldBe 0
     }
 
     @Test
     fun linearToReverse() {
         val domainToViz = scale.linear.numberToNumber(
-            0 linkedTo 100,
-            100 linkedTo 0
+            0.0 linkedTo 100.0,
+            100.0 linkedTo 0.0
         )
 
-        domainToViz(60) shouldBe 40
+        domainToViz(60.0) shouldBe 40
     }
 
 }

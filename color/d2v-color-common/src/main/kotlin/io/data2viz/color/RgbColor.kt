@@ -8,7 +8,7 @@ package io.data2viz.color
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  */
-class RgbColor(override val rgb: Int = 0xffffff, override val alpha: Float = 1.0f): Color {
+class RgbColor internal constructor(override val rgb: Int, override val alpha: Double = 1.0): Color {
 
     override val r: Int
         get() = (rgb shr 16) and 0xff
@@ -19,6 +19,7 @@ class RgbColor(override val rgb: Int = 0xffffff, override val alpha: Float = 1.0
     override val b: Int
         get() = rgb and 0xff
 
+    override fun toRgbColor():RgbColor = this
     override fun brighten(strength: Double):Color = toLab().brighten(strength)
     override fun darken(strength: Double):Color = toLab().darken(strength)
     override fun saturate(strength: Double):Color = toLab().saturate(strength)
@@ -61,7 +62,7 @@ class RgbColor(override val rgb: Int = 0xffffff, override val alpha: Float = 1.0
     override val rgba: String
         get() = "rgba($r, $g, $b, $alpha)"
 
-    override fun withAlpha(alpha: Float) = RgbColor(rgb, alpha)
+    override fun withAlpha(alpha: Double) = RgbColor(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

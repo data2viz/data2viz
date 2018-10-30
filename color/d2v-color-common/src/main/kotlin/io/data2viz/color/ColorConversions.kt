@@ -35,38 +35,38 @@ fun RgbColor.toLab(): LabColor {
     val labB = rgb2xyz(r)
     val labA = rgb2xyz(g)
     val labL = rgb2xyz(b)
-    val x = xyz2lab((0.4124564 * labB + 0.3575761 * labA + 0.1804375 * labL) / Xn)
-    val y = xyz2lab((0.2126729 * labB + 0.7151522 * labA + 0.0721750 * labL) / Yn)
-    val z = xyz2lab((0.0193339 * labB + 0.1191920 * labA + 0.9503041 * labL) / Zn)
-    return LabColor(116 * y - 16, 500 * (x - y), 200 * (y - z), alpha)
+    val x = xyz2lab((0.4124564f * labB + 0.3575761f * labA + 0.1804375f * labL) / Xn)
+    val y = xyz2lab((0.2126729f * labB + 0.7151522f * labA + 0.0721750f * labL) / Yn)
+    val z = xyz2lab((0.0193339f * labB + 0.1191920f * labA + 0.9503041f * labL) / Zn)
+    return LabColor(116.0 * y - 16, 500.0 * (x - y), 200.0 * (y - z), alpha)
 }
 
 fun RgbColor.toHsla(): HslColor {
-    val rPercent = r.toFloat() / 255f
-    val gPercent = g.toFloat() / 255f
-    val bPercent = b.toFloat() / 255f
+    val rPercent = r / 255.0
+    val gPercent = g / 255.0
+    val bPercent = b / 255.0
     val minPercent = minOf(rPercent, gPercent, bPercent)
     val maxPercent = maxOf(rPercent, gPercent, bPercent)
 
-    var h = 0f
+    var h = .0
     var s = maxPercent - minPercent
     val l = (maxPercent + minPercent) / 2f
 
-    if (s != 0f) {
+    if (s != .0) {
         h = when {
             (rPercent == maxPercent) -> if (gPercent < bPercent) ((gPercent - bPercent) / s) + 6f else ((gPercent - bPercent) / s)
             (gPercent == maxPercent) -> (bPercent - rPercent) / s + 2f
             else -> (rPercent - gPercent) / s + 4f
         }
         s /= if (l < 0.5f) maxPercent + minPercent else 2 - maxPercent - minPercent
-        h *= 60f
+        h *= 60.0
     } else {
-        s = if (l > 0 && l < 1) 0f else h
+        s = if (l > 0 && l < 1) .0 else h
     }
     return HslColor(h.deg, s, l, alpha)
 }
 
-fun LabColor.toRgba(): Color {
+fun LabColor.toRgba(): RgbColor {
     // map CIE LAB to CIE XYZ
     var y = (labL + 16) / 116f
     var x = y + (labA / 500f)
@@ -76,16 +76,16 @@ fun LabColor.toRgba(): Color {
     z = Zn * lab2xyz(z)
 
     // map CIE XYZ to RGB
-    return rgba(
+    return colors.rgb(
             xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z),
             xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
             xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
             alpha)
 }
 
-fun HslColor.toRgba(): Color =
-        if (s == 0.0)     // achromatic
-            rgba(
+fun HslColor.toRgba(): RgbColor =
+        if (s == .0)     // achromatic
+            colors.rgb(
                     (l * 255).roundToInt(),
                     (l * 255).roundToInt(),
                     (l * 255).roundToInt(),
@@ -93,17 +93,17 @@ fun HslColor.toRgba(): Color =
         else {
             val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
             val p = 2 * l - q
-            rgba(
+            colors.rgb(
                     (hue2rgb(p, q, h + 120.deg) * 255).roundToInt(),
                     (hue2rgb(p, q, h) * 255).roundToInt(),
                     (hue2rgb(p, q, h - 120.deg) * 255).roundToInt(),
                     alpha)
         }
 
-fun HclColor.toLab() = LabColor(l, h.cos * c, h.sin * c, alpha)
+fun HclColor.toLab() = LabColor(l, (h.cos * c), (h.sin * c), alpha)
 
 fun LabColor.toHcla(): HclColor {
-    val hue = Angle(atan2(labB, labA).toDouble()).normalize()
+    val hue = Angle(atan2(labB, labA)).normalize()
     val c = sqrt(labA * labA + labB * labB)
     return HclColor(hue, c, labL, alpha)
 }
@@ -111,33 +111,33 @@ fun LabColor.toHcla(): HclColor {
 private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {
     val hd = hue.normalize()
     return when {
-        hd.deg < 60 -> (p + (q - p) * (hd.deg / 60.0))
+        hd.deg < 60 -> (p + (q - p) * (hd.deg / 60))
         hd.deg < 180 -> q
-        hd.deg < 240 -> (p + (q - p) * ((240 - hd.deg) / 60.0))
+        hd.deg < 240 -> (p + (q - p) * ((240f - hd.deg) / 60))
         else -> p
     }
 }
 
 
-internal fun xyz2lab(value: Double): Double =
+internal fun xyz2lab(value: Float): Float =
         if (value > t3)
-            value.pow(1 / 3.0)
+            value.pow(1 / 3f)
         else
             (value / t2 + t0)
 
-internal fun rgb2xyz(value: Int): Double {
+internal fun rgb2xyz(value: Int): Float {
     val percent = value.toFloat() / 255f
-    return if (percent <= 0.04045f) (percent / 12.92) else ((percent + 0.055) / 1.055).pow(2.4)
+    return if (percent <= 0.04045f) (percent / 12.92f) else ((percent + 0.055f) / 1.055f).pow(2.4f)
 }
 
-internal fun lab2xyz(value: Float): Float =
+internal fun lab2xyz(value: Double): Double =
         if (value > t1)
             (value * value * value)
         else
             (t2 * (value - t0))
 
-internal fun xyz2rgb(value: Float): Int =
+internal fun xyz2rgb(value: Double): Int =
         if (value <= 0.0031308f)
             round(12.92f * value * 255).toInt()
         else
-            round(255 * (1.055f * value.pow(1 / 2.4f) - 0.055f)).toInt()
+            round(255 * (1.055 * value.pow(1 / 2.4) - 0.055)).toInt()

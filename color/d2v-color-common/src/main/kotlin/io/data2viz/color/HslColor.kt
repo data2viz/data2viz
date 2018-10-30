@@ -1,10 +1,6 @@
 package io.data2viz.color
 
 import io.data2viz.math.Angle
-import io.data2viz.math.deg
-import kotlin.math.pow
-import kotlin.math.round
-import kotlin.math.roundToInt
 
 /**
  * Create a color in the HSL color space
@@ -14,24 +10,21 @@ import kotlin.math.roundToInt
  * @param l lightness:Float between 0 and 1
  * @param alpha:Float between 0 and 1
  */
-class HslColor(val h: Angle = Angle(0.0), s: Number = 1, l: Number = 1, alpha: Number = 1):Color {
+class HslColor internal constructor(val h: Angle, val s: Double, val l: Double, override val alpha: Double = 1.0):Color {
 
-    val s = s.toDouble().coerceIn(0.0, 1.0)
-    val l = l.toDouble().coerceIn(0.0, 1.0)
-    override val alpha = alpha.toFloat().coerceIn(0f, 1f)
+    override val rgb = toRgbColor().rgb
+    override val rgba = toRgbColor().rgba
+    override val r = toRgbColor().r
+    override val g = toRgbColor().g
+    override val b = toRgbColor().b
+    override val rgbHex:String = toRgbColor().rgbHex
 
-    override val rgb = toRgba().rgb
-    override val rgba = toRgba().rgba
-    override val r = toRgba().r
-    override val g = toRgba().g
-    override val b = toRgba().b
-    override val rgbHex:String = toRgba().rgbHex
-
-    override fun brighten(strength: Double):Color = toRgba().brighten(strength)
-    override fun darken(strength: Double):Color = toRgba().darken(strength)
-    override fun saturate(strength: Double):Color = toRgba().saturate(strength)
-    override fun desaturate(strength: Double):Color = toRgba().desaturate(strength)
-    override fun withAlpha(alpha: Float) = HslColor(h, s, l, alpha)
+    override fun toRgbColor():RgbColor = toRgba()
+    override fun brighten(strength: Double):Color = toRgbColor().brighten(strength)
+    override fun darken(strength: Double):Color = toRgbColor().darken(strength)
+    override fun saturate(strength: Double):Color = toRgbColor().saturate(strength)
+    override fun desaturate(strength: Double):Color = toRgbColor().desaturate(strength)
+    override fun withAlpha(alpha: Double) = HslColor(h, s, l, alpha)
 
     /*val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)

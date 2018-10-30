@@ -12,7 +12,7 @@ data class DomainToViz<out A, out B>(
 
 infix fun <A, B> A.linkedTo(that: B): DomainToViz<A, B> = DomainToViz(this, that)
 
-class NumberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>){
+class NumberToColor(start: DomainToViz<Double, Color>, end: DomainToViz<Double, Color>){
     val domainToNormalized = uninterpolateNumber(start.domain, end.domain)
     val normalizedToColor = interpolateRgb(start.viz, end.viz)
     val numberToColor = {number:Number ->  normalizedToColor(domainToNormalized(number as Double)) }
@@ -31,7 +31,7 @@ class scale {
                             numberToNumber(start.domain.y linkedTo start.viz.y, end.domain.y linkedTo end.viz.y)(pt.y).toDouble())
                 }
 
-        fun numberToNumber(start: DomainToViz<Number, Number>, end: DomainToViz<Number, Number>): (Number) -> Number =
+        fun numberToNumber(start: DomainToViz<Double, Double>, end: DomainToViz<Double, Double>): (Double) -> Double =
                 { domain: Number ->
                     interpolateNumber(start.viz, end.viz).invoke(
                             uninterpolateNumber(start.domain, end.domain).invoke(domain as Double))
@@ -43,7 +43,7 @@ class scale {
 //                            uninterpolateNumber(start.domain as Number, end.domain).invoke(domain).toDouble()) as Double
 //                }
 
-        fun numberToColor(start: DomainToViz<Number, Color>, end: DomainToViz<Number, Color>): (Number) -> Color = NumberToColor(start, end).numberToColor
+        fun numberToColor(start: DomainToViz<Double, Color>, end: DomainToViz<Double, Color>): (Double) -> Color = NumberToColor(start, end).numberToColor
 
         // TODO maybe think of a function accepting a list of domainToViz
         /*fun numberToColor(domainsToViz: List<DomainToViz<Number, Color>>): (Number) -> Color =

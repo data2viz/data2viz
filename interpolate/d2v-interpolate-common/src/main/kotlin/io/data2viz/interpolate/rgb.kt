@@ -1,7 +1,7 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.Color
-import io.data2viz.color.rgba
+import io.data2viz.color.colors
 import kotlin.math.roundToInt
 
 
@@ -9,31 +9,32 @@ import kotlin.math.roundToInt
 // TODO add alpha interpolation
 // TODO List instead of start, end ? (validate and check size !!)
 // TODO rename interpolate
-fun interpolateRgb(start:Color, end:Color, gamma: Double = 1.0): (Number) -> Color {
+// TODO : check colors interpolation from chroma.js
+fun interpolateRgb(start:Color, end:Color, gamma: Double = 1.0): (Double) -> Color {
     val interpolator = gamma(gamma)
 
     val r = interpolator(start.r.toDouble(), end.r.toDouble())
     val g = interpolator(start.g.toDouble(), end.g.toDouble())
     val b = interpolator(start.b.toDouble(), end.b.toDouble())
 
-    return fun(percent: Number) = rgba(
-            r(percent.toDouble()).roundToInt(),
-            g(percent.toDouble()).roundToInt(),
-            b(percent.toDouble()).roundToInt())
+    return fun(percent: Double) = colors.rgb(
+            r(percent).roundToInt(),
+            g(percent).roundToInt(),
+            b(percent).roundToInt())
 }
 
 // TODO add alpha interpolation (alpha is linear not spline ?)
-fun interpolateRgbBasis(colors: List<Color>, cyclical: Boolean = false): (Number) -> Color {
+fun interpolateRgbBasis(colorsList: List<Color>, cyclical: Boolean = false): (Double) -> Color {
     val spline = getSplineInterpolator(cyclical)
 
-    val r = spline(colors.map { item -> item.r })
-    val g = spline(colors.map { item -> item.g })
-    val b = spline(colors.map { item -> item.b })
+    val r = spline(colorsList.map { item -> item.r })
+    val g = spline(colorsList.map { item -> item.g })
+    val b = spline(colorsList.map { item -> item.b })
 
-    return fun(percent: Number) = rgba(
-            r(percent.toDouble()).roundToInt(),
-            g(percent.toDouble()).roundToInt(),
-            b(percent.toDouble()).roundToInt())
+    return fun(percent: Double) = colors.rgb(
+            r(percent).roundToInt(),
+            g(percent).roundToInt(),
+            b(percent).roundToInt())
 }
 
 fun interpolateRgbBasisClosed(colors: List<Color>) = interpolateRgbBasis(colors, true)

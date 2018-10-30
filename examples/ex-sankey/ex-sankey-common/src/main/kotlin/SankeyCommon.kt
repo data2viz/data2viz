@@ -151,8 +151,8 @@ fun Group.buildSankey() {
             y2 = if (sankeyHorizontal) link.target.y0 else link.target.x0
 
             //Set the starting color (at 0%)
-            addColor(.0, fills(link.source.index % 20).withAlpha(.6f))
-            addColor(1.0, fills(link.target.index % 20).withAlpha(.6f))
+            addColor(.0, fills(link.source.index % 20).withAlpha(.6))
+            addColor(1.0, fills(link.target.index % 20).withAlpha(.6))
         }
         path {
             style.stroke = gradient
