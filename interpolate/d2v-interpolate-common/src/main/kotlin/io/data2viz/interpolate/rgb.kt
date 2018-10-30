@@ -1,7 +1,7 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.Color
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 import kotlin.math.roundToInt
 
 
@@ -17,7 +17,7 @@ fun interpolateRgb(start:Color, end:Color, gamma: Double = 1.0): (Double) -> Col
     val g = interpolator(start.g.toDouble(), end.g.toDouble())
     val b = interpolator(start.b.toDouble(), end.b.toDouble())
 
-    return fun(percent: Double) = colors.rgb(
+    return fun(percent: Double) = Colors.rgb(
             r(percent).roundToInt(),
             g(percent).roundToInt(),
             b(percent).roundToInt())
@@ -31,7 +31,7 @@ fun interpolateRgbBasis(colorsList: List<Color>, cyclical: Boolean = false): (Do
     val g = spline(colorsList.map { item -> item.g })
     val b = spline(colorsList.map { item -> item.b })
 
-    return fun(percent: Double) = colors.rgb(
+    return fun(percent: Double) = Colors.rgb(
             r(percent).roundToInt(),
             g(percent).roundToInt(),
             b(percent).roundToInt())

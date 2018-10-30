@@ -8,7 +8,10 @@ package io.data2viz.color
  * @param labB "b"-component:Float for blue-yellow between -128 and +128
  * @param alpha:Opacity between 0 and 1
  */
-class LabColor internal constructor(val labL: Double, val labA: Double, val labB: Double, override val alpha: Double = 1.0):Color {
+class LabColor
+
+@Deprecated("Deprecated", ReplaceWith("Colors.lab(labL,labA,labB,alpha)", "io.data2viz.colors.Colors"))
+internal constructor(val labL: Double, val labA: Double, val labB: Double, override val alpha: Double = 1.0):Color {
 
     override val rgb = toRgbColor().rgb
     override val rgba = toRgbColor().rgba
@@ -18,11 +21,11 @@ class LabColor internal constructor(val labL: Double, val labA: Double, val labB
     override val rgbHex:String = toRgbColor().rgbHex
 
     override fun toRgbColor():RgbColor = toRgba()
-    override fun brighten(strength: Double):Color = LabColor((labL + (Kn * strength)), labA, labB, alpha)
-    override fun darken(strength: Double):Color = LabColor((labL - (Kn * strength)), labA, labB, alpha)
+    override fun brighten(strength: Double):Color = Colors.lab((labL + (Kn * strength)), labA, labB, alpha)
+    override fun darken(strength: Double):Color = Colors.lab((labL - (Kn * strength)), labA, labB, alpha)
     override fun saturate(strength: Double):Color = toHcla().saturate(strength)
     override fun desaturate(strength: Double):Color = toHcla().desaturate(strength)
-    override fun withAlpha(alpha: Double) = LabColor(labL, labA, labB, alpha)
+    override fun withAlpha(alpha: Double) = Colors.lab(labL, labA, labB, alpha)
 
     override fun toString() = "laba($labL, $labA, $labB, $alpha)"
 }

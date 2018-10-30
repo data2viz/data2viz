@@ -10,7 +10,10 @@ import io.data2viz.math.Angle
  * @param l lightness:Float between 0 and 1
  * @param alpha:Float between 0 and 1
  */
-class HslColor internal constructor(val h: Angle, val s: Double, val l: Double, override val alpha: Double = 1.0):Color {
+class HslColor
+
+@Deprecated("Deprecated", ReplaceWith("Colors.hsl(h,s,l,alpha)", "io.data2viz.colors.Colors"))
+internal constructor(val h: Angle, val s: Double, val l: Double, override val alpha: Double = 1.0):Color {
 
     override val rgb = toRgbColor().rgb
     override val rgba = toRgbColor().rgba
@@ -24,7 +27,7 @@ class HslColor internal constructor(val h: Angle, val s: Double, val l: Double, 
     override fun darken(strength: Double):Color = toRgbColor().darken(strength)
     override fun saturate(strength: Double):Color = toRgbColor().saturate(strength)
     override fun desaturate(strength: Double):Color = toRgbColor().desaturate(strength)
-    override fun withAlpha(alpha: Double) = HslColor(h, s, l, alpha)
+    override fun withAlpha(alpha: Double) = Colors.hsl(h, s, l, alpha)
 
     /*val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)

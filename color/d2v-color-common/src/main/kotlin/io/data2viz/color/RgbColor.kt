@@ -8,7 +8,7 @@ package io.data2viz.color
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  */
-class RgbColor internal constructor(override val rgb: Int, override val alpha: Double = 1.0): Color {
+class RgbColor(override val rgb: Int, override val alpha: Double = 1.0): Color {
 
     override val r: Int
         get() = (rgb shr 16) and 0xff

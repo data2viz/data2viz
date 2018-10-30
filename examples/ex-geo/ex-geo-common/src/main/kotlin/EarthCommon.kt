@@ -1,6 +1,6 @@
 package io.data2viz.examples.geo
 
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.orthographic
 import io.data2viz.geojson.GeoJsonObject
@@ -20,9 +20,9 @@ fun geoViz(world: GeoJsonObject): Viz = viz {
     }
 
     val pathOuter = PathNode().apply {
-        style.stroke = colors.black
+        style.stroke = Colors.Web.black
         style.strokeWidth = 1.0
-        style.fill = colors.whitesmoke
+        style.fill = Colors.Web.whitesmoke
     }
 
     var geoPathOuter = geoPath(projectionOuter, pathOuter)

@@ -38,7 +38,7 @@ fun RgbColor.toLab(): LabColor {
     val x = xyz2lab((0.4124564f * labB + 0.3575761f * labA + 0.1804375f * labL) / Xn)
     val y = xyz2lab((0.2126729f * labB + 0.7151522f * labA + 0.0721750f * labL) / Yn)
     val z = xyz2lab((0.0193339f * labB + 0.1191920f * labA + 0.9503041f * labL) / Zn)
-    return LabColor(116.0 * y - 16, 500.0 * (x - y), 200.0 * (y - z), alpha)
+    return Colors.lab(116.0 * y - 16, 500.0 * (x - y), 200.0 * (y - z), alpha)
 }
 
 fun RgbColor.toHsla(): HslColor {
@@ -63,7 +63,7 @@ fun RgbColor.toHsla(): HslColor {
     } else {
         s = if (l > 0 && l < 1) .0 else h
     }
-    return HslColor(h.deg, s, l, alpha)
+    return Colors.hsl(h.deg, s, l, alpha)
 }
 
 fun LabColor.toRgba(): RgbColor {
@@ -76,7 +76,7 @@ fun LabColor.toRgba(): RgbColor {
     z = Zn * lab2xyz(z)
 
     // map CIE XYZ to RGB
-    return colors.rgb(
+    return Colors.rgb(
             xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z),
             xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
             xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
@@ -85,7 +85,7 @@ fun LabColor.toRgba(): RgbColor {
 
 fun HslColor.toRgba(): RgbColor =
         if (s == .0)     // achromatic
-            colors.rgb(
+            Colors.rgb(
                     (l * 255).roundToInt(),
                     (l * 255).roundToInt(),
                     (l * 255).roundToInt(),
@@ -93,19 +93,19 @@ fun HslColor.toRgba(): RgbColor =
         else {
             val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
             val p = 2 * l - q
-            colors.rgb(
+            Colors.rgb(
                     (hue2rgb(p, q, h + 120.deg) * 255).roundToInt(),
                     (hue2rgb(p, q, h) * 255).roundToInt(),
                     (hue2rgb(p, q, h - 120.deg) * 255).roundToInt(),
                     alpha)
         }
 
-fun HclColor.toLab() = LabColor(l, (h.cos * c), (h.sin * c), alpha)
+fun HclColor.toLab() = Colors.lab(l, (h.cos * c), (h.sin * c), alpha)
 
 fun LabColor.toHcla(): HclColor {
     val hue = Angle(atan2(labB, labA)).normalize()
     val c = sqrt(labA * labA + labB * labB)
-    return HclColor(hue, c, labL, alpha)
+    return Colors.hcl(hue, c, labL, alpha)
 }
 
 private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {

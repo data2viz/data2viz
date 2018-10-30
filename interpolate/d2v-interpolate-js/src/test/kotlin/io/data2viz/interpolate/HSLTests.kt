@@ -1,6 +1,7 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.HslColor
+import io.data2viz.color.Colors
 import io.data2viz.color.RgbColor
 import io.data2viz.test.namespace
 import io.data2viz.math.deg
@@ -17,7 +18,7 @@ class HSLTests : TestBase() {
     @Test
     fun hslShortLinearInterpolation() {
 
-        val iterator = interpolateHsl(HslColor(300.deg, 1.0, .25), HslColor(38.deg, 1.0, .5))
+        val iterator = interpolateHsl(Colors.hsl(300.deg, 1.0, .25), Colors.hsl(38.deg, 1.0, .5))
         displaySmallGradient("HslColor", iterator, 888, imageReference = "http://data2viz.io/img/hsl.png")
         iterator(0.5).toRgbColor().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
     }
@@ -27,7 +28,7 @@ class HSLTests : TestBase() {
      */
     @Test
     fun hslLongLinearInterpolation() {
-        val iterator = interpolateHslLong(HslColor(300.deg, 1.0, .25), HslColor(38.deg, 1.0, .5))
+        val iterator = interpolateHslLong(Colors.hsl(300.deg, 1.0, .25), Colors.hsl(38.deg, 1.0, .5))
         displaySmallGradient("HslColor Long", iterator, 888, imageReference = "http://data2viz.io/img/hslLong.png")
         iterator(0.5).toRgbColor().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
     }
@@ -37,7 +38,7 @@ class HSLTests : TestBase() {
      */
     @Test
     fun hslShortLinea() {
-        val iterator = interpolateHsl(HslColor(38.deg, 1.0, .5), HslColor(300.deg, 1.0, .25))
+        val iterator = interpolateHsl(Colors.hsl(38.deg, 1.0, .5), Colors.hsl(300.deg, 1.0, .25))
         displaySmallGradient("HslColor Reverse", iterator, 888, imageReference = "http://data2viz.io/img/hslReverse.png")
         iterator(0.5).toRgbColor().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
     }
@@ -47,7 +48,7 @@ class HSLTests : TestBase() {
      */
     @Test
     fun hslLongLinearInterpol() {
-        val iterator = interpolateHslLong(HslColor(38.deg, 1.0, .5), HslColor(300.deg, 1.0, .25))
+        val iterator = interpolateHslLong(Colors.hsl(38.deg, 1.0, .5), Colors.hsl(300.deg, 1.0, .25))
         displaySmallGradient(
             "HslColor Long Reverse",
             iterator,

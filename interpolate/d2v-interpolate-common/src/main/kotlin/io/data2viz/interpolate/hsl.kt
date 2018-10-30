@@ -1,7 +1,7 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.HslColor
-import io.data2viz.color.colors
+import io.data2viz.color.Colors
 import io.data2viz.math.deg
 
 // TODO must take all types of colors in args (currently HSL only)
@@ -9,14 +9,14 @@ import io.data2viz.math.deg
 // TODO List instead of start, end ? (validate and check size !!)
 // TODO use type for parameter percent ?
 // TODO use gamma ?
-private fun interpolateHsl(start:HslColor, end:HslColor, long:Boolean): (Double) -> HslColor {
+private fun interpolateHsl(start: HslColor, end:HslColor, long:Boolean): (Double) -> HslColor {
     val colorInterpolator = gamma()
 
     val h = if (!long) hue(start.h, end.h) else colorInterpolator(start.h.deg, end.h.deg)
     val s = colorInterpolator(start.s, end.s)
     val l = colorInterpolator(start.l, end.l)
 
-    return fun(percent:Double) = colors.hsl(h(percent).deg, s(percent), l(percent))
+    return fun(percent:Double) = Colors.hsl(h(percent).deg, s(percent), l(percent))
 }
 
 /*fun uninterpolateHsl(start:HSL, end:HSL, long:Boolean): (HSL) -> Double {

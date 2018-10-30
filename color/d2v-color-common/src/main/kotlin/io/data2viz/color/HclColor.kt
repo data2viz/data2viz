@@ -11,7 +11,10 @@ import kotlin.math.max
  * @param l luminance:Float a value in the range [0,100] giving the luminance of the colour (in percent)
  * @param alpha:Float between 0 and 1
  */
-class HclColor internal constructor(val h: Angle, val c: Double, val l: Double, override val alpha: Double = 1.0) : Color {
+class HclColor
+
+@Deprecated("Deprecated", ReplaceWith("Colors.hcl(h,c,l,alpha)", "io.data2viz.colors.Colors"))
+internal constructor(val h: Angle, val c: Double, val l: Double, override val alpha: Double = 1.0) : Color {
 
     override val rgb = toRgbColor().rgb
     override val rgba = toRgbColor().rgba
@@ -21,11 +24,11 @@ class HclColor internal constructor(val h: Angle, val c: Double, val l: Double, 
     override val rgbHex: String = toRgbColor().rgbHex
 
     override fun toRgbColor():RgbColor = toLab().toRgbColor()
-    override fun brighten(strength: Double): Color = HclColor(h, c, (l + (Kn * strength)), alpha)
-    override fun darken(strength: Double): Color = HclColor(h, c, (l - (Kn * strength)), alpha)
-    override fun saturate(strength: Double): Color = HclColor(h, max(.0, (c + (Kn * strength))), l, alpha)
-    override fun desaturate(strength: Double): Color = HclColor(h, max(.0, (c - (Kn * strength))), l, alpha)
-    override fun withAlpha(alpha: Double) = HclColor(h, c, l, alpha)
+    override fun brighten(strength: Double): Color = Colors.hcl(h, c, (l + (Kn * strength)), alpha)
+    override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - (Kn * strength)), alpha)
+    override fun saturate(strength: Double): Color = Colors.hcl(h, max(.0, (c + (Kn * strength))), l, alpha)
+    override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
+    override fun withAlpha(alpha: Double) = Colors.hcl(h, c, l, alpha)
 
     /*val displayable: Boolean
         get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)*/
