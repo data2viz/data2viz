@@ -2,9 +2,6 @@ package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.geom.HasSize
-import io.data2viz.geom.Point
-import io.data2viz.math.Angle
-import io.data2viz.math.Matrix
 
 
 /**
@@ -90,23 +87,14 @@ interface StateableElement {
  * todo implement other transformation (rotate, ...)
  */
 class Transform {
-
-    var matrix = Matrix()
-
     var translate:Translation? = null
     fun translate(x: Double = 0.0, y: Double = 0.0) {
-        matrix = matrix.translate(x, y)
+        translate = Translation(x,y)
     }
 
     var rotate:Rotation? = null
     fun rotate(delta: Double) {
         rotate = Rotation(delta)
-    }
-
-
-
-    fun rotate(angle: Angle, center: Point?) {
-        matrix = matrix.rotate(angle, center)
     }
 
     operator fun plusAssign(transform: Transform) {
@@ -162,25 +150,7 @@ data class Margins(val top: Double, val right: Double = top, val bottom: Double 
 }
 
 interface HasTransform {
-    var transform: Transform?
-
-    fun transform(init: Transform.() -> Unit) {
-        transform = Transform().apply(init)
-    }
-
-    fun rotate(delta: Double, pivot:Point? = null) {
-        if (transform == null) {
-            transform = Transform()
-        }
-        transform!!.rotate(Angle(delta), pivot)
-    }
-
-    fun translate(x: Double = .0, y: Double = .0) {
-        if (transform == null) {
-            transform = Transform()
-        }
-        transform!!.translate(x, y)
-    }
+    val transform:Transform?
 }
 
 interface HasChildren: HasStyle {

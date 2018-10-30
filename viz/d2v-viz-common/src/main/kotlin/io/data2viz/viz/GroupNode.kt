@@ -7,6 +7,10 @@ open class GroupNode : Node(),
 
     override var transform: Transform? = null
 
+    fun transform(init: Transform.() -> Unit){
+        transform = Transform().apply(init)
+    }
+
     val children = mutableListOf<Node>()
 
     override fun add(node: Node) {

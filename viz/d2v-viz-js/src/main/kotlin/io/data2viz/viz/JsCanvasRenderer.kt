@@ -118,13 +118,8 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
 
         if (node is HasTransform) {
             node.transform?.also {
-                with(it.matrix){
-                    println("current transform:: ${context.getTransform()}")
-                    println(this)
-                    context.save()
-                    context.setTransform(a,b,c,d,tx,ty)
-
-                }
+                context.translate(it.translate?.x ?:.0, it.translate?.y ?:.0)
+                context.rotate(it.rotate?.delta ?: .0)
             }
         }
 
@@ -150,7 +145,8 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
 
         if (node is HasTransform) {
             node.transform?.also {
-                context.restore()
+                context.translate(-(it.translate?.x ?:.0), -(it.translate?.y ?:.0))
+                context.rotate(-(it.rotate?.delta ?:.0))
             }
         }
 

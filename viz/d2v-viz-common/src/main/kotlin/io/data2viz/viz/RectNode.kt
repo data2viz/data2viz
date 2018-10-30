@@ -8,10 +8,8 @@ import io.data2viz.geom.RectGeom
 class RectNode(rect: Rect = RectGeom()) : Node(),
         Rect by rect,
         HasFill,
-        HasStroke,
-        HasTransform {
+        HasStroke {
 
-    override var transform: Transform? = null
 
     @Deprecated("Use style.fill", ReplaceWith("style.fill"))
     override var fill: ColorOrGradient?
