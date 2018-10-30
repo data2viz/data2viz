@@ -1,9 +1,10 @@
 package io.data2viz.timer
 
 import io.data2viz.test.TestBase
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.javafx.JavaFx
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.javafx.JavaFx
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 @Suppress("unused")
@@ -50,19 +51,19 @@ class TimerTests : TestBase() {
     }
 
     @Test
-    fun `computes the elapsed time relative to the delay`() = runBlocking(JavaFx) {
+    fun `computes the elapsed time relative to the delay`() = runBlocking(Dispatchers.JavaFx) {
         val delay = 100.0
         timer(delay = delay) { elapsed ->
             stop()
             println("elapsed $elapsed")
             elapsed shouldBe (.0 plusOrMinus 10.0)
         }
-        delay(delay.toInt() + 10)
+        delay(delay.toLong() + 10L)
     }
 
     @Test
     fun `timer(callback, delay, time) computes the effective delay relative to the specified time`() =
-        runBlocking(JavaFx) {
+        runBlocking(Dispatchers.JavaFx) {
             val delay = 100.0
             val skew = 200.0
             timer(delay = delay, startTime = now() - skew) { elapsed ->
@@ -70,7 +71,7 @@ class TimerTests : TestBase() {
                 elapsed shouldBe (skew - delay plusOrMinus 10.0)
 
             }
-            delay(delay.toInt() + 10)
+            delay(delay.toLong() + 10)
         }
 
     @Test
@@ -84,21 +85,23 @@ class TimerTests : TestBase() {
     }
 
     @Test
-    fun `timer(callback) invokes callbacks in scheduling order during asynchronous flush`() = runBlocking(JavaFx) {
-        val results = mutableListOf<Int>()
-        timer { results.add(1); stop() }
-        timer { results.add(2); stop() }
-        timer { results.add(3); stop() }
-        timer {
-            stop()
-            results shouldBe listOf(1, 2, 3)
+    fun `timer(callback) invokes callbacks in scheduling order during asynchronous flush`() =
+        runBlocking(Dispatchers.JavaFx) {
+
+            val results = mutableListOf<Int>()
+            timer { results.add(1); stop() }
+            timer { results.add(2); stop() }
+            timer { results.add(3); stop() }
+            timer {
+                stop()
+                results shouldBe listOf(1, 2, 3)
+            }
+            delay(50)
         }
-        delay(50)
-    }
 
     @Test
     fun `timer(callback, delay) invokes callbacks in scheduling order during asynchronous flush`() =
-        runBlocking(JavaFx) {
+        runBlocking(Dispatchers.JavaFx) {
             val results = mutableListOf<Int>()
             timer { results.add(1); stop() }
             timer { results.add(2); stop() }
@@ -112,15 +115,16 @@ class TimerTests : TestBase() {
         }
 
     @Test
-    fun `timer(callback) within a frame invokes the callback at the end of the same frame`() = runBlocking(JavaFx) {
-        timer {
-            timer { elapsed2 ->
+    fun `timer(callback) within a frame invokes the callback at the end of the same frame`() =
+        runBlocking(Dispatchers.JavaFx) {
+            timer {
+                timer { elapsed2 ->
+                    stop()
+                    elapsed2 shouldBeClose 0.0
+                }
                 stop()
-                elapsed2 shouldBeClose 0.0
             }
-            stop()
+            delay(30)
         }
-        delay(30)
-    }
 
 }

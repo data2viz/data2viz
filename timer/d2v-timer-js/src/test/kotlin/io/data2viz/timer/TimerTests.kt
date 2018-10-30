@@ -1,8 +1,9 @@
 package io.data2viz.timer
 
 import io.data2viz.test.TestBase
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.promise
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.promise
 import kotlin.test.Ignore
 import kotlin.test.Test
 
@@ -15,7 +16,7 @@ class TimerTests : TestBase() {
     }
 
     @Test @Ignore
-    fun timerStop() = promise {
+    fun timerStop() = GlobalScope.promise {
         var count = 0
         timer {
             if (++count == 2) {
@@ -28,7 +29,7 @@ class TimerTests : TestBase() {
 
     @Test @Ignore
     @JsName("callbackMeanTime")
-    fun `timer(callback) invokes the callback about every 17ms`() = promise {
+    fun `timer(callback) invokes the callback about every 17ms`() = GlobalScope.promise {
         val then = now()
         var elapsedTime = 0.0
         var count = 0
@@ -44,7 +45,7 @@ class TimerTests : TestBase() {
 
     @Test @Ignore
     @JsName("callbackDelayed")
-    fun `timer(callback, delay) first invokes the callback after the specified delay`() = promise {
+    fun `timer(callback, delay) first invokes the callback after the specified delay`() = GlobalScope.promise {
         val then = now()
         val delay = 100.0
         timer(delay = delay) {
@@ -53,23 +54,23 @@ class TimerTests : TestBase() {
             elapsed shouldBe (delay plusOrMinus 10.0)
 
         }
-        delay(10 + delay.toInt())
+        delay(10L + delay.toInt())
     }
 
     @Test @Ignore
     @JsName("elapsedRelativeToDelay")
-    fun `computes the elapsed time relative to the delay`() = promise {
+    fun `computes the elapsed time relative to the delay`() = GlobalScope.promise {
         val delay = 100.0
         timer(delay = delay) { elapsed ->
             stop()
             elapsed shouldBe (.0 plusOrMinus 10.0)
         }
-        delay(delay.toInt() + 10)
+        delay(delay.toLong() + 10)
     }
 
     @Test @Ignore
     @JsName("elapsedRelativeToDelayAndTime")
-    fun `timer(callback, delay, time) computes the effective delay relative to the specified time`() = promise {
+    fun `timer(callback, delay, time) computes the effective delay relative to the specified time`() = GlobalScope.promise {
         val delay = 100.0
         val skew = 200.0
         timer(delay = delay, startTime = now() - skew) { elapsed ->
@@ -77,7 +78,7 @@ class TimerTests : TestBase() {
             elapsed shouldBe (skew - delay plusOrMinus 10.0)
 
         }
-        delay(delay.toInt() + 10)
+        delay(delay.toLong() + 10)
     }
 
     @Test @Ignore
@@ -93,7 +94,7 @@ class TimerTests : TestBase() {
 
     @Test @Ignore
     @JsName("flushTimersAsync")
-    fun `timer(callback) invokes callbacks in scheduling order during asynchronous flush`() = promise {
+    fun `timer(callback) invokes callbacks in scheduling order during asynchronous flush`() = GlobalScope.promise {
         val results = mutableListOf<Int>()
         timer { results.add(1); stop() }
         timer { results.add(2); stop() }
@@ -108,7 +109,7 @@ class TimerTests : TestBase() {
     @Test @Ignore
     @JsName("flushTimersAsyncWithDelay")
 //    @Ignore
-    fun `timer(callback, delay) invokes callbacks in scheduling order during asynchronous flush`() = promise {
+    fun `timer(callback, delay) invokes callbacks in scheduling order during asynchronous flush`() = GlobalScope.promise {
         val results = mutableListOf<Int>()
         timer { results.add(1); stop() }
         timer { results.add(2); stop() }
@@ -123,7 +124,7 @@ class TimerTests : TestBase() {
 
     @Test @Ignore
     @JsName("timerWithinAFrame")
-    fun `timer(callback) within a frame invokes the callback at the end of the same frame`() = promise {
+    fun `timer(callback) within a frame invokes the callback at the end of the same frame`() = GlobalScope.promise {
         timer {
             timer { elapsed2 ->
                 stop()

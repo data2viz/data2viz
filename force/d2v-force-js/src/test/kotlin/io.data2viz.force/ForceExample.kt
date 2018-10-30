@@ -3,7 +3,7 @@ package io.data2viz.force
 import io.data2viz.color.colors
 import io.data2viz.math.random
 import io.data2viz.viz.*
-import kotlin.js.Math
+import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.floor
 import kotlin.math.sqrt
@@ -47,7 +47,7 @@ val viz = viz {
         path {
             sim.nodes.forEach { d ->
                 moveTo(d.x + 3, d.y)
-                arc(d.x, d.y, 3.0, 0.0, 2 * Math.PI);
+                arc(d.x, d.y, 3.0, 0.0, 2 * PI);
             }
             fill = colors.black
             stroke = colors.white

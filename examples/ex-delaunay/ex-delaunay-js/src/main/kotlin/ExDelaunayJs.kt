@@ -1,10 +1,8 @@
 import io.data2viz.delaunay.Delaunator
-import org.khronos.webgl.get
 import org.w3c.dom.*
 import kotlin.browser.document
 import kotlin.browser.window
-import kotlin.js.Date
-import kotlin.js.Math
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 fun main(args: Array<String>) {
@@ -44,7 +42,7 @@ fun main(args: Array<String>) {
         ctx.scale(2.0, 2.0)
     }
 
-    val ratio = (w - 2 * padding) / Math.max(maxX - minX, maxY - minY)
+    val ratio = (w - 2 * padding) / max(maxX - minX, maxY - minY)
 
     ctx.lineJoin = CanvasLineJoin.ROUND
     ctx.lineCap = CanvasLineCap.ROUND
