@@ -4,8 +4,13 @@ import io.data2viz.color.ColorOrGradient
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.Path
 
-class PathNode(val path: PathGeom = PathGeom()): Node(), HasStroke, HasFill, Path by path {
+class PathNode(val path: PathGeom = PathGeom()): Node(),
+        HasStroke,
+        HasFill,
+        HasTransform,
+        Path by path {
 
+    override var transform: Transform? = null
 
     /**
      * Remove all segments of the path.

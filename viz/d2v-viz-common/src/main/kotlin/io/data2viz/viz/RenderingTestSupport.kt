@@ -2,6 +2,7 @@ package io.data2viz.viz
 
 import io.data2viz.color.color
 import io.data2viz.color.colors
+import io.data2viz.geom.Point
 import io.data2viz.math.PI
 
 
@@ -33,6 +34,91 @@ val allRenderingTests = listOf(
 //        },
 
 
+        ///////////// TRANSFORMATIONS /////////////////////////////////
+    renderingTest("transform3") {
+        rect {
+//            x = 100.0
+//            y = 100.0
+            width = 200.0
+            height = 100.0
+            style.fill = colors.grey
+        }
+        rect {
+//            x = 100.0
+//            y = 100.0
+            width = 200.0
+            height = 100.0
+            style.fill = colors.red
+            rotate( PI/6)
+        }
+    },
+        renderingTest("transform") {
+            var depth = 0
+            fun addToParent(parent: GroupNode) {
+                depth++
+                if (depth == 41) return
+
+                with(GroupNode()) {
+                    parent.add(this)
+                    transform {
+                        translate(x = 10.0, y = 10.0)
+                        rotate(0.1 * PI / 2)
+                    }
+                    rect {
+                        height = 10.0
+                        width = 10.0
+                        style.fill = colors.black
+                    }
+                    addToParent(this)
+                }
+                depth--
+            }
+            addToParent(group {
+                transform {
+                    translate(x = 250.0, y = 125.0)
+                }
+                rect {
+                    height = 10.0
+                    width = 10.0
+                    style.fill = colors.black
+                }
+            })
+        },
+
+        renderingTest("transform1") {
+            rect {
+                x = .0
+                y = .0
+                width = 200.0
+                height = 100.0
+                style.fill = colors.red
+                rotate(PI / 3)
+            }
+        },
+        renderingTest("transform2") {
+            rect {
+                x = 100.0
+                y = 100.0
+                width = 200.0
+                height = 100.0
+                style.fill = colors.red
+                rotate(PI / 3)
+            }
+        },
+
+        ///////////// RECTANGLES /////////////////////////////////
+
+        renderingTest("rect1") {
+            rect {
+                rect {
+                    x = 100.0
+                    y = 100.0
+                    width = 20.0
+                    height = 10.0
+                    style.fill = colors.red
+                }
+            }
+        },
         ///////////// CIRCLES /////////////////////////////////
 
         renderingTest("circle1") {
@@ -260,38 +346,6 @@ val allRenderingTests = listOf(
             }
         },*/
 
-        renderingTest("transform") {
-            var depth = 0
-            fun addToParent(parent: Group) {
-                depth++
-                if (depth == 41) return
-
-                with(Group()) {
-                    parent.add(this)
-                    transform {
-                        translate(x = 10.0, y = 10.0)
-                        rotate(0.1 * PI / 2)
-                    }
-                    rect {
-                        height = 10.0
-                        width = 10.0
-                        style.fill = colors.black
-                    }
-                    addToParent(this)
-                }
-                depth--
-            }
-            addToParent(group {
-                transform {
-                    translate(x = 250.0, y = 125.0)
-                }
-                rect {
-                    height = 10.0
-                    width = 10.0
-                    style.fill = colors.black
-                }
-            })
-        },
         renderingTest("path1") {
             path {
                 moveTo(20.0, 20.0)

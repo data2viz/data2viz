@@ -5,6 +5,7 @@ package io.data2viz.geom
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
 import kotlin.math.PI
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 fun moveTo(x:Double) = "M$x"
@@ -455,6 +456,20 @@ class PathTests : TestBase() {
             rect(100.0,200.0, 50.0,25.0)
             svgPath.round() shouldBe "M150,100M100,200h50v25h-50Z"
         }
+    }
+
+    @Test
+    @Ignore
+    fun closePathShouldComeBackToFirstPoint() {
+        var lastCommand: ClosePath = ClosePath()
+        with(path()){
+            moveTo(10.0, 10.0)
+            lineTo(20.0, 20.0)
+            closePath()
+            lastCommand = commands.last() as ClosePath
+        }
+        lastCommand.x shouldBe 10.0
+        lastCommand.y shouldBe 10.0
     }
 
 }

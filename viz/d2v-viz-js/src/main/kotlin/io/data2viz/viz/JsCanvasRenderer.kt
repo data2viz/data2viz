@@ -111,15 +111,20 @@ class JsCanvasRenderer(val context: CanvasRenderingContext2D, val viz: Viz) : Vi
 
 }
 
-fun Group.render(context: CanvasRenderingContext2D) {
+fun GroupNode.render(context: CanvasRenderingContext2D) {
 
 
     children.forEach { node ->
 
         if (node is HasTransform) {
             node.transform?.also {
-                context.translate(it.translate?.x ?:.0, it.translate?.y ?:.0)
-                context.rotate(it.rotate?.delta ?: .0)
+                with(it.matrix){
+                    println("current transform:: ${context.getTransform()}")
+                    println(this)
+                    context.save()
+                    context.setTransform(a,b,c,d,tx,ty)
+
+                }
             }
         }
 
@@ -136,17 +141,16 @@ fun Group.render(context: CanvasRenderingContext2D) {
             when (node) {
                 is CircleNode       -> node.render(context)
                 is RectNode         -> node.render(context)
-                is Group        -> node.render(context)
-                is PathNode     -> node.render(context)
-                is Text         -> node.render(context)
-                is Line         -> node.render(context)
-                else            -> error("Unknow type ${node::class}")
+                is GroupNode        -> node.render(context)
+                is PathNode         -> node.render(context)
+                is TextNode         -> node.render(context)
+                is LineNode         -> node.render(context)
+                else                -> error("Unknow type ${node::class}")
             }
 
         if (node is HasTransform) {
             node.transform?.also {
-                context.translate(-(it.translate?.x ?:.0), -(it.translate?.y ?:.0))
-                context.rotate(-(it.rotate?.delta ?:.0))
+                context.restore()
             }
         }
 
@@ -184,7 +188,7 @@ fun CircleNode.render(context: CanvasRenderingContext2D) {
     }
 }
 
-fun Text.render(context: CanvasRenderingContext2D) {
+fun TextNode.render(context: CanvasRenderingContext2D) {
     context.textAlign = this.style.anchor.js
     context.textBaseline = this.style.baseline.js
     context.fillText(textContent, x, y)
@@ -228,7 +232,7 @@ fun RadialGradient.toCanvasGradient(context: CanvasRenderingContext2D): CanvasGr
     return gradient
 }
 
-fun Line.render(context: CanvasRenderingContext2D) {
+fun LineNode.render(context: CanvasRenderingContext2D) {
     context.beginPath()
     context.moveTo(x1, y1)
     context.lineTo(x2, y2)
