@@ -79,7 +79,7 @@ val allRenderingTests = listOf(
                 y = 100.0
                 width = 20.0
                 height = 10.0
-                style.fill = colors.red
+                style.fill = Colors.Web.red
             }
         }
     },
