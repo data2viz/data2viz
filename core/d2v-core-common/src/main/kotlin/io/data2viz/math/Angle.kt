@@ -5,7 +5,7 @@ import kotlin.math.sin
 import kotlin.math.tan
 
 
-data class Angle(val rad: Double){
+inline class Angle(val rad: Double){
     val cos:Double get() = cos(rad)
     val sin:Double get() = sin(rad)
     val tan:Double get() = tan(rad)
