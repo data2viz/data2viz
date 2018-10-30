@@ -123,7 +123,7 @@ class AndroidCanvasRenderer(val context: Context, val viz: Viz, var canvas: Canv
 
 }
 
-fun Group.render(renderer: AndroidCanvasRenderer) {
+fun GroupNode.render(renderer: AndroidCanvasRenderer) {
 
     val canvas = renderer.canvas
 
@@ -145,10 +145,10 @@ fun Group.render(renderer: AndroidCanvasRenderer) {
                 when (node) {
                     is CircleNode   -> node.render(renderer)
                     is RectNode     -> node.render(renderer)
-                    is Group    -> node.render(renderer)
-                    is PathNode -> node.render(renderer)
-                    is Text     -> node.render(renderer)
-                    is Line     -> node.render(renderer)
+                    is GroupNode    -> node.render(renderer)
+                    is PathNode     -> node.render(renderer)
+                    is TextNode     -> node.render(renderer)
+                    is LineNode     -> node.render(renderer)
                     else -> error("Unknow type ${node::class}")
                 }
 
@@ -189,7 +189,7 @@ fun CircleNode.render(renderer: AndroidCanvasRenderer) {
     }
 }
 
-fun Text.render(renderer: AndroidCanvasRenderer) {
+fun TextNode.render(renderer: AndroidCanvasRenderer) {
     with(renderer) {
         paint.style = Paint.Style.FILL
         paint.textAlign = style.anchor.android
@@ -311,7 +311,7 @@ val Number.radToDeg: Double
     get() = this.toDouble() * 180 / PI
 
 
-fun Line.render(renderer: AndroidCanvasRenderer) {
+fun LineNode.render(renderer: AndroidCanvasRenderer) {
     with(renderer){
         style.stroke?.let {
             paint.style = Paint.Style.STROKE

@@ -4,7 +4,7 @@ package io.data2viz.viz
 /**
  *
  */
-class Layer: Group() {
+class Layer: GroupNode() {
 
 
 }

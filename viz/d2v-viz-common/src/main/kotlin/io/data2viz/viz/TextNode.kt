@@ -3,7 +3,12 @@ package io.data2viz.viz
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.viz.TextAnchor.*
 
-class Text : Node(), HasFill, HasStroke {
+class TextNode : Node(),
+        HasFill,
+        HasStroke,
+        HasTransform {
+
+    override var transform: Transform? = null
 
     var x: Double = .0
     var y: Double = .0

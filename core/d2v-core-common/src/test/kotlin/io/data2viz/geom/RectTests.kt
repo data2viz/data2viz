@@ -8,6 +8,24 @@ import kotlin.test.Test
 class RectTests : TestBase() {
 
     @Test
+    fun rectConstructByPoints() {
+        val rect = RectGeom(from = Point(200.0, 100.0), to = Point(20.0, 10.0))
+        rect.x shouldBeClose 20.0
+        rect.y shouldBeClose 10.0
+        rect.width shouldBeClose 180.0
+        rect.height shouldBeClose 90.0
+    }
+
+    @Test
+    fun rectConstructByPointAndSize() {
+        val rect = RectGeom(Point(20.0, 10.0), Size(180.0, 90.0))
+        rect.x shouldBeClose 20.0
+        rect.y shouldBeClose 10.0
+        rect.width shouldBeClose 180.0
+        rect.height shouldBeClose 90.0
+    }
+
+    @Test
     fun rectPoints(){
         val rect = RectGeom(10.0, 20.0, 30.0, 40.0)
 

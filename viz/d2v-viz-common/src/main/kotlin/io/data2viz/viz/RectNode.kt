@@ -5,7 +5,11 @@ import io.data2viz.geom.Rect
 import io.data2viz.geom.RectGeom
 
 
-class RectNode(rect: Rect = RectGeom()) : Node(), Rect by rect, HasStroke, HasFill {
+class RectNode(rect: Rect = RectGeom()) : Node(),
+        Rect by rect,
+        HasFill,
+        HasStroke {
+
 
     @Deprecated("Use style.fill", ReplaceWith("style.fill"))
     override var fill: ColorOrGradient?

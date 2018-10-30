@@ -4,6 +4,7 @@ package io.data2viz.shape
 
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.Path
+import io.data2viz.geom.svgPath
 import io.data2viz.test.TestBase
 
 data class Point(val x: Int, val y: Int)

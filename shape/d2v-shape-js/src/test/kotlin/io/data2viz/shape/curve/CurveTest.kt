@@ -2,6 +2,7 @@ package io.data2viz.shape.curve
 
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.Path
+import io.data2viz.geom.svgPath
 import io.data2viz.shape.Curve
 import io.data2viz.shape.LineBuilder
 import io.data2viz.shape.const

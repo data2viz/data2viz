@@ -1,5 +1,6 @@
 import io.data2viz.format.formatter
 import io.data2viz.geom.PathGeom
+import io.data2viz.geom.svgPath
 import io.data2viz.shape.ArcBuilder
 import io.data2viz.shape.arcBuilder
 import io.data2viz.shape.pi

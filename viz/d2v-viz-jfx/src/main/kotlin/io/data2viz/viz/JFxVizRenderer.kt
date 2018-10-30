@@ -66,7 +66,7 @@ class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
 
 
 
-fun Group.render(renderer: JFxVizRenderer) {
+fun GroupNode.render(renderer: JFxVizRenderer) {
 
     children.forEach { node ->
 
@@ -91,10 +91,10 @@ fun Group.render(renderer: JFxVizRenderer) {
             when (node) {
                 is CircleNode       -> node.render(renderer)
                 is RectNode         -> node.render(renderer)
-                is Group        -> node.render(renderer)
+                is GroupNode        -> node.render(renderer)
                 is PathNode     -> node.render(renderer)
-                is Text         -> node.render(renderer)
-                is Line         -> node.render(renderer)
+                is TextNode         -> node.render(renderer)
+                is LineNode         -> node.render(renderer)
                 else            -> error("Unknow type ${node::class}")
             }
 
@@ -152,7 +152,7 @@ fun RectNode.render(renderer: JFxVizRenderer) {
     }
 }
 
-fun Text.render(renderer: JFxVizRenderer){
+fun TextNode.render(renderer: JFxVizRenderer){
     val gc = renderer.gc
     gc.textAlign = this.style.anchor.jfx
     gc.textBaseline = this.style.baseline.jfx
@@ -174,7 +174,7 @@ val TextAnchor.jfx: TextAlignment
     }
 
 
-fun Line.render(renderer: JFxVizRenderer){
+fun LineNode.render(renderer: JFxVizRenderer){
     val gc = renderer.gc
     gc.beginPath()
     gc.moveTo(x1, y1)

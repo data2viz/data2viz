@@ -1,15 +1,17 @@
 package io.data2viz.viz
 
 
-open class Group : Node(), HasChildren, HasTransform {
-
-    val children = mutableListOf<Node>()
+open class GroupNode : Node(),
+        HasChildren,
+        HasTransform {
 
     override var transform: Transform? = null
 
     fun transform(init: Transform.() -> Unit){
         transform = Transform().apply(init)
     }
+
+    val children = mutableListOf<Node>()
 
     override fun add(node: Node) {
         children.add(node)
@@ -25,12 +27,11 @@ open class Group : Node(), HasChildren, HasTransform {
         children.clear()
     }
 
-    override fun group(init: Group.() -> Unit): Group = Group()
+    override fun group(init: GroupNode.() -> Unit): GroupNode = GroupNode()
             .apply(init)
             .also { add(it) }
 
-
-    override fun line(init: Line.() -> Unit): Line = Line()
+    override fun line(init: LineNode.() -> Unit): LineNode = LineNode()
             .apply(init)
             .also { add(it) }
 
@@ -38,20 +39,16 @@ open class Group : Node(), HasChildren, HasTransform {
             .apply(init)
             .also { add(it) }
 
-
     override fun rect(init: RectNode.() -> Unit): RectNode = RectNode()
             .apply(init)
             .also { add(it) }
 
-
-    override fun text(init: Text.() -> Unit): Text = Text()
+    override fun text(init: TextNode.() -> Unit): TextNode = TextNode()
             .apply(init)
             .also { add(it) }
-
 
     override fun path(init: PathNode.() -> Unit): PathNode = PathNode()
             .apply(init)
             .also { add(it) }
-
 
 }
