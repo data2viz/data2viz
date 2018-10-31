@@ -7,6 +7,7 @@ import io.data2viz.chord.Chord
 import io.data2viz.chord.ChordGroup
 import io.data2viz.chord.ChordLayout
 import io.data2viz.chord.Chords
+import io.data2viz.color.Colors
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RgbColor
 import io.data2viz.geom.Path
@@ -98,7 +99,7 @@ fun chordViz(): Viz = viz {
 
 
 //Todo Move in API
-fun Chord.toGradient() = LinearGradient().apply {
+fun Chord.toGradient() = Colors.Gradient.linear().apply {
     x1 = inner * cos((source.endAngle - source.startAngle) / 2 + source.startAngle - PI / 2)
     y1 = inner * sin((source.endAngle - source.startAngle) / 2 + source.startAngle - PI / 2)
     x2 = inner * cos((target.endAngle - target.startAngle) / 2 + target.startAngle - PI / 2)
