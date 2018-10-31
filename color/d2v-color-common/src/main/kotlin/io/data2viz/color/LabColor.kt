@@ -3,16 +3,19 @@ package io.data2viz.color
 /**
  * Create a color in the LAB color space (CIE L*a*b* D65 whitepoint)
  *
- * @param labL lightness:Float between 0 and 100
- * @param labA "a"-component:Float for green-red between -128 and +128
- * @param labB "b"-component:Float for blue-yellow between -128 and +128
+ * @param lightness :Float between 0 and 100
+ * @param aComponent "a"-component:Float for green-red between -128 and +128
+ * @param bComponent "b"-component:Float for blue-yellow between -128 and +128
  * @param alpha:Opacity between 0 and 1
  */
 class LabColor
 
 @Deprecated("Deprecated", ReplaceWith("Colors.lab(labL,labA,labB,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(val labL: Double, val labA: Double, val labB: Double, a: Double = 1.0):Color {
+internal constructor(lightness: Double, aComponent: Double, bComponent: Double, a: Double = 1.0):Color {
 
+    val labL = lightness.coerceIn(.0, 100.0)
+    val labA = aComponent.coerceIn(-128.0, 128.0)
+    val labB = bComponent.coerceIn(-128.0, 128.0)
     override val alpha = a.coerceIn(.0, 1.0)
 
     override val rgb = toRgb().rgb
