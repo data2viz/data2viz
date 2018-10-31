@@ -274,7 +274,7 @@ private fun RadialGradient.toRadialGradient(renderer: AndroidCanvasRenderer) =
             ARadialGradient(
                     cx.dp,
                     cy.dp,
-                    r.dp,
+                    radius.dp,
                     IntArray(colorStops.size) { colorStops[it].color.toColor() },
                     FloatArray(colorStops.size) { colorStops[it].percent.toFloat() },
                     Shader.TileMode.CLAMP)
