@@ -23,7 +23,7 @@ val String.color: RgbColor
     get():RgbColor {
         val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
         require(this.matches(regex)) {
-            "Conversion of string to io.data2viz.color.getColor works for encoded colors like #12abCD"
+            "Conversion of string to io.data2viz.color.RgbColor works for encoded colors like #12abCD"
         }
         return RgbColor(substring(1).toInt(16))
     }

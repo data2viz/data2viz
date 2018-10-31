@@ -4,9 +4,14 @@ package io.data2viz.color
 
 import io.data2viz.math.Angle
 
+
+// TODO : move to common and remove expect when available
 internal expect fun Int.toString(radix: Int): String
 
+
 object Colors {
+
+    /***************************** COLORSPACE CONSTRUCTORS *******************************************/
 
     fun rgb(red: Int, green: Int, blue: Int, alpha: Double = 1.0): RgbColor {
         val rgb = (red.coerceIn(0, 255) shl 16) + (green.coerceIn(0, 255) shl 8) + blue.coerceIn(0, 255)
@@ -23,6 +28,9 @@ object Colors {
             HclColor(hue, chroma, luminance, alpha)
 
     fun lch(luminance: Double, chroma: Double, hue: Angle, alpha: Double = 1.0) = hcl(hue, chroma, luminance, alpha)
+
+
+    /***************************** GRADIENTS *********************************************************/
 
     object Gradient {
         fun linear(x1: Double = .0, y1: Double = .0, x2: Double = .0, y2: Double = .0, colorStops: List<ColorStop> = listOf()) =
@@ -42,6 +50,9 @@ object Colors {
                     colorStops.forEach { addColor(it.percent, it.color) }
                 }
     }
+
+
+    /***************************** NAMED WEB COLORS ******************************************************/
 
     object Web {
         val aliceblue = 0xf0f8ff.color
