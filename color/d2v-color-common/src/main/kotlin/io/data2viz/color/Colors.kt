@@ -2,6 +2,7 @@
 
 package io.data2viz.color
 
+import io.data2viz.geom.Point
 import io.data2viz.math.Angle
 
 
@@ -33,22 +34,8 @@ object Colors {
     /***************************** GRADIENTS *********************************************************/
 
     object Gradient {
-        fun linear(x1: Double = .0, y1: Double = .0, x2: Double = .0, y2: Double = .0, colorStops: List<ColorStop> = listOf()) =
-                LinearGradient().apply {
-                    this.x1 = x1
-                    this.y1 = y1
-                    this.x2 = x2
-                    this.y2 = y2
-                    colorStops.forEach { addColor(it.percent, it.color) }
-                }
-
-        fun radial(x: Double = .0, y: Double = .0, radius: Double = .0, colorStops: List<ColorStop> = listOf()) =
-                RadialGradient().apply {
-                    this.cx = x
-                    this.cy = y
-                    this.r = radius
-                    colorStops.forEach { addColor(it.percent, it.color) }
-                }
+        fun linear(from:Point, to:Point) = LinearGradientFirstColorBuilder(from, to)
+        fun radial(center:Point, radius:Double) = RadialGradientFirstColorBuilder(center, radius)
     }
 
 

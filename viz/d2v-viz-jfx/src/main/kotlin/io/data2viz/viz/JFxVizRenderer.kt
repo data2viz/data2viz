@@ -122,7 +122,7 @@ fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient = JfxLinearGradient(
         CycleMethod.NO_CYCLE, colorStops.toStops()
 )
 
-fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient(.0, .0, cx, cy, r,
+fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient(.0, .0, cx, cy, radius,
         false,
         CycleMethod.NO_CYCLE, colorStops.toStops())
 

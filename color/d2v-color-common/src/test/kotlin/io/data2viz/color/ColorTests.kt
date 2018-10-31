@@ -7,6 +7,7 @@ import io.data2viz.color.Colors.Web.hotpink
 import io.data2viz.color.Colors.Web.darkseagreen
 import io.data2viz.color.Colors.Web.teal
 import io.data2viz.color.Colors.Web.slategray
+import io.data2viz.geom.Point
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import io.data2viz.test.TestBase
@@ -334,5 +335,23 @@ class ColorTests : TestBase() {
         hotpink.desaturate(3.0).rgbHex shouldBe "#b199a3"
     }
 
+    @Test
+    fun linear_gradient_builder() {
+        val builder = Colors.Gradient.linear(Point(.0, .0), Point(100.0, .0))
 
+        val gradient = builder.withColor(aliceblue, .0).andColor(darkseagreen, .6)
+        gradient.colorStops.size shouldBe 2
+
+        gradient.andColor(hotpink, 1.0).colorStops.size shouldBe 3
+    }
+
+    @Test
+    fun radial_gradient_builder() {
+        val builder = Colors.Gradient.radial(Point(.0, .0), 100.0)
+
+        val gradient = builder.withColor(aliceblue, .0).andColor(darkseagreen, .6)
+        gradient.colorStops.size shouldBe 2
+
+        gradient.andColor(hotpink, 1.0).colorStops.size shouldBe 3
+    }
 }

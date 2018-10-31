@@ -5,12 +5,7 @@ data class ColorStop(val percent:Double, val color: Color)
 interface ColorOrGradient
 
 interface Gradient : ColorOrGradient {
-    val colorStops:MutableList<ColorStop>
-
-    fun addColor(percent: Double, color: Color){
-        val checkedPercent = percent.coerceIn(.0, 1.0)
-        colorStops.add(ColorStop(checkedPercent, color))
-    }
+    val colorStops:List<ColorStop>
 }
 
 interface Color : ColorOrGradient {

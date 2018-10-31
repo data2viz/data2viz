@@ -1,6 +1,9 @@
 package io.data2viz.examples.lineOfSight
 
-import io.data2viz.color.*
+import io.data2viz.color.Colors
+import io.data2viz.color.RadialGradient
+import io.data2viz.color.RgbColor
+import io.data2viz.geom.Point
 import io.data2viz.geom.Polygon
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
@@ -56,8 +59,7 @@ fun lineOfSightViz(): Viz = viz {
     onFrame {
         lineOfSightLayer.clear()
         model.moveLight()
-        radialGradient.cx = model.lightPos.x
-        radialGradient.cy = model.lightPos.y
+        radialGradient.center = model.lightPos
         val points = model.getSightPolygon().points
         lineOfSightLayer.path {
             moveTo(points.first().x, points.first().y)
@@ -70,7 +72,7 @@ fun lineOfSightViz(): Viz = viz {
         }
     }
 
-    onResize { newWidth, newHeight->
+    onResize { newWidth, newHeight ->
         vizWidth = newWidth
         vizHeight = newHeight
 
@@ -87,13 +89,11 @@ private fun lightGradient(): RadialGradient {
     val lightColor = RgbColor(0xFFFFFF)
     val fromColor = RgbColor(0xFFFF00)
     val endColor = RgbColor(0xFFFF00, 0.0)
-    return Colors.Gradient.radial().apply {
-        r = .7 * vizWidth
-        addColor(.0, lightColor)
-        addColor(.01, lightColor)
-        addColor(.02, fromColor)
-        addColor(1.0, endColor)
-    }
+    return Colors.Gradient.radial(model.lightPos, .7 * vizWidth)
+        .withColor(lightColor, .0)
+        .andColor(lightColor, .01)
+        .andColor(fromColor, .02)
+        .andColor(endColor, 1.0)
 }
 
 

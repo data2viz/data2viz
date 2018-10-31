@@ -1,20 +1,21 @@
 package io.data2viz.examples.chord
 
 
-import kotlin.math.*
-
 import io.data2viz.chord.Chord
 import io.data2viz.chord.ChordGroup
 import io.data2viz.chord.ChordLayout
 import io.data2viz.chord.Chords
 import io.data2viz.color.Colors
-import io.data2viz.color.LinearGradient
 import io.data2viz.color.RgbColor
 import io.data2viz.geom.Path
+import io.data2viz.geom.Point
 import io.data2viz.geom.Size
 import io.data2viz.shape.arcBuilder
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 data class Movie(val name: String, val avengers: List<Avenger>)
@@ -29,18 +30,18 @@ val thor = Avenger("Thor")
 val hawkeye = Avenger("hawkeye")
 
 val movies = listOf(
-        Movie("Avengers", listOf(ironMan, captainAmerica, theHulk, thor, hawkeye, blackWidow)),
-        Movie("Avengers, L'ère d'Ultron", listOf(ironMan, captainAmerica, theHulk, thor, hawkeye, blackWidow)),
-        Movie("Avengers, Infinity War", listOf(ironMan, captainAmerica, theHulk, hawkeye, blackWidow)),
-        Movie("Captain America, First Avenger", listOf(captainAmerica)),
-        Movie("Captain America, Le Soldat de l'hiver", listOf(captainAmerica, blackWidow)),
-        Movie("Captain America, Civil War", listOf(captainAmerica, ironMan, hawkeye, blackWidow)),
-        Movie("Iron Man 1", listOf(ironMan)),
-        Movie("Iron Man 2", listOf(ironMan, blackWidow)),
-        Movie("Iron Man 3", listOf(ironMan, theHulk)),
-        Movie("Thor", listOf(thor, hawkeye)),
-        Movie("Thor, le monde des ténèbres", listOf(thor, captainAmerica)),
-        Movie("Thor, Ragnarok", listOf(thor, theHulk))
+    Movie("Avengers", listOf(ironMan, captainAmerica, theHulk, thor, hawkeye, blackWidow)),
+    Movie("Avengers, L'ère d'Ultron", listOf(ironMan, captainAmerica, theHulk, thor, hawkeye, blackWidow)),
+    Movie("Avengers, Infinity War", listOf(ironMan, captainAmerica, theHulk, hawkeye, blackWidow)),
+    Movie("Captain America, First Avenger", listOf(captainAmerica)),
+    Movie("Captain America, Le Soldat de l'hiver", listOf(captainAmerica, blackWidow)),
+    Movie("Captain America, Civil War", listOf(captainAmerica, ironMan, hawkeye, blackWidow)),
+    Movie("Iron Man 1", listOf(ironMan)),
+    Movie("Iron Man 2", listOf(ironMan, blackWidow)),
+    Movie("Iron Man 3", listOf(ironMan, theHulk)),
+    Movie("Thor", listOf(thor, hawkeye)),
+    Movie("Thor, le monde des ténèbres", listOf(thor, captainAmerica)),
+    Movie("Thor, Ragnarok", listOf(thor, theHulk))
 )
 
 val avengers = listOf(blackWidow, captainAmerica, hawkeye, theHulk, ironMan, thor)
@@ -89,7 +90,7 @@ fun chordViz(): Viz = viz {
         //drawing ribbons
         avengersChords.chords.forEach { chord ->
             path {
-                style.fill = chord.toGradient()
+                style.fill = chord.toGradient(.6)
                 style.stroke = null
                 ribbon(chord, this)
             }
@@ -99,13 +100,14 @@ fun chordViz(): Viz = viz {
 
 
 //Todo Move in API
-fun Chord.toGradient() = Colors.Gradient.linear().apply {
-    x1 = inner * cos((source.endAngle - source.startAngle) / 2 + source.startAngle - PI / 2)
-    y1 = inner * sin((source.endAngle - source.startAngle) / 2 + source.startAngle - PI / 2)
-    x2 = inner * cos((target.endAngle - target.startAngle) / 2 + target.startAngle - PI / 2)
-    y2 = inner * sin((target.endAngle - target.startAngle) / 2 + target.startAngle - PI / 2)
-
-    //Set the starting color (at 0%)
-    addColor(.0, io.data2viz.examples.chord.colors[source.index].withAlpha(.6))
-    addColor(1.0, io.data2viz.examples.chord.colors[target.index].withAlpha(.6))
-}
+fun Chord.toGradient(alpha:Double) = Colors.Gradient.linear(
+    Point(
+        inner * cos((source.endAngle - source.startAngle) / 2 + source.startAngle - PI / 2),
+        inner * sin((source.endAngle - source.startAngle) / 2 + source.startAngle - PI / 2)
+    ),
+    Point(
+        inner * cos((target.endAngle - target.startAngle) / 2 + target.startAngle - PI / 2),
+        inner * sin((target.endAngle - target.startAngle) / 2 + target.startAngle - PI / 2)
+    )
+).withColor(colors[source.index].withAlpha(alpha))
+    .andColor(colors[target.index].withAlpha(alpha))
