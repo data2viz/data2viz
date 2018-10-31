@@ -45,7 +45,7 @@ interface Rect: HasSize {
 		val y = rect.y
 		return x >= this.x && y >= this.y
                 && x + rect.width <= this.x + this.width
-                && y + rect.height <= this.y + this.height;
+                && y + rect.height <= this.y + this.height
 	}
 
 }

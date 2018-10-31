@@ -64,7 +64,10 @@ class RectTests : TestBase() {
         (Point(20.0, 10.0) in rect) shouldBe true
         (Point(20.0, 20.0) in rect) shouldBe true
 
+        // EQUIVALENT
         (RectGeom(10.0, 10.0, 10.0, 10.0) in rect) shouldBe true
+        (rect.contains(RectGeom(10.0, 10.0, 10.0, 10.0))) shouldBe true
+
         (RectGeom(10.0, 9.99999, 10.0, 10.0) in rect) shouldBe false
         (RectGeom(9.9999, 10.0, 10.0, 10.0) in rect) shouldBe false
         (RectGeom(10.0, 10.0, 10.00001, 10.0) in rect) shouldBe false
