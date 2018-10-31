@@ -183,6 +183,6 @@ fun LineNode.render(renderer: JFxVizRenderer){
 }
 
 val Color.jfxColor: javafx.scene.paint.Color
-    get() = javafx.scene.paint.Color.rgb(r, g, b, alpha.toDouble())
+    get() = javafx.scene.paint.Color.rgb(r, g, b, alpha)
 
 

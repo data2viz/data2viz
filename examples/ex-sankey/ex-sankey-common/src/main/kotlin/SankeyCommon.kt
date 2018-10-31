@@ -144,7 +144,7 @@ fun GroupNode.buildSankey() {
     }
 
     sankey.links.forEach { link ->
-        val gradient = LinearGradient().apply {
+        val gradient = Colors.Gradient.linear().apply {
             x1 = if (sankeyHorizontal) link.source.x1 else link.source.y1
             y1 = if (sankeyHorizontal) link.source.y1 else link.source.x1
             x2 = if (sankeyHorizontal) link.target.x0 else link.target.y0

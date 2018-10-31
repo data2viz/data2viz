@@ -13,7 +13,7 @@ class LabColor
 @Deprecated("Deprecated", ReplaceWith("Colors.lab(labL,labA,labB,alpha)", "io.data2viz.colors.Colors"))
 internal constructor(lightness: Double, aComponent: Double, bComponent: Double, a: Double = 1.0):Color {
 
-    // TODO : need to choose behavior: if values are coerced the results are not what expected when referring to expected values from chroma.js
+    // TODO : need to choose behavior: if values are coerced the results are not what expected when referring to test values from chroma.js
     val labL = lightness//.coerceIn(.0, 100.0)
     val labA = aComponent//.coerceIn(-128.0, 128.0)
     val labB = bComponent//.coerceIn(-128.0, 128.0)
