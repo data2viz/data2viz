@@ -8,7 +8,7 @@ package io.data2viz.color
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  */
-class RgbColor(override val rgb: Int, a: Double = 1.0): Color {
+class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
 
     override val alpha = a.coerceIn(.0, 1.0)
 
@@ -21,18 +21,18 @@ class RgbColor(override val rgb: Int, a: Double = 1.0): Color {
     override val b: Int
         get() = rgb and 0xff
 
-    override fun toRgb():RgbColor = this
-    override fun brighten(strength: Double):Color = toLab().brighten(strength)
-    override fun darken(strength: Double):Color = toLab().darken(strength)
-    override fun saturate(strength: Double):Color = toLab().saturate(strength)
-    override fun desaturate(strength: Double):Color = toLab().desaturate(strength)
+    override fun toRgb(): RgbColor = this
+    override fun brighten(strength: Double): Color = toLab().brighten(strength)
+    override fun darken(strength: Double): Color = toLab().darken(strength)
+    override fun saturate(strength: Double): Color = toLab().saturate(strength)
+    override fun desaturate(strength: Double): Color = toLab().desaturate(strength)
 
-    fun withRed(red:Int): RgbColor {
+    fun withRed(red: Int): RgbColor {
         val rgb = (rgb and 0x00ffff) + (red.coerceIn(0, 255) shl 16)
         return RgbColor(rgb, alpha)
     }
 
-    fun withGreen(green:Int): RgbColor {
+    fun withGreen(green: Int): RgbColor {
         val rgb = (rgb and 0xff00ff) + (green.coerceIn(0, 255) shl 8)
         return RgbColor(rgb, alpha)
     }
@@ -41,16 +41,6 @@ class RgbColor(override val rgb: Int, a: Double = 1.0): Color {
         val rgb = (rgb and 0xffff00) + blue.coerceIn(0, 255)
         return RgbColor(rgb, alpha)
     }
-
-//    fun brighter(strength: Double = 1.0):Color {
-//        val str = brighter.pow(strength)
-//        return rgba((r * str).roundToInt(), (g * str).roundToInt(), (b * str).roundToInt(), alpha)
-//    }
-//
-//    fun darker(strength: Double = 1.0):Color {
-//        val str = darker.pow(strength)
-//        return rgba((r * str).roundToInt(), (g * str).roundToInt(), (b * str).roundToInt(), alpha)
-//    }
 
     override val rgbHex: String
         get() = "#" +
@@ -62,15 +52,13 @@ class RgbColor(override val rgb: Int, a: Double = 1.0): Color {
                 (rgb and 0xf).toString(16)
 
     override val rgba: String
-        get() = "rgba($r, $g, $b, $alpha)"
+        get() = "RGB($r, $g, $b, alpha=$alpha)"
 
     override fun withAlpha(alpha: Double) = RgbColor(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as Color
+        if (other == null || other !is Color) return false
 
         if (rgb != other.rgb) return false
         if (alpha != other.alpha) return false
@@ -85,5 +73,4 @@ class RgbColor(override val rgb: Int, a: Double = 1.0): Color {
     }
 
     override fun toString() = if (alpha < 1.0) rgba else rgbHex
-
 }

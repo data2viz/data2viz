@@ -16,6 +16,11 @@ internal const val t1 = 6f / 29f
 internal const val t2 = 3f * t1 * t1
 internal const val t3 = t1 * t1 * t1
 
+internal const val deg60toRad = 1.047198
+internal const val deg240toRad = 4.18879
+
+internal val angle120deg = 120.deg
+
 val Int.color: RgbColor
     get() = RgbColor(this)
 
@@ -81,8 +86,9 @@ fun LabColor.toRgba(): RgbColor {
             alpha)
 }
 
+// TODO : use rad (faster)
 fun HslColor.toRgba(): RgbColor =
-        if (s == .0)     // achromatic
+        if (isAchromatic())     // achromatic
             Colors.rgb(
                     (l * 255).roundToInt(),
                     (l * 255).roundToInt(),
@@ -92,9 +98,9 @@ fun HslColor.toRgba(): RgbColor =
             val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
             val p = 2 * l - q
             Colors.rgb(
-                    (hue2rgb(p, q, h + 120.deg) * 255).roundToInt(),
+                    (hue2rgb(p, q, h + angle120deg) * 255).roundToInt(),
                     (hue2rgb(p, q, h) * 255).roundToInt(),
-                    (hue2rgb(p, q, h - 120.deg) * 255).roundToInt(),
+                    (hue2rgb(p, q, h - angle120deg) * 255).roundToInt(),
                     alpha)
         }
 
@@ -106,12 +112,13 @@ fun LabColor.toHcla(): HclColor {
     return Colors.hcl(hue, c, labL, alpha)
 }
 
+// TODO use rad (faster)
 private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {
     val hd = hue.normalize()
     return when {
-        hd.deg < 60 -> (p + (q - p) * (hd.deg / 60))
-        hd.deg < 180 -> q
-        hd.deg < 240 -> (p + (q - p) * ((240f - hd.deg) / 60))
+        hd.rad < deg60toRad -> (p + (q - p) * (hd.rad / deg60toRad))
+        hd.rad < PI -> q
+        hd.rad < deg240toRad -> (p + (q - p) * ((deg240toRad - hd.rad) / deg60toRad))
         else -> p
     }
 }
