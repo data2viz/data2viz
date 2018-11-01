@@ -1,7 +1,8 @@
 package io.data2viz.interpolate
 
 import io.data2viz.math.Angle
-import kotlin.math.floor
+import io.data2viz.math.PI
+import io.data2viz.math.TAU
 import kotlin.math.pow
 
 
@@ -21,16 +22,17 @@ internal fun ungamma(y: Double = 1.0): (Double, Double) -> (Double) -> Double {
 }
 
 // TODO no more constant needed ?
+// TODO : use rad (faster)
 // hue interpolation (in degrees)
-internal fun hue(a: Angle, b:Angle): (Double) -> Double {
-    val a2 = a.normalize()
-    val b2 = b.normalize()
-    val degreesTo = b2.deg - a2.deg
+internal fun hue(from: Angle, to:Angle): (Double) -> Double {
+    val a2 = from.normalize()
+    val b2 = to.normalize()
+    val degreesTo = b2.rad - a2.rad
     return { t ->
         when {
-            degreesTo < -180    -> linear(a2.deg, degreesTo + 360)(t)
-            degreesTo > 180     -> linear(a2.deg, degreesTo - 360)(t)
-            else                -> linear(a2.deg, degreesTo)(t)
+            degreesTo < -PI    -> linear(a2.rad, degreesTo + TAU)(t)
+            degreesTo > PI     -> linear(a2.rad, degreesTo - TAU)(t)
+            else                -> linear(a2.rad, degreesTo)(t)
         }
     }
 }
