@@ -18,7 +18,7 @@ private fun interpolateHsl(start: Color, end:Color, long:Boolean): (Double) -> C
     if (startHSL.isAchromatic()) startHSL = Colors.hsl(endHSL.h, endHSL.s, startHSL.l, startHSL.alpha)
     if (endHSL.isAchromatic()) endHSL = Colors.hsl(startHSL.h, startHSL.s, endHSL.l, endHSL.alpha)
 
-    val h = if (!long) hue(startHSL.h, endHSL.h) else colorInterpolator(startHSL.h.deg, endHSL.h.deg)
+    val h = if (!long) hue(startHSL.h, endHSL.h) else angle(startHSL.h, endHSL.h)
     val s = colorInterpolator(startHSL.s, endHSL.s)
     val l = colorInterpolator(startHSL.l, endHSL.l)
 

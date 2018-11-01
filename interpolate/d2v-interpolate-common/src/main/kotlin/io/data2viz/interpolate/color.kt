@@ -37,6 +37,13 @@ internal fun hue(from: Angle, to:Angle): (Double) -> Double {
     }
 }
 
+internal fun angle(from: Angle, to:Angle): (Double) -> Double {
+    val a2 = from.normalize()
+    val b2 = to.normalize()
+    val degreesTo = b2.rad - a2.rad
+    return linear(a2.rad, degreesTo)
+}
+
 /**
  * Linear interpolation
  */

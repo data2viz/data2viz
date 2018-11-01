@@ -2,6 +2,7 @@ package io.data2viz.interpolate
 
 import io.data2viz.color.Colors
 import io.data2viz.color.RgbColor
+import io.data2viz.color.color
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -64,5 +65,33 @@ class HSLTests : TestBase() {
         iterator(0.75) shouldBe RgbColor(0x404040)
         iterator(1.0) shouldBe Colors.Web.black
         iterator(2.0) shouldBe Colors.Web.black
+    }
+
+    @Test
+    fun HSLInterpolationShort() {
+        val iterator = interpolateHsl("#810082".color, "#ffa600".color)
+        iterator(-1.0) shouldBe "#810082".color
+        iterator(0.0) shouldBe "#810082".color
+        iterator(0.13) shouldBe Colors.rgb(146, 0, 116)
+        iterator(0.25) shouldBe Colors.rgb(161, 0, 96)
+        iterator(0.50) shouldBe Colors.rgb(193, 0, 34)
+        iterator(0.60) shouldBe Colors.rgb(205, 0, 3)
+        iterator(0.75) shouldBe Colors.rgb(224, 53, 0)
+        iterator(1.0) shouldBe "#ffa600".color
+        iterator(2.0) shouldBe "#ffa600".color
+    }
+
+    @Test
+    fun HSLInterpolationLong() {
+        val iterator = interpolateHslLong("#810082".color, "#ffa600".color)
+        iterator(-1.0) shouldBe "#810082".color
+        iterator(0.0) shouldBe "#810082".color
+        iterator(0.13) shouldBe Colors.rgb(63, 0, 146)
+        iterator(0.25) shouldBe Colors.rgb(0, 15, 161)
+        iterator(0.50) shouldBe Colors.rgb(0, 193, 158)
+        iterator(0.60) shouldBe Colors.rgb(0, 205, 79)
+        iterator(0.75) shouldBe Colors.rgb(59, 224, 0)
+        iterator(1.0) shouldBe "#ffa600".color
+        iterator(2.0) shouldBe "#ffa600".color
     }
 }
