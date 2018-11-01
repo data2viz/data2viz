@@ -161,7 +161,7 @@ object scales {
 
     object colors {
 
-        fun linearHSL(init: LinearScale<HslColor>.() -> Unit = {}) =
+        fun linearHSL(init: LinearScale<Color>.() -> Unit = {}) =
             LinearScale(::interpolateHsl).apply(init)
 
         fun linearRGB(init: LinearScale<Color>.() -> Unit = {}) =
