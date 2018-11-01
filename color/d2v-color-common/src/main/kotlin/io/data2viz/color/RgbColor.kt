@@ -52,7 +52,7 @@ class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
                 (rgb and 0xf).toString(16)
 
     override val rgba: String
-        get() = "RGB($r, $g, $b, alpha=$alpha)"
+        get() = "RGB($r, $g, $b, $alpha)"
 
     override fun withAlpha(alpha: Double) = RgbColor(rgb, alpha)
 
@@ -72,5 +72,5 @@ class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
         return result
     }
 
-    override fun toString() = if (alpha < 1.0) rgba else rgbHex
+    override fun toString() = "RGB($r, $g, $b, alpha=$alpha) - $rgbHex"
 }
