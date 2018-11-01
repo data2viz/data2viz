@@ -12,69 +12,7 @@ import io.data2viz.test.namespace
 import kotlin.browser.document
 import kotlin.test.Test
 
-class RGBTests : TestBase() {
-
-    @Test
-    fun interpolateSameColor() {
-        val iterator = interpolateRgb(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen)
-        iterator(-1.0) shouldBe Colors.Web.darkolivegreen
-        iterator(0.0) shouldBe Colors.Web.darkolivegreen
-        iterator(0.5) shouldBe Colors.Web.darkolivegreen
-        iterator(1.0) shouldBe Colors.Web.darkolivegreen
-        iterator(2.0) shouldBe Colors.Web.darkolivegreen
-    }
-
-    @Test
-    fun interpolateSameColorGamma2() {
-        val iterator = interpolateRgb(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen, gamma = 2.0)
-        iterator(-1.0) shouldBe iterator(0.0)
-        iterator(0.0) shouldBe iterator(0.5)
-        iterator(0.5) shouldBe iterator(1.0)
-        iterator(1.0) shouldBe iterator(2.0)
-    }
-
-
-    @Test
-    fun splineRGBSameColor() {
-        val iterator = interpolateRgbBasis(listOf(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen))
-        iterator(-1.0) shouldBe Colors.Web.darkolivegreen
-        iterator(0.0) shouldBe Colors.Web.darkolivegreen
-        iterator(0.5) shouldBe Colors.Web.darkolivegreen
-        iterator(1.0) shouldBe Colors.Web.darkolivegreen
-        iterator(2.0) shouldBe Colors.Web.darkolivegreen
-    }
-
-
-    @Test
-    fun cyclicalSplineRGBSameColor() {
-        val iterator = interpolateRgbBasis(listOf(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen), cyclical = true)
-        iterator(-1.0) shouldBe Colors.Web.darkolivegreen
-        iterator(0.0) shouldBe Colors.Web.darkolivegreen
-        iterator(0.5) shouldBe Colors.Web.darkolivegreen
-        iterator(1.0) shouldBe Colors.Web.darkolivegreen
-        iterator(2.0) shouldBe Colors.Web.darkolivegreen
-    }
-
-    @Test
-    fun linearRGBInterpolationWhiteToBlue() {
-        val iterator = interpolateRgb(white, blue)
-        iterator(-1.0) shouldBe white
-        iterator(0.0) shouldBe white
-        iterator(0.5) shouldBe RgbColor(0x8080ff)
-        iterator(1.0) shouldBe blue
-        iterator(2.0) shouldBe blue
-    }
-
-    @Test
-    fun linearRGBInterpolationBlueToWhite() {
-        val iterator = interpolateRgb(blue, white)
-        iterator(-1.0) shouldBe blue
-        iterator(0.0) shouldBe blue
-        iterator(0.5) shouldBe RgbColor(0x8080ff)
-        iterator(1.0) shouldBe white
-        iterator(2.0) shouldBe white
-    }
-
+class RGBTestsJS : TestBase() {
 
     @Test
     fun rgbSplineInterpolationGBRBG() {

@@ -9,7 +9,7 @@ import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.test.Test
 
-class HSLTests : TestBase() {
+class HSLTestsJS : TestBase() {
 
     /**
      * "HSL SHORT linear interpolation [(300°, 100%, 25%), (38°, 100%, 50%)]
