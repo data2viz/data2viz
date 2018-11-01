@@ -80,29 +80,32 @@ fun LabColor.toRgba(): RgbColor {
 
     // map CIE XYZ to RGB
     return Colors.rgb(
-            xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z),
-            xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
-            xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
-            alpha)
+        xyz2rgb(3.2404542f * x - 1.5371385f * y - 0.4985314f * z),
+        xyz2rgb(-0.9692660f * x + 1.8760108f * y + 0.0415560f * z),
+        xyz2rgb(0.0556434f * x - 0.2040259f * y + 1.0572252f * z),
+        alpha
+    )
 }
 
 // TODO : use rad (faster)
 fun HslColor.toRgba(): RgbColor =
-        if (isAchromatic())     // achromatic
-            Colors.rgb(
-                    (l * 255).roundToInt(),
-                    (l * 255).roundToInt(),
-                    (l * 255).roundToInt(),
-                    alpha)
-        else {
-            val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
-            val p = 2 * l - q
-            Colors.rgb(
-                    (hue2rgb(p, q, h + angle120deg) * 255).roundToInt(),
-                    (hue2rgb(p, q, h) * 255).roundToInt(),
-                    (hue2rgb(p, q, h - angle120deg) * 255).roundToInt(),
-                    alpha)
-        }
+    if (isAchromatic())     // achromatic
+        Colors.rgb(
+            (l * 255).roundToInt(),
+            (l * 255).roundToInt(),
+            (l * 255).roundToInt(),
+            alpha
+        )
+    else {
+        val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
+        val p = 2 * l - q
+        Colors.rgb(
+            (hue2rgb(p, q, h + angle120deg) * 255).roundToInt(),
+            (hue2rgb(p, q, h) * 255).roundToInt(),
+            (hue2rgb(p, q, h - angle120deg) * 255).roundToInt(),
+            alpha
+        )
+    }
 
 fun HclColor.toLab() = Colors.lab(l, (h.cos * c), (h.sin * c), alpha)
 
@@ -125,10 +128,10 @@ private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {
 
 
 internal fun xyz2lab(value: Float): Float =
-        if (value > t3)
-            value.pow(1 / 3f)
-        else
-            (value / t2 + t0)
+    if (value > t3)
+        value.pow(1 / 3f)
+    else
+        (value / t2 + t0)
 
 internal fun rgb2xyz(value: Int): Float {
     val percent = value.toFloat() / 255f
@@ -136,13 +139,13 @@ internal fun rgb2xyz(value: Int): Float {
 }
 
 internal fun lab2xyz(value: Double): Double =
-        if (value > t1)
-            (value * value * value)
-        else
-            (t2 * (value - t0))
+    if (value > t1)
+        (value * value * value)
+    else
+        (t2 * (value - t0))
 
 internal fun xyz2rgb(value: Double): Int =
-        if (value <= 0.0031308f)
-            round(12.92f * value * 255).toInt()
-        else
-            round(255 * (1.055 * value.pow(1 / 2.4) - 0.055)).toInt()
+    if (value <= 0.0031308f)
+        round(12.92f * value * 255).toInt()
+    else
+        round(255 * (1.055 * value.pow(1 / 2.4) - 0.055)).toInt()

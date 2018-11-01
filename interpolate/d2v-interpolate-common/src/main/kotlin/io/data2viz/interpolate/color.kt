@@ -21,27 +21,20 @@ internal fun ungamma(y: Double = 1.0): (Double, Double) -> (Double) -> Double {
     }
 }
 
-// TODO no more constant needed ?
-// TODO : use rad (faster)
-// hue interpolation (in degrees)
-internal fun hue(from: Angle, to:Angle): (Double) -> Double {
+/**
+ * Hue interpolation, take the shortest path between 2 hues if 'long' is not set to true.
+ */
+internal fun interpolateHue(from: Angle, to: Angle, long: Boolean = false): (Double) -> Double {
     val a2 = from.normalize()
     val b2 = to.normalize()
-    val degreesTo = b2.rad - a2.rad
+    val diff = b2.rad - a2.rad
     return { t ->
         when {
-            degreesTo < -PI    -> linear(a2.rad, degreesTo + TAU)(t)
-            degreesTo > PI     -> linear(a2.rad, degreesTo - TAU)(t)
-            else                -> linear(a2.rad, degreesTo)(t)
+            !long && diff < -PI    -> linear(a2.rad, diff + TAU)(t)
+            !long && diff > PI     -> linear(a2.rad, diff - TAU)(t)
+            else                -> linear(a2.rad, diff)(t)
         }
     }
-}
-
-internal fun angle(from: Angle, to:Angle): (Double) -> Double {
-    val a2 = from.normalize()
-    val b2 = to.normalize()
-    val degreesTo = b2.rad - a2.rad
-    return linear(a2.rad, degreesTo)
 }
 
 /**

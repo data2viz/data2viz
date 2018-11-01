@@ -33,6 +33,8 @@ internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double =
     override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
     override fun withAlpha(alpha: Double) = Colors.hcl(h, c, l, alpha)
 
+    fun isAchromatic() = (c == .0) || (l <= .0) || (l >= 100.0)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || other !is Color) return false
@@ -49,5 +51,5 @@ internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double =
         return result
     }
 
-    override fun toString() = "HCL(${h.deg}°, $c, ${l * 100}%, alpha=$alpha)"
+    override fun toString() = "HCL(${h.deg}°, $c, $l%, alpha=$alpha)"
 }

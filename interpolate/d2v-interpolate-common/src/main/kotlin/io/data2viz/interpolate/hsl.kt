@@ -4,7 +4,6 @@ import io.data2viz.color.Color
 import io.data2viz.color.Colors
 import io.data2viz.color.toHsla
 import io.data2viz.math.Angle
-import io.data2viz.math.deg
 
 // TODO add alpha interpolation
 // TODO List instead of start, end ? (validate and check size !!)
@@ -18,7 +17,7 @@ private fun interpolateHsl(start: Color, end:Color, long:Boolean): (Double) -> C
     if (startHSL.isAchromatic()) startHSL = Colors.hsl(endHSL.h, endHSL.s, startHSL.l, startHSL.alpha)
     if (endHSL.isAchromatic()) endHSL = Colors.hsl(startHSL.h, startHSL.s, endHSL.l, endHSL.alpha)
 
-    val h = if (!long) hue(startHSL.h, endHSL.h) else angle(startHSL.h, endHSL.h)
+    val h = interpolateHue(startHSL.h, endHSL.h, long)
     val s = colorInterpolator(startHSL.s, endHSL.s)
     val l = colorInterpolator(startHSL.l, endHSL.l)
 
@@ -28,7 +27,7 @@ private fun interpolateHsl(start: Color, end:Color, long:Boolean): (Double) -> C
 /*fun uninterpolateHsl(start:HSL, end:HSL, long:Boolean): (HSL) -> Double {
     val colorInterpolator = ungamma()
 
-    val h = if (!long) hue(start.h, end.h) else colorInterpolator(start.h.deg, end.h.deg)
+    val h = if (!long) interpolateHue(start.h, end.h) else colorInterpolator(start.h.deg, end.h.deg)
     val s = colorInterpolator(start.s, end.s)
     val l = colorInterpolator(start.l, end.l)
 
