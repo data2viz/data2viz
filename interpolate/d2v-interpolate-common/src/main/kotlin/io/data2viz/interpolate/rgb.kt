@@ -12,7 +12,7 @@ import kotlin.math.sqrt
 // TODO rename interpolate
 // TODO : check colors interpolation from chroma.js
 // TODO : extractgamma function (check D3 last version)
-fun interpolateRgb(start: Color, end: Color, gamma: Double = 1.0): (Double) -> Color {
+private fun interpolateRgb(start: Color, end: Color, gamma: Double = 1.0): (Double) -> Color {
     val interpolator = gamma(gamma)
 
     val r = interpolator(start.r.toDouble(), end.r.toDouble())
@@ -26,7 +26,7 @@ fun interpolateRgb(start: Color, end: Color, gamma: Double = 1.0): (Double) -> C
     )
 }
 
-fun lRGBInterpolator(start: Double, end: Double): (Double) -> Double = {
+private fun lRGBInterpolator(start: Double, end: Double): (Double) -> Double = {
     val percent = it.coerceIn(.0, 1.0)
     sqrt(start.pow(2) * (1 - percent) + end.pow(2) * percent)
 }
@@ -38,7 +38,7 @@ fun lRGBInterpolator(start: Double, end: Double): (Double) -> Double = {
  * For more information check this cool short video: https://www.youtube.com/watch?v=LKnqECcg6Gw
  */
 // TODO alpha
-fun interpolateLRgb(start: Color, end: Color): (Double) -> Color {
+private fun interpolateLRgb(start: Color, end: Color): (Double) -> Color {
 
     val r = lRGBInterpolator(start.r.toDouble(), end.r.toDouble())
     val g = lRGBInterpolator(start.g.toDouble(), end.g.toDouble())
@@ -52,7 +52,7 @@ fun interpolateLRgb(start: Color, end: Color): (Double) -> Color {
 }
 
 // TODO add alpha interpolation (alpha is linear not spline ?)
-fun interpolateRgbBasis(colorsList: List<Color>, cyclical: Boolean = false): (Double) -> Color {
+private fun interpolateRgbBasis(colorsList: List<Color>, cyclical: Boolean = false): (Double) -> Color {
     val spline = getSplineInterpolator(cyclical)
 
     val r = spline(colorsList.map { it.r })
@@ -66,5 +66,7 @@ fun interpolateRgbBasis(colorsList: List<Color>, cyclical: Boolean = false): (Do
     )
 }
 
-fun interpolateRgbBasisClosed(colors: List<Color>) = interpolateRgbBasis(colors, true)
-fun interpolateRgbDefault(start: Color, end: Color) = interpolateRgb(start, end, 1.0)
+fun rgbBasisInterpolator(colors: List<Color>) = interpolateRgbBasis(colors, false)
+fun rgbBasisClosedInterpolator(colors: List<Color>) = interpolateRgbBasis(colors, true)
+fun rgbDefaultInterpolator(start: Color, end: Color) = interpolateRgb(start, end, 1.0)
+fun rgbLinearInterpolator(start: Color, end: Color) = interpolateLRgb(start, end)

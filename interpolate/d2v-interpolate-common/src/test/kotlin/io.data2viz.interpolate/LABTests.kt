@@ -1,7 +1,6 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.Colors
-import io.data2viz.color.RgbColor
 import io.data2viz.color.color
 import io.data2viz.test.TestBase
 import kotlin.test.Test
@@ -10,7 +9,7 @@ class LABTests : TestBase() {
 
     @Test
     fun LABInterpolationTeal2Pink() {
-        val iterator = interpolateLab(Colors.Web.teal, Colors.Web.pink)
+        val iterator = labInterpolator(Colors.Web.teal, Colors.Web.pink)
         iterator(-1.0) shouldBe Colors.Web.teal
         iterator(0.0) shouldBe Colors.Web.teal
         iterator(0.13) shouldBe "#438989".color
@@ -25,7 +24,7 @@ class LABTests : TestBase() {
     // WHITE = ACHROMATIC, case specific !
     @Test
     fun LABInterpolationWhiteToBlue() {
-        val iterator = interpolateLab(Colors.Web.white, Colors.Web.blue)
+        val iterator = labInterpolator(Colors.Web.white, Colors.Web.blue)
         iterator(-1.0) shouldBe Colors.Web.white
         iterator(0.0) shouldBe Colors.Web.white
         iterator(0.13) shouldBe "#ede0ff".color
@@ -40,7 +39,7 @@ class LABTests : TestBase() {
     // WHITE & BLACK = ACHROMATIC, case even more specific !
     @Test
     fun LABInterpolationWhiteToBlack() {
-        val iterator = interpolateLab(Colors.Web.white, Colors.Web.black)
+        val iterator = labInterpolator(Colors.Web.white, Colors.Web.black)
         iterator(-1.0) shouldBe Colors.Web.white
         iterator(0.0) shouldBe Colors.Web.white
         iterator(0.13) shouldBe "#dadada".color
@@ -55,7 +54,7 @@ class LABTests : TestBase() {
     // WHITE = ACHROMATIC, case specific !
     @Test
     fun LABInterpolationBlueToWhite() {
-        val iterator = interpolateLab(Colors.Web.blue, Colors.Web.white)
+        val iterator = labInterpolator(Colors.Web.blue, Colors.Web.white)
         iterator(-1.0) shouldBe Colors.Web.blue
         iterator(0.0) shouldBe Colors.Web.blue
         iterator(0.13) shouldBe "#5b33ff".color
@@ -69,7 +68,7 @@ class LABTests : TestBase() {
 
     @Test
     fun LABInterpolation() {
-        val iterator = interpolateLab("#810082".color, "#ffa600".color)
+        val iterator = labInterpolator("#810082".color, "#ffa600".color)
         iterator(-1.0) shouldBe "#810082".color
         iterator(0.0) shouldBe "#810082".color
         iterator(0.13) shouldBe "#952379".color

@@ -2,7 +2,6 @@ package io.data2viz.scale
 
 import io.data2viz.color.Color
 import io.data2viz.color.EncodedColors
-import io.data2viz.color.HslColor
 import io.data2viz.interpolate.*
 
 /**
@@ -159,13 +158,16 @@ object scales {
             TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
     }
 
+    // TODO change order
     object colors {
 
-        fun linearHSL(init: LinearScale<Color>.() -> Unit = {}) =
-            LinearScale(::interpolateHsl).apply(init)
-
-        fun linearRGB(init: LinearScale<Color>.() -> Unit = {}) =
-            LinearScale(::interpolateRgbDefault).apply(init)
+        fun linearRGB(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::rgbLinearInterpolator).apply(init)
+        fun defaultRGB(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::rgbDefaultInterpolator).apply(init)
+        fun linearLAB(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::labInterpolator).apply(init)
+        fun linearHCL(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::hclInterpolator).apply(init)
+        fun linearHCLLong(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::hclLongInterpolator).apply(init)
+        fun linearHSL(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::hslInterpolator).apply(init)
+        fun linearHSLLong(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::hslLongInterpolator).apply(init)
 
         fun <D> category10(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category10.colors).apply(init)
@@ -192,97 +194,97 @@ object scales {
             OrdinalScale<D, Color>(EncodedColors.plasma.colors).apply(init)
 
         fun sequentialBrBG(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.BrBG.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.BrBG.last().colors)).apply(init)
 
         fun sequentialPiYG(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.PiYG.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.PiYG.last().colors)).apply(init)
 
         fun sequentialPRGn(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.PRGn.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.PRGn.last().colors)).apply(init)
 
         fun sequentialPuOR(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.PuOR.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.PuOR.last().colors)).apply(init)
 
         fun sequentialRdBU(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.RdBU.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.RdBU.last().colors)).apply(init)
 
         fun sequentialRdGY(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.RdGY.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.RdGY.last().colors)).apply(init)
 
         fun sequentialRdYlBu(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.RdYlBu.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.RdYlBu.last().colors)).apply(init)
 
         fun sequentialRdYlGn(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.RdYlGn.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.RdYlGn.last().colors)).apply(init)
 
         fun sequentialSpectral(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.spectral.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.spectral.last().colors)).apply(init)
 
         fun sequentialViridis(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.viridis.colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.viridis.colors)).apply(init)
 
         fun sequentialMagma(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.magma.colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.magma.colors)).apply(init)
 
         fun sequentialInferno(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.inferno.colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.inferno.colors)).apply(init)
 
         fun sequentialPlasma(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.plasma.colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.plasma.colors)).apply(init)
 
         fun sequentialBuGN(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.BuGN.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.BuGN.last().colors)).apply(init)
 
         fun sequentialBuPu(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.BuPu.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.BuPu.last().colors)).apply(init)
 
         fun sequentialGnBu(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.GnBu.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.GnBu.last().colors)).apply(init)
 
         fun sequentialOrRd(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.OrRd.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.OrRd.last().colors)).apply(init)
 
         fun sequentialPuBu(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.PuBu.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.PuBu.last().colors)).apply(init)
 
         fun sequentialPuBuGn(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.PuBuGn.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.PuBuGn.last().colors)).apply(init)
 
         fun sequentialPuRd(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.PuRd.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.PuRd.last().colors)).apply(init)
 
         fun sequentialRdPu(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.RdPu.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.RdPu.last().colors)).apply(init)
 
         fun sequentialYlGn(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.YlGn.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.YlGn.last().colors)).apply(init)
 
         fun sequentialYlGnbU(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.YlGnbU.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnbU.last().colors)).apply(init)
 
         fun sequentialYlGnBr(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.YlGnBr.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnBr.last().colors)).apply(init)
 
         fun sequentialYlGnRd(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.YlGnRd.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnRd.last().colors)).apply(init)
 
         fun sequentialBlues(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.blues.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.blues.last().colors)).apply(init)
 
         fun sequentialGreens(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.greens.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.greens.last().colors)).apply(init)
 
         fun sequentialGreys(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.greys.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.greys.last().colors)).apply(init)
 
         fun sequentialOranges(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.oranges.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.oranges.last().colors)).apply(init)
 
         fun sequentialPurples(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.purples.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.purples.last().colors)).apply(init)
 
         fun sequentialReds(init: SequentialScale<Color>.() -> Unit = {}) =
-            SequentialScale(interpolateRgbBasis(EncodedColors.reds.last().colors)).apply(init)
+            SequentialScale(rgbBasisInterpolator(EncodedColors.reds.last().colors)).apply(init)
 
     }
 }

@@ -5,7 +5,7 @@ import io.data2viz.math.Angle
 
 // TODO use type for parameter percent ?
 // TODO use gamma ?
-fun interpolateLab(start: Color, end:Color): (Double) -> Color {
+private fun interpolateLab(start: Color, end:Color): (Double) -> Color {
     val startLab = start.toRgb().toLab()
     val endLab = end.toRgb().toLab()
     val colorInterpolator = gamma()
@@ -17,3 +17,4 @@ fun interpolateLab(start: Color, end:Color): (Double) -> Color {
     return fun(percent:Double) = Colors.lab(l(percent), a(percent), b(percent))
 }
 
+fun labInterpolator(start:Color, end:Color) = interpolateLab(start, end)

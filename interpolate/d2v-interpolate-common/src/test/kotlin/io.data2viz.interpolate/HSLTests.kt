@@ -10,7 +10,7 @@ class HSLTests : TestBase() {
 
     @Test
     fun HSLInterpolationTeal2Pink() {
-        val iterator = interpolateHsl(Colors.Web.teal, Colors.Web.pink)
+        val iterator = hslInterpolator(Colors.Web.teal, Colors.Web.pink)
         iterator(-1.0) shouldBe Colors.Web.teal
         iterator(0.0) shouldBe Colors.Web.teal
         iterator(0.13) shouldBe RgbColor(0x006ba9)
@@ -25,7 +25,7 @@ class HSLTests : TestBase() {
     // WHITE = ACHROMATIC, case specific !
     @Test
     fun HSLInterpolationWhiteToBlue() {
-        val iterator = interpolateHsl(Colors.Web.white, Colors.Web.blue)
+        val iterator = hslInterpolator(Colors.Web.white, Colors.Web.blue)
         iterator(-1.0) shouldBe Colors.Web.white
         iterator(0.0) shouldBe Colors.Web.white
         iterator(0.13) shouldBe RgbColor(0xdedeff)
@@ -40,7 +40,7 @@ class HSLTests : TestBase() {
     // WHITE = ACHROMATIC, case specific !
     @Test
     fun HSLInterpolationBlueToWhite() {
-        val iterator = interpolateHsl(Colors.Web.blue, Colors.Web.white)
+        val iterator = hslInterpolator(Colors.Web.blue, Colors.Web.white)
         iterator(-1.0) shouldBe Colors.Web.blue
         iterator(0.0) shouldBe Colors.Web.blue
         iterator(0.25) shouldBe RgbColor(0x4040ff)
@@ -55,7 +55,7 @@ class HSLTests : TestBase() {
     // WHITE & BLACK = ACHROMATIC, case even more specific !
     @Test
     fun HSLInterpolationWhiteToBlack() {
-        val iterator = interpolateHsl(Colors.Web.white, Colors.Web.black)
+        val iterator = hslInterpolator(Colors.Web.white, Colors.Web.black)
         iterator(-1.0) shouldBe Colors.Web.white
         iterator(0.0) shouldBe Colors.Web.white
         iterator(0.13) shouldBe RgbColor(0xdedede)
@@ -69,7 +69,7 @@ class HSLTests : TestBase() {
 
     @Test
     fun HSLInterpolationShort() {
-        val iterator = interpolateHsl("#810082".color, "#ffa600".color)
+        val iterator = hslInterpolator("#810082".color, "#ffa600".color)
         iterator(-1.0) shouldBe "#810082".color
         iterator(0.0) shouldBe "#810082".color
         iterator(0.13) shouldBe Colors.rgb(146, 0, 116)
@@ -83,7 +83,7 @@ class HSLTests : TestBase() {
 
     @Test
     fun HSLInterpolationLong() {
-        val iterator = interpolateHslLong("#810082".color, "#ffa600".color)
+        val iterator = hslLongInterpolator("#810082".color, "#ffa600".color)
         iterator(-1.0) shouldBe "#810082".color
         iterator(0.0) shouldBe "#810082".color
         iterator(0.13) shouldBe Colors.rgb(63, 0, 146)

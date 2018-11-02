@@ -36,6 +36,6 @@ private fun interpolateHsl(start: Color, end:Color, long:Boolean): (Double) -> C
     return { .0 }
 }*/
 
-fun interpolateHslLong(start:Color, end: Color) = interpolateHsl(start, end, long = true)
-fun interpolateHsl(start:Color, end:Color) = interpolateHsl(start, end, long = false)
+fun hslLongInterpolator(start:Color, end: Color) = interpolateHsl(start, end, long = true)
+fun hslInterpolator(start:Color, end:Color) = interpolateHsl(start, end, long = false)
 
