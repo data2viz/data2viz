@@ -7,7 +7,6 @@ import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 
-// TODO must take all types of colors in args (currently RGB only)
 // TODO add alpha interpolation
 // TODO List instead of start, end ? (validate and check size !!)
 // TODO rename interpolate
@@ -56,9 +55,9 @@ fun interpolateLRgb(start: Color, end: Color): (Double) -> Color {
 fun interpolateRgbBasis(colorsList: List<Color>, cyclical: Boolean = false): (Double) -> Color {
     val spline = getSplineInterpolator(cyclical)
 
-    val r = spline(colorsList.map { item -> item.r })
-    val g = spline(colorsList.map { item -> item.g })
-    val b = spline(colorsList.map { item -> item.b })
+    val r = spline(colorsList.map { it.r })
+    val g = spline(colorsList.map { it.g })
+    val b = spline(colorsList.map { it.b })
 
     return fun(percent: Double) = Colors.rgb(
         r(percent).roundToInt(),
