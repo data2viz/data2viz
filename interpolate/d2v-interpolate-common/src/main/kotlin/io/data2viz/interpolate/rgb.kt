@@ -68,5 +68,5 @@ private fun interpolateRgbBasis(colorsList: List<Color>, cyclical: Boolean = fal
 
 fun rgbBasisInterpolator(colors: List<Color>) = interpolateRgbBasis(colors, false)
 fun rgbBasisClosedInterpolator(colors: List<Color>) = interpolateRgbBasis(colors, true)
-fun rgbDefaultInterpolator(start: Color, end: Color) = interpolateRgb(start, end, 1.0)
+fun rgbDefaultInterpolator(start: Color, end: Color) = interpolateRgb(start, end)
 fun rgbLinearInterpolator(start: Color, end: Color) = interpolateLRgb(start, end)

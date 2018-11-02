@@ -5,12 +5,10 @@ import io.data2viz.math.PI
 import io.data2viz.math.TAU
 import kotlin.math.pow
 
-
 // TODO no more constant needed ?
 // = interpolate.color.gamma & interpolate.color.nogamma in D3
-internal fun gamma(y: Double = 1.0): (Double, Double) -> (Double) -> Double {
-    return { a, b -> if (y == 1.0) linear(a, b - a) else exponential(a, b, y) }
-    //return { a, b -> if (a == b) constant(a) else exponential(a, b, y) }*/
+internal fun gamma(gamma: Double = 1.0): (Double, Double) -> (Double) -> Double {
+    return { a, b -> if (gamma == 1.0) linear(a, b - a) else exponential(a, b, gamma) }
 }
 
 internal fun ungamma(y: Double = 1.0): (Double, Double) -> (Double) -> Double {
