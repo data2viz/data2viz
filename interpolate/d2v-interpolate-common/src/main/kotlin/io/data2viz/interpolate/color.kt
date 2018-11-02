@@ -8,7 +8,7 @@ import kotlin.math.pow
 // TODO no more constant needed ?
 // = interpolate.color.gamma & interpolate.color.nogamma in D3
 internal fun gamma(gamma: Double = 1.0): (Double, Double) -> (Double) -> Double {
-    return { a, b -> if (gamma == 1.0) linear(a, b - a) else exponential(a, b, gamma) }
+    return { a, b -> if (gamma == 1.0) linearClamped(a, b - a) else exponential(a, b, gamma) }
 }
 
 internal fun ungamma(y: Double = 1.0): (Double, Double) -> (Double) -> Double {
@@ -28,20 +28,20 @@ internal fun interpolateHue(from: Angle, to: Angle, long: Boolean = false): (Dou
     val diff = b2.rad - a2.rad
     return { t ->
         when {
-            !long && diff < -PI    -> linear(a2.rad, diff + TAU)(t)
-            !long && diff > PI     -> linear(a2.rad, diff - TAU)(t)
-            else                -> linear(a2.rad, diff)(t)
+            !long && diff < -PI    -> linearClamped(a2.rad, diff + TAU)(t)
+            !long && diff > PI     -> linearClamped(a2.rad, diff - TAU)(t)
+            else                -> linearClamped(a2.rad, diff)(t)
         }
     }
 }
 
 /**
- * Linear interpolation
+ * Clamped linear interpolation
  */
-// TODO remove coerce, color (RGB) should be able to manage it !
-// TODO why use this instead of standard linear not-clamped function ?
-private fun linear(a:Double, b:Double): (Double) -> Double = {t -> a + t.coerceIn(.0, 1.0) * b }
-/*private fun linear(values: List<Number>): (Double) -> Double {
+// TODO : note that this function is clamped, so we can't access a color outside of the range (ex. for asking 110%)
+private fun linearClamped(a:Double, b:Double): (Double) -> Double = { t -> a + t.coerceIn(.0, 1.0) * b }
+
+/*private fun linearClamped(values: List<Number>): (Double) -> Double {
     val n = values.size - 1
     return fun(t: Double): Double {
         val currentIndex: Int = if (t <= 0) 0 else if (t >= 1) n - 1 else Math.floor(t * n)
