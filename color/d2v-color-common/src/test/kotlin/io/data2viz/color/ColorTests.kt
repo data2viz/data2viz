@@ -2,11 +2,11 @@ package io.data2viz.color
 
 import io.data2viz.color.Colors.Web.aliceblue
 import io.data2viz.color.Colors.Web.black
-import io.data2viz.color.Colors.Web.white
-import io.data2viz.color.Colors.Web.hotpink
 import io.data2viz.color.Colors.Web.darkseagreen
-import io.data2viz.color.Colors.Web.teal
+import io.data2viz.color.Colors.Web.hotpink
 import io.data2viz.color.Colors.Web.slategray
+import io.data2viz.color.Colors.Web.teal
+import io.data2viz.color.Colors.Web.white
 import io.data2viz.geom.Point
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
@@ -33,7 +33,7 @@ class ColorTests : TestBase() {
         color = color.withRed(0xab)
         color.rgb shouldBe 0xabffff
 
-        color  = color.withGreen(0xab)
+        color = color.withGreen(0xab)
         color.rgb shouldBe 0xababff
 
         color = color.withBlue(0xab)
@@ -59,16 +59,85 @@ class ColorTests : TestBase() {
     }
 
     /**
-     * https://www.w3schools.com/colors/colors_converter.asp)
+     * REFERENCE: https://www.w3schools.com/colors/colors_converter.asp)
      */
     @Test
     fun HSLA_to_RGBA_reference() {
         Colors.hsl(0.deg, .0, .0).toRgb() shouldBe black
+        Colors.hsl(240.deg, .0, .0).toRgb() shouldBe black
+        Colors.hsl(126.deg, .0, .0).toRgb() shouldBe black
+        Colors.hsl(6800.deg, .0, .0).toRgb() shouldBe black
+
         Colors.hsl(0.deg, .0, 1.0).toRgb() shouldBe white
+        Colors.hsl(240.deg, .0, 1.0).toRgb() shouldBe white
+        Colors.hsl(126.deg, .0, 1.0).toRgb() shouldBe white
+        Colors.hsl(680.deg, .0, 1.0).toRgb() shouldBe white
+
         Colors.hsl(32.deg, 0.80, 0.80, .0).toRgb() shouldBe RgbColor(0xf5cfa3, 0.0)
         Colors.hsl(260.deg, 0.20, 0.44, 1.0).toRgb() shouldBe RgbColor(0x695a87, 1.0)
         Colors.hsl(300.deg, 0.98, 0.16, .3).toRgb() shouldBe RgbColor(0x510151, .3)
         Colors.hsl(16.deg, 0.75, 0.23, .5).toRgb() shouldBe RgbColor(0x67260f, .5)
+
+        Colors.hsl(580.deg, .3, .2).toRgb() shouldBe RgbColor(0x242e42)
+        Colors.hsl((-200).deg, .3, .2).toRgb() shouldBe RgbColor(0x244238)
+        Colors.hsl((-120).deg, .7, .6).toRgb() shouldBe RgbColor(0x5252e0)
+        Colors.hsl(400.deg, .2, .5).toRgb() shouldBe RgbColor(0x998866)
+        Colors.hsl(512.deg, 7.0, 2.0).toRgb() shouldBe RgbColor(0xffffff)
+        Colors.hsl(124.deg, .1, 2.0).toRgb() shouldBe RgbColor(0xffffff)
+    }
+
+    // TODO and check who's right (chroma.js, w3schools converter or data2viz) ?
+//    @Test
+//    fun HSLA_to_RGBA_reference_over_limits() {
+//        Colors.hsl(480.deg, .2, .5).toRgb() shouldBe RgbColor(0x996666)
+//        Colors.hsl(700.deg, .2, .5).toRgb() shouldBe RgbColor(0x996666)
+//        Colors.hsl(700.deg, .8, .8).toRgb() shouldBe RgbColor(0xf5a3a3)
+//    }
+
+    /**
+     * REFERENCE: https://gka.github.io/chroma.js/
+     */
+    @Test
+    fun HCL_to_RGB_reference() {
+        Colors.hcl(0.deg, .0, .0).toRgb() shouldBe black
+        Colors.hcl(240.deg, .0, .0).toRgb() shouldBe black
+        Colors.hcl(126.deg, .0, .0).toRgb() shouldBe black
+        Colors.hcl(6800.deg, .0, .0).toRgb() shouldBe black
+
+        Colors.hcl(0.deg, .0, 100.0).toRgb() shouldBe white
+        Colors.hcl(240.deg, .0, 100.0).toRgb() shouldBe white
+        Colors.hcl(126.deg, .0, 100.0).toRgb() shouldBe white
+        Colors.hcl(680.deg, .0, 100.0).toRgb() shouldBe white
+
+        Colors.hcl(32.deg, 80.0, 80.0, .0).toRgb() shouldBe RgbColor(0xff897c, 0.0)
+        Colors.hcl(260.deg, 20.0, 44.0, 1.0).toRgb() shouldBe RgbColor(0x4b6b88, 1.0)
+        Colors.hcl(300.deg, 98.0, 16.0, .3).toRgb() shouldBe RgbColor(0x0014a8, .3)
+        Colors.hcl(16.deg, 75.0, 23.0, .5).toRgb() shouldBe RgbColor(0x8f001e, .5)
+
+        Colors.hcl(580.deg, 30.0, 20.0).toRgb() shouldBe RgbColor(0x003a4c)
+        Colors.hcl((-200).deg, 30.0, 20.0).toRgb() shouldBe RgbColor(0x003a20)
+        Colors.hcl((-120).deg, 70.0, 60.0).toRgb() shouldBe RgbColor(0x00a6fb)
+        Colors.hcl(400.deg, 20.0, 50.0).toRgb() shouldBe RgbColor(0x976d62)
+        Colors.hcl(512.deg, 70.0, 20.0).toRgb() shouldBe RgbColor(0x003f00)
+        Colors.hcl(124.deg, 1.0, 20.0).toRgb() shouldBe RgbColor(0x30312f)
+
+        Colors.hcl(124.deg, -240.0, 50.0).toRgb() shouldBe RgbColor(0x0000ff)
+        Colors.hcl(124.deg, -12.0, 50.0).toRgb() shouldBe RgbColor(0x7b7488)
+
+        // first check HCL to LAB
+        Colors.hcl(124.deg, 63.0, .0).toLab() shouldBe LabColor(4.4, -9.0, 6.43)
+        Colors.hcl(36.deg, 155.0, 20.0).toLab() shouldBe LabColor(39.61, 64.32, 53.97)
+        Colors.hcl(124.deg, 63.0, -20.0).toLab() shouldBe LabColor(.0, .0, .0)
+
+        // then check LAB to RGB
+        Colors.lab(4.4, -9.0, 6.43).toRgb() shouldBe RgbColor(0x001400)
+        Colors.lab(39.61, 64.32, 53.97).toRgb() shouldBe RgbColor(0xbf0000)
+        Colors.lab(.0, .0, .0).toRgb() shouldBe RgbColor(0x000000)
+
+        // so HCL to RGB should be ok
+        Colors.hcl(124.deg, 63.0, .0).toRgb() shouldBe RgbColor(0x001400)
+        Colors.hcl(36.deg, 155.0, 20.0).toRgb() shouldBe RgbColor(0xbf0000)
+        Colors.hcl(124.deg, 63.0, -20.0).toRgb() shouldBe RgbColor(0x000000)
     }
 
     @Test

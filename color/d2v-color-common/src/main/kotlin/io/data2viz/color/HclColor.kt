@@ -16,7 +16,7 @@ class HclColor
 @Deprecated("Deprecated", ReplaceWith("Colors.hcl(h,c,l,alpha)", "io.data2viz.colors.Colors"))
 internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double = 1.0) : Color {
 
-    val l = luminance.coerceIn(.0, 100.0)
+    val l = luminance//.coerceIn(.0, 100.0)
     override val alpha = a.coerceIn(.0, 1.0)
 
     override val rgb = toRgb().rgb
@@ -33,23 +33,23 @@ internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double =
     override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
     override fun withAlpha(alpha: Double) = Colors.hcl(h, c, l, alpha)
 
-    /*val displayable: Boolean
-        get() = (s in 0..1) && (l in 0..1) && (alpha in 0..1)*/
+    fun isAchromatic() = (c == .0) || (l <= .0) || (l >= 100.0)
 
-    override fun equals(other: Any?): Boolean = (other != null && other is HclColor && h == other.h && c == other.c && l == other.l && alpha == other.alpha)
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || other !is Color) return false
 
-    override fun toString() = "hcla(${h.deg}°, $c, ${l * 100}%, $alpha)"
+        if (rgb != other.rgb) return false
+        if (alpha != other.alpha) return false
+
+        return true
+    }
+
     override fun hashCode(): Int {
-        var result = h.hashCode()
-        result = 31 * result + c.hashCode()
-        result = 31 * result + l.hashCode()
+        var result = rgb
         result = 31 * result + alpha.hashCode()
-        result = 31 * result + rgb
-        result = 31 * result + rgba.hashCode()
-        result = 31 * result + r
-        result = 31 * result + g
-        result = 31 * result + b
-        result = 31 * result + rgbHex.hashCode()
         return result
     }
+
+    override fun toString() = "HCL(${h.deg}°, $c, $l%, alpha=$alpha)"
 }

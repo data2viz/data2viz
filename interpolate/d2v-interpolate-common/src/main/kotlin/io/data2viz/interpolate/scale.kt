@@ -14,7 +14,7 @@ infix fun <A, B> A.linkedTo(that: B): DomainToViz<A, B> = DomainToViz(this, that
 
 class NumberToColor(start: DomainToViz<Double, Color>, end: DomainToViz<Double, Color>){
     val domainToNormalized = uninterpolateNumber(start.domain, end.domain)
-    val normalizedToColor = interpolateRgb(start.viz, end.viz)
+    val normalizedToColor = rgbDefaultInterpolator(start.viz, end.viz)
     val numberToColor = {number:Number ->  normalizedToColor(domainToNormalized(number as Double)) }
 }
 
