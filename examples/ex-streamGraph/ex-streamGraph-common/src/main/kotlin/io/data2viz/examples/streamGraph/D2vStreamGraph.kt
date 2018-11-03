@@ -2,7 +2,6 @@ package io.data2viz.examples.streamGraph
 
 import io.data2viz.color.EncodedColors
 import io.data2viz.color.EncodedColors.Companion.category20b
-import io.data2viz.math.random
 import io.data2viz.geom.Path
 import io.data2viz.scale.scales
 import io.data2viz.shape.Curve
@@ -15,6 +14,7 @@ import io.data2viz.shape.stack.stack
 import io.data2viz.viz.Margins
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
+import kotlin.random.Random
 
 
 // Graphical bounds
@@ -51,7 +51,7 @@ val vizConfig = VizConfig()
 
 // Random data generation
 fun randomScore(size: Int): Double {
-    var rand = random()
+    var rand = Random.nextDouble()
     rand *= rand * rand * size
     return if (rand < .1) .0 else rand
 }

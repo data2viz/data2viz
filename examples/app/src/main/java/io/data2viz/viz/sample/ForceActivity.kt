@@ -5,11 +5,11 @@ import android.os.Bundle
 import io.data2viz.color.Colors
 
 import io.data2viz.force.*
-import io.data2viz.math.random
 import io.data2viz.viz.*
 import kotlin.math.floor
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 const val nodeCount = 200
 const val canvasWidth = 400.0
@@ -61,7 +61,7 @@ val viz = viz {
     }
 }
 
-fun randomForceNodes() = (0 until nodeCount).map { ForceNode(it, random() * canvasWidth, random() * canvasHeight) }
+fun randomForceNodes() = (0 until nodeCount).map { ForceNode(it, Random.nextDouble() * canvasWidth, Random.nextDouble() * canvasHeight) }
 
 lateinit var view: VizView
 

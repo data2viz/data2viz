@@ -7,11 +7,11 @@ import io.data2viz.geom.polygonHull
 import io.data2viz.math.Angle
 import io.data2viz.math.PI
 import io.data2viz.math.deg
-import io.data2viz.math.random
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 
 data class LineOfSightConfig(
@@ -64,7 +64,7 @@ class LineOfSightModel(config: LineOfSightConfig) {
         corners = viewAsPolygon.points + polygons.flatMap { it.points }
         segments = viewAsPolygon.segments() + polygons.flatMap { it.segments() }
         lightPos = findInitialRandomPointOutsideOf(polygons)
-        newSpeed(random() * PI * 2)
+        newSpeed(Random.nextDouble() * PI * 2)
     }
 
     private fun createPolygons(polygonNb: Int, polygonSize: Double, randomPointsNb: Int): List<Polygon> {
@@ -72,13 +72,13 @@ class LineOfSightModel(config: LineOfSightConfig) {
         // build random polygons
         val polygons = (1..polygonNb).map {
             val center = Point(
-                random() * vizWidth * (1.0 - polygonSize),
-                random() * vizHeight * (1.0 - polygonSize)
+                Random.nextDouble() * vizWidth * (1.0 - polygonSize),
+                Random.nextDouble() * vizHeight * (1.0 - polygonSize)
             )
             val points = (1..randomPointsNb).map { _ ->
                 Point(
-                    center.x + (random() * (vizWidth * polygonSize)).coerceIn(.0, vizWidth),
-                    center.y + (random() * (vizHeight * polygonSize)).coerceIn(.0, vizHeight)
+                    center.x + (Random.nextDouble() * (vizWidth * polygonSize)).coerceIn(.0, vizWidth),
+                    center.y + (Random.nextDouble() * (vizHeight * polygonSize)).coerceIn(.0, vizHeight)
                 )
             }
             polygonHull(points)
@@ -153,8 +153,8 @@ class LineOfSightModel(config: LineOfSightConfig) {
 
     private tailrec fun findInitialRandomPointOutsideOf(polygons: List<Polygon>): Point {
         val pos = Point(
-            random() * vizWidth,
-            random() * vizHeight
+            Random.nextDouble() * vizWidth,
+            Random.nextDouble() * vizHeight
         )
         val insidePolygon = polygons.any { it.contains(pos) }
         return if (insidePolygon)

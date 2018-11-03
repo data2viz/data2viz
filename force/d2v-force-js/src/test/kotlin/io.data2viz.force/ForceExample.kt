@@ -1,7 +1,6 @@
 package io.data2viz.force
 
 import io.data2viz.color.Colors
-import io.data2viz.math.random
 import io.data2viz.viz.*
 import kotlin.math.PI
 import kotlin.math.roundToInt
@@ -12,7 +11,7 @@ const val nodeCount = 400
 const val canvasWidth = 400.0
 const val canvasHeight = 400.0
 
-val fnodes = (0 until nodeCount).map { ForceNode(it, random() * canvasWidth, random() * canvasHeight) }
+val fnodes = (0 until nodeCount).map { ForceNode(it, Random.nextDouble() * canvasWidth, Random.nextDouble() * canvasHeight) }
 val links = (0 until nodeCount - 1).map { Link(fnodes[floor(sqrt(it.toDouble())).roundToInt()], fnodes[it + 1]) }
 
 val sim = forceSimulation(fnodes) {
