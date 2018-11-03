@@ -83,7 +83,7 @@ fun buildFlux(from: String, to: String, value: Double): EnergyFlux {
     val elementTo = elements.find { it.name == to }
     requireNotNull(elementFrom)
     requireNotNull(elementTo)
-    return EnergyFlux(elementFrom!!, elementTo!!, value)
+    return EnergyFlux(elementFrom, elementTo, value)
 }
 
 var vizWidth = 800.0

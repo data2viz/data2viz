@@ -49,8 +49,8 @@ class GeoPath(val projection: Projection, val context: Path?) {
     fun path(geo: GeoJsonObject): Path {
         requireNotNull(context) { "Cannot use GeoPath.svgPath() without a valid context." }
         requireNotNull(contextStream) { "Cannot use GeoPath.svgPath() without a valid context." }
-        stream(geo, projection.stream(contextStream!!))
-        return context!!
+        stream(geo, projection.stream(contextStream))
+        return context
     }
 
     /**
