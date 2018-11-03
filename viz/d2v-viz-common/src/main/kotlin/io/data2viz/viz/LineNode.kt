@@ -14,14 +14,12 @@ class LineNode : Node(),
     var x2: Double = .0
     var y2: Double = .0
 
-    @Deprecated("Use style.stroke", ReplaceWith("style.stroke"))
     override var stroke: ColorOrGradient?
         get() = style.stroke
         set(value) {
             style.stroke = value
         }
 
-    @Deprecated("Use style.strokeWidth", ReplaceWith("style.strokeWidth"))
     override var strokeWidth: Double?
         get() = style.strokeWidth
         set(value) {

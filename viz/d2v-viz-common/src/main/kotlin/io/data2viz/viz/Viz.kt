@@ -129,17 +129,13 @@ data class Rotation(var delta:Double = 0.0)
  * All properties of stroke
  * Todo add remaining common properties
  */
-interface HasStroke: HasStyle {
+interface HasStroke {
 
-    @Deprecated("Use style.stroke", ReplaceWith("style.stroke"))
     var stroke: ColorOrGradient?
-
-    @Deprecated("Use style.strokeWidth", ReplaceWith("style.strokeWidth"))
     var strokeWidth: Double?
 }
 
-interface HasFill: HasStyle {
-    @Deprecated("Use style.fill", ReplaceWith("style.fill"))
+interface HasFill {
     var fill: ColorOrGradient?
 }
 
