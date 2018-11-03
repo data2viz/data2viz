@@ -75,6 +75,13 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
             testCompile "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
             testCompile project(":tests:d2v-tests-common")
         }
+        compileKotlinCommon {
+            kotlinOptions.freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+        }
+        compileTestKotlinCommon {
+            kotlinOptions.freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+        }
+
     }
     if ( platform == "js") {
         apply plugin: 'kotlin-platform-js'
@@ -91,9 +98,16 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
                 sourceMapEmbedSources = "always"
                 moduleKind = 'umd'
                 main = "call"
+                freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
             }
         }
-        compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
+
+        compileTestKotlin2Js { 
+            kotlinOptions{
+                moduleKind = 'umd'
+                freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+            } 
+        }
     }
     if ( platform == "android") {
         apply plugin: 'com.android.library'
@@ -150,8 +164,14 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         }
 
         //for tornadoFx
-        compileKotlin     { kotlinOptions.jvmTarget = 1.8 }
-        compileTestKotlin { kotlinOptions.jvmTarget = 1.8 }
+        compileKotlin     { 
+            kotlinOptions.jvmTarget = 1.8
+            kotlinOptions.freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+        }
+        compileTestKotlin { 
+            kotlinOptions.jvmTarget = 1.8
+            kotlinOptions.freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+        }
 
         test {
             jvmArgs "-noverify"
@@ -174,6 +194,13 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
             testCompile project(":tests:d2v-tests-common")
             testCompile project(":tests:d2v-tests-jvm")
             testCompile 'junit:junit:4.12'
+        }
+
+        compileKotlin     {
+            kotlinOptions.freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+        }
+        compileTestKotlin {
+            kotlinOptions.freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
         }
 
         test {
