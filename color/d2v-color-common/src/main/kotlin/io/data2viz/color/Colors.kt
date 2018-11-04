@@ -6,9 +6,6 @@ import io.data2viz.geom.Point
 import io.data2viz.math.Angle
 
 
-// TODO : move to common and remove expect when available
-internal expect fun Int.toString(radix: Int): String
-
 
 object Colors {
 
