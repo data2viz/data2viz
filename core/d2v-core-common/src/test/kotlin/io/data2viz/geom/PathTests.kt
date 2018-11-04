@@ -449,6 +449,7 @@ class PathTests : TestBase() {
         }
     }
 
+    @Suppress("DEPRECATION")
     @Test
     fun path_rect_appends_M_h_v_h_and_Z_commands() {
         with(path()){
@@ -461,7 +462,7 @@ class PathTests : TestBase() {
     @Test
     @Ignore
     fun closePathShouldComeBackToFirstPoint() {
-        var lastCommand: ClosePath = ClosePath()
+        var lastCommand: ClosePath
         with(path()){
             moveTo(10.0, 10.0)
             lineTo(20.0, 20.0)

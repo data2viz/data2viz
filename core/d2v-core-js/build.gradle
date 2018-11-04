@@ -1,8 +1,8 @@
 
 dependencies{
     expectedBy project(":core:d2v-core-common")
-    testCompile project(":format:d2v-format-common")
-    testCompile project(":format:d2v-format-js")
+    testApi project(":format:d2v-format-common")
+    testApi project(":format:d2v-format-js")
 }
 
 apply from: rootProject.file('gradle/test-js.gradle')

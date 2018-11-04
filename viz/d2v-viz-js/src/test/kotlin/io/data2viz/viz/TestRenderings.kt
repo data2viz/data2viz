@@ -3,6 +3,7 @@ package io.data2viz.viz
 import org.w3c.dom.HTMLCanvasElement
 import kotlin.browser.document
 
+@Suppress("DEPRECATION")
 fun main(args: Array<String>) {
     val tests = allRenderingTests
 
