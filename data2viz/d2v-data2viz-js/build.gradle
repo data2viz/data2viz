@@ -43,6 +43,13 @@ task preparePublishNpm(type: Copy){
 
 
 task publishNpm(type: NpmTask, dependsOn: [preparePublishNpm, populateNpmDist]) {
+
+    if (!project.hasProperty("npmToken")) {
+        logger.warn 'warn: to publish on npm the build needs a npmToken property.'
+        return
+    }
+        
+
     workingDir = npmDeployDir
     def deployArgs = ['publish',
                       "--//registry.npmjs.org/:_authToken=$npmToken"]
@@ -55,3 +62,4 @@ task publishNpm(type: NpmTask, dependsOn: [preparePublishNpm, populateNpmDist]) 
         }
     }
 }
+
