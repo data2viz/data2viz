@@ -1,3 +1,14 @@
+plugins {
+    id "com.moowork.node" 
+}
+
+node {
+    version = "8.9.3"
+    download = true
+    npmVersion = "$npm_version"
+}
+
+
 dependencies {
     System.getProperty("all_d2v").split(",").each {
         if (it.contains("-js")) {
@@ -6,3 +17,41 @@ dependencies {
     }
 }
 
+def npmTemplateDir = file("$projectDir/npm")
+def npmDeployDir = file("$buildDir/npm")
+
+task populateNpmDist(type: Copy, dependsOn: compileKotlin2Js) {
+    from compileKotlin2Js.destinationDir
+    into npmDeployDir
+
+    afterEvaluate {
+        configurations.testCompile.each {
+            from zipTree(it.absolutePath).matching {
+                include '*.js'
+                include '*.js.map'
+            }
+        }
+    }
+}
+
+task preparePublishNpm(type: Copy){
+    from npmTemplateDir
+    into npmDeployDir
+    filter { line -> line.replaceAll('@data2vizVersion', "$version") }
+}
+
+
+
+task publishNpm(type: NpmTask, dependsOn: [preparePublishNpm, populateNpmDist]) {
+    workingDir = npmDeployDir
+    def deployArgs = ['publish',
+                      "--//registry.npmjs.org/:_authToken=$npmToken"]
+    doFirst {
+        if (dryRun == "true") {
+            println("$npmDeployDir \$ npm arguments: $deployArgs")
+            args = ['pack']
+        } else {
+            args = deployArgs
+        }
+    }
+}

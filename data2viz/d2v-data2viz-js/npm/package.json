@@ -1,0 +1,20 @@
+{
+  "name": "@data2viz/data2viz",
+  "version" : "@data2vizVersion",
+  "description" : "Data2viz library modules",
+  "author": "Data2viz",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/data2viz/data2viz.coroutines",
+  "bugs": {
+	"url": "https://github.com/data2viz/data2viz/issues"
+  },
+  "repository": {
+	"type": "git",
+	"url": "git+https://github.com/data2viz/data2viz.git"
+  },
+  "keywords": [
+	"Kotlin",
+	"JavaScript",
+	"data2viz"
+  ]
+}
