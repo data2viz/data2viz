@@ -4,7 +4,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
 
-
+/**
+ * Abstraction of an angle to have some more typesafe angle manipulations.
+ */
 inline class Angle(val rad: Double){
     val cos:Double get() = cos(rad)
     val sin:Double get() = sin(rad)
@@ -34,5 +36,20 @@ fun Double.toRadians() = this * DEG_TO_RAD
  */
 fun Double.toDegrees() = this * RAD_TO_DEG
 
+/**
+ * Extension property to create easily an angle from a number representing degrees
+ */
 val Number.deg:Angle
     get() = Angle(toDouble() * DEG_TO_RAD)
+
+/**
+ * Extension property to create easily an angle from a number representing radians
+ */
+val Number.rad:Angle
+    get() = Angle(toDouble())
+
+
+/**
+ * Extension function operator on Number to allow 2 * PI.rad
+ */
+operator fun Number.times(angle: Angle) = Angle(angle.rad * this.toDouble())
