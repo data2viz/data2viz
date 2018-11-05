@@ -18,10 +18,10 @@ private fun interpolateHsl(start: Color, end:Color, long:Boolean): (Percent) -> 
     if (endHSL.isAchromatic()) endHSL = Colors.hsl(startHSL.h, startHSL.s, endHSL.l, endHSL.alpha)
 
     val h = interpolateHue(startHSL.h, endHSL.h, long)
-    val s = colorInterpolator(startHSL.s, endHSL.s)
-    val l = colorInterpolator(startHSL.l, endHSL.l)
+    val s = colorInterpolator(startHSL.s.value, endHSL.s.value)
+    val l = colorInterpolator(startHSL.l.value, endHSL.l.value)
 
-    return fun(percent: Percent) = Colors.hsl(Angle(h(percent)), s(percent), l(percent))
+    return fun(percent: Percent) = Colors.hsl(Angle(h(percent)), Percent(s(percent)), Percent(l(percent)))
 }
 
 /*fun uninterpolateHsl(start:HSL, end:HSL, long:Boolean): (HSL) -> Double {
