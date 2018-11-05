@@ -32,7 +32,7 @@ interface HasStartAndEnd {
 data class LinearGradientFirstColorBuilder
 internal constructor(val start: Point, val end: Point) {
     fun withColor(startColor: Color, percent: Percent = 0.pct): LinearGradientSecondColorBuilder =
-        LinearGradientSecondColorBuilder(this, ColorStop(percent.normalize(), startColor))
+        LinearGradientSecondColorBuilder(this, ColorStop(percent.coerceToDefault(), startColor))
 }
 
 data class LinearGradientSecondColorBuilder
@@ -44,7 +44,7 @@ internal constructor(val builder: LinearGradientFirstColorBuilder, val firstColo
             x2 = builder.end.x
             y2 = builder.end.y
             andColor(firstColor.color, firstColor.percent)
-            andColor(color, percent.normalize())
+            andColor(color, percent.coerceToDefault())
         }
 }
 
@@ -62,7 +62,7 @@ internal constructor() : Gradient, HasStartAndEnd {
         get() = colors.toList()
 
     fun andColor(color: Color, percent: Percent): LinearGradient {
-        colors.add(ColorStop(percent.normalize(), color))
+        colors.add(ColorStop(percent.coerceToDefault(), color))
         return this
     }
 }

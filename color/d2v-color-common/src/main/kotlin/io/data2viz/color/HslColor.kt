@@ -19,7 +19,7 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Perce
     val h = hue.normalize()
     val s = saturation.coerceIn(.0, 1.0)
     val l = lightness.coerceIn(.0, 1.0)
-    override val alpha = a.normalize()
+    override val alpha = a.coerceToDefault()
 
     override val rgb = toRgb().rgb
     override val rgba = toRgb().rgba

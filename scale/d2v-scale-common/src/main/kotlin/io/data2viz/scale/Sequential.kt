@@ -20,7 +20,7 @@ class SequentialScale<R>(var interpolator: Interpolator<R>) : Tickable<Double>, 
 
     operator fun invoke(domainValue: Double): R {
         var uninterpolatedDomain = uninterpolateNumber(domain.start, domain.end)(domainValue)
-        if(clamp) uninterpolatedDomain = uninterpolatedDomain.normalize()
+        if(clamp) uninterpolatedDomain = uninterpolatedDomain.coerceToDefault()
         return interpolator(uninterpolatedDomain)
     }
 

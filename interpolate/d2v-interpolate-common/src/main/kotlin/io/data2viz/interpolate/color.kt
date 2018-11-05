@@ -42,7 +42,7 @@ internal fun interpolateHue(from: Angle, to: Angle, long: Boolean = false): (Per
  * Clamped linear interpolation
  */
 // TODO : note that this function is clamped, so we can't access a color outside of the range (ex. for asking 110%)
-private fun linearClamped(a:Double, b:Double): (Percent) -> Double = { t -> a + t.normalize().value * b }
+private fun linearClamped(a:Double, b:Double): (Percent) -> Double = { t -> a + t.coerceToDefault().value * b }
 
 /*private fun linearClamped(values: List<Number>): (Double) -> Double {
     val n = values.size - 1

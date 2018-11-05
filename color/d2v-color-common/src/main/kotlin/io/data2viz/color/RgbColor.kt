@@ -13,7 +13,7 @@ import io.data2viz.math.pct
  */
 class RgbColor(override val rgb: Int, a: Percent = 100.pct) : Color {
 
-    override val alpha = a.normalize()
+    override val alpha = a.coerceToDefault()
 
     override val r: Int
         get() = (rgb shr 16) and 0xff

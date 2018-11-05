@@ -19,7 +19,7 @@ class HclColor
 internal constructor(val h: Angle, val c: Double, luminance: Double, a: Percent = 100.pct) : Color {
 
     val l = luminance//.coerceIn(.0, 100.0)
-    override val alpha = a.normalize()
+    override val alpha = a.coerceToDefault()
 
     override val rgb = toRgb().rgb
     override val rgba = toRgb().rgba

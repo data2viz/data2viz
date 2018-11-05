@@ -28,7 +28,7 @@ private fun interpolateRgb(start: Color, end: Color, gamma: Double = 1.0): (Perc
 }
 
 private fun lRGBInterpolator(start: Double, end: Double): (Percent) -> Double = {
-    val percent = it.normalize()
+    val percent = it.coerceToDefault()
     sqrt(start.pow(2) * (1 - percent.value) + end.pow(2) * percent.value)
 }
 

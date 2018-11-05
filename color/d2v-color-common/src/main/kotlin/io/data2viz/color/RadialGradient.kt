@@ -23,7 +23,7 @@ interface HasCenter {
 data class RadialGradientFirstColorBuilder
 internal constructor(val center: Point, val radius: Double) {
     fun withColor(startColor: Color, percent: Percent = 0.pct): RadialGradientSecondColorBuilder =
-        RadialGradientSecondColorBuilder(this, ColorStop(percent.normalize(), startColor))
+        RadialGradientSecondColorBuilder(this, ColorStop(percent.coerceToDefault(), startColor))
 }
 
 data class RadialGradientSecondColorBuilder
@@ -34,7 +34,7 @@ internal constructor(val builder: RadialGradientFirstColorBuilder, val firstColo
             cy = builder.center.y
             radius = builder.radius
             andColor(firstColor.color, firstColor.percent)
-            andColor(color, percent.normalize())
+            andColor(color, percent.coerceToDefault())
         }
 }
 
@@ -52,7 +52,7 @@ constructor(): Gradient, HasCenter {
         get() = colors.toList()
 
     fun andColor(color: Color, percent: Percent): RadialGradient {
-        colors.add(ColorStop(percent.normalize(), color))
+        colors.add(ColorStop(percent.coerceToDefault(), color))
         return this
     }
 }

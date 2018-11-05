@@ -19,7 +19,7 @@ internal constructor(lightness: Double, aComponent: Double, bComponent: Double, 
     val labL = lightness//.coerceIn(.0, 100.0)
     val labA = aComponent//.coerceIn(-128.0, 128.0)
     val labB = bComponent//.coerceIn(-128.0, 128.0)
-    override val alpha = a.normalize()
+    override val alpha = a.coerceToDefault()
 
     override val rgb = toRgb().rgb
     override val rgba = toRgb().rgba
