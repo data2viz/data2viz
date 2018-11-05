@@ -31,6 +31,6 @@ fun interpolateRound(a: Double, b: Double): Interpolator<Double> {
 // TODO warn : (end == start) -> crash
 fun uninterpolateNumber(start: Float, end: Float): (Double) -> Float = { t -> (t.toFloat() - start) / (end - start) }
 
-fun uninterpolateNumber(start: Double, end: Double): (Double) -> Percent = { if (end != start) Percent((it - start) / (end - start)) else start.pct }
+fun uninterpolateNumber(start: Double, end: Double): (Double) -> Percent = { if (end != start) Percent((it - start) / (end - start)) else 0.pct }
 
 fun identity(t: Double) = t

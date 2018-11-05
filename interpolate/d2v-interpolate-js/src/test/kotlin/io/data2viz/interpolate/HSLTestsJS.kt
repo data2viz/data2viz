@@ -1,10 +1,13 @@
 package io.data2viz.interpolate
 
+import io.data2viz.color.Color
 import io.data2viz.color.HslColor
 import io.data2viz.color.Colors
 import io.data2viz.color.RgbColor
+import io.data2viz.math.Percent
 import io.data2viz.test.namespace
 import io.data2viz.math.deg
+import io.data2viz.math.pct
 import io.data2viz.test.TestBase
 import kotlin.browser.document
 import kotlin.test.Test
@@ -20,7 +23,7 @@ class HSLTestsJS : TestBase() {
 
         val iterator = hslInterpolator(Colors.hsl(300.deg, 1.0, .25), Colors.hsl(38.deg, 1.0, .5))
         displaySmallGradient("HslColor", iterator, 888, imageReference = "http://data2viz.io/img/hsl.png")
-        iterator(0.5).toRgb().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
+        iterator(50.pct).toRgb().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
     }
 
     /**
@@ -30,7 +33,7 @@ class HSLTestsJS : TestBase() {
     fun hslLongLinearInterpolation() {
         val iterator = hslLongInterpolator(Colors.hsl(300.deg, 1.0, .25), Colors.hsl(38.deg, 1.0, .5))
         displaySmallGradient("HslColor Long", iterator, 888, imageReference = "http://data2viz.io/img/hslLong.png")
-        iterator(0.5).toRgb().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
+        iterator(50.pct).toRgb().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
     }
 
     /**
@@ -40,7 +43,7 @@ class HSLTestsJS : TestBase() {
     fun hslShortLinea() {
         val iterator = hslInterpolator(Colors.hsl(38.deg, 1.0, .5), Colors.hsl(300.deg, 1.0, .25))
         displaySmallGradient("HslColor Reverse", iterator, 888, imageReference = "http://data2viz.io/img/hslReverse.png")
-        iterator(0.5).toRgb().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
+        iterator(50.pct).toRgb().rgbHex shouldBe RgbColor(0xbf0023).rgbHex
     }
 
     /**
@@ -55,14 +58,14 @@ class HSLTestsJS : TestBase() {
             888,
             imageReference = "http://data2viz.io/img/hslLongReverse.png"
         )
-        iterator(0.5).toRgb().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
+        iterator(50.pct).toRgb().rgbHex shouldBe RgbColor(0x00bf9c).rgbHex
     }
 
     fun displaySmallGradient(
-            context: String,
-            percentToColor: (Double) -> HslColor,
-            width: Int = 256,
-            imageReference: String? = null
+        context: String,
+        percentToColor: (Percent) -> Color,
+        width: Int = 256,
+        imageReference: String? = null
     ) {
 
         if (browserEnabled) {
@@ -78,7 +81,7 @@ class HSLTestsJS : TestBase() {
                     (0 until width).forEach { index ->
                         appendChild(
                             nodeSVG("rect").apply {
-                                setAttribute("fill", percentToColor(index / width.toDouble()).toRgb().rgbHex)
+                                setAttribute("fill", percentToColor(Percent(index / width.toDouble())).toRgb().rgbHex)
                                 setAttribute("x", "$index")
                                 setAttribute("y", "0")
                                 setAttribute("width", "1")
