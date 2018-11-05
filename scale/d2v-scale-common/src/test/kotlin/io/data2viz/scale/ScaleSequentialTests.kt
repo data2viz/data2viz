@@ -1,15 +1,18 @@
 package io.data2viz.scale
 
+import io.data2viz.math.Percent
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
 @Suppress("unused", "FunctionName")
 class ScaleSequentialTests : TestBase() {
 
-    val identity = { t: Double -> t }
+    val identity = { t: Percent -> t.value }
+
 
     @Test
     fun sequential_has_expected_defaults() {
+
         val scale = scales.continuous.sequential(identity)
 
         scale.domain shouldBe intervalOf(.0, 1.0)
@@ -47,7 +50,7 @@ class ScaleSequentialTests : TestBase() {
         val scale = scales.continuous.sequential(identity)
         scale.clamp = true
         scale.domain = intervalOf(1.0, 3.0)
-        scale.interpolator = { t: Double -> 2 * t }
+        scale.interpolator = { t: Percent -> 2 * t.value }
 
         scale(-.5) shouldBeClose .0
         scale(.0) shouldBeClose .0

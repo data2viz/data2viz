@@ -3,6 +3,8 @@ package io.data2viz.scale
 import io.data2viz.math.tickStep
 import io.data2viz.interpolate.interpolateNumber
 import io.data2viz.interpolate.uninterpolateNumber
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.min
@@ -13,8 +15,8 @@ import kotlin.math.min
 
 
 open class LinearScale<R>(
-        interpolateRange: (R, R) -> (Double) -> R,
-        uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+        interpolateRange: (R, R) -> (Percent) -> R,
+        uninterpolateRange: ((R, R) -> (R) -> Percent)? = null,
         rangeComparator: Comparator<R>? = null) :
         ContinuousScale<Double, R>(interpolateRange, uninterpolateRange, rangeComparator),
         Tickable<Double>,
@@ -22,8 +24,8 @@ open class LinearScale<R>(
 
     val comparator = naturalOrder<Double>()
 
-    override fun interpolateDomain(from: Double, to: Double): (Double) -> Double = interpolateNumber(from, to)
-    override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double = uninterpolateNumber(from, to)
+    override fun interpolateDomain(from: Double, to: Double): (Percent) -> Double = interpolateNumber(from, to)
+    override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Percent = uninterpolateNumber(from, to)
     override fun domainComparator(): Comparator<Double> = comparator
 
     init {
@@ -72,8 +74,8 @@ open class LinearScale<R>(
  * identity, time or sequential color scale.
  */
 abstract class ContinuousScale<D, R>(
-        val interpolateRange: (R, R) -> (Double) -> R,
-        val uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+        val interpolateRange: (R, R) -> (Percent) -> R,
+        val uninterpolateRange: ((R, R) -> (R) -> Percent)? = null,
         val rangeComparator: Comparator<R>? = null) :
         ContinuousDomain<D>,
         ContinuousRangeScale<D, R>,
@@ -110,8 +112,8 @@ abstract class ContinuousScale<D, R>(
             rescale()
         }
 
-    abstract fun interpolateDomain(from: D, to: D): (Double) -> D
-    abstract fun uninterpolateDomain(from: D, to: D): (D) -> Double
+    abstract fun interpolateDomain(from: D, to: D): (Percent) -> D
+    abstract fun uninterpolateDomain(from: D, to: D): (D) -> Percent
     abstract fun domainComparator(): Comparator<D>
 
 
@@ -147,37 +149,37 @@ abstract class ContinuousScale<D, R>(
         domainToRange = null
     }
 
-    private fun uninterpolateClamp(uninterpolateFunction: (D, D) -> (D) -> Double): (D, D) -> (D) -> Double {
-        return fun(a: D, b: D): (D) -> Double {
+    private fun uninterpolateClamp(uninterpolateFunction: (D, D) -> (D) -> Percent): (D, D) -> (D) -> Percent {
+        return fun(a: D, b: D): (D) -> Percent {
             val d = uninterpolateFunction(a, b)
-            return fun(value: D): Double = when {
-                domainComparator().compare(value, a) <= 0 -> .0
-                domainComparator().compare(value, b) >= 0 -> 1.0
+            return fun(value: D): Percent = when {
+                domainComparator().compare(value, a) <= 0 -> 0.pct
+                domainComparator().compare(value, b) >= 0 -> 100.pct
                 else -> d(value)
             }
         }
     }
 
-    private fun interpolateClamp(interpolateFunction: (D, D) -> (Double) -> D): (D, D) -> (Double) -> D {
-        return fun(a: D, b: D): (Double) -> D {
+    private fun interpolateClamp(interpolateFunction: (D, D) -> (Percent) -> D): (D, D) -> (Percent) -> D {
+        return fun(a: D, b: D): (Percent) -> D {
             val r = interpolateFunction(a, b)
-            return fun(value: Double): D = when {
-                (value <= 0.0) -> a
-                (value >= 1.0) -> b
-                else -> r(value)
+            return fun(percent: Percent): D = when {
+                (percent.value <= 0.0) -> a
+                (percent.value >= 1.0) -> b
+                else -> r(percent)
             }
         }
     }
 
-    private fun bimap(deinterpolateDomain: (D, D) -> (D) -> Double): (D) -> R {
+    private fun bimap(deinterpolateDomain: (D, D) -> (D) -> Percent): (D) -> R {
 
         val d0 = _domain[0]
         val d1 = _domain[1]
         val r0 = _range[0]
         val r1 = _range[1]
 
-        val r: (Double) -> R
-        val d: (D) -> Double
+        val r: (Percent) -> R
+        val d: (D) -> Percent
 
         if (domainComparator().compare(d1, d0) < 0) {
             d = deinterpolateDomain(d1, d0)
@@ -190,8 +192,8 @@ abstract class ContinuousScale<D, R>(
         return { x: D -> r(d(x)) }
     }
 
-    private fun bimapInvert(reinterpolateDomain: (D, D) -> (Double) -> D,
-                            deinterpolateRange: (R, R) -> (R) -> Double): (R) -> D {
+    private fun bimapInvert(reinterpolateDomain: (D, D) -> (Percent) -> D,
+                            deinterpolateRange: (R, R) -> (R) -> Percent): (R) -> D {
 
         checkNotNull(rangeComparator) { "No RangeComparator has been found for this scale. Invert operation is impossible." }
 
@@ -200,8 +202,8 @@ abstract class ContinuousScale<D, R>(
         val r0 = _range[0]
         val r1 = _range[1]
 
-        val r: (R) -> Double
-        val d: (Double) -> D
+        val r: (R) -> Percent
+        val d: (Percent) -> D
 
         if (rangeComparator.compare(r1, r0) < 0) {
             d = reinterpolateDomain(d1, d0)
@@ -214,7 +216,7 @@ abstract class ContinuousScale<D, R>(
         return { x: R -> d(r(x)) }
     }
 
-    private fun polymap(uninterpolateDomain: (D, D) -> (D) -> Double): (D) -> R {
+    private fun polymap(uninterpolateDomain: (D, D) -> (D) -> Percent): (D) -> R {
 
         val d0 = _domain.first()
         val d1 = _domain.last()
@@ -232,8 +234,8 @@ abstract class ContinuousScale<D, R>(
         }
     }
 
-    private fun polymapInvert(interpolateDomain: (D, D) -> (Double) -> D,
-                              uninterpolateRange: (R, R) -> (R) -> Double): (R) -> D {
+    private fun polymapInvert(interpolateDomain: (D, D) -> (Percent) -> D,
+                              uninterpolateRange: (R, R) -> (R) -> Percent): (R) -> D {
 
         // TODO <R> instanceOf Comparable ??
         checkNotNull(rangeComparator) { "No RangeComparator has been found for this scale. Invert operation is impossible." }

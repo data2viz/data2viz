@@ -3,6 +3,8 @@ package io.data2viz.scale
 import io.data2viz.interpolate.interpolateNumber
 import io.data2viz.interpolate.interpolateRound
 import io.data2viz.interpolate.uninterpolateNumber
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 import kotlin.math.pow
 
 /**
@@ -12,8 +14,8 @@ import kotlin.math.pow
  * Power scales also support negative domain values, in which case the input value and the resulting output
  * value are multiplied by -1.
  */
-class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Double) -> R,
-                    uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Percent) -> R,
+                    uninterpolateRange: ((R, R) -> (R) -> Percent)? = null,
                     rangeComparator: Comparator<R>? = null)
     : LinearScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
 
@@ -23,18 +25,18 @@ class PowerScale<R>(exponent: Double = 1.0, interpolateRange: (R, R) -> (Double)
             rescale()
         }
 
-    override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double {
+    override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Percent {
         val dFrom = raise(from, exponent)
         val dTo = raise(to, exponent) - dFrom
 
-        return if (dTo == .0 || dTo == Double.NaN) { _ -> dTo }
-        else { t -> (raise(t, exponent) - dFrom) / dTo }
+        return if (dTo == .0 || dTo == Double.NaN) { _ -> dTo.pct }
+        else { t -> Percent((raise(t, exponent) - dFrom) / dTo) }
     }
 
-    override fun interpolateDomain(from: Double, to: Double): (Double) -> Double {
+    override fun interpolateDomain(from: Double, to: Double): (Percent) -> Double {
         val ra = raise(from, exponent)
         val rb = raise(to, exponent) - ra
-        return { t -> raise(ra + rb * t, 1.0 / exponent) }
+        return { t -> raise(ra + rb * t.value, 1.0 / exponent) }
     }
 
     private fun raise(x: Double, exponent: Double): Double {

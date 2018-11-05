@@ -1,5 +1,6 @@
 package io.data2viz.interpolate
 
+import io.data2viz.math.pct
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -8,13 +9,15 @@ class NumberTests : TestBase() {
     @Test
     fun interpolate() {
         val f = interpolateNumber(10, 20)
-        f(0.2) shouldBeClose 12.0
+        f(20.pct) shouldBeClose 12.0
     }
 
+    // TODO ADD TESTS OVER LIMITS !!
+    // TODO add tests for time, log, power...
     @Test
     fun uninterpolate() {
         val f = uninterpolateNumber(10.0, 20.0)
-        f(12.0) shouldBeClose 0.2
+        f(12.0) shouldBe 20.pct
     }
 
 

@@ -2,10 +2,11 @@ package io.data2viz.interpolate
 
 import io.data2viz.color.*
 import io.data2viz.math.Angle
+import io.data2viz.math.Percent
 
 // TODO use type for parameter percent ?
 // TODO use gamma ?
-private fun interpolateHcl(start: Color, end:Color, long:Boolean): (Double) -> Color {
+private fun interpolateHcl(start: Color, end:Color, long:Boolean): (Percent) -> Color {
     var startHCL = start.toRgb().toLab().toHcla()
     var endHCL = end.toRgb().toLab().toHcla()
     val colorInterpolator = gamma()
@@ -17,7 +18,7 @@ private fun interpolateHcl(start: Color, end:Color, long:Boolean): (Double) -> C
     val c = colorInterpolator(startHCL.c, endHCL.c)
     val l = colorInterpolator(startHCL.l, endHCL.l)
 
-    return fun(percent:Double) = Colors.hcl(Angle(h(percent)), c(percent), l(percent))
+    return fun(percent:Percent) = Colors.hcl(Angle(h(percent)), c(percent), l(percent))
 }
 
 fun hclLongInterpolator(start:Color, end: Color) = interpolateHcl(start, end, long = true)

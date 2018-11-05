@@ -2,6 +2,7 @@ package io.data2viz.interpolate
 
 import io.data2viz.color.Color
 import io.data2viz.geom.Point
+import io.data2viz.math.pct
 import kotlin.math.floor
 
 // scale ----------------
