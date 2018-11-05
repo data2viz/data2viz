@@ -256,7 +256,7 @@ class ColorTests : TestBase() {
 
     @Test
     fun RGB_conversion_of_HSL_120_05_05_05f_should_be_40BF40_with_05_alpha() {
-        val color = Colors.hsl(120.deg, 0.5, 0.5, 20.pct).toRgb()
+        val color = Colors.hsl(120.deg, 0.5, 0.5, 50.pct).toRgb()
         color.rgbHex shouldBe "#40bf40"
         color.alpha shouldBe 50.pct
     }
