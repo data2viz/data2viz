@@ -1,6 +1,8 @@
 package io.data2viz.color
 
-data class ColorStop(val percent:Double, val color: Color)
+import io.data2viz.math.Percent
+
+data class ColorStop(val percent:Percent, val color: Color)
 
 interface ColorOrGradient
 
@@ -14,12 +16,12 @@ interface Color : ColorOrGradient {
     val r:Int
     val g:Int
     val b:Int
-    val alpha:Double
+    val alpha:Percent
     val rgbHex:String
     fun toRgb():RgbColor
     fun brighten(strength: Double = 1.0):Color
     fun darken(strength: Double = 1.0):Color
     fun saturate(strength: Double = 1.0):Color
     fun desaturate(strength: Double = 1.0):Color
-    fun withAlpha(alpha: Double):Color
+    fun withAlpha(alpha: Percent):Color
 }

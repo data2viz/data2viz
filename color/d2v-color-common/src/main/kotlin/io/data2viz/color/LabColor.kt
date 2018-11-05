@@ -1,5 +1,8 @@
 package io.data2viz.color
 
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
+
 /**
  * Create a color in the LAB color space (CIE L*a*b* D65 whitepoint)
  *
@@ -10,13 +13,13 @@ package io.data2viz.color
  */
 class LabColor
 @Deprecated("Deprecated", ReplaceWith("Colors.lab(labL,labA,labB,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(lightness: Double, aComponent: Double, bComponent: Double, a: Double = 1.0) : Color {
+internal constructor(lightness: Double, aComponent: Double, bComponent: Double, a: Percent = 100.pct) : Color {
 
     // TODO : need to choose behavior: if values are coerced the results are not what expected when referring to test values from chroma.js
     val labL = lightness//.coerceIn(.0, 100.0)
     val labA = aComponent//.coerceIn(-128.0, 128.0)
     val labB = bComponent//.coerceIn(-128.0, 128.0)
-    override val alpha = a.coerceIn(.0, 1.0)
+    override val alpha = a.normalize()
 
     override val rgb = toRgb().rgb
     override val rgba = toRgb().rgba
@@ -30,7 +33,7 @@ internal constructor(lightness: Double, aComponent: Double, bComponent: Double, 
     override fun darken(strength: Double): Color = Colors.lab((labL - (Kn * strength)), labA, labB, alpha)
     override fun saturate(strength: Double): Color = toHcla().saturate(strength)
     override fun desaturate(strength: Double): Color = toHcla().desaturate(strength)
-    override fun withAlpha(alpha: Double) = Colors.lab(labL, labA, labB, alpha)
+    override fun withAlpha(alpha: Percent) = Colors.lab(labL, labA, labB, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

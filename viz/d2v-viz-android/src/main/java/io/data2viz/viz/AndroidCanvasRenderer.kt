@@ -294,7 +294,7 @@ private fun LinearGradient.toLinearGradient(renderer: AndroidCanvasRenderer) =
         }
 
 fun Color.toColor() =
-        ((255 * this.alpha).toInt() and 0xff shl 24) or
+        ((255 * this.alpha.value).toInt() and 0xff shl 24) or
                 (this.r and 0xff shl 16) or
                 (this.g and 0xff shl 8) or
                 (this.b and 0xff)

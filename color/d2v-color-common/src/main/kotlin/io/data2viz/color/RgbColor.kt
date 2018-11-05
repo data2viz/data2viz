@@ -1,5 +1,8 @@
 package io.data2viz.color
 
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
+
 /**
  * Implementation of Color as an rgb integer and an alpha channel.
  *
@@ -8,9 +11,9 @@ package io.data2viz.color
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  */
-class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
+class RgbColor(override val rgb: Int, a: Percent = 100.pct) : Color {
 
-    override val alpha = a.coerceIn(.0, 1.0)
+    override val alpha = a.normalize()
 
     override val r: Int
         get() = (rgb shr 16) and 0xff
@@ -54,7 +57,7 @@ class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
     override val rgba: String
         get() = "RGB($r, $g, $b, $alpha)"
 
-    override fun withAlpha(alpha: Double) = RgbColor(rgb, alpha)
+    override fun withAlpha(alpha: Percent) = RgbColor(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

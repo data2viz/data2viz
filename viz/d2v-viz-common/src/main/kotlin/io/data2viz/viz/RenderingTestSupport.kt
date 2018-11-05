@@ -1,8 +1,9 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Colors
-import io.data2viz.color.color
+import io.data2viz.color.col
 import io.data2viz.math.PI
+import io.data2viz.math.pct
 
 
 /**
@@ -115,9 +116,9 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                style.fill = 0xfdc658.color
-                style.stroke = 0x0c0887.color
-                        .withAlpha(.5)
+                style.fill = 0xfdc658.col
+                style.stroke = 0x0c0887.col
+                        .withAlpha(50.pct)
                 style.strokeWidth = 40.0
             }
         },

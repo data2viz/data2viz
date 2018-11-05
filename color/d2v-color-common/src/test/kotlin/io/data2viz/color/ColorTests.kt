@@ -10,6 +10,7 @@ import io.data2viz.color.Colors.Web.white
 import io.data2viz.geom.Point
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
+import io.data2viz.math.pct
 import io.data2viz.test.TestBase
 import kotlin.math.absoluteValue
 import kotlin.math.round
@@ -43,8 +44,8 @@ class ColorTests : TestBase() {
 
     @Test
     fun stringToColor() {
-        "#0b0b0b".color.rgb shouldBe 0x0b0b0b
-        "#0b0b0b".color.r shouldBe 11
+        "#0b0b0b".col.rgb shouldBe 0x0b0b0b
+        "#0b0b0b".col.r shouldBe 11
     }
 
     @Test
@@ -54,8 +55,8 @@ class ColorTests : TestBase() {
 
     @Test
     fun RGB_coercing_under_0_and_over_255_color_channel() {
-        Colors.rgb(300, -300, 256, -2.5) shouldBe Colors.rgb(255, 0, 255, .0)
-        Colors.rgb(-300, 300, -256, 2.5) shouldBe Colors.rgb(0, 255, 0, 1.0)
+        Colors.rgb(300, -300, 256, (-250).pct) shouldBe Colors.rgb(255, 0, 255, 0.pct)
+        Colors.rgb(-300, 300, -256, 250.pct) shouldBe Colors.rgb(0, 255, 0, 100.pct)
     }
 
     /**
@@ -73,10 +74,10 @@ class ColorTests : TestBase() {
         Colors.hsl(126.deg, .0, 1.0).toRgb() shouldBe white
         Colors.hsl(680.deg, .0, 1.0).toRgb() shouldBe white
 
-        Colors.hsl(32.deg, 0.80, 0.80, .0).toRgb() shouldBe RgbColor(0xf5cfa3, 0.0)
-        Colors.hsl(260.deg, 0.20, 0.44, 1.0).toRgb() shouldBe RgbColor(0x695a87, 1.0)
-        Colors.hsl(300.deg, 0.98, 0.16, .3).toRgb() shouldBe RgbColor(0x510151, .3)
-        Colors.hsl(16.deg, 0.75, 0.23, .5).toRgb() shouldBe RgbColor(0x67260f, .5)
+        Colors.hsl(32.deg, 0.80, 0.80, 0.pct).toRgb() shouldBe RgbColor(0xf5cfa3, 0.pct)
+        Colors.hsl(260.deg, 0.20, 0.44, 100.pct).toRgb() shouldBe RgbColor(0x695a87, 100.pct)
+        Colors.hsl(300.deg, 0.98, 0.16, 30.pct).toRgb() shouldBe RgbColor(0x510151, 30.pct)
+        Colors.hsl(16.deg, 0.75, 0.23, 50.pct).toRgb() shouldBe RgbColor(0x67260f, 50.pct)
 
         Colors.hsl(580.deg, .3, .2).toRgb() shouldBe RgbColor(0x242e42)
         Colors.hsl((-200).deg, .3, .2).toRgb() shouldBe RgbColor(0x244238)
@@ -109,10 +110,10 @@ class ColorTests : TestBase() {
         Colors.hcl(126.deg, .0, 100.0).toRgb() shouldBe white
         Colors.hcl(680.deg, .0, 100.0).toRgb() shouldBe white
 
-        Colors.hcl(32.deg, 80.0, 80.0, .0).toRgb() shouldBe RgbColor(0xff897c, 0.0)
-        Colors.hcl(260.deg, 20.0, 44.0, 1.0).toRgb() shouldBe RgbColor(0x4b6b88, 1.0)
-        Colors.hcl(300.deg, 98.0, 16.0, .3).toRgb() shouldBe RgbColor(0x0014a8, .3)
-        Colors.hcl(16.deg, 75.0, 23.0, .5).toRgb() shouldBe RgbColor(0x8f001e, .5)
+        Colors.hcl(32.deg, 80.0, 80.0, 0.pct).toRgb() shouldBe RgbColor(0xff897c, 0.pct)
+        Colors.hcl(260.deg, 20.0, 44.0, 100.pct).toRgb() shouldBe RgbColor(0x4b6b88, 100.pct)
+        Colors.hcl(300.deg, 98.0, 16.0, 30.pct).toRgb() shouldBe RgbColor(0x0014a8, 30.pct)
+        Colors.hcl(16.deg, 75.0, 23.0, 50.pct).toRgb() shouldBe RgbColor(0x8f001e, 50.pct)
 
         Colors.hcl(580.deg, 30.0, 20.0).toRgb() shouldBe RgbColor(0x003a4c)
         Colors.hcl((-200).deg, 30.0, 20.0).toRgb() shouldBe RgbColor(0x003a20)
@@ -143,73 +144,73 @@ class ColorTests : TestBase() {
     @Test
     fun RGBA_to_HSLA_rounded() {
         //Color(0xf5cfa3, 0).toHsla() shouldBe hsla(32.deg, 0.80, 0.80, 0)
-        val color1 = RgbColor(0xf5cfa3, 0.0).toHsla()
+        val color1 = RgbColor(0xf5cfa3, 0.pct).toHsla()
         round(color1.h.deg) shouldBeClose 32.0
         round(color1.s * 100) shouldBeClose 80.0
         round(color1.l * 100) shouldBeClose 80.0
-        color1.alpha shouldBe 0.0
+        color1.alpha shouldBe 0.pct
 
 //            hsla(260.deg, 0.20, 0.44, 1).toRgba() shouldBe Color(0x695a87, 1)
-        val color2 = RgbColor(0x695a87, 1.0).toHsla()
+        val color2 = RgbColor(0x695a87, 100.pct).toHsla()
         round(color2.h.deg) shouldBeClose 260.0
         round(color2.s * 100) shouldBeClose 20.0
         round(color2.l * 100) shouldBeClose 44.0
-        color2.alpha shouldBe 1.0
+        color2.alpha shouldBe 100.pct
 
 //            hsla(300.deg, 0.98, 0.16, .3).toRgba() shouldBe Color(0x510151, .3)
-        val color3 = RgbColor(0x510151, .3).toHsla()
+        val color3 = RgbColor(0x510151, 30.pct).toHsla()
         round(color3.h.deg) shouldBeClose 300.0
         round(color3.s * 100) shouldBeClose 98.0
         round(color3.l * 100) shouldBeClose 16.0
-        color3.alpha shouldBe .3
+        color3.alpha shouldBe 30.pct
 
 //            hsla(16.deg, 0.75, 0.23, .5).toRgba() shouldBe Color(0x67260f, .5)*/
-        val color4 = RgbColor(0x67260f, .5).toHsla()
+        val color4 = RgbColor(0x67260f, 50.pct).toHsla()
         round(color4.h.deg) shouldBeClose 16.0
         round(color4.s * 100) shouldBeClose 75.0
         round(color4.l * 100) shouldBeClose 23.0
-        color4.alpha shouldBe .5
+        color4.alpha shouldBe 50.pct
 
 //            hsla(0.deg, 0, 0, .42).toRgba() shouldBe Color(0x6a6a6a, .2)*/
-        val color5 = RgbColor(0x6a6a6a, .2).toHsla()
+        val color5 = RgbColor(0x6a6a6a, 20.pct).toHsla()
         round(color5.h.deg) shouldBeClose 0.0
         round(color5.s * 100) shouldBeClose 0.0
         round(color5.l * 100) shouldBeClose 42.0
-        color5.alpha shouldBe .2
+        color5.alpha shouldBe 20.pct
     }
 
     @Test
     fun RGBA_to_LAB_rounded() {
 
-        val color1 = RgbColor(0xf5cfa3, 0.0).toLab()
+        val color1 = RgbColor(0xf5cfa3, 0.pct).toLab()
         round(color1.labL) shouldBe 85.0
         round(color1.labA) shouldBe 7.0
         round(color1.labB) shouldBe 27.0
-        color1.alpha shouldBe 0.0
+        color1.alpha shouldBe 0.pct
 
-        val color2 = RgbColor(0x695a87, 1.0).toLab()
+        val color2 = RgbColor(0x695a87, 100.pct).toLab()
         round(color2.labL) shouldBe 41.0
         round(color2.labA) shouldBe 16.0
         round(color2.labB) shouldBe -23.0
-        color2.alpha shouldBe 1.0
+        color2.alpha shouldBe 100.pct
 
-        val color3 = RgbColor(0x510151, .3).toLab()
+        val color3 = RgbColor(0x510151, 30.pct).toLab()
         round(color3.labL) shouldBe 17.0
         round(color3.labA) shouldBe 42.0
         round(color3.labB) shouldBe -26.0
-        color3.alpha shouldBe .3
+        color3.alpha shouldBe 30.pct
 
-        val color4 = RgbColor(0x67260f, .5).toLab()
+        val color4 = RgbColor(0x67260f, 50.pct).toLab()
         round(color4.labL) shouldBe 25.0
         round(color4.labA) shouldBe 28.0
         round(color4.labB) shouldBe 29.0
-        color4.alpha shouldBe .5
+        color4.alpha shouldBe 50.pct
 
-        val color5 = RgbColor(0x6a6a6a, .2).toLab()
+        val color5 = RgbColor(0x6a6a6a, 20.pct).toLab()
         round(color5.labL) shouldBe 45.0
         round(color5.labA) shouldBe -0.0
         round(color5.labB) shouldBe 0.0
-        color5.alpha shouldBe .2
+        color5.alpha shouldBe 20.pct
 
         val color6 = white.toLab()
         round(color6.labL) shouldBe 100.0
@@ -255,9 +256,9 @@ class ColorTests : TestBase() {
 
     @Test
     fun RGB_conversion_of_HSL_120_05_05_05f_should_be_40BF40_with_05_alpha() {
-        val color = Colors.hsl(120.deg, 0.5, 0.5, 0.5).toRgb()
+        val color = Colors.hsl(120.deg, 0.5, 0.5, 20.pct).toRgb()
         color.rgbHex shouldBe "#40bf40"
-        color.alpha shouldBe 0.5
+        color.alpha shouldBe 50.pct
     }
 
     @Test
@@ -283,42 +284,42 @@ class ColorTests : TestBase() {
         Colors.lab(60.32, 37.18, -40.92).toRgb().rgbHex shouldBe "#ae7cda"
         Colors.lab(40.54, 23.82, -15.98).toRgb().rgbHex shouldBe "#7a527a"
         Colors.lab(33.27, 43.84, -52.04).toRgb().rgbHex shouldBe "#6234a2"
-        val color = Colors.lab(68.54923, -58.98131, 52.11442, 0.5).toRgb()
+        val color = Colors.lab(68.54923, -58.98131, 52.11442, 50.pct).toRgb()
         color.rgbHex shouldBe "#40bf40"
-        color.alpha shouldBe 0.5
+        color.alpha shouldBe 50.pct
     }
 
     @Test
     fun RGB_to_LAB_to_HCL_checks_for_multiple_colors() {
-        val color1 = RgbColor(0xf5cfa3, 0.0).toLab().toHcla()
+        val color1 = RgbColor(0xf5cfa3, 0.pct).toLab().toHcla()
         round(color1.h.deg) shouldBeClose 75.0
         round(color1.c) shouldBeClose 28.0
         round(color1.l) shouldBe 85.0
-        color1.alpha shouldBe 0.0
+        color1.alpha shouldBe 0.pct
 
-        val color2 = RgbColor(0x695a87, 1.0).toLab().toHcla()
+        val color2 = RgbColor(0x695a87, 100.pct).toLab().toHcla()
         round(color2.h.deg) shouldBeClose 305.0
         round(color2.c) shouldBeClose 28.0
         round(color2.l) shouldBe 41.0
-        color2.alpha shouldBe 1.0
+        color2.alpha shouldBe 100.pct
 
-        val color3 = RgbColor(0x510151, .3).toLab().toHcla()
+        val color3 = RgbColor(0x510151, 50.pct).toLab().toHcla()
         round(color3.h.deg) shouldBeClose 328.0
         round(color3.c) shouldBeClose 50.0
         round(color3.l) shouldBe 17.0
-        color3.alpha shouldBe .3
+        color3.alpha shouldBe 50.pct
 
-        val color4 = RgbColor(0x67260f, .5).toLab().toHcla()
+        val color4 = RgbColor(0x67260f, 30.pct).toLab().toHcla()
         round(color4.h.deg) shouldBeClose 46.0
         round(color4.c) shouldBeClose 40.0
         round(color4.l) shouldBe 25.0
-        color4.alpha shouldBe .5
+        color4.alpha shouldBe 30.pct
 
-        val color5 = RgbColor(0x6a6a6a, .2).toLab().toHcla()
+        val color5 = RgbColor(0x6a6a6a, 20.pct).toLab().toHcla()
         //round(color5.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
         round(color5.c) shouldBeClose 0.0
         round(color5.l) shouldBe 45.0
-        color5.alpha shouldBe .2
+        color5.alpha shouldBe 20.pct
 
         val color6 = white.toLab().toHcla()
         //round(color6.h.deg) shouldBeClose 267                     // achromatic, hue value irrelevant
@@ -333,25 +334,25 @@ class ColorTests : TestBase() {
 
     @Test
     fun HCL_to_LAB_to_RGB_checks_for_multiple_colors() {
-        val color1 = Colors.hcl(75.deg, 28.0, 85.0, .0).toLab().toRgb()
+        val color1 = Colors.hcl(75.deg, 28.0, 85.0, 0.pct).toLab().toRgb()
         color1.rgbHex shouldBe "#f4cea2"
-        color1.alpha shouldBe 0.0
+        color1.alpha shouldBe 0.pct
 
-        val color2 = Colors.hcl(305.deg, 28.0, 41.0, .0).toLab().toRgb()
+        val color2 = Colors.hcl(305.deg, 28.0, 41.0, 0.pct).toLab().toRgb()
         color2.rgbHex shouldBe "#685986"
-        color2.alpha shouldBe .0
+        color2.alpha shouldBe 0.pct
 
-        val color3 = Colors.hcl(328.deg, 50.0, 17.0, .3).toLab().toRgb()
+        val color3 = Colors.hcl(328.deg, 50.0, 17.0, 30.pct).toLab().toRgb()
         color3.rgbHex shouldBe "#500051"
-        color3.alpha shouldBe .3
+        color3.alpha shouldBe 30.pct
 
-        val color4 = Colors.hcl(46.deg, 40.0, 25.0, .5).toLab().toRgb()
+        val color4 = Colors.hcl(46.deg, 40.0, 25.0, 50.pct).toLab().toRgb()
         color4.rgbHex shouldBe "#682710"
-        color4.alpha shouldBe .5
+        color4.alpha shouldBe 50.pct
 
-        val color5 = Colors.hcl(267.deg, 0.0, 45.0, .5).toLab().toRgb()
+        val color5 = Colors.hcl(267.deg, 0.0, 45.0, 50.pct).toLab().toRgb()
         color5.rgbHex shouldBe "#6a6a6a"
-        color5.alpha shouldBe .5
+        color5.alpha shouldBe 50.pct
 
         val color6 = Colors.hcl(0.deg, 0.0, 100.0).toLab().toRgb()
         color6.rgbHex shouldBe "#ffffff"
@@ -408,19 +409,19 @@ class ColorTests : TestBase() {
     fun linear_gradient_builder() {
         val builder = Colors.Gradient.linear(Point(.0, .0), Point(100.0, .0))
 
-        val gradient = builder.withColor(aliceblue, .0).andColor(darkseagreen, .6)
+        val gradient = builder.withColor(aliceblue, 0.pct).andColor(darkseagreen, 60.pct)
         gradient.colorStops.size shouldBe 2
 
-        gradient.andColor(hotpink, 1.0).colorStops.size shouldBe 3
+        gradient.andColor(hotpink, 100.pct).colorStops.size shouldBe 3
     }
 
     @Test
     fun radial_gradient_builder() {
         val builder = Colors.Gradient.radial(Point(.0, .0), 100.0)
 
-        val gradient = builder.withColor(aliceblue, .0).andColor(darkseagreen, .6)
+        val gradient = builder.withColor(aliceblue, 0.pct).andColor(darkseagreen, 60.pct)
         gradient.colorStops.size shouldBe 2
 
-        gradient.andColor(hotpink, 1.0).colorStops.size shouldBe 3
+        gradient.andColor(hotpink, 100.pct).colorStops.size shouldBe 3
     }
 }

@@ -21,10 +21,10 @@ internal const val deg240toRad = 4.18879
 
 internal val angle120deg = 120.deg
 
-val Int.color: RgbColor
+val Int.col: RgbColor
     get() = RgbColor(this)
 
-val String.color: RgbColor
+val String.col: RgbColor
     get():RgbColor {
         val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
         require(this.matches(regex)) {

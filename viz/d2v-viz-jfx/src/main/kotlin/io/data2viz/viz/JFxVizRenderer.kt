@@ -126,7 +126,7 @@ fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient  = JfxRadialGradient
         false,
         CycleMethod.NO_CYCLE, colorStops.toStops())
 
-private fun List<ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent, it.color.jfxColor) }
+private fun List<ColorStop>.toStops(): List<Stop>? =  map { Stop(it.percent.value, it.color.jfxColor) }
 
 fun CircleNode.render(renderer: JFxVizRenderer) {
     val context = renderer.gc
@@ -183,6 +183,6 @@ fun LineNode.render(renderer: JFxVizRenderer){
 }
 
 val Color.jfxColor: javafx.scene.paint.Color
-    get() = javafx.scene.paint.Color.rgb(r, g, b, alpha)
+    get() = javafx.scene.paint.Color.rgb(r, g, b, alpha.value)
 
 

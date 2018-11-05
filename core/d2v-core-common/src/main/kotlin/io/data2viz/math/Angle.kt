@@ -36,3 +36,6 @@ fun Double.toDegrees() = this * RAD_TO_DEG
 
 val Number.deg:Angle
     get() = Angle(toDouble() * DEG_TO_RAD)
+
+val Number.rad:Angle
+    get() = Angle(toDouble())

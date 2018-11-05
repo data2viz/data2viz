@@ -2,6 +2,7 @@ package io.data2viz.examples.sankey
 
 import io.data2viz.color.Colors
 import io.data2viz.geom.Point
+import io.data2viz.math.pct
 import io.data2viz.sankey.SankeyAlignment
 import io.data2viz.sankey.SankeyLayout
 import io.data2viz.sankey.sankeyLinkHorizontal
@@ -155,8 +156,8 @@ fun GroupNode.buildSankey() {
             )
         )
             //Set the starting color (at 0%)
-            .withColor(fills(link.source.index % 20).withAlpha(.6))
-            .andColor(fills(link.target.index % 20).withAlpha(.6))
+            .withColor(fills(link.source.index % 20).withAlpha(60.pct))
+            .andColor(fills(link.target.index % 20).withAlpha(60.pct))
 
         path {
             style.stroke = gradient

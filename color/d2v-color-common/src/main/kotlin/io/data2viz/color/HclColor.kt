@@ -1,6 +1,8 @@
 package io.data2viz.color
 
 import io.data2viz.math.Angle
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 import kotlin.math.max
 
 /**
@@ -14,10 +16,10 @@ import kotlin.math.max
 class HclColor
 
 @Deprecated("Deprecated", ReplaceWith("Colors.hcl(h,c,l,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double = 1.0) : Color {
+internal constructor(val h: Angle, val c: Double, luminance: Double, a: Percent = 100.pct) : Color {
 
     val l = luminance//.coerceIn(.0, 100.0)
-    override val alpha = a.coerceIn(.0, 1.0)
+    override val alpha = a.normalize()
 
     override val rgb = toRgb().rgb
     override val rgba = toRgb().rgba
@@ -31,7 +33,7 @@ internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double =
     override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - (Kn * strength)), alpha)
     override fun saturate(strength: Double): Color = Colors.hcl(h, max(.0, (c + (Kn * strength))), l, alpha)
     override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
-    override fun withAlpha(alpha: Double) = Colors.hcl(h, c, l, alpha)
+    override fun withAlpha(alpha: Percent) = Colors.hcl(h, c, l, alpha)
 
     fun isAchromatic() = (c == .0) || (l <= .0) || (l >= 100.0)
 
