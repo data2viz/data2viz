@@ -13,6 +13,7 @@ inline class Percent(val value:Double) {
     operator fun minus(other: Percent)      = Percent(value - other.value)
     operator fun times(other: Percent)      = Percent(value * other.value)
     operator fun unaryMinus()               = Percent(-value)
+    operator fun unaryPlus()                = this
 
     operator fun times(d: Number)           = Percent(value * d.toDouble())
     operator fun div(d: Number)             = Percent(value / d.toDouble())

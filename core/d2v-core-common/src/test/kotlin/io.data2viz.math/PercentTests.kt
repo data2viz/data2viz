@@ -34,6 +34,10 @@ class PercentTests : TestBase() {
         percent - 25.pct shouldBe 38.pct
         percent + (-percent) shouldBe 0.pct
 
+        +percent shouldBe percent
+        +percent shouldBe 63.pct
+        percent shouldBe +63.pct
+
         -percent shouldBe -63.pct
         percent * -1 shouldBe -63.pct
         -2 * percent shouldBe -126.pct
