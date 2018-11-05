@@ -2,6 +2,7 @@ package io.data2viz.color
 
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
+import io.data2viz.math.pct
 import kotlin.math.*
 
 /**
@@ -41,7 +42,7 @@ fun RgbColor.toLab(): LabColor {
     val x = xyz2lab((0.4124564f * labB + 0.3575761f * labA + 0.1804375f * labL) / Xn)
     val y = xyz2lab((0.2126729f * labB + 0.7151522f * labA + 0.0721750f * labL) / Yn)
     val z = xyz2lab((0.0193339f * labB + 0.1191920f * labA + 0.9503041f * labL) / Zn)
-    return Colors.lab(116.0 * y - 16, 500.0 * (x - y), 200.0 * (y - z), alpha)
+    return Colors.lab((116.0 * y - 16).pct, 500.0 * (x - y), 200.0 * (y - z), alpha)
 }
 
 fun RgbColor.toHsla(): HslColor {
@@ -71,7 +72,7 @@ fun RgbColor.toHsla(): HslColor {
 
 fun LabColor.toRgba(): RgbColor {
     // map CIE LAB to CIE XYZ
-    var y = (labL + 16) / 116f
+    var y = ((labL.value * 100.0) + 16) / 116f
     var x = y + (labA / 500f)
     var z = y - (labB / 200f)
     y = Yn * lab2xyz(y)

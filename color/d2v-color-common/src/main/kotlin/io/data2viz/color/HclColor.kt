@@ -28,8 +28,8 @@ internal constructor(val h: Angle, val c: Double, val l: Percent, a: Percent = 1
     override val rgbHex: String = toRgb().rgbHex
 
     override fun toRgb():RgbColor = toLab().toRgb()
-    override fun brighten(strength: Double): Color = Colors.hcl(h, c, (l + Percent(Kn * strength)), alpha)
-    override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - Percent(Kn * strength)), alpha)
+    override fun brighten(strength: Double): Color = Colors.hcl(h, c, (l + (Kn * strength).pct), alpha)
+    override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - (Kn * strength).pct), alpha)
     override fun saturate(strength: Double): Color = Colors.hcl(h, max(.0, (c + (Kn * strength))), l, alpha)
     override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
     override fun withAlpha(alpha: Percent) = Colors.hcl(h, c, l, alpha)

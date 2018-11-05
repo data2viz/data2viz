@@ -2,6 +2,14 @@ package io.data2viz.math
 
 operator fun Number.times(percent:Percent) = Percent(percent.value * toDouble())
 
+/**
+ * Utility class used to represent a percentage value.
+ * You can create a Percent using the default constructor:
+ *  - val p = Percent(0.15)             // 15%
+ *
+ *  But it is easier to do so using the extension value ".pct":
+ *  - val p = 15.pct                    //15%
+ */
 inline class Percent(val value:Double) {
 
     fun coerceAtLeast(min:Percent)          = Percent(value.coerceAtLeast(min.value))

@@ -9,11 +9,11 @@ private fun interpolateLab(start: Color, end:Color): (Percent) -> Color {
     val endLab = end.toRgb().toLab()
     val colorInterpolator = gamma()
 
-    val l = colorInterpolator(startLab.labL, endLab.labL)
+    val l = colorInterpolator(startLab.labL.value, endLab.labL.value)
     val a = colorInterpolator(startLab.labA, endLab.labA)
     val b = colorInterpolator(startLab.labB, endLab.labB)
 
-    return fun(percent:Percent) = Colors.lab(l(percent), a(percent), b(percent))
+    return fun(percent:Percent) = Colors.lab(Percent(l(percent)), a(percent), b(percent))
 }
 
 fun labInterpolator(start:Color, end:Color) = interpolateLab(start, end)

@@ -21,7 +21,7 @@ object Colors {
         return RgbColor(rgb, alpha)
     }
 
-    fun lab(lightness: Double, aComponent: Double, bComponent: Double, alpha: Percent = 100.pct) =
+    fun lab(lightness: Percent, aComponent: Double, bComponent: Double, alpha: Percent = 100.pct) =
             LabColor(lightness, aComponent, bComponent, alpha)
 
     fun hsl(hue: Angle, saturation: Double, lightness: Double, alpha: Percent = 100.pct) =
