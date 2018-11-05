@@ -25,6 +25,10 @@ class PercentTests : TestBase() {
         23.pct.coerceToDefault() shouldBe 23.pct
         (-23.pct).coerceToDefault() shouldBe 0.pct
 
+        percent * 50.pct shouldBe 31.5.pct
+        percent * 200.pct shouldBe 126.pct
+        percent * -200.pct shouldBe -126.pct
+
         percent + percent shouldBe 126.pct
         percent - percent shouldBe 0.pct
         percent - 25.pct shouldBe 38.pct

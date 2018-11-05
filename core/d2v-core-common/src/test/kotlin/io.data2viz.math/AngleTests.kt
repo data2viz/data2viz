@@ -1,15 +1,26 @@
 package io.data2viz.math
 
 import io.data2viz.test.TestBase
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.tan
 import kotlin.test.Test
 
 class AngleTests : TestBase() {
 
     @Test
     fun angleOperators() {
+        val PIOVER3 = PI / 3
         val angle = 60.deg
 
-        angle shouldBe (PI/3).rad
+        angle shouldBe PIOVER3.rad
+
+        angle.deg shouldBeClose 60.0
+        angle.rad shouldBe PIOVER3
+
+        angle.sin shouldBe sin(PIOVER3)
+        angle.cos shouldBe cos(PIOVER3)
+        angle.tan shouldBe tan(PIOVER3)
 
         90.deg shouldBe (PI/2).rad
         180.deg shouldBe PI.rad
