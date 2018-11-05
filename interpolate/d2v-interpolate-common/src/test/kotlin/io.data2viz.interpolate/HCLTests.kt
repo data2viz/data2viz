@@ -11,7 +11,7 @@ class HCLTests : TestBase() {
     @Test
     fun HCLInterpolationTeal2Pink() {
         val iterator = hclInterpolator(Colors.Web.teal, Colors.Web.pink)
-        iterator((-100).pct) shouldBe Colors.Web.teal
+        iterator(-100.pct) shouldBe Colors.Web.teal
         iterator(0.pct) shouldBe Colors.Web.teal
         iterator(13.pct) shouldBe "#1a8a9d".col
         iterator(25.pct) shouldBe "#4092b3".col
@@ -26,7 +26,7 @@ class HCLTests : TestBase() {
     @Test
     fun HCLInterpolationWhiteToBlue() {
         val iterator = hclInterpolator(Colors.Web.white, Colors.Web.blue)
-        iterator((-100).pct) shouldBe Colors.Web.white
+        iterator(-100.pct) shouldBe Colors.Web.white
         iterator(0.pct) shouldBe Colors.Web.white
         iterator(13.pct) shouldBe "#ede0ff".col
         iterator(25.pct) shouldBe "#dcc4ff".col
@@ -41,7 +41,7 @@ class HCLTests : TestBase() {
     @Test
     fun HCLInterpolationWhiteToBlack() {
         val iterator = hclInterpolator(Colors.Web.white, Colors.Web.black)
-        iterator((-100).pct) shouldBe Colors.Web.white
+        iterator(-100.pct) shouldBe Colors.Web.white
         iterator(0.pct) shouldBe Colors.Web.white
         iterator(13.pct) shouldBe "#dadada".col
         iterator(25.pct) shouldBe "#b9b9b9".col
@@ -56,7 +56,7 @@ class HCLTests : TestBase() {
     @Test
     fun HCLInterpolationBlueToWhite() {
         val iterator = hclInterpolator(Colors.Web.blue, Colors.Web.white)
-        iterator((-100).pct) shouldBe Colors.Web.blue
+        iterator(-100.pct) shouldBe Colors.Web.blue
         iterator(0.pct) shouldBe Colors.Web.blue
         iterator(13.pct) shouldBe "#5b33ff".col
         iterator(25.pct) shouldBe "#7e52ff".col
@@ -70,7 +70,7 @@ class HCLTests : TestBase() {
     @Test
     fun HCLInterpolationShort() {
         val iterator = hclInterpolator("#810082".col, "#ffa600".col)
-        iterator((-100).pct) shouldBe "#810082".col
+        iterator(-100.pct) shouldBe "#810082".col
         iterator(0.pct) shouldBe "#810082".col
         iterator(13.pct) shouldBe "#a6007a".col
         iterator(25.pct) shouldBe "#c20070".col
@@ -85,7 +85,7 @@ class HCLTests : TestBase() {
 //    @Test
 //    fun HCLInterpolationLong() {
 //        val iterator = interpolateHclLong("#810082".col, "#ffa600".col)
-//        iterator((-100).pct) shouldBe "#810082".col
+//        iterator(-100.pct) shouldBe "#810082".col
 //        iterator(0.pct) shouldBe "#810082".col
 //        iterator(13.pct) shouldBe Colors.rgb(68, 72, 190)
 //        iterator(25.pct) shouldBe Colors.rgb(0, 107, 217)

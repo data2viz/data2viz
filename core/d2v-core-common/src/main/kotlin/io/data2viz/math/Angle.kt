@@ -4,6 +4,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
 
+operator fun Number.times(angle: Angle) = Angle(angle.rad * toDouble())
 
 inline class Angle(val rad: Double){
     val cos:Double get() = cos(rad)
@@ -17,9 +18,12 @@ inline class Angle(val rad: Double){
 
     operator fun plus(angle: Angle)     = Angle(rad + angle.rad)
     operator fun minus(angle: Angle)    = Angle(rad - angle.rad)
+    operator fun div(other: Angle)      = rad / other.rad
+    operator fun unaryPlus()            = this
+    operator fun unaryMinus()           = Angle(-rad)
+
     operator fun times(d: Number)       = Angle(rad * d.toDouble())
     operator fun div(d: Number)         = Angle(rad / d.toDouble())
-    operator fun div(other: Angle)      = rad / other.rad
 
 }
 

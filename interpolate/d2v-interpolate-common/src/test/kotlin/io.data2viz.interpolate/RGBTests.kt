@@ -11,7 +11,7 @@ class RGBTests : TestBase() {
     @Test
     fun interpolateSameColor() {
         val iterator = rgbDefaultInterpolator(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen)
-        iterator((-100).pct) shouldBe Colors.Web.darkolivegreen
+        iterator(-100.pct) shouldBe Colors.Web.darkolivegreen
         iterator(0.pct) shouldBe Colors.Web.darkolivegreen
         iterator(50.pct) shouldBe Colors.Web.darkolivegreen
         iterator(100.pct) shouldBe Colors.Web.darkolivegreen
@@ -21,7 +21,7 @@ class RGBTests : TestBase() {
     /*@Test
     fun interpolateSameColorGamma2() {
         val iterator = rgbDefaultInterpolator(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen)
-        iterator((-100).pct) shouldBe iterator(0.pct)
+        iterator(-100.pct) shouldBe iterator(0.pct)
         iterator(0.pct) shouldBe iterator(0.5)
         iterator(0.5) shouldBe iterator(100.pct)
         iterator(100.pct) shouldBe iterator(200.pct)
@@ -30,7 +30,7 @@ class RGBTests : TestBase() {
     @Test
     fun splineRGBSameColor() {
         val iterator = rgbBasisInterpolator(listOf(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen))
-        iterator((-100).pct) shouldBe Colors.Web.darkolivegreen
+        iterator(-100.pct) shouldBe Colors.Web.darkolivegreen
         iterator(0.pct) shouldBe Colors.Web.darkolivegreen
         iterator(50.pct) shouldBe Colors.Web.darkolivegreen
         iterator(100.pct) shouldBe Colors.Web.darkolivegreen
@@ -42,7 +42,7 @@ class RGBTests : TestBase() {
     fun cyclicalSplineRGBSameColor() {
         val iterator =
             rgbBasisClosedInterpolator(listOf(Colors.Web.darkolivegreen, Colors.Web.darkolivegreen))
-        iterator((-100).pct) shouldBe Colors.Web.darkolivegreen
+        iterator(-100.pct) shouldBe Colors.Web.darkolivegreen
         iterator(0.pct) shouldBe Colors.Web.darkolivegreen
         iterator(50.pct) shouldBe Colors.Web.darkolivegreen
         iterator(100.pct) shouldBe Colors.Web.darkolivegreen
@@ -52,7 +52,7 @@ class RGBTests : TestBase() {
     @Test
     fun RGBInterpolationWhiteToBlue() {
         val iterator = rgbDefaultInterpolator(Colors.Web.white, Colors.Web.blue)
-        iterator((-100).pct) shouldBe Colors.Web.white
+        iterator(-100.pct) shouldBe Colors.Web.white
         iterator(0.pct) shouldBe Colors.Web.white
         iterator(13.pct) shouldBe RgbColor(0xdedeff)
         iterator(25.pct) shouldBe RgbColor(0xbfbfff)
@@ -66,7 +66,7 @@ class RGBTests : TestBase() {
     @Test
     fun RGBInterpolationTeal2Pink() {
         val iterator = rgbDefaultInterpolator(Colors.Web.teal, Colors.Web.pink)
-        iterator((-100).pct) shouldBe Colors.Web.teal
+        iterator(-100.pct) shouldBe Colors.Web.teal
         iterator(0.pct) shouldBe Colors.Web.teal
         iterator(13.pct) shouldBe RgbColor(0x21888a)
         iterator(25.pct) shouldBe RgbColor(0x409093)
@@ -80,7 +80,7 @@ class RGBTests : TestBase() {
     @Test
     fun linearRGBInterpolationWhiteToBlue() {
         val iterator = rgbLinearInterpolator(Colors.Web.white, Colors.Web.blue)
-        iterator((-100).pct) shouldBe Colors.Web.white
+        iterator(-100.pct) shouldBe Colors.Web.white
         iterator(0.pct) shouldBe Colors.Web.white
         iterator(13.pct) shouldBe RgbColor(0xeeeeff)
         iterator(25.pct) shouldBe RgbColor(0xddddff)
@@ -94,7 +94,7 @@ class RGBTests : TestBase() {
     @Test
     fun linearRGBInterpolationTeal2Pink() {
         val iterator = rgbLinearInterpolator(Colors.Web.teal, Colors.Web.pink)
-        iterator((-100).pct) shouldBe Colors.Web.teal
+        iterator(-100.pct) shouldBe Colors.Web.teal
         iterator(0.pct) shouldBe Colors.Web.teal
         iterator(13.pct) shouldBe RgbColor(0x5c8a8c)
         iterator(25.pct) shouldBe RgbColor(0x809396)
