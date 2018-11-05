@@ -1,8 +1,6 @@
 package io.data2viz.color
 
-import io.data2viz.math.Angle
-import io.data2viz.math.deg
-import io.data2viz.math.pct
+import io.data2viz.math.*
 import kotlin.math.*
 
 /**
@@ -67,7 +65,7 @@ fun RgbColor.toHsla(): HslColor {
     } else {
         s = if (l > 0 && l < 1) .0 else h
     }
-    return Colors.hsl(h.deg, s, l, alpha)
+    return Colors.hsl(h.deg, Percent(s), Percent(l), alpha)
 }
 
 fun LabColor.toRgba(): RgbColor {
@@ -92,18 +90,18 @@ fun LabColor.toRgba(): RgbColor {
 fun HslColor.toRgba(): RgbColor =
     if (isAchromatic())     // achromatic
         Colors.rgb(
-            (l * 255).roundToInt(),
-            (l * 255).roundToInt(),
-            (l * 255).roundToInt(),
+            (l.value * 255).roundToInt(),
+            (l.value * 255).roundToInt(),
+            (l.value * 255).roundToInt(),
             alpha
         )
     else {
-        val q = if (l < 0.5f) l * (1 + s) else l + s - l * s
+        val q = if (l < 50.pct) l * (100.pct + s) else l + s - l * s
         val p = 2 * l - q
         Colors.rgb(
-            (hue2rgb(p, q, h + angle120deg) * 255).roundToInt(),
-            (hue2rgb(p, q, h) * 255).roundToInt(),
-            (hue2rgb(p, q, h - angle120deg) * 255).roundToInt(),
+            (hue2rgb(p.value, q.value, h + angle120deg) * 255).roundToInt(),
+            (hue2rgb(p.value, q.value, h) * 255).roundToInt(),
+            (hue2rgb(p.value, q.value, h - angle120deg) * 255).roundToInt(),
             alpha
         )
     }
@@ -121,7 +119,7 @@ private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {
     val hd = hue.normalize()
     return when {
         hd.rad < deg60toRad -> (p + (q - p) * (hd.rad / deg60toRad))
-        hd.rad < PI -> q
+        hd.rad < io.data2viz.math.PI -> q
         hd.rad < deg240toRad -> (p + (q - p) * ((deg240toRad - hd.rad) / deg60toRad))
         else -> p
     }

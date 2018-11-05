@@ -51,5 +51,5 @@ internal constructor(lightness: Percent, aComponent: Double, bComponent: Double,
         return result
     }
 
-    override fun toString() = "LAB($labL%, $labA, $labB, alpha=$alpha)"
+    override fun toString() = "LAB($labL, $labA, $labB, alpha=$alpha)"
 }

@@ -10,7 +10,7 @@ import kotlin.math.max
  *
  * @param h hue: Angle in degree
  * @param c chroma: Float, the upper bound for chroma depends on hue and luminance (typically in 0..230)
- * @param l: Float a value in the range [0,100] giving the luminance of the colour (in percent)
+ * @param l: Percent the luminance of the colour
  * @param alpha: Float between 0 and 1
  */
 class HclColor
@@ -52,5 +52,5 @@ internal constructor(val h: Angle, val c: Double, val l: Percent, a: Percent = 1
         return result
     }
 
-    override fun toString() = "HCL(${h.deg}°, $c, $l%, alpha=$alpha)"
+    override fun toString() = "HCL(${h.deg}°, $c, $l, alpha=$alpha)"
 }

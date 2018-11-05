@@ -24,7 +24,7 @@ object Colors {
     fun lab(lightness: Percent, aComponent: Double, bComponent: Double, alpha: Percent = 100.pct) =
             LabColor(lightness, aComponent, bComponent, alpha)
 
-    fun hsl(hue: Angle, saturation: Double, lightness: Double, alpha: Percent = 100.pct) =
+    fun hsl(hue: Angle, saturation: Percent, lightness: Percent, alpha: Percent = 100.pct) =
             HslColor(hue, saturation, lightness, alpha)
 
     fun hcl(hue: Angle, chroma: Double, luminance: Percent, alpha: Percent = 100.pct) =

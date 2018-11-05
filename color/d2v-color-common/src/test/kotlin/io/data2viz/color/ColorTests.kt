@@ -64,27 +64,27 @@ class ColorTests : TestBase() {
      */
     @Test
     fun HSLA_to_RGBA_reference() {
-        Colors.hsl(0.deg, .0, .0).toRgb() shouldBe black
-        Colors.hsl(240.deg, .0, .0).toRgb() shouldBe black
-        Colors.hsl(126.deg, .0, .0).toRgb() shouldBe black
-        Colors.hsl(6800.deg, .0, .0).toRgb() shouldBe black
+        Colors.hsl(0.deg, 0.pct, 0.pct).toRgb() shouldBe black
+        Colors.hsl(240.deg, 0.pct, 0.pct).toRgb() shouldBe black
+        Colors.hsl(126.deg, 0.pct, 0.pct).toRgb() shouldBe black
+        Colors.hsl(6800.deg, 0.pct, 0.pct).toRgb() shouldBe black
 
-        Colors.hsl(0.deg, .0, 1.0).toRgb() shouldBe white
-        Colors.hsl(240.deg, .0, 1.0).toRgb() shouldBe white
-        Colors.hsl(126.deg, .0, 1.0).toRgb() shouldBe white
-        Colors.hsl(680.deg, .0, 1.0).toRgb() shouldBe white
+        Colors.hsl(0.deg, 0.pct, 100.pct).toRgb() shouldBe white
+        Colors.hsl(240.deg, 0.pct, 100.pct).toRgb() shouldBe white
+        Colors.hsl(126.deg, 0.pct, 100.pct).toRgb() shouldBe white
+        Colors.hsl(680.deg, 0.pct, 100.pct).toRgb() shouldBe white
 
-        Colors.hsl(32.deg, 0.80, 0.80, 0.pct).toRgb() shouldBe RgbColor(0xf5cfa3, 0.pct)
-        Colors.hsl(260.deg, 0.20, 0.44, 100.pct).toRgb() shouldBe RgbColor(0x695a87, 100.pct)
-        Colors.hsl(300.deg, 0.98, 0.16, 30.pct).toRgb() shouldBe RgbColor(0x510151, 30.pct)
-        Colors.hsl(16.deg, 0.75, 0.23, 50.pct).toRgb() shouldBe RgbColor(0x67260f, 50.pct)
+        Colors.hsl(32.deg, 80.pct, 80.pct, 0.pct).toRgb() shouldBe RgbColor(0xf5cfa3, 0.pct)
+        Colors.hsl(260.deg, 20.pct, 44.pct, 100.pct).toRgb() shouldBe RgbColor(0x695a87, 100.pct)
+        Colors.hsl(300.deg, 98.pct, 16.pct, 30.pct).toRgb() shouldBe RgbColor(0x510151, 30.pct)
+        Colors.hsl(16.deg, 75.pct, 23.pct, 50.pct).toRgb() shouldBe RgbColor(0x67260f, 50.pct)
 
-        Colors.hsl(580.deg, .3, .2).toRgb() shouldBe RgbColor(0x242e42)
-        Colors.hsl((-200).deg, .3, .2).toRgb() shouldBe RgbColor(0x244238)
-        Colors.hsl((-120).deg, .7, .6).toRgb() shouldBe RgbColor(0x5252e0)
-        Colors.hsl(400.deg, .2, .5).toRgb() shouldBe RgbColor(0x998866)
-        Colors.hsl(512.deg, 7.0, 2.0).toRgb() shouldBe RgbColor(0xffffff)
-        Colors.hsl(124.deg, .1, 2.0).toRgb() shouldBe RgbColor(0xffffff)
+        Colors.hsl(580.deg, 30.pct, 20.pct).toRgb() shouldBe RgbColor(0x242e42)
+        Colors.hsl((-200).deg, 30.pct, 20.pct).toRgb() shouldBe RgbColor(0x244238)
+        Colors.hsl((-120).deg, 70.pct, 60.pct).toRgb() shouldBe RgbColor(0x5252e0)
+        Colors.hsl(400.deg, 20.pct, 50.pct).toRgb() shouldBe RgbColor(0x998866)
+        Colors.hsl(512.deg, 700.pct, 200.pct).toRgb() shouldBe RgbColor(0xffffff)
+        Colors.hsl(124.deg, 10.pct, 200.pct).toRgb() shouldBe RgbColor(0xffffff)
     }
 
     // TODO and check who's right (chroma.js, w3schools converter or data2viz) ?
@@ -146,36 +146,36 @@ class ColorTests : TestBase() {
         //Color(0xf5cfa3, 0).toHsla() shouldBe hsla(32.deg, 0.80, 0.80, 0)
         val color1 = RgbColor(0xf5cfa3, 0.pct).toHsla()
         round(color1.h.deg) shouldBeClose 32.0
-        round(color1.s * 100) shouldBeClose 80.0
-        round(color1.l * 100) shouldBeClose 80.0
+        round(color1.s.value * 100) shouldBeClose 80.0
+        round(color1.l.value * 100) shouldBeClose 80.0
         color1.alpha shouldBe 0.pct
 
 //            hsla(260.deg, 0.20, 0.44, 1).toRgba() shouldBe Color(0x695a87, 1)
         val color2 = RgbColor(0x695a87, 100.pct).toHsla()
         round(color2.h.deg) shouldBeClose 260.0
-        round(color2.s * 100) shouldBeClose 20.0
-        round(color2.l * 100) shouldBeClose 44.0
+        round(color2.s.value * 100) shouldBeClose 20.0
+        round(color2.l.value * 100) shouldBeClose 44.0
         color2.alpha shouldBe 100.pct
 
 //            hsla(300.deg, 0.98, 0.16, .3).toRgba() shouldBe Color(0x510151, .3)
         val color3 = RgbColor(0x510151, 30.pct).toHsla()
         round(color3.h.deg) shouldBeClose 300.0
-        round(color3.s * 100) shouldBeClose 98.0
-        round(color3.l * 100) shouldBeClose 16.0
+        round(color3.s.value * 100) shouldBeClose 98.0
+        round(color3.l.value * 100) shouldBeClose 16.0
         color3.alpha shouldBe 30.pct
 
 //            hsla(16.deg, 0.75, 0.23, .5).toRgba() shouldBe Color(0x67260f, .5)*/
         val color4 = RgbColor(0x67260f, 50.pct).toHsla()
         round(color4.h.deg) shouldBeClose 16.0
-        round(color4.s * 100) shouldBeClose 75.0
-        round(color4.l * 100) shouldBeClose 23.0
+        round(color4.s.value * 100) shouldBeClose 75.0
+        round(color4.l.value * 100) shouldBeClose 23.0
         color4.alpha shouldBe 50.pct
 
 //            hsla(0.deg, 0, 0, .42).toRgba() shouldBe Color(0x6a6a6a, .2)*/
         val color5 = RgbColor(0x6a6a6a, 20.pct).toHsla()
         round(color5.h.deg) shouldBeClose 0.0
-        round(color5.s * 100) shouldBeClose 0.0
-        round(color5.l * 100) shouldBeClose 42.0
+        round(color5.s.value * 100) shouldBeClose 0.0
+        round(color5.l.value * 100) shouldBeClose 42.0
         color5.alpha shouldBe 20.pct
     }
 
@@ -225,11 +225,11 @@ class ColorTests : TestBase() {
 
     @Test
     fun HSL_REFERENCES_HSL_0_0_0_should_be_black() {
-        black.toHsla() shouldBe Colors.hsl(0.deg, 0.0, 0.0)
-        white.toHsla() shouldBe Colors.hsl(0.deg, 0.0, 1.0)
+        black.toHsla() shouldBe Colors.hsl(0.deg, 0.pct, 0.pct)
+        white.toHsla() shouldBe Colors.hsl(0.deg, 0.pct, 100.pct)
 
-        Colors.hsl(Angle(0.0), 0.0, 0.0).toRgb() shouldBe black
-        Colors.hsl(Angle(0.0), 0.0, 1.0).toRgb() shouldBe white
+        Colors.hsl(Angle(0.0), 0.pct, 0.pct).toRgb() shouldBe black
+        Colors.hsl(Angle(0.0), 0.pct, 100.pct).toRgb() shouldBe white
     }
 
 // no more default color
@@ -242,30 +242,30 @@ class ColorTests : TestBase() {
 
     @Test
     fun RGB_conversion_of_multiples_HSL_colors() {
-        Colors.hsl(0.deg, 0.0, 0.742).toRgb().rgbHex shouldBe "#bdbdbd"
-        Colors.hsl(120.deg, 0.5, 0.5).toRgb().rgbHex shouldBe "#40bf40"
-        Colors.hsl(180.deg, 0.3, 0.6).toRgb().rgbHex shouldBe "#7ab8b8"
-        Colors.hsl(63.deg, 0.22, 0.46).toRgb().rgbHex shouldBe "#8d8f5b"
-        Colors.hsl(32.0.deg, 0.8, 0.8).toRgb().rgbHex shouldBe "#f5cfa3"
-        Colors.hsl(272.deg, 0.56, 0.67).toRgb().rgbHex shouldBe "#ae7cda"
-        Colors.hsl(300.deg, 0.2, 0.4).toRgb().rgbHex shouldBe "#7a527a"
-        Colors.hsl(265.deg, 0.51, 0.42).toRgb().rgbHex shouldBe "#6234a2"
-        Colors.hsl(300.deg, 1.0, 0.5).toRgb().rgbHex shouldBe "#ff00ff"
-        Colors.hsl(208.deg, 1.0, 0.9705882).toRgb().rgbHex shouldBe aliceblue.rgbHex
+        Colors.hsl(0.deg, 0.pct, 74.2.pct).toRgb().rgbHex shouldBe "#bdbdbd"
+        Colors.hsl(120.deg, 50.pct, 50.pct).toRgb().rgbHex shouldBe "#40bf40"
+        Colors.hsl(180.deg, 30.pct, 60.pct).toRgb().rgbHex shouldBe "#7ab8b8"
+        Colors.hsl(63.deg, 22.pct, 46.pct).toRgb().rgbHex shouldBe "#8d8f5b"
+        Colors.hsl(32.0.deg, 80.pct, 80.pct).toRgb().rgbHex shouldBe "#f5cfa3"
+        Colors.hsl(272.deg, 56.pct, 67.pct).toRgb().rgbHex shouldBe "#ae7cda"
+        Colors.hsl(300.deg, 20.pct, 40.pct).toRgb().rgbHex shouldBe "#7a527a"
+        Colors.hsl(265.deg, 51.pct, 42.pct).toRgb().rgbHex shouldBe "#6234a2"
+        Colors.hsl(300.deg, 100.pct, 50.pct).toRgb().rgbHex shouldBe "#ff00ff"
+        Colors.hsl(208.deg, 100.pct, 97.05882.pct).toRgb().rgbHex shouldBe aliceblue.rgbHex
     }
 
     @Test
     fun RGB_conversion_of_HSL_120_05_05_05f_should_be_40BF40_with_05_alpha() {
-        val color = Colors.hsl(120.deg, 0.5, 0.5, 50.pct).toRgb()
+        val color = Colors.hsl(120.deg, 50.pct, 50.pct, 50.pct).toRgb()
         color.rgbHex shouldBe "#40bf40"
         color.alpha shouldBe 50.pct
     }
 
     @Test
     fun HSL_coercing_under_0_and_over_1_luminance() {
-        Colors.hsl(488.deg, .5, .5).toRgb() shouldBe Colors.hsl(128.deg, .5, .5).toRgb()
-        Colors.hsl(120.deg, -.5, .5) shouldBe Colors.hsl(120.deg, .0, .5)
-        Colors.hsl(120.deg, .5, 1.5) shouldBe Colors.hsl(120.deg, .5, 1.0)
+        Colors.hsl(488.deg, 50.pct, 50.pct).toRgb() shouldBe Colors.hsl(128.deg, 50.pct, 50.pct).toRgb()
+        Colors.hsl(120.deg, -50.pct, 50.pct) shouldBe Colors.hsl(120.deg, 0.pct, 50.pct)
+        Colors.hsl(120.deg, 50.pct, 150.pct) shouldBe Colors.hsl(120.deg, 50.pct, 100.pct)
     }
 
 // no more default color

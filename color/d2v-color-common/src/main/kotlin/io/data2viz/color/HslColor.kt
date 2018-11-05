@@ -14,11 +14,11 @@ import io.data2viz.math.pct
  */
 class HslColor
 @Deprecated("Deprecated", ReplaceWith("Colors.hsl(hue,saturation,lightness,a)", "io.data2viz.colors.Colors"))
-internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Percent = 100.pct) : Color {
+internal constructor(hue: Angle, saturation: Percent, lightness: Percent, a: Percent = 100.pct) : Color {
 
     val h = hue.normalize()
-    val s = saturation.coerceIn(.0, 1.0)
-    val l = lightness.coerceIn(.0, 1.0)
+    val s = saturation.coerceToDefault()
+    val l = lightness.coerceToDefault()
     override val alpha = a.coerceToDefault()
 
     override val rgb = toRgb().rgb
@@ -35,7 +35,7 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Perce
     override fun desaturate(strength: Double): Color = toRgb().desaturate(strength)
     override fun withAlpha(alpha: Percent) = Colors.hsl(h, s, l, alpha)
 
-    fun isAchromatic() = (s == .0) || (l <= .0) || (l >= 1.0)
+    fun isAchromatic() = (s == 0.pct) || (l <= 0.pct) || (l >= 100.pct)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -53,5 +53,5 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Perce
         return result
     }
 
-    override fun toString() = "HSL(${h.deg}°, ${s*100}%, ${l*100}%, alpha=$alpha)"
+    override fun toString() = "HSL(${h.deg}°, $s, $l, alpha=$alpha)"
 }
