@@ -63,7 +63,7 @@ data class Matrix(
         c *= scaleY
         d *= scaleY
         center?.let {
-            translate(it.negate())
+            translate(-it)
         }
         return this
     }

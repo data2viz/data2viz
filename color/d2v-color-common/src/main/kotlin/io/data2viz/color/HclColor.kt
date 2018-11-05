@@ -10,15 +10,14 @@ import kotlin.math.max
  *
  * @param h hue: Angle in degree
  * @param c chroma: Float, the upper bound for chroma depends on hue and luminance (typically in 0..230)
- * @param luminance: Float a value in the range [0,100] giving the luminance of the colour (in percent)
+ * @param l: Float a value in the range [0,100] giving the luminance of the colour (in percent)
  * @param alpha: Float between 0 and 1
  */
 class HclColor
 
 @Deprecated("Deprecated", ReplaceWith("Colors.hcl(h,c,l,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(val h: Angle, val c: Double, luminance: Double, a: Percent = 100.pct) : Color {
+internal constructor(val h: Angle, val c: Double, val l: Percent, a: Percent = 100.pct) : Color {
 
-    val l = luminance//.coerceIn(.0, 100.0)
     override val alpha = a.coerceToDefault()
 
     override val rgb = toRgb().rgb
@@ -29,13 +28,13 @@ internal constructor(val h: Angle, val c: Double, luminance: Double, a: Percent 
     override val rgbHex: String = toRgb().rgbHex
 
     override fun toRgb():RgbColor = toLab().toRgb()
-    override fun brighten(strength: Double): Color = Colors.hcl(h, c, (l + (Kn * strength)), alpha)
-    override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - (Kn * strength)), alpha)
+    override fun brighten(strength: Double): Color = Colors.hcl(h, c, (l + Percent(Kn * strength)), alpha)
+    override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - Percent(Kn * strength)), alpha)
     override fun saturate(strength: Double): Color = Colors.hcl(h, max(.0, (c + (Kn * strength))), l, alpha)
     override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
     override fun withAlpha(alpha: Percent) = Colors.hcl(h, c, l, alpha)
 
-    fun isAchromatic() = (c == .0) || (l <= .0) || (l >= 100.0)
+    fun isAchromatic() = (c == .0) || (l <= 0.pct) || (l >= 100.pct)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

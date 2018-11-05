@@ -7,13 +7,14 @@ inline class Percent(val value:Double) {
     fun coerceAtLeast(min:Percent)          = Percent(value.coerceAtLeast(min.value))
     fun coerceAtMost(max:Percent)           = Percent(value.coerceAtMost(max.value))
     fun coerceIn(min:Percent, max:Percent)  = Percent(value.coerceIn(min.value, max.value))
-    fun coerceToDefault(): Percent          = Percent(value.coerceIn(.0, 1.0))
+    fun coerceToDefault(): Percent          = Percent(value.coerceIn(.0, 1.0))                  // TODO: rename ?
 
     operator fun plus(other: Percent)       = Percent(value + other.value)
     operator fun minus(other: Percent)      = Percent(value - other.value)
     operator fun times(other: Percent)      = Percent(value * other.value)
     operator fun unaryMinus()               = Percent(-value)
     operator fun unaryPlus()                = this
+    operator fun compareTo(other:Percent)   = this.value.compareTo(other.value)
 
     operator fun times(d: Number)           = Percent(value * d.toDouble())
     operator fun div(d: Number)             = Percent(value / d.toDouble())

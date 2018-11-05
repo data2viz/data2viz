@@ -10,6 +10,9 @@ class PercentTests : TestBase() {
         val percent = 63.pct
 
         percent shouldBe Percent(63.0 / 100)
+        (percent == 63.pct) shouldBe true
+        (percent == 52.pct) shouldBe false
+        (percent != 52.pct) shouldBe true
 
         percent.coerceAtLeast(80.pct) shouldBe 80.pct
         percent.coerceAtLeast(20.pct) shouldBe percent

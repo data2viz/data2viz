@@ -27,10 +27,10 @@ object Colors {
     fun hsl(hue: Angle, saturation: Double, lightness: Double, alpha: Percent = 100.pct) =
             HslColor(hue, saturation, lightness, alpha)
 
-    fun hcl(hue: Angle, chroma: Double, luminance: Double, alpha: Percent = 100.pct) =
+    fun hcl(hue: Angle, chroma: Double, luminance: Percent, alpha: Percent = 100.pct) =
             HclColor(hue, chroma, luminance, alpha)
 
-    fun lch(luminance: Double, chroma: Double, hue: Angle, alpha: Percent = 100.pct) = hcl(hue, chroma, luminance, alpha)
+    fun lch(luminance: Percent, chroma: Double, hue: Angle, alpha: Percent = 100.pct) = hcl(hue, chroma, luminance, alpha)
 
 
     /***************************** GRADIENTS *********************************************************/

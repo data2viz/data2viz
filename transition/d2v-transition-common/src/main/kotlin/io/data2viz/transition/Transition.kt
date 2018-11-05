@@ -16,6 +16,8 @@ inline fun <reified T : StateableElement> T.transitionTo(
 ) =
     Transition(this, configure, true, delay, duration, easing)
 
+
+// TODO : easing use (Percent) -> Double ? It looks like a scale ...
 class Transition<T : StateableElement>(
     private val target: T,
     private val configure: T.() -> Unit,

@@ -3,7 +3,6 @@ package io.data2viz.interpolate
 import io.data2viz.color.*
 import io.data2viz.math.Percent
 
-// TODO use type for parameter percent ?
 // TODO use gamma ?
 private fun interpolateLab(start: Color, end:Color): (Percent) -> Color {
     val startLab = start.toRgb().toLab()

@@ -8,7 +8,6 @@ import io.data2viz.math.Percent
 
 // TODO add alpha interpolation
 // TODO List instead of start, end ? (validate and check size !!)
-// TODO use type for parameter percent ?
 // TODO use gamma ?
 private fun interpolateHsl(start: Color, end:Color, long:Boolean): (Percent) -> Color {
     var startHSL = start.toRgb().toHsla()

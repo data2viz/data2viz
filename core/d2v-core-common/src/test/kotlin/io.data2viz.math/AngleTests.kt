@@ -14,6 +14,9 @@ class AngleTests : TestBase() {
         val angle = 60.deg
 
         angle shouldBe PIOVER3.rad
+        (angle == PIOVER3.rad) shouldBe true
+        (angle == 50.deg) shouldBe false
+        (angle != 50.deg) shouldBe true
 
         angle.deg shouldBeClose 60.0
         angle.rad shouldBe PIOVER3
