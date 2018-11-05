@@ -152,22 +152,24 @@ abstract class ContinuousScale<D, R>(
     private fun uninterpolateClamp(uninterpolateFunction: (D, D) -> (D) -> Percent): (D, D) -> (D) -> Percent {
         return fun(a: D, b: D): (D) -> Percent {
             val d = uninterpolateFunction(a, b)
-            return fun(value: D): Percent = when {
-                domainComparator().compare(value, a) <= 0 -> 0.pct
-                domainComparator().compare(value, b) >= 0 -> 100.pct
-                else -> d(value)
-            }
+            return fun(value: D): Percent = d(value).coerceToDefault()
+//                when {
+//                    domainComparator().compare(value, a) <= 0 -> 0.pct
+//                    domainComparator().compare(value, b) >= 0 -> 100.pct
+//                    else -> d(value)
+//                }
         }
     }
 
     private fun interpolateClamp(interpolateFunction: (D, D) -> (Percent) -> D): (D, D) -> (Percent) -> D {
         return fun(a: D, b: D): (Percent) -> D {
             val r = interpolateFunction(a, b)
-            return fun(percent: Percent): D = when {
-                (percent.value <= 0.0) -> a
-                (percent.value >= 1.0) -> b
-                else -> r(percent)
-            }
+            return fun(percent: Percent): D = r(percent.coerceToDefault())
+//                when {
+//                    (percent.value <= 0.0) -> a
+//                    (percent.value >= 1.0) -> b
+//                    else -> r(percent)
+//                }
         }
     }
 
