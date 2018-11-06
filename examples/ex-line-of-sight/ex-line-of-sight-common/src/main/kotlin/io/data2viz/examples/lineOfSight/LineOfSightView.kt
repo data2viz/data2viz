@@ -3,7 +3,6 @@ package io.data2viz.examples.lineOfSight
 import io.data2viz.color.Colors
 import io.data2viz.color.RadialGradient
 import io.data2viz.color.RgbColor
-import io.data2viz.geom.Point
 import io.data2viz.geom.Polygon
 import io.data2viz.math.pct
 import io.data2viz.viz.Viz
@@ -60,7 +59,7 @@ fun lineOfSightViz(): Viz = viz {
     onFrame {
         lineOfSightLayer.clear()
         model.moveLight()
-        radialGradient.center = model.lightPos
+        radialGradient.origin = model.lightPos
         val points = model.getSightPolygon().points
         lineOfSightLayer.path {
             moveTo(points.first().x, points.first().y)

@@ -2,23 +2,10 @@
 
 package io.data2viz.color
 
+import io.data2viz.geom.HasOrigin
 import io.data2viz.geom.Point
 import io.data2viz.math.Percent
 import io.data2viz.math.pct
-
-// TODO : move to "core.geom" ?
-// TODO : remove access to cx, cy, leave only access to center
-interface HasCenter {
-    var cx: Double
-    var cy: Double
-
-    var center:Point
-        get() = Point(cx,cy)
-        set(value) {
-            cx = value.x
-            cy = value.y
-        }
-}
 
 data class RadialGradientFirstColorBuilder
 internal constructor(val center: Point, val radius: Double) {
@@ -41,7 +28,7 @@ internal constructor(val builder: RadialGradientFirstColorBuilder, val firstColo
 class RadialGradient
 
 @Deprecated("Deprecated", ReplaceWith("Colors.Gradient.radial()", "io.data2viz.colors.Colors"))
-constructor(): Gradient, HasCenter {
+constructor(): Gradient, HasOrigin {
 
     override var cx:Double = .0
     override var cy:Double = .0
