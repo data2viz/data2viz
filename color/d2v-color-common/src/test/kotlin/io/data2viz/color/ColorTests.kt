@@ -49,7 +49,7 @@ class ColorTests : TestBase() {
 
     @Test
     fun rgba() {
-        "#000000".color.rgba shouldBe "rgba(0, 0, 0, 1.0)"
+        listOf("rgba(0, 0, 0, 1.0)", "rgba(0, 0, 0, 1)") should contain("#000000".color.rgba)
         "#000000".color.withAlpha(.5).rgba shouldBe "rgba(0, 0, 0, 0.5)"
     }
 
