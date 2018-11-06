@@ -119,7 +119,7 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
         if (node is HasTransform) {
             node.transform?.also {
                 context.translate(it.translate?.x ?:.0, it.translate?.y ?:.0)
-                context.rotate(it.rotate?.delta ?: .0)
+                context.rotate(it.rotate?.delta?.rad ?: .0)
             }
         }
 
@@ -146,7 +146,7 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
         if (node is HasTransform) {
             node.transform?.also {
                 context.translate(-(it.translate?.x ?:.0), -(it.translate?.y ?:.0))
-                context.rotate(-(it.rotate?.delta ?:.0))
+                context.rotate(-(it.rotate?.delta?.rad ?:.0))
             }
         }
 

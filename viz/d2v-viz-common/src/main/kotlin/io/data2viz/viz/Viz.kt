@@ -2,6 +2,8 @@ package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.geom.HasSize
+import io.data2viz.math.Angle
+import io.data2viz.math.rad
 
 
 /**
@@ -84,7 +86,7 @@ interface StateableElement {
 
 /**
  * Indicate an element on which we can apply a Transformation.
- * todo implement other transformation (rotate, ...)
+ * TODO implement other transformation (rotate, ...)
  */
 class Transform {
     var translate:Translation? = null
@@ -93,8 +95,14 @@ class Transform {
     }
 
     var rotate:Rotation? = null
-    fun rotate(delta: Double) {
+
+    fun rotate(delta: Angle) {
         rotate = Rotation(delta)
+    }
+
+    @Deprecated("Deprecated", ReplaceWith("rotate(delta.rad)"))
+    fun rotate(delta: Double) {
+        rotate = Rotation(delta.rad)
     }
 
     operator fun plusAssign(transform: Transform) {
@@ -104,7 +112,7 @@ class Transform {
         }
 
         rotate?.apply {
-            delta += transform.rotate?.delta ?: .0
+            delta += transform.rotate?.delta ?: 0.rad
         }
 
     }
@@ -115,22 +123,20 @@ class Transform {
             y -= transform.translate?.y ?: .0
         }
         rotate?.apply {
-            delta -= transform.rotate?.delta ?: .0
+            delta -= transform.rotate?.delta ?: 0.rad
         }
 
     }
 }
 
 data class Translation(var x: Double = 0.0, var y: Double = 0.0)
-data class Rotation(var delta:Double = 0.0)
-
+data class Rotation(var delta: Angle = 0.rad)
 
 /**
  * All properties of stroke
- * Todo add remaining common properties
+ * TODO add remaining common properties
  */
 interface HasStroke {
-
     var stroke: ColorOrGradient?
     var strokeWidth: Double?
 }
@@ -138,7 +144,6 @@ interface HasStroke {
 interface HasFill {
     var fill: ColorOrGradient?
 }
-
 
 data class Margins(val top: Double, val right: Double = top, val bottom: Double = top, val left: Double = right) {
     val hMargins = right + left
@@ -150,7 +155,6 @@ interface HasTransform {
 }
 
 interface HasChildren: HasStyle {
-
     fun add(node: Node)
     fun remove(node: Node)
     fun clear()

@@ -4,6 +4,7 @@ import io.data2viz.color.Colors
 import io.data2viz.color.col
 import io.data2viz.math.PI
 import io.data2viz.math.pct
+import io.data2viz.math.rad
 
 
 /**
@@ -46,7 +47,7 @@ val allRenderingTests = listOf(
                 parent.add(this)
                 transform {
                     translate(x = 10.0, y = 10.0)
-                    rotate(0.1 * PI / 2)
+                    rotate((0.1 * PI / 2).rad)
                 }
                 rect {
                     height = 10.0

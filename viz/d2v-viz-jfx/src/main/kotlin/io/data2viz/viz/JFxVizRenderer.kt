@@ -54,12 +54,12 @@ class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
 
     fun addTransform(transform: Transform) {
         gc.translate(transform.translate?.x ?: .0, transform.translate?.y ?:.0)
-        gc.rotate(+ (transform.rotate?.delta ?: .0) * 180 / PI)
+        gc.rotate(+ (transform.rotate?.delta?.deg ?: .0))
     }
 
     fun removeTransform(transform: Transform) {
         gc.translate(-(transform.translate?.x ?:.0), -(transform.translate?.y ?:.0))
-        gc.rotate(- (transform.rotate?.delta ?: .0) * 180 / PI)
+        gc.rotate(- (transform.rotate?.delta?.deg ?: .0))
     }
 
 }
