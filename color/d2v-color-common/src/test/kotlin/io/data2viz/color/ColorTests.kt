@@ -48,6 +48,12 @@ class ColorTests : TestBase() {
     }
 
     @Test
+    fun rgba() {
+        "#000000".color.rgba shouldBe "rgba(0, 0, 0, 1.0)"
+        "#000000".color.withAlpha(.5).rgba shouldBe "rgba(0, 0, 0, 0.5)"
+    }
+
+    @Test
     fun color_to_hex_should_be_7_char() {
         black.rgbHex shouldBe "#000000"
     }
