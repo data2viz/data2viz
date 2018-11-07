@@ -10,7 +10,7 @@ fun forceRadial(init:ForceRadial.()->Unit) = ForceRadial().apply(init)
 /**
  * Creates a new positioning force towards a circle of the specified radius centered at "center" Point.
  */
-class ForceRadial : Force {
+class ForceRadial : InternalForce() {
 
     /**
      * Sets the circle radius to the specified function, re-evaluates the radius accessor for each node.

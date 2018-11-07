@@ -8,7 +8,7 @@ fun forceX(init:ForceX.()->Unit = {}) = ForceX().apply(init)
  * Creates a new positioning force along the x-axis towards the given position x.
  * If x is not specified, it defaults to 0.
  */
-class ForceX : Force {
+class ForceX : InternalForce() {
 
     /**
      * Sets the x-coordinate accessor to the specified function, re-evaluates the x-accessor for each node.

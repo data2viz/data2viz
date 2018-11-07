@@ -27,7 +27,7 @@ fun forceLink(init: ForceLink.() -> Unit = {}) = ForceLink().apply(init)
  *
  *
  */
-class ForceLink : Force {
+class ForceLink : InternalForce() {
 
     private var nodes       = listOf<ForceNode>()
 

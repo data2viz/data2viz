@@ -7,7 +7,7 @@ fun forceY(init: ForceY.() -> Unit = {}) = ForceY().apply(init)
  * Creates a new positioning force along the y-axis towards the given position y.
  * If y is not specified, it defaults to 0.
  */
-class ForceY : Force {
+class ForceY : InternalForce() {
 
     /**
      * Sets the y-coordinate accessor to the specified function, re-evaluates the y-accessor for each node.

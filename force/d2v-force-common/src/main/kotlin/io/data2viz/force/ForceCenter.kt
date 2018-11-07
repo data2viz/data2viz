@@ -3,6 +3,7 @@ package io.data2viz.force
 import io.data2viz.geom.Point
 
 fun forceCenter(center: Point) = ForceCenter(center)
+fun forceXY(center: Point) = ForceCenter(center)
 
 // TODO : strength
 /**
@@ -13,7 +14,7 @@ fun forceCenter(center: Point) = ForceCenter(center)
  * This force helps keeps nodes in the center of the viewport, and unlike the positioning force,
  * it does not distort their relative positions.
  */
-class ForceCenter(val center: Point = Point(.0, .0)) : Force {
+class ForceCenter(val center: Point = Point(.0, .0)) : InternalForce() {
 
     private var _nodes = listOf<ForceNode>()
 

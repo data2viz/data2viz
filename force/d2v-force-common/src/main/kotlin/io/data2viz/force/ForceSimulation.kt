@@ -153,7 +153,7 @@ class ForceSimulation {
     }
 
     private fun initializeForce(force: Force) {
-        force.assignNodes(nodes)
+        (force as InternalForce).assignNodes(nodes)
     }
 
 
@@ -177,7 +177,7 @@ class ForceSimulation {
 
 
         _forces.values.forEach { force ->
-            force.applyForceToNodes(alpha)
+            (force as InternalForce).applyForceToNodes(alpha)
         }
 
         nodes.forEach { node ->
