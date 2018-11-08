@@ -8,7 +8,9 @@ package io.data2viz.color
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  */
-class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
+class RgbColor
+    @Deprecated("Use factory function or Int.col extension.", ReplaceWith("Colors.rgb(rgb,a)", "io.data2viz.colors.Colors"))
+    constructor(override val rgb: Int, a: Double = 1.0) : Color {
 
     override val alpha = a.coerceIn(.0, 1.0)
 
@@ -29,17 +31,17 @@ class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
 
     fun withRed(red: Int): RgbColor {
         val rgb = (rgb and 0x00ffff) + (red.coerceIn(0, 255) shl 16)
-        return RgbColor(rgb, alpha)
+        return Colors.rgb(rgb, alpha)
     }
 
     fun withGreen(green: Int): RgbColor {
         val rgb = (rgb and 0xff00ff) + (green.coerceIn(0, 255) shl 8)
-        return RgbColor(rgb, alpha)
+        return Colors.rgb(rgb, alpha)
     }
 
     fun withBlue(blue: Int): RgbColor {
         val rgb = (rgb and 0xffff00) + blue.coerceIn(0, 255)
-        return RgbColor(rgb, alpha)
+        return Colors.rgb(rgb, alpha)
     }
 
     override val rgbHex: String
@@ -54,7 +56,7 @@ class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
     override val rgba: String
         get() = "rgba($r, $g, $b, $alpha)"
 
-    override fun withAlpha(alpha: Double) = RgbColor(rgb, alpha)
+    override fun withAlpha(alpha: Double) = Colors.rgb(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -74,3 +76,32 @@ class RgbColor(override val rgb: Int, a: Double = 1.0) : Color {
 
     override fun toString() = "RGB($r, $g, $b, alpha=$alpha) - $rgbHex"
 }
+
+
+/**
+ * Instantiate a color from an Int. It should be used
+ * using the HEX code like this : `0x0b0b0b.col`
+ */
+val Int.col: RgbColor
+    get() = Colors.rgb(this)
+
+@Deprecated("Use the 3 characters version of it.", ReplaceWith("this.col"))
+val Int.color: RgbColor
+    get() = this.col
+
+/**
+ * Instantiate a color from an String representing its hexadecimal value.
+ * Ex: "#12abCD".col
+ */
+val String.col: RgbColor
+    get():RgbColor {
+        val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
+        require(this.matches(regex)) {
+            "Conversion of string to io.data2viz.col.RgbColor works for encoded colors like #12abCD"
+        }
+        return Colors.rgb(substring(1).toInt(16))
+    }
+
+@Deprecated("Use the 3 characters version of it.", ReplaceWith("this.col"))
+val String.color: RgbColor
+    get() = this.col
