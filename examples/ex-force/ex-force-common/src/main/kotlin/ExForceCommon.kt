@@ -1,6 +1,6 @@
 package io.data2viz.examples.force
 
-import io.data2viz.color.RgbColor
+import io.data2viz.color.*
 import io.data2viz.force.*
 import io.data2viz.geom.Circle
 import io.data2viz.geom.Point
@@ -23,11 +23,11 @@ val simulation: ForceSimulation = forceSimulation {
 }
 
 val olympicColors = listOf(
-        RgbColor(0x0081C8),
-        RgbColor(0x000000),
-        RgbColor(0xEE334E),
-        RgbColor(0xFCB131),
-        RgbColor(0x00A651)
+    0x0081C8.col,
+    0x000000.col,
+    0xEE334E.col,
+    0xFCB131.col,
+    0x00A651.col
 )
 
 val forces = listOf(

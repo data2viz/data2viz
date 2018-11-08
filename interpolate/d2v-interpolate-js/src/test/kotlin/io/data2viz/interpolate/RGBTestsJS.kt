@@ -1,10 +1,9 @@
 package io.data2viz.interpolate
 
-import io.data2viz.color.Color
+import io.data2viz.color.*
 import io.data2viz.color.Colors.Web.blue
 import io.data2viz.color.Colors.Web.green
 import io.data2viz.color.Colors.Web.red
-import io.data2viz.color.RgbColor
 import io.data2viz.test.TestBase
 import io.data2viz.test.namespace
 import kotlin.browser.document
@@ -39,9 +38,17 @@ class RGBTestsJS : TestBase() {
     fun rgbSplineInterpolationColorbrewSpline() {
         val iterator = rgbBasisInterpolator(
             arrayListOf(
-                RgbColor(0x8e0152), RgbColor(0xc51b7d), RgbColor(0xde77ae), RgbColor(0xf1b6da),
-                RgbColor(0xfde0ef), RgbColor(0xf7f7f7), RgbColor(0xe6f5d0), RgbColor(0xb8e186), RgbColor(0x7fbc41),
-                RgbColor(0x4d9221), RgbColor(0x276419)
+                0x8e0152.col,
+                0xc51b7d.col,
+                0xde77ae.col,
+                0xf1b6da.col,
+                0xfde0ef.col,
+                0xf7f7f7.col,
+                0xe6f5d0.col,
+                0xb8e186.col,
+                0x7fbc41.col,
+                0x4d9221.col,
+                0x276419.col
             )
         )
         displaySmallGradient(
@@ -57,9 +64,17 @@ class RGBTestsJS : TestBase() {
     fun rgbCyclicalSplineInterpolationColorbrewSpline() {
         val iterator = rgbBasisClosedInterpolator(
             arrayListOf(
-                RgbColor(0x8e0152), RgbColor(0xc51b7d), RgbColor(0xde77ae), RgbColor(0xf1b6da),
-                RgbColor(0xfde0ef), RgbColor(0xf7f7f7), RgbColor(0xe6f5d0), RgbColor(0xb8e186), RgbColor(0x7fbc41),
-                RgbColor(0x4d9221), RgbColor(0x276419)
+                0x8e0152.col,
+                0xc51b7d.col,
+                0xde77ae.col,
+                0xf1b6da.col,
+                0xfde0ef.col,
+                0xf7f7f7.col,
+                0xe6f5d0.col,
+                0xb8e186.col,
+                0x7fbc41.col,
+                0x4d9221.col,
+                0x276419.col
             )
         )
         displaySmallGradient(
@@ -72,7 +87,7 @@ class RGBTestsJS : TestBase() {
 
     @Test
     fun rgbLinearInterpolatio_800080_ffa200() {
-        val iterator = rgbDefaultInterpolator(RgbColor(0x800080), RgbColor(0xffa200))
+        val iterator = rgbDefaultInterpolator(0x800080.col, 0xffa200.col)
         displaySmallGradient(
             "rgbLinearInterpolatio_800080_ffa200",
             iterator,
