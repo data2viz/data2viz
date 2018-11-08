@@ -24,6 +24,8 @@ can be used as a multiplatform Kotlin format library outside of any dataviz proj
 
 Data2viz allows you to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
  visualizations via the IDE’s context-based suggestions.
+ 
+You can try it on [data2viz playground](https://play.data2viz.io/tutorials/colors/).
 
 ## How can I use it?
 Artifacts are published on [Maven Central](https://repo.maven.apache.org/maven2/io/data2viz/) and [Bintray](https://bintray.com/data2viz/data2viz/data2viz).
