@@ -302,7 +302,7 @@ class EncodedColors(colorsAsString: String) {
 
     val colors by lazy {
         with(colorsAsString) {
-            (0..((this.length / 6) - 1)).map { "#${substring(6 * it, 6 * it + 6)}".color }
+            (0..((this.length / 6) - 1)).map { "#${substring(6 * it, 6 * it + 6)}".col }
         }
     }
 

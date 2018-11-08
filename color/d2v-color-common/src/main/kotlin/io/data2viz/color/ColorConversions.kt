@@ -21,18 +21,6 @@ internal const val deg240toRad = 4.18879
 
 internal val angle120deg = 120.deg
 
-val Int.color: RgbColor
-    get() = RgbColor(this)
-
-val String.color: RgbColor
-    get():RgbColor {
-        val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
-        require(this.matches(regex)) {
-            "Conversion of string to io.data2viz.color.RgbColor works for encoded colors like #12abCD"
-        }
-        return RgbColor(substring(1).toInt(16))
-    }
-
 
 fun RgbColor.toLab(): LabColor {
     val labB = rgb2xyz(r)
