@@ -29,7 +29,6 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Doubl
     override fun luminance() = toRgb().luminance()
     override fun contrast(other:Color) = toRgb().contrast(other)
     override fun isContrastOK(other: Color) = toRgb().isContrastOK(other)
-//    override val hue: Angle = toHcl().hue
 
     override fun toRgb(): RgbColor = toRgba()
     override fun toLab(): LabColor = toRgb().toLab()
@@ -41,7 +40,6 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Doubl
     override fun saturate(strength: Double): Color = toRgb().saturate(strength)
     override fun desaturate(strength: Double): Color = toRgb().desaturate(strength)
     override fun withAlpha(alpha: Double) = Colors.hsl(h, s, l, alpha)
-//    override fun withLuminance(luminance: Percent) = toLab().withLuminance(luminance)
     override fun withHue(hue: Angle) = toHcl().withHue(hue)
 
     fun isAchromatic() = (s == .0) || (l <= .0) || (l >= 1.0)

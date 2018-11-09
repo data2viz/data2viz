@@ -30,7 +30,6 @@ internal constructor(lightness: Double, aComponent: Double, bComponent: Double, 
     override fun luminance() = toRgb().luminance()
     override fun contrast(other:Color) = toRgb().contrast(other)
     override fun isContrastOK(other: Color) = toRgb().isContrastOK(other)
-//    override var hue: Angle = toRgba().toHsla().h
 
     override fun toRgb(): RgbColor = toRgba()
     override fun toLab(): LabColor = this
@@ -42,7 +41,6 @@ internal constructor(lightness: Double, aComponent: Double, bComponent: Double, 
     override fun saturate(strength: Double): Color = toHcl().saturate(strength)
     override fun desaturate(strength: Double): Color = toHcl().desaturate(strength)
     override fun withAlpha(alpha: Double) = Colors.lab(labL, labA, labB, alpha)
-//    override fun withLuminance(luminance: Percent) = Colors.lab(luminance.value * 100, labA, labB, alpha)
     override fun withHue(hue: Angle) = toHcl().withHue(hue)
 
     override fun equals(other: Any?): Boolean {

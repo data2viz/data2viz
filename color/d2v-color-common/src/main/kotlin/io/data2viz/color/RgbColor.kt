@@ -35,14 +35,6 @@ class RgbColor
         return contrast(other) >= 4.5
     }
 
-    /*
-    r = luminance_x r
-    g = luminance_x g
-    b = luminance_x b
-    0.2126 * r + 0.7152 * g + 0.0722 * b
-     */
-//    override val hue: Angle = toLaba().toHcla().hue
-
     override fun toRgb(): RgbColor = this
     override fun toLab(): LabColor = toLaba()
     override fun toHcl(): HclColor = toLab().toHcl()
@@ -52,7 +44,6 @@ class RgbColor
     override fun darken(strength: Double): Color = toLab().darken(strength)
     override fun saturate(strength: Double): Color = toLab().saturate(strength)
     override fun desaturate(strength: Double): Color = toLab().desaturate(strength)
-//    override fun withLuminance(luminance: Percent) = toLab().withLuminance(luminance)
     override fun withHue(hue: Angle) = toHcl().withHue(hue)
 
     fun withRed(red: Int): RgbColor {
