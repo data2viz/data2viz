@@ -12,7 +12,7 @@ import kotlin.math.max
  *
  * @param h hue: Angle in degree
  * @param c chroma: Float, the upper bound for chroma depends on hue and luminance (typically in 0..230)
- * @param lightness: Float a value in the range [0,100] giving the luminance of the colour (in percent)
+ * @param lightness: Float a value in the range [0,100] giving the lightness of the colour (in percent)
  * @param alpha: Float between 0 and 1
  */
 class HclColor

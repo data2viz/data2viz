@@ -7,7 +7,7 @@ import io.data2viz.math.*
  *
  * @param h hue:Angle in degree
  * @param s saturation:Float between 0 and 1
- * @param l luminance:Float between 0 and 1
+ * @param l lightness:Float between 0 and 1
  * @param alpha:Float between 0 and 1
  */
 class HslColor
