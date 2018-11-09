@@ -6,8 +6,8 @@ import io.data2viz.math.Angle
 // TODO use type for parameter percent ?
 // TODO use gamma ?
 private fun interpolateHcl(start: Color, end:Color, long:Boolean): (Double) -> Color {
-    var startHCL = start.toRgb().toLab().toHcla()
-    var endHCL = end.toRgb().toLab().toHcla()
+    var startHCL = start.toHcl()
+    var endHCL = end.toHcl()
     val colorInterpolator = gamma()
 
     if (startHCL.isAchromatic()) startHCL = Colors.hcl(endHCL.h, startHCL.c, startHCL.l, startHCL.alpha)

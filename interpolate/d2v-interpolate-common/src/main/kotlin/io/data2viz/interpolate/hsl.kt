@@ -1,8 +1,6 @@
 package io.data2viz.interpolate
 
-import io.data2viz.color.Color
-import io.data2viz.color.Colors
-import io.data2viz.color.toHsla
+import io.data2viz.color.*
 import io.data2viz.math.Angle
 
 // TODO add alpha interpolation
@@ -10,8 +8,8 @@ import io.data2viz.math.Angle
 // TODO use type for parameter percent ?
 // TODO use gamma ?
 private fun interpolateHsl(start: Color, end:Color, long:Boolean): (Double) -> Color {
-    var startHSL = start.toRgb().toHsla()
-    var endHSL = end.toRgb().toHsla()
+    var startHSL = start.toHsl()
+    var endHSL = end.toHsl()
     val colorInterpolator = gamma()
 
     if (startHSL.isAchromatic()) startHSL = Colors.hsl(endHSL.h, endHSL.s, startHSL.l, startHSL.alpha)
