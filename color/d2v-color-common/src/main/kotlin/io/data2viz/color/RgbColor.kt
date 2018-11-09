@@ -1,5 +1,7 @@
 package io.data2viz.color
 
+import io.data2viz.math.Angle
+
 /**
  * Implementation of Color as an rgb integer and an alpha channel.
  *
@@ -23,11 +25,35 @@ class RgbColor
     override val b: Int
         get() = rgb and 0xff
 
+    override fun luminance() = toLuminance()
+    override fun contrast(other:Color): Double {
+        val lumA = luminance()
+        val lumB = other.luminance()
+        return if (lumA > lumB) (lumA.value + 0.05) / (lumB.value + 0.05) else (lumB.value + 0.05) / (lumA.value + 0.05)
+    }
+    override fun isContrastOK(other: Color): Boolean {
+        return contrast(other) >= 4.5
+    }
+
+    /*
+    r = luminance_x r
+    g = luminance_x g
+    b = luminance_x b
+    0.2126 * r + 0.7152 * g + 0.0722 * b
+     */
+//    override val hue: Angle = toLaba().toHcla().hue
+
     override fun toRgb(): RgbColor = this
+    override fun toLab(): LabColor = toLaba()
+    override fun toHcl(): HclColor = toLab().toHcl()
+    override fun toHsl(): HslColor = toHsla()
+
     override fun brighten(strength: Double): Color = toLab().brighten(strength)
     override fun darken(strength: Double): Color = toLab().darken(strength)
     override fun saturate(strength: Double): Color = toLab().saturate(strength)
     override fun desaturate(strength: Double): Color = toLab().desaturate(strength)
+//    override fun withLuminance(luminance: Percent) = toLab().withLuminance(luminance)
+    override fun withHue(hue: Angle) = toHcl().withHue(hue)
 
     fun withRed(red: Int): RgbColor {
         val rgb = (rgb and 0x00ffff) + (red.coerceIn(0, 255) shl 16)

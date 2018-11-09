@@ -1,6 +1,7 @@
 package io.data2viz.color
 
 import io.data2viz.math.Angle
+import io.data2viz.math.Percent
 import io.data2viz.math.deg
 import kotlin.math.*
 
@@ -15,6 +16,9 @@ internal const val t0 = 4f / 29f
 internal const val t1 = 6f / 29f
 internal const val t2 = 3f * t1 * t1
 internal const val t3 = t1 * t1 * t1
+internal const val Rl = 0.2126
+internal const val Gl = 0.7152
+internal const val Bl = 0.0722
 
 internal const val deg60toRad = 1.047198
 internal const val deg240toRad = 4.18879
@@ -22,7 +26,7 @@ internal const val deg240toRad = 4.18879
 internal val angle120deg = 120.deg
 
 
-fun RgbColor.toLab(): LabColor {
+internal fun RgbColor.toLaba(): LabColor {
     val labB = rgb2xyz(r)
     val labA = rgb2xyz(g)
     val labL = rgb2xyz(b)
@@ -32,7 +36,7 @@ fun RgbColor.toLab(): LabColor {
     return Colors.lab(116.0 * y - 16, 500.0 * (x - y), 200.0 * (y - z), alpha)
 }
 
-fun RgbColor.toHsla(): HslColor {
+internal fun RgbColor.toHsla(): HslColor {
     val rPercent = r / 255.0
     val gPercent = g / 255.0
     val bPercent = b / 255.0
@@ -57,7 +61,7 @@ fun RgbColor.toHsla(): HslColor {
     return Colors.hsl(h.deg, s, l, alpha)
 }
 
-fun LabColor.toRgba(): RgbColor {
+internal fun LabColor.toRgba(): RgbColor {
     // map CIE LAB to CIE XYZ
     var y = (labL + 16) / 116f
     var x = y + (labA / 500f)
@@ -76,7 +80,7 @@ fun LabColor.toRgba(): RgbColor {
 }
 
 // TODO : use rad (faster)
-fun HslColor.toRgba(): RgbColor =
+internal fun HslColor.toRgba(): RgbColor =
     if (isAchromatic())     // achromatic
         Colors.rgb(
             (l * 255).roundToInt(),
@@ -95,9 +99,9 @@ fun HslColor.toRgba(): RgbColor =
         )
     }
 
-fun HclColor.toLab() = Colors.lab(l, (h.cos * c), (h.sin * c), alpha)
+internal fun HclColor.toLaba() = Colors.lab(l, (h.cos * c), (h.sin * c), alpha)
 
-fun LabColor.toHcla(): HclColor {
+internal fun LabColor.toHcla(): HclColor {
     val hue = Angle(atan2(labB, labA)).normalize()
     val c = sqrt(labA * labA + labB * labB)
     return Colors.hcl(hue, c, labL, alpha)
@@ -114,25 +118,36 @@ private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {
     }
 }
 
+internal fun RgbColor.toLuminance(): Percent {
 
-internal fun xyz2lab(value: Float): Float =
+    fun Int.chan2Lumi(): Double {
+        val x = this / 255.0
+        return if (x <= 0.03928) x / 12.92
+        else ((x+0.055)/1.055).pow(2.4)
+    }
+
+    return Percent(0.2126 * r.chan2Lumi() + 0.7152 * g.chan2Lumi() + 0.0722 * b.chan2Lumi()).coerceToDefault()
+}
+
+
+private fun xyz2lab(value: Float): Float =
     if (value > t3)
         value.pow(1 / 3f)
     else
         (value / t2 + t0)
 
-internal fun rgb2xyz(value: Int): Float {
+private fun rgb2xyz(value: Int): Float {
     val percent = value.toFloat() / 255f
     return if (percent <= 0.04045f) (percent / 12.92f) else ((percent + 0.055f) / 1.055f).pow(2.4f)
 }
 
-internal fun lab2xyz(value: Double): Double =
+private fun lab2xyz(value: Double): Double =
     if (value > t1)
         (value * value * value)
     else
         (t2 * (value - t0))
 
-internal fun xyz2rgb(value: Double): Int =
+private fun xyz2rgb(value: Double): Int =
     if (value <= 0.0031308f)
         round(12.92f * value * 255).toInt()
     else

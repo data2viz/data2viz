@@ -1,22 +1,26 @@
 package io.data2viz.color
 
-import io.data2viz.math.Angle
+import io.data2viz.math.*
 import kotlin.math.max
 
 /**
  * Create a color in the HCL color space (CIELCH)
  *
+ * This Colorspace is designed to accord with human perception of color.
+ * HCL has been adopted by information visualization practitioners to present data without the bias implicit in
+ * using varying saturation.
+ *
  * @param h hue: Angle in degree
  * @param c chroma: Float, the upper bound for chroma depends on hue and luminance (typically in 0..230)
- * @param luminance: Float a value in the range [0,100] giving the luminance of the colour (in percent)
+ * @param lightness: Float a value in the range [0,100] giving the luminance of the colour (in percent)
  * @param alpha: Float between 0 and 1
  */
 class HclColor
 
 @Deprecated("Deprecated", ReplaceWith("Colors.hcl(h,c,l,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double = 1.0) : Color {
+internal constructor(val h: Angle, val c: Double, lightness: Double, a: Double = 1.0) : Color {
 
-    val l = luminance//.coerceIn(.0, 100.0)
+    val l = lightness//.coerceIn(.0, 100.0)
     override val alpha = a.coerceIn(.0, 1.0)
 
     override val rgb = toRgb().rgb
@@ -26,12 +30,23 @@ internal constructor(val h: Angle, val c: Double, luminance: Double, a: Double =
     override val b = toRgb().b
     override val rgbHex: String = toRgb().rgbHex
 
+    override fun luminance() = toRgb().luminance()
+    override fun contrast(other:Color) = toRgb().contrast(other)
+    override fun isContrastOK(other: Color) = toRgb().isContrastOK(other)
+//    override val hue: Angle = h
+
     override fun toRgb():RgbColor = toLab().toRgb()
+    override fun toLab(): LabColor = toLaba()
+    override fun toHcl(): HclColor = this
+    override fun toHsl(): HslColor = toLab().toHsl()
+
     override fun brighten(strength: Double): Color = Colors.hcl(h, c, (l + (Kn * strength)), alpha)
     override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - (Kn * strength)), alpha)
     override fun saturate(strength: Double): Color = Colors.hcl(h, max(.0, (c + (Kn * strength))), l, alpha)
     override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
     override fun withAlpha(alpha: Double) = Colors.hcl(h, c, l, alpha)
+//    override fun withLuminance(luminance: Percent) = Colors.hcl(h, c, luminance.value*100, alpha)
+    override fun withHue(hue: Angle) = Colors.hcl(hue, c, l, alpha)
 
     fun isAchromatic() = (c == .0) || (l <= .0) || (l >= 100.0)
 

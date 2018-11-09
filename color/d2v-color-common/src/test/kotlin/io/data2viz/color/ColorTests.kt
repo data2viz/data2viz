@@ -121,9 +121,9 @@ class ColorTests : TestBase() {
         Colors.hcl(124.deg, -12.0, 50.0).toRgb() shouldBe Colors.rgb(0x7b7488)
 
         // first check HCL to LAB
-        Colors.hcl(124.deg, 63.0, .0).toLab() shouldBe LabColor(4.4, -9.0, 6.43)
-        Colors.hcl(36.deg, 155.0, 20.0).toLab() shouldBe LabColor(39.61, 64.32, 53.97)
-        Colors.hcl(124.deg, 63.0, -20.0).toLab() shouldBe LabColor(.0, .0, .0)
+        Colors.hcl(124.deg, 63.0, .0).toLaba() shouldBe LabColor(4.4, -9.0, 6.43)
+        Colors.hcl(36.deg, 155.0, 20.0).toLaba() shouldBe LabColor(39.61, 64.32, 53.97)
+        Colors.hcl(124.deg, 63.0, -20.0).toLaba() shouldBe LabColor(.0, .0, .0)
 
         // then check LAB to RGB
         Colors.lab(4.4, -9.0, 6.43).toRgb() shouldBe Colors.rgb(0x001400)
@@ -177,42 +177,42 @@ class ColorTests : TestBase() {
     @Test
     fun RGBA_to_LAB_rounded() {
 
-        val color1 = Colors.rgb(0xf5cfa3, 0.0).toLab()
+        val color1 = Colors.rgb(0xf5cfa3, 0.0).toLaba()
         round(color1.labL) shouldBe 85.0
         round(color1.labA) shouldBe 7.0
         round(color1.labB) shouldBe 27.0
         color1.alpha shouldBe 0.0
 
-        val color2 = Colors.rgb(0x695a87, 1.0).toLab()
+        val color2 = Colors.rgb(0x695a87, 1.0).toLaba()
         round(color2.labL) shouldBe 41.0
         round(color2.labA) shouldBe 16.0
         round(color2.labB) shouldBe -23.0
         color2.alpha shouldBe 1.0
 
-        val color3 = Colors.rgb(0x510151, .3).toLab()
+        val color3 = Colors.rgb(0x510151, .3).toLaba()
         round(color3.labL) shouldBe 17.0
         round(color3.labA) shouldBe 42.0
         round(color3.labB) shouldBe -26.0
         color3.alpha shouldBe .3
 
-        val color4 = Colors.rgb(0x67260f, .5).toLab()
+        val color4 = Colors.rgb(0x67260f, .5).toLaba()
         round(color4.labL) shouldBe 25.0
         round(color4.labA) shouldBe 28.0
         round(color4.labB) shouldBe 29.0
         color4.alpha shouldBe .5
 
-        val color5 = Colors.rgb(0x6a6a6a, .2).toLab()
+        val color5 = Colors.rgb(0x6a6a6a, .2).toLaba()
         round(color5.labL) shouldBe 45.0
         round(color5.labA) shouldBe -0.0
         round(color5.labB) shouldBe 0.0
         color5.alpha shouldBe .2
 
-        val color6 = white.toLab()
+        val color6 = white.toLaba()
         round(color6.labL) shouldBe 100.0
         round(color6.labA).absoluteValue shouldBe 0.0
         round(color6.labB) shouldBe 0.0
 
-        val color7 = black.toLab()
+        val color7 = black.toLaba()
         round(color7.labL) shouldBeClose 0.0         // give -0 in JVM
         round(color7.labA) shouldBe 0.0
         round(color7.labB) shouldBe 0.0
@@ -286,42 +286,45 @@ class ColorTests : TestBase() {
 
     @Test
     fun RGB_to_LAB_to_HCL_checks_for_multiple_colors() {
-        val color1 = Colors.rgb(0xf5cfa3, 0.0).toLab().toHcla()
+        val color1 = Colors.rgb(0xf5cfa3, 0.0).toLaba().toHcla()
         round(color1.h.deg) shouldBeClose 75.0
         round(color1.c) shouldBeClose 28.0
         round(color1.l) shouldBe 85.0
         color1.alpha shouldBe 0.0
+        color1 shouldBe Colors.rgb(0xf5cfa3, 0.0).toHcl()
 
-        val color2 = Colors.rgb(0x695a87, 1.0).toLab().toHcla()
+        val color2 = Colors.rgb(0x695a87, 1.0).toLaba().toHcla()
         round(color2.h.deg) shouldBeClose 305.0
         round(color2.c) shouldBeClose 28.0
         round(color2.l) shouldBe 41.0
         color2.alpha shouldBe 1.0
+        color2 shouldBe Colors.rgb(0x695a87, 1.0).toHcl()
 
-        val color3 = Colors.rgb(0x510151, .3).toLab().toHcla()
+        val color3 = Colors.rgb(0x510151, .3).toLaba().toHcla()
         round(color3.h.deg) shouldBeClose 328.0
         round(color3.c) shouldBeClose 50.0
         round(color3.l) shouldBe 17.0
         color3.alpha shouldBe .3
+        color3 shouldBe Colors.rgb(0x510151, .3).toHcl()
 
-        val color4 = Colors.rgb(0x67260f, .5).toLab().toHcla()
+        val color4 = Colors.rgb(0x67260f, .5).toLaba().toHcla()
         round(color4.h.deg) shouldBeClose 46.0
         round(color4.c) shouldBeClose 40.0
         round(color4.l) shouldBe 25.0
         color4.alpha shouldBe .5
 
-        val color5 = Colors.rgb(0x6a6a6a, .2).toLab().toHcla()
+        val color5 = Colors.rgb(0x6a6a6a, .2).toLaba().toHcla()
         //round(color5.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
         round(color5.c) shouldBeClose 0.0
         round(color5.l) shouldBe 45.0
         color5.alpha shouldBe .2
 
-        val color6 = white.toLab().toHcla()
+        val color6 = white.toLaba().toHcla()
         //round(color6.h.deg) shouldBeClose 267                     // achromatic, hue value irrelevant
         round(color6.c) shouldBeClose 0.0
         round(color6.l) shouldBe 100.0
 
-        val color7 = black.toLab().toHcla()
+        val color7 = black.toLaba().toHcla()
         //round(color7.h.deg) shouldBe 0                       // achromatic, hue value irrelevant
         round(color7.c) shouldBeClose 0.0
         round(color7.l) shouldBe 0.0
@@ -329,30 +332,33 @@ class ColorTests : TestBase() {
 
     @Test
     fun HCL_to_LAB_to_RGB_checks_for_multiple_colors() {
-        val color1 = Colors.hcl(75.deg, 28.0, 85.0, .0).toLab().toRgb()
+        val color1 = Colors.hcl(75.deg, 28.0, 85.0, .0).toLaba().toRgb()
         color1.rgbHex shouldBe "#f4cea2"
         color1.alpha shouldBe 0.0
+        color1 shouldBe Colors.hcl(75.deg, 28.0, 85.0, .0).toRgb()
 
-        val color2 = Colors.hcl(305.deg, 28.0, 41.0, .0).toLab().toRgb()
+        val color2 = Colors.hcl(305.deg, 28.0, 41.0, .0).toLaba().toRgb()
         color2.rgbHex shouldBe "#685986"
         color2.alpha shouldBe .0
+        color2 shouldBe Colors.hcl(305.deg, 28.0, 41.0, .0).toRgb()
 
-        val color3 = Colors.hcl(328.deg, 50.0, 17.0, .3).toLab().toRgb()
+        val color3 = Colors.hcl(328.deg, 50.0, 17.0, .3).toLaba().toRgb()
         color3.rgbHex shouldBe "#500051"
         color3.alpha shouldBe .3
+        color3 shouldBe Colors.hcl(328.deg, 50.0, 17.0, .3).toRgb()
 
-        val color4 = Colors.hcl(46.deg, 40.0, 25.0, .5).toLab().toRgb()
+        val color4 = Colors.hcl(46.deg, 40.0, 25.0, .5).toLaba().toRgb()
         color4.rgbHex shouldBe "#682710"
         color4.alpha shouldBe .5
 
-        val color5 = Colors.hcl(267.deg, 0.0, 45.0, .5).toLab().toRgb()
+        val color5 = Colors.hcl(267.deg, 0.0, 45.0, .5).toLaba().toRgb()
         color5.rgbHex shouldBe "#6a6a6a"
         color5.alpha shouldBe .5
 
-        val color6 = Colors.hcl(0.deg, 0.0, 100.0).toLab().toRgb()
+        val color6 = Colors.hcl(0.deg, 0.0, 100.0).toLaba().toRgb()
         color6.rgbHex shouldBe "#ffffff"
 
-        val color7 = Colors.hcl(0.deg, 0.0, 0.0).toLab().toRgb()
+        val color7 = Colors.hcl(0.deg, 0.0, 0.0).toLaba().toRgb()
         color7.rgbHex shouldBe "#000000"
     }
 
@@ -398,6 +404,39 @@ class ColorTests : TestBase() {
         hotpink.desaturate().rgbHex shouldBe "#e77dae"
         hotpink.desaturate(2.0).rgbHex shouldBe "#cd8ca8"
         hotpink.desaturate(3.0).rgbHex shouldBe "#b199a3"
+    }
+
+    @Test
+    fun perceived_luminance() {
+        black.luminance().value shouldBeClose .0
+        white.luminance().value shouldBeClose 1.0
+        aliceblue.luminance().value shouldBeClose .9288
+        hotpink.luminance().value shouldBeClose .346584
+        slategray.luminance().value shouldBeClose .208967
+        teal.luminance().value shouldBeClose .1699685
+        darkseagreen.luminance().value shouldBeClose .437892
+    }
+
+    @Test
+    fun contrast() {
+        hotpink.contrast(black) shouldBeClose 7.931687
+        hotpink.contrast(white) shouldBeClose 2.647608
+        hotpink.contrast(aliceblue) shouldBeClose 2.468076
+        hotpink.contrast(hotpink) shouldBe 1.0
+        hotpink.contrast(slategray) shouldBeClose 1.531408
+        hotpink.contrast(teal) shouldBeClose 1.802913
+        hotpink.contrast(darkseagreen) shouldBeClose 1.230236
+    }
+
+    @Test
+    fun isContrastOK() {
+        hotpink.isContrastOK(black) shouldBe true
+        hotpink.isContrastOK(white) shouldBe false
+        hotpink.isContrastOK(aliceblue) shouldBe false
+        hotpink.isContrastOK(hotpink) shouldBe false
+        hotpink.isContrastOK(slategray) shouldBe false
+        hotpink.isContrastOK(teal) shouldBe false
+        hotpink.isContrastOK(darkseagreen) shouldBe false
     }
 
     @Test

@@ -33,8 +33,8 @@ private fun lRGBInterpolator(start: Double, end: Double): (Double) -> Double = {
 
 
 /**
- * lRGB interpolation produce a better result when mixing 2 colors (right "lightness" of the color) by using pow(2)
- * versions of RGB channels.
+ * lRGB interpolation produce a better result when mixing 2 colors (right "luminance" = perceived lightness of the
+ * color) by using pow(2) * versions of RGB channels.
  * For more information check this cool short video: https://www.youtube.com/watch?v=LKnqECcg6Gw
  */
 // TODO alpha

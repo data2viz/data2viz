@@ -1,5 +1,7 @@
 package io.data2viz.color
 
+import io.data2viz.math.*
+
 /**
  * Create a color in the LAB color space (CIE L*a*b* D65 whitepoint)
  *
@@ -25,12 +27,23 @@ internal constructor(lightness: Double, aComponent: Double, bComponent: Double, 
     override val b = toRgb().b
     override val rgbHex: String = toRgb().rgbHex
 
+    override fun luminance() = toRgb().luminance()
+    override fun contrast(other:Color) = toRgb().contrast(other)
+    override fun isContrastOK(other: Color) = toRgb().isContrastOK(other)
+//    override var hue: Angle = toRgba().toHsla().h
+
     override fun toRgb(): RgbColor = toRgba()
+    override fun toLab(): LabColor = this
+    override fun toHcl(): HclColor = toHcla()
+    override fun toHsl(): HslColor = toRgb().toHsl()
+
     override fun brighten(strength: Double): Color = Colors.lab((labL + (Kn * strength)), labA, labB, alpha)
     override fun darken(strength: Double): Color = Colors.lab((labL - (Kn * strength)), labA, labB, alpha)
-    override fun saturate(strength: Double): Color = toHcla().saturate(strength)
-    override fun desaturate(strength: Double): Color = toHcla().desaturate(strength)
+    override fun saturate(strength: Double): Color = toHcl().saturate(strength)
+    override fun desaturate(strength: Double): Color = toHcl().desaturate(strength)
     override fun withAlpha(alpha: Double) = Colors.lab(labL, labA, labB, alpha)
+//    override fun withLuminance(luminance: Percent) = Colors.lab(luminance.value * 100, labA, labB, alpha)
+    override fun withHue(hue: Angle) = toHcl().withHue(hue)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
