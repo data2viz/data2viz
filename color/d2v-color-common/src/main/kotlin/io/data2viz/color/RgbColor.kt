@@ -31,9 +31,6 @@ class RgbColor
         val lumB = other.luminance()
         return if (lumA > lumB) (lumA.value + 0.05) / (lumB.value + 0.05) else (lumB.value + 0.05) / (lumA.value + 0.05)
     }
-    override fun isContrastOK(other: Color): Boolean {
-        return contrast(other) >= 4.5
-    }
 
     override fun toRgb(): RgbColor = this
     override fun toLab(): LabColor = toLaba()

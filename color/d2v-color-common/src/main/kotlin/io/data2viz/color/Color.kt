@@ -42,12 +42,6 @@ interface Color : ColorOrGradient {
     fun contrast(other:Color):Double
 
     /**
-     * Return `true` if 2 colors have a contrast of 4.5 or more.
-     * According to the WCAG definition: https://www.w3.org/TR/WCAG20-TECHS/G18.html
-     */
-    fun isContrastOK(other:Color):Boolean
-
-    /**
      * The value of the hue in the HCL colorspace (red = 40.deg, green = 136.deg, blue = 306.deg)
      * HCL is designed to accord with human perception of color, so this colorspace provides better transition in term
      * of "hue perception".

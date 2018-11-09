@@ -29,7 +29,6 @@ internal constructor(lightness: Double, aComponent: Double, bComponent: Double, 
 
     override fun luminance() = toRgb().luminance()
     override fun contrast(other:Color) = toRgb().contrast(other)
-    override fun isContrastOK(other: Color) = toRgb().isContrastOK(other)
 
     override fun toRgb(): RgbColor = toRgba()
     override fun toLab(): LabColor = this

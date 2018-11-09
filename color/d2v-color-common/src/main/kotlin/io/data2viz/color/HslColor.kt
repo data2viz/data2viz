@@ -28,7 +28,6 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Doubl
 
     override fun luminance() = toRgb().luminance()
     override fun contrast(other:Color) = toRgb().contrast(other)
-    override fun isContrastOK(other: Color) = toRgb().isContrastOK(other)
 
     override fun toRgb(): RgbColor = toRgba()
     override fun toLab(): LabColor = toRgb().toLab()

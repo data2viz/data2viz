@@ -32,7 +32,6 @@ internal constructor(val h: Angle, val c: Double, lightness: Double, a: Double =
 
     override fun luminance() = toRgb().luminance()
     override fun contrast(other:Color) = toRgb().contrast(other)
-    override fun isContrastOK(other: Color) = toRgb().isContrastOK(other)
 
     override fun toRgb():RgbColor = toLab().toRgb()
     override fun toLab(): LabColor = toLaba()
