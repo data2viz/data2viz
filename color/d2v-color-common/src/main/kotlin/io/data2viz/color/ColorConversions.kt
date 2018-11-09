@@ -1,8 +1,6 @@
 package io.data2viz.color
 
-import io.data2viz.math.Angle
-import io.data2viz.math.Percent
-import io.data2viz.math.deg
+import io.data2viz.math.*
 import kotlin.math.*
 
 /**
@@ -16,9 +14,6 @@ internal const val t0 = 4f / 29f
 internal const val t1 = 6f / 29f
 internal const val t2 = 3f * t1 * t1
 internal const val t3 = t1 * t1 * t1
-internal const val Rl = 0.2126
-internal const val Gl = 0.7152
-internal const val Bl = 0.0722
 
 internal const val deg60toRad = 1.047198
 internal const val deg240toRad = 4.18879
@@ -112,7 +107,7 @@ private fun hue2rgb(p: Double, q: Double, hue: Angle): Double {
     val hd = hue.normalize()
     return when {
         hd.rad < deg60toRad -> (p + (q - p) * (hd.rad / deg60toRad))
-        hd.rad < PI -> q
+        hd.rad < kotlin.math.PI -> q
         hd.rad < deg240toRad -> (p + (q - p) * ((deg240toRad - hd.rad) / deg60toRad))
         else -> p
     }
