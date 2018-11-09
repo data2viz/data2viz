@@ -429,17 +429,6 @@ class ColorTests : TestBase() {
     }
 
     @Test
-    fun isContrastOK() {
-        hotpink.isContrastOK(black) shouldBe true
-        hotpink.isContrastOK(white) shouldBe false
-        hotpink.isContrastOK(aliceblue) shouldBe false
-        hotpink.isContrastOK(hotpink) shouldBe false
-        hotpink.isContrastOK(slategray) shouldBe false
-        hotpink.isContrastOK(teal) shouldBe false
-        hotpink.isContrastOK(darkseagreen) shouldBe false
-    }
-
-    @Test
     fun linear_gradient_builder() {
         val builder = Colors.Gradient.linear(Point(.0, .0), Point(100.0, .0))
 
