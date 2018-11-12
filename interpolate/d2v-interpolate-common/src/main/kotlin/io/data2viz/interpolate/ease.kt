@@ -5,9 +5,9 @@ import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-// TODO move to ease module
+// TODO should be interpolators
+// TODO : should also use Percent
 fun quad(x:Double) = x * x
-
 fun cubicIn(x:Double) = x * x * x
 fun cubicOut(t:Double) = (t-1)*(t-1)*(t-1) + 1
 fun cubicInOut(t:Double) =  (if(t <= .5) (8*t*t*t) else ((2*t-2)*(2*t-2)*(2*t-2)+2))/2
