@@ -1,5 +1,6 @@
 package io.data2viz.interpolate
 
+import io.data2viz.math.Percent
 import kotlin.math.floor
 
 /**
@@ -17,12 +18,12 @@ fun computeSpline(t1: Double, v0: Int, v1: Int, v2: Int, v3: Int): Double {
 /**
  * uniform nonrational B-spline interpolation
  */
-fun basis(values: List<Int>): (Double) -> Double {
+fun basis(values: List<Int>): Interpolator<Double> {
     val n = values.size - 1
-    return fun(t: Double): Double {
+    return fun(t: Percent): Double {
 
-        val newT = t.coerceIn(0.0, 1.0)
-        val currentIndex: Int = if (t <= 0) 0 else if (t >= 1) n - 1 else floor(t * n).toInt()
+        val newT = t.coerceToDefault().value
+        val currentIndex: Int = if (t.value <= 0) 0 else if (t.value >= 1) n - 1 else floor(t.value * n).toInt()
 
         val v1 = values[currentIndex]
         val v2 = values[currentIndex + 1]
@@ -38,11 +39,11 @@ fun basis(values: List<Int>): (Double) -> Double {
 /**
  * uniform nonrational cyclical B-spline interpolation
  */
-fun basisClosed(values: List<Int>): (Double) -> Double {
+fun basisClosed(values: List<Int>): Interpolator<Double> {
     val n = values.size
-    return fun(t: Double): Double {
+    return fun(t: Percent): Double {
 
-        val newT = if (t < 0) t % 1 else (t % 1 + 1)
+        val newT = if (t.value < 0) t.value % 1 else (t.value % 1 + 1)
         val currentIndex = floor(newT * n).toInt()
 
         val v0 = values[(currentIndex + n - 1) % n]
