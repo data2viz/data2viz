@@ -16,7 +16,10 @@ inline class Percent(val value:Double) {
     operator fun times(other: Percent)      = Percent(value * other.value)
     operator fun div(d: Number)             = Percent(value / d.toDouble())
 
-    operator fun times(d: Number)           = Percent(value * d.toDouble())
+    /**
+     * Operator to allow to write `20.pct * 3` (= 0.6)
+     */
+    operator fun times(d: Number)           = value * d.toDouble()
     operator fun unaryMinus()               = Percent(-value)
 
     operator fun unaryPlus()                = this
@@ -61,6 +64,6 @@ val Number.pct:Percent
     get() = Percent(toDouble() / 100.0)
 
 /**
- * Extension operator to allow to write `3 * 2.pct`
+ * Extension operator to allow to write `3 * 20.pct` (= 0.6)
  */
-operator fun Number.times(percent:Percent) = Percent(percent.value * toDouble())
+operator fun Number.times(percent:Percent) = percent.value * toDouble()

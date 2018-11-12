@@ -39,10 +39,11 @@ class PercentTests : TestBase() {
         +63.pct shouldBe 63.pct
         +63.pct shouldBe 63.pct
         63.pct shouldBe +63.pct
-
         -63.pct shouldBe -63.pct
-        63.pct * -1 shouldBe -63.pct
-        -2 * 63.pct shouldBe -126.pct
+
+        // Number * Percent OR Percent * Number returns Double
+        63.pct * -1 shouldBeClose -0.63
+        -2 * 63.pct shouldBeClose -1.26
 
         63.pct / 2 shouldBe 31.5.pct
         -63.pct / .5 shouldBe -126.pct

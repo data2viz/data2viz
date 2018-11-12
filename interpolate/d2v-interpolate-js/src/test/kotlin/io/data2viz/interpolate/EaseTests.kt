@@ -21,7 +21,7 @@ class EaseTests : TestBase() {
 
 
 
-    fun testAndGraph(interpolatorName: String, interpolateFunction: (Double) -> Double = ::identity) {
+    fun testAndGraph(interpolatorName: String, interpolateFunction: (Double) -> Double = {t -> t}) {
 
         interpolateFunction(0.0) shouldBe (.0 plusOrMinus 0.01)
         interpolateFunction(1.0) shouldBe (1.0 plusOrMinus 0.01)

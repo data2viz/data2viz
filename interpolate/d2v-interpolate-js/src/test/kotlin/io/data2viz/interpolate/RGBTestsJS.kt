@@ -4,6 +4,7 @@ import io.data2viz.color.*
 import io.data2viz.color.Colors.Web.blue
 import io.data2viz.color.Colors.Web.green
 import io.data2viz.color.Colors.Web.red
+import io.data2viz.math.*
 import io.data2viz.test.TestBase
 import io.data2viz.test.namespace
 import kotlin.browser.document
@@ -15,19 +16,19 @@ class RGBTestsJS : TestBase() {
     fun rgbSplineInterpolationGBRBG() {
         val iterator = rgbBasisInterpolator(listOf(green, blue, red, blue, green))
         displaySmallGradient("rgbSplineInterpolationGBRBG", iterator, 880)
-        iterator(-1.0) shouldBe green
-        iterator(0.0) shouldBe green
-        iterator(1.0) shouldBe green
-        iterator(2.0) shouldBe green
+        iterator(-100.pct) shouldBe green
+        iterator(0.pct) shouldBe green
+        iterator(100.pct) shouldBe green
+        iterator(200.pct) shouldBe green
     }
 
     @Test
     fun rgbSplineInterpolationGBRB() {
         val iterator = rgbBasisClosedInterpolator(listOf(green, blue, red, blue))
         displaySmallGradient("rgbSplineInterpolationGBRB", iterator, 880)
-        iterator(-1.0) shouldBe iterator(0.0)
-        iterator(0.0) shouldBe iterator(1.0)
-        iterator(1.0) shouldBe iterator(2.0)
+        iterator(-100.pct) shouldBe iterator(0.pct)
+        iterator(0.pct) shouldBe iterator(100.pct)
+        iterator(100.pct) shouldBe iterator(200.pct)
     }
 
     /**
@@ -114,7 +115,7 @@ class RGBTestsJS : TestBase() {
 
 fun displaySmallGradient(
     context: String,
-    percentToColor: (Double) -> Color,
+    percentToColor: Interpolator<Color>,
     width: Int = 256,
     imageReference: String? = null
 ) {
@@ -130,7 +131,7 @@ fun displaySmallGradient(
                 (0 until width).forEach { index ->
                     appendChild(
                         node("rect").apply {
-                            setAttribute("fill", percentToColor(index / width.toDouble()).rgbHex)
+                            setAttribute("fill", percentToColor(Percent(index / width.toDouble())).rgbHex)
                             setAttribute("x", "$index")
                             setAttribute("y", "0")
                             setAttribute("width", "1")

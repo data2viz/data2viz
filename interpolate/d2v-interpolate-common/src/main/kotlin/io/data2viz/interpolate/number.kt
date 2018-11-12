@@ -1,34 +1,32 @@
 package io.data2viz.interpolate
 
+import io.data2viz.math.*
 import kotlin.math.round
 
 /**
- * An interpolator transforms a normalized continuous range (0.0 -> 1.0)
- * to a Domain object R
+ * An interpolator transforms a normalized continuous range (0% -> 100%) to an object T
  */
-typealias Interpolator<R> = (Double) -> R
+typealias Interpolator<T> = (Percent) -> T
 
-// TODO : remove use only double
-fun interpolateNumber(a: Number, b: Number): Interpolator<Double> {
-    val diff = b.toDouble() - a.toDouble()
-    return { t -> a.toDouble() + t * diff }
+/**
+ * An un-interpolator transforms an object T to a normalized continuous range (0% -> 100%)
+ */
+typealias UnInterpolator<T> = (T) -> Percent
+
+fun interpolateNumber(start: Double, end: Double): Interpolator<Double>{
+    val diff = end - start
+    return { percent -> start + percent.value * diff }
 }
 
-fun interpolateNumber(a: Double, b: Double): Interpolator<Double>{
-    val diff = b - a
-    return { t -> a + t * diff }
+
+fun interpolateRound(start: Double, end: Double): Interpolator<Double> {
+    val diff = end - start
+    return { percent -> round(start + percent.value * diff) }
 }
 
-
-fun interpolateRound(a: Double, b: Double): Interpolator<Double> {
-    val diff = b - a
-    return { t -> round(a + t * diff) }
+fun uninterpolateNumber(start: Double, end: Double): UnInterpolator<Double> {
+    val diff = end - start
+    return if (diff != .0) { percent -> Percent((percent - start) / diff) }  else { _ -> 0.pct }
 }
 
-// TODO : remove use only double
-// TODO warn : (end == start) -> crash
-fun uninterpolateNumber(start: Float, end: Float): (Double) -> Float = { t -> (t.toFloat() - start) / (end - start) }
-
-fun uninterpolateNumber(start: Double, end: Double): (Double) -> Double = { if (end != start) ((it - start) / (end - start)) else start }
-
-fun identity(t: Double) = t
+fun identity(percent: Percent) = percent.value

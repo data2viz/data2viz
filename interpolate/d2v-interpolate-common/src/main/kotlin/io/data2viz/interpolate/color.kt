@@ -2,35 +2,38 @@ package io.data2viz.interpolate
 
 import io.data2viz.math.Angle
 import io.data2viz.math.PI
+import io.data2viz.math.Percent
 import io.data2viz.math.TAU
 import kotlin.math.pow
 
 // TODO no more constant needed ?
 // = interpolate.color.gamma & interpolate.color.nogamma in D3
-internal fun gamma(gamma: Double = 1.0): (Double, Double) -> (Double) -> Double {
+internal fun gamma(gamma: Double = 1.0): (Double, Double) -> Interpolator<Double> {
     return { a, b -> if (gamma == 1.0) linearClamped(a, b - a) else exponential(a, b, gamma) }
 }
 
-internal fun ungamma(y: Double = 1.0): (Double, Double) -> (Double) -> Double {
-    return { a, b -> if (y == 1.0)
-        uninterpolateNumber(a, b)
-    else
-        exponential(a, b, y)            // TODO unexponential ??
-    }
-}
+// TODO : see if needed (gamma needs rework)
+//internal fun ungamma(y: Double = 1.0): (Double, Double) -> (Double) -> Double {
+//    return { a, b -> if (y == 1.0)
+//        uninterpolateNumber(a, b)
+//    else
+//        exponential(a, b, y)            // TODO unexponential ??
+//    }
+//}
 
 /**
  * Hue interpolation, take the shortest path between 2 hues if 'long' is not set to true.
  */
-internal fun interpolateHue(from: Angle, to: Angle, long: Boolean = false): (Double) -> Double {
+// TODO : interpolator<Angle> ?
+internal fun interpolateHue(from: Angle, to: Angle, long: Boolean = false): Interpolator<Double> {
     val a2 = from.normalize()
     val b2 = to.normalize()
     val diff = b2.rad - a2.rad
     return { t ->
         when {
-            !long && diff < -PI    -> linearClamped(a2.rad, diff + TAU)(t)
-            !long && diff > PI     -> linearClamped(a2.rad, diff - TAU)(t)
-            else                -> linearClamped(a2.rad, diff)(t)
+            !long && diff < -PI -> linearClamped(a2.rad, diff + TAU)(t)
+            !long && diff > PI -> linearClamped(a2.rad, diff - TAU)(t)
+            else -> linearClamped(a2.rad, diff)(t)
         }
     }
 }
@@ -39,7 +42,7 @@ internal fun interpolateHue(from: Angle, to: Angle, long: Boolean = false): (Dou
  * Clamped linear interpolation
  */
 // TODO : note that this function is clamped, so we can't access a color outside of the range (ex. for asking 110%)
-private fun linearClamped(a:Double, b:Double): (Double) -> Double = { t -> a + t.coerceIn(.0, 1.0) * b }
+private fun linearClamped(a: Double, b: Double): Interpolator<Double> = { t -> a + t.coerceToDefault().value * b }
 
 /*private fun linearClamped(values: List<Number>): (Double) -> Double {
     val n = values.size - 1
@@ -55,14 +58,12 @@ private fun linearClamped(a:Double, b:Double): (Double) -> Double = { t -> a + t
 /**
  * exponential interpolation
  */
-private fun exponential(a:Double, b:Double, y: Double): (Double) -> Double {
+private fun exponential(a: Double, b: Double, y: Double): Interpolator<Double> {
     val ny = 1 / y
     val na = a.pow(y)
     val nb = b.pow(y) - na
 
-    return fun(t:Double): Double {
-        return (na + t * nb).pow(ny)
-    }
+    return fun(t: Percent) = (na + t.value * nb).pow(ny)
 }
 /*private fun exponential(values: List<Number>, y: Double): (Double) -> Double {
     val ny = 1 / y
@@ -78,6 +79,8 @@ private fun exponential(a:Double, b:Double, y: Double): (Double) -> Double {
     }
 }*/
 
-internal fun getSplineInterpolator(cyclical: Boolean): (List<Int>) -> ((Double) -> Double) {
-    return if (cyclical) { a -> basisClosed(a) } else { a -> basis(a) }
-}
+internal fun getSplineInterpolator(cyclical: Boolean): (List<Int>) -> Interpolator<Double> =
+    when {
+        cyclical -> { a -> basisClosed(a) }
+        else ->     { a -> basis(a) }
+    }

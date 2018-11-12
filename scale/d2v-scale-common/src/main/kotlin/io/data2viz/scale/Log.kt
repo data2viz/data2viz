@@ -1,5 +1,8 @@
 package io.data2viz.scale
 
+import io.data2viz.interpolate.Interpolator
+import io.data2viz.interpolate.UnInterpolator
+import io.data2viz.math.*
 import kotlin.math.*
 
 /**
@@ -7,8 +10,8 @@ import kotlin.math.*
  * before the output range value is computed.
  * The mapping to the range value y can be expressed as a function of the domain value x: y = m log(x) + b.
  */
-internal class LogScale(var base: Double = 10.0, interpolateRange: (Double, Double) -> (Double) -> Double,
-                       uninterpolateRange: ((Double, Double) -> (Double) -> Double)? = null,
+internal class LogScale(var base: Double = 10.0, interpolateRange: (Double, Double) -> Interpolator<Double>,
+                       uninterpolateRange: ((Double, Double) -> UnInterpolator<Double>)? = null,
                        rangeComparator: Comparator<Double>? = null)
     : LinearScale<Double>(interpolateRange, uninterpolateRange, rangeComparator) {
 
@@ -36,15 +39,15 @@ internal class LogScale(var base: Double = 10.0, interpolateRange: (Double, Doub
             rescale()
         }
 
-    override fun uninterpolateDomain(from: Double, to: Double): (Double) -> Double {
+    override fun uninterpolateDomain(from: Double, to: Double): UnInterpolator<Double> {
         val diff = ln(to / from)
-        return if (diff != .0 && diff != Double.NaN) { t -> ln(t / from) / diff }
-        else { _ -> diff }
+        return if (diff != .0 && diff != Double.NaN) { t -> Percent(ln(t / from) / diff) }
+        else { _ -> 0.pct }
     }
 
-    override fun interpolateDomain(from: Double, to: Double): (Double) -> Double {
-        return if (from < 0) { t -> -(-to.pow(t) * -from.pow(1 - t)) }
-        else { t -> to.pow(t) * from.pow(1 - t) }
+    override fun interpolateDomain(from: Double, to: Double): Interpolator<Double> {
+        return if (from < 0) { t -> -(-to.pow(t.value) * -from.pow(1 - t.value)) }
+        else { t -> to.pow(t.value) * from.pow(1 - t.value) }
     }
 
     private fun niceLogScale(values: List<Double>, floor: (Double) -> Double, ceil: (Double) -> Double): List<Double> {

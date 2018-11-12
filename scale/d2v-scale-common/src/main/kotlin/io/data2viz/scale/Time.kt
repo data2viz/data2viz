@@ -1,6 +1,8 @@
 package io.data2viz.scale
 
-import io.data2viz.math.tickStep
+import io.data2viz.interpolate.Interpolator
+import io.data2viz.interpolate.UnInterpolator
+import io.data2viz.math.*
 import io.data2viz.time.*
 
 val dateComparator = Comparator<Date> { a, b -> if (a.millisecondsBetween(b) > 0) -1 else if (a.millisecondsBetween(b) < 0) 1 else 0 }
@@ -37,8 +39,8 @@ private val tickIntervals = listOf(
  * and invert returns a date.
  * Time scales implement ticks based on calendar intervals, taking the pain out of generating axes for temporal domains.
  */
-class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
-                   uninterpolateRange: ((R, R) -> (R) -> Double)? = null,
+class TimeScale<R>(interpolateRange: (R, R) -> Interpolator<R>,
+                   uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
                    rangeComparator: Comparator<R>? = null)
     : ContinuousScale<Date, R>(interpolateRange, uninterpolateRange, rangeComparator),
         NiceableScale<Date>,
@@ -49,19 +51,19 @@ class TimeScale<R>(interpolateRange: (R, R) -> (Double) -> R,
         _domain.addAll(listOf(date(2000, 1, 1), date(2000, 1, 2)))
     }
 
-    override fun uninterpolateDomain(from: Date, to: Date): (Date) -> Double {
+    override fun uninterpolateDomain(from: Date, to: Date): UnInterpolator<Date> {
         return { date ->
             if (from.millisecondsBetween(to) != 0L)
-                ((from.millisecondsBetween(date)) / (from.millisecondsBetween(to)).toDouble())
-            else .0
+                Percent((from.millisecondsBetween(date)) / (from.millisecondsBetween(to)).toDouble())
+            else 0.pct
         }
     }
 
-    override fun interpolateDomain(from: Date, to: Date): (Double) -> Date {
+    override fun interpolateDomain(from: Date, to: Date): Interpolator<Date> {
         val diff = from.millisecondsBetween(to)
-        return { double ->
+        return { percent ->
             val date: Date = date(from)
-            val milliseconds = double.toLong() * diff
+            val milliseconds = percent.value.toLong() * diff
             date.plusMilliseconds(milliseconds)
             date
         }
