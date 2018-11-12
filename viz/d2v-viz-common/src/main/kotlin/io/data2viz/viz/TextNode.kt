@@ -1,6 +1,8 @@
 package io.data2viz.viz
 
+import io.data2viz.color.Color
 import io.data2viz.color.ColorOrGradient
+import io.data2viz.color.Colors
 import io.data2viz.viz.TextAnchor.*
 
 class TextNode : Node(),
@@ -13,7 +15,8 @@ class TextNode : Node(),
     var x: Double = .0
     var y: Double = .0
     var textContent: String = ""
-
+    var fontSize: Double = 20.0
+    var fontFamily: String ?= null
 
     var anchor: TextAnchor
         get() = style.anchor

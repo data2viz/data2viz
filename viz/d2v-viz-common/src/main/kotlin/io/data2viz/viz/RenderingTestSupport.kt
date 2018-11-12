@@ -21,17 +21,67 @@ private fun Pair<Double, Double>.next(): Pair<Double, Double> {
     return Pair(x, y)
 }
 
+// text params
+val linesOfText = listOf(
+    "The quick brown,",
+    "fox jumps over",
+    "the lazy dog."
+)
+const val fontSizeValue = 40.0
+const val fontFamilyValue = "Roboto"
+
 @Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 val allRenderingTests = listOf(
-//        renderingTest("text1") { //add text tests when font-familly will be enabled in style.
-//            group {
-//                transform { translate( 100.0, 100.0) }
-//                text {
-//                    textContent = "Bépo"
-//                }
-//            }
-//        },
 
+    ///////////// TEXT /////////////////////////////////
+
+    renderingTest("text-default-fontFamily") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+                y = fontSizeValue + fontSizeValue * index
+                textContent = line
+                fontFamily = "non-existent font family"
+                style.fill = Colors.Web.black
+                fontSize = fontSizeValue
+            }
+        }
+    },
+
+    renderingTest("text-default-fontSize") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+                y = fontSizeValue + fontSizeValue * index
+                textContent = line
+                fontFamily = fontFamilyValue
+                style.fill = Colors.Web.black
+            }
+        }
+    },
+
+    renderingTest("text-roboto-fill") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+                y = fontSizeValue + fontSizeValue * index
+                textContent = line
+                fontSize = fontSizeValue
+                fontFamily = fontFamilyValue
+                style.fill = Colors.Web.blue
+            }
+        }
+    },
+
+    renderingTest("text-roboto-stroke") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+                y = fontSizeValue + fontSizeValue * index
+                textContent = line
+                fontSize = fontSizeValue
+                fontFamily = fontFamilyValue
+                style.stroke = Colors.Web.red
+                style.strokeWidth = 2.0
+            }
+        }
+    },
 
     ///////////// TRANSFORMATIONS /////////////////////////////////
 
