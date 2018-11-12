@@ -15,18 +15,18 @@ typealias UnInterpolator<T> = (T) -> Percent
 
 fun interpolateNumber(start: Double, end: Double): Interpolator<Double>{
     val diff = end - start
-    return { t -> start + t.value * diff }
+    return { percent -> start + percent.value * diff }
 }
 
 
 fun interpolateRound(start: Double, end: Double): Interpolator<Double> {
     val diff = end - start
-    return { t -> round(start + t.value * diff) }
+    return { percent -> round(start + percent.value * diff) }
 }
 
 fun uninterpolateNumber(start: Double, end: Double): UnInterpolator<Double> {
     val diff = end - start
-    return if (diff != .0) { t -> Percent((t - start) / diff) }  else { t -> 0.pct }
+    return if (diff != .0) { percent -> Percent((percent - start) / diff) }  else { _ -> 0.pct }
 }
 
-fun identity(t: Double) = t
+fun identity(percent: Percent) = percent.value

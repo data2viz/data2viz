@@ -31,9 +31,9 @@ internal fun interpolateHue(from: Angle, to: Angle, long: Boolean = false): Inte
     val diff = b2.rad - a2.rad
     return { t ->
         when {
-            !long && diff < -PI    -> linearClamped(a2.rad, diff + TAU)(t)
-            !long && diff > PI     -> linearClamped(a2.rad, diff - TAU)(t)
-            else                -> linearClamped(a2.rad, diff)(t)
+            !long && diff < -PI -> linearClamped(a2.rad, diff + TAU)(t)
+            !long && diff > PI -> linearClamped(a2.rad, diff - TAU)(t)
+            else -> linearClamped(a2.rad, diff)(t)
         }
     }
 }
@@ -42,7 +42,7 @@ internal fun interpolateHue(from: Angle, to: Angle, long: Boolean = false): Inte
  * Clamped linear interpolation
  */
 // TODO : note that this function is clamped, so we can't access a color outside of the range (ex. for asking 110%)
-private fun linearClamped(a:Double, b:Double): Interpolator<Double> = { t -> a + t.coerceToDefault().value * b }
+private fun linearClamped(a: Double, b: Double): Interpolator<Double> = { t -> a + t.coerceToDefault().value * b }
 
 /*private fun linearClamped(values: List<Number>): (Double) -> Double {
     val n = values.size - 1
@@ -58,14 +58,12 @@ private fun linearClamped(a:Double, b:Double): Interpolator<Double> = { t -> a +
 /**
  * exponential interpolation
  */
-private fun exponential(a:Double, b:Double, y: Double): Interpolator<Double> {
+private fun exponential(a: Double, b: Double, y: Double): Interpolator<Double> {
     val ny = 1 / y
     val na = a.pow(y)
     val nb = b.pow(y) - na
 
-    return fun(t:Percent): Double {
-        return (na + t.value * nb).pow(ny)
-    }
+    return fun(t: Percent) = (na + t.value * nb).pow(ny)
 }
 /*private fun exponential(values: List<Number>, y: Double): (Double) -> Double {
     val ny = 1 / y
@@ -81,6 +79,8 @@ private fun exponential(a:Double, b:Double, y: Double): Interpolator<Double> {
     }
 }*/
 
-internal fun getSplineInterpolator(cyclical: Boolean): (List<Int>) -> Interpolator<Double> {
-    return if (cyclical) { a -> basisClosed(a) } else { a -> basis(a) }
-}
+internal fun getSplineInterpolator(cyclical: Boolean): (List<Int>) -> Interpolator<Double> =
+    when {
+        cyclical -> { a -> basisClosed(a) }
+        else ->     { a -> basis(a) }
+    }
