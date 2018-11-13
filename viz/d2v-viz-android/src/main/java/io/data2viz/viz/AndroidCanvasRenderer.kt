@@ -192,18 +192,9 @@ fun CircleNode.render(renderer: AndroidCanvasRenderer) {
 
 fun TextNode.render(renderer: AndroidCanvasRenderer) {
     val canvas = renderer.canvas
-//    with(renderer) {
-//        paint.style = Paint.Style.FILL
-//        paint.textAlign = style.anchor.android
-//        paint.color = android.graphics.Color.BLACK
-//        paint.textSize = 12.0.dp
-//        val dy = style.baseline.dy(renderer, paint.fontMetrics)
-//        canvas.drawText(textContent, x.dp, y.dp - dy, paint )
-//    }
-
     with(renderer) {
         paint.textAlign = style.anchor.android
-        paint.textSize = fontSize.toFloat()
+        paint.textSize = fontSize.dp
 
         paint.typeface = when(fontFamily) {
             null -> Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
