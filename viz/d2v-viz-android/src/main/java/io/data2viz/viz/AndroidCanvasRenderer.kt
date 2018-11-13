@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Shader
+import android.graphics.Typeface
 import android.view.View
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.color.LinearGradient
@@ -190,15 +191,37 @@ fun CircleNode.render(renderer: AndroidCanvasRenderer) {
 }
 
 fun TextNode.render(renderer: AndroidCanvasRenderer) {
+    val canvas = renderer.canvas
     with(renderer) {
-        paint.style = Paint.Style.FILL
         paint.textAlign = style.anchor.android
-        paint.color = android.graphics.Color.BLACK
-        paint.textSize = 12.0.dp
-        val dy = style.baseline.dy(renderer, paint.fontMetrics)
-        renderer.canvas.drawText(textContent, x.dp, y.dp - dy, paint )
-    }
+        paint.textSize = fontSize.dp
 
+        paint.typeface = when(fontFamily) {
+            null -> Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+            else -> Typeface.create(fontFamily, Typeface.NORMAL)
+        }
+
+        val dy = baseline.dy(renderer, paint.fontMetrics)
+
+        style.fill?.let {
+            paint.style = Paint.Style.FILL
+            it.updatePaint(paint, renderer)
+            canvas.drawText(
+                textContent,
+                x.dp,
+                y.dp - dy,
+                paint )
+        }
+        style.stroke?.let {
+            paint.style = Paint.Style.STROKE
+            it.updatePaint(paint, renderer)
+            canvas.drawText(
+                textContent,
+                x.dp,
+                y.dp - dy,
+                paint )
+        }
+    }
 }
 
 

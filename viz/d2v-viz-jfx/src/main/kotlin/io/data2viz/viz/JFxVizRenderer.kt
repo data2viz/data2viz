@@ -7,6 +7,7 @@ import javafx.geometry.VPos
 import javafx.scene.canvas.Canvas
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.Stop
+import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
 import kotlin.math.PI
 
@@ -154,9 +155,21 @@ fun RectNode.render(renderer: JFxVizRenderer) {
 
 fun TextNode.render(renderer: JFxVizRenderer){
     val gc = renderer.gc
-    gc.textAlign = this.style.anchor.jfx
-    gc.textBaseline = this.style.baseline.jfx
-    gc.fillText(textContent, x, y)
+    gc.textAlign = style.anchor.jfx
+    gc.textBaseline = style.baseline.jfx
+
+    gc.font = when(fontFamily) {
+        null -> Font(Font.getDefault().name, fontSize)
+        else -> Font(fontFamily, fontSize)
+    }
+
+    style.fill?.let {
+        gc.fillText(textContent, x, y)
+    }
+
+    style.stroke?.let {
+        gc.strokeText(textContent, x, y)
+    }
 }
 
 val TextAlignmentBaseline.jfx: VPos
