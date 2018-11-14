@@ -6,11 +6,7 @@ fun TextNode.render(context: CanvasRenderingContext2D) {
 	context.textAlign = style.anchor.js
 	context.textBaseline = style.baseline.js
 
-
-	context.font = when(fontFamily) {
-		null -> "${fontSize}px sans-serif"
-		else -> "${fontSize}px $fontFamily, sans-serif"
-	}
+	context.font = "${fontStyle.js} ${fontWeight.js} ${fontSize}px ${fontFamily.js}"
 
 	style.fill?.let {
 		context.fillText(textContent, x, y)
@@ -35,3 +31,21 @@ val TextAnchor.js: CanvasTextAlign
 		TextAnchor.MIDDLE   -> CanvasTextAlign.CENTER
 	}
 
+val Font.DefaultFamily.js: String
+	get() = when(this) {
+		Font.DefaultFamily.MONOSPACE	-> "monospace"
+		Font.DefaultFamily.SANS_SERIF  	-> "sans-serif"
+		Font.DefaultFamily.SERIF  		-> "serif"
+	}
+
+val Font.DefaultWeight.js: String
+	get() = when(this) {
+		Font.DefaultWeight.NORMAL	-> "normal"
+		Font.DefaultWeight.BOLD  	-> "bold"
+	}
+
+val Font.DefaultStyle.js: String
+	get() = when(this) {
+		Font.DefaultStyle.ITALIC 	-> "italic"
+		Font.DefaultStyle.NORMAL	-> "normal"
+	}
