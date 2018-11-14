@@ -4,9 +4,6 @@ import kotlin.math.floor
 import kotlin.math.max
 
 
-/**
- * Retu
- */
 abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = IndexableDomain()) : 
         Scale<D,Double>, 
         DiscreteDomain<D> by indexableDomain, 

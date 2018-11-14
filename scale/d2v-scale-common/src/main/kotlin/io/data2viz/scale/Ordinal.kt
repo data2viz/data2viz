@@ -1,15 +1,10 @@
 package io.data2viz.scale
 
-/**
- * Unlike continuous scales, ordinal scales have a discrete domain and range.
- * For example, an ordinal scale might map a set of named categories to a set of colors, or determine the
- * horizontal positions of columns in a column chart.
- */
+
 class IndexableDomain<D> : DiscreteDomain<D>{
 
     internal val index: MutableMap<D, Int> = HashMap()
     internal val _domain: MutableList<D> = arrayListOf()
-
 
     /**
      * The first element in domain will be mapped to the first element in the range, the second domain value to
@@ -38,11 +33,13 @@ class IndexableDomain<D> : DiscreteDomain<D>{
                 }
             }
         }
-
-
-
 }
 
+/**
+ * Unlike continuous scales, ordinal scales have a discrete domain and range.
+ * For example, an ordinal scale might map a set of named categories to a set of colors, or determine the
+ * horizontal positions of columns in a column chart.
+ */
 open class OrdinalScale<D, R>(range: List<R> = listOf(), val indexableDomain: IndexableDomain<D> = IndexableDomain()) : Scale<D,R>, DiscreteDomain<D> by indexableDomain {
 
     protected val _range: MutableList<R> = arrayListOf()
