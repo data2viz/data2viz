@@ -15,7 +15,8 @@ import kotlin.math.min
 // interpolate [0 .. 1] --> [value A .. value B]
 
 
-open class LinearScale<R>(
+open class LinearScale<R>
+    internal constructor(
         interpolateRange: (R, R) -> Interpolator<R>,
         uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
         rangeComparator: Comparator<R>? = null) :
@@ -44,7 +45,7 @@ open class LinearScale<R>(
      * the first and last value. See also d3-array’s tickStep.
      *
      * Nicing a scale only modifies the current domain; it does not automatically nice domains that are
-     * subsequently set using continuous.domain. You must re-nice the scale after setting the new domain, if desired.
+     * subsequently set using continuous.domain. You must re-nice the scale af  ter setting the new domain, if desired.
      */
     override fun nice(count: Int) {
         val last = _domain.size - 1
@@ -65,7 +66,6 @@ open class LinearScale<R>(
     }
 }
 
-// TODO RGB continuous scale, HCL ...
 /**
  * Continuous scales map a continuous, quantitative input domain to a continuous output range.
  *

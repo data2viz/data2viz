@@ -10,10 +10,17 @@ import kotlin.math.*
  * before the output range value is computed.
  * The mapping to the range value y can be expressed as a function of the domain value x: y = m log(x) + b.
  */
-internal class LogScale(var base: Double = 10.0, interpolateRange: (Double, Double) -> Interpolator<Double>,
+internal class LogScale
+    internal constructor(base: Double = 10.0, interpolateRange: (Double, Double) -> Interpolator<Double>,
                        uninterpolateRange: ((Double, Double) -> UnInterpolator<Double>)? = null,
                        rangeComparator: Comparator<Double>? = null)
     : LinearScale<Double>(interpolateRange, uninterpolateRange, rangeComparator) {
+
+    var base: Double = base
+        set(value) {
+            field = value
+            rescale()
+        }
 
     /**
      * As log(0) = -∞, a log scale domain must be strictly-positive or strictly-negative;
