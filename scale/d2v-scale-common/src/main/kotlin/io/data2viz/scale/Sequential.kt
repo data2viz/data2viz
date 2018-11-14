@@ -15,7 +15,6 @@ class SequentialScale<R>(var interpolator: Interpolator<R>) : Tickable<Double>, 
 
     override var domain: StrictlyContinuous<Double> = intervalOf(0.0, 1.0)
 
-
     override var clamp: Boolean = false
 
     operator fun invoke(domainValue: Double): R {
