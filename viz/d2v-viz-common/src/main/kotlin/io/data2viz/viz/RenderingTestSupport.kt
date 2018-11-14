@@ -38,10 +38,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.SANS_SERIF
+                fontFamily  = FontFamily.SANS_SERIF
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.ITALIC
-                fontWeight  = Font.DefaultWeight.BOLD
+                fontStyle   = FontPosture.ITALIC
+                fontWeight  = FontWeight.BOLD
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -57,10 +57,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.SANS_SERIF
+                fontFamily  = FontFamily.SANS_SERIF
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.ITALIC
-                fontWeight  = Font.DefaultWeight.NORMAL
+                fontStyle   = FontPosture.ITALIC
+                fontWeight  = FontWeight.NORMAL
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -76,10 +76,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.SANS_SERIF
+                fontFamily  = FontFamily.SANS_SERIF
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.NORMAL
-                fontWeight  = Font.DefaultWeight.BOLD
+                fontStyle   = FontPosture.NORMAL
+                fontWeight  = FontWeight.BOLD
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -95,10 +95,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.SANS_SERIF
+                fontFamily  = FontFamily.SANS_SERIF
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.NORMAL
-                fontWeight  = Font.DefaultWeight.NORMAL
+                fontStyle   = FontPosture.NORMAL
+                fontWeight  = FontWeight.NORMAL
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -117,10 +117,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.SERIF
+                fontFamily  = FontFamily.SERIF
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.ITALIC
-                fontWeight  = Font.DefaultWeight.BOLD
+                fontStyle   = FontPosture.ITALIC
+                fontWeight  = FontWeight.BOLD
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -136,10 +136,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.SERIF
+                fontFamily  = FontFamily.SERIF
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.ITALIC
-                fontWeight  = Font.DefaultWeight.NORMAL
+                fontStyle   = FontPosture.ITALIC
+                fontWeight  = FontWeight.NORMAL
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -155,10 +155,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.SERIF
+                fontFamily  = FontFamily.SERIF
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.NORMAL
-                fontWeight  = Font.DefaultWeight.BOLD
+                fontStyle   = FontPosture.NORMAL
+                fontWeight  = FontWeight.BOLD
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -174,10 +174,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.SERIF
+                fontFamily  = FontFamily.SERIF
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.NORMAL
-                fontWeight  = Font.DefaultWeight.NORMAL
+                fontStyle   = FontPosture.NORMAL
+                fontWeight  = FontWeight.NORMAL
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -194,10 +194,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.MONOSPACE
+                fontFamily  = FontFamily.MONOSPACE
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.ITALIC
-                fontWeight  = Font.DefaultWeight.BOLD
+                fontStyle   = FontPosture.ITALIC
+                fontWeight  = FontWeight.BOLD
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -213,10 +213,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.MONOSPACE
+                fontFamily  = FontFamily.MONOSPACE
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.ITALIC
-                fontWeight  = Font.DefaultWeight.NORMAL
+                fontStyle   = FontPosture.ITALIC
+                fontWeight  = FontWeight.NORMAL
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -232,10 +232,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.MONOSPACE
+                fontFamily  = FontFamily.MONOSPACE
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.NORMAL
-                fontWeight  = Font.DefaultWeight.BOLD
+                fontStyle   = FontPosture.NORMAL
+                fontWeight  = FontWeight.BOLD
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
@@ -251,10 +251,10 @@ val allRenderingTests = listOf(
         for((index, line) in linesOfText.withIndex()) {
             text {
 
-                fontFamily  = Font.DefaultFamily.MONOSPACE
+                fontFamily  = FontFamily.MONOSPACE
                 fontSize    = 20.0
-                fontStyle   = Font.DefaultStyle.NORMAL
-                fontWeight  = Font.DefaultWeight.NORMAL
+                fontStyle   = FontPosture.NORMAL
+                fontWeight  = FontWeight.NORMAL
                 anchor      = TextAnchor.START
                 baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line

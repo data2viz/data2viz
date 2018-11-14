@@ -3,7 +3,10 @@ package io.data2viz.viz
 import javafx.geometry.*
 import javafx.scene.text.*
 
-import javafx.scene.text.Font as Fontfx
+import javafx.scene.text.Font 			as JfxFont
+import javafx.scene.text.FontPosture 	as JfxFontPosture
+import javafx.scene.text.FontWeight 	as JfxFontWeight
+
 
 
 fun TextNode.render(renderer: JFxVizRenderer){
@@ -12,8 +15,7 @@ fun TextNode.render(renderer: JFxVizRenderer){
 	gc.textAlign 	= anchor.jfx
 	gc.textBaseline = baseline.jfx
 
-	//TODO nba font style name: font style vs font posture
-	gc.font = Fontfx.font(fontFamily.jfx, fontWeight.jfx, fontStyle.jfx, fontSize)
+	gc.font = JfxFont.font(fontFamily.name, fontWeight.jfx, fontStyle.jfx, fontSize)
 
 	style.fill?.let {
 		gc.fillText(textContent, x, y)
@@ -38,21 +40,15 @@ val TextAnchor.jfx: TextAlignment
 		TextAnchor.MIDDLE   -> TextAlignment.CENTER
 	}
 
-val Font.DefaultFamily.jfx: String
+
+val FontWeight.jfx: JfxFontWeight
 	get() = when(this) {
-		Font.DefaultFamily.MONOSPACE	-> "monospace"
-		Font.DefaultFamily.SANS_SERIF  	-> "sans-serif"
-		Font.DefaultFamily.SERIF  		-> "serif"
+		FontWeight.NORMAL	-> JfxFontWeight.NORMAL
+		FontWeight.BOLD  	-> JfxFontWeight.BOLD
 	}
 
-val Font.DefaultWeight.jfx: FontWeight
+val FontPosture.jfx: JfxFontPosture
 	get() = when(this) {
-		Font.DefaultWeight.NORMAL	-> FontWeight.NORMAL
-		Font.DefaultWeight.BOLD  	-> FontWeight.BOLD
-	}
-
-val Font.DefaultStyle.jfx: FontPosture
-	get() = when(this) {
-		Font.DefaultStyle.ITALIC 	-> FontPosture.ITALIC
-		Font.DefaultStyle.NORMAL	-> FontPosture.REGULAR
+		FontPosture.ITALIC 	-> JfxFontPosture.ITALIC
+		FontPosture.NORMAL	-> JfxFontPosture.REGULAR
 	}
