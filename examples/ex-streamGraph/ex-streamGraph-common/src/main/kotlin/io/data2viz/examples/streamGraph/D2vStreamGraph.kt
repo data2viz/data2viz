@@ -3,7 +3,7 @@ package io.data2viz.examples.streamGraph
 import io.data2viz.color.EncodedColors
 import io.data2viz.color.EncodedColors.Companion.category20b
 import io.data2viz.geom.Path
-import io.data2viz.scale.scales
+import io.data2viz.scale.Scales
 import io.data2viz.shape.Curve
 import io.data2viz.shape.areaBuilder
 import io.data2viz.shape.curves
@@ -112,14 +112,14 @@ fun streamGraph(): Viz = viz {
         val min = (stack.map { it.stackedValues.map { it.from }.min()!! }).min()!!
 
         // The ordinate scale is a standard linear scale
-        val yScale = scales.continuous.linear {
+        val yScale = Scales.continuous.linear {
             domain = listOf(min, max)
             range = listOf(height, .0)
         }
 
 
         // The abciss scale is also linear scale (could have been a timeScale)
-        val xScale = scales.continuous.linear {
+        val xScale = Scales.continuous.linear {
             domain = listOf(.0, (data.size - 1).toDouble())
             range = listOf(.0, width)
         }

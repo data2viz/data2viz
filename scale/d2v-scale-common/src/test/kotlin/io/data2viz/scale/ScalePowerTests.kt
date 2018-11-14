@@ -7,7 +7,7 @@ class ScalePowerTests : TestBase() {
 
     @Test
     fun power_sets_the_exponent_to_the_specified_value() {
-        val scale = scales.continuous.sqrt()
+        val scale = Scales.continuous.sqrt()
 
         scale.domain = listOf(1.0, 2.0)
         scale.range = listOf(.0, 1.0)
@@ -31,7 +31,7 @@ class ScalePowerTests : TestBase() {
 
     @Test
     fun power_sets_the_exponent_does_not_change_domain_or_range() {
-        val scale = scales.continuous.pow()
+        val scale = Scales.continuous.pow()
 
         scale.domain = listOf(1.0, 2.0)
         scale.range = listOf(3.0, 4.0)
@@ -46,7 +46,7 @@ class ScalePowerTests : TestBase() {
 
     @Test
     fun power_round_does_round_number() {
-        val scale = scales.continuous.powRound()
+        val scale = Scales.continuous.powRound()
 
         scale.domain = listOf(.0, 1.0)
         scale.range = listOf(.0, 10.0)
@@ -55,7 +55,7 @@ class ScalePowerTests : TestBase() {
 
     @Test
     fun power_nice_count_extends_the_domain_to_match_the_desired_ticks() {
-        val scale = scales.continuous.pow()
+        val scale = Scales.continuous.pow()
         scale.range = listOf(.0, 1.0)
 
         scale.domain = listOf(.0, .96)

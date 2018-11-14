@@ -2,6 +2,7 @@ package io.data2viz.scale
 
 import io.data2viz.color.Color
 import io.data2viz.color.EncodedColors
+import io.data2viz.geom.Point
 import io.data2viz.interpolate.*
 
 /**
@@ -85,10 +86,39 @@ interface Tickable<D> {
 }
 
 /**
+ *
+ *  Scales
+ *      Continuous
+ *          linear
+ *          linearRound
+ *          identity
+ *          log
+ *          logRoung
+ *          pow
+ *          powRound
+ *          sqrt
+ *          sqrtRound
+ *          time
+ *      Ordinal
+ *
+ *
+ *
+ *  ScalesChromatic
+ *      Continuous
+ *          Diverging
+ *          Sequential
+ *              SingleHue
+ *              MultiHue
+ *          Cyclical
+ *      Ordinal
+ */
+
+
+/**
  * Access the data2viz collection of scales:
  *  - Continuous scales : linear, power, log, identity, time...
  */
-object scales {
+object Scales {
 
     fun <D, R> ordinal(init: OrdinalScale<D, R>.() -> Unit = {}) = OrdinalScale<D, R>().apply(init)
     fun <R> quantile(init: QuantileScale<R>.() -> Unit = {}): QuantileScale<R> = QuantileScale<R>().apply(init)
@@ -138,6 +168,9 @@ object scales {
         fun linear(init: LinearScale<Double>.() -> Unit = {}) =
             LinearScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 
+        fun vector(init: LinearScale<Point>.() -> Unit = {}) =
+            LinearScale(::interpolatePoint, ::uninterpolatePointOnX, PointComparatorX()).apply(init)
+
         fun linearRound(init: LinearScale<Double>.() -> Unit = {}) =
             LinearScale(::interpolateRound, ::uninterpolateNumber, naturalOrder()).apply(init)
 
@@ -159,7 +192,7 @@ object scales {
     }
 
     // TODO change order
-    object colors {
+    object chromatic {
 
         fun linearRGB(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::rgbLinearInterpolator).apply(init)
         fun defaultRGB(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::rgbDefaultInterpolator).apply(init)
@@ -181,7 +214,7 @@ object scales {
         fun <D> category20c(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category20c.colors).apply(init)
 
-        fun <D> categoryViridis(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+        /*fun <D> categoryViridis(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.viridis.colors).apply(init)
 
         fun <D> categoryMagma(init: OrdinalScale<D, Color>.() -> Unit = {}) =
@@ -191,7 +224,7 @@ object scales {
             OrdinalScale<D, Color>(EncodedColors.inferno.colors).apply(init)
 
         fun <D> categoryPlasma(init: OrdinalScale<D, Color>.() -> Unit = {}) =
-            OrdinalScale<D, Color>(EncodedColors.plasma.colors).apply(init)
+            OrdinalScale<D, Color>(EncodedColors.plasma.colors).apply(init)*/
 
         fun sequentialBrBG(init: SequentialScale<Color>.() -> Unit = {}) =
             SequentialScale(rgbBasisInterpolator(EncodedColors.BrBG.last().colors)).apply(init)
