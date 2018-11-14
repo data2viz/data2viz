@@ -1,5 +1,6 @@
 package io.data2viz.viz
 
+import android.annotation.*
 import android.content.*
 import android.graphics.*
 import android.view.*
@@ -16,6 +17,7 @@ val paint = Paint().apply {
 fun Viz.toView(context: Context): VizView = VizView(this, context)
 
 
+@SuppressLint("ViewConstructor")
 class VizView(val viz: Viz, context: Context) : View(context) {
 
     private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz)

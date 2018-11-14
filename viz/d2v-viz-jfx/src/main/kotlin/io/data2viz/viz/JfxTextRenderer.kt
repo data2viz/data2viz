@@ -8,8 +8,7 @@ import javafx.scene.text.FontPosture 	as JfxFontPosture
 import javafx.scene.text.FontWeight 	as JfxFontWeight
 
 
-
-fun TextNode.render(renderer: JFxVizRenderer){
+internal fun TextNode.render(renderer: JFxVizRenderer){
 	val gc = renderer.gc
 
 	gc.textAlign 	= anchor.jfx
@@ -26,14 +25,14 @@ fun TextNode.render(renderer: JFxVizRenderer){
 	}
 }
 
-val TextAlignmentBaseline.jfx: VPos
+private val TextAlignmentBaseline.jfx: VPos
 	get() = when(this){
 		TextAlignmentBaseline.BASELINE  -> VPos.BASELINE
 		TextAlignmentBaseline.HANGING   -> VPos.TOP
 		TextAlignmentBaseline.MIDDLE    -> VPos.CENTER
 	}
 
-val TextAnchor.jfx: TextAlignment
+private val TextAnchor.jfx: TextAlignment
 	get() = when(this){
 		TextAnchor.START    -> TextAlignment.LEFT
 		TextAnchor.END      -> TextAlignment.RIGHT
@@ -41,13 +40,13 @@ val TextAnchor.jfx: TextAlignment
 	}
 
 
-val FontWeight.jfx: JfxFontWeight
+private val FontWeight.jfx: JfxFontWeight
 	get() = when(this) {
 		FontWeight.NORMAL	-> JfxFontWeight.NORMAL
 		FontWeight.BOLD  	-> JfxFontWeight.BOLD
 	}
 
-val FontPosture.jfx: JfxFontPosture
+private val FontPosture.jfx: JfxFontPosture
 	get() = when(this) {
 		FontPosture.ITALIC 	-> JfxFontPosture.ITALIC
 		FontPosture.NORMAL	-> JfxFontPosture.REGULAR

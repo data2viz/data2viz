@@ -2,8 +2,7 @@ package io.data2viz.viz
 
 import android.graphics.*
 
-
-fun TextNode.render(renderer: AndroidCanvasRenderer) {
+internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
 	val canvas = renderer.canvas
 	with(renderer) {
 		paint.textAlign = style.anchor.android
@@ -42,7 +41,7 @@ fun TextNode.render(renderer: AndroidCanvasRenderer) {
  * The middle alignement is an approximation.
  * TODO resolve by implementing DV-105
  */
-fun TextAlignmentBaseline.dy(renderer: AndroidCanvasRenderer, fontMetrics: Paint.FontMetrics): Float =
+internal fun TextAlignmentBaseline.dy(renderer: AndroidCanvasRenderer, fontMetrics: Paint.FontMetrics): Float =
 	with(renderer){
 		when(this@dy){
 			TextAlignmentBaseline.BASELINE  -> 0F
@@ -51,7 +50,7 @@ fun TextAlignmentBaseline.dy(renderer: AndroidCanvasRenderer, fontMetrics: Paint
 		}
 	}
 
-val TextAnchor.android: Paint.Align
+internal val TextAnchor.android: Paint.Align
 	get() = when(this){
 		TextAnchor.START    -> Paint.Align.LEFT
 		TextAnchor.END      -> Paint.Align.RIGHT
@@ -60,7 +59,7 @@ val TextAnchor.android: Paint.Align
 
 
 //TODO nba refactor code: make access to the android text Font more reachable
-fun getAndroidStyle(fontWeight: FontWeight, fontStyle: FontPosture): Int {
+internal fun getAndroidStyle(fontWeight: FontWeight, fontStyle: FontPosture): Int {
 	return when(fontWeight) {
 		FontWeight.NORMAL ->
 			when(fontStyle) {
