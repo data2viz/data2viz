@@ -1,9 +1,6 @@
 package io.data2viz.viz
 
-import io.data2viz.color.Color
-import io.data2viz.color.ColorOrGradient
-import io.data2viz.color.Colors
-import io.data2viz.viz.TextAnchor.*
+import io.data2viz.color.*
 
 class TextNode : Node(),
         HasFill,
@@ -16,9 +13,9 @@ class TextNode : Node(),
     var y: Double = .0
     var textContent: String = "Type something"
     var fontSize: Double = 20.0
-    var fontFamily: Font.DefaultFamily  = Font.DefaultFamily.SANS_SERIF
-    var fontWeight: Font.DefaultWeight  = Font.DefaultWeight.NORMAL
-    var fontStyle:  Font.DefaultStyle   = Font.DefaultStyle.NORMAL
+    var fontFamily: FontFamily          = FontFamily.SANS_SERIF
+    var fontWeight: FontWeight          = FontWeight.NORMAL
+    var fontStyle: FontPosture          = FontPosture.NORMAL
 
     var anchor: TextAnchor
         get() = style.anchor
@@ -52,22 +49,24 @@ class TextNode : Node(),
 }
 
 
+class FontFamily private constructor(val name: String) {
 
-class Font {
+    companion object {
+        val MONOSPACE  = FontFamily("monospace")
+        val SANS_SERIF = FontFamily("sans-serif")
+        val SERIF 	   = FontFamily("serif")
 
-    enum class DefaultFamily {
-        MONOSPACE,
-        SANS_SERIF,
-        SERIF,
+        fun specifiedFont(name: String) = FontFamily(name)
     }
 
-    enum class DefaultWeight {
-        BOLD,
-        NORMAL,
-    }
+}
 
-    enum class DefaultStyle {
-        ITALIC,
-        NORMAL,
-    }
+enum class FontWeight {
+    BOLD,
+    NORMAL,
+}
+
+enum class FontPosture {
+    ITALIC,
+    NORMAL,
 }
