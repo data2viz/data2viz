@@ -14,7 +14,7 @@ class TextNode : Node(),
 
     var x: Double = .0
     var y: Double = .0
-    var textContent: String = ""
+    var textContent: String = "Type something"
     var fontSize: Double = 20.0
     var fontFamily: Font.DefaultFamily  = Font.DefaultFamily.SANS_SERIF
     var fontWeight: Font.DefaultWeight  = Font.DefaultWeight.NORMAL
