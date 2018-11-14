@@ -26,7 +26,7 @@ fun interpolateRound(start: Double, end: Double): Interpolator<Double> {
 
 fun uninterpolateNumber(start: Double, end: Double): UnInterpolator<Double> {
     val diff = end - start
-    return if (diff != .0) { percent -> Percent((percent - start) / diff) }  else { _ -> 0.pct }
+    return if (diff != .0) { double -> Percent((double - start) / diff) }  else { _ -> 0.pct }
 }
 
 fun identity(percent: Percent) = percent.value
