@@ -9,10 +9,7 @@ fun TextNode.render(renderer: AndroidCanvasRenderer) {
 		paint.textAlign = style.anchor.android
 		paint.textSize = fontSize.dp
 
-		paint.typeface = when(fontFamily) {
-			null -> Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
-			else -> Typeface.create(fontFamily, Typeface.NORMAL)
-		}
+		paint.typeface = Typeface.create(fontFamily.android, getAndroidStyle(fontWeight, fontStyle))
 
 		val dy = baseline.dy(renderer, paint.fontMetrics)
 
@@ -61,4 +58,26 @@ val TextAnchor.android: Paint.Align
 		TextAnchor.MIDDLE   -> Paint.Align.CENTER
 	}
 
+val Font.DefaultFamily.android: String
+	get() = when(this) {
+		Font.DefaultFamily.MONOSPACE	-> "monospace"
+		Font.DefaultFamily.SANS_SERIF  	-> "sans-serif"
+		Font.DefaultFamily.SERIF  		-> "serif"
+	}
 
+//TODO nba refactor code: make access to the android text Font more reachable
+fun getAndroidStyle(fontWeight: Font.DefaultWeight, fontStyle: Font.DefaultStyle): Int {
+	return when(fontWeight) {
+		Font.DefaultWeight.NORMAL ->
+			when(fontStyle) {
+				Font.DefaultStyle.NORMAL -> Typeface.NORMAL
+				Font.DefaultStyle.ITALIC -> Typeface.ITALIC
+			}
+
+		Font.DefaultWeight.BOLD ->
+			when(fontStyle) {
+				Font.DefaultStyle.NORMAL -> Typeface.BOLD
+				Font.DefaultStyle.ITALIC -> Typeface.BOLD_ITALIC
+			}
+	}
+}

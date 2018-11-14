@@ -34,50 +34,235 @@ val allRenderingTests = listOf(
 
     ///////////// TEXT /////////////////////////////////
 
-    renderingTest("text-default-fontFamily") {
+    renderingTest("text-SANS_SERIF_ITALIC_BOLD") {
         for((index, line) in linesOfText.withIndex()) {
             text {
-                y = fontSizeValue + fontSizeValue * index
+
+                fontFamily  = Font.DefaultFamily.SANS_SERIF
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.ITALIC
+                fontWeight  = Font.DefaultWeight.BOLD
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
-                fontFamily = "non-existent font family"
-                style.fill = Colors.Web.black
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
+            }
+        }
+    },
+    renderingTest("text-SANS_SERIF_ITALIC_NORMAL") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+
+                fontFamily  = Font.DefaultFamily.SANS_SERIF
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.ITALIC
+                fontWeight  = Font.DefaultWeight.NORMAL
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
+                textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
+            }
+        }
+    },
+    renderingTest("text-SANS_SERIF_NORMAL_BOLD") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+
+                fontFamily  = Font.DefaultFamily.SANS_SERIF
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.NORMAL
+                fontWeight  = Font.DefaultWeight.BOLD
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
+                textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
+            }
+        }
+    },
+    renderingTest("text-SANS_SERIF_NORMAL_NORMAL") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+
+                fontFamily  = Font.DefaultFamily.SANS_SERIF
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.NORMAL
+                fontWeight  = Font.DefaultWeight.NORMAL
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
+                textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
                 fontSize = fontSizeValue
             }
         }
     },
 
-    renderingTest("text-default-fontSize") {
+
+
+    renderingTest("text-SERIF_ITALIC_BOLD") {
         for((index, line) in linesOfText.withIndex()) {
             text {
-                y = fontSizeValue + fontSizeValue * index
+
+                fontFamily  = Font.DefaultFamily.SERIF
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.ITALIC
+                fontWeight  = Font.DefaultWeight.BOLD
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
-                fontFamily = fontFamilyValue
-                style.fill = Colors.Web.black
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
+            }
+        }
+    },
+    renderingTest("text-SERIF_ITALIC_NORMAL") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+
+                fontFamily  = Font.DefaultFamily.SERIF
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.ITALIC
+                fontWeight  = Font.DefaultWeight.NORMAL
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
+                textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
+            }
+        }
+    },
+    renderingTest("text-SERIF_NORMAL_BOLD") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+
+                fontFamily  = Font.DefaultFamily.SERIF
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.NORMAL
+                fontWeight  = Font.DefaultWeight.BOLD
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
+                textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
+            }
+        }
+    },
+    renderingTest("text-SERIF_NORMAL_NORMAL") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+
+                fontFamily  = Font.DefaultFamily.SERIF
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.NORMAL
+                fontWeight  = Font.DefaultWeight.NORMAL
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
+                textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
             }
         }
     },
 
-    renderingTest("text-roboto-fill") {
+    renderingTest("text-MONOSPACE_ITALIC_BOLD") {
         for((index, line) in linesOfText.withIndex()) {
             text {
-                y = fontSizeValue + fontSizeValue * index
+
+                fontFamily  = Font.DefaultFamily.MONOSPACE
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.ITALIC
+                fontWeight  = Font.DefaultWeight.BOLD
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
                 fontSize = fontSizeValue
-                fontFamily = fontFamilyValue
-                style.fill = Colors.Web.blue
             }
         }
     },
-
-    renderingTest("text-roboto-stroke") {
+    renderingTest("text-MONOSPACE_ITALIC_NORMAL") {
         for((index, line) in linesOfText.withIndex()) {
             text {
-                y = fontSizeValue + fontSizeValue * index
+
+                fontFamily  = Font.DefaultFamily.MONOSPACE
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.ITALIC
+                fontWeight  = Font.DefaultWeight.NORMAL
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
                 textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
                 fontSize = fontSizeValue
-                fontFamily = fontFamilyValue
-                style.stroke = Colors.Web.red
-                style.strokeWidth = 2.0
+            }
+        }
+    },
+    renderingTest("text-MONOSPACE_NORMAL_BOLD") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+
+                fontFamily  = Font.DefaultFamily.MONOSPACE
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.NORMAL
+                fontWeight  = Font.DefaultWeight.BOLD
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
+                textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
+            }
+        }
+    },
+    renderingTest("text-MONOSPACE_NORMAL_NORMAL") {
+        for((index, line) in linesOfText.withIndex()) {
+            text {
+
+                fontFamily  = Font.DefaultFamily.MONOSPACE
+                fontSize    = 20.0
+                fontStyle   = Font.DefaultStyle.NORMAL
+                fontWeight  = Font.DefaultWeight.NORMAL
+                anchor      = TextAnchor.START
+                baseline    = TextAlignmentBaseline.BASELINE
+                textContent = line
+
+                y = fontSizeValue + fontSizeValue * index
+
+                fill = Colors.Web.black
+                fontSize = fontSizeValue
             }
         }
     },

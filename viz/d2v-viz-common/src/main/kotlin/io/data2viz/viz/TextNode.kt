@@ -16,7 +16,9 @@ class TextNode : Node(),
     var y: Double = .0
     var textContent: String = ""
     var fontSize: Double = 20.0
-    var fontFamily: String ?= null
+    var fontFamily: Font.DefaultFamily  = Font.DefaultFamily.SANS_SERIF
+    var fontWeight: Font.DefaultWeight  = Font.DefaultWeight.NORMAL
+    var fontStyle:  Font.DefaultStyle   = Font.DefaultStyle.NORMAL
 
     var anchor: TextAnchor
         get() = style.anchor
@@ -50,3 +52,22 @@ class TextNode : Node(),
 }
 
 
+
+class Font {
+
+    enum class DefaultFamily {
+        MONOSPACE,
+        SANS_SERIF,
+        SERIF,
+    }
+
+    enum class DefaultWeight {
+        BOLD,
+        NORMAL,
+    }
+
+    enum class DefaultStyle {
+        ITALIC,
+        NORMAL,
+    }
+}
