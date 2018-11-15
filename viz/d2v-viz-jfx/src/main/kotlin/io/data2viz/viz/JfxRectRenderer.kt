@@ -1,7 +1,8 @@
 package io.data2viz.viz
 
-fun RectNode.render(renderer: JFxVizRenderer) {
-	val gc = renderer.gc
+import javafx.scene.canvas.*
+
+fun RectNode.render(gc: GraphicsContext) {
 
 	style.fill?.let {
 		gc.fillRect(x, y, width, height)

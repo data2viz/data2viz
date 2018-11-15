@@ -1,6 +1,7 @@
 package io.data2viz.viz
 
 import javafx.geometry.*
+import javafx.scene.canvas.*
 import javafx.scene.text.*
 
 import javafx.scene.text.Font 			as JfxFont
@@ -8,8 +9,7 @@ import javafx.scene.text.FontPosture 	as JfxFontPosture
 import javafx.scene.text.FontWeight 	as JfxFontWeight
 
 
-internal fun TextNode.render(renderer: JFxVizRenderer){
-	val gc = renderer.gc
+internal fun TextNode.render(gc: GraphicsContext){
 
 	gc.textAlign 	= anchor.jfx
 	gc.textBaseline = baseline.jfx

@@ -1,16 +1,15 @@
 package io.data2viz.viz
 
+import javafx.scene.canvas.*
 
 
-fun GroupNode.render(renderer: JFxVizRenderer) {
+fun GroupNode.render(gc: GraphicsContext) {
 
 	children.forEach { node ->
 
-		val gc = renderer.gc
-
 		if (node is HasTransform) {
 			node.transform?.also {
-				renderer.addTransform(it)
+				gc.addTransform(it)
 			}
 		}
 
@@ -25,18 +24,18 @@ fun GroupNode.render(renderer: JFxVizRenderer) {
 
 		if (node.visible)
 			when (node) {
-				is CircleNode       -> node.render(renderer)
-				is RectNode         -> node.render(renderer)
-				is GroupNode        -> node.render(renderer)
-				is PathNode     -> node.render(renderer)
-				is TextNode         -> node.render(renderer)
-				is LineNode         -> node.render(renderer)
+				is CircleNode       -> node.render(gc)
+				is RectNode         -> node.render(gc)
+				is GroupNode        -> node.render(gc)
+				is PathNode     	-> node.render(gc)
+				is TextNode         -> node.render(gc)
+				is LineNode         -> node.render(gc)
 				else            -> error("Unknow type ${node::class}")
 			}
 
 		if (node is HasTransform) {
 			node.transform?.also {
-				renderer.removeTransform(it)
+				gc.removeTransform(it)
 			}
 		}
 

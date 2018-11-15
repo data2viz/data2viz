@@ -3,11 +3,11 @@ package io.data2viz.viz
 import io.data2viz.geom.*
 import io.data2viz.math.Angle
 import io.data2viz.math.toDegrees
+import javafx.scene.canvas.*
 import javafx.scene.shape.StrokeLineCap
 
 
-fun PathNode.render(renderer: JFxVizRenderer) {
-    val gc = renderer.gc
+fun PathNode.render(gc: GraphicsContext) {
     gc.beginPath()
     path.commands.forEach { cmd ->
         when (cmd) {

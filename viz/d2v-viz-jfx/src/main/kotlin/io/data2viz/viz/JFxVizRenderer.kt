@@ -1,14 +1,8 @@
 package io.data2viz.viz
 
-import io.data2viz.color.*
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
-import javafx.geometry.VPos
-import javafx.scene.canvas.Canvas
-import javafx.scene.paint.CycleMethod
-import javafx.scene.paint.Stop
-import javafx.scene.text.Font
-import javafx.scene.text.TextAlignment
+import javafx.scene.canvas.*
 import kotlin.math.PI
 
 
@@ -17,20 +11,18 @@ import kotlin.math.PI
  */
 class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
 
-    internal val gc = canvas.graphicsContext2D
-
     private val animationTimers = mutableListOf<Timer>()
 
     init {
         viz.renderer = this
     }
 
-
     override fun render(viz: Viz) {
+        val gc = canvas.graphicsContext2D
         gc.clearRect(.0, .0, canvas.width, canvas.height)
         viz.layers.forEach { layer ->
             if (layer.visible)
-                layer.render(this)
+                layer.render(gc)
         }
     }
 
@@ -51,16 +43,15 @@ class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
         animationTimers.forEach { it.stop() }
     }
 
-    fun addTransform(transform: Transform) {
-        gc.translate(transform.translate?.x ?: .0, transform.translate?.y ?:.0)
-        gc.rotate(+ (transform.rotate?.delta ?: .0) * 180 / PI)
-    }
-
-    fun removeTransform(transform: Transform) {
-        gc.translate(-(transform.translate?.x ?:.0), -(transform.translate?.y ?:.0))
-        gc.rotate(- (transform.rotate?.delta ?: .0) * 180 / PI)
-    }
 
 }
 
+fun GraphicsContext.addTransform(transform: Transform) {
+    translate(transform.translate?.x ?: .0, transform.translate?.y ?:.0)
+    rotate(+ (transform.rotate?.delta ?: .0) * 180 / PI)
+}
 
+fun GraphicsContext.removeTransform(transform: Transform) {
+    translate(-(transform.translate?.x ?:.0), -(transform.translate?.y ?:.0))
+    rotate(- (transform.rotate?.delta ?: .0) * 180 / PI)
+}
