@@ -88,19 +88,19 @@ interface Tickable<D> {
 /**
  * Access the data2viz collection of scales.
  * To create a color scale use ScalesChomatic instead.
- *
  * Available factories:
+ *
  * Scales
- *      Continuous      (continuous domain scales)
+ *      Continuous      (continuous domain to continuous range)
  *          -> linear
  *          -> log
  *          -> time
  *          -> ...
- *      Statistics      (more specific scales)
+ *      Quantized       (continuous domain to discrete range)
  *          -> threshold
  *          -> quantize
  *          -> quantile
- *      Discrete        (discrete domain scales)
+ *      Discrete        (discrete domain)
  *          -> band
  *          -> point
  *          -> ...
@@ -161,7 +161,7 @@ object Scales {
             TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
     }
 
-    object Statistics {
+    object Quantized {
         fun <R> quantile(init: QuantileScale<R>.() -> Unit = {}): QuantileScale<R> = QuantileScale<R>().apply(init)
         fun <R> quantize(init: QuantizeScale<R>.() -> Unit = {}): QuantizeScale<R> = QuantizeScale<R>().apply(init)
         fun <R> threshold(init: ThresholdScale<R>.() -> Unit = {}): ThresholdScale<R> = ThresholdScale<R>().apply(init)
@@ -176,32 +176,31 @@ object Scales {
 /**
  * Access the data2viz collection of chromatic scales.
  * To create a non-color scale use Scales instead.
- *
  * Available factories:
- * Scales
- *      Continuous              (ready to build color scales for continuous domain)
+ *
+ * ScalesChromatic
+ *      Continuous              (continuous color scales with pre-configured interpolators)
  *          -> linearRGB
  *          -> linearLAB
- *          -> linearRGB
  *          -> ...
- *      Sequential              (pre-built scales, color scheme is already set)
- *          SingleHue           (will scale over a single hue ie. white -> blue)
+ *      Sequential              (continuous color scales with pre-configured interpolators and color scheme)
+ *          SingleHue               (will scale over a single hue ie. white -> blue)
  *              -> blues
  *              -> greens
  *              -> ...
- *          MultiHue            (convergent scales with multiple hues ie. blue -> green)
+ *          MultiHue                (convergent scales with multiple hues ie. blue -> green)
  *              -> viridis
  *              -> warm
  *              -> blue_green
  *              -> ...
- *          Diverging           (divergent scales with multiple hues ie. blue -> white -> red for temperature)
+ *          Diverging               (divergent scales with multiple hues ie. blue -> white -> red for temperature)
  *              -> pink_green
  *              -> red_blue
  *              -> ...
- *          Cyclical            (these color scales cycle: start color = end color)
+ *          Cyclical                (these color scales cycle: start color = end color)
  *              -> rainbow
  *              -> sinebow
- *      Discrete                (contrasted color scales for categories)
+ *      Discrete                (contrasted color scheme for discrete domain scales)
  *          -> category10
  *          -> accent8
  *          -> paired12
