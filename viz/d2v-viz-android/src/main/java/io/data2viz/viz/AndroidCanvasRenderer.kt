@@ -6,8 +6,6 @@ import android.graphics.*
 import android.view.*
 import io.data2viz.timer.*
 
-typealias ALinearGradient = android.graphics.LinearGradient
-typealias ARadialGradient = android.graphics.RadialGradient
 
 val paint = Paint().apply {
     isAntiAlias = true

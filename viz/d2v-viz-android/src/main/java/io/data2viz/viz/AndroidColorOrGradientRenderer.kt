@@ -6,6 +6,9 @@ import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RadialGradient
 
+typealias ALinearGradient = android.graphics.LinearGradient
+typealias ARadialGradient = android.graphics.RadialGradient
+
 
 fun ColorOrGradient.updatePaint(paint: Paint, renderer: AndroidCanvasRenderer) {
 	when (this) {
