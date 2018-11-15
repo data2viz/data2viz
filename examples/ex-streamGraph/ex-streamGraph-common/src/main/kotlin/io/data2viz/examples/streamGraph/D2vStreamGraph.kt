@@ -112,14 +112,14 @@ fun streamGraph(): Viz = viz {
         val min = (stack.map { it.stackedValues.map { it.from }.min()!! }).min()!!
 
         // The ordinate scale is a standard linear scale
-        val yScale = Scales.continuous.linear {
+        val yScale = Scales.Continuous.linear {
             domain = listOf(min, max)
             range = listOf(height, .0)
         }
 
 
         // The abciss scale is also linear scale (could have been a timeScale)
-        val xScale = Scales.continuous.linear {
+        val xScale = Scales.Continuous.linear {
             domain = listOf(.0, (data.size - 1).toDouble())
             range = listOf(.0, width)
         }
