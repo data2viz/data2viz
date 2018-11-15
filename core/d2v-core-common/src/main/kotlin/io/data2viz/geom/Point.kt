@@ -1,5 +1,15 @@
 package io.data2viz.geom
 
+/**
+ * Creates a point.
+ */
+fun point(x: Double, y: Double) = Point(x, y)
+
+/**
+ * Creates a point from Ints.
+ */
+fun point(x: Int, y: Int) = Point(x.toDouble(), y.toDouble())
+
 data class Point(val x: Double = 0.0, val y: Double = 0.0) {
 
     companion object {
