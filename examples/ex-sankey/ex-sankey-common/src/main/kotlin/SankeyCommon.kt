@@ -7,6 +7,7 @@ import io.data2viz.sankey.SankeyLayout
 import io.data2viz.sankey.sankeyLinkHorizontal
 import io.data2viz.sankey.sankeyLinkVertical
 import io.data2viz.scale.Scales
+import io.data2viz.scale.ScalesChromatic
 import io.data2viz.viz.GroupNode
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
@@ -115,7 +116,7 @@ fun sankeyViz(): Viz = viz {
 }
 
 fun GroupNode.buildSankey() {
-    val fills = Scales.chromatic.category20<Int>()
+    val fills = ScalesChromatic.Discrete.category20<Int>()
 
     val sankeyHorizontal = vizWidth >= vizHeight
     val sankeyWidth = max(vizWidth, vizHeight)

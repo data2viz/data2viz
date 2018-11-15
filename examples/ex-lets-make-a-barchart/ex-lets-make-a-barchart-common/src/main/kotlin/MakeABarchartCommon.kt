@@ -26,7 +26,7 @@ fun barchartViz() = Viz().apply {
 
     size = Size(vizWidth, myData.size * barHeight)
 
-    val xScale = Scales.continuous.linear {
+    val xScale = Scales.Continuous.linear {
         domain = listOf(.0, myData.maxBy { it.value }!!.value)
         range = listOf(.0, vizWidth)
     }
