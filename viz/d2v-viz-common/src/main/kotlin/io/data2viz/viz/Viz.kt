@@ -73,10 +73,6 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
 fun viz(init: Viz.() -> Unit): Viz  = Viz().apply(init)
 
 
-@Deprecated("Old design, should be replaced.")
-interface VizElement
-
-
 interface StateableElement {
     var stateManager: StateManager?
 }
