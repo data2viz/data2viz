@@ -12,7 +12,7 @@ import kotlin.math.max
  * the output range determines the number of quantiles that will be computed from the domain.
  * To compute the quantiles, the domain is sorted, and treated as a population of discrete values;
  */
-class QuantileScale<R> : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
+class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
 
         
     private var thresholds: MutableList<Double> = arrayListOf()

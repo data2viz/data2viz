@@ -101,14 +101,11 @@ interface Tickable<D> {
  *          -> quantize
  *          -> quantile
  *      Discrete        (discrete domain)
+ *          -> ordinal
  *          -> band
  *          -> point
- *          -> ...
  */
 object Scales {
-
-    internal fun <D, R> ordinal(init: OrdinalScale<D, R>.() -> Unit = {}) = OrdinalScale<D, R>().apply(init)
-    internal fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
 
     object Continuous {
 
@@ -159,6 +156,8 @@ object Scales {
 
         fun time(init: TimeScale<Double>.() -> Unit = {}) =
             TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
+
+        fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
     }
 
     object Quantized {
@@ -170,6 +169,7 @@ object Scales {
     object Discrete {
         fun <D> point(init: PointScale<D>.() -> Unit = {}) = PointScale<D>().apply(init)
         fun <D> band(init: BandScale<D>.() -> Unit = {}) = BandScale<D>().apply(init)
+        fun <D, R> ordinal(init: OrdinalScale<D, R>.() -> Unit = {}) = OrdinalScale<D, R>().apply(init)
     }
 }
 
@@ -182,6 +182,7 @@ object Scales {
  *      Continuous              (continuous color scales with pre-configured interpolators)
  *          -> linearRGB
  *          -> linearLAB
+ *          -> linearHSL
  *          -> ...
  *      Sequential              (continuous color scales with pre-configured interpolators and color scheme)
  *          SingleHue               (will scale over a single hue ie. white -> blue)
@@ -190,7 +191,7 @@ object Scales {
  *              -> ...
  *          MultiHue                (convergent scales with multiple hues ie. blue -> green)
  *              -> viridis
- *              -> warm
+ *              -> plasma
  *              -> blue_green
  *              -> ...
  *          Diverging               (divergent scales with multiple hues ie. blue -> white -> red for temperature)
@@ -240,6 +241,8 @@ object ScalesChromatic {
                 SequentialScale(rgbBasisInterpolator(EncodedColors.reds.last().colors)).apply(init)
         }
 
+        // TODO warm, cool, cubehelix
+        // TODO YlOrBr, YlOrRd
         object MultiHue {
             fun viridis(init: SequentialScale<Color>.() -> Unit = {}) =
                 SequentialScale(rgbBasisInterpolator(EncodedColors.viridis.colors)).apply(init)
@@ -252,8 +255,6 @@ object ScalesChromatic {
 
             fun plasma(init: SequentialScale<Color>.() -> Unit = {}) =
                 SequentialScale(rgbBasisInterpolator(EncodedColors.plasma.colors)).apply(init)
-
-            // TODO warm, cool, cubehelix
 
             fun blue_green(init: SequentialScale<Color>.() -> Unit = {}) =
                 SequentialScale(rgbBasisInterpolator(EncodedColors.BuGN.last().colors)).apply(init)
@@ -290,8 +291,6 @@ object ScalesChromatic {
 
             fun yellow_green_red(init: SequentialScale<Color>.() -> Unit = {}) =
                 SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnRd.last().colors)).apply(init)
-
-            // TODO YlOrBr, YlOrRd
         }
 
         object Diverging {
@@ -323,8 +322,9 @@ object ScalesChromatic {
                 SequentialScale(rgbBasisInterpolator(EncodedColors.spectral.last().colors)).apply(init)
         }
 
+        // TODO rainbow, sinebow
         object Cyclical {
-            // TODO rainbow, sinebow
+
         }
     }
 
@@ -332,15 +332,37 @@ object ScalesChromatic {
         fun <D> category10(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category10.colors).apply(init)
 
-        fun <D> category20(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+        fun <D> accent8(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.accents.colors).apply(init)
+
+        fun <D> dark8(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.dark2.colors).apply(init)
+
+        fun <D> paired12(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.paired.colors).apply(init)
+
+        fun <D> pastel9(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.pastel1.colors).apply(init)
+
+        fun <D> pastel8(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.pastel2.colors).apply(init)
+
+        fun <D> vivid9(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.set1.colors).apply(init)
+
+        fun <D> vivid8(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.set2.colors).apply(init)
+
+        fun <D> pale12(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.set3.colors).apply(init)
+
+        fun <D> category20A(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category20.colors).apply(init)
 
-        fun <D> category20b(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+        fun <D> category20B(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category20b.colors).apply(init)
 
-        fun <D> category20c(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+        fun <D> category20C(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category20c.colors).apply(init)
-
-        // TODO accent, paired, pastel... https://github.com/d3/d3-scale-chromatic#categorical
     }
 }

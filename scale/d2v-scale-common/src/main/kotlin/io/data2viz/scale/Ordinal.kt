@@ -1,7 +1,7 @@
 package io.data2viz.scale
 
 
-class IndexableDomain<D> : DiscreteDomain<D>{
+class IndexableDomain<D> : DiscreteDomain<D> {
 
     internal val index: MutableMap<D, Int> = HashMap()
     internal val _domain: MutableList<D> = arrayListOf()
@@ -40,14 +40,16 @@ class IndexableDomain<D> : DiscreteDomain<D>{
  * For example, an ordinal scale might map a set of named categories to a set of colors, or determine the
  * horizontal positions of columns in a column chart.
  */
-open class OrdinalScale<D, R>(range: List<R> = listOf(), val indexableDomain: IndexableDomain<D> = IndexableDomain()) : Scale<D,R>, DiscreteDomain<D> by indexableDomain {
+open class OrdinalScale<D, R> internal constructor(
+    range: List<R> = listOf(),
+    val indexableDomain: IndexableDomain<D> = IndexableDomain()
+) : Scale<D, R>, DiscreteDomain<D> by indexableDomain {
 
     protected val _range: MutableList<R> = arrayListOf()
 
     init {
         _range.addAll(range.toList())
     }
-
 
 
     /**
@@ -73,7 +75,6 @@ open class OrdinalScale<D, R>(range: List<R> = listOf(), val indexableDomain: In
      */
     // TODO : change behavior
     private var _unknown: R? = null
-
 
 
     var unknown: R?
