@@ -9,7 +9,9 @@ import kotlin.math.PI
 /**
  * JFx Canvas version. See https://docs.oracle.com/javafx/2/canvas/jfxpub-canvas.htm
  */
-class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
+class JFxVizRenderer(
+    val canvas: Canvas,
+    override val viz: Viz) : VizRenderer {
 
     private val animationTimers = mutableListOf<Timer>()
 
@@ -17,7 +19,7 @@ class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
         viz.renderer = this
     }
 
-    override fun render(viz: Viz) {
+    override fun render() {
         val gc = canvas.graphicsContext2D
         gc.clearRect(.0, .0, canvas.width, canvas.height)
         viz.layers.forEach { layer ->
@@ -34,7 +36,7 @@ class JFxVizRenderer(val canvas: Canvas, val viz: Viz) : VizRenderer {
                 }
             }
             animationTimers += timer {
-                render(viz)
+                render()
             }
         }
     }

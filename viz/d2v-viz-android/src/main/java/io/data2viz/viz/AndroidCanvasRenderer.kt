@@ -63,7 +63,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         }
 
         renderer.canvas = canvas
-        renderer.render(viz)
+        renderer.render()
     }
 
 }
@@ -74,7 +74,11 @@ fun Paint.getNumberHeight(): Int {
     return rect.height()
 }
 
-class AndroidCanvasRenderer(val context: Context, val viz: Viz, var canvas: Canvas = Canvas()) : VizRenderer {
+class AndroidCanvasRenderer(
+    val context: Context,
+    override val viz: Viz,
+    var canvas: Canvas = Canvas()
+) : VizRenderer {
 
     var scale = 1F
 
@@ -85,7 +89,7 @@ class AndroidCanvasRenderer(val context: Context, val viz: Viz, var canvas: Canv
         viz.renderer = this
     }
 
-    override fun render(viz: Viz) {
+    override fun render() {
         viz.layers.forEach { layer ->
             if (layer.visible)
                 layer.render(this)
@@ -100,7 +104,7 @@ class AndroidCanvasRenderer(val context: Context, val viz: Viz, var canvas: Canv
                 }
             }
             animationTimers += timer {
-                render(viz)
+                render()
             }
         }
     }

@@ -80,11 +80,14 @@ private fun getPixelRatio(): Double{
 }
 
 
-class JsCanvasRenderer(val context: CanvasRenderingContext2D, val viz: Viz) : VizRenderer {
+class JsCanvasRenderer(
+    val context: CanvasRenderingContext2D,
+    override val viz: Viz
+) : VizRenderer {
 
     private val animationTimers = mutableListOf<Timer>()
 
-    override fun render(viz: Viz) {
+    override fun render() {
         context.clearRect(.0, .0, context.canvas.width.toDouble(), context.canvas.height.toDouble())
         viz.layers.forEach { layer ->
             if (layer.visible)
@@ -100,7 +103,7 @@ class JsCanvasRenderer(val context: CanvasRenderingContext2D, val viz: Viz) : Vi
                 }
             }
             animationTimers += timer {
-                render(viz)
+                render()
             }
         }
     }
