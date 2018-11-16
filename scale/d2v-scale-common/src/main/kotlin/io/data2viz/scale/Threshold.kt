@@ -5,7 +5,7 @@ package io.data2viz.scale
  * domain to discrete values in the range.
  * The input domain is still continuous, and divided into slices based on a set of threshold values.
  */
-class ThresholdScale<R> : Scale<Double, R>, DiscreteRange<R>, DiscreteDomain<Double> {
+class ThresholdScale<R> internal constructor() : Scale<Double, R>, DiscreteRange<R>, DiscreteDomain<Double> {
 
 
     var _domain: List<Double> = listOf(.5)
@@ -41,7 +41,7 @@ class ThresholdScale<R> : Scale<Double, R>, DiscreteRange<R>, DiscreteDomain<Dou
      */
     override fun invoke(domainValue: Double): R {
         check(_range.size == _domain.size + 1,
-                { "The range size (actual: ${_range.size}) must be 1 more than the domain size (actual: ${_domain.size})." })
+            { "The range size (actual: ${_range.size}) must be 1 more than the domain size (actual: ${_domain.size})." })
         return _range[bisectRight(_domain, domainValue, naturalOrder<Double>(), 0, _domain.size)]
     }
 
@@ -53,7 +53,7 @@ class ThresholdScale<R> : Scale<Double, R>, DiscreteRange<R>, DiscreteDomain<Dou
      */
     fun invertExtent(rangeValue: R): List<Double> {
         check(_range.size == _domain.size + 1,
-                { "The range size (actual: ${_range.size}) must be 1 more than the domain size (actual: ${_domain.size})." })
+            { "The range size (actual: ${_range.size}) must be 1 more than the domain size (actual: ${_domain.size})." })
         val i = _range.indexOf(rangeValue)
         val size = _range.size - 1
         return when {
