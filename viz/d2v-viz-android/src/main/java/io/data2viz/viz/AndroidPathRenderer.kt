@@ -19,6 +19,7 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
     }
 
     val path = android.graphics.Path()
+    val rect = RectF()
 
     fun arcTo(lastX: Double, lastY: Double, cpX: Double, cpY: Double, x: Double, y: Double, r: Double) {
 
@@ -40,8 +41,9 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
                         (-180f - alpha.radToDeg.toFloat()) % 360f
 
             path.moveTo(lastX.dp, lastY.dp)
+            rect.set ((cx - r).dp, (cy - r).dp, (cx + r).dp, (cy + r).dp)
             path.arcTo(
-                    RectF((cx - r).dp, (cy - r).dp, (cx + r).dp, (cy + r).dp),
+                    rect,
                     startAngle,
                     sweepAngle, false)
             path.lineTo(x.dp, y.dp)
@@ -60,7 +62,7 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
                 is ClosePath -> path.close()
                 is Arc -> {
                     val r = cmd.radius
-                    val rect = RectF((cmd.centerX - r).dp, (cmd.centerY - r).dp, (cmd.centerX + r).dp, (cmd.centerY + r).dp)
+                    rect.set((cmd.centerX - r).dp, (cmd.centerY - r).dp, (cmd.centerX + r).dp, (cmd.centerY + r).dp)
                     val startAngle = cmd.startAngle.radToDegrees()
                     var sweepAngle = cmd.endAngle.radToDegrees() - startAngle
 
