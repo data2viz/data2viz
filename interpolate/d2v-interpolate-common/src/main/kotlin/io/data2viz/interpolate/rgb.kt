@@ -2,11 +2,15 @@ package io.data2viz.interpolate
 
 import io.data2viz.color.Color
 import io.data2viz.color.Colors
+import io.data2viz.color.RgbColor
+import io.data2viz.math.PI
 import io.data2viz.math.Percent
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
+private const val pi_1_3 = PI / 3.0
+private const val pi_2_3 = PI * 2.0 / 3.0
 
 // TODO add alpha interpolation
 // TODO List instead of start, end ? (validate and check size !!)
@@ -67,7 +71,19 @@ private fun interpolateRgbBasis(colorsList: List<Color>, cyclical: Boolean = fal
     )
 }
 
+private fun percentToSinebow(percent: Percent) : RgbColor {
+    val t = (0.5 - percent.value) * PI
+    var x = kotlin.math.sin(t)
+    val r = (255 * x * x).roundToInt()
+    x = kotlin.math.sin(t + pi_1_3)
+    val g = (255 * x * x).roundToInt()
+    x = kotlin.math.sin(t + pi_2_3)
+    val b = (255 * x * x).roundToInt()
+    return Colors.rgb(r,g,b)
+}
+
 fun rgbBasisInterpolator(colors: List<Color>) = interpolateRgbBasis(colors, false)
 fun rgbBasisClosedInterpolator(colors: List<Color>) = interpolateRgbBasis(colors, true)
 fun rgbDefaultInterpolator(start: Color, end: Color) = interpolateRgb(start, end)
 fun rgbLinearInterpolator(start: Color, end: Color) = interpolateLRgb(start, end)
+fun rgbSineBowInterpolator(): Interpolator<Color> = ::percentToSinebow

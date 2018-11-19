@@ -103,4 +103,21 @@ class RGBTests : TestBase() {
         iterator(100.pct) shouldBe Colors.Web.pink
         iterator(200.pct) shouldBe Colors.Web.pink
     }
+
+    @Test
+    fun RGBSinebowInterpolation() {
+        val iterator = rgbSineBowInterpolator()
+        iterator(-100.pct) shouldBe "#FF4040".col
+
+        // cyclical (very small differences with 25% and 75% due to rounding)
+        iterator(-25.pct) shouldBe 0x8011ee.col
+        iterator(125.pct) shouldBe 0x80ee11.col
+
+        iterator(0.pct) shouldBe "#FF4040".col
+        iterator(25.pct) shouldBe 0x7fee11.col
+        iterator(50.pct) shouldBe 0x00bfbf.col
+        iterator(75.pct) shouldBe 0x7f11ee.col
+        iterator(100.pct) shouldBe "#FF4040".col
+        iterator(200.pct) shouldBe "#FF4040".col
+    }
 }
