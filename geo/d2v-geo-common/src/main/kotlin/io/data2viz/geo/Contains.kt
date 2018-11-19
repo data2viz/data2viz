@@ -9,35 +9,18 @@ fun contains(geo: GeoJsonObject, point: Position): Boolean {
     return containsGeometry(geo, point)
 }
 
-private fun containsGeometry(geo: GeoJsonObject, point: Position): Boolean {
-    when (geo) {
-        is Point -> return containsPoint(geo.coordinates, point)
-        is MultiPoint -> {
-            geo.coordinates.forEach { if (containsPoint(it, point)) return true }
-            return false
-        }
-        is Polygon -> return containsPolygon(geo.coordinates, point)
-        is MultiPolygon -> {
-            geo.coordinates.forEach { if (containsPolygon(it, point)) return true }
-            return false
-        }
-        is LineString -> return containsLine(geo.coordinates, point)
-        is MultiLineString -> {
-            geo.coordinates.forEach { if (containsLine(it, point)) return true }
-            return false
-        }
-        is Sphere -> return true
-        is GeometryCollection -> {
-            geo.geometries.forEach { if (containsGeometry(it, point)) return true }
-            return false
-        }
-        is FeatureCollection -> {
-            geo.features.forEach { if (containsGeometry(it, point)) return true }
-            return false
-        }
-        is Feature -> return containsGeometry(geo.geometry, point)
-        else -> return false
-    }
+private fun containsGeometry(geo: GeoJsonObject, point: Position): Boolean = when (geo) {
+    is Point                -> containsPoint(geo.coordinates, point)
+    is MultiPoint           -> geo.coordinates.any { containsPoint(it, point)}
+    is Polygon              -> containsPolygon(geo.coordinates, point)
+    is MultiPolygon         -> geo.coordinates.any { containsPolygon(it, point)}
+    is LineString           -> containsLine(geo.coordinates, point)
+    is MultiLineString      -> geo.coordinates.any { containsLine(it, point)}
+    is Sphere               -> true
+    is GeometryCollection   -> geo.geometries.any { containsGeometry(it, point)}
+    is FeatureCollection    -> geo.features.any { containsGeometry(it, point) }
+    is Feature              -> containsGeometry(geo.geometry, point)
+    else                    -> false
 }
 
 private fun containsPolygon(coordinates: Lines, point: Position): Boolean {
