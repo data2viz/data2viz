@@ -15,7 +15,7 @@ class ScaleLogTests : TestBase() {
         scale(100.0) shouldBeClose 1.0
     }
 
-    private fun scaleLog(): LogScale  = scales.continuous.log() as LogScale
+    private fun scaleLog(): LogScale  = Scales.Continuous.log() as LogScale
 
     @Test
     fun log_x_maps_a_number_x_to_a_number_y() {
@@ -25,8 +25,10 @@ class ScaleLogTests : TestBase() {
         scale.domain = listOf(1.0, 2.0)
         scale(.5) shouldBeClose -1.0000000
         scale(1.0) shouldBeClose 0.0000000
+        scale(1) shouldBeClose 0.0000000
         scale(1.5) shouldBeClose 0.5849625
         scale(2.0) shouldBeClose 1.0000000
+        scale(2) shouldBeClose 1.0000000
         scale(2.5) shouldBeClose 1.3219282
         scale.base shouldBeClose 10.0
     }

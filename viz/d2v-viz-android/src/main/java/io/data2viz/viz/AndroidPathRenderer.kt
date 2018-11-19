@@ -3,10 +3,7 @@ package io.data2viz.viz
 import android.graphics.Paint
 import android.graphics.RectF
 import io.data2viz.geom.*
-import kotlin.math.absoluteValue
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.*
 
 
 private const val EPSILON_FLOAT = 0.0001f
@@ -93,4 +90,17 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
         canvas.drawPath(path, paint)
     }
 }
+
+val Number.radToDeg: Double
+    get() = this.toDouble() * 180 / PI
+
+fun angle(alpha: Double): Double = when {
+    alpha > PI -> (alpha - 2 * PI)
+    alpha < -PI -> (2 * PI + alpha)
+    else -> alpha
+}
+
+fun Boolean.toSign() = if (this) 1 else -1
+
+fun Double.radToDegrees() = Math.toDegrees(this).toFloat()
 

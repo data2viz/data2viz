@@ -7,7 +7,7 @@ package io.data2viz.scale
  * in (i.e., the cardinality of) the output range.
  * Each range value y can be expressed as a quantized linear function of the domain value x: y = m round(x) + b.
  */
-class QuantizeScale<R> : Scale<Double, R>, StrictlyContinuousDomain<Double>, DiscreteRange<R> {
+class QuantizeScale<R> internal constructor() : Scale<Double, R>, StrictlyContinuousDomain<Double>, DiscreteRange<R> {
 
 
     private val quantizedDomain:ArrayList<Double> = arrayListOf(.5)
@@ -39,7 +39,7 @@ class QuantizeScale<R> : Scale<Double, R>, StrictlyContinuousDomain<Double>, Dis
 
 
     override fun invoke(domainValue: Double): R {
-        return range[bisectRight(quantizedDomain, domainValue, naturalOrder<Double>(), 0, range.size - 1)]
+        return range[bisectRight(quantizedDomain, domainValue, naturalOrder(), 0, range.size - 1)]
     }
 
     fun invertExtent(rangeValue: R): List<Double> {

@@ -1,6 +1,16 @@
 package io.data2viz.geom
 
 /**
+ * Creates a size.
+ */
+fun size(x: Double, y: Double) = Size(x, y)
+
+/**
+ * Creates a size from Ints.
+ */
+fun size(x: Int, y: Int) = Size(x.toDouble(), y.toDouble())
+
+/**
  * Size represents a rectangle dimension. The second parameter of the constructor (height)
  * is option and takes by default the same value as the width.
  */

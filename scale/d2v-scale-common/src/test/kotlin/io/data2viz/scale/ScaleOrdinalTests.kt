@@ -10,7 +10,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_has_expected_defaults() {
-        val scale = scales.ordinal<Int, Int>()
+        val scale = Scales.Discrete.ordinal<Int, Int>()
 
         scale.domain shouldBe listOf()
         scale.range shouldBe listOf()
@@ -20,7 +20,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_x_maps_unique_x_in_domain_to_corresponding_value_in_range() {
-        val scale = scales.ordinal<Int, String>()
+        val scale = Scales.Discrete.ordinal<Int, String>()
 
         scale.domain = listOf(0, 1)
         scale.range = listOf("foo", "bar")
@@ -34,7 +34,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_x_implicitly_extends_the_domain_when_a_range_is_explicitly_specified() {
-        val scale = scales.ordinal<Int, String>()
+        val scale = Scales.Discrete.ordinal<Int, String>()
         scale.range = listOf("foo", "bar")
 
         scale.domain shouldBe listOf()
@@ -48,7 +48,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_domain_makes_a_copy_of_the_domain() {
-        val scale = scales.ordinal<String, String>()
+        val scale = Scales.Discrete.ordinal<String, String>()
 
         val domain = arrayListOf("red", "green")
         scale.domain = domain
@@ -58,7 +58,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_x_then_domain_makes_a_copy_of_the_domain() {
-        val scale = scales.ordinal<String, String>()
+        val scale = Scales.Discrete.ordinal<String, String>()
         scale.range = listOf("toto")
 
         scale.domain = arrayListOf("red", "green")
@@ -70,7 +70,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_domain_replaces_previous_values() {
-        val scale = scales.ordinal<Int, String>()
+        val scale = Scales.Discrete.ordinal<Int, String>()
         scale.range = listOf("foo", "bar")
 
         scale(1) shouldBe "foo"
@@ -85,7 +85,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_domain_is_ordered_by_appearance() {
-        val scale = scales.ordinal<String, String>()
+        val scale = Scales.Discrete.ordinal<String, String>()
         scale.range = listOf("toto")
 
         scale("foo")
@@ -108,7 +108,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_range_makes_a_copy_of_the_range() {
-        val scale = scales.ordinal<String, String>()
+        val scale = Scales.Discrete.ordinal<String, String>()
 
         val range = arrayListOf("red", "green")
         scale.range = range
@@ -118,7 +118,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_x_then_range_makes_a_copy_of_the_range() {
-        val scale = scales.ordinal<String, String>()
+        val scale = Scales.Discrete.ordinal<String, String>()
 
         scale.range = arrayListOf("red", "green")
         val range = scale.range
@@ -129,7 +129,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_range_values_does_not_discard_implicit_domain_associations() {
-        val scale = scales.ordinal<Int, String>()
+        val scale = Scales.Discrete.ordinal<Int, String>()
 
         scale.range = listOf("toto")
         scale(0) shouldBe ("toto")
@@ -142,7 +142,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_value_recylces_values_when_exhausted() {
-        val scale = scales.ordinal<Int, String>()
+        val scale = Scales.Discrete.ordinal<Int, String>()
         scale.range = listOf("a", "b", "c")
 
         scale(0) shouldBe ("a")
@@ -158,7 +158,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_unknown_x_sets_output_value_for_unknown_inputs() {
-        val scale = scales.ordinal<Int, String>()
+        val scale = Scales.Discrete.ordinal<Int, String>()
         scale.domain = listOf(1, 2)
         scale.range = listOf("foo", "bar")
         scale.unknown = "gray"
@@ -171,7 +171,7 @@ class ScaleOrdinalTests : TestBase() {
 
     @Test
     fun ordinal_unknown_x_prevents_domain_extension_if_x_not_implicit() {
-        val scale = scales.ordinal<Int, String>()
+        val scale = Scales.Discrete.ordinal<Int, String>()
         scale.domain = listOf(1, 2)
         scale.range = listOf("foo", "bar")
         scale.unknown = "undefined"

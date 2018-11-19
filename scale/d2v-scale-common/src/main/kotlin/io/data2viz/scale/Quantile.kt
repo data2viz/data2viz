@@ -12,7 +12,7 @@ import kotlin.math.max
  * the output range determines the number of quantiles that will be computed from the domain.
  * To compute the quantiles, the domain is sorted, and treated as a population of discrete values;
  */
-class QuantileScale<R> : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
+class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
 
         
     private var thresholds: MutableList<Double> = arrayListOf()
@@ -24,9 +24,8 @@ class QuantileScale<R> : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange
      * to the first threshold but less than the second threshold are in the second quantile, and so on.
      * Internally, the thresholds array is used with bisect to find the output quantile associated with the given input value.
      */
-    fun quantiles(): List<Double> {
-        return thresholds.toList()
-    }
+    val quantiles
+        get() = thresholds.toList()
 
     /**
      * If' domain is specified, sets the domain of the quantile scale to the specified set of discrete numeric values.
@@ -86,7 +85,7 @@ class QuantileScale<R> : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange
         require(!domainValue.isNaN(), { "domainValue can't be NaN" })
         check(domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
         check(range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
-        return range[bisectRight(thresholds, domainValue, naturalOrder<Double>())]
+        return range[bisectRight(thresholds, domainValue, naturalOrder())]
     }
 }
 

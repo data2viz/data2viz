@@ -4,21 +4,18 @@ import kotlin.math.floor
 import kotlin.math.max
 
 
-/**
- * Retu
- */
-abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = IndexableDomain()) : 
-        Scale<D,Double>, 
-        DiscreteDomain<D> by indexableDomain, 
-        Tickable<D>, 
-        StrictlyContinuousRange<D, Double> {
+abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = IndexableDomain()) :
+    Scale<D, Double>,
+    DiscreteDomain<D> by indexableDomain,
+    Tickable<D>,
+    StrictlyContinuousRange<D, Double> {
 
     private val unknown = Double.NaN
 
     protected var _paddingInner: Double = 0.0
     protected var _paddingOuter: Double = 0.0
 
-    abstract var padding:Double
+    abstract var padding: Double
 
     override var domain: List<D>
         get() = indexableDomain._domain
@@ -41,7 +38,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
 
     var align: Double = 0.5
         set(value) {
-            field = value.coerceIn(.0 .. 1.0)
+            field = value.coerceIn(.0..1.0)
             rescale()
         }
 
@@ -85,20 +82,20 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
 
 /**
  * Represents domain as band (for barchart for example).
- * 
+ *
  * BandScale.invoke(domain) returns the coordinate of the start of each band.
- * 
- * 
+ *
+ *
  * [padding]
- * 
- * [paddingInner] representents the size between 
- * 
+ *
+ * [paddingInner] representents the size between
+ *
  * Band scales are like ordinal scales except the output range is continuous and numeric.
  * Discrete output values are automatically computed by the scale by dividing the continuous range into uniform bands.
  * Band scales are typically used for bar charts with an ordinal or categorical dimension.
  * The unknown value of a band scale is always NaN: they do not allow implicit domain construction.
  */
-class BandScale<D> : BandedScale<D>() {
+class BandScale<D> internal constructor() : BandedScale<D>() {
 
     override var padding: Double
         get() = _paddingInner
@@ -111,14 +108,14 @@ class BandScale<D> : BandedScale<D>() {
     var paddingInner
         get() = _paddingInner
         set(value) {
-            _paddingInner = value.coerceIn(.0 .. 1.0)
+            _paddingInner = value.coerceIn(.0..1.0)
             rescale()
         }
 
     var paddingOuter
         get() = _paddingOuter
         set(value) {
-            _paddingOuter = value.coerceIn(.0 .. 1.0)
+            _paddingOuter = value.coerceIn(.0..1.0)
             rescale()
         }
 }
@@ -136,7 +133,7 @@ class PointScale<D> : BandedScale<D>() {
      * The outer padding determines the ratio of the range that is reserved for blank space before the first
      * point and after the last point. Equivalent to band.paddingOuter.
      */
-    override var padding:Double
+    override var padding: Double
         get() = _paddingOuter
         set(value) {
             _paddingOuter = value

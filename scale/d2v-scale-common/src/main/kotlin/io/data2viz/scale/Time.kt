@@ -2,7 +2,9 @@ package io.data2viz.scale
 
 import io.data2viz.interpolate.Interpolator
 import io.data2viz.interpolate.UnInterpolator
-import io.data2viz.math.*
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
+import io.data2viz.math.tickStep
 import io.data2viz.time.*
 
 val dateComparator = Comparator<Date> { a, b -> if (a.millisecondsBetween(b) > 0) -1 else if (a.millisecondsBetween(b) < 0) 1 else 0 }
@@ -39,7 +41,7 @@ private val tickIntervals = listOf(
  * and invert returns a date.
  * Time scales implement ticks based on calendar intervals, taking the pain out of generating axes for temporal domains.
  */
-class TimeScale<R>(interpolateRange: (R, R) -> Interpolator<R>,
+class TimeScale<R> internal constructor(interpolateRange: (R, R) -> Interpolator<R>,
                    uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
                    rangeComparator: Comparator<R>? = null)
     : ContinuousScale<Date, R>(interpolateRange, uninterpolateRange, rangeComparator),

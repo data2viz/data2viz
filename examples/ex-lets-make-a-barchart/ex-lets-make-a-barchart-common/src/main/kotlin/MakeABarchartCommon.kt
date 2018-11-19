@@ -2,7 +2,7 @@ package io.data2viz.examples.letsMakeABarchart
 
 import io.data2viz.color.Colors
 import io.data2viz.geom.Size
-import io.data2viz.scale.scales
+import io.data2viz.scale.Scales
 import io.data2viz.viz.TextAlignmentBaseline
 import io.data2viz.viz.TextAnchor
 import io.data2viz.viz.Viz
@@ -26,7 +26,7 @@ fun barchartViz() = Viz().apply {
 
     size = Size(vizWidth, myData.size * barHeight)
 
-    val xScale = scales.continuous.linear {
+    val xScale = Scales.Continuous.linear {
         domain = listOf(.0, myData.maxBy { it.value }!!.value)
         range = listOf(.0, vizWidth)
     }

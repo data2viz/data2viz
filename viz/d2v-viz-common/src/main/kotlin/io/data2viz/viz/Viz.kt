@@ -37,7 +37,7 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
     lateinit var renderer: VizRenderer
 
     fun render() {
-        renderer.render(this)
+        renderer.render()
     }
 
     fun startAnimations(){
@@ -71,10 +71,6 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
 }
 
 fun viz(init: Viz.() -> Unit): Viz  = Viz().apply(init)
-
-
-@Deprecated("Old design, should be replaced.")
-interface VizElement
 
 
 interface StateableElement {
@@ -147,17 +143,4 @@ data class Margins(val top: Double, val right: Double = top, val bottom: Double 
 
 interface HasTransform {
     val transform:Transform?
-}
-
-interface HasChildren: HasStyle {
-
-    fun add(node: Node)
-    fun remove(node: Node)
-    fun clear()
-    fun group(init: GroupNode.() -> Unit): GroupNode
-    fun line(init: LineNode.() -> Unit): LineNode
-    fun circle(init: CircleNode.() -> Unit): CircleNode
-    fun rect(init: RectNode.() -> Unit): RectNode
-    fun text(init: TextNode.() -> Unit): TextNode
-    fun path(init: PathNode.() -> Unit): PathNode
 }

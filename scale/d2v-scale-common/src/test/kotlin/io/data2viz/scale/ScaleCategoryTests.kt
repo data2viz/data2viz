@@ -8,7 +8,7 @@ class ScaleCategoryTests : TestBase() {
 
     @Test
     fun category_10_Int() {
-        val scale = scales.colors.category10<Int>()
+        val scale = ScalesChromatic.Discrete.category10<Int>()
         scale(0) shouldBe 0x1f77b4.col
         scale(1) shouldBe 0xff7f0e.col
         scale(2) shouldBe 0x2ca02c.col
@@ -26,7 +26,7 @@ class ScaleCategoryTests : TestBase() {
 
     @Test
     fun category_10() {
-        val scale = scales.colors.category10<String>()
+        val scale = ScalesChromatic.Discrete.category10<String>()
         scale("a") shouldBe 0x1f77b4.col
         scale("b") shouldBe 0xff7f0e.col
         scale("c") shouldBe 0x2ca02c.col
