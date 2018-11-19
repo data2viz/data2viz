@@ -22,6 +22,7 @@ inline class Angle(val rad: Double){
     operator fun times(d: Number)       = Angle(rad * d.toDouble())
     operator fun div(d: Number)         = Angle(rad / d.toDouble())
     operator fun div(other: Angle)      = rad / other.rad
+    operator fun unaryMinus() = Angle(-rad)
 
 }
 
