@@ -1,14 +1,11 @@
 package io.data2viz.math
 
-import io.data2viz.geom.Point
-
+import io.data2viz.geom.*
 
 /**
- * @name Matrix
- *
- * @class An affine transformation matrix performs a linear mapping from 2D
- *     coordinates to other 2D coordinates that preserves the "straightness" and
- *     "parallelness" of lines.
+ * An affine transformation matrix performs a linear mapping from 2D
+ * coordinates to other 2D coordinates that preserves the "straightness" and
+ * "parallelness" of lines.
  *
  * Such a coordinate transformation can be represented by a 3 row by 3
  * column matrix with an implied last row of `[ 0 0 1 ]`. This matrix
@@ -25,16 +22,21 @@ import io.data2viz.geom.Point
  * This class is optimized for speed and minimizes calculations based on its
  * knowledge of the underlying matrix (as opposed to say simply performing
  * matrix multiplication).
+ *
+ * todo make it immutable?
  */
 data class Matrix(
-    var a: Double = 1.0,
-    var b: Double = 0.0,
-    var c: Double = 0.0,
-    var d: Double = 1.0,
-    var tx: Double = 0.0,
-    var ty: Double = 0.0
+    internal var a: Double = 1.0,
+    internal var b: Double = 0.0,
+    internal var c: Double = 0.0,
+    internal var d: Double = 1.0,
+    internal var tx: Double = 0.0,
+    internal var ty: Double = 0.0
 ) {
 
+    /**
+     * Change transformation parameters to make the transformation an identity.
+     */
     fun reset(): Matrix {
         a = 1.0
         d = 1.0
@@ -45,14 +47,30 @@ data class Matrix(
         return this
     }
 
+    /**
+     * Add a translation to the current transformation.
+     */
+    fun translate(pt: Point) = translate(pt.x, pt.y)
+
+    /**
+     * Add a translation to the current transformation.
+     */
     fun translate(x: Double, y: Double): Matrix {
         tx += x * a + y * c
-        ty += x * a + y * d
+        ty += x * b + y * d
         return this
     }
 
-    fun translate(pt: Point) = translate(pt.x, pt.y)
+    /**
+     * Add a scale transformation to the current one, using the same scale
+     * factor for X and Y and an optional point f
+     */
+    fun scale(scaleXY: Double, center: Point? = null) = scale(scaleXY, scaleXY, center)
 
+    /**
+     * Add a scale transformation to the current one, using the same scale
+     * factor for X and Y
+     */
     fun scale(scaleX: Double, scaleY: Double, center: Point? = null): Matrix {
 
         center?.let {
@@ -63,11 +81,16 @@ data class Matrix(
         c *= scaleY
         d *= scaleY
         center?.let {
-            translate(it.negate())
+            translate(-it)
         }
         return this
     }
 
+    /**
+     * Add a rotation to the current transformation. The rotation is done
+     * using the optional center point as pivot. Without a center parameter,
+     * the rotation uses the
+     */
     fun rotate(angle: Angle, center: Point? = null): Matrix {
         val cos = angle.cos
         val sin = angle.sin
@@ -92,5 +115,13 @@ data class Matrix(
         return this
     }
 
+    /**
+     * Apply the current transformation matrix to a point.
+     * @return the point coordinates after apply the transformation.
+     */
+    fun transform(point: Point) = point(
+        point.x * a + point.y * c + tx,
+        point.x * b + point.y * d + ty
+    )
 
 }
