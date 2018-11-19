@@ -4,32 +4,32 @@ import android.graphics.*
 
 internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
 	val canvas = renderer.canvas
-	with(renderer) {
-		paint.textAlign = style.anchor.android
-		paint.textSize = fontSize.dp
+	paint.textAlign = style.anchor.android
+	paint.textSize = fontSize.toFloat()
 
-		paint.typeface = Typeface.create(fontFamily.name, getAndroidStyle(fontWeight, fontStyle))
+	paint.typeface = Typeface.create(fontFamily.name, getAndroidStyle(fontWeight, fontStyle))
 
-		val dy = baseline.dy(renderer, paint.fontMetrics)
+	val dy = baseline.dy(paint.fontMetrics)
 
-		style.fill?.let {
-			paint.style = Paint.Style.FILL
-			it.updatePaint(paint, renderer)
-			canvas.drawText(
-				textContent,
-				x.dp,
-				y.dp - dy,
-				paint )
-		}
-		style.stroke?.let {
-			paint.style = Paint.Style.STROKE
-			it.updatePaint(paint, renderer)
-			canvas.drawText(
-				textContent,
-				x.dp,
-				y.dp - dy,
-				paint )
-		}
+	style.fill?.let {
+		paint.style = Paint.Style.FILL
+		it.updatePaint(paint)
+		canvas.drawText(
+			textContent,
+			x.toFloat(),
+			y.toFloat() - dy,
+			paint
+		)
+	}
+	style.stroke?.let {
+		paint.style = Paint.Style.STROKE
+		it.updatePaint(paint)
+		canvas.drawText(
+			textContent,
+			x.toFloat(),
+			y.toFloat() - dy,
+			paint
+		)
 	}
 }
 
@@ -38,16 +38,14 @@ internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
  * The y distance to move the text from baseline in order to respect the wanted
  * alignment.
  *
- * The middle alignement is an approximation.
+ * The middle alignment is an approximation.
  * TODO resolve by implementing DV-105
  */
-internal fun TextAlignmentBaseline.dy(renderer: AndroidCanvasRenderer, fontMetrics: Paint.FontMetrics): Float =
-	with(renderer){
-		when(this@dy){
-			TextAlignmentBaseline.BASELINE  -> 0F
-			TextAlignmentBaseline.HANGING   -> fontMetrics.top
-			TextAlignmentBaseline.MIDDLE    -> fontMetrics.ascent * .4f
-		}
+internal fun TextAlignmentBaseline.dy(fontMetrics: Paint.FontMetrics): Float =
+	when(this@dy){
+		TextAlignmentBaseline.BASELINE  -> 0F
+		TextAlignmentBaseline.HANGING   -> fontMetrics.top
+		TextAlignmentBaseline.MIDDLE    -> fontMetrics.ascent * .4f
 	}
 
 internal val TextAnchor.android: Paint.Align

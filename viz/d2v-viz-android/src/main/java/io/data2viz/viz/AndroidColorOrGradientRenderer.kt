@@ -10,41 +10,37 @@ typealias ALinearGradient = android.graphics.LinearGradient
 typealias ARadialGradient = android.graphics.RadialGradient
 
 
-fun ColorOrGradient.updatePaint(paint: Paint, renderer: AndroidCanvasRenderer) {
+fun ColorOrGradient.updatePaint(paint: Paint) {
 	when (this) {
 		is Color -> {
 			paint.color = this.toColor()
 			paint.shader = null
 		}
-		is LinearGradient -> paint.shader = this.toLinearGradient(renderer)
-		is RadialGradient -> paint.shader = this.toRadialGradient(renderer)
+		is LinearGradient -> paint.shader = this.toLinearGradient()
+		is RadialGradient -> paint.shader = this.toRadialGradient()
 		else -> error("Unknown type :: ${this::class}")
 	}
 }
 
-private fun RadialGradient.toRadialGradient(renderer: AndroidCanvasRenderer) =
-	with(renderer) {
-		ARadialGradient(
-			cx.dp,
-			cy.dp,
-			radius.dp,
-			IntArray(colorStops.size) { colorStops[it].color.toColor() },
-			FloatArray(colorStops.size) { colorStops[it].percent.toFloat() },
-			Shader.TileMode.CLAMP)
-	}
+private fun RadialGradient.toRadialGradient() =
+	ARadialGradient(
+		cx.toFloat(),
+		cy.toFloat(),
+		radius.toFloat(),
+		IntArray(colorStops.size) { colorStops[it].color.toColor() },
+		FloatArray(colorStops.size) { colorStops[it].percent.toFloat() },
+		Shader.TileMode.CLAMP)
 
 
-private fun LinearGradient.toLinearGradient(renderer: AndroidCanvasRenderer) =
-	with(renderer) {
-		ALinearGradient(
-			x1.dp,
-			y1.dp,
-			x2.dp,
-			y2.dp,
-			IntArray(colorStops.size) { colorStops[it].color.toColor() },
-			FloatArray(colorStops.size) { colorStops[it].percent.toFloat() },
-			Shader.TileMode.CLAMP)
-	}
+private fun LinearGradient.toLinearGradient() =
+	ALinearGradient(
+		x1.toFloat(),
+		y1.toFloat(),
+		x2.toFloat(),
+		y2.toFloat(),
+		IntArray(colorStops.size) { colorStops[it].color.toColor() },
+		FloatArray(colorStops.size) { colorStops[it].percent.toFloat() },
+		Shader.TileMode.CLAMP)
 
 fun Color.toColor() =
 	((255 * this.alpha).toInt() and 0xff shl 24) or

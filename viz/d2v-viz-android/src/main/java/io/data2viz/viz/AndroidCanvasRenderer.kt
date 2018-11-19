@@ -6,6 +6,8 @@ import android.graphics.*
 import android.view.*
 import io.data2viz.timer.*
 
+typealias AMatrix = android.graphics.Matrix
+
 
 val paint = Paint().apply {
     isAntiAlias = true
@@ -80,7 +82,15 @@ class AndroidCanvasRenderer(
     var canvas: Canvas = Canvas()
 ) : VizRenderer {
 
-    var scale = 1F
+    val matrix = AMatrix()
+
+    private var _scale:Float = 1f
+    var scale
+        get() = _scale
+        set(value) {
+            _scale = value
+            matrix.setScale(value, value)
+        }
 
     private val animationTimers = mutableListOf<Timer>()
 
@@ -90,6 +100,7 @@ class AndroidCanvasRenderer(
     }
 
     override fun render() {
+        canvas.matrix = matrix
         viz.layers.forEach { layer ->
             if (layer.visible)
                 layer.render(this)
@@ -112,9 +123,5 @@ class AndroidCanvasRenderer(
     override fun stopAnimations() {
         animationTimers.forEach { it.stop() }
     }
-
-
-    val Double.dp: Float
-        get() = (this * scale).toFloat()
 
 }

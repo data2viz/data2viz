@@ -22,71 +22,87 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
 
     fun arcTo(lastX: Double, lastY: Double, cpX: Double, cpY: Double, x: Double, y: Double, r: Double) {
 
-        with(renderer) {
+        val alpha1 = atan2(lastY - cpY, lastX - cpX)
+        val alpha2 = atan2(y - cpY, x - cpX)
+        val alpha = angle(alpha1 - alpha2)
+        val d = r / sin(alpha / 2).absoluteValue
+        val cx = cpX + d * cos(alpha1 - alpha / 2)
+        val cy = cpY + d * sin(alpha1 - alpha / 2)
 
-            val alpha1 = atan2(lastY - cpY, lastX - cpX)
-            val alpha2 = atan2(y - cpY, x - cpX)
-            val alpha = angle(alpha1 - alpha2)
-            val d = r / sin(alpha / 2).absoluteValue
-            val cx = cpX + d * cos(alpha1 - alpha / 2)
-            val cy = cpY + d * sin(alpha1 - alpha / 2)
+        val clockwise = alpha > 0
+        val startAngle = alpha1.radToDeg.toFloat() + clockwise.toSign() * 90f
+        val sweepAngle =
+                if (clockwise)
+                    360 - ((180f + alpha.radToDeg.toFloat()) % 360f)
+                else
+                    (-180f - alpha.radToDeg.toFloat()) % 360f
 
-            val clockwise = alpha > 0
-            val startAngle = alpha1.radToDeg.toFloat() + clockwise.toSign() * 90f
-            val sweepAngle =
-                    if (clockwise)
-                        360 - ((180f + alpha.radToDeg.toFloat()) % 360f)
-                    else
-                        (-180f - alpha.radToDeg.toFloat()) % 360f
-
-            path.moveTo(lastX.dp, lastY.dp)
-            path.arcTo(
-                    RectF((cx - r).dp, (cy - r).dp, (cx + r).dp, (cy + r).dp),
-                    startAngle,
-                    sweepAngle, false)
-            path.lineTo(x.dp, y.dp)
-        }
+        path.moveTo(lastX.toFloat(), lastY.toFloat())
+        path.arcTo(
+                RectF((cx - r).toFloat(), (cy - r).toFloat(), (cx + r).toFloat(), (cy + r).toFloat()),
+                startAngle,
+                sweepAngle, false)
+        path.lineTo(x.toFloat(), y.toFloat())
     }
 
     this@render.path.commands.forEachIndexed { index, cmd ->
-        with(renderer) {
-            when (cmd) {
-                is MoveTo -> path.moveTo(cmd.x.dp, cmd.y.dp)
-                is LineTo -> path.lineTo(cmd.x.dp, cmd.y.dp)
-                is QuadraticCurveTo -> path.quadTo(cmd.cpx.dp, cmd.cpy.dp, cmd.x.dp, cmd.y.dp)
-                is BezierCurveTo -> path.cubicTo(cmd.cpx1.dp, cmd.cpy1.dp, cmd.cpx2.dp, cmd.cpy2.dp, cmd.x.dp, cmd.y.dp)
-                is ArcTo -> arcTo(last(index).x, last(index).y, cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
-                is RectCmd -> path.addRect(cmd.x.dp, cmd.y.dp, (cmd.x + cmd.w).dp, (cmd.y + cmd.h).dp, android.graphics.Path.Direction.CW)
-                is ClosePath -> path.close()
-                is Arc -> {
-                    val r = cmd.radius
-                    val rect = RectF((cmd.centerX - r).dp, (cmd.centerY - r).dp, (cmd.centerX + r).dp, (cmd.centerY + r).dp)
-                    val startAngle = cmd.startAngle.radToDegrees()
-                    var sweepAngle = cmd.endAngle.radToDegrees() - startAngle
+        when (cmd) {
+            is MoveTo -> path.moveTo(cmd.x.toFloat(), cmd.y.toFloat())
+            is LineTo -> path.lineTo(cmd.x.toFloat(), cmd.y.toFloat())
+            is QuadraticCurveTo -> path.quadTo(
+                cmd.cpx.toFloat(),
+                cmd.cpy.toFloat(),
+                cmd.x.toFloat(),
+                cmd.y.toFloat()
+            )
+            is BezierCurveTo -> path.cubicTo(
+                cmd.cpx1.toFloat(),
+                cmd.cpy1.toFloat(),
+                cmd.cpx2.toFloat(),
+                cmd.cpy2.toFloat(),
+                cmd.x.toFloat(),
+                cmd.y.toFloat()
+            )
+            is ArcTo -> arcTo(last(index).x, last(index).y, cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
+            is RectCmd -> path.addRect(
+                cmd.x.toFloat(),
+                cmd.y.toFloat(),
+                (cmd.x + cmd.w).toFloat(),
+                (cmd.y + cmd.h).toFloat(), android.graphics.Path.Direction.CW)
+            is ClosePath -> path.close()
+            is Arc -> {
+                val r = cmd.radius
+                val rect = RectF(
+                    (cmd.centerX - r).toFloat(),
+                    (cmd.centerY - r).toFloat(),
+                    (cmd.centerX + r).toFloat(),
+                    (cmd.centerY + r).toFloat()
+                )
+                val startAngle = cmd.startAngle.radToDegrees()
+                var sweepAngle = cmd.endAngle.radToDegrees() - startAngle
 
-                    if (!cmd.counterClockWise && sweepAngle < -EPSILON_FLOAT) sweepAngle = (sweepAngle % 360) + 360
-                    if (cmd.counterClockWise && sweepAngle > EPSILON_FLOAT) sweepAngle = (sweepAngle % 360) - 360
+                if (!cmd.counterClockWise && sweepAngle < -EPSILON_FLOAT) sweepAngle = (sweepAngle % 360) + 360
+                if (cmd.counterClockWise && sweepAngle > EPSILON_FLOAT) sweepAngle = (sweepAngle % 360) - 360
 
-                    // on Android an arc with an angle of 360 is not drawn !
-                    if (sweepAngle.absoluteValue > 360) sweepAngle = EPSILON_CIRCLE
-                    else if (sweepAngle.absoluteValue < -360) sweepAngle = -EPSILON_CIRCLE
+                // on Android an arc with an angle of 360 is not drawn !
+                if (sweepAngle.absoluteValue > 360) sweepAngle = EPSILON_CIRCLE
+                else if (sweepAngle.absoluteValue < -360) sweepAngle = -EPSILON_CIRCLE
 
-                    path.arcTo(rect, startAngle, sweepAngle)
-                }
-                else -> error("Unknown path command:: ${cmd::class}")
+                path.arcTo(rect, startAngle, sweepAngle)
             }
+            else -> error("Unknown path command:: ${cmd::class}")
         }
     }
 
     style.fill?.let {
         paint.style = Paint.Style.FILL
-        it.updatePaint(paint, renderer)
+        it.updatePaint(paint)
         canvas.drawPath(path, paint)
     }
 
     style.stroke?.let {
         paint.style = Paint.Style.STROKE
-        it.updatePaint(paint, renderer)
+        it.updatePaint(paint)
         canvas.drawPath(path, paint)
     }
 }
