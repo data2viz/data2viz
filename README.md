@@ -177,9 +177,10 @@ of the library
 
 
 ## Inspirations
- - [d3js](https://github.com/d3/d3): a lot of modules and algorithms come from d3js
+ - [d3js](https://github.com/d3/d3): a lot of modules and algorithms come from d3js.
  - [paperjs](https://github.com/paperjs/paper.js): another source of inspiration for viz hierarchy and simple API.
- - [delaunator](https://github.com/mapbox/delaunator): A really fast JavaScript library for Delaunay triangulation of 2D points.
- - [kotlinx.html](https://github.com/Kotlin/kotlinx.html): isomorphic html rendering 
- - [kotlintest](https://github.com/kotlintest/kotlintest): nice DSL for testing (partly ported in [test](tests))
+ - [chromajs](https://github.com/gka/chroma.js): smart library for managing colors easily.
+ - [delaunator](https://github.com/mapbox/delaunator): a really fast JavaScript library for Delaunay triangulation of 2D points.
+ - [kotlinx.html](https://github.com/Kotlin/kotlinx.html): isomorphic html rendering.
+ - [kotlintest](https://github.com/kotlintest/kotlintest): nice DSL for testing (partly ported in [test](tests)).
  
