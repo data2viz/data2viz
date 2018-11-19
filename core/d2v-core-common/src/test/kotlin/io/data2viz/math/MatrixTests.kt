@@ -11,6 +11,7 @@ class MatrixTests : TestBase() {
     @Test
     fun default() {
         val matrix = Matrix()
+        matrix.isIdentity() shouldBe true
         val default = Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
         matrix shouldEqual default
         matrix.translate(point(10, 10)) shouldEqual Matrix(1.0, 0.0, 0.0, 1.0, 10.0, 10.0)
@@ -31,7 +32,8 @@ class MatrixTests : TestBase() {
         matrix.scale(2.0) shouldEqual Matrix(2.0, 0.0, 0.0, 2.0, 0.0, 0.0)
         matrix.transform(point(10, 10)) shouldEqual point(20, 20)
         matrix.scale(2.0, point(1, 1)) shouldEqual Matrix(4.0, 0.0, 0.0, 4.0, -2.0, -2.0)
-        matrix.transform(point(10, 10)) shouldEqual point(38, 38)
+        matrix.transform(point(10, 10)) shouldBeClose point(38, 38)
+        matrix.inverseTransform(point(38, 38)) shouldBeClose point(10, 10)
     }
 
     @Test
@@ -56,6 +58,16 @@ class MatrixTests : TestBase() {
             .rotate(PI_ANGLE / 2)
             .rotate(-PI_ANGLE / 2, point(10, 10))
         matrix shouldBeClose Matrix().translate(point(-20, 0))
+    }
+
+    @Test
+    fun append(){
+        Matrix()
+            .translate(10.0, 10.0)
+            .append(Matrix().scale(2.0))
+            .append(Matrix().translate(10.0, 10.0)) shouldBeClose
+                Matrix(2.0, .0, .0, 2.0, 30.0, 30.0)
+
     }
 
 
