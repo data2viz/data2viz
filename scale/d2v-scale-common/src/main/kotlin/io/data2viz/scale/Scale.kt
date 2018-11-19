@@ -219,6 +219,7 @@ object ScalesChromatic {
         fun linearHSLLong(init: LinearScale<Color>.() -> Unit = {}) = LinearScale(::hslLongInterpolator).apply(init)
     }
 
+    // TODO these scales should also be available as "ordinal scales"
     object Sequential {
 
         object SingleHue {
@@ -322,16 +323,14 @@ object ScalesChromatic {
                 SequentialScale(rgbBasisInterpolator(EncodedColors.spectral.last().colors)).apply(init)
         }
 
-        // TODO rainbow, sinebow
+        // TODO rainbow
         object Cyclical {
-
+            fun sineBow(init: SequentialScale<Color>.() -> Unit = {}) =
+                SequentialScale(rgbSineBowInterpolator()).apply(init)
         }
     }
 
     object Discrete {
-        fun <D> category10(init: OrdinalScale<D, Color>.() -> Unit = {}) =
-            OrdinalScale<D, Color>(EncodedColors.category10.colors).apply(init)
-
         fun <D> accent8(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.accents.colors).apply(init)
 
@@ -356,13 +355,16 @@ object ScalesChromatic {
         fun <D> pale12(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.set3.colors).apply(init)
 
-        fun <D> category20A(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+        fun <D> category10(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+            OrdinalScale<D, Color>(EncodedColors.category10.colors).apply(init)
+
+        fun <D> categoryA20(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category20.colors).apply(init)
 
-        fun <D> category20B(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+        fun <D> categoryB20(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category20b.colors).apply(init)
 
-        fun <D> category20C(init: OrdinalScale<D, Color>.() -> Unit = {}) =
+        fun <D> categoryC20(init: OrdinalScale<D, Color>.() -> Unit = {}) =
             OrdinalScale<D, Color>(EncodedColors.category20c.colors).apply(init)
     }
 }

@@ -30,6 +30,10 @@ open class LinearScale<R>
     override fun uninterpolateDomain(from: Double, to: Double): UnInterpolator<Double> = uninterpolateNumber(from, to)
     override fun domainComparator(): Comparator<Double> = comparator
 
+    operator fun invoke(domainValue: Int): R {
+        return this(domainValue.toDouble())
+    }
+
     init {
         _domain.clear()
         _domain.addAll(listOf(.0, 1.0))

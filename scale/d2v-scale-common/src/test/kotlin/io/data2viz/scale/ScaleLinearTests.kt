@@ -41,6 +41,18 @@ class ScaleLinearTests : TestBase() {
         scale(90.0) shouldBeClose 10.0
     }
 
+    @Test
+    fun linear_accept_Integer() {
+        val scale = Scales.Continuous.linear()
+
+        scale.domain = listOf(.0, 100.0)
+        scale.range = listOf(100.0, .0)
+        scale(50) shouldBeClose 50.0
+        scale(10) shouldBeClose 90.0
+        scale(13) shouldBeClose 87.0
+        scale(90) shouldBeClose 10.0
+    }
+
 
     @Test
     fun linear_Number_clamp_noclamp() {
