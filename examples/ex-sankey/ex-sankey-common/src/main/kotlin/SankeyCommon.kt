@@ -115,7 +115,7 @@ fun sankeyViz(): Viz = viz {
 }
 
 fun GroupNode.buildSankey() {
-    val fills = ScalesChromatic.Discrete.category20A<Int>()
+    val fills = ScalesChromatic.Discrete.categoryA20<Int>()
 
     val sankeyHorizontal = vizWidth >= vizHeight
     val sankeyWidth = max(vizWidth, vizHeight)
