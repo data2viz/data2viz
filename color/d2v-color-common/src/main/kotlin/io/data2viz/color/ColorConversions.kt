@@ -85,7 +85,7 @@ internal fun HslColor.toRgba(): RgbColor =
         )
     else {
         val q = if (l < 50.pct) l * (100.pct + s) else l + s - l * s
-        val p = Percent(2 * (l - q).value)
+        val p = Percent(2 * l.value - q.value)
         Colors.rgb(
             (hue2rgb(p.value, q.value, h + angle120deg) * 255).roundToInt(),
             (hue2rgb(p.value, q.value, h) * 255).roundToInt(),

@@ -70,7 +70,7 @@ class RgbColor
                 (rgb and 0xf).toString(16)
 
     override val rgba: String
-        get() = "rgba($r, $g, $b, $alpha)"
+        get() = "rgba($r, $g, $b, ${alpha.value})"
 
     override fun withAlpha(alpha: Percent) = Colors.rgb(rgb, alpha)
 
