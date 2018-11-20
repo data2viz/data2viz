@@ -15,9 +15,9 @@ private fun interpolateHcl(start: Color, end:Color, long:Boolean): Interpolator<
 
     val h = interpolateHue(startHCL.h, endHCL.h, long)
     val c = colorInterpolator(startHCL.c, endHCL.c)
-    val l = colorInterpolator(startHCL.l, endHCL.l)
+    val l = colorInterpolator(startHCL.l.value, endHCL.l.value)
 
-    return fun(percent:Percent) = Colors.hcl(Angle(h(percent)), c(percent), l(percent))
+    return fun(percent:Percent) = Colors.hcl(Angle(h(percent)), c(percent), Percent(l(percent)))
 }
 
 fun hclLongInterpolator(start:Color, end: Color) = interpolateHcl(start, end, long = true)

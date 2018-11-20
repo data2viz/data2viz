@@ -29,7 +29,7 @@ private fun RadialGradient.toRadialGradient(renderer: AndroidCanvasRenderer) =
 			cy.dp,
 			radius.dp,
 			IntArray(colorStops.size) { colorStops[it].color.toColor() },
-			FloatArray(colorStops.size) { colorStops[it].percent.toFloat() },
+			FloatArray(colorStops.size) { colorStops[it].percent.value.toFloat() },
 			Shader.TileMode.CLAMP)
 	}
 
@@ -42,12 +42,12 @@ private fun LinearGradient.toLinearGradient(renderer: AndroidCanvasRenderer) =
 			x2.dp,
 			y2.dp,
 			IntArray(colorStops.size) { colorStops[it].color.toColor() },
-			FloatArray(colorStops.size) { colorStops[it].percent.toFloat() },
+			FloatArray(colorStops.size) { colorStops[it].percent.value.toFloat() },
 			Shader.TileMode.CLAMP)
 	}
 
 fun Color.toColor() =
-	((255 * this.alpha).toInt() and 0xff shl 24) or
+	((255 * this.alpha.value).toInt() and 0xff shl 24) or
 			(this.r and 0xff shl 16) or
 			(this.g and 0xff shl 8) or
 			(this.b and 0xff)

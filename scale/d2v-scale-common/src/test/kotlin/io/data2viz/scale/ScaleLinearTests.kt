@@ -2,6 +2,7 @@ package io.data2viz.scale
 
 import io.data2viz.color.Colors
 import io.data2viz.math.deg
+import io.data2viz.math.pct
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
 import kotlin.test.Test
@@ -267,10 +268,10 @@ class ScaleLinearTests : TestBase() {
         val scale = ScalesChromatic.Continuous.linearHSL()
 
         scale.domain = listOf(.0, 100.0)
-        scale.range = listOf(Colors.hsl(0.deg, 1.0, 1.0), Colors.hsl(180.deg, 1.0, 1.0))
-        scale(50.0) shouldBe Colors.hsl(90.deg, 1.0, 1.0)
-        scale(20.0) shouldBe Colors.hsl(36.deg, 1.0, 1.0)
-        scale(90.0) shouldBe Colors.hsl(162.deg, 1.0, 1.0)
+        scale.range = listOf(Colors.hsl(0.deg, 100.pct, 100.pct), Colors.hsl(180.deg, 100.pct, 100.pct))
+        scale(50.0) shouldBe Colors.hsl(90.deg, 100.pct, 100.pct)
+        scale(20.0) shouldBe Colors.hsl(36.deg, 100.pct, 100.pct)
+        scale(90.0) shouldBe Colors.hsl(162.deg, 100.pct, 100.pct)
     }
 
     /////////////// TESTS /////////////////////////////////////////

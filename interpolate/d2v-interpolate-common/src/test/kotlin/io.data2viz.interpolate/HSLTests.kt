@@ -12,7 +12,7 @@ class HSLTests : TestBase() {
         val iterator = hslInterpolator(Colors.Web.teal, Colors.Web.pink)
         iterator(-100.pct) shouldBe Colors.Web.teal
         iterator(0.pct) shouldBe Colors.Web.teal
-        iterator(13.pct) shouldBe Colors.rgb(0x006ba9, 1.0)
+        iterator(13.pct) shouldBe Colors.rgb(0x006ba9, 100.pct)
         iterator(25.pct) shouldBe Colors.rgb(0x003dd0)
         iterator(50.pct) shouldBe Colors.rgb(0x7c21ff)
         iterator(60.pct) shouldBe Colors.rgb(0xc540ff)
@@ -24,26 +24,26 @@ class HSLTests : TestBase() {
     @Test
     // TODO : test in D3 when the 2 colors delta is < 180.deg... here will produce same interpolation as HSLShort...
     fun HSLShortInterpolation() {
-        val start = Colors.hsl(300.deg, 1.0, .25)
-        val end = Colors.hsl(38.deg, 1.0, .5)
+        val start = Colors.hsl(300.deg, 100.pct, 25.pct)
+        val end = Colors.hsl(38.deg, 100.pct, 50.pct)
         val iterator = hslInterpolator(start, end)
         iterator(-100.pct) shouldBe start
         iterator(0.pct) shouldBe start
-        iterator(50.pct) shouldBe Colors.hsl(349.deg, 1.0, 0.375)
+        iterator(50.pct) shouldBe Colors.hsl(349.deg, 100.pct, 37.5.pct)
         iterator(100.pct) shouldBe end
         iterator(200.pct) shouldBe end
     }
 
     @Test
     fun HSLLongInterpolation() {
-        val start = Colors.hsl(300.deg, 1.0, .25)
-        val end = Colors.hsl(38.deg, 1.0, .5)
+        val start = Colors.hsl(300.deg, 100.pct, 25.pct)
+        val end = Colors.hsl(38.deg, 100.pct, 50.pct)
         val iterator = hslLongInterpolator(start, end)
         iterator(-100.pct) shouldBe start
         iterator(0.pct) shouldBe start
-//        iterator(13.pct) shouldBe Colors.rgb(0x006ba9, 1.0)
+//        iterator(13.pct) shouldBe Colors.rgb(0x006ba9, 100.pct)
 //        iterator(25.pct) shouldBe Colors.rgb(0x003dd0)
-        iterator(50.pct) shouldBe Colors.hsl(169.deg, 1.0, 0.375)
+        iterator(50.pct) shouldBe Colors.hsl(169.deg, 100.pct, 37.5.pct)
 //        iterator(60.pct) shouldBe Colors.rgb(0xc540ff)
 //        iterator(75.pct) shouldBe Colors.rgb(0xff70ee)
         iterator(100.pct) shouldBe end
