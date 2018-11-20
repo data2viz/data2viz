@@ -1,7 +1,6 @@
 package io.data2viz.geom
 
-import kotlin.math.absoluteValue
-import kotlin.math.min
+import kotlin.math.*
 
 
 data class RectGeom(
@@ -11,6 +10,7 @@ data class RectGeom(
         override var height: Double = .0) : Rect {
 
     constructor(point: Point, size: Size): this(point.x, point.y, size.width, size.height)
+
     constructor(from: Point, to: Point):
             this(
                     min(from.x, to.x)

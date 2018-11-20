@@ -1,9 +1,6 @@
 package io.data2viz.geom
 
-interface Rect: HasSize {
-
-	var x: Double
-	var y: Double
+interface Rect: HasSize, HasPosition {
 
 	val top
 		get() = y

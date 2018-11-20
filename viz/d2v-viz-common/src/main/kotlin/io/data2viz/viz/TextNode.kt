@@ -1,16 +1,18 @@
 package io.data2viz.viz
 
 import io.data2viz.color.*
+import io.data2viz.geom.*
 
 class TextNode : Node(),
         HasFill,
         HasStroke,
-        HasTransform {
+        HasTransform,
+        HasPosition {
 
     override var transform: Transform? = null
 
-    var x: Double = .0
-    var y: Double = .0
+    override var x: Double = .0
+    override var y: Double = .0
     var textContent: String = "Type something"
     var fontSize: Double = 20.0
     var fontFamily: FontFamily          = FontFamily.SANS_SERIF

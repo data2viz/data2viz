@@ -1,7 +1,5 @@
 package io.data2viz.geom
 
-interface Circle {
-    var x: Double
-    var y: Double
+interface Circle : HasPosition {
     var radius: Double
 }

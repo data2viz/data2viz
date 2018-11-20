@@ -1,6 +1,8 @@
 package io.data2viz.viz
 
 import io.data2viz.color.*
+import io.data2viz.geom.point
+import io.data2viz.geom.size
 import io.data2viz.math.PI
 import io.data2viz.math.pct
 
@@ -310,10 +312,8 @@ val allRenderingTests = listOf(
     renderingTest("rect1") {
         rect {
             rect {
-                x = 100.0
-                y = 100.0
-                width = 20.0
-                height = 10.0
+                position = point(100, 100)
+                size = size(20, 10)
                 style.fill = Colors.Web.red
             }
         }

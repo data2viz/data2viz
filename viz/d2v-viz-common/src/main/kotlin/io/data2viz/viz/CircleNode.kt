@@ -1,8 +1,7 @@
 package io.data2viz.viz
 
-import io.data2viz.color.ColorOrGradient
-import io.data2viz.geom.Circle
-import io.data2viz.geom.CircleGeom
+import io.data2viz.color.*
+import io.data2viz.geom.*
 
 
 class CircleNode(val circle: Circle = CircleGeom()) : Node(),
