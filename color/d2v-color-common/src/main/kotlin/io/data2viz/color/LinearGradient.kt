@@ -2,30 +2,8 @@
 
 package io.data2viz.color
 
+import io.data2viz.geom.HasStartAndEnd
 import io.data2viz.geom.Point
-
-// TODO : move to "core.geom" ?
-// TODO : remove access to x1, y1, x2, y2
-interface HasStartAndEnd {
-    var x1: Double
-    var y1: Double
-    var x2: Double
-    var y2: Double
-
-    var start: Point
-        get() = Point(x1, y1)
-        set(value) {
-            x1 = value.x
-            y1 = value.y
-        }
-
-    var end: Point
-        get() = Point(x2, y2)
-        set(value) {
-            x2 = value.x
-            y2 = value.y
-        }
-}
 
 data class LinearGradientFirstColorBuilder
 internal constructor(val start: Point, val end: Point) {
