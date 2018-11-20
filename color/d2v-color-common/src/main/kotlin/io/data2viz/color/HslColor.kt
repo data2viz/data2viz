@@ -5,10 +5,10 @@ import io.data2viz.math.*
 /**
  * Create a color in the HSL color space
  *
- * @param h hue:Angle in degree
- * @param s saturation:Float between 0 and 1
- * @param l lightness:Float between 0 and 1
- * @param alpha:Float between 0 and 1
+ * @param h hue: Angle
+ * @param s saturation: Percent, value between 0% and 100%
+ * @param l lightness: Percent, value between 0% and 100%
+ * @param alpha: Opacity, value between 0% and 100%
  */
 class HslColor
 @Deprecated("Deprecated", ReplaceWith("Colors.hsl(hue,saturation,luminance,a)", "io.data2viz.colors.Colors"))

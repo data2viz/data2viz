@@ -5,10 +5,10 @@ import io.data2viz.math.*
 /**
  * Create a color in the LAB color space (CIE L*a*b* D65 whitepoint)
  *
- * @param lightness :Float between 0 and 100
- * @param aComponent "a"-component:Float for green-red between -128 and +128
- * @param bComponent "b"-component:Float for blue-yellow between -128 and +128
- * @param alpha:Opacity between 0 and 1
+ * @param lightness: Percent, value between 0% and 100%
+ * @param aComponent "a"-component: Double for green-red between -128 and +128
+ * @param bComponent "b"-component: Double for blue-yellow between -128 and +128
+ * @param alpha: Opacity, value between 0% and 100%
  */
 class LabColor
 @Deprecated("Deprecated", ReplaceWith("Colors.lab(labL,labA,labB,alpha)", "io.data2viz.colors.Colors"))
