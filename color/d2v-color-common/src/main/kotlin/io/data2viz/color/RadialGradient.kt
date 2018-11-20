@@ -3,6 +3,8 @@
 package io.data2viz.color
 
 import io.data2viz.geom.Point
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 
 // TODO : move to "core.geom" ?
 // TODO : remove access to cx, cy, leave only access to center
@@ -20,13 +22,13 @@ interface HasCenter {
 
 data class RadialGradientFirstColorBuilder
 internal constructor(val center: Point, val radius: Double) {
-    fun withColor(startColor: Color, percent: Double = .0): RadialGradientSecondColorBuilder =
+    fun withColor(startColor: Color, percent: Percent = 0.pct): RadialGradientSecondColorBuilder =
         RadialGradientSecondColorBuilder(this, ColorStop(percent, startColor))
 }
 
 data class RadialGradientSecondColorBuilder
 internal constructor(val builder: RadialGradientFirstColorBuilder, val firstColor: ColorStop) {
-    fun andColor(color: Color, percent: Double = 1.0): RadialGradient = RadialGradient()
+    fun andColor(color: Color, percent: Percent = 100.pct): RadialGradient = RadialGradient()
         .apply {
             cx = builder.center.x
             cy = builder.center.y
@@ -49,8 +51,8 @@ constructor(): Gradient, HasCenter {
     override val colorStops: List<ColorStop>
         get() = colors.toList()
 
-    fun andColor(color: Color, percent: Double): RadialGradient {
-        colors.add(ColorStop(percent.coerceIn(.0, 1.0), color))
+    fun andColor(color: Color, percent: Percent): RadialGradient {
+        colors.add(ColorStop(percent.coerceToDefault(), color))
         return this
     }
 }

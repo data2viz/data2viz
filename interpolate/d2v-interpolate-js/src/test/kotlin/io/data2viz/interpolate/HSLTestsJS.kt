@@ -16,7 +16,7 @@ class HSLTestsJS : TestBase() {
     @Test
     fun hslShortLinearInterpolation() {
 
-        val iterator = hslInterpolator(Colors.hsl(300.deg, 1.0, .25), Colors.hsl(38.deg, 1.0, .5))
+        val iterator = hslInterpolator(Colors.hsl(300.deg, 100.pct, 25.pct), Colors.hsl(38.deg, 100.pct, 50.pct))
         displaySmallGradient("HslColor", iterator, 888, imageReference = "http://data2viz.io/img/hsl.png")
         iterator(50.pct).toRgb().rgbHex shouldBe 0xbf0023.col.rgbHex
     }
@@ -26,7 +26,7 @@ class HSLTestsJS : TestBase() {
      */
     @Test
     fun hslLongLinearInterpolation() {
-        val iterator = hslLongInterpolator(Colors.hsl(300.deg, 1.0, .25), Colors.hsl(38.deg, 1.0, .5))
+        val iterator = hslLongInterpolator(Colors.hsl(300.deg, 100.pct, 25.pct), Colors.hsl(38.deg, 100.pct, 50.pct))
         displaySmallGradient("HslColor Long", iterator, 888, imageReference = "http://data2viz.io/img/hslLong.png")
         iterator(50.pct).toRgb().rgbHex shouldBe 0x00bf9c.col.rgbHex
     }
@@ -36,7 +36,7 @@ class HSLTestsJS : TestBase() {
      */
     @Test
     fun hslShortLinea() {
-        val iterator = hslInterpolator(Colors.hsl(38.deg, 1.0, .5), Colors.hsl(300.deg, 1.0, .25))
+        val iterator = hslInterpolator(Colors.hsl(38.deg, 100.pct, 50.pct), Colors.hsl(300.deg, 100.pct, 25.pct))
         displaySmallGradient("HslColor Reverse", iterator, 888, imageReference = "http://data2viz.io/img/hslReverse.png")
         iterator(50.pct).toRgb().rgbHex shouldBe 0xbf0023.col.rgbHex
     }
@@ -46,7 +46,7 @@ class HSLTestsJS : TestBase() {
      */
     @Test
     fun hslLongLinearInterpol() {
-        val iterator = hslLongInterpolator(Colors.hsl(38.deg, 1.0, .5), Colors.hsl(300.deg, 1.0, .25))
+        val iterator = hslLongInterpolator(Colors.hsl(38.deg, 100.pct, 50.pct), Colors.hsl(300.deg, 100.pct, 25.pct))
         displaySmallGradient(
             "HslColor Long Reverse",
             iterator,

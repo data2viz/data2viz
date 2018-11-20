@@ -4,6 +4,8 @@ package io.data2viz.color
 
 import io.data2viz.geom.Point
 import io.data2viz.math.Angle
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 
 
 // TODO : move to common and remove expect when available
@@ -18,27 +20,36 @@ object Colors {
      * Instantiate a color using its rgb Int value and alpha. Should be used with hexadecimal literal.
      * @sample: `Colors.rgb(0x0b0b0b, .5)`
      */
-    fun rgb(rgb:Int, alpha: Double = 1.0): RgbColor = RgbColor(rgb, alpha)
+    fun rgb(rgb:Int, alpha: Percent = 100.pct): RgbColor = RgbColor(rgb, alpha)
 
     /**
      * Instantiate a color using its r,g,b Int values and alpha
      * @sample: `Colors.rgb(128, 128, 128, .5)`
      */
-    fun rgb(red: Int, green: Int, blue: Int, alpha: Double = 1.0): RgbColor {
+    fun rgb(red: Int, green: Int, blue: Int, alpha: Percent = 100.pct): RgbColor {
         val rgb = (red.coerceIn(0, 255) shl 16) + (green.coerceIn(0, 255) shl 8) + blue.coerceIn(0, 255)
         return rgb(rgb, alpha)
     }
 
-    fun lab(lightness: Double, aComponent: Double, bComponent: Double, alpha: Double = 1.0) =
+    fun lab(lightness: Percent, aComponent: Double, bComponent: Double, alpha: Percent = 100.pct) =
             LabColor(lightness, aComponent, bComponent, alpha)
 
-    fun hsl(hue: Angle, saturation: Double, lightness: Double, alpha: Double = 1.0) =
+    fun lab(lightness: Percent, aComponent: Int, bComponent: Int, alpha: Percent = 100.pct) =
+            LabColor(lightness, aComponent.toDouble(), bComponent.toDouble(), alpha)
+
+    fun hsl(hue: Angle, saturation: Percent, lightness: Percent, alpha: Percent = 100.pct) =
             HslColor(hue, saturation, lightness, alpha)
 
-    fun hcl(hue: Angle, chroma: Double, luminance: Double, alpha: Double = 1.0) =
+    fun hcl(hue: Angle, chroma: Double, luminance: Percent, alpha: Percent = 100.pct) =
             HclColor(hue, chroma, luminance, alpha)
 
-    fun lch(luminance: Double, chroma: Double, hue: Angle, alpha: Double = 1.0) = hcl(hue, chroma, luminance, alpha)
+    fun hcl(hue: Angle, chroma: Int, luminance: Percent, alpha: Percent = 100.pct) =
+            HclColor(hue, chroma.toDouble(), luminance, alpha)
+
+    fun lch(luminance: Percent, chroma: Double, hue: Angle, alpha: Percent = 100.pct) =
+            hcl(hue, chroma, luminance, alpha)
+
+    fun lch(luminance: Percent, chroma: Int, hue: Angle, alpha: Percent = 100.pct) = hcl(hue, chroma, luminance, alpha)
 
 
     /***************************** GRADIENTS *********************************************************/
