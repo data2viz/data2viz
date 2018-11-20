@@ -12,12 +12,12 @@ import io.data2viz.math.*
  */
 class HslColor
 @Deprecated("Deprecated", ReplaceWith("Colors.hsl(hue,saturation,luminance,a)", "io.data2viz.colors.Colors"))
-internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Double = 1.0) : Color {
+internal constructor(hue: Angle, saturation: Percent, lightness: Percent, a: Percent = 100.pct) : Color {
 
     val h = hue.normalize()
-    val s = saturation.coerceIn(.0, 1.0)
-    val l = lightness.coerceIn(.0, 1.0)
-    override val alpha = a.coerceIn(.0, 1.0)
+    val s = saturation.coerceToDefault()
+    val l = lightness.coerceToDefault()
+    override val alpha = a.coerceToDefault()
 
     override val rgb = toRgb().rgb
     override val rgba = toRgb().rgba
@@ -38,10 +38,10 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Doubl
     override fun darken(strength: Double): Color = toRgb().darken(strength)
     override fun saturate(strength: Double): Color = toRgb().saturate(strength)
     override fun desaturate(strength: Double): Color = toRgb().desaturate(strength)
-    override fun withAlpha(alpha: Double) = Colors.hsl(h, s, l, alpha)
+    override fun withAlpha(alpha: Percent) = Colors.hsl(h, s, l, alpha)
     override fun withHue(hue: Angle) = toHcl().withHue(hue)
 
-    fun isAchromatic() = (s == .0) || (l <= .0) || (l >= 1.0)
+    fun isAchromatic() = (s.value == .0) || (l.value <= .0) || (l.value >= 1.0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -59,5 +59,5 @@ internal constructor(hue: Angle, saturation: Double, lightness: Double, a: Doubl
         return result
     }
 
-    override fun toString() = "HSL(${h.deg}°, ${s*100}%, ${l*100}%, alpha=$alpha)"
+    override fun toString() = "HSL(${h.deg}°, $s, $l, alpha=$alpha)"
 }

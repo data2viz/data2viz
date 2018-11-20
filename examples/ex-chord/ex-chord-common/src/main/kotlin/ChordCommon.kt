@@ -9,6 +9,8 @@ import io.data2viz.color.*
 import io.data2viz.geom.Path
 import io.data2viz.geom.Point
 import io.data2viz.geom.Size
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 import io.data2viz.shape.arcBuilder
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
@@ -89,7 +91,7 @@ fun chordViz(): Viz = viz {
         //drawing ribbons
         avengersChords.chords.forEach { chord ->
             path {
-                style.fill = chord.toGradient(.6)
+                style.fill = chord.toGradient(60.pct)
                 style.stroke = null
                 ribbon(chord, this)
             }
@@ -99,7 +101,7 @@ fun chordViz(): Viz = viz {
 
 
 //Todo Move in API
-fun Chord.toGradient(alpha:Double) = Colors.Gradient.linear(
+fun Chord.toGradient(alpha:Percent) = Colors.Gradient.linear(
     Point(
         inner * cos((source.endAngle - source.startAngle) / 2 + source.startAngle - PI / 2),
         inner * sin((source.endAngle - source.startAngle) / 2 + source.startAngle - PI / 2)

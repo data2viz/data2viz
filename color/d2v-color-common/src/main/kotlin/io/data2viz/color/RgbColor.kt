@@ -1,6 +1,8 @@
 package io.data2viz.color
 
 import io.data2viz.math.Angle
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 
 /**
  * Implementation of Color as an rgb integer and an alpha channel.
@@ -12,9 +14,9 @@ import io.data2viz.math.Angle
  */
 class RgbColor
     @Deprecated("Use factory function or Int.col extension.", ReplaceWith("Colors.rgb(rgb,a)", "io.data2viz.colors.Colors"))
-    constructor(override val rgb: Int, a: Double = 1.0) : Color {
+    constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
 
-    override val alpha = a.coerceIn(.0, 1.0)
+    override val alpha = a.coerceToDefault()
 
     override val r: Int
         get() = (rgb shr 16) and 0xff
@@ -70,7 +72,7 @@ class RgbColor
     override val rgba: String
         get() = "rgba($r, $g, $b, $alpha)"
 
-    override fun withAlpha(alpha: Double) = Colors.rgb(rgb, alpha)
+    override fun withAlpha(alpha: Percent) = Colors.rgb(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

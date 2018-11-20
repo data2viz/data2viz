@@ -2,6 +2,7 @@ package io.data2viz.viz
 
 import io.data2viz.color.*
 import io.data2viz.math.PI
+import io.data2viz.math.pct
 
 
 /**
@@ -351,7 +352,7 @@ val allRenderingTests = listOf(
                 radius = 100.0
                 style.fill = 0xfdc658.col
                 style.stroke = 0x0c0887.col
-                        .withAlpha(.5)
+                        .withAlpha(50.pct)
                 style.strokeWidth = 40.0
             }
         },
