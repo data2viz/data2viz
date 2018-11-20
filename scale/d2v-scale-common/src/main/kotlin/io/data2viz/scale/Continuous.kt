@@ -158,11 +158,6 @@ abstract class ContinuousScale<D, R>(
         return fun(a: D, b: D): UnInterpolator<D> {
             val d = uninterpolateFunction(a, b)
             return fun(value: D) = d(value).coerceToDefault()
-            /*return fun(value: D): Double = when {
-                domainComparator().compare(value, a) <= 0 -> .0
-                domainComparator().compare(value, b) >= 0 -> 1.0
-                else -> d(value)
-            }*/
         }
     }
 
@@ -170,11 +165,6 @@ abstract class ContinuousScale<D, R>(
         return fun(a: D, b: D): Interpolator<D> {
             val r = interpolateFunction(a, b)
             return fun(value: Percent) = r(value.coerceToDefault())
-            /*return fun(value: Double): D = when {
-                (value <= 0.0) -> a
-                (value >= 1.0) -> b
-                else -> r(value)
-            }*/
         }
     }
 
