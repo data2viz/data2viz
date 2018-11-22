@@ -86,19 +86,24 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
     }
 
     //Style delegation
+
     override var fill: ColorOrGradient?
         get() = style.fill
         set(value) {style.fill = value}
+
     override var stroke: ColorOrGradient?
         get() = style.stroke
         set(value) {style.stroke = value}
+
     override var strokeWidth: Double?
         get() = style.strokeWidth
         set(value) {style.strokeWidth = value}
-    override var anchor: TextAnchor
+
+    override var anchor: THAlign
         get() = style.anchor
         set(value) {style.anchor = value}
-    override var baseline: TextAlignmentBaseline
+
+    override var baseline: TVAlign
         get() = style.baseline
         set(value) {style.baseline = value}
 

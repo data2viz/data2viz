@@ -1,3 +1,5 @@
+@file:Suppress("OverridingDeprecatedMember")
+
 package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
@@ -10,16 +12,23 @@ interface Style {
     var fill: ColorOrGradient?
     var stroke: ColorOrGradient?
     var strokeWidth: Double?
-    var anchor: TextAnchor
-    var baseline: TextAlignmentBaseline
+    @Deprecated("Use hAlign", ReplaceWith("hAlign"))
+    var anchor: THAlign
+    var hAlign: THAlign
+
+    @Deprecated("Use vAlign", ReplaceWith("vAlign"))
+    var baseline: TVAlign
+    var vAlign: TVAlign
 }
 
 internal class StyleImpl: Style {
     override var fill: ColorOrGradient? = null
     override var stroke: ColorOrGradient? = null
     override var strokeWidth: Double? = 1.0
-    override var anchor: TextAnchor = TextAnchor.START
-    override var baseline: TextAlignmentBaseline = TextAlignmentBaseline.BASELINE
+    override var hAlign: THAlign = THAlign.LEFT
+    override var anchor: THAlign = hAlign
+    override var vAlign: TVAlign = TVAlign.BASELINE
+    override var baseline: TVAlign = vAlign
 }
 
 class HierarchicalStyle(var parent:Style?): Style {
@@ -55,45 +64,65 @@ class HierarchicalStyle(var parent:Style?): Style {
             style?.strokeWidth = value
         }
 
-    private var anchorSet = false
-    override var anchor: TextAnchor
-        get() = if (anchorSet) style?.anchor!! else parent?.anchor!!
+    private var hAlignSet = false
+    override var hAlign: THAlign
+        get() = if (hAlignSet) style?.hAlign!! else parent?.hAlign!!
         set(value) {
             if (style == null)
                 style = StyleImpl()
-            anchorSet = true
-            style?.anchor = value
+            hAlignSet = true
+            style?.hAlign = value
+        }
+    override var anchor: THAlign
+        get() = hAlign
+        set(value) {
+            hAlign = value
         }
 
-    private var baselineSet = false
-    override var baseline: TextAlignmentBaseline
-        get() = if (baselineSet) style?.baseline!! else parent?.baseline!!
+    private var vAlignSet = false
+    override var vAlign: TVAlign
+        get() = if (vAlignSet) style?.vAlign!! else parent?.vAlign!!
         set(value) {
             if (style == null)
                 style = StyleImpl()
-            baselineSet = true
-            style?.baseline = value
+            vAlignSet = true
+            style?.vAlign = value
+        }
+    @Deprecated("Use vAlign", ReplaceWith("vAlign"))
+    override var baseline: TVAlign
+        get() = vAlign
+        set(value) {
+            vAlign = value
         }
 
 }
 
 /**
- * The text-anchor attribute is used to horizontally align ([START], [MIDDLE] or [END]-alignment) a string of
+ * The text-anchor attribute is used to horizontally align ([LEFT], [MIDDLE] or [RIGHT]-alignment) a string of
  * text relative to a given point.
  * See [CSS text-anchor][https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor]
  */
-enum class TextAnchor {
+enum class THAlign {
+    LEFT,
+    @Deprecated("Use LEFT", ReplaceWith("LEFT"))
     START,
     MIDDLE,
+    RIGHT,
+    @Deprecated("Use RIGHT", ReplaceWith("RIGHT"))
     END
 }
 
+@Deprecated("Use THAlign", ReplaceWith("THAlign"))
+typealias TextAnchor = THAlign
 
 /**
  * Vertical alignment of a text
  */
-enum class TextAlignmentBaseline {
+enum class TVAlign {
     HANGING,
     MIDDLE,
     BASELINE
 }
+@Deprecated("Use TVAlign", ReplaceWith("TVAlign"))
+typealias TextAlignmentBaseline = TVAlign
+

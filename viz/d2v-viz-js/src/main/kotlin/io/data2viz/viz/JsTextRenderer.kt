@@ -3,8 +3,8 @@ package io.data2viz.viz
 import org.w3c.dom.*
 
 internal fun TextNode.render(context: CanvasRenderingContext2D) {
-	context.textAlign = anchor.js
-	context.textBaseline = baseline.js
+	context.textAlign = hAlign.js
+	context.textBaseline = vAlign.js
 
 	context.font = "${fontStyle.js} ${fontWeight.js} ${fontSize}px ${fontFamily.name}"
 
@@ -17,18 +17,18 @@ internal fun TextNode.render(context: CanvasRenderingContext2D) {
 	}
 }
 
-private val TextAlignmentBaseline.js: CanvasTextBaseline
+private val TVAlign.js: CanvasTextBaseline
 	get() = when(this){
-		TextAlignmentBaseline.BASELINE  -> CanvasTextBaseline.ALPHABETIC
-		TextAlignmentBaseline.HANGING   -> CanvasTextBaseline.HANGING
-		TextAlignmentBaseline.MIDDLE    -> CanvasTextBaseline.MIDDLE
+		TVAlign.BASELINE  -> CanvasTextBaseline.ALPHABETIC
+		TVAlign.HANGING   -> CanvasTextBaseline.HANGING
+		TVAlign.MIDDLE    -> CanvasTextBaseline.MIDDLE
 	}
 
-private val TextAnchor.js: CanvasTextAlign
+private val THAlign.js: CanvasTextAlign
 	get() = when(this){
-		TextAnchor.START    -> CanvasTextAlign.LEFT
-		TextAnchor.END      -> CanvasTextAlign.RIGHT
-		TextAnchor.MIDDLE   -> CanvasTextAlign.CENTER
+		THAlign.START, 	THAlign.LEFT    	-> CanvasTextAlign.LEFT
+		THAlign.END,	THAlign.RIGHT      	-> CanvasTextAlign.RIGHT
+		THAlign.MIDDLE   					-> CanvasTextAlign.CENTER
 	}
 
 private val FontWeight.js: String
