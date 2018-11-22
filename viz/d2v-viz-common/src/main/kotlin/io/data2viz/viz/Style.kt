@@ -19,8 +19,6 @@ class Style {
 
 }
 
-data class TextAlign internal constructor(val horizontal:TextAnchor, val vertical: TextAlignmentBaseline)
-
 /**
  * The text-anchor attribute is used to horizontally align ([START], [MIDDLE] or [END]-alignment) a string of
  * text relative to a given point.
