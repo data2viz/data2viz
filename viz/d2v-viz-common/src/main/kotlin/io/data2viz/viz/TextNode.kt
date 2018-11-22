@@ -12,7 +12,7 @@ class TextNode : Node(),
     var x: Double = .0
     var y: Double = .0
     var textContent: String = "Type something"
-    var fontSize: Double = 20.0
+    var fontSize: Double = 12.0
     var fontFamily: FontFamily          = FontFamily.SANS_SERIF
     var fontWeight: FontWeight          = FontWeight.NORMAL
     var fontStyle: FontPosture          = FontPosture.NORMAL
