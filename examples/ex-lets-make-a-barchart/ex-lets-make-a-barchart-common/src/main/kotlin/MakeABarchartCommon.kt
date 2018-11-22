@@ -1,11 +1,9 @@
 package io.data2viz.examples.letsMakeABarchart
 
-import io.data2viz.color.Colors
-import io.data2viz.geom.Size
-import io.data2viz.scale.Scales
-import io.data2viz.viz.TextAlignmentBaseline
-import io.data2viz.viz.TextAnchor
-import io.data2viz.viz.Viz
+import io.data2viz.color.*
+import io.data2viz.geom.*
+import io.data2viz.scale.*
+import io.data2viz.viz.*
 
 data class NameValue(val name: String, val value: Double)
 
