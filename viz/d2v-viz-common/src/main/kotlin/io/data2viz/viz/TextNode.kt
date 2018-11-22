@@ -17,14 +17,6 @@ class TextNode : Node(),
     var fontWeight: FontWeight          = FontWeight.NORMAL
     var fontStyle: FontPosture          = FontPosture.NORMAL
 
-    fun textAlign(horizontal:TextAnchor = anchor, vertical: TextAlignmentBaseline = baseline) = TextAlign(horizontal, vertical)
-
-    var textAlign:TextAlign
-        get() = textAlign(anchor, baseline)
-        set(value) {
-            style.anchor = value.horizontal
-            style.baseline = value.vertical
-        }
 
     var anchor: TextAnchor
         get() = style.anchor
