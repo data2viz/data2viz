@@ -29,8 +29,8 @@ class JFxVizRenderer(
     }
 
     override fun startAnimations() {
-        if (viz.animations.isNotEmpty()) {
-            viz.animations.forEach { anim ->
+        if (viz.animationTimers.isNotEmpty()) {
+            viz.animationTimers.forEach { anim ->
                 animationTimers += timer { time ->
                     anim(time)
                 }
