@@ -24,7 +24,7 @@ fun lineOfSightViz(): Viz = viz {
     fun buildBackground() {
         backgroundLayer.clear()
         backgroundLayer.rect {
-            style.fill = 0x131c2b.col
+            fill = 0x131c2b.col
             x = .0
             y = .0
             width = vizWidth
@@ -37,8 +37,8 @@ fun lineOfSightViz(): Viz = viz {
         with(polygonsLayer) {
             polygons.forEach { polygon ->
                 path {
-                    style.fill = Colors.Web.black
-                    style.stroke = null
+                    fill = Colors.Web.black
+                    stroke = null
                     moveTo(polygon.points.first().x, polygon.points.first().y)
                     (1 until polygon.points.size).forEach {
                         lineTo(polygon.points[it].x, polygon.points[it].y)
@@ -61,8 +61,8 @@ fun lineOfSightViz(): Viz = viz {
         val points = model.getSightPolygon().points
         lineOfSightLayer.path {
             moveTo(points.first().x, points.first().y)
-            style.fill = radialGradient
-            style.stroke = null
+            fill = radialGradient
+            stroke = null
             points.forEach { point ->
                 lineTo(point.x, point.y)
             }

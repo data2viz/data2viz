@@ -17,36 +17,6 @@ class TextNode : Node(),
     var fontWeight: FontWeight          = FontWeight.NORMAL
     var fontStyle: FontPosture          = FontPosture.NORMAL
 
-
-    var anchor: TextAnchor
-        get() = style.anchor
-        set(value) {
-            style.anchor = value
-        }
-
-    var baseline: TextAlignmentBaseline
-        get() = style.baseline
-        set(value) {
-            style.baseline = value
-        }
-
-    override var fill: ColorOrGradient?
-        get() = style.fill
-        set(value) {
-            style.fill = value
-        }
-
-    override var stroke: ColorOrGradient?
-        get() = style.stroke
-        set(value) {
-            style.stroke = value
-        }
-
-    override var strokeWidth: Double?
-        get() = style.strokeWidth
-        set(value) {
-            style.strokeWidth = value
-        }
 }
 
 

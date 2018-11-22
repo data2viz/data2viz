@@ -3,7 +3,6 @@ package io.data2viz.viz
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.geom.HasSize
 
-
 /**
  * Viz is the base element of a visualization.
  *
@@ -25,6 +24,11 @@ import io.data2viz.geom.HasSize
  */
 class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
 
+    init {
+        activeLayer.parent = this
+    }
+
+    private val style:Style = StyleImpl()
     val config = VizConfig()
 
     override var width: Double = 100.0
@@ -63,12 +67,32 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
     }
 
     fun layer(): Layer {
-        val layer = Layer()
+        val layer = Layer().also { it.parent = this }
         layers.add(layer)
         activeLayer = layer
         return layer
     }
+
+    //Style delegation
+    override var fill: ColorOrGradient?
+        get() = style.fill
+        set(value) {style.fill = value}
+    override var stroke: ColorOrGradient?
+        get() = style.stroke
+        set(value) {style.stroke = value}
+    override var strokeWidth: Double?
+        get() = style.strokeWidth
+        set(value) {style.strokeWidth = value}
+    override var anchor: TextAnchor
+        get() = style.anchor
+        set(value) {style.anchor = value}
+    override var baseline: TextAlignmentBaseline
+        get() = style.baseline
+        set(value) {style.baseline = value}
+
+
 }
+
 
 fun viz(init: Viz.() -> Unit): Viz  = Viz().apply(init)
 

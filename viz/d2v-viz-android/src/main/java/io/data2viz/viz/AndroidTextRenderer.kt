@@ -5,14 +5,14 @@ import android.graphics.*
 internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
 	val canvas = renderer.canvas
 	with(renderer) {
-		paint.textAlign = style.anchor.android
+		paint.textAlign = anchor.android
 		paint.textSize = fontSize.dp
 
 		paint.typeface = Typeface.create(fontFamily.name, getAndroidStyle(fontWeight, fontStyle))
 
 		val dy = baseline.dy(renderer, paint.fontMetrics)
 
-		style.fill?.let {
+		fill?.let {
 			paint.style = Paint.Style.FILL
 			it.updatePaint(paint, renderer)
 			canvas.drawText(
@@ -21,7 +21,7 @@ internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
 				y.dp - dy,
 				paint )
 		}
-		style.stroke?.let {
+		stroke?.let {
 			paint.style = Paint.Style.STROKE
 			it.updatePaint(paint, renderer)
 			canvas.drawText(

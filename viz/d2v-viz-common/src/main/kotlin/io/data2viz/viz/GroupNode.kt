@@ -1,9 +1,9 @@
 package io.data2viz.viz
 
-
 open class GroupNode : Node(),
         HasChildren,
         HasTransform {
+
 
     override var transform: Transform? = null
 

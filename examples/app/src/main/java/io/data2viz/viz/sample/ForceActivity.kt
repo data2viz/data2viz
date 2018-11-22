@@ -46,7 +46,6 @@ val viz = viz {
                 moveTo(link.source.x, link.source.y)
                 lineTo(link.target.x, link.target.y)
             }
-            strokeWidth = 1.0
             stroke = Colors.Web.grey
         }
 

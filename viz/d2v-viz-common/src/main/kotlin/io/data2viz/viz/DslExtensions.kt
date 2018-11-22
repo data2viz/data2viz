@@ -13,8 +13,8 @@ data class TextAlign internal constructor(val horizontal:TextAnchor, val vertica
 var TextNode.textAlign:TextAlign
     get() = textAlign(anchor, baseline)
     set(value) {
-        style.anchor = value.horizontal
-        style.baseline = value.vertical
+        anchor = value.horizontal
+        baseline = value.vertical
     }
 
 
