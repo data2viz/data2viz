@@ -34,7 +34,7 @@ val viz = viz {
     width = canvasWidth
     height = canvasHeight
 
-    onFrame {
+    animation {
         activeLayer.clear()
         path {
             links.forEach { link ->

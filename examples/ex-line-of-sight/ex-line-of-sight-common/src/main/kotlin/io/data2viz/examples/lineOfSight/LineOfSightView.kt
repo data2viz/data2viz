@@ -54,7 +54,7 @@ fun lineOfSightViz(): Viz = viz {
 
     val radialGradient = lightGradient()
 
-    onFrame {
+    animation {
         lineOfSightLayer.clear()
         model.moveLight()
         radialGradient.center = model.lightPos

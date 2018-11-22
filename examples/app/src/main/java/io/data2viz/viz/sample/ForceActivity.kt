@@ -39,7 +39,7 @@ val viz = viz {
     width = canvasWidth
     height = canvasHeight
 
-    onFrame {
+    animation {
         activeLayer.clear()
         path {
             (sim.forces["link"] as ForceLink).links.forEach { link ->
