@@ -6,16 +6,74 @@ import io.data2viz.color.ColorOrGradient
 /**
  * Holds the styling property.
  */
-class Style {
+interface Style {
+    var fill: ColorOrGradient?
+    var stroke: ColorOrGradient?
+    var strokeWidth: Double?
+    var anchor: TextAnchor
+    var baseline: TextAlignmentBaseline
+}
 
-    var fill: ColorOrGradient? = null
-    var stroke: ColorOrGradient? = null
+internal class StyleImpl: Style {
+    override var fill: ColorOrGradient? = null
+    override var stroke: ColorOrGradient? = null
+    override var strokeWidth: Double? = 1.0
+    override var anchor: TextAnchor = TextAnchor.START
+    override var baseline: TextAlignmentBaseline = TextAlignmentBaseline.BASELINE
+}
 
-    var strokeWidth: Double? = 1.0
+class HierarchicalStyle(var parent:Style?): Style {
+    private var style:Style? = null
 
-    var anchor: TextAnchor = TextAnchor.START
+    private var fillSet = false
+    override var fill: ColorOrGradient?
+        get() = if (fillSet) style!!.fill else parent?.fill
+        set(value) {
+            if (style == null)
+                style = StyleImpl()
+            fillSet = true
+            style?.fill = value
+        }
 
-    var baseline: TextAlignmentBaseline = TextAlignmentBaseline.BASELINE
+    private var strokeSet = false
+    override var stroke: ColorOrGradient?
+        get() = if (strokeSet) style!!.stroke else parent?.stroke
+        set(value) {
+            if (style == null)
+                style = StyleImpl()
+            strokeSet = true
+            style?.stroke = value
+        }
+
+    private var strokeWidthSet = false
+    override var strokeWidth: Double?
+        get() = if (strokeWidthSet) style?.strokeWidth else parent?.strokeWidth
+        set(value) {
+            if (style == null)
+                style = StyleImpl()
+            strokeWidthSet = true
+            style?.strokeWidth = value
+        }
+
+    private var anchorSet = false
+    override var anchor: TextAnchor
+        get() = if (anchorSet) style?.anchor!! else parent?.anchor!!
+        set(value) {
+            if (style == null)
+                style = StyleImpl()
+            anchorSet = true
+            style?.anchor = value
+        }
+
+    private var baselineSet = false
+    override var baseline: TextAlignmentBaseline
+        get() = if (baselineSet) style?.baseline!! else parent?.baseline!!
+        set(value) {
+            if (style == null)
+                style = StyleImpl()
+            baselineSet = true
+            style?.baseline = value
+        }
 
 }
 

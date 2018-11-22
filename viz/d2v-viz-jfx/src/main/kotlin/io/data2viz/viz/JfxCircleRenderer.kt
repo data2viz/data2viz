@@ -5,11 +5,11 @@ import javafx.scene.canvas.*
 
 fun CircleNode.render(gc: GraphicsContext) {
 
-	style.fill?.let {
+	fill?.let {
 		gc.fillOval(x - radius, y - radius, radius * 2, radius * 2)
 	}
 
-	style.stroke?.let {
+	stroke?.let {
 		gc.strokeOval(x - radius, y - radius, radius * 2, radius * 2)
 	}
 }

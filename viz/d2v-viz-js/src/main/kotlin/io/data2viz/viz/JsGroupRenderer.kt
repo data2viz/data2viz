@@ -15,12 +15,12 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
 		}
 
 		if (node is HasFill) {
-			context.fillStyle = node.style.fill?.toCanvasPaint(context)
+			context.fillStyle = node.fill?.toCanvasPaint(context)
 		}
 
 		if (node is HasStroke) {
-			context.strokeStyle = node.style.stroke?.toCanvasPaint(context)
-			context.lineWidth = node.style.strokeWidth ?: 1.0
+			context.strokeStyle = node.stroke?.toCanvasPaint(context)
+			context.lineWidth = node.strokeWidth ?: 1.0
 		}
 
 		if (node.visible)

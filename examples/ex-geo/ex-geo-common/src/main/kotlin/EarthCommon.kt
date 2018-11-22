@@ -20,9 +20,9 @@ fun geoViz(world: GeoJsonObject): Viz = viz {
     }
 
     val pathOuter = PathNode().apply {
-        style.stroke = Colors.Web.black
-        style.strokeWidth = 1.0
-        style.fill = Colors.Web.whitesmoke
+        stroke = Colors.Web.black
+        strokeWidth = 1.0
+        fill = Colors.Web.whitesmoke
     }
 
     var geoPathOuter = geoPath(projectionOuter, pathOuter)

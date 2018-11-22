@@ -16,11 +16,11 @@ internal fun TextNode.render(gc: GraphicsContext){
 
 	gc.font = JfxFont.font(fontFamily.name, fontWeight.jfx, fontStyle.jfx, fontSize)
 
-	style.fill?.let {
+	fill?.let {
 		gc.fillText(textContent, x, y)
 	}
 
-	style.stroke?.let {
+	stroke?.let {
 		gc.strokeText(textContent, x, y)
 	}
 }

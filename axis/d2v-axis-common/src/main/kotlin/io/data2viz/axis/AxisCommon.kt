@@ -47,9 +47,9 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
         with(content){
             path {
-                style.stroke = Colors.Web.black
-                style.fill = null
-                style.strokeWidth = 1.0
+                stroke = Colors.Web.black
+                fill = null
+                strokeWidth = 1.0
 
                 if(orient.isVertical()) {
                     moveTo(tickSizeOuter * k, range0)
@@ -72,26 +72,26 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                     if (orient.isHorizontal())
                         line {
                             y2 = k * tickSizeInner
-                            style.stroke = Colors.Web.black
+                            stroke = Colors.Web.black
                         }
                     else
                         line {
                             x2 = k * tickSizeInner
-                            style.stroke = Colors.Web.black
+                            stroke = Colors.Web.black
                         }
                     text {
-                        style.anchor = when (orient) {
+                        anchor = when (orient) {
                             Orient.LEFT -> TextAnchor.END
                             Orient.RIGHT -> TextAnchor.START
                             else -> TextAnchor.MIDDLE
                         }
                         
-                        style.baseline = when (orient){
+                        baseline = when (orient){
                             Orient.TOP -> TextAlignmentBaseline.BASELINE
                             Orient.BOTTOM -> TextAlignmentBaseline.HANGING
                             else -> TextAlignmentBaseline.MIDDLE
                         }
-                        style.fill = Colors.Web.black
+                        fill = Colors.Web.black
                         if(orient.isHorizontal()) 
                             y = spacing * k
                         else

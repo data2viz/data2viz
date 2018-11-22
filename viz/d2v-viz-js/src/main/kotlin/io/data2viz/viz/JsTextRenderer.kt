@@ -3,16 +3,16 @@ package io.data2viz.viz
 import org.w3c.dom.*
 
 internal fun TextNode.render(context: CanvasRenderingContext2D) {
-	context.textAlign = style.anchor.js
-	context.textBaseline = style.baseline.js
+	context.textAlign = anchor.js
+	context.textBaseline = baseline.js
 
 	context.font = "${fontStyle.js} ${fontWeight.js} ${fontSize}px ${fontFamily.name}"
 
-	style.fill?.let {
+	fill?.let {
 		context.fillText(textContent, x, y)
 	}
 
-	style.stroke?.let {
+	stroke?.let {
 		context.strokeText(textContent, x, y)
 	}
 }

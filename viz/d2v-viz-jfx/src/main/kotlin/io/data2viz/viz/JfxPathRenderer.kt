@@ -23,11 +23,11 @@ fun PathNode.render(gc: GraphicsContext) {
         }
     }
 
-    style.fill?.let {
+    fill?.let {
         gc.fill()
     }
 
-    style.stroke?.let {
+    stroke?.let {
         gc.lineCap = StrokeLineCap.BUTT
         gc.stroke()
     }
