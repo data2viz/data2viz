@@ -25,18 +25,18 @@ internal fun TextNode.render(gc: GraphicsContext){
 	}
 }
 
-private val TVAlign.jfx: VPos
+private val TextVAlign.jfx: VPos
 	get() = when(this){
-		TVAlign.BASELINE  -> VPos.BASELINE
-		TVAlign.HANGING   -> VPos.TOP
-		TVAlign.MIDDLE    -> VPos.CENTER
+		TextVAlign.BASELINE  -> VPos.BASELINE
+		TextVAlign.HANGING   -> VPos.TOP
+		TextVAlign.MIDDLE    -> VPos.CENTER
 	}
 
-private val THAlign.jfx: TextAlignment
+private val TextHAlign.jfx: TextAlignment
 	get() = when(this){
-		THAlign.START,THAlign.LEFT    	-> TextAlignment.LEFT
-		THAlign.END, THAlign.RIGHT      -> TextAlignment.RIGHT
-		THAlign.MIDDLE   				-> TextAlignment.CENTER
+		TextHAlign.START,TextHAlign.LEFT    	-> TextAlignment.LEFT
+		TextHAlign.END, TextHAlign.RIGHT      -> TextAlignment.RIGHT
+		TextHAlign.MIDDLE   				-> TextAlignment.CENTER
 	}
 
 

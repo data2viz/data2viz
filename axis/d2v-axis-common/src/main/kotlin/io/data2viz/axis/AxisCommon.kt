@@ -79,15 +79,15 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                         }
                     text {
                         hAlign = when (orient) {
-                            Orient.LEFT -> THAlign.RIGHT
-                            Orient.RIGHT -> THAlign.LEFT
-                            else -> THAlign.MIDDLE
+                            Orient.LEFT -> TextHAlign.RIGHT
+                            Orient.RIGHT -> TextHAlign.LEFT
+                            else -> TextHAlign.MIDDLE
                         }
                         
                         vAlign = when (orient){
-                            Orient.TOP -> TVAlign.BASELINE
-                            Orient.BOTTOM -> TVAlign.HANGING
-                            else -> TVAlign.MIDDLE
+                            Orient.TOP -> TextVAlign.BASELINE
+                            Orient.BOTTOM -> TextVAlign.HANGING
+                            else -> TextVAlign.MIDDLE
                         }
                         fill = Colors.Web.black
                         if(orient.isHorizontal()) 
