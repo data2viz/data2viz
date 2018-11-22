@@ -47,6 +47,8 @@ abstract class Node : Style {
     override var hAlign: TextHAlign
         get() = style.hAlign
         set(value) {style.hAlign = value}
+
+    @Deprecated("Use hAlign", ReplaceWith("hAlign"))
     override var anchor: TextHAlign
         get() = hAlign
         set(value) {hAlign = value}
@@ -54,6 +56,8 @@ abstract class Node : Style {
         get() = style.vAlign
         set(value) {
             style.vAlign = value}
+
+    @Deprecated("Use vAlign", ReplaceWith("vAlign"))
     override var baseline: TextVAlign
         get() = vAlign
         set(value) {
