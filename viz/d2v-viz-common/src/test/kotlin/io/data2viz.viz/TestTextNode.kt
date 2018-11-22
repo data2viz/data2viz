@@ -7,9 +7,8 @@ class TestTextNode: TestBase(){
 
 
     @Test
-    fun accessibility(){
+    fun textAlign(){
         val textNode = TextNode().apply {
-            parent = Viz()
             textAlign = textAlign(TextHAlign.RIGHT)
         }
 
