@@ -53,7 +53,7 @@ val forcesViz:Viz = viz {
         }
     }
 
-    onFrame {
+    animation {
         refresh(simulation)
     }
 }.also {

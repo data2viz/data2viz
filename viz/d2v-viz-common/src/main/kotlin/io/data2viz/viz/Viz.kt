@@ -2,6 +2,7 @@ package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.geom.HasSize
+import io.data2viz.timer.*
 
 /**
  * Viz is the base element of a visualization.
@@ -52,10 +53,21 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
         renderer.stopAnimations()
     }
 
-    internal val animations = mutableListOf<(Double)-> Unit>()
+    internal val animationTimers = mutableListOf<Timer.(Double)-> Unit>()
 
+    /**
+     * Add an animation timer. The given block is an extension function on a Timer.
+     * It will be executed inside a timer with the elapsed time in ms as a parameter.
+     * It is possible to stop the timer from the block by calling `stop()` function
+     * from the block.
+     */
+    fun animation(block: Timer.(Double) -> Unit) {
+        animationTimers.add(block)
+    }
+
+    @Deprecated("Should use an animation timer", ReplaceWith("animation(block)"))
     fun onFrame(block: (Double) -> Unit) {
-        animations.add(block)
+        animation { block(it) }
     }
 
     fun onResize(block: (newWidth:Double, newHeight:Double) -> Unit) {

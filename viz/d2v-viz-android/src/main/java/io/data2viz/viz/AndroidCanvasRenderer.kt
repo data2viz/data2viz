@@ -22,8 +22,8 @@ class VizView(val viz: Viz, context: Context) : View(context) {
     private val timers = mutableListOf<Timer>()
 
     fun startAnimations() {
-        if (viz.animations.isNotEmpty()) {
-            viz.animations.forEach { anim ->
+        if (viz.animationTimers.isNotEmpty()) {
+            viz.animationTimers.forEach { anim ->
                 timers += timer { time ->
                     anim(time)
                 }
@@ -97,8 +97,8 @@ class AndroidCanvasRenderer(
     }
 
     override fun startAnimations() {
-        if (viz.animations.isNotEmpty()) {
-            viz.animations.forEach { anim ->
+        if (viz.animationTimers.isNotEmpty()) {
+            viz.animationTimers.forEach { anim ->
                 animationTimers += timer { time ->
                     anim(time)
                 }

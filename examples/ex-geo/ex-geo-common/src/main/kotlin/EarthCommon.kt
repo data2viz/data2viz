@@ -30,7 +30,7 @@ fun geoViz(world: GeoJsonObject): Viz = viz {
     geoPathOuter.path(world)
     add(pathOuter)
 
-    onFrame {
+    animation {
         val rotate = geoPathOuter.projection.rotate
         rotate[0] += .5
         rotate[1] = -10.0
