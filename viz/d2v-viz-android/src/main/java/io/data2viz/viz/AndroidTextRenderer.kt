@@ -41,20 +41,20 @@ internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
  * The middle alignement is an approximation.
  * TODO resolve by implementing DV-105
  */
-internal fun TextAlignmentBaseline.dy(renderer: AndroidCanvasRenderer, fontMetrics: Paint.FontMetrics): Float =
+internal fun TVAlign.dy(renderer: AndroidCanvasRenderer, fontMetrics: Paint.FontMetrics): Float =
 	with(renderer){
 		when(this@dy){
-			TextAlignmentBaseline.BASELINE  -> 0F
-			TextAlignmentBaseline.HANGING   -> fontMetrics.top
-			TextAlignmentBaseline.MIDDLE    -> fontMetrics.ascent * .4f
+			TVAlign.BASELINE  -> 0F
+			TVAlign.HANGING   -> fontMetrics.top
+			TVAlign.MIDDLE    -> fontMetrics.ascent * .4f
 		}
 	}
 
-internal val TextAnchor.android: Paint.Align
+internal val THAlign.android: Paint.Align
 	get() = when(this){
-		TextAnchor.START    -> Paint.Align.LEFT
-		TextAnchor.END      -> Paint.Align.RIGHT
-		TextAnchor.MIDDLE   -> Paint.Align.CENTER
+		THAlign.START,THAlign.LEFT     	-> Paint.Align.LEFT
+		THAlign.END, THAlign.RIGHT      -> Paint.Align.RIGHT
+		THAlign.MIDDLE   				-> Paint.Align.CENTER
 	}
 
 

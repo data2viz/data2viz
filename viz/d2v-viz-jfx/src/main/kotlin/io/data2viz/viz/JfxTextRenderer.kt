@@ -11,8 +11,8 @@ import javafx.scene.text.FontWeight 	as JfxFontWeight
 
 internal fun TextNode.render(gc: GraphicsContext){
 
-	gc.textAlign 	= anchor.jfx
-	gc.textBaseline = baseline.jfx
+	gc.textAlign 	= hAlign.jfx
+	gc.textBaseline = vAlign.jfx
 
 	gc.font = JfxFont.font(fontFamily.name, fontWeight.jfx, fontStyle.jfx, fontSize)
 
@@ -25,18 +25,18 @@ internal fun TextNode.render(gc: GraphicsContext){
 	}
 }
 
-private val TextAlignmentBaseline.jfx: VPos
+private val TVAlign.jfx: VPos
 	get() = when(this){
-		TextAlignmentBaseline.BASELINE  -> VPos.BASELINE
-		TextAlignmentBaseline.HANGING   -> VPos.TOP
-		TextAlignmentBaseline.MIDDLE    -> VPos.CENTER
+		TVAlign.BASELINE  -> VPos.BASELINE
+		TVAlign.HANGING   -> VPos.TOP
+		TVAlign.MIDDLE    -> VPos.CENTER
 	}
 
-private val TextAnchor.jfx: TextAlignment
+private val THAlign.jfx: TextAlignment
 	get() = when(this){
-		TextAnchor.START    -> TextAlignment.LEFT
-		TextAnchor.END      -> TextAlignment.RIGHT
-		TextAnchor.MIDDLE   -> TextAlignment.CENTER
+		THAlign.START,THAlign.LEFT    	-> TextAlignment.LEFT
+		THAlign.END, THAlign.RIGHT      -> TextAlignment.RIGHT
+		THAlign.MIDDLE   				-> TextAlignment.CENTER
 	}
 
 

@@ -4,7 +4,7 @@ package io.data2viz.viz
 /**
  * Handle both horizontal and vertical alignments.
  */
-data class TextAlign internal constructor(val horizontal:TextAnchor, val vertical: TextAlignmentBaseline)
+data class TextAlign internal constructor(val horizontal: THAlign, val vertical: TVAlign)
 
 
 /**
@@ -21,5 +21,5 @@ var TextNode.textAlign:TextAlign
 /**
  * Extension function to facilitate the alignment setting in a TextNode
  */
-fun TextNode.textAlign(horizontal:TextAnchor = anchor, vertical: TextAlignmentBaseline = baseline) = TextAlign(horizontal, vertical)
+fun TextNode.textAlign(horizontal: THAlign = anchor, vertical: TVAlign = baseline) = TextAlign(horizontal, vertical)
 

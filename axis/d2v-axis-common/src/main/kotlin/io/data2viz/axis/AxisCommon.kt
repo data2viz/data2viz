@@ -2,9 +2,7 @@ package io.data2viz.axis
 
 import io.data2viz.color.Colors
 import io.data2viz.scale.*
-import io.data2viz.viz.GroupNode
-import io.data2viz.viz.TextAlignmentBaseline
-import io.data2viz.viz.TextAnchor
+import io.data2viz.viz.*
 import kotlin.math.round
 
 
@@ -80,16 +78,16 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                             stroke = Colors.Web.black
                         }
                     text {
-                        anchor = when (orient) {
-                            Orient.LEFT -> TextAnchor.END
-                            Orient.RIGHT -> TextAnchor.START
-                            else -> TextAnchor.MIDDLE
+                        hAlign = when (orient) {
+                            Orient.LEFT -> THAlign.RIGHT
+                            Orient.RIGHT -> THAlign.LEFT
+                            else -> THAlign.MIDDLE
                         }
                         
-                        baseline = when (orient){
-                            Orient.TOP -> TextAlignmentBaseline.BASELINE
-                            Orient.BOTTOM -> TextAlignmentBaseline.HANGING
-                            else -> TextAlignmentBaseline.MIDDLE
+                        vAlign = when (orient){
+                            Orient.TOP -> TVAlign.BASELINE
+                            Orient.BOTTOM -> TVAlign.HANGING
+                            else -> TVAlign.MIDDLE
                         }
                         fill = Colors.Web.black
                         if(orient.isHorizontal()) 

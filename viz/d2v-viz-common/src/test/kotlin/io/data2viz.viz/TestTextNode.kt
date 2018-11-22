@@ -10,11 +10,11 @@ class TestTextNode: TestBase(){
     fun accessibility(){
         val textNode = TextNode().apply {
             parent = Viz()
-            textAlign = textAlign(TextAnchor.END)
+            textAlign = textAlign(THAlign.RIGHT)
         }
 
-        textNode.baseline shouldBe TextAlignmentBaseline.BASELINE
-        textNode.anchor shouldBe TextAnchor.END
+        textNode.vAlign shouldBe TVAlign.BASELINE
+        textNode.hAlign shouldBe THAlign.RIGHT
 
     }
 
@@ -22,12 +22,12 @@ class TestTextNode: TestBase(){
     fun parentProperty(){
         val textNode = TextNode().apply {
             parent = Viz().apply {
-                textAlign = textAlign(TextAnchor.END, TextAlignmentBaseline.HANGING)
+                textAlign = textAlign(THAlign.RIGHT, TVAlign.HANGING)
             }
         }
 
-        textNode.anchor shouldBe TextAnchor.END
-        textNode.baseline shouldBe TextAlignmentBaseline.HANGING
+        textNode.hAlign shouldBe THAlign.RIGHT
+        textNode.vAlign shouldBe TVAlign.HANGING
 
     }
 }
