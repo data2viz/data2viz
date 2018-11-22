@@ -99,11 +99,11 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
         get() = style.strokeWidth
         set(value) {style.strokeWidth = value}
 
-    override var anchor: THAlign
+    override var anchor: TextHAlign
         get() = style.anchor
         set(value) {style.anchor = value}
 
-    override var baseline: TVAlign
+    override var baseline: TextVAlign
         get() = style.baseline
         set(value) {style.baseline = value}
 

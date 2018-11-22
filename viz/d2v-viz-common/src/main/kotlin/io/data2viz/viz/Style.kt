@@ -13,22 +13,22 @@ interface Style {
     var stroke: ColorOrGradient?
     var strokeWidth: Double?
     @Deprecated("Use hAlign", ReplaceWith("hAlign"))
-    var anchor: THAlign
-    var hAlign: THAlign
+    var anchor: TextHAlign
+    var hAlign: TextHAlign
 
     @Deprecated("Use vAlign", ReplaceWith("vAlign"))
-    var baseline: TVAlign
-    var vAlign: TVAlign
+    var baseline: TextVAlign
+    var vAlign: TextVAlign
 }
 
 internal class StyleImpl: Style {
     override var fill: ColorOrGradient? = null
     override var stroke: ColorOrGradient? = null
     override var strokeWidth: Double? = 1.0
-    override var hAlign: THAlign = THAlign.LEFT
-    override var anchor: THAlign = hAlign
-    override var vAlign: TVAlign = TVAlign.BASELINE
-    override var baseline: TVAlign = vAlign
+    override var hAlign: TextHAlign = TextHAlign.LEFT
+    override var anchor: TextHAlign = hAlign
+    override var vAlign: TextVAlign = TextVAlign.BASELINE
+    override var baseline: TextVAlign = vAlign
 }
 
 class HierarchicalStyle(var parent:Style?): Style {
@@ -65,7 +65,7 @@ class HierarchicalStyle(var parent:Style?): Style {
         }
 
     private var hAlignSet = false
-    override var hAlign: THAlign
+    override var hAlign: TextHAlign
         get() = if (hAlignSet) style?.hAlign!! else parent?.hAlign!!
         set(value) {
             if (style == null)
@@ -73,14 +73,14 @@ class HierarchicalStyle(var parent:Style?): Style {
             hAlignSet = true
             style?.hAlign = value
         }
-    override var anchor: THAlign
+    override var anchor: TextHAlign
         get() = hAlign
         set(value) {
             hAlign = value
         }
 
     private var vAlignSet = false
-    override var vAlign: TVAlign
+    override var vAlign: TextVAlign
         get() = if (vAlignSet) style?.vAlign!! else parent?.vAlign!!
         set(value) {
             if (style == null)
@@ -89,7 +89,7 @@ class HierarchicalStyle(var parent:Style?): Style {
             style?.vAlign = value
         }
     @Deprecated("Use vAlign", ReplaceWith("vAlign"))
-    override var baseline: TVAlign
+    override var baseline: TextVAlign
         get() = vAlign
         set(value) {
             vAlign = value
@@ -102,7 +102,7 @@ class HierarchicalStyle(var parent:Style?): Style {
  * text relative to a given point.
  * See [CSS text-anchor][https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor]
  */
-enum class THAlign {
+enum class TextHAlign {
     LEFT,
     @Deprecated("Use LEFT", ReplaceWith("LEFT"))
     START,
@@ -112,17 +112,18 @@ enum class THAlign {
     END
 }
 
-@Deprecated("Use THAlign", ReplaceWith("THAlign"))
-typealias TextAnchor = THAlign
+@Deprecated("Use TextHAlign", ReplaceWith("TextHAlign"))
+typealias TextAnchor = TextHAlign
 
 /**
  * Vertical alignment of a text
  */
-enum class TVAlign {
+enum class TextVAlign {
     HANGING,
     MIDDLE,
     BASELINE
 }
-@Deprecated("Use TVAlign", ReplaceWith("TVAlign"))
-typealias TextAlignmentBaseline = TVAlign
+
+@Deprecated("Use TextVAlign", ReplaceWith("TextVAlign"))
+typealias TextAlignmentBaseline = TextVAlign
 

@@ -44,17 +44,17 @@ abstract class Node : Style {
     override var strokeWidth: Double?
         get() = style.strokeWidth
         set(value) {style.strokeWidth = value}
-    override var hAlign: THAlign
+    override var hAlign: TextHAlign
         get() = style.hAlign
         set(value) {style.hAlign = value}
-    override var anchor: THAlign
+    override var anchor: TextHAlign
         get() = hAlign
         set(value) {hAlign = value}
-    override var vAlign: TVAlign
+    override var vAlign: TextVAlign
         get() = style.vAlign
         set(value) {
             style.vAlign = value}
-    override var baseline: TVAlign
+    override var baseline: TextVAlign
         get() = vAlign
         set(value) {
             vAlign = value}

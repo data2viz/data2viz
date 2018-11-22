@@ -17,18 +17,18 @@ internal fun TextNode.render(context: CanvasRenderingContext2D) {
 	}
 }
 
-private val TVAlign.js: CanvasTextBaseline
+private val TextVAlign.js: CanvasTextBaseline
 	get() = when(this){
-		TVAlign.BASELINE  -> CanvasTextBaseline.ALPHABETIC
-		TVAlign.HANGING   -> CanvasTextBaseline.HANGING
-		TVAlign.MIDDLE    -> CanvasTextBaseline.MIDDLE
+		TextVAlign.BASELINE  -> CanvasTextBaseline.ALPHABETIC
+		TextVAlign.HANGING   -> CanvasTextBaseline.HANGING
+		TextVAlign.MIDDLE    -> CanvasTextBaseline.MIDDLE
 	}
 
-private val THAlign.js: CanvasTextAlign
+private val TextHAlign.js: CanvasTextAlign
 	get() = when(this){
-		THAlign.START, 	THAlign.LEFT    	-> CanvasTextAlign.LEFT
-		THAlign.END,	THAlign.RIGHT      	-> CanvasTextAlign.RIGHT
-		THAlign.MIDDLE   					-> CanvasTextAlign.CENTER
+		TextHAlign.START, 	TextHAlign.LEFT    	-> CanvasTextAlign.LEFT
+		TextHAlign.END,	TextHAlign.RIGHT      	-> CanvasTextAlign.RIGHT
+		TextHAlign.MIDDLE   					-> CanvasTextAlign.CENTER
 	}
 
 private val FontWeight.js: String
