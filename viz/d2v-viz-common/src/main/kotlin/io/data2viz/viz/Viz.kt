@@ -44,13 +44,13 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
         get() = style.textColor
         set(value) {style.textColor = value}
 
-    override var anchor: TextHAlign
-        get() = style.anchor
-        set(value) {style.anchor = value}
+    override var hAlign: TextHAlign
+        get() = style.hAlign
+        set(value) {style.hAlign = value}
 
-    override var baseline: TextVAlign
-        get() = style.baseline
-        set(value) {style.baseline = value}
+    override var vAlign: TextVAlign
+        get() = style.vAlign
+        set(value) {style.vAlign = value}
 
 
     init {
