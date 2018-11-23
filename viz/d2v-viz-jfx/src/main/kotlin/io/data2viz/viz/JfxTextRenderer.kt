@@ -16,7 +16,8 @@ internal fun TextNode.render(gc: GraphicsContext){
 
 	gc.font = JfxFont.font(fontFamily.name, fontWeight.jfx, fontStyle.jfx, fontSize)
 
-	fill?.let {
+	textColor?.let {
+		gc.fill = it.toPaint()
 		gc.fillText(textContent, x, y)
 	}
 

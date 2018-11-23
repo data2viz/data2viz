@@ -49,7 +49,7 @@ val allRenderingTests = listOf(
 
                 y = fontSizeValue + fontSizeValue * index
 
-                fill = Colors.Web.black
+                textColor = Colors.Web.red
                 fontSize = fontSizeValue
             }
         }
