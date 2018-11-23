@@ -6,7 +6,7 @@ import android.graphics.*
 fun CircleNode.render(renderer: AndroidCanvasRenderer) {
 	val canvas = renderer.canvas
 	with(renderer) {
-		style.fill?.let {
+		fill?.let {
 			paint.style = Paint.Style.FILL
 			it.updatePaint(paint, renderer)
 			canvas.drawCircle(
@@ -15,7 +15,7 @@ fun CircleNode.render(renderer: AndroidCanvasRenderer) {
 				radius.dp,
 				paint)
 		}
-		style.stroke?.let {
+		stroke?.let {
 			paint.style = Paint.Style.STROKE
 			it.updatePaint(paint, renderer)
 			canvas.drawCircle(

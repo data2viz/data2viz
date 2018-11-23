@@ -20,15 +20,15 @@ fun PathNode.render(context: CanvasRenderingContext2D) {
     }
 
     // FIRST fill
-    style.fill?.let {
+    fill?.let {
         context.fillStyle = it.toCanvasPaint(context)
         context.fill()
     }
 
     // THEN stroke
-    style.stroke?.let {
+    stroke?.let {
         context.strokeStyle = it.toCanvasPaint(context)
-        context.lineWidth = style.strokeWidth ?: 1.0
+        context.lineWidth = strokeWidth ?: 1.0
         context.stroke()
     }
 

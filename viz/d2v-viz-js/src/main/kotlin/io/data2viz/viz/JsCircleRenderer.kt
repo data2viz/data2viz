@@ -8,11 +8,11 @@ fun CircleNode.render(context: CanvasRenderingContext2D) {
 	context.beginPath()
 	context.arc(x, y, radius, .0, 2 * PI, false)
 
-	style.fill?.let {
+	fill?.let {
 		context.fill()
 	}
 
-	style.stroke?.let {
+	stroke?.let {
 		context.stroke()
 	}
 }

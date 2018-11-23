@@ -1,6 +1,6 @@
 package io.data2viz.viz
 
-interface HasChildren: HasStyle {
+interface HasChildren: Style {
 
     fun add(node: Node)
     fun remove(node: Node)

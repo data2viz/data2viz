@@ -1,11 +1,9 @@
 package io.data2viz.examples.letsMakeABarchart
 
-import io.data2viz.color.Colors
-import io.data2viz.geom.Size
-import io.data2viz.scale.Scales
-import io.data2viz.viz.TextAlignmentBaseline
-import io.data2viz.viz.TextAnchor
-import io.data2viz.viz.Viz
+import io.data2viz.color.*
+import io.data2viz.geom.*
+import io.data2viz.scale.*
+import io.data2viz.viz.*
 
 data class NameValue(val name: String, val value: Double)
 
@@ -30,22 +28,21 @@ fun barchartViz() = Viz().apply {
         domain = listOf(.0, myData.maxBy { it.value }!!.value)
         range = listOf(.0, vizWidth)
     }
-
     myData.forEachIndexed { index, nameValue ->
         group {
             transform { translate(y = index * barHeight) }
             rect {
                 width = xScale(nameValue.value)
                 height = barHeight - 1.0
-                style.fill = Colors.Web.steelblue
+                fill = Colors.Web.steelblue
             }
             text {
                 x = xScale(nameValue.value) - 3.0
                 y = barHeight / 2.0
                 textContent = nameValue.value.toString()
-                style.fill = Colors.Web.white
-                style.anchor = TextAnchor.END
-                style.baseline = TextAlignmentBaseline.MIDDLE
+                fill = Colors.Web.white
+                fontSize = 12.0
+                textAlign = textAlign(TextHAlign.RIGHT, TextVAlign.MIDDLE)
             }
         }
     }

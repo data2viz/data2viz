@@ -43,8 +43,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -62,8 +62,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign      = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -81,8 +81,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -100,8 +100,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -122,8 +122,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -141,8 +141,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -160,8 +160,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -179,8 +179,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -199,8 +199,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -218,8 +218,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign      = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -237,8 +237,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign      = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -256,8 +256,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -285,7 +285,7 @@ val allRenderingTests = listOf(
                 rect {
                     height = 10.0
                     width = 10.0
-                    style.fill = Colors.Web.black
+                    fill = Colors.Web.black
                 }
                 addToParent(this)
             }
@@ -299,7 +299,7 @@ val allRenderingTests = listOf(
             rect {
                 height = 10.0
                 width = 10.0
-                style.fill = Colors.Web.black
+                fill = Colors.Web.black
             }
         })
     },
@@ -314,7 +314,7 @@ val allRenderingTests = listOf(
                 y = 100.0
                 width = 20.0
                 height = 10.0
-                style.fill = Colors.Web.red
+                fill = Colors.Web.red
             }
         }
     },
@@ -325,7 +325,7 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                style.fill = Colors.Web.red
+                fill = Colors.Web.red
             }
         },
         renderingTest("circle2") {
@@ -333,8 +333,9 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                style.stroke = Colors.Web.red
-                style.strokeWidth = 20.0
+                fill = null
+                stroke = Colors.Web.red
+                strokeWidth = 20.0
             }
         },
         renderingTest("circle3") {
@@ -342,7 +343,8 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                style.stroke = Colors.Web.red
+                fill = null
+                stroke = Colors.Web.red
             }
         },
         renderingTest("circle4") {
@@ -350,10 +352,10 @@ val allRenderingTests = listOf(
                 x = 200.0
                 y = 200.0
                 radius = 100.0
-                style.fill = 0xfdc658.col
-                style.stroke = 0x0c0887.col
+                fill = 0xfdc658.col
+                stroke = 0x0c0887.col
                         .withAlpha(50.pct)
-                style.strokeWidth = 40.0
+                strokeWidth = 40.0
             }
         },
 
@@ -369,8 +371,8 @@ val allRenderingTests = listOf(
                 moveTo(pos.first, pos.second)
                 arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), false)
                 closePath()
-                style.fill = Colors.Web.grey
-                style.stroke = null
+                fill = Colors.Web.grey
+                stroke = null
             }
         }
     },
@@ -384,8 +386,8 @@ val allRenderingTests = listOf(
                 moveTo(pos.first, pos.second)
                 arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), false)
                 closePath()
-                style.fill = Colors.Web.grey
-                style.stroke = null
+                fill = Colors.Web.grey
+                stroke = null
             }
         }
     },
@@ -399,8 +401,8 @@ val allRenderingTests = listOf(
                 moveTo(pos.first, pos.second)
                 arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), true)
                 closePath()
-                style.fill = Colors.Web.grey
-                style.stroke = null
+                fill = Colors.Web.grey
+                stroke = null
             }
         }
     },
@@ -414,8 +416,8 @@ val allRenderingTests = listOf(
                 moveTo(pos.first, pos.second)
                 arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), true)
                 closePath()
-                style.fill = Colors.Web.grey
-                style.stroke = null
+                fill = Colors.Web.grey
+                stroke = null
             }
         }
     },
@@ -431,8 +433,8 @@ val allRenderingTests = listOf(
                 moveTo(pos.first, pos.second)
                 arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
                 closePath()
-                style.fill = Colors.Web.grey
-                style.stroke = null
+                fill = Colors.Web.grey
+                stroke = null
             }
         }
     },
@@ -448,8 +450,8 @@ val allRenderingTests = listOf(
                 moveTo(pos.first, pos.second)
                 arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
                 closePath()
-                style.fill = Colors.Web.grey
-                style.stroke = null
+                fill = Colors.Web.grey
+                stroke = null
             }
         }
     },
@@ -467,8 +469,8 @@ val allRenderingTests = listOf(
                 arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
                 lineTo(pos.first + 15.0, pos.second + 15.0)
                 closePath()
-                style.fill = Colors.Web.grey
-                style.stroke = Colors.Web.blue
+                fill = Colors.Web.grey
+                stroke = Colors.Web.blue
             }
         }
     },
@@ -486,8 +488,8 @@ val allRenderingTests = listOf(
                 arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
                 lineTo(pos.first + 15.0, pos.second + 15.0)
                 closePath()
-                style.fill = Colors.Web.grey
-                style.stroke = Colors.Web.blue
+                fill = Colors.Web.grey
+                stroke = Colors.Web.blue
             }
         }
     },
@@ -513,8 +515,8 @@ val allRenderingTests = listOf(
             arc(200.0, 260.0, 20.0, .0, 2.0, false)
             lineTo(300.0, 312.0)
             closePath()
-            style.fill = Colors.Web.grey
-            style.stroke = Colors.Web.blue
+            fill = Colors.Web.grey
+            stroke = Colors.Web.blue
         }
     },
 
@@ -540,8 +542,8 @@ val allRenderingTests = listOf(
             arc(200.0, 260.0, 20.0, .0, 2.0, true)
             lineTo(300.0, 312.0)
             closePath()
-            style.fill = colors.grey
-            style.stroke = colors.blue
+            fill = colors.grey
+            stroke = colors.blue
         }
     },*/
 
@@ -552,13 +554,13 @@ val allRenderingTests = listOf(
                 lineTo(60.0, 20.0)
                 moveTo(80.0, 40.0)
                 lineTo(100.0, 20.0)
-                style.stroke = Colors.Web.red
+                stroke = Colors.Web.red
             }
         },
         renderingTest("path.rect") {
             path {
                 rect(10.0, 10.0, 200.0, 100.0)
-                style.fill = Colors.Web.red
+                fill = Colors.Web.red
             }
         },
         renderingTest("visible1") {
@@ -566,14 +568,14 @@ val allRenderingTests = listOf(
                 x = 50.0
                 y = 50.0
                 radius = 50.0
-                style.fill = Colors.Web.black
+                fill = Colors.Web.black
                 visible = false
             }
             circle {
                 x = 150.0
                 y = 50.0
                 radius = 50.0
-                style.fill = Colors.Web.black
+                fill = Colors.Web.black
             }
         },
         renderingTest("visible2-layer") {
@@ -582,7 +584,7 @@ val allRenderingTests = listOf(
                 x = 50.0
                 y = 50.0
                 radius = 50.0
-                style.fill = Colors.Web.black
+                fill = Colors.Web.black
             }
         }
 

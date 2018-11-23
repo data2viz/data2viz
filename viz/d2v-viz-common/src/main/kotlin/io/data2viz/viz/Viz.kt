@@ -2,7 +2,7 @@ package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
 import io.data2viz.geom.HasSize
-
+import io.data2viz.timer.*
 
 /**
  * Viz is the base element of a visualization.
@@ -25,6 +25,11 @@ import io.data2viz.geom.HasSize
  */
 class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
 
+    init {
+        activeLayer.parent = this
+    }
+
+    private val style:Style = StyleImpl()
     val config = VizConfig()
 
     override var width: Double = 100.0
@@ -48,10 +53,21 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
         renderer.stopAnimations()
     }
 
-    internal val animations = mutableListOf<(Double)-> Unit>()
+    internal val animationTimers = mutableListOf<Timer.(Double)-> Unit>()
 
+    /**
+     * Add an animation timer. The given block is an extension function on a Timer.
+     * It will be executed inside a timer with the elapsed time in ms as a parameter.
+     * It is possible to stop the timer from the block by calling `stop()` function
+     * from the block.
+     */
+    fun animation(block: Timer.(Double) -> Unit) {
+        animationTimers.add(block)
+    }
+
+    @Deprecated("Should use an animation timer", ReplaceWith("animation(block)"))
     fun onFrame(block: (Double) -> Unit) {
-        animations.add(block)
+        animation { block(it) }
     }
 
     fun onResize(block: (newWidth:Double, newHeight:Double) -> Unit) {
@@ -63,12 +79,37 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
     }
 
     fun layer(): Layer {
-        val layer = Layer()
+        val layer = Layer().also { it.parent = this }
         layers.add(layer)
         activeLayer = layer
         return layer
     }
+
+    //Style delegation
+
+    override var fill: ColorOrGradient?
+        get() = style.fill
+        set(value) {style.fill = value}
+
+    override var stroke: ColorOrGradient?
+        get() = style.stroke
+        set(value) {style.stroke = value}
+
+    override var strokeWidth: Double?
+        get() = style.strokeWidth
+        set(value) {style.strokeWidth = value}
+
+    override var anchor: TextHAlign
+        get() = style.anchor
+        set(value) {style.anchor = value}
+
+    override var baseline: TextVAlign
+        get() = style.baseline
+        set(value) {style.baseline = value}
+
+
 }
+
 
 fun viz(init: Viz.() -> Unit): Viz  = Viz().apply(init)
 

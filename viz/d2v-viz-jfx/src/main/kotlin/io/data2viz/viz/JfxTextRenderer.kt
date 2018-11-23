@@ -11,32 +11,32 @@ import javafx.scene.text.FontWeight 	as JfxFontWeight
 
 internal fun TextNode.render(gc: GraphicsContext){
 
-	gc.textAlign 	= anchor.jfx
-	gc.textBaseline = baseline.jfx
+	gc.textAlign 	= hAlign.jfx
+	gc.textBaseline = vAlign.jfx
 
 	gc.font = JfxFont.font(fontFamily.name, fontWeight.jfx, fontStyle.jfx, fontSize)
 
-	style.fill?.let {
+	fill?.let {
 		gc.fillText(textContent, x, y)
 	}
 
-	style.stroke?.let {
+	stroke?.let {
 		gc.strokeText(textContent, x, y)
 	}
 }
 
-private val TextAlignmentBaseline.jfx: VPos
+private val TextVAlign.jfx: VPos
 	get() = when(this){
-		TextAlignmentBaseline.BASELINE  -> VPos.BASELINE
-		TextAlignmentBaseline.HANGING   -> VPos.TOP
-		TextAlignmentBaseline.MIDDLE    -> VPos.CENTER
+		TextVAlign.BASELINE  -> VPos.BASELINE
+		TextVAlign.HANGING   -> VPos.TOP
+		TextVAlign.MIDDLE    -> VPos.CENTER
 	}
 
-private val TextAnchor.jfx: TextAlignment
+private val TextHAlign.jfx: TextAlignment
 	get() = when(this){
-		TextAnchor.START    -> TextAlignment.LEFT
-		TextAnchor.END      -> TextAlignment.RIGHT
-		TextAnchor.MIDDLE   -> TextAlignment.CENTER
+		TextHAlign.START,TextHAlign.LEFT    	-> TextAlignment.LEFT
+		TextHAlign.END, TextHAlign.RIGHT      -> TextAlignment.RIGHT
+		TextHAlign.MIDDLE   				-> TextAlignment.CENTER
 	}
 
 

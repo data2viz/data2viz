@@ -17,7 +17,7 @@ fun GroupNode.render(renderer: AndroidCanvasRenderer) {
 			}
 
 			if (node is HasStroke) {
-				paint.strokeWidth = (node.style.strokeWidth ?: 1.0).toFloat()
+				paint.strokeWidth = (node.strokeWidth ?: 1.0).toFloat()
 			}
 
 			if (node.visible)

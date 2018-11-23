@@ -3,32 +3,32 @@ package io.data2viz.viz
 import org.w3c.dom.*
 
 internal fun TextNode.render(context: CanvasRenderingContext2D) {
-	context.textAlign = style.anchor.js
-	context.textBaseline = style.baseline.js
+	context.textAlign = hAlign.js
+	context.textBaseline = vAlign.js
 
 	context.font = "${fontStyle.js} ${fontWeight.js} ${fontSize}px ${fontFamily.name}"
 
-	style.fill?.let {
+	fill?.let {
 		context.fillText(textContent, x, y)
 	}
 
-	style.stroke?.let {
+	stroke?.let {
 		context.strokeText(textContent, x, y)
 	}
 }
 
-private val TextAlignmentBaseline.js: CanvasTextBaseline
+private val TextVAlign.js: CanvasTextBaseline
 	get() = when(this){
-		TextAlignmentBaseline.BASELINE  -> CanvasTextBaseline.ALPHABETIC
-		TextAlignmentBaseline.HANGING   -> CanvasTextBaseline.HANGING
-		TextAlignmentBaseline.MIDDLE    -> CanvasTextBaseline.MIDDLE
+		TextVAlign.BASELINE  -> CanvasTextBaseline.ALPHABETIC
+		TextVAlign.HANGING   -> CanvasTextBaseline.HANGING
+		TextVAlign.MIDDLE    -> CanvasTextBaseline.MIDDLE
 	}
 
-private val TextAnchor.js: CanvasTextAlign
+private val TextHAlign.js: CanvasTextAlign
 	get() = when(this){
-		TextAnchor.START    -> CanvasTextAlign.LEFT
-		TextAnchor.END      -> CanvasTextAlign.RIGHT
-		TextAnchor.MIDDLE   -> CanvasTextAlign.CENTER
+		TextHAlign.START, 	TextHAlign.LEFT    	-> CanvasTextAlign.LEFT
+		TextHAlign.END,	TextHAlign.RIGHT      	-> CanvasTextAlign.RIGHT
+		TextHAlign.MIDDLE   					-> CanvasTextAlign.CENTER
 	}
 
 private val FontWeight.js: String

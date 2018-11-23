@@ -33,3 +33,7 @@ task diffs(type: YarnTask, dependsOn: generateRenderingTestImages) {
 }
 
 test.dependsOn diffs
+
+
+runDceTestKotlinJs.keep "d2v-viz-js_test.io.data2viz.viz.renderImages"
+runDceTestKotlinJs.dceOptions.devMode = true

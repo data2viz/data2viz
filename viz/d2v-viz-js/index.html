@@ -9,8 +9,17 @@
 <body>
 
 <script>
-    require.config({baseUrl: "build/kotlin-js-min/main"});
-    require(['build/kotlin-js-min/test/d2v-viz-js_test.js']);
+    require.config({
+        baseUrl: "build/kotlin-js-min/test",
+        paths: {
+            "d2v-viz-js" : "../main/d2v-viz-js",
+        }
+
+    });
+
+    require(['build/kotlin-js-min/test/d2v-viz-js_test.js'], function (vizTest) {
+        vizTest.io.data2viz.viz.renderImages();
+    });
 </script>
 </body>
 </html>

@@ -1,19 +1,12 @@
 package io.data2viz.examples.streamGraph
 
-import io.data2viz.color.EncodedColors
+import io.data2viz.color.*
 import io.data2viz.color.EncodedColors.Companion.category20b
-import io.data2viz.geom.Path
-import io.data2viz.scale.Scales
-import io.data2viz.shape.Curve
-import io.data2viz.shape.areaBuilder
-import io.data2viz.shape.curves
-import io.data2viz.shape.stack.StackOffset
-import io.data2viz.shape.stack.StackOrder
-import io.data2viz.shape.stack.StackSpace
-import io.data2viz.shape.stack.stack
-import io.data2viz.viz.Margins
-import io.data2viz.viz.Viz
-import io.data2viz.viz.viz
+import io.data2viz.geom.*
+import io.data2viz.scale.*
+import io.data2viz.shape.*
+import io.data2viz.shape.stack.*
+import io.data2viz.viz.*
 import kotlin.random.Random
 
 
@@ -41,10 +34,10 @@ data class Score(
 
 // Visual configuration object
 data class VizConfig(
-        var curve: (Path) -> Curve = curves.basis,
-        var offset: StackOffset = StackOffset.WIGGLE,
-        var order: StackOrder = StackOrder.NONE,
-        var colors: EncodedColors = category20b
+    var curve: (Path) -> Curve = curves.basis,
+    var offset: StackOffset = StackOffset.WIGGLE,
+    var order: StackOrder = StackOrder.NONE,
+    var colors: EncodedColors = category20b
 )
 val vizConfig = VizConfig()
 
@@ -143,8 +136,8 @@ fun streamGraph(): Viz = viz {
                 path {
                     area.render(stackData, this)
                     val color = vizConfig.colors.color(serieStream.index / stack.size.toDouble())
-                    style.fill = color
-                    style.stroke = color
+                    fill = color
+                    stroke = color
                 }
             }
         }

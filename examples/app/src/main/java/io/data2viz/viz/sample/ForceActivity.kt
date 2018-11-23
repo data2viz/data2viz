@@ -39,14 +39,13 @@ val viz = viz {
     width = canvasWidth
     height = canvasHeight
 
-    onFrame {
+    animation {
         activeLayer.clear()
         path {
             (sim.forces["link"] as ForceLink).links.forEach { link ->
                 moveTo(link.source.x, link.source.y)
                 lineTo(link.target.x, link.target.y)
             }
-            strokeWidth = 1.0
             stroke = Colors.Web.grey
         }
 

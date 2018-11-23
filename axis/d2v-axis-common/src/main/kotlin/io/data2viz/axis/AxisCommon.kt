@@ -2,9 +2,7 @@ package io.data2viz.axis
 
 import io.data2viz.color.Colors
 import io.data2viz.scale.*
-import io.data2viz.viz.GroupNode
-import io.data2viz.viz.TextAlignmentBaseline
-import io.data2viz.viz.TextAnchor
+import io.data2viz.viz.*
 import kotlin.math.round
 
 
@@ -47,9 +45,9 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
         with(content){
             path {
-                style.stroke = Colors.Web.black
-                style.fill = null
-                style.strokeWidth = 1.0
+                stroke = Colors.Web.black
+                fill = null
+                strokeWidth = 1.0
 
                 if(orient.isVertical()) {
                     moveTo(tickSizeOuter * k, range0)
@@ -72,26 +70,26 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                     if (orient.isHorizontal())
                         line {
                             y2 = k * tickSizeInner
-                            style.stroke = Colors.Web.black
+                            stroke = Colors.Web.black
                         }
                     else
                         line {
                             x2 = k * tickSizeInner
-                            style.stroke = Colors.Web.black
+                            stroke = Colors.Web.black
                         }
                     text {
-                        style.anchor = when (orient) {
-                            Orient.LEFT -> TextAnchor.END
-                            Orient.RIGHT -> TextAnchor.START
-                            else -> TextAnchor.MIDDLE
+                        hAlign = when (orient) {
+                            Orient.LEFT -> TextHAlign.RIGHT
+                            Orient.RIGHT -> TextHAlign.LEFT
+                            else -> TextHAlign.MIDDLE
                         }
                         
-                        style.baseline = when (orient){
-                            Orient.TOP -> TextAlignmentBaseline.BASELINE
-                            Orient.BOTTOM -> TextAlignmentBaseline.HANGING
-                            else -> TextAlignmentBaseline.MIDDLE
+                        vAlign = when (orient){
+                            Orient.TOP -> TextVAlign.BASELINE
+                            Orient.BOTTOM -> TextVAlign.HANGING
+                            else -> TextVAlign.MIDDLE
                         }
-                        style.fill = Colors.Web.black
+                        fill = Colors.Web.black
                         if(orient.isHorizontal()) 
                             y = spacing * k
                         else

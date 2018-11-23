@@ -14,12 +14,12 @@ fun GroupNode.render(gc: GraphicsContext) {
 		}
 
 		if (node is HasFill) {
-			gc.fill = node.style.fill?.toPaint()
+			gc.fill = node.fill?.toPaint()
 		}
 
 		if (node is HasStroke) {
-			gc.stroke = node.style.stroke?.toPaint()
-			gc.lineWidth = node.style.strokeWidth ?: 1.0
+			gc.stroke = node.stroke?.toPaint()
+			gc.lineWidth = node.strokeWidth ?: 1.0
 		}
 
 		if (node.visible)
