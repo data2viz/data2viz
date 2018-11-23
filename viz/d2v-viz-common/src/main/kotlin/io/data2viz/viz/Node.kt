@@ -44,6 +44,9 @@ abstract class Node : Style {
     override var strokeWidth: Double?
         get() = style.strokeWidth
         set(value) {style.strokeWidth = value}
+    override var textColor: ColorOrGradient?
+        get() = style.textColor
+        set(value) {style.textColor = value}
     override var hAlign: TextHAlign
         get() = style.hAlign
         set(value) {style.hAlign = value}

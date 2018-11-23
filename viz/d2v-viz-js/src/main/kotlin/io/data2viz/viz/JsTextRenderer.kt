@@ -8,7 +8,8 @@ internal fun TextNode.render(context: CanvasRenderingContext2D) {
 
 	context.font = "${fontStyle.js} ${fontWeight.js} ${fontSize}px ${fontFamily.name}"
 
-	fill?.let {
+	textColor?.let {
+		context.fillStyle = it.toCanvasPaint(context)
 		context.fillText(textContent, x, y)
 	}
 

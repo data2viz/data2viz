@@ -12,6 +12,9 @@ interface Style {
     var fill: ColorOrGradient?
     var stroke: ColorOrGradient?
     var strokeWidth: Double?
+    var textColor: ColorOrGradient?
+
+
     @Deprecated("Use hAlign", ReplaceWith("hAlign"))
     var anchor: TextHAlign
     var hAlign: TextHAlign
@@ -24,6 +27,7 @@ interface Style {
 internal class StyleImpl: Style {
     override var fill: ColorOrGradient? = null
     override var stroke: ColorOrGradient? = null
+    override var textColor: ColorOrGradient? = null
     override var strokeWidth: Double? = 1.0
     override var hAlign: TextHAlign = TextHAlign.LEFT
     override var anchor: TextHAlign = hAlign
@@ -63,6 +67,17 @@ class HierarchicalStyle(var parent:Style?): Style {
             strokeWidthSet = true
             style?.strokeWidth = value
         }
+
+    private var textColorSet = false
+    override var textColor: ColorOrGradient?
+        get() = if (textColorSet) style?.textColor else parent?.textColor
+        set(value) {
+            if (style == null)
+                style = StyleImpl()
+            textColorSet = true
+            style?.textColor = value
+        }
+
 
     private var hAlignSet = false
     override var hAlign: TextHAlign

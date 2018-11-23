@@ -12,7 +12,7 @@ internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
 
 		val dy = baseline.dy(renderer, paint.fontMetrics)
 
-		fill?.let {
+		textColor?.let {
 			paint.style = Paint.Style.FILL
 			it.updatePaint(paint, renderer)
 			canvas.drawText(
