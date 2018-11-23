@@ -25,6 +25,9 @@ private val linesOfText = listOf(
 )
 private const val fontSizeValue = 40.0
 
+
+//TODO Copie of common rendering test
+// see https://github.com/data2viz/data2viz/issues/24
 val allRenderingTests = listOf(
 
     ///////////// TEXT /////////////////////////////////
