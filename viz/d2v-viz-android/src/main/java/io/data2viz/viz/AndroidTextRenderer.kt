@@ -5,12 +5,12 @@ import android.graphics.*
 internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
 	val canvas = renderer.canvas
 	with(renderer) {
-		paint.textAlign = anchor.android
+		paint.textAlign = hAlign.android
 		paint.textSize = fontSize.dp
 
 		paint.typeface = Typeface.create(fontFamily.name, getAndroidStyle(fontWeight, fontStyle))
 
-		val dy = baseline.dy(renderer, paint.fontMetrics)
+		val dy = vAlign.dy(renderer, paint.fontMetrics)
 
 		textColor?.let {
 			paint.style = Paint.Style.FILL
