@@ -1,14 +1,10 @@
 package io.data2viz.force
 
-import io.data2viz.geom.Vector
-
-fun forceX(init:ForceX.()->Unit = {}) = ForceX().apply(init)
-
 /**
  * Creates a new positioning force along the x-axis towards the given position x.
  * If x is not specified, it defaults to 0.
  */
-class ForceX : Force {
+class ForceX<D> internal constructor(): Force<D> {
 
     /**
      * Sets the x-coordinate accessor to the specified function, re-evaluates the x-accessor for each node.
@@ -17,7 +13,7 @@ class ForceX : Force {
      * The resulting number is then stored internally, such that the target x-coordinate of each node is only recomputed
      * when the force is initialized or when this method is called with a new x, and not on every application of the force.
      */
-    var x: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> .0 }
+    var xAccessor: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> .0 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -36,25 +32,25 @@ class ForceX : Force {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 0.1 }
+    var strengthAccessor: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> 0.1 }
         set(value) {
             field = value
             assignNodes(nodes)
         }
 
-    private var nodes: List<ForceNode> = listOf()
+    private var nodes: List<ForceNode<D>> = listOf()
     private val strengths = mutableListOf<Double>()
     private val xz = mutableListOf<Double>()
 
-    override fun assignNodes(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
 
         xz.clear()
         strengths.clear()
 
         nodes.forEachIndexed { index, node ->
-            xz.add(x(node, index, nodes))
-            strengths.add(strength(node, index, nodes))
+            xz.add(xAccessor(node, index, nodes))
+            strengths.add(strengthAccessor(node, index, nodes))
         }
     }
 

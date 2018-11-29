@@ -3,19 +3,10 @@ package io.data2viz.force
 import io.data2viz.geom.Point
 import io.data2viz.math.PI
 import io.data2viz.timer.timer
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sin
-import kotlin.math.sqrt
-
+import kotlin.math.*
 
 private const val initialRadius = 10.0
 private val initialAngle = PI * (3.0 - sqrt(5.0))
-
-fun forceSimulation(nodes:List<ForceNode> = listOf(), init: ForceSimulation.() -> Unit) = ForceSimulation().apply {
-    this.nodes = nodes
-    init()
-}
 
 /**
  * Creates a new simulation with the specified array of nodes and no forces.
@@ -23,9 +14,9 @@ fun forceSimulation(nodes:List<ForceNode> = listOf(), init: ForceSimulation.() -
  * The simulator starts automatically; use simulation.on to listen for tick events as the simulation runs.
  * If you wish to run the simulation manually instead, call simulation.stop, and then call simulation.tick as desired.
  */
-class ForceSimulation {
+class ForceSimulation<D> internal constructor() {
 
-    var nodes = listOf<ForceNode>()
+    var nodes = listOf<ForceNode<D>>()
         set(value) {
             field = value
             initializeNodes()
@@ -33,13 +24,13 @@ class ForceSimulation {
         }
 
 
-    private val _forces = mutableMapOf<String, Force>()
+    private val _forces = mutableMapOf<String, Force<D>>()
 
-    val forces:Map<String,Force>
+    val forces:Map<String,Force<D>>
         get() = _forces
 
-    private val tickEvents = mutableMapOf<String, (ForceSimulation) -> Unit>()
-    private val endEvents = mutableMapOf<String, (ForceSimulation) -> Unit>()
+    private val tickEvents = mutableMapOf<String, (ForceSimulation<D>) -> Unit>()
+    private val endEvents = mutableMapOf<String, (ForceSimulation<D>) -> Unit>()
 
     private val stepper = timer { step() }
 
@@ -49,6 +40,7 @@ class ForceSimulation {
 
     /**
      * Restarts current simulation
+     * TODO really ? only restart timer but alpha remains 1.0...
      */
     fun restart() {
         stepper.restart { step() }
@@ -140,7 +132,7 @@ class ForceSimulation {
     /**
      * Assigns the force for the specified name in this simulation.
      */
-    fun addForce(name: String, force: Force) {
+    fun addForce(name: String, force: Force<D>) {
         initializeForce(force)
         _forces[name] = force
     }
@@ -152,7 +144,7 @@ class ForceSimulation {
         _forces.remove(name)
     }
 
-    private fun initializeForce(force: Force) {
+    private fun initializeForce(force: Force<D>) {
         force.assignNodes(nodes)
     }
 
@@ -219,9 +211,9 @@ class ForceSimulation {
      * If radius is not specified, it defaults to infinity.
      * If there is no node within the search area, returns null.
      */
-    fun find(point: Point, radius: Double = Double.POSITIVE_INFINITY): ForceNode? {
+    fun find(point: Point, radius: Double = Double.POSITIVE_INFINITY): ForceNode<D>? {
         var newRadius = if (radius < Double.POSITIVE_INFINITY) radius * radius else radius
-        var closest: ForceNode? = null
+        var closest: ForceNode<D>? = null
 
         nodes.forEach { node ->
             val dx = point.x - node.x
@@ -258,7 +250,7 @@ class ForceSimulation {
      * event listener.
      */
     // TODO : change doc and plug to dispatch (?)
-    fun on(type: SimulationEvent, name: String, callback: (ForceSimulation) -> Unit) {
+    fun on(type: SimulationEvent, name: String, callback: (ForceSimulation<D>) -> Unit) {
         when (type) {
             SimulationEvent.TICK -> tickEvents[name] = callback
             SimulationEvent.END -> endEvents[name] = callback

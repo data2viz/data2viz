@@ -3,21 +3,15 @@ package io.data2viz.force
 import kotlin.math.min
 import kotlin.math.sqrt
 
-data class Link(
-    val source: ForceNode,
-    val target: ForceNode,
+data class Link<D>(
+    val source: ForceNode<D>,
+    val target: ForceNode<D>,
     internal var _index: Int = 0
 ) {
     val index: Int
         get() = _index
-
 }
 
-
-/**
- * Todo evaluate having a signature with a fixed list of links and one with an accessor from nodes
- */
-fun forceLink(init: ForceLink.() -> Unit = {}) = ForceLink().apply(init)
 
 /**
  * The link force pushes linked nodes together or apart according to the desired link distance.
@@ -27,12 +21,12 @@ fun forceLink(init: ForceLink.() -> Unit = {}) = ForceLink().apply(init)
  *
  *
  */
-class ForceLink : Force {
+class ForceLink<D> internal constructor(): Force<D> {
 
-    private var nodes       = listOf<ForceNode>()
+    private var nodes       = listOf<ForceNode<D>>()
 
-    private var _links       = listOf<Link>()
-    val links: List<Link>
+    private var _links       = listOf<Link<D>>()
+    val links: List<Link<D>>
         get() = _links
 
     private var distances   = listOf<Double>()
@@ -48,7 +42,7 @@ class ForceLink : Force {
      */
     var iterations = 1
 
-    var linksAccessor: (List<ForceNode>)-> List<Link> = { listOf() }
+    var linksAccessor: (List<ForceNode<D>>)-> List<Link<D>> = { listOf() }
 
     /**
      * sets the strength accessor to the specified number or function, re-evaluates
@@ -57,7 +51,7 @@ class ForceLink : Force {
      * ```
      * ```
      */
-    var strengthsAccessor: (List<Link>) -> List<Double> = { links ->
+    var strengthsAccessor: (List<Link<D>>) -> List<Double> = { links ->
             links.map { link ->
                 1.0 / min(count[link.source.index], count[link.target.index])
             }
@@ -77,13 +71,13 @@ class ForceLink : Force {
      * recomputed when the force is initialized or when this method is called with a new distance,
      * and not on every application of the force.
      */
-    var distancesAccessor: (List<Link>) -> List<Double> = { links -> (0 until links.size).map { 30.0 } }
+    var distancesAccessor: (List<Link<D>>) -> List<Double> = { links -> (0 until links.size).map { 30.0 } }
         set(value) {
             field = value
             initializeDistances()
         }
 
-    override fun assignNodes(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
         _links = linksAccessor(nodes)
 

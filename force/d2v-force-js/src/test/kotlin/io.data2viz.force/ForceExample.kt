@@ -12,18 +12,19 @@ const val nodeCount = 400
 const val canvasWidth = 400.0
 const val canvasHeight = 400.0
 
-val fnodes = (0 until nodeCount).map { ForceNode(it, Random.nextDouble() * canvasWidth, Random.nextDouble() * canvasHeight) }
+val fnodes = (0 until nodeCount).map { ForceNode<Int>(it, it, Random.nextDouble() * canvasWidth, Random.nextDouble() * canvasHeight) }
 val links = (0 until nodeCount - 1).map { Link(fnodes[floor(sqrt(it.toDouble())).roundToInt()], fnodes[it + 1]) }
 
-val sim = forceSimulation(fnodes) {
-    addForce("charge", forceNBody())
-    addForce("link", forceLink {
+val sim = forceSimulation<Int> {
+    nodes = fnodes
+    addForce("charge", Forces.forceNBody())
+    addForce("link", Forces.forceLink {
         linksAccessor = { links }
         distancesAccessor = { links -> (0 until links.size).map { 30.0 } }
         strengthsAccessor = { links -> (0 until links.size).map { 1.0 } }
     })
-    addForce("x", forceX { x = { _, _, _ -> canvasWidth / 2 } })
-    addForce("y", forceY { y = { _, _, _ -> canvasHeight / 2 } })
+    addForce("x", Forces.forceX { xAccessor = { _, _, _ -> canvasWidth / 2 } })
+    addForce("y", Forces.forceY { y = { _, _, _ -> canvasHeight / 2 } })
     on(SimulationEvent.END, "endEvent") {
         stopRenderer()
     }
