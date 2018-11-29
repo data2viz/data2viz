@@ -15,9 +15,9 @@ const val height = 500.0
 
 const val pointCount = 800
 
-val simulation: ForceSimulation = forceSimulation {
+val simulation: ForceSimulation<Int> = forceSimulation {
     alphaDecay = 0.01
-    nodes = (0 until pointCount).map { ForceNode(it, Random.nextDouble() * width, Random.nextDouble() * height) }
+    nodes = (0 until pointCount).map { ForceNode(it, it, Random.nextDouble() * width, Random.nextDouble() * height) }
     on(SimulationEvent.TICK, "tickEvent", ::refresh)
     on(SimulationEvent.END, "endEvent") { println("SIMULATION ENDS") }
 }
@@ -60,7 +60,7 @@ val forcesViz:Viz = viz {
     simulationLoop()
 }
 
-fun refresh(sim: ForceSimulation) {
+fun refresh(sim: ForceSimulation<Int>) {
     forcesViz.activeLayer.children.forEachIndexed { index, node ->
         val forceNode = sim.nodes[index]
         val circle = node as Circle
@@ -130,57 +130,57 @@ val spriteIndexes = olympicColors.mapIndexed { index, _ ->
 }
 
 fun olympicForces() = listOf(
-    forceRadial {
+    Forces.forceRadial<Int> {
         center = { _, index, _ -> olympicCenters[index % 5] }
         radius = { _, _, _ -> 110.0 }
         strength = { _, _, _ -> 8.5 }
     },
-    forceNBody {
+    Forces.forceNBody<Int> {
         strength = { _, _, _ -> -80.0 }
         distanceMax = 30.0
     }
 )
 
 fun radialForces() = listOf(
-    forceRadial {
+    Forces.forceRadial<Int> {
         center = { _, _, _ -> Point(width / 2, height / 2) }
         radius = { _, _, _ -> 200.0 }
         strength = { _, _, _ -> 0.3 }
     },
-    forceNBody {
+    Forces.forceNBody<Int> {
         strength = { _, _, _ -> -20.0 }
         distanceMax = 30.0
     }
 )
 
 fun diagonalForces() = listOf(
-    forceNBody {
+    Forces.forceNBody<Int> {
         strength = { _, _, _ -> -1.0 }
         distanceMax = 30.0
     },
-    forceY {
+    Forces.forceY<Int> {
         y = { _, index, _ ->
             val pos = ((index % 10) + .5) * height / 10
             if (index % 4 < 2) pos else height - pos
         }
         strength = { _, _, _ -> .12 }
     },
-    forceX {
-        x = { _, index, _ ->
+    Forces.forceX<Int> {
+        xAccessor = { _, index, _ ->
             val pos = ((index % 10) + .5) * width / 10
             pos
 //            if (index % 5 == 0) pos else width - pos
         }
-        strength = { _, _, _ -> .12 }
+        strengthAccessor = { _, _, _ -> .12 }
     }
 )
 
 fun spriteForces() = listOf(
-    forceNBody {
+    Forces.forceNBody<Int> {
         strength = { _, _, _ -> -.2 }
         distanceMax = 15.0
     },
-    forceY {
+    Forces.forceY<Int> {
         y = { _, index, _ ->
             val indexList = spriteIndexes[index % 5]
             if (indexList.isEmpty()) -1000.0
@@ -192,8 +192,8 @@ fun spriteForces() = listOf(
         }
         strength = { _, _, _ -> .08 }
     },
-    forceX {
-        x = { _, index, _ ->
+    Forces.forceX<Int> {
+        xAccessor = { _, index, _ ->
             val indexList = spriteIndexes[index % 5]
             if (indexList.isEmpty()) -1000.0
             else {
@@ -202,6 +202,6 @@ fun spriteForces() = listOf(
                 300.0 + ((spritePosition % 16) * width) / 70.0
             }
         }
-        strength = { _, _, _ -> .08 }
+        strengthAccessor = { _, _, _ -> .08 }
     }
 )

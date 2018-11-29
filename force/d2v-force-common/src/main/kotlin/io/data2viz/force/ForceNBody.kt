@@ -1,14 +1,8 @@
 package io.data2viz.force
 
-import io.data2viz.math.EPSILON
 import io.data2viz.quadtree.*
 import kotlin.math.abs
 import kotlin.math.sqrt
-import kotlin.random.Random
-
-fun forceNBody(init: ForceNBody.() -> Unit = {}) = ForceNBody().apply(init)
-
-internal fun jiggle() = (Random.nextDouble() - 0.5) * EPSILON
 
 /**
  * The n-body force applies mutually amongst all nodes.
@@ -20,20 +14,20 @@ internal fun jiggle() = (Random.nextDouble() - 0.5) * EPSILON
  * Unlike links, which only affect two linked nodes, the charge force is global: every node affects every other node,
  * even if they are on disconnected subgraphs.
  */
-class ForceNBody : Force {
+class ForceNBody<D> internal constructor(): Force<D> {
 
     private var theta2 = .81
     private var distanceMin2 = 1.0
     private var distanceMax2 = 10000.0
 
-    private val x = { node: ForceNode -> node.x }
-    private val y = { node: ForceNode -> node.y }
+    private val x = { node: ForceNode<D> -> node.x }
+    private val y = { node: ForceNode<D> -> node.y }
 
     // store the alpha value for the current force(alpha) call
     private var currentAlpha: Double = .0
 
     // store the current node we're applying force
-    private lateinit var currentNode: ForceNode
+    private lateinit var currentNode: ForceNode<D>
 
     /**
      * Sets the Barnes–Hut approximation criterion to the specified number which defaults to 0.9.
@@ -86,16 +80,16 @@ class ForceNBody : Force {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> -30.0 }
+    var strength: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> -30.0 }
         set(value) {
             field = value
             assignNodes(nodes)
         }
 
-    private var nodes: List<ForceNode> = listOf()
+    private var nodes: List<ForceNode<D>> = listOf()
     private val strengths = mutableListOf<Double>()
 
-    override fun assignNodes(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
         strengths.clear()
         nodes.forEachIndexed { index, node ->
@@ -113,7 +107,7 @@ class ForceNBody : Force {
         }
     }
 
-    private fun applyForce(quad: QuadtreeNode<ForceNode>, x0: Double, y0: Double, x1: Double, y1: Double): Boolean {
+    private fun applyForce(quad: QuadtreeNode<ForceNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double): Boolean {
         if (quad.value == null) return true
 
         var x: Double = quad.x - currentNode.x
@@ -171,7 +165,7 @@ class ForceNBody : Force {
         return false
     }
 
-    private fun accumulate(quad: QuadtreeNode<ForceNode>, x0: Double, y0: Double, x1: Double, y1: Double) {
+    private fun accumulate(quad: QuadtreeNode<ForceNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
         var strength = .0
         var weight = .0
 
@@ -195,7 +189,7 @@ class ForceNBody : Force {
 
             // For leaf nodes, accumulate forces from coincident quadrants.
             is LeafNode -> {
-                var q: LeafNode<ForceNode>? = quad
+                var q: LeafNode<ForceNode<D>>? = quad
                 q!!.x = q.data.x
                 q.y =  q.data.y
                 do {

@@ -1,13 +1,10 @@
 package io.data2viz.force
 
-
-fun forceY(init: ForceY.() -> Unit = {}) = ForceY().apply(init)
-
 /**
  * Creates a new positioning force along the y-axis towards the given position y.
  * If y is not specified, it defaults to 0.
  */
-class ForceY : Force {
+class ForceY<D> internal constructor(): Force<D> {
 
     /**
      * Sets the y-coordinate accessor to the specified function, re-evaluates the y-accessor for each node.
@@ -16,7 +13,7 @@ class ForceY : Force {
      * The resulting number is then stored internally, such that the target y-coordinate of each node is only recomputed
      * when the force is initialized or when this method is called with a new y, and not on every application of the force.
      */
-    var y: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> .0 }
+    var y: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> .0 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -35,17 +32,17 @@ class ForceY : Force {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 0.1 }
+    var strength: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> 0.1 }
         set(value) {
             field = value
             assignNodes(nodes)
         }
 
-    private var nodes: List<ForceNode> = listOf()
+    private var nodes: List<ForceNode<D>> = listOf()
     private val strengths = mutableListOf<Double>()
     private val yz = mutableListOf<Double>()
 
-    override fun assignNodes(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
 
         yz.clear()
