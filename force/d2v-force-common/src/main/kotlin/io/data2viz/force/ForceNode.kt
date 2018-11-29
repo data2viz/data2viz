@@ -22,12 +22,13 @@ package io.data2viz.force
  * Todo the position can be fixed on one only axis.
  */
 
-data class ForceNode (
-        var index: Int,
-        var x: Double = Double.NaN,
-        var y: Double = Double.NaN,
-        var vx: Double = Double.NaN,
-        var vy: Double = Double.NaN,
-        var fixedX: Double? = null,
-        var fixedY: Double? = null
+data class ForceNode<D> (
+    var index: Int,
+    var domain: D,
+    var x: Double = Double.NaN,
+    var y: Double = Double.NaN,
+    var vx: Double = Double.NaN,
+    var vy: Double = Double.NaN,
+    var fixedX: Double? = null,
+    var fixedY: Double? = null
 )

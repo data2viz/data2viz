@@ -5,12 +5,10 @@ import io.data2viz.geom.Vector
 import io.data2viz.math.EPSILON
 import kotlin.math.sqrt
 
-fun forceRadial(init:ForceRadial.()->Unit) = ForceRadial().apply(init)
-
 /**
  * Creates a new positioning force towards a circle of the specified radius centered at "center" Point.
  */
-class ForceRadial : Force {
+class ForceRadial<D> internal constructor(): Force<D> {
 
     /**
      * Sets the circle radius to the specified function, re-evaluates the radius accessor for each node.
@@ -18,7 +16,7 @@ class ForceRadial : Force {
      * The resulting number is then stored internally, such that the radius of each node is only recomputed when the
      * force is initialized or when this method is called with a new radius, and not on every application of the force.
      */
-    var radius: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 100.0 }
+    var radius: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> 100.0 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -36,7 +34,7 @@ class ForceRadial : Force {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 0.1 }
+    var strength: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> 0.1 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -45,19 +43,19 @@ class ForceRadial : Force {
     /**
      * Sets the coordinate of the circle center which defaults to (0, 0).
      */
-    var center: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Point = { _, _, _ -> defaultCenter }
+    var center: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Point = { _, _, _ -> defaultCenter }
         set(value) {
             field = value
             assignNodes(nodes)
         }
     private val defaultCenter = Point(.0, .0)
 
-    private var nodes: List<ForceNode> = listOf()
+    private var nodes: List<ForceNode<D>> = listOf()
     private val strengths = mutableListOf<Double>()
     private val centers = mutableListOf<Point>()
     private val radiuses = mutableListOf<Double>()
 
-    override fun assignNodes(nodes: List<ForceNode>) {
+    override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
 
         radiuses.clear()
