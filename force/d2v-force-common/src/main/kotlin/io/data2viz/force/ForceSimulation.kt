@@ -2,6 +2,8 @@ package io.data2viz.force
 
 import io.data2viz.geom.Point
 import io.data2viz.math.PI
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 import io.data2viz.timer.timer
 import kotlin.math.*
 
@@ -14,24 +16,39 @@ private val initialAngle = PI * (3.0 - sqrt(5.0))
  * The simulator starts automatically; use simulation.on to listen for tick events as the simulation runs.
  * If you wish to run the simulation manually instead, call simulation.stop, and then call simulation.tick as desired.
  */
+// TODO create all forces/nodes etc... just before starting (not everytime a force / node is added)
 class ForceSimulation<D> internal constructor() {
 
-    var nodes = listOf<ForceNode<D>>()
+    // AVAILABLE FORCES
+    fun forceX(init: ForceX<D>.() -> Unit = {}) = addForce(ForceX<D>().apply(init)) as ForceX
+    fun forceY(init: ForceY<D>.() -> Unit = {}) = addForce(ForceY<D>().apply(init)) as ForceY
+    fun forcepoint(init: ForcePoint<D>.() -> Unit = {}) = addForce(ForcePoint<D>().apply(init)) as ForcePoint
+    fun forceRadial(init: ForceRadial<D>.() -> Unit) = addForce(ForceRadial<D>().apply(init)) as ForceRadial
+    fun forceNBody(init: ForceNBody<D>.() -> Unit = {}) = addForce(ForceNBody<D>().apply(init)) as ForceNBody
+    fun forceCollision(init: ForceCollision<D>.() -> Unit) = addForce(ForceCollision<D>().apply(init)) as ForceCollision
+    fun forceCenter(init: ForceCenter<D>.() -> Unit) = addForce(ForceCenter<D>().apply(init)) as ForceCenter
+    fun forceLink(init: ForceLink<D>.() -> Unit = {}) = addForce(ForceLink<D>().apply(init)) as ForceLink
+
+    var initForceNode: ForceNode<D>.() -> Unit = { }
+
+    var domainObjects: List<D> = listOf()
         set(value) {
             field = value
             initializeNodes()
-            _forces.values.forEach { force -> initializeForce(force) }
+            _forces.forEach { initializeForce(it) }
         }
 
+    private var _nodes = listOf<ForceNode<D>>()
+    val nodes: List<ForceNode<D>>
+        get() = _nodes
 
-    private val _forces = mutableMapOf<String, Force<D>>()
-
-    val forces:Map<String,Force<D>>
+    private var _forces = listOf<Force<D>>()
+    val forces: List<Force<D>>
         get() = _forces
+
 
     private val tickEvents = mutableMapOf<String, (ForceSimulation<D>) -> Unit>()
     private val endEvents = mutableMapOf<String, (ForceSimulation<D>) -> Unit>()
-
     private val stepper = timer { step() }
 
     init {
@@ -49,7 +66,7 @@ class ForceSimulation<D> internal constructor() {
     /**
      * stops the current simulation
      */
-    fun stop(){
+    fun stop() {
         stepper.stop()
     }
 
@@ -67,30 +84,27 @@ class ForceSimulation<D> internal constructor() {
     }
 
 
-
     /**
-     * Sets the current alpha to the specified number in the range [0,1] which defaults to 1.0.
+     * Sets the current alpha to the specified percentage in the range [0,100] which defaults to 100.pct.
      */
-    var alpha = 1.0
+    var alpha = 100.pct
         set(value) {
-            require(value in 0.0..1.0)
-            field = value
+            field = value.coerceToDefault()
         }
 
     /**
-     * Sets the minimum alpha to the specified number in the range [0,1] which defaults to 0.001.
+     * Sets the minimum alpha to the specified number in the range [0,100] which defaults to 0.1%.
      * The simulation’s internal timer stops when the current alpha is less than the minimum alpha.
-     * The default alpha decay rate of ~0.0228 corresponds to 300 iterations.
+     * The default alpha decay rate of ~2.28% corresponds to 300 iterations.
      */
-    var alphaMin = 0.001
+    var alphaMin = 0.1.pct
         set(value) {
-            require(value in 0.0..1.0)
-            field = value
+            field = value.coerceToDefault()
         }
 
     /**
-     * Sets the alpha decay rate to the specified number in the range [0,1] which defaults
-     * to 0.0228… = 1 - pow(0.001, 1 / 300) where 0.001 is the default minimum alpha.
+     * Sets the alpha decay rate to the specified percentage in the range [0,100] which defaults
+     * to 2.28…% = 1 - pow(0.1%, 1 / 300) where 0.1% is the default minimum alpha.
      *
      * The alpha decay rate determines how quickly the current alpha interpolates towards the desired target alpha;
      * since the default target alpha is zero, by default this controls how quickly the simulation cools.
@@ -100,54 +114,51 @@ class ForceSimulation<D> internal constructor() {
      * To have the simulation run forever at the current alpha, set the decay rate to zero; alternatively, set a
      * target alpha greater than the minimum alpha.
      */
-    var alphaDecay = 1.0 - alphaMin.pow(1.0 / 300.0)
+    var alphaDecay = Percent(1.0 - alphaMin.value.pow(1.0 / 300.0))
         set(value) {
-            require(value in 0.0..1.0)
-            field = value
+            field = value.coerceToDefault()
         }
 
     /**
-     * Sets the current target alpha to the specified number in the range [0,1] which defaults to 0.
+     * Sets the current target alpha to the specified percentage in the range [0,100] which defaults to 0%.
      */
-    var alphaTarget = .0
+    var alphaTarget = 0.pct
         set(value) {
-            require(value in 0.0..1.0)
-            field = value
+            field = value.coerceToDefault()
         }
 
     /**
-     * Sets the velocity decay factor to the specified number in the range [0,1] which defaults to 0.4.
+     * Sets the velocity decay factor to the specified percentage in the range [0,100] which defaults to 40%.
      * The decay factor is akin to atmospheric friction; after the application of any forces during a tick,
      * each node’s velocity is multiplied by 1 - decay.
      * As with lowering the alpha decay rate, less velocity decay may converge on a better solution, but risks
      * numerical instabilities and oscillation.
      */
-    var velocityDecay = .6
-        get() = 1.0 - field
+    var velocityDecay = 60.pct
+        get() = 100.pct - field
         set(value) {
-            require(value in 0.0..1.0)
-            field = 1.0 - value
+            field = 100.pct - value.coerceToDefault()
         }
 
     /**
-     * Assigns the force for the specified name in this simulation.
+     * Add the force in this simulation.
      */
-    fun addForce(name: String, force: Force<D>) {
+    private fun addForce(force: Force<D>):Force<D> {
         initializeForce(force)
-        _forces[name] = force
+        _forces += force
+        return force
     }
 
     /**
-     * Removes the force for the specified name in this simulation.
+     * Removes the force in this simulation.
      */
-    fun removeForce(name: String) {
-        _forces.remove(name)
+    fun removeForce(force: Force<D>) {
+        _forces -= force
     }
 
     private fun initializeForce(force: Force<D>) {
         force.assignNodes(nodes)
     }
-
 
     /**
      * Increments the current alpha by (alphaTarget - alpha) × alphaDecay;
@@ -168,8 +179,8 @@ class ForceSimulation<D> internal constructor() {
         alpha += (alphaTarget - alpha) * alphaDecay
 
 
-        _forces.values.forEach { force ->
-            force.applyForceToNodes(alpha)
+        _forces.forEach { force ->
+            force.applyForceToNodes(alpha.value)
         }
 
         nodes.forEach { node ->
@@ -177,22 +188,24 @@ class ForceSimulation<D> internal constructor() {
                 node.x = node.fixedX!!
                 node.vx = .0
             } else {
-                node.vx *= velocityDecay
+                node.vx *= velocityDecay.value
                 node.x += node.vx
             }
             if (node.fixedY != null) {
                 node.y = node.fixedY!!
                 node.vy = .0
             } else {
-                node.vy *= velocityDecay
-                node.y  += node.vy
+                node.vy *= velocityDecay.value
+                node.y += node.vy
             }
         }
     }
 
     private fun initializeNodes() {
-        nodes.forEachIndexed { index, node ->
-            node.index = index
+        _nodes = List(domainObjects.size) { ForceNode(it, domainObjects[it]) }
+        domainObjects.forEachIndexed { index, domain ->
+            val node = _nodes[index]
+            node.initForceNode()
             if (node.x.isNaN() || node.y.isNaN()) {
                 val radius = initialRadius * sqrt(index.toDouble())
                 val angle = index * initialAngle

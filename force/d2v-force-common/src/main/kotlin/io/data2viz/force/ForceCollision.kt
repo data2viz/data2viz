@@ -55,7 +55,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the radius of each node is only recomputed when the
      * force is initialized or when this method is called with a new radius, and not on every application of the force.
      */
-    var radiusAccessor: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> 100.0 }
+    var radiusGet: ForceNode<D>.() -> Double = { 100.0 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -67,9 +67,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
     override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
         radiuses.clear()
-        nodes.forEachIndexed { index, node ->
-            radiuses.add(radiusAccessor(node, index, nodes))
-        }
+        nodes.forEach { radiuses.add(radiusGet(it))}
     }
 
     override fun applyForceToNodes(alpha: Double) {

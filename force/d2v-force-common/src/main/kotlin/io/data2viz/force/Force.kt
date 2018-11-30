@@ -1,28 +1,14 @@
 package io.data2viz.force
 
 import io.data2viz.math.EPSILON
+import io.data2viz.math.Percent
 import kotlin.random.Random
 
-fun <D> forceSimulation(init: ForceSimulation<D>.() -> Unit) = ForceSimulation<D>().apply {
-    init()
-}
-
-object Forces {
-
-    fun <D> forceX(init: ForceX<D>.() -> Unit = {}) = ForceX<D>().apply(init)
-    fun <D> forceY(init: ForceY<D>.() -> Unit = {}) = ForceY<D>().apply(init)
-    fun <D> forceRadial(init: ForceRadial<D>.() -> Unit) = ForceRadial<D>().apply(init)
-    fun <D> forceNBody(init: ForceNBody<D>.() -> Unit = {}) = ForceNBody<D>().apply(init)
-    fun <D> forceCollision(init: ForceCollision<D>.() -> Unit) = ForceCollision<D>().apply(init)
-    fun <D> forceCenter(init: ForceCenter<D>.() -> Unit) = ForceCenter<D>().apply(init)
-
-    /**
-     * Todo evaluate having a signature with a fixed list of links and one with an accessor from nodes
-     */
-    fun <D> forceLink(init: ForceLink<D>.() -> Unit = {}) = ForceLink<D>().apply(init)
-}
+fun <D> forceSimulation(init: ForceSimulation<D>.() -> Unit) = ForceSimulation<D>().apply { init() }
 
 internal fun jiggle() = (Random.nextDouble() - 0.5) * EPSILON
+
+// TODO : remove all mutablelist, replace with list in forces...
 
 interface Force<D> {
 
