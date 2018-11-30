@@ -1,10 +1,15 @@
 package io.data2viz.force
 
+import io.data2viz.geom.Point
+import io.data2viz.geom.point
+
 /**
  * Creates a new positioning force along the y-axis towards the given position y.
  * If y is not specified, it defaults to 0.
  */
-class ForceY<D> internal constructor(): Force<D> {
+class ForcePoint<D> internal constructor(): Force<D> {
+
+    private val defaultPoint = point(0, 0)
 
     /**
      * Sets the y-coordinate accessor to the specified function, re-evaluates the y-accessor for each node.
@@ -13,7 +18,7 @@ class ForceY<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the target y-coordinate of each node is only recomputed
      * when the force is initialized or when this method is called with a new y, and not on every application of the force.
      */
-    var yGet: ForceNode<D>.() -> Double = { .0 }
+    var pointGet: ForceNode<D>.() -> Point = { defaultPoint }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -40,22 +45,27 @@ class ForceY<D> internal constructor(): Force<D> {
 
     private var nodes: List<ForceNode<D>> = listOf()
     private val strengths = mutableListOf<Double>()
+    private val xz = mutableListOf<Double>()
     private val yz = mutableListOf<Double>()
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
 
+        xz.clear()
         yz.clear()
         strengths.clear()
 
         nodes.forEach {
-            yz.add(it.yGet())
+            val point = it.pointGet()
+            xz.add(point.x)
+            yz.add(point.y)
             strengths.add(it.strengthGet())
         }
     }
 
     override fun applyForceToNodes(alpha: Double) {
         nodes.forEachIndexed { index, node ->
+            node.vx += (xz[index] - node.x) * strengths[index] * alpha
             node.vy += (yz[index] - node.y) * strengths[index] * alpha
         }
     }

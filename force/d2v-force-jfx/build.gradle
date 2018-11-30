@@ -3,4 +3,5 @@ dependencies {
     compile project(":core:d2v-core-jvm")
     compile project(":quadtree:d2v-quadtree-jvm")
     compile project(":timer:d2v-timer-jfx")
+    testCompile project(":viz:d2v-viz-jfx")
 }

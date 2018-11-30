@@ -6,11 +6,9 @@ import kotlin.math.sqrt
 data class Link<D>(
     val source: ForceNode<D>,
     val target: ForceNode<D>,
-    internal var _index: Int = 0
-) {
-    val index: Int
-        get() = _index
-}
+    val distance: Double = 30.0,
+    var strength: Double = Double.NaN
+)
 
 
 /**
@@ -23,14 +21,11 @@ data class Link<D>(
  */
 class ForceLink<D> internal constructor(): Force<D> {
 
-    private var nodes       = listOf<ForceNode<D>>()
+    private var nodes = listOf<ForceNode<D>>()
 
-    private var _links       = listOf<Link<D>>()
+    private var _links = listOf<Link<D>>()
     val links: List<Link<D>>
         get() = _links
-
-    private var distances   = listOf<Double>()
-    private var strengths   = listOf<Double>()
 
     private var bias: Array<Double> =  arrayOf()
     private var count:Array<Int> = arrayOf()
@@ -42,49 +37,52 @@ class ForceLink<D> internal constructor(): Force<D> {
      */
     var iterations = 1
 
-    var linksAccessor: (List<ForceNode<D>>)-> List<Link<D>> = { listOf() }
+    var linkGet: ForceNode<D>.()-> List<Link<D>> = { listOf() }
 
-    /**
-     * sets the strength accessor to the specified number or function, re-evaluates
-     * the strength accessor for each link, and returns this force.
-     *
-     * ```
-     * ```
-     */
-    var strengthsAccessor: (List<Link<D>>) -> List<Double> = { links ->
-            links.map { link ->
-                1.0 / min(count[link.source.index], count[link.target.index])
-            }
-
-        }
-        set(value) {
-            field = value
-            initializeStrengths()
-        }
-
-    /**
-     * sets the distance accessor to the specified number or function,
-     * re-evaluates the distance accessor for each link, and returns this force.
-     *
-     * The distance accessor is invoked for each link, being passed the link and its zero-based index.
-     * The resulting number is then stored internally, such that the distance of each link is only
-     * recomputed when the force is initialized or when this method is called with a new distance,
-     * and not on every application of the force.
-     */
-    var distancesAccessor: (List<Link<D>>) -> List<Double> = { links -> (0 until links.size).map { 30.0 } }
-        set(value) {
-            field = value
-            initializeDistances()
-        }
+//    /**
+//     * sets the strength accessor to the specified number or function, re-evaluates
+//     * the strength accessor for each link, and returns this force.
+//     *
+//     * ```
+//     * ```
+//     */
+//    var strengthGet: (List<Link<D>>) -> List<Double> = { links ->
+//            links.map { link ->
+//                1.0 / min(count[link.source.index], count[link.target.index])
+//            }
+//
+//        }
+//        set(value) {
+//            field = value
+//            initializeStrengths()
+//        }
+//
+//    /**
+//     * sets the distance accessor to the specified number or function,
+//     * re-evaluates the distance accessor for each link, and returns this force.
+//     *
+//     * The distance accessor is invoked for each link, being passed the link and its zero-based index.
+//     * The resulting number is then stored internally, such that the distance of each link is only
+//     * recomputed when the force is initialized or when this method is called with a new distance,
+//     * and not on every application of the force.
+//     */
+//    var distanceGet: (List<Link<D>>) -> List<Double> = { links -> (0 until links.size).map { 30.0 } }
+//        set(value) {
+//            field = value
+//            initializeDistances()
+//        }
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
-        _links = linksAccessor(nodes)
+        val linksList = mutableListOf<Link<D>>()
+        nodes.forEach {
+            linksList += linkGet(it)
+        }
+        _links = linksList
 
         // count links for each nodes
         count = Array(nodes.size){ 0 }
         _links.forEachIndexed { index, link ->
-            link._index = index
             count[link.source.index] += 1
             count[link.target.index] += 1
         }
@@ -96,20 +94,17 @@ class ForceLink<D> internal constructor(): Force<D> {
         }
 
         initializeStrengths()
-        initializeDistances()
-
     }
 
-    private fun initializeDistances() {
-        distances = distancesAccessor(_links)
-    }
-
+    // TODO EXPLAIN!
     private fun initializeStrengths() {
-        strengths = strengthsAccessor(_links)
+        _links.forEach {
+            if (it.strength == Double.NaN) it.strength = 1.0 / min(count[it.source.index], count[it.target.index])
+        }
     }
 
     override fun applyForceToNodes(alpha: Double) {
-        (0 until iterations).forEach { _ ->
+        (0 until iterations).forEach {
             _links.forEachIndexed { index, link ->
                 val source = link.source
                 val target = link.target
@@ -121,7 +116,7 @@ class ForceLink<D> internal constructor(): Force<D> {
                 if (y == .0) y = jiggle()
 
                 var l = sqrt(x * x + y * y)
-                l = (l - distances[index]) / l * alpha * strengths[index]
+                l = (l - link.distance) / l * alpha * link.strength
                 x *= l
                 y *= l
 

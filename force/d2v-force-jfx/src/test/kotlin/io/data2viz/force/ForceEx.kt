@@ -49,7 +49,7 @@ fun main() {
         }
     }
 
-    viz {
+    val myViz = viz {
         size = size(vizSize, vizSize)
 //        links.forEach {
 //            particleLinks += line {
@@ -81,5 +81,7 @@ fun main() {
 //                particleLinks[index].y2 = links[index].target.y
 //            }
         }
-    }.bindRendererOnNewCanvas()
+    }
+
+    viz.render()
 }
