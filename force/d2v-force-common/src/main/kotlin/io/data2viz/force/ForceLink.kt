@@ -3,6 +3,7 @@ package io.data2viz.force
 import kotlin.math.min
 import kotlin.math.sqrt
 
+// TODO rename something more precise ?
 data class Link<D>(
     val source: ForceNode<D>,
     val target: ForceNode<D>,
@@ -15,9 +16,6 @@ data class Link<D>(
  * The link force pushes linked nodes together or apart according to the desired link distance.
  * The strength of the force is proportional to the difference between the linked nodes’ distance and the target
  * distance, similar to a spring force.
- *
- *
- *
  */
 class ForceLink<D> internal constructor(): Force<D> {
 
@@ -98,9 +96,8 @@ class ForceLink<D> internal constructor(): Force<D> {
 
     // TODO EXPLAIN!
     private fun initializeStrengths() {
-        _links.forEach {
-            if (it.strength == Double.NaN) it.strength = 1.0 / min(count[it.source.index], count[it.target.index])
-        }
+        _links.filter { it.strength.isNaN() }
+            .forEach { it.strength = 1.0 / min(count[it.source.index], count[it.target.index]) }
     }
 
     override fun applyForceToNodes(alpha: Double) {
