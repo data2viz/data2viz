@@ -8,8 +8,8 @@ import kotlin.math.*
 fun <D> forceCollision(init: ForceCollision<D>.() -> Unit) = ForceCollision<D>().apply(init)
 
 /**
- * The collision force treats nodes as circles with a given radius, rather than points, and prevents nodes from
- * overlapping. More formally, two nodes a and b are separated so that the distance between a and b is at least
+ * The collision force treats _nodes as circles with a given radius, rather than points, and prevents _nodes from
+ * overlapping. More formally, two _nodes a and b are separated so that the distance between a and b is at least
  * radius(a) + radius(b).
  * To reduce jitter, this is by default a “soft” constraint with a configurable strength and iteration count.
  */
@@ -28,7 +28,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
     /**
      * If iterations is specified, sets the number of iterations per application to the specified number, defaults 1.
      * Increasing the number of iterations greatly increases the rigidity of the constraint and avoids partial overlap
-     * of nodes, but also increases the runtime cost to evaluate the force.
+     * of _nodes, but also increases the runtime cost to evaluate the force.
      */
     var iterations = 1
         set(value) {
@@ -38,7 +38,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
     /**
      * Sets the force strength to the specified percentage coerced in the range [0%,100%].
      * Value defaults to 70%.
-     * Overlapping nodes are resolved through iterative relaxation. For each node, the other nodes that are anticipated
+     * Overlapping _nodes are resolved through iterative relaxation. For each node, the other _nodes that are anticipated
      * to overlap at the next tick (using the anticipated positions ⟨x + vx,y + vy⟩) are determined; the node’s velocity
      * is then modified to push the node out of each overlapping node. The change in velocity is dampened by the force’s
      * strength such that the resolution of simultaneous overlaps can be blended together to find a stable solution.
@@ -53,32 +53,31 @@ class ForceCollision<D> internal constructor(): Force<D> {
      * for each node.
      *
      * The radius accessor is invoked for each node in the simulation, being passed the node, its zero-based index
-     * and the list of nodes.
+     * and the list of _nodes.
      * The resulting number is then stored internally, such that the radius of each node is only recomputed when the
      * force is initialized or when this method is called with a new radius, and not on every application of the force.
      */
     var radiusGet: ForceNode<D>.() -> Double = { 100.0 }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
 
-    private var nodes: List<ForceNode<D>> = listOf()
-    private val radiuses = mutableListOf<Double>()
+    private var _nodes: List<ForceNode<D>> = listOf()
+    private var _radiuses = listOf<Double>()
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
-        this.nodes = nodes
-        radiuses.clear()
-        nodes.forEach { radiuses.add(radiusGet(it))}
+        _nodes = nodes
+        _radiuses = nodes.map(radiusGet)
     }
 
     override fun applyForceToNodes(alpha: Double) {
         (0 until iterations).forEach {
-            val tree = quadtree(x, y, nodes)
+            val tree = quadtree(x, y, _nodes)
             tree.visitAfter(::prepare)
-            nodes.forEachIndexed { index, node ->
+            _nodes.forEachIndexed { index, node ->
                 currentNode = node
-                ri = radiuses[node.index]
+                ri = _radiuses[node.index]
                 ri2 = ri * ri
                 xi = node.x + node.vx
                 yi = node.y + node.vy
@@ -125,7 +124,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
 
     private fun prepare(quad: QuadtreeNode<ForceNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
         if (quad is LeafNode) {
-            quad.value = radiuses[quad.data.index]
+            quad.value = _radiuses[quad.data.index]
             return
         }
         quad.value = .0

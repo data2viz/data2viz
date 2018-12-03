@@ -7,8 +7,6 @@ fun <D> forceSimulation(init: ForceSimulation<D>.() -> Unit) = ForceSimulation<D
 
 internal fun jiggle() = (Random.nextDouble() - 0.5) * EPSILON
 
-// TODO : remove all mutablelist, replace with list in forces...
-
 interface Force<D> {
 
     /**

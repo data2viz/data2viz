@@ -28,7 +28,7 @@ fun <D> forceLink(init: ForceLink<D>.() -> Unit) = ForceLink<D>().apply(init)
  */
 class ForceLink<D> internal constructor(): Force<D> {
 
-    private var nodes = listOf<ForceNode<D>>()
+    private var _nodes = listOf<ForceNode<D>>()
 
     private var _links = listOf<Link<D>>()
     val links: List<Link<D>>
@@ -52,13 +52,8 @@ class ForceLink<D> internal constructor(): Force<D> {
     var linkGet: ForceNode<D>.()-> List<Link<D>>? = { null }
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
-        this.nodes = nodes
-        val linksList = mutableListOf<Link<D>>()
-        nodes.forEach {
-            val links = linkGet(it)
-            if (links != null) linksList += links
-        }
-        _links = linksList
+        _nodes = nodes
+        _links = nodes.mapNotNull(linkGet).flatten()
 
         // count links for each nodes
         count = Array(nodes.size){ 0 }

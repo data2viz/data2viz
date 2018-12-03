@@ -103,24 +103,23 @@ class ForceNBody<D> internal constructor(): Force<D> {
     var strengthGet: ForceNode<D>.() -> Double = { -30.0 }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
 
-    private var nodes: List<ForceNode<D>> = listOf()
-    private val strengths = mutableListOf<Double>()
+    private var _nodes: List<ForceNode<D>> = listOf()
+    private var _strengths = listOf<Double>()
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
-        this.nodes = nodes
-        strengths.clear()
-        nodes.forEach { strengths.add(strengthGet(it)) }
+        _nodes = nodes
+        _strengths = nodes.map(strengthGet)
     }
 
     override fun applyForceToNodes(alpha: Double) {
         currentAlpha = alpha
 
-        val tree = quadtree(x, y, nodes)
+        val tree = quadtree(x, y, _nodes)
         tree.visitAfter(::accumulate)
-        nodes.forEachIndexed { index, node ->
+        _nodes.forEachIndexed { index, node ->
             currentNode = node
             tree.visit(::applyForce)
         }
@@ -174,7 +173,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
 
         do {
             if (newQuad!!.data !== currentNode) {
-                w = strengths[newQuad!!.data.index] * currentAlpha / l
+                w = _strengths[newQuad!!.data.index] * currentAlpha / l
                 currentNode.vx += x * w
                 currentNode.vy += y * w
             }
@@ -212,7 +211,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
                 q!!.x = q.data.x
                 q.y =  q.data.y
                 do {
-                    strength += strengths[q!!.data.index]
+                    strength += _strengths[q!!.data.index]
                     q = q.next
                 } while (q != null)
             }
