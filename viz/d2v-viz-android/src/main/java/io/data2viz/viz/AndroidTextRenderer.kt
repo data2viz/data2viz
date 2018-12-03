@@ -5,14 +5,14 @@ import android.graphics.*
 internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
 	val canvas = renderer.canvas
 	with(renderer) {
-		paint.textAlign = anchor.android
+		paint.textAlign = hAlign.android
 		paint.textSize = fontSize.dp
 
 		paint.typeface = Typeface.create(fontFamily.name, getAndroidStyle(fontWeight, fontStyle))
 
-		val dy = baseline.dy(renderer, paint.fontMetrics)
+		val dy = vAlign.dy(renderer, paint.fontMetrics)
 
-		fill?.let {
+		textColor?.let {
 			paint.style = Paint.Style.FILL
 			it.updatePaint(paint, renderer)
 			canvas.drawText(
@@ -41,20 +41,20 @@ internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
  * The middle alignement is an approximation.
  * TODO resolve by implementing DV-105
  */
-internal fun TextAlignmentBaseline.dy(renderer: AndroidCanvasRenderer, fontMetrics: Paint.FontMetrics): Float =
+internal fun TextVAlign.dy(renderer: AndroidCanvasRenderer, fontMetrics: Paint.FontMetrics): Float =
 	with(renderer){
 		when(this@dy){
-			TextAlignmentBaseline.BASELINE  -> 0F
-			TextAlignmentBaseline.HANGING   -> fontMetrics.top
-			TextAlignmentBaseline.MIDDLE    -> fontMetrics.ascent * .4f
+			TextVAlign.BASELINE  -> 0F
+			TextVAlign.HANGING   -> fontMetrics.top
+			TextVAlign.MIDDLE    -> fontMetrics.ascent * .4f
 		}
 	}
 
-internal val TextAnchor.android: Paint.Align
+internal val TextHAlign.android: Paint.Align
 	get() = when(this){
-		TextAnchor.START    -> Paint.Align.LEFT
-		TextAnchor.END      -> Paint.Align.RIGHT
-		TextAnchor.MIDDLE   -> Paint.Align.CENTER
+		TextHAlign.START,TextHAlign.LEFT     	-> Paint.Align.LEFT
+		TextHAlign.END, TextHAlign.RIGHT      -> Paint.Align.RIGHT
+		TextHAlign.MIDDLE   				-> Paint.Align.CENTER
 	}
 
 

@@ -13,7 +13,7 @@ class ForceX<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the target x-coordinate of each node is only recomputed
      * when the force is initialized or when this method is called with a new x, and not on every application of the force.
      */
-    var xAccessor: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> .0 }
+    var xGet: ForceNode<D>.() -> Double = { .0 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -32,7 +32,7 @@ class ForceX<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strengthAccessor: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> 0.1 }
+    var strengthGet: ForceNode<D>.() -> Double = { 0.1 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -48,9 +48,9 @@ class ForceX<D> internal constructor(): Force<D> {
         xz.clear()
         strengths.clear()
 
-        nodes.forEachIndexed { index, node ->
-            xz.add(xAccessor(node, index, nodes))
-            strengths.add(strengthAccessor(node, index, nodes))
+        nodes.forEach {
+            xz.add(it.xGet())
+            strengths.add(it.strengthGet())
         }
     }
 

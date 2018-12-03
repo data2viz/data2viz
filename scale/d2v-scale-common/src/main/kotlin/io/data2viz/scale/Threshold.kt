@@ -35,6 +35,9 @@ class ThresholdScale<R> internal constructor() : Scale<Double, R>, DiscreteRange
             _domain = value.toList()
         }
 
+    operator fun invoke(domainValue: Int): R {
+        return this(domainValue.toDouble())
+    }
 
     /**
      * Given a value in the input domain, returns the corresponding value in the output range.

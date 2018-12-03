@@ -5,10 +5,6 @@ import io.data2viz.math.PI
 import io.data2viz.math.pct
 
 
-/**
- * Todo: move in test sources https://github.com/data2viz/data2viz/issues/24
- */
-@Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 data class RenderingTest(val name: String, val viz: Viz)
 
 private fun Pair<Double, Double>.next(): Pair<Double, Double> {
@@ -22,15 +18,13 @@ private fun Pair<Double, Double>.next(): Pair<Double, Double> {
 }
 
 // text params
-val linesOfText = listOf(
+private val linesOfText = listOf(
     "The quick brown,",
     "fox jumps over",
     "the lazy dog."
 )
-const val fontSizeValue = 40.0
-const val fontFamilyValue = "Roboto"
+private const val fontSizeValue = 40.0
 
-@Deprecated("Temporary workaround https://github.com/data2viz/data2viz/issues/24")
 val allRenderingTests = listOf(
 
     ///////////// TEXT /////////////////////////////////
@@ -43,13 +37,13 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
 
-                fill = Colors.Web.black
+                textColor = Colors.Web.red
                 fontSize = fontSizeValue
             }
         }
@@ -62,8 +56,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign      = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -81,8 +75,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -100,8 +94,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -122,8 +116,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -141,8 +135,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -160,8 +154,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -179,8 +173,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -199,8 +193,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -218,8 +212,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.ITALIC
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign      = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -237,8 +231,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.BOLD
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign      = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -256,8 +250,8 @@ val allRenderingTests = listOf(
                 fontSize    = 20.0
                 fontStyle   = FontPosture.NORMAL
                 fontWeight  = FontWeight.NORMAL
-                anchor      = TextAnchor.START
-                baseline    = TextAlignmentBaseline.BASELINE
+                hAlign      = TextHAlign.LEFT
+                vAlign    = TextVAlign.BASELINE
                 textContent = line
 
                 y = fontSizeValue + fontSizeValue * index
@@ -591,7 +585,7 @@ val allRenderingTests = listOf(
 
 )
 
-fun renderingTest(name: String, init: Viz.() -> Unit): RenderingTest {
+internal fun renderingTest(name: String, init: Viz.() -> Unit): RenderingTest {
 
     val viz = viz {
         width = 400.0

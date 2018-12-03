@@ -1,7 +1,6 @@
 package io.data2viz.force
 
 import io.data2viz.geom.Point
-import io.data2viz.geom.Vector
 import io.data2viz.math.EPSILON
 import kotlin.math.sqrt
 
@@ -16,7 +15,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the radius of each node is only recomputed when the
      * force is initialized or when this method is called with a new radius, and not on every application of the force.
      */
-    var radius: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> 100.0 }
+    var radiusGet: ForceNode<D>.() -> Double = { 100.0 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -34,7 +33,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strength: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> 0.1 }
+    var strengthGet: ForceNode<D>.() -> Double = { 0.1 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -43,7 +42,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
     /**
      * Sets the coordinate of the circle center which defaults to (0, 0).
      */
-    var center: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Point = { _, _, _ -> defaultCenter }
+    var centerGet: ForceNode<D>.() -> Point = { defaultCenter }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -62,10 +61,10 @@ class ForceRadial<D> internal constructor(): Force<D> {
         centers.clear()
         strengths.clear()
 
-        nodes.forEachIndexed { index, node ->
-            radiuses.add(radius(node, index, nodes))
-            centers.add(center(node, index, nodes))
-            strengths.add(strength(node, index, nodes))
+        nodes.forEach {
+            radiuses.add(it.radiusGet())
+            centers.add(it.centerGet())
+            strengths.add(it.strengthGet())
         }
     }
 

@@ -14,6 +14,8 @@ import kotlin.math.sqrt
  * Unlike links, which only affect two linked nodes, the charge force is global: every node affects every other node,
  * even if they are on disconnected subgraphs.
  */
+
+// TODO OPTIM 1/13
 class ForceNBody<D> internal constructor(): Force<D> {
 
     private var theta2 = .81
@@ -52,6 +54,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
      * A minimum distance establishes an upper bound on the strength of the force between two nearby nodes, avoiding
      * instability. In particular, it avoids an infinitely-strong force if two nodes are exactly coincident; in this
      * case, the direction of the force is random.
+     * Defaults to 1.0
      */
     var distanceMin: Double
         get() = sqrt(distanceMin2)
@@ -62,6 +65,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
     /**
      * Sets the maximum distance between nodes (which defaults to infinity) over which this force is considered.
      * Specifying a finite maximum distance improves performance and produces a more localized layout.
+     * Defaults to 100.0
      */
     var distanceMax: Double
         get() = sqrt(distanceMax2)
@@ -80,7 +84,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strength: (node: ForceNode<D>, index: Int, nodes: List<ForceNode<D>>) -> Double = { _, _, _ -> -30.0 }
+    var strengthGet: ForceNode<D>.() -> Double = { -30.0 }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -92,9 +96,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
     override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
         strengths.clear()
-        nodes.forEachIndexed { index, node ->
-            strengths.add(strength(node, index, nodes))
-        }
+        nodes.forEach { strengths.add(strengthGet(it)) }
     }
 
     override fun applyForceToNodes(alpha: Double) {

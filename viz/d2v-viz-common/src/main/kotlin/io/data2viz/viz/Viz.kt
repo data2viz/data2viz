@@ -1,6 +1,6 @@
 package io.data2viz.viz
 
-import io.data2viz.color.ColorOrGradient
+import io.data2viz.color.*
 import io.data2viz.geom.HasSize
 import io.data2viz.timer.*
 
@@ -25,11 +25,39 @@ import io.data2viz.timer.*
  */
 class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
 
+    private val style:Style = StyleImpl()
+
+
+    //Style delegation
+    override var fill: ColorOrGradient?
+        get() = style.fill
+        set(value) {style.fill = value}
+
+    override var stroke: ColorOrGradient?
+        get() = style.stroke
+        set(value) {style.stroke = value}
+
+    override var strokeWidth: Double?
+        get() = style.strokeWidth
+        set(value) {style.strokeWidth = value}
+    override var textColor: ColorOrGradient?
+        get() = style.textColor
+        set(value) {style.textColor = value}
+
+    override var hAlign: TextHAlign
+        get() = style.hAlign
+        set(value) {style.hAlign = value}
+
+    override var vAlign: TextVAlign
+        get() = style.vAlign
+        set(value) {style.vAlign = value}
+
+
     init {
         activeLayer.parent = this
+        textColor = Colors.Web.black
     }
 
-    private val style:Style = StyleImpl()
     val config = VizConfig()
 
     override var width: Double = 100.0
@@ -84,24 +112,6 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
         activeLayer = layer
         return layer
     }
-
-    //Style delegation
-    override var fill: ColorOrGradient?
-        get() = style.fill
-        set(value) {style.fill = value}
-    override var stroke: ColorOrGradient?
-        get() = style.stroke
-        set(value) {style.stroke = value}
-    override var strokeWidth: Double?
-        get() = style.strokeWidth
-        set(value) {style.strokeWidth = value}
-    override var anchor: TextAnchor
-        get() = style.anchor
-        set(value) {style.anchor = value}
-    override var baseline: TextAlignmentBaseline
-        get() = style.baseline
-        set(value) {style.baseline = value}
-
 
 }
 
