@@ -5,6 +5,9 @@ import io.data2viz.quadtree.*
 import kotlin.math.max
 import kotlin.math.sqrt
 
+@Deprecated("Deprecated", ReplaceWith("forceSimulation { forceCollision { } }", " io.data2viz.force.ForceSimulation"))
+fun <D> forceCollision(init: ForceCollision<D>.() -> Unit) = ForceCollision<D>().apply(init)
+
 /**
  * The collision force treats nodes as circles with a given radius, rather than points, and prevents nodes from
  * overlapping. More formally, two nodes a and b are separated so that the distance between a and b is at least
