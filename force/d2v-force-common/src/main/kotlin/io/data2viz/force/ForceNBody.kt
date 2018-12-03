@@ -32,6 +32,21 @@ class ForceNBody<D> internal constructor(): Force<D> {
     private lateinit var currentNode: ForceNode<D>
 
     /**
+     * Reuse the Barnes–Hut approximation to speed up the force calculations, defaults to a recalculation every 7
+     * ticks of the force simulation.
+     * Use lower values for more precision (but higher runtime), and higher values to speed-up your force.
+     *
+     * Based on this research paper: https://osf.io/wgzn5/
+     */
+    // TODO reactivate this and iteration when performance will be measured
+    /*var optimisation = 7
+        set(value) {
+            field = value.coerceAtLeast(1)
+            iteration = 0
+        }*/
+
+
+    /**
      * Sets the Barnes–Hut approximation criterion to the specified number which defaults to 0.9.
      *
      * To accelerate computation, this force implements the Barnes–Hut approximation which takes O(n log n) per
@@ -101,6 +116,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
 
     override fun applyForceToNodes(alpha: Double) {
         currentAlpha = alpha
+
         val tree = quadtree(x, y, nodes)
         tree.visitAfter(::accumulate)
         nodes.forEachIndexed { index, node ->
