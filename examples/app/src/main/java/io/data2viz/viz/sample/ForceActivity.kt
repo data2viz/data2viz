@@ -5,9 +5,9 @@ import android.os.Bundle
 import io.data2viz.color.Colors
 
 import io.data2viz.force.*
+import io.data2viz.geom.Point
+import io.data2viz.geom.point
 import io.data2viz.viz.*
-import kotlin.math.floor
-import kotlin.math.roundToInt
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -15,23 +15,24 @@ const val nodeCount = 200
 const val canvasWidth = 400.0
 const val canvasHeight = 400.0
 
-lateinit var sim: ForceSimulation
+lateinit var sim: ForceSimulation<Point>
+lateinit var forceLink:ForceLink<Point>
 
 fun initSim() {
-    sim = forceSimulation(randomForceNodes()) {
-        addForce("charge", forceNBody())
-        addForce("link", forceLink {
-            linksAccessor = { nodes ->
-                (0 until nodeCount - 1).map { Link(nodes[floor(sqrt(it.toDouble())).roundToInt()], nodes[it + 1]) }
+    sim = forceSimulation {
+        forceNBody()
+        forceCenter {
+            center = point(canvasWidth / 2, canvasHeight / 2)
+        }
+        forceLink = forceLink {
+            linkGet = {
+                listOf(Link(this, nodes[sqrt(index.toDouble()).toInt()], 30.0, 1.0))
             }
-            distancesAccessor = { links -> (0 until links.size).map { 30.0 } }
-            strengthsAccessor = { links -> (0 until links.size).map { 1.0 } }
-        })
-        addForce("x", forceX { x = { _, _, _ -> canvasWidth / 2 } })
-        addForce("y", forceY { y = { _, _, _ -> canvasHeight / 2 } })
+        }
         on(SimulationEvent.END, "endEvent") {
             stopTimers()
         }
+        domainObjects = randomPositions()
     }
 }
 
@@ -42,7 +43,7 @@ val viz = viz {
     animation {
         activeLayer.clear()
         path {
-            (sim.forces["link"] as ForceLink).links.forEach { link ->
+            forceLink.links.forEach { link ->
                 moveTo(link.source.x, link.source.y)
                 lineTo(link.target.x, link.target.y)
             }
@@ -60,7 +61,7 @@ val viz = viz {
     }
 }
 
-fun randomForceNodes() = (0 until nodeCount).map { ForceNode(it, Random.nextDouble() * canvasWidth, Random.nextDouble() * canvasHeight) }
+fun randomPositions() = (0 until nodeCount).map { point(Random.nextDouble() * canvasWidth, Random.nextDouble() * canvasHeight) }
 
 lateinit var view: VizView
 
