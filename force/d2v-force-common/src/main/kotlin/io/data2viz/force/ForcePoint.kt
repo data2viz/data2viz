@@ -22,7 +22,7 @@ class ForcePoint<D> internal constructor(): Force<D> {
     var pointGet: ForceNode<D>.() -> Point = { defaultPoint }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
 
     /**
@@ -41,33 +41,26 @@ class ForcePoint<D> internal constructor(): Force<D> {
     var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
 
-    private var nodes: List<ForceNode<D>> = listOf()
-    private val strengths = mutableListOf<Double>()
-    private val xz = mutableListOf<Double>()
-    private val yz = mutableListOf<Double>()
+    private var _nodes: List<ForceNode<D>> = listOf()
+    private var _strengths = listOf<Double>()
+    private var _x = listOf<Double>()
+    private var _y = listOf<Double>()
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
-        this.nodes = nodes
+        _nodes = nodes
 
-        xz.clear()
-        yz.clear()
-        strengths.clear()
-
-        nodes.forEach {
-            val point = it.pointGet()
-            xz.add(point.x)
-            yz.add(point.y)
-            strengths.add(it.strengthGet().value)
-        }
+        _x = nodes.map { it.pointGet().x }
+        _y = nodes.map { it.pointGet().y }
+        _strengths = nodes.map { it.strengthGet().value }
     }
 
     override fun applyForceToNodes(alpha: Double) {
-        nodes.forEachIndexed { index, node ->
-            node.vx += (xz[index] - node.x) * strengths[index] * alpha
-            node.vy += (yz[index] - node.y) * strengths[index] * alpha
+        _nodes.forEachIndexed { index, node ->
+            node.vx += (_x[index] - node.x) * _strengths[index] * alpha
+            node.vy += (_y[index] - node.y) * _strengths[index] * alpha
         }
     }
 }

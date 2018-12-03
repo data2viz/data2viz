@@ -21,7 +21,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
     var radiusGet: ForceNode<D>.() -> Double = { 100.0 }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
 
     /**
@@ -39,7 +39,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
     var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
 
     /**
@@ -48,38 +48,32 @@ class ForceRadial<D> internal constructor(): Force<D> {
     var centerGet: ForceNode<D>.() -> Point = { defaultCenter }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
     private val defaultCenter = Point(.0, .0)
 
-    private var nodes: List<ForceNode<D>> = listOf()
-    private val strengths = mutableListOf<Double>()
-    private val centers = mutableListOf<Point>()
-    private val radiuses = mutableListOf<Double>()
+    private var _nodes: List<ForceNode<D>> = listOf()
+    private var _strengths = listOf<Double>()
+    private var _centers = listOf<Point>()
+    private var _radiuses = listOf<Double>()
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
-        this.nodes = nodes
+        _nodes = nodes
 
-        radiuses.clear()
-        centers.clear()
-        strengths.clear()
-
-        nodes.forEach {
-            radiuses.add(it.radiusGet())
-            centers.add(it.centerGet())
-            strengths.add(it.strengthGet().value)
-        }
+        _radiuses = nodes.map(radiusGet)
+        _strengths = nodes.map { it.strengthGet().value }
+        _centers = nodes.map(centerGet)
     }
 
     override fun applyForceToNodes(alpha: Double) {
-        nodes.forEachIndexed { index, node ->
-            var dx = node.x - centers[index].x
+        _nodes.forEachIndexed { index, node ->
+            var dx = node.x - _centers[index].x
             if (dx == .0) dx = EPSILON
-            var dy = node.y - centers[index].y
+            var dy = node.y - _centers[index].y
             if (dy == .0) dy = EPSILON
 
             val r = sqrt(dx * dx + dy * dy)
-            val k = (radiuses[index] - r) * strengths[index] * alpha / r
+            val k = (_radiuses[index] - r) * _strengths[index] * alpha / r
 
             node.vx += dx * k
             node.vy += dy * k
