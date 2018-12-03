@@ -1,7 +1,6 @@
 package io.data2viz.force
 
 import io.data2viz.math.EPSILON
-import io.data2viz.math.Percent
 import kotlin.random.Random
 
 fun <D> forceSimulation(init: ForceSimulation<D>.() -> Unit) = ForceSimulation<D>().apply { init() }

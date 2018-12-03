@@ -1,8 +1,7 @@
 package io.data2viz.force
 
 import io.data2viz.quadtree.*
-import kotlin.math.abs
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * The n-body force applies mutually amongst all nodes.

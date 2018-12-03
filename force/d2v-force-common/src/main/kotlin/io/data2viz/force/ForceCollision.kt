@@ -2,8 +2,7 @@ package io.data2viz.force
 
 import io.data2viz.math.pct
 import io.data2viz.quadtree.*
-import kotlin.math.max
-import kotlin.math.sqrt
+import kotlin.math.*
 
 @Deprecated("Deprecated", ReplaceWith("forceSimulation { forceCollision { } }", " io.data2viz.force.ForceSimulation"))
 fun <D> forceCollision(init: ForceCollision<D>.() -> Unit) = ForceCollision<D>().apply(init)

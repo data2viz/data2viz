@@ -1,7 +1,6 @@
 package io.data2viz.force
 
 import io.data2viz.geom.Point
-import io.data2viz.math.PI
 import io.data2viz.math.Percent
 import io.data2viz.math.pct
 import io.data2viz.timer.timer
