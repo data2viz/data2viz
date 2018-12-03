@@ -15,7 +15,9 @@ import kotlin.math.sqrt
  * even if they are on disconnected subgraphs.
  */
 
-// TODO OPTIM 1/13
+@Deprecated("Deprecated", ReplaceWith("forceSimulation { forceNBody { } }", " io.data2viz.force.ForceSimulation"))
+fun <D> forceNBody(init: ForceNBody<D>.() -> Unit) = ForceNBody<D>().apply(init)
+
 class ForceNBody<D> internal constructor(): Force<D> {
 
     private var theta2 = .81

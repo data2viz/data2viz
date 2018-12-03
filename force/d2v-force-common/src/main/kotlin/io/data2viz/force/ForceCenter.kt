@@ -2,6 +2,9 @@ package io.data2viz.force
 
 import io.data2viz.geom.Point
 
+@Deprecated("Deprecated", ReplaceWith("forceSimulation { forceCenter { } }", " io.data2viz.force.ForceSimulation"))
+fun <D> forceCenter(center: Point) = ForceCenter<D>().apply { this.center = center }
+
 /**
  * The centering force translates nodes uniformly so that the mean position of all nodes
  * (the center of mass if all nodes have equal weight) is at the given position ⟨x,y⟩.

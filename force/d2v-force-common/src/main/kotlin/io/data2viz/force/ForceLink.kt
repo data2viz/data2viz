@@ -1,9 +1,16 @@
 package io.data2viz.force
 
-import kotlin.math.min
-import kotlin.math.sqrt
+import kotlin.math.*
 
-// TODO rename something more precise ?
+// TODO Link rename to something more precise ?
+/**
+ * A Link object records a link a source and a target ForceNode.
+ * The force will try to keep the 2 nodes at the specified distance, with the specified strength.
+ * Default distance is 30.0.
+ * Default strength is NaN. If strength is left at NaN, a strength of 1/X will be applied where X is the minimum
+ * number of links between the 2 nodes. This default was chosen because it automatically reduces the strength of links
+ * connected to heavily-connected nodes, improving stability.
+ */
 data class Link<D>(
     val source: ForceNode<D>,
     val target: ForceNode<D>,
@@ -11,6 +18,8 @@ data class Link<D>(
     var strength: Double = Double.NaN
 )
 
+@Deprecated("Deprecated", ReplaceWith("forceSimulation { forceLink { } }", " io.data2viz.force.ForceSimulation"))
+fun <D> forceLink(init: ForceLink<D>.() -> Unit) = ForceLink<D>().apply(init)
 
 /**
  * The link force pushes linked nodes together or apart according to the desired link distance.
@@ -35,46 +44,19 @@ class ForceLink<D> internal constructor(): Force<D> {
      */
     var iterations = 1
 
-    var linkGet: ForceNode<D>.()-> List<Link<D>> = { listOf() }
-
-//    /**
-//     * sets the strength accessor to the specified number or function, re-evaluates
-//     * the strength accessor for each link, and returns this force.
-//     *
-//     * ```
-//     * ```
-//     */
-//    var strengthGet: (List<Link<D>>) -> List<Double> = { links ->
-//            links.map { link ->
-//                1.0 / min(count[link.source.index], count[link.target.index])
-//            }
-//
-//        }
-//        set(value) {
-//            field = value
-//            initializeStrengths()
-//        }
-//
-//    /**
-//     * sets the distance accessor to the specified number or function,
-//     * re-evaluates the distance accessor for each link, and returns this force.
-//     *
-//     * The distance accessor is invoked for each link, being passed the link and its zero-based index.
-//     * The resulting number is then stored internally, such that the distance of each link is only
-//     * recomputed when the force is initialized or when this method is called with a new distance,
-//     * and not on every application of the force.
-//     */
-//    var distanceGet: (List<Link<D>>) -> List<Double> = { links -> (0 until links.size).map { 30.0 } }
-//        set(value) {
-//            field = value
-//            initializeDistances()
-//        }
+    /**
+     * Get the list of links from a given ForceNode, defaults to null.
+     * Each Link must have a reference to a source node, a target node, a distance value (defaults to 30.0) and
+     * a strength (defaults to Double.NaN) value.
+     */
+    var linkGet: ForceNode<D>.()-> List<Link<D>>? = { null }
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
         this.nodes = nodes
         val linksList = mutableListOf<Link<D>>()
         nodes.forEach {
-            linksList += linkGet(it)
+            val links = linkGet(it)
+            if (links != null) linksList += links
         }
         _links = linksList
 
@@ -94,7 +76,12 @@ class ForceLink<D> internal constructor(): Force<D> {
         initializeStrengths()
     }
 
-    // TODO EXPLAIN!
+    /**
+     * When a link strength is not set (default value is Double.NaN) it automatically compute it strength.
+     * Strength computed is 1 / the number of links with the given node as a source or target.
+     * This default was chosen because it automatically reduces the strength of links connected to
+     * heavily-connected nodes, improving stability.
+     */
     private fun initializeStrengths() {
         _links.filter { it.strength.isNaN() }
             .forEach { it.strength = 1.0 / min(count[it.source.index], count[it.target.index]) }

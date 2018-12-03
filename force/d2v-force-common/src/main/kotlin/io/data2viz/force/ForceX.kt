@@ -1,5 +1,10 @@
 package io.data2viz.force
 
+import io.data2viz.math.*
+
+@Deprecated("Deprecated", ReplaceWith("forceSimulation { forceX { } }", " io.data2viz.force.ForceSimulation"))
+fun <D> forceX(init: ForceX<D>.() -> Unit) = ForceX<D>().apply(init)
+
 /**
  * Creates a new positioning force along the x-axis towards the given position x.
  * If x is not specified, it defaults to 0.
@@ -22,17 +27,17 @@ class ForceX<D> internal constructor(): Force<D> {
     /**
      * Sets the strength accessor to the specified function, re-evaluates the strength accessor for each node.
      * The strength determines how much to increment the node’s x-velocity: (x - node.x) × strength.
-     * For example, a value of 0.1 indicates that the node should move a tenth of the way from its current x-position
+     * For example, a value of 10% indicates that the node should move a tenth of the way from its current x-position
      * to the target x-position with each application. Higher values moves nodes more quickly to the target position,
-     * often at the expense of other forces or constraints. A value outside the range [0,1] is not recommended.
+     * often at the expense of other forces or constraints. A value outside the range [0,100] is not recommended.
      *
-     * If strength is not specified, returns the current strength accessor, which defaults to { 0.1 }.
+     * If strength is not specified, returns the current strength accessor, which defaults to { 10% }.
      *
      * The strength accessor is invoked for each node in the simulation, being passed the node and its zero-based index.
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strengthGet: ForceNode<D>.() -> Double = { 0.1 }
+    var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
         set(value) {
             field = value
             assignNodes(nodes)
@@ -50,7 +55,7 @@ class ForceX<D> internal constructor(): Force<D> {
 
         nodes.forEach {
             xz.add(it.xGet())
-            strengths.add(it.strengthGet())
+            strengths.add(it.strengthGet().value)
         }
     }
 
