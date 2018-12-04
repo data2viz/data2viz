@@ -23,7 +23,7 @@ class ForceCenter<D> internal constructor() : Force<D> {
         _nodes = nodes
     }
 
-    override fun applyForceToNodes(alpha: Double) {
+    override fun applyForceToNodes(intensity: Double) {
         val size = _nodes.size.toDouble()
 
         var sx = .0

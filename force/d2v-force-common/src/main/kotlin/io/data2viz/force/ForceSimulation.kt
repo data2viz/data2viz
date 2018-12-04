@@ -21,7 +21,7 @@ class ForceSimulation<D> internal constructor() {
     // AVAILABLE FORCES
     fun forceX(init: ForceX<D>.() -> Unit = {}) = addForce(ForceX<D>().apply(init)) as ForceX
     fun forceY(init: ForceY<D>.() -> Unit = {}) = addForce(ForceY<D>().apply(init)) as ForceY
-    fun forcepoint(init: ForcePoint<D>.() -> Unit = {}) = addForce(ForcePoint<D>().apply(init)) as ForcePoint
+    fun forcePoint(init: ForcePoint<D>.() -> Unit = {}) = addForce(ForcePoint<D>().apply(init)) as ForcePoint
     fun forceRadial(init: ForceRadial<D>.() -> Unit) = addForce(ForceRadial<D>().apply(init)) as ForceRadial
     fun forceNBody(init: ForceNBody<D>.() -> Unit = {}) = addForce(ForceNBody<D>().apply(init)) as ForceNBody
     fun forceCollision(init: ForceCollision<D>.() -> Unit) = addForce(ForceCollision<D>().apply(init)) as ForceCollision
@@ -56,7 +56,7 @@ class ForceSimulation<D> internal constructor() {
 
     /**
      * Restarts current simulation
-     * TODO really ? only restart timer but alpha remains 1.0...
+     * TODO really ? only restart timer but intensity remains 1.0...
      */
     fun restart() {
         stepper.restart { step() }
@@ -74,7 +74,7 @@ class ForceSimulation<D> internal constructor() {
         tickEvents.values.forEach { callback ->
             callback(this)
         }
-        if (alpha < alphaMin) {
+        if (intensity < intensityMin) {
             stepper.stop()
             endEvents.values.forEach { callback ->
                 callback(this)
@@ -84,44 +84,44 @@ class ForceSimulation<D> internal constructor() {
 
 
     /**
-     * Sets the current alpha to the specified percentage in the range [0,100] which defaults to 100.pct.
+     * Sets the current intensity to the specified percentage in the range [0,100] which defaults to 100.pct.
      */
-    var alpha = 100.pct
+    var intensity = 100.pct
         set(value) {
             field = value.coerceToDefault()
         }
 
     /**
-     * Sets the minimum alpha to the specified number in the range [0,100] which defaults to 0.1%.
-     * The simulation’s internal timer stops when the current alpha is less than the minimum alpha.
-     * The default alpha decay rate of ~2.28% corresponds to 300 iterations.
+     * Sets the minimum intensity to the specified number in the range [0,100] which defaults to 0.1%.
+     * The simulation’s internal timer stops when the current intensity is less than the minimum intensity.
+     * The default intensity decay rate of ~2.28% corresponds to 300 iterations.
      */
-    var alphaMin = 0.1.pct
+    var intensityMin = 0.1.pct
         set(value) {
             field = value.coerceToDefault()
         }
 
     /**
-     * Sets the alpha decay rate to the specified percentage in the range [0,100] which defaults
-     * to 2.28…% = 1 - pow(0.1%, 1 / 300) where 0.1% is the default minimum alpha.
+     * Sets the intensity decay rate to the specified percentage in the range [0,100] which defaults
+     * to 2.28…% = 1 - pow(0.1%, 1 / 300) where 0.1% is the default minimum intensity.
      *
-     * The alpha decay rate determines how quickly the current alpha interpolates towards the desired target alpha;
-     * since the default target alpha is zero, by default this controls how quickly the simulation cools.
+     * The intensity decay rate determines how quickly the current intensity interpolates towards the desired target
+     * intensity; since the default target intensity is zero, by default this controls how quickly the simulation cools.
      * Higher decay rates cause the simulation to stabilize more quickly, but risk getting stuck in a local minimum;
      * lower values cause the simulation to take longer to run, but typically converge on a better layout.
      *
-     * To have the simulation run forever at the current alpha, set the decay rate to zero; alternatively, set a
-     * target alpha greater than the minimum alpha.
+     * To have the simulation run forever at the current intensity, set the decay rate to zero; alternatively, set a
+     * target intensity greater than the minimum intensity.
      */
-    var alphaDecay = Percent(1.0 - alphaMin.value.pow(1.0 / 300.0))
+    var intensityDecay = Percent(1.0 - intensityMin.value.pow(1.0 / 300.0))
         set(value) {
             field = value.coerceToDefault()
         }
 
     /**
-     * Sets the current target alpha to the specified percentage in the range [0,100] which defaults to 0%.
+     * Sets the current target intensity to the specified percentage in the range [0,100] which defaults to 0%.
      */
-    var alphaTarget = 0.pct
+    var intensityTarget = 0.pct
         set(value) {
             field = value.coerceToDefault()
         }
@@ -130,7 +130,7 @@ class ForceSimulation<D> internal constructor() {
      * Sets the velocity decay factor to the specified percentage in the range [0,100] which defaults to 40%.
      * The decay factor is akin to atmospheric friction; after the application of any forces during a tick,
      * each node’s velocity is multiplied by 1 - decay.
-     * As with lowering the alpha decay rate, less velocity decay may converge on a better solution, but risks
+     * As with lowering the intensity decay rate, less velocity decay may converge on a better solution, but risks
      * numerical instabilities and oscillation.
      */
     var velocityDecay = 60.pct
@@ -160,26 +160,26 @@ class ForceSimulation<D> internal constructor() {
     }
 
     /**
-     * Increments the current alpha by (alphaTarget - alpha) × alphaDecay;
-     * then invokes each registered force, passing the new alpha;
+     * Increments the current intensity by (intensityTarget - intensity) × intensityDecay;
+     * then invokes each registered force, passing the new intensity;
      * then decrements each node’s velocity by velocity × velocityDecay;
      * lastly increments each node’s position by velocity.
      *
      * This method does not dispatch events;
      * events are only dispatched by the internal timer when the simulation is started automatically upon creation
      * or by calling simulation.restart.
-     * The natural number of ticks when the simulation is started is ⌈log(alphaMin) / log(1 - alphaDecay)⌉;
+     * The natural number of ticks when the simulation is started is ⌈log(intensityMin) / log(1 - intensityDecay)⌉;
      * by default, this is 300.
      *
      * This method can be used in conjunction with simulation.stop to compute a static force layout.
      */
     // TODO For large graphs, static layouts should be computed in a web worker to avoid freezing the user interface.
     fun tick() {
-        alpha += (alphaTarget - alpha) * alphaDecay
+        intensity += (intensityTarget - intensity) * intensityDecay
 
 
         _forces.forEach { force ->
-            force.applyForceToNodes(alpha.value)
+            force.applyForceToNodes(intensity.value)
         }
 
         nodes.forEach { node ->
@@ -253,7 +253,7 @@ class ForceSimulation<D> internal constructor() {
      * the name allows multiple listeners to be registered for the same type. The type must be one of the following:
      *
      * - tick - after each tick of the simulation’s internal timer.
-     * - end - after the simulation’s timer stops when alpha < alphaMin.
+     * - end - after the simulation’s timer stops when intensity < intensityMin.
      *
      * Note that tick events are not dispatched when simulation.tick is called manually;
      * events are only dispatched by the internal timer and are intended for interactive rendering of the simulation.

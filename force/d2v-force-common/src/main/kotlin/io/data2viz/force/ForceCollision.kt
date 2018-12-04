@@ -71,7 +71,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
         _radiuses = nodes.map(radiusGet)
     }
 
-    override fun applyForceToNodes(alpha: Double) {
+    override fun applyForceToNodes(intensity: Double) {
         (0 until iterations).forEach {
             val tree = quadtree(x, y, _nodes)
             tree.visitAfter(::prepare)

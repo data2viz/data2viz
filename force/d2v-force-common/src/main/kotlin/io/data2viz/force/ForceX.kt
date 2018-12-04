@@ -54,9 +54,9 @@ class ForceX<D> internal constructor(): Force<D> {
         _strengths = nodes.map { it.strengthGet().value }
     }
 
-    override fun applyForceToNodes(alpha: Double) {
+    override fun applyForceToNodes(intensity: Double) {
         _nodes.forEachIndexed { index, node ->
-            node.vx += (_x[index] - node.x) * _strengths[index] * alpha
+            node.vx += (_x[index] - node.x) * _strengths[index] * intensity
         }
     }
 }

@@ -65,7 +65,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
         _centers = nodes.map(centerGet)
     }
 
-    override fun applyForceToNodes(alpha: Double) {
+    override fun applyForceToNodes(intensity: Double) {
         _nodes.forEachIndexed { index, node ->
             var dx = node.x - _centers[index].x
             if (dx == .0) dx = EPSILON
@@ -73,7 +73,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
             if (dy == .0) dy = EPSILON
 
             val r = sqrt(dx * dx + dy * dy)
-            val k = (_radiuses[index] - r) * _strengths[index] * alpha / r
+            val k = (_radiuses[index] - r) * _strengths[index] * intensity / r
 
             node.vx += dx * k
             node.vy += dy * k

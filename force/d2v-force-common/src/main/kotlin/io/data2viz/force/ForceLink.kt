@@ -82,7 +82,7 @@ class ForceLink<D> internal constructor(): Force<D> {
             .forEach { it.strength = 1.0 / min(count[it.source.index], count[it.target.index]) }
     }
 
-    override fun applyForceToNodes(alpha: Double) {
+    override fun applyForceToNodes(intensity: Double) {
         (0 until iterations).forEach {
             _links.forEachIndexed { index, link ->
                 val source = link.source
@@ -95,7 +95,7 @@ class ForceLink<D> internal constructor(): Force<D> {
                 if (y == .0) y = jiggle()
 
                 var l = sqrt(x * x + y * y)
-                l = (l - link.distance) / l * alpha * link.strength
+                l = (l - link.distance) / l * intensity * link.strength
                 x *= l
                 y *= l
 
