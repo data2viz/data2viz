@@ -15,7 +15,6 @@ private val initialAngle = PI * (3.0 - sqrt(5.0))
  * The simulator starts automatically; use simulation.on to listen for tick events as the simulation runs.
  * If you wish to run the simulation manually instead, call simulation.stop, and then call simulation.tick as desired.
  */
-// TODO create all forces/nodes etc... just before starting (not everytime a force / node is added)
 class ForceSimulation<D> internal constructor() {
 
     // AVAILABLE FORCES

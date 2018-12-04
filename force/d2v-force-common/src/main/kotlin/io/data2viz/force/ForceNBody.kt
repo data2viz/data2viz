@@ -39,7 +39,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
      *
      * Based on this research paper: https://osf.io/wgzn5/
      */
-    // TODO reactivate this and iteration when performance will be measured
+    // TODO reactivate this when performance will be measured
     /*var optimisation = 7
         set(value) {
             field = value.coerceAtLeast(1)
