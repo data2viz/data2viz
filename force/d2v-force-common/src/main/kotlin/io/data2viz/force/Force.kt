@@ -21,10 +21,10 @@ interface Force<D> {
     fun assignNodes(nodes: List<ForceNode<D>>)
 
     /**
-     * Applies this force, optionally observing the specified alpha.
+     * Applies this force, optionally observing the specified intensity.
      * Typically, the force is applied to the array of nodes previously passed to force.assignNodes, however, some
      * forces may apply to a subset of nodes, or behave differently.
      * For example, forceLink applies to the source and target of each link.
      */
-    fun applyForceToNodes(alpha: Double)
+    fun applyForceToNodes(intensity: Double)
 }

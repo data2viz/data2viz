@@ -26,8 +26,8 @@ class ForceNBody<D> internal constructor(): Force<D> {
     private val x = { node: ForceNode<D> -> node.x }
     private val y = { node: ForceNode<D> -> node.y }
 
-    // store the alpha value for the current force(alpha) call
-    private var currentAlpha: Double = .0
+    // store the intensity value for the current force(intensity) call
+    private var currentIntensity: Double = .0
 
     // store the current node we're applying force
     private lateinit var currentNode: ForceNode<D>
@@ -114,8 +114,8 @@ class ForceNBody<D> internal constructor(): Force<D> {
         _strengths = nodes.map(strengthGet)
     }
 
-    override fun applyForceToNodes(alpha: Double) {
-        currentAlpha = alpha
+    override fun applyForceToNodes(intensity: Double) {
+        currentIntensity = intensity
 
         val tree = quadtree(x, y, _nodes)
         tree.visitAfter(::accumulate)
@@ -146,7 +146,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
                     l += y * y
                 }
                 if (l < distanceMin2) l = sqrt(distanceMin2 * l)
-                val increment: Double = quad.value!! * currentAlpha / l
+                val increment: Double = quad.value!! * currentIntensity / l
                 currentNode.vx += x * increment
                 currentNode.vy += y * increment
             }
@@ -173,7 +173,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
 
         do {
             if (newQuad!!.data !== currentNode) {
-                w = _strengths[newQuad!!.data.index] * currentAlpha / l
+                w = _strengths[newQuad!!.data.index] * currentIntensity / l
                 currentNode.vx += x * w
                 currentNode.vy += y * w
             }

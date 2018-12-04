@@ -6,10 +6,8 @@ import io.data2viz.geom.Circle
 import io.data2viz.geom.Point
 import io.data2viz.geom.Size
 import io.data2viz.math.pct
-import io.data2viz.timer.timer
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
-import kotlin.random.Random
 
 const val width = 800.0
 const val height = 500.0
@@ -17,7 +15,7 @@ const val height = 500.0
 const val pointCount = 800
 
 val simulation: ForceSimulation<Int> = forceSimulation {
-    alphaDecay = 1.pct
+    intensityDecay = 1.pct
     //nodes = (0 until pointCount).map { ForceNode(it, it, Random.nextDouble() * width, Random.nextDouble() * height) }
     on(SimulationEvent.TICK, "tickEvent", ::refresh)
     on(SimulationEvent.END, "endEvent") { println("SIMULATION ENDS") }
@@ -78,7 +76,7 @@ private fun simulationLoop() {
 //    (0 until forces[forceIndex].second.size).forEach { index ->
 //        simulation.addForce("${forces[forceIndex].first}_$index", forces[forceIndex].second[index])
 //    }
-//    simulation.alpha = 1.0
+//    simulation.intensity = 1.0
 //    simulation.velocityDecay = if (forceIndex == 2) 0.05 else 0.4
 //    timer(delay = 3500.0) {
 //        (0 until forces[forceIndex].second.size).forEach { index ->

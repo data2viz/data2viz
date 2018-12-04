@@ -2,46 +2,24 @@ import io.data2viz.color.*
 import io.data2viz.geom.*
 import io.data2viz.viz.*
 import io.data2viz.force.*
+import io.data2viz.math.deg
+import io.data2viz.math.pct
+import io.data2viz.random.RandomDistribution
 import io.data2viz.timer.now
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
-import java.util.*
-import kotlin.math.sqrt
 
-data class Item(val name:String, val index:Int, val depth: Int, val parents:List<Int> = listOf())
+//data class Item(val name:String, val position:Point)
 
-//val items = listOf(
-//    Item("ROOT", 0, 0),
-//    Item("A", 1, 1, listOf(0)),
-//    Item("A1", 2, 2, listOf(1)),
-//    Item("A2", 3, 2, listOf(1)),
-//    Item("A3", 4, 2, listOf(1)),
-//    Item("A4", 5, 2, listOf(1, 8)),
-//    Item("B", 6, 1, listOf(0)),
-//    Item("B1", 7, 2, listOf(6)),
-//    Item("B2", 8, 2, listOf(6)),
-//    Item("B3", 9, 2, listOf(6)),
-//    Item("C", 10, 1, listOf(0)),
-//    Item("C1", 11, 2, listOf(10)),
-//    Item("A31", 12, 3, listOf(4, 13, 14)),
-//    Item("A32", 13, 3, listOf(4)),
-//    Item("A33", 14, 3, listOf(4))
-//)
-
-val items = (0..2500).map { Item("$it", it, it, listOf(sqrt(it.toDouble()).toInt()))}
-
-val vizSize = 1000.0
 val timer = now()
 
 class ForceExJFX: Application() {
-    val canvas = Canvas(vizSize, vizSize)
+    val canvas = Canvas(1000.0, 1000.0)
     val viz = graph()
     val renderer = JFxVizRenderer(canvas, viz)
-
-
 
     init {
         viz.renderer = renderer
@@ -65,7 +43,7 @@ class ForceExJFX: Application() {
         val root = VBox()
 
         primaryStage?.let {
-            it.scene = (Scene(root, vizSize, vizSize))
+            it.scene = (Scene(root, 1000.0, 1000.0))
             it.show()
             root.children.add(canvas)
             renderChart()
@@ -74,73 +52,45 @@ class ForceExJFX: Application() {
 
 }
 
+data class NamedPoint(val position:Point, val layer:Int)
+
 fun graph(): Viz {
 
-    val particles = mutableListOf<TextNode>()
-    val particleLinks = mutableListOf<LineNode>()
+    val vizSize = 400.0
+    val randPos = RandomDistribution.uniform(.0, vizSize)
+    val viewCenter = point(vizSize / 2, vizSize / 2)
+    val items = (0..2000).map { NamedPoint(point(randPos(), randPos()), it%12 ) }
 
-    lateinit var links: List<Link<Item>>
+    val simulation = forceSimulation<NamedPoint> {
 
-    val simulation = forceSimulation<Item> {
+        forceRadial {
+            centerGet = { viewCenter }
+            radiusGet = { domain.layer * 17.0 }
+        }
         domainObjects = items
-
+        intensity = 40.pct
+        intensityDecay = 0.2.pct
         initForceNode = {
-
+            position = domain.position
         }
-
-        val f = forceLink {
-            linkGet = { domain.parents.map { Link(this, nodes[it], 20.0, 1.0) } }
-            //iterations = 10
-        }
-        links = f.links
-
-        forceCenter {
-            center = Point(vizSize / 2, vizSize / 2)
-        }
-//        forceCollision {
-//            radiusGet = { (5 - domain.depth) * 5.0 }
-//            iterations = 1
-//        }
-        forceNBody()
-
-        on(SimulationEvent.END, "end", {
-            println("${now() - timer}ms")
-        })
     }
 
-    val myViz = viz {
+    val particles = mutableListOf<CircleNode>()
+    return viz {
         size = size(vizSize, vizSize)
-        links.forEach {
-            particleLinks += line {
-                x1 = it.source.x
-                y1 = it.source.y
-                x2 = it.target.x
-                x2 = it.target.y
-                stroke = Colors.Web.grey
+        simulation.nodes.forEach { forceNode ->
+            particles += circle {
+                radius = 5.0
+                fill = Colors.hsl((forceNode.domain.layer * 30).deg, 100.pct, 50.pct)
             }
         }
-        /*simulation.nodes.forEach {
-            particles += text {
-                fill = Colors.Web.black
-                textContent = items[it.index].name
-                textAlign = textAlign(TextHAlign.MIDDLE, TextVAlign.MIDDLE)
-                fontWeight = FontWeight.BOLD
-            }
-        }*/
-
         animation {
-            /*simulation.nodes.forEach { node ->
-                particles[node.index].x = node.x
-                particles[node.index].y = node.y
-            }*/
-            links.forEachIndexed { index, _ ->
-                particleLinks[index].x1 = links[index].source.x
-                particleLinks[index].x2 = links[index].target.x
-                particleLinks[index].y1 = links[index].source.y
-                particleLinks[index].y2 = links[index].target.y
+            simulation.nodes.forEach { forceNode ->
+                particles[forceNode.index].apply {
+                    x = forceNode.x
+                    y = forceNode.y
+                }
             }
         }
     }
-
-    return myViz
 }
