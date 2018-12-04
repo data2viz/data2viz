@@ -28,12 +28,27 @@ class ForceSimulation<D> internal constructor() {
     fun forceCenter(init: ForceCenter<D>.() -> Unit) = addForce(ForceCenter<D>().apply(init)) as ForceCenter
     fun forceLink(init: ForceLink<D>.() -> Unit = {}) = addForce(ForceLink<D>().apply(init)) as ForceLink
 
+    /**
+     * The initForceNode lambda applies to each ForceNode.
+     * A ForceNode is created for each domain objects passed to the simulation.
+     * ForceNode already have an index, and a domain object, so you can use these 2 properties to initialize your nodes.
+     */
     var initForceNode: ForceNode<D>.() -> Unit = { }
         set(value) {
             field = value
             initSimulation()
         }
 
+    /**
+     * Pass your domain objects to the simulation and initialize the ForceNodes.
+     * If there are no existing nodes, or the domain object associated to a node at a given index have changed,
+     * then the node is initialized using the initForceNode lambda.
+     * If at a given index, the "new" domain object is the same as the "old" one, the node will keep its
+     * properties.
+     * This allows you to add some nodes "on the fly" in the simulation just by setting the domainObjects var.
+     * Just be careful, your domain objects must keep the same index, so new objects must be added at the end
+     * of the list.
+     */
     var domainObjects: List<D> = listOf()
         set(value) {
             field = value
@@ -209,19 +224,29 @@ class ForceSimulation<D> internal constructor() {
     }
 
     private fun initializeNodes() {
+        val oldNodes = _nodes.toList()
+        val oldNodeSize = oldNodes.size
         _nodes = List(domainObjects.size) { ForceNode(it, domainObjects[it]) }
         domainObjects.forEachIndexed { index, domain ->
             val node = _nodes[index]
-            node.initForceNode()
-            if (node.x.isNaN() || node.y.isNaN()) {
-                val radius = initialRadius * sqrt(index.toDouble())
-                val angle = index * initialAngle
-                node.x = radius * cos(angle)
-                node.y = radius * sin(angle)
-            }
-            if (node.vx.isNaN() || node.vy.isNaN()) {
-                node.vx = .0
-                node.vy = .0
+            if (index < oldNodeSize && oldNodes[index].domain == node.domain) {
+                val oldNode = oldNodes[index]
+                node.position = oldNode.position
+                node.velocity = oldNode.velocity
+                node.fixedX = oldNode.fixedX
+                node.fixedY = oldNode.fixedY
+            } else {
+                node.initForceNode()
+                if (node.x.isNaN() || node.y.isNaN()) {
+                    val radius = initialRadius * sqrt(index.toDouble())
+                    val angle = index * initialAngle
+                    node.x = radius * cos(angle)
+                    node.y = radius * sin(angle)
+                }
+                if (node.vx.isNaN() || node.vy.isNaN()) {
+                    node.vx = .0
+                    node.vy = .0
+                }
             }
         }
     }
