@@ -2,20 +2,15 @@ import io.data2viz.color.*
 import io.data2viz.geom.*
 import io.data2viz.viz.*
 import io.data2viz.force.*
-import io.data2viz.math.deg
 import io.data2viz.math.pct
 import io.data2viz.random.RandomDistribution
-import io.data2viz.timer.now
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
-import kotlin.math.roundToInt
 
 //data class Item(val name:String, val position:Point)
-
-val timer = now()
 
 class ForceExJFX: Application() {
     val canvas = Canvas(1000.0, 1000.0)
@@ -53,35 +48,38 @@ class ForceExJFX: Application() {
 
 }
 
-data class LayeredPoint(val position:Point, val layer:Int)
-fun randPos(a:Double) = RandomDistribution.uniform(.0, a)()
+data class Charge(val initialPosition:Point, val attractor:Boolean)
+
+val vizSize = 600.0
+val randPos = RandomDistribution.uniform(100.0, vizSize - 100.0)
 
 fun graph(): Viz {
 
-    val vizWidth = 600.0
-    val vizHeight = 200.0
-
-    val items = (0..1000).map { LayeredPoint(point(randPos(vizWidth), randPos(vizHeight)), it%12 ) }
+    val items = (0..200).map { Charge(point(randPos(), randPos()), (it % 2) == 0) }
     val particles = mutableListOf<CircleNode>()
 
-    val simulation = forceSimulation<LayeredPoint> {
-        forceX {
-            xGet = { domain.layer * 50.0 }
+    val simulation = forceSimulation<Charge> {
+        forceCenter {
+            center = point(vizSize / 2, vizSize / 2)
+        }
+        forceNBody {
+            strengthGet = { if (domain.attractor) 30.0 else -50.0 }
+            distanceMin = 5.0
         }
         initForceNode = {
-            position = domain.position
+            position = domain.initialPosition
         }
         domainObjects = items
-        intensity = 40.pct
-        intensityDecay = 0.2.pct
+//        intensity = 40.pct
+//        intensityDecay = 0.pct
     }
 
     return viz {
-        size = size(vizWidth, vizHeight)
+        size = size(vizSize, vizSize)
         simulation.nodes.forEach { forceNode ->
             particles += circle {
-                radius = 5.0
-                fill = Colors.hsl((forceNode.domain.layer * 30).deg, 100.pct, 50.pct)
+                radius = 10.0
+                fill = if (forceNode.domain.attractor) Colors.Web.crimson else Colors.Web.mediumblue
             }
         }
         animation {
@@ -94,6 +92,47 @@ fun graph(): Viz {
         }
     }
 }
+//data class LayeredPoint(val position:Point, val layer:Int)
+//fun randPos(a:Double) = RandomDistribution.uniform(.0, a)()
+//
+//fun graph(): Viz {
+//
+//    val vizWidth = 600.0
+//    val vizHeight = 200.0
+//
+//    val items = (0..1000).map { LayeredPoint(point(randPos(vizWidth), randPos(vizHeight)), it%12 ) }
+//    val particles = mutableListOf<CircleNode>()
+//
+//    val simulation = forceSimulation<LayeredPoint> {
+//        forceX {
+//            xGet = { domain.layer * 50.0 }
+//        }
+//        initForceNode = {
+//            position = domain.position
+//        }
+//        domainObjects = items
+//        intensity = 40.pct
+//        intensityDecay = 0.2.pct
+//    }
+//
+//    return viz {
+//        size = size(vizWidth, vizHeight)
+//        simulation.nodes.forEach { forceNode ->
+//            particles += circle {
+//                radius = 5.0
+//                fill = Colors.hsl((forceNode.domain.layer * 30).deg, 100.pct, 50.pct)
+//            }
+//        }
+//        animation {
+//            simulation.nodes.forEach { forceNode ->
+//                particles[forceNode.index].apply {
+//                    x = forceNode.x
+//                    y = forceNode.y
+//                }
+//            }
+//        }
+//    }
+//}
 
 //data class ColorPoint(val position:Point, val color:Color)
 //
