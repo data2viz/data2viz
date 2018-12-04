@@ -29,12 +29,15 @@ class ForceSimulation<D> internal constructor() {
     fun forceLink(init: ForceLink<D>.() -> Unit = {}) = addForce(ForceLink<D>().apply(init)) as ForceLink
 
     var initForceNode: ForceNode<D>.() -> Unit = { }
+        set(value) {
+            field = value
+            initSimulation()
+        }
 
     var domainObjects: List<D> = listOf()
         set(value) {
             field = value
-            initializeNodes()
-            _forces.forEach { initializeForce(it) }
+            initSimulation()
         }
 
     private var _nodes = listOf<ForceNode<D>>()
@@ -49,10 +52,6 @@ class ForceSimulation<D> internal constructor() {
     private val tickEvents = mutableMapOf<String, (ForceSimulation<D>) -> Unit>()
     private val endEvents = mutableMapOf<String, (ForceSimulation<D>) -> Unit>()
     private val stepper = timer { step() }
-
-    init {
-        initializeNodes()
-    }
 
     /**
      * Restarts current simulation
@@ -149,6 +148,15 @@ class ForceSimulation<D> internal constructor() {
     }
 
     /**
+     * InitSimulation is called when the simulation starts.
+     * Check if everything is initialized as some properties may have been set after some others
+     */
+    private fun initSimulation() {
+        initializeNodes()
+        _forces.forEach { initializeForce(it) }
+    }
+
+    /**
      * Removes the force in this simulation.
      */
     fun removeForce(force: Force<D>) {
@@ -174,9 +182,9 @@ class ForceSimulation<D> internal constructor() {
      * This method can be used in conjunction with simulation.stop to compute a static force layout.
      */
     // TODO For large graphs, static layouts should be computed in a web worker to avoid freezing the user interface.
+    // TODO private ?
     fun tick() {
         intensity += (intensityTarget - intensity) * intensityDecay
-
 
         _forces.forEach { force ->
             force.applyForceToNodes(intensity.value)

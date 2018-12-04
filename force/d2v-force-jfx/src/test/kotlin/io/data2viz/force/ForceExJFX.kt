@@ -62,12 +62,12 @@ fun graph(): Viz {
     val items = (0..2000).map { NamedPoint(point(randPos(), randPos()), it%12 ) }
 
     val simulation = forceSimulation<NamedPoint> {
-
         forceRadial {
             centerGet = { viewCenter }
             radiusGet = { domain.layer * 17.0 }
         }
         domainObjects = items
+
         intensity = 40.pct
         intensityDecay = 0.2.pct
         initForceNode = {
