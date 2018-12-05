@@ -1,9 +1,11 @@
-import io.data2viz.color.*
-import io.data2viz.geom.*
-import io.data2viz.viz.*
-import io.data2viz.force.*
+import io.data2viz.color.Colors
+import io.data2viz.force.ForceLink
+import io.data2viz.force.Link
+import io.data2viz.force.forceSimulation
+import io.data2viz.geom.point
+import io.data2viz.geom.size
 import io.data2viz.math.pct
-import io.data2viz.random.RandomDistribution
+import io.data2viz.viz.*
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
@@ -12,8 +14,8 @@ import javafx.stage.Stage
 
 //data class Item(val name:String, val position:Point)
 
-class ForceExJFX: Application() {
-    val canvas = Canvas(1000.0, 1000.0)
+class ForceExJFX : Application() {
+    val canvas = Canvas(600.0, 600.0)
     val viz = graph()
     val renderer = JFxVizRenderer(canvas, viz)
 
@@ -39,7 +41,7 @@ class ForceExJFX: Application() {
         val root = VBox()
 
         primaryStage?.let {
-            it.scene = (Scene(root, 1000.0, 1000.0))
+            it.scene = (Scene(root, 600.0, 600.0))
             it.show()
             root.children.add(canvas)
             renderChart()
@@ -48,50 +50,187 @@ class ForceExJFX: Application() {
 
 }
 
-data class Charge(val initialPosition:Point, val attractor:Boolean)
+data class Stitch(var row:Int, var column:Int)
 
 val vizSize = 600.0
-val randPos = RandomDistribution.uniform(100.0, vizSize - 100.0)
+val viewCenter = point(vizSize / 2, vizSize / 2)
+
+val networkSize = 17
+val totalNodes = networkSize * networkSize
+val linksDistance = 5.0
 
 fun graph(): Viz {
 
-    val items = (0..200).map { Charge(point(randPos(), randPos()), (it % 2) == 0) }
-    val particles = mutableListOf<CircleNode>()
+    val particleVisuals = mutableListOf<CircleNode>()
+    val linkVisuals = mutableListOf<LineNode>()
+    val particles = (0 until totalNodes).map { Stitch(it % networkSize, it / networkSize) }
 
-    val simulation = forceSimulation<Charge> {
+    lateinit var constraintForce:ForceLink<Stitch>
+
+    val simulation = forceSimulation<Stitch> {
         forceCenter {
-            center = point(vizSize / 2, vizSize / 2)
+            center = viewCenter
         }
         forceNBody {
-            strengthGet = { if (domain.attractor) 30.0 else -50.0 }
-            distanceMin = 5.0
+            // each ForceNode will repel each other ForceNode
+            strengthGet = { -15.0 }
         }
-        initForceNode = {
-            position = domain.initialPosition
+        constraintForce = forceLink {
+            // link this ForceNode to other ForceNodes on the next row & column (if available)
+            linkGet = {
+                val links = mutableListOf<Link<Stitch>>()
+                if (domain.row < networkSize - 1) links.add(Link(this, nodes[index + 1], linksDistance))
+                if (domain.column < networkSize - 1) links.add(Link(this, nodes[index + networkSize], linksDistance))
+                links
+            }
+            iterations = 1
         }
-        domainObjects = items
-//        intensity = 40.pct
-//        intensityDecay = 0.pct
+        domainObjects = particles
+        intensityDecay = 0.pct
     }
 
     return viz {
         size = size(vizSize, vizSize)
-        simulation.nodes.forEach { forceNode ->
-            particles += circle {
-                radius = 10.0
-                fill = if (forceNode.domain.attractor) Colors.Web.crimson else Colors.Web.mediumblue
+        constraintForce.links.forEach { link ->
+            linkVisuals += line {
+                stroke = Colors.Web.lightslategrey
             }
         }
+        simulation.nodes.forEach { forceNode ->
+            particleVisuals += circle {
+                radius = 3.0
+                fill = Colors.Web.crimson
+            }
+        }
+
         animation {
             simulation.nodes.forEach { forceNode ->
-                particles[forceNode.index].apply {
+                particleVisuals[forceNode.index].apply {
                     x = forceNode.x
                     y = forceNode.y
+                }
+            }
+            constraintForce.links.forEachIndexed { index, link ->
+                linkVisuals[index].apply {
+                    x1 = link.source.x
+                    x2 = link.target.x
+                    y1 = link.source.y
+                    y2 = link.target.y
                 }
             }
         }
     }
 }
+
+
+
+//data class Particle(var initialPosition:Point, val initialSpeed:Vector, var radius:Double)
+//
+//val vizSize = 600.0
+//val totalNodes = 200
+//val particleRadius = RandomDistribution.uniform(5.0, 20.0)
+//val nodeRadius = 80.0
+//val randPos = RandomDistribution.uniform(100.0, vizSize - 100.0)
+//val randomSpeed = RandomDistribution.uniform(-1.0, 1.0)
+//val randomAngle = RandomDistribution.uniform(.0, 360.0)
+//val viewCenter = point(vizSize / 2, vizSize / 2)
+//
+//fun graph(): Viz {
+//
+//    val rAngle = randomAngle().deg
+//    var nodeMovement = Vector(rAngle.cos * 5, rAngle.sin * 5)
+//
+//    val particleVisuals = mutableListOf<CircleNode>()
+//    val particles = (0 until totalNodes).map {
+//        Particle(point(randPos(), randPos()), Vector(randomSpeed(), randomSpeed()), particleRadius())
+//    }
+//    particles[0].initialPosition = viewCenter
+//    particles[0].radius = nodeRadius
+//
+//    val simulation = forceSimulation<Particle> {
+//        forcePoint {
+//            pointGet = { viewCenter }
+//        }
+//        forceCollision {
+//            radiusGet = { domain.radius }
+//            iterations = 3
+//        }
+//        initForceNode = {
+//            position = domain.initialPosition
+//        }
+//        domainObjects = particles
+//        intensity = 6.pct
+//        intensityDecay = 0.pct
+//    }
+//
+//    return viz {
+//        size = size(vizSize, vizSize)
+//        simulation.nodes.forEach { forceNode ->
+//            particleVisuals += circle {
+//                radius = forceNode.domain.radius
+//                fill = Colors.hsl(randomAngle().deg, 80.pct, 50.pct)
+//            }
+//        }
+//        animation {
+//            val bigNode = simulation.nodes[0]
+//            bigNode.x += nodeMovement.vx
+//            bigNode.y += nodeMovement.vy
+//            if (bigNode.x < nodeRadius || bigNode.x > (vizSize - nodeRadius)) nodeMovement = Vector(-nodeMovement.vx, nodeMovement.vy)
+//            if (bigNode.y < nodeRadius || bigNode.y > (vizSize - nodeRadius)) nodeMovement = Vector(nodeMovement.vx, -nodeMovement.vy)
+//            simulation.nodes.forEach { forceNode ->
+//                particleVisuals[forceNode.index].apply {
+//                    x = forceNode.x
+//                    y = forceNode.y
+//                }
+//            }
+//        }
+//    }
+//}
+
+//data class Charge(val initialPosition:Point, val attractor:Boolean)
+//
+//val vizSize = 600.0
+//val randPos = RandomDistribution.uniform(100.0, vizSize - 100.0)
+//
+//fun graph(): Viz {
+//
+//    val items = (0..200).map { Charge(point(randPos(), randPos()), (it % 2) == 0) }
+//    val particles = mutableListOf<CircleNode>()
+//
+//    val simulation = forceSimulation<Charge> {
+//        forceCenter {
+//            center = point(vizSize / 2, vizSize / 2)
+//        }
+//        forceNBody {
+//            strengthGet = { if (domain.attractor) 30.0 else -50.0 }
+//            distanceMin = 5.0
+//        }
+//        initForceNode = {
+//            position = domain.initialPosition
+//        }
+//        domainObjects = items
+////        intensity = 40.pct
+////        intensityDecay = 0.pct
+//    }
+//
+//    return viz {
+//        size = size(vizSize, vizSize)
+//        simulation.nodes.forEach { forceNode ->
+//            particles += circle {
+//                radius = 10.0
+//                fill = if (forceNode.domain.attractor) Colors.Web.crimson else Colors.Web.mediumblue
+//            }
+//        }
+//        animation {
+//            simulation.nodes.forEach { forceNode ->
+//                particles[forceNode.index].apply {
+//                    x = forceNode.x
+//                    y = forceNode.y
+//                }
+//            }
+//        }
+//    }
+//}
 //data class LayeredPoint(val position:Point, val layer:Int)
 //fun randPos(a:Double) = RandomDistribution.uniform(.0, a)()
 //
