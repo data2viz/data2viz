@@ -101,7 +101,7 @@ class ForceSimulation<D> internal constructor() {
      */
     var intensity = 100.pct
         set(value) {
-            field = value.coerceToDefault()
+            field = value.coerceAtLeast(0.pct)
         }
 
     /**
