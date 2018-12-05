@@ -97,7 +97,7 @@ class ForceSimulation<D> internal constructor() {
 
 
     /**
-     * Sets the current intensity to the specified percentage in the range [0,100] which defaults to 100.pct.
+     * Sets the current intensity to the specified positive percentage in the range which defaults to 100%.
      */
     var intensity = 100.pct
         set(value) {
@@ -105,18 +105,18 @@ class ForceSimulation<D> internal constructor() {
         }
 
     /**
-     * Sets the minimum intensity to the specified number in the range [0,100] which defaults to 0.1%.
+     * Sets the minimum intensity to the specified positive percentage (defaults to 0.1%).
      * The simulation’s internal timer stops when the current intensity is less than the minimum intensity.
      * The default intensity decay rate of ~2.28% corresponds to 300 iterations.
      */
     var intensityMin = 0.1.pct
         set(value) {
-            field = value.coerceToDefault()
+            field = value.coerceAtLeast(0.pct)
         }
 
     /**
-     * Sets the intensity decay rate to the specified percentage in the range [0,100] which defaults
-     * to 2.28…% = 1 - pow(0.1%, 1 / 300) where 0.1% is the default minimum intensity.
+     * Sets the intensity decay rate to the specified positive percentage.
+     * Defaults to 2.28…% = 1 - pow(0.1%, 1 / 300) where 0.1% is the default minimum intensity.
      *
      * The intensity decay rate determines how quickly the current intensity interpolates towards the desired target
      * intensity; since the default target intensity is zero, by default this controls how quickly the simulation cools.
@@ -128,15 +128,15 @@ class ForceSimulation<D> internal constructor() {
      */
     var intensityDecay = Percent(1.0 - intensityMin.value.pow(1.0 / 300.0))
         set(value) {
-            field = value.coerceToDefault()
+            field = value.coerceAtLeast(0.pct)
         }
 
     /**
-     * Sets the current target intensity to the specified percentage in the range [0,100] which defaults to 0%.
+     * Sets the current target intensity to the specified positive percentage (defaults to 0%).
      */
     var intensityTarget = 0.pct
         set(value) {
-            field = value.coerceToDefault()
+            field = value.coerceAtLeast(0.pct)
         }
 
     /**
