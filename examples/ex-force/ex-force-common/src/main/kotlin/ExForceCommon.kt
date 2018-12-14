@@ -77,7 +77,7 @@ private fun simulationLoop() {
 //        simulation.addForce("${forces[forceIndex].first}_$index", forces[forceIndex].second[index])
 //    }
 //    simulation.intensity = 1.0
-//    simulation.velocityDecay = if (forceIndex == 2) 0.05 else 0.4
+//    simulation.friction = if (forceIndex == 2) 0.05 else 0.4
 //    timer(delay = 3500.0) {
 //        (0 until forces[forceIndex].second.size).forEach { index ->
 //            simulation.removeForce("${forces[forceIndex].first}_$index")

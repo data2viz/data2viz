@@ -139,17 +139,17 @@ class ForceSimulation<D> internal constructor() {
             field = value.coerceAtLeast(0.pct)
         }
 
+    private var _friction = 0.6
+
     /**
-     * Sets the velocity decay factor to the specified percentage in the range [0,100] which defaults to 40%.
-     * The decay factor is akin to atmospheric friction; after the application of any forces during a tick,
-     * each node’s velocity is multiplied by 1 - decay.
-     * As with lowering the intensity decay rate, less velocity decay may converge on a better solution, but risks
+     * Sets the friction factor to the specified percentage in the range [0,100] which defaults to 40%.
+     * As with lowering the intensity decay rate, less friction may converge on a better solution, but risks
      * numerical instabilities and oscillation.
      */
-    var velocityDecay = 60.pct
-        get() = 100.pct - field
+    var friction
+        get() = Percent(1 - _friction)
         set(value) {
-            field = 100.pct - value.coerceToDefault()
+            _friction = 1 - value.coerceToDefault().value
         }
 
     /**
@@ -184,7 +184,7 @@ class ForceSimulation<D> internal constructor() {
     /**
      * Increments the current intensity by (intensityTarget - intensity) × intensityDecay;
      * then invokes each registered force, passing the new intensity;
-     * then decrements each node’s velocity by velocity × velocityDecay;
+     * then decrements each node’s velocity by velocity × friction;
      * lastly increments each node’s position by velocity.
      *
      * This method does not dispatch events;
@@ -209,14 +209,14 @@ class ForceSimulation<D> internal constructor() {
                 node.x = node.fixedX!!
                 node.vx = .0
             } else {
-                node.vx *= velocityDecay.value
+                node.vx *= _friction
                 node.x += node.vx
             }
             if (node.fixedY != null) {
                 node.y = node.fixedY!!
                 node.vy = .0
             } else {
-                node.vy *= velocityDecay.value
+                node.vy *= _friction
                 node.y += node.vy
             }
         }
