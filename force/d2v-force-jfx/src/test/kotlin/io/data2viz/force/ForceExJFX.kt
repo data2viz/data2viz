@@ -351,8 +351,8 @@ fun graph(): Viz {
         }
         domainObjects = items
 
-
-//        friction = 99.pct
+        intensityDecay = 0.1.pct
+        friction = 90.pct
 
         initForceNode = {
             position = domain.position

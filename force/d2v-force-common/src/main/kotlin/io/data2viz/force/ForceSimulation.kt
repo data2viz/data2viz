@@ -17,6 +17,8 @@ private val initialAngle = PI * (3.0 - sqrt(5.0))
  */
 class ForceSimulation<D> internal constructor() {
 
+    private var started = false
+
     // AVAILABLE FORCES
     fun forceX(init: ForceX<D>.() -> Unit = {}) = addForce(ForceX<D>().apply(init)) as ForceX
     fun forceY(init: ForceY<D>.() -> Unit = {}) = addForce(ForceY<D>().apply(init)) as ForceY
@@ -35,7 +37,7 @@ class ForceSimulation<D> internal constructor() {
     var initForceNode: ForceNode<D>.() -> Unit = { }
         set(value) {
             field = value
-            initSimulation()
+            initSimulation(true)
         }
 
     /**
@@ -51,7 +53,7 @@ class ForceSimulation<D> internal constructor() {
     var domainObjects: List<D> = listOf()
         set(value) {
             field = value
-            initSimulation()
+            initSimulation(true)
         }
 
     private var _nodes = listOf<ForceNode<D>>()
@@ -69,7 +71,8 @@ class ForceSimulation<D> internal constructor() {
 
     /**
      * Restarts current simulation
-     * TODO really ? only restart timer but intensity remains 1.0...
+     * TODO really ? only restart timer but intensity remains 1.0... should see what is expected and eventually also reset "started"
+     * TODO or call it "pause / unpause" instead of "stop / restart" https://github.com/d3/d3-force#simulation_restart
      */
     fun restart() {
         stepper.restart { step() }
@@ -163,10 +166,12 @@ class ForceSimulation<D> internal constructor() {
 
     /**
      * InitSimulation is called when the simulation starts.
-     * Check if everything is initialized as some properties may have been set after some others
+     * Check if everything is initialized as some properties may have been set after some others.
+     * updateNodes is set to false when the simulation starts (this erase all nodes values) else it is set to true
+     * (this update all previous nodes values)
      */
-    private fun initSimulation() {
-        initializeNodes()
+    private fun initSimulation(updateNodes:Boolean) {
+        initializeNodes(updateNodes)
         _forces.forEach { initializeForce(it) }
     }
 
@@ -198,6 +203,11 @@ class ForceSimulation<D> internal constructor() {
     // TODO For large graphs, static layouts should be computed in a web worker to avoid freezing the user interface.
     // TODO private ?
     fun tick() {
+        if (!started) {
+            started = true
+            initSimulation(false)
+        }
+
         intensity += (intensityTarget - intensity) * intensityDecay
 
         _forces.forEach { force ->
@@ -222,13 +232,13 @@ class ForceSimulation<D> internal constructor() {
         }
     }
 
-    private fun initializeNodes() {
+    private fun initializeNodes(updateNodes:Boolean) {
         val oldNodes = _nodes.toList()
         val oldNodeSize = oldNodes.size
         _nodes = List(domainObjects.size) { ForceNode(it, domainObjects[it]) }
         domainObjects.forEachIndexed { index, domain ->
             val node = _nodes[index]
-            if (index < oldNodeSize && oldNodes[index].domain == node.domain) {
+            if (updateNodes && index < oldNodeSize && oldNodes[index].domain == node.domain) {
                 val oldNode = oldNodes[index]
                 node.position = oldNode.position
                 node.velocity = oldNode.velocity
