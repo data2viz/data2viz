@@ -71,10 +71,8 @@ class ForceSimulation<D> internal constructor() {
 
     /**
      * Restarts current simulation
-     * TODO really ? only restart timer but intensity remains 1.0... should see what is expected and eventually also reset "started"
-     * TODO or call it "pause / unpause" instead of "stop / restart" https://github.com/d3/d3-force#simulation_restart
      */
-    fun restart() {
+    fun play() {
         stepper.restart { step() }
     }
 
