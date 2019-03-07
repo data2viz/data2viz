@@ -1,7 +1,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.*
-import io.data2viz.geom.HasSize
+import io.data2viz.geom.*
 import io.data2viz.timer.*
 
 /**
@@ -23,7 +23,7 @@ import io.data2viz.timer.*
  * rendering process on each platform to adapt the visualisation to the target device, taking
  * in account the resolution of the screen, and the configuration of the viz.
  */
-class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
+class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize {
 
     private val style:Style = StyleImpl()
 
@@ -40,6 +40,7 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
     override var strokeWidth: Double?
         get() = style.strokeWidth
         set(value) {style.strokeWidth = value}
+
     override var textColor: ColorOrGradient?
         get() = style.textColor
         set(value) {style.textColor = value}
@@ -56,6 +57,11 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize{
     init {
         activeLayer.parent = this
         textColor = Colors.Web.black
+//
+//        val listener = addEventListener(EventType.MouseMove) { evt ->
+//            println(evt.pos)
+//        }
+//
     }
 
     val config = VizConfig()
