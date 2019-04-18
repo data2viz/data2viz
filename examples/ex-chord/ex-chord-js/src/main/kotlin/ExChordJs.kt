@@ -4,5 +4,7 @@ import io.data2viz.viz.bindRendererOn
 
 @Suppress("unused")
 fun main(args: Array<String>) {
-    chordViz().bindRendererOn("chord")
+    val chordViz = chordViz()
+    chordViz.bindRendererOn("chord")
+    chordViz.addEvents()
 }
