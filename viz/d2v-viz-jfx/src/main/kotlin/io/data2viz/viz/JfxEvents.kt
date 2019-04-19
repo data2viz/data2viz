@@ -57,8 +57,8 @@ private fun MouseEvent.convertToKEvent(): KMouseEvent {
 		Point(x, y),
 		this.isAltDown,
 		this.isControlDown,
-		this.isMetaDown,
-		this.isShiftDown
+		this.isShiftDown,
+		this.isMetaDown
 	)
 	return kMouseMoveEvent
 }
