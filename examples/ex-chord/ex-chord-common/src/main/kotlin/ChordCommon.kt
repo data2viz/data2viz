@@ -103,9 +103,10 @@ fun chordViz(): Viz = viz {
  * Listen to MouseMove event on chord.
  */
 fun Viz.addEvents() {
-    on(KMouseMove) { evt ->
-        println("Mouse Move:: ${evt.pos}")
+    on(KMouseClick) { evt ->
+        println("Mouse click:: ${evt.pos}")
     }
+
 
 }
 
