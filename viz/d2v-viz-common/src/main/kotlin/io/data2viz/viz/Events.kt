@@ -21,14 +21,16 @@ interface KEvent
  * Gives access to the position of the event.
  * Todo rename into MotionEvent?
  */
-open class KMouseEvent(val pos: Point): KEvent {
+class KMouseEvent(
+	val pos: Point,
+	val altKey: Boolean,
+	val ctrlKey: Boolean,
+	val shiftKey: Boolean,
+	val metaKey: Boolean
+): KEvent {
 	override fun toString(): String = "KMouseEvent(pos=$pos)"
-}
 
-/**
- *
- */
-class KMouseMoveEvent(pos: Point): KMouseEvent(pos)
+}
 
 
 interface KEventListener<T> {
@@ -41,5 +43,9 @@ interface KEventListener<T> {
  * A mouse move needs a listener that listen to KMouseMoveEvent.
  */
 expect class KMouseMove {
-	companion object MouseMoveEventListener : KEventListener<KMouseMoveEvent>
+	companion object MouseMoveEventListener : KEventListener<KMouseEvent>
+}
+
+expect class KMouseClick {
+    companion object MouseClickEventListener : KEventListener<KMouseEvent>
 }

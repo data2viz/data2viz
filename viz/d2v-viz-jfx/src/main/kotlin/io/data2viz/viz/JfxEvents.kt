@@ -9,19 +9,28 @@ import javafx.scene.input.MouseEvent
 
 
 actual class KMouseMove {
-	actual companion object MouseMoveEventListener : KEventListener<KMouseMoveEvent> {
-		override fun addNativeListener(target: Any, listener: (KMouseMoveEvent) -> Unit): Any {
-			val canvas = target as Canvas
+	actual companion object MouseMoveEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any {
 			val handler: (MouseEvent) -> Unit = { evt: MouseEvent ->
-				val kevent = convertToKEvent(evt)
+				val kevent = evt.convertToKEvent()
 				listener(kevent)
 			}
-			canvas.addEventHandler(MouseEvent.MOUSE_MOVED, handler)
+			(target as Canvas).addEventHandler(MouseEvent.MOUSE_MOVED, handler)
 			return JvmEventHandle(MouseEvent.MOUSE_MOVED, handler)
 		}
+	}
+}
 
-		private fun convertToKEvent(event: MouseEvent) = KMouseMoveEvent(Point(event.x, event.y))
-
+actual class KMouseClick {
+	actual companion object MouseClickEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any {
+			val handler: (MouseEvent) -> Unit = { evt: MouseEvent ->
+				val kevent = evt.convertToKEvent()
+				listener(kevent)
+			}
+			(target as Canvas).addEventHandler(MouseEvent.MOUSE_CLICKED, handler)
+			return JvmEventHandle(MouseEvent.MOUSE_CLICKED, handler)
+		}
 	}
 }
 
@@ -37,4 +46,19 @@ actual fun <T> Viz.on(
 ): Any {
     val jFxVizRenderer = this.renderer as JFxVizRenderer
 	return  eventListener.addNativeListener(jFxVizRenderer.canvas, listener)
+}
+
+
+/**
+ *
+ */
+private fun MouseEvent.convertToKEvent(): KMouseEvent {
+	val kMouseMoveEvent = KMouseEvent(
+		Point(x, y),
+		this.isAltDown,
+		this.isControlDown,
+		this.isMetaDown,
+		this.isShiftDown
+	)
+	return kMouseMoveEvent
 }

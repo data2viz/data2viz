@@ -17,21 +17,33 @@ private fun Element.removeListener(listener: Any) {
 }
 
 actual class KMouseMove {
-	actual companion object MouseMoveEventListener : KEventListener<KMouseMoveEvent> {
-		override fun addNativeListener(target:Any, listener: (KMouseMoveEvent) -> Unit): Any {
+	actual companion object MouseMoveEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target:Any, listener: (KMouseEvent) -> Unit): Any {
 			val htmlElement = target.unsafeCast<HTMLElement>()
 			val nativeListener = object: EventListener {
 				override fun handleEvent(event: Event) {
-					val nativeEvent = convertToKEvent(htmlElement, event)
+					val nativeEvent = event.convertToKEvent(htmlElement)
 					listener(nativeEvent)
 				}
 			}
 			htmlElement.addEventListener("mousemove", nativeListener)
 			return JsListener("mousemove", nativeListener)
 		}
+	}
+}
 
-		fun convertToKEvent(target: HTMLElement, event: Event):KMouseMoveEvent = event.unsafeCast<MouseEvent>().run {
-			KMouseMoveEvent(Point(clientX.toDouble() - target.offsetLeft, clientY.toDouble() - target.offsetTop))
+actual class KMouseClick {
+	actual companion object MouseClickEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target:Any, listener: (KMouseEvent) -> Unit): Any {
+			val htmlElement = target.unsafeCast<HTMLElement>()
+			val nativeListener = object: EventListener {
+				override fun handleEvent(event: Event) {
+					val nativeEvent = event.convertToKEvent(htmlElement)
+					listener(nativeEvent)
+				}
+			}
+			htmlElement.addEventListener("click", nativeListener)
+			return JsListener("click", nativeListener)
 		}
 	}
 }
@@ -49,4 +61,17 @@ actual fun <T> Viz.on(
 	val jsCanvasRenderer = this.renderer as JsCanvasRenderer
 	return  eventListener.addNativeListener(jsCanvasRenderer.context.canvas, listener)
 
+}
+
+
+fun Event.convertToKEvent(target: HTMLElement):KMouseEvent = unsafeCast<MouseEvent>().run {
+	val kMouseMoveEvent =
+		KMouseEvent(
+			Point(clientX.toDouble() - target.offsetLeft, clientY.toDouble() - target.offsetTop),
+			this.altKey,
+			this.ctrlKey,
+			this.shiftKey,
+			this.metaKey
+		)
+	kMouseMoveEvent
 }
