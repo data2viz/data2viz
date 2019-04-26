@@ -16,36 +16,84 @@ private fun Element.removeListener(listener: Any) {
 	this.removeEventListener(jsListener.type, jsListener.listener as EventListener, null)
 }
 
+actual class KMouseDown {
+	actual companion object MouseDownEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+				= createJsListener(target, listener, "mousedown")
+	}
+}
+
+actual class KMouseUp {
+	actual companion object MouseUpEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+				= createJsListener(target, listener, "mouseup")
+	}
+}
+
+actual class KMouseEnter {
+	actual companion object MouseEnterEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+				= createJsListener(target, listener, "mouseenter")
+	}
+}
+
+actual class KMouseLeave {
+	actual companion object MouseLeaveEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+				= createJsListener(target, listener, "mouseleave")
+	}
+}
+
+actual class KMouseOut {
+	actual companion object MouseOutEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+				= createJsListener(target, listener, "mouseout")
+	}
+}
+
+actual class KMouseOver {
+	actual companion object MouseOverEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+				= createJsListener(target, listener, "mouseover")
+	}
+}
+
+
+actual class KMouseDoubleClick {
+	actual companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent> {
+		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+				= createJsListener(target, listener, "dblclick")
+	}
+}
+
 actual class KMouseMove {
 	actual companion object MouseMoveEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target:Any, listener: (KMouseEvent) -> Unit): Any {
-			val htmlElement = target.unsafeCast<HTMLElement>()
-			val nativeListener = object: EventListener {
-				override fun handleEvent(event: Event) {
-					val nativeEvent = event.convertToKEvent(htmlElement)
-					listener(nativeEvent)
-				}
-			}
-			htmlElement.addEventListener("mousemove", nativeListener)
-			return JsListener("mousemove", nativeListener)
-		}
+		override fun addNativeListener(target:Any, listener: (KMouseEvent) -> Unit): Any
+				= createJsListener(target, listener, "mousemove")
 	}
 }
 
 actual class KMouseClick {
 	actual companion object MouseClickEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target:Any, listener: (KMouseEvent) -> Unit): Any {
-			val htmlElement = target.unsafeCast<HTMLElement>()
-			val nativeListener = object: EventListener {
-				override fun handleEvent(event: Event) {
-					val nativeEvent = event.convertToKEvent(htmlElement)
-					listener(nativeEvent)
-				}
-			}
-			htmlElement.addEventListener("click", nativeListener)
-			return JsListener("click", nativeListener)
+		override fun addNativeListener(target:Any, listener: (KMouseEvent) -> Unit): Any =
+			createJsListener(target, listener, "click")
+	}
+}
+
+private fun createJsListener(
+	target: Any,
+	listener: (KMouseEvent) -> Unit,
+	jsEventName: String
+): JsListener {
+	val htmlElement = target.unsafeCast<HTMLElement>()
+	val nativeListener = object : EventListener {
+		override fun handleEvent(event: Event) {
+			val nativeEvent = event.convertToKEvent(htmlElement)
+			listener(nativeEvent)
 		}
 	}
+	htmlElement.addEventListener(jsEventName, nativeListener)
+	return JsListener(jsEventName, nativeListener)
 }
 
 data class JsListener(val type:String, val listener: Any)

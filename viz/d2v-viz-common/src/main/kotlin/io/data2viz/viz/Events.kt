@@ -46,6 +46,33 @@ expect class KMouseMove {
 	companion object MouseMoveEventListener : KEventListener<KMouseEvent>
 }
 
+expect class KMouseDown {
+	companion object MouseDownEventListener : KEventListener<KMouseEvent>
+}
+
+expect class KMouseUp {
+	companion object MouseUpEventListener : KEventListener<KMouseEvent>
+}
+
+expect class KMouseEnter {
+	companion object MouseEnterEventListener : KEventListener<KMouseEvent>
+}
+
+expect class KMouseLeave {
+	companion object MouseLeaveEventListener : KEventListener<KMouseEvent>
+}
+
+expect class KMouseOut {
+	companion object MouseOutEventListener : KEventListener<KMouseEvent>
+}
+
+expect class KMouseOver {
+	companion object MouseOverEventListener : KEventListener<KMouseEvent>
+}
+
 expect class KMouseClick {
     companion object MouseClickEventListener : KEventListener<KMouseEvent>
+}
+expect class KMouseDoubleClick {
+	companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent>
 }
