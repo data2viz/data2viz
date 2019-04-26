@@ -106,6 +106,40 @@ fun Viz.addEvents() {
     on(KMouseClick) { evt ->
         println("Mouse click:: ${evt.pos}")
     }
+    on(KMouseDoubleClick) { evt ->
+        println("Mouse double click:: ${evt.pos}")
+    }
+
+
+    on(KMouseMove) { evt ->
+        println("Mouse move:: ${evt.pos}")
+    }
+
+    on(KMouseEnter) { evt ->
+        println("Mouse enter:: ${evt.pos}")
+    }
+
+    on(KMouseLeave) { evt ->
+        println("Mouse leave:: ${evt.pos}")
+    }
+
+    on(KMouseOut) { evt ->
+        println("Mouse out:: ${evt.pos}")
+    }
+
+    on(KMouseOver) { evt ->
+        println("Mouse over:: ${evt.pos}")
+    }
+
+
+    on(KMouseDown) { evt ->
+        println("Mouse down:: ${evt.pos}")
+    }
+
+    on(KMouseUp) { evt ->
+        println("Mouse up:: ${evt.pos}")
+    }
+
 
 
 }
