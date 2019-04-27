@@ -140,6 +140,10 @@ fun Viz.addEvents() {
         println("Mouse up:: ${evt.pos}")
     }
 
+    on(KMouseDrag) { evt ->
+        println("Mouse drag(${evt.action}):: ${evt.pos}")
+    }
+
 
 
 }
