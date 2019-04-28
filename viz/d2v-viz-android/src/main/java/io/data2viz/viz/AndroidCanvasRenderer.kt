@@ -1,10 +1,14 @@
 package io.data2viz.viz
 
-import android.annotation.*
-import android.content.*
-import android.graphics.*
-import android.view.*
-import io.data2viz.timer.*
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.util.Log
+import android.view.MotionEvent
+import android.view.View
+import io.data2viz.timer.Timer
+import io.data2viz.timer.timer
 
 
 val paint = Paint().apply {
@@ -14,12 +18,30 @@ val paint = Paint().apply {
 
 fun Viz.toView(context: Context): VizView = VizView(this, context)
 
+interface VizTouchListener {
+    fun onTouchEvent(view: View, event: MotionEvent?): Boolean
+}
 
 @SuppressLint("ViewConstructor")
 class VizView(val viz: Viz, context: Context) : View(context) {
 
     private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz)
     private val timers = mutableListOf<Timer>()
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        Log.d(AndroidCanvasRenderer::class.java.simpleName, "onTouchEvent $event")
+
+        var handled = super.onTouchEvent(event)
+        if(!handled) {
+            renderer.onTouchListeners.forEach {
+                it.onTouchEvent(this, event)
+            }
+        }
+
+        handled = true
+        return handled
+    }
 
     fun startAnimations() {
         if (viz.animationTimers.isNotEmpty()) {
@@ -34,7 +56,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         }
     }
 
-    fun stopAnimations(){
+    fun stopAnimations() {
         for (timer in timers) {
             timer.stop()
         }
@@ -55,7 +77,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
 
     override fun onDraw(canvas: Canvas) {
         drawCount++
-        if (drawCount == 100){
+        if (drawCount == 100) {
             val delta = System.currentTimeMillis() - startTime
             val fps = 100_000 / delta
             startTime = System.currentTimeMillis()
@@ -65,6 +87,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         renderer.canvas = canvas
         renderer.render()
     }
+
 
 }
 
@@ -79,6 +102,8 @@ class AndroidCanvasRenderer(
     override val viz: Viz,
     var canvas: Canvas = Canvas()
 ) : VizRenderer {
+
+    val onTouchListeners = mutableListOf<VizTouchListener>()
 
     var scale = 1F
 
