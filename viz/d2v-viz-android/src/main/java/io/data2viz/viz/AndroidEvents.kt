@@ -8,64 +8,39 @@ import android.view.View
 
 actual class KPointerMove {
     actual companion object MouseMoveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
-
     }
 }
 
-
 actual class KPointerDown {
     actual companion object MouseDownEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_DOWN)
     }
 }
 
 actual class KPointerUp {
     actual companion object MouseUpEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_UP)
     }
 }
 
 actual class KPointerEnter {
     actual companion object MouseEnterEventListener : KEventListener<KPointerEvent> {
-
-        var isLastMoveInBounds = false
-
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable {
 
             val renderer = target as AndroidCanvasRenderer
-
-            val action = MotionEvent.ACTION_MOVE
-            val handler: (MotionEvent) -> Unit = { evt: MotionEvent ->
-                val kevent = evt.convertToKEvent()
-                listener(kevent)
-            }
-
-            renderer.onTouchListeners.add(object : VizTouchListener {
-                override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
-
-                    if (event?.action != action) {
-                        return false
+            val handler = object : DetectInBoundsVizTouchListener() {
+                override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
+                    if (newInBoundsValue) {
+                        val kevent = event.convertToKEvent()
+                        listener(kevent)
                     }
-
-                    val currentMoveInBounds = checkIsViewInBounds(view, event.x, event.y)
-
-
-                    if (isLastMoveInBounds != currentMoveInBounds) {
-                        if (currentMoveInBounds) {
-                            handler(event)
-                        }
-                    }
-                    isLastMoveInBounds = currentMoveInBounds
-
-                    // handle only touches in view bounds
-                    return currentMoveInBounds
                 }
-            })
-            return AndroidEventHandle(action, handler)
+            }
+            return AndroidEventHandle(renderer, MotionEvent.ACTION_MOVE, handler).also { it.init() }
         }
     }
 }
@@ -73,131 +48,61 @@ actual class KPointerEnter {
 actual class KPointerLeave {
     actual companion object MouseLeaveEventListener : KEventListener<KPointerEvent> {
 
-        var isLastMoveInBounds = false
 
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable {
 
             val renderer = target as AndroidCanvasRenderer
-
-            val action = MotionEvent.ACTION_MOVE
-            val handler: (MotionEvent) -> Unit = { evt: MotionEvent ->
-                val kevent = evt.convertToKEvent()
-                listener(kevent)
-            }
-
-            renderer.onTouchListeners.add(object : VizTouchListener {
-                override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
-
-                    if (event?.action != action) {
-                        return false
+            val handler = object : DetectInBoundsVizTouchListener() {
+                override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
+                    if (!newInBoundsValue) {
+                        val kevent = event.convertToKEvent()
+                        listener(kevent)
                     }
-
-                    val currentMoveInBounds = checkIsViewInBounds(view, event.x, event.y)
-
-
-                    if (isLastMoveInBounds != currentMoveInBounds) {
-                        if (!currentMoveInBounds) {
-                            handler(event)
-                        }
-                    }
-                    isLastMoveInBounds = currentMoveInBounds
-
-                    // handle only touches in view bounds
-                    return currentMoveInBounds
                 }
-            })
-            return AndroidEventHandle(action, handler)
+            }
+            return AndroidEventHandle(renderer, MotionEvent.ACTION_MOVE, handler).also { it.init() }
         }
     }
 }
 
-
-
 actual class KPointerClick {
     actual companion object MouseClickEventListener : KEventListener<KPointerEvent> {
-
-        const val maxTimeDiffForDetectClick = 500
-        var lastTimeActionDown: Long? = null
-
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any {
-            val renderer = target as AndroidCanvasRenderer
-
-            val action = MotionEvent.ACTION_UP
-            val handler: (MotionEvent) -> Unit = { evt: MotionEvent ->
-                val kevent = evt.convertToKEvent()
-                listener(kevent)
-            }
-
-            renderer.onTouchListeners.add(object : VizTouchListener {
-                override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
-                    when (event?.action) {
-                        MotionEvent.ACTION_DOWN -> lastTimeActionDown = System.currentTimeMillis()
-                        MotionEvent.ACTION_UP -> {
-                            val timeActionDown = lastTimeActionDown
-                            if (timeActionDown != null) {
-                                val diff = System.currentTimeMillis() - timeActionDown
-                                if (diff < maxTimeDiffForDetectClick) {
-                                    handler(event)
-                                }
-                            }
-                        }
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
+            AndroidEventHandle(
+                target as AndroidCanvasRenderer,
+                MotionEvent.ACTION_UP,
+                object : DetectClickVizTouchListener() {
+                    override fun onClick(event: MotionEvent) {
+                        val kevent = event.convertToKEvent()
+                        listener(kevent)
                     }
-                    return false
+
                 }
-            })
-            return AndroidEventHandle(action, handler)
-        }
+            ).also { it.init() }
     }
 }
 
 
 actual class KPointerDoubleClick {
     actual companion object MouseDoubleClickEventListener : KEventListener<KPointerEvent> {
-        const val maxTimeDiffForDetectClick = 500
-        const val maxTimeDiffForDetectDoubleClick = 500
-        var lastTimeActionDown: Long? = null
-        var lastTimeClick: Long? = null
 
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any {
-            val renderer = target as AndroidCanvasRenderer
-
-            val action = MotionEvent.ACTION_UP
-            val handler: (MotionEvent) -> Unit = { evt: MotionEvent ->
-                val kevent = evt.convertToKEvent()
-                listener(kevent)
-            }
-
-            renderer.onTouchListeners.add(object : VizTouchListener {
-                override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
-                    when (event?.action) {
-                        MotionEvent.ACTION_DOWN -> lastTimeActionDown = System.currentTimeMillis()
-                        MotionEvent.ACTION_UP -> {
-                            val timeActionDown = lastTimeActionDown
-                            if (timeActionDown != null) {
-                                val now = System.currentTimeMillis()
-                                val diffDownUp = now - timeActionDown
-                                if (diffDownUp < maxTimeDiffForDetectClick) {
-
-                                    val timeClick = lastTimeClick
-                                    if (timeClick != null) {
-                                        val diffClicks = timeClick - now
-                                        if (diffClicks < maxTimeDiffForDetectDoubleClick) {
-                                            handler(event)
-                                        }
-                                    }
-                                    lastTimeClick = now
-                                }
-                            }
-                        }
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
+            AndroidEventHandle(
+                target as AndroidCanvasRenderer,
+                MotionEvent.ACTION_UP,
+                object : DetectDoubleClickVizTouchListener() {
+                    override fun onDoubleClick(event: MotionEvent) {
+                        val kevent = event.convertToKEvent()
+                        listener(kevent)
                     }
-                    return false
                 }
-            })
-            return AndroidEventHandle(action, handler)
-        }
+            ).also { it.init() }
     }
 }
 
+/**
+ * Check is (x,y) in view bounds
+ */
 private fun checkIsViewInBounds(
     view: View,
     x: Float,
@@ -209,7 +114,6 @@ private fun checkIsViewInBounds(
     view.getLocationOnScreen(locationOnScreen)
     boundsRect.offset(locationOnScreen[0], locationOnScreen[1])
     val isInBounds = boundsRect.contains(x.toInt(), y.toInt())
-//    Log.d("AndroidEvents", "inBounds $isInBounds ($x, $y) in $boundsRect ")
     return isInBounds
 }
 
@@ -219,48 +123,123 @@ private fun addSimpleAndroidEventHandle(
     action: Int
 ): AndroidEventHandle {
     val renderer = target as AndroidCanvasRenderer
-    val handler: (MotionEvent) -> Unit = { evt: MotionEvent ->
-        val kevent = evt.convertToKEvent()
-        listener(kevent)
-    }
 
-    renderer.onTouchListeners.add(object : VizTouchListener {
+    val handler = object : VizTouchListener {
         override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
 
             if (event?.action == action) {
-                handler(event)
+                val kevent = event.convertToKEvent()
+                listener(kevent)
             }
             return true
         }
-    })
+    }
 
-    return AndroidEventHandle(action, handler)
+    return AndroidEventHandle(renderer, action, handler).also { it.init() }
 }
 
 
-data class AndroidEventHandle(val type: Int, val handler: (MotionEvent) -> Unit)
+data class AndroidEventHandle(val renderer: AndroidCanvasRenderer, val type: Int, val handler: VizTouchListener) :
+    NativeListenerDisposable {
+
+    fun init() {
+        renderer.onTouchListeners.add(handler)
+    }
 
 
-/**
- * Add an event listener on a a viz.
- * @return an handler to eventually remove later.
- */
-actual fun <T> Viz.on(
-    eventListener: KEventListener<T>,
-    listener: (T) -> Unit
-): Any {
-    val androidCanvasRenderer = this.renderer as AndroidCanvasRenderer
-    return eventListener.addNativeListener(androidCanvasRenderer, listener)
+    override fun dispose() {
+        renderer.onTouchListeners.remove(handler)
+    }
+}
+
+abstract class DetectInBoundsVizTouchListener : VizTouchListener {
+
+
+    var isLastMoveInBounds = false
+
+    override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
+
+        if (event?.action != MotionEvent.ACTION_MOVE) {
+            return false
+        }
+
+        val currentMoveInBounds = checkIsViewInBounds(view, event.x, event.y)
+
+        if (isLastMoveInBounds != currentMoveInBounds) {
+            onBoundsChanged(event, isLastMoveInBounds, currentMoveInBounds)
+        }
+        isLastMoveInBounds = currentMoveInBounds
+
+
+        return false
+    }
+
+    abstract fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean)
+}
+
+abstract class DetectClickVizTouchListener : VizTouchListener {
+    companion object {
+        const val maxTimeDiffForDetectClick = 500
+    }
+
+    var lastTimeActionDown: Long? = null
+    override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
+        when (event?.action) {
+            MotionEvent.ACTION_DOWN -> lastTimeActionDown = System.currentTimeMillis()
+            MotionEvent.ACTION_UP -> {
+                val timeActionDown = lastTimeActionDown
+                if (timeActionDown != null) {
+                    val diff = System.currentTimeMillis() - timeActionDown
+                    if (diff < maxTimeDiffForDetectClick) {
+
+                        onClick(event)
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    abstract fun onClick(event: MotionEvent)
+}
+
+abstract class DetectDoubleClickVizTouchListener :
+    DetectClickVizTouchListener() {
+
+    companion object {
+        const val maxTimeDiffForDetectDoubleClick = 500
+    }
+
+    var lastTimeClick: Long? = null
+
+    abstract fun onDoubleClick(event: MotionEvent)
+
+    override fun onClick(event: MotionEvent) {
+        val now = System.currentTimeMillis()
+        val timeClick = lastTimeClick
+        if (timeClick != null) {
+            val diffClicks = now - timeClick
+            if (diffClicks < maxTimeDiffForDetectDoubleClick) {
+                onDoubleClick(event)
+
+            }
+        }
+        lastTimeClick = now
+    }
+
+}
+
+
+actual fun <T> VizRenderer.addNativeEventListener(handle: KEventHandle<T>): NativeListenerDisposable where T : KEvent {
+
+    val androidCanvasRenderer = this as AndroidCanvasRenderer
+    return handle.eventListener.addNativeListener(androidCanvasRenderer, handle.listener)
 }
 
 
 private fun MotionEvent.convertToKEvent(): KPointerEvent {
     val KPointerMoveEvent = io.data2viz.viz.KPointerEvent(
-        io.data2viz.geom.Point(x.toDouble(), y.toDouble()),
-        altKey = false,
-        ctrlKey = false,
-        shiftKey = false,
-        metaKey = false
+        io.data2viz.geom.Point(x.toDouble(), y.toDouble())
     )
     return KPointerMoveEvent
 }

@@ -2,6 +2,7 @@ package io.data2viz.examples.chord
 
 
 import io.data2viz.viz.JFxVizRenderer
+import io.data2viz.viz.KPointerDoubleClick
 import javafx.application.Application
 import javafx.scene.Group
 import javafx.scene.Scene
@@ -34,9 +35,13 @@ class ChordJfx : Application() {
             vert.children.add(canvas)
 
             val viz = chordViz()
-            JFxVizRenderer(canvas, viz)
             viz.addEvents()
+            JFxVizRenderer(canvas, viz)
             viz.render()
+
+            viz.on(KPointerDoubleClick) { evt ->
+                println("AFTER INIT Pointer double click:: ${evt.pos}")
+            }
         }
     }
 
