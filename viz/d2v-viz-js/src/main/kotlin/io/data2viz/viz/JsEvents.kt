@@ -16,59 +16,59 @@ private fun Element.removeListener(listener: Any) {
 	this.removeEventListener(jsListener.type, jsListener.listener as EventListener, null)
 }
 
-actual class KMouseDown {
-	actual companion object MouseDownEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+actual class KPointerDown {
+	actual companion object MouseDownEventListener : KEventListener<KPointerEvent> {
+		override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any
 				= createJsListener(target, listener, "mousedown")
 	}
 }
 
-actual class KMouseUp {
-	actual companion object MouseUpEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+actual class KPointerUp {
+	actual companion object MouseUpEventListener : KEventListener<KPointerEvent> {
+		override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any
 				= createJsListener(target, listener, "mouseup")
 	}
 }
 
-actual class KMouseEnter {
-	actual companion object MouseEnterEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+actual class KPointerEnter {
+	actual companion object MouseEnterEventListener : KEventListener<KPointerEvent> {
+		override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any
 				= createJsListener(target, listener, "mouseenter")
 	}
 }
 
-actual class KMouseLeave {
-	actual companion object MouseLeaveEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+actual class KPointerLeave {
+	actual companion object MouseLeaveEventListener : KEventListener<KPointerEvent> {
+		override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any
 				= createJsListener(target, listener, "mouseleave")
 	}
 }
 
 
-actual class KMouseDoubleClick {
-	actual companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any
+actual class KPointerDoubleClick {
+	actual companion object MouseDoubleClickEventListener : KEventListener<KPointerEvent> {
+		override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any
 				= createJsListener(target, listener, "dblclick")
 	}
 }
 
-actual class KMouseMove {
-	actual companion object MouseMoveEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target:Any, listener: (KMouseEvent) -> Unit): Any
+actual class KPointerMove {
+	actual companion object MouseMoveEventListener : KEventListener<KPointerEvent> {
+		override fun addNativeListener(target:Any, listener: (KPointerEvent) -> Unit): Any
 				= createJsListener(target, listener, "mousemove")
 	}
 }
 
-actual class KMouseClick {
-	actual companion object MouseClickEventListener : KEventListener<KMouseEvent> {
-		override fun addNativeListener(target:Any, listener: (KMouseEvent) -> Unit): Any =
+actual class KPointerClick {
+	actual companion object MouseClickEventListener : KEventListener<KPointerEvent> {
+		override fun addNativeListener(target:Any, listener: (KPointerEvent) -> Unit): Any =
 			createJsListener(target, listener, "click")
 	}
 }
 
 private fun createJsListener(
 	target: Any,
-	listener: (KMouseEvent) -> Unit,
+	listener: (KPointerEvent) -> Unit,
 	jsEventName: String
 ): JsListener {
 	val htmlElement = target.unsafeCast<HTMLElement>()
@@ -98,14 +98,14 @@ actual fun <T> Viz.on(
 }
 
 
-fun Event.convertToKEvent(target: HTMLElement):KMouseEvent = unsafeCast<MouseEvent>().run {
-	val kMouseMoveEvent =
-		KMouseEvent(
+fun Event.convertToKEvent(target: HTMLElement):KPointerEvent = unsafeCast<MouseEvent>().run {
+	val KPointerMoveEvent =
+		KPointerEvent(
 			Point(clientX.toDouble() - target.offsetLeft, clientY.toDouble() - target.offsetTop),
 			this.altKey,
 			this.ctrlKey,
 			this.shiftKey,
 			this.metaKey
 		)
-	kMouseMoveEvent
+	KPointerMoveEvent
 }
