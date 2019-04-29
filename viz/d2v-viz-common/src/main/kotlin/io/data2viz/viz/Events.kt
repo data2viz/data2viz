@@ -5,12 +5,45 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 
-/**
- * Add an event listener on a a viz. This is the only entry point you should use when dealing with events in data2viz.
- * @return an handler to eventually remove later.
- */
-expect fun <T> Viz.on(eventListener: KEventListener<T>, listener: (T) -> Unit): Any
+fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : io.data2viz.viz.KEvent {
 
+    if(handle.isAddedToRenderer) {
+        error("Can't add event handle which already added to Renderer")
+    }
+
+    handle.nativeListenerDisposable = addNativeEventListener(handle)
+}
+
+expect fun <T> VizRenderer.addNativeEventListener(handle: KEventHandle<T>): NativeListenerDisposable where T : KEvent
+
+fun <T> VizRenderer.removeEventHandle(handle: KEventHandle<T>) where T : io.data2viz.viz.KEvent {
+
+    if(!handle.isAddedToRenderer) {
+        error("Can't remove event handle which not added to Renderer")
+    }
+
+    handle.nativeListenerDisposable!!.dispose()
+    handle.nativeListenerDisposable = null
+}
+
+/**
+ * TODO: Make generic disposable class in API?
+ */
+interface NativeListenerDisposable {
+    fun dispose()
+}
+
+class CompositeNativeListenerDisposable(val disposables: MutableList<NativeListenerDisposable> = mutableListOf()): NativeListenerDisposable {
+    override fun dispose() {
+        disposables.forEach { it.dispose() }
+        disposables.clear()
+    }
+
+    fun add(disposable: NativeListenerDisposable) {
+        disposables.add(disposable)
+    }
+
+}
 
 /**
  * Marker interface on events.
@@ -18,27 +51,51 @@ expect fun <T> Viz.on(eventListener: KEventListener<T>, listener: (T) -> Unit): 
 interface KEvent
 
 
+class KEventHandle<T>(
+    val eventListener: KEventListener<T>,
+    val listener: (T) -> Unit,
+    val onDispose: (KEventHandle<T>) -> Unit
+) where T : KEvent {
+
+    var nativeListenerDisposable: NativeListenerDisposable? = null
+
+    val isAddedToRenderer = nativeListenerDisposable != null
+
+    fun dispose() {
+        onDispose(this)
+    }
+}
+
 /**
- * Common Mouse event. Can be subclassed into more specific events.
+ * Common Pointer event. Can be subclassed into more specific events.
  * Gives access to the position of the event.
- * Todo rename into MotionEvent?
  */
-class KPointerEvent(
-    val pos: Point,
+open class KPointerEvent(
+    val pos: Point
+) : KEvent {
+    override fun toString(): String = "KPointerEvent(pos=$pos)"
+}
+
+/**
+ * Pointer events for platform with Mouse input device.
+ * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
+ * Used in JFX & JS implementations. Android implementation use common KPointerEvent
+ */
+class KMouseEvent(
+    pos: Point,
     val altKey: Boolean,
     val ctrlKey: Boolean,
     val shiftKey: Boolean,
     val metaKey: Boolean
-) : KEvent {
-    override fun toString(): String = "KPointerEvent(pos=$pos)"
-
+) : KPointerEvent(pos) {
+    override fun toString(): String = "KMouseEvent(pos=$pos)"
 }
 
 class KDragEvent(
     val action: KDragAction,
-    val motionEvent: KPointerEvent
+    val pointerEvent: KPointerEvent
 ) : KEvent {
-    val pos get() = motionEvent.pos
+    val pos get() = pointerEvent.pos
     override fun toString(): String = "KDragEvent(action=$action, pos=$pos)"
 
     enum class KDragAction {
@@ -47,11 +104,9 @@ class KDragEvent(
 }
 
 
-interface KEventListener<T> {
-    fun addNativeListener(target: Any, listener: (T) -> Unit): Any
+interface KEventListener<T> where  T : KEvent {
+    fun addNativeListener(target: Any, listener: (T) -> Unit): NativeListenerDisposable
 }
-
-
 
 expect class KPointerMove {
     companion object MouseMoveEventListener : KEventListener<KPointerEvent>
@@ -73,7 +128,6 @@ expect class KPointerLeave {
     companion object MouseLeaveEventListener : KEventListener<KPointerEvent>
 }
 
-
 expect class KPointerClick {
     companion object MouseClickEventListener : KEventListener<KPointerEvent>
 }
@@ -91,9 +145,11 @@ class KPointerDrag {
         private var downActionPos: Point? = null
         private var dragInProgress: Boolean = false
 
-        override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit) {
+        override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit): NativeListenerDisposable {
 
-            KPointerMove.addNativeListener(target) {
+            val compositeDisposable = CompositeNativeListenerDisposable();
+
+            compositeDisposable.add(KPointerMove.addNativeListener(target) {
                 if (dragInProgress) {
                     listener(KDragEvent(KDragEvent.KDragAction.Dragging, it))
                 } else {
@@ -109,22 +165,27 @@ class KPointerDrag {
                         }
                     }
                 }
-            }
+            })
 
-            KPointerLeave.addNativeListener(target) {
+            compositeDisposable.add(KPointerLeave.addNativeListener(target) {
                 onDragNotPossible(listener, it)
-            }
+            })
 
-            KPointerDown.addNativeListener(target) {
+            compositeDisposable.add(KPointerDown.addNativeListener(target) {
                 downActionPos = it.pos
 
-            }
+            })
 
-            KPointerUp.addNativeListener(target) {
+            compositeDisposable.add(KPointerUp.addNativeListener(target) {
                 onDragNotPossible(listener, it)
-            }
+            })
+
+            return compositeDisposable
         }
 
+        /**
+         * TODO: Move to API?
+         */
         private fun distance(pos1: Point, pos2: Point): Double {
             val xSquare = (pos1.x - pos2.x).pow(2.0)
             val ySquare = (pos1.y - pos2.y).pow(2.0)

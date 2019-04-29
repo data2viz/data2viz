@@ -134,6 +134,10 @@ fun Viz.addEvents() {
         println("Pointer drag(${evt.action}):: ${evt.pos}")
     }
 
+    on(KPointerDoubleClick) { evt ->
+        println("DISPOSED Pointer double click:: ${evt.pos}")
+    }.dispose()
+
 }
 
 

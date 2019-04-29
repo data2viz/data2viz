@@ -19,4 +19,5 @@ interface VizRenderer {
      * Stops all animations.
      */
     fun stopAnimations()
+
 }

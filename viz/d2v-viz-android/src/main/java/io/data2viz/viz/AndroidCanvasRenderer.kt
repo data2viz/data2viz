@@ -20,6 +20,7 @@ fun Viz.toView(context: Context): VizView = VizView(this, context)
 
 interface VizTouchListener {
     fun onTouchEvent(view: View, event: MotionEvent?): Boolean
+
 }
 
 @SuppressLint("ViewConstructor")
@@ -102,6 +103,8 @@ class AndroidCanvasRenderer(
     override val viz: Viz,
     var canvas: Canvas = Canvas()
 ) : VizRenderer {
+
+
 
     val onTouchListeners = mutableListOf<VizTouchListener>()
 

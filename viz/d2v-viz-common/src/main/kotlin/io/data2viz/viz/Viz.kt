@@ -1,8 +1,9 @@
 package io.data2viz.viz
 
-import io.data2viz.color.*
-import io.data2viz.geom.*
-import io.data2viz.timer.*
+import io.data2viz.color.ColorOrGradient
+import io.data2viz.color.Colors
+import io.data2viz.geom.HasSize
+import io.data2viz.timer.Timer
 
 /**
  * Viz is the base element of a visualization.
@@ -23,35 +24,47 @@ import io.data2viz.timer.*
  * rendering process on each platform to adapt the visualisation to the target device, taking
  * in account the resolution of the screen, and the configuration of the viz.
  */
-class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize {
+class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSize {
 
-    private val style:Style = StyleImpl()
+    private val style: Style = StyleImpl()
 
 
     //Style delegation
     override var fill: ColorOrGradient?
         get() = style.fill
-        set(value) {style.fill = value}
+        set(value) {
+            style.fill = value
+        }
 
     override var stroke: ColorOrGradient?
         get() = style.stroke
-        set(value) {style.stroke = value}
+        set(value) {
+            style.stroke = value
+        }
 
     override var strokeWidth: Double?
         get() = style.strokeWidth
-        set(value) {style.strokeWidth = value}
+        set(value) {
+            style.strokeWidth = value
+        }
 
     override var textColor: ColorOrGradient?
         get() = style.textColor
-        set(value) {style.textColor = value}
+        set(value) {
+            style.textColor = value
+        }
 
     override var hAlign: TextHAlign
         get() = style.hAlign
-        set(value) {style.hAlign = value}
+        set(value) {
+            style.hAlign = value
+        }
 
     override var vAlign: TextVAlign
         get() = style.vAlign
-        set(value) {style.vAlign = value}
+        set(value) {
+            style.vAlign = value
+        }
 
 
     init {
@@ -71,23 +84,58 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize 
 
     val layers = mutableListOf(activeLayer)
 
-    private var resizeBehavior:((Double, Double) -> Unit)? = null
+    private var resizeBehavior: ((Double, Double) -> Unit)? = null
 
-    lateinit var renderer: VizRenderer
+    var renderer: VizRenderer? = null
+    set(newValue) {
+        val oldValue = field
+
+
+        field = newValue
+
+        eventListeners.forEach {
+            if(oldValue != null) {
+                oldValue.removeEventHandle(it)
+            }
+
+            if(newValue != null) {
+                newValue.addNativeEventListener(it)
+            }
+        }
+
+    }
+
+
+    val eventListeners = mutableListOf<KEventHandle<*>>()
+
+    fun <T> on(eventListener: KEventListener<T>, listener: (T) -> Unit): KEventHandle<T> where  T : KEvent {
+        val eventHandle = KEventHandle(eventListener, listener) {
+            eventListeners.remove(it)
+
+            renderer?.apply {
+                removeEventHandle(it)
+            }
+        }
+        eventListeners.add(eventHandle)
+        renderer?.addEventHandle(eventHandle)
+
+        return eventHandle
+    }
+
 
     fun render() {
-        renderer.render()
+        renderer!!.render()
     }
 
-    fun startAnimations(){
-        renderer.startAnimations()
+    fun startAnimations() {
+        renderer!!.startAnimations()
     }
 
-    fun stopAnimations(){
-        renderer.stopAnimations()
+    fun stopAnimations() {
+        renderer!!.stopAnimations()
     }
 
-    internal val animationTimers = mutableListOf<Timer.(Double)-> Unit>()
+    internal val animationTimers = mutableListOf<Timer.(Double) -> Unit>()
 
     /**
      * Add an animation timer. The given block is an extension function on a Timer.
@@ -104,11 +152,11 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize 
         animation { block(it) }
     }
 
-    fun onResize(block: (newWidth:Double, newHeight:Double) -> Unit) {
+    fun onResize(block: (newWidth: Double, newHeight: Double) -> Unit) {
         resizeBehavior = block
     }
 
-    fun resize(newWidth:Double, newHeight:Double) {
+    fun resize(newWidth: Double, newHeight: Double) {
         resizeBehavior?.invoke(newWidth, newHeight)
     }
 
@@ -122,7 +170,7 @@ class Viz(var activeLayer:Layer = Layer()): HasChildren by activeLayer, HasSize 
 }
 
 
-fun viz(init: Viz.() -> Unit): Viz  = Viz().apply(init)
+fun viz(init: Viz.() -> Unit): Viz = Viz().apply(init)
 
 
 interface StateableElement {
@@ -135,12 +183,12 @@ interface StateableElement {
  * todo implement other transformation (rotate, ...)
  */
 class Transform {
-    var translate:Translation? = null
+    var translate: Translation? = null
     fun translate(x: Double = 0.0, y: Double = 0.0) {
-        translate = Translation(x,y)
+        translate = Translation(x, y)
     }
 
-    var rotate:Rotation? = null
+    var rotate: Rotation? = null
     fun rotate(delta: Double) {
         rotate = Rotation(delta)
     }
@@ -170,7 +218,7 @@ class Transform {
 }
 
 data class Translation(var x: Double = 0.0, var y: Double = 0.0)
-data class Rotation(var delta:Double = 0.0)
+data class Rotation(var delta: Double = 0.0)
 
 
 /**
@@ -194,5 +242,5 @@ data class Margins(val top: Double, val right: Double = top, val bottom: Double 
 }
 
 interface HasTransform {
-    val transform:Transform?
+    val transform: Transform?
 }
