@@ -36,21 +36,6 @@ actual class KMouseLeave {
     }
 }
 
-actual class KMouseOut {
-    actual companion object MouseOutEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any =
-            createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_EXITED_TARGET)
-    }
-}
-
-actual class KMouseOver {
-    actual companion object MouseOverEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any =
-            createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_ENTERED_TARGET)
-
-    }
-}
-
 
 actual class KMouseDoubleClick {
     actual companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent> {

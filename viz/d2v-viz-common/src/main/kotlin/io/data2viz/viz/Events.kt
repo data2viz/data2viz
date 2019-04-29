@@ -76,13 +76,6 @@ expect class KMouseLeave {
     companion object MouseLeaveEventListener : KEventListener<KMouseEvent>
 }
 
-expect class KMouseOut {
-    companion object MouseOutEventListener : KEventListener<KMouseEvent>
-}
-
-expect class KMouseOver {
-    companion object MouseOverEventListener : KEventListener<KMouseEvent>
-}
 
 expect class KMouseClick {
     companion object MouseClickEventListener : KEventListener<KMouseEvent>

@@ -123,14 +123,6 @@ fun Viz.addEvents() {
         println("Mouse leave:: ${evt.pos}")
     }
 
-    on(KMouseOut) { evt ->
-        println("Mouse out:: ${evt.pos}")
-    }
-
-    on(KMouseOver) { evt ->
-        println("Mouse over:: ${evt.pos}")
-    }
-
 
     on(KMouseDown) { evt ->
         println("Mouse down:: ${evt.pos}")
