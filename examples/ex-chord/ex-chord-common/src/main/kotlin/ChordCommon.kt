@@ -103,40 +103,36 @@ fun chordViz(): Viz = viz {
  * Listen to MouseMove event on chord.
  */
 fun Viz.addEvents() {
-    on(KMouseClick) { evt ->
-        println("Mouse click:: ${evt.pos}")
+    on(KPointerClick) { evt ->
+        println("Pointer click:: ${evt.pos}")
     }
-    on(KMouseDoubleClick) { evt ->
-        println("Mouse double click:: ${evt.pos}")
-    }
-
-
-    on(KMouseMove) { evt ->
-        println("Mouse move:: ${evt.pos}")
+    on(KPointerDoubleClick) { evt ->
+        println("Pointer double click:: ${evt.pos}")
     }
 
-    on(KMouseEnter) { evt ->
-        println("Mouse enter:: ${evt.pos}")
+    on(KPointerMove) { evt ->
+        println("Pointer move:: ${evt.pos}")
     }
 
-    on(KMouseLeave) { evt ->
-        println("Mouse leave:: ${evt.pos}")
+    on(KPointerEnter) { evt ->
+        println("Pointer enter:: ${evt.pos}")
     }
 
-
-    on(KMouseDown) { evt ->
-        println("Mouse down:: ${evt.pos}")
+    on(KPointerLeave) { evt ->
+        println("Pointer leave:: ${evt.pos}")
     }
 
-    on(KMouseUp) { evt ->
-        println("Mouse up:: ${evt.pos}")
+    on(KPointerDown) { evt ->
+        println("Pointer down:: ${evt.pos}")
     }
 
-    on(KMouseDrag) { evt ->
-        println("Mouse drag(${evt.action}):: ${evt.pos}")
+    on(KPointerUp) { evt ->
+        println("Pointer up:: ${evt.pos}")
     }
 
-
+    on(KPointerDrag) { evt ->
+        println("Pointer drag(${evt.action}):: ${evt.pos}")
+    }
 
 }
 

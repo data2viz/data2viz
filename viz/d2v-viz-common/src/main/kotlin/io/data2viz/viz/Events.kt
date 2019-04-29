@@ -23,20 +23,20 @@ interface KEvent
  * Gives access to the position of the event.
  * Todo rename into MotionEvent?
  */
-class KMouseEvent(
+class KPointerEvent(
     val pos: Point,
     val altKey: Boolean,
     val ctrlKey: Boolean,
     val shiftKey: Boolean,
     val metaKey: Boolean
 ) : KEvent {
-    override fun toString(): String = "KMouseEvent(pos=$pos)"
+    override fun toString(): String = "KPointerEvent(pos=$pos)"
 
 }
 
 class KDragEvent(
     val action: KDragAction,
-    val motionEvent: KMouseEvent
+    val motionEvent: KPointerEvent
 ) : KEvent {
     val pos get() = motionEvent.pos
     override fun toString(): String = "KDragEvent(action=$action, pos=$pos)"
@@ -52,41 +52,38 @@ interface KEventListener<T> {
 }
 
 
-/**
- * Define the common signature of mouse move events handling.
- * A mouse move needs a listener that listen to KMouseMoveEvent.
- */
-expect class KMouseMove {
-    companion object MouseMoveEventListener : KEventListener<KMouseEvent>
+
+expect class KPointerMove {
+    companion object MouseMoveEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KMouseDown {
-    companion object MouseDownEventListener : KEventListener<KMouseEvent>
+expect class KPointerDown {
+    companion object MouseDownEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KMouseUp {
-    companion object MouseUpEventListener : KEventListener<KMouseEvent>
+expect class KPointerUp {
+    companion object MouseUpEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KMouseEnter {
-    companion object MouseEnterEventListener : KEventListener<KMouseEvent>
+expect class KPointerEnter {
+    companion object MouseEnterEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KMouseLeave {
-    companion object MouseLeaveEventListener : KEventListener<KMouseEvent>
+expect class KPointerLeave {
+    companion object MouseLeaveEventListener : KEventListener<KPointerEvent>
 }
 
 
-expect class KMouseClick {
-    companion object MouseClickEventListener : KEventListener<KMouseEvent>
+expect class KPointerClick {
+    companion object MouseClickEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KMouseDoubleClick {
-    companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent>
+expect class KPointerDoubleClick {
+    companion object MouseDoubleClickEventListener : KEventListener<KPointerEvent>
 }
 
 
-class KMouseDrag {
+class KPointerDrag {
     companion object MouseDragEventListener : KEventListener<KDragEvent> {
 
         const val minDistanceForDetectDragging = 100
@@ -96,7 +93,7 @@ class KMouseDrag {
 
         override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit) {
 
-            KMouseMove.addNativeListener(target) {
+            KPointerMove.addNativeListener(target) {
                 if (dragInProgress) {
                     listener(KDragEvent(KDragEvent.KDragAction.Dragging, it))
                 } else {
@@ -114,16 +111,16 @@ class KMouseDrag {
                 }
             }
 
-            KMouseLeave.addNativeListener(target) {
+            KPointerLeave.addNativeListener(target) {
                 onDragNotPossible(listener, it)
             }
 
-            KMouseDown.addNativeListener(target) {
+            KPointerDown.addNativeListener(target) {
                 downActionPos = it.pos
 
             }
 
-            KMouseUp.addNativeListener(target) {
+            KPointerUp.addNativeListener(target) {
                 onDragNotPossible(listener, it)
             }
         }
@@ -134,7 +131,7 @@ class KMouseDrag {
             return sqrt(xSquare + ySquare)
         }
 
-        private fun onDragNotPossible(listener: (KDragEvent) -> Unit, motionEvent: KMouseEvent) {
+        private fun onDragNotPossible(listener: (KDragEvent) -> Unit, motionEvent: KPointerEvent) {
             downActionPos = null
             if (dragInProgress) {
                 dragInProgress = false

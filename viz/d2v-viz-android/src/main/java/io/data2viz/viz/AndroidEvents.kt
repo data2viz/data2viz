@@ -6,35 +6,35 @@ import android.view.MotionEvent
 import android.view.View
 
 
-actual class KMouseMove {
-    actual companion object MouseMoveEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any =
+actual class KPointerMove {
+    actual companion object MouseMoveEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
 
     }
 }
 
 
-actual class KMouseDown {
-    actual companion object MouseDownEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any =
+actual class KPointerDown {
+    actual companion object MouseDownEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_DOWN)
     }
 }
 
-actual class KMouseUp {
-    actual companion object MouseUpEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any =
+actual class KPointerUp {
+    actual companion object MouseUpEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_UP)
     }
 }
 
-actual class KMouseEnter {
-    actual companion object MouseEnterEventListener : KEventListener<KMouseEvent> {
+actual class KPointerEnter {
+    actual companion object MouseEnterEventListener : KEventListener<KPointerEvent> {
 
         var isLastMoveInBounds = false
 
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any {
 
             val renderer = target as AndroidCanvasRenderer
 
@@ -70,12 +70,12 @@ actual class KMouseEnter {
     }
 }
 
-actual class KMouseLeave {
-    actual companion object MouseLeaveEventListener : KEventListener<KMouseEvent> {
+actual class KPointerLeave {
+    actual companion object MouseLeaveEventListener : KEventListener<KPointerEvent> {
 
         var isLastMoveInBounds = false
 
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any {
 
             val renderer = target as AndroidCanvasRenderer
 
@@ -113,13 +113,13 @@ actual class KMouseLeave {
 
 
 
-actual class KMouseClick {
-    actual companion object MouseClickEventListener : KEventListener<KMouseEvent> {
+actual class KPointerClick {
+    actual companion object MouseClickEventListener : KEventListener<KPointerEvent> {
 
         const val maxTimeDiffForDetectClick = 500
         var lastTimeActionDown: Long? = null
 
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any {
             val renderer = target as AndroidCanvasRenderer
 
             val action = MotionEvent.ACTION_UP
@@ -151,14 +151,14 @@ actual class KMouseClick {
 }
 
 
-actual class KMouseDoubleClick {
-    actual companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent> {
+actual class KPointerDoubleClick {
+    actual companion object MouseDoubleClickEventListener : KEventListener<KPointerEvent> {
         const val maxTimeDiffForDetectClick = 500
         const val maxTimeDiffForDetectDoubleClick = 500
         var lastTimeActionDown: Long? = null
         var lastTimeClick: Long? = null
 
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Any {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Any {
             val renderer = target as AndroidCanvasRenderer
 
             val action = MotionEvent.ACTION_UP
@@ -215,7 +215,7 @@ private fun checkIsViewInBounds(
 
 private fun addSimpleAndroidEventHandle(
     target: Any,
-    listener: (KMouseEvent) -> Unit,
+    listener: (KPointerEvent) -> Unit,
     action: Int
 ): AndroidEventHandle {
     val renderer = target as AndroidCanvasRenderer
@@ -254,13 +254,13 @@ actual fun <T> Viz.on(
 }
 
 
-private fun MotionEvent.convertToKEvent(): KMouseEvent {
-    val kMouseMoveEvent = io.data2viz.viz.KMouseEvent(
+private fun MotionEvent.convertToKEvent(): KPointerEvent {
+    val KPointerMoveEvent = io.data2viz.viz.KPointerEvent(
         io.data2viz.geom.Point(x.toDouble(), y.toDouble()),
         altKey = false,
         ctrlKey = false,
         shiftKey = false,
         metaKey = false
     )
-    return kMouseMoveEvent
+    return KPointerMoveEvent
 }
