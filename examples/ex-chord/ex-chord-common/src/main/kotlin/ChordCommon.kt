@@ -99,46 +99,6 @@ fun chordViz(): Viz = viz {
 
 }
 
-/**
- * Listen to MouseMove event on chord.
- */
-fun Viz.addEvents() {
-    on(KPointerClick) { evt ->
-        println("Pointer click:: ${evt.pos}")
-    }
-    on(KPointerDoubleClick) { evt ->
-        println("Pointer double click:: ${evt.pos}")
-    }
-
-    on(KPointerMove) { evt ->
-        println("Pointer move:: ${evt.pos}")
-    }
-
-    on(KPointerEnter) { evt ->
-        println("Pointer enter:: ${evt.pos}")
-    }
-
-    on(KPointerLeave) { evt ->
-        println("Pointer leave:: ${evt.pos}")
-    }
-
-    on(KPointerDown) { evt ->
-        println("Pointer down:: ${evt.pos}")
-    }
-
-    on(KPointerUp) { evt ->
-        println("Pointer up:: ${evt.pos}")
-    }
-
-    on(KPointerDrag) { evt ->
-        println("Pointer drag(${evt.action}):: ${evt.pos}")
-    }
-
-    on(KPointerDoubleClick) { evt ->
-        println("DISPOSED Pointer double click:: ${evt.pos}")
-    }.dispose()
-
-}
 
 
 //Todo Move in API

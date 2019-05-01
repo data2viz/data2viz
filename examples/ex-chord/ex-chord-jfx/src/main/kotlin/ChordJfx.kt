@@ -35,13 +35,8 @@ class ChordJfx : Application() {
             vert.children.add(canvas)
 
             val viz = chordViz()
-            viz.addEvents()
             JFxVizRenderer(canvas, viz)
             viz.render()
-
-            viz.on(KPointerDoubleClick) { evt ->
-                println("AFTER INIT Pointer double click:: ${evt.pos}")
-            }
         }
     }
 
