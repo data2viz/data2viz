@@ -143,6 +143,11 @@ def examples = [
         ":ex-chord:ex-chord-js", 
         ":ex-chord:ex-chord-jfx",
         
+        ":ex-events",
+        ":ex-events:ex-events-common",
+        ":ex-events:ex-events-js", 
+        ":ex-events:ex-events-jfx",
+        
         ":ex-delaunay", 
         ":ex-delaunay:ex-delaunay-js",
 

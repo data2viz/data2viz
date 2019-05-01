@@ -1,0 +1,5 @@
+dependencies {
+    compile project(":chord:d2v-chord-common")
+    compile project(":shape:d2v-shape-common")
+    compile project(":data2viz:d2v-data2viz-common")
+}

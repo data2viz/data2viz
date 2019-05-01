@@ -69,6 +69,8 @@ dependencies {
     compile project(":chord:d2v-chord-common")
     compile project(":chord:d2v-chord-jvm")
 
+    expectedBy project(":ex-events:ex-events-common")
+
     expectedBy project(":ex-sankey:ex-sankey-common")
     compile project(":sankey:d2v-sankey-common")
     compile project(":sankey:d2v-sankey-jvm")
