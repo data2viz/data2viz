@@ -13,17 +13,9 @@ class ChordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val chordViz = chordViz()
-
-        chordViz.addEvents()
-
         val vizView = chordViz
             .toView(this)
-
         setContentView(vizView)
-
-        chordViz.on(KPointerDoubleClick) { evt ->
-            println("AFTER INIT Pointer double click:: ${evt.pos}")
-        }
     }
 
 }
