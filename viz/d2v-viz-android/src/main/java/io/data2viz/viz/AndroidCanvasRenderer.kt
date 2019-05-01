@@ -31,7 +31,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        Log.d(AndroidCanvasRenderer::class.java.simpleName, "onTouchEvent $event")
+//        Log.d(AndroidCanvasRenderer::class.java.simpleName, "onTouchEvent $event")
 
         var handled = super.onTouchEvent(event)
         if(!handled) {

@@ -11,28 +11,28 @@ import javafx.scene.input.MouseEvent
 
 actual class KPointerDown {
     actual companion object MouseDownEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_PRESSED)
     }
 }
 
 actual class KPointerUp {
     actual companion object MouseUpEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_RELEASED)
     }
 }
 
 actual class KPointerEnter {
     actual companion object MouseEnterEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_ENTERED)
     }
 }
 
 actual class KPointerLeave {
     actual companion object MouseLeaveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_EXITED)
     }
 }
@@ -40,14 +40,14 @@ actual class KPointerLeave {
 
 actual class KPointerDoubleClick {
     actual companion object MouseDoubleClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJvmClickEventHandle(target, listener, eventClickCount = 2)
     }
 }
 
 actual class KPointerMove {
     actual companion object MouseMoveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
 
             // Add listeners for both events MOVED & DRAGGED, because MOVED not fires when any button pressed
             // but JS behaviour is different
@@ -59,7 +59,7 @@ actual class KPointerMove {
 
 actual class KPointerClick {
     actual companion object MouseClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): NativeListenerDisposable =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_CLICKED)
     }
 }
@@ -91,7 +91,7 @@ data class JvmEventHandle<T : Event?>(
     val canvas: Canvas,
     val types: List<EventType<T>>,
     val eventHandler: EventHandler<T>
-) : NativeListenerDisposable {
+) : Disposable {
 
     constructor(canvas: Canvas, type: EventType<T>, eventHandler: EventHandler<T>) : this(
         canvas,
@@ -133,7 +133,7 @@ private fun createJvmClickEventHandle(
     }
 }
 
-actual fun <T> VizRenderer.addNativeEventListener(handle: KEventHandle<T>): NativeListenerDisposable where T : KEvent {
+actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
     val jFxVizRenderer = this as JFxVizRenderer
     return handle.eventListener.addNativeListener(jFxVizRenderer.canvas, handle.listener)
 }

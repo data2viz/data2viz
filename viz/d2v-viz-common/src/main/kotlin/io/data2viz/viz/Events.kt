@@ -11,35 +11,35 @@ fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : io.data2vi
         error("Can't add event handle which already added to Renderer")
     }
 
-    handle.nativeListenerDisposable = addNativeEventListener(handle)
+    handle.disposable = addNativeEventListenerFromHandle(handle)
 }
 
-expect fun <T> VizRenderer.addNativeEventListener(handle: KEventHandle<T>): NativeListenerDisposable where T : KEvent
+expect fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent
 
 fun <T> VizRenderer.removeEventHandle(handle: KEventHandle<T>) where T : io.data2viz.viz.KEvent {
 
     if(!handle.isAddedToRenderer) {
-        error("Can't remove event handle which not added to Renderer")
+        error("Can't remove event handle which not added to Renderer. $handle")
     }
 
-    handle.nativeListenerDisposable!!.dispose()
-    handle.nativeListenerDisposable = null
+    handle.disposable!!.dispose()
+    handle.disposable = null
 }
 
 /**
  * TODO: Make generic disposable class in API?
  */
-interface NativeListenerDisposable {
+interface Disposable {
     fun dispose()
 }
 
-class CompositeNativeListenerDisposable(val disposables: MutableList<NativeListenerDisposable> = mutableListOf()): NativeListenerDisposable {
+class CompositeDisposable(val disposables: MutableList<Disposable> = mutableListOf()): Disposable {
     override fun dispose() {
         disposables.forEach { it.dispose() }
         disposables.clear()
     }
 
-    fun add(disposable: NativeListenerDisposable) {
+    fun add(disposable: Disposable) {
         disposables.add(disposable)
     }
 
@@ -55,14 +55,18 @@ class KEventHandle<T>(
     val eventListener: KEventListener<T>,
     val listener: (T) -> Unit,
     val onDispose: (KEventHandle<T>) -> Unit
-) where T : KEvent {
+): Disposable where T : KEvent {
 
-    var nativeListenerDisposable: NativeListenerDisposable? = null
+    var disposable: Disposable? = null
 
-    val isAddedToRenderer = nativeListenerDisposable != null
+    val isAddedToRenderer get() =  disposable != null
 
-    fun dispose() {
+    override fun dispose() {
         onDispose(this)
+    }
+
+    override fun toString(): String {
+        return "KEventHandle(eventListener=$eventListener)"
     }
 }
 
@@ -105,7 +109,7 @@ class KDragEvent(
 
 
 interface KEventListener<T> where  T : KEvent {
-    fun addNativeListener(target: Any, listener: (T) -> Unit): NativeListenerDisposable
+    fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
 }
 
 expect class KPointerMove {
@@ -145,9 +149,9 @@ class KPointerDrag {
         private var downActionPos: Point? = null
         private var dragInProgress: Boolean = false
 
-        override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit): NativeListenerDisposable {
+        override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit): Disposable {
 
-            val compositeDisposable = CompositeNativeListenerDisposable();
+            val compositeDisposable = CompositeDisposable();
 
             compositeDisposable.add(KPointerMove.addNativeListener(target) {
                 if (dragInProgress) {

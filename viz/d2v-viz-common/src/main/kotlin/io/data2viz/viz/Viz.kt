@@ -99,7 +99,7 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
             }
 
             if(newValue != null) {
-                newValue.addNativeEventListener(it)
+                newValue.addEventHandle(it)
             }
         }
 
