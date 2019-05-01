@@ -45,4 +45,12 @@
 			tools:layout_editor_absoluteX="16dp"
 			tools:layout_editor_absoluteY="79dp"/>
 
+	<Button
+			android:id="@+id/button_show_events"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Events"
+			tools:layout_editor_absoluteX="16dp"
+			tools:layout_editor_absoluteY="79dp"/>
+
 </LinearLayout>

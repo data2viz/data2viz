@@ -1,0 +1,10 @@
+
+apply plugin: 'application'
+
+dependencies {
+    expectedBy project(":ex-events:ex-events-common")
+    compile project(":chord:d2v-chord-common")
+    compile project(":data2viz:d2v-data2viz-jfx")
+}
+
+mainClassName="io.data2viz.examples.events.EventsJfx"
