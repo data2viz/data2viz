@@ -7,7 +7,7 @@ import kotlin.math.sqrt
 
 fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : io.data2viz.viz.KEvent {
 
-    if(handle.isAddedToRenderer) {
+    if (handle.isAddedToRenderer) {
         error("Can't add event handle which already added to Renderer")
     }
 
@@ -18,7 +18,7 @@ expect fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle
 
 fun <T> VizRenderer.removeEventHandle(handle: KEventHandle<T>) where T : io.data2viz.viz.KEvent {
 
-    if(!handle.isAddedToRenderer) {
+    if (!handle.isAddedToRenderer) {
         error("Can't remove event handle which not added to Renderer. $handle")
     }
 
@@ -33,7 +33,7 @@ interface Disposable {
     fun dispose()
 }
 
-class CompositeDisposable(val disposables: MutableList<Disposable> = mutableListOf()): Disposable {
+class CompositeDisposable(val disposables: MutableList<Disposable> = mutableListOf()) : Disposable {
     override fun dispose() {
         disposables.forEach { it.dispose() }
         disposables.clear()
@@ -55,11 +55,11 @@ class KEventHandle<T>(
     val eventListener: KEventListener<T>,
     val listener: (T) -> Unit,
     val onDispose: (KEventHandle<T>) -> Unit
-): Disposable where T : KEvent {
+) : Disposable where T : KEvent {
 
     var disposable: Disposable? = null
 
-    val isAddedToRenderer get() =  disposable != null
+    val isAddedToRenderer get() = disposable != null
 
     override fun dispose() {
         onDispose(this)
@@ -108,6 +108,44 @@ class KDragEvent(
 }
 
 
+class KZoomEvent(
+    val delta: Double
+) : KEvent {
+    companion object {
+
+        const val minDelta = -100.0
+        const val maxDelta = 100.0
+
+        fun scaleDelta(
+            currentDelta: Double,
+            originMinDelta: Double,
+            originMaxDelta: Double,
+            newMinDelta: Double = minDelta,
+            newMaxDelta: Double = maxDelta
+        ): Double {
+            val originBoundsSize = originMaxDelta - originMinDelta
+            val currentDeltaPercentInBounds = (currentDelta - originMinDelta) / originBoundsSize
+
+            val newBoundsSize = newMaxDelta - newMinDelta
+            var newDeltaValue = newMinDelta + newBoundsSize * currentDeltaPercentInBounds
+
+            if (newDeltaValue > maxDelta) {
+                newDeltaValue = maxDelta
+            }
+
+            if (newDeltaValue < minDelta) {
+                newDeltaValue = minDelta
+
+            }
+            println("scaleDelta origin = $currentDelta scaled = $newDeltaValue")
+            return newDeltaValue
+        }
+    }
+
+    override fun toString(): String = "KZoomEvent(delta=$delta)"
+}
+
+
 interface KEventListener<T> where  T : KEvent {
     fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
 }
@@ -140,6 +178,9 @@ expect class KPointerDoubleClick {
     companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
 }
 
+expect class KZoom {
+    companion object ZoomEventListener : KEventListener<KZoomEvent>
+}
 
 class KPointerDrag {
     companion object PointerDragEventListener : KEventListener<KDragEvent> {

@@ -43,6 +43,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
 
         handled = true
         return handled
+
     }
 
     fun startAnimations() {
