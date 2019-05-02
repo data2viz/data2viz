@@ -100,6 +100,10 @@ fun Viz.addEvents() {
         addToLog(this, "Pointer drag(${evt.action}):: ${evt.pos}")
     })
 
+    compositeDisposable.add(on(KZoom) { evt ->
+        addToLog(this, "Zoom :: ${evt.delta}")
+    })
+
     allEventsDisposable = compositeDisposable
 
 }
