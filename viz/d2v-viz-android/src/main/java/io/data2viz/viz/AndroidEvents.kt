@@ -7,28 +7,28 @@ import android.view.View
 
 
 actual class KPointerMove {
-    actual companion object MouseMoveEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerMoveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
     }
 }
 
 actual class KPointerDown {
-    actual companion object MouseDownEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerDownEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_DOWN)
     }
 }
 
 actual class KPointerUp {
-    actual companion object MouseUpEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerUpEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_UP)
     }
 }
 
 actual class KPointerEnter {
-    actual companion object MouseEnterEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
 
             val renderer = target as AndroidCanvasRenderer
@@ -46,7 +46,7 @@ actual class KPointerEnter {
 }
 
 actual class KPointerLeave {
-    actual companion object MouseLeaveEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
 
 
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
@@ -66,7 +66,7 @@ actual class KPointerLeave {
 }
 
 actual class KPointerClick {
-    actual companion object MouseClickEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             AndroidEventHandle(
                 target as AndroidCanvasRenderer,
@@ -84,7 +84,7 @@ actual class KPointerClick {
 
 
 actual class KPointerDoubleClick {
-    actual companion object MouseDoubleClickEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
 
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             AndroidEventHandle(

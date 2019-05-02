@@ -113,36 +113,36 @@ interface KEventListener<T> where  T : KEvent {
 }
 
 expect class KPointerMove {
-    companion object MouseMoveEventListener : KEventListener<KPointerEvent>
+    companion object PointerMoveEventListener : KEventListener<KPointerEvent>
 }
 
 expect class KPointerDown {
-    companion object MouseDownEventListener : KEventListener<KPointerEvent>
+    companion object PointerDownEventListener : KEventListener<KPointerEvent>
 }
 
 expect class KPointerUp {
-    companion object MouseUpEventListener : KEventListener<KPointerEvent>
+    companion object PointerUpEventListener : KEventListener<KPointerEvent>
 }
 
 expect class KPointerEnter {
-    companion object MouseEnterEventListener : KEventListener<KPointerEvent>
+    companion object PointerEnterEventListener : KEventListener<KPointerEvent>
 }
 
 expect class KPointerLeave {
-    companion object MouseLeaveEventListener : KEventListener<KPointerEvent>
+    companion object PointerLeaveEventListener : KEventListener<KPointerEvent>
 }
 
 expect class KPointerClick {
-    companion object MouseClickEventListener : KEventListener<KPointerEvent>
+    companion object PointerClickEventListener : KEventListener<KPointerEvent>
 }
 
 expect class KPointerDoubleClick {
-    companion object MouseDoubleClickEventListener : KEventListener<KPointerEvent>
+    companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
 }
 
 
 class KPointerDrag {
-    companion object MouseDragEventListener : KEventListener<KDragEvent> {
+    companion object PointerDragEventListener : KEventListener<KDragEvent> {
 
         const val minDistanceForDetectDragging = 100
 
