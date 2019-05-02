@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import io.data2viz.timer.Timer
@@ -26,7 +25,9 @@ interface VizTouchListener {
 @SuppressLint("ViewConstructor")
 class VizView(val viz: Viz, context: Context) : View(context) {
 
-    private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz)
+    private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz) {
+        invalidate()
+    }
     private val timers = mutableListOf<Timer>()
 
     @SuppressLint("ClickableViewAccessibility")
@@ -34,7 +35,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
 //        Log.d(AndroidCanvasRenderer::class.java.simpleName, "onTouchEvent $event")
 
         var handled = super.onTouchEvent(event)
-        if(!handled) {
+        if (!handled) {
             renderer.onTouchListeners.forEach {
                 it.onTouchEvent(this, event)
             }
@@ -101,9 +102,9 @@ fun Paint.getNumberHeight(): Int {
 class AndroidCanvasRenderer(
     val context: Context,
     override val viz: Viz,
-    var canvas: Canvas = Canvas()
+    var canvas: Canvas = Canvas(),
+    val renderCallback: () -> Unit
 ) : VizRenderer {
-
 
 
     val onTouchListeners = mutableListOf<VizTouchListener>()
@@ -122,6 +123,7 @@ class AndroidCanvasRenderer(
             if (layer.visible)
                 layer.render(this)
         }
+        renderCallback()
     }
 
     override fun startAnimations() {
