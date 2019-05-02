@@ -12,12 +12,12 @@ import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
 
-class EventsJfx : Application() {
+class ExEventsJfx : Application() {
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Application.launch(EventsJfx::class.java)
+            Application.launch(ExEventsJfx::class.java)
         }
     }
 
