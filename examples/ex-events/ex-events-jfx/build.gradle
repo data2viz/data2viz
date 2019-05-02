@@ -7,4 +7,4 @@ dependencies {
     compile project(":data2viz:d2v-data2viz-jfx")
 }
 
-mainClassName="io.data2viz.examples.events.EventsJfx"
+mainClassName="io.data2viz.examples.events.ExEventsJfx"
