@@ -17,28 +17,28 @@ import org.w3c.dom.events.MouseEvent
 //}
 
 actual class KPointerDown {
-    actual companion object MouseDownEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerDownEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJsListener(target, listener, "mousedown")
     }
 }
 
 actual class KPointerUp {
-    actual companion object MouseUpEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerUpEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJsListener(target, listener, "mouseup")
     }
 }
 
 actual class KPointerEnter {
-    actual companion object MouseEnterEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJsListener(target, listener, "mouseenter")
     }
 }
 
 actual class KPointerLeave {
-    actual companion object MouseLeaveEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJsListener(target, listener, "mouseleave")
     }
@@ -46,21 +46,21 @@ actual class KPointerLeave {
 
 
 actual class KPointerDoubleClick {
-    actual companion object MouseDoubleClickEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJsListener(target, listener, "dblclick")
     }
 }
 
 actual class KPointerMove {
-    actual companion object MouseMoveEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerMoveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJsListener(target, listener, "mousemove")
     }
 }
 
 actual class KPointerClick {
-    actual companion object MouseClickEventListener : KEventListener<KPointerEvent> {
+    actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJsListener(target, listener, "click")
     }
