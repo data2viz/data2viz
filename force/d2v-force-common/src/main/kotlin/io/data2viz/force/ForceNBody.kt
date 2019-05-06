@@ -20,7 +20,7 @@ internal fun jiggle() = (Random.nextDouble() - 0.5) * EPSILON
  * Unlike links, which only affect two linked nodes, the charge force is global: every node affects every other node,
  * even if they are on disconnected subgraphs.
  */
-class ForceNBody : Force {
+class ForceNBody : InternalForce() {
 
     private var theta2 = .81
     private var distanceMin2 = 1.0

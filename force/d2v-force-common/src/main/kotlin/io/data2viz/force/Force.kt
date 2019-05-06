@@ -1,10 +1,9 @@
 package io.data2viz.force
 
+// TODO make Force constructors internal (use only functions)
+interface Force
 
-
-
-
-interface Force {
+abstract class InternalForce : Force {
 
     /**
      * Assigns nodes to this force.
@@ -12,10 +11,8 @@ interface Force {
      * nodes change via simulation.nodes.
      * A force may perform necessary work during initialization, such as evaluating per-node parameters, to avoid
      * repeatedly performing work during each application of the force.
-     *
-     * Todo should be internal. No use outside of package
      */
-    fun assignNodes(nodes: List<ForceNode>)
+    internal abstract fun assignNodes(nodes: List<ForceNode>)
 
     /**
      * Applies this force, optionally observing the specified alpha.
@@ -23,5 +20,5 @@ interface Force {
      * forces may apply to a subset of nodes, or behave differently.
      * For example, forceLink applies to the source and target of each link.
      */
-    fun applyForceToNodes(alpha: Double)
+    internal abstract fun applyForceToNodes(alpha: Double)
 }

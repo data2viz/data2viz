@@ -1,7 +1,5 @@
 package io.data2viz.force
 
-import io.data2viz.geom.Point
-import io.data2viz.geom.Vector
 import io.data2viz.quadtree.*
 import kotlin.math.sqrt
 
@@ -13,7 +11,7 @@ fun forceCollision(init: ForceCollision.() -> Unit) = ForceCollision().apply(ini
  * radius(a) + radius(b).
  * To reduce jitter, this is by default a “soft” constraint with a configurable strength and iteration count.
  */
-class ForceCollision : Force {
+class ForceCollision : InternalForce() {
 
     private val x = { node: ForceNode -> node.x }
     private val y = { node: ForceNode -> node.y }
