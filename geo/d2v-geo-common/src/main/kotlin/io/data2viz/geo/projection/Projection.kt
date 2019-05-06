@@ -1,10 +1,10 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geom.Extent
 import io.data2viz.geo.ModifiedStream
 import io.data2viz.geo.clip.clipAntimeridian
 import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geojson.GeoJsonObject
+import io.data2viz.geom.Extent
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.sqrt
@@ -109,15 +109,14 @@ open class MutableProjection(val projection: Projectable) : Projection {
         }
 
     // TODO : manage angles-range (ex. -180..-90 & 90..180) to permit see-through ?
-    private var theta:Double = Double.NaN
+    private var theta: Double = Double.NaN
     override var clipAngle: Double
         get() = theta
         set(value) {
-            if(value.isNaN()) {
+            if (value.isNaN()) {
                 theta = Double.NaN
                 preClip = clipAntimeridian()
-            }
-            else {
+            } else {
                 theta = value.toRadians()
                 preClip = clipCircle(theta)
             }
@@ -225,13 +224,28 @@ open class MutableProjection(val projection: Projectable) : Projection {
         }
     }
 
-    private fun transformRotate(rotate: Projectable): (stream: Stream) -> ModifiedStream = { stream: Stream ->
-        object : ModifiedStream(stream) {
-            override fun point(x: Double, y: Double, z: Double) {
-                val r = rotate.project(x, y)
-                stream.point(r[0], r[1], 0.0)
+    class TransformRotator(val rotate: Projectable) {
+
+        fun invoke(stream: Stream): ModifiedStream =
+            object : ModifiedStream(stream) {
+                override fun point(x: Double, y: Double, z: Double) {
+                    val r = rotate.project(x, y)
+                    stream.point(r[0], r[1], 0.0)
+                }
+            }
+
+    }
+
+    private fun transformRotate(rotate: Projectable): (stream: Stream) -> ModifiedStream {
+        val function = { stream: Stream ->
+            object : ModifiedStream(stream) {
+                override fun point(x: Double, y: Double, z: Double) {
+                    val r = rotate.project(x, y)
+                    stream.point(r[0], r[1], 0.0)
+                }
             }
         }
+        return function
     }
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
@@ -249,14 +263,20 @@ open class MutableProjection(val projection: Projectable) : Projection {
     override fun stream(stream: Stream): Stream {
         var cachedStream = getCachedStream(stream)
         if (cachedStream == null) {
-            cachedStream = transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
+//            val transformRotate1 = transformRotate(rotator)
+//            val transformRotate = transformRotate1(preClip(projectResample(postClip(stream))))
+            val transformRotate = transformRotator.invoke(preClip(projectResample(postClip(stream))))
+            cachedStream = transformRadians(transformRotate)
             cache(cachedStream, cachedStream)
         }
         return cachedStream
     }
 
+    lateinit var transformRotator: TransformRotator
+
     override fun recenter() {
         rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
+        transformRotator = TransformRotator(rotator)
         projectRotate = compose(rotator, projection)
         val center = projection.project(lambda, phi)
         dx = x - (center[0] * k)

@@ -22,12 +22,31 @@ fun forwardRotationLambda(deltaLambda: Double): (Double, Double) -> DoubleArray 
     }
 }
 
+fun makeMagicAlgorithm(deltaLambda: Double): DoubleBinaryArrayResultOperator {
+    return object: DoubleBinaryArrayResultOperator {
+        override fun invoke(a: Double, b: Double): DoubleArray {
+            return identityProjection(a + deltaLambda, b)
+        }
+    }
+}
+
+interface DoubleBinaryArrayResultOperator {
+
+    fun invoke(a: Double, b: Double): DoubleArray
+}
+
 class RotationLambda(deltaLambda: Double) : ProjectableInvertable {
+    val forwardRotationPlus  = makeMagicAlgorithm(deltaLambda)
+    val forwardRotationMinus  = makeMagicAlgorithm(-deltaLambda)
+
     private val apply = forwardRotationLambda(deltaLambda)
     private val invert = forwardRotationLambda(-deltaLambda)
 
-    override fun project(lambda: Double, phi: Double): DoubleArray = apply(lambda, phi)
-    override fun invert(x: Double, y: Double): DoubleArray = invert.invoke(x, y)
+//    override fun project(lambda: Double, phi: Double): DoubleArray = apply(lambda, phi)
+//    override fun invert(x: Double, y: Double): DoubleArray = invert.invoke(x, y)
+
+    override fun project(lambda: Double, phi: Double): DoubleArray = forwardRotationPlus.invoke(lambda, phi)
+    override fun invert(x: Double, y: Double): DoubleArray = forwardRotationMinus.invoke(x, y)
 }
 
 class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvertable {
