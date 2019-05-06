@@ -25,7 +25,37 @@ interface ClippableHasStart : Clippable {
     val start: DoubleArray
 }
 
+
+interface CurrentPointApi {
+
+    fun invoke(x: Double, y: Double, z: Double)
+}
+
+
+
 class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
+
+    class DefaultCurrentPoint(val clip:Clip): CurrentPointApi {
+        override fun invoke(x: Double, y: Double, z: Double) {
+            if (clip.clip.pointVisible(x, y)) clip.sink.point(x, y, z)
+        }
+
+    }
+
+    class LineCurrentPoint(val clip:Clip): CurrentPointApi {
+        override fun invoke(x: Double, y: Double, z: Double) {
+            clip.line.point(x, y, z)
+        }
+
+
+    }
+    class PointRingCurrentPoint(val clip:Clip): CurrentPointApi {
+        override fun invoke(x: Double, y: Double, z: Double) {
+            clip.ring!!.add(doubleArrayOf(x, y))
+            clip.ringSink.point(x, y, z)
+        }
+
+    }
 
     private val line = clip.clipLine(sink)
 
@@ -38,7 +68,8 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     private val segments: MutableList<List<List<DoubleArray>>> = mutableListOf()
     private var ring: MutableList<DoubleArray>? = null
 
-    private var currentPoint: (Double, Double, Double) -> Unit = ::defaultPoint
+//    private var currentPoint: (Double, Double, Double) -> Unit = ::defaultPoint
+    private var currentPoint: CurrentPointApi = DefaultCurrentPoint(this)
     private var currentLineStart: () -> Unit = ::defaultLineStart
     private var currentLineEnd: () -> Unit = ::defaultLineEnd
 
@@ -51,7 +82,8 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
 
     override fun point(x: Double, y: Double, z: Double) {
-        currentPoint(x, y, z)
+//        currentPoint(x, y, z)
+        currentPoint.invoke(x, y, z)
     }
 
     override fun lineStart() {
@@ -63,13 +95,15 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
 
     override fun polygonStart() {
-        currentPoint = ::pointRing
+//        currentPoint = ::pointRing
+        currentPoint = PointRingCurrentPoint(this)
         currentLineStart = ::ringStart
         currentLineEnd = ::ringEnd
     }
 
     override fun polygonEnd() {
-        currentPoint = ::defaultPoint
+//        currentPoint = ::defaultPoint
+        currentPoint = DefaultCurrentPoint(this)
         currentLineStart = ::defaultLineStart
         currentLineEnd = ::defaultLineEnd
 
@@ -120,12 +154,14 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
 
     private fun defaultLineStart() {
-        currentPoint = ::pointLine
+//        currentPoint = ::pointLine
+        currentPoint = LineCurrentPoint(this)
         line.lineStart()
     }
 
     private fun defaultLineEnd() {
-        currentPoint = ::defaultPoint
+//        currentPoint = ::defaultPoint
+        currentPoint = DefaultCurrentPoint(this)
         line.lineEnd()
     }
 
