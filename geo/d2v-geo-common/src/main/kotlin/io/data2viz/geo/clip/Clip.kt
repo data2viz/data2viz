@@ -51,9 +51,9 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
     class PointRingCurrentPoint(val clip:Clip): CurrentPointApi {
         override fun invoke(x: Double, y: Double, z: Double) {
-//            clip.ring!!.add(doubleArrayOf(x, y))
-            clip.ring!!.add(x)
-            clip.ring!!.add(y)
+            clip.ring!!.add(doubleArrayOf(x, y))
+//            clip.ring!!.add(x)
+//            clip.ring!!.add(y)
             clip.ringSink.point(x, y, z)
         }
 
@@ -68,12 +68,12 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
     private val segments: MutableList<List<List<DoubleArray>>> = mutableListOf()
 
-//    private val polygon: MutableList<List<DoubleArray>> = mutableListOf()
-    private val polygon: MutableList<List<Double>> = mutableListOf()
-//    private var ring: MutableList<DoubleArray>? = null
-    private var ring: MutableList<Double>? = null
+    //    private val polygon: MutableList<List<DoubleArray>> = mutableListOf()
+    private val polygon: MutableList<List<DoubleArray>> = mutableListOf()
+    private var ring: MutableList<DoubleArray>? = null
+//    private var ring: MutableList<Double>? = null
 
-//    private var currentPoint: (Double, Double, Double) -> Unit = ::defaultPoint
+    //    private var currentPoint: (Double, Double, Double) -> Unit = ::defaultPoint
     private var currentPoint: CurrentPointApi = DefaultCurrentPoint(this)
     private var currentLineStart: () -> Unit = ::defaultLineStart
     private var currentLineEnd: () -> Unit = ::defaultLineEnd
@@ -162,9 +162,9 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
     private fun pointLine(x: Double, y: Double, z: Double) = line.point(x, y, z)
     private fun pointRing(x: Double, y: Double, z: Double) {
-//        ring!!.add(doubleArrayOf(x, y))
-        ring!!.add(x)
-        ring!!.add(y)
+        ring!!.add(doubleArrayOf(x, y))
+//        ring!!.add(x)
+//        ring!!.add(y)
         ringSink.point(x, y, z)
     }
 
@@ -192,9 +192,9 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     private fun ringEnd() {
         requireNotNull(ring, { "Error on Clip.ringEnd, ring can't be null." })
 
-//        pointRing(ring!![0][0], ring!![0][1], zeroZ)
         val ringList = ring!!
-        pointRing(ringList[0], ringList[1], zeroZ)
+        pointRing(ringList[0][0], ringList[0][1], zeroZ)
+//        pointRing(ringList[0], ringList[1], zeroZ)
         ringSink.lineEnd()
 
         val clean = ringSink.clean
@@ -202,7 +202,7 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
         // double remove
         ringList.removeAt(ringList.lastIndex)
-        ringList.removeAt(ringList.lastIndex)
+//        ringList.removeAt(ringList.lastIndex)
         polygon.add(ringList)
         this.ring = null
 
