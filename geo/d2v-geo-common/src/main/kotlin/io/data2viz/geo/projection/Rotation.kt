@@ -141,8 +141,12 @@ fun rotation(rotate: DoubleArray): ProjectableInvertable {
 
     return object : ProjectableInvertable {
         override fun project(lambda: Double, phi: Double): DoubleArray {
-            val p = rotator.project(lambda.toRadians(), phi.toRadians())
-            return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
+            val lambdaRadians = lambda.toRadians()
+            val phiRadians = phi.toRadians()
+//            val p = rotator.project(lambdaRadians, phi.toRadians())
+            return doubleArrayOf(
+                rotator.projectLambda(lambdaRadians, phiRadians),
+                rotator.projectPhi(lambdaRadians, phiRadians))
         }
 
         override fun invert(x: Double, y: Double): DoubleArray {

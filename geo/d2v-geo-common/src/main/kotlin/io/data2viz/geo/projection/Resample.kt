@@ -17,8 +17,11 @@ private fun resampleNone(project: Projectable): (Stream) -> Stream {
     return { stream: Stream ->
         object : ModifiedStream(stream) {
             override fun point(x: Double, y: Double, z: Double) {
-                val p = project.project(x, y)
-                stream.point(p[0], p[1], 0.0)
+//                val p = project.project(x, y)
+//                stream.point(p[0], p[1], 0.0)
+
+//                val p = project.project(x, y)
+                stream.point(project.projectLambda(x, y), project.projectPhi(x, y), 0.0)
             }
         }
     }
@@ -49,8 +52,13 @@ class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: 
 
     class DefaultPointFunction(val reSampledStream: ReSampledStream) : PointFunction {
         override fun invoke(x: Double, y: Double, z: Double) {
-            val p = reSampledStream.project.project(x, y)
-            reSampledStream.stream.point(p[0], p[1], 0.0)
+//            val p = reSampledStream.project.project(x, y)
+//            reSampledStream.stream.point(p[0], p[1], 0.0)
+//            val p = reSampledStream.project.project(x, y)
+            reSampledStream.stream.point(
+                reSampledStream.project.projectLambda(x,y),
+                reSampledStream.project.projectPhi(x,y),
+                0.0)
         }
 
     }
@@ -72,10 +80,12 @@ class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: 
                     val cart1 = cosPhi * sin(lambda)
                     val cart2 = sin(phi)
 
-                    val p = project.project(lambda, phi)
-                    resampleLineTo(x0, y0, lambda0, a0, b0, c0, p[0], p[1], lambda, cart0, cart1, cart2, MAX_DEPTH, stream)
-                    x0 = p[0]
-                    y0 = p[1]
+//                    val p = project.project(lambda, phi)
+                    val p0 = project.projectLambda(lambda, phi)
+                    val p1 = project.projectPhi(lambda, phi)
+                    resampleLineTo(x0, y0, lambda0, a0, b0, c0, p0, p1, lambda, cart0, cart1, cart2, MAX_DEPTH, stream)
+                    x0 = p0
+                    y0 = p1
                     lambda0 = lambda
                     a0 = cart0
                     b0 = cart1
@@ -279,9 +289,14 @@ class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: 
                 abs(abs(c) - 1) < EPSILON || abs(lambda0 - lambda1) < EPSILON -> (lambda0 + lambda1) / 2
                 else -> atan2(b, a)
             }
-            val p = project.project(lambda2, phi2)
-            val x2 = p[0]
-            val y2 = p[1]
+//            val p = project.project(lambda2, phi2)
+//            val x2 = p[0]
+//            val y2 = p[1]
+
+//            val p = project.project(lambda2, phi2)
+            val x2 = project.projectLambda(lambda2, phi2)
+            val y2 = project.projectPhi(lambda2, phi2)
+
             val dx2 = x2 - x0
             val dy2 = y2 - y0
             val dz = dy * dx2 - dx * dy2
