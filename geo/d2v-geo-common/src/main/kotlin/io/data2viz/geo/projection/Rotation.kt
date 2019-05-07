@@ -5,6 +5,12 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
+private fun identityProjectionX(x: Double) = when {
+    x > PI -> x - TAU
+    x < -PI -> x + TAU
+    else -> x
+}
+
 private fun identityProjection(x: Double, y: Double) = when {
     x > PI -> doubleArrayOf(x - TAU, y)
     x < -PI -> doubleArrayOf(x + TAU, y)
@@ -12,6 +18,10 @@ private fun identityProjection(x: Double, y: Double) = when {
 }
 
 private fun rotationIdentity(): ProjectableInvertable = object : ProjectableInvertable {
+    override fun projectLambda(lambda: Double, phi: Double): Double = identityProjectionX(lambda)
+
+    override fun projectPhi(lambda: Double, phi: Double): Double = phi
+
     override fun project(lambda: Double, phi: Double) = identityProjection(lambda, phi)
     override fun invert(x: Double, y: Double) = identityProjection(x, y)
 }
@@ -23,9 +33,13 @@ fun forwardRotationLambda(deltaLambda: Double): (Double, Double) -> DoubleArray 
 }
 
 fun makeMagicAlgorithm(deltaLambda: Double): DoubleBinaryArrayResultOperator {
-    return object: DoubleBinaryArrayResultOperator {
+    return object : DoubleBinaryArrayResultOperator {
         override fun invoke(a: Double, b: Double): DoubleArray {
             return identityProjection(a + deltaLambda, b)
+        }
+
+        override fun invokeX(x: Double): Double {
+            return identityProjectionX(x + deltaLambda)
         }
     }
 }
@@ -33,11 +47,16 @@ fun makeMagicAlgorithm(deltaLambda: Double): DoubleBinaryArrayResultOperator {
 interface DoubleBinaryArrayResultOperator {
 
     fun invoke(a: Double, b: Double): DoubleArray
+    fun invokeX(x: Double): Double
 }
 
 class RotationLambda(deltaLambda: Double) : ProjectableInvertable {
-    val forwardRotationPlus  = makeMagicAlgorithm(deltaLambda)
-    val forwardRotationMinus  = makeMagicAlgorithm(-deltaLambda)
+
+    override fun projectLambda(lambda: Double, phi: Double): Double = forwardRotationPlus.invokeX(lambda)
+
+    override fun projectPhi(lambda: Double, phi: Double): Double  = phi
+    val forwardRotationPlus = makeMagicAlgorithm(deltaLambda)
+    val forwardRotationMinus = makeMagicAlgorithm(-deltaLambda)
 
     private val apply = forwardRotationLambda(deltaLambda)
     private val invert = forwardRotationLambda(-deltaLambda)
@@ -45,11 +64,33 @@ class RotationLambda(deltaLambda: Double) : ProjectableInvertable {
 //    override fun project(lambda: Double, phi: Double): DoubleArray = apply(lambda, phi)
 //    override fun invert(x: Double, y: Double): DoubleArray = invert.invoke(x, y)
 
+
     override fun project(lambda: Double, phi: Double): DoubleArray = forwardRotationPlus.invoke(lambda, phi)
     override fun invert(x: Double, y: Double): DoubleArray = forwardRotationMinus.invoke(x, y)
 }
 
 class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvertable {
+    override fun projectLambda(lambda: Double, phi: Double): Double {
+        val cosPhi = cos(phi)
+        val x = cos(lambda) * cosPhi
+        val y = sin(lambda) * cosPhi
+        val z = sin(phi)
+        val k = z * cosDeltaPhi + x * sinDeltaPhi
+
+        return atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi)
+    }
+
+    override fun projectPhi(lambda: Double, phi: Double): Double {
+
+        val cosPhi = cos(phi)
+        val x = cos(lambda) * cosPhi
+        val y = sin(lambda) * cosPhi
+        val z = sin(phi)
+        val k = z * cosDeltaPhi + x * sinDeltaPhi
+
+        return asin(k * cosDeltaGamma + y * sinDeltaGamma)
+    }
+
     private val cosDeltaPhi = cos(deltaPhi)
     private val sinDeltaPhi = sin(deltaPhi)
     private val cosDeltaGamma = cos(deltaGamma)
@@ -108,5 +149,11 @@ fun rotation(rotate: DoubleArray): ProjectableInvertable {
             val p = rotator.invert(x.toRadians(), y.toRadians())
             return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
         }
+
+        override fun projectLambda(lambda: Double, phi: Double): Double =
+            rotator.projectLambda(lambda.toRadians(), phi.toRadians()).toDegrees()
+
+        override fun projectPhi(lambda: Double, phi: Double): Double =
+            rotator.projectPhi(lambda.toRadians(), phi.toRadians()).toDegrees()
     }
 }

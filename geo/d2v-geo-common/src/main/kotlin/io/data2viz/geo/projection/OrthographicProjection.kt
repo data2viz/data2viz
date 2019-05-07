@@ -12,6 +12,10 @@ fun orthographic(init: MutableProjection.() -> Unit) = projection(OrthographicPr
 }
 
 class OrthographicProjector : ProjectableInvertable {
+    override fun projectLambda(lambda: Double, phi: Double): Double = cos(phi) * sin(lambda)
+
+    override fun projectPhi(lambda: Double, phi: Double): Double = sin(phi)
+
     private val invertFunction = azimuthalInvert(::asin)
 
     override fun project(lambda: Double, phi: Double) = doubleArrayOf(cos(phi) * sin(lambda), sin(phi))
