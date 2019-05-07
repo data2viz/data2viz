@@ -15,6 +15,24 @@ fun azimuthalInvert(angle: (Double) -> Double) = { x: Double, y: Double ->
 }
 
 open class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Double) : ProjectableInvertable {
+    override fun projectLambda(lambda: Double, phi: Double): Double {
+
+        val cx = cos(lambda)
+        val cy = cos(phi)
+        val k = scale(cx * cy)
+
+        return k * cy * sin(lambda)
+    }
+
+    override fun projectPhi(lambda: Double, phi: Double): Double {
+
+        val cx = cos(lambda)
+        val cy = cos(phi)
+        val k = scale(cx * cy)
+
+        return k * sin(phi)
+    }
+
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cx = cos(lambda)
         val cy = cos(phi)

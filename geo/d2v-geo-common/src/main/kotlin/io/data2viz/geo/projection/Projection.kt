@@ -20,6 +20,8 @@ interface Stream {
 
 interface Projectable {
     fun project(lambda: Double, phi: Double): DoubleArray
+    fun projectLambda(lambda: Double, phi: Double): Double
+    fun projectPhi(lambda: Double, phi: Double): Double
 }
 
 interface Invertable {
@@ -53,6 +55,14 @@ interface Projection : ProjectableInvertable {
 fun compose(a: Projectable, b: Projectable): Projectable {
     if (a is Invertable && b is Invertable) {
         return object : ProjectableInvertable {
+            override fun projectLambda(lambda: Double, phi: Double): Double =
+                a.projectLambda(lambda, phi)
+
+
+            override fun projectPhi(lambda: Double, phi: Double): Double =
+                a.projectPhi(lambda, phi)
+
+
             override fun project(lambda: Double, phi: Double): DoubleArray {
                 val p = a.project(lambda, phi)
                 return b.project(p[0], p[1])
@@ -69,6 +79,13 @@ fun compose(a: Projectable, b: Projectable): Projectable {
                 val p = a.project(lambda, phi)
                 return b.project(p[0], p[1])
             }
+
+            override fun projectLambda(lambda: Double, phi: Double): Double =
+                b.projectLambda(lambda, phi)
+
+
+            override fun projectPhi(lambda: Double, phi: Double): Double =
+                b.projectPhi(lambda, phi)
         }
     }
 }
@@ -81,6 +98,7 @@ fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = Mu
 
 
 open class MutableProjection(val projection: Projectable) : Projection {
+
 
     protected var cache: Stream? = null
     protected var cacheStream: Stream? = null
@@ -200,6 +218,13 @@ open class MutableProjection(val projection: Projectable) : Projection {
     private lateinit var projectRotate: Projectable
 
     private val projectTransform: Projectable = object : Projectable {
+        override fun projectLambda(lambda: Double, phi: Double): Double =
+            projection.projectLambda(lambda, phi) * k + dx
+
+
+        override fun projectPhi(lambda: Double, phi: Double): Double
+                = dy - projection.projectPhi(lambda, phi) * k
+
         override fun project(lambda: Double, phi: Double): DoubleArray {
             val p = projection.project(lambda, phi)
             return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
@@ -252,6 +277,14 @@ open class MutableProjection(val projection: Projectable) : Projection {
         val p = projectRotate.project(lambda.toRadians(), phi.toRadians())
         return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
     }
+
+    override fun projectLambda(lambda: Double, phi: Double): Double =
+        projection.projectLambda(lambda.toRadians(), phi.toRadians()) * k + dx
+
+
+    override fun projectPhi(lambda: Double, phi: Double): Double
+            = dy - projection.projectPhi(lambda.toRadians(), phi.toRadians()) * k
+
 
     override fun invert(x: Double, y: Double): DoubleArray {
         require(projectRotate is Invertable, { "This projection is not invertable." })
