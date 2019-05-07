@@ -64,8 +64,12 @@ fun compose(a: Projectable, b: Projectable): Projectable {
 
 
             override fun project(lambda: Double, phi: Double): DoubleArray {
-                val p = a.project(lambda, phi)
-                return b.project(p[0], p[1])
+//                val p = a.project(lambda, phi)
+//                return b.project(p[0], p[1])
+                return b.project(
+                    a.projectLambda(lambda, phi),
+                    a.projectPhi(lambda, phi)
+                )
             }
 
             override fun invert(x: Double, y: Double): DoubleArray {
@@ -76,8 +80,14 @@ fun compose(a: Projectable, b: Projectable): Projectable {
     } else {
         return object : Projectable {
             override fun project(lambda: Double, phi: Double): DoubleArray {
-                val p = a.project(lambda, phi)
-                return b.project(p[0], p[1])
+//                val p = a.project(lambda, phi)
+//                return b.project(p[0], p[1])
+
+//                val p = a.projectLambda(lambda, phi)
+                return b.project(
+                    a.projectLambda(lambda, phi),
+                    a.projectPhi(lambda, phi)
+                )
             }
 
             override fun projectLambda(lambda: Double, phi: Double): Double =
@@ -222,12 +232,15 @@ open class MutableProjection(val projection: Projectable) : Projection {
             projection.projectLambda(lambda, phi) * k + dx
 
 
-        override fun projectPhi(lambda: Double, phi: Double): Double
-                = dy - projection.projectPhi(lambda, phi) * k
+        override fun projectPhi(lambda: Double, phi: Double): Double = dy - projection.projectPhi(lambda, phi) * k
 
         override fun project(lambda: Double, phi: Double): DoubleArray {
-            val p = projection.project(lambda, phi)
-            return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
+//            val p = projection.project(lambda, phi)
+//            return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
+//            val p = projection.project(lambda, phi)
+            return doubleArrayOf(
+                projectRotate.projectLambda(lambda, phi) * k + dx,
+                dy - projectRotate.projectPhi(lambda, phi) * k)
         }
     }
 
@@ -254,8 +267,13 @@ open class MutableProjection(val projection: Projectable) : Projection {
         fun invoke(stream: Stream): ModifiedStream =
             object : ModifiedStream(stream) {
                 override fun point(x: Double, y: Double, z: Double) {
-                    val r = rotate.project(x, y)
-                    stream.point(r[0], r[1], 0.0)
+//                    val r = rotate.project(x, y)
+//                    stream.point(r[0], r[1], 0.0)
+
+                    stream.point(
+                        rotate.projectLambda(x, y),
+                        rotate.projectPhi(x, y),
+                        0.0)
                 }
             }
 
@@ -265,8 +283,13 @@ open class MutableProjection(val projection: Projectable) : Projection {
         val function = { stream: Stream ->
             object : ModifiedStream(stream) {
                 override fun point(x: Double, y: Double, z: Double) {
-                    val r = rotate.project(x, y)
-                    stream.point(r[0], r[1], 0.0)
+//                    val r = rotate.project(x, y)
+//                    stream.point(r[0], r[1], 0.0)
+//                    val r = rotate.project(x, y)
+                    stream.point(
+                        rotate.projectLambda(x, y),
+                        rotate.projectPhi(x, y),
+                        0.0)
                 }
             }
         }
@@ -274,16 +297,25 @@ open class MutableProjection(val projection: Projectable) : Projection {
     }
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        val p = projectRotate.project(lambda.toRadians(), phi.toRadians())
-        return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
+//        val p = projectRotate.project(lambda.toRadians(), phi.toRadians())
+//        return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
+
+        val lambdaRadians = lambda.toRadians()
+        val phiRadians = phi.toRadians()
+
+//        val p = projectRotate.project(lambda.toRadians(), phi.toRadians())
+        return doubleArrayOf(
+            projectRotate.projectLambda(lambdaRadians, phiRadians) * k + dx,
+            dy - projectRotate.projectPhi(lambdaRadians, phiRadians) * k
+        )
     }
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         projection.projectLambda(lambda.toRadians(), phi.toRadians()) * k + dx
 
 
-    override fun projectPhi(lambda: Double, phi: Double): Double
-            = dy - projection.projectPhi(lambda.toRadians(), phi.toRadians()) * k
+    override fun projectPhi(lambda: Double, phi: Double): Double =
+        dy - projection.projectPhi(lambda.toRadians(), phi.toRadians()) * k
 
 
     override fun invert(x: Double, y: Double): DoubleArray {
