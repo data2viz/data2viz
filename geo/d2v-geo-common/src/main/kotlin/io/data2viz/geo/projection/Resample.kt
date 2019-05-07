@@ -5,10 +5,7 @@ import io.data2viz.geo.asin
 import io.data2viz.geo.cartesian
 import io.data2viz.math.EPSILON
 import io.data2viz.math.toRadians
-import kotlin.math.abs
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sqrt
+import kotlin.math.*
 
 const val MAX_DEPTH = 16
 val COS_MIN_DISTANCE = cos(30.0.toRadians())
@@ -65,15 +62,24 @@ class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: 
             fun linePoint(reSampledStream: ReSampledStream, lambda: Double, phi: Double, z: Double) {
                 reSampledStream.apply {
 
-                    val c = cartesian(doubleArrayOf(lambda, phi))
+//                                        val c = cartesian(doubleArrayOf(lambda, phi))
+//                    val lambda = spherical[0]
+//                    val phi = spherical[1]
+//                    val cosPhi = cos(phi)
+
+                    val cosPhi = cos(phi)
+                    val cart0 = cosPhi * cos(lambda)
+                    val cart1 = cosPhi * sin(lambda)
+                    val cart2 = sin(phi)
+
                     val p = project.project(lambda, phi)
-                    resampleLineTo(x0, y0, lambda0, a0, b0, c0, p[0], p[1], lambda, c[0], c[1], c[2], MAX_DEPTH, stream)
+                    resampleLineTo(x0, y0, lambda0, a0, b0, c0, p[0], p[1], lambda, cart0, cart1, cart2, MAX_DEPTH, stream)
                     x0 = p[0]
                     y0 = p[1]
                     lambda0 = lambda
-                    a0 = c[0]
-                    b0 = c[1]
-                    c0 = c[2]
+                    a0 = cart0
+                    b0 = cart1
+                    c0 = cart2
                     stream.point(x0, y0, z)
                 }
             }
