@@ -13,6 +13,7 @@ fun cartesian(spherical: DoubleArray): DoubleArray {
     return doubleArrayOf(cosPhi * cos(lambda), cosPhi * sin(lambda), sin(phi))
 }
 
+
 fun cartesianDot(a: DoubleArray, b: DoubleArray): Double {
     return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
 }

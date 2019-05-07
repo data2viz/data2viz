@@ -24,9 +24,13 @@ private fun containsGeometry(geo: GeoJsonObject, point: Position): Boolean = whe
 }
 
 private fun containsPolygon(coordinates: Lines, point: Position): Boolean {
-    val coords = coordinates.map { it.map { toRadians(it) } }.toMutableList()
+//    val coords = coordinates.map { it.map { toRadians(it) } }.toMutableList()
+//    coords.removeAt(coords.lastIndex)
+
+    val radiansCoordinates = coordinates.map { it.map { toRadians(it) } }
+    val coords = radiansCoordinates.toMutableList()
     coords.removeAt(coords.lastIndex)
-    return polygonContains(coords, toRadians(point))
+    return polygonContainsOld(coords, toRadians(point))
 }
 
 fun toRadians(array: Position): DoubleArray {
