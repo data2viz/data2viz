@@ -101,6 +101,13 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
         currentLineEnd = ::ringEnd
     }
 
+    val interpolateFunction = object :InterpolateFunction {
+        override fun invoke(from: DoubleArray, to: DoubleArray, direction: Int, stream: Stream) {
+            clip.interpolate(from, to, direction, stream)
+        }
+
+    }
+
     override fun polygonEnd() {
 //        currentPoint = ::defaultPoint
         currentPoint = DefaultCurrentPoint(this)
@@ -115,7 +122,8 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
                 polygonStarted = true
             }
 
-            rejoin(segments.flatten(), compareIntersection, startInside, clip::interpolate, sink)
+//            rejoin(segments.flatten(), compareIntersection, startInside, clip::interpolate, sink)
+            rejoin(segments.flatten(), compareIntersection, startInside, interpolateFunction, sink)
         } else if (startInside) {
             if (!polygonStarted) {
                 sink.polygonStart()
@@ -170,10 +178,14 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
         ring = mutableListOf()
     }
 
+
+    companion object {
+        const val zeroZ = 0.0
+    }
     private fun ringEnd() {
         requireNotNull(ring, { "Error on Clip.ringEnd, ring can't be null." })
 
-        pointRing(ring!![0][0], ring!![0][1], 0.0)
+        pointRing(ring!![0][0], ring!![0][1], zeroZ)
         ringSink.lineEnd()
 
         val clean = ringSink.clean
@@ -195,7 +207,12 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
                     polygonStarted = true
                 }
                 sink.lineStart()
-                (0 until m).forEach { sink.point(segment[it][0], segment[it][1], 0.0) }
+                (0 until m).forEach {
+                    val currentSegmentPiece = segment[it]
+                    val x = currentSegmentPiece[0]
+                    val y = currentSegmentPiece[1]
+                    sink.point(x, y, zeroZ)
+                }
                 sink.lineEnd()
             }
             return
