@@ -103,7 +103,7 @@ object RingLineEndFunction : LineEndFunction {
             ringSink.lineEnd()
 
             val clean = ringSink.clean
-            val ringSegments: MutableList<List<DoubleArray>> = ringBuffer.result().toMutableList()
+            val ringSegments: MutableList<List<DoubleArray>> = ringBuffer.result()
 
             // double remove
             ringList.removeAt(ringList.lastIndex)
