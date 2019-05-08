@@ -7,6 +7,11 @@ import javafx.scene.Group
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.stage.Stage
+import javafx.scene.layout.StackPane
+import io.data2viz.test.matchers.start
+import javafx.animation.AnimationTimer
+import javafx.scene.control.Label
+
 
 class EarthApplication : Application() {
 
@@ -19,6 +24,29 @@ class EarthApplication : Application() {
 
     override fun start(stage: Stage?) {
 
+
+        val label = Label()
+        val frameRateMeter = object : AnimationTimer() {
+
+            override fun handle(now: Long) {
+                val oldFrameTime = frameTimes[frameTimeIndex]
+                frameTimes[frameTimeIndex] = now
+                frameTimeIndex = (frameTimeIndex + 1) % frameTimes.size
+                if (frameTimeIndex == 0) {
+                    arrayFilled = true
+                }
+                if (arrayFilled) {
+                    val elapsedNanos = now - oldFrameTime
+                    val elapsedNanosPerFrame = elapsedNanos / frameTimes.size
+                    val frameRate = 1_000_000_000.0 / elapsedNanosPerFrame
+                    label.setText(String.format("Current frame rate: %.3f", frameRate))
+                }
+            }
+        }
+
+        frameRateMeter.start()
+
+
         val vizWidth = 960.0
         val vizHeight = 700.0
 
@@ -30,6 +58,7 @@ class EarthApplication : Application() {
         val viz = geoViz(world)
         JFxVizRenderer(canvas,viz)
         root.children.add(canvas)
+        root.children.add(label)
 
         stage?.let {
             it.scene = (Scene(root, vizWidth, vizHeight))
@@ -39,6 +68,12 @@ class EarthApplication : Application() {
 
         viz.startAnimations()
 
+
     }
+
+    private val frameTimes = LongArray(100)
+    private var frameTimeIndex = 0
+    private var arrayFilled = false
+
 
 }
