@@ -131,122 +131,45 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         geoCircle(stream, radius, delta, direction, from, to)
     }
 
+
     // Intersects the great circle between a and b with the clip circle.
     private fun intersect(a: DoubleArray, b: DoubleArray): DoubleArray? {
-
-        val cartA0 = a[0]
-        val cartA1 = a[1]
-
-        val lambdaA = cartA0
-        val phiA = cartA1
-        val cosPhiA = cos(phiA)
-
-
-        val pa0 = cosPhiA * cos(lambdaA)
-        val pa1 = cosPhiA * sin(lambdaA)
-        val pa2 = sin(phiA)
-
-        val cartB0 = b[0]
-        val cartB1 = b[1]
-
-        val lambdaB = cartB0
-        val phiB = cartB1
-        val cosPhiB = cos(phiB)
-
-
-        val pb0 = cosPhiB * cos(lambdaB)
-        val pb1 = cosPhiB * sin(lambdaB)
-        val pb2 = sin(phiB)
-
-
-        val n10 = 1.0
-        val n11 = .0
-        val n12 = .0
-        val n20 = pa1 * pb2 - pa2 * pb1
-        val n21 = pa2 * pb0 - pa0 * pb2
-        val n22 = pa0 * pb1 - pa1 * pb0
-
-        val n2n2 = n20 * n20 + n21 * n21 + n22 * n22
-        val n1n2 = n20
-
-        val determinant = n2n2 - n1n2 * n1n2
-//
-//        val pa = cartesian(a)
-//        val pb = cartesian(b)
+        val pa = cartesian(a)
+        val pb = cartesian(b)
 
         // We have two planes, n1.p = d1 and n2.p = d2.
         // Find intersection line p(t) = c1 n1 + c2 n2 + t (n1 ⨯ n2).
-//        val n1 = doubleArrayOf(1.0, .0, .0)                 // normal
-//        val n2 = cartesianCross(pa, pb)
-//        val n2n2 = cartesianDot(n2, n2)
-//        val n1n2 = n2[0]                                        // cartesianDot(n1, n2)
-//        val determinant = n2n2 - n1n2 * n1n2
+        val n1 = doubleArrayOf(1.0, .0, .0)                 // normal
+        val n2 = cartesianCross(pa, pb)
+        val n2n2 = cartesianDot(n2, n2)
+        val n1n2 = n2[0]                                        // cartesianDot(n1, n2)
+        val determinant = n2n2 - n1n2 * n1n2
 
         // Two polar points.
         if (determinant == .0) return a
 
         val c1 = cr * n2n2 / determinant
         val c2 = -cr * n1n2 / determinant
-
-        val n1xn20 = n11 * n22 - n12 * n21
-        val n1xn21 = n12 * n20 - n10 * n22
-        val n1xn22 = n10 * n21 - n11 * n20
-
-        var A0 = n10 * c1
-        var A1 = n11 * c1
-        var A2 = n12 * c1
-
-        val B0 = n20 * c2
-        val B1 = n21 * c2
-        val B2 = n22 * c2
-
-        A0 += B0
-        A1 += B1
-        A2 += B2
-
-//        val n1xn2 = cartesianCross(n1, n2)
-//        var A = cartesianScale(n1, c1)
-//        val B = cartesianScale(n2, c2)
-//        A = cartesianAdd(A, B)
-
+        val n1xn2 = cartesianCross(n1, n2)
+        var A = cartesianScale(n1, c1)
+        val B = cartesianScale(n2, c2)
+        A = cartesianAdd(A, B)
 
         // Solve |p(t)|^2 = 1
-        val u0 = n1xn20
-        val u1 = n1xn21
-        val u2 = n1xn22
-
-        val w = A0 * u0 + A1 * u1 + A2 * u2
-        val uu = u0 * u0 + u1 * u1 + u2 * u2
-        val AA = A0 * A0 + A1 * A1 + A2 * A2
-        val t2 = w * w - uu * (AA - 1)
-
-//        val u = n1xn2
-//        val w = cartesianDot(A, u)
-//        val uu = cartesianDot(u, u)
-//        val t2 = w * w - uu * (cartesianDot(A, A) - 1)
+        val u = n1xn2
+        val w = cartesianDot(A, u)
+        val uu = cartesianDot(u, u)
+        val t2 = w * w - uu * (cartesianDot(A, A) - 1)
 
         if (t2 < 0) return null
 
         val t = sqrt(t2)
-
-        val multiply = (-w - t) / uu
-        var q0 = u0 * multiply
-        var q1 = u1 * multiply
-        var q2 = u1 * multiply
-
-        q0 += A0
-        q1 += A1
-        q2 += A2
-
-        val q  = doubleArrayOf(atan2(q1, q0), asin(q2))
-
-//        var q = cartesianScale(u, (-w - t) / uu)
-//        q = cartesianAdd(q, A)
-//        q = spherical(q)
+        var q = cartesianScale(u, (-w - t) / uu)
+        q = cartesianAdd(q, A)
+        q = spherical(q)
 
         return q
     }
-
 
     // TODO : factorize with intersect !
     private fun intersects(a: DoubleArray, b: DoubleArray): Array<DoubleArray>? {
@@ -322,7 +245,6 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         }
         return null
     }
-
     // Generates a 4-bit vector representing the location of a point relative to
     // the small circle's bounding box.
     fun code(x: Double, y: Double): Int {
