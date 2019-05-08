@@ -3,7 +3,7 @@ package io.data2viz.geo.clip
 import io.data2viz.geo.projection.Stream
 
 class ClipBuffer : Stream {
-    private val lines: MutableList<List<DoubleArray>> = mutableListOf()
+    private var lines: MutableList<List<DoubleArray>> = mutableListOf()
     private lateinit var line: MutableList<DoubleArray>
 
     override fun point(x: Double, y: Double, z: Double) {
@@ -12,6 +12,7 @@ class ClipBuffer : Stream {
 
     override fun lineStart() {
         line = mutableListOf()
+
         lines.add(line)
     }
 
@@ -24,10 +25,14 @@ class ClipBuffer : Stream {
         }
     }
 
-    fun result(): List<List<DoubleArray>> {
-        val result = mutableListOf<List<DoubleArray>>()
-        result.addAll(lines)
-        lines.clear()
-        return result
+    fun result(): MutableList<List<DoubleArray>> {
+        val oldLines = lines
+        lines = mutableListOf()
+//        val result = mutableListOf<List<DoubleArray>>()
+//        result.addAll(lines)
+//        lines.clear()
+//        return result
+
+        return oldLines
     }
 }
