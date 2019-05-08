@@ -8,11 +8,31 @@
 </head>
 <body>
 
+<div id="fps"></div>
 <canvas id="viz"></canvas>
 
 <script>
     require.config({baseUrl: "build/kotlin-js-min/main"});
     require(['build/kotlin-js-min/main/ex-geo-js.js']);
+
+     const times = [];
+let fps;
+
+function refreshLoop() {
+  window.requestAnimationFrame(() => {
+    const now = performance.now();
+    while (times.length > 0 && times[0] <= now - 1000) {
+      times.shift();
+    }
+    times.push(now);
+    fps = times.length;
+    document.getElementById("fps").textContent = fps
+    // console.log(fps);
+    refreshLoop();
+  });
+}
+
+refreshLoop();
 </script>
 </body>
 </html>
