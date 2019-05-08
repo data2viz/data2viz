@@ -1,7 +1,6 @@
 package io.data2viz.geo.clip
 
 import io.data2viz.geo.polygonContains
-import io.data2viz.geo.polygonContainsOld
 import io.data2viz.geo.projection.Stream
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
@@ -120,7 +119,8 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
         currentLineStart = ::defaultLineStart
         currentLineEnd = ::defaultLineEnd
 
-        val startInside = polygonContainsOld(polygon, clip.start)
+        val startInside = polygonContains(polygon, clip.start)
+//        val startInside = polygonContainsOld(polygon, clip.start)
 
         if (segments.isNotEmpty()) {
             if (!polygonStarted) {

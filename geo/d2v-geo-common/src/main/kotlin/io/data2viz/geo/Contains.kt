@@ -30,7 +30,7 @@ private fun containsPolygon(coordinates: Lines, point: Position): Boolean {
     val radiansCoordinates = coordinates.map { it.map { toRadians(it) } }
     val coords = radiansCoordinates.toMutableList()
     coords.removeAt(coords.lastIndex)
-    return polygonContainsOld(coords, toRadians(point))
+    return polygonContains(coords, toRadians(point))
 }
 
 fun toRadians(array: Position): DoubleArray {
