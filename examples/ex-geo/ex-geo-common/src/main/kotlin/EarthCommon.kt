@@ -2,12 +2,12 @@ package io.data2viz.examples.geo
 
 import io.data2viz.color.Colors
 import io.data2viz.geo.path.geoPath
-import io.data2viz.geo.projection.*
+import io.data2viz.geo.projection.orthographic
 import io.data2viz.geojson.GeoJsonObject
+import io.data2viz.math.deg
 import io.data2viz.viz.PathNode
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
-import kotlin.math.min
 import kotlin.math.roundToInt
 
 
@@ -23,7 +23,7 @@ fun geoViz(world: GeoJsonObject): Viz = viz {
 
     // OUTER GLOBE
     val projectionOuter = orthographic {
-//    val projectionOuter = mercatorProjection {
+        //    val projectionOuter = mercatorProjection {
 //    val projectionOuter = identityProjection {
 //    val projectionOuter = equirectangularProjection {
 //    val projectionOuter = azimuthalEquidistant {
@@ -53,8 +53,8 @@ fun geoViz(world: GeoJsonObject): Viz = viz {
 
 
         val rotate = geoPathOuter.projection.rotate
-        rotate[0] += .5
-        rotate[1] = -10.0
+        rotate[0] += (0.5).deg
+        rotate[1] = (-10.0).deg
 
         pathOuter.clearPath()
         geoPathOuter.path(world)

@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
@@ -12,7 +13,7 @@ class EquirectangularProjectionTests : TestBase() {
     fun equirectangular_various_projects_1() {
         val projection = equirectangularProjection {
             translate = doubleArrayOf(.0, .0)
-            rotate = doubleArrayOf(20.0, 10.0, 30.0)
+            rotate = arrayOf(20.0.deg, 10.0.deg, 30.0.deg)
             scale = 1.0
         }
 

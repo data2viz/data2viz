@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.math.Angle
 import io.data2viz.math.TAU
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
@@ -94,12 +95,12 @@ fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Pr
     else rotationIdentity()
 }
 
-fun rotation(rotate: DoubleArray): ProjectableInvertable {
+fun rotation(rotate: Array<Angle>): ProjectableInvertable {
     val rotator =
         rotateRadians(
-            rotate[0].toRadians(),
-            rotate[1].toRadians(),
-            if (rotate.size > 2) rotate[2].toRadians() else 0.0
+            rotate[0].rad,
+            rotate[1].rad,
+            if (rotate.size > 2) rotate[2].rad else 0.0
         )
 
     return object : ProjectableInvertable {
