@@ -64,6 +64,14 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         jcenter()
         mavenCentral()
     }
+
+    apply plugin: 'idea'
+
+    idea {
+        module {
+            excludeDirs += file('.gradle')
+        }
+    }
     
     apply plugin: 'com.jfrog.bintray'
 
