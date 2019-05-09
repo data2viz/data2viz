@@ -6,10 +6,7 @@ import io.data2viz.geo.clip.clipAntimeridian
 import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
-import io.data2viz.math.Angle
-import io.data2viz.math.deg
-import io.data2viz.math.toDegrees
-import io.data2viz.math.toRadians
+import io.data2viz.math.*
 import kotlin.math.sqrt
 
 interface Stream {
@@ -202,7 +199,7 @@ open class MutableProjection(val projection: Projectable) : Projection {
     private var lambda = 0.0
     private var phi = 0.0
     override var center
-        get() = arrayOf(lambda.deg, phi.deg)
+        get() = arrayOf(lambda.rad, phi.rad)
         set(value) {
             lambda = value[0].rad
             phi = value[1].rad
@@ -217,7 +214,7 @@ open class MutableProjection(val projection: Projectable) : Projection {
 
 
     override var rotate: Array<Angle>
-        get() = arrayOf(deltaLambda.deg, deltaPhi.deg, deltaGamma.deg)
+        get() = arrayOf(deltaLambda.rad, deltaPhi.rad, deltaGamma.rad)
         set(value) {
             deltaLambda = value[0].rad
             deltaPhi = value[1].rad
