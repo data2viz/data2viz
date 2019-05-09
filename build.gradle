@@ -20,7 +20,6 @@ buildscript {
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.kordamp.gradle:stats-gradle-plugin:$stats_version"
     }
 }
