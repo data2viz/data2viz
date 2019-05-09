@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div id="fps"></div>
+<svg></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
+<script>
+            const width = 960;
+            const height = 500;
+            const config = {
+              speed: 0.005,
+              verticalTilt: -30,
+              horizontalTilt: 0
+            }
+            let locations = [];
+            const svg = d3.select('svg')
+                .attr('width', width).attr('height', height);
+            const markerGroup = svg.append('g');
+     const projection = d3.geoIdentity();
+     //const projection = d3.geoMercator();
+//            const projection = d3.geoOrthographic();
+            const initialScale = projection.scale();
+            const path = d3.geoPath().projection(projection);
+            const center = [width/2, height/2];
+
+            drawGlobe();
+            // drawGraticule();
+            enableRotation();
+
+            function drawGlobe() {
+                d3.queue()
+                    .defer(d3.json, 'https://gist.githubusercontent.com/mbostock/4090846/raw/d534aba169207548a8a3d670c9c2cc719ff05c47/world-110m.json')
+
+                    .await((error, worldData) => {
+                        svg.selectAll(".segment")
+                            .data(topojson.feature(worldData, worldData.objects.countries).features)
+                            .enter().append("path")
+                            .attr("class", "segment")
+                            .attr("d", path)
+                            .style("stroke", "#888")
+                            .style("stroke-width", "1px")
+                            .style("fill", (d, i) => '#e5e5e5')
+                            .style("opacity", ".6");
+
+                    });
+            }
+
+            function enableRotation() {
+                d3.timer(function (elapsed) {
+                    projection.rotate([config.speed * elapsed - 120, config.verticalTilt, config.horizontalTilt]);
+                    svg.selectAll("path").attr("d", path);
+                    drawMarkers();
+                });
+            }
+
+                const times = [];
+let fps;
+
+function refreshLoop() {
+  window.requestAnimationFrame(() => {
+    const now = performance.now();
+    while (times.length > 0 && times[0] <= now - 1000) {
+      times.shift();
+    }
+    times.push(now);
+    fps = times.length;
+    document.getElementById("fps").textContent = fps
+    // console.log(fps);
+    refreshLoop();
+  });
+}
+
+refreshLoop();
+        </script>
+</body>
+</html>
