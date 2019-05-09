@@ -27,7 +27,7 @@ class PowerScale<R>
         val dFrom = raise(from, exponent)
         val dTo = raise(to, exponent) - dFrom
 
-        return if (dTo == .0 || dTo == Double.NaN) { _ -> 0.pct }
+        return if (dTo == .0 || dTo.isNaN()) { _ -> 0.pct }
         else { t -> Percent((raise(t, exponent) - dFrom) / dTo) }
     }
 
