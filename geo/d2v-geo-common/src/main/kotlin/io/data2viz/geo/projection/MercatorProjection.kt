@@ -38,7 +38,7 @@ class MercatorProjection : MutableProjection(MercatorProjector()) {
             reclip()
         }
 
-    override var center: DoubleArray
+    override var center
         get() = super.center
         set(value) {
             super.center = value

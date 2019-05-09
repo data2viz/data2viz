@@ -7,6 +7,7 @@ import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geom.Extent
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.svgPath
+import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -16,7 +17,7 @@ class RectangleClippingTests : TestBase() {
         translate = doubleArrayOf(480.0, 350.0)
         scale = 2000.0
         precision = .0
-        center = doubleArrayOf(10.0, 5.0)
+        center = arrayOf(10.0.deg, 5.0.deg)
     }
 
     val polygon = MultiPolygon(
