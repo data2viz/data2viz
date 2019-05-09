@@ -17,9 +17,13 @@
             const svg = d3.select('svg')
                 .attr('width', width).attr('height', height);
             const markerGroup = svg.append('g');
-     const projection = d3.geoIdentity();
+
+     //const projection = d3.geoAzimuthalEqualArea();
+     //const projection = d3.geoAzimuthalEquidistant();
+     //const projection = d3.geoEquirectangular();
+     //const projection = d3.geoIdentity();
      //const projection = d3.geoMercator();
-//            const projection = d3.geoOrthographic();
+            const projection = d3.geoOrthographic();
             const initialScale = projection.scale();
             const path = d3.geoPath().projection(projection);
             const center = [width/2, height/2];
