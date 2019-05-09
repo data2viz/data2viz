@@ -2,6 +2,7 @@ package io.data2viz.examples.geo
 
 import io.data2viz.color.Colors
 import io.data2viz.geo.path.geoPath
+import io.data2viz.geo.projection.mercatorProjection
 import io.data2viz.geo.projection.orthographic
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.viz.PathNode
@@ -22,9 +23,10 @@ fun geoViz(world: GeoJsonObject): Viz = viz {
     }
 
     // OUTER GLOBE
-    val projectionOuter = orthographic {
+//    val projectionOuter = orthographic {
+    val projectionOuter = mercatorProjection {
         translate = doubleArrayOf(width / 2.0, height / 2.0)
-        scale = min(width, height) / 2.2
+//        scale = min(width, height) / 2.2
     }
 
     val pathOuter = PathNode().apply {
@@ -61,10 +63,7 @@ fun geoViz(world: GeoJsonObject): Viz = viz {
         width = newWidth
         height = newHeight
 
-        geoPathOuter = geoPath(orthographic {
-            translate = doubleArrayOf(width / 2.0, height / 2.0)
-            scale = min(width, height) / 2.2
-        }, pathOuter)
+        geoPathOuter = geoPath(projectionOuter, pathOuter)
     }
 
 
