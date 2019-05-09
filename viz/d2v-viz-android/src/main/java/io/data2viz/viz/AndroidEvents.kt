@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import io.data2viz.geom.Point
 
 
 actual class KPointerMove {
@@ -104,6 +105,12 @@ actual class KZoom {
     actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
         const val minZoomDeltaValue = -100.0
         const val maxZoomDeltaValue = 100.0
+
+
+
+        var lastZoomTime: Long? = null
+        lateinit var zoomStartPoint: Point
+
         override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
 
 
@@ -121,7 +128,14 @@ actual class KZoom {
 
                     override fun onScale(detector: ScaleGestureDetector): Boolean {
                         val diffSpan = (detector.currentSpan - detector.previousSpan).toDouble()
-                        listener(KZoomEvent(KZoomEvent.scaleDelta(diffSpan, minZoomDeltaValue, maxZoomDeltaValue)))
+
+                        val currentTime = System.currentTimeMillis()
+                        if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
+                            zoomStartPoint = Point(detector.focusX.toDouble(), detector.focusY.toDouble())
+                        }
+                        lastZoomTime = currentTime
+
+                        listener(KZoomEvent(zoomStartPoint, KZoomEvent.scaleDelta(diffSpan, minZoomDeltaValue, maxZoomDeltaValue)))
 
                         return true
                     }

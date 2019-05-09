@@ -74,36 +74,62 @@ actual class KZoom {
         const val minWheelZoomDeltaValue = -100.0
         const val maxWheelZoomDeltaValue = 100.0
 
+        var lastZoomTime: Long? = null
+        lateinit var zoomStartPoint: Point
+
         override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
 
             val canvas = target as Canvas
 
             val zoomHandler = EventHandler<ZoomEvent> { event ->
+                val currentDelta = event.zoomFactor
                 listener(
-                    KZoomEvent(
-                        KZoomEvent.scaleDelta(
-                            event.zoomFactor,
-                            minGestureZoomDeltaValue,
-                            maxGestureZoomDeltaValue
-                        )
-                    ))
+                    onZoom(
+                        event.x, event.y,
+                        currentDelta,
+                        minGestureZoomDeltaValue,
+                        maxGestureZoomDeltaValue
+                    )
+                )
             }
 
 
             val scrollHandler = EventHandler<ScrollEvent> { event ->
                 if (event.isControlDown) {
+                    val currentDelta = event.deltaY
                     listener(
-                        KZoomEvent(
-                            KZoomEvent.scaleDelta(
-                                event.deltaY,
-                                minWheelZoomDeltaValue,
-                                maxWheelZoomDeltaValue
-                            )
-                        ))
+                        onZoom(
+                            event.x, event.y,
+                            currentDelta,
+                            minWheelZoomDeltaValue,
+                            maxWheelZoomDeltaValue
+                        )
+                    )
                 }
             }
 
             return JvmZoomHandle(canvas, scrollHandler, zoomHandler).also { it.init() }
+        }
+
+        private fun onZoom(
+            x:Double, y:Double,
+            currentDelta: Double, minDelta: Double,
+            maxDelta: Double
+        ): KZoomEvent {
+
+            val currentTime = System.currentTimeMillis()
+            if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
+                zoomStartPoint = Point(x, y)
+            }
+            lastZoomTime = currentTime
+            return KZoomEvent(
+                zoomStartPoint,
+                KZoomEvent.scaleDelta(
+                    currentDelta,
+                    minDelta,
+                    maxDelta
+                )
+            )
         }
     }
 }

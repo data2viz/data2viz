@@ -7,6 +7,7 @@ import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
+import kotlin.js.Date
 
 
 actual class KPointerDown {
@@ -68,6 +69,9 @@ actual class KZoom {
         const val minWheelZoomDeltaValue = -100.0
         const val maxWheelZoomDeltaValue = 100.0
 
+        var lastZoomTime: Double? = null
+        lateinit var zoomStartPoint: Point
+
         override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
             val htmlElement = target.unsafeCast<HTMLElement>()
             val nativeListener = object : EventListener {
@@ -77,13 +81,33 @@ actual class KZoom {
                         event.preventDefault()
                         // invert value to work as Android & JFX
                         val invertedDelta = deltaY * -1
+
+                        val currentTime = Date.now()
+                        if(KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
+                            zoomStartPoint =  Point(clientX.toDouble() - htmlElement.offsetLeft, clientY.toDouble() - htmlElement.offsetTop)
+                        }
                         if (event.ctrlKey) {
                             // wheel
-                            listener(KZoomEvent(KZoomEvent.scaleDelta(invertedDelta, minWheelZoomDeltaValue, maxWheelZoomDeltaValue)))
+                            listener(
+                                KZoomEvent(
+                                    zoomStartPoint,
+                                    KZoomEvent.scaleDelta(invertedDelta, minWheelZoomDeltaValue, maxWheelZoomDeltaValue)
+                                )
+                            )
                         } else {
                             // gesture
-                            listener(KZoomEvent(KZoomEvent.scaleDelta(invertedDelta, minGestureZoomDeltaValue, maxGestureZoomDeltaValue)))
+                            listener(
+                                KZoomEvent(
+                                    zoomStartPoint,
+                                    KZoomEvent.scaleDelta(
+                                        invertedDelta,
+                                        minGestureZoomDeltaValue,
+                                        maxGestureZoomDeltaValue
+                                    )
+                                )
+                            )
                         }
+                        lastZoomTime = currentTime
                     }
                 }
             }

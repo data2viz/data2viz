@@ -1,4 +1,4 @@
-package io.data2viz.examples.chord
+package io.data2viz.examples.events
 
 
 import io.data2viz.color.Colors
@@ -101,7 +101,7 @@ fun Viz.addEvents() {
     })
 
     compositeDisposable.add(on(KZoom) { evt ->
-        addToLog(this, "Zoom :: ${evt.delta}")
+        addToLog(this, "Zoom ${evt.startZoomPos} :: ${evt.delta}")
     })
 
     allEventsDisposable = compositeDisposable
