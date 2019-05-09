@@ -28,10 +28,6 @@ class ClipBuffer : Stream {
     fun result(): MutableList<List<DoubleArray>> {
         val oldLines = lines
         lines = mutableListOf()
-//        val result = mutableListOf<List<DoubleArray>>()
-//        result.addAll(lines)
-//        lines.clear()
-//        return result
 
         return oldLines
     }

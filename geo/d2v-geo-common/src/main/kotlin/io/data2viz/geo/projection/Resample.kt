@@ -17,10 +17,6 @@ private fun resampleNone(project: Projectable): (Stream) -> Stream {
     return { stream: Stream ->
         object : ModifiedStream(stream) {
             override fun point(x: Double, y: Double, z: Double) {
-//                val p = project.project(x, y)
-//                stream.point(p[0], p[1], 0.0)
-
-//                val p = project.project(x, y)
                 stream.point(project.projectLambda(x, y), project.projectPhi(x, y), 0.0)
             }
         }
@@ -67,17 +63,11 @@ object LinePointFunction : PointFunction {
 
         reSampledStream.apply {
 
-            //                                        val c = cartesian(doubleArrayOf(lambda, phi))
-//                    val lambda = spherical[0]
-//                    val phi = spherical[1]
-//                    val cosPhi = cos(phi)
-
             val cosPhi = cos(phi)
             val cart0 = cosPhi * cos(lambda)
             val cart1 = cosPhi * sin(lambda)
             val cart2 = sin(phi)
 
-//                    val p = project.project(lambda, phi)
             val p0 = project.projectLambda(lambda, phi)
             val p1 = project.projectPhi(lambda, phi)
             resampleLineTo(x0, y0, lambda0, a0, b0, c0, p0, p1, lambda, cart0, cart1, cart2, MAX_DEPTH, stream)
@@ -105,7 +95,6 @@ object  RingPointFunction : PointFunction {
             a00 = a0
             b00 = b0
             c00 = c0
-//        currentPoint = ::linePoint
             currentPoint = LinePointFunction
         }
     }
@@ -116,9 +105,7 @@ object  DefaultLineStartFunction :
     LineStartFunction {
     override fun invoke(reSampledStream: ReSampledStream) {
         reSampledStream.x0 = Double.NaN
-//            reSampledStream.currentPoint = ::linePoint
         reSampledStream.currentPoint = DefaultPointFunction
-//            reSampledStream.currentPoint = pointFunction
         reSampledStream.stream.lineStart()
     }
 
@@ -129,7 +116,6 @@ object  DefaultLineEndFunction :
     LineEndFunction {
     override fun invoke(reSampledStream: ReSampledStream) {
         reSampledStream.currentPoint = DefaultPointFunction
-//            reSampledStream.currentPoint = pointFunction
         reSampledStream.stream.lineEnd()
     }
 }
@@ -140,7 +126,6 @@ object  RingLineStartFunction :
         reSampledStream.apply {
             DefaultLineStartFunction.invoke(reSampledStream)
             currentPoint = RingPointFunction
-
             currentLineEnd = RingLineEndFunction
         }
     }
@@ -162,10 +147,6 @@ object  RingLineEndFunction :
 
 
 class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: Double) : Stream {
-//    val defaultPointFunction = DefaultPointFunction(this)
-//    val defaultLineStartFunction = DefaultLineStartFunction(this, defaultPointFunction)
-//    val defaultLineEndFunction = DefaultLineEndFunction(this, defaultPointFunction)
-
 
     // First point
     var lambda00 = Double.NaN
@@ -182,11 +163,6 @@ class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: 
     var a0 = Double.NaN
     var b0 = Double.NaN
     var c0 = Double.NaN
-
-//    var currentPoint = ::defaultPoint
-//    var currentLineStart = ::defaultLineStart
-//    var currentLineEnd = ::defaultLineEnd
-
 
     var currentPoint: PointFunction = DefaultPointFunction
     var currentLineStart: LineStartFunction = DefaultLineStartFunction
@@ -208,62 +184,6 @@ class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: 
     override fun point(x: Double, y: Double, z: Double) = currentPoint.invoke(this, x, y, z)
     override fun polygonEnd() = currentPolygonEnd()
     override fun polygonStart() = currentPolygonStart()
-
-//            private fun defaultPoint(x: Double, y: Double, z: Double) {
-//                val p = project.project(x, y)
-//                stream.point(p[0], p[1], 0.0)
-//            }
-
-    private fun defaultLineStart() {
-        x0 = Double.NaN
-        currentPoint = LinePointFunction
-        stream.lineStart()
-    }
-
-//    private fun linePoint(lambda: Double, phi: Double, z: Double) {
-//        val c = cartesian(doubleArrayOf(lambda, phi))
-//        val p = project.project(lambda, phi)
-//        resampleLineTo(x0, y0, lambda0, a0, b0, c0, p[0], p[1], lambda, c[0], c[1], c[2], MAX_DEPTH, stream)
-//        x0 = p[0]
-//        y0 = p[1]
-//        lambda0 = lambda
-//        a0 = c[0]
-//        b0 = c[1]
-//        c0 = c[2]
-//        stream.point(x0, y0, z)
-//    }
-
-//    private fun defaultLineEnd() {
-//        currentPoint = DefaultPointFunction(this)
-//
-//        stream.lineEnd()
-//    }
-
-//    private fun ringStart() {
-//        defaultLineStart()
-//        currentPoint = RingPointFunction(this)
-//
-//        currentLineEnd = ::ringEnd
-//    }
-//
-//    private fun ringPoint(lambda: Double, phi: Double, z: Double) {
-//        lambda00 = lambda
-//        linePoint(lambda, phi, 0.0)
-//        x00 = x0
-//        y00 = y0
-//        a00 = a0
-//        b00 = b0
-//        c00 = c0
-////        currentPoint = ::linePoint
-//        currentPoint = LinePointFunction(this)
-//    }
-
-//    private fun ringEnd() {
-//        resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00, MAX_DEPTH, stream)
-//        currentLineEnd = DefaultLineEndFunction(this, DefaultPointFunction(this))
-//        lineEnd()
-//    }
-
 
     internal fun resampleLineTo(
         x0: Double, y0: Double, lambda0: Double, a0: Double, b0: Double, c0: Double,
@@ -287,11 +207,7 @@ class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: 
                 abs(abs(c) - 1) < EPSILON || abs(lambda0 - lambda1) < EPSILON -> (lambda0 + lambda1) / 2
                 else -> atan2(b, a)
             }
-//            val p = project.project(lambda2, phi2)
-//            val x2 = p[0]
-//            val y2 = p[1]
 
-//            val p = project.project(lambda2, phi2)
             val x2 = project.projectLambda(lambda2, phi2)
             val y2 = project.projectPhi(lambda2, phi2)
 

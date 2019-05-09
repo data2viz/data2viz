@@ -24,8 +24,6 @@ interface Projectable {
     fun project(lambda: Double, phi: Double): DoubleArray
     fun projectLambda(lambda: Double, phi: Double): Double
     fun projectPhi(lambda: Double, phi: Double): Double
-
-
 }
 
 interface Invertable {

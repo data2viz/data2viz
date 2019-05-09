@@ -25,20 +25,16 @@ interface ClippableHasStart : Clippable {
     val start: DoubleArray
 }
 
-
 interface PointFunction {
-
     fun invoke(clip: Clip, x: Double, y: Double, z: Double)
 }
 
 interface LineStartFunction {
-
     fun invoke(clip: Clip)
 }
 
 
 interface LineEndFunction {
-
     fun invoke(clip: Clip)
 }
 
@@ -46,19 +42,15 @@ object DefaultPointFunction : PointFunction {
     override fun invoke(clip: Clip, x: Double, y: Double, z: Double) {
         if (clip.clip.pointVisible(x, y)) clip.sink.point(x, y, z)
     }
-
 }
 
 object RingPointFunction : PointFunction {
     override fun invoke(clip: Clip, x: Double, y: Double, z: Double) {
-
         clip.apply {
             ring!!.add(doubleArrayOf(x, y))
             ringSink.point(x, y, z)
         }
-
     }
-
 }
 
 object DefaultLineStartFunction : LineStartFunction {
@@ -90,24 +82,23 @@ object RingLineStartFunction : LineStartFunction {
     }
 }
 
-
 object RingLineEndFunction : LineEndFunction {
     override fun invoke(clip: Clip) {
         clip.apply {
             requireNotNull(ring, { "Error on Clip.ringEnd, ring can't be null." })
 
             val ringList = ring!!
-//            pointRing(ringList[0][0], ringList[0][1], 0.0)
+
             RingPointFunction.invoke(this, ringList[0][0], ringList[0][1], 0.0)
-//        pointRing(ringList[0], ringList[1], zeroZ)
+
             ringSink.lineEnd()
 
             val clean = ringSink.clean
             val ringSegments: MutableList<List<DoubleArray>> = ringBuffer.result()
 
-            // double remove
+
             ringList.removeAt(ringList.lastIndex)
-//        ringList.removeAt(ringList.lastIndex)
+
             polygon.add(ringList)
             this.ring = null
 
@@ -160,8 +151,6 @@ object LinePointFunction : PointFunction {
 object PointRingPointFunction : PointFunction {
     override fun invoke(clip: Clip, x: Double, y: Double, z: Double) {
         clip.ring!!.add(doubleArrayOf(x, y))
-//            clip.ring!!.add(x)
-//            clip.ring!!.add(y)
         clip.ringSink.point(x, y, z)
     }
 
@@ -180,14 +169,9 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
     internal val segments: MutableList<List<List<DoubleArray>>> = mutableListOf()
 
-    //    private val polygon: MutableList<List<DoubleArray>> = mutableListOf()
     internal val polygon: MutableList<List<DoubleArray>> = mutableListOf()
     internal var ring: MutableList<DoubleArray>? = null
-//    private var ring: MutableList<Double>? = null
 
-    //    private var currentPoint: (Double, Double, Double) -> Unit = ::defaultPoint
-//    private var currentLineStart: () -> Unit = ::defaultLineStart
-//    private var currentLineEnd: () -> Unit = ::defaultLineEnd
     internal var currentPoint: PointFunction = DefaultPointFunction
     internal var currentLineStart: LineStartFunction = DefaultLineStartFunction
     internal var currentLineEnd: LineEndFunction = DefaultLineEndFunction
@@ -214,7 +198,6 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
 
     override fun polygonStart() {
-//        currentPoint = ::pointRing
         currentPoint = PointRingPointFunction
         currentLineStart = RingLineStartFunction
         currentLineEnd = RingLineEndFunction
@@ -228,13 +211,11 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
 
     override fun polygonEnd() {
-//        currentPoint = ::defaultPoint
         currentPoint = DefaultPointFunction
         currentLineStart = DefaultLineStartFunction
         currentLineEnd = DefaultLineEndFunction
 
         val startInside = polygonContains(polygon, clip.start)
-//        val startInside = polygonContainsOld(polygon, clip.start)
 
         if (segments.isNotEmpty()) {
             if (!polygonStarted) {
@@ -242,7 +223,6 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
                 polygonStarted = true
             }
 
-//            rejoin(segments.flatten(), compareIntersection, startInside, clip::interpolate, sink)
             rejoin(segments.flatten(), compareIntersection, startInside, interpolateFunction, sink)
         } else if (startInside) {
             if (!polygonStarted) {
