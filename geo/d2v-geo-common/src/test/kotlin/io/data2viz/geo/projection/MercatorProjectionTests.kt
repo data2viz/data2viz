@@ -32,7 +32,7 @@ class MercatorProjectionTests : TestBase() {
         val projection = MercatorProjection()
         projection.translate = doubleArrayOf(.0, .0)
         projection.scale = 1.0
-        projection.center = doubleArrayOf(10.0, 10.0)
+        projection.center = arrayOf(10.0.deg, 10.0.deg)
         projection.precision = .0
 
         projection.clipExtent shouldBe null
@@ -45,7 +45,7 @@ class MercatorProjectionTests : TestBase() {
         val projection = MercatorProjection()
         projection.translate = doubleArrayOf(.0, .0)
         projection.scale = 1.0
-        projection.center = doubleArrayOf(10.0, 10.0)
+        projection.center = arrayOf(10.0.deg, 10.0.deg)
         projection.clipExtent = Extent(-10.0, -10.0, 10.0, 10.0)
         projection.precision = .0
 

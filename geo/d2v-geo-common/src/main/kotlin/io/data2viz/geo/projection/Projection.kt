@@ -7,6 +7,7 @@ import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
+import io.data2viz.math.deg
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.sqrt
@@ -35,7 +36,7 @@ interface ProjectableInvertable : Projectable, Invertable
 interface Projection : ProjectableInvertable {
     var scale: Double
     var translate: DoubleArray
-    var center: DoubleArray
+    var center: Array<Angle>
     var precision: Double
     var rotate: Array<Angle>
 
@@ -201,10 +202,10 @@ open class MutableProjection(val projection: Projectable) : Projection {
     private var lambda = 0.0
     private var phi = 0.0
     override var center
-        get() = doubleArrayOf(lambda.toDegrees(), phi.toDegrees())
+        get() = arrayOf(lambda.deg, phi.deg)
         set(value) {
-            lambda = (value[0] % 360).toRadians()
-            phi = (value[1] % 360).toRadians()
+            lambda = value[0].rad
+            phi = value[1].rad
             recenter()
         }
 
@@ -216,7 +217,7 @@ open class MutableProjection(val projection: Projectable) : Projection {
 
 
     override var rotate: Array<Angle>
-        get() = arrayOf(Angle(deltaLambda), Angle(deltaPhi), Angle(deltaGamma))
+        get() = arrayOf(deltaLambda.deg, deltaPhi.deg, deltaGamma.deg)
         set(value) {
             deltaLambda = value[0].rad
             deltaPhi = value[1].rad
