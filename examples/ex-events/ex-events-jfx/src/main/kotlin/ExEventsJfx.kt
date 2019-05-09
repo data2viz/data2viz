@@ -1,4 +1,5 @@
-package io.data2viz.examples.chord
+package io.data2viz.examples.events
+
 
 
 import io.data2viz.viz.JFxVizRenderer

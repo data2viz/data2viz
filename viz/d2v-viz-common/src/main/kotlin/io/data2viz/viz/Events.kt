@@ -109,9 +109,25 @@ class KDragEvent(
 
 
 class KZoomEvent(
+    val startZoomPos: Point,
     val delta: Double
 ) : KEvent {
     companion object {
+
+        const val diffTimeBetweenZoomEventsToDetectRestart = 500
+        fun isNewZoom (currentTime:Double, lastTime:Double?) =
+            if(lastTime == null) {
+                true
+            } else {
+                currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
+            }
+
+        fun isNewZoom (currentTime:Long, lastTime:Long?) =
+            if(lastTime == null) {
+                true
+            } else {
+                currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
+            }
 
         const val minDelta = -100.0
         const val maxDelta = 100.0
@@ -137,12 +153,15 @@ class KZoomEvent(
                 newDeltaValue = minDelta
 
             }
-            println("scaleDelta origin = $currentDelta scaled = $newDeltaValue")
+
             return newDeltaValue
         }
     }
 
-    override fun toString(): String = "KZoomEvent(delta=$delta)"
+    override fun toString(): String {
+        return "KZoomEvent(startZoomPos=$startZoomPos, delta=$delta)"
+    }
+
 }
 
 
