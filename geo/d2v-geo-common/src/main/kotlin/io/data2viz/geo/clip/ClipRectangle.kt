@@ -107,7 +107,6 @@ class ClipRectangle(val extent: Extent) : Clippable {
                         segments!!,
                         Comparator { o1: Intersection, o2 -> comparePoint(o1.point, o2.point) },
                         startInside,
-//                        ::interpolate,
                         interpolateFunction,
                         stream
                     )

@@ -5,13 +5,13 @@ import io.data2viz.math.QUARTERPI
 import io.data2viz.math.TAU
 import kotlin.math.*
 
-//fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
+
 fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
     val lambda = point[0]
     val phi = point[1]
     val normal0 = sin(lambda)
     val normal1 = -cos(lambda)
-    val normal2 = 0.0
+    
     var angle = 0.0
     var winding = 0
 
@@ -79,21 +79,21 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
 
 
                 val intersectioncosPhiB = cos(d1)
-                val intersectionb0 = intersectioncosPhiB * cos(d0)
-                val intersectionb1 = intersectioncosPhiB * sin(d0)
-                val intersectionb2 = sin(d1)
+                val intersectionB0 = intersectioncosPhiB * cos(d0)
+                val intersectionB1 = intersectioncosPhiB * sin(d0)
+                val intersectionB2 = sin(d1)
 
-                var intersectiond0 = intersectiona1 * intersectionb2 - intersectiona2 * intersectionb1
-                var intersectiond1 = intersectiona2 * intersectionb0 - intersectiona0 * intersectionb2
-                var intersectiond2 = intersectiona0 * intersectionb1 - intersectiona1 * intersectionb0
+                var intersectionD0 = intersectiona1 * intersectionB2 - intersectiona2 * intersectionB1
+                var intersectionD1 = intersectiona2 * intersectionB0 - intersectiona0 * intersectionB2
+                var intersectionD2 = intersectiona0 * intersectionB1 - intersectiona1 * intersectionB0
 
                 val intersectionl =
-                    sqrt(intersectiond0 * intersectiond0 + intersectiond1 * intersectiond1 + intersectiond2 * intersectiond2)
-                intersectiond0 /= intersectionl
-                intersectiond1 /= intersectionl
-                intersectiond2 /= intersectionl
+                    sqrt(intersectionD0 * intersectionD0 + intersectionD1 * intersectionD1 + intersectionD2 * intersectionD2)
+                intersectionD0 /= intersectionl
+                intersectionD1 /= intersectionl
+                intersectionD2 /= intersectionl
 
-                val phiArc = (if (antimeridian xor (delta >= 0)) -1 else 1) * asin(intersectiond2)
+                val phiArc = (if (antimeridian xor (delta >= 0)) -1 else 1) * asin(intersectionD2)
                 if (phi > phiArc || (phi == phiArc && ((d0 != .0 && !d0.isNaN()) || (d1 != .0 && !d1.isNaN())))) {
                     winding + if (antimeridian xor (delta >= 0)) 1 else -1
                 }
