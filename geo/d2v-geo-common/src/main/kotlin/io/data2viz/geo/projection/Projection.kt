@@ -103,6 +103,7 @@ class TransformRadians(stream: Stream) : ModifiedStream(stream) {
 fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)
 
 
+
 open class MutableProjection(val projection: Projectable) : Projection {
 
 
@@ -285,11 +286,14 @@ open class MutableProjection(val projection: Projectable) : Projection {
     override fun stream(stream: Stream): Stream {
         var cachedStream = getCachedStream(stream)
         if (cachedStream == null) {
-            cachedStream = transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
+            cachedStream = fullCycleStream(stream)
             cache(cachedStream, cachedStream)
         }
         return cachedStream
     }
+
+    private fun fullCycleStream(stream: Stream) =
+        transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
 
     override fun recenter() {
         rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)

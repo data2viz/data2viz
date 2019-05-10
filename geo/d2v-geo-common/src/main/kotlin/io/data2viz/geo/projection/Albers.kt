@@ -1,5 +1,7 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.math.EPSILON
+
 //import conicEqualArea from "./conicEqualArea";
 
 //fun albers() {
@@ -14,15 +16,20 @@ package io.data2viz.geo.projection
 //        .center([-0.6, 38.7]);
 //}
 
-fun albers() = conicEqualAreaProjection().also {
-    it.scale = 155.424
-    it.center = doubleArrayOf(0.0, 33.6442)
 
-    it.parallels = doubleArrayOf(29.5, 45.5)
-    it.scale = 1070.0
-    it.translate = doubleArrayOf(480.0, 250.0)
-    it.rotate = doubleArrayOf(96.0, 0.0)
-    it.center = doubleArrayOf(-0.6, 38.7)
+fun albersProjection() = albersProjection {
+}
+
+fun albersProjection(init: ConicProjection.() -> Unit) = conicEqualAreaProjection() {
+    scale = 155.424
+    center = doubleArrayOf(0.0, 33.6442)
+
+    parallels = doubleArrayOf(29.5, 45.5)
+    scale = 1070.0
+    translate = doubleArrayOf(480.0, 250.0)
+    rotate = doubleArrayOf(96.0, 0.0)
+    center = doubleArrayOf(-0.6, 38.7)
+    init()
 }
 
 //export default function() {
