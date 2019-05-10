@@ -3,22 +3,22 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.clip.clipAntimeridian
 import io.data2viz.geo.clip.clipCircle
 import io.data2viz.math.PI
+import io.data2viz.math.rad
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 
 //import {degrees, pi, radians} from "../math";
 //import {projectionMutator} from "./index";
 
-class ConicProjection(projectAt: Projectable,
-                      var phi0:Double = 0.0,
-                      var phi1:Double = PI / 3.0): MutableProjection(projectAt) {
+class ConicProjection(projectAt: Projectable): MutableProjection(projectAt) {
 
-
-    var parallels: DoubleArray
-    get() = doubleArrayOf(phi0.toDegrees(), phi1.toDegrees())
+    var phi0:Double = 0.0
+    var phi1:Double = PI / 3.0
+    var parallels
+    get() = arrayOf(phi0.rad, phi1.rad)
     set(value) {
-        phi0 = value[0].toRadians()
-        phi1 = value[1].toRadians()
+        phi0 = value[0].rad
+        phi1 = value[1].rad
     }
 
 }
