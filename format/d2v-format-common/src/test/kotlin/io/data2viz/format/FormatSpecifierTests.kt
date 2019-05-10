@@ -17,7 +17,7 @@ class FormatSpecifierTests : TestBase() {
     @Test fun formatSpecifier__has_the_expected_defaults () {
         val s = specify("")
         (s.fill == ' ') shouldBe true
-        s.align shouldBe Align.RIGTH
+        s.align shouldBe Align.RIGHT
         s.sign shouldBe Sign.MINUS
         s.symbol shouldBe null
         s.zero shouldBe false
@@ -30,7 +30,7 @@ class FormatSpecifierTests : TestBase() {
     @Test fun specifier__has_the_expected_defaults () {
         val s = specify()
         (s.fill == ' ') shouldBe true
-        s.align shouldBe Align.RIGTH
+        s.align shouldBe Align.RIGHT
         s.sign shouldBe Sign.MINUS
         s.symbol shouldBe null
         s.zero shouldBe false

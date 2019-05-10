@@ -32,15 +32,15 @@ import kotlin.math.max
  * @property type The type of number representation.
  */
 data class FormatSpec(
-        val fill: Char = ' ',
-        val align: Align = Align.RIGTH,
-        val sign: Sign = Sign.MINUS,
-        val symbol: Symbol? = null,
-        val zero: Boolean = false,
-        val width: Int? = null,
-        val groupSeparation: Boolean = false,
-        val precision: Int? = null,
-        val type: Type = Type.NONE) {
+    val fill: Char = ' ',
+    val align: Align = Align.RIGHT,
+    val sign: Sign = Sign.MINUS,
+    val symbol: Symbol? = null,
+    val zero: Boolean = false,
+    val width: Int? = null,
+    val groupSeparation: Boolean = false,
+    val precision: Int? = null,
+    val type: Type = Type.NONE) {
 
     /**
      * Usable for debugging, represents the format specification as a String specifier.
@@ -117,7 +117,7 @@ data class FormatSpec(
  */
 fun specify(specifier: String): FormatSpec {
     var fill = ' '
-    var align = Align.RIGTH
+    var align = Align.RIGHT
     var sign = Sign.MINUS
     var symbol: Symbol? = null
     var zero: Boolean
@@ -170,15 +170,15 @@ private val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-( ])?([$#])?(0)?(\\
  * @see FormatSpec for a complete description of parameters.
  */
 fun specify(
-        type: Type = Type.NONE,
-        fill: Char = ' ',
-        align: Align = Align.RIGTH,
-        sign: Sign = Sign.MINUS,
-        symbol: Symbol? = null,
-        zero: Boolean = false,
-        width: Int? = null,
-        groupSeparation: Boolean = false,
-        precision: Int? = null
+    type: Type = Type.NONE,
+    fill: Char = ' ',
+    align: Align = Align.RIGHT,
+    sign: Sign = Sign.MINUS,
+    symbol: Symbol? = null,
+    zero: Boolean = false,
+    width: Int? = null,
+    groupSeparation: Boolean = false,
+    precision: Int? = null
 )
         = FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
 
@@ -363,7 +363,7 @@ enum class Sign(internal val c: String) {
 }
 
 /**
- * Alignment of the number. By default [RIGTH] but can be
+ * Alignment of the number. By default [RIGHT] but can be
  * [LEFT], [CENTER] or [RIGHT_WITHOUT_SIGN]. The padding is filled by [FormatSpec.fill]
  * property.
  */
@@ -371,7 +371,12 @@ enum class Align(internal val c: String) {
     /**
      * Forces the field to be right-aligned within the available space. (Default behavior).
      */
+    RIGHT(">"),
+
+    @Deprecated("Typo error, use the correct version.", ReplaceWith("Align.RIGHT", "io.data2viz.format.Align.RIGHT"))
     RIGTH(">"),
+
+
     /**
      * Forces the field to be left-aligned within the available space.
      */
@@ -382,7 +387,7 @@ enum class Align(internal val c: String) {
     CENTER("^"),
 
     /**
-     * like [RIGTH], but with any sign and symbol to the left of any padding.
+     * like [RIGHT], but with any sign and symbol to the left of any padding.
      */
     RIGHT_WITHOUT_SIGN("=");
 
