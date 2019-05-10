@@ -5,7 +5,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-class CylindricalEqualAreaRaw(phi0:Double) : ProjectableInvertable {
+class CylindricalEqualAreaProjector(phi0:Double) : ProjectableInvertable {
     override fun invert(x: Double, y: Double): DoubleArray {
         return doubleArrayOf(x / cosPhi0, asin(y * cosPhi0))
     }
@@ -27,7 +27,7 @@ class CylindricalEqualAreaRaw(phi0:Double) : ProjectableInvertable {
 
 }
 
-//fun cylindricalEqualAreaRaw() {
+//fun cylindricalEqualProjector() {
 //
 //
 //    fun forward(lambda:Double, phi:Double) {
@@ -44,7 +44,7 @@ class CylindricalEqualAreaRaw(phi0:Double) : ProjectableInvertable {
 //
 //import {asin, cos, sin} from "../math";
 //
-//export function cylindricalEqualAreaRaw(phi0) {
+//export function cylindricalEqualProjector(phi0) {
 //    var cosPhi0 = cos(phi0);
 //
 //    function forward(lambda, phi) {
