@@ -1,6 +1,7 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.math.EPSILON
+import io.data2viz.math.deg
 import kotlin.math.*
 
 
@@ -65,7 +66,7 @@ class ConicEqualAreaRawProjector(var y0:Double = 0.0,
 
 fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEqualAreaRawProjector()) {
     scale = 155.424
-    center = doubleArrayOf(0.0, 33.6442)
+    center = arrayOf(0.0.deg, 33.6442.deg)
     init()
 }
 
