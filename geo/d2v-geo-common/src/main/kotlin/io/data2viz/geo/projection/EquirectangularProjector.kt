@@ -1,12 +1,12 @@
 package io.data2viz.geo.projection
 
 fun equirectangularProjection() = equirectangularProjection {}
-fun equirectangularProjection(init: Projection.() -> Unit) = projection(EquirectangularProjection()) {
+fun equirectangularProjection(init: Projection.() -> Unit) = projection(EquirectangularProjector()) {
     scale = 152.63
     init()
 }
 
-class EquirectangularProjection : ProjectableInvertable {
+class EquirectangularProjector : ProjectableInvertable {
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
 
     override fun projectPhi(lambda: Double, phi: Double): Double = phi
