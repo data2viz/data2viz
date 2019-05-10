@@ -23,6 +23,8 @@ class ConicProjection(projectAt: Projectable,
 
 }
 
+fun conicProjection(projection: Projectable, init: ConicProjection.() -> Unit) = ConicProjection(projection).apply(init)
+
 //fun conicProjection(projectAt: Projectable) {
 //
 //    var mutableProjection = projection(projectAt) {

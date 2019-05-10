@@ -4,8 +4,8 @@ import io.data2viz.math.EPSILON
 import kotlin.math.*
 
 
-class ConicEqualAreaRawProjectableInvertable(var y0:Double = 0.0,
-                                  var y1:Double = io.data2viz.math.PI / 3.0) : ProjectableInvertable {
+class ConicEqualAreaRawProjector(var y0:Double = 0.0,
+                                 var y1:Double = io.data2viz.math.PI / 3.0) : ProjectableInvertable {
 
     var sy0 = sin(y0)
     var n = (sy0 + sin(y1)) / 2;
@@ -63,9 +63,10 @@ class ConicEqualAreaRawProjectableInvertable(var y0:Double = 0.0,
 
 }
 
-fun conicEqualAreaProjection() = ConicProjection(ConicEqualAreaRawProjectableInvertable()).also {
-    it.scale = 155.424
-    it.center = doubleArrayOf(0.0, 33.6442)
+fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEqualAreaRawProjector()) {
+    scale = 155.424
+    center = doubleArrayOf(0.0, 33.6442)
+    init()
 }
 
 
