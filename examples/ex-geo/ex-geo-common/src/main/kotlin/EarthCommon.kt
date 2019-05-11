@@ -14,22 +14,22 @@ import kotlin.math.roundToInt
 val allProjections = hashMapOf(
     "albers" to albersProjection(),
     "albersUSA" to alberUSAProjection(),
-    "azimuthalEqualAreaProjection" to azimuthalEqualAreaProjection(),
+    "azimuthalEqualArea" to azimuthalEqualAreaProjection(),
     "azimuthalEquidistant" to azimuthalEquidistant(),
-    "conicConformalProjection" to conicConformalProjection(),
-    "conicEqualAreaProjection" to conicEqualAreaProjection(),
-    "conicEquidistantProjection" to conicEquidistantProjection(),
-    "equalEarthProjection" to equalEarthProjection(),
-    "equirectangularProjection" to equirectangularProjection(),
-    "gnomonicProjection" to gnomonicProjection(),
-    "identityProjection" to identityProjection(),
-    "mercatorProjection" to mercatorProjection(),
-    "naturalEarth1Projection" to naturalEarth1Projection(),
-    "orthographicProjection" to orthographicProjection(),
-    "stereographicProjection" to stereographicProjection(),
-    "transverseMercatorProjection" to transverseMercatorProjection()
+    "conicConformal" to conicConformalProjection(),
+    "conicEqual" to conicEqualAreaProjection(),
+    "conicEquidistant" to conicEquidistantProjection(),
+    "equalEarth" to equalEarthProjection(),
+    "equirectangular" to equirectangularProjection(),
+    "gnomonic" to gnomonicProjection(),
+    "identity" to identityProjection(),
+    "mercator" to mercatorProjection(),
+    "naturalEarth1" to naturalEarth1Projection(),
+    "orthographic" to orthographicProjection(),
+    "stereographic" to stereographicProjection(),
+    "transverseMercator" to transverseMercatorProjection()
 )
-val allProjectionsNames = allProjections.keys
+val allProjectionsNames = allProjections.keys.toList()
 
 val allFiles = listOf(
     "world-110m.geojson",
@@ -39,7 +39,7 @@ val allFiles = listOf(
 )
 
 val defaultFileIndex = allFiles.indexOf("world-110m-30percent.json")
-val defaultProjectionIndex = allProjectionsNames.indexOf("orthographicProjection")
+val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 
 fun geoViz(world: GeoJsonObject, projectionName: String): Viz {
 
