@@ -53,11 +53,13 @@ class VizView(val viz: Viz, context: Context) : View(context) {
     var drawCount = -1
     private var startTime = System.currentTimeMillis()
 
+    var fps = 0.0
+
     override fun onDraw(canvas: Canvas) {
         drawCount++
         if (drawCount == 100){
             val delta = System.currentTimeMillis() - startTime
-            val fps = 100_000 / delta
+            fps = 100_000.0 / delta
             startTime = System.currentTimeMillis()
             drawCount = -1
         }

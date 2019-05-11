@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:gravity="center"
+              android:layout_height="match_parent">
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:id="@+id/button_start_stop_animations"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/button_start_stop_animations"
+        />
+
+        <io.data2viz.viz.ui.FPSMeterView
+                android:id="@+id/text_fps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <Spinner
+            android:id="@+id/spinner_projections"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <Spinner
+            android:id="@+id/spinner_files"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+
+    <FrameLayout
+            android:id="@+id/layout_viz"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </FrameLayout>
+
+</LinearLayout>
