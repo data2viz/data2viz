@@ -85,7 +85,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String): Viz {
             FPS.eventuallyUpdate(now)
 
             if (FPS.value >= 0) {
-                fps.textContent = "${FPS.value.roundToInt()} FPS"
+                fps.textContent = "Internal FPS: ${FPS.value.roundToInt()}"
             }
 
 
