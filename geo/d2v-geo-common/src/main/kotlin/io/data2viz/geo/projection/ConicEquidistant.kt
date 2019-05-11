@@ -66,6 +66,10 @@ class ConicEquidistantProjector(val y0: Double = 0.0,
 }
 
 
+fun conicEquidistantProjection() = conicEquidistantProjection {
+
+}
+
 fun conicEquidistantProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEquidistantProjector()) {
     scale = 131.154
     center = arrayOf(0.0.deg, 13.9389.deg)

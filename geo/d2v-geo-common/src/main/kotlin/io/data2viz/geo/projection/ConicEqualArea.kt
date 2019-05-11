@@ -64,6 +64,10 @@ class ConicEqualAreaProjector(var y0:Double = 0.0,
 
 }
 
+fun conicEqualAreaProjection() = conicEqualAreaProjection {
+
+}
+
 fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEqualAreaProjector()) {
     scale = 155.424
     center = arrayOf(0.0.deg, 33.6442.deg)

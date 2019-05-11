@@ -2,7 +2,7 @@ package io.data2viz.examples.geo
 
 import io.data2viz.color.Colors
 import io.data2viz.geo.path.geoPath
-import io.data2viz.geo.projection.orthographic
+import io.data2viz.geo.projection.*
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.deg
 import io.data2viz.viz.PathNode
@@ -11,65 +11,103 @@ import io.data2viz.viz.viz
 import kotlin.math.roundToInt
 
 
-fun geoViz(world: GeoJsonObject): Viz = viz {
-    width = 960.0
-    height = 700.0
+val allProjections = hashMapOf(
+    "albers" to albersProjection(),
+    "albersUSA" to alberUSAProjection(),
+    "azimuthalEqualAreaProjection" to azimuthalEqualAreaProjection(),
+    "azimuthalEquidistant" to azimuthalEquidistant(),
+    "conicConformalProjection" to conicConformalProjection(),
+    "conicEqualAreaProjection" to conicEqualAreaProjection(),
+    "conicEquidistantProjection" to conicEquidistantProjection(),
+    "equalEarthProjection" to equalEarthProjection(),
+    "equirectangularProjection" to equirectangularProjection(),
+    "gnomonicProjection" to gnomonicProjection(),
+    "identityProjection" to identityProjection(),
+    "mercatorProjection" to mercatorProjection(),
+    "naturalEarth1Projection" to naturalEarth1Projection(),
+    "orthographicProjection" to orthographicProjection(),
+    "stereographicProjection" to stereographicProjection(),
+    "transverseMercatorProjection" to transverseMercatorProjection()
+)
+val allProjectionsNames = allProjections.keys
 
-    val fps = text {
-        x = 40.0
-        y = 40.0
-        fill = Colors.Web.red
-    }
+val allFiles = listOf(
+    "world-110m.geojson",
+    "world-110m-30percent.json",
+    "world-110m-50percent.json",
+    "world-110m-70percent.json"
+)
 
-    // OUTER GLOBE
-    val projectionOuter = orthographic {
-        //    val projectionOuter = mercatorProjection {
-//    val projectionOuter = identityProjection {
-//    val projectionOuter = equirectangularProjection {
-//    val projectionOuter = azimuthalEquidistant {
-//    val projectionOuter = azimuthalEqualAreaProjection {
-        translate = doubleArrayOf(width / 2.0, height / 2.0)
-//        scale = min(width, height) / 2.2
-    }
+val defaultFileIndex = allFiles.indexOf("world-110m-30percent.json")
+val defaultProjectionIndex = allProjectionsNames.indexOf("orthographicProjection")
 
-    val pathOuter = PathNode().apply {
-        stroke = Colors.Web.black
-        strokeWidth = 1.0
-        fill = Colors.Web.whitesmoke
-    }
+fun geoViz(world: GeoJsonObject, projectionName: String): Viz {
 
-    var geoPathOuter = geoPath(projectionOuter, pathOuter)
 
-    geoPathOuter.path(world)
-    add(pathOuter)
+    val vizWidth = 960.0
+    val vizHeight = 700.0
 
-    animation { now: Double ->
+    val projectionOuter = allProjections[projectionName]
+    projectionOuter!!.translate = doubleArrayOf(vizWidth / 2.0, vizHeight / 2.0)
 
-        FPS.eventuallyUpdate(now)
 
-        if (FPS.value >= 0) {
-            fps.textContent = "${FPS.value.roundToInt()} FPS"
+    return viz {
+        width = vizWidth
+        height = vizHeight
+
+        val fps = text {
+            x = 40.0
+            y = 40.0
+            fill = Colors.Web.red
+        }
+
+        text {
+            x = 40.0
+            y = 60.0
+            fill = Colors.Web.red
+            textContent = projectionName
         }
 
 
-        val rotate = geoPathOuter.projection.rotate
-        rotate[0] += (0.5).deg
-        rotate[1] = (-10.0).deg
+        val pathOuter = PathNode().apply {
+            stroke = Colors.Web.black
+            strokeWidth = 1.0
+            fill = Colors.Web.whitesmoke
+        }
 
-        pathOuter.clearPath()
+        var geoPathOuter = geoPath(projectionOuter, pathOuter)
+
         geoPathOuter.path(world)
-        geoPathOuter.projection.rotate = rotate
+        add(pathOuter)
+
+        animation { now: Double ->
+
+            FPS.eventuallyUpdate(now)
+
+            if (FPS.value >= 0) {
+                fps.textContent = "${FPS.value.roundToInt()} FPS"
+            }
+
+
+            val rotate = geoPathOuter.projection.rotate
+            rotate[0] += (0.5).deg
+            rotate[1] = (-10.0).deg
+
+            pathOuter.clearPath()
+            geoPathOuter.path(world)
+            geoPathOuter.projection.rotate = rotate
+        }
+
+        onResize { newWidth, newHeight ->
+
+            width = newWidth
+            height = newHeight
+
+            geoPathOuter = geoPath(projectionOuter, pathOuter)
+        }
+
+
     }
-
-    onResize { newWidth, newHeight ->
-
-        width = newWidth
-        height = newHeight
-
-        geoPathOuter = geoPath(projectionOuter, pathOuter)
-    }
-
-
 }
 
 object FPS {

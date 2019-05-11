@@ -6,6 +6,10 @@ import io.data2viz.math.PI
 import io.data2viz.math.TAU
 import kotlin.math.*
 
+fun mercatorProjection() = mercatorProjection{
+
+}
+
 fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProjector()) {
     scale = 961 / TAU
     init()

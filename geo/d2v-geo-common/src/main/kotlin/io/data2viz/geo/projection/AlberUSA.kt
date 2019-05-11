@@ -1,10 +1,9 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ModifiedStream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import io.data2viz.math.HALFPI
-import io.data2viz.math.toRadians
+import io.data2viz.math.deg
 import kotlin.math.atan
 import kotlin.math.exp
 import kotlin.math.ln
@@ -40,14 +39,14 @@ class AlberUSAProjector : ProjectableInvertable {
 
     val lover48Projection = albersProjection()
     val alaska = conicEqualAreaProjection {
-        rotate = doubleArrayOf(154.0, 0.0)
-        center = doubleArrayOf(-2.0, 58.5)
-        parallels = doubleArrayOf(55.0, 65.0)
+        rotate = arrayOf(154.0.deg, 0.0.deg)
+        center = arrayOf(-2.0.deg, 58.5.deg)
+        parallels = arrayOf(55.0.deg, 65.0.deg)
     }
     val hawaii = conicEqualAreaProjection {
-        rotate = doubleArrayOf(157.0, 0.0)
-        center = doubleArrayOf(-3.0, 19.9)
-        parallels = doubleArrayOf(8.0, 18.0)
+        rotate = arrayOf(157.0.deg, 0.0.deg)
+        center = arrayOf(-3.0.deg, 19.9.deg)
+        parallels = arrayOf(8.0.deg, 18.0.deg)
 
     }
 
@@ -75,6 +74,10 @@ class AlberUSAProjector : ProjectableInvertable {
 //        : y >= 0.166 && y < 0.234 && x >= -0.214 && x < -0.115 ? hawaii
 //        : lower48).invert(coordinates);
 //    };
+}
+
+fun alberUSAProjection() = alberUSAProjection {
+
 }
 
 fun alberUSAProjection(init: Projection.() -> Unit) = projection(AlberUSAProjector()) {
