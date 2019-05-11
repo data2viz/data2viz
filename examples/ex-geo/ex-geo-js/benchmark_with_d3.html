@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Data2viz - Orthographic Earth</title>
+
+
+</head>
+<style>
+    .column {
+        float: left;
+        width: 500px;
+        margin-left:10px;
+    }
+
+    .row {
+        width: 100%;
+    }
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+</style>
+<body>
+<div>
+    <button id="button_start_stop">Start/stop v2z animations</button>
+    <button id="button_start_stop_d3">Start/stop d3 animations</button>
+
+    <select class="geo_select" id="select_projection">
+
+    </select>
+
+
+    <select class="geo_select" id="select_file">
+
+    </select>
+
+    <span> JS Benchmark FPS:<span id="fps"></span> </span>
+
+
+</div>
+<div class="row">
+
+    <div class="column">
+        <div>Data2Viz</div>
+        <canvas id="viz"></canvas>
+    </div>
+    <div class="column">
+        <div>D3</div>
+        <svg></svg>
+    </div>
+</div>
+
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
+
+
+<script>
+
+
+    const width = 500;
+    const height = 500;
+    const config = {
+        speed: 0.005,
+        verticalTilt: -30,
+        horizontalTilt: 0
+    }
+    let locations = [];
+    const svg = d3.select('svg')
+        .attr('width', width).attr('height', height);
+    const markerGroup = svg.append('g');
+
+    //const projection = d3.geoAzimuthalEqualArea();
+    //const projection = d3.geoAzimuthalEquidistant();
+    //const projection = d3.geoEquirectangular();
+    //const projection = d3.geoIdentity();
+    //const projection = d3.geoMercator();
+    const projection = d3.geoOrthographic();
+    const initialScale = projection.scale();
+    const path = d3.geoPath().projection(projection);
+
+    projection.translate([width/2, height/2]);
+
+    var needRotate = true;
+    drawGlobe();
+
+
+    d3.timer(function(elapsed) {
+
+
+        if(needRotate) {
+
+            projection.rotate([config.speed * elapsed - 120, config.verticalTilt, config.horizontalTilt]);
+            svg.selectAll("path").attr("d", path);
+        }
+    });
+
+
+    document.getElementById('button_start_stop_d3').onclick = function(){
+        needRotate = !needRotate;
+
+    }
+
+    //.data(topojson.feature(worldData, worldData.objects.countries).features)
+    function drawGlobe() {
+
+        d3.json('./world-110m.geojson', function(error, worldData) {
+
+console.log("geojson", worldData);
+            svg.selectAll("path")
+                .data(worldData.features)
+                 .enter().append("path")
+                            .attr("class", "segment")
+                            .attr("d", path)
+                            .style("stroke", "#000")
+                            .style("stroke-width", "1px")
+                            .style("fill", (d, i) => '#e5e5e5');
+
+
+
+        });
+
+
+    }
+
+
+
+
+</script>
+<script>
+    const times = [];
+    let fps;
+
+    function refreshLoop() {
+        window.requestAnimationFrame(() => {
+            const now = performance.now();
+            while (times.length > 0 && times[0] <= now - 1000) {
+                times.shift();
+            }
+            times.push(now);
+            fps = times.length;
+            document.getElementById("fps").textContent = fps
+            // console.log(fps);
+            refreshLoop();
+        });
+    }
+
+    refreshLoop();
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+<script>
+    require.config({baseUrl: "build/kotlin-js-min/main"});
+    require(['build/kotlin-js-min/main/ex-geo-js.js']);
+
+</script>
+</body>
+</html>
