@@ -41,11 +41,9 @@ val allFiles = listOf(
 val defaultFileIndex = allFiles.indexOf("world-110m-30percent.json")
 val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 
-fun geoViz(world: GeoJsonObject, projectionName: String): Viz {
+fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0, vizHeight:Double = 700.0): Viz {
 
 
-    val vizWidth = 960.0
-    val vizHeight = 700.0
 
     val projectionOuter = allProjections[projectionName]
     projectionOuter!!.translate = doubleArrayOf(vizWidth / 2.0, vizHeight / 2.0)
@@ -56,13 +54,13 @@ fun geoViz(world: GeoJsonObject, projectionName: String): Viz {
         height = vizHeight
 
         val fps = text {
-            x = 40.0
+            x = 10.0
             y = 40.0
             fill = Colors.Web.red
         }
 
         text {
-            x = 40.0
+            x = 10.0
             y = 60.0
             fill = Colors.Web.red
             textContent = projectionName

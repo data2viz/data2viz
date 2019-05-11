@@ -103,7 +103,7 @@ private fun loadViz(filename: String, projectionName: String) {
         parent!!.appendChild(newCanvas)
 
         currentViz?.stopAnimations()
-        currentViz = geoViz(response.text().await().toGeoJsonObject(), projectionName)
+        currentViz = geoViz(response.text().await().toGeoJsonObject(), projectionName, 500.0, 500.0)
 
         currentViz!!.bindRendererOn(newCanvas)
         if(!animationStarted) {

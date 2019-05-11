@@ -29,46 +29,9 @@
 <script>
     require.config({baseUrl: "build/kotlin-js-min/main"});
     require(['build/kotlin-js-min/main/ex-geo-js.js']);
-
-
-
-<!--window.addEventListener('load', function () {-->
-<!--    console.log('All assets are loaded');-->
-<!--    var x = document.getElementsByClassName('geo_select');-->
-
-<!--    var i;-->
-<!--    for (i = 0; i < x.length; i++) {-->
-<!--        x[i].onchange = function (e) {-->
-<!--            if (!e)-->
-<!--                var e = window.event;-->
-
-<!--            let selectFilename = document.getElementById('select_file');-->
-<!--            let selectProjection = document.getElementById('select_projection');-->
-<!--            let filename = selectFilename.options[selectFilename.selectedIndex].value;-->
-<!--            let projection = selectProjection.options[selectProjection.selectedIndex].value;-->
-
-
-
-<!--            console.log(filename + " " + projection);-->
-
-
-
-<!--        }-->
-<!--    }-->
-<!--})-->
-
-
-
-
-
-
-
-<!--document.getElementsByClassName("geo_select").on('change', function()-->
-<!--{-->
-<!--    alert( this.value );-->
-<!--});-->
-
-     const times = [];
+</script>
+<script>
+                const times = [];
 let fps;
 
 function refreshLoop() {
