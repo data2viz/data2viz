@@ -11,7 +11,7 @@ val M = sqrt(3.0) / 2
 val iterations = 12
 
 
-fun equalEarthProjection() = identityProjection {
+fun equalEarthProjection() = equalEarthProjection {
 
 }
 

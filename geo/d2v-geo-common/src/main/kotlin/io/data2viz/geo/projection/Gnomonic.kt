@@ -9,7 +9,7 @@ fun gnomonicProjection() = gnomonicProjection {
 
 }
 
-fun gnomonicProjection(init: Projection.() -> Unit) = projection(IdentityProjection()) {
+fun gnomonicProjection(init: Projection.() -> Unit) = projection(GnomonicProjector()) {
     clipAngle = 60.0
 
     scale = 144.049

@@ -111,6 +111,9 @@ class ConicConformalProjector(
 }
 
 
+fun conicConformalProjection() = conicConformalProjection {
+}
+
 fun conicConformalProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicConformalProjector()) {
     scale = 109.5
     parallels = arrayOf(30.0.deg, 33.0.deg)

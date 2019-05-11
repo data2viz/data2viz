@@ -26,6 +26,8 @@ class EarthApplication : Application() {
 
 
         val label = Label()
+
+        val label = Label()
         val frameRateMeter = object : AnimationTimer() {
 
             override fun handle(now: Long) {
@@ -39,7 +41,7 @@ class EarthApplication : Application() {
                     val elapsedNanos = now - oldFrameTime
                     val elapsedNanosPerFrame = elapsedNanos / frameTimes.size
                     val frameRate = 1_000_000_000.0 / elapsedNanosPerFrame
-                    label.setText(String.format("Current frame rate: %.3f", frameRate))
+                    label.setText(String.format("Native JFX benchmark frame rate: %.3f", frameRate))
                 }
             }
         }

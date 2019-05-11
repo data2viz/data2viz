@@ -26,34 +26,3 @@ class CylindricalEqualAreaProjector(phi0:Double) : ProjectableInvertable {
     }
 
 }
-
-//fun cylindricalEqualProjector() {
-//
-//
-//    fun forward(lambda:Double, phi:Double) {
-//        return [lambda * cosPhi0, sin(phi) / cosPhi0];
-//    }
-//
-//    forward.invert = function(x, y) {
-//        return [x / cosPhi0, asin(y * cosPhi0)];
-//    };
-//
-//    return forward;
-//}
-
-//
-//import {asin, cos, sin} from "../math";
-//
-//export function cylindricalEqualProjector(phi0) {
-//    var cosPhi0 = cos(phi0);
-//
-//    function forward(lambda, phi) {
-//        return [lambda * cosPhi0, sin(phi) / cosPhi0];
-//    }
-//
-//    forward.invert = function(x, y) {
-//        return [x / cosPhi0, asin(y * cosPhi0)];
-//    };
-//
-//    return forward;
-//}
