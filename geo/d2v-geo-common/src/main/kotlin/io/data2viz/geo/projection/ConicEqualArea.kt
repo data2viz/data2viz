@@ -36,16 +36,16 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
         cylindricalEqualProjector.phi0 = phi0
         isPossibleToUseBaseProjection = abs(n) < EPSILON
 
-
-        println("ConicEqualAreaProjector isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection n = $n")
-
-        println("""ConicEqualAreaProjector
-            phi0 =$phi0
-            phi1 =$phi1
-            sy0 = $sy0
-            c = $c
-            r0 = $0
-            isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection """.trimIndent())
+//
+//        println("ConicEqualAreaProjector isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection n = $n")
+//
+//        println("""ConicEqualAreaProjector
+//            phi0 =$phi0
+//            phi1 =$phi1
+//            sy0 = $sy0
+//            c = $c
+//            r0 = $0
+//            isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection """.trimIndent())
 
     }
 
@@ -94,7 +94,7 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
             // TODO: check
 //            return [r * sin(x *= n), r0 - r * cos(x)];
             val lambdaN = lambda * n
-            doubleArrayOf(r * sin(lambdaN), r0 - r * cos(lambdaN));
+            doubleArrayOf(r * sin(lambda), r0 - r * cos(lambdaN));
         }
 
 
@@ -107,7 +107,7 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
 
             var r = sqrt(c - 2 * n * sin(phi)) / n
             val lambdaN = lambda * n
-            r * sin(lambdaN * n)
+            r * sin(lambda * n)
         }
     }
 
