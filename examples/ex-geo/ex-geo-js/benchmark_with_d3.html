@@ -58,7 +58,8 @@
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
-
+<script src="https://d3js.org/d3-array.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo.v1.min.js"></script>
 
 <script>
 
@@ -66,50 +67,137 @@
     const width = 500;
     const height = 500;
     const config = {
-        speed: 0.005,
-        verticalTilt: -30,
+        speed: 0.0085,
+        verticalTilt: 0,
         horizontalTilt: 0
     }
-    let locations = [];
-    const svg = d3.select('svg')
+
+
+
+
+    let svg = d3.select('svg')
         .attr('width', width).attr('height', height);
-    const markerGroup = svg.append('g');
 
-    //const projection = d3.geoAzimuthalEqualArea();
-    //const projection = d3.geoAzimuthalEquidistant();
-    //const projection = d3.geoEquirectangular();
-    //const projection = d3.geoIdentity();
-    //const projection = d3.geoMercator();
-    const projection = d3.geoOrthographic();
-    const initialScale = projection.scale();
-    const path = d3.geoPath().projection(projection);
 
-    projection.translate([width/2, height/2]);
-
+var projection = d3.geoOrthographic();
+var initialScale = projection.scale();
+    var path = d3.geoPath().projection(projection);
     var needRotate = true;
-    drawGlobe();
 
 
+//const started = Date.now()
+console.log("test");
     d3.timer(function(elapsed) {
 
 
         if(needRotate) {
 
-            projection.rotate([config.speed * elapsed - 120, config.verticalTilt, config.horizontalTilt]);
+            const diff = Date.now()
+
+            const k = 60
+
+            const angle = (diff % (360 * k)) / k
+
+            //const old = config.speed * elapsed - 120
+
+            //console.log("diff + " + diff)
+            //console.log("angle + " + angle)
+            //console.log("old + " + old)
+
+            projection.rotate([angle, config.verticalTilt, config.horizontalTilt]);
             svg.selectAll("path").attr("d", path);
         }
     });
-
 
     document.getElementById('button_start_stop_d3').onclick = function(){
         needRotate = !needRotate;
 
     }
 
-    //.data(topojson.feature(worldData, worldData.objects.countries).features)
-    function drawGlobe() {
 
-        d3.json('./world-110m.geojson', function(error, worldData) {
+
+
+
+console.log('test');
+    //.data(topojson.feature(worldData, worldData.objects.countries).features)
+    function drawGlobe(filename, projectionName) {
+
+console.log("drawGlobe " + filename  + " " +  projectionName);
+
+var newProjection;
+
+switch(projectionName) {
+  case "albers":
+    newProjection = d3.geoAlbers();
+    break;
+  case "albersUSA":
+    newProjection = d3.geoAlbersUSA();
+    break;
+  case "azimuthalEqualArea":
+    newProjection = d3.geoAzimuthalEqualArea();
+    break;
+  case "azimuthalEquidistant":
+    newProjection = d3.geoAzimuthalEquidistant();
+    break;
+  case "conicEqual":
+    newProjection = d3.geoConicEqualArea();
+    break;
+  case "conicConformal":
+    newProjection = d3.geoConicConformal();
+    break;
+  case "conicEquidistant":
+    newProjection = d3.geoConicEquidistant();
+    break;
+  case "equalEarth":
+    newProjection = d3.geoEqualEarth();
+    break;
+  case "equirectangular":
+    newProjection = d3.geoEquirectangular();
+    break;
+  case "gnomonic":
+    newProjection = d3.geoGnomonic();
+    break;
+  case "identity":
+    newProjection = d3.geoIdentity();
+    break;
+  case "mercator":
+    newProjection = d3.geoMercator();
+    break;
+  case "naturalEarth1":
+    newProjection = d3.geoNaturalEarth1();
+    break;
+  case "orthographic":
+    newProjection = d3.geoOrthographic();
+    break;
+  case "stereographic":
+    newProjection = d3.geoStereographic();
+    break;
+  case "transverseMercator":
+    newProjection = d3.geoTransverseMercator();
+    break;
+  default:
+    alert("Invalid projection " + projectionName)
+}
+
+svg.selectAll("*").remove();
+//svg.empty();
+
+    //const projection = d3.geoAzimuthalEqualArea();
+    //const projection = d3.geoAzimuthalEquidistant();
+    //const projection = d3.geoEquirectangular();
+    //const projection = d3.geoIdentity();
+    //const projection = d3.geoMercator();
+    projection = newProjection;
+    initialScale = projection.scale();
+    path = d3.geoPath().projection(projection);
+
+    console.log("test1");
+
+    projection.translate([width/2, height/2]);
+
+//projection = d3.geoOrthographic();
+
+        d3.json('./' + filename, function(error, worldData) {
 
 console.log("geojson", worldData);
             svg.selectAll("path")
@@ -123,6 +211,7 @@ console.log("geojson", worldData);
 
 
 
+
         });
 
 
@@ -132,6 +221,18 @@ console.log("geojson", worldData);
 
 
 </script>
+
+
+<script>
+
+    function onSettingsChanged(filename, projection) {
+        console.log("onSettingChanged " + projection + " " + filename)
+
+        drawGlobe(filename, projection);
+    }
+
+</script>
+
 <script>
     const times = [];
     let fps;

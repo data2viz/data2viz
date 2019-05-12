@@ -24,8 +24,16 @@
 
 
 </div>
+<div>Data2Viz</div>
 <canvas id="viz"></canvas>
 
+<script>
+
+    function onSettingsChanged(projection, filename) {
+        console.log("onSettingChanged " + projection + " " + filename)
+    }
+
+</script>
 <script>
     require.config({baseUrl: "build/kotlin-js-min/main"});
     require(['build/kotlin-js-min/main/ex-geo-js.js']);
@@ -49,6 +57,8 @@ function refreshLoop() {
 }
 
 refreshLoop();
+
+
 
 </script>
 </body>

@@ -80,10 +80,20 @@ private fun onSelectionChanged() {
 
     val selectProjection = document.getElementById(selectProjectionId).unsafeCast<HTMLSelectElement>()
 
-    val fileValue = selectFile.options[selectFile.selectedIndex]!!.getAttribute("value")
-    val projectionValue = selectProjection.options[selectProjection.selectedIndex]!!.getAttribute("value")
+    onSettingsChanged(selectFile, selectProjection)
 
-    loadViz(fileValue!!, projectionValue!!)
+
+}
+
+private fun onSettingsChanged(
+    selectFile: HTMLSelectElement,
+    selectProjection: HTMLSelectElement
+) {
+    val fileValue = selectFile.options[selectFile.selectedIndex]!!.getAttribute("value")!!
+    val projectionValue = selectProjection.options[selectProjection.selectedIndex]!!.getAttribute("value")!!
+
+    loadViz(fileValue, projectionValue)
+    js("onSettingsChanged(fileValue, projectionValue)")
 }
 
 @JsName("loadViz")
