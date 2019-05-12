@@ -5,6 +5,7 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.*
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.deg
+import io.data2viz.time.Date
 import io.data2viz.viz.PathNode
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
@@ -87,9 +88,13 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0
             }
 
 
+            val unixTime = Date().getTime()
+
             val rotate = geoPathOuter.projection.rotate
-            rotate[0] += (0.5).deg
-            rotate[1] = (-10.0).deg
+            val k = 60.0
+
+            rotate[0] = ((unixTime % (360 * k)) / k).deg
+
 
             pathOuter.clearPath()
             geoPathOuter.path(world)
