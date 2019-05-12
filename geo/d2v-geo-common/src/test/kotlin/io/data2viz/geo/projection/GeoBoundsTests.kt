@@ -486,7 +486,7 @@ class GeoBoundsTests : TestBase() {
     fun geobounds_null_geometries() {
         val result = GeoBounds().result(Feature(null))
 
-        doubleArrayOf(result.x0, result.y0) shouldBeClose doubleArrayOf(Double.NaN, Double.NaN)
-        doubleArrayOf(result.x1, result.y1) shouldBeClose doubleArrayOf(Double.NaN, Double.NaN)
+        doubleArrayOf(result.x0, result.phi0) shouldBeClose doubleArrayOf(Double.NaN, Double.NaN)
+        doubleArrayOf(result.x1, result.phi1) shouldBeClose doubleArrayOf(Double.NaN, Double.NaN)
     }*/
 }
