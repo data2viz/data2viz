@@ -104,7 +104,10 @@ console.log("test");
             //console.log("angle + " + angle)
             //console.log("old + " + old)
 
-            projection.rotate([angle, config.verticalTilt, config.horizontalTilt]);
+if (typeof projection.rotate === 'function') {
+	projection.rotate([angle, config.verticalTilt, config.horizontalTilt]);
+}
+
             svg.selectAll("path").attr("d", path);
         }
     });

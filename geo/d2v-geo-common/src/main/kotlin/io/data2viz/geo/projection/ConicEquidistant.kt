@@ -1,27 +1,52 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.math.EPSILON
-import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
 import kotlin.math.*
 
 
+class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
 
-class ConicEquidistantProjector(val y0: Double = 0.0,
-                                val y1: Double = io.data2viz.math.PI / 3.0) : ProjectableInvertable {
-    val cy0: Double = cos(y0)
-    val n = if (y0 == y1) {
-        sin(y0)
+    override var phi0: Double = 0.0
+        set(value) {
+            field = value
+            recalculate()
+        }
+    override var phi1: Double = io.data2viz.math.PI / 3.0
+        set(value) {
+            field = value
+            recalculate()
+        }
+
+
+    private var cy0: Double = cos(phi0)
+    private var n = if (phi0 == phi1) {
+        sin(phi0)
     } else {
-        (cy0 - cos(y1)) / (y1 - y0)
+        (cy0 - cos(phi1)) / (phi1 - phi0)
     }
-    val g = cy0 / n + y0;
+    private var g = cy0 / n + phi0;
+    var isPossibleToUseBaseProjection = abs(n) < EPSILON
+
+
+    private fun recalculate() {
+        cy0 = cos(phi0)
+        n = if (phi0 == phi1) {
+            sin(phi0)
+        } else {
+            (cy0 - cos(phi1)) / (phi1 - phi0)
+        }
+        g = cy0 / n + phi0;
+        isPossibleToUseBaseProjection = abs(n) < EPSILON
+
+    }
+
 
     // TODO refactor
     val baseProjector = EquirectangularProjector()
 
     override fun invert(x: Double, y: Double): DoubleArray {
-        return if (abs(n) < EPSILON) {
+        return if (isPossibleToUseBaseProjection) {
             baseProjector.invert(x, y)
         } else {
             var gy = g - y;
@@ -32,7 +57,7 @@ class ConicEquidistantProjector(val y0: Double = 0.0,
 
     override fun project(x: Double, y: Double): DoubleArray {
 
-        return if (abs(n) < EPSILON) {
+        return if (isPossibleToUseBaseProjection) {
             baseProjector.project(x, y)
         } else {
             val gy = g - y
@@ -44,7 +69,7 @@ class ConicEquidistantProjector(val y0: Double = 0.0,
     }
 
     override fun projectLambda(x: Double, y: Double): Double {
-        return if (abs(n) < EPSILON) {
+        return if (isPossibleToUseBaseProjection) {
             baseProjector.projectLambda(x, y)
         } else {
             val gy = g - y
@@ -54,7 +79,7 @@ class ConicEquidistantProjector(val y0: Double = 0.0,
     }
 
     override fun projectPhi(x: Double, y: Double): Double {
-        return if (abs(n) < EPSILON) {
+        return if (isPossibleToUseBaseProjection) {
             baseProjector.projectPhi(x, y)
         } else {
             val gy = g - y
@@ -62,6 +87,8 @@ class ConicEquidistantProjector(val y0: Double = 0.0,
             return g - gy * cos(nx)
         }
     }
+
+
 
 }
 
