@@ -48,12 +48,12 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
         isPossibleToUseBaseProjection = (n == 0.0 || n == Double.NaN)
 //        isPossibleToUseBaseProjection = false
 
-        println("""ConicConformalProjector
-            phi0 =$phi0
-            phi1 =$phi1
-            n = $n
-            f = $f
-            isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection """.trimIndent())
+//        println("""ConicConformalProjector
+//            phi0 =$phi0
+//            phi1 =$phi1
+//            n = $n
+//            f = $f
+//            isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection """.trimIndent())
 
     }
 
