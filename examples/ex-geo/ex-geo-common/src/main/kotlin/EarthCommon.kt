@@ -42,6 +42,8 @@ val allFiles = listOf(
 val defaultFileIndex = allFiles.indexOf("world-110m-30percent.json")
 val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 
+
+
 fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0, vizHeight:Double = 700.0): Viz {
 
 
@@ -79,6 +81,11 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0
         geoPathOuter.path(world)
         add(pathOuter)
 
+        val isNeedRotate = when(projectionName) {
+            "albersUSA", "identity" -> false
+            else -> true
+        }
+
         animation { now: Double ->
 
             FPS.eventuallyUpdate(now)
@@ -88,17 +95,20 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0
             }
 
 
-            val unixTime = Date().getTime()
+            if(isNeedRotate) {
+                val unixTime = Date().getTime()
 
-            val rotate = geoPathOuter.projection.rotate
-            val k = 60.0
+                val rotate = geoPathOuter.projection.rotate
+                val k = 60.0
 
-            rotate[0] = ((unixTime % (360 * k)) / k).deg
+                rotate[0] = ((unixTime % (360 * k)) / k).deg
 
 
-            pathOuter.clearPath()
-            geoPathOuter.path(world)
-            geoPathOuter.projection.rotate = rotate
+                pathOuter.clearPath()
+                geoPathOuter.path(world)
+                geoPathOuter.projection.rotate = rotate
+            }
+
         }
 
         onResize { newWidth, newHeight ->
