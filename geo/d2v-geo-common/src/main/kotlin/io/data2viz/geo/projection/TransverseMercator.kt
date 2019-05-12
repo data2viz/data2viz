@@ -13,37 +13,61 @@ fun transverseMercatorProjection() = transverseMercatorProjection {
 
 }
 
-fun transverseMercatorProjection(init: Projection.() -> Unit) = projection(TransverseMercatorProjection()) {
+fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) = TransverseMercatorProjection().also {
 
-    scale = 159.155
-    rotate = arrayOf(0.deg, 0.deg, 90.deg)
-    init()
-}
+    it.rotate = arrayOf(0.deg, 0.deg, 90.deg)
+    it.scale = 159.155
+}.also(init)
 
-class TransverseMercatorRawProjector : ProjectableInvertable {
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
-    override fun invert(x: Double, y: Double) = doubleArrayOf(-y, 2 * atan(exp(x)) - HALFPI)
-    override fun projectLambda(lambda: Double, phi: Double): Double = ln(tan((HALFPI + phi) / 2))
 
-    override fun projectPhi(lambda: Double, phi: Double): Double = -lambda
-}
-
-class TransverseMercatorProjection : MercatorProjection(TransverseMercatorRawProjector()) {
-
-    override var center: Array<Angle>
-        get() = reverse(super.center)
-        set(value) {
-            super.center = reverse(value)
-        }
-
-    private fun reverse(it: Array<Angle>): Array<Angle> {
-        val t = it[0]
-        it[0] = it[1]
-        it[1] = t
-        return it
+class TransverseMercatorProjector() : ProjectableInvertable {
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+//        val invert = invert(lambda, phi)
+//        val lambdaNew = invert[0]
+//        val phiNew = invert[1]
+//        return doubleArrayOf(ln(tan((HALFPI + phiNew) / 2)), -lambdaNew)
+        return doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
     }
 
-    // TODO: box/unbox perfroamnce
+    override fun invert(x: Double, y: Double) = doubleArrayOf(-y, 2 * atan(exp(x)) - HALFPI)
+
+    override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
+    override fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
+
+//    override fun projectLambda(lambda: Double, phi: Double): Double = ln(tan((HALFPI + phi) / 2))
+//    override fun projectPhi(lambda: Double, phi: Double): Double = -lambda
+//    }
+}
+//
+//export function transverseMercatorRaw(lambda, phi) {
+//    return [log(tan((halfPi + phi) / 2)), -lambda];
+//}
+//
+//transverseMercatorRaw.invert = function(x, y) {
+//    return [-y, 2 * atan(exp(x)) - halfPi];
+//};
+
+
+class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProjector()) {
+
+
+    override var center: Array<Angle>
+        get() {
+            val it = super.center
+            val t = it[0]
+            it[0] = it[1]
+            it[1] = -t
+            return it
+        }
+        set(value) {
+            val it = value
+            val t = it[0]
+            it[0] = -it[1]
+            it[1] = t
+            super.center = it
+        }
+
+    // TODO: box/unbox perforamance
     override var rotate: Array<Angle>
         get() {
 
@@ -58,11 +82,13 @@ class TransverseMercatorProjection : MercatorProjection(TransverseMercatorRawPro
         set(value) {
             val original = value
             super.rotate = if (original.size > 2) {
-                arrayOf(original[0], original[1],original[2] - 90.0.deg)
+
+                arrayOf(original[0], original[1], original[2] - 90.0.deg)
             } else {
 
                 arrayOf(original[0], original[1], (-90.0).deg)
             }
+
 
         }
 
