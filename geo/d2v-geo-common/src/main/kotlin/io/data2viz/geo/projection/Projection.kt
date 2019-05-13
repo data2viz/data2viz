@@ -20,8 +20,11 @@ interface Stream {
 
 interface Projectable {
     fun project(lambda: Double, phi: Double): DoubleArray
-    fun projectLambda(lambda: Double, phi: Double): Double
-    fun projectPhi(lambda: Double, phi: Double): Double
+    fun projectLambda(lambda: Double, phi: Double): Double =
+        project(lambda, phi)[0]
+
+    fun projectPhi(lambda: Double, phi: Double): Double =
+        project(lambda, phi)[1]
 }
 
 interface Invertable {
