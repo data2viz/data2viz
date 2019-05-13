@@ -5,7 +5,9 @@ import io.data2viz.geo.projection.Stream
 import io.data2viz.math.EPSILON
 import io.data2viz.math.PI
 import io.data2viz.math.toRadians
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.sqrt
 
 
 fun clipCircle(radius: Double) = { stream: Stream -> Clip(ClipCircle(radius), stream) }
@@ -131,7 +133,6 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         geoCircle(stream, radius, delta, direction, from, to)
     }
 
-
     // Intersects the great circle between a and b with the clip circle.
     private fun intersect(a: DoubleArray, b: DoubleArray): DoubleArray? {
         val pa = cartesian(a)
@@ -145,6 +146,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         val n1n2 = n2[0]                                        // cartesianDot(n1, n2)
         val determinant = n2n2 - n1n2 * n1n2
 
+        //if (!determinant) return !two && a;
         // Two polar points.
         if (determinant == .0) return a
 
@@ -245,6 +247,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         }
         return null
     }
+
     // Generates a 4-bit vector representing the location of a point relative to
     // the small circle's bounding box.
     fun code(x: Double, y: Double): Int {
