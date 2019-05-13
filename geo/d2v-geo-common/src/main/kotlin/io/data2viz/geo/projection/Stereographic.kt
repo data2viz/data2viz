@@ -9,13 +9,13 @@ fun stereographicProjection() = stereographicProjection {
 
 }
 
-fun stereographicProjection(init: Projection.() -> Unit) = projection(StereographicProjection()) {
+fun stereographicProjection(init: Projection.() -> Unit) = projection(StereographicProjector()) {
     scale = 250.0
     clipAngle = 142.0
     init()
 }
 
-class StereographicProjection : ProjectableInvertable {
+class StereographicProjector : ProjectableInvertable {
     override fun project(x: Double, y: Double): DoubleArray {
         var cy = cos(y)
         val k = 1 + cos(x) * cy;
@@ -30,7 +30,7 @@ class StereographicProjection : ProjectableInvertable {
     override fun projectLambda(x: Double, y: Double): Double {
         var cy = cos(y)
         val k = 1 + cos(x) * cy;
-        return cy * sin(x)
+        return cy * sin(x) / k
     }
 
     override fun projectPhi(x: Double, y: Double): Double {
