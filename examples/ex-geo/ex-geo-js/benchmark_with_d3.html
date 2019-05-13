@@ -134,7 +134,7 @@ switch(projectionName) {
     newProjection = d3.geoAlbers();
     break;
   case "albersUSA":
-    newProjection = d3.geoAlbersUsa();
+    newProjection = d3.geoAlbersUsa().scale(500);
     break;
   case "azimuthalEqualArea":
     newProjection = d3.geoAzimuthalEqualArea();

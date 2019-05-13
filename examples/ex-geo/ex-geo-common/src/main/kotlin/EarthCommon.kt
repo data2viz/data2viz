@@ -14,7 +14,9 @@ import kotlin.math.roundToInt
 
 val allProjections = hashMapOf(
     "albers" to albersProjection(),
-    "albersUSA" to alberUSAProjection(),
+    "albersUSA" to alberUSAProjection(){
+        scale = 500.0
+    },
     "azimuthalEqualArea" to azimuthalEqualAreaProjection(),
     "azimuthalEquidistant" to azimuthalEquidistant(),
     "conicConformal" to conicConformalProjection(),
@@ -38,6 +40,12 @@ val allFiles = listOf(
     "world-110m-50percent.json",
     "world-110m-70percent.json"
 )
+
+
+val projectionsToSingleFile = hashMapOf(
+    "albersUSA" to "us-states.json"
+)
+
 
 val defaultFileIndex = allFiles.indexOf("world-110m-30percent.json")
 val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
