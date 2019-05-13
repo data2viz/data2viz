@@ -80,6 +80,8 @@ private fun onSelectionChanged() {
 
     val selectProjection = document.getElementById(selectProjectionId).unsafeCast<HTMLSelectElement>()
 
+
+
     onSettingsChanged(selectFile, selectProjection)
 
 
@@ -89,8 +91,14 @@ private fun onSettingsChanged(
     selectFile: HTMLSelectElement,
     selectProjection: HTMLSelectElement
 ) {
-    val fileValue = selectFile.options[selectFile.selectedIndex]!!.getAttribute("value")!!
-    val projectionValue = selectProjection.options[selectProjection.selectedIndex]!!.getAttribute("value")!!
+
+    var projectionValue = selectProjection.options[selectProjection.selectedIndex]!!.getAttribute("value")!!
+
+    val fileValue = if(projectionsToSingleFile.containsKey(projectionValue)) {
+        projectionsToSingleFile[projectionValue]!!
+    } else{
+        selectFile.options[selectFile.selectedIndex]!!.getAttribute("value")!!
+    }
 
     loadViz(fileValue, projectionValue)
     js("onSettingsChanged(fileValue, projectionValue)")
@@ -116,7 +124,9 @@ private fun loadViz(filename: String, projectionName: String) {
         currentViz = geoViz(response.text().await().toGeoJsonObject(), projectionName, 500.0, 500.0)
 
         currentViz!!.bindRendererOn(newCanvas)
-        if(!animationStarted) {
+        val anim = animationStarted
+
+        if(!anim) {
             currentViz?.stopAnimations()
         }
     }

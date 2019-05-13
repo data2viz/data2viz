@@ -20,6 +20,7 @@ class GeoActivity : AppCompatActivity() {
     val logTag = GeoActivity::class.java.simpleName
 
     val fileToResId = hashMapOf(
+        "usstates.json" to R.raw.usstates,
         "world-110m.geojson" to R.raw.world110m,
         "world-110m-30percent.json" to R.raw.world110m30percent,
         "world-110m-50percent.json" to R.raw.world110m50percent,
