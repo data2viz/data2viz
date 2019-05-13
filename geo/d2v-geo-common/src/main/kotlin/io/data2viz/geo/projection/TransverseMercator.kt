@@ -73,20 +73,20 @@ class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProj
 
             val original = super.rotate
             return if (original.size > 2) {
-                arrayOf(original[0], original[1], original[2] + 90.0.deg)
+                arrayOf(original[0], original[1], original[2] - (90.0).deg)
             } else {
 
-                arrayOf(original[0], original[1], 90.0.deg)
+                arrayOf(original[0], original[1], (-90.0).deg)
             }
         }
         set(value) {
             val original = value
             super.rotate = if (original.size > 2) {
 
-                arrayOf(original[0], original[1], original[2] - 90.0.deg)
+                arrayOf(original[0], original[1], original[2] + 90.0.deg)
             } else {
 
-                arrayOf(original[0], original[1], (-90.0).deg)
+                arrayOf(original[0], original[1], (+90.0).deg)
             }
 
 
