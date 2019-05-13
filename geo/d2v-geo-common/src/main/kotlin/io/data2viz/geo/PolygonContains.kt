@@ -5,7 +5,7 @@ import io.data2viz.math.QUARTERPI
 import io.data2viz.math.TAU
 import kotlin.math.*
 
-fun polygonContainsOld(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
+fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
     val lambda = point[0]
     val phi = point[1]
     val normal = doubleArrayOf(sin(lambda), -cos(lambda), 0.0)
@@ -71,7 +71,7 @@ fun polygonContainsOld(polygon: List<List<DoubleArray>>, point: DoubleArray): Bo
     return (angle < -EPSILON || angle < EPSILON && sum < -EPSILON) xor ((winding and 1) != 0)
 }
 
-fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
+fun polygonContainsNew(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
     val lambda = point[0]
     val phi = point[1]
     val normal0 = sin(lambda)
