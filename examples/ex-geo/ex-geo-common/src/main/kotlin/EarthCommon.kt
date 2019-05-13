@@ -1,6 +1,7 @@
 package io.data2viz.examples.geo
 
 import io.data2viz.color.Colors
+import io.data2viz.geo.path.GeoPath
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.*
 import io.data2viz.geojson.GeoJsonObject
@@ -14,7 +15,7 @@ import kotlin.math.roundToInt
 
 val allProjections = hashMapOf(
     "albers" to albersProjection(),
-    "albersUSA" to alberUSAProjection(){
+    "albersUSA" to alberUSAProjection() {
         scale = 500.0
     },
     "azimuthalEqualArea" to azimuthalEqualAreaProjection(),
@@ -51,14 +52,12 @@ val defaultFileIndex = allFiles.indexOf("world-110m-30percent.json")
 val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 
 
-
-fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0, vizHeight:Double = 700.0): Viz {
-
+fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 960.0, vizHeight: Double = 700.0): Viz {
 
 
     val projectionOuter = allProjections[projectionName]
     projectionOuter!!.translate = doubleArrayOf(vizWidth / 2.0, vizHeight / 2.0)
-
+    projectionOuter.rotate = arrayOf(0.0.deg, 0.0.deg, 0.0.deg)
 
     return viz {
         width = vizWidth
@@ -89,10 +88,11 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0
         geoPathOuter.path(world)
         add(pathOuter)
 
-        val isNeedRotate = when(projectionName) {
+        val isNeedRotate = when (projectionName) {
             "albersUSA", "identity" -> false
             else -> true
         }
+
 
         animation { now: Double ->
 
@@ -103,18 +103,8 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0
             }
 
 
-            if(isNeedRotate) {
-                val unixTime = Date().getTime()
-
-                val rotate = geoPathOuter.projection.rotate
-                val k = 60.0
-
-                rotate[0] = ((unixTime % (360 * k)) / k).deg
-
-
-                pathOuter.clearPath()
-                geoPathOuter.path(world)
-                geoPathOuter.projection.rotate = rotate
+            if (isNeedRotate) {
+                doRotate(geoPathOuter, pathOuter, world)
             }
 
         }
@@ -129,6 +119,24 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth:Double = 960.0
 
 
     }
+}
+
+private fun doRotate(
+    geoPathOuter: GeoPath,
+    pathOuter: PathNode,
+    world: GeoJsonObject
+) {
+    val unixTime = Date().getTime()
+
+    val rotate = geoPathOuter.projection.rotate
+    val k = 60.0
+
+    rotate[0] = ((unixTime % (360 * k)) / k).deg
+
+
+    pathOuter.clearPath()
+    geoPathOuter.path(world)
+    geoPathOuter.projection.rotate = rotate
 }
 
 object FPS {

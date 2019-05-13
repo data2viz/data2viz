@@ -85,38 +85,37 @@ var initialScale = projection.scale();
     var needRotate = true;
 
 
+
+
 //const started = Date.now()
 console.log("test");
     d3.timer(function(elapsed) {
 
 
-        if(needRotate) {
 
-            const diff = Date.now()
+
+         const diff = Date.now()
 
             const k = 60
 
-            const angle = (diff % (360 * k)) / k
+            var angle = (diff % (360 * k)) / k
 
-            //const old = config.speed * elapsed - 120
-
-            //console.log("diff + " + diff)
-            //console.log("angle + " + angle)
-            //console.log("old + " + old)
-
+if(needRotate) {
 if (typeof projection.rotate === 'function') {
 	projection.rotate([angle, config.verticalTilt, config.horizontalTilt]);
 }
 
             svg.selectAll("path").attr("d", path);
-        }
+}
+
+
+
     });
 
     document.getElementById('button_start_stop_d3').onclick = function(){
         needRotate = !needRotate;
 
     }
-
 
 
 
@@ -192,6 +191,7 @@ svg.selectAll("*").remove();
     //const projection = d3.geoMercator();
     projection = newProjection;
     initialScale = projection.scale();
+    projection.rotate([0, config.verticalTilt, config.horizontalTilt]);
     path = d3.geoPath().projection(projection);
 
     console.log("test1");
@@ -211,6 +211,7 @@ console.log("geojson", worldData);
                             .style("stroke", "#000")
                             .style("stroke-width", "1px")
                             .style("fill", (d, i) => '#e5e5e5');
+
 
 
 

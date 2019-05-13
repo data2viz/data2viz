@@ -37,47 +37,6 @@ class MultiplexStream(val streams: Collection<Stream>) : Stream {
     }
 }
 
-class AlberUSAProjector : ProjectableInvertable {
-
-    val lover48Projection = albersProjection()
-    val alaska = conicEqualAreaProjection {
-        rotate = arrayOf(154.0.deg, 0.0.deg)
-        center = arrayOf(-2.0.deg, 58.5.deg)
-        parallels = arrayOf(55.0.deg, 65.0.deg)
-    }
-    val hawaii = conicEqualAreaProjection {
-        rotate = arrayOf(157.0.deg, 0.0.deg)
-        center = arrayOf(-3.0.deg, 19.9.deg)
-        parallels = arrayOf(8.0.deg, 18.0.deg)
-
-    }
-
-    override fun projectLambda(lambda: Double, phi: Double): Double = lambda
-
-    override fun projectPhi(lambda: Double, phi: Double): Double = ln(tan((HALFPI + phi) / 2))
-
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
-    override fun invert(x: Double, y: Double) = doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
-
-//    function albersUsa(coordinates) {
-//        var x = coordinates[0], y = coordinates[1];
-//        return point = null,
-//        (lower48Point.point(x, y), point)
-//        || (alaskaPoint.point(x, y), point)
-//        || (hawaiiPoint.point(x, y), point);
-//    }
-//
-//    albersUsa.invert = function(coordinates) {
-//        var k = lower48.scale(),
-//        t = lower48.translate(),
-//        x = (coordinates[0] - t[0]) / k,
-//        y = (coordinates[1] - t[1]) / k;
-//        return (y >= 0.120 && y < 0.234 && x >= -0.425 && x < -0.214 ? alaska
-//        : y >= 0.166 && y < 0.234 && x >= -0.214 && x < -0.115 ? hawaii
-//        : lower48).invert(coordinates);
-//    };
-}
-
 fun alberUSAProjection() = alberUSAProjection {
 
 }
@@ -139,8 +98,8 @@ class AlberUSAProjection() : Projection {
         val newY = (y - t[1]) / k
 
         val projection = when {
-            y >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska
-            y >= 0.166 && newY < 0.234 && newX >= -0.214 && newX < -0.115 -> hawaii
+            newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska
+            newY >= 0.166 && newY < 0.234 && newX >= -0.214 && newX < -0.115 -> hawaii
             else -> lower48
         }
 
