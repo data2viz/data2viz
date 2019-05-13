@@ -57,7 +57,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 960.
 
     val projectionOuter = allProjections[projectionName]
     projectionOuter!!.translate = doubleArrayOf(vizWidth / 2.0, vizHeight / 2.0)
-    projectionOuter.rotate = arrayOf(0.0.deg, 0.0.deg, 0.0.deg)
+
 
     return viz {
         width = vizWidth
@@ -93,6 +93,10 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 960.
             else -> true
         }
 
+
+        if(isNeedRotate) {
+            projectionOuter.rotate = arrayOf(0.0.deg, 0.0.deg, 0.0.deg)
+        }
 
         animation { now: Double ->
 

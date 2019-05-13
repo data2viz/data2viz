@@ -191,7 +191,10 @@ svg.selectAll("*").remove();
     //const projection = d3.geoMercator();
     projection = newProjection;
     initialScale = projection.scale();
-    projection.rotate([0, config.verticalTilt, config.horizontalTilt]);
+    if (typeof projection.rotate === 'function') {
+   projection.rotate([0, config.verticalTilt, config.horizontalTilt]);
+}
+
     path = d3.geoPath().projection(projection);
 
     console.log("test1");
