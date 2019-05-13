@@ -6,7 +6,7 @@ import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class GeoCentroidTests : TestBase() {
+class CentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_point_is_itself() {

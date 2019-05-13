@@ -6,7 +6,7 @@ import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
 
-class GeoLengthTests : TestBase() {
+class LengthTests : TestBase() {
 
     @Test
     fun geolength_point_returns_zero() {

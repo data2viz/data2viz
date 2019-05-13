@@ -4,7 +4,7 @@ import io.data2viz.geo.GeoCircle
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class GeoCircleTests : TestBase() {
+class CircleTests : TestBase() {
 
     @Test
     fun geoCircle_generates_a_polygon() {

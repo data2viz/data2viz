@@ -34,3 +34,14 @@ class RotationTests : TestBase() {
         rotation[1] shouldBeClose .0
     }
 }
+
+
+//tape("the identity rotation constrains longitudes to [-180°, 180°]", function(test) {
+//    var rotate = d3.geoRotation([0, 0]);
+//    test.equal(rotate([180,0])[0], 180);
+//    test.equal(rotate([-180,0])[0], -180);
+//    test.equal(rotate([360,0])[0], 0);
+//    test.inDelta(rotate([2562,0])[0], 42, 1e-10);
+//    test.inDelta(rotate([-2562,0])[0], -42, 1e-10);
+//    test.end();
+//});

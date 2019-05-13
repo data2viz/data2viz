@@ -5,7 +5,7 @@ import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class GeoBoundsTests : TestBase() {
+class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_feature() {

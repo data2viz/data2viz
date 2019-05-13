@@ -4,7 +4,7 @@ import io.data2viz.geo.geoInterpolate
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class GeoInterpolateTests : TestBase() {
+class InterpolateTests : TestBase() {
 
     @Test
     fun geoInterpolate_a_a_returns_a() {

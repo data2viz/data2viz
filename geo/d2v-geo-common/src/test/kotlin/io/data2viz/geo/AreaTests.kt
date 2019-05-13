@@ -8,7 +8,7 @@ import kotlin.math.PI
 import kotlin.test.Ignore
 import kotlin.test.Test
 
-class GeoAreaTests : TestBase() {
+class AreaTests : TestBase() {
 
     @Test
     fun geoarea_of_a_point() {
