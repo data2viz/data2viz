@@ -120,8 +120,14 @@ class EarthApplication : Application() {
 
         canvas = Canvas(vizWidth, vizHeight)
 
-        val filename = comboBoxFiles.selectionModel.selectedItem
-        val projection = comboBoxProjections.selectionModel.selectedItem
+        val projection = comboBoxProjections.selectionModel.selectedItem!!
+
+        val filename = if(projectionsToSingleFile.containsKey(projection)) {
+            projectionsToSingleFile[projection]!!
+        } else {
+            comboBoxFiles.selectionModel.selectedItem!!
+        }
+
         println("onSelectionChanged filename=$filename, projection=$projection")
 
         val jsonObject =
