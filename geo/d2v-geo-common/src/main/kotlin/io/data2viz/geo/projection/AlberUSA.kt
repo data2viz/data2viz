@@ -82,9 +82,20 @@ class AlberUSAProjection() : Projection {
     var pointAlaska = alaska.stream(pointStream)
 
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
+    override fun project(x: Double, y: Double): DoubleArray {
 
-        return lower48.project(lambda, phi)
+        val k = lower48.scale
+        val t = lower48.translate
+        val newX = (x - t[0]) / k
+        val newY = (y - t[1]) / k
+
+        val projection = when {
+            newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska
+            newY >= 0.166 && newY < 0.234 && newX >= -0.214 && newX < -0.115 -> hawaii
+            else -> lower48
+        }
+
+        return projection.project(x, y)
     }
 
     override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]

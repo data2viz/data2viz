@@ -20,7 +20,7 @@ class GeoActivity : AppCompatActivity() {
     val logTag = GeoActivity::class.java.simpleName
 
     val fileToResId = hashMapOf(
-        "usstates.json" to R.raw.usstates,
+        "us-states.json" to R.raw.usstates,
         "world-110m.geojson" to R.raw.world110m,
         "world-110m-30percent.json" to R.raw.world110m30percent,
         "world-110m-50percent.json" to R.raw.world110m50percent,
@@ -103,7 +103,13 @@ class GeoActivity : AppCompatActivity() {
 
 
         val projection = allProjectionsNames[spinnerProjections.selectedItemPosition]
-        val file = allFiles[spinnerFiles.selectedItemPosition]
+
+        val file = if(projectionsToSingleFile.containsKey(projection)) {
+            projectionsToSingleFile[projection]!!
+        } else {
+            allFiles[spinnerFiles.selectedItemPosition]
+        }
+
         Log.d(logTag, "onSelectionChanged projection=$projection file=$file")
 
         val resId = fileToResId[file]
