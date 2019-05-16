@@ -1,9 +1,216 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
-    <title>Data2viz Geo Example</title>
-  </head>
-  <body>
-  <script type="text/javascript" src="main.bundle.js"></script></body>
+    <title>Data2viz - Geo</title>
+
+
+</head>
+<style>
+    .column {
+        float: left;
+        width: 500px;
+        margin-left: 10px;
+    }
+
+    .row {
+        width: 100%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+</style>
+<body>
+<div>
+    <button id="button_start_stop">Start/stop v2z animations</button>
+    <button id="button_start_stop_d3">Start/stop d3 animations</button>
+    <select class="geo_select" id="select_projection"></select>
+    <select class="geo_select" id="select_file"></select>
+    <span> JS Benchmark FPS:<span id="fps"></span> </span>
+</div>
+<div class="row">
+
+    <div class="column">
+        <div>Data2Viz</div>
+        <canvas id="viz"></canvas>
+    </div>
+    <div class="column">
+        <div>D3</div>
+        <svg></svg>
+    </div>
+</div>
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
+<script src="https://d3js.org/d3-array.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+
+<script>
+
+
+    const width = 500;
+    const height = 500;
+    const config = {
+        speed: 0.0085,
+        verticalTilt: 0,
+        horizontalTilt: 0
+    };
+
+
+    let svg = d3.select('svg')
+        .attr('width', width).attr('height', height);
+
+    var projection = d3.geoOrthographic();
+    var initialScale = projection.scale();
+    var path = d3.geoPath().projection(projection);
+    var needRotate = true;
+
+    d3.timer(function (elapsed) {
+
+        const diff = Date.now();
+        // 60 full rotations
+        const k = 60;
+
+        var angle = (diff % (360 * k)) / k;
+
+        if (needRotate) {
+            if (typeof projection.rotate === 'function') {
+                projection.rotate([angle, config.verticalTilt, config.horizontalTilt]);
+            }
+            svg.selectAll("path").attr("d", path);
+        }
+    });
+
+    document.getElementById('button_start_stop_d3').onclick = function () {
+        needRotate = !needRotate;
+    };
+
+    function drawGlobe(filename, projectionName) {
+
+        console.log("drawGlobe " + filename + " " + projectionName);
+
+        var newProjection;
+
+        switch (projectionName) {
+            case "albers":
+                newProjection = d3.geoAlbers();
+                break;
+            case "albersUSA":
+                newProjection = d3.geoAlbersUsa().scale(500);
+                break;
+            case "azimuthalEqualArea":
+                newProjection = d3.geoAzimuthalEqualArea();
+                break;
+            case "azimuthalEquidistant":
+                newProjection = d3.geoAzimuthalEquidistant();
+                break;
+            case "conicEqual":
+                newProjection = d3.geoConicEqualArea();
+                break;
+            case "conicConformal":
+                newProjection = d3.geoConicConformal();
+                break;
+            case "conicEquidistant":
+                newProjection = d3.geoConicEquidistant();
+                break;
+            case "equalEarth":
+                newProjection = d3.geoEqualEarth();
+                break;
+            case "equirectangular":
+                newProjection = d3.geoEquirectangular();
+                break;
+            case "gnomonic":
+                newProjection = d3.geoGnomonic();
+                break;
+            case "identity":
+                newProjection = d3.geoIdentity();
+                break;
+            case "mercator":
+                newProjection = d3.geoMercator();
+                break;
+            case "naturalEarth1":
+                newProjection = d3.geoNaturalEarth1();
+                break;
+            case "orthographic":
+                newProjection = d3.geoOrthographic();
+                break;
+            case "stereographic":
+                newProjection = d3.geoStereographic();
+                break;
+            case "transverseMercator":
+                newProjection = d3.geoTransverseMercator();
+                break;
+            default:
+                alert("Invalid projection " + projectionName)
+        }
+
+        svg.selectAll("*").remove();
+
+        projection = newProjection;
+        initialScale = projection.scale();
+        if (typeof projection.rotate === 'function') {
+            projection.rotate([0, config.verticalTilt, config.horizontalTilt]);
+        }
+
+        path = d3.geoPath().projection(projection);
+
+        projection.translate([width / 2, height / 2]);
+
+        d3.json('./' + filename, function (error, worldData) {
+
+            console.log("geojson", worldData);
+            svg.selectAll("path")
+                .data(worldData.features)
+                .enter().append("path")
+                .attr("class", "segment")
+                .attr("d", path)
+                .style("stroke", "#000")
+                .style("stroke-width", "1px")
+                .style("fill", (d, i) => '#e5e5e5');
+        });
+    }
+</script>
+<script>
+    function onSettingsChanged(filename, projection) {
+        console.log("onSettingChanged " + projection + " " + filename)
+
+        drawGlobe(filename, projection);
+    }
+</script>
+
+<script>
+    const times = [];
+    let fps;
+
+    function refreshLoop() {
+        window.requestAnimationFrame(() => {
+            const now = performance.now();
+            while (times.length > 0 && times[0] <= now - 1000) {
+                times.shift();
+            }
+            times.push(now);
+            fps = times.length;
+            document.getElementById("fps").textContent = fps
+            // console.log(fps);
+            refreshLoop();
+        });
+    }
+
+    refreshLoop();
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+<script>
+    require.config({baseUrl: "build/kotlin-js-min/main"});
+    require(['build/kotlin-js-min/main/ex-geo-js.js']);
+
+</script>
+</body>
 </html>
