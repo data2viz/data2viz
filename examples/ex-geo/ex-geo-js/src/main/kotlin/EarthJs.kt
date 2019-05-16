@@ -15,7 +15,6 @@ import kotlin.dom.createElement
 @Suppress("unused")
 
 var currentViz: Viz? = null
-val selectClassNames = "geo_select"
 
 val selectFileId = "select_file"
 val selectProjectionId = "select_projection"
@@ -29,9 +28,6 @@ lateinit var buttonStartStop: HTMLButtonElement
 var animationStarted = true
 
 fun main(args: Array<String>) {
-
-//    val filename = "world-110m-30percent.json"
-//    val projectionName = "orthographicProjection"
 
     selectFile = document.getElementById(selectFileId).unsafeCast<HTMLSelectElement>()
     selectProjection = document.getElementById(selectProjectionId).unsafeCast<HTMLSelectElement>()
@@ -71,7 +67,6 @@ fun main(args: Array<String>) {
 
     onSelectionChanged()
 
-//    loadViz(filename, projectionName)
 }
 
 private fun onSelectionChanged() {
@@ -80,11 +75,7 @@ private fun onSelectionChanged() {
 
     val selectProjection = document.getElementById(selectProjectionId).unsafeCast<HTMLSelectElement>()
 
-
-
     onSettingsChanged(selectFile, selectProjection)
-
-
 }
 
 private fun onSettingsChanged(
@@ -114,11 +105,11 @@ private fun loadViz(filename: String, projectionName: String) {
 
         val oldCanvas = document.getElementById("viz")
         val parent = oldCanvas!!.parentElement
-        parent!!.removeChild(oldCanvas!!)
+        parent!!.removeChild(oldCanvas)
         val newCanvas = document.createElement("canvas") {
             this.id = "viz"
         }.unsafeCast<HTMLCanvasElement>()
-        parent!!.appendChild(newCanvas)
+        parent.appendChild(newCanvas)
 
         currentViz?.stopAnimations()
         currentViz = geoViz(response.text().await().toGeoJsonObject(), projectionName, 500.0, 500.0)
