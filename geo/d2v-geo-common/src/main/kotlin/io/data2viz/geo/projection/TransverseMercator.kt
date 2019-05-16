@@ -22,10 +22,6 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) 
 
 class TransverseMercatorProjector() : ProjectableInvertable {
     override fun project(lambda: Double, phi: Double): DoubleArray {
-//        val invert = invert(lambda, phi)
-//        val lambdaNew = invert[0]
-//        val phiNew = invert[1]
-//        return doubleArrayOf(ln(tan((HALFPI + phiNew) / 2)), -lambdaNew)
         return doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
     }
 
@@ -34,19 +30,7 @@ class TransverseMercatorProjector() : ProjectableInvertable {
     override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
     override fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
 
-//    override fun projectLambda(lambda: Double, phi: Double): Double = ln(tan((HALFPI + phi) / 2))
-//    override fun projectPhi(lambda: Double, phi: Double): Double = -lambda
-//    }
 }
-//
-//export function transverseMercatorRaw(lambda, phi) {
-//    return [log(tan((halfPi + phi) / 2)), -lambda];
-//}
-//
-//transverseMercatorRaw.invert = function(x, y) {
-//    return [-y, 2 * atan(exp(x)) - halfPi];
-//};
-
 
 class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProjector()) {
 

@@ -11,7 +11,6 @@ import kotlin.math.sqrt
 
 
 fun clipCircle(radius: Double) = { stream: Stream -> Clip(ClipCircle(radius), stream) }
-//clip(visible, clipLine, interpolate, smallRadius ? [0, -radius] : [-pi, radius - pi]);
 
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by a small circle of
