@@ -46,15 +46,6 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
         }
         f = cy0 * (tany(phi0).pow(n)) / n
         isPossibleToUseBaseProjection = (n == 0.0 || n == Double.NaN)
-//        isPossibleToUseBaseProjection = false
-
-//        println("""ConicConformalProjector
-//            phi0 =$phi0
-//            phi1 =$phi1
-//            n = $n
-//            f = $f
-//            isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection """.trimIndent())
-
     }
 
 
@@ -73,29 +64,6 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
                 2 * atan((f / r).pow(1 / n)) - HALFPI);
         }
     }
-
-    //    export function conicConformalRaw(y0, y1) {
-//        var cy0 = cos(y0),
-//        n = y0 === y1 ? sin(y0) : log(cy0 / cos(y1)) / log(tany(y1) / tany(y0)),
-//        f = cy0 * pow(tany(y0), n) / n;
-//
-//        if (!n) return mercatorRaw;
-//
-//        function project(x, y) {
-//            if (f > 0) { if (y < -halfPi + epsilon) y = -halfPi + epsilon; }
-//            else { if (y > halfPi - epsilon) y = halfPi - epsilon; }
-//            var r = f / pow(tany(y), n);
-//            return [r * sin(n * x), f - r * cos(n * x)];
-//        }
-//
-//        project.invert = function(x, y) {
-//            var fy = f - y, r = sign(n) * sqrt(x * x + fy * fy);
-//            return [atan2(x, abs(fy)) / n * sign(fy), 2 * atan(pow(f / r, 1 / n)) - halfPi];
-//        };
-//
-//        return project;
-//    }
-
 
     override fun project(x: Double, y: Double): DoubleArray {
 

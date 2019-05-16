@@ -101,7 +101,6 @@ fun rejoin(
                     if (points != null) points.forEach { stream.point(it[0], it[1], .0) }
                 } else {
                     interpolateFunction.invoke(current.point, current.next!!.point, 1, stream)
-//                    interpolate(current.point, current.next!!.point, 1, stream)
                 }
                 current = current.next!!
             } else {
@@ -109,7 +108,6 @@ fun rejoin(
                     points = current.previous!!.points
                     if (points != null) points.asReversed().forEach { stream.point(it[0], it[1], .0) }
                 } else {
-//                    interpolate(current.point, current.previous!!.point, -1, stream)
                     interpolateFunction.invoke(current.point, current.previous!!.point, -1, stream)
                 }
                 current = current.previous!!

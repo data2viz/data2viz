@@ -185,7 +185,6 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
 
     override fun point(x: Double, y: Double, z: Double) {
-//        currentPoint(x, y, z)
         currentPoint.invoke(this, x, y, z)
     }
 
