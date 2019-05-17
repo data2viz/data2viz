@@ -1,42 +1,38 @@
 package io.data2viz.force
 
-import kotlin.math.min
-import kotlin.math.sqrt
+import kotlin.math.*
 
-data class Link(
-    val source: ForceNode,
-    val target: ForceNode,
-    internal var _index: Int = 0
-) {
-    val index: Int
-        get() = _index
-
-}
-
-
+// TODO Link rename to something more precise ?
 /**
- * Todo evaluate having a signature with a fixed list of links and one with an accessor from nodes
+ * A Link object records a link a source and a target ForceNode.
+ * The force will try to keep the 2 nodes at the specified distance, with the specified strength.
+ * Default distance is 30.0.
+ * Default strength is NaN. If strength is left at NaN, a strength of 1/X will be applied where X is the minimum
+ * number of links between the 2 nodes. This default was chosen because it automatically reduces the strength of links
+ * connected to heavily-connected nodes, improving stability.
  */
-fun forceLink(init: ForceLink.() -> Unit = {}) = ForceLink().apply(init)
+data class Link<D>(
+    val source: ForceNode<D>,
+    val target: ForceNode<D>,
+    val distance: Double = 30.0,
+    var strength: Double = Double.NaN
+)
+
+@Deprecated("Deprecated", ReplaceWith("forceSimulation { forceLink { } }", " io.data2viz.force.ForceSimulation"))
+fun <D> forceLink(init: ForceLink<D>.() -> Unit) = ForceLink<D>().apply(init)
 
 /**
  * The link force pushes linked nodes together or apart according to the desired link distance.
  * The strength of the force is proportional to the difference between the linked nodes’ distance and the target
  * distance, similar to a spring force.
- *
- *
- *
  */
-class ForceLink : Force {
+class ForceLink<D> internal constructor(): Force<D> {
 
-    private var nodes       = listOf<ForceNode>()
+    private var _nodes = listOf<ForceNode<D>>()
 
-    private var _links       = listOf<Link>()
-    val links: List<Link>
+    private var _links = listOf<Link<D>>()
+    val links: List<Link<D>>
         get() = _links
-
-    private var distances   = listOf<Double>()
-    private var strengths   = listOf<Double>()
 
     private var bias: Array<Double> =  arrayOf()
     private var count:Array<Int> = arrayOf()
@@ -48,49 +44,20 @@ class ForceLink : Force {
      */
     var iterations = 1
 
-    var linksAccessor: (List<ForceNode>)-> List<Link> = { listOf() }
-
     /**
-     * sets the strength accessor to the specified number or function, re-evaluates
-     * the strength accessor for each link, and returns this force.
-     *
-     * ```
-     * ```
+     * Get the list of links from a given ForceNode, defaults to null.
+     * Each Link must have a reference to a source node, a target node, a distance value (defaults to 30.0) and
+     * a strength (defaults to Double.NaN) value.
      */
-    var strengthsAccessor: (List<Link>) -> List<Double> = { links ->
-            links.map { link ->
-                1.0 / min(count[link.source.index], count[link.target.index])
-            }
+    var linkGet: ForceNode<D>.()-> List<Link<D>>? = { null }
 
-        }
-        set(value) {
-            field = value
-            initializeStrengths()
-        }
-
-    /**
-     * sets the distance accessor to the specified number or function,
-     * re-evaluates the distance accessor for each link, and returns this force.
-     *
-     * The distance accessor is invoked for each link, being passed the link and its zero-based index.
-     * The resulting number is then stored internally, such that the distance of each link is only
-     * recomputed when the force is initialized or when this method is called with a new distance,
-     * and not on every application of the force.
-     */
-    var distancesAccessor: (List<Link>) -> List<Double> = { links -> (0 until links.size).map { 30.0 } }
-        set(value) {
-            field = value
-            initializeDistances()
-        }
-
-    override fun assignNodes(nodes: List<ForceNode>) {
-        this.nodes = nodes
-        _links = linksAccessor(nodes)
+    override fun assignNodes(nodes: List<ForceNode<D>>) {
+        _nodes = nodes
+        _links = nodes.mapNotNull(linkGet).flatten()
 
         // count links for each nodes
         count = Array(nodes.size){ 0 }
         _links.forEachIndexed { index, link ->
-            link._index = index
             count[link.source.index] += 1
             count[link.target.index] += 1
         }
@@ -102,20 +69,21 @@ class ForceLink : Force {
         }
 
         initializeStrengths()
-        initializeDistances()
-
     }
 
-    private fun initializeDistances() {
-        distances = distancesAccessor(_links)
-    }
-
+    /**
+     * When a link strength is not set (default value is Double.NaN) it automatically compute it strength.
+     * Strength computed is 1 / the number of links with the given node as a source or target.
+     * This default was chosen because it automatically reduces the strength of links connected to
+     * heavily-connected nodes, improving stability.
+     */
     private fun initializeStrengths() {
-        strengths = strengthsAccessor(_links)
+        _links.filter { it.strength.isNaN() }
+            .forEach { it.strength = 1.0 / min(count[it.source.index], count[it.target.index]) }
     }
 
-    override fun applyForceToNodes(alpha: Double) {
-        (0 until iterations).forEach { _ ->
+    override fun applyForceToNodes(intensity: Double) {
+        (0 until iterations).forEach {
             _links.forEachIndexed { index, link ->
                 val source = link.source
                 val target = link.target
@@ -127,7 +95,7 @@ class ForceLink : Force {
                 if (y == .0) y = jiggle()
 
                 var l = sqrt(x * x + y * y)
-                l = (l - distances[index]) / l * alpha * strengths[index]
+                l = (l - link.distance) / l * intensity * link.strength
                 x *= l
                 y *= l
 

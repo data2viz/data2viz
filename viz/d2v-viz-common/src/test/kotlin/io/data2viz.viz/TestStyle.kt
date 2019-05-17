@@ -6,6 +6,56 @@ import kotlin.test.Test
 
 class TestStyle: TestBase(){
 
+    @Test
+    fun defaultTextColorIsBlack(){
+        var node:Node? = null
+        viz {
+            group {
+                node = text {
+                }
+            }
+        }
+        node?.textColor shouldBe Colors.Web.black
+    }
+
+    @Test
+    fun vizTextColor(){
+        var node:Node? = null
+        viz {
+            textColor = Colors.Web.red
+            group {
+                node = text {
+                }
+            }
+        }
+        node?.textColor shouldBe Colors.Web.red
+    }
+
+    @Test
+    fun groupTextColor(){
+        var node:Node? = null
+        viz {
+            group {
+                textColor = Colors.Web.blue
+                node = text {
+                }
+            }
+        }
+        node?.textColor shouldBe Colors.Web.blue
+    }
+
+    @Test
+    fun textColor(){
+        var node:Node? = null
+        viz {
+            group {
+                node = text {
+                    textColor = Colors.Web.green
+                }
+            }
+        }
+        node?.textColor shouldBe Colors.Web.green
+    }
 
     @Test
     fun nodeProperty(){

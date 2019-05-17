@@ -147,4 +147,3 @@ fun conicConformalProjection(init: ConicProjection.() -> Unit) = conicProjection
     parallels = arrayOf(30.0.deg, 30.0.deg)
     init()
 }
-

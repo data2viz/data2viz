@@ -102,4 +102,3 @@ fun conicEquidistantProjection(init: ConicProjection.() -> Unit) = conicProjecti
     center = arrayOf(0.0.deg, 13.9389.deg)
     init()
 }
-

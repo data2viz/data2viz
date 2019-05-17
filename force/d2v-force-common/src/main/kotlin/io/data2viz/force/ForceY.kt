@@ -1,13 +1,15 @@
 package io.data2viz.force
 
+import io.data2viz.math.*
 
-fun forceY(init: ForceY.() -> Unit = {}) = ForceY().apply(init)
+@Deprecated("Deprecated", ReplaceWith("forceSimulation { forceY { } }", " io.data2viz.force.ForceSimulation"))
+fun <D> forceY(init: ForceY<D>.() -> Unit) = ForceY<D>().apply(init)
 
 /**
  * Creates a new positioning force along the y-axis towards the given position y.
  * If y is not specified, it defaults to 0.
  */
-class ForceY : Force {
+class ForceY<D> internal constructor(): Force<D> {
 
     /**
      * Sets the y-coordinate accessor to the specified function, re-evaluates the y-accessor for each node.
@@ -16,10 +18,10 @@ class ForceY : Force {
      * The resulting number is then stored internally, such that the target y-coordinate of each node is only recomputed
      * when the force is initialized or when this method is called with a new y, and not on every application of the force.
      */
-    var y: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> .0 }
+    var yGet: ForceNode<D>.() -> Double = { .0 }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
 
     /**
@@ -35,31 +37,26 @@ class ForceY : Force {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strength: (node: ForceNode, index: Int, nodes: List<ForceNode>) -> Double = { _, _, _ -> 0.1 }
+    var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
         set(value) {
             field = value
-            assignNodes(nodes)
+            assignNodes(_nodes)
         }
 
-    private var nodes: List<ForceNode> = listOf()
-    private val strengths = mutableListOf<Double>()
-    private val yz = mutableListOf<Double>()
+    private var _nodes = listOf<ForceNode<D>>()
+    private var _strengths = listOf<Double>()
+    private var _y = listOf<Double>()
 
-    override fun assignNodes(nodes: List<ForceNode>) {
-        this.nodes = nodes
+    override fun assignNodes(nodes: List<ForceNode<D>>) {
+        _nodes = nodes
 
-        yz.clear()
-        strengths.clear()
-
-        nodes.forEachIndexed { index, node ->
-            yz.add(y(node, index, nodes))
-            strengths.add(strength(node, index, nodes))
-        }
+        _y = nodes.map(yGet)
+        _strengths = nodes.map { it.strengthGet().value }
     }
 
-    override fun applyForceToNodes(alpha: Double) {
-        nodes.forEachIndexed { index, node ->
-            node.vy += (yz[index] - node.y) * strengths[index] * alpha
+    override fun applyForceToNodes(intensity: Double) {
+        _nodes.forEachIndexed { index, node ->
+            node.vy += (_y[index] - node.y) * _strengths[index] * intensity
         }
     }
 }

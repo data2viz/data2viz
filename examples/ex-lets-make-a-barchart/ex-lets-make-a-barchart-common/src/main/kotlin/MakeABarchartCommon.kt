@@ -42,7 +42,7 @@ fun barchartViz() = Viz().apply {
                 textContent = nameValue.value.toString()
                 fill = Colors.Web.white
                 fontSize = 12.0
-                textAlign = textAlign(TextAnchor.END,TextAlignmentBaseline.MIDDLE)
+                textAlign = textAlign(TextHAlign.RIGHT, TextVAlign.MIDDLE)
             }
         }
     }

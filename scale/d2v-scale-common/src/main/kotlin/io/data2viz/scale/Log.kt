@@ -91,7 +91,7 @@ internal class LogScale
         var j = log(domainEnd, base)
         var tickList = arrayListOf<Double>()
 
-        val test = !((base % 1 == .0) || (base % 1 == Double.NaN))
+        val test = !((base % 1) == .0 || (base % 1).isNaN())
 
         if (test && (j - i < count)) {
             i = round(i) - 1

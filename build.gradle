@@ -20,13 +20,15 @@ buildscript {
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.kordamp.gradle:stats-gradle-plugin:$stats_version"
     }
 }
 
 // Report Kotlin compiler version when building project
 println("Using Kotlin compiler version: $org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION")
+println("include_android: " + include_android.toBoolean())
+println("include_js: " + include_js.toBoolean())
+println("include_jfx: " + include_jfx.toBoolean())
 
 // --------------- Configure sub-projects with Kotlin sources ---------------
 
@@ -63,6 +65,14 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
     repositories {
         jcenter()
         mavenCentral()
+    }
+
+    apply plugin: 'idea'
+
+    idea {
+        module {
+            excludeDirs += file('.gradle')
+        }
     }
     
     apply plugin: 'com.jfrog.bintray'

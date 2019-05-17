@@ -11,27 +11,27 @@ fun formatter(specify: String): (Double) -> String = Locale().formatter(specify)
 fun Locale.formatter( specifier: String): (Double) -> String = formatter(specify(specifier))
 
 fun formatter(
-        type: Type = Type.NONE,
-        fill: Char = ' ',
-        align: Align = Align.RIGTH,
-        sign: Sign = Sign.MINUS,
-        symbol: Symbol? = null,
-        zero: Boolean = false,
-        width: Int? = null,
-        group: Boolean = false,
-        precision: Int? = null
+    type: Type = Type.NONE,
+    fill: Char = ' ',
+    align: Align = Align.RIGHT,
+    sign: Sign = Sign.MINUS,
+    symbol: Symbol? = null,
+    zero: Boolean = false,
+    width: Int? = null,
+    group: Boolean = false,
+    precision: Int? = null
 ) = Locale().formatter(specify(type, fill, align, sign, symbol, zero, width, group, precision))
 
 fun Locale.formatter(
-        type: Type = Type.NONE,
-        fill: Char = ' ',
-        align: Align = Align.RIGTH,
-        sign: Sign = Sign.MINUS,
-        symbol: Symbol? = null,
-        zero: Boolean = false,
-        width: Int? = null,
-        groupSeparation: Boolean = false,
-        precision: Int? = null
+    type: Type = Type.NONE,
+    fill: Char = ' ',
+    align: Align = Align.RIGHT,
+    sign: Sign = Sign.MINUS,
+    symbol: Symbol? = null,
+    zero: Boolean = false,
+    width: Int? = null,
+    groupSeparation: Boolean = false,
+    precision: Int? = null
 ) = formatter(specify(type, fill, align, sign, symbol, zero, width, groupSeparation, precision))
 
 private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
@@ -126,7 +126,7 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
                 val padLength = padding.length / 2 - 1
                 padding.slice(0..padLength) + valuePrefix + returnValue + valueSuffix + padding.slice(0 until padding.length - 1 - padLength)
             }
-            Align.RIGTH -> padding + valuePrefix + returnValue + valueSuffix
+            Align.RIGTH, Align.RIGHT -> padding + valuePrefix + returnValue + valueSuffix
         }
         return numerals(returnValue)
     }
