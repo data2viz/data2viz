@@ -21,6 +21,13 @@ class ClipRectangle(val extent: Extent) : Clippable {
         return x in extent.x0..extent.x1 && y in extent.y0..extent.y1
     }
 
+    val interpolateFunction = object :InterpolateFunction {
+        override fun invoke(from: DoubleArray, to: DoubleArray, direction: Int, stream: Stream) {
+            interpolate(from, to, direction, stream)
+        }
+
+    }
+
     override fun clipLine(stream: Stream): ClipStream {
 
         return object : ClipStream {
@@ -100,7 +107,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
                         segments!!,
                         Comparator { o1: Intersection, o2 -> comparePoint(o1.point, o2.point) },
                         startInside,
-                        ::interpolate,
+                        interpolateFunction,
                         stream
                     )
                     stream.polygonEnd()

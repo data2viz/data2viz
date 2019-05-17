@@ -1,36 +1,60 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.math.Angle
 import io.data2viz.math.TAU
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
-private fun identityProjection(x: Double, y: Double) = when {
-    x > PI -> doubleArrayOf(x - TAU, y)
-    x < -PI -> doubleArrayOf(x + TAU, y)
-    else -> doubleArrayOf(x, y)
+private fun identityProjection(x: Double, y: Double) = doubleArrayOf(identityProjectionX(x), identityProjectionY(y))
+
+
+private fun identityProjectionX(x: Double) = when {
+    x > PI -> x - TAU
+    x < -PI -> x + TAU
+    else -> x
 }
 
+private fun identityProjectionY(y: Double) = y
+
 private fun rotationIdentity(): ProjectableInvertable = object : ProjectableInvertable {
+    override fun projectLambda(lambda: Double, phi: Double): Double = identityProjectionX(lambda)
+    override fun projectPhi(lambda: Double, phi: Double): Double = identityProjectionY(phi)
+
     override fun project(lambda: Double, phi: Double) = identityProjection(lambda, phi)
     override fun invert(x: Double, y: Double) = identityProjection(x, y)
 }
 
-fun forwardRotationLambda(deltaLambda: Double): (Double, Double) -> DoubleArray {
-    return { lambda: Double, phi: Double ->
-        identityProjection(lambda + deltaLambda, phi)
-    }
-}
+class RotationLambda(val deltaLambda: Double) : ProjectableInvertable {
 
-class RotationLambda(deltaLambda: Double) : ProjectableInvertable {
-    private val apply = forwardRotationLambda(deltaLambda)
-    private val invert = forwardRotationLambda(-deltaLambda)
+    override fun projectLambda(lambda: Double, phi: Double): Double = identityProjectionX(lambda + deltaLambda)
+    override fun projectPhi(lambda: Double, phi: Double): Double = identityProjectionY(phi)
 
-    override fun project(lambda: Double, phi: Double): DoubleArray = apply(lambda, phi)
-    override fun invert(x: Double, y: Double): DoubleArray = invert.invoke(x, y)
+    override fun project(lambda: Double, phi: Double): DoubleArray = identityProjection(lambda + deltaLambda, phi)
+    override fun invert(x: Double, y: Double): DoubleArray = identityProjection(x - deltaLambda, y)
 }
 
 class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvertable {
+
+    override fun projectLambda(lambda: Double, phi: Double): Double {
+        val cosPhi = cos(phi)
+        val x = cos(lambda) * cosPhi
+        val y = sin(lambda) * cosPhi
+        val z = sin(phi)
+        val k = z * cosDeltaPhi + x * sinDeltaPhi
+
+        return atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi)
+    }
+    override fun projectPhi(lambda: Double, phi: Double): Double  {
+        val cosPhi = cos(phi)
+        val x = cos(lambda) * cosPhi
+        val y = sin(lambda) * cosPhi
+        val z = sin(phi)
+        val k = z * cosDeltaPhi + x * sinDeltaPhi
+
+        return asin(k * cosDeltaGamma + y * sinDeltaGamma)
+    }
+
     private val cosDeltaPhi = cos(deltaPhi)
     private val sinDeltaPhi = sin(deltaPhi)
     private val cosDeltaGamma = cos(deltaGamma)
@@ -71,15 +95,22 @@ fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Pr
     else rotationIdentity()
 }
 
-fun rotation(rotate: DoubleArray): ProjectableInvertable {
+fun rotation(rotate: Array<Angle>): ProjectableInvertable {
     val rotator =
         rotateRadians(
-            rotate[0].toRadians(),
-            rotate[1].toRadians(),
-            if (rotate.size > 2) rotate[2].toRadians() else 0.0
+            rotate[0].rad,
+            rotate[1].rad,
+            if (rotate.size > 2) rotate[2].rad else 0.0
         )
 
     return object : ProjectableInvertable {
+
+        override fun projectLambda(lambda: Double, phi: Double): Double =
+            rotator.projectLambda(lambda.toRadians(), phi.toRadians()).toDegrees()
+
+        override fun projectPhi(lambda: Double, phi: Double): Double =
+            rotator.projectPhi(lambda.toRadians(), phi.toRadians()).toDegrees()
+
         override fun project(lambda: Double, phi: Double): DoubleArray {
             val p = rotator.project(lambda.toRadians(), phi.toRadians())
             return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())

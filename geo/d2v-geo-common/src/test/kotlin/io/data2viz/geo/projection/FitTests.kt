@@ -127,7 +127,7 @@ tape("projection.fitExtent(…) world mercator", function(test) {
   test.end();
 });
 
-tape("projection.fitExtent(…) world orthographic", function(test) {
+tape("projection.fitExtent(…) world orthographicProjection", function(test) {
   var projection = d3.geoOrthographic();
   projection.fitExtent([[50, 50], [950, 950]], world);
   test.inDelta(projection.scale(), 451.428643, 1e-6);
@@ -135,7 +135,7 @@ tape("projection.fitExtent(…) world orthographic", function(test) {
   test.end();
 });
 
-tape("projection.fitSize(…) world orthographic", function(test) {
+tape("projection.fitSize(…) world orthographicProjection", function(test) {
   var projection = d3.geoOrthographic();
   projection.fitSize([900, 900], world);
   test.inDelta(projection.scale(), 451.428643, 1e-6);
