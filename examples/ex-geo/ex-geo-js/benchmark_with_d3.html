@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Data2viz - Orthographic Earth</title>
+    <title>Data2viz - Geo</title>
 
 
 </head>
@@ -41,7 +41,7 @@
     </div>
     <div class="column">
         <div>D3</div>
-        <svg></svg>
+        <canvas id="d3_canvas"></canvas>
     </div>
 </div>
 
@@ -63,13 +63,47 @@
     };
 
 
-    let svg = d3.select('svg')
+    let canvas = d3.select('#d3_canvas')
         .attr('width', width).attr('height', height);
+
+    var context = canvas.node().getContext('2d');
+
 
     var projection = d3.geoOrthographic();
     var initialScale = projection.scale();
     var path = d3.geoPath().projection(projection);
     var needRotate = true;
+
+    var currentData
+
+    function clearCanvas() {
+        canvas.width = canvas.width;
+        context.clearRect(0, 0, width, height);
+        context.fillStyle = 'rgba(255,255,255,1)';
+        context.fillRect(0, 0, width, height);
+
+
+    }
+
+    function drawData() {
+        clearCanvas();
+        var geoGenerator = d3.geoPath()
+            .projection(projection)
+            .context(context);
+
+
+        context.lineWidth = 0.5;
+        context.strokeStyle = '#000';
+
+
+        context.fillStyle = '#d8d8d8';
+        context.beginPath();
+        geoGenerator(currentData)
+        context.fill();
+        context.stroke();
+
+
+    }
 
     d3.timer(function (elapsed) {
 
@@ -83,7 +117,11 @@
             if (typeof projection.rotate === 'function') {
                 projection.rotate([angle, config.verticalTilt, config.horizontalTilt]);
             }
-            svg.selectAll("path").attr("d", path);
+
+            if (currentData) {
+                drawData()
+            }
+
         }
     });
 
@@ -150,7 +188,7 @@
                 alert("Invalid projection " + projectionName)
         }
 
-        svg.selectAll("*").remove();
+//        svg.selectAll("*").remove();
 
         projection = newProjection;
         initialScale = projection.scale();
@@ -165,14 +203,10 @@
         d3.json('./' + filename, function (error, worldData) {
 
             console.log("geojson", worldData);
-            svg.selectAll("path")
-                .data(worldData.features)
-                .enter().append("path")
-                .attr("class", "segment")
-                .attr("d", path)
-                .style("stroke", "#000")
-                .style("stroke-width", "1px")
-                .style("fill", (d, i) => '#e5e5e5');
+
+            currentData = worldData;
+
+            drawData();
         });
     }
 </script>
