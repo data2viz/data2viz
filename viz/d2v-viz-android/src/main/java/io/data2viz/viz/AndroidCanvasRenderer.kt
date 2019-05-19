@@ -58,6 +58,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         if (drawCount == 100){
             val delta = System.currentTimeMillis() - startTime
             val fps = 100_000 / delta
+            Log.v("FPS", fps.toString())
             startTime = System.currentTimeMillis()
             drawCount = -1
         }
