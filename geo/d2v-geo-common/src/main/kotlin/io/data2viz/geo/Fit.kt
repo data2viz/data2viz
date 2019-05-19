@@ -2,7 +2,6 @@ package io.data2viz.geo
 
 import io.data2viz.geom.Extent
 import io.data2viz.geo.path.PathBounds
-import io.data2viz.geo.projection.Projection
 import io.data2viz.geojson.GeoJsonObject
 import kotlin.math.min
 

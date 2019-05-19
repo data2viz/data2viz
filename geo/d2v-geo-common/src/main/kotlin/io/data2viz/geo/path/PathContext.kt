@@ -1,6 +1,6 @@
 package io.data2viz.geo.path
 
-import io.data2viz.geo.projection.Stream
+import io.data2viz.geo.Stream
 import io.data2viz.math.TAU
 import io.data2viz.geom.Path
 

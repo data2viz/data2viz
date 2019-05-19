@@ -1,9 +1,17 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
 
+fun conicEquidistantProjection() = conicEquidistantProjection {}
+
+fun conicEquidistantProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEquidistantProjector()) {
+    scale = 131.154
+    center = arrayOf(0.0.deg, 13.9389.deg)
+    init()
+}
 
 class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
 
@@ -17,7 +25,6 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
             field = value
             recalculate()
         }
-
 
     private var cy0: Double = cos(phi0)
     private var n = if (phi0 == phi1) {
@@ -41,8 +48,6 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
 
     }
 
-
-    // TODO refactor
     val baseProjector = EquirectangularProjector()
 
     override fun invert(x: Double, y: Double): DoubleArray {
@@ -54,7 +59,6 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
         }
     }
 
-
     override fun project(x: Double, y: Double): DoubleArray {
 
         return if (isPossibleToUseBaseProjection) {
@@ -64,8 +68,6 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
             val nx = n * x;
             return doubleArrayOf(gy * sin(nx), g - gy * cos(nx));
         }
-
-
     }
 
     override fun projectLambda(x: Double, y: Double): Double {
@@ -87,18 +89,4 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
             return g - gy * cos(nx)
         }
     }
-
-
-
-}
-
-
-fun conicEquidistantProjection() = conicEquidistantProjection {
-
-}
-
-fun conicEquidistantProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEquidistantProjector()) {
-    scale = 131.154
-    center = arrayOf(0.0.deg, 13.9389.deg)
-    init()
 }

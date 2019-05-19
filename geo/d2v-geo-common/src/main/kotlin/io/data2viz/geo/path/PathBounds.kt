@@ -1,7 +1,7 @@
 package io.data2viz.geo.path
 
 import io.data2viz.geom.Extent
-import io.data2viz.geo.projection.Stream
+import io.data2viz.geo.Stream
 
 class PathBounds : Stream {
 

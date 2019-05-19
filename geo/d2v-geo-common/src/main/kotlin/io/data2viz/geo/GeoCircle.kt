@@ -1,7 +1,5 @@
 package io.data2viz.geo
 
-import io.data2viz.geo.projection.Stream
-import io.data2viz.geo.projection.rotateRadians
 import io.data2viz.geojson.Polygon
 import io.data2viz.math.EPSILON
 import io.data2viz.math.TAU

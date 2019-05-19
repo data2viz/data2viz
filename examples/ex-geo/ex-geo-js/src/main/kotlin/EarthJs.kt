@@ -16,22 +16,26 @@ import kotlin.dom.createElement
 
 var currentViz: Viz? = null
 
-val selectFileId = "select_file"
-val selectProjectionId = "select_projection"
-val buttonStartStopId = "button_start_stop"
+val canvaseVizHtmlElementId = "viz"
+val selectFileHtmlElementId = "select_file"
+val selectProjectionHtmlElementId = "select_projection"
+val buttonStartStopHtmlElementId = "button_start_stop"
+
+val vizWidth = 500.0
+val vizHeight = 500.0
 
 
 lateinit var selectFile: HTMLSelectElement
 lateinit var selectProjection: HTMLSelectElement
 lateinit var buttonStartStop: HTMLButtonElement
 
-var animationStarted = true
+var animationEnabled = true
 
 fun main(args: Array<String>) {
 
-    selectFile = document.getElementById(selectFileId).unsafeCast<HTMLSelectElement>()
-    selectProjection = document.getElementById(selectProjectionId).unsafeCast<HTMLSelectElement>()
-    buttonStartStop = document.getElementById(buttonStartStopId).unsafeCast<HTMLButtonElement>()
+    selectFile = document.getElementById(selectFileHtmlElementId).unsafeCast<HTMLSelectElement>()
+    selectProjection = document.getElementById(selectProjectionHtmlElementId).unsafeCast<HTMLSelectElement>()
+    buttonStartStop = document.getElementById(buttonStartStopHtmlElementId).unsafeCast<HTMLButtonElement>()
 
     allFiles.forEach { filename ->
         selectFile.options.add(document.createElement("option") {
@@ -55,13 +59,13 @@ fun main(args: Array<String>) {
     selectProjection.onchange = {onSelectionChanged()}
     buttonStartStop.onclick = {
 
-        if(animationStarted) {
+        if(animationEnabled) {
             currentViz?.stopAnimations()
         } else {
             currentViz?.startAnimations()
         }
 
-        animationStarted = !animationStarted
+        animationEnabled = !animationEnabled
         it
     }
 
@@ -71,9 +75,9 @@ fun main(args: Array<String>) {
 
 private fun onSelectionChanged() {
 
-    val selectFile = document.getElementById(selectFileId).unsafeCast<HTMLSelectElement>()
+    val selectFile = document.getElementById(selectFileHtmlElementId).unsafeCast<HTMLSelectElement>()
 
-    val selectProjection = document.getElementById(selectProjectionId).unsafeCast<HTMLSelectElement>()
+    val selectProjection = document.getElementById(selectProjectionHtmlElementId).unsafeCast<HTMLSelectElement>()
 
     onSettingsChanged(selectFile, selectProjection)
 }
@@ -92,30 +96,31 @@ private fun onSettingsChanged(
     }
 
     loadViz(fileValue, projectionValue)
+
+    // call callback in raw js, needed for d3 comparasion sample
     js("onSettingsChanged(fileValue, projectionValue)")
 }
 
-@JsName("loadViz")
 private fun loadViz(filename: String, projectionName: String) {
-    console.log("loadViz filename = $filename projectionName = $projectionName")
+
     GlobalScope.promise {
         val request = window.fetch(Request(filename))
         val response = request.await()
 
 
-        val oldCanvas = document.getElementById("viz")
+        val oldCanvas = document.getElementById(canvaseVizHtmlElementId)
         val parent = oldCanvas!!.parentElement
         parent!!.removeChild(oldCanvas)
         val newCanvas = document.createElement("canvas") {
-            this.id = "viz"
+            this.id = canvaseVizHtmlElementId
         }.unsafeCast<HTMLCanvasElement>()
         parent.appendChild(newCanvas)
 
         currentViz?.stopAnimations()
-        currentViz = geoViz(response.text().await().toGeoJsonObject(), projectionName, 500.0, 500.0)
+        currentViz = geoViz(response.text().await().toGeoJsonObject(), projectionName, vizWidth, vizHeight)
 
         currentViz!!.bindRendererOn(newCanvas)
-        val anim = animationStarted
+        val anim = animationEnabled
 
         if(!anim) {
             currentViz?.stopAnimations()
