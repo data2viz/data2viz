@@ -76,7 +76,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 960.
             textContent = projectionName
         }
 
-
+        // todo why pathOUTER there is no inner -> rename
         val pathOuter = PathNode().apply {
             stroke = Colors.Web.black
             strokeWidth = 1.0

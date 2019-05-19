@@ -9,7 +9,15 @@ import io.data2viz.geom.Extent
 import io.data2viz.math.*
 import kotlin.math.sqrt
 
+
+/**
+ * TODO What is a Stream, document class and functions.
+ */
 interface Stream {
+
+    /**
+     * Todo document params (why z?).
+     */
     fun point(x: Double, y: Double, z: Double) {}
     fun lineStart() {}
     fun lineEnd() {}
@@ -18,6 +26,9 @@ interface Stream {
     fun sphere() {}
 }
 
+/**
+ * Todo document interface, functions and params
+ */
 interface Projectable {
     fun project(lambda: Double, phi: Double): DoubleArray
     fun projectLambda(lambda: Double, phi: Double): Double =
@@ -27,12 +38,23 @@ interface Projectable {
         project(lambda, phi)[1]
 }
 
+
+/**
+ * Todo document
+ */
 interface Invertable {
     fun invert(x: Double, y: Double): DoubleArray
 }
 
+/**
+ * Todo document
+ */
 interface ProjectableInvertable : Projectable, Invertable
 
+
+/**
+ * Todo document
+ */
 interface Projection : ProjectableInvertable {
     var scale: Double
     var translate: DoubleArray
@@ -55,6 +77,9 @@ interface Projection : ProjectableInvertable {
     fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection
 }
 
+/**
+ * Todo document
+ */
 fun compose(a: Projectable, b: Projectable): Projectable {
     if (a is Invertable && b is Invertable) {
         return object : ProjectableInvertable {
@@ -106,7 +131,9 @@ class TransformRadians(stream: Stream) : ModifiedStream(stream) {
 fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)
 
 
-
+/**
+ * todo What is it?
+ */
 open class MutableProjection(val projection: Projectable) : Projection {
 
 
