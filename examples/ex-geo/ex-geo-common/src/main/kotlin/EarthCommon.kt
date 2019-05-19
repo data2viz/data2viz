@@ -54,8 +54,9 @@ val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.0, vizHeight: Double = 500.0): Viz {
 
 
-    val projectionOuter = allProjections[projectionName]
-    projectionOuter!!.translate = doubleArrayOf(vizWidth / 2.0, vizHeight / 2.0)
+    val projectionOuter = allProjections[projectionName]!!
+    projectionOuter.x = vizWidth / 2.0
+    projectionOuter.y = vizHeight / 2.0
 
 
     return viz {

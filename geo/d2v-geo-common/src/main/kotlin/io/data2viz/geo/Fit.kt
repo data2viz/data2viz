@@ -15,7 +15,7 @@ fun fitHeight(projection: Projection, height:Double, geo: GeoJsonObject): Projec
         val x = -k * size.x0
         val y = (height - (k * (size.y1 + size.y0))) / 2
         projection.scale = k * 150
-        projection.translate = doubleArrayOf(x, y)
+        projection.translate(x, y)
     }
     return fit(projection, fitBounds, geo)
 }
@@ -26,7 +26,7 @@ fun fitWidth(projection: Projection, width:Double, geo: GeoJsonObject): Projecti
         val x = (width - (k * (size.x1 + size.x0))) / 2
         val y = -k * size.y0
         projection.scale = k * 150
-        projection.translate = doubleArrayOf(x, y)
+        projection.translate(x, y)
     }
     return fit(projection, fitBounds, geo)
 }
@@ -39,7 +39,7 @@ fun fitExtent(projection: Projection, extent: Extent, geo: GeoJsonObject): Proje
         val x = extent.x0 + (w - (k * (size.x1 + size.x0))) / 2
         val y = extent.y0 + (h - (k * (size.y1 + size.y0))) / 2
         projection.scale = k * 150
-        projection.translate = doubleArrayOf(x, y)
+        projection.translate(x, y)
     }
     return fit(projection, fitBounds, geo)
 }
@@ -48,7 +48,7 @@ private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJso
     val clip = projection.clipExtent
 
     projection.scale = 150.0
-    projection.translate = doubleArrayOf(.0, .0)
+    projection.translate(.0, .0)
     if (clip != null) projection.clipExtent = null
 
     val boundsStream = PathBounds()

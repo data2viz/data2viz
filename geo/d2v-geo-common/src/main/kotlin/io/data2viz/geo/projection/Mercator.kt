@@ -34,12 +34,24 @@ open class MercatorProjection(projector: Projectable = MercatorProjector()) : Mu
             reclip()
         }
 
-    override var translate: DoubleArray
-        get() = super.translate
+    override var x: Double
+        get() = super.x
         set(value) {
-            super.translate = value
+            super.x = value
             reclip()
         }
+    override var y: Double
+        get() = super.y
+        set(value) {
+            super.y = value
+            reclip()
+        }
+
+    override fun translate(x: Double, y: Double) {
+        super.translate(x, y)
+        reclip()
+    }
+
 
     override var center
         get() = super.center

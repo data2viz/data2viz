@@ -1,5 +1,7 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.BaseProjection
+import io.data2viz.geo.Projectable
 import io.data2viz.geo.Projection
 import io.data2viz.geo.Stream
 import io.data2viz.geojson.GeoJsonObject
@@ -50,7 +52,12 @@ fun albersUSAProjection(init: Projection.() -> Unit) = AlbersUSAProjection().als
  * parallels for each region comes from USGS, which is published here:
  * http://egsc.usgs.gov/isb/pubs/MapProjections/projections.html#albers
  */
-class AlbersUSAProjection() : Projection {
+class AlbersUSAProjection() : BaseProjection() {
+    override val projectTransform = object : Projectable {
+        override fun project(lambda: Double, phi: Double): DoubleArray =
+            project(lambda, phi)
+
+    }
 
 
     val lower48 = albersProjection()
@@ -85,9 +92,9 @@ class AlbersUSAProjection() : Projection {
     override fun project(x: Double, y: Double): DoubleArray {
 
         val k = lower48.scale
-        val t = lower48.translate
-        val newX = (x - t[0]) / k
-        val newY = (y - t[1]) / k
+
+        val newX = (x - lower48.x) / k
+        val newY = (y - lower48.y) / k
 
         val projection = when {
             newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska
@@ -104,9 +111,9 @@ class AlbersUSAProjection() : Projection {
 
     override fun invert(x: Double, y: Double): DoubleArray {
         val k = lower48.scale
-        val t = lower48.translate
-        val newX = (x - t[0]) / k
-        val newY = (y - t[1]) / k
+
+        val newX = (x - lower48.x) / k
+        val newY = (y - lower48.y) / k
 
         val projection = when {
             newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska
@@ -166,55 +173,54 @@ class AlbersUSAProjection() : Projection {
         alaska.recenter()
     }
 
-    protected var cache: Stream? = null
-    protected var cacheStream: Stream? = null
+    override var x: Double
+        get() = super.x
+        set(value) {
+            super.x = value
+            translateX += value
+            translateNestedProjections()
 
-    // TODO Change
-    protected fun getCachedStream(stream: Stream): Stream? =
-        if (cache != null && cacheStream == stream) cache else null
+        }
 
-    // TODO Change
-    protected fun cache(stream1: Stream, stream2: Stream) {
-        cache = stream2
-        cacheStream = stream1
+    private fun translateNestedProjections() {
+        var k = lower48.scale
+
+        var x = translateX
+        var y = translateY;
+        lower48.translate(x, y)
+        lower48.clipExtent = Extent(x - 0.455 * k, y - 0.238 * k, x + 0.455 * k, y + 0.238 * k)
+
+        pointLower48 = lower48.stream(pointStream)
+
+        alaska.translate(x - 0.307 * k, y + 0.201 * k)
+        alaska.clipExtent = Extent(
+            x - 0.425 * k + EPSILON,
+            y + 0.120 * k + EPSILON,
+            x - 0.214 * k - EPSILON,
+            y + 0.234 * k - EPSILON
+        )
+
+        pointAlaska = alaska.stream(pointStream)
+
+        hawaii.translate(x - 0.205 * k, y + 0.212 * k)
+        hawaii.clipExtent = Extent(
+            x - 0.214 * k + EPSILON,
+            y + 0.166 * k + EPSILON,
+            x - 0.115 * k - EPSILON,
+            y + 0.234 * k - EPSILON
+        )
+
+        pointHawaii = hawaii.stream(pointStream)
+
+        reset()
     }
 
-    override var translate: DoubleArray
-        get() = lower48.translate
+    override var y: Double
+        get() = super.y
         set(value) {
-            var k = lower48.scale
-
-            translateX += value[0]
-            translateY += value[1]
-
-            var x = translateX
-            var y = translateY;
-            lower48.translate = value
-            lower48.clipExtent = Extent(x - 0.455 * k, y - 0.238 * k, x + 0.455 * k, y + 0.238 * k)
-
-            pointLower48 = lower48.stream(pointStream)
-
-            alaska.translate = doubleArrayOf(x - 0.307 * k, y + 0.201 * k)
-            alaska.clipExtent = Extent(
-                x - 0.425 * k + EPSILON,
-                y + 0.120 * k + EPSILON,
-                x - 0.214 * k - EPSILON,
-                y + 0.234 * k - EPSILON
-            )
-
-            pointAlaska = alaska.stream(pointStream)
-
-            hawaii.translate = doubleArrayOf(x - 0.205 * k, y + 0.212 * k)
-            hawaii.clipExtent = Extent(
-                x - 0.214 * k + EPSILON,
-                y + 0.166 * k + EPSILON,
-                x - 0.115 * k - EPSILON,
-                y + 0.234 * k - EPSILON
-            )
-
-            pointHawaii = hawaii.stream(pointStream)
-
-            reset()
+            super.y = value
+            translateY += value
+            translateNestedProjections()
         }
 
 
@@ -236,26 +242,6 @@ class AlbersUSAProjection() : Projection {
             reset()
         }
 
-    override fun stream(stream: Stream): Stream {
-        var cachedStream = getCachedStream(stream)
-        if (cachedStream == null) {
-            cachedStream = fullCycleStream(stream)
-            cache(cachedStream, cachedStream)
-        }
-        return cachedStream
-    }
-
-    fun fullCycleStream(stream: Stream): Stream {
-
-        return MultiplexStream(
-            listOf(
-                lower48.stream(stream),
-                alaska.stream(stream),
-                hawaii.stream(stream)
-            )
-        )
-    }
-
     override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection =
         io.data2viz.geo.fitExtent(lower48, extent, geo)
 
@@ -272,8 +258,4 @@ class AlbersUSAProjection() : Projection {
         io.data2viz.geo.fitSize(lower48, width, height, geo)
 
 
-    fun reset() {
-        cache = null
-        cacheStream = null
-    }
 }
