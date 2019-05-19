@@ -1,5 +1,8 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.ProjectableInvertable
+import io.data2viz.geo.Projection
+import io.data2viz.geo.projection
 import io.data2viz.math.EPSILON2
 import kotlin.math.*
 
@@ -10,15 +13,13 @@ val A4 = 0.003796
 val M = sqrt(3.0) / 2
 val iterations = 12
 
+fun equalEarthProjection() = equalEarthProjection {}
 
-fun equalEarthProjection() = equalEarthProjection {
-
-}
-
-fun equalEarthProjection(init: Projection.() -> Unit) = projection(EqualEarthProjector()) {
-    scale = 177.158
-    init()
-}
+fun equalEarthProjection(init: Projection.() -> Unit) =
+    projection(EqualEarthProjector()) {
+        scale = 177.158
+        init()
+    }
 
 class EqualEarthProjector : ProjectableInvertable {
     override fun project(lambda: Double, phi: Double): DoubleArray {
@@ -62,6 +63,5 @@ class EqualEarthProjector : ProjectableInvertable {
         var l2 = l * l
         var l6 = l2 * l2 * l2
         return l * (A1 + A2 * l2 + l6 * (A3 + A4 * l2))
-
     }
 }

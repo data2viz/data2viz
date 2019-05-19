@@ -29,7 +29,7 @@ class GeoActivity : AppCompatActivity() {
 
     lateinit var layoutViz: FrameLayout
     lateinit var buttonStartStop: Button
-        lateinit var textFps: FPSMeterView
+    lateinit var textFps: FPSMeterView
     lateinit var spinnerFiles: Spinner
     lateinit var spinnerProjections: Spinner
 
@@ -87,11 +87,6 @@ class GeoActivity : AppCompatActivity() {
 
 
         }, 1000)
-
-
-//        onSelectionChanged()
-
-
     }
 
     private fun onSelectionChanged() {
@@ -101,10 +96,9 @@ class GeoActivity : AppCompatActivity() {
 
         view?.stopAnimations()
 
-
         val projection = allProjectionsNames[spinnerProjections.selectedItemPosition]
 
-        val file = if(projectionsToSingleFile.containsKey(projection)) {
+        val file = if (projectionsToSingleFile.containsKey(projection)) {
             projectionsToSingleFile[projection]!!
         } else {
             allFiles[spinnerFiles.selectedItemPosition]
@@ -130,13 +124,11 @@ class GeoActivity : AppCompatActivity() {
 
     }
 
-
     override fun onStop() {
         super.onStop()
         Log.d(logTag, "onStop")
         view?.stopAnimations()
         textFps.vizView = null
     }
-
 
 }

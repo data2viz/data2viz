@@ -1,8 +1,5 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo
 
-import io.data2viz.geo.ModifiedStream
-import io.data2viz.geo.asin
-import io.data2viz.geo.cartesian
 import io.data2viz.math.EPSILON
 import io.data2viz.math.toRadians
 import kotlin.math.*
@@ -45,9 +42,6 @@ interface LineEndFunction {
 
 object DefaultPointFunction : PointFunction {
     override fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double) {
-//            val p = reSampledStream.project.project(x, y)
-//            reSampledStream.stream.point(p[0], p[1], 0.0)
-//            val p = reSampledStream.project.project(x, y)
         reSampledStream.stream.point(
             reSampledStream.project.projectLambda(x,y),
             reSampledStream.project.projectPhi(x,y),
@@ -70,7 +64,8 @@ object LinePointFunction : PointFunction {
 
             val p0 = project.projectLambda(lambda, phi)
             val p1 = project.projectPhi(lambda, phi)
-            resampleLineTo(x0, y0, lambda0, a0, b0, c0, p0, p1, lambda, cart0, cart1, cart2, MAX_DEPTH, stream)
+            resampleLineTo(x0, y0, lambda0, a0, b0, c0, p0, p1, lambda, cart0, cart1, cart2,
+                MAX_DEPTH, stream)
             x0 = p0
             y0 = p1
             lambda0 = lambda
@@ -138,7 +133,8 @@ object  RingLineEndFunction :
     override fun invoke(reSampledStream: ReSampledStream) {
         reSampledStream.apply {
 
-            resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00, MAX_DEPTH, stream)
+            resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00,
+                MAX_DEPTH, stream)
             currentLineEnd = DefaultLineEndFunction
             lineEnd()
         }
@@ -146,7 +142,8 @@ object  RingLineEndFunction :
 }
 
 
-class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: Double) : Stream {
+class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: Double) :
+    Stream {
 
     // First point
     var lambda00 = Double.NaN

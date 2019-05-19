@@ -1,7 +1,7 @@
 package io.data2viz.geo.path
 
 import io.data2viz.geom.Extent
-import io.data2viz.geo.projection.Projection
+import io.data2viz.geo.Projection
 import io.data2viz.geo.projection.identityProjection
 import io.data2viz.geo.stream
 import io.data2viz.geojson.GeoJsonObject

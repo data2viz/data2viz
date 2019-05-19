@@ -1,15 +1,12 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.Projection
+import io.data2viz.geo.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
 import io.data2viz.math.EPSILON
-import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
-import kotlin.math.atan
-import kotlin.math.exp
-import kotlin.math.ln
-import kotlin.math.tan
 
 class MultiplexStream(val streams: Collection<Stream>) : Stream {
     override fun point(x: Double, y: Double, z: Double) = streams.forEach {
@@ -37,11 +34,11 @@ class MultiplexStream(val streams: Collection<Stream>) : Stream {
     }
 }
 
-fun alberUSAProjection() = alberUSAProjection {
+fun albersUSAProjection() = albersUSAProjection {
 
 }
 
-fun alberUSAProjection(init: Projection.() -> Unit) = AlberUSAProjection().also {
+fun albersUSAProjection(init: Projection.() -> Unit) = AlbersUSAProjection().also {
     it.scale = 1070.0
 }.also(init)
 
@@ -53,7 +50,7 @@ fun alberUSAProjection(init: Projection.() -> Unit) = AlberUSAProjection().also 
  * parallels for each region comes from USGS, which is published here:
  * http://egsc.usgs.gov/isb/pubs/MapProjections/projections.html#albers
  */
-class AlberUSAProjection() : Projection {
+class AlbersUSAProjection() : Projection {
 
 
     val lower48 = albersProjection()
@@ -182,12 +179,6 @@ class AlberUSAProjection() : Projection {
         cacheStream = stream1
     }
 
-
-    //    lower48 = albers(), lower48Point,
-//    alaska = conicEqualArea().rotate([154, 0]).center([-2, 58.5]).parallels([55, 65]), alaskaPoint, // EPSG:3338
-//    hawaii = conicEqualArea().rotate([157, 0]).center([-3, 19.9]).parallels([8, 18]), hawaiiPoint, // ESRI:102007
-//    point, pointStream = {point: function(x, y) { point = [x, y]; }};
-
     override var translate: DoubleArray
         get() = lower48.translate
         set(value) {
@@ -245,11 +236,6 @@ class AlberUSAProjection() : Projection {
             reset()
         }
 
-
-//    private fun fullCycleStream(stream: Stream) =
-//        MultiplexStream(lower48.stream())
-
-
     override fun stream(stream: Stream): Stream {
         var cachedStream = getCachedStream(stream)
         if (cachedStream == null) {
@@ -268,15 +254,6 @@ class AlberUSAProjection() : Projection {
                 hawaii.stream(stream)
             )
         )
-
-
-//        return if (cache != null && cacheStream == stream) {
-//            cache
-//        } else {
-//
-//        }
-//        return super.stream(stream)
-        //        return cache && cacheStream === stream ? cache : cache = multiplex([lower48.stream(cacheStream = stream), alaska.stream(stream), hawaii.stream(stream)]);
     }
 
     override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection =
@@ -299,50 +276,4 @@ class AlberUSAProjection() : Projection {
         cache = null
         cacheStream = null
     }
-
 }
-
-
-//import {epsilon} from "../math";
-//import albers from "./albers";
-//import conicEqualArea from "./conicEqualArea";
-//import {fitExtent, fitSize, fitWidth, fitHeight} from "./fit";
-//
-//// The projections must have mutually exclusive clip regions on the sphere,
-//// as this will avoid emitting interleaving lines and polygons.
-//function multiplex(streams) {
-//    var n = streams.length;
-//    return {
-//        point: function(x, y) { var i = -1; while (++i < n) streams[i].point(x, y); },
-//        sphere: function() { var i = -1; while (++i < n) streams[i].sphere(); },
-//        lineStart: function() { var i = -1; while (++i < n) streams[i].lineStart(); },
-//        lineEnd: function() { var i = -1; while (++i < n) streams[i].lineEnd(); },
-//        polygonStart: function() { var i = -1; while (++i < n) streams[i].polygonStart(); },
-//        polygonEnd: function() { var i = -1; while (++i < n) streams[i].polygonEnd(); }
-//    };
-//}
-//
-
-//export default function() {
-//    var cache,
-//    cacheStream,
-
-//
-//
-//
-//    albersUsa.stream = function(stream) {
-
-//    };
-//
-//    albersUsa.precision = function(_) {
-
-//    };
-//
-//    albersUsa.scale = function(_) {
-
-//    };
-//
-//    albersUsa.translate = function(_) {
-//
-//    };
-//

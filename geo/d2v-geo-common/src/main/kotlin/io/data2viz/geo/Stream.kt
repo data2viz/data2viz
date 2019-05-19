@@ -1,6 +1,5 @@
 package io.data2viz.geo
 
-import io.data2viz.geo.projection.Stream
 import io.data2viz.geojson.*
 
 internal val noop: () -> Unit = { }

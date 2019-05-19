@@ -1,11 +1,12 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.ProjectableInvertable
+import io.data2viz.geo.Projection
+import io.data2viz.geo.projection
 import io.data2viz.math.PI
 
 
-fun identityProjection() = identityProjection {
-
-}
+fun identityProjection() = identityProjection {}
 
 fun identityProjection(init: Projection.() -> Unit) = projection(IdentityProjection()) {
     preClip = { it }

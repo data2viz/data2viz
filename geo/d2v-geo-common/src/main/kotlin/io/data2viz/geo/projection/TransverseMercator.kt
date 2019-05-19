@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.Angle
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
@@ -9,16 +10,13 @@ import kotlin.math.ln
 import kotlin.math.tan
 
 
-fun transverseMercatorProjection() = transverseMercatorProjection {
-
-}
+fun transverseMercatorProjection() = transverseMercatorProjection {}
 
 fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) = TransverseMercatorProjection().also {
 
     it.rotate = arrayOf(0.deg, 0.deg, 90.deg)
     it.scale = 159.155
 }.also(init)
-
 
 class TransverseMercatorProjector() : ProjectableInvertable {
     override fun project(lambda: Double, phi: Double): DoubleArray {
@@ -51,7 +49,6 @@ class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProj
             super.center = it
         }
 
-    // TODO: box/unbox perforamance
     override var rotate: Array<Angle>
         get() {
 
@@ -66,14 +63,9 @@ class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProj
         set(value) {
             val original = value
             super.rotate = if (original.size > 2) {
-
                 arrayOf(original[0], original[1], original[2] + 90.0.deg)
             } else {
-
                 arrayOf(original[0], original[1], (+90.0).deg)
             }
-
-
         }
-
 }

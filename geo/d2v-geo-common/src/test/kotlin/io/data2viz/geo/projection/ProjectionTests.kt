@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.Projection
 import io.data2viz.test.TestBase
 import kotlin.math.abs
 

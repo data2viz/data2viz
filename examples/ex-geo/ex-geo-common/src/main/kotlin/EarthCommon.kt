@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 
 val allProjections = hashMapOf(
     "albers" to albersProjection(),
-    "albersUSA" to alberUSAProjection() {
+    "albersUSA" to albersUSAProjection() {
         scale = 500.0
     },
     "azimuthalEqualArea" to azimuthalEqualAreaProjection(),
@@ -28,7 +28,7 @@ val allProjections = hashMapOf(
     "gnomonic" to gnomonicProjection(),
     "identity" to identityProjection(),
     "mercator" to mercatorProjection(),
-    "naturalEarth1" to naturalEarth1Projection(),
+    "naturalEarth" to naturalEarthProjection(),
     "orthographic" to orthographicProjection(),
     "stereographic" to stereographicProjection(),
     "transverseMercator" to transverseMercatorProjection()
@@ -42,7 +42,6 @@ val allFiles = listOf(
     "world-110m-70percent.json"
 )
 
-
 val projectionsToSingleFile = hashMapOf(
     "albersUSA" to "us-states.json"
 )
@@ -52,7 +51,7 @@ val defaultFileIndex = allFiles.indexOf("world-110m-30percent.json")
 val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 
 
-fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 960.0, vizHeight: Double = 700.0): Viz {
+fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.0, vizHeight: Double = 500.0): Viz {
 
 
     val projectionOuter = allProjections[projectionName]
@@ -94,7 +93,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 960.
         }
 
 
-        if(isNeedRotate) {
+        if (isNeedRotate) {
             projectionOuter.rotate = arrayOf(0.0.deg, 0.0.deg, 0.0.deg)
         }
 
@@ -133,10 +132,15 @@ private fun doRotate(
     val unixTime = Date().getTime()
 
     val rotate = geoPathOuter.projection.rotate
-    val k = 60.0
 
-    rotate[0] = ((unixTime % (360 * k)) / k).deg
+    // Full rotation cycles per minute
+    val fullRotationCyclesPerMinute = 6
 
+    val minute = 1000 * 60
+    val ratio = (unixTime % minute) / minute
+    val angle = ratio * 360 * fullRotationCyclesPerMinute % 360
+    // Rotate only x axys
+    rotate[0] = angle.deg
 
     pathOuter.clearPath()
     geoPathOuter.path(world)

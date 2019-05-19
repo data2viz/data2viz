@@ -1,6 +1,6 @@
 package io.data2viz.geo.clip
 
-import io.data2viz.geo.projection.Stream
+import io.data2viz.geo.Stream
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
 
@@ -23,10 +23,8 @@ interface InterpolateFunction {
  */
 fun rejoin(
     segments: List<List<DoubleArray>>, compareIntersection: Comparator<Intersection>,
-//    startInside: Boolean, interpolate: (DoubleArray, DoubleArray, Int, Stream) -> Unit, stream: Stream
     startInside: Boolean, interpolateFunction: InterpolateFunction, stream: Stream
 ) {
-
     val subject = mutableListOf<Intersection>()
     val clip = mutableListOf<Intersection>()
 

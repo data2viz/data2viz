@@ -1,7 +1,6 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo
 
 
-import io.data2viz.geo.ModifiedStream
 import io.data2viz.geo.clip.clipAntimeridian
 import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geojson.GeoJsonObject
@@ -103,7 +102,9 @@ class TransformRadians(stream: Stream) : ModifiedStream(stream) {
     override fun point(x: Double, y: Double, z: Double) = stream.point(x.toRadians(), y.toRadians(), z.toRadians())
 }
 
-fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)
+fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(
+    projection
+).apply(init)
 
 
 
@@ -161,19 +162,19 @@ open class MutableProjection(val projection: Projectable) : Projection {
         }
 
     override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitExtent(this, extent, geo)
+        return fitExtent(this, extent, geo)
     }
 
     override fun fitWidth(width: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitWidth(this, width, geo)
+        return fitWidth(this, width, geo)
     }
 
     override fun fitHeight(height: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitHeight(this, height, geo)
+        return fitHeight(this, height, geo)
     }
 
     override fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitSize(this, width, height, geo)
+        return fitSize(this, width, height, geo)
     }
 
     // Scale

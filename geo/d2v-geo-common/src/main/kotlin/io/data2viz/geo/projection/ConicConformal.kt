@@ -1,19 +1,25 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
 import kotlin.math.*
 
+fun conicConformalProjection() = conicConformalProjection {}
+
+fun conicConformalProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicConformalProjector()) {
+    scale = 109.5
+    parallels = arrayOf(30.0.deg, 30.0.deg)
+    init()
+}
+
+
 fun tany(y: Double): Double {
     return tan((HALFPI + y) / 2);
 }
 
-
 class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
-
-
-
     override var phi0: Double = 0.0
         set(value) {
             field = value
@@ -29,11 +35,10 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
     var n = if (phi0.equals(phi1)) {
         sin(phi0)
     } else {
-        log(cy0, cos(phi1)) / log(tany(phi1) , tany(phi0))
+        log(cy0, cos(phi1)) / log(tany(phi1), tany(phi0))
     }
     var f = cy0 * (tany(phi0).pow(n)) / n
     private var isPossibleToUseBaseProjection = (n == 0.0 || n == Double.NaN)
-
 
 
     private fun recalculate() {
@@ -42,14 +47,12 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
         n = if (phi0.equals(phi1)) {
             sin(phi0)
         } else {
-            log(cy0, cos(phi1)) / log(tany(phi1) , tany(phi0))
+            log(cy0, cos(phi1)) / log(tany(phi1), tany(phi0))
         }
         f = cy0 * (tany(phi0).pow(n)) / n
         isPossibleToUseBaseProjection = (n == 0.0 || n == Double.NaN)
     }
 
-
-    // TODO refactor
     val mercatorProjector = MercatorProjector()
 
     override fun invert(x: Double, y: Double): DoubleArray {
@@ -61,7 +64,8 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
             val r = sign(n) * sqrt(x * x + fy * fy);
             return doubleArrayOf(
                 atan2(x, abs(fy)) / n * sign(fy),
-                2 * atan((f / r).pow(1 / n)) - HALFPI);
+                2 * atan((f / r).pow(1 / n)) - HALFPI
+            );
         }
     }
 
@@ -135,15 +139,4 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
     }
 
 
-
-}
-
-
-fun conicConformalProjection() = conicConformalProjection {
-}
-
-fun conicConformalProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicConformalProjector()) {
-    scale = 109.5
-    parallels = arrayOf(30.0.deg, 30.0.deg)
-    init()
 }

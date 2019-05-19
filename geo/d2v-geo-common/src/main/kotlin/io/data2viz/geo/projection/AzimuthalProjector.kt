@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.geo.asin
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -14,7 +15,8 @@ fun azimuthalInvert(angle: (Double) -> Double) = { x: Double, y: Double ->
     doubleArrayOf(atan2(x * sc, z * cc), (if (z == 0.0) z else y * sc / z).asin)
 }
 
-open class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Double) : ProjectableInvertable {
+open class AzimuthalProjector(val scale: (Double) -> Double, val angle: (Double) -> Double) :
+    ProjectableInvertable {
     override fun projectLambda(lambda: Double, phi: Double): Double {
 
         val cx = cos(lambda)

@@ -1,4 +1,4 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo
 
 import io.data2viz.math.Angle
 import io.data2viz.math.TAU
@@ -6,7 +6,10 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
-private fun identityProjection(x: Double, y: Double) = doubleArrayOf(identityProjectionX(x), identityProjectionY(y))
+private fun identityProjection(x: Double, y: Double) = doubleArrayOf(
+    identityProjectionX(x),
+    identityProjectionY(y)
+)
 
 
 private fun identityProjectionX(x: Double) = when {
@@ -27,10 +30,12 @@ private fun rotationIdentity(): ProjectableInvertable = object : ProjectableInve
 
 class RotationLambda(val deltaLambda: Double) : ProjectableInvertable {
 
-    override fun projectLambda(lambda: Double, phi: Double): Double = identityProjectionX(lambda + deltaLambda)
+    override fun projectLambda(lambda: Double, phi: Double): Double =
+        identityProjectionX(lambda + deltaLambda)
     override fun projectPhi(lambda: Double, phi: Double): Double = identityProjectionY(phi)
 
-    override fun project(lambda: Double, phi: Double): DoubleArray = identityProjection(lambda + deltaLambda, phi)
+    override fun project(lambda: Double, phi: Double): DoubleArray =
+        identityProjection(lambda + deltaLambda, phi)
     override fun invert(x: Double, y: Double): DoubleArray = identityProjection(x - deltaLambda, y)
 }
 
@@ -89,7 +94,10 @@ fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Pr
     val newDeltaLambda = deltaLambda % TAU
     return if (newDeltaLambda != .0) {
         if (deltaPhi != .0 || deltaGamma != .0) {
-            compose(RotationLambda(deltaLambda), RotationPhiGamma(deltaPhi, deltaGamma)) as ProjectableInvertable
+            compose(
+                RotationLambda(deltaLambda),
+                RotationPhiGamma(deltaPhi, deltaGamma)
+            ) as ProjectableInvertable
         } else RotationLambda(deltaLambda)
     } else if (deltaPhi != .0 || deltaGamma != .0) RotationPhiGamma(deltaPhi, deltaGamma)
     else rotationIdentity()

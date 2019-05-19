@@ -19,18 +19,17 @@ import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
 
-class EarthApplication : Application() {
+class EarthJFXApplication : Application() {
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Application.launch(EarthApplication::class.java)
+            Application.launch(EarthJFXApplication::class.java)
         }
     }
 
-
-    val vizWidth = 960.0
-    val vizHeight = 700.0
+    val vizWidth = 500.0
+    val vizHeight = 500.0
 
     val root = Group()
     val startStopButton = Button()
@@ -38,7 +37,7 @@ class EarthApplication : Application() {
     val comboBoxProjections = ComboBox(FXCollections.observableArrayList(allProjectionsNames));
 
     val vBox = VBox()
-    var isAnimationStarted = true
+    var animationEnabled = true
 
     override fun start(stage: Stage?) {
 
@@ -49,14 +48,14 @@ class EarthApplication : Application() {
 
         startStopButton.onAction = EventHandler<ActionEvent> {
 
-            if (isAnimationStarted) {
+            if (animationEnabled) {
                 viz?.stopAnimations()
             } else {
                 viz?.startAnimations()
 
             }
 
-            isAnimationStarted = !isAnimationStarted
+            animationEnabled = !animationEnabled
         }
         comboBoxFiles.selectionModel.select(defaultFileIndex)
         comboBoxProjections.selectionModel.select(defaultProjectionIndex)
@@ -103,7 +102,7 @@ class EarthApplication : Application() {
         stage?.let {
             it.scene = (Scene(root, vizWidth, vizHeight))
             it.show()
-            stage.title = "JavaFx - data2viz - Earth Application.kt"
+            stage.title = "JavaFx - data2viz - EarthJFXApplication.kt"
         }
 
         onSelectionChanged()
@@ -127,9 +126,6 @@ class EarthApplication : Application() {
         } else {
             comboBoxFiles.selectionModel.selectedItem!!
         }
-
-        println("onSelectionChanged filename=$filename, projection=$projection")
-
         val jsonObject =
             this.javaClass.getResourceAsStream("/$filename").reader().readText().toGeoJsonObject()
         val world = jsonObject
@@ -138,7 +134,7 @@ class EarthApplication : Application() {
         JFxVizRenderer(canvas!!, viz!!)
         vBox.children.add(canvas)
 
-        if (isAnimationStarted) {
+        if (animationEnabled) {
             viz!!.startAnimations()
         }
     }
@@ -146,6 +142,4 @@ class EarthApplication : Application() {
     private val frameTimes = LongArray(100)
     private var frameTimeIndex = 0
     private var arrayFilled = false
-
-
 }

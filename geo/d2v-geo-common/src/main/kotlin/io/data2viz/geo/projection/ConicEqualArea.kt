@@ -1,12 +1,19 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
 
+fun conicEqualAreaProjection() = conicEqualAreaProjection {}
+
+fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEqualAreaProjector()) {
+    scale = 155.424
+    center = arrayOf(0.0.deg, 33.6442.deg)
+    init()
+}
 
 class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
-
 
     override var phi0: Double = 0.0
         set(value) {
@@ -25,8 +32,6 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
     private var r0 = sqrt(c) / n;
     private var isPossibleToUseBaseProjection = abs(n) < EPSILON
 
-//
-
     private fun recalculate() {
 
         sy0 = sin(phi0)
@@ -35,43 +40,8 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
         r0 = sqrt(c) / n;
         cylindricalEqualProjector.phi0 = phi0
         isPossibleToUseBaseProjection = abs(n) < EPSILON
-
-//
-//        println("ConicEqualAreaProjector isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection n = $n")
-//
-//        println("""ConicEqualAreaProjector
-//            phi0 =$phi0
-//            phi1 =$phi1
-//            sy0 = $sy0
-//            c = $c
-//            r0 = $0
-//            isPossibleToUseBaseProjection = $isPossibleToUseBaseProjection """.trimIndent())
-
     }
 
-
-
-//    var sy0 = sin(y0), n = (sy0 + sin(y1)) / 2;
-//
-//    // Are the parallels symmetrical around the Equator?
-//    if (abs(n) < epsilon) return cylindricalEqualAreaRaw(y0);
-//
-//    var c = 1 + sy0 * (2 * n - sy0), r0 = sqrt(c) / n;
-//
-//    function project(x, y) {
-//        var r = sqrt(c - 2 * n * sin(y)) / n;
-//        return [r * sin(x *= n), r0 - r * cos(x)];
-//    }
-//
-//    project.invert = function(x, y) {
-//        var r0y = r0 - y;
-//        return [atan2(x, abs(r0y)) / n * sign(r0y), asin((c - (x * x + r0y * r0y) * n * n) / (2 * n))];
-//    };
-//
-//    return project;
-
-
-    // TODO refactor
     val cylindricalEqualProjector = CylindricalEqualAreaProjector(phi0)
 
     override fun invert(x: Double, y: Double): DoubleArray {
@@ -91,8 +61,6 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
             cylindricalEqualProjector.project(lambda, phi)
         } else {
             var r = sqrt(c - 2 * n * sin(phi)) / n
-            // TODO: check
-//            return [r * sin(x *= n), r0 - r * cos(x)];
             val lambdaN = lambda * n
             doubleArrayOf(r * sin(lambda), r0 - r * cos(lambdaN));
         }
@@ -120,17 +88,4 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
             r0 - r * cos(lambdaN)
         }
     }
-
-
-
-}
-
-fun conicEqualAreaProjection() = conicEqualAreaProjection {
-
-}
-
-fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEqualAreaProjector()) {
-    scale = 155.424
-    center = arrayOf(0.0.deg, 33.6442.deg)
-    init()
 }
