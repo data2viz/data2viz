@@ -20,7 +20,7 @@ matrix:
         directories:
         - $HOME/.m2
         - $HOME/.gradle
-
+      install: true
       script: xvfb-run ./gradlew check -Pinclude_android=false -Pinclude_js=false -Pinclude_jfx=true
 
     # Common + JS
@@ -37,7 +37,7 @@ matrix:
         directories:
         - $HOME/.m2
         - $HOME/.gradle
-
+      install: true
       script: ./gradlew check -Pinclude_android=false -Pinclude_js=true -Pinclude_jfx=false
 
     # Common + Android
