@@ -101,6 +101,7 @@ actual class KPointerDoubleClick {
     }
 }
 
+@ExperimentalKZoomEvent
 actual class KZoom {
     actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
         const val minZoomDeltaValue = -100.0

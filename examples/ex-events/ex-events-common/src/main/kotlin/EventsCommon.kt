@@ -66,6 +66,9 @@ fun Viz.removeEvents() {
 
 }
 
+
+
+@ExperimentalKZoomEvent
 fun Viz.addEvents() {
 
     val compositeDisposable = CompositeDisposable()
@@ -104,9 +107,11 @@ fun Viz.addEvents() {
         addToLog(this, "Zoom ${evt.startZoomPos} :: ${evt.delta}")
     })
 
+
     allEventsDisposable = compositeDisposable
 
 }
+
 
 
 private fun addToLog(viz: Viz, str: String) {
