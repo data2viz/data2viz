@@ -7,12 +7,11 @@ import io.data2viz.math.PI
 import io.data2viz.math.TAU
 import kotlin.math.*
 
-fun mercatorProjection() = mercatorProjection{}
+fun mercatorProjection() = mercatorProjection {}
 
-fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProjector()) {
+fun mercatorProjection(init: Projection.() -> Unit) = MercatorProjection(MercatorProjector()).apply {
     scale = 961 / TAU
-    init()
-}
+}.apply(init)
 
 class MercatorProjector : ProjectableInvertable {
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
