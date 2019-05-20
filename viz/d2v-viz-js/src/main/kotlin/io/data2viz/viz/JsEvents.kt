@@ -84,8 +84,11 @@ actual class KZoom {
                         val invertedDelta = deltaY * -1
 
                         val currentTime = Date.now()
-                        if(KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
-                            zoomStartPoint =  Point(clientX.toDouble() - htmlElement.offsetLeft, clientY.toDouble() - htmlElement.offsetTop)
+                        if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
+                            zoomStartPoint = Point(
+                                clientX.toDouble() - htmlElement.offsetLeft,
+                                clientY.toDouble() - htmlElement.offsetTop
+                            )
                         }
                         if (event.ctrlKey) {
                             // wheel

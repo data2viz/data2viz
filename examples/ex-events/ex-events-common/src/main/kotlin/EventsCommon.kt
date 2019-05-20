@@ -11,7 +11,7 @@ const val textFontSize = 14.0
 var logMessageTexts = mutableListOf<TextNode>()
 
 val maxRows = vizSize.height / textFontSize
-val maxLogMessages = (maxRows-1).roundToInt()
+val maxLogMessages = (maxRows - 1).roundToInt()
 
 var allEventsDisposable: CompositeDisposable? = null
 
@@ -67,7 +67,6 @@ fun Viz.removeEvents() {
 }
 
 
-
 @ExperimentalKZoomEvent
 fun Viz.addEvents() {
 
@@ -111,7 +110,6 @@ fun Viz.addEvents() {
     allEventsDisposable = compositeDisposable
 
 }
-
 
 
 private fun addToLog(viz: Viz, str: String) {
