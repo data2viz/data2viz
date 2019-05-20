@@ -12,7 +12,7 @@ class RotationTests : TestBase() {
         val point = doubleArrayOf(.0, .0)
         val rotation = rotation(arrayOf(90.0.deg, .0.deg))
         rotation.projectLambda(point[0], point[1]) shouldBeClose 90.0
-        rotation.projectLambda(point[0], point[1]) shouldBeClose .0
+        rotation.projectPhi(point[0], point[1]) shouldBeClose .0
     }
 
     @Test
@@ -20,7 +20,7 @@ class RotationTests : TestBase() {
         val point = doubleArrayOf(150.0, .0)
         val rotation = rotation(arrayOf(90.0.deg, .0.deg))
         rotation.projectLambda(point[0], point[1]) shouldBeClose -120.0
-        rotation.projectLambda(point[0], point[1]) shouldBeClose .0
+        rotation.projectPhi(point[0], point[1]) shouldBeClose .0
     }
 
     @Test
@@ -29,7 +29,7 @@ class RotationTests : TestBase() {
         val rotation = rotation(arrayOf((-45.0).deg, 45.0.deg))
 
         rotation.projectLambda(point[0], point[1]) shouldBeClose -54.73561
-        rotation.projectLambda(point[0], point[1]) shouldBeClose 30.0
+        rotation.projectPhi(point[0], point[1]) shouldBeClose 30.0
     }
 
     @Test

@@ -250,7 +250,9 @@ abstract class BaseProjection() : Projection {
 
     protected lateinit var projectRotate: Projectable
 
-    protected abstract val projectTransform: Projectable;
+     protected val projectTransform: Projectable = createProjectTransform()
+
+    abstract fun createProjectTransform(): Projectable
 
     // Precision
     private var delta2 = 0.5
@@ -313,20 +315,19 @@ abstract class BaseProjection() : Projection {
 }
 
 open class MutableProjection(val projection: Projectable) : BaseProjection() {
+    override fun createProjectTransform(): Projectable {
+        return object : Projectable {
+            private fun internalProjectLambda(lambda: Double) =
+                lambda * k + dx
 
+            private fun internalProjectPhi(phi: Double) =
+                dy - phi * k
 
-    override val projectTransform: Projectable = object : Projectable {
-        private fun internalProjectLambda(lambda: Double) =
-            lambda * k + dx
+            override fun projectLambda(lambda: Double, phi: Double): Double =
+                internalProjectLambda(projection.projectLambda(lambda, phi))
 
-        private fun internalProjectPhi(phi: Double) =
-            dy - phi * k
-
-        override fun projectLambda(lambda: Double, phi: Double): Double =
-            internalProjectLambda(projection.projectLambda(lambda, phi))
-
-        override fun projectPhi(lambda: Double, phi: Double): Double =
-            internalProjectPhi(projection.projectPhi(lambda, phi))
+            override fun projectPhi(lambda: Double, phi: Double): Double =
+                internalProjectPhi(projection.projectPhi(lambda, phi))
 
 
 //        override fun project(point: DoubleArray) {
@@ -335,7 +336,9 @@ open class MutableProjection(val projection: Projectable) : BaseProjection() {
 //            point[1] = internalProjectPhi(point[1])
 //        }
 
+        }
     }
+
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         projectTransform.projectLambda(lambda.toRadians(), phi.toRadians())
