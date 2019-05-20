@@ -2,14 +2,23 @@ package io.data2viz.geom
 
 
 /**
- * Common path denominator between Canvas, SVG, JavaFX, Android
+ * This interface represents a path generator.
+ *
+ * It is a stateful class that stores the list of command applied on it.
  */
 interface Path {
+
+
     fun moveTo(x: Double, y: Double)
+
     fun lineTo(x: Double, y: Double)
+
     fun closePath()
+
     fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double)
+
     fun bezierCurveTo(cpx1: Double, cpy1: Double, cpx2: Double, cpy2: Double, x: Double, y: Double)
+
     fun arcTo(cpx: Double, cpy: Double, x: Double, y: Double, radius: Double)
 
     /**
