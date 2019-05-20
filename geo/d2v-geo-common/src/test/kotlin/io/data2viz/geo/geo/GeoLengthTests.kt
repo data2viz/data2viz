@@ -1,6 +1,6 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo.geo
 
-import io.data2viz.geo.GeoLength
+import io.data2viz.geo.projection.pt
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.math.PI

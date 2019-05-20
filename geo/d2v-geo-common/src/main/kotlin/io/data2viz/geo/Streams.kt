@@ -1,5 +1,6 @@
 package io.data2viz.geo
 
+import io.data2viz.geo.geo.Sphere
 import io.data2viz.geojson.*
 
 internal val noop: () -> Unit = { }
@@ -23,7 +24,7 @@ private fun streamGeometry(geo: GeoJsonObject, stream: Stream) {
         is MultiPolygon     -> geo.coordinates.forEach { streamPolygon(it, stream) }
         is Polygon          -> streamPolygon(geo.coordinates, stream)
         is MultiLineString  -> geo.coordinates.forEach { streamLine(it, stream, false) }
-        is Sphere           -> streamSphere(stream)
+        is Sphere -> streamSphere(stream)
     }
 }
 

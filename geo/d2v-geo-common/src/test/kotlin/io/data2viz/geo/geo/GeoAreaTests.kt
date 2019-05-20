@@ -1,11 +1,9 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo.geo
 
-import io.data2viz.geo.GeoArea
-import io.data2viz.geo.Sphere
+import io.data2viz.geo.projection.pt
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.math.PI
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 class GeoAreaTests : TestBase() {

@@ -1,5 +1,8 @@
-package io.data2viz.geo
+package io.data2viz.geo.geo
 
+import io.data2viz.geo.Stream
+import io.data2viz.geo.cartesian
+import io.data2viz.geo.cartesianNormalize
 import io.data2viz.geo.projection.rotateRadians
 import io.data2viz.geojson.Polygon
 import io.data2viz.math.EPSILON

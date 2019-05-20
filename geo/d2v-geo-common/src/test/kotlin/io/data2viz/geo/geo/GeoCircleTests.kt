@@ -1,6 +1,5 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo.geo
 
-import io.data2viz.geo.GeoCircle
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 

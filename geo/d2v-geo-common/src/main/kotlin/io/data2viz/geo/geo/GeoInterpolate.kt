@@ -1,4 +1,4 @@
-package io.data2viz.geo
+package io.data2viz.geo.geo
 
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians

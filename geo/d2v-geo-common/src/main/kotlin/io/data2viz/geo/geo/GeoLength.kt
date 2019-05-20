@@ -1,5 +1,9 @@
-package io.data2viz.geo
+package io.data2viz.geo.geo
 
+import io.data2viz.geo.Stream
+import io.data2viz.geo.noop
+import io.data2viz.geo.noop2
+import io.data2viz.geo.stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.LineString
 import io.data2viz.geojson.Position

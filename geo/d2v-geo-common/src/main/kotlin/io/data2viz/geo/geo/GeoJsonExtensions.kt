@@ -1,5 +1,6 @@
-package io.data2viz.geo
+package io.data2viz.geo.geo
 
+import io.data2viz.geo.polygonContains
 import io.data2viz.geojson.*
 import io.data2viz.math.EPSILON
 import io.data2viz.math.toRadians
@@ -21,7 +22,7 @@ fun GeoJsonObject.contains(point: Position): Boolean =
         is MultiPolygon         -> surface.any { it.contains(point) }
         is LineString           -> positions.contains(point)
         is MultiLineString      -> lines.any { it.contains(point) }
-        is Sphere               -> true
+        is Sphere -> true
         is GeometryCollection   -> geometries.any { it.contains(point) }
         is FeatureCollection    -> features.any { it.contains(point) }
         is Feature              -> geometry.contains(point)
