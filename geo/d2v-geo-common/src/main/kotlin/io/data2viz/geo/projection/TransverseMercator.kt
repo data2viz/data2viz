@@ -18,7 +18,7 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) 
     it.scale = 159.155
 }.also(init)
 
-class TransverseMercatorProjector() : ProjectableInvertable {
+class TransverseMercatorProjector() : ProjectableInvertable {av
     override fun project(lambda: Double, phi: Double): DoubleArray {
         return doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
     }

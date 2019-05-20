@@ -20,27 +20,27 @@ package io.data2viz.geo.path
 //}
 //
 //tape("geoPath.projection() defaults to null", function(test) {
-//    var path = d3_geo.geoPath();
-//    test.strictEqual(path.projection(), null);
+//    var drawPath = d3_geo.geoPath();
+//    test.strictEqual(drawPath.projection(), null);
 //    test.end();
 //});
 //
 //tape("geoPath.context() defaults to null", function(test) {
-//    var path = d3_geo.geoPath();
-//    test.strictEqual(path.context(), null);
+//    var drawPath = d3_geo.geoPath();
+//    test.strictEqual(drawPath.context(), null);
 //    test.end();
 //});
 //
 //tape("d3.geoPath(projection) sets the initial projection", function(test) {
-//    var projection = d3_geo.geoAlbers(), path = d3_geo.geoPath(projection);
-//    test.strictEqual(path.projection(), projection);
+//    var projection = d3_geo.geoAlbers(), drawPath = d3_geo.geoPath(projection);
+//    test.strictEqual(drawPath.projection(), projection);
 //    test.end();
 //});
 //
 //tape("d3.geoPath(projection, context) sets the initial projection and context", function(test) {
-//    var context = testContext(), projection = d3_geo.geoAlbers(), path = d3_geo.geoPath(projection, context);
-//    test.strictEqual(path.projection(), projection);
-//    test.strictEqual(path.context(), context);
+//    var context = testContext(), projection = d3_geo.geoAlbers(), drawPath = d3_geo.geoPath(projection, context);
+//    test.strictEqual(drawPath.projection(), projection);
+//    test.strictEqual(drawPath.context(), context);
 //    test.end();
 //});
 //
@@ -188,23 +188,23 @@ package io.data2viz.geo.path
 //});
 //
 //tape("geoPath.context(null)(null) returns null", function(test) {
-//    var path = d3_geo.geoPath();
-//    test.strictEqual(path(), null);
-//    test.strictEqual(path(null), null);
-//    test.strictEqual(path(undefined), null);
+//    var drawPath = d3_geo.geoPath();
+//    test.strictEqual(drawPath(), null);
+//    test.strictEqual(drawPath(null), null);
+//    test.strictEqual(drawPath(undefined), null);
 //    test.end();
 //});
 //
 //tape("geoPath.context(null)(Unknown) returns null", function(test) {
-//    var path = d3_geo.geoPath();
-//    test.strictEqual(path({type: "Unknown"}), null);
-//    test.strictEqual(path({type: "__proto__"}), null);
+//    var drawPath = d3_geo.geoPath();
+//    test.strictEqual(drawPath({type: "Unknown"}), null);
+//    test.strictEqual(drawPath({type: "__proto__"}), null);
 //    test.end();
 //});
 //
 //tape("geoPath(LineString) then geoPath(Point) does not treat the point as part of a line", function(test) {
-//    var context = testContext(), path = d3_geo.geoPath().projection(equirectangular).context(context);
-//    path({
+//    var context = testContext(), drawPath = d3_geo.geoPath().projection(equirectangular).context(context);
+//    drawPath({
 //        type: "LineString",
 //        coordinates: [[-63, 18], [-62, 18], [-62, 17]]
 //    });
@@ -213,7 +213,7 @@ package io.data2viz.geo.path
 //        {type: "lineTo", x: 170, y: 160},
 //        {type: "lineTo", x: 170, y: 165}
 //    ]);
-//    path({
+//    drawPath({
 //        type: "Point",
 //        coordinates: [-63, 18]
 //    });

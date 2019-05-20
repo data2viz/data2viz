@@ -54,9 +54,9 @@ val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.0, vizHeight: Double = 500.0): Viz {
 
 
-    val projectionOuter = allProjections[projectionName]!!
-    projectionOuter.x = vizWidth / 2.0
-    projectionOuter.y = vizHeight / 2.0
+    val geoProjection = allProjections[projectionName]!!
+    geoProjection.x = vizWidth / 2.0
+    geoProjection.y = vizHeight / 2.0
 
 
     return viz {
@@ -77,16 +77,16 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
         }
 
 
-        val pathOuter = PathNode().apply {
+        val vizPath = path {
             stroke = Colors.Web.black
             strokeWidth = 1.0
             fill = Colors.Web.whitesmoke
         }
 
-        var geoPathOuter = geoPath(projectionOuter, pathOuter)
+        var geoPath = geoPath(geoProjection, vizPath)
 
-        geoPathOuter.path(world)
-        add(pathOuter)
+        geoPath.drawPath(world)
+
 
         val isNeedRotate = when (projectionName) {
             "albersUSA", "identity" -> false
@@ -95,7 +95,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 
 
         if (isNeedRotate) {
-            projectionOuter.rotate = arrayOf(0.0.deg, 0.0.deg, 0.0.deg)
+            geoProjection.rotate = arrayOf(0.0.deg, 0.0.deg, 0.0.deg)
         }
 
         animation { now: Double ->
@@ -108,7 +108,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 
 
             if (isNeedRotate) {
-                doRotate(geoPathOuter, pathOuter, world)
+                doRotate(geoPath, vizPath, world)
             }
 
         }
@@ -118,7 +118,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
             width = newWidth
             height = newHeight
 
-            geoPathOuter = geoPath(projectionOuter, pathOuter)
+            geoPath = geoPath(geoProjection, vizPath)
         }
 
 
@@ -126,13 +126,14 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 }
 
 private fun doRotate(
-    geoPathOuter: GeoPath,
-    pathOuter: PathNode,
+    geoPath: GeoPath,
+    vizPath: PathNode,
     world: GeoJsonObject
 ) {
     val unixTime = Date().getTime()
 
-    val rotate = geoPathOuter.projection.rotate
+    val projection = geoPath.projection
+    val rotate = projection.rotate
 
     // Full rotation cycles per minute
     val fullRotationCyclesPerMinute = 6
@@ -143,9 +144,9 @@ private fun doRotate(
     // Rotate only x axys
     rotate[0] = angle.deg
 
-    pathOuter.clearPath()
-    geoPathOuter.path(world)
-    geoPathOuter.projection.rotate = rotate
+    vizPath.clearPath()
+    projection.rotate = rotate
+    geoPath.drawPath(world)
 }
 
 object FPS {

@@ -25,7 +25,7 @@ class GeoBounds : Stream {
 
     private val areaStream = GeoArea()
 
-    // bounds
+    // drawBounds
     private var lambda0 = Double.NaN
     private var phi0 = Double.NaN
     private var lambda1 = Double.NaN

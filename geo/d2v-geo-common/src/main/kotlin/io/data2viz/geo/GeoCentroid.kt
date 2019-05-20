@@ -11,7 +11,7 @@ import kotlin.math.*
 
 
 /**
- * Returns the spherical centroid of the specified GeoJSON object.
+ * Returns the spherical drawCentroid of the specified GeoJSON object.
  * This is the spherical equivalent of PathCentroid.
  */
 class GeoCentroid : Stream {
@@ -57,7 +57,7 @@ class GeoCentroid : Stream {
         var z = _Z2
         var m = x * x + y * y + z * z;
 
-        // If the area-weighted centroid is undefined, fall back to length-weighted ccentroid.
+        // If the drawArea-weighted drawCentroid is undefined, fall back to length-weighted ccentroid.
         if (m < EPSILON2) {
             x = _X1
             y = _Y1
@@ -71,7 +71,7 @@ class GeoCentroid : Stream {
             }
             m = x * x + y * y + z * z
 
-            // If the feature still has an undefined centroid, then return.
+            // If the feature still has an undefined drawCentroid, then return.
             if (m < EPSILON2) return doubleArrayOf(Double.NaN, Double.NaN)
         }
 
@@ -182,7 +182,7 @@ class GeoCentroid : Stream {
         val cz = x0 * b - y0 * a
         val m = sqrt(cx * cx + cy * cy + cz * cz)
         val w = asin(m)                             // line weight = angle
-        val v = if (m == .0) .0 else -w / m         // area weight multiplier
+        val v = if (m == .0) .0 else -w / m         // drawArea weight multiplier
         _X2 += v * cx
         _Y2 += v * cy
         _Z2 += v * cz

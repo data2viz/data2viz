@@ -9,7 +9,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * Returns the spherical area of the specified GeoJSON object in steradians.
+ * Returns the spherical drawArea of the specified GeoJSON object in steradians.
  * This is the spherical equivalent of PathArea.
  */
 class GeoArea : Stream {

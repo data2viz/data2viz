@@ -101,7 +101,7 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
     // It is inside if:
     // * the polygon winds around it in a clockwise direction.
     // * the polygon does not (cumulatively) wind around it, but has a negative
-    //   (counter-clockwise) area.
+    //   (counter-clockwise) drawArea.
     //
     // Second, count the (signed) number of times a segment crosses a lambda
     // from the point to the South pole.  If it is zero, then the point is the

@@ -10,7 +10,7 @@ import io.data2viz.viz.*
 import kotlin.random.Random
 
 
-// Graphical bounds
+// Graphical drawBounds
 val margins = Margins(50.0, .0)
 val width = 1600.0 - margins.hMargins
 val height = 450.0
@@ -129,7 +129,7 @@ fun streamGraph(): Viz = viz {
         }
 
 
-        // Finally, we just need to render each serie as an area
+        // Finally, we just need to render each serie as an drawArea
         stack.forEach { serieStream ->
             val stackData = serieStream.stackedValues
             group {

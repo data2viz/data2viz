@@ -533,13 +533,13 @@ class CentroidTests : TestBase() {
     }
 
     /*
-tape("the centroid of a detailed feature is correct", function(test) {
+tape("the drawCentroid of a detailed feature is correct", function(test) {
   var ny = require("./data/ny.json");
   test.inDelta(d3.geoCentroid(ny), [-73.93079, 40.69447], 1e-5);
   test.end();
 });
 
-tape("the centroid of a set of polygons is the (spherical) average of its surface", function(test) {
+tape("the drawCentroid of a set of polygons is the (spherical) average of its surface", function(test) {
   var circle = d3.geoCircle();
   test.inDelta(d3.geoCentroid({
     type: "MultiPolygon",
@@ -551,17 +551,17 @@ tape("the centroid of a set of polygons is the (spherical) average of its surfac
   test.end();
 });
 
-tape("the centroid of a small circle is its center: 5°", function(test) {
+tape("the drawCentroid of a small circle is its center: 5°", function(test) {
   test.inDelta(d3.geoCentroid(d3.geoCircle().radius(5).center([30, 45])()), [30, 45], 1e-6);
   test.end();
 });
 
-tape("the centroid of a small circle is its center: 135°", function(test) {
+tape("the drawCentroid of a small circle is its center: 135°", function(test) {
   test.inDelta(d3.geoCentroid(d3.geoCircle().radius(135).center([30, 45])()), [30, 45], 1e-6);
   test.end();
 });
 
-tape("the centroid of a small circle is its center: concentric rings", function(test) {
+tape("the drawCentroid of a small circle is its center: concentric rings", function(test) {
   var circle = d3.geoCircle().center([0, 45]),
       coordinates = circle.radius(60)().coordinates;
   coordinates.push(circle.radius(45)().coordinates[0].reverse());
