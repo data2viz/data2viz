@@ -1,15 +1,12 @@
 package io.data2viz.examples.geo
 
 import io.data2viz.color.Colors
-import io.data2viz.geo.path.GeoPath
-import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.*
 import io.data2viz.geojson.GeoJsonObject
-import io.data2viz.geom.PathGeom
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import io.data2viz.time.Date
-import io.data2viz.viz.PathNode
+import io.data2viz.viz.GeoPathNode
 import io.data2viz.viz.Viz
 import io.data2viz.viz.viz
 import kotlin.math.roundToInt
@@ -56,17 +53,25 @@ val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.0, vizHeight: Double = 500.0): Viz {
 
 
-    val geoProjection = allProjections[projectionName]!!
-    geoProjection.x = vizWidth / 2.0
-    geoProjection.y = vizHeight / 2.0
+    val projection = allProjections[projectionName]!!
+    projection.x = vizWidth / 2.0
+    projection.y = vizHeight / 2.0
 
-    val pathGeom = PathGeom()
-
-    var geoPath = geoPath(geoProjection, pathGeom)
 
     return viz {
         width = vizWidth
         height = vizHeight
+        
+        val geoPathNode = GeoPathNode().apply {
+            stroke = Colors.Web.black
+            strokeWidth = 1.0
+            fill = Colors.Web.whitesmoke
+            geoProjection = projection
+            geoData = world
+
+        }
+
+        add(geoPathNode)
 
         val fps = text {
             x = 10.0
@@ -82,16 +87,6 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
         }
 
 
-        PathNode(pathGeom).also {
-            stroke = Colors.Web.black
-            strokeWidth = 1.0
-            fill = Colors.Web.whitesmoke
-            add(it)
-        }
-
-        geoPath.drawPath(world)
-
-
         // don't rotate projections which not don't support rotations in d3
         val isNeedRotate = when (projectionName) {
             "albersUSA", "identity" -> false
@@ -99,8 +94,9 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
         }
 
 
+
         if (isNeedRotate) {
-            geoProjection.rotate = arrayOf(0.0.deg, 0.0.deg, 0.0.deg)
+            geoPathNode.rotateByAngles(arrayOf(0.0.deg, 0.0.deg, 0.0.deg))
         }
 
         animation { now: Double ->
@@ -113,7 +109,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 
 
             if (isNeedRotate) {
-                rotateByTime(geoPath, pathGeom, world)
+                rotateByTime(geoPathNode)
             }
 
         }
@@ -123,7 +119,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
             width = newWidth
             height = newHeight
 
-            geoPath = geoPath(geoProjection, pathGeom)
+            geoPathNode.redrawPath()
         }
 
 
@@ -131,12 +127,10 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 }
 
 private fun rotateByTime(
-    geoPath: GeoPath,
-    pathGeom: PathGeom,
-    world: GeoJsonObject
+    geoPathNode: GeoPathNode
 ) {
 
-    val projection = geoPath.projection
+    val projection = geoPathNode.geoProjection
     val rotate = projection.rotate
 
 
@@ -150,19 +144,15 @@ private fun rotateByTime(
     // Rotate only x axys
     rotate[0] = angle.deg
 
-    rotateByAngles(geoPath, rotate, pathGeom, world)
+    geoPathNode.rotateByAngles(rotate)
 }
 
-private fun rotateByAngles(
-    geoPath: GeoPath,
-    angles: Array<Angle>,
-    pathGeom: PathGeom,
-    world: GeoJsonObject
+private fun GeoPathNode.rotateByAngles(
+
+    angles: Array<Angle>
 ) {
-    val projection = geoPath.projection
-    projection.rotate = angles
-    pathGeom.clearPath()
-    geoPath.drawPath(world)
+    geoProjection.rotate = angles
+    redrawPath()
 }
 
 object FPS {
