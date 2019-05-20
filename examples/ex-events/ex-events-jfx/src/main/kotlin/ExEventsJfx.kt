@@ -1,7 +1,6 @@
 package io.data2viz.examples.events
 
 
-
 import io.data2viz.viz.ExperimentalKZoomEvent
 import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.Viz

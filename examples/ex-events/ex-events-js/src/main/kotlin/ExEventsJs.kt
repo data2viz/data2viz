@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
     eventsViz.bindRendererOn("events")
 
     val button = document.getElementById("button_toggle_events")!!
-    button.addEventListener("click", object: EventListener {
+    button.addEventListener("click", object : EventListener {
         override fun handleEvent(event: Event) {
             toggleEventsState(eventsViz, button)
         }

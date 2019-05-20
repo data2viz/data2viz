@@ -121,15 +121,15 @@ class KZoomEvent(
     companion object {
 
         const val diffTimeBetweenZoomEventsToDetectRestart = 500
-        fun isNewZoom (currentTime:Double, lastTime:Double?) =
-            if(lastTime == null) {
+        fun isNewZoom(currentTime: Double, lastTime: Double?) =
+            if (lastTime == null) {
                 true
             } else {
                 currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
             }
 
-        fun isNewZoom (currentTime:Long, lastTime:Long?) =
-            if(lastTime == null) {
+        fun isNewZoom(currentTime: Long, lastTime: Long?) =
+            if (lastTime == null) {
                 true
             } else {
                 currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
@@ -218,7 +218,7 @@ class KPointerDrag {
 
         override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit): Disposable {
 
-            val compositeDisposable = CompositeDisposable();
+            val compositeDisposable = CompositeDisposable()
 
             compositeDisposable.add(KPointerMove.addNativeListener(target) {
                 if (dragInProgress) {

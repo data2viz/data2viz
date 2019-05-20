@@ -108,7 +108,6 @@ actual class KZoom {
         const val maxZoomDeltaValue = 100.0
 
 
-
         var lastZoomTime: Long? = null
         lateinit var zoomStartPoint: Point
 
@@ -136,7 +135,12 @@ actual class KZoom {
                         }
                         lastZoomTime = currentTime
 
-                        listener(KZoomEvent(zoomStartPoint, KZoomEvent.scaleDelta(diffSpan, minZoomDeltaValue, maxZoomDeltaValue)))
+                        listener(
+                            KZoomEvent(
+                                zoomStartPoint,
+                                KZoomEvent.scaleDelta(diffSpan, minZoomDeltaValue, maxZoomDeltaValue)
+                            )
+                        )
 
                         return true
                     }
@@ -181,7 +185,7 @@ private fun addSimpleAndroidEventHandle(
 
             // Simple events only for single touch
             if (event?.pointerCount == 1) {
-                if (event?.action == action) {
+                if (event.action == action) {
                     val kevent = event.convertToKEvent()
                     listener(kevent)
                 }
@@ -196,8 +200,7 @@ private fun addSimpleAndroidEventHandle(
 
 
 class AndroidActionEventHandle(renderer: AndroidCanvasRenderer, val type: Int, handler: VizTouchListener) :
-    AndroidEventHandle(renderer, handler) {
-}
+    AndroidEventHandle(renderer, handler)
 
 open class AndroidEventHandle(val renderer: AndroidCanvasRenderer, val handler: VizTouchListener) :
     Disposable {
