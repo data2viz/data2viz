@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import io.data2viz.examples.chord.*
+import io.data2viz.examples.events.*
 import io.data2viz.viz.*
 
 
@@ -14,6 +15,7 @@ class EventsActivity : AppCompatActivity() {
 
     lateinit var button: Button
 
+    @ExperimentalKZoomEvent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val chordViz = eventsViz()
@@ -39,6 +41,7 @@ class EventsActivity : AppCompatActivity() {
         setContentView(linearLayout)
     }
 
+    @ExperimentalKZoomEvent
     private fun toggleEventsState(
         viz: Viz,
         button: Button

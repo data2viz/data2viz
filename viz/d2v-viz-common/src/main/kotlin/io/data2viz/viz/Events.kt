@@ -107,7 +107,13 @@ class KDragEvent(
     }
 }
 
+@Experimental
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+annotation class ExperimentalKZoomEvent            // Experimental API marker
 
+
+@ExperimentalKZoomEvent
 class KZoomEvent(
     val startZoomPos: Point,
     val delta: Double
@@ -197,6 +203,7 @@ expect class KPointerDoubleClick {
     companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
 }
 
+@ExperimentalKZoomEvent
 expect class KZoom {
     companion object ZoomEventListener : KEventListener<KZoomEvent>
 }

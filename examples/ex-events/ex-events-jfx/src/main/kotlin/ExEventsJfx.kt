@@ -2,6 +2,7 @@ package io.data2viz.examples.events
 
 
 
+import io.data2viz.viz.ExperimentalKZoomEvent
 import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.Viz
 import javafx.application.Application
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
 
+@ExperimentalKZoomEvent
 class ExEventsJfx : Application() {
 
     companion object {

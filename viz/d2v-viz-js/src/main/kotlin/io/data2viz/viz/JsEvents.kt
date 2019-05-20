@@ -60,6 +60,7 @@ actual class KPointerClick {
     }
 }
 
+@ExperimentalKZoomEvent
 actual class KZoom {
     actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
 
