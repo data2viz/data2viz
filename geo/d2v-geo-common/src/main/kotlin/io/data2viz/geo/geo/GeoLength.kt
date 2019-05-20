@@ -1,6 +1,5 @@
 package io.data2viz.geo
 
-import io.data2viz.geo.projection.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.LineString
 import io.data2viz.geojson.Position
@@ -10,7 +9,7 @@ import kotlin.math.*
 /**
  * Returns the great-arc distance in radians between the two points from and to.
  * Each point must be specified as a two-element array [longitude, latitude] in degrees.
- * This is the spherical equivalent of PathMeasure given a LineString of two points.
+ * This is the spherical equivalent of MeasureStream given a LineString of two points.
  */
 fun geoDistance(from: Position, to: Position): Double {
     val line = LineString(arrayOf(from, to))
@@ -22,7 +21,7 @@ fun geoDistance(from: Position, to: Position): Double {
 /**
  * Returns the great-arc length of the specified GeoJSON object in radians.
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
- * This is the spherical equivalent of PathMeasure.
+ * This is the spherical equivalent of MeasureStream.
  */
 class GeoLength : Stream {
 
@@ -37,7 +36,7 @@ class GeoLength : Stream {
     // TODO : invoke ?
     fun result(geo: GeoJsonObject): Double {
         lengthSum = .0
-        stream(geo, this)
+        geo.stream(this)
         return lengthSum
     }
 

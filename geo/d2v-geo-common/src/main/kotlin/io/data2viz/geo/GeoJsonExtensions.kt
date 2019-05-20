@@ -39,9 +39,7 @@ private fun Lines.contains(point: Position): Boolean {
     return polygonContains(coords, toRadians(point))
 }
 
-fun toRadians(array: Position): DoubleArray {
-    return array.map { it.toRadians() }.toDoubleArray()
-}
+private fun toRadians(pos: Position): DoubleArray = doubleArrayOf(pos.lon.toRadians(), pos.lat.toRadians())
 
 private fun Positions.contains(point: Position): Boolean {
     val ab = geoDistance(this[0], this[1])

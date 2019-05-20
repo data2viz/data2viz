@@ -1,7 +1,6 @@
 package io.data2viz.geo
 
 import io.data2viz.geom.Extent
-import io.data2viz.geo.projection.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.EPSILON
 import io.data2viz.math.toDegrees
@@ -20,7 +19,7 @@ import kotlin.math.abs
  *
  * (Note that in projected planar coordinates, the minimum latitude is typically the maximum y-value, and the
  * maximum latitude is typically the minimum y-value.)
- * This is the spherical equivalent of PathBounds.
+ * This is the spherical equivalent of BoundsStream.
  */
 class GeoBounds : Stream {
 
@@ -57,7 +56,7 @@ class GeoBounds : Stream {
         phi1 = -lambda0
         lambda1 = phi1
         ranges.clear()
-        stream(geo, this)
+        geo.stream(this)
 
         // First, sort ranges by their minimum longitudes.
         if (ranges.isNotEmpty()) {

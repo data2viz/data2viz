@@ -1,8 +1,8 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ModifiedStream
+import io.data2viz.geo.DelegateStreamAdapter
+import io.data2viz.geo.Stream
 import io.data2viz.geo.asin
-import io.data2viz.geo.cartesian
 import io.data2viz.math.EPSILON
 import io.data2viz.math.toRadians
 import kotlin.math.*
@@ -15,7 +15,7 @@ fun resample(project: Projectable, delta2: Double) =
 
 private fun resampleNone(project: Projectable): (Stream) -> Stream {
     return { stream: Stream ->
-        object : ModifiedStream(stream) {
+        object : DelegateStreamAdapter(stream) {
             override fun point(x: Double, y: Double, z: Double) {
                 stream.point(project.projectLambda(x, y), project.projectPhi(x, y), 0.0)
             }

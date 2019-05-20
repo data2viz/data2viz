@@ -1,6 +1,5 @@
 package io.data2viz.geo
 
-import io.data2viz.geo.projection.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.EPSILON
 import io.data2viz.math.EPSILON2
@@ -13,7 +12,7 @@ import kotlin.math.*
 
 /**
  * Returns the spherical centroid of the specified GeoJSON object.
- * This is the spherical equivalent of PathCentroid.
+ * This is the spherical equivalent of CentroidStream.
  */
 class GeoCentroid : Stream {
 
@@ -51,7 +50,7 @@ class GeoCentroid : Stream {
         _X2 = .0
         _Y2 = .0
         _Z2 = .0
-        stream(geo, this)
+        geo.stream(this)
 
         var x = _X2
         var y = _Y2

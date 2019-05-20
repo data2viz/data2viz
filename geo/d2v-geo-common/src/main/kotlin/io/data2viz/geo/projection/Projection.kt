@@ -1,7 +1,8 @@
 package io.data2viz.geo.projection
 
 
-import io.data2viz.geo.ModifiedStream
+import io.data2viz.geo.DelegateStreamAdapter
+import io.data2viz.geo.Stream
 import io.data2viz.geo.clip.clipAntimeridian
 import io.data2viz.geo.clip.clipCircle
 import io.data2viz.geojson.GeoJsonObject
@@ -11,31 +12,24 @@ import kotlin.math.sqrt
 
 
 /**
- * TODO What is a Stream, document class and functions.
- */
-interface Stream {
-
-    /**
-     * Todo document params (why z?).
-     */
-    fun point(x: Double, y: Double, z: Double) {}
-    fun lineStart() {}
-    fun lineEnd() {}
-    fun polygonStart() {}
-    fun polygonEnd() {}
-    fun sphere() {}
-}
-
-/**
- * Todo document interface, functions and params
+ * Project a single Geo point (lon, lat)
  */
 interface Projectable {
-    fun project(lambda: Double, phi: Double): DoubleArray
-    fun projectLambda(lambda: Double, phi: Double): Double =
-        project(lambda, phi)[0]
 
-    fun projectPhi(lambda: Double, phi: Double): Double =
-        project(lambda, phi)[1]
+    /**
+     * Project a geo point
+     */
+    fun project(lambda: Double, phi: Double): DoubleArray
+
+    /**
+     * Default implementation of a longitude projection (can be overrided)
+     */
+    fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
+
+    /**
+     * Default implementation of a latitude projection (can be overrided)
+     */
+    fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
 }
 
 
@@ -47,7 +41,7 @@ interface Invertable {
 }
 
 /**
- * Todo document
+ * Todo do we need this interface? Why just not keep the two inherited interfaces.
  */
 interface ProjectableInvertable : Projectable, Invertable
 
@@ -56,10 +50,38 @@ interface ProjectableInvertable : Projectable, Invertable
  * Todo document
  */
 interface Projection : ProjectableInvertable {
+
+
+    /**
+     * The scale factor corresponds linearly to the distance between projected points;
+     * however, absolute scale factors are not equivalent across projections.
+     */
     var scale: Double
+
+    /**
+     * The translation offset determines the pixel coordinates of the projection’s center.
+     * The default translation offset places ⟨0°,0°⟩ at the center of a 960×500 area.
+     */
     var translate: DoubleArray
+
+    /**
+     * a two-element array of longitude and latitude in degrees
+     */
     var center: Array<Angle>
+
+    /**
+     * The threshold for the projection’s adaptive resampling pixels.
+     * This value corresponds to the Douglas–Peucker distance.
+     * Defaults to √0.5 ≅ 0.70710…
+     */
     var precision: Double
+
+    /**
+     * The projection’s three-axis spherical rotation to
+     * the specified angles, which must be a two- or three-element array of numbers [lambda, phi, gamma]
+     * specifying the rotation angles in degrees about each spherical axis
+     * (these correspond to yaw, pitch and roll).
+     */
     var rotate: Array<Angle>
 
     var preClip: (Stream) -> Stream
@@ -80,9 +102,9 @@ interface Projection : ProjectableInvertable {
 /**
  * Todo document
  */
-fun compose(a: Projectable, b: Projectable): Projectable {
+fun compose(a: Projectable, b: Projectable): Projectable =
     if (a is Invertable && b is Invertable) {
-        return object : ProjectableInvertable {
+        object : ProjectableInvertable {
             override fun projectLambda(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
@@ -105,7 +127,7 @@ fun compose(a: Projectable, b: Projectable): Projectable {
             }
         }
     } else {
-        return object : Projectable {
+        object : Projectable {
             override fun projectLambda(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
@@ -122,10 +144,9 @@ fun compose(a: Projectable, b: Projectable): Projectable {
             }
         }
     }
-}
 
-class TransformRadians(stream: Stream) : ModifiedStream(stream) {
-    override fun point(x: Double, y: Double, z: Double) = stream.point(x.toRadians(), y.toRadians(), z.toRadians())
+class TransformRadians(stream: Stream) : DelegateStreamAdapter(stream) {
+    override fun point(x: Double, y: Double, z: Double) = delegate.point(x.toRadians(), y.toRadians(), z.toRadians())
 }
 
 fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)
@@ -135,7 +156,6 @@ fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = Mu
  * todo What is it?
  */
 open class MutableProjection(val projection: Projectable) : Projection {
-
 
     protected var cache: Stream? = null
     protected var cacheStream: Stream? = null
@@ -154,14 +174,8 @@ open class MutableProjection(val projection: Projectable) : Projection {
     val noClip: (Stream) -> Stream = { it }
 
     override var preClip: (Stream) -> Stream = clipAntimeridian
-        set(value) {
-            field = value
-        }
 
     override var postClip: (Stream) -> Stream = noClip
-        set(value) {
-            field = value
-        }
 
     // TODO : manage angles-range (ex. -180..-90 & 90..180) to permit see-through ?
     private var theta: Double = Double.NaN
@@ -280,15 +294,15 @@ open class MutableProjection(val projection: Projectable) : Projection {
             reset()
         }
 
-    private val transformRadians: (stream: Stream) -> ModifiedStream = { stream: Stream ->
-        object : ModifiedStream(stream) {
+    private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
+        object : DelegateStreamAdapter(stream) {
             override fun point(x: Double, y: Double, z: Double) =
                 stream.point(x.toRadians(), y.toRadians(), z.toRadians())
         }
     }
 
-    private fun transformRotate(rotate: Projectable): (stream: Stream) -> ModifiedStream = { stream: Stream ->
-        object : ModifiedStream(stream) {
+    private fun transformRotate(rotate: Projectable): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
+        object : DelegateStreamAdapter(stream) {
             override fun point(x: Double, y: Double, z: Double) {
                 stream.point(rotate.projectLambda(x, y), rotate.projectPhi(x, y), 0.0)
             }

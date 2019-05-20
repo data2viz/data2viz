@@ -1,6 +1,6 @@
 package io.data2viz.geo.clip
 
-import io.data2viz.geo.projection.Stream
+import io.data2viz.geo.Stream
 
 class ClipBuffer : Stream {
     private var lines: MutableList<List<DoubleArray>> = mutableListOf()

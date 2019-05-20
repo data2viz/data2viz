@@ -1,9 +1,9 @@
 package io.data2viz.geo.path
 
-import io.data2viz.geo.projection.Stream
+import io.data2viz.geo.Stream
 import kotlin.math.sqrt
 
-class PathCentroid : Stream {
+internal class CentroidStream : Stream {
     private var _X0 = 0.0
     private var _Y0 = 0.0
     private var _Z0 = 0.0

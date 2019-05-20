@@ -62,17 +62,17 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
                 val b1 = cosPhiB * sin(lambdaB0)
                 val b2 = sin(phiB0)
 
-                var cross0 = a1 * b2 - a2 * b1
-                var cross1 = a2 * b0 - a0 * b2
-                var cross2 = a0 * b1 - a1 * b0
+                val cross0 = a1 * b2 - a2 * b1
+                val cross1 = a2 * b0 - a0 * b2
+                val cross2 = a0 * b1 - a1 * b0
 
                 val normalize = sqrt(cross0 * cross0 + cross1 * cross1 + cross2 * cross2)
                 val d0 = cross0 / normalize
                 val d1 = cross1 / normalize
                 val d2 = cross2 / normalize
 
-                var intersectionD0 = normal1 * d2 - normal2 * d1
-                var intersectionD1 = normal2 * d0 - normal0 * d2
+                val intersectionD0 = normal1 * d2 - normal2 * d1
+                val intersectionD1 = normal2 * d0 - normal0 * d2
                 var intersectionD2 = normal0 * d1 - normal1 * d0
 
                 val intersectionNormalize =

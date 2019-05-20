@@ -1,7 +1,7 @@
 package io.data2viz.geo
 
 import io.data2viz.geom.Extent
-import io.data2viz.geo.path.PathBounds
+import io.data2viz.geo.path.BoundsStream
 import io.data2viz.geo.projection.Projection
 import io.data2viz.geojson.GeoJsonObject
 import kotlin.math.min
@@ -52,8 +52,8 @@ private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJso
     projection.translate = doubleArrayOf(.0, .0)
     if (clip != null) projection.clipExtent = null
 
-    val boundsStream = PathBounds()
-    stream(geo, projection.stream(boundsStream))
+    val boundsStream = BoundsStream()
+    geo.stream(projection.stream(boundsStream))
     fitBounds(boundsStream.result())
     if (clip != null) projection.clipExtent = clip
 

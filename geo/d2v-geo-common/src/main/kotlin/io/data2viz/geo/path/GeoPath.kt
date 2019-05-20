@@ -8,7 +8,7 @@ import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Path
 
 fun geoPath(projection: Projection? = null, context: Path? = null) =
-    GeoPath(if (projection == null) identityProjection() else projection, context)
+    GeoPath(projection ?: identityProjection(), context)
 
 /**
  * If a projection is specified, sets the current projection to the specified projection.
@@ -22,11 +22,11 @@ fun geoPath(projection: Projection? = null, context: Path? = null) =
  */
 class GeoPath(val projection: Projection, val context: Path?) {
 
-    private val pathArea = PathArea()
-    private val pathBounds = PathBounds()
-    private val pathCentroid = PathCentroid()
-    private val pathMeasure = PathMeasure()
-    private val contextStream: PathContext? = if (context != null) PathContext(context) else null
+    private val areaStream      = AreaStream()
+    private val boundsStream    = BoundsStream()
+    private val centroidStream  = CentroidStream()
+    private val measureStream   = MeasureStream()
+    private val contextStream: PathStream? = if (context != null) PathStream(context) else null
 
     /**
      * Renders the given object, which may be any GeoJSON feature or geometry object:
@@ -49,7 +49,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
     fun path(geo: GeoJsonObject): Path {
         requireNotNull(context) { "Cannot use GeoPath.svgPath() without a valid context." }
         requireNotNull(contextStream) { "Cannot use GeoPath.svgPath() without a valid context." }
-        stream(geo, projection.stream(contextStream))
+        geo.stream(projection.stream(contextStream))
         return context
     }
 
@@ -61,8 +61,8 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * This is the planar equivalent of GeoCentroid.
      */
     fun centroid(geo: GeoJsonObject): DoubleArray {
-        stream(geo, projection.stream(pathCentroid))
-        return pathCentroid.result()
+        geo.stream(projection.stream(centroidStream))
+        return centroidStream.result()
     }
 
     /**
@@ -74,8 +74,8 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * This is the planar equivalent of GeoArea.
      */
     fun area(geo: GeoJsonObject): Double {
-        stream(geo, projection.stream(pathArea))
-        return pathArea.result()
+        geo.stream(projection.stream(areaStream))
+        return areaStream.result()
     }
 
     /**
@@ -92,8 +92,8 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * This is the planar equivalent of GeoBounds.
      */
     fun bounds(geo: GeoJsonObject): Extent {
-        stream(geo, projection.stream(pathBounds))
-        return pathBounds.result()
+        geo.stream(projection.stream(boundsStream))
+        return boundsStream.result()
     }
 
     /**
@@ -104,7 +104,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * This is the planar equivalent of GeoLength.
      */
     fun measure(geo: GeoJsonObject): Double {
-        stream(geo, projection.stream(pathMeasure))
-        return pathMeasure.result()
+        geo.stream(projection.stream(measureStream))
+        return measureStream.result()
     }
 }

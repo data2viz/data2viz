@@ -2,12 +2,12 @@ package io.data2viz.geo.path
 
 import io.data2viz.geo.noop
 import io.data2viz.geo.noop2
-import io.data2viz.geo.projection.Stream
+import io.data2viz.geo.Stream
 import kotlin.math.abs
 
 
-// TODO : check for use of D3 "adder" in PathArea and PathMeasure....
-class PathArea : Stream {
+// TODO : check for use of D3 "adder" in AreaStream and MeasureStream....
+internal class AreaStream : Stream {
 
     private var areaSum = .0
     private var areaRingSum = .0

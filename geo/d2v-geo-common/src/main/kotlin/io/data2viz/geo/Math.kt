@@ -11,18 +11,14 @@ val Double.asin: Double
 val Double.acos: Double
     get() = limitedAcos(this)
 
-private fun limitedAsin(value: Double): Double {
-    return when {
-        value > 1 -> HALFPI
-        value < -1 -> -HALFPI
-        else -> asin(value)
-    }
+private fun limitedAsin(value: Double): Double = when {
+    value > 1 -> HALFPI
+    value < -1 -> -HALFPI
+    else -> asin(value)
 }
 
-private fun limitedAcos(value: Double): Double {
-    return when {
-        value > 1 -> .0
-        value < -1 -> PI
-        else -> acos(value)
-    }
+private fun limitedAcos(value: Double): Double = when {
+    value > 1 -> .0
+    value < -1 -> PI
+    else -> acos(value)
 }

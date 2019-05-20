@@ -1,7 +1,7 @@
 package io.data2viz.geo.clip
 
 import io.data2viz.geom.Extent
-import io.data2viz.geo.projection.Stream
+import io.data2viz.geo.Stream
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
 
