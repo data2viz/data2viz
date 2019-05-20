@@ -69,30 +69,30 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
         }
     }
 
-    override fun project(x: Double, y: Double): DoubleArray {
-
-        return if (isPossibleToUseBaseProjection) {
-            mercatorProjector.project(x, y)
-        } else {
-            var newY = if (f > 0) {
-                if (y < -HALFPI + EPSILON) {
-                    -HALFPI + EPSILON;
-                } else {
-                    y
-                }
-            } else {
-                if (y > HALFPI - EPSILON) {
-                    HALFPI - EPSILON;
-                } else {
-                    y
-                }
-            }
-            var r = f / tany(newY).pow(n);
-            return doubleArrayOf(r * sin(n * x), f - r * cos(n * x));
-        }
-
-
-    }
+//    override fun project(x: Double, y: Double): DoubleArray {
+//
+//        return if (isPossibleToUseBaseProjection) {
+//            mercatorProjector.project(x, y)
+//        } else {
+//            var newY = if (f > 0) {
+//                if (y < -HALFPI + EPSILON) {
+//                    -HALFPI + EPSILON;
+//                } else {
+//                    y
+//                }
+//            } else {
+//                if (y > HALFPI - EPSILON) {
+//                    HALFPI - EPSILON;
+//                } else {
+//                    y
+//                }
+//            }
+//            var r = f / tany(newY).pow(n);
+//            return doubleArrayOf(r * sin(n * x), f - r * cos(n * x));
+//        }
+//
+//
+//    }
 
     override fun projectLambda(x: Double, y: Double): Double {
         return if (isPossibleToUseBaseProjection) {

@@ -12,7 +12,8 @@ class EquirectangularProjectionTests : TestBase() {
     @Test
     fun equirectangular_various_projects_1() {
         val projection = equirectangularProjection {
-            translate = doubleArrayOf(.0, .0)
+            x = .0
+            y = .0
             rotate = arrayOf(20.0.deg, 10.0.deg, 30.0.deg)
             scale = 1.0
         }

@@ -16,7 +16,7 @@ fun identityProjection(init: Projection.() -> Unit) = projection(IdentityProject
 }
 
 class IdentityProjection : ProjectableInvertable {
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, phi)
+//    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, phi)
     override fun invert(x: Double, y: Double) = doubleArrayOf(x, y)
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
 

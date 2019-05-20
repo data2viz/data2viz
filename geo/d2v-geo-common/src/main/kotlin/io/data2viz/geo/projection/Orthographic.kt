@@ -24,6 +24,6 @@ class OrthographicProjector : ProjectableInvertable {
 
     private val invertFunction = azimuthalInvert(::asin)
 
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(cos(phi) * sin(lambda), sin(phi))
+//    override fun project(lambda: Double, phi: Double) = doubleArrayOf(cos(phi) * sin(lambda), sin(phi))
     override fun invert(x: Double, y: Double) = invertFunction(x, y)
 }

@@ -12,7 +12,8 @@ import kotlin.test.Test
 class CircleClippingTests : TestBase() {
 
     fun getProjection() = equirectangularProjection {
-        translate = doubleArrayOf(480.0, 350.0)
+        x = 480.0
+        y = 350.0
         scale = 200.0
         precision = .0
         center = arrayOf(.0.deg, .0.deg)

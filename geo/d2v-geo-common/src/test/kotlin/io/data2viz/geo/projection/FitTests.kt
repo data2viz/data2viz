@@ -15,7 +15,10 @@ class FitTests : TestBase() {
         projection.fitExtent(Extent(50.0, 50.0, 950.0, 950.0), Sphere())
 
         projection.scale shouldBeClose 900.0 / TAU
-        projection.translate shouldBeClose doubleArrayOf(500.0, 500.0)
+
+        projection.x shouldBeClose 500.0
+        projection.y shouldBeClose 500.0
+
     }
 
     @Test
@@ -24,7 +27,9 @@ class FitTests : TestBase() {
         projection.fitWidth(900.0, Sphere())
 
         projection.scale shouldBeClose 900.0 / TAU
-        projection.translate shouldBeClose doubleArrayOf(450.0, 225.0)
+
+        projection.x shouldBeClose 450.0
+        projection.y shouldBeClose 225.0
     }
 
     @Test
@@ -33,7 +38,9 @@ class FitTests : TestBase() {
         projection.fitHeight(700.0, Sphere())
 
         projection.scale shouldBeClose 700.0 / PI
-        projection.translate shouldBeClose doubleArrayOf(700.0, 350.0)
+
+        projection.x shouldBeClose 700.0
+        projection.y shouldBeClose 350.0
     }
 
     @Test
@@ -42,7 +49,9 @@ class FitTests : TestBase() {
         projection.fitSize(700.0, 600.0, Sphere())
 
         projection.scale shouldBeClose 700.0 / TAU
-        projection.translate shouldBeClose doubleArrayOf(350.0, 300.0)
+
+        projection.x shouldBeClose 350.0
+        projection.y shouldBeClose 300.0
     }
 }
 

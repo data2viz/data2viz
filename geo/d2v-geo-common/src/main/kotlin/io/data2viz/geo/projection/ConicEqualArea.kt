@@ -55,18 +55,18 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
     }
 
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-
-        return if (isPossibleToUseBaseProjection) {
-            cylindricalEqualProjector.project(lambda, phi)
-        } else {
-            var r = sqrt(c - 2 * n * sin(phi)) / n
-            val lambdaN = lambda * n
-            doubleArrayOf(r * sin(lambda), r0 - r * cos(lambdaN));
-        }
-
-
-    }
+//    override fun project(lambda: Double, phi: Double): DoubleArray {
+//
+//        return if (isPossibleToUseBaseProjection) {
+//            cylindricalEqualProjector.project(lambda, phi)
+//        } else {
+//            var r = sqrt(c - 2 * n * sin(phi)) / n
+//            val lambdaN = lambda * n
+//            doubleArrayOf(r * sin(lambda), r0 - r * cos(lambdaN));
+//        }
+//
+//
+//    }
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
         return if (isPossibleToUseBaseProjection) {

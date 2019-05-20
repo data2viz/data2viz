@@ -17,7 +17,8 @@ class MercatorProjectionTests : TestBase() {
     @Test
     fun mercator_clip_extent_null_sets_default_automatic_clip_extent() {
         val projection = MercatorProjection()
-        projection.translate = doubleArrayOf(.0, .0)
+        projection.x = .0
+        projection.y = .0
         projection.scale = 1.0
         projection.clipExtent = null
         projection.precision = .0
@@ -30,7 +31,8 @@ class MercatorProjectionTests : TestBase() {
     @Test
     fun mercator_center_center_sets_correct_automatic_clip_extent() {
         val projection = MercatorProjection()
-        projection.translate = doubleArrayOf(.0, .0)
+        projection.x = .0
+        projection.y = .0
         projection.scale = 1.0
         projection.center = arrayOf(10.0.deg, 10.0.deg)
         projection.precision = .0
@@ -43,7 +45,8 @@ class MercatorProjectionTests : TestBase() {
     @Test
     fun mercator_center_center_intersects_the_specified_clip_extent_with_the_automatic_clip_extent() {
         val projection = MercatorProjection()
-        projection.translate = doubleArrayOf(.0, .0)
+        projection.x = .0
+        projection.y = .0
         projection.scale = 1.0
         projection.center = arrayOf(10.0.deg, 10.0.deg)
         projection.clipExtent = Extent(-10.0, -10.0, 10.0, 10.0)
@@ -95,7 +98,8 @@ tape("mercator.rotate(…) does not affect the automatic clip extent", function(
     @Test
     fun mercator_various_projects_1() {
         val projection = mercatorProjection {
-            translate = doubleArrayOf(.0, .0)
+            x = .0
+            y = .0
             rotate = arrayOf(20.0.deg, 10.0.deg, 30.0.deg)
         }
 
@@ -107,7 +111,8 @@ tape("mercator.rotate(…) does not affect the automatic clip extent", function(
     @Test
     fun mercator_various_projects_2() {
         val projection = mercatorProjection {
-            translate = doubleArrayOf(40.0, 200.0)
+            x = 40.0
+            y = 200.0
             rotate = arrayOf(5.0.deg, .0.deg, (-30.0).deg)
         }
 
@@ -119,7 +124,8 @@ tape("mercator.rotate(…) does not affect the automatic clip extent", function(
     @Test
     fun mercator_various_projects_3() {
         val projection = mercatorProjection {
-            translate = doubleArrayOf(-100.0, 20.0)
+            x = -100.0
+            y = 20.0
             rotate = arrayOf((-15.0).deg, 20.0.deg, .0.deg)
             scale = 1.0
             precision = .0

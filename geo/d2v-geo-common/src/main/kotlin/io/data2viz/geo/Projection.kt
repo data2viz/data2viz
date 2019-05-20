@@ -21,15 +21,17 @@ interface Stream {
 }
 
 interface Projectable {
-    fun project(lambda: Double, phi: Double): DoubleArray
-    fun projectLambda(lambda: Double, phi: Double): Double =
-        project(lambda, phi)[0]
+//    fun project(point: DoubleArray) {
+//        point[0] = projectLambda(point[0], point[1])
+//        point[1] = projectPhi(point[0], point[1])
+//    }
 
-    fun projectPhi(lambda: Double, phi: Double): Double =
-        project(lambda, phi)[1]
+    fun projectLambda(lambda: Double, phi: Double): Double
+    fun projectPhi(lambda: Double, phi: Double): Double
 }
 
 interface Invertable {
+    //    fun invert(point: DoubleArray): DoubleArray
     fun invert(x: Double, y: Double): DoubleArray
 }
 
@@ -53,7 +55,7 @@ interface Projection : ProjectableInvertable {
 
     fun recenter()
 
-    fun translate(x: Double, y:Double)
+    fun translate(x: Double, y: Double)
 
 
     fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection
@@ -77,11 +79,6 @@ fun compose(a: Projectable, b: Projectable): Projectable {
                 return b.projectPhi(aX, aY)
             }
 
-            override fun project(lambda: Double, phi: Double): DoubleArray {
-                val p = a.project(lambda, phi)
-                return b.project(p[0], p[1])
-            }
-
             override fun invert(x: Double, y: Double): DoubleArray {
                 val p = b.invert(x, y)
                 return a.invert(p[0], p[1])
@@ -89,6 +86,13 @@ fun compose(a: Projectable, b: Projectable): Projectable {
         }
     } else {
         return object : Projectable {
+
+//            override fun project(point: DoubleArray) {
+//                point[0] = a.projectLambda(point[0], point[1])
+//                point[1] = a.projectPhi(point[0], point[1])
+//                b.project(point)
+//            }
+
             override fun projectLambda(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
@@ -101,10 +105,6 @@ fun compose(a: Projectable, b: Projectable): Projectable {
                 return b.projectPhi(aX, aY)
             }
 
-            override fun project(lambda: Double, phi: Double): DoubleArray {
-                val p = a.project(lambda, phi)
-                return b.project(p[0], p[1])
-            }
         }
     }
 }
@@ -213,11 +213,12 @@ abstract class BaseProjection() : Projection {
         }
 
 
-    override fun translate(x:Double, y:Double) {
+    override fun translate(x: Double, y: Double) {
         _x = x;
         _y = y;
         recenter()
     }
+
     // Center
     protected var dx = 0.0
     protected var dy = 0.0
@@ -281,10 +282,6 @@ abstract class BaseProjection() : Projection {
 
     override abstract fun projectPhi(lambda: Double, phi: Double): Double;
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val p = projectRotate.project(lambda.toRadians(), phi.toRadians())
-        return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
-    }
 
     override fun invert(x: Double, y: Double): DoubleArray {
         require(projectRotate is Invertable, { "This projection is not invertable." })
@@ -317,23 +314,34 @@ abstract class BaseProjection() : Projection {
 
 open class MutableProjection(val projection: Projectable) : BaseProjection() {
 
+
     override val projectTransform: Projectable = object : Projectable {
+        private fun internalProjectLambda(lambda: Double) =
+            lambda * k + dx
 
-        override fun projectLambda(lambda: Double, phi: Double): Double = projection.projectLambda(lambda, phi) * k + dx
+        private fun internalProjectPhi(phi: Double) =
+            dy - phi * k
 
-        override fun projectPhi(lambda: Double, phi: Double): Double = dy - projection.projectPhi(lambda, phi) * k
+        override fun projectLambda(lambda: Double, phi: Double): Double =
+            internalProjectLambda(projection.projectLambda(lambda, phi))
 
-        override fun project(lambda: Double, phi: Double): DoubleArray {
-            val p = projection.project(lambda, phi)
-            return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
-        }
+        override fun projectPhi(lambda: Double, phi: Double): Double =
+            internalProjectPhi(projection.projectPhi(lambda, phi))
+
+
+//        override fun project(point: DoubleArray) {
+//            projection.project(point)
+//            point[0] = internalProjectLambda(point[0])
+//            point[1] = internalProjectPhi(point[1])
+//        }
+
     }
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
-        projection.projectLambda(lambda.toRadians(), phi.toRadians()) * k + dx
+        projectTransform.projectLambda(lambda.toRadians(), phi.toRadians())
 
     override fun projectPhi(lambda: Double, phi: Double): Double =
-        dy - projection.projectPhi(lambda.toRadians(), phi.toRadians()) * k
+        projectTransform.projectPhi(lambda.toRadians(), phi.toRadians())
 
     override fun recenter() {
         rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)

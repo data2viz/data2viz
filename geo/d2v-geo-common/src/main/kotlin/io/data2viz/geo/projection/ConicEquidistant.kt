@@ -59,16 +59,16 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
         }
     }
 
-    override fun project(x: Double, y: Double): DoubleArray {
-
-        return if (isPossibleToUseBaseProjection) {
-            baseProjector.project(x, y)
-        } else {
-            val gy = g - y
-            val nx = n * x;
-            return doubleArrayOf(gy * sin(nx), g - gy * cos(nx));
-        }
-    }
+//    override fun project(x: Double, y: Double): DoubleArray {
+//
+//        return if (isPossibleToUseBaseProjection) {
+//            baseProjector.project(x, y)
+//        } else {
+//            val gy = g - y
+//            val nx = n * x;
+//            return doubleArrayOf(gy * sin(nx), g - gy * cos(nx));
+//        }
+//    }
 
     override fun projectLambda(x: Double, y: Double): Double {
         return if (isPossibleToUseBaseProjection) {

@@ -16,6 +16,6 @@ class EquirectangularProjector : ProjectableInvertable {
 
     override fun projectPhi(lambda: Double, phi: Double): Double = phi
 
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, phi)
+//    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, phi)
     override fun invert(x: Double, y: Double) = doubleArrayOf(x, y)
 }

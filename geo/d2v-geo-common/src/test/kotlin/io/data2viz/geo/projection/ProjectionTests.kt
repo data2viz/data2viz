@@ -20,7 +20,11 @@ class ProjectionTests : TestBase() {
         phi: Double,
         result: DoubleArray
     ) {
-        projection.project(lambda, phi) shouldBeClose result
+        projection.projectLambda(lambda, phi) shouldBeClose result[0]
+        projection.projectPhi(lambda, phi) shouldBeClose result[1]
+        val point = doubleArrayOf(lambda, phi)
+        projection.project(point)
+        point shouldBeClose result
     }
 
     private fun checkInvert(
