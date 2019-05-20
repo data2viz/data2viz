@@ -3,7 +3,7 @@ package io.data2viz.viz
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.Path
 
-class PathNode(val path: PathGeom = PathGeom()): Node(),
+open class PathNode(val path: PathGeom = PathGeom()): Node(),
         HasStroke,
         HasFill,
         HasTransform,

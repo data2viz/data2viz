@@ -5,6 +5,8 @@ import io.data2viz.geo.path.GeoPath
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geo.projection.*
 import io.data2viz.geojson.GeoJsonObject
+import io.data2viz.geom.PathGeom
+import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import io.data2viz.time.Date
 import io.data2viz.viz.PathNode
@@ -58,6 +60,9 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
     geoProjection.x = vizWidth / 2.0
     geoProjection.y = vizHeight / 2.0
 
+    val pathGeom = PathGeom()
+
+    var geoPath = geoPath(geoProjection, pathGeom)
 
     return viz {
         width = vizWidth
@@ -77,17 +82,17 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
         }
 
 
-        val vizPath = path {
+        PathNode(pathGeom).also {
             stroke = Colors.Web.black
             strokeWidth = 1.0
             fill = Colors.Web.whitesmoke
+            add(it)
         }
-
-        var geoPath = geoPath(geoProjection, vizPath)
 
         geoPath.drawPath(world)
 
 
+        // don't rotate projections which not don't support rotations in d3
         val isNeedRotate = when (projectionName) {
             "albersUSA", "identity" -> false
             else -> true
@@ -108,7 +113,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 
 
             if (isNeedRotate) {
-                doRotate(geoPath, vizPath, world)
+                rotateByTime(geoPath, pathGeom, world)
             }
 
         }
@@ -118,23 +123,24 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
             width = newWidth
             height = newHeight
 
-            geoPath = geoPath(geoProjection, vizPath)
+            geoPath = geoPath(geoProjection, pathGeom)
         }
 
 
     }
 }
 
-private fun doRotate(
+private fun rotateByTime(
     geoPath: GeoPath,
-    vizPath: PathNode,
+    pathGeom: PathGeom,
     world: GeoJsonObject
 ) {
-    val unixTime = Date().getTime()
 
     val projection = geoPath.projection
     val rotate = projection.rotate
 
+
+    val unixTime = Date().getTime()
     // Full rotation cycles per minute
     val fullRotationCyclesPerMinute = 6
 
@@ -144,8 +150,18 @@ private fun doRotate(
     // Rotate only x axys
     rotate[0] = angle.deg
 
-    vizPath.clearPath()
-    projection.rotate = rotate
+    rotateByAngles(geoPath, rotate, pathGeom, world)
+}
+
+private fun rotateByAngles(
+    geoPath: GeoPath,
+    angles: Array<Angle>,
+    pathGeom: PathGeom,
+    world: GeoJsonObject
+) {
+    val projection = geoPath.projection
+    projection.rotate = angles
+    pathGeom.clearPath()
     geoPath.drawPath(world)
 }
 
