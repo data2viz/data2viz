@@ -1,41 +1,12 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.MultiplexStream
+import io.data2viz.geo.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
 import io.data2viz.math.EPSILON
-import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
-import kotlin.math.atan
-import kotlin.math.exp
-import kotlin.math.ln
-import kotlin.math.tan
-
-class MultiplexStream(val streams: Collection<Stream>) : Stream {
-    override fun point(x: Double, y: Double, z: Double) = streams.forEach {
-        it.point(x, y, z)
-    }
-
-    override fun lineStart() = streams.forEach {
-        it.lineStart()
-    }
-
-    override fun lineEnd() = streams.forEach {
-        it.lineEnd()
-    }
-
-    override fun polygonStart() = streams.forEach {
-        it.polygonStart()
-    }
-
-    override fun polygonEnd() = streams.forEach {
-        it.polygonEnd()
-    }
-
-    override fun sphere() = streams.forEach {
-        it.sphere()
-    }
-}
 
 fun alberUSAProjection() = alberUSAProjection {
 
@@ -72,7 +43,7 @@ class AlberUSAProjection() : Projection {
     var translateX = 0.0
     var translateY = 0.0
 
-    val pointStream = object : Stream {
+    private val pointStream = object : Stream {
 
         override fun point(x: Double, y: Double, z: Double) {
             point = doubleArrayOf(x, y)
@@ -85,12 +56,12 @@ class AlberUSAProjection() : Projection {
     var pointAlaska = alaska.stream(pointStream)
 
 
-    override fun project(x: Double, y: Double): DoubleArray {
+    override fun project(lambda: Double, phi: Double): DoubleArray {
 
         val k = lower48.scale
         val t = lower48.translate
-        val newX = (x - t[0]) / k
-        val newY = (y - t[1]) / k
+        val newX = (lambda - t[0]) / k
+        val newY = (phi - t[1]) / k
 
         val projection = when {
             newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska
@@ -98,7 +69,7 @@ class AlberUSAProjection() : Projection {
             else -> lower48
         }
 
-        return projection.project(x, y)
+        return projection.project(lambda, phi)
     }
 
     override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
@@ -191,13 +162,13 @@ class AlberUSAProjection() : Projection {
     override var translate: DoubleArray
         get() = lower48.translate
         set(value) {
-            var k = lower48.scale
+            val k = lower48.scale
 
             translateX += value[0]
             translateY += value[1]
 
-            var x = translateX
-            var y = translateY;
+            val x = translateX
+            val y = translateY
             lower48.translate = value
             lower48.clipExtent = Extent(x - 0.455 * k, y - 0.238 * k, x + 0.455 * k, y + 0.238 * k)
 
@@ -259,7 +230,7 @@ class AlberUSAProjection() : Projection {
         return cachedStream
     }
 
-    fun fullCycleStream(stream: Stream): Stream {
+    private fun fullCycleStream(stream: Stream): Stream {
 
         return MultiplexStream(
             listOf(
