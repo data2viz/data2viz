@@ -5,6 +5,7 @@ import io.data2viz.geo.path.geoPath
 import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.svgPath
+import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -14,7 +15,7 @@ class CircleClippingTests : TestBase() {
         translate = doubleArrayOf(480.0, 350.0)
         scale = 200.0
         precision = .0
-        center = doubleArrayOf(.0, .0)
+        center = arrayOf(.0.deg, .0.deg)
     }
 
     val polygon = MultiPolygon(

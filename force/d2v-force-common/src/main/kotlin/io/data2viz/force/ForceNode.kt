@@ -1,5 +1,9 @@
 package io.data2viz.force
 
+import io.data2viz.geom.Point
+import io.data2viz.geom.Vector
+import io.data2viz.geom.point
+
 
 /**
  * The position ⟨x,y⟩ and velocity ⟨vx,vy⟩ may be subsequently modified by forces and by the simulation.
@@ -18,16 +22,29 @@ package io.data2viz.force
  * If the specified array of nodes is modified, such as when nodes are added to or removed from the
  * simulation, this method must be called again with the new (or changed) array to notify the simulation and bound
  * forces of the change; the simulation does not make a defensive copy of the specified array.
- *
- * Todo the position can be fixed on one only axis.
  */
 
-data class ForceNode (
-        var index: Int,
-        var x: Double = Double.NaN,
-        var y: Double = Double.NaN,
-        var vx: Double = Double.NaN,
-        var vy: Double = Double.NaN,
-        var fixedX: Double? = null,
-        var fixedY: Double? = null
-)
+data class ForceNode<D> (
+    val index: Int,
+    val domain: D,
+    var x: Double = Double.NaN,
+    var y: Double = Double.NaN,
+    var vx: Double = Double.NaN,
+    var vy: Double = Double.NaN,
+    var fixedX: Double? = null,
+    var fixedY: Double? = null
+) {
+    var position:Point
+        get() = point(x, y)
+        set(value) {
+            x = value.x
+            y = value.y
+        }
+
+    var velocity:Vector
+        get() = Vector(vx, vy)
+        set(value) {
+            vx = value.vx
+            vy = value.vy
+        }
+}

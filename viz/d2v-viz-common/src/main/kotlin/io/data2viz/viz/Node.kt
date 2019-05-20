@@ -44,12 +44,27 @@ abstract class Node : Style {
     override var strokeWidth: Double?
         get() = style.strokeWidth
         set(value) {style.strokeWidth = value}
-    override var anchor: TextAnchor
-        get() = style.anchor
-        set(value) {style.anchor = value}
-    override var baseline: TextAlignmentBaseline
-        get() = style.baseline
-        set(value) {style.baseline = value}
+    override var textColor: ColorOrGradient?
+        get() = style.textColor
+        set(value) {style.textColor = value}
+    override var hAlign: TextHAlign
+        get() = style.hAlign
+        set(value) {style.hAlign = value}
+
+    @Deprecated("Use hAlign", ReplaceWith("hAlign"))
+    override var anchor: TextHAlign
+        get() = hAlign
+        set(value) {hAlign = value}
+    override var vAlign: TextVAlign
+        get() = style.vAlign
+        set(value) {
+            style.vAlign = value}
+
+    @Deprecated("Use vAlign", ReplaceWith("vAlign"))
+    override var baseline: TextVAlign
+        get() = vAlign
+        set(value) {
+            vAlign = value}
 
 
 }

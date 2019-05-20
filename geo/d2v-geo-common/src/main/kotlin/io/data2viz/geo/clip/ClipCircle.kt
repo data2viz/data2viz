@@ -11,7 +11,6 @@ import kotlin.math.sqrt
 
 
 fun clipCircle(radius: Double) = { stream: Stream -> Clip(ClipCircle(radius), stream) }
-//clip(visible, clipLine, interpolate, smallRadius ? [0, -radius] : [-pi, radius - pi]);
 
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by a small circle of
@@ -146,6 +145,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         val n1n2 = n2[0]                                        // cartesianDot(n1, n2)
         val determinant = n2n2 - n1n2 * n1n2
 
+        //if (!determinant) return !two && a;
         // Two polar points.
         if (determinant == .0) return a
 

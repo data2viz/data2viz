@@ -9,7 +9,25 @@ internal fun pt(a: Double, b: Double, c: Double) = arrayOf(a, b, c)
 class ProjectionTests : TestBase() {
 
     fun checkProjection(projection: Projection, lambda: Double, phi: Double, result: DoubleArray) {
+        checkProject(projection, lambda, phi, result)
+        checkInvert(projection, result, lambda, phi)
+    }
+
+    private fun checkProject(
+        projection: Projection,
+        lambda: Double,
+        phi: Double,
+        result: DoubleArray
+    ) {
         projection.project(lambda, phi) shouldBeClose result
+    }
+
+    private fun checkInvert(
+        projection: Projection,
+        result: DoubleArray,
+        lambda: Double,
+        phi: Double
+    ) {
         val invert = projection.invert(result[0], result[1])
         invert.forEachIndexed { index, val1 ->
             val val2 = if (index == 0) lambda else phi

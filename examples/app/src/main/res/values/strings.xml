@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">data2viz demo</string>
     <string name="title_activity_loop">LoopActivity</string>
+    <string name="button_start_stop_animations">Start/Stop</string>
 </resources>

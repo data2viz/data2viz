@@ -12,12 +12,20 @@ class TextNode : Node(),
     var x: Double = .0
     var y: Double = .0
     var textContent: String = "Type something"
+    set(value) {
+        field = value.makeVizFriendlyText()
+    }
+
     var fontSize: Double = 12.0
     var fontFamily: FontFamily          = FontFamily.SANS_SERIF
     var fontWeight: FontWeight          = FontWeight.NORMAL
     var fontStyle: FontPosture          = FontPosture.NORMAL
 
 }
+
+private fun String.makeVizFriendlyText(): String = replaceNewLineWithSpace()
+
+private fun String.replaceNewLineWithSpace(): String  = replace('\n', ' ')
 
 
 class FontFamily private constructor(val name: String) {

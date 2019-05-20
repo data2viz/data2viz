@@ -4,6 +4,7 @@ import io.data2viz.geom.Extent
 import io.data2viz.geo.Sphere
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geom.PathGeom
+import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -31,7 +32,7 @@ class MercatorProjectionTests : TestBase() {
         val projection = MercatorProjection()
         projection.translate = doubleArrayOf(.0, .0)
         projection.scale = 1.0
-        projection.center = doubleArrayOf(10.0, 10.0)
+        projection.center = arrayOf(10.0.deg, 10.0.deg)
         projection.precision = .0
 
         projection.clipExtent shouldBe null
@@ -44,7 +45,7 @@ class MercatorProjectionTests : TestBase() {
         val projection = MercatorProjection()
         projection.translate = doubleArrayOf(.0, .0)
         projection.scale = 1.0
-        projection.center = doubleArrayOf(10.0, 10.0)
+        projection.center = arrayOf(10.0.deg, 10.0.deg)
         projection.clipExtent = Extent(-10.0, -10.0, 10.0, 10.0)
         projection.precision = .0
 
@@ -95,7 +96,7 @@ tape("mercator.rotate(…) does not affect the automatic clip extent", function(
     fun mercator_various_projects_1() {
         val projection = mercatorProjection {
             translate = doubleArrayOf(.0, .0)
-            rotate = doubleArrayOf(20.0, 10.0, 30.0)
+            rotate = arrayOf(20.0.deg, 10.0.deg, 30.0.deg)
         }
 
         util.checkProjection(projection, 84.0, 59.0, doubleArrayOf(468.39738235470327, -301.9997264679594))
@@ -107,7 +108,7 @@ tape("mercator.rotate(…) does not affect the automatic clip extent", function(
     fun mercator_various_projects_2() {
         val projection = mercatorProjection {
             translate = doubleArrayOf(40.0, 200.0)
-            rotate = doubleArrayOf(5.0, .0, -30.0)
+            rotate = arrayOf(5.0.deg, .0.deg, (-30.0).deg)
         }
 
         util.checkProjection(projection, 84.0, 59.0, doubleArrayOf(278.67805496267147, 119.04407321930081))
@@ -119,7 +120,7 @@ tape("mercator.rotate(…) does not affect the automatic clip extent", function(
     fun mercator_various_projects_3() {
         val projection = mercatorProjection {
             translate = doubleArrayOf(-100.0, 20.0)
-            rotate = doubleArrayOf(-15.0, 20.0, .0)
+            rotate = arrayOf((-15.0).deg, 20.0.deg, .0.deg)
             scale = 1.0
             precision = .0
         }

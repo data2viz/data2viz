@@ -19,6 +19,10 @@ internal constructor(var interpolator: Interpolator<R>) : Tickable<Double>, Clam
 
     override var clamp: Boolean = false
 
+    operator fun invoke(domainValue: Int): R {
+        return this(domainValue.toDouble())
+    }
+
     operator fun invoke(domainValue: Double): R {
         var uninterpolatedDomain = uninterpolateNumber(domain.start, domain.end)(domainValue)
         if (clamp) uninterpolatedDomain = uninterpolatedDomain.coerceToDefault()
