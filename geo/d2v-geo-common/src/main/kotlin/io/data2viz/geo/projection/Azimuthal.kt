@@ -36,12 +36,12 @@ open class AzimuthalProjector(val scale: (Double) -> Double, val angle: (Double)
         return k * sin(phi)
     }
 
-//    override fun project(lambda: Double, phi: Double): DoubleArray {
-//        val cx = cos(lambda)
-//        val cy = cos(phi)
-//        val k = scale(cx * cy)
-//        return doubleArrayOf(k * cy * sin(lambda), k * sin(phi))
-//    }
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        val cx = cos(lambda)
+        val cy = cos(phi)
+        val k = scale(cx * cy)
+        return doubleArrayOf(k * cy * sin(lambda), k * sin(phi))
+    }
 
     override fun invert(x: Double, y: Double): DoubleArray {
         val z = sqrt(x * x + y * y)

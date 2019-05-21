@@ -20,15 +20,15 @@ fun equalEarthProjection(init: Projection.() -> Unit) =
     }
 
 class EqualEarthProjector : Projectable, Invertable {
-//    override fun project(lambda: Double, phi: Double): DoubleArray {
-//        var l = asin(M * sin(phi))
-//        var l2 = l * l
-//        var l6 = l2 * l2 * l2
-//        return doubleArrayOf(
-//            lambda * cos(l) / (M * (A1 + 3 * A2 * l2 + l6 * (7 * A3 + 9 * A4 * l2))),
-//            l * (A1 + A2 * l2 + l6 * (A3 + A4 * l2))
-//        )
-//    }
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        var l = asin(M * sin(phi))
+        var l2 = l * l
+        var l6 = l2 * l2 * l2
+        return doubleArrayOf(
+            lambda * cos(l) / (M * (A1 + 3 * A2 * l2 + l6 * (7 * A3 + 9 * A4 * l2))),
+            l * (A1 + A2 * l2 + l6 * (A3 + A4 * l2))
+        )
+    }
 
     override fun invert(x: Double, y: Double): DoubleArray {
         var l = y

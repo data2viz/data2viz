@@ -16,11 +16,11 @@ fun stereographicProjection(init: Projection.() -> Unit) =
     }
 
 class StereographicProjector : Projectable, Invertable {
-//    override fun project(x: Double, y: Double): DoubleArray {
-//        var cy = cos(y)
-//        val k = 1 + cos(x) * cy;
-//        return doubleArrayOf(cy * sin(x) / k, sin(y) / k)
-//    }
+    override fun project(x: Double, y: Double): DoubleArray {
+        var cy = cos(y)
+        val k = 1 + cos(x) * cy;
+        return doubleArrayOf(cy * sin(x) / k, sin(y) / k)
+    }
 
 
     override fun invert(x: Double, y: Double): DoubleArray = azimuthalInvert {

@@ -24,11 +24,6 @@ class CylindricalEqualAreaProjector() : Projectable, Invertable {
 
     var cosPhi0 = cos(phi0);
 
-//    override fun project(lambda: Double, phi: Double): DoubleArray {
-//
-//        return doubleArrayOf(projectLambda(lambda, phi), projectPhi(lambda, phi))
-//    }
-
     override fun projectLambda(lambda: Double, phi: Double): Double {
         return lambda * cosPhi0
     }

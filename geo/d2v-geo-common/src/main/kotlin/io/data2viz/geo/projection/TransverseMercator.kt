@@ -20,14 +20,11 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) 
 }.also(init)
 
 class TransverseMercatorProjector() : Projectable, Invertable {
-     fun project(lambda: Double, phi: Double): DoubleArray {
-        return doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
-    }
 
     override fun invert(x: Double, y: Double) = doubleArrayOf(-y, 2 * atan(exp(x)) - HALFPI)
 
-    override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
-    override fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
+    override fun projectLambda(lambda: Double, phi: Double): Double = ln(tan((HALFPI + phi) / 2))
+    override fun projectPhi(lambda: Double, phi: Double): Double = -lambda
 
 }
 

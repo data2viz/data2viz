@@ -6,15 +6,16 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
-private fun identityProjection(x: Double, y: Double) = doubleArrayOf(
-    identityProjectionX(x),
-    identityProjectionY(y)
-)
-
 /**
  * TODO: refactor
  */
 internal interface ProjectableInvertable : Projectable, Invertable
+
+
+private fun identityProjection(x: Double, y: Double) = doubleArrayOf(
+    identityProjectionX(x),
+    identityProjectionY(y)
+)
 
 
 private fun identityProjectionX(x: Double) = when {
@@ -49,8 +50,8 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
     override fun projectLambda(lambda: Double, phi: Double): Double {
         val cosPhi = cos(phi)
         val x = cos(lambda) * cosPhi
-        val y = sin(x) * cosPhi
-        val z = sin(y)
+        val y = sin(lambda) * cosPhi
+        val z = sin(phi)
         val k = z * cosDeltaPhi + x * sinDeltaPhi
 
         return atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi)
@@ -58,8 +59,8 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
     override fun projectPhi(lambda: Double, phi: Double): Double  {
         val cosPhi = cos(phi)
         val x = cos(lambda) * cosPhi
-        val y = sin(x) * cosPhi
-        val z = sin(y)
+        val y = sin(lambda) * cosPhi
+        val z = sin(phi)
         val k = z * cosDeltaPhi + x * sinDeltaPhi
 
         return asin(k * cosDeltaGamma + y * sinDeltaGamma)

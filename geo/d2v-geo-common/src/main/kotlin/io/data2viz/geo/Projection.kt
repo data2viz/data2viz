@@ -19,6 +19,7 @@ interface Projectable {
 
     /**
      * Project a geo point
+     * By default uses projectLambda & projectPhi but can be overriden for better performance
      */
     fun project(lambda: Double, phi: Double) = doubleArrayOf(
         projectLambda(lambda, phi),
