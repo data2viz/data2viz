@@ -1,8 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ProjectableInvertable
-import io.data2viz.geo.Projection
-import io.data2viz.geo.projection
+import io.data2viz.geo.*
 import io.data2viz.math.EPSILON2
 import kotlin.math.*
 
@@ -21,7 +19,7 @@ fun equalEarthProjection(init: Projection.() -> Unit) =
         init()
     }
 
-class EqualEarthProjector : ProjectableInvertable {
+class EqualEarthProjector : Projectable, Invertable {
 //    override fun project(lambda: Double, phi: Double): DoubleArray {
 //        var l = asin(M * sin(phi))
 //        var l2 = l * l

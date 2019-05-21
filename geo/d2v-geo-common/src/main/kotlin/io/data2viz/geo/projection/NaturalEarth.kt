@@ -1,8 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ProjectableInvertable
-import io.data2viz.geo.Projection
-import io.data2viz.geo.projection
+import io.data2viz.geo.*
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
 
@@ -15,7 +13,7 @@ fun naturalEarthProjection(init: Projection.() -> Unit) =
         init()
     }
 
-class NaturalEarthProjection : ProjectableInvertable {
+class NaturalEarthProjection : Projectable, Invertable {
 //    override fun project(lambda: Double, phi: Double): DoubleArray {
 //        val phi2 = phi * phi
 //        val phi4 = phi2 * phi2;

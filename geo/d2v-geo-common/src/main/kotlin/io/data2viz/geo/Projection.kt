@@ -29,6 +29,7 @@ interface Projectable {
      * Default implementation of a longitude projection (can be overrided)
      */
     fun projectLambda(lambda: Double, phi: Double): Double
+
     /**
      * Default implementation of a latitude projection (can be overrided)
      */
@@ -43,16 +44,12 @@ interface Invertable {
     fun invert(x: Double, y: Double): DoubleArray
 }
 
-/**
- * Todo do we need this interface? Why just not keep the two inherited interfaces.
- */
-interface ProjectableInvertable : Projectable, Invertable
 
 
 /**
  * Todo document
  */
-interface Projection : ProjectableInvertable {
+interface Projection : Projectable, Invertable {
     /**
      * The scale factor corresponds linearly to the distance between projected points;
      * however, absolute scale factors are not equivalent across projections.
@@ -109,7 +106,7 @@ interface Projection : ProjectableInvertable {
  */
 fun compose(a: Projectable, b: Projectable): Projectable {
     if (a is Invertable && b is Invertable) {
-        return object : ProjectableInvertable {
+        return object : Projectable, Invertable {
             override fun projectLambda(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
@@ -296,7 +293,7 @@ abstract class BaseProjection() : Projection {
 
     protected lateinit var projectRotate: Projectable
 
-     protected val projectTransform: Projectable = createProjectTransform()
+    protected val projectTransform: Projectable = createProjectTransform()
 
     abstract fun createProjectTransform(): Projectable
 

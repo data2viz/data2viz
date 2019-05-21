@@ -1,8 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ProjectableInvertable
-import io.data2viz.geo.Projection
-import io.data2viz.geo.projection
+import io.data2viz.geo.*
 import kotlin.math.atan
 import kotlin.math.cos
 import kotlin.math.sin
@@ -16,7 +14,7 @@ fun gnomonicProjection(init: Projection.() -> Unit) = projection(GnomonicProject
     init()
 }
 
-class GnomonicProjector : ProjectableInvertable {
+class GnomonicProjector : Projectable, Invertable {
 //    override fun project(x: Double, y: Double): DoubleArray {
 //        val cy = cos(y)
 //        val k = cos(x) * cy;

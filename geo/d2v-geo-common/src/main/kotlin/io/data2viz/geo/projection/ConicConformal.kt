@@ -1,5 +1,7 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.Invertable
+import io.data2viz.geo.Projectable
 import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
@@ -19,7 +21,7 @@ fun tany(y: Double): Double {
     return tan((HALFPI + y) / 2);
 }
 
-class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
+class ConicConformalProjector : ConicProjectable, Projectable, Invertable {
     override var phi0: Double = 0.0
         set(value) {
             field = value

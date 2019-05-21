@@ -1,5 +1,7 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.Invertable
+import io.data2viz.geo.Projectable
 import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.Angle
 import io.data2viz.math.HALFPI
@@ -18,7 +20,7 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) 
     it.scale = 159.155
 }.also(init)
 
-class TransverseMercatorProjector() : ProjectableInvertable {
+class TransverseMercatorProjector() : Projectable, Invertable {
      fun project(lambda: Double, phi: Double): DoubleArray {
         return doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
     }

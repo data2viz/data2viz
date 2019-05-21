@@ -11,6 +11,11 @@ private fun identityProjection(x: Double, y: Double) = doubleArrayOf(
     identityProjectionY(y)
 )
 
+/**
+ * TODO: refactor
+ */
+internal interface ProjectableInvertable : Projectable, Invertable
+
 
 private fun identityProjectionX(x: Double) = when {
     x > PI -> x - TAU
@@ -90,7 +95,7 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
     }
 }
 
-fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): ProjectableInvertable {
+internal fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): ProjectableInvertable {
     val newDeltaLambda = deltaLambda % TAU
     return if (newDeltaLambda != .0) {
         if (deltaPhi != .0 || deltaGamma != .0) {
@@ -103,7 +108,7 @@ fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Pr
     else rotationIdentity()
 }
 
-fun rotation(rotate: Array<Angle>): ProjectableInvertable {
+internal fun rotation(rotate: Array<Angle>): ProjectableInvertable {
     val rotator =
         rotateRadians(
             rotate[0].rad,

@@ -1,5 +1,7 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.Invertable
+import io.data2viz.geo.Projectable
 import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
@@ -13,7 +15,7 @@ fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) = conicProjection
     init()
 }
 
-class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
+class ConicEqualAreaProjector : ConicProjectable, Projectable, Invertable {
 
     override var phi0: Double = 0.0
         set(value) {
