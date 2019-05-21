@@ -18,7 +18,7 @@ import kotlin.math.sqrt
 interface Projectable {
 
     /**
-     * Project a geo point
+     * Project a stream point
      * By default uses projectLambda & projectPhi but can be overriden for better performance
      */
     fun project(lambda: Double, phi: Double) = doubleArrayOf(

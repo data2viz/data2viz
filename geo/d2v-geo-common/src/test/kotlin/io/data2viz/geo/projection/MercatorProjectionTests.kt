@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geom.Extent
-import io.data2viz.geo.geo.Sphere
+import io.data2viz.geo.stream.Sphere
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geom.PathGeom
 import io.data2viz.math.deg

@@ -1,4 +1,4 @@
-package io.data2viz.geo.geo
+package io.data2viz.geo.stream
 
 import io.data2viz.geo.polygonContains
 import io.data2viz.geojson.*

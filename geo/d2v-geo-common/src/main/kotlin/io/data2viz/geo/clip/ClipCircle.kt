@@ -2,7 +2,7 @@ package io.data2viz.geo.clip
 
 import io.data2viz.geo.*
 import io.data2viz.geo.Stream
-import io.data2viz.geo.geo.geoCircle
+import io.data2viz.geo.stream.geoCircle
 import io.data2viz.math.EPSILON
 import io.data2viz.math.PI
 import io.data2viz.math.toRadians

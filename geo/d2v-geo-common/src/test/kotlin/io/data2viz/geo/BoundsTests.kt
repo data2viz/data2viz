@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoBounds
+import io.data2viz.geo.stream.GeoBounds
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.test.Test

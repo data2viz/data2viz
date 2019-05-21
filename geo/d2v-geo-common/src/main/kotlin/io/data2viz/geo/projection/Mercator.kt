@@ -9,7 +9,7 @@ import kotlin.math.*
 
 fun mercatorProjection() = mercatorProjection {}
 
-//fun mercatorProjection(init: Projection.() -> Unit) = io.data2viz.geo.projection(MercatorProjector()){}.apply {
+//fun mercatorProjection(init: Projection.() -> Unit) = io.data2viz.stream.projection(MercatorProjector()){}.apply {
 fun mercatorProjection(init: Projection.() -> Unit) = MercatorProjection(MercatorProjector()).apply {
     scale = 961 / TAU
 }.apply(init)

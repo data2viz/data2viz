@@ -1,6 +1,6 @@
 package io.data2viz.geo
 
-//import io.data2viz.geo.projection.AlbersUSAProjection
+//import io.data2viz.stream.projection.AlbersUSAProjection
 
 /**
  * TODO: Update

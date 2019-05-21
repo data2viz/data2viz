@@ -1,7 +1,8 @@
 package io.data2viz.geo
 
-import io.data2viz.geo.geo.Sphere
-import io.data2viz.geo.geo.geoDistance
+
+import io.data2viz.geo.stream.Sphere
+import io.data2viz.geo.stream.geoDistance
 import io.data2viz.geojson.*
 import io.data2viz.math.EPSILON
 import io.data2viz.math.toRadians

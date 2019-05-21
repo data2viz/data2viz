@@ -1,6 +1,7 @@
-package io.data2viz.geo
+package io.data2viz.geo.stream
 
-import io.data2viz.geo.geo.GeoArea
+
+import io.data2viz.geo.*
 import io.data2viz.geom.Extent
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.EPSILON
