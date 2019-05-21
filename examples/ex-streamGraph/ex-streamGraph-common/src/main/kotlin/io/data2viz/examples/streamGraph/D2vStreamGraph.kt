@@ -118,7 +118,7 @@ fun streamGraph(): Viz = viz {
         }
 
 
-        // PathArea Generator for streams : X is the index of the serie, Y is defined by our stack
+        // AreaStream Generator for streams : X is the index of the serie, Y is defined by our stack
         // We plug the rendering curve to our Viz Config
         val area = areaBuilder<StackSpace<Score>> {
             xBaseline = { xScale(it.paramIndex.toDouble()) }

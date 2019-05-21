@@ -1,14 +1,14 @@
 package io.data2viz.geo.path
 
 import io.data2viz.geom.Extent
-import io.data2viz.geo.Projection
+import io.data2viz.geo.projection.Projection
 import io.data2viz.geo.projection.identityProjection
 import io.data2viz.geo.stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Path
 
 fun geoPath(projection: Projection? = null, context: Path? = null) =
-    GeoPath(if (projection == null) identityProjection() else projection, context)
+    GeoPath(projection ?: identityProjection(), context)
 
 /**
  * If a projection is specified, sets the current projection to the specified projection.
@@ -22,11 +22,11 @@ fun geoPath(projection: Projection? = null, context: Path? = null) =
  */
 class GeoPath(val projection: Projection, val context: Path?) {
 
-    private val pathArea = PathArea()
-    private val pathBounds = PathBounds()
-    private val pathCentroid = PathCentroid()
-    private val pathMeasure = PathMeasure()
-    private val contextStream: PathContext? = if (context != null) PathContext(context) else null
+    private val areaStream      = AreaStream()
+    private val boundsStream    = BoundsStream()
+    private val centroidStream  = CentroidStream()
+    private val measureStream   = MeasureStream()
+    private val contextStream: PathStream? = if (context != null) PathStream(context) else null
 
     /**
      * Renders the given object, which may be any GeoJSON feature or geometry object:
@@ -43,39 +43,39 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * The type Sphere is also supported, which is useful for rendering the outline of the globe; a sphere has no
      * coordinates. Any additional arguments are passed along to the pointRadius accessor.
      *
-     * Separate drawPath elements are typically slower than a single drawPath element.
-     * However, distinct drawPath elements are useful for styling and interaction (e.g., click or mouseover).
+     * Separate path elements are typically slower than a single path element.
+     * However, distinct path elements are useful for styling and interaction (e.g., click or mouseover).
      */
-    fun drawPath(geo: GeoJsonObject): Path {
+    fun path(geo: GeoJsonObject): Path {
         requireNotNull(context) { "Cannot use GeoPath.svgPath() without a valid context." }
         requireNotNull(contextStream) { "Cannot use GeoPath.svgPath() without a valid context." }
-        stream(geo, projection.stream(contextStream))
+        geo.stream(projection.stream(contextStream))
         return context
     }
 
     /**
-     * Returns the projected planar drawCentroid (typically in pixels) for the specified GeoJSON object.
+     * Returns the projected planar centroid (typically in pixels) for the specified GeoJSON object.
      * This is handy for, say, labeling state or county boundaries, or displaying a symbol map.
-     * For example, a noncontiguous cartogram might scale each state around its drawCentroid.
+     * For example, a noncontiguous cartogram might scale each state around its centroid.
      * This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent.
      * This is the planar equivalent of GeoCentroid.
      */
-    fun drawCentroid(geo: GeoJsonObject): DoubleArray {
-        stream(geo, projection.stream(pathCentroid))
-        return pathCentroid.result()
+    fun centroid(geo: GeoJsonObject): DoubleArray {
+        geo.stream(projection.stream(centroidStream))
+        return centroidStream.result()
     }
 
     /**
-     * Returns the projected planar drawArea (typically in square pixels) for the specified GeoJSON object.
-     * Point, MultiPoint, LineString and MultiLineString geometries have zero drawArea.
-     * For Polygon and MultiPolygon geometries, this method first computes the drawArea of the exterior ring, and then
-     * subtracts the drawArea of any interior holes.
+     * Returns the projected planar area (typically in square pixels) for the specified GeoJSON object.
+     * Point, MultiPoint, LineString and MultiLineString geometries have zero area.
+     * For Polygon and MultiPolygon geometries, this method first computes the area of the exterior ring, and then
+     * subtracts the area of any interior holes.
      * This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent.
      * This is the planar equivalent of GeoArea.
      */
-    fun drawArea(geo: GeoJsonObject): Double {
-        stream(geo, projection.stream(pathArea))
-        return pathArea.result()
+    fun area(geo: GeoJsonObject): Double {
+        geo.stream(projection.stream(areaStream))
+        return areaStream.result()
     }
 
     /**
@@ -91,9 +91,9 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent.
      * This is the planar equivalent of GeoBounds.
      */
-    fun drawBounds(geo: GeoJsonObject): Extent {
-        stream(geo, projection.stream(pathBounds))
-        return pathBounds.result()
+    fun bounds(geo: GeoJsonObject): Extent {
+        geo.stream(projection.stream(boundsStream))
+        return boundsStream.result()
     }
 
     /**
@@ -103,8 +103,8 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent.
      * This is the planar equivalent of GeoLength.
      */
-    fun drawMeasure(geo: GeoJsonObject): Double {
-        stream(geo, projection.stream(pathMeasure))
-        return pathMeasure.result()
+    fun measure(geo: GeoJsonObject): Double {
+        geo.stream(projection.stream(measureStream))
+        return measureStream.result()
     }
 }

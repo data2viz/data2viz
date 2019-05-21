@@ -5,7 +5,9 @@ import io.data2viz.math.TAU
 import io.data2viz.math.TAU_EPSILON
 import kotlin.math.*
 
-
+/**
+ * PathGeom is the base implementation of path that contains only the geometry of the path (without any
+ */
 class PathGeom : Path {
 
     val commands = mutableListOf<PathCommand>()
@@ -110,6 +112,11 @@ class ClosePath : PathCommand {
         get() = .0
 }
 
+
+/**
+ * Transform a Path into a SVG Path by creating the SVG String that represents
+ * this path.
+ */
 val PathGeom.svgPath: String
     get() {
         var tempX0 = 0.0

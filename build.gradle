@@ -21,6 +21,8 @@ buildscript {
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "org.kordamp.gradle:stats-gradle-plugin:$stats_version"
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
+
     }
 }
 
@@ -79,6 +81,7 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
 
     if (platform == "common") {
         apply plugin: 'kotlin-platform-common'
+        apply plugin: 'kotlinx-serialization'
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"

@@ -1,64 +1,72 @@
 package io.data2viz.geo
 
-import io.data2viz.geojson.*
+/**
+ * Transforms geometry using a sequence of function calls, rather than materializing
+ * intermediate representations, to minimize overhead. Streams must implement several
+ * methods to receive input geometry. Streams are inherently stateful; the meaning of a
+ * point depends on whether the point is inside of a line, and likewise a line is distinguished
+ * from a ring by a polygon. Despite the name “stream”, these method calls are currently synchronous.
+ */
+interface Stream {
 
-internal val noop: () -> Unit = { }
-internal val noop2: (Double, Double) -> Unit = { _, _ -> }
-internal val noop3: (Double, Double, Double) -> Unit = { _, _, _ -> }
+    /**
+     * Indicates a point with the specified coordinates x and y (and optionally z).
+     * The coordinate system is unspecified and implementation-dependent; for example,
+     * projection streams require spherical coordinates in degrees as input. Outside the
+     * context of a polygon or line, a point indicates a point geometry object (Point or
+     * MultiPoint). Within a line or polygon ring, the point indicates a control point.
+     */
+    fun point(x: Double, y: Double, z: Double) {}
 
-fun stream(geo: GeoJsonObject, stream: Stream) {
-    when (geo) {
-        is FeatureCollection -> geo.features.forEach { stream(it, stream) }
-        is Feature -> stream(geo.geometry, stream)
-        is GeometryCollection -> geo.geometries.forEach { streamGeometry(it, stream) }
-        is Geometry -> streamGeometry(geo, stream)              // keep it last !
-    }
-}
+    /**
+     * Indicates the start of a line or ring. Within a polygon, indicates the start of a ring.
+     * The first ring of a polygon is the exterior ring, and is typically clockwise.
+     * Any subsequent rings indicate holes in the polygon, and are typically counterclockwise.
+     */
+    fun lineStart() {}
 
-fun streamGeometry(geo: GeoJsonObject, stream: Stream) {
-    when (geo) {
-        is Point -> streamPoint(geo.coordinates, stream)
-        is LineString -> streamLine(geo.coordinates, stream, false)
-        is MultiPoint -> geo.coordinates.forEach { streamPoint(it, stream) }
-        is MultiPolygon -> geo.coordinates.forEach { streamPolygon(it, stream) }
-        is Polygon -> streamPolygon(geo.coordinates, stream)
-        is MultiLineString -> geo.coordinates.forEach { streamLine(it, stream, false) }
-        is Sphere -> streamSphere(stream)
-    }
-}
+    /**
+     * Indicates the end of a line or ring. Within a polygon, indicates the end of a ring. Unlike GeoJSON,
+     * the redundant closing coordinate of a ring is not indicated via point, and instead is implied
+     * via lineEnd within a polygon.
+     *
+     * Thus, the given polygon input:
+     *
+     *  {
+     *      "type": "Polygon",
+     *      "coordinates": [
+     *          [[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]
+     *      ]
+     *  }
+     *
+     *  Will produce the following series of method calls on the stream:
+     *
+     *  stream.polygonStart();
+     *  stream.lineStart();
+     *  stream.point(0, 0);
+     *  stream.point(0, 1);
+     *  stream.point(1, 1);
+     *  stream.point(1, 0);
+     *  stream.lineEnd();
+     *  stream.polygonEnd();
+     */
+    fun lineEnd() {}
 
-private fun streamSphere(stream: Stream) {
-    stream.sphere()
-}
 
-private fun streamPoint(coordinates: Position, stream: Stream) {
-    var z = coordinates.alt
-    if (z == null) z = .0
-    stream.point(coordinates.lon, coordinates.lat, z)
-}
+    /**
+     * Indicates the start of a polygon. The first line of a polygon indicates the exterior ring,
+     * and any subsequent lines indicate interior holes.
+     */
+    fun polygonStart() {}
 
-private fun streamPolygon(coords: Lines, stream: Stream) {
-    stream.polygonStart()
-    coords.forEach { streamLine(it, stream, true) }
-    stream.polygonEnd()
-}
+    /**
+     * Indicates the end of a polygon.
+     */
+    fun polygonEnd() {}
 
-private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
-    val size = if (closed) coords.size - 1 else coords.size
 
-    stream.lineStart()
-    for (i in 0 until size) {
-        val p = coords[i]
-        stream.point(p[0], p[1], if (p.size > 2) p[2] else .0)
-    }
-    stream.lineEnd()
-}
-
-open class ModifiedStream(val stream: Stream) : Stream {
-    override fun point(x: Double, y: Double, z: Double) = stream.point(x, y, z)
-    override fun lineStart() = stream.lineStart()
-    override fun lineEnd() = stream.lineEnd()
-    override fun polygonStart() = stream.polygonStart()
-    override fun polygonEnd() = stream.polygonEnd()
-    override fun sphere() = stream.sphere()
+    /**
+     * Indicates the sphere (the globe; the unit sphere centered at ⟨0,0,0⟩).
+     */
+    fun sphere() {}
 }

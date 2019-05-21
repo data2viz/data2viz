@@ -1,5 +1,7 @@
-package io.data2viz.geo
+package io.data2viz.geo.geo
 
+import io.data2viz.geo.Stream
+import io.data2viz.geo.stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.EPSILON
 import io.data2viz.math.EPSILON2
@@ -11,8 +13,8 @@ import kotlin.math.*
 
 
 /**
- * Returns the spherical drawCentroid of the specified GeoJSON object.
- * This is the spherical equivalent of PathCentroid.
+ * Returns the spherical centroid of the specified GeoJSON object.
+ * This is the spherical equivalent of CentroidStream.
  */
 class GeoCentroid : Stream {
 
@@ -50,14 +52,14 @@ class GeoCentroid : Stream {
         _X2 = .0
         _Y2 = .0
         _Z2 = .0
-        stream(geo, this)
+        geo.stream(this)
 
         var x = _X2
         var y = _Y2
         var z = _Z2
         var m = x * x + y * y + z * z;
 
-        // If the drawArea-weighted drawCentroid is undefined, fall back to length-weighted ccentroid.
+        // If the area-weighted centroid is undefined, fall back to length-weighted ccentroid.
         if (m < EPSILON2) {
             x = _X1
             y = _Y1
@@ -71,7 +73,7 @@ class GeoCentroid : Stream {
             }
             m = x * x + y * y + z * z
 
-            // If the feature still has an undefined drawCentroid, then return.
+            // If the feature still has an undefined centroid, then return.
             if (m < EPSILON2) return doubleArrayOf(Double.NaN, Double.NaN)
         }
 
@@ -182,7 +184,7 @@ class GeoCentroid : Stream {
         val cz = x0 * b - y0 * a
         val m = sqrt(cx * cx + cy * cy + cz * cz)
         val w = asin(m)                             // line weight = angle
-        val v = if (m == .0) .0 else -w / m         // drawArea weight multiplier
+        val v = if (m == .0) .0 else -w / m         // area weight multiplier
         _X2 += v * cx
         _Y2 += v * cy
         _Z2 += v * cz

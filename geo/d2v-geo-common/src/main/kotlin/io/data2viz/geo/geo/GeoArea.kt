@@ -1,5 +1,9 @@
-package io.data2viz.geo
+package io.data2viz.geo.geo
 
+import io.data2viz.geo.Stream
+import io.data2viz.geo.noop
+import io.data2viz.geo.noop2
+import io.data2viz.geo.stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.QUARTERPI
 import io.data2viz.math.TAU
@@ -9,8 +13,8 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * Returns the spherical drawArea of the specified GeoJSON object in steradians.
- * This is the spherical equivalent of PathArea.
+ * Returns the spherical area of the specified GeoJSON object in steradians.
+ * This is the spherical equivalent of AreaStream.
  */
 class GeoArea : Stream {
 
@@ -30,13 +34,14 @@ class GeoArea : Stream {
 
     fun result(geo: GeoJsonObject): Double {
         areaSum = .0
-        stream(geo, this)
+        geo.stream(this)
         return areaSum * 2
     }
 
     override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
+
     override fun polygonStart() {
         areaRingSum = .0
         currentLineStart = ::areaRingStart

@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.Sphere
+import io.data2viz.geo.geo.Sphere
 import io.data2viz.geo.path.geoPath
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
@@ -9,7 +9,7 @@ import kotlin.test.Test
 
 class PathCentroidTests : TestBase() {
 
-    val equirectangular = io.data2viz.geo.projection.equirectangularProjection() {
+    val equirectangular = equirectangularProjection() {
         scale = 900.0 / PI
         precision = .0
     }
