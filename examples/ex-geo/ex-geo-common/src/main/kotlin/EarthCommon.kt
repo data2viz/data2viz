@@ -68,6 +68,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
             fill = Colors.Web.whitesmoke
             geoProjection = projection
             geoData = world
+            redrawPath()
 
         }
 

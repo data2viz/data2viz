@@ -11,13 +11,13 @@ class PathMeasureTests : TestBase() {
     @Test
     fun geopath_measure_of_a_point() {
         val geoPath = geoPath()
-        geoPath.drawMeasure(Point(pt(.0, .0))) shouldBeClose .0
+        geoPath.measure(Point(pt(.0, .0))) shouldBeClose .0
     }
 
     @Test
     fun geopath_measure_of_a_multipoint() {
         val geoPath = geoPath()
-        geoPath.drawMeasure(
+        geoPath.measure(
             MultiPoint(
                 arrayOf(
                     pt(.0, .0),
@@ -32,7 +32,7 @@ class PathMeasureTests : TestBase() {
     @Test
     fun geopath_measure_of_a_lineString() {
         val geoPath = geoPath()
-        geoPath.drawMeasure(
+        geoPath.measure(
             LineString(
                 arrayOf(
                     pt(.0, .0),
@@ -47,7 +47,7 @@ class PathMeasureTests : TestBase() {
     @Test
     fun geopath_measure_of_a_multilineString() {
         val geoPath = geoPath()
-        geoPath.drawMeasure(
+        geoPath.measure(
             MultiLineString(
                 arrayOf(
                     arrayOf(
@@ -60,7 +60,7 @@ class PathMeasureTests : TestBase() {
             )
         ) shouldBeClose 3.0
 
-        geoPath.drawMeasure(
+        geoPath.measure(
             MultiLineString(
                 arrayOf(
                     arrayOf(
@@ -77,7 +77,7 @@ class PathMeasureTests : TestBase() {
     @Test
     fun geopath_measure_of_a_polygon() {
         val geoPath = geoPath()
-        geoPath.drawMeasure(
+        geoPath.measure(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -91,7 +91,7 @@ class PathMeasureTests : TestBase() {
             )
         ) shouldBeClose 4.0
 
-        geoPath.drawMeasure(
+        geoPath.measure(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -109,7 +109,7 @@ class PathMeasureTests : TestBase() {
     @Test
     fun geopath_measure_of_a_polygon_with_a_hole() {
         val geoPath = geoPath()
-        geoPath.drawMeasure(
+        geoPath.measure(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -134,7 +134,7 @@ class PathMeasureTests : TestBase() {
     @Test
     fun geopath_measure_of_a_multipolygon() {
         val geoPath = geoPath()
-        geoPath.drawMeasure(
+        geoPath.measure(
             MultiPolygon(
                 arrayOf(
                     arrayOf(
@@ -159,7 +159,7 @@ class PathMeasureTests : TestBase() {
             )
         ) shouldBeClose 16.0
 
-        geoPath.drawMeasure(
+        geoPath.measure(
             MultiPolygon(
                 arrayOf(
                     arrayOf(
@@ -190,7 +190,7 @@ class PathMeasureTests : TestBase() {
         val geoPath = geoPath()
 
         // distance from one site to the other of the bridge of the coullouvrenière Genève 272.28m
-        val measure = geoPath.drawMeasure(LineString(arrayOf(pt(46.2041005, 6.1399304), pt(46.2065154, 6.1395255))))
+        val measure = geoPath.measure(LineString(arrayOf(pt(46.2041005, 6.1399304), pt(46.2065154, 6.1395255))))
         measure.toRadians() * 6371000 shouldBeClose 272.272898
     }
 }
