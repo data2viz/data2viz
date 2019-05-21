@@ -20,10 +20,10 @@ interface Projectable {
     /**
      * Project a geo point
      */
-//    fun project(point: DoubleArray) {
-//        point[0] = projectLambda(point[0], point[1])
-//        point[1] = projectPhi(point[0], point[1])
-//    }
+    fun project(lambda: Double, phi: Double) = doubleArrayOf(
+        projectLambda(lambda, phi),
+        projectPhi(lambda, phi)
+    )
 
     /**
      * Default implementation of a longitude projection (can be overrided)
@@ -106,7 +106,7 @@ interface Projection : Projectable, Invertable {
  */
 fun compose(a: Projectable, b: Projectable): Projectable {
     if (a is Invertable && b is Invertable) {
-        return object : Projectable, Invertable {
+        return object : ProjectableInvertable {
             override fun projectLambda(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
