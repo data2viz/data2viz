@@ -59,11 +59,13 @@ interface Projection : Projectable, Invertable {
 
     /**
      *
-     * TODO: enhance docs
-     * The translation offset determines the pixel coordinates of the projection’s center.
-     * The default translation offset places ⟨0°,0°⟩ at the center of a 960×500 area.
+     * Determines the pixel coordinates of the projection’s center by X axys
      */
     var x: Double
+    /**
+     *
+     * Determines the pixel coordinates of the projection’s center by Y axys
+     */
     var y: Double
 
     /**
@@ -93,6 +95,12 @@ interface Projection : Projectable, Invertable {
 
     fun recenter()
 
+    /**
+     *
+     * The translation offset determines the pixel coordinates of the projection’s center.
+     * The default translation offset places ⟨0°,0°⟩ at the center of a 960×500 area.
+     * It is equivalent for x = 0 & y = 0
+     */
     fun translate(x: Double, y: Double)
 
 
