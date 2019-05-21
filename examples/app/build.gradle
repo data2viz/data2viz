@@ -19,6 +19,7 @@ android {
         applicationId "io.data2viz.data2canvas"
         minSdkVersion 19
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 3
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -40,6 +41,8 @@ android {
 
 
 dependencies {
+    
+    compile 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:design:28.0.0-rc02'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 

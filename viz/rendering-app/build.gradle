@@ -19,6 +19,7 @@ android {
         applicationId "io.data2viz.data2viz.testrenderings"
         minSdkVersion 19
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -37,6 +38,7 @@ android {
 
 
 dependencies {
+    compile 'com.android.support:multidex:1.0.3'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(":viz:d2v-viz-common")
 
