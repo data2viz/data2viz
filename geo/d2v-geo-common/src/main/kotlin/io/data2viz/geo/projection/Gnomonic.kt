@@ -22,15 +22,15 @@ class GnomonicProjector : Projectable, Invertable {
 //    }
     override fun invert(x: Double, y: Double): DoubleArray = azimuthalInvert(::atan)(x, y)
 
-    override fun projectLambda(x: Double, y: Double): Double {
-        val cy = cos(y)
-        val k = cos(x) * cy;
-        return cy * sin(x) / k
+    override fun projectLambda(lambda: Double, phi: Double): Double {
+        val cy = cos(phi)
+        val k = cos(lambda) * cy;
+        return cy * sin(lambda) / k
     }
 
-    override fun projectPhi(x: Double, y: Double): Double {
-        val cy = cos(y)
-        val k = cos(x) * cy;
-        return sin(y) / k
+    override fun projectPhi(lambda: Double, phi: Double): Double {
+        val cy = cos(phi)
+        val k = cos(lambda) * cy;
+        return sin(phi) / k
     }
 }

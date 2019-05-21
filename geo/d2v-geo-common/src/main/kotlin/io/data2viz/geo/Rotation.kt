@@ -49,8 +49,8 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
     override fun projectLambda(lambda: Double, phi: Double): Double {
         val cosPhi = cos(phi)
         val x = cos(lambda) * cosPhi
-        val y = sin(lambda) * cosPhi
-        val z = sin(phi)
+        val y = sin(x) * cosPhi
+        val z = sin(y)
         val k = z * cosDeltaPhi + x * sinDeltaPhi
 
         return atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi)
@@ -58,8 +58,8 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
     override fun projectPhi(lambda: Double, phi: Double): Double  {
         val cosPhi = cos(phi)
         val x = cos(lambda) * cosPhi
-        val y = sin(lambda) * cosPhi
-        val z = sin(phi)
+        val y = sin(x) * cosPhi
+        val z = sin(y)
         val k = z * cosDeltaPhi + x * sinDeltaPhi
 
         return asin(k * cosDeltaGamma + y * sinDeltaGamma)

@@ -2,7 +2,6 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.Invertable
 import io.data2viz.geo.Projectable
-import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
@@ -96,47 +95,47 @@ class ConicConformalProjector : ConicProjectable, Projectable, Invertable {
 //
 //    }
 
-    override fun projectLambda(x: Double, y: Double): Double {
+    override fun projectLambda(lambda: Double, phi: Double): Double {
         return if (isPossibleToUseBaseProjection) {
-            mercatorProjector.projectLambda(x, y)
+            mercatorProjector.projectLambda(lambda, phi)
         } else {
             var newY = if (f > 0) {
-                if (y < -HALFPI + EPSILON) {
+                if (phi < -HALFPI + EPSILON) {
                     -HALFPI + EPSILON;
                 } else {
-                    y
+                    phi
                 }
             } else {
-                if (y > HALFPI - EPSILON) {
+                if (phi > HALFPI - EPSILON) {
                     HALFPI - EPSILON;
                 } else {
-                    y
+                    phi
                 }
             }
             var r = f / tany(newY).pow(n);
-            return r * sin(n * x)
+            return r * sin(n * lambda)
         }
     }
 
-    override fun projectPhi(x: Double, y: Double): Double {
+    override fun projectPhi(lambda: Double, phi: Double): Double {
         return if (isPossibleToUseBaseProjection) {
-            mercatorProjector.projectPhi(x, y)
+            mercatorProjector.projectPhi(lambda, phi)
         } else {
             var newY = if (f > 0) {
-                if (y < -HALFPI + EPSILON) {
+                if (phi < -HALFPI + EPSILON) {
                     -HALFPI + EPSILON;
                 } else {
-                    y
+                    phi
                 }
             } else {
-                if (y > HALFPI - EPSILON) {
+                if (phi > HALFPI - EPSILON) {
                     HALFPI - EPSILON;
                 } else {
-                    y
+                    phi
                 }
             }
             var r = f / tany(newY).pow(n);
-            return f - r * cos(n * x)
+            return f - r * cos(n * lambda)
         }
     }
 

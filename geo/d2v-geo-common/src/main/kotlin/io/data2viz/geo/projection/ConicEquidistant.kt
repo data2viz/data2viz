@@ -2,7 +2,6 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.Invertable
 import io.data2viz.geo.Projectable
-import io.data2viz.geo.ProjectableInvertable
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
@@ -72,22 +71,22 @@ class ConicEquidistantProjector : ConicProjectable, Projectable, Invertable {
 //        }
 //    }
 
-    override fun projectLambda(x: Double, y: Double): Double {
+    override fun projectLambda(lambda: Double, phi: Double): Double {
         return if (isPossibleToUseBaseProjection) {
-            baseProjector.projectLambda(x, y)
+            baseProjector.projectLambda(lambda, phi)
         } else {
-            val gy = g - y
-            val nx = n * x;
+            val gy = g - phi
+            val nx = n * lambda;
             return gy * sin(nx)
         }
     }
 
-    override fun projectPhi(x: Double, y: Double): Double {
+    override fun projectPhi(lambda: Double, phi: Double): Double {
         return if (isPossibleToUseBaseProjection) {
-            baseProjector.projectPhi(x, y)
+            baseProjector.projectPhi(lambda, phi)
         } else {
-            val gy = g - y
-            val nx = n * x;
+            val gy = g - phi
+            val nx = n * lambda;
             return g - gy * cos(nx)
         }
     }

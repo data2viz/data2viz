@@ -2,7 +2,6 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.Invertable
 import io.data2viz.geo.Projectable
-import io.data2viz.geo.ProjectableInvertable
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sin

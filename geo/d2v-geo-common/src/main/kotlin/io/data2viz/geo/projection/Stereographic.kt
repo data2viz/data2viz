@@ -27,15 +27,15 @@ class StereographicProjector : Projectable, Invertable {
         2 * atan(it)
     }(x, y)
 
-    override fun projectLambda(x: Double, y: Double): Double {
-        var cy = cos(y)
-        val k = 1 + cos(x) * cy;
-        return cy * sin(x) / k
+    override fun projectLambda(lambda: Double, phi: Double): Double {
+        var cy = cos(phi)
+        val k = 1 + cos(lambda) * cy;
+        return cy * sin(lambda) / k
     }
 
-    override fun projectPhi(x: Double, y: Double): Double {
-        var cy = cos(y)
-        val k = 1 + cos(x) * cy;
-        return sin(y) / k
+    override fun projectPhi(lambda: Double, phi: Double): Double {
+        var cy = cos(phi)
+        val k = 1 + cos(lambda) * cy;
+        return sin(phi) / k
     }
 }
