@@ -16,6 +16,6 @@ open class GeoPathNode(
     fun redrawPath() {
         val geoPath = geoPath(geoProjection, path)
         clearPath()
-        geoPath.drawPath(geoData!!)
+        geoPath.path(geoData!!)
     }
 }

@@ -1,8 +1,9 @@
 package io.data2viz.geo
 
-import io.data2viz.geo.projection.AlberUSAProjection
+//import io.data2viz.geo.projection.AlbersUSAProjection
 
 /**
+ * TODO: Update
  * Delegates the stream calls to a collection of streams. It simplifies the creation of
  * projection that are composed of few projections.
  * @see AlberUSAProjection

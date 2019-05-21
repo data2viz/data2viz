@@ -1,6 +1,7 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.DelegateStreamAdapter
+import io.data2viz.geo.Projectable
 import io.data2viz.geo.Stream
 import io.data2viz.geo.asin
 import io.data2viz.math.EPSILON

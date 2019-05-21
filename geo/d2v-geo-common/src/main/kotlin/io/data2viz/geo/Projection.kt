@@ -1,15 +1,16 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo
 
 
-import io.data2viz.geo.DelegateStreamAdapter
-import io.data2viz.geo.Stream
 import io.data2viz.geo.clip.clipAntimeridian
 import io.data2viz.geo.clip.clipCircle
+import io.data2viz.geo.projection.resample
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
-import io.data2viz.math.*
+import io.data2viz.math.Angle
+import io.data2viz.math.rad
+import io.data2viz.math.toDegrees
+import io.data2viz.math.toRadians
 import kotlin.math.sqrt
-
 
 /**
  * Project a single Geo point (lon, lat)
@@ -19,24 +20,26 @@ interface Projectable {
     /**
      * Project a geo point
      */
-    fun project(lambda: Double, phi: Double): DoubleArray
+//    fun project(point: DoubleArray) {
+//        point[0] = projectLambda(point[0], point[1])
+//        point[1] = projectPhi(point[0], point[1])
+//    }
 
     /**
      * Default implementation of a longitude projection (can be overrided)
      */
-    fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
-
+    fun projectLambda(lambda: Double, phi: Double): Double
     /**
      * Default implementation of a latitude projection (can be overrided)
      */
-    fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
+    fun projectPhi(lambda: Double, phi: Double): Double
 }
-
 
 /**
  * Todo document
  */
 interface Invertable {
+    //    fun invert(point: DoubleArray): DoubleArray
     fun invert(x: Double, y: Double): DoubleArray
 }
 
@@ -50,8 +53,6 @@ interface ProjectableInvertable : Projectable, Invertable
  * Todo document
  */
 interface Projection : ProjectableInvertable {
-
-
     /**
      * The scale factor corresponds linearly to the distance between projected points;
      * however, absolute scale factors are not equivalent across projections.
@@ -59,23 +60,24 @@ interface Projection : ProjectableInvertable {
     var scale: Double
 
     /**
+     *
+     * TODO: enhance docs
      * The translation offset determines the pixel coordinates of the projection’s center.
      * The default translation offset places ⟨0°,0°⟩ at the center of a 960×500 area.
      */
-    var translate: DoubleArray
+    var x: Double
+    var y: Double
 
     /**
      * a two-element array of longitude and latitude in degrees
      */
     var center: Array<Angle>
-
     /**
      * The threshold for the projection’s adaptive resampling pixels.
      * This value corresponds to the Douglas–Peucker distance.
      * Defaults to √0.5 ≅ 0.70710…
      */
     var precision: Double
-
     /**
      * The projection’s three-axis spherical rotation to
      * the specified angles, which must be a two- or three-element array of numbers [lambda, phi, gamma]
@@ -93,6 +95,9 @@ interface Projection : ProjectableInvertable {
 
     fun recenter()
 
+    fun translate(x: Double, y: Double)
+
+
     fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection
     fun fitWidth(width: Double, geo: GeoJsonObject): Projection
     fun fitHeight(height: Double, geo: GeoJsonObject): Projection
@@ -102,23 +107,19 @@ interface Projection : ProjectableInvertable {
 /**
  * Todo document
  */
-fun compose(a: Projectable, b: Projectable): Projectable =
+fun compose(a: Projectable, b: Projectable): Projectable {
     if (a is Invertable && b is Invertable) {
-        object : ProjectableInvertable {
+        return object : ProjectableInvertable {
             override fun projectLambda(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
                 return b.projectLambda(aX, aY)
             }
+
             override fun projectPhi(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
                 return b.projectPhi(aX, aY)
-            }
-
-            override fun project(lambda: Double, phi: Double): DoubleArray {
-                val p = a.project(lambda, phi)
-                return b.project(p[0], p[1])
             }
 
             override fun invert(x: Double, y: Double): DoubleArray {
@@ -127,36 +128,43 @@ fun compose(a: Projectable, b: Projectable): Projectable =
             }
         }
     } else {
-        object : Projectable {
+        return object : Projectable {
+
+//            override fun project(point: DoubleArray) {
+//                point[0] = a.projectLambda(point[0], point[1])
+//                point[1] = a.projectPhi(point[0], point[1])
+//                b.project(point)
+//            }
+
             override fun projectLambda(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
                 return b.projectLambda(aX, aY)
             }
+
             override fun projectPhi(lambda: Double, phi: Double): Double {
                 val aX = a.projectLambda(lambda, phi)
                 val aY = a.projectPhi(lambda, phi)
                 return b.projectPhi(aX, aY)
             }
-            override fun project(lambda: Double, phi: Double): DoubleArray {
-                val p = a.project(lambda, phi)
-                return b.project(p[0], p[1])
-            }
+
         }
     }
+}
 
 class TransformRadians(stream: Stream) : DelegateStreamAdapter(stream) {
     override fun point(x: Double, y: Double, z: Double) = delegate.point(x.toRadians(), y.toRadians(), z.toRadians())
 }
 
-fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(projection).apply(init)
+fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(
+    projection
+).apply(init)
 
 
 /**
  * todo What is it?
  */
-open class MutableProjection(val projection: Projectable) : Projection {
-
+abstract class BaseProjection() : Projection {
     protected var cache: Stream? = null
     protected var cacheStream: Stream? = null
 
@@ -174,8 +182,14 @@ open class MutableProjection(val projection: Projectable) : Projection {
     val noClip: (Stream) -> Stream = { it }
 
     override var preClip: (Stream) -> Stream = clipAntimeridian
+        set(value) {
+            field = value
+        }
 
     override var postClip: (Stream) -> Stream = noClip
+        set(value) {
+            field = value
+        }
 
     // TODO : manage angles-range (ex. -180..-90 & 90..180) to permit see-through ?
     private var theta: Double = Double.NaN
@@ -202,23 +216,23 @@ open class MutableProjection(val projection: Projectable) : Projection {
         }
 
     override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitExtent(this, extent, geo)
+        return fitExtent(this, extent, geo)
     }
 
     override fun fitWidth(width: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitWidth(this, width, geo)
+        return fitWidth(this, width, geo)
     }
 
     override fun fitHeight(height: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitHeight(this, height, geo)
+        return fitHeight(this, height, geo)
     }
 
     override fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.fitSize(this, width, height, geo)
+        return fitSize(this, width, height, geo)
     }
 
     // Scale
-    private var k = 150.0
+    protected var k = 150.0
 
     override var scale: Double
         get() = k
@@ -227,22 +241,35 @@ open class MutableProjection(val projection: Projectable) : Projection {
             recenter()
         }
 
+    private var _x = 480.0
+    private var _y = 250.0
+
     // Translate
-    private var x = 480.0
-    private var y = 250.0
-    override var translate: DoubleArray
-        get() = doubleArrayOf(x, y)
+    override var x
+        get () = _x
         set(value) {
-            x = value[0]
-            y = value[1]
+            _x = value
+            recenter()
+        }
+    override var y
+        get () = _y
+        set(value) {
+            _y = value
             recenter()
         }
 
+
+    override fun translate(x: Double, y: Double) {
+        _x = x;
+        _y = y;
+        recenter()
+    }
+
     // Center
-    private var dx = 0.0
-    private var dy = 0.0
-    private var lambda = 0.0
-    private var phi = 0.0
+    protected var dx = 0.0
+    protected var dy = 0.0
+    protected var lambda = 0.0
+    protected var phi = 0.0
     override var center
         get() = arrayOf(lambda.rad, phi.rad)
         set(value) {
@@ -252,10 +279,10 @@ open class MutableProjection(val projection: Projectable) : Projection {
         }
 
     // Rotate
-    private var deltaLambda = 0.0
-    private var deltaPhi = 0.0
-    private var deltaGamma = 0.0
-    private lateinit var rotator: Projectable
+    protected var deltaLambda = 0.0
+    protected var deltaPhi = 0.0
+    protected var deltaGamma = 0.0
+    protected lateinit var rotator: Projectable
 
 
     override var rotate: Array<Angle>
@@ -267,21 +294,11 @@ open class MutableProjection(val projection: Projectable) : Projection {
             recenter()
         }
 
-    private lateinit var projectRotate: Projectable
+    protected lateinit var projectRotate: Projectable
 
-    private val projectTransform: Projectable = object : Projectable {
+     protected val projectTransform: Projectable = createProjectTransform()
 
-        override fun projectLambda(lambda: Double, phi: Double): Double
-                = projection.projectLambda(lambda, phi) * k + dx
-
-        override fun projectPhi(lambda: Double, phi: Double): Double
-                = dy - projection.projectPhi(lambda, phi) * k
-
-        override fun project(lambda: Double, phi: Double): DoubleArray {
-            val p = projection.project(lambda, phi)
-            return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
-        }
-    }
+    abstract fun createProjectTransform(): Projectable
 
     // Precision
     private var delta2 = 0.5
@@ -293,6 +310,7 @@ open class MutableProjection(val projection: Projectable) : Projection {
             projectResample = resample(projectTransform, delta2)
             reset()
         }
+
 
     private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
         object : DelegateStreamAdapter(stream) {
@@ -309,16 +327,10 @@ open class MutableProjection(val projection: Projectable) : Projection {
         }
     }
 
-    override fun projectLambda(lambda: Double, phi: Double): Double
-            = projection.projectLambda(lambda.toRadians(), phi.toRadians()) * k + dx
+    override abstract fun projectLambda(lambda: Double, phi: Double): Double;
 
-    override fun projectPhi(lambda: Double, phi: Double): Double
-            = dy - projection.projectPhi(lambda.toRadians(), phi.toRadians()) * k
+    override abstract fun projectPhi(lambda: Double, phi: Double): Double;
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val p = projectRotate.project(lambda.toRadians(), phi.toRadians())
-        return doubleArrayOf(p[0] * k + dx, dy - p[1] * k)
-    }
 
     override fun invert(x: Double, y: Double): DoubleArray {
         require(projectRotate is Invertable, { "This projection is not invertable." })
@@ -336,19 +348,58 @@ open class MutableProjection(val projection: Projectable) : Projection {
         return cachedStream
     }
 
-    private fun fullCycleStream(stream: Stream) =
-        transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
-
-    override fun recenter() {
-        rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
-        projectRotate = compose(rotator, projection)
-
-        dx = x - (projection.projectLambda(lambda, phi)* k)
-        dy = y + (projection.projectPhi(lambda, phi) * k)
+    private fun fullCycleStream(stream: Stream): Stream {
+        // TODO: hack should be removed
+        projectResample = resample(projectTransform, delta2)
+        return transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
     }
+
+    abstract override fun recenter()
 
     fun reset() {
         cache = null
         cacheStream = null
     }
+}
+
+open class MutableProjection(val projection: Projectable) : BaseProjection() {
+    override fun createProjectTransform(): Projectable {
+        return object : Projectable {
+            private fun internalProjectLambda(lambda: Double) =
+                lambda * k + dx
+
+            private fun internalProjectPhi(phi: Double) =
+                dy - phi * k
+
+            override fun projectLambda(lambda: Double, phi: Double): Double =
+                internalProjectLambda(projection.projectLambda(lambda, phi))
+
+            override fun projectPhi(lambda: Double, phi: Double): Double =
+                internalProjectPhi(projection.projectPhi(lambda, phi))
+
+
+//        override fun project(point: DoubleArray) {
+//            projection.project(point)
+//            point[0] = internalProjectLambda(point[0])
+//            point[1] = internalProjectPhi(point[1])
+//        }
+
+        }
+    }
+
+
+    override fun projectLambda(lambda: Double, phi: Double): Double =
+        projectTransform.projectLambda(lambda.toRadians(), phi.toRadians())
+
+    override fun projectPhi(lambda: Double, phi: Double): Double =
+        projectTransform.projectPhi(lambda.toRadians(), phi.toRadians())
+
+    override fun recenter() {
+        rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
+        projectRotate = compose(rotator, projection)
+
+        dx = x - (projection.projectLambda(lambda, phi) * k)
+        dy = y + (projection.projectPhi(lambda, phi) * k)
+    }
+
 }
