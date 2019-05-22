@@ -11,7 +11,14 @@ import kotlin.math.cos
 import kotlin.math.sqrt
 
 
-fun clipCircle(radius: Double) = { stream: Stream -> Clip(ClipCircle(radius), stream) }
+//fun clipCircle(radius: Double) = { stream: Stream -> Clip(ClipCircle(radius), stream) }
+
+class ClipCirclePreClip(val radius: Double): StreamPreClip {
+    override fun preClip(stream: Stream): Stream {
+        return Clip(ClipCircle(radius), stream)
+    }
+
+}
 
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by a small circle of

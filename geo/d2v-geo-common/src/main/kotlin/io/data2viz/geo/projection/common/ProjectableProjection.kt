@@ -46,22 +46,6 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
     override var postClip: StreamPostClip = noPostClip
 
 
-    override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.geojson.fitExtent(this, extent, geo)
-    }
-
-    override fun fitWidth(width: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.geojson.fitWidth(this, width, geo)
-    }
-
-    override fun fitHeight(height: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.geojson.fitHeight(this, height, geo)
-    }
-
-    override fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
-        return io.data2viz.geo.geojson.fitSize(this, width, height, geo)
-    }
-
     // Scale
     protected var k = 150.0
 

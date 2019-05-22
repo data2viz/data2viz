@@ -79,20 +79,4 @@ abstract class ComposedProjection() : CachedProjection() {
     override fun fullCycleStream(stream: Stream): Stream =
         MultiplexStream(allProjections.map { it.stream(stream) })
 
-
-    override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection =
-        io.data2viz.geo.geojson.fitExtent(mainProjection, extent, geo)
-
-
-    override fun fitWidth(width: Double, geo: GeoJsonObject): Projection =
-        io.data2viz.geo.geojson.fitWidth(mainProjection, width, geo)
-
-
-    override fun fitHeight(height: Double, geo: GeoJsonObject): Projection =
-        io.data2viz.geo.geojson.fitHeight(mainProjection, height, geo)
-
-
-    override fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection =
-        io.data2viz.geo.geojson.fitSize(mainProjection, width, height, geo)
-
 }
