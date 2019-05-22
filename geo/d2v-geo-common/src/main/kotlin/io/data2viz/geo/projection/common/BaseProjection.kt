@@ -198,8 +198,6 @@ abstract class BaseProjection() : Projection {
     }
 
     open protected fun fullCycleStream(stream: Stream): Stream {
-        // TODO: hack should be removed
-        projectResample = resample(projectTransform, delta2)
         return transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
     }
 
