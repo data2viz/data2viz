@@ -176,10 +176,6 @@ interface Projection : Projectable, Invertable {
      */
     fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection
 
-    /**
-     * TODO: remove from public API
-     */
-    fun recenter()
 }
 
 fun projection(projection: Projectable, init: ProjectableProjection.() -> Unit) = ProjectableProjection(

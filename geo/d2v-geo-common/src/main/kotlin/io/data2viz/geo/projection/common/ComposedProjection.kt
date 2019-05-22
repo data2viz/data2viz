@@ -6,8 +6,7 @@ import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
 
-abstract class ComposedProjection() :
-    BaseProjection() {
+abstract class ComposedProjection() : CachedProjection() {
 
     abstract val mainProjection: Projection
     abstract val allProjections: Collection<Projection>
@@ -36,47 +35,36 @@ abstract class ComposedProjection() :
     override var precision: Double
         get() = mainProjection.precision
         set(value) {
-            allProjections.forEach { it.precision = value  }
+            allProjections.forEach { it.precision = value }
             reset()
         }
 
 
     override var x: Double
-        get() = super.x
+        get() = mainProjection.x
         set(value) {
-            allProjections.forEach { it.x = value  }
+            allProjections.forEach { it.x = value }
             reset()
         }
 
     override var y: Double
-        get() = super.y
+        get() = mainProjection.y
         set(value) {
-            allProjections.forEach { it.y = value  }
+            allProjections.forEach { it.y = value }
             reset()
         }
 
     override var scale: Double
         get() = mainProjection.scale
         set(value) {
-            allProjections.forEach { it.scale = value  }
+            allProjections.forEach { it.scale = value }
             reset()
         }
 
-
-    override fun createProjectTransform() =
-        object : Projectable {
-            override fun projectLambda(lambda: Double, phi: Double): Double =
-                this@ComposedProjection.projectLambda(lambda, phi)
-
-            override fun projectPhi(lambda: Double, phi: Double): Double =
-                this@ComposedProjection.projectPhi(lambda, phi)
-
-        }
-
-
-    override fun recenter() {
-        allProjections.forEach { it.recenter() }
+    override fun translate(x: Double, y: Double) {
+        allProjections.forEach { it.translate(x, y) }
     }
+
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         chooseNestedProjection(lambda, phi).projectLambda(lambda, phi)
