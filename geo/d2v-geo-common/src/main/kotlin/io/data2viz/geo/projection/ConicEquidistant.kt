@@ -82,17 +82,17 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
     private fun cy0() = cos(phi0)
 
 
-    override fun invert(x: Double, y: Double): DoubleArray {
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
 
-        var gy = g - y;
-        return doubleArrayOf(atan2(x, abs(gy)) / n * sign(gy), g - sign(n) * sqrt(x * x + gy * gy))
+        var gy = g - phi;
+        return doubleArrayOf(atan2(lambda, abs(gy)) / n * sign(gy), g - sign(n) * sqrt(lambda * lambda + gy * gy))
 
     }
 
-    override fun project(x: Double, y: Double): DoubleArray {
+    override fun project(lambda: Double, phi: Double): DoubleArray {
 
-        val gy = g - y
-        val nx = n * x;
+        val gy = g - phi
+        val nx = n * lambda;
         return doubleArrayOf(gy * sin(nx), g - gy * cos(nx));
 
     }
@@ -100,7 +100,7 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
     override fun projectLambda(lambda: Double, phi: Double): Double {
 
         val gy = g - phi
-        val nx = n * lambda;
+        val nx = n * lambda
         return gy * sin(nx)
 
     }
@@ -108,7 +108,7 @@ class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
     override fun projectPhi(lambda: Double, phi: Double): Double {
 
         val gy = g - phi
-        val nx = n * lambda;
+        val nx = n * lambda
         return g - gy * cos(nx)
 
     }

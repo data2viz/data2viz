@@ -1,7 +1,5 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.Invertable
-import io.data2viz.geo.Projectable
 import io.data2viz.geo.ProjectableInvertable
 import kotlin.math.asin
 import kotlin.math.cos
@@ -9,8 +7,8 @@ import kotlin.math.sin
 
 
 class CylindricalEqualAreaProjector() : ProjectableInvertable {
-    override fun invert(x: Double, y: Double): DoubleArray {
-        return doubleArrayOf(x / cosPhi0, asin(y * cosPhi0))
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+        return doubleArrayOf(lambda / cosPhi0, asin(phi * cosPhi0))
     }
 
     constructor(phi:Double) : this() {

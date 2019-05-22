@@ -43,16 +43,16 @@ interface LineEndFunction {
 }
 
 
-
 object DefaultPointFunction : PointFunction {
     override fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double) {
 //            val p = reSampledStream.project.project(x, y)
 //            reSampledStream.stream.point(p[0], p[1], 0.0)
 //            val p = reSampledStream.project.project(x, y)
         reSampledStream.stream.point(
-            reSampledStream.project.projectLambda(x,y),
-            reSampledStream.project.projectPhi(x,y),
-            0.0)
+            reSampledStream.project.projectLambda(x, y),
+            reSampledStream.project.projectPhi(x, y),
+            0.0
+        )
     }
 
 }
@@ -60,21 +60,21 @@ object DefaultPointFunction : PointFunction {
 object LinePointFunction : PointFunction {
 
 
-    override fun invoke(reSampledStream: ReSampledStream, lambda: Double, phi: Double, z: Double) {
+    override fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double) {
 
         reSampledStream.apply {
 
-            val cosPhi = cos(phi)
-            val cart0 = cosPhi * cos(lambda)
-            val cart1 = cosPhi * sin(lambda)
-            val cart2 = sin(phi)
+            val cosPhi = cos(y)
+            val cart0 = cosPhi * cos(x)
+            val cart1 = cosPhi * sin(x)
+            val cart2 = sin(y)
 
-            val p0 = project.projectLambda(lambda, phi)
-            val p1 = project.projectPhi(lambda, phi)
-            resampleLineTo(x0, y0, lambda0, a0, b0, c0, p0, p1, lambda, cart0, cart1, cart2, MAX_DEPTH, stream)
+            val p0 = project.projectLambda(x, y)
+            val p1 = project.projectPhi(x, y)
+            resampleLineTo(x0, y0, lambda0, a0, b0, c0, p0, p1, x, cart0, cart1, cart2, MAX_DEPTH, stream)
             x0 = p0
             y0 = p1
-            lambda0 = lambda
+            lambda0 = x
             a0 = cart0
             b0 = cart1
             c0 = cart2
@@ -86,11 +86,11 @@ object LinePointFunction : PointFunction {
 }
 
 
-object  RingPointFunction : PointFunction {
-    override fun invoke(reSampledStream: ReSampledStream, lambda: Double, phi: Double, z: Double) {
+object RingPointFunction : PointFunction {
+    override fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double) {
         reSampledStream.apply {
-            lambda00 = lambda
-            LinePointFunction.invoke(reSampledStream, lambda, phi, 0.0)
+            lambda00 = x
+            LinePointFunction.invoke(reSampledStream, x, y, 0.0)
             x00 = x0
             y00 = y0
             a00 = a0
@@ -102,7 +102,7 @@ object  RingPointFunction : PointFunction {
 
 }
 
-object  DefaultLineStartFunction :
+object DefaultLineStartFunction :
     LineStartFunction {
     override fun invoke(reSampledStream: ReSampledStream) {
         reSampledStream.x0 = Double.NaN
@@ -113,7 +113,7 @@ object  DefaultLineStartFunction :
 
 }
 
-object  DefaultLineEndFunction :
+object DefaultLineEndFunction :
     LineEndFunction {
     override fun invoke(reSampledStream: ReSampledStream) {
         reSampledStream.currentPoint = DefaultPointFunction
@@ -121,7 +121,7 @@ object  DefaultLineEndFunction :
     }
 }
 
-object  RingLineStartFunction :
+object RingLineStartFunction :
     LineStartFunction {
     override fun invoke(reSampledStream: ReSampledStream) {
         reSampledStream.apply {
@@ -134,7 +134,7 @@ object  RingLineStartFunction :
 
 }
 
-object  RingLineEndFunction :
+object RingLineEndFunction :
     LineEndFunction {
     override fun invoke(reSampledStream: ReSampledStream) {
         reSampledStream.apply {

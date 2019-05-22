@@ -79,16 +79,14 @@ class ConicEqualAreaProjector : ConicProjectable, ProjectableInvertable {
     private fun sy0() = sin(phi0)
 
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        var r0y = r0 - y;
-        return doubleArrayOf(atan2(x, abs(r0y)) / n * sign(r0y), asin((c - (x * x + r0y * r0y) * n * n) / (2 * n)))
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+        var r0y = r0 - phi;
+        return doubleArrayOf(atan2(lambda, abs(r0y)) / n * sign(r0y), asin((c - (lambda * lambda + r0y * r0y) * n * n) / (2 * n)))
     }
 
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
-
         var r = sqrt(c - 2 * n * sin(phi)) / n
-        val lambdaN = lambda * n
         return r * sin(lambda * n)
 
     }

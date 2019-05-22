@@ -19,7 +19,7 @@ class MercatorProjector : ProjectableInvertable {
 
     override fun projectPhi(lambda: Double, phi: Double): Double = ln(tan((HALFPI + phi) / 2))
 
-    override fun invert(x: Double, y: Double) = doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
+    override fun invert(lambda: Double, phi: Double) = doubleArrayOf(lambda, 2 * atan(exp(phi)) - HALFPI)
 }
 
 open class MercatorProjection(projector: Projectable = MercatorProjector()) : MutableProjection(projector) {
