@@ -31,7 +31,7 @@ private fun rotationIdentity(): ProjectableInvertable = object : ProjectableInve
     override fun projectPhi(lambda: Double, phi: Double): Double = identityProjectionY(phi)
 
 //    override fun project(lambda: Double, phi: Double) = identityProjection(lambda, phi)
-    override fun invert(x: Double, y: Double) = identityProjection(x, y)
+    override fun invert(lambda: Double, phi: Double) = identityProjection(lambda, phi)
 }
 
 class RotationLambda(val deltaLambda: Double) : ProjectableInvertable {
@@ -42,7 +42,7 @@ class RotationLambda(val deltaLambda: Double) : ProjectableInvertable {
 
 //    override fun project(lambda: Double, phi: Double): DoubleArray =
 //        identityProjection(lambda + deltaLambda, phi)
-    override fun invert(x: Double, y: Double): DoubleArray = identityProjection(x - deltaLambda, y)
+    override fun invert(lambda: Double, phi: Double): DoubleArray = identityProjection(lambda - deltaLambda, phi)
 }
 
 class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvertable {
@@ -83,11 +83,11 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
 //        )
 //    }
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        val cosPhi = cos(y)
-        val newX = cos(x) * cosPhi
-        val newY = sin(x) * cosPhi
-        val z = sin(y)
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+        val cosPhi = cos(phi)
+        val newX = cos(lambda) * cosPhi
+        val newY = sin(lambda) * cosPhi
+        val z = sin(phi)
         val k = z * cosDeltaGamma - newY * sinDeltaGamma
         return doubleArrayOf(
             atan2(newY * cosDeltaGamma + z * sinDeltaGamma, newX * cosDeltaPhi + k * sinDeltaPhi),
@@ -130,8 +130,8 @@ internal fun rotation(rotate: Array<Angle>): ProjectableInvertable {
 //            return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
 //        }
 
-        override fun invert(x: Double, y: Double): DoubleArray {
-            val p = rotator.invert(x.toRadians(), y.toRadians())
+        override fun invert(lambda: Double, phi: Double): DoubleArray {
+            val p = rotator.invert(lambda.toRadians(), phi.toRadians())
             return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
         }
     }

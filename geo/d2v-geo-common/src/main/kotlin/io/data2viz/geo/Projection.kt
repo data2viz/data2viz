@@ -42,7 +42,7 @@ interface Projectable {
  */
 interface Invertable {
     //    fun invert(point: DoubleArray): DoubleArray
-    fun invert(x: Double, y: Double): DoubleArray
+    fun invert(lambda: Double, phi: Double): DoubleArray
 }
 
 
@@ -128,8 +128,8 @@ fun compose(a: Projectable, b: Projectable): Projectable {
                 return b.projectPhi(aX, aY)
             }
 
-            override fun invert(x: Double, y: Double): DoubleArray {
-                val p = b.invert(x, y)
+            override fun invert(lambda: Double, phi: Double): DoubleArray {
+                val p = b.invert(lambda, phi)
                 return a.invert(p[0], p[1])
             }
         }
@@ -338,10 +338,10 @@ abstract class BaseProjection() : Projection {
     override abstract fun projectPhi(lambda: Double, phi: Double): Double;
 
 
-    override fun invert(x: Double, y: Double): DoubleArray {
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
         require(projectRotate is Invertable, { "This projection is not invertable." })
 
-        val p = (projectRotate as Invertable).invert((x - dx) / k, (dy - y) / k)
+        val p = (projectRotate as Invertable).invert((lambda - dx) / k, (dy - phi) / k)
         return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
     }
 

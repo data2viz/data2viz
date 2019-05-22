@@ -91,7 +91,6 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
             lambda0 = lambda1
             sinPhi0 = sinPhi1
             cosPhi0 = cosPhi1
-            phi0 = phi1
             point0 = point1
         }
     }

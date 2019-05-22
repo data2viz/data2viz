@@ -87,33 +87,33 @@ class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
     private fun cy0() = cos(phi0)
 
 
-    override fun invert(x: Double, y: Double): DoubleArray {
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
 
-        val fy = f - y
-        val r = sign(n) * sqrt(x * x + fy * fy);
+        val fy = f - phi
+        val r = sign(n) * sqrt(lambda * lambda + fy * fy);
         return doubleArrayOf(
-            atan2(x, abs(fy)) / n * sign(fy),
+            atan2(lambda, abs(fy)) / n * sign(fy),
             2 * atan((f / r).pow(1 / n)) - HALFPI
         );
 
     }
 
-    override fun project(x: Double, y: Double): DoubleArray {
+    override fun project(lambda: Double, phi: Double): DoubleArray {
         var newY = if (f > 0) {
-            if (y < -HALFPI + EPSILON) {
+            if (phi < -HALFPI + EPSILON) {
                 -HALFPI + EPSILON;
             } else {
-                y
+                phi
             }
         } else {
-            if (y > HALFPI - EPSILON) {
+            if (phi > HALFPI - EPSILON) {
                 HALFPI - EPSILON;
             } else {
-                y
+                phi
             }
         }
         var r = f / tany(newY).pow(n);
-        return doubleArrayOf(r * sin(n * x), f - r * cos(n * x));
+        return doubleArrayOf(r * sin(n * lambda), f - r * cos(n * lambda));
 
     }
 

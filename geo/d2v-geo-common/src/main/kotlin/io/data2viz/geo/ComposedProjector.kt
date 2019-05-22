@@ -3,9 +3,9 @@ package io.data2viz.geo
 abstract class ComposedProjector : ProjectableInvertable {
 
 
-    override fun invert(x: Double, y: Double): DoubleArray = activeProjector.invert(x, y)
+    override fun invert(lambda: Double, phi: Double): DoubleArray = activeProjector.invert(lambda, phi)
 
-    override fun project(x: Double, y: Double): DoubleArray = activeProjector.project(x, y)
+    override fun project(lambda: Double, phi: Double): DoubleArray = activeProjector.project(lambda, phi)
 
     override fun projectLambda(lambda: Double, phi: Double): Double = activeProjector.projectLambda(lambda, phi)
 
