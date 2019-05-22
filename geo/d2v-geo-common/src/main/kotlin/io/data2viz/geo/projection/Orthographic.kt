@@ -20,8 +20,14 @@ class OrthographicProjector : Projector {
 
     override fun projectPhi(lambda: Double, phi: Double): Double = sin(phi)
 
-    private val invertFunction = azimuthalInvert(::asin)
 
-//    override fun project(lambda: Double, phi: Double) = doubleArrayOf(cos(phi) * sin(lambda), sin(phi))
-    override fun invert(lambda: Double, phi: Double) = invertFunction(lambda, phi)
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        return azimuthalInvertLambda(::asin)(lambda, phi)
+    }
+
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        return azimuthalInvertPhi(::asin)(lambda, phi)
+    }
+
+    override fun invert(lambda: Double, phi: Double) = azimuthalInvert(::asin)(lambda, phi)
 }
