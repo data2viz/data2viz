@@ -9,7 +9,7 @@ fun equirectangularProjection(init: Projection.() -> Unit) =
         init()
     }
 
-class EquirectangularProjector : Projectable, Invertable {
+class EquirectangularProjector : ProjectableInvertable {
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
 
     override fun projectPhi(lambda: Double, phi: Double): Double = phi
