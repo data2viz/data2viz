@@ -1,9 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.projection.common.Invertable
-import io.data2viz.geo.projection.common.Projectable
-import io.data2viz.geo.projection.common.Projection
-import io.data2viz.geo.projection.common.projection
+import io.data2viz.geo.projection.common.*
 import io.data2viz.math.PI
 
 
@@ -17,7 +14,7 @@ fun identityProjection(init: Projection.() -> Unit) =
         init()
     }
 
-class IdentityProjection : Projectable, Invertable {
+class IdentityProjection : Projector {
     override fun invert(lambda: Double, phi: Double) = doubleArrayOf(lambda, phi)
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
 

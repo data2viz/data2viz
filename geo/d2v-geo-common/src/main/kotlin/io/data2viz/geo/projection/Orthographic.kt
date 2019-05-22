@@ -1,9 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.projection.common.Invertable
-import io.data2viz.geo.projection.common.ProjectableProjection
-import io.data2viz.geo.projection.common.Projectable
-import io.data2viz.geo.projection.common.projection
+import io.data2viz.geo.projection.common.*
 import io.data2viz.math.EPSILON
 import kotlin.math.asin
 import kotlin.math.cos
@@ -18,8 +15,7 @@ fun orthographicProjection(init: ProjectableProjection.() -> Unit) =
         init()
     }
 
-class OrthographicProjector : Projectable,
-    Invertable {
+class OrthographicProjector : Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double = cos(phi) * sin(lambda)
 
     override fun projectPhi(lambda: Double, phi: Double): Double = sin(phi)
