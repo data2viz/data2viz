@@ -1,6 +1,9 @@
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.geometry.clip.*
+import io.data2viz.geo.geometry.clip.StreamPostClip
+import io.data2viz.geo.geometry.clip.StreamPreClip
+import io.data2viz.geo.geometry.clip.antimeridianPreClip
+import io.data2viz.geo.geometry.clip.noPostClip
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.GeoJsonObject
@@ -16,6 +19,21 @@ fun projection(projection: Projector, init: ProjectableProjection.() -> Unit) = 
 ).apply(init)
 
 
+private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
+    object : DelegateStreamAdapter(stream) {
+        override fun point(x: Double, y: Double, z: Double) =
+            stream.point(x.toRadians(), y.toRadians(), z.toRadians())
+    }
+}
+
+private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
+    object : DelegateStreamAdapter(stream) {
+        override fun point(x: Double, y: Double, z: Double) {
+            stream.point(rotate.projectLambda(x, y), rotate.projectPhi(x, y), 0.0)
+        }
+    }
+}
+
 open class ProjectableProjection(val projection: Projector) : CachedProjection() {
 
 
@@ -26,7 +44,6 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
 
 
     override var postClip: StreamPostClip = noPostClip
-
 
 
     override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
@@ -125,30 +142,6 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
         }
 
 
-    private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
-        object : DelegateStreamAdapter(stream) {
-            override fun point(x: Double, y: Double, z: Double) =
-                stream.point(x.toRadians(), y.toRadians(), z.toRadians())
-        }
-    }
-
-    private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
-        object : DelegateStreamAdapter(stream) {
-            override fun point(x: Double, y: Double, z: Double) {
-                stream.point(rotate.projectLambda(x, y), rotate.projectPhi(x, y), 0.0)
-            }
-        }
-    }
-
-
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-
-
-        val p = (projectRotate).invert((lambda - dx) / k, (dy - phi) / k)
-        return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
-    }
-
-
     override fun fullCycleStream(stream: Stream): Stream {
         return transformRadians(transformRotate(rotator)(preClip.preClip(projectResample(postClip.postClip(stream)))))
     }
@@ -157,6 +150,14 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
         return object : Projector {
             override fun invert(lambda: Double, phi: Double): DoubleArray {
                 return projection.invert(lambda, phi)
+            }
+
+            override fun invertLambda(lambda: Double, phi: Double): Double {
+                return projection.invertLambda(lambda, phi)
+            }
+
+            override fun invertPhi(lambda: Double, phi: Double): Double {
+                return projection.invertPhi(lambda, phi)
             }
 
             private fun internalProjectLambda(lambda: Double) =
@@ -172,21 +173,52 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
                 internalProjectPhi(projection.projectPhi(lambda, phi))
 
 
-//        override fun project(point: DoubleArray) {
-//            projection.project(point)
-//            point[0] = internalProjectLambda(point[0])
-//            point[1] = internalProjectPhi(point[1])
-//        }
-
         }
     }
 
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        val lambdaRadians = lambda.toRadians()
+        val phiRadians = phi.toRadians()
+        return projectTransform.project(lambdaRadians, phiRadians)
+    }
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         projectTransform.projectLambda(lambda.toRadians(), phi.toRadians())
 
     override fun projectPhi(lambda: Double, phi: Double): Double =
         projectTransform.projectPhi(lambda.toRadians(), phi.toRadians())
+
+
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        val newLambda = (lambda - dx) / k
+        val newPhi = (dy - phi) / k
+        return projectRotate.invertLambda(
+            newLambda,
+            newPhi
+        )
+    }
+
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        val newLambda = (lambda - dx) / k
+        val newPhi = (dy - phi) / k
+        return projectRotate.invertPhi(
+            newLambda,
+            newPhi
+        )
+    }
+
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+        val newLambda = (lambda - dx) / k
+        val newPhi = (dy - phi) / k
+        val inverted = projectRotate.invert(
+            newLambda,
+            newPhi
+        )
+        return doubleArrayOf(
+            inverted[0].toDegrees(),
+            inverted[1].toDegrees()
+        )
+    }
 
     fun recenter() {
         rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
