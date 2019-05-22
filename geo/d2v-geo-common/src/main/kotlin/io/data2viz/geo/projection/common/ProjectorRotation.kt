@@ -7,7 +7,6 @@ import io.data2viz.math.toRadians
 import kotlin.math.*
 
 
-
 private fun identityProjection(x: Double, y: Double) = doubleArrayOf(
     identityProjectionX(x),
     identityProjectionY(y)
@@ -26,10 +25,11 @@ private fun rotationIdentity(): Projector = object :
     Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double =
         identityProjectionX(lambda)
+
     override fun projectPhi(lambda: Double, phi: Double): Double =
         identityProjectionY(phi)
 
-//    override fun project(lambda: Double, phi: Double) = identityProjection(lambda, phi)
+    //    override fun project(lambda: Double, phi: Double) = identityProjection(lambda, phi)
     override fun invert(lambda: Double, phi: Double) = identityProjection(lambda, phi)
 }
 
@@ -37,13 +37,14 @@ class RotationLambda(val deltaLambda: Double) : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         identityProjectionX(lambda + deltaLambda)
+
     override fun projectPhi(lambda: Double, phi: Double): Double =
         identityProjectionY(phi)
 
-//    override fun project(lambda: Double, phi: Double): DoubleArray =
+    //    override fun project(lambda: Double, phi: Double): DoubleArray =
 //        identityProjection(lambda + deltaLambda, phi)
     override fun invert(lambda: Double, phi: Double): DoubleArray =
-    identityProjection(lambda - deltaLambda, phi)
+        identityProjection(lambda - deltaLambda, phi)
 }
 
 class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : Projector {
@@ -57,7 +58,8 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : Projector {
 
         return atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi)
     }
-    override fun projectPhi(lambda: Double, phi: Double): Double  {
+
+    override fun projectPhi(lambda: Double, phi: Double): Double {
         val cosPhi = cos(phi)
         val x = cos(lambda) * cosPhi
         val y = sin(lambda) * cosPhi
@@ -101,10 +103,10 @@ internal fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Do
     val newDeltaLambda = deltaLambda % TAU
     return if (newDeltaLambda != .0) {
         if (deltaPhi != .0 || deltaGamma != .0) {
-            compose(
+            ComposedProjector(
                 RotationLambda(deltaLambda),
                 RotationPhiGamma(deltaPhi, deltaGamma)
-            ) as Projector
+            )
         } else RotationLambda(deltaLambda)
     } else if (deltaPhi != .0 || deltaGamma != .0) RotationPhiGamma(
         deltaPhi,
