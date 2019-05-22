@@ -36,12 +36,32 @@ interface Projector {
     fun projectPhi(lambda: Double, phi: Double): Double
 
     /**
+     * TODO docs
+     */
+    fun invertLambda(lambda: Double, phi: Double): Double =
+        invertError()
+
+
+    /**
+     * TODO docs
+     */
+    fun invertPhi(lambda: Double, phi: Double): Double =
+        invertError()
+
+    private fun invertError():Double {
+        error("$this don't support invert operation")
+    }
+    
+    /**
      * Returns a new array [longitude, latitude] in degrees representing the unprojected point of the given projected point.
      * The point must be specified as a two-element array [x, y] (typically in pixels).
      * Todo document
      * May return null if the specified point has no defined projected position, such as when the point is outside the clipping bounds of the projection.
      */
-    fun invert(lambda: Double, phi: Double): DoubleArray
+    fun invert(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(
+        invertLambda(lambda, phi),
+        invertPhi(lambda, phi)
+    )
 
 }
 
