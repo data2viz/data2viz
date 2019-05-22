@@ -9,7 +9,7 @@ import kotlin.math.*
 /**
  * TODO: refactor
  */
-internal interface ProjectableInvertable : Projectable, Invertable
+interface ProjectableInvertable : Projectable, Invertable
 
 
 private fun identityProjection(x: Double, y: Double) = doubleArrayOf(

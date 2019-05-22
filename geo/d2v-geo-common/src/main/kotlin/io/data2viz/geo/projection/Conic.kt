@@ -8,10 +8,13 @@ import io.data2viz.math.rad
 
 fun conicProjection(projection: ConicProjectable, init: ConicProjection.() -> Unit) = ConicProjection(projection).apply(init)
 
-
-interface ConicProjectable : Projectable {
+interface Conic  {
     var phi0: Double
     var phi1: Double
+}
+
+interface ConicProjectable : Projectable, Conic {
+
 }
 
 class ConicProjection(val conicProjectable: ConicProjectable) : MutableProjection(conicProjectable) {
