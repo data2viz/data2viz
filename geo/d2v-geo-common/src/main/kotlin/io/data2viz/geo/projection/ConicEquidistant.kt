@@ -82,34 +82,65 @@ class ConicEquidistantProjector : ConicProjector, Projector {
     private fun cy0() = cos(phi0)
 
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        val gy = gy(phi)
 
-        var gy = g - phi;
-        return doubleArrayOf(atan2(lambda, abs(gy)) / n * sign(gy), g - sign(n) * sqrt(lambda * lambda + gy * gy))
+        return internalInvertLambda(lambda, gy)
 
     }
 
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        val gy = gy(phi)
+        return internalInvertPhi(lambda, gy)
+
+    }
+
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+
+        val gy = gy(phi)
+        return doubleArrayOf(
+            internalInvertLambda(lambda, gy),
+            internalInvertPhi(lambda, gy)
+        )
+
+    }
+
+    private fun internalInvertPhi(lambda: Double, gy: Double) = g - sign(n) * sqrt(lambda * lambda + gy * gy)
+
+    private fun internalInvertLambda(lambda: Double, gy: Double) = atan2(lambda, abs(gy)) / n * sign(gy)
+
     override fun project(lambda: Double, phi: Double): DoubleArray {
 
-        val gy = g - phi
-        val nx = n * lambda;
-        return doubleArrayOf(gy * sin(nx), g - gy * cos(nx));
+        val gy = gy(phi)
+        val nx = nx(lambda)
+        return doubleArrayOf(
+            internalProjectLambda(gy, nx),
+            internalProjectPhi(gy, nx)
+        );
 
     }
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
 
-        val gy = g - phi
-        val nx = n * lambda
-        return gy * sin(nx)
+        val gy = gy(phi)
+        val nx = nx(lambda)
+        return internalProjectLambda(gy, nx)
 
     }
+
+    private fun internalProjectLambda(gy: Double, nx: Double) = gy * sin(nx)
 
     override fun projectPhi(lambda: Double, phi: Double): Double {
 
-        val gy = g - phi
-        val nx = n * lambda
-        return g - gy * cos(nx)
+        val gy = gy(phi)
+        val nx = nx(lambda)
+        return internalProjectPhi(gy, nx)
 
     }
+
+    private fun internalProjectPhi(gy: Double, nx: Double) = g - gy * cos(nx)
+
+    private fun nx(lambda: Double) = n * lambda
+
+    private fun gy(phi: Double) = g - phi
 }

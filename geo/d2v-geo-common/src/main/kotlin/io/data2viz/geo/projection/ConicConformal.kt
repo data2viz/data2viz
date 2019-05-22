@@ -9,11 +9,12 @@ import kotlin.math.*
 
 fun conicConformalProjection() = conicConformalProjection {}
 
-fun conicConformalProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicConformalBaseConditionalProjector()) {
-    scale = 109.5
-    parallels = arrayOf(30.0.deg, 30.0.deg)
-    init()
-}
+fun conicConformalProjection(init: ConicProjection.() -> Unit) =
+    conicProjection(ConicConformalBaseConditionalProjector()) {
+        scale = 109.5
+        parallels = arrayOf(30.0.deg, 30.0.deg)
+        init()
+    }
 
 
 fun tany(y: Double): Double {
@@ -87,58 +88,70 @@ class ConicConformalProjector : ConicProjector, Projector {
     private fun cy0() = cos(phi0)
 
 
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        val fy = fy(phi)
+        return intervalInvertLambda(lambda, fy)
+
+    }
+
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        val fy = fy(phi)
+        val rInvert = rInvert(lambda, fy);
+        return internalInvertPhi(rInvert)
+
+    }
+
     override fun invert(lambda: Double, phi: Double): DoubleArray {
 
-        val fy = f - phi
-        val r = sign(n) * sqrt(lambda * lambda + fy * fy);
+        val fy = fy(phi)
+        val rInvert = rInvert(lambda, fy);
         return doubleArrayOf(
-            atan2(lambda, abs(fy)) / n * sign(fy),
-            2 * atan((f / r).pow(1 / n)) - HALFPI
+            intervalInvertLambda(lambda, fy),
+            internalInvertPhi(rInvert)
         );
 
     }
 
+    private fun internalInvertPhi(rInvert: Double) = 2 * atan((f / rInvert).pow(1 / n)) - HALFPI
+
+    private fun intervalInvertLambda(lambda: Double, fy: Double) = atan2(lambda, abs(fy)) / n * sign(fy)
+
+    private fun rInvert(lambda: Double, fy: Double) = sign(n) * sqrt(lambda * lambda + fy * fy)
+
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        var newY = if (f > 0) {
-            if (phi < -HALFPI + EPSILON) {
-                -HALFPI + EPSILON;
-            } else {
-                phi
-            }
-        } else {
-            if (phi > HALFPI - EPSILON) {
-                HALFPI - EPSILON;
-            } else {
-                phi
-            }
-        }
-        var r = f / tany(newY).pow(n);
-        return doubleArrayOf(r * sin(n * lambda), f - r * cos(n * lambda));
+        val convertedPhi = convertPhi(phi)
+        val r = r(convertedPhi);
+        return doubleArrayOf(
+            internalProjectLambda(r, lambda),
+            internalProjectPhi(r, lambda)
+        );
 
     }
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
 
-        var newY = if (f > 0) {
-            if (phi < -HALFPI + EPSILON) {
-                -HALFPI + EPSILON;
-            } else {
-                phi
-            }
-        } else {
-            if (phi > HALFPI - EPSILON) {
-                HALFPI - EPSILON;
-            } else {
-                phi
-            }
-        }
-        var r = f / tany(newY).pow(n);
-        return r * sin(n * lambda)
+        var convertedPhi = convertPhi(phi)
+        var r = r(convertedPhi);
+        return internalProjectLambda(r, lambda)
 
     }
 
+    private fun internalProjectLambda(r: Double, lambda: Double) = r * sin(n * lambda)
+
     override fun projectPhi(lambda: Double, phi: Double): Double {
-        var newY = if (f > 0) {
+        var convertedPhi = convertPhi(phi)
+        var r = r(convertedPhi);
+        return internalProjectPhi(r, lambda)
+    }
+
+    private fun internalProjectPhi(r: Double, lambda: Double) = f - r * cos(n * lambda)
+
+    private fun fy(phi: Double) = f - phi
+
+    private fun r(convertedPhi: Double) = f / tany(convertedPhi).pow(n)
+
+    private fun convertPhi(phi: Double): Double {
+        return if (f > 0) {
             if (phi < -HALFPI + EPSILON) {
                 -HALFPI + EPSILON;
             } else {
@@ -151,8 +164,6 @@ class ConicConformalProjector : ConicProjector, Projector {
                 phi
             }
         }
-        var r = f / tany(newY).pow(n);
-        return f - r * cos(n * lambda)
     }
 }
 

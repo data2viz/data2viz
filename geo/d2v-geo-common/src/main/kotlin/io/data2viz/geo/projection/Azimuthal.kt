@@ -7,46 +7,117 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-fun azimuthalInvert(angle: (Double) -> Double) = { x: Double, y: Double ->
-    val z = sqrt(x * x + y * y)
+fun azimuthalInvert(angle: (Double) -> Double) = { lambda: Double, phi: Double ->
+
+    val z = z(lambda, phi)
     val c = angle(z)
-    val sc = sin(c)
-    val cc = cos(c)
-    doubleArrayOf(atan2(x * sc, z * cc), (if (z == 0.0) z else y * sc / z).asin)
+    val sc = sc(c)
+    val cc = cc(c)
+    doubleArrayOf(
+        internalInvertLambda(lambda, sc, z, cc),
+        internalInvertPhi(z, phi, sc)
+    )
+
 }
+
+fun azimuthalInvertLambda(angle: (Double) -> Double) = { lambda: Double, phi: Double ->
+
+    val z = z(lambda, phi)
+    val c = angle(z)
+    val sc = sc(c)
+    val cc = cc(c)
+        internalInvertLambda(lambda, sc, z, cc)
+}
+
+fun azimuthalInvertPhi(angle: (Double) -> Double) = { lambda: Double, phi: Double ->
+
+    val z = z(lambda, phi)
+    val c = angle(z)
+    val sc = sc(c)
+        internalInvertPhi(z, phi, sc)
+}
+
+
+private fun internalProjectLambda(k: Double, cy: Double, lambda: Double) = k * cy * sin(lambda)
+private fun internalProjectPhi(k: Double, phi: Double) = k * sin(phi)
+
+
+private fun internalInvertLambda(
+    lambda: Double,
+    sc: Double,
+    z: Double,
+    cc: Double
+) = atan2(lambda * sc, z * cc)
+
+private fun internalInvertPhi(z: Double, phi: Double, sc: Double) =
+    (if (z != .0) phi * sc / z else z).asin
+
+private fun sc(c: Double) = sin(c)
+
+private fun z(lambda: Double, phi: Double) = sqrt(lambda * lambda + phi * phi)
+
+private fun cx(lambda: Double) = cos(lambda)
+private fun cy(phi: Double) = cos(phi)
+
+private fun cc(c: Double) = cos(c)
 
 open class AzimuthalProjector(val scale: (Double) -> Double, val angle: (Double) -> Double) :
     Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double {
 
-        val cx = cos(lambda)
-        val cy = cos(phi)
-        val k = scale(cx * cy)
+        val cx = cx(lambda)
+        val cy = cy(phi)
+        val k = scaleCxCy(cx, cy)
 
-        return k * cy * sin(lambda)
+        return internalProjectLambda(k, cy, lambda)
     }
 
     override fun projectPhi(lambda: Double, phi: Double): Double {
 
-        val cx = cos(lambda)
-        val cy = cos(phi)
-        val k = scale(cx * cy)
+        val cx = cx(lambda)
+        val cy = cy(phi)
+        val k = scaleCxCy(cx, cy)
 
-        return k * sin(phi)
+        return internalProjectPhi(k, phi)
     }
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        val cx = cos(lambda)
-        val cy = cos(phi)
-        val k = scale(cx * cy)
-        return doubleArrayOf(k * cy * sin(lambda), k * sin(phi))
+        val cx = cx(lambda)
+        val cy = cy(phi)
+        val k = scaleCxCy(cx, cy)
+        return doubleArrayOf(internalProjectLambda(k, cy, lambda), internalProjectPhi(k, phi))
     }
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        val z = sqrt(lambda * lambda + phi * phi)
-        val c = angle(z)
-        val sc = sin(c)
-        val cc = cos(c)
-        return doubleArrayOf(atan2(lambda * sc, z * cc), (if (z != .0) phi * sc / z else z).asin)
+
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        val z = z(lambda, phi)
+        val c = c(z)
+        val sc = sc(c)
+        val cc = cc(c)
+
+        return internalInvertLambda(lambda, sc, z, cc)
     }
+
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        val z = z(lambda, phi)
+        val c = c(z)
+        val sc = sc(c)
+        return internalInvertPhi(z, phi, sc)
+    }
+
+
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+        val z = z(lambda, phi)
+        val c = c(z)
+        val sc = sc(c)
+        val cc = cc(c)
+        return doubleArrayOf(
+            internalInvertLambda(lambda, sc, z, cc),
+            internalInvertPhi(z, phi, sc)
+        )
+    }
+
+    private fun c(z: Double) = angle(z)
+
+    private fun scaleCxCy(cx: Double, cy: Double) = scale(cx * cy)
 }

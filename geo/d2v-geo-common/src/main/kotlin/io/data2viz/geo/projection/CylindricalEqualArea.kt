@@ -7,9 +7,6 @@ import kotlin.math.sin
 
 
 class CylindricalEqualAreaProjector() : Projector {
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        return doubleArrayOf(lambda / cosPhi0, asin(phi * cosPhi0))
-    }
 
     constructor(phi:Double) : this() {
         phi0 = phi
@@ -34,5 +31,15 @@ class CylindricalEqualAreaProjector() : Projector {
     override fun projectPhi(lambda: Double, phi: Double): Double {
         return sin(phi) / cosPhi0
     }
+
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        return lambda / cosPhi0
+    }
+
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        return  asin(phi * cosPhi0)
+    }
+
+
 
 }
