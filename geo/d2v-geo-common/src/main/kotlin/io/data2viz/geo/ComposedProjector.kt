@@ -1,6 +1,6 @@
 package io.data2viz.geo
 
-abstract class ComposedProjector : ProjectableInvertable {
+abstract class ComposedProjector : Projector {
 
 
     override fun invert(lambda: Double, phi: Double): DoubleArray = activeProjector.invert(lambda, phi)
@@ -11,17 +11,17 @@ abstract class ComposedProjector : ProjectableInvertable {
 
     override fun projectPhi(lambda: Double, phi: Double): Double = activeProjector.projectPhi(lambda, phi)
 
-    abstract val activeProjector: ProjectableInvertable
+    abstract val activeProjector: Projector
 }
 
 abstract class ConditionalProjector() : ComposedProjector() {
 
-    abstract val baseProjector: ProjectableInvertable
-    abstract val nestedProjector: ProjectableInvertable
+    abstract val baseProjector: Projector
+    abstract val nestedProjector: Projector
     abstract val isNeedUseBaseProjector: Boolean
 
 
-    override val activeProjector: ProjectableInvertable
+    override val activeProjector: Projector
         get() = if (isNeedUseBaseProjector) {
             baseProjector
         } else {
