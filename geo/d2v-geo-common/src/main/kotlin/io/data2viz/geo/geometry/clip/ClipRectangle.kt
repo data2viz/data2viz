@@ -1,15 +1,24 @@
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geom.Extent
 import io.data2viz.geo.stream.Stream
+import io.data2viz.geom.Extent
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
 
 private const val CLIPMAX = 1e9
 private const val CLIPMIN = -CLIPMAX
 
-fun clipExtent(extent: Extent) = ClipRectangle(extent)::clipLine
-fun clipRectangle(x0:Double, y0:Double, x1:Double, y1:Double) = ClipRectangle(Extent(x0, y0, x1, y1))::clipLine
+//fun clipExtent(extent: Extent) = ClipRectangle(extent)::clipLine
+//fun clipRectangle(x0: Double, y0: Double, x1: Double, y1: Double) = ClipRectangle(Extent(x0, y0, x1, y1))::clipLine
+
+class ClipRectanglePostClip(x0: Double, y0: Double, x1: Double, y1: Double) : StreamPostClip {
+    val clipRectangle = ClipRectangle(Extent(x0, y0, x1, y1))
+    override fun postClip(stream: Stream): Stream {
+        return clipRectangle.clipLine(stream)
+    }
+
+}
+
 
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by The given Extent.
@@ -21,7 +30,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
         return x in extent.x0..extent.x1 && y in extent.y0..extent.y1
     }
 
-    val interpolateFunction = object :InterpolateFunction {
+    val interpolateFunction = object : InterpolateFunction {
         override fun invoke(from: DoubleArray, to: DoubleArray, direction: Int, stream: Stream) {
             interpolate(from, to, direction, stream)
         }

@@ -31,9 +31,9 @@ import io.data2viz.math.Angle
 
 class AngleClip(val angle: Angle) : StreamPreClip {
 
-    val clipCircle = clipCircle(angle.rad)
+    val clipCircle = ClipCirclePreClip(angle.rad)
     override fun preClip(stream: Stream): Stream {
-        return clipCircle(stream)
+        return clipCircle.preClip(stream)
     }
 
 }

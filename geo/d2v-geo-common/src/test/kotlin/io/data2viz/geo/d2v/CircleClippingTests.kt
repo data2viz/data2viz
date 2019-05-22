@@ -1,7 +1,8 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.geometry.clip.clipCircle
+
 import io.data2viz.geo.geojson.geoPath
+import io.data2viz.geo.geometry.clip.ClipCirclePreClip
 import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.svgPath
@@ -46,7 +47,7 @@ class CircleClippingTests : TestBase() {
     @Test
     fun clipping_radius_45() {
         val projection = getProjection()
-        projection.preClip = clipCircle(45.0)
+        projection.preClip = ClipCirclePreClip(45.0)
 
         val geoPath = geoPath(projection, PathGeom())
         val path = geoPath.path(polygon) as PathGeom

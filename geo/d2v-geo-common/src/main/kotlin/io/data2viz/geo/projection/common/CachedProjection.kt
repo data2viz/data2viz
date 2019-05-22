@@ -28,7 +28,7 @@ abstract class CachedProjection() : Projection {
         return streamCache.cachedResultStream!!
     }
 
-    abstract fun fullCycleStream(originalStream: Stream): Stream
+    abstract fun fullCycleStream(stream: Stream): Stream
 
 }
 
