@@ -1,5 +1,8 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.geometry.clip.ExtentClip
+import io.data2viz.geo.geometry.clip.StreamPostClip
+import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.*
 import io.data2viz.geom.Extent
 import io.data2viz.math.HALFPI
@@ -69,13 +72,24 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
             reclip()
         }
 
-    override var clipExtent: Extent?
-        get() = innerExtent
+    override var postClip: StreamPostClip
+        get() = super.postClip
         set(value) {
-            innerExtent = value
-        }
+            if(value is ExtentClip) {
+                innerExtent = value.extent
+            } else {
+                super.postClip = value
+                innerExtent = null
+            }
 
-    // TODO check tests still some issues with clipExtent
+        }
+//    override var extentPostClip: Extent?
+//        get() = innerExtent
+//        set(value) {
+//            innerExtent = value
+//        }
+
+    // TODO check tests still some issues with extentPostClip
     private fun reclip() {
         val k = PI * scale
         val invert = rotation(rotate).invert(.0, .0)
@@ -85,19 +99,19 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
         val t0 = projectLambda(lambda, phi)
         val t1 = projectPhi(lambda, phi)
 
-        super.clipExtent = when {
-            clipExtent == null -> Extent(t0 - k, t1 - k, k * 2, k * 2)
+        this.extentPostClip = when {
+            extentPostClip == null -> Extent(t0 - k, t1 - k, k * 2, k * 2)
             projection is MercatorProjector -> Extent(
-                max(t0 - k, clipExtent!!.x0),
-                clipExtent!!.y0,
-                max(0.0, min(k * 2, clipExtent!!.width)),
-                clipExtent!!.height
+                max(t0 - k, extentPostClip!!.x0),
+                extentPostClip!!.y0,
+                max(0.0, min(k * 2, extentPostClip!!.width)),
+                extentPostClip!!.height
             )
             else -> Extent(
-                clipExtent!!.x0,
-                max(t1 - k, clipExtent!!.y0),
-                clipExtent!!.width,
-                min(k * 2, clipExtent!!.height)
+                extentPostClip!!.x0,
+                max(t1 - k, extentPostClip!!.y0),
+                extentPostClip!!.width,
+                min(k * 2, extentPostClip!!.height)
             )
         }
     }

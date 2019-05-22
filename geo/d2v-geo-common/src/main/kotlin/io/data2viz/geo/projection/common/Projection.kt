@@ -1,6 +1,8 @@
 package io.data2viz.geo.projection.common
 
 
+import io.data2viz.geo.geometry.clip.StreamPostClip
+import io.data2viz.geo.geometry.clip.StreamPreClip
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
@@ -110,25 +112,16 @@ interface Projection : Projector {
      * TODO: check
      * If preclip is specified, sets the projection’s spherical clipping to the specified function and returns the projection. If preclip is not specified, returns the current spherical clipping function (see preclip).
      */
-    var preClip: (Stream) -> Stream
+    var preClip: StreamPreClip
 
     /**
      * TODO: check
      * If postclip is specified, sets the projection’s cartesian clipping to the specified function and returns the projection. If postclip is not specified, returns the current cartesian clipping function (see postclip).
      */
-    var postClip: (Stream) -> Stream
+    var postClip: StreamPostClip
 
-    /**
-     * TODO: check
-     * If angle is specified, sets the projection’s clipping circle radius to the specified angle in degrees and returns the projection. If angle is null, switches to antimeridian cutting rather than small-circle clipping. If angle is not specified, returns the current clip angle which defaults to null. Small-circle clipping is independent of viewport clipping via projection.clipExtent.
-     */
-    var clipAngle: Double
 
-    /**
-     * TODO: check
-     * If extent is specified, sets the projection’s viewport clip extent to the specified bounds in pixels and returns the projection. The extent bounds are specified as an array [[x₀, y₀], [x₁, y₁]], where x₀ is the left-side of the viewport, y₀ is the top, x₁ is the right and y₁ is the bottom. If extent is null, no viewport clipping is performed. If extent is not specified, returns the current viewport clip extent which defaults to null. Viewport clipping is independent of small-circle clipping via projection.clipAngle.
-     */
-    var clipExtent: Extent?
+
 
     /**
      * TODO: check
@@ -160,7 +153,7 @@ interface Projection : Projector {
     var projection = d3.geoTransverseMercator()
     .rotate([74 + 30 / 60, -38 - 50 / 60])
     .fitExtent([[20, 20], [940, 480]], nj);
-    Any clip extent is ignored when determining the new scale and translate. The precision used to compute the bounding box of the given object is computed at an effective scale of 150.
+    Any postClip extent is ignored when determining the new scale and translate. The precision used to compute the bounding box of the given object is computed at an effective scale of 150.
      */
     fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection
 

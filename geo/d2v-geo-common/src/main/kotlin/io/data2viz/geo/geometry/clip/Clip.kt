@@ -5,6 +5,15 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 
+
+interface StreamPostClip {
+    fun postClip(stream: Stream): Stream
+}
+interface StreamPreClip {
+    fun preClip(stream: Stream): Stream
+}
+
+
 /**
  * Takes a line and cuts into visible segments. Values for clean:
  *  0 - there were intersections or the line was empty;

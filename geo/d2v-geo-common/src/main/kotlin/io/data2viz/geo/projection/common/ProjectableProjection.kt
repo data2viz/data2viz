@@ -1,7 +1,6 @@
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.geometry.clip.clipAntimeridian
-import io.data2viz.geo.geometry.clip.clipCircle
+import io.data2viz.geo.geometry.clip.*
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.GeoJsonObject
@@ -20,42 +19,15 @@ fun projection(projection: Projector, init: ProjectableProjection.() -> Unit) = 
 open class ProjectableProjection(val projection: Projector) : CachedProjection() {
 
 
-    private val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()
-    val noClip: (Stream) -> Stream = { it }
+//    private val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()
+//    val noClip: (Stream) -> Stream = { it }
 
-    override var preClip: (Stream) -> Stream = clipAntimeridian
-        set(value) {
-            field = value
-        }
+    override var preClip: StreamPreClip = antimeridianPreClip
 
-    override var postClip: (Stream) -> Stream = noClip
-        set(value) {
-            field = value
-        }
 
-    // TODO : manage angles-range (ex. -180..-90 & 90..180) to permit see-through ?
-    private var theta: Double = Double.NaN
-    override var clipAngle: Double
-        get() = theta
-        set(value) {
-            if (value.isNaN()) {
-                theta = Double.NaN
-                preClip = clipAntimeridian()
-            } else {
-                theta = value.toRadians()
-                preClip = clipCircle(theta)
-            }
-        }
+    override var postClip: StreamPostClip = noPostClip
 
-    override var clipExtent: Extent? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                postClip = io.data2viz.geo.geometry.clip.clipExtent(value)
-            } else {
-                postClip = noClip
-            }
-        }
+
 
     override fun fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
         return io.data2viz.geo.geojson.fitExtent(this, extent, geo)
@@ -178,7 +150,7 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
 
 
     override fun fullCycleStream(stream: Stream): Stream {
-        return transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
+        return transformRadians(transformRotate(rotator)(preClip.preClip(projectResample(postClip.postClip(stream)))))
     }
 
     fun createProjectTransform(): Projector {

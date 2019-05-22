@@ -19,7 +19,7 @@ interface InterpolateFunction {
 }
 /**
  * A generalized polygon clipping algorithm: given a polygon that has been cut into its visible line segments,
- * and rejoins the segments by interpolating along the clip edge.
+ * and rejoins the segments by interpolating along the postClip edge.
  */
 fun rejoin(
     segments: List<List<DoubleArray>>, compareIntersection: Comparator<Intersection>,

@@ -1,6 +1,8 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.geometry.clip.anglePreClip
 import io.data2viz.geo.projection.common.*
+import io.data2viz.math.deg
 import kotlin.math.atan
 import kotlin.math.cos
 import kotlin.math.sin
@@ -10,7 +12,7 @@ fun gnomonicProjection() = gnomonicProjection {}
 
 fun gnomonicProjection(init: Projection.() -> Unit) =
     projection(GnomonicProjector()) {
-        clipAngle = 60.0
+        anglePreClip = 60.0.deg
         scale = 144.049
         init()
     }

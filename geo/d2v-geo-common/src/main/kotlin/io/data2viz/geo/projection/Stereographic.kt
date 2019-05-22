@@ -1,8 +1,10 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.geometry.clip.anglePreClip
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.geo.projection.common.projection
+import io.data2viz.math.deg
 import kotlin.math.atan
 import kotlin.math.cos
 import kotlin.math.sin
@@ -13,7 +15,7 @@ fun stereographicProjection() = stereographicProjection {}
 fun stereographicProjection(init: Projection.() -> Unit) =
     projection(StereographicProjector()) {
         scale = 250.0
-        clipAngle = 142.0
+        anglePreClip = (142.0).deg
         init()
     }
 

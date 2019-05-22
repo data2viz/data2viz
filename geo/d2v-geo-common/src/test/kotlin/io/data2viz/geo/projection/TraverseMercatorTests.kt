@@ -4,42 +4,42 @@ package io.data2viz.geo.projection
 //var tape = require("tape"),
 //d3 = require("../../");
 //
-//tape("transverseMercator.clipExtent(null) sets the default automatic clip extent", function(test) {
-//    var projection = d3.geoTransverseMercator().translate([0, 0]).scale(1).clipExtent(null).precision(0);
+//tape("transverseMercator.extentPostClip(null) sets the default automatic postClip extent", function(test) {
+//    var projection = d3.geoTransverseMercator().translate([0, 0]).scale(1).extentPostClip(null).precision(0);
 //    test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M3.141593,3.141593L0,3.141593L-3.141593,3.141593L-3.141593,-3.141593L-3.141593,-3.141593L0,-3.141593L3.141593,-3.141593L3.141593,3.141593Z");
-//    test.equal(projection.clipExtent(), null);
+//    test.equal(projection.extentPostClip(), null);
 //    test.end();
 //});
 //
-//tape("transverseMercator.center(center) sets the correct automatic clip extent", function(test) {
+//tape("transverseMercator.center(center) sets the correct automatic postClip extent", function(test) {
 //    var projection = d3.geoTransverseMercator().translate([0, 0]).scale(1).center([10, 10]).precision(0);
 //    test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M2.966167,3.316126L-0.175426,3.316126L-3.317018,3.316126L-3.317019,-2.967060L-3.317019,-2.967060L-0.175426,-2.967060L2.966167,-2.967060L2.966167,3.316126Z");
-//    test.equal(projection.clipExtent(), null);
+//    test.equal(projection.extentPostClip(), null);
 //    test.end();
 //});
 //
-//tape("transverseMercator.clipExtent(extent) intersects the specified clip extent with the automatic clip extent", function(test) {
-//    var projection = d3.geoTransverseMercator().translate([0, 0]).scale(1).clipExtent([[-10, -10], [10, 10]]).precision(0);
+//tape("transverseMercator.extentPostClip(extent) intersects the specified postClip extent with the automatic postClip extent", function(test) {
+//    var projection = d3.geoTransverseMercator().translate([0, 0]).scale(1).extentPostClip([[-10, -10], [10, 10]]).precision(0);
 //    test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M10,3.141593L0,3.141593L-10,3.141593L-10,-3.141593L-10,-3.141593L0,-3.141593L10,-3.141593L10,3.141593Z");
-//    test.deepEqual(projection.clipExtent(), [[-10, -10], [10, 10]]);
+//    test.deepEqual(projection.extentPostClip(), [[-10, -10], [10, 10]]);
 //    test.end();
 //});
 //
-//tape("transverseMercator.clipExtent(extent).scale(scale) updates the intersected clip extent", function(test) {
-//    var projection = d3.geoTransverseMercator().translate([0, 0]).clipExtent([[-10, -10], [10, 10]]).scale(1).precision(0);
+//tape("transverseMercator.extentPostClip(extent).scale(scale) updates the intersected postClip extent", function(test) {
+//    var projection = d3.geoTransverseMercator().translate([0, 0]).extentPostClip([[-10, -10], [10, 10]]).scale(1).precision(0);
 //    test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M10,3.141593L0,3.141593L-10,3.141593L-10,-3.141593L-10,-3.141593L0,-3.141593L10,-3.141593L10,3.141593Z");
-//    test.deepEqual(projection.clipExtent(), [[-10, -10], [10, 10]]);
+//    test.deepEqual(projection.extentPostClip(), [[-10, -10], [10, 10]]);
 //    test.end();
 //});
 //
-//tape("transverseMercator.clipExtent(extent).translate(translate) updates the intersected clip extent", function(test) {
-//    var projection = d3.geoTransverseMercator().scale(1).clipExtent([[-10, -10], [10, 10]]).translate([0, 0]).precision(0);
+//tape("transverseMercator.extentPostClip(extent).translate(translate) updates the intersected postClip extent", function(test) {
+//    var projection = d3.geoTransverseMercator().scale(1).extentPostClip([[-10, -10], [10, 10]]).translate([0, 0]).precision(0);
 //    test.pathEqual(d3.geoPath(projection)({type: "Sphere"}), "M10,3.141593L0,3.141593L-10,3.141593L-10,-3.141593L-10,-3.141593L0,-3.141593L10,-3.141593L10,3.141593Z");
-//    test.deepEqual(projection.clipExtent(), [[-10, -10], [10, 10]]);
+//    test.deepEqual(projection.extentPostClip(), [[-10, -10], [10, 10]]);
 //    test.end();
 //});
 //
-//tape("transverseMercator.rotate(…) does not affect the automatic clip extent", function(test) {
+//tape("transverseMercator.rotate(…) does not affect the automatic postClip extent", function(test) {
 //    var projection = d3.geoTransverseMercator(), object = {
 //        type: "MultiPoint",
 //        coordinates: [

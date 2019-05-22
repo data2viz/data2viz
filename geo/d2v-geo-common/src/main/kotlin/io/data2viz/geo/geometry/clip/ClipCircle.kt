@@ -133,7 +133,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         geoCircle(stream, radius, delta, direction, from, to)
     }
 
-    // Intersects the great circle between a and b with the clip circle.
+    // Intersects the great circle between a and b with the postClip circle.
     private fun intersect(a: DoubleArray, b: DoubleArray): DoubleArray? {
         val pa = cartesian(a)
         val pb = cartesian(b)
