@@ -1,20 +1,6 @@
 package io.data2viz.geo.projection.common
 
 
-class ComposedProjectable(val a: Projectable, val b:Projectable): Projectable {
-    override fun projectLambda(lambda: Double, phi: Double): Double {
-        val aX = a.projectLambda(lambda, phi)
-        val aY = a.projectPhi(lambda, phi)
-        return b.projectLambda(aX, aY)
-    }
-
-    override fun projectPhi(lambda: Double, phi: Double): Double {
-        val aX = a.projectLambda(lambda, phi)
-        val aY = a.projectPhi(lambda, phi)
-        return b.projectPhi(aX, aY)
-    }
-
-}
 
 class ComposedProjector(val a: Projector, val b:Projector): Projector  {
     override fun projectLambda(lambda: Double, phi: Double): Double {

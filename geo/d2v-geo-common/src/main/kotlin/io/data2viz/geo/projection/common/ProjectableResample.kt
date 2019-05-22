@@ -10,13 +10,13 @@ import kotlin.math.*
 const val MAX_DEPTH = 16
 val COS_MIN_DISTANCE = cos(30.0.toRadians())
 
-fun resample(project: Projectable, delta2: Double) =
+fun resample(project: Projector, delta2: Double) =
     if (delta2 != .0) _resample(
         project,
         delta2
     ) else resampleNone(project)
 
-private fun resampleNone(project: Projectable): (Stream) -> Stream {
+private fun resampleNone(project: Projector): (Stream) -> Stream {
     return { stream: Stream ->
         object : DelegateStreamAdapter(stream) {
             override fun point(x: Double, y: Double, z: Double) {
@@ -27,7 +27,7 @@ private fun resampleNone(project: Projectable): (Stream) -> Stream {
 }
 
 
-private fun _resample(project: Projectable, delta2: Double): (Stream) -> Stream {
+private fun _resample(project: Projector, delta2: Double): (Stream) -> Stream {
     return { stream: Stream -> ReSampledStream(stream, project, delta2) }
 }
 
@@ -151,7 +151,7 @@ object RingLineEndFunction :
 }
 
 
-class ReSampledStream(val stream: Stream, val project: Projectable, val delta2: Double) :
+class ReSampledStream(val stream: Stream, val project: Projector, val delta2: Double) :
     Stream {
 
     // First point

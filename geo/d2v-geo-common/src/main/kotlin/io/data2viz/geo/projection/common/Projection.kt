@@ -6,10 +6,11 @@ import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
 
+
 /**
- * Project a single Geo point (lon, lat)
+ * Todo document
  */
-interface Projectable {
+interface Projector {
 
     /**
      * Project a stream point
@@ -33,12 +34,7 @@ interface Projectable {
      * see project(lambda: Double, phi: Double)
      */
     fun projectPhi(lambda: Double, phi: Double): Double
-}
 
-/**
- * Todo document
- */
-interface Invertable {
     /**
      * Returns a new array [longitude, latitude] in degrees representing the unprojected point of the given projected point.
      * The point must be specified as a two-element array [x, y] (typically in pixels).
@@ -46,12 +42,6 @@ interface Invertable {
      * May return null if the specified point has no defined projected position, such as when the point is outside the clipping bounds of the projection.
      */
     fun invert(lambda: Double, phi: Double): DoubleArray
-}
-
-/**
- * Todo document
- */
-interface Projector : Projectable, Invertable {
 
 }
 
@@ -60,7 +50,7 @@ interface Projector : Projectable, Invertable {
 /**
  * Todo document
  */
-interface Projection : Projectable, Invertable {
+interface Projection : Projector {
     /**
      * The scale factor corresponds linearly to the distance between projected points;
      * however, absolute scale factors are not equivalent across projections.

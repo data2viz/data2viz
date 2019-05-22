@@ -12,13 +12,12 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.sqrt
 
-fun projection(projection: Projectable, init: ProjectableProjection.() -> Unit) = ProjectableProjection(
+fun projection(projection: Projector, init: ProjectableProjection.() -> Unit) = ProjectableProjection(
     projection
 ).apply(init)
 
 
-
-open class ProjectableProjection(val projection: Projectable) : CachedProjection() {
+open class ProjectableProjection(val projection: Projector) : CachedProjection() {
 
 
     private val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()
@@ -137,9 +136,9 @@ open class ProjectableProjection(val projection: Projectable) : CachedProjection
             recenter()
         }
 
-    protected lateinit var projectRotate: Projectable
+    protected lateinit var projectRotate: Projector
 
-    protected val projectTransform: Projectable = createProjectTransform()
+    protected val projectTransform: Projector = createProjectTransform()
 
 
     // Precision
@@ -161,7 +160,7 @@ open class ProjectableProjection(val projection: Projectable) : CachedProjection
         }
     }
 
-    private fun transformRotate(rotate: Projectable): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
+    private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
         object : DelegateStreamAdapter(stream) {
             override fun point(x: Double, y: Double, z: Double) {
                 stream.point(rotate.projectLambda(x, y), rotate.projectPhi(x, y), 0.0)
@@ -171,9 +170,9 @@ open class ProjectableProjection(val projection: Projectable) : CachedProjection
 
 
     override fun invert(lambda: Double, phi: Double): DoubleArray {
-        require(projectRotate is Invertable, { "This projection is not invertable." })
 
-        val p = (projectRotate as Invertable).invert((lambda - dx) / k, (dy - phi) / k)
+
+        val p = (projectRotate).invert((lambda - dx) / k, (dy - phi) / k)
         return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
     }
 
@@ -182,8 +181,12 @@ open class ProjectableProjection(val projection: Projectable) : CachedProjection
         return transformRadians(transformRotate(rotator)(preClip(projectResample(postClip(stream)))))
     }
 
-    fun createProjectTransform(): Projectable {
-        return object : Projectable {
+    fun createProjectTransform(): Projector {
+        return object : Projector {
+            override fun invert(lambda: Double, phi: Double): DoubleArray {
+                return projection.invert(lambda, phi)
+            }
+
             private fun internalProjectLambda(lambda: Double) =
                 lambda * k + dx
 
@@ -216,13 +219,7 @@ open class ProjectableProjection(val projection: Projectable) : CachedProjection
     fun recenter() {
         rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
 
-
-        if(projection is Projector) {
-            projectRotate = ComposedProjector(rotator, projection)
-        } else  {
-            projectRotate = ComposedProjectable(rotator, projection)
-        }
-
+        projectRotate = ComposedProjector(rotator, projection)
 
         dx = x - (projection.projectLambda(lambda, phi) * k)
         dy = y + (projection.projectPhi(lambda, phi) * k)

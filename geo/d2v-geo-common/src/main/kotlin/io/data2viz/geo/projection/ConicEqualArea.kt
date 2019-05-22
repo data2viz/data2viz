@@ -19,7 +19,7 @@ class ConicEqualAreaBaseConditionalProjector(
     private val cylindricalEqualAreaProjector: CylindricalEqualAreaProjector = CylindricalEqualAreaProjector(
         conicEqualAreaProjector.phi0
     )
-) : ConicProjectable, BaseConditionalProjector() {
+) : ConicProjector, BaseConditionalProjector() {
     override var phi0: Double
         get() = conicEqualAreaProjector.phi0
         set(value) {
@@ -40,7 +40,7 @@ class ConicEqualAreaBaseConditionalProjector(
 }
 
 
-class ConicEqualAreaProjector : ConicProjectable, Projector {
+class ConicEqualAreaProjector : ConicProjector, Projector {
 
     override var phi0: Double = 0.0
         set(value) {

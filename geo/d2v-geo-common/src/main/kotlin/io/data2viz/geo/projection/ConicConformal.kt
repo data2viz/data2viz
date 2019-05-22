@@ -23,7 +23,7 @@ fun tany(y: Double): Double {
 class ConicConformalBaseConditionalProjector(
     private val conicConformalProjector: ConicConformalProjector = ConicConformalProjector(),
     private val mercatorProjector: MercatorProjector = MercatorProjector()
-) : ConicProjectable, BaseConditionalProjector() {
+) : ConicProjector, BaseConditionalProjector() {
     override var phi0: Double
         get() = conicConformalProjector.phi0
         set(value) {
@@ -43,7 +43,7 @@ class ConicConformalBaseConditionalProjector(
         get() = conicConformalProjector.isPossibleToUseProjector
 }
 
-class ConicConformalProjector : ConicProjectable, Projector {
+class ConicConformalProjector : ConicProjector, Projector {
 
 
     override var phi0: Double = 0.0
