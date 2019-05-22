@@ -4,6 +4,7 @@ import io.data2viz.geo.geometry.clip.clipAntimeridian
 import io.data2viz.geo.geometry.clip.clipCircle
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
+import io.data2viz.geo.stream.StreamCache
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
@@ -13,22 +14,13 @@ import io.data2viz.math.toRadians
 import kotlin.math.sqrt
 
 
+
 /**
  * todo What is it?
  */
 abstract class BaseProjection() : Projection {
-    protected var cache: Stream? = null
-    protected var cacheStream: Stream? = null
 
-    // TODO Change
-    protected fun getCachedStream(stream: Stream): Stream? =
-        if (cache != null && cacheStream == stream) cache else null
-
-    // TODO Change
-    protected fun cache(stream1: Stream, stream2: Stream) {
-        cache = stream2
-        cacheStream = stream1
-    }
+    val streamCache = StreamCache()
 
     private val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()
     val noClip: (Stream) -> Stream = { it }
@@ -163,6 +155,10 @@ abstract class BaseProjection() : Projection {
             reset()
         }
 
+    fun reset() {
+        streamCache.reset()
+    }
+
 
     private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
         object : DelegateStreamAdapter(stream) {
@@ -191,13 +187,14 @@ abstract class BaseProjection() : Projection {
         return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
     }
 
-    override fun stream(stream: Stream): Stream {
-        var cachedStream = getCachedStream(stream)
-        if (cachedStream == null) {
-            cachedStream = fullCycleStream(stream)
-            cache(cachedStream, cachedStream)
+    override fun stream(originalStream: Stream): Stream {
+
+        if(!streamCache.isCacheValidFor(originalStream)) {
+            val resultStream = fullCycleStream(originalStream)
+            streamCache.cache(originalStream, resultStream)
         }
-        return cachedStream
+
+        return streamCache.cachedResultStream!!
     }
 
     open protected fun fullCycleStream(stream: Stream): Stream {
@@ -208,10 +205,7 @@ abstract class BaseProjection() : Projection {
 
     abstract override fun recenter()
 
-    fun reset() {
-        cache = null
-        cacheStream = null
-    }
+
 }
 
 
