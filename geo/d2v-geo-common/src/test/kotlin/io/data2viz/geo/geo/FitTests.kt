@@ -82,7 +82,7 @@ tape("projection.fitExtent(…) world azimuthalEquidistant", function(test) {
 });
 
 tape("projection.fitExtent(…) world conicConformal", function(test) {
-  var projection = d3.geoConicConformal().clipAngle(30).parallels([30, 60]).rotate([0, -45]);
+  var projection = d3.geoConicConformal().anglePreClip(30).parallels([30, 60]).rotate([0, -45]);
   projection.fitExtent([[50, 50], [950, 950]], world);
   test.inDelta(projection.scale(), 626.111017, 1e-6);
   test.inDelta(projection.translate(), [444.395872, 410.223792], 1e-6);
@@ -122,7 +122,7 @@ tape("projection.fitSize(…) world equirectangular", function(test) {
 });
 
 tape("projection.fitExtent(…) world gnomonic", function(test) {
-  var projection = d3.geoGnomonic().clipAngle(45);
+  var projection = d3.geoGnomonic().anglePreClip(45);
   projection.fitExtent([[50, 50], [950, 950]], world);
   test.inDelta(projection.scale(), 450.348236, 1e-6);
   test.inDelta(projection.translate(), [500.115152, 556.52294], 1e-6);
@@ -225,15 +225,15 @@ tape("projection.fitExtent(…) custom projection", function(test) {
   test.end();
 });
 
-tape("projection.fitSize(…) ignore clipExtent - world equirectangular", function(test) {
+tape("projection.fitSize(…) ignore extentPostClip - world equirectangular", function(test) {
   var p1 = d3.geoEquirectangular().fitSize([1000, 1000], world),
       s1 = p1.scale(),
       t1 = p1.translate(),
-      c1 = p1.clipExtent(),
-      p2 = d3.geoEquirectangular().clipExtent([[100, 200], [700, 600]]).fitSize([1000, 1000], world),
+      c1 = p1.extentPostClip(),
+      p2 = d3.geoEquirectangular().extentPostClip([[100, 200], [700, 600]]).fitSize([1000, 1000], world),
       s2 = p2.scale(),
       t2 = p2.translate(),
-      c2 = p2.clipExtent();
+      c2 = p2.extentPostClip();
   test.inDelta(s1, s2, 1e-6);
   test.inDelta(t1, t2, 1e-6);
   test.equal(c1, null);

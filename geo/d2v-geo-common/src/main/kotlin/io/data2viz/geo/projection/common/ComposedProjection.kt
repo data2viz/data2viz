@@ -1,5 +1,7 @@
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.geometry.clip.StreamPostClip
+import io.data2viz.geo.geometry.clip.StreamPreClip
 import io.data2viz.geo.stream.MultiplexStream
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.GeoJsonObject
@@ -18,18 +20,13 @@ abstract class ComposedProjection() : CachedProjection() {
     override var rotate: Array<Angle>
         get() = mainProjection.rotate
         set(value) = allProjections.forEach { it.rotate = value }
-    override var preClip: (Stream) -> Stream
+    override var preClip: StreamPreClip
         get() = mainProjection.preClip
         set(value) = allProjections.forEach { it.preClip = value }
-    override var postClip: (Stream) -> Stream
+    override var postClip: StreamPostClip
         get() = mainProjection.postClip
         set(value) = allProjections.forEach { it.postClip = value }
-    override var clipAngle: Double
-        get() = mainProjection.clipAngle
-        set(value) = allProjections.forEach { it.clipAngle = value }
-    override var clipExtent: Extent?
-        get() = mainProjection.clipExtent
-        set(value) = allProjections.forEach { it.clipExtent = value }
+
 
 
     override var precision: Double

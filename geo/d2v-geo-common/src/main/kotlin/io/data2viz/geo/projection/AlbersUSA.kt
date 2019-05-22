@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.ComposedProjection
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geom.Extent
@@ -82,10 +83,10 @@ class AlbersUSAProjection() : ComposedProjection() {
         val x = translateX
         val y = translateY
         lower48.translate(x, y)
-        lower48.clipExtent = Extent(x - 0.455 * k, y - 0.238 * k, x + 0.455 * k, y + 0.238 * k)
+        lower48.extentPostClip = Extent(x - 0.455 * k, y - 0.238 * k, x + 0.455 * k, y + 0.238 * k)
 
         alaska.translate(x - 0.307 * k, y + 0.201 * k)
-        alaska.clipExtent = Extent(
+        alaska.extentPostClip = Extent(
             x - 0.425 * k + EPSILON,
             y + 0.120 * k + EPSILON,
             x - 0.214 * k - EPSILON,
@@ -93,7 +94,7 @@ class AlbersUSAProjection() : ComposedProjection() {
         )
 
         hawaii.translate(x - 0.205 * k, y + 0.212 * k)
-        hawaii.clipExtent = Extent(
+        hawaii.extentPostClip = Extent(
             x - 0.214 * k + EPSILON,
             y + 0.166 * k + EPSILON,
             x - 0.115 * k - EPSILON,

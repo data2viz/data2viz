@@ -1,5 +1,6 @@
 package io.data2viz.geo.geojson
 
+import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geom.Extent
 import io.data2viz.geo.geometry.path.BoundsStream
@@ -46,16 +47,16 @@ fun fitExtent(projection: Projection, extent: Extent, geo: GeoJsonObject): Proje
 }
 
 private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJsonObject): Projection {
-    val clip = projection.clipExtent
+    val clip = projection.extentPostClip
 
     projection.scale = 150.0
     projection.translate(.0, .0)
-    if (clip != null) projection.clipExtent = null
+    if (clip != null) projection.extentPostClip = null
 
     val boundsStream = BoundsStream()
     geo.stream(projection.stream(boundsStream))
     fitBounds(boundsStream.result())
-    if (clip != null) projection.clipExtent = clip
+    if (clip != null) projection.extentPostClip = clip
 
     return projection
 }

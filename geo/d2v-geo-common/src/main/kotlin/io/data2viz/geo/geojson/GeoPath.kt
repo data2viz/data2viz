@@ -59,7 +59,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * Returns the projected planar centroid (typically in pixels) for the specified GeoJSON object.
      * This is handy for, say, labeling state or county boundaries, or displaying a symbol map.
      * For example, a noncontiguous cartogram might scale each state around its centroid.
-     * This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent.
+     * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoCentroid.
      */
     fun centroid(geo: GeoJsonObject): DoubleArray {
@@ -72,7 +72,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * Point, MultiPoint, LineString and MultiLineString geometries have zero area.
      * For Polygon and MultiPolygon geometries, this method first computes the area of the exterior ring, and then
      * subtracts the area of any interior holes.
-     * This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent.
+     * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoArea.
      */
     fun area(geo: GeoJsonObject): Double {
@@ -90,7 +90,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * This is handy for, say, zooming in to a particular feature.
      * (Note that in projected planar coordinates, the minimum latitude is typically the maximum y-value, and the
      * maximum latitude is typically the minimum y-value.)
-     * This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent.
+     * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoBounds.
      */
     fun bounds(geo: GeoJsonObject): Extent {
@@ -102,7 +102,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * Returns the projected planar length (typically in pixels) for the specified GeoJSON object.
      * Point and MultiPoint geometries have zero length.
      * For Polygon and MultiPolygon geometries, this method computes the summed length of all rings.
-     * This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent.
+     * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoLength.
      */
     fun measure(geo: GeoJsonObject): Double {

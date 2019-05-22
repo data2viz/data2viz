@@ -1,6 +1,5 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.geometry.clip.clipExtent
 import io.data2viz.geo.geometry.clip.clipRectangle
 import io.data2viz.geo.geojson.geoPath
 import io.data2viz.geojson.MultiPolygon

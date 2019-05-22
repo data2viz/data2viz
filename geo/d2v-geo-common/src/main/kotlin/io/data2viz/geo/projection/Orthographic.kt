@@ -1,7 +1,9 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.geometry.clip.anglePreClip
 import io.data2viz.geo.projection.common.*
 import io.data2viz.math.EPSILON
+import io.data2viz.math.deg
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sin
@@ -11,7 +13,7 @@ fun orthographicProjection() = orthographicProjection {}
 fun orthographicProjection(init: ProjectableProjection.() -> Unit) =
     projection(OrthographicProjector()) {
         scale = 249.5
-        clipAngle = 90 + EPSILON
+        anglePreClip = (90 + EPSILON).deg
         init()
     }
 
