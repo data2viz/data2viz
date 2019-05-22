@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.ConditionalProjector
-import io.data2viz.geo.ProjectableInvertable
+import io.data2viz.geo.Projector
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
@@ -35,15 +35,15 @@ class ConicConformalConditionalProjector(
             conicConformalProjector.phi1 = value
         }
 
-    override val baseProjector: ProjectableInvertable
+    override val baseProjector: Projector
         get() = mercatorProjector
-    override val nestedProjector: ProjectableInvertable
+    override val nestedProjector: Projector
         get() = conicConformalProjector
     override val isNeedUseBaseProjector: Boolean
         get() = conicConformalProjector.isPossibleToUseProjector
 }
 
-class ConicConformalProjector : ConicProjectable, ProjectableInvertable {
+class ConicConformalProjector : ConicProjectable, Projector {
 
 
     override var phi0: Double = 0.0

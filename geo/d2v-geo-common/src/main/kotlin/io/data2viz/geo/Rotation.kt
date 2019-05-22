@@ -6,10 +6,6 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
-/**
- * TODO: refactor
- */
-interface ProjectableInvertable : Projectable, Invertable
 
 
 private fun identityProjection(x: Double, y: Double) = doubleArrayOf(
@@ -26,7 +22,7 @@ private fun identityProjectionX(x: Double) = when {
 
 private fun identityProjectionY(y: Double) = y
 
-private fun rotationIdentity(): ProjectableInvertable = object : ProjectableInvertable {
+private fun rotationIdentity(): Projector = object : Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double = identityProjectionX(lambda)
     override fun projectPhi(lambda: Double, phi: Double): Double = identityProjectionY(phi)
 
@@ -34,7 +30,7 @@ private fun rotationIdentity(): ProjectableInvertable = object : ProjectableInve
     override fun invert(lambda: Double, phi: Double) = identityProjection(lambda, phi)
 }
 
-class RotationLambda(val deltaLambda: Double) : ProjectableInvertable {
+class RotationLambda(val deltaLambda: Double) : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         identityProjectionX(lambda + deltaLambda)
@@ -45,7 +41,7 @@ class RotationLambda(val deltaLambda: Double) : ProjectableInvertable {
     override fun invert(lambda: Double, phi: Double): DoubleArray = identityProjection(lambda - deltaLambda, phi)
 }
 
-class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvertable {
+class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
         val cosPhi = cos(phi)
@@ -96,20 +92,20 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : ProjectableInvert
     }
 }
 
-internal fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): ProjectableInvertable {
+internal fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Projector {
     val newDeltaLambda = deltaLambda % TAU
     return if (newDeltaLambda != .0) {
         if (deltaPhi != .0 || deltaGamma != .0) {
             compose(
                 RotationLambda(deltaLambda),
                 RotationPhiGamma(deltaPhi, deltaGamma)
-            ) as ProjectableInvertable
+            ) as Projector
         } else RotationLambda(deltaLambda)
     } else if (deltaPhi != .0 || deltaGamma != .0) RotationPhiGamma(deltaPhi, deltaGamma)
     else rotationIdentity()
 }
 
-internal fun rotation(rotate: Array<Angle>): ProjectableInvertable {
+internal fun rotation(rotate: Array<Angle>): Projector {
     val rotator =
         rotateRadians(
             rotate[0].rad,
@@ -117,7 +113,7 @@ internal fun rotation(rotate: Array<Angle>): ProjectableInvertable {
             if (rotate.size > 2) rotate[2].rad else 0.0
         )
 
-    return object : ProjectableInvertable {
+    return object : Projector {
 
         override fun projectLambda(lambda: Double, phi: Double): Double =
             rotator.projectLambda(lambda.toRadians(), phi.toRadians()).toDegrees()

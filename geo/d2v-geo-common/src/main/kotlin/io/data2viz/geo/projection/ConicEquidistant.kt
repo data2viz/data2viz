@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.ConditionalProjector
-import io.data2viz.geo.ProjectableInvertable
+import io.data2viz.geo.Projector
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
@@ -31,16 +31,16 @@ class ConicEquidistantConditionalProjector(
             conicEquidistantProjector.phi1 = value
         }
 
-    override val baseProjector: ProjectableInvertable
+    override val baseProjector: Projector
         get() = equirectangularProjector
-    override val nestedProjector: ProjectableInvertable
+    override val nestedProjector: Projector
         get() = conicEquidistantProjector
     override val isNeedUseBaseProjector: Boolean
         get() = conicEquidistantProjector.isPossibleToUseProjector
 
 }
 
-class ConicEquidistantProjector : ConicProjectable, ProjectableInvertable {
+class ConicEquidistantProjector : ConicProjectable, Projector {
 
     override var phi0: Double = 0.0
         set(value) {
