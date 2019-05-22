@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ComposedProjection
-import io.data2viz.geo.Projection
+import io.data2viz.geo.projection.common.ComposedProjection
+import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geom.Extent
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
@@ -20,6 +20,7 @@ fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit) = AlbersUSAProject
 //// parallels for each region comes from USGS, which is published here:
 //// http://egsc.usgs.gov/isb/pubs/MapProjections/projections.html#albers
 class AlbersUSAProjection() : ComposedProjection() {
+
 
     val lower48 = albersProjection()
     val alaska = conicEqualAreaProjection {

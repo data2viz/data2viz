@@ -1,25 +1,25 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ConditionalProjector
-import io.data2viz.geo.Projector
+import io.data2viz.geo.projection.common.BaseConditionalProjector
+import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
 
 fun conicEqualAreaProjection() = conicEqualAreaProjection {}
 
-fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEqualAreaConditionalProjector()) {
+fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicEqualAreaBaseConditionalProjector()) {
     scale = 155.424
     center = arrayOf(0.0.deg, 33.6442.deg)
     init()
 }
 
-class ConicEqualAreaConditionalProjector(
+class ConicEqualAreaBaseConditionalProjector(
     private val conicEqualAreaProjector: ConicEqualAreaProjector = ConicEqualAreaProjector(),
     private val cylindricalEqualAreaProjector: CylindricalEqualAreaProjector = CylindricalEqualAreaProjector(
         conicEqualAreaProjector.phi0
     )
-) : ConicProjectable, ConditionalProjector() {
+) : ConicProjectable, BaseConditionalProjector() {
     override var phi0: Double
         get() = conicEqualAreaProjector.phi0
         set(value) {

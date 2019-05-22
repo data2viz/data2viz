@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.Projector
+import io.data2viz.geo.projection.common.Projector
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sin

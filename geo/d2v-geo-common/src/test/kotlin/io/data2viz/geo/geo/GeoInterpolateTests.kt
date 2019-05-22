@@ -1,6 +1,6 @@
 package io.data2viz.geo.geo
 
-import io.data2viz.geo.stream.geoInterpolate
+import io.data2viz.geo.geojson.geoInterpolate
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -9,9 +9,9 @@ class GeoInterpolateTests : TestBase() {
     @Test
     fun geoInterpolate_a_a_returns_a() {
         geoInterpolate(
-        doubleArrayOf(140.63289, -29.95101),
-        doubleArrayOf(140.63289, -29.95101)
-    )(.5) shouldBeClose  doubleArrayOf(140.63289, -29.95101)
+            doubleArrayOf(140.63289, -29.95101),
+            doubleArrayOf(140.63289, -29.95101)
+        )(.5) shouldBeClose  doubleArrayOf(140.63289, -29.95101)
     }
 
     @Test
@@ -42,8 +42,8 @@ class GeoInterpolateTests : TestBase() {
             -32.33006949315247
         )
         geoInterpolate(
-        doubleArrayOf(-40.0, -30.0),
-        doubleArrayOf(20.0, -30.0)
-    )(.2) shouldBeClose doubleArrayOf(-28.31142884559023, -32.33006949315248)
+            doubleArrayOf(-40.0, -30.0),
+            doubleArrayOf(20.0, -30.0)
+        )(.2) shouldBeClose doubleArrayOf(-28.31142884559023, -32.33006949315248)
     }
 }

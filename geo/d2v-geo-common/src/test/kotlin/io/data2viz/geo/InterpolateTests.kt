@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.stream.geoInterpolate
+import io.data2viz.geo.geojson.geoInterpolate
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 

@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.MutableProjection
-import io.data2viz.geo.Projectable
+import io.data2viz.geo.projection.common.MutableProjection
+import io.data2viz.geo.projection.common.Projectable
 import io.data2viz.math.PI
 import io.data2viz.math.rad
 

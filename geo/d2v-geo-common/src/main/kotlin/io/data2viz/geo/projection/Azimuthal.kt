@@ -1,8 +1,8 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.Invertable
-import io.data2viz.geo.Projectable
-import io.data2viz.geo.asin
+import io.data2viz.geo.projection.common.Invertable
+import io.data2viz.geo.projection.common.Projectable
+import io.data2viz.geo.geometry.asin
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin

@@ -1,8 +1,8 @@
 package io.data2viz.geo.geo
 
 import io.data2viz.geo.projection.pt
-import io.data2viz.geo.stream.GeoCentroid
-import io.data2viz.geo.stream.Sphere
+import io.data2viz.geo.geojson.path.GeoCentroid
+import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.test.Test

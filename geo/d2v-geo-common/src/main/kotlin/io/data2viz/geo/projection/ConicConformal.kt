@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.ConditionalProjector
-import io.data2viz.geo.Projector
+import io.data2viz.geo.projection.common.BaseConditionalProjector
+import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
@@ -9,7 +9,7 @@ import kotlin.math.*
 
 fun conicConformalProjection() = conicConformalProjection {}
 
-fun conicConformalProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicConformalConditionalProjector()) {
+fun conicConformalProjection(init: ConicProjection.() -> Unit) = conicProjection(ConicConformalBaseConditionalProjector()) {
     scale = 109.5
     parallels = arrayOf(30.0.deg, 30.0.deg)
     init()
@@ -20,10 +20,10 @@ fun tany(y: Double): Double {
     return tan((HALFPI + y) / 2);
 }
 
-class ConicConformalConditionalProjector(
+class ConicConformalBaseConditionalProjector(
     private val conicConformalProjector: ConicConformalProjector = ConicConformalProjector(),
     private val mercatorProjector: MercatorProjector = MercatorProjector()
-) : ConicProjectable, ConditionalProjector() {
+) : ConicProjectable, BaseConditionalProjector() {
     override var phi0: Double
         get() = conicConformalProjector.phi0
         set(value) {

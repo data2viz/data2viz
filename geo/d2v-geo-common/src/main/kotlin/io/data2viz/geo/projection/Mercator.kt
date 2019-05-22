@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.*
+import io.data2viz.geo.projection.common.*
 import io.data2viz.geom.Extent
 import io.data2viz.math.HALFPI
 import io.data2viz.math.PI

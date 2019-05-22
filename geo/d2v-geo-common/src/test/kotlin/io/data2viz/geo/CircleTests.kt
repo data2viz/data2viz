@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
 
-import io.data2viz.geo.stream.GeoCircle
+import io.data2viz.geo.geojson.path.GeoCircle
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
