@@ -1,17 +1,10 @@
 package io.data2viz.geo.projection.common
 
 
-import io.data2viz.geo.geometry.clip.clipAntimeridian
-import io.data2viz.geo.geometry.clip.clipCircle
-import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
-import io.data2viz.math.rad
-import io.data2viz.math.toDegrees
-import io.data2viz.math.toRadians
-import kotlin.math.sqrt
 
 /**
  * Project a single Geo point (lon, lat)
@@ -189,7 +182,7 @@ interface Projection : Projectable, Invertable {
     fun recenter()
 }
 
-fun projection(projection: Projectable, init: MutableProjection.() -> Unit) = MutableProjection(
+fun projection(projection: Projectable, init: ProjectableProjection.() -> Unit) = ProjectableProjection(
     projection
 ).apply(init)
 

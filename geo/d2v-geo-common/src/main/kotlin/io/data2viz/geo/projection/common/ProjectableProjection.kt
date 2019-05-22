@@ -2,7 +2,7 @@ package io.data2viz.geo.projection.common
 
 import io.data2viz.math.toRadians
 
-open class MutableProjection(val projection: Projectable) : BaseProjection() {
+open class ProjectableProjection(val projection: Projectable) : BaseProjection() {
     override fun createProjectTransform(): Projectable {
         return object : Projectable {
             private fun internalProjectLambda(lambda: Double) =
