@@ -1,8 +1,8 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.MutableProjection
-import io.data2viz.geo.asin
-import io.data2viz.geo.projection
+import io.data2viz.geo.geometry.asin
+import io.data2viz.geo.projection.common.MutableProjection
+import io.data2viz.geo.projection.common.projection
 import kotlin.math.sqrt
 
 fun azimuthalEqualAreaProjection() = azimuthalEqualAreaProjection {}

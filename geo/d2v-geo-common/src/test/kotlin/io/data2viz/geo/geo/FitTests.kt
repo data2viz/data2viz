@@ -2,7 +2,7 @@ package io.data2viz.geo.geo
 
 import io.data2viz.geom.Extent
 import io.data2viz.geo.projection.equirectangularProjection
-import io.data2viz.geo.stream.Sphere
+import io.data2viz.geo.geojson.Sphere
 import io.data2viz.math.PI
 import io.data2viz.math.TAU
 import io.data2viz.test.TestBase

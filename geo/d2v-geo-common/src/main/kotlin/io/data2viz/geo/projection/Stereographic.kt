@@ -1,6 +1,9 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.*
+import io.data2viz.geo.projection.common.Invertable
+import io.data2viz.geo.projection.common.Projectable
+import io.data2viz.geo.projection.common.Projection
+import io.data2viz.geo.projection.common.projection
 import kotlin.math.atan
 import kotlin.math.cos
 import kotlin.math.sin
@@ -15,7 +18,8 @@ fun stereographicProjection(init: Projection.() -> Unit) =
         init()
     }
 
-class StereographicProjector : Projectable, Invertable {
+class StereographicProjector : Projectable,
+    Invertable {
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cy = cos(phi)
         val k = 1 + cos(lambda) * cy;

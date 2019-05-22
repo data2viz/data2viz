@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.stream.GeoBounds
+import io.data2viz.geo.geojson.path.GeoBounds
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
 import kotlin.test.Test
@@ -9,7 +9,8 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_feature() {
-        val result = GeoBounds().result(Feature(MultiPoint(arrayOf(pt(-123.0, 39.0), pt(-122.0, 38.0)))))
+        val result = GeoBounds()
+            .result(Feature(MultiPoint(arrayOf(pt(-123.0, 39.0), pt(-122.0, 38.0)))))
         doubleArrayOf(result.x0, result.y0) shouldBeClose doubleArrayOf(-123.0, 38.0)
         doubleArrayOf(result.x1, result.y1) shouldBeClose doubleArrayOf(-122.0, 39.0)
     }

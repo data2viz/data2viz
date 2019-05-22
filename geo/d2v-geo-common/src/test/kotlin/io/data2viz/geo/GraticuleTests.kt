@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geom.Extent
-import io.data2viz.geo.geoGraticule
+import io.data2viz.geo.geometry.geoGraticule
 import io.data2viz.math.EPSILON
 import io.data2viz.test.TestBase
 import kotlin.math.abs

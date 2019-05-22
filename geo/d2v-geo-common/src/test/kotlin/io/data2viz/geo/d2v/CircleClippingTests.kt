@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.clip.clipCircle
-import io.data2viz.geo.path.geoPath
+import io.data2viz.geo.geometry.clip.clipCircle
+import io.data2viz.geo.geojson.geoPath
 import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.svgPath

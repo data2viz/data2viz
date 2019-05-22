@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.rotation
+import io.data2viz.geo.projection.common.rotation
 import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
