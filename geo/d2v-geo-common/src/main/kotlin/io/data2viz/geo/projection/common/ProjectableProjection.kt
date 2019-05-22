@@ -12,6 +12,12 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.sqrt
 
+fun projection(projection: Projectable, init: ProjectableProjection.() -> Unit) = ProjectableProjection(
+    projection
+).apply(init)
+
+
+
 open class ProjectableProjection(val projection: Projectable) : CachedProjection() {
 
 
@@ -119,7 +125,7 @@ open class ProjectableProjection(val projection: Projectable) : CachedProjection
     protected var deltaLambda = 0.0
     protected var deltaPhi = 0.0
     protected var deltaGamma = 0.0
-    protected lateinit var rotator: Projectable
+    protected lateinit var rotator: Projector
 
 
     override var rotate: Array<Angle>
@@ -209,7 +215,14 @@ open class ProjectableProjection(val projection: Projectable) : CachedProjection
 
     fun recenter() {
         rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
-        projectRotate = compose(rotator, projection)
+
+
+        if(projection is Projector) {
+            projectRotate = ComposedProjector(rotator, projection)
+        } else  {
+            projectRotate = ComposedProjectable(rotator, projection)
+        }
+
 
         dx = x - (projection.projectLambda(lambda, phi) * k)
         dy = y + (projection.projectPhi(lambda, phi) * k)

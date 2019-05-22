@@ -51,7 +51,9 @@ interface Invertable {
 /**
  * Todo document
  */
-interface Projector : Projectable, Invertable
+interface Projector : Projectable, Invertable {
+
+}
 
 
 
@@ -177,8 +179,4 @@ interface Projection : Projectable, Invertable {
     fun fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection
 
 }
-
-fun projection(projection: Projectable, init: ProjectableProjection.() -> Unit) = ProjectableProjection(
-    projection
-).apply(init)
 
