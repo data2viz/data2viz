@@ -65,7 +65,7 @@ private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJso
 /**
  *
  * TODO: check
- * Sets the projection’s scale and translate to fit the specified GeoJSON object in the center of the given extent. The extent is specified as an array [[x₀, y₀], [x₁, y₁]], where x₀ is the left side of the bounding box, y₀ is the top, x₁ is the right and y₁ is the bottom. Returns the projection.
+ * Sets the projection’s scale and translate to fit the specified GeoJSON object in the center of the given extent. The extent is specified as an array [[translateX₀, translateY₀], [translateX₁, translateY₁]], where translateX₀ is the left side of the bounding box, translateY₀ is the top, translateX₁ is the right and translateY₁ is the bottom. Returns the projection.
 
 For example, to scale and translate the New Jersey State Plane projection to fit a GeoJSON object nj in the center of a 960×500 bounding box with 20 pixels of padding on each side:
 var projection = d3.geoTransverseMercator()

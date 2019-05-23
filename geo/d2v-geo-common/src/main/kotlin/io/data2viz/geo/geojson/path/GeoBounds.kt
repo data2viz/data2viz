@@ -24,8 +24,8 @@ import kotlin.math.abs
  *
  * All coordinates are given in degrees.
  *
- * (Note that in projected planar coordinates, the minimum latitude is typically the maximum y-value, and the
- * maximum latitude is typically the minimum y-value.)
+ * (Note that in projected planar coordinates, the minimum latitude is typically the maximum translateY-value, and the
+ * maximum latitude is typically the minimum translateY-value.)
  * This is the spherical equivalent of BoundsStream.
  */
 class GeoBounds : Stream {
@@ -148,8 +148,8 @@ class GeoBounds : Stream {
     }
 
     private fun linePoint(x: Double, y: Double) {
-//        val lambda = x.toRadians()
-//        val phi = y.toRadians()
+//        val lambda = translateX.toRadians()
+//        val phi = translateY.toRadians()
         val p = cartesian(doubleArrayOf(x.toRadians(), y.toRadians()))
 
         if (p0 != null) {

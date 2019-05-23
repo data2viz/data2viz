@@ -15,13 +15,13 @@ fun transverseMercatorProjection() = transverseMercatorProjection {}
 
 fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) = TransverseMercatorProjection().also {
 
-    it.rotate = arrayOf(0.deg, 0.deg, 90.deg)
+    it.rotate(0.deg, 0.deg, 90.deg)
     it.scale = 159.155
 }.also(init)
 
 class TransverseMercatorProjector() : Projector {
 
-    override fun invertLambda(lambda: Double, phi: Double): Double  = -phi
+    override fun invertLambda(lambda: Double, phi: Double): Double = -phi
 
     override fun invertPhi(lambda: Double, phi: Double): Double = 2 * atan(exp(lambda)) - HALFPI
 
@@ -32,40 +32,70 @@ class TransverseMercatorProjector() : Projector {
 
 class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProjector()) {
 
-
-    override var center: Array<Angle>
-        get() {
-            val it = super.center
-            val t = it[0]
-            it[0] = it[1]
-            it[1] = -t
-            return it
-        }
+    override var centerLat: Angle
+        get() = super.centerLon
         set(value) {
-            val it = value
-            val t = it[0]
-            it[0] = -it[1]
-            it[1] = t
-            super.center = it
+            super.centerLon = value
         }
-
-    override var rotate: Array<Angle>
-        get() {
-
-            val original = super.rotate
-            return if (original.size > 2) {
-                arrayOf(original[0], original[1], original[2] - (90.0).deg)
-            } else {
-
-                arrayOf(original[0], original[1], (-90.0).deg)
-            }
-        }
+    override var centerLon: Angle
+        get() = -super.centerLat
         set(value) {
-            val original = value
-            super.rotate = if (original.size > 2) {
-                arrayOf(original[0], original[1], original[2] + 90.0.deg)
-            } else {
-                arrayOf(original[0], original[1], (+90.0).deg)
-            }
+            super.centerLat = -value
         }
+
+    override fun center(lat: Angle, lon: Angle) {
+        super.center(-lon, lat)
+    }
+
+    override var rotateGamma: Angle
+        get() = super.rotateGamma - 90.0.deg
+        set(value) {
+            super.rotateGamma = value + 90.0.deg
+        }
+
+    override fun rotate(lambda: Angle, phi: Angle, gamma: Angle?) {
+        if (gamma != null) {
+            super.rotate(lambda, phi, gamma + 90.0.deg)
+
+        } else {
+            super.rotate(lambda, phi, 90.0.deg)
+
+        }
+    }
+//
+//    override var center: Array<Angle>
+//        get() {
+//            val it = super.center
+//            val t = it[0]
+//            it[0] = it[1]
+//            it[1] = -t
+//            return it
+//        }
+//        set(value) {
+//            val it = value
+//            val t = it[0]
+//            it[0] = -it[1]
+//            it[1] = t
+//            super.center = it
+//        }
+//
+//    override var rotate: Array<Angle>
+//        get() {
+//
+//            val original = super.rotate
+//            return if (original.size > 2) {
+//                arrayOf(original[0], original[1], original[2] - (90.0).deg)
+//            } else {
+//
+//                arrayOf(original[0], original[1], (-90.0).deg)
+//            }
+//        }
+//        set(value) {
+//            val original = value
+//            super.rotate = if (original.size > 2) {
+//                arrayOf(original[0], original[1], original[2] + 90.0.deg)
+//            } else {
+//                arrayOf(original[0], original[1], (+90.0).deg)
+//            }
+//        }
 }

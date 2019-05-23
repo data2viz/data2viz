@@ -241,7 +241,7 @@ class GeoAreaTests : TestBase() {
     /*
 function stripes(a, b) {
   return {type: "Polygon", coordinates: [a, b].map(function(d, i) {
-    var stripe = array.range(-180, 180, 0.1).map(function(x) { return [x, d]; });
+    var stripe = array.range(-180, 180, 0.1).map(function(translateX) { return [translateX, d]; });
     stripe.push(stripe[0]);
     return i ? stripe.reverse() : stripe;
   })};

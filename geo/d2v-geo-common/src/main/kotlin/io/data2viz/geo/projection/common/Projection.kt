@@ -50,13 +50,13 @@ interface Projector {
     fun invertPhi(lambda: Double, phi: Double): Double =
         invertError()
 
-    private fun invertError():Double {
+    private fun invertError(): Double {
         error("$this don't support invert operation")
     }
-    
+
     /**
      * Returns a new array [longitude, latitude] in degrees representing the unprojected point of the given projected point.
-     * The point must be specified as a two-element array [x, y] (typically in pixels).
+     * The point must be specified as a two-element array [translateX, translateY] (typically in pixels).
      * Todo document
      * May return null if the specified point has no defined projected position, such as when the point is outside the clipping bounds of the projection.
      */
@@ -66,7 +66,6 @@ interface Projector {
     )
 
 }
-
 
 
 /**
@@ -83,30 +82,26 @@ interface Projection : Projector {
      ** TODO: check with translate
      * Determines the pixel coordinates of the projection’s center by X axys
      */
-    var x: Double
+    var translateX: Double
     /**
      ** TODO: check with translate
      * Determines the pixel coordinates of the projection’s center by Y axys
      */
-    var y: Double
+    var translateY: Double
 
-    /**
-     * a two-element array of longitude and latitude in degrees
-     */
-    var center: Array<Angle>
+
+    var centerLat: Angle
+    var centerLon: Angle
     /**
      * The threshold for the projection’s adaptive resampling pixels.
      * This value corresponds to the Douglas–Peucker distance.
      * Defaults to √0.5 ≅ 0.70710…
      */
     var precision: Double
-    /**
-     * The projection’s three-axis spherical rotation to
-     * the specified angles, which must be a two- or three-element array of numbers [lambda, phi, gamma]
-     * specifying the rotation angles in degrees about each spherical axis
-     * (these correspond to yaw, pitch and roll).
-     */
-    var rotate: Array<Angle>
+
+    var rotateLambda: Angle
+    var rotatePhi: Angle
+    var rotateGamma: Angle
 
     /**
      * TODO: check
@@ -119,8 +114,6 @@ interface Projection : Projector {
      * If postclip is specified, sets the projection’s cartesian clipping to the specified function and returns the projection. If postclip is not specified, returns the current cartesian clipping function (see postclip).
      */
     var postClip: StreamPostClip
-
-
 
 
     /**
@@ -139,10 +132,23 @@ interface Projection : Projector {
      * TODO: check
      * The translation offset determines the pixel coordinates of the projection’s center.
      * The default translation offset places ⟨0°,0°⟩ at the center of a 960×500 area.
-     * It is equivalent for x = 0 & y = 0 but with better performance
+     * It is equivalent for translateX = 0 & translateY = 0 but with better performance
      */
     fun translate(x: Double, y: Double)
 
+
+    /**
+     * a two-element array of longitude and latitude in degrees
+     */
+    fun center(lat: Angle, lon: Angle)
+
+    /**
+     * The projection’s three-axis spherical rotation to
+     * the specified angles, which must be a two- or three-element array of numbers [lambda, phi, gamma]
+     * specifying the rotation angles in degrees about each spherical axis
+     * (these correspond to yaw, pitch and roll).
+     */
+    fun rotate(lambda: Angle, phi: Angle, gamma: Angle? = null)
 
 
 }

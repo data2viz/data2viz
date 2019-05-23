@@ -54,14 +54,14 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 
 
     val projection = allProjections[projectionName]!!
-    projection.x = vizWidth / 2.0
-    projection.y = vizHeight / 2.0
+    projection.translateX = vizWidth / 2.0
+    projection.translateY = vizHeight / 2.0
 
 
     return viz {
         width = vizWidth
         height = vizHeight
-        
+
         val geoPathNode = GeoPathNode().apply {
             stroke = Colors.Web.black
             strokeWidth = 1.0
@@ -97,7 +97,8 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 
 
         if (isNeedRotate) {
-            geoPathNode.rotateByAngles(arrayOf(0.0.deg, 0.0.deg, 0.0.deg))
+            geoPathNode.geoProjection.rotate(0.0.deg, 0.0.deg, 0.0.deg)
+            geoPathNode.redrawPath()
         }
 
         animation { now: Double ->
@@ -132,7 +133,6 @@ private fun rotateByTime(
 ) {
 
     val projection = geoPathNode.geoProjection
-    val rotate = projection.rotate
 
 
     val unixTime = Date().getTime()
@@ -142,19 +142,11 @@ private fun rotateByTime(
     val minute = 1000 * 60
     val ratio = (unixTime % minute) / minute
     val angle = ratio * 360 * fullRotationCyclesPerMinute % 360
-    // Rotate only x axys
-    rotate[0] = angle.deg
-
-    geoPathNode.rotateByAngles(rotate)
+    // Rotate only X axys
+    projection.rotateLambda = angle.deg
+    geoPathNode.redrawPath()
 }
 
-private fun GeoPathNode.rotateByAngles(
-
-    angles: Array<Angle>
-) {
-    geoProjection.rotate = angles
-    redrawPath()
-}
 
 object FPS {
     val averageCount = 10

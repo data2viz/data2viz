@@ -12,7 +12,7 @@ fun conicConformalProjection() = conicConformalProjection {}
 fun conicConformalProjection(init: ConicProjection.() -> Unit) =
     conicProjection(ConicConformalBaseConditionalProjector()) {
         scale = 109.5
-        parallels = arrayOf(30.0.deg, 30.0.deg)
+        parallels(30.0.deg, 30.0.deg)
         init()
     }
 

@@ -5,6 +5,7 @@ import io.data2viz.geo.geometry.clip.StreamPostClip
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.*
 import io.data2viz.geom.Extent
+import io.data2viz.math.Angle
 import io.data2viz.math.HALFPI
 import io.data2viz.math.PI
 import io.data2viz.math.TAU
@@ -46,16 +47,16 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
             reclip()
         }
 
-    override var x: Double
-        get() = super.x
+    override var translateX: Double
+        get() = super.translateX
         set(value) {
-            super.x = value
+            super.translateX = value
             reclip()
         }
-    override var y: Double
-        get() = super.y
+    override var translateY: Double
+        get() = super.translateY
         set(value) {
-            super.y = value
+            super.translateY = value
             reclip()
         }
 
@@ -64,13 +65,23 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
         reclip()
     }
 
-
-    override var center
-        get() = super.center
+    override var centerLat: Angle
+        get() = super.centerLat
         set(value) {
-            super.center = value
+            super.centerLat = value
             reclip()
         }
+    override var centerLon: Angle
+        get() = super.centerLon
+        set(value) {
+            super.centerLon = value
+            reclip()
+        }
+
+    override fun center(lat: Angle, lon: Angle) {
+        super.center(lat, lon)
+        reclip()
+    }
 
     override var postClip: StreamPostClip
         get() = super.postClip
@@ -92,7 +103,7 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
     // TODO check tests still some issues with extentPostClip
     private fun reclip() {
         val k = PI * scale
-        val invert = rotation(rotate).invert(.0, .0)
+        val invert = rotation(rotateLambda, rotatePhi, rotateGamma).invert(.0, .0)
 
         val lambda = invert[0]
         val phi = invert[1]

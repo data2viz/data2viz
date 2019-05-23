@@ -47,9 +47,9 @@ interface LineEndFunction {
 
 object DefaultPointFunction : PointFunction {
     override fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double) {
-//            val p = reSampledStream.project.project(x, y)
+//            val p = reSampledStream.project.project(translateX, translateY)
 //            reSampledStream.stream.point(p[0], p[1], 0.0)
-//            val p = reSampledStream.project.project(x, y)
+//            val p = reSampledStream.project.project(translateX, translateY)
         reSampledStream.stream.point(
             reSampledStream.project.projectLambda(x, y),
             reSampledStream.project.projectPhi(x, y),
