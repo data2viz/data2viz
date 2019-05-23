@@ -21,6 +21,9 @@ fun tany(y: Double): Double {
     return tan((HALFPI + y) / 2);
 }
 
+/**
+ * The conic conformal projection. The parallels default to [30°, 30°] resulting in flat top. See also conic.parallels.
+ */
 class ConicConformalBaseConditionalProjector(
     private val conicConformalProjector: ConicConformalProjector = ConicConformalProjector(),
     private val mercatorProjector: MercatorProjector = MercatorProjector()

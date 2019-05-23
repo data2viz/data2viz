@@ -36,6 +36,9 @@ class MercatorProjector : Projector {
 
 }
 
+/**
+ * The spherical Mercator projection. Defines a default projection.clipExtent such that the world is projected to a square, clipped to approximately ±85° latitude.
+ */
 open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectorProjection(projector) {
 
     private var innerExtent: Extent? = null

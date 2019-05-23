@@ -21,6 +21,9 @@ fun equalEarthProjection(init: Projection.() -> Unit) =
         init()
     }
 
+/**
+ * The Equal Earth projection, by Bojan Šavrič et al., 2018.
+ */
 class EqualEarthProjector : Projector {
     override fun project(lambda: Double, phi: Double): DoubleArray {
         var l = l(phi)

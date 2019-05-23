@@ -15,6 +15,9 @@ fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) =
         init()
     }
 
+/**
+ * The Albers’ equal-area conic projection. See also conic.parallels.
+ */
 class ConicEqualAreaBaseConditionalProjector(
     private val conicEqualAreaProjector: ConicEqualAreaProjector = ConicEqualAreaProjector(),
     private val cylindricalEqualAreaProjector: CylindricalEqualAreaProjector = CylindricalEqualAreaProjector(

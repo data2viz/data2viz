@@ -15,6 +15,9 @@ fun naturalEarthProjection(init: Projection.() -> Unit) =
         init()
     }
 
+/**
+ * The Natural Earth http://www.shadedrelief.com/NE_proj/ projection is a pseudocylindrical projection designed by Tom Patterson. It is neither conformal nor equal-area, but appealing to the eye for small-scale maps of the whole world.
+ */
 class NaturalEarthProjection : Projector {
 
 

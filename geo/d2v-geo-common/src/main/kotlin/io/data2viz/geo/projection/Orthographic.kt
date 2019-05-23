@@ -17,6 +17,9 @@ fun orthographicProjection(init: ProjectorProjection.() -> Unit) =
         init()
     }
 
+/**
+ * The orthographic projection.
+ */
 class OrthographicProjector : Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double = cos(phi) * sin(lambda)
 

@@ -19,4 +19,7 @@ fun azimuthalEqualAreaProjection(init: ProjectorProjection.() -> Unit) =
 private val scale: (Double) -> Double = { cxcy -> sqrt(2 / (1 + cxcy)) }
 private val angle: (Double) -> Double = { z -> 2 * (z / 2).asin }
 
+/**
+ * The azimuthal equal-area projection.
+ */
 class AzimuthalEqualArea: AzimuthalProjector(scale, angle)

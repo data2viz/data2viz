@@ -15,11 +15,17 @@ interface ConicProjector : Projector {
     var phi1: Double
 }
 
+/**
+ * Conic projections project the sphere onto a cone, and then unroll the cone onto the plane. Conic projections have two standard parallels.
+ */
 class ConicProjection(val conicProjector: ConicProjector) : ProjectorProjection(conicProjector) {
     var phi0: Double = 0.0
     var phi1: Double = PI / 3.0
 
 
+    /**
+     * The two standard parallels that define the map layout in conic projections.
+     */
     fun parallels(min:Angle, max:Angle) {
         parallelsMin = min
         parallelsMax = max

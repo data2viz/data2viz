@@ -22,4 +22,7 @@ private val scale = { cxcy: Double ->
 }
 private val angle: (Double) -> Double = { z -> z }
 
+/**
+ * The azimuthal equidistant projection.
+ */
 class AzimuthalEquidistantProjection : AzimuthalProjector(scale, angle)
