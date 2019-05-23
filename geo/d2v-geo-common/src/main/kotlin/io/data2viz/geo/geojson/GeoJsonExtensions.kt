@@ -5,6 +5,7 @@ import io.data2viz.geo.geojson.path.geoDistance
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.*
 import io.data2viz.math.EPSILON
+import io.data2viz.math.toRadians
 
 
 class Sphere : Geometry
@@ -51,8 +52,6 @@ private fun Positions.contains(point: Position): Boolean {
 
 private fun Position.contains(point: Position): Boolean = geoDistance(this, point) == .0
 
-
-//Cleaner API for GeoJson. Todo: improve GeoJson API
 
 val io.data2viz.geojson.Point.pos: Position
     get() = coordinates
@@ -127,4 +126,8 @@ private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
         stream.point(p[0], p[1], if (p.size > 2) p[2] else .0)
     }
     stream.lineEnd()
+}
+
+fun toRadians(array: Position): DoubleArray {
+    return array.map { it.toRadians() }.toDoubleArray()
 }
