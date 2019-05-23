@@ -6,6 +6,30 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
+/**
+ * TODO: docs
+ */
+class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null): Projector {
+
+    val rotator =
+        createRotateRadiansProjector(
+            lambda.rad,
+            phi.rad,
+            gamma?.rad ?: 0.0
+        )
+
+    override fun projectLambda(lambda: Double, phi: Double): Double =
+        rotator.projectLambda(lambda.toRadians(), phi.toRadians()).toDegrees()
+
+    override fun projectPhi(lambda: Double, phi: Double): Double =
+        rotator.projectPhi(lambda.toRadians(), phi.toRadians()).toDegrees()
+
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+        val p = rotator.invert(lambda.toRadians(), phi.toRadians())
+        return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
+    }
+}
+
 
 private fun identityProjection(x: Double, y: Double) = doubleArrayOf(
     identityProjectionX(x),
@@ -21,8 +45,7 @@ private fun identityProjectionX(x: Double) = when {
 
 private fun identityProjectionY(y: Double) = y
 
-private fun rotationIdentity(): Projector = object :
-    Projector {
+object IdentityRotationProjector: Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double =
         identityProjectionX(lambda)
 
@@ -32,7 +55,8 @@ private fun rotationIdentity(): Projector = object :
     override fun invert(lambda: Double, phi: Double) = identityProjection(lambda, phi)
 }
 
-class RotationLambda(val deltaLambda: Double) : Projector {
+
+class RotationLambdaProjector(val deltaLambda: Double) : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         identityProjectionX(lambda + deltaLambda)
@@ -44,7 +68,7 @@ class RotationLambda(val deltaLambda: Double) : Projector {
         identityProjection(lambda - deltaLambda, phi)
 }
 
-class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : Projector {
+class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
         val cosPhi = cos(phi)
@@ -85,41 +109,23 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : Projector {
     }
 }
 
-internal fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Projector {
+internal fun createRotateRadiansProjector(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Projector {
     val newDeltaLambda = deltaLambda % TAU
-    return if (newDeltaLambda != .0) {
-        if (deltaPhi != .0 || deltaGamma != .0) {
-            ComposedProjector(
-                RotationLambda(deltaLambda),
-                RotationPhiGamma(deltaPhi, deltaGamma)
-            )
-        } else RotationLambda(deltaLambda)
-    } else if (deltaPhi != .0 || deltaGamma != .0) RotationPhiGamma(
-        deltaPhi,
-        deltaGamma
-    )
-    else rotationIdentity()
-}
-
-internal fun rotation(lambda: Angle, phi: Angle, gamma: Angle? = null): Projector {
-    val rotator =
-        rotateRadians(
-            lambda.rad,
-            phi.rad,
-            gamma?.rad ?: 0.0
-        )
-
-    return object : Projector {
-
-        override fun projectLambda(lambda: Double, phi: Double): Double =
-            rotator.projectLambda(lambda.toRadians(), phi.toRadians()).toDegrees()
-
-        override fun projectPhi(lambda: Double, phi: Double): Double =
-            rotator.projectPhi(lambda.toRadians(), phi.toRadians()).toDegrees()
-
-        override fun invert(lambda: Double, phi: Double): DoubleArray {
-            val p = rotator.invert(lambda.toRadians(), phi.toRadians())
-            return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
+    val atLeastOneSecondaryAngleIsZero = deltaPhi != .0 || deltaGamma != .0
+    return when {
+        newDeltaLambda != .0 -> {
+            if (atLeastOneSecondaryAngleIsZero) {
+                ComposedProjector(
+                    RotationLambdaProjector(deltaLambda),
+                    RotationPhiGammaProjector(deltaPhi, deltaGamma)
+                )
+            } else RotationLambdaProjector(deltaLambda)
         }
+        atLeastOneSecondaryAngleIsZero -> RotationPhiGammaProjector(
+            deltaPhi,
+            deltaGamma
+        )
+        else -> IdentityRotationProjector
     }
 }
+

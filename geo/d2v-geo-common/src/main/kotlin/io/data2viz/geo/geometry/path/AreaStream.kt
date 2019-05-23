@@ -7,6 +7,9 @@ import kotlin.math.abs
 
 
 // TODO : check for use of D3 "adder"
+/**
+ * TODO: docs
+ */
 internal class AreaStream : Stream {
 
     private var areaSum = .0

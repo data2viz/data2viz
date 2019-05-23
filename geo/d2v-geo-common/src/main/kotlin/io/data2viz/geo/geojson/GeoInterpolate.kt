@@ -33,11 +33,15 @@ class GeoInterpolate(
     }
 }
 
-fun haversin(x: Double): Double {
+private fun haversin(x: Double): Double {
     val y = sin(x / 2)
     return y * y
 }
 
+/**
+ * TODO: check
+ * Returns an interpolator function given two points a and b. Each point must be specified as a two-element array [longitude, latitude] in degrees. The returned interpolator function takes a single argument t, where t is a number ranging from 0 to 1; a value of 0 returns the point a, while a value of 1 returns the point b. Intermediate values interpolate from a to b along the great arc that passes through both a and b. If a and b are antipodes, an arbitrary great arc is chosen.
+ */
 fun geoInterpolate(a: DoubleArray, b: DoubleArray): GeoInterpolate {
     val x0 = a[0].toRadians()
     val y0 = a[1].toRadians()

@@ -1,4 +1,4 @@
-package io.data2viz.geo
+package io.data2viz.geo.geojson.path
 
 
 //var tape = require("tape"),

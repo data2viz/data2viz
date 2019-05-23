@@ -1,6 +1,5 @@
-package io.data2viz.geo.geo
+package io.data2viz.geo.geojson.path
 
-import io.data2viz.geo.geojson.path.GeoCircle
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 

@@ -3,6 +3,9 @@ package io.data2viz.geo.geometry.path
 import io.data2viz.geom.Extent
 import io.data2viz.geo.stream.Stream
 
+/**
+ * TODO: docs
+ */
 internal class BoundsStream : Stream {
 
     private var bounds =

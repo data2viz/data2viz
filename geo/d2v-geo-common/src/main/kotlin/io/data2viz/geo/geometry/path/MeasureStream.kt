@@ -5,6 +5,9 @@ import io.data2viz.geo.stream.Stream
 import kotlin.math.sqrt
 
 // TODO : check for use of D3 "adder"
+/**
+ * TODO: docs
+ */
 internal class MeasureStream : Stream {
 
     private var lengthSum = .0

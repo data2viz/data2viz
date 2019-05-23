@@ -1,4 +1,4 @@
-package io.data2viz.geo
+package io.data2viz.geo.stream
 
 //var tape = require("tape"),
 //d3 = require("../");

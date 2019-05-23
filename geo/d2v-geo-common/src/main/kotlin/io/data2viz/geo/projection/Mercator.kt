@@ -85,7 +85,7 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
     // TODO Implement different extentPostClip to pass null tests
     private fun reclip() {
         val k = PI * scale
-        val invert = rotation(rotateLambda, rotatePhi, rotateGamma).invert(.0, .0)
+        val invert = RotationProjector(rotateLambda, rotatePhi, rotateGamma).invert(.0, .0)
 
         val lambda = invert[0]
         val phi = invert[1]
