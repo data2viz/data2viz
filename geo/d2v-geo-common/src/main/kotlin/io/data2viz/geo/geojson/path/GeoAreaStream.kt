@@ -12,6 +12,8 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
+fun geoArea(geo: GeoJsonObject) = GeoAreaStream().result(geo)
+
 /**
  * Returns the spherical area of the specified GeoJSON object in steradians.
  * This is the spherical equivalent of AreaStream.

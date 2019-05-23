@@ -9,7 +9,9 @@ import io.data2viz.math.EPSILON
 import kotlin.math.abs
 import kotlin.math.ceil
 
-// TODO : use Extent
+
+// TODO fun geoGraticule10() {
+
 fun geoGraticule() = geoGraticule {}
 
 fun geoGraticule(init: Graticule.() -> Unit): Graticule {
@@ -55,7 +57,7 @@ class Graticule {
     private lateinit var majorX: (Double) -> List<DoubleArray>
     private lateinit var majorY: (Double) -> List<DoubleArray>
 
-    // TODO fun geoGraticule10() {
+
 
     /**
      * The precision for this graticule, in degrees which defaults to 2.5°.
@@ -152,12 +154,12 @@ class Graticule {
      * meridians and parallels defining its extent.
      */
     fun outline(): Polygon {
-        val coords = majorX(majorExtent.x0).toMutableList()
-        coords += majorY(majorExtent.y1).subList(1, majorY(majorExtent.y1).lastIndex)
-        coords += majorX(majorExtent.x1).asReversed().subList(1, majorX(majorExtent.x1).lastIndex)
-        coords += majorY(majorExtent.y0).asReversed().subList(1, majorY(majorExtent.y0).lastIndex)
+        val coordinates = majorX(majorExtent.x0).toMutableList()
+        coordinates += majorY(majorExtent.y1).subList(1, majorY(majorExtent.y1).lastIndex)
+        coordinates += majorX(majorExtent.x1).asReversed().subList(1, majorX(majorExtent.x1).lastIndex)
+        coordinates += majorY(majorExtent.y0).asReversed().subList(1, majorY(majorExtent.y0).lastIndex)
 
-        return Polygon(arrayOf(coords.map { arrayOf(it[0], it[1]) }.toTypedArray()))
+        return Polygon(arrayOf(coordinates.map { arrayOf(it[0], it[1]) }.toTypedArray()))
     }
 
     private fun buildLines(): List<List<DoubleArray>> {

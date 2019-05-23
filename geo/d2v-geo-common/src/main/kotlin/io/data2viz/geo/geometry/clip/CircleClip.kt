@@ -11,7 +11,6 @@ import kotlin.math.cos
 import kotlin.math.sqrt
 
 
-//fun clipCircle(radius: Double) = { stream: Stream -> Clip(ClipCircle(radius), stream) }
 
 class CirclePreClip(val radius: Double): StreamPreClip {
     override fun preClip(stream: Stream): Stream {

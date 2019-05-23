@@ -20,7 +20,13 @@ fun geoDistance(from: Position, to: Position): Double {
     return GeoLength().result(line)
 }
 
-// TODO : fun geoLength(geo) = GeoLength().result(geo) and generalizes to all measurements classes
+
+/**
+ * TODO: check
+ * Returns the great-arc length of the specified GeoJSON object in radians. For polygons, returns the perimeter of the exterior ring plus that of any interior rings. This is the spherical equivalent of path.measure.
+ */
+fun geoLength(geo: GeoJsonObject): Double
+        = GeoLength().result(geo)
 
 /**
  * Returns the great-arc length of the specified GeoJSON object in radians.
@@ -37,7 +43,6 @@ class GeoLength : Stream {
     private var currentPoint: (Double, Double) -> Unit = noop2
     private var currentLineEnd: () -> Unit = noop
 
-    // TODO : invoke ?
     fun result(geo: GeoJsonObject): Double {
         lengthSum = .0
         geo.stream(this)
