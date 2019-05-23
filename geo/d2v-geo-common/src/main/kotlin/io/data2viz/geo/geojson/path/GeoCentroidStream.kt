@@ -11,6 +11,9 @@ import kotlin.math.*
 
 fun geoCentroid(geo: GeoJsonObject) = GeoCentroidStream().result(geo)
 
+
+// TODO refactor function references :: to objects like in ProjectorResambleStream.
+//  Function references have poor performance due to GC & memory allocation
 /**
  * Returns the spherical centroid of the specified GeoJSON object.
  * This is the spherical equivalent of CentroidStream.

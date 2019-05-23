@@ -16,6 +16,9 @@ import kotlin.math.abs
 
 fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
 
+// TODO refactor function references :: to objects like in ProjectorResambleStream.
+//  Function references have poor performance due to GC & memory allocation
+
 /**
  * Returns the spherical bounding box for the specified GeoJSON object.
  * The bounding box is represented by an Extent where:

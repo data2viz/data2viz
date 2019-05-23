@@ -17,6 +17,8 @@ class RectanglePostClip(x0: Double, y0: Double, x1: Double, y1: Double) : Stream
 }
 
 
+// TODO refactor function references :: to objects like in CircleClip
+//  Function references have poor performance due to GC & memory allocation
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by The given Extent.
  * Typically used for post-clipping.

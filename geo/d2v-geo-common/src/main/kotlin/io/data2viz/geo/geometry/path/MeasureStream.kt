@@ -5,6 +5,8 @@ import io.data2viz.geo.stream.Stream
 import kotlin.math.sqrt
 
 // TODO : check for use of D3 "adder"
+// TODO refactor function references :: to objects like in ProjectorResambleStream.
+//  Function references have poor performance due to GC & memory allocation
 /**
  * TODO: docs
  */

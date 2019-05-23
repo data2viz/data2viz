@@ -14,6 +14,9 @@ import kotlin.math.sin
 
 fun geoArea(geo: GeoJsonObject) = GeoAreaStream().result(geo)
 
+
+// TODO refactor function references :: to objects like in ProjectorResambleStream.
+//  Function references have poor performance due to GC & memory allocation
 /**
  * Returns the spherical area of the specified GeoJSON object in steradians.
  * This is the spherical equivalent of AreaStream.

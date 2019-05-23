@@ -21,6 +21,8 @@ fun geoDistance(from: Position, to: Position): Double {
 }
 
 
+// TODO refactor function references :: to objects like in ProjectorResambleStream.
+//  Function references have poor performance due to GC & memory allocation
 /**
  * TODO: check
  * Returns the great-arc length of the specified GeoJSON object in radians. For polygons, returns the perimeter of the exterior ring plus that of any interior rings. This is the spherical equivalent of path.measure.
