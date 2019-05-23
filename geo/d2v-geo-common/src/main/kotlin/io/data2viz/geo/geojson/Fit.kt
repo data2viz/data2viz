@@ -1,50 +1,11 @@
 package io.data2viz.geo.geojson
 
 import io.data2viz.geo.geometry.clip.extentPostClip
-import io.data2viz.geo.projection.common.Projection
-import io.data2viz.geom.Extent
 import io.data2viz.geo.geometry.path.BoundsStream
+import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geojson.GeoJsonObject
+import io.data2viz.geom.Extent
 import kotlin.math.min
-
-fun fitSize(projection: Projection, width: Double, height:Double, geo: GeoJsonObject): Projection {
-    return fitExtent(projection, Extent(.0, .0, width, height), geo)
-}
-
-fun fitHeight(projection: Projection, height:Double, geo: GeoJsonObject): Projection {
-    val fitBounds = { size: Extent ->
-        val k = height / size.height
-        val x = -k * size.x0
-        val y = (height - (k * (size.y1 + size.y0))) / 2
-        projection.scale = k * 150
-        projection.translate(x, y)
-    }
-    return fit(projection, fitBounds, geo)
-}
-
-fun fitWidth(projection: Projection, width:Double, geo: GeoJsonObject): Projection {
-    val fitBounds = { size: Extent ->
-        val k = width / size.width
-        val x = (width - (k * (size.x1 + size.x0))) / 2
-        val y = -k * size.y0
-        projection.scale = k * 150
-        projection.translate(x, y)
-    }
-    return fit(projection, fitBounds, geo)
-}
-
-fun fitExtent(projection: Projection, extent: Extent, geo: GeoJsonObject): Projection {
-    val fitBounds = { size: Extent ->
-        val w = extent.width
-        val h = extent.height
-        val k = min(w / (size.width), h / (size.height))
-        val x = extent.x0 + (w - (k * (size.x1 + size.x0))) / 2
-        val y = extent.y0 + (h - (k * (size.y1 + size.y0))) / 2
-        projection.scale = k * 150
-        projection.translate(x, y)
-    }
-    return fit(projection, fitBounds, geo)
-}
 
 private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJsonObject): Projection {
     val clip = projection.extentPostClip
@@ -74,7 +35,16 @@ var projection = d3.geoTransverseMercator()
 Any postClip extent is ignored when determining the new scale and translate. The precision used to compute the bounding box of the given object is computed at an effective scale of 150.
  */
 fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
-    return io.data2viz.geo.geojson.fitExtent(this, extent, geo)
+    val fitBounds = { size: Extent ->
+        val w = extent.width
+        val h = extent.height
+        val k = min(w / (size.width), h / (size.height))
+        val x = extent.x0 + (w - (k * (size.x1 + size.x0))) / 2
+        val y = extent.y0 + (h - (k * (size.y1 + size.y0))) / 2
+        this.scale = k * 150
+        this.translate(x, y)
+    }
+    return fit(this, fitBounds, geo)
 }
 
 
@@ -84,7 +54,14 @@ fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
  *
  */
 fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection {
-    return io.data2viz.geo.geojson.fitWidth(this, width, geo)
+    val fitBounds = { size: Extent ->
+        val k = width / size.width
+        val x = (width - (k * (size.x1 + size.x0))) / 2
+        val y = -k * size.y0
+        this.scale = k * 150
+        this.translate(x, y)
+    }
+    return fit(this, fitBounds, geo)
 }
 
 /**
@@ -92,7 +69,14 @@ fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection {
  * A convenience method for projection.fitSize where the width is automatically chosen from the aspect ratio of object and the given contraint on height.
  */
 fun Projection.fitHeight(height: Double, geo: GeoJsonObject): Projection {
-    return io.data2viz.geo.geojson.fitHeight(this, height, geo)
+    val fitBounds = { size: Extent ->
+        val k = height / size.height
+        val x = -k * size.x0
+        val y = (height - (k * (size.y1 + size.y0))) / 2
+        this.scale = k * 150
+        this.translate(x, y)
+    }
+    return fit(this, fitBounds, geo)
 }
 
 /**
@@ -104,6 +88,6 @@ projection.fitExtent([[0, 0], [width, height]], object);
 projection.fitSize([width, height], object);
  */
 fun Projection.fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
-    return io.data2viz.geo.geojson.fitSize(this, width, height, geo)
+    return this.fitExtent(Extent(.0, .0, width, height), geo)
 }
 
