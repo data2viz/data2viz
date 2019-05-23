@@ -94,11 +94,6 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
             }
 
         }
-//    override var extentPostClip: Extent?
-//        get() = innerExtent
-//        set(value) {
-//            innerExtent = value
-//        }
 
     // TODO check tests still some issues with extentPostClip
     private fun reclip() {

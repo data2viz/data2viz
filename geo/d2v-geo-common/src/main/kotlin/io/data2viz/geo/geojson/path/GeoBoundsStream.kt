@@ -148,8 +148,6 @@ class GeoBoundsStream : Stream {
     }
 
     private fun linePoint(x: Double, y: Double) {
-//        val lambda = translateX.toRadians()
-//        val phi = translateY.toRadians()
         val p = cartesian(doubleArrayOf(x.toRadians(), y.toRadians()))
 
         if (p0 != null) {

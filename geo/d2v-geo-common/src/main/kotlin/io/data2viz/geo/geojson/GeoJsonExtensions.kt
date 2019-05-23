@@ -32,16 +32,11 @@ fun GeoJsonObject.contains(point: Position): Boolean =
 
 
 private fun Lines.contains(point: Position): Boolean {
-//    val coords = polygons.map { it.map { toRadians(it) } }.toMutableList()
-//    coords.removeAt(coords.lastIndex)
-
     val radiansCoordinates = map { it.map { toRadians(it) } }
     val coords = radiansCoordinates.toMutableList()
     coords.removeAt(coords.lastIndex)
     return polygonContains(coords, toRadians(point))
 }
-
-//private fun toRadians(pos: Position): DoubleArray = doubleArrayOf(pos.lon.toRadians(), pos.lat.toRadians())
 
 private fun Positions.contains(point: Position): Boolean {
     val ab = geoDistance(this[0], this[1])
@@ -71,8 +66,6 @@ val io.data2viz.geojson.MultiLineString.lines: Lines
 
 val io.data2viz.geojson.MultiPolygon.surface: Surface
     get() = coordinates
-
-
 
 
 internal val noop: () -> Unit = { }
