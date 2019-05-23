@@ -15,6 +15,9 @@ fun conicEquidistantProjection(init: ConicProjection.() -> Unit) =
         init()
     }
 
+/**
+ * The conic equidistant projection. See also conic.parallels.
+ */
 class ConicEquidistantBaseConditionalProjector(
     private val conicEquidistantProjector: ConicEquidistantProjector = ConicEquidistantProjector(),
     private val equirectangularProjector: EquirectangularProjector = EquirectangularProjector()

@@ -1,6 +1,5 @@
 package io.data2viz.geo
 
-// TODO: check
 //var tape = require("tape"),
 //d3 = require("../");
 //

@@ -6,6 +6,9 @@ import io.data2viz.geo.stream.MultiplexStream
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
 
+/**
+ * Composite consist of several projections that are composed into a single display. The constituent projections have fixed clip, center and rotation, and thus composite projections do not support projection.center, projection.rotate, projection.clipAngle, or projection.clipExtent.
+ */
 abstract class ComposedProjection() : CachedProjection() {
 
     abstract val mainProjection: Projection

@@ -6,7 +6,9 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 
 
-
+/**
+ * Clipping functions are implemented as transformations of a projection stream. Pre-clipping operates on spherical coordinates, in radians. Post-clipping operates on planar coordinates, in pixels.
+ */
 val noPreClip = object : StreamPreClip {
     override fun preClip(stream: Stream) =  stream
 }

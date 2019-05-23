@@ -11,6 +11,10 @@ fun equirectangularProjection(init: Projection.() -> Unit) =
         init()
     }
 
+/**
+ * Cylindrical projections project the sphere onto a containing cylinder, and then unroll the cylinder onto the plane. Pseudocylindrical projections are a generalization of cylindrical projections.
+ * The equirectangular (plate carrée) projection.
+ */
 class EquirectangularProjector : Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
 

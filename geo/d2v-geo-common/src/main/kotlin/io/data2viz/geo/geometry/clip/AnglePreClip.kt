@@ -14,6 +14,9 @@ class AnglePreClip(val angle: Angle) : StreamPreClip {
 }
 
 
+/**
+ * If angle is specified, sets the projection’s clipping circle radius to the specified angle in degrees and returns the projection. If angle is null, switches to antimeridian cutting rather than small-circle clipping. If angle is not specified, returns the current clip angle which defaults to null. Small-circle clipping is independent of viewport clipping via projection.clipExtent.
+ */
 var Projection.anglePreClip: Angle?
     get() = (preClip as? AnglePreClip)?.angle
     set(value) {

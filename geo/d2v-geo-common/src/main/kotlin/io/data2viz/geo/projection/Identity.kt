@@ -16,6 +16,9 @@ fun identityProjection(init: Projection.() -> Unit) =
         init()
     }
 
+/**
+ * TODO: docs
+ */
 class IdentityProjection : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda

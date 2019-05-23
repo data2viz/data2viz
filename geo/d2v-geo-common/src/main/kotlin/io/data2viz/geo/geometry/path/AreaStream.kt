@@ -6,7 +6,7 @@ import io.data2viz.geo.stream.Stream
 import kotlin.math.abs
 
 
-// TODO : check for use of D3 "adder" in AreaStream and MeasureStream....
+// TODO : check for use of D3 "adder"
 internal class AreaStream : Stream {
 
     private var areaSum = .0

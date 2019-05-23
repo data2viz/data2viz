@@ -21,6 +21,9 @@ fun stereographicProjection(init: Projection.() -> Unit) =
 
 private fun doubleAtan(d: Double) = 2 * atan(d)
 
+/**
+ * The stereographic projection.
+ */
 class StereographicProjector : Projector {
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cy = cy(phi)

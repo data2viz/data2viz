@@ -17,6 +17,9 @@ fun gnomonicProjection(init: Projection.() -> Unit) =
         init()
     }
 
+/**
+ * The gnomonic projection.
+ */
 class GnomonicProjector : Projector {
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cy = cy(phi)

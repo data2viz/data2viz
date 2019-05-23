@@ -1,5 +1,8 @@
 package io.data2viz.geo.projection.common
 
+/**
+ * TODO: add docs
+ */
 abstract class ConditionalProjector : Projector {
 
 
@@ -14,6 +17,9 @@ abstract class ConditionalProjector : Projector {
     abstract val activeProjector: Projector
 }
 
+/**
+ * TODO: add docs
+ */
 abstract class BaseConditionalProjector : ConditionalProjector() {
 
     abstract val baseProjector: Projector

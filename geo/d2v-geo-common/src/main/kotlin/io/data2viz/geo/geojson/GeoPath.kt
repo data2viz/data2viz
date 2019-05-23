@@ -7,6 +7,25 @@ import io.data2viz.geo.projection.identityProjection
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Path
 
+
+/**
+ * TODO: docs
+ * Creates a new geographic path generator with the default settings. If projection is specified, sets the current projection. If context is specified, sets the current context.
+ *
+ * Renders the given object, which may be any GeoJSON feature or geometry object:
+
+Point - a single position.
+MultiPoint - an array of positions.
+LineString - an array of positions forming a continuous line.
+MultiLineString - an array of arrays of positions forming several lines.
+Polygon - an array of arrays of positions forming a polygon (possibly with holes).
+MultiPolygon - a multidimensional array of positions forming multiple polygons.
+GeometryCollection - an array of geometry objects.
+Feature - a feature containing one of the above geometry objects.
+FeatureCollection - an array of feature objects.
+The type Sphere is also supported, which is useful for rendering the outline of the globe; a sphere has no coordinates. Any additional arguments are passed along to the pointRadius accessor.
+ *
+ */
 fun geoPath(projection: Projection? = null, context: Path? = null) =
     GeoPath(projection ?: identityProjection(), context)
 
@@ -110,3 +129,20 @@ class GeoPath(val projection: Projection, val context: Path?) {
         return measureStream.result()
     }
 }
+
+//
+// TODO: missed API
+// # path.context([context]) <>
+//
+//If context is specified, sets the current render context and returns the path generator. If the context is null, then the path generator will return an SVG path string; if the context is non-null, the path generator will instead call methods on the specified context to render geometry. The context must implement the following subset of the CanvasRenderingContext2D API:
+//
+//context.beginPath()
+//context.moveTo(x, y)
+//context.lineTo(x, y)
+//context.arc(x, y, radius, startAngle, endAngle)
+//context.closePath()
+//If a context is not specified, returns the current render context which defaults to null.
+//
+//# path.pointRadius([radius]) <>
+//
+//If radius is specified, sets the radius used to display Point and MultiPoint geometries to the specified number. If radius is not specified, returns the current radius accessor, which defaults to 4.5. While the radius is commonly specified as a number constant, it may also be specified as a function which is computed per feature, being passed the any arguments passed to the path generator. For example, if your GeoJSON data has additional properties, you might access those properties inside the radius function to vary the point size; alternatively, you could d3.symbol and a projection for greater flexibility.

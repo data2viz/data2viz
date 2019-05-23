@@ -30,6 +30,9 @@ class TransverseMercatorProjector() : Projector {
 
 }
 
+/**
+ * The transverse spherical Mercator projection. Defines a default projection.clipExtent such that the world is projected to a square, clipped to approximately ±85° latitude.
+ */
 class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProjector()) {
 
     override var centerLat: Angle

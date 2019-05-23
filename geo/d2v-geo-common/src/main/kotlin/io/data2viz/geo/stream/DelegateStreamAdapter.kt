@@ -17,6 +17,3 @@ open class DelegateStreamAdapter(val delegate: Stream) : Stream {
 }
 
 
-class TransformRadiansStreamAdapter(stream: Stream) : DelegateStreamAdapter(stream) {
-    override fun point(x: Double, y: Double, z: Double) = delegate.point(x.toRadians(), y.toRadians(), z.toRadians())
-}

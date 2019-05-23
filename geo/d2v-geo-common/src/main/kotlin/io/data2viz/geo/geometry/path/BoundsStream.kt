@@ -6,7 +6,12 @@ import io.data2viz.geo.stream.Stream
 internal class BoundsStream : Stream {
 
     private var bounds =
-        Extent(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
+        Extent(
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY,
+            Double.NEGATIVE_INFINITY
+        )
 
     fun result(): Extent {
         val result = bounds.copy()

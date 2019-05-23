@@ -3,8 +3,6 @@ package io.data2viz.geo.projection
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-// TODO: Check
-
 class AngleTests: TestBase() {
 
     val util = ProjectionTests()
