@@ -82,14 +82,14 @@ class GeoPath(val projection: Projection, val context: Path?) {
 
     /**
      * Returns the projected planar bounding box (typically in pixels) for the specified GeoJSON object.
-     * The bounding box is represented by an Extent: (x₀, y₀, x₁, y₁),
-     * where x₀ is the minimum x-coordinate,
-     * y₀ is the minimum y-coordinate,
-     * x₁ is maximum x-coordinate,
-     * and y₁ is the maximum y-coordinate.
+     * The bounding box is represented by an Extent: (translateX₀, translateY₀, translateX₁, translateY₁),
+     * where translateX₀ is the minimum translateX-coordinate,
+     * translateY₀ is the minimum translateY-coordinate,
+     * translateX₁ is maximum translateX-coordinate,
+     * and translateY₁ is the maximum translateY-coordinate.
      * This is handy for, say, zooming in to a particular feature.
-     * (Note that in projected planar coordinates, the minimum latitude is typically the maximum y-value, and the
-     * maximum latitude is typically the minimum y-value.)
+     * (Note that in projected planar coordinates, the minimum latitude is typically the maximum translateY-value, and the
+     * maximum latitude is typically the minimum translateY-value.)
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoBounds.
      */

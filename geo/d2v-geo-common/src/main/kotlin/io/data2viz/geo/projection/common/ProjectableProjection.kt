@@ -6,8 +6,6 @@ import io.data2viz.geo.geometry.clip.antimeridianPreClip
 import io.data2viz.geo.geometry.clip.noPostClip
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
-import io.data2viz.geojson.GeoJsonObject
-import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
 import io.data2viz.math.rad
 import io.data2viz.math.toDegrees
@@ -60,13 +58,13 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
     private var _y = 250.0
 
     // Translate
-    override var x
+    override var translateX
         get () = _x
         set(value) {
             _x = value
             recenter()
         }
-    override var y
+    override var translateY
         get () = _y
         set(value) {
             _y = value
@@ -85,13 +83,27 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
     protected var dy = 0.0
     protected var lambda = 0.0
     protected var phi = 0.0
-    override var center
-        get() = arrayOf(lambda.rad, phi.rad)
+
+    override var centerLat
+        get() = lambda.rad
         set(value) {
-            lambda = value[0].rad
-            phi = value[1].rad
+            lambda = value.rad
             recenter()
         }
+    override var centerLon
+        get() = phi.rad
+        set(value) {
+            phi = value.rad
+            recenter()
+        }
+
+
+    override fun center(lat: Angle, lon: Angle) {
+        lambda = lat.rad
+        phi = lon.rad
+        recenter()
+    }
+
 
     // Rotate
     protected var deltaLambda = 0.0
@@ -100,14 +112,36 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
     protected lateinit var rotator: Projector
 
 
-    override var rotate: Array<Angle>
-        get() = arrayOf(deltaLambda.rad, deltaPhi.rad, deltaGamma.rad)
+    override var rotateLambda
+        get() = deltaLambda.rad
         set(value) {
-            deltaLambda = value[0].rad
-            deltaPhi = value[1].rad
-            deltaGamma = if (value.size > 2) value[2].rad else 0.0
+            deltaLambda = value.rad
             recenter()
         }
+
+    override var rotatePhi
+        get() = deltaPhi.rad
+        set(value) {
+            deltaPhi = value.rad
+            recenter()
+        }
+
+
+    override var rotateGamma
+        get() = deltaGamma.rad
+        set(value) {
+            deltaGamma = value.rad
+            recenter()
+        }
+
+
+    override fun rotate(lambda: Angle, phi: Angle, gamma: Angle?) {
+        deltaLambda = lambda.rad
+        deltaPhi = phi.rad
+        deltaGamma = gamma?.rad ?: 0.0
+        recenter()
+    }
+
 
     protected lateinit var projectRotate: Projector
 
@@ -209,8 +243,8 @@ open class ProjectableProjection(val projection: Projector) : CachedProjection()
 
         projectRotate = ComposedProjector(rotator, projection)
 
-        dx = x - (projection.projectLambda(lambda, phi) * k)
-        dy = y + (projection.projectPhi(lambda, phi) * k)
+        dx = translateX - (projection.projectLambda(lambda, phi) * k)
+        dy = translateY + (projection.projectPhi(lambda, phi) * k)
     }
 
 }

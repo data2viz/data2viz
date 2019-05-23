@@ -17,8 +17,8 @@ class FitTests : TestBase() {
 
         projection.scale shouldBeClose 900.0 / TAU
 
-        projection.x shouldBeClose 500.0
-        projection.y shouldBeClose 500.0
+        projection.translateX shouldBeClose 500.0
+        projection.translateY shouldBeClose 500.0
 
     }
 
@@ -29,8 +29,8 @@ class FitTests : TestBase() {
 
         projection.scale shouldBeClose 900.0 / TAU
 
-        projection.x shouldBeClose 450.0
-        projection.y shouldBeClose 225.0
+        projection.translateX shouldBeClose 450.0
+        projection.translateY shouldBeClose 225.0
     }
 
     @Test
@@ -40,8 +40,8 @@ class FitTests : TestBase() {
 
         projection.scale shouldBeClose 700.0 / PI
 
-        projection.x shouldBeClose 700.0
-        projection.y shouldBeClose 350.0
+        projection.translateX shouldBeClose 700.0
+        projection.translateY shouldBeClose 350.0
     }
 
     @Test
@@ -51,8 +51,8 @@ class FitTests : TestBase() {
 
         projection.scale shouldBeClose 700.0 / TAU
 
-        projection.x shouldBeClose 350.0
-        projection.y shouldBeClose 300.0
+        projection.translateX shouldBeClose 350.0
+        projection.translateY shouldBeClose 300.0
     }
 }
 
@@ -218,7 +218,7 @@ tape("projection.fitExtent(…) null geometries - MultiPolygon", function(test) 
 });
 
 tape("projection.fitExtent(…) custom projection", function(test) {
-  var projection = d3.geoProjection(function(x, y) { return [x, Math.pow(y, 3)]; });
+  var projection = d3.geoProjection(function(translateX, translateY) { return [translateX, Math.pow(translateY, 3)]; });
   projection.fitExtent([[50, 50], [950, 950]], world);
   test.inDelta(projection.scale(), 128.901140, 1e-6);
   test.inDelta(projection.translate(), [500, 450.406949], 1e-6);

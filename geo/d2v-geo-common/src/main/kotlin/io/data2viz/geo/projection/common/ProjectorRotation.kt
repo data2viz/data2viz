@@ -76,13 +76,13 @@ class RotationPhiGamma(deltaPhi: Double, deltaGamma: Double) : Projector {
 
 //    override fun project(lambda: Double, phi: Double): DoubleArray {
 //        val cosPhi = cos(phi)
-//        val x = cos(lambda) * cosPhi
-//        val y = sin(lambda) * cosPhi
+//        val translateX = cos(lambda) * cosPhi
+//        val translateY = sin(lambda) * cosPhi
 //        val z = sin(phi)
-//        val k = z * cosDeltaPhi + x * sinDeltaPhi
+//        val k = z * cosDeltaPhi + translateX * sinDeltaPhi
 //        return doubleArrayOf(
-//            atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi),
-//            asin(k * cosDeltaGamma + y * sinDeltaGamma)
+//            atan2(translateY * cosDeltaGamma - k * sinDeltaGamma, translateX * cosDeltaPhi - z * sinDeltaPhi),
+//            asin(k * cosDeltaGamma + translateY * sinDeltaGamma)
 //        )
 //    }
 
@@ -115,12 +115,13 @@ internal fun rotateRadians(deltaLambda: Double, deltaPhi: Double, deltaGamma: Do
     else rotationIdentity()
 }
 
-internal fun rotation(rotate: Array<Angle>): Projector {
+internal fun rotation(lambda: Angle, phi: Angle, gamma: Angle? = null): Projector {
     val rotator =
         rotateRadians(
-            rotate[0].rad,
-            rotate[1].rad,
-            if (rotate.size > 2) rotate[2].rad else 0.0
+            lambda.rad,
+            phi.rad,
+            gamma?.rad ?: 0.0
+
         )
 
     return object : Projector {

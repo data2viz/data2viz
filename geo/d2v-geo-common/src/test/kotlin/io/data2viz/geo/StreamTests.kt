@@ -47,10 +47,10 @@ package io.data2viz.geo
 //tape("geoStream(Point) ↦ point", function(test) {
 //    var calls = 0, coordinates = 0;
 //    d3.geoStream({type: "Point", coordinates: [1, 2, 3]}, {
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(++calls, 1);
 //    }
@@ -62,10 +62,10 @@ package io.data2viz.geo
 //tape("geoStream(MultiPoint) ↦ point*", function(test) {
 //    var calls = 0, coordinates = 0;
 //    d3.geoStream({type: "MultiPoint", coordinates: [[1, 2, 3], [4, 5, 6]]}, {
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(1 <= ++calls && calls <= 2, true);
 //    }
@@ -81,10 +81,10 @@ package io.data2viz.geo
 //        test.equal(arguments.length, 0);
 //        test.equal(++calls, 1);
 //    },
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(2 <= ++calls && calls <= 3, true);
 //    },
@@ -104,10 +104,10 @@ package io.data2viz.geo
 //        test.equal(arguments.length, 0);
 //        test.equal(++calls === 1 || calls === 5, true);
 //    },
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(2 <= ++calls && calls <= 3 || 6 <= calls && calls <= 7, true);
 //    },
@@ -131,10 +131,10 @@ package io.data2viz.geo
 //        test.equal(arguments.length, 0);
 //        test.equal(++calls === 2 || calls === 6, true);
 //    },
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(3 <= ++calls && calls <= 4 || 7 <= calls && calls <= 8, true);
 //    },
@@ -162,10 +162,10 @@ package io.data2viz.geo
 //        test.equal(arguments.length, 0);
 //        test.equal(++calls === 2 || calls === 8, true);
 //    },
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(3 <= ++calls && calls <= 4 || 9 <= calls && calls <= 10, true);
 //    },
@@ -185,10 +185,10 @@ package io.data2viz.geo
 //tape("geoStream(Feature) ↦ .*", function(test) {
 //    var calls = 0, coordinates = 0;
 //    d3.geoStream({type: "Feature", geometry: {type: "Point", coordinates: [1, 2, 3]}}, {
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(++calls, 1);
 //    }
@@ -200,10 +200,10 @@ package io.data2viz.geo
 //tape("geoStream(FeatureCollection) ↦ .*", function(test) {
 //    var calls = 0, coordinates = 0;
 //    d3.geoStream({type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Point", coordinates: [1, 2, 3]}}]}, {
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(++calls, 1);
 //    }
@@ -215,10 +215,10 @@ package io.data2viz.geo
 //tape("geoStream(GeometryCollection) ↦ .*", function(test) {
 //    var calls = 0, coordinates = 0;
 //    d3.geoStream({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [1, 2, 3]}]}, {
-//        point: function(x, y, z) {
+//        point: function(translateX, translateY, z) {
 //        test.equal(arguments.length, 3);
-//        test.equal(x, ++coordinates);
-//        test.equal(y, ++coordinates);
+//        test.equal(translateX, ++coordinates);
+//        test.equal(translateY, ++coordinates);
 //        test.equal(z, ++coordinates);
 //        test.equal(++calls, 1);
 //    }

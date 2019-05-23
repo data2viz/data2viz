@@ -25,14 +25,14 @@ class AlbersUSAProjection() : ComposedProjection() {
 
     val lower48 = albersProjection()
     val alaska = conicEqualAreaProjection {
-        rotate = arrayOf(154.0.deg, 0.0.deg)
-        center = arrayOf((-2.0).deg, 58.5.deg)
-        parallels = arrayOf(55.0.deg, 65.0.deg)
+        rotate(154.0.deg, 0.0.deg)
+        center((-2.0).deg, 58.5.deg)
+        parallels(55.0.deg, 65.0.deg)
     }
     val hawaii = conicEqualAreaProjection {
-        rotate = arrayOf(157.0.deg, 0.0.deg)
-        center = arrayOf((-3.0).deg, 19.9.deg)
-        parallels = arrayOf(8.0.deg, 18.0.deg)
+        rotate(157.0.deg, 0.0.deg)
+        center((-3.0).deg, 19.9.deg)
+        parallels(8.0.deg, 18.0.deg)
 
     }
     override val mainProjection: Projection
@@ -58,30 +58,32 @@ class AlbersUSAProjection() : ComposedProjection() {
             reset()
         }
 
-    var translateX = 0.0
-    var translateY = 0.0
 
-    override var x: Double
-        get() = super.x
+    // TODO: Strange logic from d3, but without custom translate projection not properly centered
+    var customTranslateX = 0.0
+    var customTranslateY = 0.0
+
+    override var translateX: Double
+        get() = super.translateX
         set(value) {
-            super.x = value
-            translateX += value
+            super.translateX = value
+            customTranslateX += value
             translateNestedProjections()
         }
 
-    override var y: Double
-        get() = super.y
+    override var translateY: Double
+        get() = super.translateY
         set(value) {
-            super.y = value
-            translateY += value
+            super.translateY = value
+            customTranslateY += value
             translateNestedProjections()
         }
 
     private fun translateNestedProjections() {
         var k = lower48.scale
 
-        val x = translateX
-        val y = translateY
+        val x = customTranslateX
+        val y = customTranslateY
         lower48.translate(x, y)
         lower48.extentPostClip = Extent(x - 0.455 * k, y - 0.238 * k, x + 0.455 * k, y + 0.238 * k)
 
@@ -107,8 +109,8 @@ class AlbersUSAProjection() : ComposedProjection() {
     override fun chooseNestedProjection(lambda: Double, phi: Double): Projection {
         val k = lower48.scale
 
-        val newX = (lambda - lower48.x) / k
-        val newY = (phi - lower48.y) / k
+        val newX = (lambda - lower48.translateX) / k
+        val newY = (phi - lower48.translateY) / k
 
         return when {
             newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska

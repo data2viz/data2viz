@@ -10,7 +10,7 @@ package io.data2viz.geo.stream
 interface Stream {
 
     /**
-     * Indicates a point with the specified coordinates x and y (and optionally z).
+     * Indicates a point with the specified coordinates translateX and translateY (and optionally z).
      * The coordinate system is unspecified and implementation-dependent; for example,
      * projection streams require spherical coordinates in degrees as input. Outside the
      * context of a polygon or line, a point indicates a point geometry object (Point or

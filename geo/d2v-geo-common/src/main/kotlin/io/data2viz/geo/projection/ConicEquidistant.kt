@@ -11,7 +11,7 @@ fun conicEquidistantProjection() = conicEquidistantProjection {}
 fun conicEquidistantProjection(init: ConicProjection.() -> Unit) =
     conicProjection(ConicEquidistantBaseConditionalProjector()) {
         scale = 131.154
-        center = arrayOf(0.0.deg, 13.9389.deg)
+        center(0.0.deg, 13.9389.deg)
         init()
     }
 

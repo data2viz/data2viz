@@ -158,7 +158,7 @@ val spriteIndexes = olympicColors.mapIndexed { index, _ ->
 //        distanceMax = 30.0
 //    },
 //    Forces.forceY<Int> {
-//        y = { _, index, _ ->
+//        translateY = { _, index, _ ->
 //            val pos = ((index % 10) + .5) * height / 10
 //            if (index % 4 < 2) pos else height - pos
 //        }
@@ -180,7 +180,7 @@ val spriteIndexes = olympicColors.mapIndexed { index, _ ->
 //        distanceMax = 15.0
 //    },
 //    Forces.forceY<Int> {
-//        y = { _, index, _ ->
+//        translateY = { _, index, _ ->
 //            val indexList = spriteIndexes[index % 5]
 //            if (indexList.isEmpty()) -1000.0
 //            else {

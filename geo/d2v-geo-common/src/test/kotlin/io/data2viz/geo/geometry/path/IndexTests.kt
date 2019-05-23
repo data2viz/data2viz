@@ -50,8 +50,8 @@ package io.data2viz.geo.geometry.path
 //        type: "Point",
 //        coordinates: [-63, 18]
 //    }), [
-//        {type: "moveTo", x: 170, y: 160},
-//        {type: "arc", x: 165, y: 160, r: 4.5}
+//        {type: "moveTo", translateX: 170, translateY: 160},
+//        {type: "arc", translateX: 165, translateY: 160, r: 4.5}
 //    ]);
 //    test.end();
 //});
@@ -61,9 +61,9 @@ package io.data2viz.geo.geometry.path
 //        type: "MultiPoint",
 //        coordinates: [[-63, 18], [-62, 18], [-62, 17]]
 //    }), [
-//        {type: "moveTo", x: 170, y: 160}, {type: "arc", x: 165, y: 160, r: 4.5},
-//        {type: "moveTo", x: 175, y: 160}, {type: "arc", x: 170, y: 160, r: 4.5},
-//        {type: "moveTo", x: 175, y: 165}, {type: "arc", x: 170, y: 165, r: 4.5}
+//        {type: "moveTo", translateX: 170, translateY: 160}, {type: "arc", translateX: 165, translateY: 160, r: 4.5},
+//        {type: "moveTo", translateX: 175, translateY: 160}, {type: "arc", translateX: 170, translateY: 160, r: 4.5},
+//        {type: "moveTo", translateX: 175, translateY: 165}, {type: "arc", translateX: 170, translateY: 165, r: 4.5}
 //    ]);
 //    test.end();
 //});
@@ -73,9 +73,9 @@ package io.data2viz.geo.geometry.path
 //        type: "LineString",
 //        coordinates: [[-63, 18], [-62, 18], [-62, 17]]
 //    }), [
-//        {type: "moveTo", x: 165, y: 160},
-//        {type: "lineTo", x: 170, y: 160},
-//        {type: "lineTo", x: 170, y: 165}
+//        {type: "moveTo", translateX: 165, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 165}
 //    ]);
 //    test.end();
 //});
@@ -85,9 +85,9 @@ package io.data2viz.geo.geometry.path
 //        type: "Polygon",
 //        coordinates: [[[-63, 18], [-62, 18], [-62, 17], [-63, 18]]]
 //    }), [
-//        {type: "moveTo", x: 165, y: 160},
-//        {type: "lineTo", x: 170, y: 160},
-//        {type: "lineTo", x: 170, y: 165},
+//        {type: "moveTo", translateX: 165, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 165},
 //        {type: "closePath"}
 //    ]);
 //    test.end();
@@ -101,9 +101,9 @@ package io.data2viz.geo.geometry.path
 //        coordinates: [[[-63, 18], [-62, 18], [-62, 17], [-63, 18]]]
 //    }]
 //    }), [
-//        {type: "moveTo", x: 165, y: 160},
-//        {type: "lineTo", x: 170, y: 160},
-//        {type: "lineTo", x: 170, y: 165},
+//        {type: "moveTo", translateX: 165, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 165},
 //        {type: "closePath"}
 //    ]);
 //    test.end();
@@ -117,9 +117,9 @@ package io.data2viz.geo.geometry.path
 //        coordinates: [[[-63, 18], [-62, 18], [-62, 17], [-63, 18]]]
 //    }
 //    }), [
-//        {type: "moveTo", x: 165, y: 160},
-//        {type: "lineTo", x: 170, y: 160},
-//        {type: "lineTo", x: 170, y: 165},
+//        {type: "moveTo", translateX: 165, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 165},
 //        {type: "closePath"}
 //    ]);
 //    test.end();
@@ -136,9 +136,9 @@ package io.data2viz.geo.geometry.path
 //    }
 //    }]
 //    }), [
-//        {type: "moveTo", x: 165, y: 160},
-//        {type: "lineTo", x: 170, y: 160},
-//        {type: "lineTo", x: 170, y: 165},
+//        {type: "moveTo", translateX: 165, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 165},
 //        {type: "closePath"}
 //    ]);
 //    test.end();
@@ -149,8 +149,8 @@ package io.data2viz.geo.geometry.path
 //        type: "Point",
 //        coordinates: [180 + 1e-6, 0]
 //    }), [
-//        {type: "moveTo", x: -415, y: 250},
-//        {type: "arc", x: -420, y: 250, r: 4.5}
+//        {type: "moveTo", translateX: -415, translateY: 250},
+//        {type: "arc", translateX: -420, translateY: 250, r: 4.5}
 //    ]);
 //    test.end();
 //});
@@ -166,10 +166,10 @@ package io.data2viz.geo.geometry.path
 //        [-0.06904102953339501, 0.346043661846373]
 //        ]]
 //    }), [
-//        {type: "moveTo", x: 480, y: 248},
-//        {type: "lineTo", x: 480, y: 248},
-//        {type: "lineTo", x: 480, y: 250},
-//        {type: "lineTo", x: 479, y: 251},
+//        {type: "moveTo", translateX: 480, translateY: 248},
+//        {type: "lineTo", translateX: 480, translateY: 248},
+//        {type: "lineTo", translateX: 480, translateY: 250},
+//        {type: "lineTo", translateX: 479, translateY: 251},
 //        {type: "closePath"}
 //    ]);
 //    test.end();
@@ -180,9 +180,9 @@ package io.data2viz.geo.geometry.path
 //        type: "Polygon",
 //        coordinates: [[[-63, 18], [-62, 18], [-62, 17], [-63, 18]]]
 //    }), [
-//        {type: "moveTo", x: -63, y: 18},
-//        {type: "lineTo", x: -62, y: 18},
-//        {type: "lineTo", x: -62, y: 17},
+//        {type: "moveTo", translateX: -63, translateY: 18},
+//        {type: "lineTo", translateX: -62, translateY: 18},
+//        {type: "lineTo", translateX: -62, translateY: 17},
 //        {type: "closePath"}
 //    ]);
 //    test.end();
@@ -210,17 +210,17 @@ package io.data2viz.geo.geometry.path
 //        coordinates: [[-63, 18], [-62, 18], [-62, 17]]
 //    });
 //    test.deepEqual(context.result(), [
-//        {type: "moveTo", x: 165, y: 160},
-//        {type: "lineTo", x: 170, y: 160},
-//        {type: "lineTo", x: 170, y: 165}
+//        {type: "moveTo", translateX: 165, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 160},
+//        {type: "lineTo", translateX: 170, translateY: 165}
 //    ]);
 //    drawPath({
 //        type: "Point",
 //        coordinates: [-63, 18]
 //    });
 //    test.deepEqual(context.result(), [
-//        {type: "moveTo", x: 170, y: 160},
-//        {type: "arc", x: 165, y: 160, r: 4.5}
+//        {type: "moveTo", translateX: 170, translateY: 160},
+//        {type: "arc", translateX: 165, translateY: 160, r: 4.5}
 //    ]);
 //    test.end();
 //});

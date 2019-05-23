@@ -15,11 +15,10 @@ import kotlin.test.Test
 class RectangleClippingTests : TestBase() {
 
     fun getProjection() = equirectangularProjection {
-        x = 480.0
-        y = 350.0
+        translate(480.0, 350.0)
         scale = 2000.0
         precision = .0
-        center = arrayOf(10.0.deg, 5.0.deg)
+        center(10.0.deg, 5.0.deg)
     }
 
     val polygon = MultiPolygon(

@@ -4,8 +4,6 @@ import io.data2viz.geo.geometry.clip.StreamPostClip
 import io.data2viz.geo.geometry.clip.StreamPreClip
 import io.data2viz.geo.stream.MultiplexStream
 import io.data2viz.geo.stream.Stream
-import io.data2viz.geojson.GeoJsonObject
-import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
 
 abstract class ComposedProjection() : CachedProjection() {
@@ -13,20 +11,29 @@ abstract class ComposedProjection() : CachedProjection() {
     abstract val mainProjection: Projection
     abstract val allProjections: Collection<Projection>
 
+    override var centerLat: Angle
+        get() = mainProjection.centerLat
+        set(value) = allProjections.forEach { it.centerLat = value }
+    override var centerLon: Angle
+        get() = mainProjection.centerLon
+        set(value) = allProjections.forEach { it.centerLon = value }
+    override var rotateLambda: Angle
+        get() = mainProjection.rotateLambda
+        set(value) = allProjections.forEach { it.rotateLambda = value }
+    override var rotatePhi: Angle
+        get() = mainProjection.rotatePhi
+        set(value) = allProjections.forEach { it.rotatePhi = value }
+    override var rotateGamma: Angle
+        get() = mainProjection.rotateGamma
+        set(value) = allProjections.forEach { it.rotateGamma = value }
 
-    override var center: Array<Angle>
-        get() = mainProjection.center
-        set(value) = allProjections.forEach { it.center = value }
-    override var rotate: Array<Angle>
-        get() = mainProjection.rotate
-        set(value) = allProjections.forEach { it.rotate = value }
+
     override var preClip: StreamPreClip
         get() = mainProjection.preClip
         set(value) = allProjections.forEach { it.preClip = value }
     override var postClip: StreamPostClip
         get() = mainProjection.postClip
         set(value) = allProjections.forEach { it.postClip = value }
-
 
 
     override var precision: Double
@@ -37,17 +44,17 @@ abstract class ComposedProjection() : CachedProjection() {
         }
 
 
-    override var x: Double
-        get() = mainProjection.x
+    override var translateX: Double
+        get() = mainProjection.translateX
         set(value) {
-            allProjections.forEach { it.x = value }
+            allProjections.forEach { it.translateX = value }
             reset()
         }
 
-    override var y: Double
-        get() = mainProjection.y
+    override var translateY: Double
+        get() = mainProjection.translateY
         set(value) {
-            allProjections.forEach { it.y = value }
+            allProjections.forEach { it.translateY = value }
             reset()
         }
 
@@ -60,6 +67,14 @@ abstract class ComposedProjection() : CachedProjection() {
 
     override fun translate(x: Double, y: Double) {
         allProjections.forEach { it.translate(x, y) }
+    }
+
+    override fun center(lat: Angle, lon: Angle) {
+        allProjections.forEach { it.center(lat, lon) }
+    }
+
+    override fun rotate(lambda: Angle, phi: Angle, gamma: Angle?) {
+        allProjections.forEach { it.rotate(lambda, phi, gamma) }
     }
 
 
