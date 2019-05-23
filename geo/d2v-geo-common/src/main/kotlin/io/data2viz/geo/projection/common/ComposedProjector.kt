@@ -1,7 +1,9 @@
 package io.data2viz.geo.projection.common
 
 
-
+/**
+ * TODO add docs
+ */
 class ComposedProjector(val a: Projector, val b:Projector): Projector  {
     override fun projectLambda(lambda: Double, phi: Double): Double {
         val aX = a.projectLambda(lambda, phi)

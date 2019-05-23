@@ -32,6 +32,11 @@ private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStre
     }
 }
 
+/**
+ * TODO docs
+ * TODO internal fields naming
+ * TODO internal performance and kotlin like refacotring
+ */
 open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 
     override var preClip: StreamPreClip = antimeridianPreClip
@@ -243,4 +248,11 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
         dy = translateY + (projection.projectPhi(lambda, phi) * k)
     }
 
+}
+
+/**
+ * TODO use inside projeciton
+ */
+class TransformRadiansStreamAdapter(stream: Stream) : DelegateStreamAdapter(stream) {
+    override fun point(x: Double, y: Double, z: Double) = delegate.point(x.toRadians(), y.toRadians(), z.toRadians())
 }

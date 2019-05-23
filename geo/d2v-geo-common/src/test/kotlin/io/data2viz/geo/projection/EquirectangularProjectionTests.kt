@@ -9,7 +9,7 @@ class EquirectangularProjectionTests : TestBase() {
 
     val util = ProjectionTests()
 
-    // TODO: revert
+
 //    @Test
 //    fun equirectangular_various_projects_1() {
 //        val projection = equirectangularProjection {

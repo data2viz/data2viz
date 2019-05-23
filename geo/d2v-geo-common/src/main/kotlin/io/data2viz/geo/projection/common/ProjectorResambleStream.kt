@@ -151,6 +151,9 @@ object RingLineEndFunction :
 }
 
 
+/**
+ * TODO docs
+ */
 class ReSampledStream(val stream: Stream, val project: Projector, val delta2: Double) :
     Stream {
 
