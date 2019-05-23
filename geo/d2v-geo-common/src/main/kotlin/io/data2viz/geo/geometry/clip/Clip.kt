@@ -6,6 +6,16 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 
 
+
+val noPreClip = object : StreamPreClip {
+    override fun preClip(stream: Stream) =  stream
+}
+
+val noPostClip = object : StreamPostClip {
+    override fun postClip(stream: Stream): Stream = stream
+}
+
+
 interface StreamPostClip {
     fun postClip(stream: Stream): Stream
 }
@@ -171,7 +181,7 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
     internal val line = clip.clipLine(sink)
 
-    internal val ringBuffer = ClipBuffer()
+    internal val ringBuffer = ClipBufferStream()
     internal val ringSink = clip.clipLine(ringBuffer)
 
     internal var polygonStarted = false
@@ -259,5 +269,34 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
         sink.polygonEnd()
     }
 
+}
+class ClipBufferStream : Stream {
+    private var lines: MutableList<List<DoubleArray>> = mutableListOf()
+    private lateinit var line: MutableList<DoubleArray>
 
+    override fun point(x: Double, y: Double, z: Double) {
+        line.add(doubleArrayOf(x, y))
+    }
+
+    override fun lineStart() {
+        line = mutableListOf()
+
+        lines.add(line)
+    }
+
+    fun rejoin() {
+        if (lines.size > 1) {
+            val l = mutableListOf<List<DoubleArray>>()
+            l.add(lines.removeAt(lines.lastIndex))
+            l.add(lines.removeAt(0))
+            lines.addAll(l)
+        }
+    }
+
+    fun result(): MutableList<List<DoubleArray>> {
+        val oldLines = lines
+        lines = mutableListOf()
+
+        return oldLines
+    }
 }

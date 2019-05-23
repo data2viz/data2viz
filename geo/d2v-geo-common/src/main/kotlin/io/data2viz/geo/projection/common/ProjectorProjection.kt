@@ -12,7 +12,7 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.sqrt
 
-fun projection(projection: Projector, init: ProjectableProjection.() -> Unit) = ProjectableProjection(
+fun projection(projection: Projector, init: ProjectorProjection.() -> Unit) = ProjectorProjection(
     projection
 ).apply(init)
 
@@ -32,7 +32,7 @@ private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStre
     }
 }
 
-open class ProjectableProjection(val projection: Projector) : CachedProjection() {
+open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 
 
 //    private val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()

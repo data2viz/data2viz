@@ -28,9 +28,9 @@ import kotlin.math.abs
  * maximum latitude is typically the minimum translateY-value.)
  * This is the spherical equivalent of BoundsStream.
  */
-class GeoBounds : Stream {
+class GeoBoundsStream : Stream {
 
-    private val areaStream = GeoArea()
+    private val areaStream = GeoAreaStream()
 
     // drawBounds
     private var lambda0 = Double.NaN

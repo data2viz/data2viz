@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.geometry.clip.ExtentClip
+import io.data2viz.geo.geometry.clip.ExtentPostClip
 import io.data2viz.geo.geometry.clip.StreamPostClip
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.*
@@ -36,7 +36,7 @@ class MercatorProjector : Projector {
 
 }
 
-open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectableProjection(projector) {
+open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectorProjection(projector) {
 
     private var innerExtent: Extent? = null
 
@@ -86,7 +86,7 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
     override var postClip: StreamPostClip
         get() = super.postClip
         set(value) {
-            if(value is ExtentClip) {
+            if(value is ExtentPostClip) {
                 innerExtent = value.extent
             } else {
                 super.postClip = value

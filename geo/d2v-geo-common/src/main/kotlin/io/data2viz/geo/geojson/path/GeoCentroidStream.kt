@@ -9,14 +9,14 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
-// TODO : fun geoCentroid(geo) = GeoCentroid().result(geo) and generalizes to all measurements classes
+// TODO : fun geoCentroid(geo) = GeoCentroidStream().result(geo) and generalizes to all measurements classes
 
 
 /**
  * Returns the spherical centroid of the specified GeoJSON object.
  * This is the spherical equivalent of CentroidStream.
  */
-class GeoCentroid : Stream {
+class GeoCentroidStream : Stream {
 
     private var _W0 = .0
     private var _W1 = .0

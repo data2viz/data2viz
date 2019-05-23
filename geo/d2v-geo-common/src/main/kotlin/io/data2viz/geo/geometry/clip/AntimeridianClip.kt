@@ -11,23 +11,6 @@ import kotlin.math.sin
 
 
 
-val noPreClip = object : StreamPreClip {
-
-    override fun preClip(stream: Stream): Stream {
-        return stream
-    }
-
-}
-
-
-val noPostClip = object : StreamPostClip {
-
-    override fun postClip(stream: Stream): Stream {
-        return stream
-    }
-
-}
-
 
 val antimeridianPreClip = object : StreamPreClip {
     val antimeridianClip = AntimeridianClip()

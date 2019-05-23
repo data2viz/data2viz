@@ -16,7 +16,7 @@ import kotlin.math.sin
  * Returns the spherical area of the specified GeoJSON object in steradians.
  * This is the spherical equivalent of AreaStream.
  */
-class GeoArea : Stream {
+class GeoAreaStream : Stream {
 
     private var areaSum = .0
     internal var areaRingSum = .0
