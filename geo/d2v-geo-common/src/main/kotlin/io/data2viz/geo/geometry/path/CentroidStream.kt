@@ -3,6 +3,9 @@ package io.data2viz.geo.geometry.path
 import io.data2viz.geo.stream.Stream
 import kotlin.math.sqrt
 
+/**
+ * TODO: docs
+ */
 internal class CentroidStream : Stream {
     private var _X0 = 0.0
     private var _Y0 = 0.0

@@ -130,19 +130,8 @@ class GeoPath(val projection: Projection, val context: Path?) {
     }
 }
 
-//
-// TODO: missed API
-// # path.context([context]) <>
-//
-//If context is specified, sets the current render context and returns the path generator. If the context is null, then the path generator will return an SVG path string; if the context is non-null, the path generator will instead call methods on the specified context to render geometry. The context must implement the following subset of the CanvasRenderingContext2D API:
-//
-//context.beginPath()
-//context.moveTo(x, y)
-//context.lineTo(x, y)
-//context.arc(x, y, radius, startAngle, endAngle)
-//context.closePath()
-//If a context is not specified, returns the current render context which defaults to null.
-//
+
+// TODO Missed API
 //# path.pointRadius([radius]) <>
 //
 //If radius is specified, sets the radius used to display Point and MultiPoint geometries to the specified number. If radius is not specified, returns the current radius accessor, which defaults to 4.5. While the radius is commonly specified as a number constant, it may also be specified as a function which is computed per feature, being passed the any arguments passed to the path generator. For example, if your GeoJSON data has additional properties, you might access those properties inside the radius function to vary the point size; alternatively, you could d3.symbol and a projection for greater flexibility.

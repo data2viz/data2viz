@@ -3,7 +3,7 @@ package io.data2viz.geo.geojson.path
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geometry.cartesian
 import io.data2viz.geo.geometry.cartesianNormalize
-import io.data2viz.geo.projection.common.rotateRadians
+import io.data2viz.geo.projection.common.createRotateRadiansProjector
 import io.data2viz.geojson.Polygon
 import io.data2viz.math.EPSILON
 import io.data2viz.math.TAU
@@ -57,7 +57,7 @@ class GeoCircle<D> {
         val r = radius(data).toRadians()
         val p = precision(data).toRadians()
 
-        rotate = rotateRadians(c[0], c[1], .0)::invert
+        rotate = createRotateRadiansProjector(c[0], c[1], .0)::invert
         geoCircle(circleStream, r, p, 1)
         val result = Polygon(arrayOf(ring.toTypedArray()))
 
@@ -70,6 +70,7 @@ class GeoCircle<D> {
 
 /**
  * TODO: docs
+ * TODO: make similar to geoCentroid API
  * Generates a circle centered at [0°, 0°], with a given radius and precision.
  */
 fun geoCircle(

@@ -1,4 +1,4 @@
-package io.data2viz.geo.geo
+package io.data2viz.geo.geojson.path
 
 import io.data2viz.geo.projection.pt
 import io.data2viz.geo.geojson.path.GeoLength

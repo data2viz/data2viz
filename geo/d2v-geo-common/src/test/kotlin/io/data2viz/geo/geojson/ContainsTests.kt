@@ -1,6 +1,6 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo.geojson
 
-
+import io.data2viz.geo.projection.pt
 import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geo.geojson.contains
 import io.data2viz.geojson.*
@@ -27,7 +27,7 @@ class ContainsTests : TestBase() {
         Point(pt(.0, .0)).contains(pt(.0, .0)) shouldBe true
         Point(pt(1.0, 2.0)).contains(pt(1.0, 2.0)) shouldBe true
         Point(pt(.0, .0)).contains(pt(.0, 1.0)) shouldBe false
-        Point(pt(.0, .0)).contains(pt(1.0, .0)) shouldBe false
+        Point(pt(1.0, 1.0)).contains(pt(1.0, .0)) shouldBe false
     }
 
     @Test

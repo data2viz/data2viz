@@ -240,7 +240,7 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
     }
 
     fun recenter() {
-        rotator = rotateRadians(deltaLambda, deltaPhi, deltaGamma)
+        rotator = createRotateRadiansProjector(deltaLambda, deltaPhi, deltaGamma)
 
         projectRotate = ComposedProjector(rotator, projection)
 

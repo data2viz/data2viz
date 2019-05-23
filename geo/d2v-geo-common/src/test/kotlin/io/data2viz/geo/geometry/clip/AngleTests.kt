@@ -1,5 +1,7 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo.geometry.clip
 
+import io.data2viz.geo.projection.ProjectionTests
+import io.data2viz.geo.projection.gnomonicProjection
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -9,7 +11,7 @@ class AngleTests: TestBase() {
 
     @Test
     fun angle_defaults_to_zero() {
-        val projection = gnomonicProjection()
+//        val projection = gnomonicProjection()
 
 //        util.checkProjection(projection, 0.0, 0.0, doubleArrayOf(0.0, 0.0));
 //        util.checkProjection(projection, 10.0, 0.0, doubleArrayOf(0.017632698070846498, 0.0));

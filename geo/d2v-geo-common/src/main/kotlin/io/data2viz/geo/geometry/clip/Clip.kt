@@ -9,18 +9,32 @@ import io.data2viz.math.HALFPI
 /**
  * Clipping functions are implemented as transformations of a projection stream. Pre-clipping operates on spherical coordinates, in radians. Post-clipping operates on planar coordinates, in pixels.
  */
+
+/**
+ * TODO docs
+ */
 val noPreClip = object : StreamPreClip {
     override fun preClip(stream: Stream) =  stream
 }
 
+/**
+ * TODO docs
+ */
 val noPostClip = object : StreamPostClip {
     override fun postClip(stream: Stream): Stream = stream
 }
 
 
+/**
+ * TODO docs
+ */
 interface StreamPostClip {
     fun postClip(stream: Stream): Stream
 }
+
+/**
+ * TODO docs
+ */
 interface StreamPreClip {
     fun preClip(stream: Stream): Stream
 }
@@ -36,12 +50,18 @@ interface ClipStream : Stream {
     var clean: Int
 }
 
+/**
+ * TODO docs
+ */
 interface Clippable {
     fun pointVisible(x: Double, y: Double): Boolean
     fun clipLine(stream: Stream): ClipStream
     fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream)
 }
 
+/**
+ * TODO docs
+ */
 interface ClippableHasStart : Clippable {
     val start: DoubleArray
 }
@@ -177,7 +197,10 @@ object PointRingPointFunction : PointFunction {
 
 }
 
-
+/**
+ * TODO docs
+ * TODO: make internal
+ */
 class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
 
@@ -272,6 +295,10 @@ class Clip(val clip: ClippableHasStart, val sink: Stream) : Stream {
     }
 
 }
+
+/**
+ * TODO docs
+ */
 class ClipBufferStream : Stream {
     private var lines: MutableList<List<DoubleArray>> = mutableListOf()
     private lateinit var line: MutableList<DoubleArray>

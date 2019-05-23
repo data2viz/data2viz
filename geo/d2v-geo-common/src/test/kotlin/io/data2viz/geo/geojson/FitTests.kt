@@ -1,4 +1,4 @@
-package io.data2viz.geo.geo
+package io.data2viz.geo.geojson
 
 import io.data2viz.geo.geojson.*
 import io.data2viz.geom.Extent

@@ -1,6 +1,6 @@
-package io.data2viz.geo.projection
+package io.data2viz.geo.geojson.path
 
-
+import io.data2viz.geo.projection.pt
 import io.data2viz.geo.geojson.path.GeoAreaStream
 import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geojson.*
@@ -8,7 +8,7 @@ import io.data2viz.test.TestBase
 import kotlin.math.PI
 import kotlin.test.Test
 
-class AreaTests : TestBase() {
+class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_a_point() {
@@ -247,77 +247,77 @@ function stripes(a, b) {
   })};
 }
 
-tape("drawArea: Polygon - geoGraticule outline sphere", function(test) {
+tape("area: Polygon - geoGraticule outline sphere", function(test) {
   test.inDelta(d3.geoArea(d3.geoGraticule().extent([[-180, -90], [180, 90]]).outline()), 4 * Math.PI, 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - geoGraticule outline hemisphere", function(test) {
+tape("area: Polygon - geoGraticule outline hemisphere", function(test) {
   test.inDelta(d3.geoArea(d3.geoGraticule().extent([[-180, 0], [180, 90]]).outline()), 2 * Math.PI, 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - geoGraticule outline semilune", function(test) {
+tape("area: Polygon - geoGraticule outline semilune", function(test) {
   test.inDelta(d3.geoArea(d3.geoGraticule().extent([[0, 0], [90, 90]]).outline()), Math.PI / 2, 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles hemisphere", function(test) {
+tape("area: Polygon - circles hemisphere", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(90)()), 2 * Math.PI, 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 60°", function(test) {
+tape("area: Polygon - circles 60°", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(60).precision(0.1)()), Math.PI, 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 60° North", function(test) {
+tape("area: Polygon - circles 60° North", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(60).precision(0.1).center([0, 90])()), Math.PI, 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 45°", function(test) {
+tape("area: Polygon - circles 45°", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(45).precision(0.1)()), Math.PI * (2 - Math.SQRT2), 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 45° North", function(test) {
+tape("area: Polygon - circles 45° North", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(45).precision(0.1).center([0, 90])()), Math.PI * (2 - Math.SQRT2), 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 45° South", function(test) {
+tape("area: Polygon - circles 45° South", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(45).precision(0.1).center([0, -90])()), Math.PI * (2 - Math.SQRT2), 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 135°", function(test) {
+tape("area: Polygon - circles 135°", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(135).precision(0.1)()), Math.PI * (2 + Math.SQRT2), 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 135° North", function(test) {
+tape("area: Polygon - circles 135° North", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(135).precision(0.1).center([0, 90])()), Math.PI * (2 + Math.SQRT2), 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 135° South", function(test) {
+tape("area: Polygon - circles 135° South", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(135).precision(0.1).center([0, -90])()), Math.PI * (2 + Math.SQRT2), 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - circles tiny", function(test) {
+tape("area: Polygon - circles tiny", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(1e-6).precision(0.1)()), 0, 1e-6);
   test.end();
 });
 
-tape("drawArea: Polygon - circles huge", function(test) {
+tape("area: Polygon - circles huge", function(test) {
   test.inDelta(d3.geoArea(d3.geoCircle().radius(180 - 1e-6).precision(0.1)()), 4 * Math.PI, 1e-6);
   test.end();
 });
 
-tape("drawArea: Polygon - circles 60° with 45° hole", function(test) {
+tape("area: Polygon - circles 60° with 45° hole", function(test) {
   var circle = d3.geoCircle().precision(0.1);
   test.inDelta(d3.geoArea({
     type: "Polygon",
@@ -329,7 +329,7 @@ tape("drawArea: Polygon - circles 60° with 45° hole", function(test) {
   test.end();
 });
 
-tape("drawArea: Polygon - circles 45° holes at [0°, 0°] and [0°, 90°]", function(test) {
+tape("area: Polygon - circles 45° holes at [0°, 0°] and [0°, 90°]", function(test) {
   var circle = d3.geoCircle().precision(0.1).radius(45);
   test.inDelta(d3.geoArea({
     type: "Polygon",
@@ -341,7 +341,7 @@ tape("drawArea: Polygon - circles 45° holes at [0°, 0°] and [0°, 90°]", fun
   test.end();
 });
 
-tape("drawArea: Polygon - circles 45° holes at [0°, 90°] and [0°, 0°]", function(test) {
+tape("area: Polygon - circles 45° holes at [0°, 90°] and [0°, 0°]", function(test) {
   var circle = d3.geoCircle().precision(0.1).radius(45);
   test.inDelta(d3.geoArea({
     type: "Polygon",
@@ -353,17 +353,17 @@ tape("drawArea: Polygon - circles 45° holes at [0°, 90°] and [0°, 0°]", fun
   test.end();
 });
 
-tape("drawArea: Polygon - stripes 45°, -45°", function(test) {
+tape("area: Polygon - stripes 45°, -45°", function(test) {
   test.inDelta(d3.geoArea(stripes(45, -45)), Math.PI * 2 * Math.SQRT2, 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - stripes -45°, 45°", function(test) {
+tape("area: Polygon - stripes -45°, 45°", function(test) {
   test.inDelta(d3.geoArea(stripes(-45, 45)), Math.PI * 2 * (2 - Math.SQRT2), 1e-5);
   test.end();
 });
 
-tape("drawArea: Polygon - stripes 45°, 30°", function(test) {
+tape("area: Polygon - stripes 45°, 30°", function(test) {
   test.inDelta(d3.geoArea(stripes(45, 30)), Math.PI * (Math.SQRT2 - 1), 1e-5);
   test.end();
 });

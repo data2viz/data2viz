@@ -1,5 +1,8 @@
 package io.data2viz.geo.stream
 
+/**
+ * TODO: docs
+ */
 class StreamCache() {
 
     fun isCacheValidFor(originalStream: Stream) = originalSourceStream == originalStream

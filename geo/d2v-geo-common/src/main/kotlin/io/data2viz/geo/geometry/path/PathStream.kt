@@ -4,6 +4,9 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.math.TAU
 import io.data2viz.geom.Path
 
+/**
+ * TODO: docs
+ */
 internal class PathStream(private val context: Path) : Stream {
     var pointRadius = 4.5
 

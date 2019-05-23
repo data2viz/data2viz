@@ -6,6 +6,9 @@ import io.data2viz.math.TAU
 import kotlin.math.*
 
 
+/**
+ * TODO : missed docs
+ */
 fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
     val lambda = point[0]
     val phi = point[1]
