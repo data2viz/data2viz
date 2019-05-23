@@ -14,10 +14,7 @@ import kotlin.math.*
 fun mercatorProjection() = mercatorProjection {}
 
 
-// TODO: we should use MercatorProjection in this case instaed of default projection without clipping.
-//  Currently MercatorProjection have clipping issues in this case
-fun mercatorProjection(init: Projection.() -> Unit) = projection(MercatorProjector()){}.apply {
-//fun mercatorProjection(init: Projection.() -> Unit) = MercatorProjection(MercatorProjector()).apply {
+fun mercatorProjection(init: Projection.() -> Unit) = MercatorProjection(MercatorProjector()).apply {
     scale = 961 / TAU
 }.apply(init)
 
@@ -37,8 +34,6 @@ class MercatorProjector : Projector {
 }
 
 open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectorProjection(projector) {
-
-    private var innerExtent: Extent? = null
 
     override var scale: Double
         get() = super.scale
@@ -83,19 +78,7 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
         reclip()
     }
 
-    override var postClip: StreamPostClip
-        get() = super.postClip
-        set(value) {
-            if(value is ExtentPostClip) {
-                innerExtent = value.extent
-            } else {
-                super.postClip = value
-                innerExtent = null
-            }
-
-        }
-
-    // TODO check tests still some issues with extentPostClip
+    // TODO check tests still some issues with extentPostClip. Don't properly clip bottom border (see sample)
     private fun reclip() {
         val k = PI * scale
         val invert = rotation(rotateLambda, rotatePhi, rotateGamma).invert(.0, .0)
