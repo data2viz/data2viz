@@ -69,6 +69,7 @@ class GeoCircle<D> {
 }
 
 /**
+ * TODO: docs
  * Generates a circle centered at [0°, 0°], with a given radius and precision.
  */
 fun geoCircle(

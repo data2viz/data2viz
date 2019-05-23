@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.geometry.acos
+import io.data2viz.geo.geometry.limitedAcos
 import io.data2viz.geo.geometry.clip.anglePreClip
 import io.data2viz.geo.projection.common.ProjectorProjection
 import io.data2viz.geo.projection.common.projection
@@ -17,7 +17,7 @@ fun azimuthalEquidistant(init: ProjectorProjection.() -> Unit) =
     }
 
 private val scale = { cxcy: Double ->
-    val c = cxcy.acos
+    val c = cxcy.limitedAcos
     if (c != .0) c / sin(c) else c
 }
 private val angle: (Double) -> Double = { z -> z }

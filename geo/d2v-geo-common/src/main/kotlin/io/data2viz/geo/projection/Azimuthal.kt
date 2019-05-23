@@ -1,6 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.geometry.asin
+import io.data2viz.geo.geometry.limitedAsin
 import io.data2viz.geo.projection.common.Projector
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -50,7 +50,7 @@ private fun internalInvertLambda(
 ) = atan2(lambda * sc, z * cc)
 
 private fun internalInvertPhi(z: Double, phi: Double, sc: Double) =
-    (if (z != .0) phi * sc / z else z).asin
+    (if (z != .0) phi * sc / z else z).limitedAsin
 
 private fun sc(c: Double) = sin(c)
 

@@ -14,6 +14,8 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.abs
 
+fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
+
 /**
  * Returns the spherical bounding box for the specified GeoJSON object.
  * The bounding box is represented by an Extent where:

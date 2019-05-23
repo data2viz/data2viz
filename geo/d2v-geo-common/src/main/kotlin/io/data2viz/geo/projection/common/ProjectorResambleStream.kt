@@ -2,7 +2,7 @@ package io.data2viz.geo.projection.common
 
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
-import io.data2viz.geo.geometry.asin
+import io.data2viz.geo.geometry.limitedAsin
 import io.data2viz.math.EPSILON
 import io.data2viz.math.toRadians
 import kotlin.math.*
@@ -211,7 +211,7 @@ class ReSampledStream(val stream: Stream, val project: Projector, val delta2: Do
             var c = c0 + c1
             val m = sqrt(a * a + b * b + c * c)
             c /= m
-            val phi2 = c.asin
+            val phi2 = c.limitedAsin
             val lambda2 = when {
                 abs(abs(c) - 1) < EPSILON || abs(lambda0 - lambda1) < EPSILON -> (lambda0 + lambda1) / 2
                 else -> atan2(b, a)
