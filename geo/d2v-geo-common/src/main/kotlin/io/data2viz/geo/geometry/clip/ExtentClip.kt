@@ -5,7 +5,7 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 
 
-class ExtentClip(val extent: Extent) : StreamPostClip {
+class ExtentPostClip(val extent: Extent) : StreamPostClip {
     val clipRectangle = ClipRectangle(extent)
     override fun postClip(stream: Stream): Stream {
         return clipRectangle.clipLine(stream)
@@ -16,11 +16,11 @@ class ExtentClip(val extent: Extent) : StreamPostClip {
 
 
 var Projection.extentPostClip: Extent?
-    get() = (postClip as? ExtentClip)?.extent
+    get() = (postClip as? ExtentPostClip)?.extent
     set(value) {
 
         if (value != null) {
-            postClip = ExtentClip(value)
+            postClip = ExtentPostClip(value)
         } else {
             postClip = noPostClip
         }

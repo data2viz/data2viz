@@ -1,7 +1,7 @@
 package io.data2viz.geo.geo
 
 import io.data2viz.geo.projection.pt
-import io.data2viz.geo.geojson.path.GeoCentroid
+import io.data2viz.geo.geojson.path.GeoCentroidStream
 import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
@@ -11,15 +11,15 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_point_is_itself() {
-        GeoCentroid().result(Point(pt(.0, .0))) shouldBeClose doubleArrayOf(.0, .0)
-        GeoCentroid().result(Point(pt(1.0, 1.0))) shouldBeClose doubleArrayOf(1.0, 1.0)
-        GeoCentroid().result(Point(pt(2.0, 3.0))) shouldBeClose doubleArrayOf(2.0, 3.0)
-        GeoCentroid().result(Point(pt(-4.0, -5.0))) shouldBeClose doubleArrayOf(-4.0, -5.0)
+        GeoCentroidStream().result(Point(pt(.0, .0))) shouldBeClose doubleArrayOf(.0, .0)
+        GeoCentroidStream().result(Point(pt(1.0, 1.0))) shouldBeClose doubleArrayOf(1.0, 1.0)
+        GeoCentroidStream().result(Point(pt(2.0, 3.0))) shouldBeClose doubleArrayOf(2.0, 3.0)
+        GeoCentroidStream().result(Point(pt(-4.0, -5.0))) shouldBeClose doubleArrayOf(-4.0, -5.0)
     }
 
     @Test
     fun geocentroid_of_a_set_of_points_is_the_spherical_average_of_its_constituent_members() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             MultiPoint(
                 arrayOf(
                     pt(.0, .0),
@@ -28,7 +28,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(0.499847, 1.000038)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             MultiPoint(
                 arrayOf(
                     pt(179.0, .0),
@@ -40,7 +40,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_set_of_points_and_their_antipodes_is_ambiguous() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             MultiPoint(
                 arrayOf(
                     pt(.0, .0),
@@ -49,7 +49,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             MultiPoint(
                 arrayOf(
                     pt(.0, .0),
@@ -60,7 +60,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             MultiPoint(
                 arrayOf(
                     pt(.0, .0),
@@ -74,12 +74,12 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_an_empty_set_of_points_is_ambiguous() {
-        GeoCentroid().result(MultiPoint(arrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        GeoCentroidStream().result(MultiPoint(arrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geocentroid_of_a_linestring_is_the_spherical_average_of_its_constituent_great_arc_segments() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(.0, .0),
@@ -88,7 +88,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(0.5, .0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(.0, .0),
@@ -97,7 +97,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(.0, 45.0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(.0, .0),
@@ -107,7 +107,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(.0, 45.0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(-1.0, -1.0),
@@ -116,7 +116,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(.0, .0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(-60.0, -1.0),
@@ -125,7 +125,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(.0, .0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(179.0, -1.0),
@@ -134,7 +134,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(180.0, .0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(-179.0, .0),
@@ -144,7 +144,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(.0, .0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(-180.0, -90.0),
@@ -157,7 +157,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_great_arc_from_a_point_to_its_antipode_is_ambiguous() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(180.0, .0),
@@ -166,7 +166,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             MultiLineString(
                 arrayOf(
                     arrayOf(
@@ -180,7 +180,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_set_of_linestrings_is_the_spherical_average_of_its_constituent_great_arc_segments() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             MultiLineString(
                 arrayOf(
                     arrayOf(
@@ -194,7 +194,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_a_line_of_zero_length_is_treated_as_points() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(1.0, 1.0),
@@ -209,7 +209,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_an_empty_polygon_with_non_zero_extent_is_treated_as_a_line() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -229,7 +229,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_an_empty_polygon_with_zero_extent_is_treated_as_a_point() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -249,7 +249,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_the_equator_is_ambiguous() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             LineString(
                 arrayOf(
                     pt(0.0, .0),
@@ -263,7 +263,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_polygon_is_the_spherical_average_of_its_surface() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -277,7 +277,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(0.5, .0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     (-180..180).map { pt(it.toDouble(), -60.0) }.toTypedArray()
@@ -285,7 +285,7 @@ class GeoCentroidTests : TestBase() {
             )
         )[1] shouldBeClose -90.0
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -302,7 +302,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_spherical_square_touching_the_antimeridian() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -319,12 +319,12 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_sphere_is_ambiguous() {
-        GeoCentroid().result(Sphere()) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        GeoCentroidStream().result(Sphere()) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
     }
 
     @Test
     fun geocentroid_of_a_small_circle_is_its_center_south_pole() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     (-180..180).map { pt(it.toDouble(), -60.0) }.toTypedArray()
@@ -335,7 +335,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_small_circle_is_its_center_equator() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -352,7 +352,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_small_circle_is_its_center_equator_with_coincident_points() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -370,7 +370,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_small_circle_is_its_center_other() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -387,7 +387,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_feature_is_the_center_of_its_constituent_geometry() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Feature(
                 LineString(
                     arrayOf(
@@ -398,7 +398,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(1.0, 1.0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Feature(
                 Point(
                     pt(1.0, 1.0)
@@ -406,7 +406,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(1.0, 1.0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             Feature(
                 Polygon(
                     arrayOf(
@@ -425,7 +425,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_featureCollection_is_the_center_of_its_constituent_geometry() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             FeatureCollection(
                 arrayOf(
                     Feature(
@@ -444,7 +444,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_non_empty_linestring_and_a_point_only_considers_the_line_string() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             GeometryCollection(
                 arrayOf(
                     LineString(
@@ -461,7 +461,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_non_empty_polygon_a_non_empty_linestring_and_a_point_only_considers_the_polygon() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             GeometryCollection(
                 arrayOf(
                     Polygon(
@@ -486,7 +486,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(-179.5, 0.500006)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             GeometryCollection(
                 arrayOf(
                     Point(pt(.0, .0)),
@@ -514,7 +514,7 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_the_sphere_and_a_point_is_the_point() {
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             FeatureCollection(
                 arrayOf(
                     Feature(Sphere()),
@@ -523,7 +523,7 @@ class GeoCentroidTests : TestBase() {
             )
         ) shouldBeClose doubleArrayOf(1.0, 2.0)
 
-        GeoCentroid().result(
+        GeoCentroidStream().result(
             FeatureCollection(
                 arrayOf(
                     Feature(Point(pt(2.0, 3.0))),

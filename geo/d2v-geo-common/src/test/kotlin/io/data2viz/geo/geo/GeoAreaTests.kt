@@ -1,7 +1,7 @@
 package io.data2viz.geo.geo
 
 import io.data2viz.geo.projection.pt
-import io.data2viz.geo.geojson.path.GeoArea
+import io.data2viz.geo.geojson.path.GeoAreaStream
 import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
@@ -12,17 +12,17 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_a_point() {
-        GeoArea().result(Point(pt(.0, .0))) shouldBeClose .0
+        GeoAreaStream().result(Point(pt(.0, .0))) shouldBeClose .0
     }
 
     @Test
     fun geoarea_of_a_multipoint() {
-        GeoArea().result(MultiPoint(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
+        GeoAreaStream().result(MultiPoint(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
     }
 
     @Test
     fun geoarea_of_a_tiny_polygon() {
-        GeoArea().result(
+        GeoAreaStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -41,7 +41,7 @@ class GeoAreaTests : TestBase() {
     // TODO : pass in JVM not JS !! (shouldBeClose .0 but delta is 5e-13)
     @Test
     fun geoarea_of_a_zero_area_polygon() {
-        GeoArea().result(
+        GeoAreaStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -58,7 +58,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_a_semilune_polygon() {
-        GeoArea().result(
+        GeoAreaStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -74,7 +74,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_a_lune_polygon() {
-        GeoArea().result(
+        GeoAreaStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -91,7 +91,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_hemisphere_north() {
-        GeoArea().result(
+        GeoAreaStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -108,7 +108,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_hemisphere_south() {
-        GeoArea().result(
+        GeoAreaStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -125,7 +125,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_hemisphere_east() {
-        GeoArea().result(
+        GeoAreaStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -142,7 +142,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_hemisphere_west() {
-        GeoArea().result(
+        GeoAreaStream().result(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -159,7 +159,7 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_multipolygon_2_hemispheres() {
-        GeoArea().result(
+        GeoAreaStream().result(
             MultiPolygon(
                 arrayOf(
                     arrayOf(
@@ -187,12 +187,12 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_sphere() {
-        GeoArea().result(Sphere()) shouldBeClose PI * 4
+        GeoAreaStream().result(Sphere()) shouldBeClose PI * 4
     }
 
     @Test
     fun geoarea_of_geometryCollection_polygon() {
-        GeoArea().result(
+        GeoAreaStream().result(
             GeometryCollection(
                 arrayOf(
                     Polygon(
@@ -213,22 +213,22 @@ class GeoAreaTests : TestBase() {
 
     @Test
     fun geoarea_of_featureCollection_sphere() {
-        GeoArea().result(FeatureCollection(arrayOf(Feature(Sphere())))) shouldBeClose PI * 4
+        GeoAreaStream().result(FeatureCollection(arrayOf(Feature(Sphere())))) shouldBeClose PI * 4
     }
 
     @Test
     fun geoarea_of_feature_sphere() {
-        GeoArea().result(Feature(Sphere())) shouldBeClose PI * 4
+        GeoAreaStream().result(Feature(Sphere())) shouldBeClose PI * 4
     }
 
     @Test
     fun geoarea_of_linestring() {
-        GeoArea().result(LineString(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
+        GeoAreaStream().result(LineString(arrayOf(pt(.0, 1.0), pt(2.0, 3.0)))) shouldBeClose .0
     }
 
     @Test
     fun geoarea_of_multilinestring() {
-        GeoArea().result(
+        GeoAreaStream().result(
             MultiLineString(
                 arrayOf(
                     arrayOf(pt(.0, 1.0), pt(2.0, 3.0)),

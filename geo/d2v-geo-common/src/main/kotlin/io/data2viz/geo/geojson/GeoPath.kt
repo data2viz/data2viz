@@ -60,7 +60,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * This is handy for, say, labeling state or county boundaries, or displaying a symbol map.
      * For example, a noncontiguous cartogram might scale each state around its centroid.
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
-     * This is the planar equivalent of GeoCentroid.
+     * This is the planar equivalent of GeoCentroidStream.
      */
     fun centroid(geo: GeoJsonObject): DoubleArray {
         geo.stream(projection.stream(centroidStream))
@@ -73,7 +73,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * For Polygon and MultiPolygon geometries, this method first computes the area of the exterior ring, and then
      * subtracts the area of any interior holes.
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
-     * This is the planar equivalent of GeoArea.
+     * This is the planar equivalent of GeoAreaStream.
      */
     fun area(geo: GeoJsonObject): Double {
         geo.stream(projection.stream(areaStream))
@@ -91,7 +91,7 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * (Note that in projected planar coordinates, the minimum latitude is typically the maximum translateY-value, and the
      * maximum latitude is typically the minimum translateY-value.)
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
-     * This is the planar equivalent of GeoBounds.
+     * This is the planar equivalent of GeoBoundsStream.
      */
     fun bounds(geo: GeoJsonObject): Extent {
         geo.stream(projection.stream(boundsStream))
