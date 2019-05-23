@@ -34,10 +34,6 @@ private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStre
 
 open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 
-
-//    private val clipAntimeridian: (Stream) -> Stream = clipAntimeridian()
-//    val noClip: (Stream) -> Stream = { it }
-
     override var preClip: StreamPreClip = antimeridianPreClip
 
 

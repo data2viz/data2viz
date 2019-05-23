@@ -62,40 +62,4 @@ class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProj
 
         }
     }
-//
-//    override var center: Array<Angle>
-//        get() {
-//            val it = super.center
-//            val t = it[0]
-//            it[0] = it[1]
-//            it[1] = -t
-//            return it
-//        }
-//        set(value) {
-//            val it = value
-//            val t = it[0]
-//            it[0] = -it[1]
-//            it[1] = t
-//            super.center = it
-//        }
-//
-//    override var rotate: Array<Angle>
-//        get() {
-//
-//            val original = super.rotate
-//            return if (original.size > 2) {
-//                arrayOf(original[0], original[1], original[2] - (90.0).deg)
-//            } else {
-//
-//                arrayOf(original[0], original[1], (-90.0).deg)
-//            }
-//        }
-//        set(value) {
-//            val original = value
-//            super.rotate = if (original.size > 2) {
-//                arrayOf(original[0], original[1], original[2] + 90.0.deg)
-//            } else {
-//                arrayOf(original[0], original[1], (+90.0).deg)
-//            }
-//        }
 }
