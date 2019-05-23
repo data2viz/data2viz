@@ -13,8 +13,14 @@ val A4 = 0.003796
 val M = sqrt(3.0) / 2
 val iterations = 12
 
+/**
+ * @see EqualEarthProjector
+ */
 fun equalEarthProjection() = equalEarthProjection {}
 
+/**
+ * @see EqualEarthProjector
+ */
 fun equalEarthProjection(init: Projection.() -> Unit) =
     projection(EqualEarthProjector()) {
         scale = 177.158

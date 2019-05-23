@@ -1,6 +1,5 @@
 package io.data2viz.geo.geometry.path
 
-// TODO: Check
 //var tape = require("tape"),
 //d3_geo = require("../../"),
 //testContext = require("./test-context");

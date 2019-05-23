@@ -11,13 +11,26 @@ import io.data2viz.math.PI
 import io.data2viz.math.TAU
 import kotlin.math.*
 
+/**
+ * @see MercatorProjector
+ * @see MercatorProjection
+ */
 fun mercatorProjection() = mercatorProjection {}
 
 
+/**
+ * @see MercatorProjector
+ * @see MercatorProjection
+ */
 fun mercatorProjection(init: Projection.() -> Unit) = MercatorProjection(MercatorProjector()).apply {
     scale = 961 / TAU
 }.apply(init)
 
+/**
+ * The spherical Mercator projection.
+ *
+ * @see MercatorProjection
+ */
 class MercatorProjector : Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
 
@@ -34,7 +47,14 @@ class MercatorProjector : Projector {
 }
 
 /**
- * The spherical Mercator projection. Defines a default projection.clipExtent such that the world is projected to a square, clipped to approximately ±85° latitude.
+ *
+ * Defines a default projection [postClip] such that the world is projected to a square,
+ * clipped to approximately ±85° latitude.
+ *
+ * @see MercatorProjector
+ */
+/**
+ *
  */
 open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectorProjection(projector) {
 

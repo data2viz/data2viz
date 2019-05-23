@@ -3,14 +3,18 @@ package io.data2viz.geo.geometry.path
 import io.data2viz.geo.geojson.noop
 import io.data2viz.geo.geojson.noop2
 import io.data2viz.geo.stream.Stream
+import io.data2viz.geo.geojson.path.GeoAreaStream
 import kotlin.math.abs
 
 
-// TODO : check for use of D3 "adder"
+
 /**
- * TODO: docs
+ * Stream and returns via [result] the spherical area of the specified GeoJSON object in cartesian.
+ * This is the cartesian equivalent of [GeoAreaStream]
  */
 internal class AreaStream : Stream {
+
+    // TODO : check for use of D3 "adder"
 
     private var areaSum = .0
     private var areaRingSum = .0

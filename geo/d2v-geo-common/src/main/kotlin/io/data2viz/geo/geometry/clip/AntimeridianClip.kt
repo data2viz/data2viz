@@ -11,22 +11,22 @@ import kotlin.math.sin
 
 
 
-
+/**
+ * A clipping function which transforms a stream such that geometries (lines or polygons)
+ * that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.
+ *
+ */
 val antimeridianPreClip = object : StreamPreClip {
     val antimeridianClip = AntimeridianClip()
 
     override fun preClip(stream: Stream): Stream {
-        return Clip(antimeridianClip, stream)
+        return ClippableStream(antimeridianClip, stream)
     }
 
 }
 
-fun clipAntimeridian() = { stream: Stream -> Clip(AntimeridianClip(), stream) }
 
-/**
- * A clipping function which transforms a stream such that geometries (lines or polygons) that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.
- */
-class AntimeridianClip : ClippableHasStart {
+private class AntimeridianClip : ClippableHasStart {
 
     override var start = doubleArrayOf(-PI, -HALFPI)
     override fun pointVisible(x: Double, y: Double) = true

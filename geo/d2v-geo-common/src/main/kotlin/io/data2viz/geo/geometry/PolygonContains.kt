@@ -7,7 +7,7 @@ import kotlin.math.*
 
 
 /**
- * TODO : missed docs
+ * @return whether [polygon] contains given [point]
  */
 fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
     val lambda = point[0]

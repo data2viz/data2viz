@@ -7,8 +7,14 @@ import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.deg
 import kotlin.math.sin
 
+/**
+ * @see AzimuthalEquidistantProjection
+ */
 fun azimuthalEquidistant() = azimuthalEquidistant {}
 
+/**
+ * @see AzimuthalEquidistantProjection
+ */
 fun azimuthalEquidistant(init: ProjectorProjection.() -> Unit) =
     projection(AzimuthalEquidistantProjection()) {
         scale = 79.4188
@@ -24,5 +30,7 @@ private val angle: (Double) -> Double = { z -> z }
 
 /**
  * The azimuthal equidistant projection.
+ *
+ * @see AzimuthalProjector
  */
 class AzimuthalEquidistantProjection : AzimuthalProjector(scale, angle)

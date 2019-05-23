@@ -7,8 +7,14 @@ import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.deg
 import kotlin.math.sqrt
 
+/**
+ * @see AzimuthalEqualArea
+ */
 fun azimuthalEqualAreaProjection() = azimuthalEqualAreaProjection {}
 
+/**
+ * @see AzimuthalEqualArea
+ */
 fun azimuthalEqualAreaProjection(init: ProjectorProjection.() -> Unit) =
     projection(AzimuthalEqualArea()) {
         scale = 124.75
@@ -21,5 +27,7 @@ private val angle: (Double) -> Double = { z -> 2 * (z / 2).limitedAsin }
 
 /**
  * The azimuthal equal-area projection.
+ *
+ * @see AzimuthalProjector
  */
 class AzimuthalEqualArea: AzimuthalProjector(scale, angle)

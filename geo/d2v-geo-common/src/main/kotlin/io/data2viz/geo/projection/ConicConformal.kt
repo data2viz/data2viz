@@ -7,8 +7,14 @@ import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
 import kotlin.math.*
 
+/**
+ * @see ConicConformalBaseConditionalProjector
+ */
 fun conicConformalProjection() = conicConformalProjection {}
 
+/**
+ * @see ConicConformalBaseConditionalProjector
+ */
 fun conicConformalProjection(init: ConicProjection.() -> Unit) =
     conicProjection(ConicConformalBaseConditionalProjector()) {
         scale = 109.5
@@ -17,12 +23,16 @@ fun conicConformalProjection(init: ConicProjection.() -> Unit) =
     }
 
 
-fun tany(y: Double): Double {
+internal fun tany(y: Double): Double {
     return tan((HALFPI + y) / 2);
 }
 
 /**
- * The conic conformal projection. The parallels default to [30°, 30°] resulting in flat top. See also conic.parallels.
+ * The [ConicConformalProjector].
+ * The parallels default to [30°, 30°] resulting in flat top.
+ * For some parallels values use [MercatorProjector]
+ *
+ * @see BaseConditionalProjector
  */
 class ConicConformalBaseConditionalProjector(
     private val conicConformalProjector: ConicConformalProjector = ConicConformalProjector(),

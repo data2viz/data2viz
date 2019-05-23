@@ -17,11 +17,14 @@ class RectanglePostClip(x0: Double, y0: Double, x1: Double, y1: Double) : Stream
 }
 
 
+
 /**
  * Generates a clipping function which transforms a stream such that geometries are bounded by The given Extent.
  * Typically used for post-clipping.
  */
 class ClipRectangle(val extent: Extent) : Clippable {
+    // TODO refactor function references :: to objects like in CircleClip
+//  Function references have poor performance due to GC & memory allocation
 
     override fun pointVisible(x: Double, y: Double): Boolean {
         return x in extent.x0..extent.x1 && y in extent.y0..extent.y1
@@ -176,7 +179,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 v_ = v
             }
 
-            // TODO rework
+            // TODO may have issues. Need rework
             private fun polygonInside(): Int {
                 var winding = 0
 

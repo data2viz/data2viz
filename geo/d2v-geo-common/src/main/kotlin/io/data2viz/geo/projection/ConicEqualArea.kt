@@ -6,8 +6,14 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
 
+/**
+ * @see ConicEqualAreaBaseConditionalProjector
+ */
 fun conicEqualAreaProjection() = conicEqualAreaProjection {}
 
+/**
+ * @see ConicEqualAreaBaseConditionalProjector
+ */
 fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) =
     conicProjection(ConicEqualAreaBaseConditionalProjector()) {
         scale = 155.424
@@ -15,8 +21,12 @@ fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) =
         init()
     }
 
+
 /**
- * The Albers’ equal-area conic projection. See also conic.parallels.
+ * The [ConicEqualAreaProjector]. See also conic.parallels.
+ * For some parallels values use [CylindricalEqualAreaProjector]
+ *
+ * @see BaseConditionalProjector
  */
 class ConicEqualAreaBaseConditionalProjector(
     private val conicEqualAreaProjector: ConicEqualAreaProjector = ConicEqualAreaProjector(),

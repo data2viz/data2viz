@@ -1,7 +1,9 @@
 package io.data2viz.geo.stream
+import io.data2viz.geo.projection.common.CachedProjection
 
 /**
- * TODO: docs
+ * Cache transformed stream result
+ * @see CachedProjection
  */
 class StreamCache() {
 

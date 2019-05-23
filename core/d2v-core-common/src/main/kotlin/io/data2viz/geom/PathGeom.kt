@@ -59,8 +59,6 @@ class PathGeom : Path {
 }
 
 
-//Todo use sealed class
-
 interface PathCommand {
     val x: Double
     val y: Double

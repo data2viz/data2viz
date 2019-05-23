@@ -6,24 +6,25 @@ import io.data2viz.geom.Extent
 import io.data2viz.geo.projection.identityProjection
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Path
+import io.data2viz.geojson.*
 
 
 /**
- * TODO: docs
- * Creates a new geographic path generator with the default settings. If projection is specified, sets the current projection. If context is specified, sets the current context.
- *
+ * Creates a new geographic path generator with the default settings.
+ * If projection is specified, sets the current projection.
+ * If context is specified, sets the current context.
  * Renders the given object, which may be any GeoJSON feature or geometry object:
-
-Point - a single position.
-MultiPoint - an array of positions.
-LineString - an array of positions forming a continuous line.
-MultiLineString - an array of arrays of positions forming several lines.
-Polygon - an array of arrays of positions forming a polygon (possibly with holes).
-MultiPolygon - a multidimensional array of positions forming multiple polygons.
-GeometryCollection - an array of geometry objects.
-Feature - a feature containing one of the above geometry objects.
-FeatureCollection - an array of feature objects.
-The type Sphere is also supported, which is useful for rendering the outline of the globe; a sphere has no coordinates. Any additional arguments are passed along to the pointRadius accessor.
+ * [Point] - a single position.
+ * [MultiPoint] - an array of positions.
+ * [LineString] - an array of positions forming a continuous line.
+ * [MultiLineString] - an array of arrays of positions forming several lines.
+ * [Polygon] - an array of arrays of positions forming a polygon (possibly with holes).
+ * [MultiPolygon] - a multidimensional array of positions forming multiple polygons.
+ * [GeometryCollection] - an array of geometry objects.
+ * [Feature] - a feature containing one of the above geometry objects.
+ * [FeatureCollection] - an array of feature objects.
+ * The type [Sphere] is also supported, which is useful for rendering the outline of the globe;
+ * a sphere has no coordinates. Any additional arguments are passed along to the pointRadius accessor.
  *
  */
 fun geoPath(projection: Projection? = null, context: Path? = null) =
@@ -38,8 +39,23 @@ fun geoPath(projection: Projection? = null, context: Path? = null) =
  *
  * The given projection is typically one of built-in geographic projections; however, any object that exposes a
  * projection.stream function can be used, enabling the use of custom projections.
+ *
+ * @see PathStream
  */
 class GeoPath(val projection: Projection, val context: Path?) {
+
+    /**
+     *
+     * If radius is specified, sets the radius used to display Point and MultiPoint geometries to the specified number.
+     * If radius is not specified, returns the current radius accessor, which defaults to 4.5.
+     * @see PathStream.pointRadius
+     */
+    var pointRadius
+        get() = contextStream!!.pointRadius
+    set(value) {
+        contextStream!!.pointRadius
+    }
+
 
     private val areaStream      = AreaStream()
     private val boundsStream    = BoundsStream()
@@ -122,16 +138,10 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * Point and MultiPoint geometries have zero length.
      * For Polygon and MultiPolygon geometries, this method computes the summed length of all rings.
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
-     * This is the planar equivalent of GeoLength.
+     * This is the planar equivalent of GeoLengthStream.
      */
     fun measure(geo: GeoJsonObject): Double {
         geo.stream(projection.stream(measureStream))
         return measureStream.result()
     }
 }
-
-
-// TODO Missed API
-//# path.pointRadius([radius]) <>
-//
-//If radius is specified, sets the radius used to display Point and MultiPoint geometries to the specified number. If radius is not specified, returns the current radius accessor, which defaults to 4.5. While the radius is commonly specified as a number constant, it may also be specified as a function which is computed per feature, being passed the any arguments passed to the path generator. For example, if your GeoJSON data has additional properties, you might access those properties inside the radius function to vary the point size; alternatively, you could d3.symbol and a projection for greater flexibility.

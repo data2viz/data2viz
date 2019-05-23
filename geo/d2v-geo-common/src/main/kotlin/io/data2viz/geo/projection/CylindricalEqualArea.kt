@@ -5,7 +5,10 @@ import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sin
 
-
+/**
+ * Simple cylindrical equal area
+ * Used in [ConicEqualAreaBaseConditionalProjector]
+ */
 class CylindricalEqualAreaProjector() : Projector {
 
     constructor(phi:Double) : this() {

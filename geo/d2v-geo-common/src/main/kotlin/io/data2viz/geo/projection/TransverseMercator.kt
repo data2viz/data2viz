@@ -11,14 +11,28 @@ import kotlin.math.ln
 import kotlin.math.tan
 
 
+/**
+ * @see TransverseMercatorProjector
+ * @see TransverseMercatorProjection
+ */
 fun transverseMercatorProjection() = transverseMercatorProjection {}
 
+/**
+ * @see TransverseMercatorProjector
+ * @see TransverseMercatorProjection
+ */
 fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) = TransverseMercatorProjection().also {
 
     it.rotate(0.deg, 0.deg, 90.deg)
     it.scale = 159.155
 }.also(init)
 
+
+/**
+ * @see MercatorProjector
+ * @see TransverseMercatorProjector
+ * @see TransverseMercatorProjection
+ */
 class TransverseMercatorProjector() : Projector {
 
     override fun invertLambda(lambda: Double, phi: Double): Double = -phi
@@ -30,8 +44,11 @@ class TransverseMercatorProjector() : Projector {
 
 }
 
+
 /**
- * The transverse spherical Mercator projection. Defines a default projection.clipExtent such that the world is projected to a square, clipped to approximately ±85° latitude.
+ * The transverse spherical [MercatorProjection] projection.
+ *
+ * @see TransverseMercatorProjector
  */
 class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProjector()) {
 
