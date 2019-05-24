@@ -5,7 +5,11 @@ import io.data2viz.geo.stream.StreamCache
 
 
 /**
- * todo What is it?
+ * Abstract projection implementation with caching stream transformations caching
+ *
+ * @see Projection
+ * @see StreamCache
+ * @see ProjectorProjection
  */
 abstract class CachedProjection() : Projection {
 

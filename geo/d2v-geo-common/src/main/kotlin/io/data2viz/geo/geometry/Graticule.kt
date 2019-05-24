@@ -10,8 +10,8 @@ import kotlin.math.abs
 import kotlin.math.ceil
 
 
-// TODO
-//  Missed API: fun geoGraticule10() {
+// TODO: Missed API: fun geoGraticule10()
+//
 
 fun geoGraticule() = geoGraticule {}
 

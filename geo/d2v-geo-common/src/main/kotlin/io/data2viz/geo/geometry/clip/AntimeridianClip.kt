@@ -16,12 +16,12 @@ val antimeridianPreClip = object : StreamPreClip {
     val antimeridianClip = AntimeridianClip()
 
     override fun preClip(stream: Stream): Stream {
-        return Clip(antimeridianClip, stream)
+        return ClippableStream(antimeridianClip, stream)
     }
 
 }
 
-fun clipAntimeridian() = { stream: Stream -> Clip(AntimeridianClip(), stream) }
+fun clipAntimeridian() = { stream: Stream -> ClippableStream(AntimeridianClip(), stream) }
 
 /**
  * A clipping function which transforms a stream such that geometries (lines or polygons) that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.

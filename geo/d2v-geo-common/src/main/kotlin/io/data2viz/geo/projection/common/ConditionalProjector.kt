@@ -1,7 +1,9 @@
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.projection.*
 /**
- * TODO: add docs
+ * Abstract Projector which delegate projector & invert to another projection depending current settings
+ * @see BaseConditionalProjector
  */
 abstract class ConditionalProjector : Projector {
 
@@ -18,7 +20,12 @@ abstract class ConditionalProjector : Projector {
 }
 
 /**
- * TODO: add docs
+ * ConditionalProjector implementation for two projectors
+ *
+ * @see ConditionalProjector
+ * @see ConicEqualAreaBaseConditionalProjector
+ * @see ConicConformalBaseConditionalProjector
+ * @see ConicEquidistantBaseConditionalProjector
  */
 abstract class BaseConditionalProjector : ConditionalProjector() {
 

@@ -178,7 +178,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 v_ = v
             }
 
-            // TODO rework
+            // TODO may have issues. Need rework
             private fun polygonInside(): Int {
                 var winding = 0
 

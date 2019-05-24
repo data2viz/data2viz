@@ -109,6 +109,12 @@ class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) : Projecto
     }
 }
 
+/**
+ * Create or compose new Projector for given angles
+ *
+ * @see RotationLambdaProjector
+ * @see RotationPhiGammaProjector
+ */
 internal fun createRotateRadiansProjector(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Projector {
     val newDeltaLambda = deltaLambda % TAU
     val atLeastOneSecondaryAngleIsZero = deltaPhi != .0 || deltaGamma != .0

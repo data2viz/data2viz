@@ -16,7 +16,7 @@ interface ConicProjector : Projector {
 }
 
 /**
- * Conic projections project the sphere onto a cone, and then unroll the cone onto the plane. Conic projections have two standard parallels.
+ * Conic projections projector the sphere onto a cone, and then unroll the cone onto the plane. Conic projections have two standard parallels.
  */
 class ConicProjection(val conicProjector: ConicProjector) : ProjectorProjection(conicProjector) {
     var phi0: Double = 0.0

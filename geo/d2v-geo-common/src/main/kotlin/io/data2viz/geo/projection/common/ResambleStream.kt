@@ -11,10 +11,10 @@ const val MAX_DEPTH = 16
 val COS_MIN_DISTANCE = cos(30.0.toRadians())
 
 fun resample(project: Projector, delta2: Double) =
-    if (delta2 != .0) _resample(
-        project,
-        delta2
-    ) else resampleNone(project)
+    when {
+        delta2 != .0 -> { stream: Stream -> ResampleStream(stream, project, delta2) }
+        else -> resampleNone(project)
+    }
 
 private fun resampleNone(project: Projector): (Stream) -> Stream {
     return { stream: Stream ->
@@ -27,52 +27,44 @@ private fun resampleNone(project: Projector): (Stream) -> Stream {
 }
 
 
-private fun _resample(project: Projector, delta2: Double): (Stream) -> Stream {
-    return { stream: Stream -> ReSampledStream(stream, project, delta2) }
+private interface PointFunction {
+    fun invoke(resampleStream: ResampleStream, x: Double, y: Double, z: Double)
+}
+
+private interface LineStartFunction {
+    fun invoke(resampleStream: ResampleStream)
+}
+
+private interface LineEndFunction {
+    fun invoke(resampleStream: ResampleStream)
 }
 
 
-interface PointFunction {
-    fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double)
-}
-
-interface LineStartFunction {
-    fun invoke(reSampledStream: ReSampledStream)
-}
-
-interface LineEndFunction {
-    fun invoke(reSampledStream: ReSampledStream)
-}
-
-
-object DefaultPointFunction : PointFunction {
-    override fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double) {
-//            val p = reSampledStream.project.project(translateX, translateY)
-//            reSampledStream.stream.point(p[0], p[1], 0.0)
-//            val p = reSampledStream.project.project(translateX, translateY)
-        reSampledStream.stream.point(
-            reSampledStream.project.projectLambda(x, y),
-            reSampledStream.project.projectPhi(x, y),
+private object DefaultPointFunction : PointFunction {
+    override fun invoke(resampleStream: ResampleStream, x: Double, y: Double, z: Double) {
+        resampleStream.stream.point(
+            resampleStream.projector.projectLambda(x, y),
+            resampleStream.projector.projectPhi(x, y),
             0.0
         )
     }
 
 }
 
-object LinePointFunction : PointFunction {
+private object LinePointFunction : PointFunction {
 
 
-    override fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double) {
+    override fun invoke(resampleStream: ResampleStream, x: Double, y: Double, z: Double) {
 
-        reSampledStream.apply {
+        resampleStream.apply {
 
             val cosPhi = cos(y)
             val cart0 = cosPhi * cos(x)
             val cart1 = cosPhi * sin(x)
             val cart2 = sin(y)
 
-            val p0 = project.projectLambda(x, y)
-            val p1 = project.projectPhi(x, y)
+            val p0 = projector.projectLambda(x, y)
+            val p1 = projector.projectPhi(x, y)
             resampleLineTo(x0, y0, lambda0, a0, b0, c0, p0, p1, x, cart0, cart1, cart2,
                 MAX_DEPTH, stream)
             x0 = p0
@@ -89,11 +81,11 @@ object LinePointFunction : PointFunction {
 }
 
 
-object RingPointFunction : PointFunction {
-    override fun invoke(reSampledStream: ReSampledStream, x: Double, y: Double, z: Double) {
-        reSampledStream.apply {
+private object RingPointFunction : PointFunction {
+    override fun invoke(resampleStream: ResampleStream, x: Double, y: Double, z: Double) {
+        resampleStream.apply {
             lambda00 = x
-            LinePointFunction.invoke(reSampledStream, x, y, 0.0)
+            LinePointFunction.invoke(resampleStream, x, y, 0.0)
             x00 = x0
             y00 = y0
             a00 = a0
@@ -105,30 +97,30 @@ object RingPointFunction : PointFunction {
 
 }
 
-object DefaultLineStartFunction :
+private object DefaultLineStartFunction :
     LineStartFunction {
-    override fun invoke(reSampledStream: ReSampledStream) {
-        reSampledStream.x0 = Double.NaN
-        reSampledStream.currentPoint = DefaultPointFunction
-        reSampledStream.stream.lineStart()
+    override fun invoke(resampleStream: ResampleStream) {
+        resampleStream.x0 = Double.NaN
+        resampleStream.currentPoint = DefaultPointFunction
+        resampleStream.stream.lineStart()
     }
 
 
 }
 
-object DefaultLineEndFunction :
+private object DefaultLineEndFunction :
     LineEndFunction {
-    override fun invoke(reSampledStream: ReSampledStream) {
-        reSampledStream.currentPoint = DefaultPointFunction
-        reSampledStream.stream.lineEnd()
+    override fun invoke(resampleStream: ResampleStream) {
+        resampleStream.currentPoint = DefaultPointFunction
+        resampleStream.stream.lineEnd()
     }
 }
 
-object RingLineStartFunction :
+private object RingLineStartFunction :
     LineStartFunction {
-    override fun invoke(reSampledStream: ReSampledStream) {
-        reSampledStream.apply {
-            DefaultLineStartFunction.invoke(reSampledStream)
+    override fun invoke(resampleStream: ResampleStream) {
+        resampleStream.apply {
+            DefaultLineStartFunction.invoke(resampleStream)
             currentPoint = RingPointFunction
             currentLineEnd = RingLineEndFunction
         }
@@ -137,10 +129,10 @@ object RingLineStartFunction :
 
 }
 
-object RingLineEndFunction :
+private object RingLineEndFunction :
     LineEndFunction {
-    override fun invoke(reSampledStream: ReSampledStream) {
-        reSampledStream.apply {
+    override fun invoke(resampleStream: ResampleStream) {
+        resampleStream.apply {
 
             resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00,
                 MAX_DEPTH, stream)
@@ -152,9 +144,9 @@ object RingLineEndFunction :
 
 
 /**
- * TODO docs
+ * Resample projections stream with given delta2 precision
  */
-class ReSampledStream(val stream: Stream, val project: Projector, val delta2: Double) :
+private class ResampleStream(val stream: Stream, val projector: Projector, val delta2: Double) :
     Stream {
 
     // First point
@@ -220,8 +212,8 @@ class ReSampledStream(val stream: Stream, val project: Projector, val delta2: Do
                 else -> atan2(b, a)
             }
 
-            val x2 = project.projectLambda(lambda2, phi2)
-            val y2 = project.projectPhi(lambda2, phi2)
+            val x2 = projector.projectLambda(lambda2, phi2)
+            val y2 = projector.projectPhi(lambda2, phi2)
 
             val dx2 = x2 - x0
             val dy2 = y2 - y0

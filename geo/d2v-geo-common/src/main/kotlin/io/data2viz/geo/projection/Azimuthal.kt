@@ -63,7 +63,7 @@ private fun cc(c: Double) = cos(c)
 
 
 /**
- * Azimuthal projections project the sphere directly onto a plane
+ * Azimuthal projections projector the sphere directly onto a plane
  */
 open class AzimuthalProjector(val scale: (Double) -> Double, val angle: (Double) -> Double) :
     Projector {

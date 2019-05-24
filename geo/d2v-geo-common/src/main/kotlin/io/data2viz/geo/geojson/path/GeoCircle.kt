@@ -49,7 +49,6 @@ class GeoCircle<D> {
     /**
      * Returns a new GeoJSON geometry object of type “Polygon” approximating a circle on the surface of a sphere,
      * with the current center, radius and precision.
-     * TODO : keep data ?
      */
     fun circle(data: D? = null): Polygon {
 

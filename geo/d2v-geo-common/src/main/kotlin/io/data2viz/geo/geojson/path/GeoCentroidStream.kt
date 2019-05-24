@@ -41,7 +41,7 @@ class GeoCentroidStream : Stream {
     private var currentLineStart: () -> Unit = ::centroidLineStart
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
-    // TODO : invoke ?
+    
     fun result(geo: GeoJsonObject): DoubleArray {
         _W0 = .0
         _W1 = .0
