@@ -39,197 +39,175 @@ private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStre
  */
 open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 
+
+    protected var _translateX = 480.0
+    protected var _translateY = 250.0
+
+
+    // Center
+    protected var _recenterDx = 0.0
+    protected var _recenterDy = 0.0
+
+    // in radians
+    protected var _centerLat = 0.0
+    // in radians
+    protected var _centerLon = 0.0
+
+    protected var _scale = 150.0
+
+    /**
+     * TODO: rework to affine matrix transformations or at least separate Scale & Translate phase
+     */
+    protected lateinit var composedTransformationsProjector: Projector
+
+    protected val translateAndScaleProjector = TranslateAndScaleProjector(projection, _scale, _recenterDx, _recenterDy)
+
+    // Precision
+    private var _precisionDelta2 = 0.5
+
+    // Rotate
+    protected var _rotationLambda = 0.0
+    protected var _rotationPhi = 0.0
+    protected var _rotationGamma = 0.0
+    protected lateinit var rotator: Projector
+
     override var preClip: StreamPreClip = antimeridianPreClip
-
-
     override var postClip: StreamPostClip = noPostClip
 
-
-    // Scale
-    protected var k = 150.0
+    private var resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
 
     override var scale: Double
-        get() = k
+        get() = _scale
         set(value) {
-            k = value
+            _scale = value
             recenter()
         }
 
-    private var _x = 480.0
-    private var _y = 250.0
 
     // Translate
     override var translateX
-        get () = _x
+        get () = _translateX
         set(value) {
-            _x = value
+            _translateX = value
             recenter()
         }
     override var translateY
-        get () = _y
+        get () = _translateY
         set(value) {
-            _y = value
+            _translateY = value
             recenter()
         }
 
 
     override fun translate(x: Double, y: Double) {
-        _x = x;
-        _y = y;
+        _translateX = x;
+        _translateY = y;
         recenter()
     }
 
-    // Center
-    protected var dx = 0.0
-    protected var dy = 0.0
-    protected var lambda = 0.0
-    protected var phi = 0.0
 
     override var centerLat
-        get() = lambda.rad
+        get() = _centerLat.rad
         set(value) {
-            lambda = value.rad
+            _centerLat = value.rad
             recenter()
         }
     override var centerLon
-        get() = phi.rad
+        get() = _centerLon.rad
         set(value) {
-            phi = value.rad
+            _centerLon = value.rad
             recenter()
         }
 
 
     override fun center(lat: Angle, lon: Angle) {
-        lambda = lat.rad
-        phi = lon.rad
+        _centerLat = lat.rad
+        _centerLon = lon.rad
         recenter()
     }
 
-
-    // Rotate
-    protected var deltaLambda = 0.0
-    protected var deltaPhi = 0.0
-    protected var deltaGamma = 0.0
-    protected lateinit var rotator: Projector
-
-
     override var rotateLambda
-        get() = deltaLambda.rad
+        get() = _rotationLambda.rad
         set(value) {
-            deltaLambda = value.rad
+            _rotationLambda = value.rad
             recenter()
         }
 
     override var rotatePhi
-        get() = deltaPhi.rad
+        get() = _rotationPhi.rad
         set(value) {
-            deltaPhi = value.rad
+            _rotationPhi = value.rad
             recenter()
         }
 
 
     override var rotateGamma
-        get() = deltaGamma.rad
+        get() = _rotationGamma.rad
         set(value) {
-            deltaGamma = value.rad
+            _rotationGamma = value.rad
             recenter()
         }
 
 
     override fun rotate(lambda: Angle, phi: Angle, gamma: Angle?) {
-        deltaLambda = lambda.rad
-        deltaPhi = phi.rad
-        deltaGamma = gamma?.rad ?: 0.0
+        _rotationLambda = lambda.rad
+        _rotationPhi = phi.rad
+        _rotationGamma = gamma?.rad ?: 0.0
         recenter()
     }
 
 
-    protected lateinit var projectRotate: Projector
-
-    protected val projectTransform: Projector = createProjectTransform()
-
-
-    // Precision
-    private var delta2 = 0.5
-    private var projectResample = resample(projectTransform, delta2)
     override var precision: Double
-        get() = sqrt(delta2)
+        get() = sqrt(_precisionDelta2)
         set(value) {
-            delta2 = value * value
-            projectResample = resample(projectTransform, delta2)
+            _precisionDelta2 = value * value
+            resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
             reset()
         }
 
 
     override fun fullCycleStream(stream: Stream): Stream {
-        return transformRadians(transformRotate(rotator)(preClip.preClip(projectResample(postClip.postClip(stream)))))
+        return transformRadians(transformRotate(rotator)(preClip.preClip(resampleProjector(postClip.postClip(stream)))))
     }
 
-    fun createProjectTransform(): Projector {
-        return object : Projector {
-            override fun invert(lambda: Double, phi: Double): DoubleArray {
-                return projection.invert(lambda, phi)
-            }
-
-            override fun invertLambda(lambda: Double, phi: Double): Double {
-                return projection.invertLambda(lambda, phi)
-            }
-
-            override fun invertPhi(lambda: Double, phi: Double): Double {
-                return projection.invertPhi(lambda, phi)
-            }
-
-            private fun internalProjectLambda(lambda: Double) =
-                lambda * k + dx
-
-            private fun internalProjectPhi(phi: Double) =
-                dy - phi * k
-
-            override fun projectLambda(lambda: Double, phi: Double): Double =
-                internalProjectLambda(projection.projectLambda(lambda, phi))
-
-            override fun projectPhi(lambda: Double, phi: Double): Double =
-                internalProjectPhi(projection.projectPhi(lambda, phi))
-
-
-        }
-    }
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val lambdaRadians = lambda.toRadians()
         val phiRadians = phi.toRadians()
-        return projectTransform.project(lambdaRadians, phiRadians)
+        return translateAndScaleProjector.project(lambdaRadians, phiRadians)
     }
 
+    // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
     override fun projectLambda(lambda: Double, phi: Double): Double =
-        projectTransform.projectLambda(lambda.toRadians(), phi.toRadians())
-
+        translateAndScaleProjector.projectLambda(lambda.toRadians(), phi.toRadians())
+    
+    // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
     override fun projectPhi(lambda: Double, phi: Double): Double =
-        projectTransform.projectPhi(lambda.toRadians(), phi.toRadians())
+        translateAndScaleProjector.projectPhi(lambda.toRadians(), phi.toRadians())
 
 
     override fun invertLambda(lambda: Double, phi: Double): Double {
-        val newLambda = (lambda - dx) / k
-        val newPhi = (dy - phi) / k
-        return projectRotate.invertLambda(
+        val newLambda = (lambda - _recenterDx) / _scale
+        val newPhi = (_recenterDy - phi) / _scale
+        return composedTransformationsProjector.invertLambda(
             newLambda,
             newPhi
         )
     }
 
     override fun invertPhi(lambda: Double, phi: Double): Double {
-        val newLambda = (lambda - dx) / k
-        val newPhi = (dy - phi) / k
-        return projectRotate.invertPhi(
+        val newLambda = (lambda - _recenterDx) / _scale
+        val newPhi = (_recenterDy - phi) / _scale
+        return composedTransformationsProjector.invertPhi(
             newLambda,
             newPhi
         )
     }
 
     override fun invert(lambda: Double, phi: Double): DoubleArray {
-        val newLambda = (lambda - dx) / k
-        val newPhi = (dy - phi) / k
-        val inverted = projectRotate.invert(
+        val newLambda = (lambda - _recenterDx) / _scale
+        val newPhi = (_recenterDy - phi) / _scale
+        val inverted = composedTransformationsProjector.invert(
             newLambda,
             newPhi
         )
@@ -239,20 +217,57 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
         )
     }
 
-    fun recenter() {
-        rotator = createRotateRadiansProjector(deltaLambda, deltaPhi, deltaGamma)
+    private fun recenter() {
+        rotator = createRotateRadiansProjector(_rotationLambda, _rotationPhi, _rotationGamma)
 
-        projectRotate = ComposedProjector(rotator, projection)
+        composedTransformationsProjector = ComposedProjector(rotator, translateAndScaleProjector)
 
-        dx = translateX - (projection.projectLambda(lambda, phi) * k)
-        dy = translateY + (projection.projectPhi(lambda, phi) * k)
+        _recenterDx = translateX - (projection.projectLambda(_centerLat, _centerLon) * _scale)
+        _recenterDy = translateY + (projection.projectPhi(_centerLat, _centerLon) * _scale)
+
+        translateAndScaleProjector.scale = _scale
+        translateAndScaleProjector.recenterDx = _recenterDx
+        translateAndScaleProjector.recenterDy = _recenterDy
     }
+
+
+
 
 }
 
 /**
- * TODO use inside projeciton
+ * TODO: docs
+ * apply scale & translate
  */
-class TransformRadiansStreamAdapter(stream: Stream) : DelegateStreamAdapter(stream) {
-    override fun point(x: Double, y: Double, z: Double) = delegate.point(x.toRadians(), y.toRadians(), z.toRadians())
+class TranslateAndScaleProjector(
+    val projection: Projector,
+    var scale:Double,
+    var recenterDx: Double,
+    var recenterDy: Double
+) : Projector {
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+        return projection.invert(lambda, phi)
+    }
+
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        return projection.invertLambda(lambda, phi)
+    }
+
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        return projection.invertPhi(lambda, phi)
+    }
+
+    private fun internalProjectLambda(lambda: Double) =
+        lambda * scale + recenterDx
+
+    private fun internalProjectPhi(phi: Double) =
+        recenterDy - phi * scale
+
+    override fun projectLambda(lambda: Double, phi: Double): Double =
+        internalProjectLambda(projection.projectLambda(lambda, phi))
+
+    override fun projectPhi(lambda: Double, phi: Double): Double =
+        internalProjectPhi(projection.projectPhi(lambda, phi))
+
 }
+
