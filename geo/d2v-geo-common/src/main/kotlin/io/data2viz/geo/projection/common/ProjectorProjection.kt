@@ -179,11 +179,11 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 
     // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
     override fun projectLambda(lambda: Double, phi: Double): Double =
-        translateAndScaleProjector.projectLambda(lambda.toRadians(), phi.toRadians())
+        composedTransformationsProjector.projectLambda(lambda.toRadians(), phi.toRadians())
     
     // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
     override fun projectPhi(lambda: Double, phi: Double): Double =
-        translateAndScaleProjector.projectPhi(lambda.toRadians(), phi.toRadians())
+        composedTransformationsProjector.projectPhi(lambda.toRadians(), phi.toRadians())
 
 
     override fun invertLambda(lambda: Double, phi: Double): Double {
