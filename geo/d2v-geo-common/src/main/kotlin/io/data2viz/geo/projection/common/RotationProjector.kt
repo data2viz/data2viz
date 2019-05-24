@@ -9,7 +9,7 @@ import kotlin.math.*
 /**
  * TODO: docs
  */
-class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null): Projector {
+class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null) : Projector {
 
     val rotator =
         createRotateRadiansProjector(
@@ -45,14 +45,26 @@ private fun identityProjectionX(x: Double) = when {
 
 private fun identityProjectionY(y: Double) = y
 
-object IdentityRotationProjector: Projector {
+object IdentityRotationProjector : Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double =
         identityProjectionX(lambda)
 
     override fun projectPhi(lambda: Double, phi: Double): Double =
         identityProjectionY(phi)
 
-    override fun invert(lambda: Double, phi: Double) = identityProjection(lambda, phi)
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        return identityProjection(lambda, phi)
+    }
+
+    override fun invertLambda(lambda: Double, phi: Double): Double =
+        identityProjectionX(lambda)
+
+    override fun invertPhi(lambda: Double, phi: Double): Double =
+        identityProjectionY(phi)
+
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+        return identityProjection(lambda, phi)
+    }
 }
 
 
@@ -63,6 +75,18 @@ class RotationLambdaProjector(val deltaLambda: Double) : Projector {
 
     override fun projectPhi(lambda: Double, phi: Double): Double =
         identityProjectionY(phi)
+
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        return identityProjection(lambda, phi)
+    }
+
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        return identityProjectionX(lambda + deltaLambda)
+    }
+
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        return identityProjectionY(phi)
+    }
 
     override fun invert(lambda: Double, phi: Double): DoubleArray =
         identityProjection(lambda - deltaLambda, phi)
@@ -95,6 +119,40 @@ class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) : Projecto
     private val cosDeltaGamma = cos(deltaGamma)
     private val sinDeltaGamma = sin(deltaGamma)
 
+
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        val cosPhi = cos(phi)
+        val x = cos(lambda) * cosPhi
+        val y = sin(lambda) * cosPhi
+        val z = sin(phi)
+        val k = z * cosDeltaPhi + x * sinDeltaPhi
+
+        return doubleArrayOf(
+            atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi),
+            asin(k * cosDeltaGamma + y * sinDeltaGamma)
+        )
+
+    }
+
+    override fun invertLambda(lambda: Double, phi: Double): Double {
+        val cosPhi = cos(phi)
+        val newX = cos(lambda) * cosPhi
+        val newY = sin(lambda) * cosPhi
+        val z = sin(phi)
+        val k = z * cosDeltaGamma - newY * sinDeltaGamma
+
+        return atan2(newY * cosDeltaGamma + z * sinDeltaGamma, newX * cosDeltaPhi + k * sinDeltaPhi)
+    }
+
+    override fun invertPhi(lambda: Double, phi: Double): Double {
+        val cosPhi = cos(phi)
+        val newX = cos(lambda) * cosPhi
+        val newY = sin(lambda) * cosPhi
+        val z = sin(phi)
+        val k = z * cosDeltaGamma - newY * sinDeltaGamma
+        return asin(k * cosDeltaPhi - newX * sinDeltaPhi)
+
+    }
 
     override fun invert(lambda: Double, phi: Double): DoubleArray {
         val cosPhi = cos(phi)
