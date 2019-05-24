@@ -18,11 +18,22 @@ class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null) : Proje
             gamma?.rad ?: 0.0
         )
 
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        val p = rotator.project(lambda.toRadians(), phi.toRadians())
+        return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
+    }
+
     override fun projectLambda(lambda: Double, phi: Double): Double =
         rotator.projectLambda(lambda.toRadians(), phi.toRadians()).toDegrees()
 
     override fun projectPhi(lambda: Double, phi: Double): Double =
         rotator.projectPhi(lambda.toRadians(), phi.toRadians()).toDegrees()
+
+    override fun invertLambda(lambda: Double, phi: Double): Double =
+        rotator.invertLambda(lambda.toRadians(), phi.toRadians()).toDegrees()
+
+    override fun invertPhi(lambda: Double, phi: Double): Double =
+        rotator.invertPhi(lambda.toRadians(), phi.toRadians()).toDegrees()
 
     override fun invert(lambda: Double, phi: Double): DoubleArray {
         val p = rotator.invert(lambda.toRadians(), phi.toRadians())
@@ -77,11 +88,11 @@ class RotationLambdaProjector(val deltaLambda: Double) : Projector {
         identityProjectionY(phi)
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        return identityProjection(lambda, phi)
+        return identityProjection(lambda + deltaLambda, phi)
     }
 
     override fun invertLambda(lambda: Double, phi: Double): Double {
-        return identityProjectionX(lambda + deltaLambda)
+        return identityProjectionX(lambda - deltaLambda)
     }
 
     override fun invertPhi(lambda: Double, phi: Double): Double {

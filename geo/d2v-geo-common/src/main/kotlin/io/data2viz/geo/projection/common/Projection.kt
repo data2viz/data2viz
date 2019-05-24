@@ -3,9 +3,9 @@ package io.data2viz.geo.projection.common
 
 import io.data2viz.geo.geometry.clip.StreamPostClip
 import io.data2viz.geo.geometry.clip.StreamPreClip
+import io.data2viz.geo.projection.common.IdentityRotationProjector.projectLambda
+import io.data2viz.geo.projection.common.IdentityRotationProjector.projectPhi
 import io.data2viz.geo.stream.Stream
-import io.data2viz.geojson.GeoJsonObject
-import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
 
 
@@ -14,11 +14,13 @@ import io.data2viz.math.Angle
  */
 interface Projector {
 
+
+
     /**
      * Project a stream point
      * Internal API usually call projectLambda & projectPhi separately to avoid new Double array allocation
      */
-    fun project(lambda: Double, phi: Double) = doubleArrayOf(
+    fun project(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(
         projectLambda(lambda, phi),
         projectPhi(lambda, phi)
     )
@@ -40,19 +42,14 @@ interface Projector {
     /**
      * TODO docs
      */
-    fun invertLambda(lambda: Double, phi: Double): Double =
-        invertError()
+    fun invertLambda(lambda: Double, phi: Double): Double
 
 
     /**
      * TODO docs
      */
-    fun invertPhi(lambda: Double, phi: Double): Double =
-        invertError()
+    fun invertPhi(lambda: Double, phi: Double): Double
 
-    private fun invertError(): Double {
-        error("$this don't support invert operation")
-    }
 
     /**
      * Returns a new array [longitude, latitude] in degrees representing the unprojected point of the given projected point.
@@ -66,6 +63,7 @@ interface Projector {
     )
 
 }
+
 
 
 /**
@@ -150,6 +148,66 @@ interface Projection : Projector {
      */
     fun rotate(lambda: Angle, phi: Angle, gamma: Angle? = null)
 
+
+}
+
+
+
+
+interface NoInvertProjector: Projector {
+
+    override fun invert(lambda: Double, phi: Double) =
+        invertError() as DoubleArray
+
+    override fun invertLambda(lambda: Double, phi: Double): Double =
+        invertError() as Double
+
+
+    /**
+     * TODO docs
+     */
+    override fun invertPhi(lambda: Double, phi: Double): Double =
+        invertError() as Double
+
+    private fun invertError(): Any {
+        error("$this don't support invert operation")
+    }
+}
+
+
+interface SimpleProjector : Projector {
+
+    override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
+
+    override fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
+
+    override fun invertLambda(lambda: Double, phi: Double): Double = invert(lambda, phi)[0]
+
+    override fun invertPhi(lambda: Double, phi: Double): Double = invert(lambda, phi)[1]
+
+}
+
+
+interface NoCommonCalculationsProjector : Projector {
+
+    override fun project(lambda: Double, phi: Double) =  
+            doubleArrayOf(
+                projectLambda(lambda, phi),
+                projectPhi(lambda, phi)
+            )
+
+    override fun invert(lambda: Double, phi: Double) =
+        doubleArrayOf(
+            invertLambda(lambda, phi),
+            invertPhi(lambda, phi)
+        )
+}
+
+interface SimpleNoInvertProjector : NoInvertProjector {
+
+    override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
+
+    override fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
 
 }
 
