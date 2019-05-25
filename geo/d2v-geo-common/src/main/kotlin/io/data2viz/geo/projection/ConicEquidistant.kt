@@ -6,8 +6,14 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
 
+/**
+ * @see ConicEquidistantBaseConditionalProjector
+ */
 fun conicEquidistantProjection() = conicEquidistantProjection {}
 
+/**
+ * @see ConicEquidistantBaseConditionalProjector
+ */
 fun conicEquidistantProjection(init: ConicProjection.() -> Unit) =
     conicProjection(ConicEquidistantBaseConditionalProjector()) {
         scale = 131.154
@@ -16,7 +22,8 @@ fun conicEquidistantProjection(init: ConicProjection.() -> Unit) =
     }
 
 /**
- * The conic equidistant projection. See also conic.parallels.
+ * The [ConicEquidistantProjector]
+ * For some parallels values use [EquirectangularProjector]
  */
 class ConicEquidistantBaseConditionalProjector(
     private val conicEquidistantProjector: ConicEquidistantProjector = ConicEquidistantProjector(),

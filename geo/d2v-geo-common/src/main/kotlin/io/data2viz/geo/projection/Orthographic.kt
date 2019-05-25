@@ -8,8 +8,14 @@ import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sin
 
+/**
+ * @see OrthographicProjector
+ */
 fun orthographicProjection() = orthographicProjection {}
 
+/**
+ * @see OrthographicProjector
+ */
 fun orthographicProjection(init: ProjectorProjection.() -> Unit) =
     projection(OrthographicProjector()) {
         scale = 249.5

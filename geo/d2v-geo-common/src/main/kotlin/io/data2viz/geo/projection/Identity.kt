@@ -6,8 +6,14 @@ import io.data2viz.geo.projection.common.*
 import io.data2viz.math.PI
 
 
+/**
+ * @see IdentityProjection
+ */
 fun identityProjection() = identityProjection {}
 
+/**
+ * @see IdentityProjection
+ */
 fun identityProjection(init: Projection.() -> Unit) =
     projection(IdentityProjection()) {
         preClip = noPreClip
@@ -17,7 +23,7 @@ fun identityProjection(init: Projection.() -> Unit) =
     }
 
 /**
- * TODO: docs
+ * Projections without any transformations and clipping
  */
 class IdentityProjection : Projector {
 

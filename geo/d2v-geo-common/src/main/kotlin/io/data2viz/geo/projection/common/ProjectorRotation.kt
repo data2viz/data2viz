@@ -7,7 +7,10 @@ import io.data2viz.math.toRadians
 import kotlin.math.*
 
 /**
- * TODO: docs
+ * Create a rotation [Projector]
+ *
+ * @see ComposedProjector
+ * @see TranslateAndScaleProjector
  */
 class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null) : Projector {
 
@@ -56,7 +59,7 @@ private fun identityProjectionX(x: Double) = when {
 
 private fun identityProjectionY(y: Double) = y
 
-object IdentityRotationProjector : Projector {
+internal object IdentityRotationProjector : Projector {
     override fun projectLambda(lambda: Double, phi: Double): Double =
         identityProjectionX(lambda)
 
@@ -79,7 +82,7 @@ object IdentityRotationProjector : Projector {
 }
 
 
-class RotationLambdaProjector(val deltaLambda: Double) : Projector {
+internal class RotationLambdaProjector(val deltaLambda: Double) : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         identityProjectionX(lambda + deltaLambda)
@@ -103,7 +106,7 @@ class RotationLambdaProjector(val deltaLambda: Double) : Projector {
         identityProjection(lambda - deltaLambda, phi)
 }
 
-class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) : Projector {
+internal class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
         val cosPhi = cos(phi)

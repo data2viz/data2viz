@@ -5,9 +5,12 @@ import io.data2viz.geo.geometry.clip.StreamPreClip
 import io.data2viz.geo.stream.MultiplexStream
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
+import io.data2viz.geo.projection.AlbersUSAProjection
 
 /**
- * Composite consist of several projections that are composed into a single display. The constituent projections have fixed clip, center and rotation, and thus composite projections do not support projection.center, projection.rotate, projection.clipAngle, or projection.clipExtent.
+ * Composite consist of several projections that are composed into a single display.
+ * For base projection see [ProjectorProjection]
+ * @see AlbersUSAProjection
  */
 abstract class ComposedProjection() : CachedProjection() {
 
@@ -103,9 +106,10 @@ abstract class ComposedProjection() : CachedProjection() {
         chooseNestedProjection(lambda, phi).invertPhi(lambda, phi)
 
 
-
-
-    abstract fun chooseNestedProjection(lambda: Double, phi: Double): Projection
+    /**
+     * Chooses projection by (lambda, phi) coordinates
+     */
+    protected abstract fun chooseNestedProjection(lambda: Double, phi: Double): Projection
 
 
     override fun fullCycleStream(stream: Stream): Stream =

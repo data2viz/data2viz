@@ -1,73 +1,20 @@
 package io.data2viz.geo.projection.common
 
 
-import io.data2viz.geo.geometry.clip.StreamPostClip
-import io.data2viz.geo.geometry.clip.StreamPreClip
-import io.data2viz.geo.projection.common.IdentityRotationProjector.projectLambda
-import io.data2viz.geo.projection.common.IdentityRotationProjector.projectPhi
+import io.data2viz.geo.geometry.clip.*
 import io.data2viz.geo.stream.Stream
+import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.Angle
 
 
 /**
- * Todo document
- */
-interface Projector {
-
-
-
-    /**
-     * Project a stream point
-     * Internal API usually call projectLambda & projectPhi separately to avoid new Double array allocation
-     */
-    fun project(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(
-        projectLambda(lambda, phi),
-        projectPhi(lambda, phi)
-    )
-
-    /**
-     * Default implementation of a longitude projection (can be overrided)
-     * Required for performance (avoid allocating new Double array on each project)
-     * see project(lambda: Double, phi: Double)
-     */
-    fun projectLambda(lambda: Double, phi: Double): Double
-
-    /**
-     * Default implementation of a latitude projection (can be overrided)
-     * Required for performance (avoid allocating new Double array on each project)
-     * see project(lambda: Double, phi: Double)
-     */
-    fun projectPhi(lambda: Double, phi: Double): Double
-
-    /**
-     * TODO docs
-     */
-    fun invertLambda(lambda: Double, phi: Double): Double
-
-
-    /**
-     * TODO docs
-     */
-    fun invertPhi(lambda: Double, phi: Double): Double
-
-
-    /**
-     * Returns a new array [longitude, latitude] in degrees representing the unprojected point of the given projected point.
-     * The point must be specified as a two-element array [translateX, translateY] (typically in pixels).
-     * Todo document
-     * May return null if the specified point has no defined projected position, such as when the point is outside the clipping bounds of the projection.
-     */
-    fun invert(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(
-        invertLambda(lambda, phi),
-        invertPhi(lambda, phi)
-    )
-
-}
-
-
-
-/**
- * Todo document
+ * A [Projector]
+ * with transformations: [translate], [scale], [rotate], [precision], [center]
+ * and clipping: [preClip], [postClip]
+ *
+ * Use [stream] to combine all operations
+ *
+ * @see Stream
  */
 interface Projection : Projector {
     /**
@@ -77,19 +24,27 @@ interface Projection : Projector {
     var scale: Double
 
     /**
-     ** TODO: check with translate
      * Determines the pixel coordinates of the projection’s center by X axys
+     * @see translate
      */
     var translateX: Double
     /**
-     ** TODO: check with translate
      * Determines the pixel coordinates of the projection’s center by Y axys
+     * @see translate
      */
     var translateY: Double
 
-
+    /**
+     * Determines latitude coordinate of projection geo center
+     * @see center
+     */
     var centerLat: Angle
+    /**
+     * Determines longtitude coordinate of projection geo center
+     * @see center
+     */
     var centerLon: Angle
+
     /**
      * The threshold for the projection’s adaptive resampling pixels.
      * This value corresponds to the Douglas–Peucker distance.
@@ -97,117 +52,103 @@ interface Projection : Projector {
      */
     var precision: Double
 
+    /**
+     * Rotate projection by X axys
+     * Correspond to yaw
+     * @see rotate
+     */
     var rotateLambda: Angle
+
+    /**
+     * Rotate projection by Y axys
+     * Correspond to pitch
+     * @see rotate
+     */
     var rotatePhi: Angle
+
+    /**
+     * Rotate projection by Z axys
+     * Correspond to roll
+     * @see rotate
+     */
     var rotateGamma: Angle
 
-    /**
-     * TODO: check
-     * If preclip is specified, sets the projection’s spherical clipping to the specified function and returns the projection. If preclip is not specified, returns the current spherical clipping function (see preclip).
-     */
-    var preClip: StreamPreClip
 
     /**
-     * TODO: check
-     * If postclip is specified, sets the projection’s cartesian clipping to the specified function and returns the projection. If postclip is not specified, returns the current cartesian clipping function (see postclip).
-     */
-    var postClip: StreamPostClip
-
-
-    /**
-     * TODO: check
-     * Returns a projection stream for the specified output stream.
-     * Any input geometry is projected before being streamed to the output stream.
-     * A typical projection involves several geometry transformations:
-     * the input geometry is first converted to radians, rotated on three axes,
-     * clipped to the small circle or cut along the antimeridian, and lastly projected to the plane
-     * with adaptive resampling, scale and translation.
-     */
-    fun stream(stream: Stream): Stream
-
-
-    /**
-     * TODO: check
      * The translation offset determines the pixel coordinates of the projection’s center.
      * The default translation offset places ⟨0°,0°⟩ at the center of a 960×500 area.
-     * It is equivalent for translateX = 0 & translateY = 0 but with better performance
+     * Useful, when you want change both x & y with minimum calculations
+     * @see translateX
+     * @see translateY
      */
     fun translate(x: Double, y: Double)
 
 
     /**
      * a two-element array of longitude and latitude in degrees
+     *
+     * Useful, when you want change both lat & lon with minimum calculations
+     *
+     * @see centerLat
+     * @see centerLon
      */
     fun center(lat: Angle, lon: Angle)
 
     /**
-     * The projection’s three-axis spherical rotation to
-     * the specified angles, which must be a two- or three-element array of numbers [lambda, phi, gamma]
+     * The projection’s three-axis spherical rotation to the specified angles
      * specifying the rotation angles in degrees about each spherical axis
      * (these correspond to yaw, pitch and roll).
+     *
+     * Useful, when you want rotate all 3-axys with minimum calculations
+     *
+     * @see rotateLambda
+     * @see rotatePhi
+     * @see rotateGamma
      */
     fun rotate(lambda: Angle, phi: Angle, gamma: Angle? = null)
 
 
-}
+    /**
+     * If preclip is specified, sets the projection’s spherical clipping to the specified function
+     * and returns the projection.
+     * If preclip is not specified, returns the current spherical clipping function.
+     *
+     * By default [antimeridianPreClip]
+     *
+     * @see noPreClip
+     * @see anglePreClip
+     * @see antimeridianPreClip
+     */
+    var preClip: StreamPreClip
 
-
-
-
-interface NoInvertProjector: Projector {
-
-    override fun invert(lambda: Double, phi: Double) =
-        invertError() as DoubleArray
-
-    override fun invertLambda(lambda: Double, phi: Double): Double =
-        invertError() as Double
+    /**
+     * If postclip is specified, sets the projection’s cartesian clipping
+     * to the specified function and returns the projection.
+     * If postclip is not specified,
+     * returns the current cartesian clipping function .
+     *
+     * * By default [noPostClip]
+     *
+     * @see extentPostClip
+     * @see noPostClip
+     */
+    var postClip: StreamPostClip
 
 
     /**
-     * TODO docs
+     * Returns a projection stream for the specified output stream.
+     * Any input geometry is projected before being streamed to the output stream.
+     * A typical projection involves several geometry transformations:
+     * the input geometry is first converted to radians, rotated on three axes,
+     * clipped to the small circle or cut along the antimeridian, and lastly projected to the plane
+     * with adaptive resampling, scale and translation.
+     *
+     * Example usage: [GeoJsonObject].stream()
      */
-    override fun invertPhi(lambda: Double, phi: Double): Double =
-        invertError() as Double
+    fun stream(stream: Stream): Stream
 
-    private fun invertError(): Any {
-        error("$this don't support invert operation")
-    }
-}
-
-
-interface SimpleProjector : Projector {
-
-    override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
-
-    override fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
-
-    override fun invertLambda(lambda: Double, phi: Double): Double = invert(lambda, phi)[0]
-
-    override fun invertPhi(lambda: Double, phi: Double): Double = invert(lambda, phi)[1]
 
 }
 
 
-interface NoCommonCalculationsProjector : Projector {
-
-    override fun project(lambda: Double, phi: Double) =  
-            doubleArrayOf(
-                projectLambda(lambda, phi),
-                projectPhi(lambda, phi)
-            )
-
-    override fun invert(lambda: Double, phi: Double) =
-        doubleArrayOf(
-            invertLambda(lambda, phi),
-            invertPhi(lambda, phi)
-        )
-}
-
-interface SimpleNoInvertProjector : NoInvertProjector {
-
-    override fun projectLambda(lambda: Double, phi: Double): Double = project(lambda, phi)[0]
-
-    override fun projectPhi(lambda: Double, phi: Double): Double = project(lambda, phi)[1]
-
-}
 

@@ -8,8 +8,14 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
+/**
+ * @see GnomonicProjector
+ */
 fun gnomonicProjection() = gnomonicProjection {}
 
+/**
+ * @see GnomonicProjector
+ */
 fun gnomonicProjection(init: Projection.() -> Unit) =
     projection(GnomonicProjector()) {
         anglePreClip = 60.0.deg

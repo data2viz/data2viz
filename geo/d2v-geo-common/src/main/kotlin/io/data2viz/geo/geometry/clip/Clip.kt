@@ -6,19 +6,17 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 
 
-/**
- * Clipping functions are implemented as transformations of a projection stream. Pre-clipping operates on spherical coordinates, in radians. Post-clipping operates on planar coordinates, in pixels.
- */
+
 
 /**
- * TODO docs
+ * Don't clip anything
  */
 val noPreClip = object : StreamPreClip {
     override fun preClip(stream: Stream) =  stream
 }
 
 /**
- * TODO docs
+ * Don't clip anything
  */
 val noPostClip = object : StreamPostClip {
     override fun postClip(stream: Stream): Stream = stream
@@ -26,14 +24,14 @@ val noPostClip = object : StreamPostClip {
 
 
 /**
- * TODO docs
+ * Separate interface for IDE suggestions
  */
 interface StreamPostClip {
     fun postClip(stream: Stream): Stream
 }
 
 /**
- * TODO docs
+ * Separate interface for IDE suggestions
  */
 interface StreamPreClip {
     fun preClip(stream: Stream): Stream
@@ -51,19 +49,15 @@ interface ClipStream : Stream {
     var clean: Int
 }
 
-/**
- * TODO docs
- */
-interface Clippable {
+
+internal interface Clippable {
     fun pointVisible(x: Double, y: Double): Boolean
     fun clipLine(stream: Stream): ClipStream
     fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream)
 }
 
-/**
- * TODO docs
- */
-interface ClippableHasStart : Clippable {
+
+internal interface ClippableHasStart : Clippable {
     val start: DoubleArray
 }
 
@@ -71,7 +65,7 @@ interface ClippableHasStart : Clippable {
 /**
  * TODO docs
  */
-class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : Stream {
+internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
 
     internal val line = clip.clipLine(sink)

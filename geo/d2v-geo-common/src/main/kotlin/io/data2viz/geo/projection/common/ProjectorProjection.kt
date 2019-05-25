@@ -12,6 +12,10 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.sqrt
 
+
+/**
+ * Create [Projection] for give [Projector]
+ */
 fun projection(projection: Projector, init: ProjectorProjection.() -> Unit) = ProjectorProjection(
     projection
 ).apply(init)
@@ -33,12 +37,13 @@ private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStre
 }
 
 /**
- * TODO docs
- * TODO internal fields naming
- * TODO internal performance and kotlin like refacotring
+ * Base [Projection] implementation
+ * Uses [CachedProjection]
+ *
+ * @see Projection
+ * @see ComposedProjection
  */
 open class ProjectorProjection(val projection: Projector) : CachedProjection() {
-
 
     protected var _translateX = 480.0
     protected var _translateY = 250.0
@@ -74,7 +79,7 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
     override var preClip: StreamPreClip = antimeridianPreClip
     override var postClip: StreamPostClip = noPostClip
 
-    private var resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
+    private var resampleProjector = precisionResample(translateAndScaleProjector, _precisionDelta2)
 
     override var scale: Double
         get() = _scale
@@ -161,7 +166,7 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
         get() = sqrt(_precisionDelta2)
         set(value) {
             _precisionDelta2 = value * value
-            resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
+            resampleProjector = precisionResample(translateAndScaleProjector, _precisionDelta2)
             reset()
         }
 
@@ -180,7 +185,7 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
     // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
     override fun projectLambda(lambda: Double, phi: Double): Double =
         composedTransformationsProjector.projectLambda(lambda.toRadians(), phi.toRadians())
-    
+
     // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
     override fun projectPhi(lambda: Double, phi: Double): Double =
         composedTransformationsProjector.projectPhi(lambda.toRadians(), phi.toRadians())
@@ -231,17 +236,16 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
     }
 
 
-
-
 }
 
 /**
- * TODO: docs
- * apply scale & translate
+ * Scale & translate projector based on values from [projection]
+ *
+ * @see RotationProjector
  */
 class TranslateAndScaleProjector(
     val projection: Projector,
-    var scale:Double,
+    var scale: Double,
     var recenterDx: Double,
     var recenterDy: Double
 ) : Projector {

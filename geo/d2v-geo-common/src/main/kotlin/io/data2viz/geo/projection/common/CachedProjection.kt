@@ -16,6 +16,9 @@ abstract class CachedProjection() : Projection {
     val streamCache = StreamCache()
 
 
+    /**
+     * Reset cache
+     */
     fun reset() {
         streamCache.reset()
     }
@@ -32,7 +35,13 @@ abstract class CachedProjection() : Projection {
         return streamCache.cachedResultStream!!
     }
 
-    abstract fun fullCycleStream(stream: Stream): Stream
+    /**
+     * Provides full cycle of transformations
+     *
+     * @param stream original source stream
+     * @return result stream with applied transformations
+     */
+    protected abstract fun fullCycleStream(stream: Stream): Stream
 
 }
 
