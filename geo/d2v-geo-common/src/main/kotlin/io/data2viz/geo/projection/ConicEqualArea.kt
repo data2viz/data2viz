@@ -118,10 +118,10 @@ class ConicEqualAreaProjector : ConicProjector, Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         var r = r(phi)
-        val lambdaN = lambda * n
+
         return doubleArrayOf(
             internalProjectLambda(r, lambda),
-            internalProjectPhi(r, lambdaN)
+            internalProjectPhi(r, lambda)
         )
     }
 
@@ -131,17 +131,19 @@ class ConicEqualAreaProjector : ConicProjector, Projector {
 
     }
 
-    private fun internalProjectLambda(r: Double, lambda: Double) = r * sin(lambda * n)
-
     override fun projectPhi(lambda: Double, phi: Double): Double {
 
         var r = r(phi)
-        val lambdaN = lambda * n
-        return internalProjectPhi(r, lambdaN)
+
+        return internalProjectPhi(r, lambda)
 
     }
 
-    private fun internalProjectPhi(r: Double, lambdaN: Double) = r0 - r * cos(lambdaN)
+    private fun internalProjectLambda(r: Double, lambda: Double): Double = r * sin(lambda * n)
+
+
+    private fun internalProjectPhi(r: Double, lambda: Double): Double = r0 - r * cos(lambda * n)
+
 
     private fun r0y(phi: Double) = r0 - phi
 

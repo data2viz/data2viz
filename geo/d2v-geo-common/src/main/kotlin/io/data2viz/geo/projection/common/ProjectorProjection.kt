@@ -176,11 +176,11 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
     }
 
 
-//    override fun project(lambda: Double, phi: Double): DoubleArray {
-//        val lambdaRadians = lambda.toRadians()
-//        val phiRadians = phi.toRadians()
-//        return composedTransformationsProjector.project(lambdaRadians, phiRadians)
-//    }
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        val lambdaRadians = lambda.toRadians()
+        val phiRadians = phi.toRadians()
+        return composedTransformationsProjector.project(lambdaRadians, phiRadians)
+    }
 
     // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
     override fun projectLambda(lambda: Double, phi: Double): Double =
@@ -248,30 +248,53 @@ class TranslateAndScaleProjector(
     var scale: Double,
     var recenterDx: Double,
     var recenterDy: Double
-) : Projector {
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        return projection.invert(lambda, phi)
+) : NoCommonCalculationsProjector {
+
+
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+        val projected = projection.project(lambda, phi)
+        projected[0] = internalProjectLambda(projected[0])
+        projected[1] = internalProjectPhi(projected[1])
+        return projected
     }
-
-    override fun invertLambda(lambda: Double, phi: Double): Double {
-        return projection.invertLambda(lambda, phi)
-    }
-
-    override fun invertPhi(lambda: Double, phi: Double): Double {
-        return projection.invertPhi(lambda, phi)
-    }
-
-    private fun internalProjectLambda(lambda: Double) =
-        lambda * scale + recenterDx
-
-    private fun internalProjectPhi(phi: Double) =
-        recenterDy - phi * scale
 
     override fun projectLambda(lambda: Double, phi: Double): Double =
         internalProjectLambda(projection.projectLambda(lambda, phi))
 
     override fun projectPhi(lambda: Double, phi: Double): Double =
         internalProjectPhi(projection.projectPhi(lambda, phi))
+
+
+    private fun internalProjectLambda(lambda: Double) =
+        recenterDx + lambda * scale
+
+    private fun internalProjectPhi(phi: Double) =
+        recenterDy - phi * scale
+
+
+    // TODO: need re-check. invert not exist in d3 implementation
+    override fun invert(lambda: Double, phi: Double): DoubleArray {
+
+        val inverted = projection.invert(
+            internalInvertLambda(lambda),
+            internalInvertPhi(phi)
+        )
+        return inverted
+    }
+
+    override fun invertLambda(lambda: Double, phi: Double): Double =
+        internalProjectLambda(projection.invertLambda(lambda, phi))
+
+    override fun invertPhi(lambda: Double, phi: Double): Double =
+        internalProjectPhi(projection.invertPhi(lambda, phi))
+
+
+    private fun internalInvertLambda(lambda: Double) =
+        (lambda - recenterDx) / scale
+
+    private fun internalInvertPhi(phi: Double) =
+        -(phi - recenterDy) / scale
+
 
 }
 

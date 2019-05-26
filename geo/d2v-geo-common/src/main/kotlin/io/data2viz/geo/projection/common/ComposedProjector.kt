@@ -21,8 +21,8 @@ class ComposedProjector(val a: Projector, val b:Projector): Projector  {
     }
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        val p = b.project(lambda, phi)
-        return a.invert(p[0], p[1])
+        val p = a.project(lambda, phi)
+        return b.project(p[0], p[1])
     }
 
     override fun invertLambda(lambda: Double, phi: Double): Double {
