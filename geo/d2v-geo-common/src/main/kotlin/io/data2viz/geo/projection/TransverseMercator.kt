@@ -1,6 +1,7 @@
 package io.data2viz.geo.projection
 
 
+import io.data2viz.geo.projection.common.NoCommonCalculationsProjector
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.Angle
 import io.data2viz.math.HALFPI
@@ -33,7 +34,7 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) 
  * @see TransverseMercatorProjector
  * @see TransverseMercatorProjection
  */
-class TransverseMercatorProjector() : Projector {
+class TransverseMercatorProjector() : NoCommonCalculationsProjector {
 
     override fun invertLambda(lambda: Double, phi: Double): Double = -phi
 

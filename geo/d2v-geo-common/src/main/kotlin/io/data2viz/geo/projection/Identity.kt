@@ -25,7 +25,7 @@ fun identityProjection(init: Projection.() -> Unit) =
 /**
  * Projections without any transformations and clipping
  */
-class IdentityProjection : Projector {
+class IdentityProjection : NoCommonCalculationsProjector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
 
