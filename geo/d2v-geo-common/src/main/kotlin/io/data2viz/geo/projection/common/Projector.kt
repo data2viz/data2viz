@@ -45,10 +45,7 @@ interface Projector {
      * Result may contains [Double.NaN]  when projection not possible
      * @return Projected point (new two dimensional array)
      */
-    fun project(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(
-        projectLambda(lambda, phi),
-        projectPhi(lambda, phi)
-    )
+    fun project(lambda: Double, phi: Double): DoubleArray
 
     /**
      * Project point first coordinate
@@ -75,10 +72,7 @@ interface Projector {
      * @return Projected point (new two dimensional array)
      * @see project
      */
-    fun invert(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(
-        invertLambda(lambda, phi),
-        invertPhi(lambda, phi)
-    )
+    fun invert(lambda: Double, phi: Double): DoubleArray
 
     /**
      * Invert point first coordinate

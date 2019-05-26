@@ -1,5 +1,6 @@
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.projection.common.NoCommonCalculationsProjector
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.geo.projection.common.projection
@@ -24,7 +25,7 @@ fun equirectangularProjection(init: Projection.() -> Unit) =
  * Pseudocylindrical projections are a generalization of cylindrical projections.
  * The equirectangular (plate carrée) projection.
  */
-class EquirectangularProjector : Projector {
+class EquirectangularProjector : NoCommonCalculationsProjector {
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
 
     override fun projectPhi(lambda: Double, phi: Double): Double = phi
