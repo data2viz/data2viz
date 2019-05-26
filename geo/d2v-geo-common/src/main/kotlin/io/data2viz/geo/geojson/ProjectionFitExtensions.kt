@@ -24,15 +24,12 @@ private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJso
 
 
 /**
- *
- * TODO: check
- * Sets the projection’s scale and translate to fit the specified GeoJSON object in the center of the given extent. The extent is specified as an array [[translateX₀, translateY₀], [translateX₁, translateY₁]], where translateX₀ is the left side of the bounding box, translateY₀ is the top, translateX₁ is the right and translateY₁ is the bottom. Returns the projection.
-
-For example, to scale and translate the New Jersey State Plane projection to fit a GeoJSON object nj in the center of a 960×500 bounding box with 20 pixels of padding on each side:
-var projection = d3.geoTransverseMercator()
-.rotate([74 + 30 / 60, -38 - 50 / 60])
-.fitExtent([[20, 20], [940, 480]], nj);
-Any postClip extent is ignored when determining the new scale and translate. The precision used to compute the bounding box of the given object is computed at an effective scale of 150.
+ * Sets the projection’s scale and translate to fit the specified GeoJSON object in the center of the given extent.
+ * The extent is [[translateX₀, translateY₀], [translateX₁, translateY₁]],
+ * where translateX₀ is the left side of the bounding box,
+ * translateY₀ is the top, translateX₁ is the right and translateY₁ is the bottom.
+ * Any postClip extent is ignored when determining the new scale and translate.
+ * The precision used to compute the bounding box of the given object is computed at an effective scale of 150.
  */
 fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
     val fitBounds = { size: Extent ->
@@ -49,9 +46,8 @@ fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
 
 
 /**
- * TODO: check
- * A convenience method for projection.fitSize where the height is automatically chosen from the aspect ratio of object and the given constraint on width.
- *
+ * A convenience method for projection.fitSize where the height is automatically chosen
+ * from the aspect ratio of object and the given constraint on width.
  */
 fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection {
     val fitBounds = { size: Extent ->
@@ -65,8 +61,8 @@ fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection {
 }
 
 /**
- * * TODO: check
- * A convenience method for projection.fitSize where the width is automatically chosen from the aspect ratio of object and the given contraint on height.
+ * A convenience method for projection.fitSize where the width is automatically chosen
+ * from the aspect ratio of object and the given contraint on height.
  */
 fun Projection.fitHeight(height: Double, geo: GeoJsonObject): Projection {
     val fitBounds = { size: Extent ->
@@ -81,11 +77,10 @@ fun Projection.fitHeight(height: Double, geo: GeoJsonObject): Projection {
 
 /**
  *
- * TODO: check
- * A convenience method for projection.fitExtent where the top-left corner of the extent is [0, 0]. The following two statements are equivalent:
-
-projection.fitExtent([[0, 0], [width, height]], object);
-projection.fitSize([width, height], object);
+ * A convenience method for projection.fitExtent where the top-left corner of the extent is [0, 0].
+ * The following two statements are equivalent:
+ * fitExtent([[0, 0], [width, height]], object)
+ * fitSize([width, height], object);
  */
 fun Projection.fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
     return this.fitExtent(Extent(.0, .0, width, height), geo)

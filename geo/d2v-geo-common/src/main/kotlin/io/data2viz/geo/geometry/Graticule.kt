@@ -11,10 +11,17 @@ import kotlin.math.ceil
 
 
 // TODO: Missed API: fun geoGraticule10()
-//
 
+
+/**
+ * @see Graticule
+ */
 fun geoGraticule() = geoGraticule {}
 
+
+/**
+ * @see Graticule
+ */
 fun geoGraticule(init: Graticule.() -> Unit): Graticule {
     val g = Graticule()
     g.extentMajor = Extent(-180.0, -90.0 + EPSILON, 180.0, 90.0 - EPSILON)
@@ -39,10 +46,13 @@ private fun reorderExtent(extent: Extent) {
 }
 
 /**
- * Constructs a geometry generator for creating graticules: a uniform grid of meridians and parallels for showing
+ * Constructs a geometry generator for creating graticules:
+ * a uniform grid of meridians and parallels for showing
  * projection distortion.
  * The default graticule has meridians and parallels every 10° between ±80° latitude;
  * for the polar regions, there are meridians every 90°.
+ *
+ * You [graticule] and [lines] for result
  */
 class Graticule {
     private var minorExtent = Extent(Double.NaN, Double.NaN, Double.NaN, Double.NaN)

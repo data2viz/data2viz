@@ -11,7 +11,11 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
+/**
+ * Circle Generator
+ */
 class GeoCircle<D> {
+    // TODO: remove D?
 
     private var ring: MutableList<Array<Double>> = mutableListOf()
     private var rotate: ((x: Double, y: Double) -> DoubleArray)? = null
@@ -51,6 +55,7 @@ class GeoCircle<D> {
      * with the current center, radius and precision.
      */
     fun circle(data: D? = null): Polygon {
+        // TODO: remove data?
 
         val c = center(data).map { -it.toRadians() }.toDoubleArray()
         val r = radius(data).toRadians()
@@ -68,7 +73,6 @@ class GeoCircle<D> {
 }
 
 /**
- * TODO: docs
  * TODO: make similar to geoCentroid API
  * Generates a circle centered at [0°, 0°], with a given radius and precision.
  */

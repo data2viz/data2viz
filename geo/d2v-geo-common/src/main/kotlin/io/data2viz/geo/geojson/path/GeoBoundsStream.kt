@@ -13,11 +13,11 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.abs
+import io.data2viz.geo.geometry.path.BoundsStream
 
 fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
 
-// TODO refactor function references :: to objects like in ProjectorResambleStream.
-//  Function references have poor performance due to GC & memory allocation
+
 
 /**
  * Returns the spherical bounding box for the specified GeoJSON object.
@@ -31,9 +31,11 @@ fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
  *
  * (Note that in projected planar coordinates, the minimum latitude is typically the maximum translateY-value, and the
  * maximum latitude is typically the minimum translateY-value.)
- * This is the spherical equivalent of BoundsStream.
+ * This is the spherical equivalent of [BoundsStream]
  */
 class GeoBoundsStream : Stream {
+    // TODO refactor function references :: to objects like in ProjectorResambleStream.
+//  Function references have poor performance due to GC & memory allocation
 
     private val areaStream = GeoAreaStream()
 

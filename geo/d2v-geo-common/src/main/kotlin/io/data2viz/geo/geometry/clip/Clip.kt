@@ -62,9 +62,6 @@ internal interface ClippableHasStart : Clippable {
 }
 
 
-/**
- * TODO docs
- */
 internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
 
@@ -291,10 +288,7 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
     }
 }
 
-/**
- * TODO docs
- */
-class ClipBufferStream : Stream {
+internal class ClipBufferStream : Stream {
     private var lines: MutableList<List<DoubleArray>> = mutableListOf()
     private lateinit var line: MutableList<DoubleArray>
 

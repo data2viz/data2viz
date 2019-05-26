@@ -4,6 +4,9 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.*
 
+/**
+ * @see [geoInterpolate]
+ */
 class GeoInterpolate(
     val distance: Double,
     private val k: Double,

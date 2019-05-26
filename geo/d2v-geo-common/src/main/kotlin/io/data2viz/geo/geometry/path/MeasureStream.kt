@@ -3,14 +3,20 @@ package io.data2viz.geo.geometry.path
 import io.data2viz.geo.geojson.noop2
 import io.data2viz.geo.stream.Stream
 import kotlin.math.sqrt
+import io.data2viz.geo.geojson.path.GeoLengthStream
 
-// TODO : check for use of D3 "adder"
-// TODO refactor function references :: to objects like in ProjectorResambleStream.
-//  Function references have poor performance due to GC & memory allocation
+
+
 /**
- * TODO: docs
+ * Returns the great-arc length of the specified object in radians.
+ * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
+ * This is the cartesian equivalent of [GeoLengthStream]
  */
 internal class MeasureStream : Stream {
+
+    // TODO : check for use of D3 "adder"
+    // TODO refactor function references :: to objects like in ProjectorResambleStream.
+    //  Function references have poor performance due to GC & memory allocation
 
     private var lengthSum = .0
     private var lengthRing = false

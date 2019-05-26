@@ -2,13 +2,19 @@ package io.data2viz.geo.geometry.path
 
 import io.data2viz.geo.stream.Stream
 import kotlin.math.sqrt
+import io.data2viz.geo.geojson.path.GeoCentroidStream
 
-// TODO refactor function references :: to objects like in ProjectorResambleStream.
-//  Function references have poor performance due to GC & memory allocation
+
 /**
- * TODO: docs
+ *
+ * Returns the cartesian centroid of the specified GeoJSON object.
+ * This is the cartesian equivalent of [GeoCentroidStream]
  */
 internal class CentroidStream : Stream {
+
+    // TODO refactor function references :: to objects like in ProjectorResambleStream.
+    //  Function references have poor performance due to GC & memory allocation
+
     private var _X0 = 0.0
     private var _Y0 = 0.0
     private var _Z0 = 0.0

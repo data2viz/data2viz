@@ -2,9 +2,13 @@ package io.data2viz.geo.geometry.path
 
 import io.data2viz.geom.Extent
 import io.data2viz.geo.stream.Stream
+import io.data2viz.geo.geojson.path.GeoBoundsStream
 
 /**
- * TODO: docs
+ * Returns the bounding box for the specified GeoJSON object.
+ * All coordinates are given in degrees.
+ *
+ * This is the cartesian equivalent of [GeoBoundsStream]
  */
 internal class BoundsStream : Stream {
 

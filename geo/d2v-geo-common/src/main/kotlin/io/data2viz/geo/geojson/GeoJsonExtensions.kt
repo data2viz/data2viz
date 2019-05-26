@@ -8,12 +8,15 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.toRadians
 
 
+
 class Sphere : Geometry
 
 
 /**
- * Returns true if and only if the specified GeoJSON object contains the specified point, or false if the object does not contain the point. The point must be specified as a two-element array [longitude, latitude] in degrees. For Point and MultiPoint geometries, an exact test is used; for a Sphere, true is always returned; for other geometries, an epsilon threshold is applied.
  *
+ * For Point and MultiPoint geometries, an exact test is used; for a Sphere, true is always returned; for other geometries, an epsilon threshold is applied.
+ * @param point must be specified as a two-element array [longitude, latitude] in degrees.
+ * @return true if and only if the specified GeoJSON object contains the specified point, or false if the object does not contain the point.
  */
 fun GeoJsonObject.contains(point: Position): Boolean =
     when (this) {
@@ -72,6 +75,9 @@ internal val noop: () -> Unit = { }
 internal val noop2: (Double, Double) -> Unit = { _, _ -> }
 internal val noop3: (Double, Double, Double) -> Unit = { _, _, _ -> }
 
+/**
+ * Stream all children to [stream]
+ */
 fun GeoJsonObject.stream(stream: Stream) {
     when (this) {
         is FeatureCollection    -> features.forEach { it.stream(stream) }
@@ -121,6 +127,9 @@ private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
     stream.lineEnd()
 }
 
-fun toRadians(array: Position): DoubleArray {
-    return array.map { it.toRadians() }.toDoubleArray()
+/**
+ * Convert spherical [position] to cartesian doubleArray
+ */
+fun toRadians(position: Position): DoubleArray {
+    return position.map { it.toRadians() }.toDoubleArray()
 }

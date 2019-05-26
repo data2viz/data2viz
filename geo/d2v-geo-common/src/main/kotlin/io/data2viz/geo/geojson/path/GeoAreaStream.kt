@@ -11,17 +11,20 @@ import io.data2viz.math.toRadians
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
+import io.data2viz.geo.geometry.path.AreaStream
 
 fun geoArea(geo: GeoJsonObject) = GeoAreaStream().result(geo)
 
 
-// TODO refactor function references :: to objects like in ProjectorResambleStream.
-//  Function references have poor performance due to GC & memory allocation
+
 /**
- * Returns the spherical area of the specified GeoJSON object in steradians.
- * This is the spherical equivalent of AreaStream.
+ * Stream and returns via [result] the spherical area of the specified GeoJSON object in steradians.
+ * This is the spherical equivalent of [AreaStream]
  */
 class GeoAreaStream : Stream {
+
+    // TODO refactor function references :: to objects like in ProjectorResambleStream.
+    //  Function references have poor performance due to GC & memory allocation
 
     private var areaSum = .0
     internal var areaRingSum = .0

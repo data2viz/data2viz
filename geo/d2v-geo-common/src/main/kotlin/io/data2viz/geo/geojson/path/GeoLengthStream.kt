@@ -8,34 +8,39 @@ import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.LineString
 import io.data2viz.geojson.Position
 import io.data2viz.math.toRadians
+import io.data2viz.geo.geometry.path.MeasureStream
 import kotlin.math.*
 
 /**
  * Returns the great-arc distance in radians between the two points from and to.
  * Each point must be specified as a two-element array [longitude, latitude] in degrees.
- * This is the spherical equivalent of MeasureStream given a LineString of two points.
+ * This is the spherical equivalent of [MeasureStream] given a LineString of two points.
  */
 fun geoDistance(from: Position, to: Position): Double {
     val line = LineString(arrayOf(from, to))
-    return GeoLength().result(line)
+    return GeoLengthStream().result(line)
 }
 
 
-// TODO refactor function references :: to objects like in ProjectorResambleStream.
-//  Function references have poor performance due to GC & memory allocation
-/**
- * TODO: check
- * Returns the great-arc length of the specified GeoJSON object in radians. For polygons, returns the perimeter of the exterior ring plus that of any interior rings. This is the spherical equivalent of path.measure.
- */
-fun geoLength(geo: GeoJsonObject): Double
-        = GeoLength().result(geo)
 
 /**
  * Returns the great-arc length of the specified GeoJSON object in radians.
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
- * This is the spherical equivalent of MeasureStream.
+ * This is the spherical equivalent of path.measure.
  */
-class GeoLength : Stream {
+fun geoLength(geo: GeoJsonObject): Double
+        = GeoLengthStream().result(geo)
+
+/**
+ * Returns the great-arc length of the specified GeoJSON object in radians.
+ * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
+ * This is the spherical equivalent of [MeasureStream]
+ */
+class GeoLengthStream : Stream {
+
+    // TODO refactor function references :: to objects like in ProjectorResambleStream.
+//  Function references have poor performance due to GC & memory allocation
+
 
     private var lengthSum = .0
     private var lambda0 = Double.NaN

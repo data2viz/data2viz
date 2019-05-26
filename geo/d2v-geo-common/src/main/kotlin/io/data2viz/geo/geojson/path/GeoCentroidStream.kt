@@ -7,18 +7,19 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.EPSILON2
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
+import io.data2viz.geo.geometry.path.CentroidStream
 import kotlin.math.*
 
 fun geoCentroid(geo: GeoJsonObject) = GeoCentroidStream().result(geo)
 
-
-// TODO refactor function references :: to objects like in ProjectorResambleStream.
-//  Function references have poor performance due to GC & memory allocation
 /**
  * Returns the spherical centroid of the specified GeoJSON object.
- * This is the spherical equivalent of CentroidStream.
+ * This is the spherical equivalent of [CentroidStream]
  */
 class GeoCentroidStream : Stream {
+
+    // TODO refactor function references :: to objects like in ProjectorResambleStream.
+    //  Function references have poor performance due to GC & memory allocation
 
     private var _W0 = .0
     private var _W1 = .0
