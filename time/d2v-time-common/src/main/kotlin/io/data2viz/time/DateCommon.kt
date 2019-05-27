@@ -97,6 +97,17 @@ expect class Date {
 //    fun setUTCHours(hours:Int, minutes:Int?, seconds:Int?): Long
 }
 
+operator fun Date.compareTo(other: Date): Int {
+    val time = getTime()
+    val otherTime = other.getTime()
+
+    return when {
+        time < otherTime -> -1
+        time > otherTime -> 1
+        else -> 0
+    }
+}
+
 /*expect class Date {
 
     public constructor()
