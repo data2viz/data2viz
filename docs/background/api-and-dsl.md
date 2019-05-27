@@ -40,7 +40,7 @@ You will then have few proposals:
 ![Colors factories](../img/api-and-dsl2.png)
 
 
-All these functions are constructors for Colors using different 
+All these functions are factories of Colors using different 
 color spaces: hcl,hsl, lab, lch, rgb, etc. The IDE is proposing this code
 because it is valid code for fill variable affectation.
 
@@ -52,3 +52,12 @@ fill = Colors.Web.
 
 You then access to all existing Web colors: 
 ![Web Colors](../img/api-and-dsl3.png)
+
+After a choice of a color, it is still possible to use suggestions to add transparency,
+with support from the IDE:
+
+![Web Color with transparency](../img/api-and-dsl4.png)
+
+Using the first link to Colors, a lot of suggestions are proposed, enabling the developer
+to code without previous precise knowledge of the API.
+ 
