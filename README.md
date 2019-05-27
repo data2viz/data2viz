@@ -77,6 +77,13 @@ of each example using the links below.
 You can also install the Android demo app [directly from the Play Store](https://play.google.com/store/apps/details?id=io.data2viz.data2canvas).
 
 
+The easiest option is to build data2viz is gradle tasks (from terminal or IDEA gradle view)
+
+* to run Android application you should run `:installDebug` task like `./gradlew :app:installDebug`
+* to tun JFX application you should run :run task like `./gradlew :ex-geo:ex-geo-jfx:run`
+* to build JS files you should run `:build` like `./gradlew :ex-geo:ex-geo-js:build` and open `index.html` from module directory
+
+
 <a href="https://play.google.com/store/apps/details?id=io.data2viz.data2canvas" >
 <img src="https://raw.githubusercontent.com/data2viz/data2viz/master/docs/img/android-world-animation.png" width="250">
 </a>
