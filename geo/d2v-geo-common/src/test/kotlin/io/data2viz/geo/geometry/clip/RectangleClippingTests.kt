@@ -39,8 +39,8 @@ class RectangleClippingTests : TestBase() {
 
     @Test
     fun no_clipping() {
-        val geoPath = geoPath(getProjection(), PathGeom())
-        val path = geoPath.path(polygon) as PathGeom
+        val path = PathGeom()
+        geoPath(getProjection(), path).path(polygon)
 
         path.svgPath.round() shouldBe "M305.46707480056705,350L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480,175.46707480056705L567.2664625997165,262.7335374002835L480,350Z".round()
     }
@@ -50,8 +50,8 @@ class RectangleClippingTests : TestBase() {
         val projection = getProjection()
         projection.postClip = RectanglePostClip(48.0, 50.0, 498.0, 500.0)
 
-        val geoPath = geoPath(projection, PathGeom())
-        val path = geoPath.path(polygon) as PathGeom
+        val path = PathGeom()
+        geoPath(projection, path).path(polygon)
 
         path.svgPath.round() shouldBe "M498,332L480,350L305.46707480056705,350L305.46707480056705,350L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480,175.46707480056705L498,193.46707480056705L498,332Z".round()
     }
@@ -61,8 +61,8 @@ class RectangleClippingTests : TestBase() {
         val projection = getProjection()
         projection.postClip = RectanglePostClip(200.0, 200.0, 700.0, 500.0)
 
-        val geoPath = geoPath(projection, PathGeom())
-        val path = geoPath.path(polygon) as PathGeom
+        val path = PathGeom()
+        geoPath(projection, path).path(polygon)
 
         path.svgPath.round() shouldBe "M504.53292519943295,200L567.2664625997165,262.7335374002835L480,350L305.46707480056705,350L305.46707480056705,350L218.20061220085057,262.7335374002835L280.9341496011341,200L504.53292519943295,200Z".round()
     }
@@ -72,8 +72,8 @@ class RectangleClippingTests : TestBase() {
         val projection = getProjection()
         projection.postClip = RectanglePostClip(48.0, 50.0, 700.0, 300.0)
 
-        val geoPath = geoPath(projection, PathGeom())
-        val path = geoPath.path(polygon) as PathGeom
+        val path = PathGeom()
+        geoPath(projection, path).path(polygon)
 
         path.svgPath.round() shouldBe "M255.46707480056705,300L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480,175.46707480056705L567.2664625997165,262.7335374002835L530,300L255.46707480056705,300Z".round()
     }
@@ -83,8 +83,8 @@ class RectangleClippingTests : TestBase() {
         val projection = getProjection()
         projection.postClip = RectanglePostClip(250.0, 50.0, 700.0, 500.0)
 
-        val geoPath = geoPath(projection, PathGeom())
-        val path = geoPath.path(polygon) as PathGeom
+        val path = PathGeom()
+        geoPath(projection, path).path(polygon)
 
         path.svgPath.round() shouldBe "M250,230.9341496011341L305.46707480056705,175.46707480056705L480,175.46707480056705L567.2664625997165,262.7335374002835L480,350L305.46707480056705,350L305.46707480056705,350L250,294.53292519943295L250,230.9341496011341Z".round()
     }
@@ -93,12 +93,12 @@ class RectangleClippingTests : TestBase() {
     fun rectangle_vs_extent() {
         val projection = getProjection()
         projection.postClip = RectanglePostClip(250.0, 50.0, 700.0, 500.0)
-        val geoPath1 = geoPath(projection, PathGeom())
-        val path1: PathGeom = geoPath1.path(polygon) as PathGeom
+        val path1 = PathGeom()
+        geoPath(projection, path1).path(polygon)
 
         projection.postClip = ExtentPostClip(Extent(250.0, 50.0, 700.0, 500.0))
-        val geoPath2 = geoPath(projection, PathGeom())
-        val path2: PathGeom = geoPath2.path(polygon) as PathGeom
+        val path2 = PathGeom()
+        geoPath(projection, path2).path(polygon)
 
         path1.svgPath shouldBe path2.svgPath
     }
