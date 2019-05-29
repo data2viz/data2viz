@@ -50,9 +50,9 @@ class GeoPath(val projection: Projection, val path: Path?) {
      * @see PathStream.pointRadius
      */
     var pointRadius
-        get() = contextStream!!.pointRadius
+        get() = pathStream!!.pointRadius
     set(value) {
-        contextStream!!.pointRadius
+        pathStream!!.pointRadius
     }
 
 
@@ -60,7 +60,7 @@ class GeoPath(val projection: Projection, val path: Path?) {
     private val boundsStream    = BoundsStream()
     private val centroidStream  = CentroidStream()
     private val measureStream   = MeasureStream()
-    private val contextStream: PathStream? = if (path != null) PathStream(
+    private val pathStream: PathStream? = if (path != null) PathStream(
         path
     ) else null
 
@@ -82,11 +82,10 @@ class GeoPath(val projection: Projection, val path: Path?) {
      * Separate path elements are typically slower than a single path element.
      * However, distinct path elements are useful for styling and interaction (e.g., click or mouseover).
      */
-    fun path(geo: GeoJsonObject): Path {
+    fun project(geo: GeoJsonObject) {
         requireNotNull(path) { "Cannot use GeoPath.svgPath() without a valid path." }
-        requireNotNull(contextStream) { "Cannot use GeoPath.svgPath() without a valid path." }
-        geo.stream(projection.stream(contextStream))
-        return path
+        requireNotNull(pathStream) { "Cannot use GeoPath.svgPath() without a valid path." }
+        geo.stream(projection.stream(pathStream))
     }
 
     /**
