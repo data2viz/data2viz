@@ -12,7 +12,7 @@ import io.data2viz.geojson.*
 /**
  * Creates a new geographic path generator with the default settings.
  * If projection is specified, sets the current projection.
- * If context is specified, sets the current context.
+ * If path is specified, sets the current path.
  * Renders the given object, which may be any GeoJSON feature or geometry object:
  * [Point] - a single position.
  * [MultiPoint] - an array of positions.
@@ -27,8 +27,8 @@ import io.data2viz.geojson.*
  * a sphere has no coordinates. Any additional arguments are passed along to the pointRadius accessor.
  *
  */
-fun geoPath(projection: Projection? = null, context: Path? = null) =
-    GeoPath(projection ?: identityProjection(), context)
+fun geoPath(projection: Projection? = null, path: Path? = null) =
+    GeoPath(projection ?: identityProjection(), path)
 
 /**
  * If a projection is specified, sets the current projection to the specified projection.
@@ -42,7 +42,7 @@ fun geoPath(projection: Projection? = null, context: Path? = null) =
  *
  * @see PathStream
  */
-class GeoPath(val projection: Projection, val context: Path?) {
+class GeoPath(val projection: Projection, val path: Path?) {
 
     /**
      * Radius of the circle used to display Point and MultiPoint geometries to the specified number.
@@ -60,8 +60,8 @@ class GeoPath(val projection: Projection, val context: Path?) {
     private val boundsStream    = BoundsStream()
     private val centroidStream  = CentroidStream()
     private val measureStream   = MeasureStream()
-    private val contextStream: PathStream? = if (context != null) PathStream(
-        context
+    private val contextStream: PathStream? = if (path != null) PathStream(
+        path
     ) else null
 
     /**
@@ -83,10 +83,10 @@ class GeoPath(val projection: Projection, val context: Path?) {
      * However, distinct path elements are useful for styling and interaction (e.g., click or mouseover).
      */
     fun path(geo: GeoJsonObject): Path {
-        requireNotNull(context) { "Cannot use GeoPath.svgPath() without a valid context." }
-        requireNotNull(contextStream) { "Cannot use GeoPath.svgPath() without a valid context." }
+        requireNotNull(path) { "Cannot use GeoPath.svgPath() without a valid path." }
+        requireNotNull(contextStream) { "Cannot use GeoPath.svgPath() without a valid path." }
         geo.stream(projection.stream(contextStream))
-        return context
+        return path
     }
 
     /**
