@@ -1,7 +1,11 @@
 
 # Date2Viz geo
 
-Data2viz `io.data2viz.geo` module goal is to provide tools to facilitate map projections: transformation of the latitudes and longitudes of locations from the surface of a sphere into locations on a plane.
+Data2viz `io.data2viz.geo` module goal is to provide tools to facilitate map projections: the transformation of the latitudes and longitudes of locations from the surface of a sphere into locations on a plane. However, projections are not limited to discrete points. To draw maps, we need more complex geometries: lines (streets, highways, and boundaries), polygons (countries, provinces, tracts of land), and multi-part collections of these types.
+
+The GeoJson specification defines these geometries, which are the start of this API. 
+
+`GeoJson   —>   projection   —>   Path`
 
 The module provide the basics projections: orthographic, ...
 
