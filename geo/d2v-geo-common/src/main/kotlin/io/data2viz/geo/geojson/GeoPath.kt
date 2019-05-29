@@ -45,9 +45,8 @@ fun geoPath(projection: Projection? = null, context: Path? = null) =
 class GeoPath(val projection: Projection, val context: Path?) {
 
     /**
-     *
-     * If radius is specified, sets the radius used to display Point and MultiPoint geometries to the specified number.
-     * If radius is not specified, returns the current radius accessor, which defaults to 4.5.
+     * Radius of the circle used to display Point and MultiPoint geometries to the specified number.
+     * Defaults to 4.5.
      * @see PathStream.pointRadius
      */
     var pointRadius

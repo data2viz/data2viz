@@ -6,17 +6,18 @@ import io.data2viz.geom.Path
 import io.data2viz.geo.geojson.GeoPath
 
 /**
- * Stream polygons and lines to to context as points and arcs
+ * This stream is the last operation of a projection: using a Path to draw the
+ * GeoJson objects on a path.
+ *
+ * All polygons, and lines produce moveTo and lineTo calls on Path.
+ * GeoJson points produce `arc` call to render a circle.
  *
  * @see GeoPath
  */
 internal class PathStream(private val context: Path) : Stream {
+
     /**
-     * If radius is specified, sets the radius used to display Point and MultiPoint geometries to the specified number.
-     * If radius is not specified, returns the current radius accessor, which defaults to 4.5.
-     * While the radius is commonly specified as a number constant,
-     * it may also be specified as a function which is computed per feature,
-     * being passed the any arguments passed to the path generator.
+     * Radius of the circle used to render a GeoJson Point
      */
     var pointRadius = 4.5
 
