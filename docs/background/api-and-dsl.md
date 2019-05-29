@@ -24,11 +24,16 @@ When you start to use this way of writing code, it becomes a habit:
 you type the name of a variable available in the current context and 
 by using the right shortcuts, **you discover the API**.
 
-![Suggestions after two characters typed in the context of a viz](../img/api-and-dsl.png)
+<img title="Suggestions after two characters typed in the context of a viz" src="../img/api-and-dsl.png" width="391" >
 
-This way of discovering an API is very productive. You stay in the context of your code, without switching to another tool or application, and access almost instantly to the available valid suggestions. Now, you need to know the basic concepts of your library to be confident about what you are looking for.
+
+This way of discovering an API is very productive. You stay in the context of your code, 
+without switching to another tool or application, and access almost instantly to the available 
+valid suggestions. Now, you need to know the basic concepts of your library to be confident 
+about what you are looking for.
  
-Data2viz tries to promote this way of coding. When we can, we give access to code variant using a first pointer which will guide you.
+Data2viz tries to promote this way of coding. When we can, we give access to code variants using a 
+first pointer which will guide you.
 
 For example, if you need to set the fill color of a circle, inside the context of your circle, you can start to type:
 
@@ -56,7 +61,8 @@ You then access to all existing Web colors:
 After a choice of a color, it is still possible to use suggestions to add transparency,
 with support from the IDE:
 
-![Web Color with transparency](../img/api-and-dsl4.png)
+
+<img title="Web Color with transparency" src="../img/api-and-dsl4.png" width="344" >
 
 Using the first link to Colors, a lot of suggestions are proposed, enabling the developer
 to code without previous precise knowledge of the API.
