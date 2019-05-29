@@ -22,6 +22,7 @@ internal class PathStream(private val context: Path) : Stream {
     var pointRadius = 4.5
 
     private var line = false
+
     private var point = -1
 
     override fun polygonStart() {
@@ -41,6 +42,10 @@ internal class PathStream(private val context: Path) : Stream {
         point = -1
     }
 
+    /**
+     * Process a Point. Depending of the current draw context
+     * it results in different calls on the Path.
+     */
     override fun point(x: Double, y: Double, z: Double) {
         when (point) {
             0 -> {
