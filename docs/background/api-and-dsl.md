@@ -62,7 +62,7 @@ After a choice of a color, it is still possible to use suggestions to add transp
 with support from the IDE:
 
 
-<img title="Web Color with transparency" src="../img/api-and-dsl4.png" width="344" >
+<img title="Web Color with transparency" src="../img/api-and-dsl4.png" width="430" >
 
 Using the first link to Colors, a lot of suggestions are proposed, enabling the developer
 to code without previous precise knowledge of the API.
