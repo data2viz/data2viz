@@ -1,9 +1,14 @@
 
 # Date2Viz geo
 
-Data2viz `io.data2viz.geo` module goal is to provide tools to facilitate map projections: the transformation of the latitudes and longitudes of locations from the surface of a sphere into locations on a plane. However, projections are not limited to discrete points. To draw maps, we need more complex geometries: lines (streets, highways, and boundaries), polygons (countries, provinces, tracts of land), and multi-part collections of these types.
+Data2viz `io.data2viz.geo` module goal is to provide tools to facilitate map projections: 
+the transformation of the latitudes and longitudes of locations from the surface of a sphere into 
+locations on a plane. However, projections are not limited to discrete points. To draw maps, we need 
+more complex geometries: lines (streets, highways, and boundaries), polygons (countries, provinces, 
+tracts of land), and multi-part collections of these types.
 
-The GeoJson specification defines these geometries, which are the start of this API. 
+The [GeoJson specification](https://tools.ietf.org/html/rfc7946) defines these geometries, 
+which are the start of this API. 
 
 `GeoJson   —>   projection   —>   Path`
 
@@ -11,14 +16,12 @@ The module provide the basics projections: orthographic, ...
 
 The API is designed to allow the addition of new projections.
 
-
-![Data2Viz Albers USA Projection](../img/geo-projection-orhtographic.png)
-
 Main interfaces are `Projector` & `Projection`
 
 ## Projector
 
-`Projector` represents one transformation. It may be Projection transformation like `OrthographicProjector ` or common transformations like `RotationProjector`. There are two methods
+`Projector` represents one transformation. It may be Projection transformation like 
+`OrthographicProjector ` or common transformations like `RotationProjector`. There are two methods
 
 * project
 * invert (actually should invert project operation)
@@ -205,7 +208,7 @@ Sometimes, `ProjectorProjection` is extended to add addtional functionality. For
 
 You can combine diffrent projecitons and projectors, for example `AlbersUSAProjection` which actually project 3 areas (lower 48 US states, Hawai and Alaska).
 
-![Data2Viz Albers USA Projection](../img/geo-proecjtion-albers-usa.png)
+<img src="../img/geo-proecjtion-albers-usa.png" width="400">
 
 ### Use Projection in Viz
 
