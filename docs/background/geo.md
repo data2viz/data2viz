@@ -1,7 +1,18 @@
 
-# Data2viz API and DSL principles
+# Geo module
 
-Data viz `io.data2viz.geo` module originally based on [d3-geo](https://github.com/d3/d3-geo) library. It have similar API and support all base projections. For example **orthographic**
+Data2viz `io.data2viz.geo` module goal is to provide tools to facilitate map projections: transformation of the latitudes and longitudes of locations from the surface of a sphere into locations on a plane.
+
+The module provide the basics projections: orthographic, ...
+
+The API is designed to allow the addition of new projections.
+
+## Projector & Projections 
+
+Projection is the class (interface?) used to configure the projection. ...
+
+Projector is ...
+
 
 ## How to use
 
