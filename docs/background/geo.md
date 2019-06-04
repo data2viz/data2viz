@@ -7,7 +7,9 @@ locations on a plane. However, projections are not limited to discrete points. T
 more complex geometries: lines (streets, highways, and boundaries), polygons (countries, provinces, 
 tracts of land), and multi-part collections of these types.
 
-The [GeoJson specification](https://tools.ietf.org/html/rfc7946) defines these geometries, 
+The [GeoJson specification](https://tools.ietf.org/html/rfc7946) defines these geometries. 
+
+ 
 which are the start of this API. 
 
 `GeoJson   —>   projection   —>   Path`
