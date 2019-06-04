@@ -7,15 +7,7 @@ import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
 
-/**
- * @see NaturalEarthProjection
- */
-fun naturalEarthProjection() = naturalEarthProjection {}
-
-/**
- * @see NaturalEarthProjection
- */
-fun naturalEarthProjection(init: Projection.() -> Unit) =
+fun naturalEarthProjection(init: Projection.() -> Unit = {}) =
     projection(NaturalEarthProjection()) {
         scale = 175.295
         init()

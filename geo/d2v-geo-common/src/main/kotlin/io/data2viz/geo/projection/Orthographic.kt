@@ -9,24 +9,16 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * @see OrthographicProjector
+ * Creates an Orthographic Projection.
  */
-fun orthographicProjection() = orthographicProjection {}
-
-/**
- * @see OrthographicProjector
- */
-fun orthographicProjection(init: ProjectorProjection.() -> Unit) =
+fun orthographicProjection(init: ProjectorProjection.() -> Unit = {}) =
     projection(OrthographicProjector()) {
         scale = 249.5
         anglePreClip = (90 + EPSILON).deg
         init()
     }
 
-/**
- * The orthographic projection.
- */
-class OrthographicProjector : NoCommonCalculationsProjector {
+internal class OrthographicProjector : NoCommonCalculationsProjector {
     override fun projectLambda(lambda: Double, phi: Double): Double = cos(phi) * sin(lambda)
 
     override fun projectPhi(lambda: Double, phi: Double): Double = sin(phi)

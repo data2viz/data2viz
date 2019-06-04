@@ -24,7 +24,6 @@ private class AnglePreClip(val angle: Angle) : StreamPreClip {
 var Projection.anglePreClip: Angle?
     get() = (preClip as? AnglePreClip)?.angle
     set(value) {
-
         if (value != null) {
             preClip = AnglePreClip(value)
         } else {

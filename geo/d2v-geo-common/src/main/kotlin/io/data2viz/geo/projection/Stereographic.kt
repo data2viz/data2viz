@@ -13,12 +13,7 @@ import kotlin.math.sin
 /**
  * @see StereographicProjector
  */
-fun stereographicProjection() = stereographicProjection {}
-
-/**
- * @see StereographicProjector
- */
-fun stereographicProjection(init: Projection.() -> Unit) =
+fun stereographicProjection(init: Projection.() -> Unit = {}) =
     projection(StereographicProjector()) {
         scale = 250.0
         anglePreClip = (142.0).deg

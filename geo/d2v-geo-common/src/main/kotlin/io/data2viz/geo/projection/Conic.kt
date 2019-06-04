@@ -6,11 +6,7 @@ import io.data2viz.math.Angle
 import io.data2viz.math.PI
 import io.data2viz.math.rad
 
-
-/**
- * @ConicProjection
- */
-fun conicProjection(projection: ConicProjector, init: ConicProjection.() -> Unit) =
+fun conicProjection(projection: ConicProjector, init: ConicProjection.() -> Unit = {}) =
     ConicProjection(projection).apply(init)
 
 
@@ -33,6 +29,7 @@ interface ConicProjector : Projector {
  * Conic projections projector the sphere onto a cone, and then unroll the cone onto the plane.
  * Conic projections have two standard parallels.
  */
+
 class ConicProjection(val conicProjector: ConicProjector) : ProjectorProjection(conicProjector) {
     private var phi0: Double = 0.0
     private var phi1: Double = PI / 3.0

@@ -7,14 +7,12 @@ import io.data2viz.math.deg
 import kotlin.math.*
 
 /**
- * @see ConicEqualAreaBaseConditionalProjector
+ * The [ConicEqualAreaProjector]. See also conic.parallels.
+ * For some parallels values use [CylindricalEqualAreaProjector]
+ *
+ * @see BaseConditionalProjector
  */
-fun conicEqualAreaProjection() = conicEqualAreaProjection {}
-
-/**
- * @see ConicEqualAreaBaseConditionalProjector
- */
-fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) =
+fun conicEqualAreaProjection(init: ConicProjection.() -> Unit = {}) =
     conicProjection(ConicEqualAreaBaseConditionalProjector()) {
         scale = 155.424
         center(0.0.deg, 33.6442.deg)
@@ -22,13 +20,7 @@ fun conicEqualAreaProjection(init: ConicProjection.() -> Unit) =
     }
 
 
-/**
- * The [ConicEqualAreaProjector]. See also conic.parallels.
- * For some parallels values use [CylindricalEqualAreaProjector]
- *
- * @see BaseConditionalProjector
- */
-class ConicEqualAreaBaseConditionalProjector(
+internal class ConicEqualAreaBaseConditionalProjector(
     private val conicEqualAreaProjector: ConicEqualAreaProjector = ConicEqualAreaProjector(),
     private val cylindricalEqualAreaProjector: CylindricalEqualAreaProjector = CylindricalEqualAreaProjector(
         conicEqualAreaProjector.phi0

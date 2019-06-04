@@ -1,6 +1,5 @@
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.projection.OrthographicProjector
 
 /**
  * Transform (project or invert) point
@@ -25,9 +24,7 @@ import io.data2viz.geo.projection.OrthographicProjector
  * If you don't care about performance you can use [SimpleProjector] with only [project] & [invert]
  * If you don't want to support [invert] you can use [NoInvertProjector] or [SimpleNoInvertProjector]
  * 
- * @see OrthographicProjector
- * @see [Projection]]
- * @see [projection]]
+ * @see [Projection]
  */
 interface Projector {
 
@@ -144,7 +141,7 @@ interface SimpleProjector : Projector {
  *
  * Specific [Projection] implementation with only [projectLambda] & [projectPhi] and [invertLambda] & [invertPhi]
  *
- * Usefull when [project] don't have common calculations for Lambda and phi
+ * Useful when [project] don't have common calculations for Lambda and phi
  *
  * @see CylindricalEqualAreaProjector
  */

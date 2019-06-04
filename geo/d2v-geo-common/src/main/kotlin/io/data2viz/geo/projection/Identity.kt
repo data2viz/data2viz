@@ -7,14 +7,9 @@ import io.data2viz.math.PI
 
 
 /**
- * @see IdentityProjection
+ * Projections without any transformations and clipping
  */
-fun identityProjection() = identityProjection {}
-
-/**
- * @see IdentityProjection
- */
-fun identityProjection(init: Projection.() -> Unit) =
+fun identityProjection(init: Projection.() -> Unit = {}) =
     projection(IdentityProjection()) {
         preClip = noPreClip
         postClip = noPostClip
@@ -22,15 +17,10 @@ fun identityProjection(init: Projection.() -> Unit) =
         init()
     }
 
-/**
- * Projections without any transformations and clipping
- */
-class IdentityProjection : NoCommonCalculationsProjector {
+internal class IdentityProjection : NoCommonCalculationsProjector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double = lambda
-
     override fun projectPhi(lambda: Double, phi: Double): Double = phi
-
     override fun invertLambda(lambda: Double, phi: Double): Double = lambda
     override fun invertPhi(lambda: Double, phi: Double): Double = phi
 

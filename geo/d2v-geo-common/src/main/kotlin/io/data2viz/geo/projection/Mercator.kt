@@ -1,7 +1,5 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.geometry.clip.ExtentPostClip
-import io.data2viz.geo.geometry.clip.StreamPostClip
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.*
 import io.data2viz.geom.Extent
@@ -11,18 +9,12 @@ import io.data2viz.math.PI
 import io.data2viz.math.TAU
 import kotlin.math.*
 
-/**
- * @see MercatorProjector
- * @see MercatorProjection
- */
-fun mercatorProjection() = mercatorProjection {}
-
 
 /**
  * @see MercatorProjector
  * @see MercatorProjection
  */
-fun mercatorProjection(init: Projection.() -> Unit) = MercatorProjection(MercatorProjector()).apply {
+fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(MercatorProjector()).apply {
     scale = 961 / TAU
 }.apply(init)
 

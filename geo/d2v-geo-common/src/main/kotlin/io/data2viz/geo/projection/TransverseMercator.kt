@@ -2,7 +2,6 @@ package io.data2viz.geo.projection
 
 
 import io.data2viz.geo.projection.common.NoCommonCalculationsProjector
-import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.Angle
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
@@ -12,17 +11,7 @@ import kotlin.math.ln
 import kotlin.math.tan
 
 
-/**
- * @see TransverseMercatorProjector
- * @see TransverseMercatorProjection
- */
-fun transverseMercatorProjection() = transverseMercatorProjection {}
-
-/**
- * @see TransverseMercatorProjector
- * @see TransverseMercatorProjection
- */
-fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) = TransverseMercatorProjection().also {
+fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit = {}) = TransverseMercatorProjection().also {
 
     it.rotate(0.deg, 0.deg, 90.deg)
     it.scale = 159.155
@@ -34,7 +23,7 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit) 
  * @see TransverseMercatorProjector
  * @see TransverseMercatorProjection
  */
-class TransverseMercatorProjector() : NoCommonCalculationsProjector {
+class TransverseMercatorProjector : NoCommonCalculationsProjector {
 
     override fun invertLambda(lambda: Double, phi: Double): Double = -phi
 
@@ -51,13 +40,14 @@ class TransverseMercatorProjector() : NoCommonCalculationsProjector {
  *
  * @see TransverseMercatorProjector
  */
-class TransverseMercatorProjection() : MercatorProjection(TransverseMercatorProjector()) {
+class TransverseMercatorProjection : MercatorProjection(TransverseMercatorProjector()) {
 
     override var centerLat: Angle
         get() = super.centerLon
         set(value) {
             super.centerLon = value
         }
+
     override var centerLon: Angle
         get() = -super.centerLat
         set(value) {
