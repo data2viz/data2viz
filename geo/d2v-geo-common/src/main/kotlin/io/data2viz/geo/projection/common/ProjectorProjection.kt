@@ -172,7 +172,15 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 
 
     override fun fullCycleStream(stream: Stream): Stream {
-        return transformRadians(transformRotate(rotator)(preClip.preClip(resampleProjector(postClip.postClip(stream)))))
+        return transformRadians(
+            transformRotate(rotator)(
+                    preClip.preClip(
+                        resampleProjector(
+                            postClip.postClip(stream)
+                        )
+                )
+            )
+        )
     }
 
 
