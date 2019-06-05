@@ -41,7 +41,7 @@
     </div>
     <div class="column">
         <div>D3</div>
-        <canvas id="d3_canvas"></canvas>
+        <canvas id="d3_canvas" style="height: 500px; width: 500px"></canvas>
     </div>
 </div>
 
@@ -52,19 +52,24 @@
 <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 
 <script>
-    const width = 500;
-    const height = 500;
+
+    let pixelRatio = 1;
+    if((typeof window.devicePixelRatio) !== 'undefined') {
+        pixelRatio = window.devicePixelRatio
+    }
+    const width = 500 * pixelRatio;
+    const height = 500 * pixelRatio;
 
     let canvas = d3.select('#d3_canvas')
-        .attr('width', width).attr('height', height);
+        .attr('width', width)
+        .attr('height', height);
 
     var context = canvas.node().getContext('2d');
     var projection;
-    var currentData
+    var currentData;
     var rotationEnabled = true;
 
     function clearCanvas() {
-        canvas.width = canvas.width;
         context.clearRect(0, 0, width, height);
         context.fillStyle = 'rgba(255,255,255,1)';
         context.fillRect(0, 0, width, height);
@@ -80,7 +85,7 @@
         context.strokeStyle = '#000';
         context.fillStyle = '#d8d8d8';
         context.beginPath();
-        geoGenerator(currentData)
+        geoGenerator(currentData);
         context.fill();
         context.stroke();
     }
@@ -167,7 +172,8 @@
             default:
                 alert("Invalid projection " + projectionName)
         }
-        initialScale = projection.scale();
+        initialScale = projection.scale() ;
+        projection.scale(initialScale * pixelRatio);
         // Set zero rotation by default if rotation not supported
         if (typeof projection.rotate === 'function') {
             projection.rotate([0, 0, 0]);
@@ -199,7 +205,7 @@
             }
             times.push(now);
             fps = times.length;
-            document.getElementById("fps").textContent = fps
+            document.getElementById("fps").textContent = fps;
             refreshLoop();
         });
     }
