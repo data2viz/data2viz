@@ -14,7 +14,14 @@ import io.data2viz.geo.geojson.GeoPath
  *
  * @see GeoPath
  */
-internal class PathStream(private val context: Path) : Stream {
+internal class PathStream(private val path: Path) : Stream {
+
+
+    enum class PathCmd {
+        MOVE,
+        LINE,
+        POINT
+    }
 
     /**
      * Radius of the circle used to render a GeoJson Point
@@ -23,7 +30,7 @@ internal class PathStream(private val context: Path) : Stream {
 
     private var line = false
 
-    private var point = -1
+    private var point = PathCmd.POINT
 
     override fun polygonStart() {
         line = true
@@ -34,28 +41,28 @@ internal class PathStream(private val context: Path) : Stream {
     }
 
     override fun lineStart() {
-        point = 0
+        point = PathCmd.MOVE
     }
 
     override fun lineEnd() {
-        if (line) context.closePath()
-        point = -1
+        if (line) path.closePath()
+        point = PathCmd.POINT
     }
 
     /**
-     * Process a Point. Depending of the current draw context
+     * Process a Point. Depending of the current draw path
      * it results in different calls on the Path.
      */
     override fun point(x: Double, y: Double, z: Double) {
         when (point) {
-            0 -> {
-                context.moveTo(x, y)
-                point = 1
+            PathCmd.MOVE -> {
+                path.moveTo(x, y)
+                point = PathCmd.LINE
             }
-            1 -> context.lineTo(x, y)
-            else -> {
-                context.moveTo(x + pointRadius, y)
-                context.arc(x, y, pointRadius, 0.0, TAU, false)
+            PathCmd.LINE -> path.lineTo(x, y)
+            PathCmd.POINT ->  {
+                path.moveTo(x + pointRadius, y)
+                path.arc(x, y, pointRadius, 0.0, TAU, false)
             }
         }
     }
