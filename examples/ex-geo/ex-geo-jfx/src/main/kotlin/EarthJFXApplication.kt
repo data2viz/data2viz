@@ -1,5 +1,7 @@
 package io.data2viz.examples.geo
 
+import io.data2viz.geo.geometry.geoGraticule
+import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.Viz
@@ -24,49 +26,52 @@ class EarthJFXApplication : Application() {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Application.launch(EarthJFXApplication::class.java)
+            launch(EarthJFXApplication::class.java)
         }
     }
 
-    val vizWidth = 500.0
-    val vizHeight = 500.0
+    private val vizWidth = 500.0
+    private val vizHeight = 500.0
 
-    val root = Group()
-    val startStopButton = Button()
-    val comboBoxFiles = ComboBox(FXCollections.observableArrayList(allFiles));
-    val comboBoxProjections = ComboBox(FXCollections.observableArrayList(allProjectionsNames));
+    private val root = Group()
+    private val startStopButton = Button()
 
-    val vBox = VBox()
-    var animationEnabled = true
+    private val comboBoxFiles = ComboBox(FXCollections.observableArrayList(allFiles)).apply {
+        selectionModel.select(defaultFileIndex)
+    }
+
+    private val comboBoxProjections = ComboBox(FXCollections.observableArrayList(allProjectionsNames)).apply {
+        selectionModel.select(defaultProjectionIndex)
+    }
+
+    private val content = VBox()
+    private var animationEnabled = true
+
+    private val frameTimes = LongArray(100)
+    private var frameTimeIndex = 0
+    private var arrayFilled = false
+
+    private var canvas: Canvas = newCanvas()
+    private var viz: Viz = newViz()
 
     override fun start(stage: Stage?) {
 
         val nativeFpsLabel = Label()
 
-
         startStopButton.text = "Start/Stop viz animations"
 
         startStopButton.onAction = EventHandler<ActionEvent> {
 
-            if (animationEnabled) {
-                viz?.stopAnimations()
-            } else {
-                viz?.startAnimations()
-
-            }
+            if (animationEnabled)
+                viz.stopAnimations()
+            else
+                viz.startAnimations()
 
             animationEnabled = !animationEnabled
         }
-        comboBoxFiles.selectionModel.select(defaultFileIndex)
-        comboBoxProjections.selectionModel.select(defaultProjectionIndex)
 
-        comboBoxProjections.valueProperty().addListener { observable, oldValue, newValue ->
-            onSelectionChanged()
-        }
-        comboBoxFiles.valueProperty().addListener { observable, oldValue, newValue ->
-            onSelectionChanged()
-        }
-
+        comboBoxProjections.valueProperty().addListener { _, _, _ -> onSelectionChanged() }
+        comboBoxFiles.valueProperty().addListener { _, _, _ -> onSelectionChanged() }
 
         val frameRateMeter = object : AnimationTimer() {
 
@@ -88,58 +93,64 @@ class EarthJFXApplication : Application() {
 
         frameRateMeter.start()
 
-        val hBox = HBox()
+        val header = HBox().apply {
+            with(children){
+                add(startStopButton)
+                add(comboBoxProjections)
+                add(comboBoxFiles)
+                add(nativeFpsLabel)
+            }
+        }
 
-        hBox.children.add(startStopButton)
-        hBox.children.add(comboBoxProjections)
-        hBox.children.add(comboBoxFiles)
-        hBox.children.add(nativeFpsLabel)
-
-
-        vBox.children.add(hBox)
-        root.children.add(vBox)
+        content.children.add(header)
+        root.children.add(content)
 
         stage?.let {
             it.scene = (Scene(root, vizWidth, vizHeight))
             it.show()
             stage.title = "JavaFx - data2viz - EarthJFXApplication.kt"
         }
-
         onSelectionChanged()
-
     }
 
-    var canvas: Canvas? = null
-    var viz: Viz? = null
+
+    private fun newCanvas(): Canvas {
+        canvas.apply { content.children.remove(canvas) }
+        val newCanvas = Canvas(vizWidth, vizHeight)
+        content.children.add(newCanvas)
+        return newCanvas
+    }
 
     private fun onSelectionChanged() {
+        viz.stopAnimations()
+        canvas = newCanvas()
+        viz = newViz()
+        if (animationEnabled)
+            viz.startAnimations()
+    }
 
-        viz?.stopAnimations()
-        canvas?.apply { vBox.children.remove(canvas) }
-
-        canvas = Canvas(vizWidth, vizHeight)
-
-        val projection = comboBoxProjections.selectionModel.selectedItem!!
-
-        val filename = if(projectionsToSingleFile.containsKey(projection)) {
-            projectionsToSingleFile[projection]!!
-        } else {
-            comboBoxFiles.selectionModel.selectedItem!!
-        }
-        val jsonObject =
-            this.javaClass.getResourceAsStream("/$filename").reader().readText().toGeoJsonObject()
-        val world = jsonObject
-
-        viz = geoViz(world, projection)
-        JFxVizRenderer(canvas!!, viz!!)
-        vBox.children.add(canvas)
-
-        if (animationEnabled) {
-            viz!!.startAnimations()
+    private fun newViz(): Viz {
+        val projectionName: String = getSelectedProjectionName()
+        val jsonObject = getGeoJsonObject(projectionName)
+        return geoViz(jsonObject, projectionName).also {
+            JFxVizRenderer(canvas, it)
         }
     }
 
-    private val frameTimes = LongArray(100)
-    private var frameTimeIndex = 0
-    private var arrayFilled = false
+    private fun getSelectedProjectionName() = comboBoxProjections.selectionModel.selectedItem!!
+
+
+    /**
+     * GeoJson. If projection is AlbersUsa, only GeoJson for USA is loaded. If graticule, create a graticule.
+     * Else load selected file.
+     */
+    private fun getGeoJsonObject(projectionName: String): GeoJsonObject {
+        val name = projectionsToSingleFile.getOrDefault(projectionName, comboBoxFiles.selectionModel.selectedItem!!)
+        return if (name == "graticule")
+            geoGraticule().graticule()
+        else
+            this.javaClass.getResourceAsStream("/$name").reader().readText().toGeoJsonObject()
+
+    }
+
 }
