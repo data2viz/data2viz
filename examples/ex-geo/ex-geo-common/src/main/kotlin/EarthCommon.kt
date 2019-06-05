@@ -3,7 +3,6 @@ package io.data2viz.examples.geo
 import io.data2viz.color.Colors
 import io.data2viz.geo.projection.*
 import io.data2viz.geojson.GeoJsonObject
-import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import io.data2viz.time.Date
 import io.data2viz.viz.GeoPathNode
@@ -35,6 +34,7 @@ val allProjections = hashMapOf(
 val allProjectionsNames = allProjections.keys.toList()
 
 val allFiles = listOf(
+    "graticule",
     "world-110m.geojson",
     "world-110m-30percent.json",
     "world-110m-50percent.json",
@@ -51,7 +51,6 @@ val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 
 
 fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.0, vizHeight: Double = 500.0): Viz {
-
 
     val projection = allProjections[projectionName]!!
     projection.translateX = vizWidth / 2.0
