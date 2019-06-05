@@ -13,16 +13,11 @@ import kotlin.math.ceil
 // TODO: Missed API: fun geoGraticule10()
 
 
-/**
- * @see Graticule
- */
-fun geoGraticule() = geoGraticule {}
-
 
 /**
  * @see Graticule
  */
-fun geoGraticule(init: Graticule.() -> Unit): Graticule {
+fun geoGraticule(init: Graticule.() -> Unit = {}): Graticule {
     val g = Graticule()
     g.extentMajor = Extent(-180.0, -90.0 + EPSILON, 180.0, 90.0 - EPSILON)
     g.extentMinor = Extent(-180.0, -80.0 - EPSILON, 180.0, 80.0 + EPSILON)
