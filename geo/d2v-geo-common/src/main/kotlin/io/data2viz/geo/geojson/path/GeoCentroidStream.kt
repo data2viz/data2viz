@@ -60,7 +60,7 @@ class GeoCentroidStream : Stream {
         var x = _X2
         var y = _Y2
         var z = _Z2
-        var m = x * x + y * y + z * z;
+        var m = x * x + y * y + z * z
 
         // If the area-weighted centroid is undefined, fall back to length-weighted ccentroid.
         if (m < EPSILON2) {

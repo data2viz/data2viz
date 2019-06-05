@@ -26,9 +26,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
     // TODO refactor function references :: to objects like in CircleClip
 //  Function references have poor performance due to GC & memory allocation
 
-    override fun pointVisible(x: Double, y: Double): Boolean {
-        return x in extent.x0..extent.x1 && y in extent.y0..extent.y1
-    }
+    override fun pointVisible(x: Double, y: Double): Boolean = x in extent.x0..extent.x1 && y in extent.y0..extent.y1
 
     val interpolateFunction = object : InterpolateFunction {
         override fun invoke(from: DoubleArray, to: DoubleArray, direction: Int, stream: Stream) {

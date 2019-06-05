@@ -22,9 +22,8 @@ fun conicConformalProjection(init: ConicProjection.() -> Unit = {}) =
         init()
     }
 
-
 internal fun tany(y: Double): Double {
-    return tan((HALFPI + y) / 2);
+    return tan((HALFPI + y) / 2)
 }
 
 internal class ConicConformalBaseConditionalProjector(
@@ -102,7 +101,7 @@ class ConicConformalProjector : ConicProjector, Projector {
 
     override fun invertPhi(lambda: Double, phi: Double): Double {
         val fy = fy(phi)
-        val rInvert = rInvert(lambda, fy);
+        val rInvert = rInvert(lambda, fy)
         return internalInvertPhi(rInvert)
 
     }
@@ -110,11 +109,11 @@ class ConicConformalProjector : ConicProjector, Projector {
     override fun invert(lambda: Double, phi: Double): DoubleArray {
 
         val fy = fy(phi)
-        val rInvert = rInvert(lambda, fy);
+        val rInvert = rInvert(lambda, fy)
         return doubleArrayOf(
             intervalInvertLambda(lambda, fy),
             internalInvertPhi(rInvert)
-        );
+        )
 
     }
 
@@ -126,18 +125,18 @@ class ConicConformalProjector : ConicProjector, Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val convertedPhi = convertPhi(phi)
-        val r = r(convertedPhi);
+        val r = r(convertedPhi)
         return doubleArrayOf(
             internalProjectLambda(r, lambda),
             internalProjectPhi(r, lambda)
-        );
+        )
 
     }
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
 
-        var convertedPhi = convertPhi(phi)
-        var r = r(convertedPhi);
+        val convertedPhi = convertPhi(phi)
+        val r = r(convertedPhi)
         return internalProjectLambda(r, lambda)
 
     }
@@ -145,8 +144,8 @@ class ConicConformalProjector : ConicProjector, Projector {
     private fun internalProjectLambda(r: Double, lambda: Double) = r * sin(n * lambda)
 
     override fun projectPhi(lambda: Double, phi: Double): Double {
-        var convertedPhi = convertPhi(phi)
-        var r = r(convertedPhi);
+        val convertedPhi = convertPhi(phi)
+        val r = r(convertedPhi)
         return internalProjectPhi(r, lambda)
     }
 
@@ -159,13 +158,13 @@ class ConicConformalProjector : ConicProjector, Projector {
     private fun convertPhi(phi: Double): Double {
         return if (f > 0) {
             if (phi < -HALFPI + EPSILON) {
-                -HALFPI + EPSILON;
+                -HALFPI + EPSILON
             } else {
                 phi
             }
         } else {
             if (phi > HALFPI - EPSILON) {
-                HALFPI - EPSILON;
+                HALFPI - EPSILON
             } else {
                 phi
             }

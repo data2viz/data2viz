@@ -25,7 +25,7 @@ class CylindricalEqualAreaProjector() : NoCommonCalculationsProjector {
     var cosPhi0: Double = 0.0
 
     private fun recalculate() {
-        cosPhi0 = cos(phi0);
+        cosPhi0 = cos(phi0)
     }
 
     override fun projectLambda(lambda: Double, phi: Double): Double {

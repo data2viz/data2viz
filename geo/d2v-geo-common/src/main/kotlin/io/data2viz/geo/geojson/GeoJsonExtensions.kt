@@ -51,23 +51,23 @@ private fun Positions.contains(point: Position): Boolean {
 private fun Position.contains(point: Position): Boolean = geoDistance(this, point) == .0
 
 
-val io.data2viz.geojson.Point.pos: Position
+val Point.pos: Position
     get() = coordinates
 
-val io.data2viz.geojson.MultiPoint.positions: Positions
+val MultiPoint.positions: Positions
     get() = coordinates
 
-val io.data2viz.geojson.LineString.positions: Positions
+val LineString.positions: Positions
     get() = coordinates
 
-val io.data2viz.geojson.Polygon.lines: Lines
+val Polygon.lines: Lines
     get() = coordinates
 
-val io.data2viz.geojson.MultiLineString.lines: Lines
+val MultiLineString.lines: Lines
     get() = coordinates
 
 
-val io.data2viz.geojson.MultiPolygon.surface: Surface
+val MultiPolygon.surface: Surface
     get() = coordinates
 
 

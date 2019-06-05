@@ -118,7 +118,7 @@ class ConicEquidistantProjector : ConicProjector, Projector {
         return doubleArrayOf(
             internalProjectLambda(gy, nx),
             internalProjectPhi(gy, nx)
-        );
+        )
 
     }
 

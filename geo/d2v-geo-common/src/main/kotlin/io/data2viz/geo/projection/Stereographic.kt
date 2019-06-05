@@ -29,7 +29,7 @@ private fun doubleAtan(d: Double) = 2 * atan(d)
 class StereographicProjector : Projector {
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cy = cy(phi)
-        val k = k(lambda, cy);
+        val k = k(lambda, cy)
         return doubleArrayOf(internalProjectLambda(cy, lambda, k), internalProjectPhi(phi, k))
     }
 
@@ -46,7 +46,7 @@ class StereographicProjector : Projector {
 
     override fun projectLambda(lambda: Double, phi: Double): Double {
         val cy = cy(phi)
-        val k = k(lambda, cy);
+        val k = k(lambda, cy)
         return internalProjectLambda(cy, lambda, k)
     }
 
@@ -54,7 +54,7 @@ class StereographicProjector : Projector {
 
     override fun projectPhi(lambda: Double, phi: Double): Double {
         val cy = cy(phi)
-        val k = k(lambda, cy);
+        val k = k(lambda, cy)
         return internalProjectPhi(phi, k)
     }
 

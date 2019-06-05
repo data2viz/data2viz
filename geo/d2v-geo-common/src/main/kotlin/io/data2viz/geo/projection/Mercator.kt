@@ -45,9 +45,6 @@ class MercatorProjector : NoCommonCalculationsProjector {
  *
  * @see MercatorProjector
  */
-/**
- *
- */
 open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectorProjection(projector) {
 
     override var scale: Double

@@ -1,16 +1,15 @@
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.geometry.limitedAsin
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
-import io.data2viz.geo.geometry.limitedAsin
 import io.data2viz.math.EPSILON
-import io.data2viz.math.toRadians
+import io.data2viz.math.deg
 import kotlin.math.*
 
 const val MAX_DEPTH = 16
-val COS_MIN_DISTANCE = cos(30.0.toRadians())
 
-
+val COS_MIN_DISTANCE = 30.deg.cos
 
 /**
  * Resample projector with given delta2Precision precision
@@ -37,10 +36,7 @@ private fun resampleNone(project: Projector): (Stream) -> Stream {
 
 
 
-
-
-private class PrecisionResampleStream(val stream: Stream, val projector: Projector, val delta2Precision: Double) :
-    Stream {
+private class PrecisionResampleStream(val stream: Stream, val projector: Projector, val delta2Precision: Double): Stream {
 
     // First point
     var lambda00 = Double.NaN
@@ -58,14 +54,9 @@ private class PrecisionResampleStream(val stream: Stream, val projector: Project
     var b0 = Double.NaN
     var c0 = Double.NaN
 
-    var currentPoint: PointFunction =
-        DefaultPointFunction
-    var currentLineStart: LineStartFunction =
-        DefaultLineStartFunction
-
-    var currentLineEnd: LineEndFunction =
-        DefaultLineEndFunction
-
+    var currentPoint: PointFunction = DefaultPointFunction
+    var currentLineStart: LineStartFunction = DefaultLineStartFunction
+    var currentLineEnd: LineEndFunction = DefaultLineEndFunction
 
     var currentPolygonStart = {
         stream.polygonStart()
@@ -150,7 +141,6 @@ private class PrecisionResampleStream(val stream: Stream, val projector: Project
 
     private object LinePointFunction : PointFunction {
 
-
         override fun invoke(resampleStream: PrecisionResampleStream, x: Double, y: Double, z: Double) {
 
             resampleStream.apply {
@@ -179,6 +169,7 @@ private class PrecisionResampleStream(val stream: Stream, val projector: Project
 
 
     private object RingPointFunction : PointFunction {
+
         override fun invoke(resampleStream: PrecisionResampleStream, x: Double, y: Double, z: Double) {
             resampleStream.apply {
                 lambda00 = x
@@ -194,27 +185,25 @@ private class PrecisionResampleStream(val stream: Stream, val projector: Project
 
     }
 
-    private object DefaultLineStartFunction :
-        LineStartFunction {
+    private object DefaultLineStartFunction : LineStartFunction {
+
         override fun invoke(resampleStream: PrecisionResampleStream) {
             resampleStream.x0 = Double.NaN
             resampleStream.currentPoint = DefaultPointFunction
             resampleStream.stream.lineStart()
         }
-
-
     }
 
-    private object DefaultLineEndFunction :
-        LineEndFunction {
+    private object DefaultLineEndFunction : LineEndFunction {
+
         override fun invoke(resampleStream: PrecisionResampleStream) {
             resampleStream.currentPoint = DefaultPointFunction
             resampleStream.stream.lineEnd()
         }
     }
 
-    private object RingLineStartFunction :
-        LineStartFunction {
+    private object RingLineStartFunction : LineStartFunction {
+
         override fun invoke(resampleStream: PrecisionResampleStream) {
             resampleStream.apply {
                 DefaultLineStartFunction.invoke(resampleStream)
@@ -222,15 +211,12 @@ private class PrecisionResampleStream(val stream: Stream, val projector: Project
                 currentLineEnd = RingLineEndFunction
             }
         }
-
-
     }
 
-    private object RingLineEndFunction :
-        LineEndFunction {
+    private object RingLineEndFunction : LineEndFunction {
+
         override fun invoke(resampleStream: PrecisionResampleStream) {
             resampleStream.apply {
-
                 resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00,
                     MAX_DEPTH, stream)
                 currentLineEnd = DefaultLineEndFunction

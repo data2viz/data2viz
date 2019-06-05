@@ -10,14 +10,7 @@ import io.data2viz.math.deg
 /**
  * @see AlbersUSAProjection
  */
-fun albersUSAProjection() = albersUSAProjection {
-
-}
-
-/**
- * @see AlbersUSAProjection
- */
-fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit) = AlbersUSAProjection().also {
+fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit = {}) = AlbersUSAProjection().also {
     it.scale = 1070.0
 }.also(init)
 
@@ -35,16 +28,16 @@ fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit) = AlbersUSAProject
  *
  * @see ConicEqualAreaProjector
  */
-class AlbersUSAProjection() : ComposedProjection() {
+class AlbersUSAProjection : ComposedProjection() {
 
 
-    val lower48 = albersProjection()
-    val alaska = conicEqualAreaProjection {
+    private val lower48 = albersProjection()
+    private val alaska = conicEqualAreaProjection {
         rotate(154.0.deg, 0.0.deg)
         center((-2.0).deg, 58.5.deg)
         parallels(55.0.deg, 65.0.deg)
     }
-    val hawaii = conicEqualAreaProjection {
+    private val hawaii = conicEqualAreaProjection {
         rotate(157.0.deg, 0.0.deg)
         center((-3.0).deg, 19.9.deg)
         parallels(8.0.deg, 18.0.deg)
@@ -75,8 +68,8 @@ class AlbersUSAProjection() : ComposedProjection() {
 
 
     // TODO: Strange logic from d3, but without custom translate projection not properly centered
-    var customTranslateX = 0.0
-    var customTranslateY = 0.0
+    private var customTranslateX = 0.0
+    private var customTranslateY = 0.0
 
     override var translateX: Double
         get() = super.translateX
@@ -95,8 +88,7 @@ class AlbersUSAProjection() : ComposedProjection() {
         }
 
     private fun translateNestedProjections() {
-        var k = lower48.scale
-
+        val k = lower48.scale
         val x = customTranslateX
         val y = customTranslateY
         lower48.translate(x, y)

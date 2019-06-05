@@ -14,7 +14,7 @@ fun albersProjection() = albersProjection {
  * The Albers’ equal area-conic projection.
  * This is a U.S.-centric configuration of [ConicEqualAreaProjector]
  */
-fun albersProjection(init: ConicProjection.() -> Unit) = conicEqualAreaProjection() {
+fun albersProjection(init: ConicProjection.() -> Unit) = conicEqualAreaProjection {
     parallels(29.5.deg, 45.5.deg)
     scale = 1070.0
     translate(480.0, 250.0)

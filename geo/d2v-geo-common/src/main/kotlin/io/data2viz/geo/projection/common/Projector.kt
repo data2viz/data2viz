@@ -100,16 +100,13 @@ interface Projector {
  */
 interface NoInvertProjector : Projector {
 
-    override fun invert(lambda: Double, phi: Double) =
-        invertError() as DoubleArray
+    override fun invert(lambda: Double, phi: Double) = invertError()
 
-    override fun invertLambda(lambda: Double, phi: Double): Double =
-        invertError() as Double
+    override fun invertLambda(lambda: Double, phi: Double): Double = invertError()
     
-    override fun invertPhi(lambda: Double, phi: Double): Double =
-        invertError() as Double
+    override fun invertPhi(lambda: Double, phi: Double): Double = invertError()
 
-    private fun invertError(): Any {
+    private fun invertError(): Nothing {
         error("$this don't support invert operation")
     }
 }

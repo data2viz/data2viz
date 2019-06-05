@@ -5,7 +5,7 @@ import io.data2viz.geo.projection.*
  * Abstract Projector which delegate projector & invert to another projection depending current settings
  * @see BaseConditionalProjector
  */
-abstract class ConditionalProjector() : Projector {
+abstract class ConditionalProjector : Projector {
 
 
     override fun invert(lambda: Double, phi: Double): DoubleArray = activeProjector.invert(lambda, phi)

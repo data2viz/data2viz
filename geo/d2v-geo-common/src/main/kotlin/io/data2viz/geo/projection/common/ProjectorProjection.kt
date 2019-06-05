@@ -16,9 +16,9 @@ import kotlin.math.sqrt
 /**
  * Create [Projection] for give [Projector]
  */
-fun projection(projection: Projector, init: ProjectorProjection.() -> Unit) = ProjectorProjection(
-    projection
-).apply(init)
+fun projection(projector: Projector, init: ProjectorProjection.() -> Unit) =
+    ProjectorProjection(projector)
+        .apply(init)
 
 
 private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->

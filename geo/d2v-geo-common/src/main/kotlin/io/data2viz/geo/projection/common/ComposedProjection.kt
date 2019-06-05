@@ -12,7 +12,7 @@ import io.data2viz.geo.projection.AlbersUSAProjection
  * For base projection see [ProjectorProjection]
  * @see AlbersUSAProjection
  */
-abstract class ComposedProjection() : CachedProjection() {
+abstract class ComposedProjection : CachedProjection() {
 
     abstract val mainProjection: Projection
     abstract val allProjections: Collection<Projection>
@@ -20,15 +20,19 @@ abstract class ComposedProjection() : CachedProjection() {
     override var centerLat: Angle
         get() = mainProjection.centerLat
         set(value) = allProjections.forEach { it.centerLat = value }
+
     override var centerLon: Angle
         get() = mainProjection.centerLon
         set(value) = allProjections.forEach { it.centerLon = value }
+
     override var rotateLambda: Angle
         get() = mainProjection.rotateLambda
         set(value) = allProjections.forEach { it.rotateLambda = value }
+
     override var rotatePhi: Angle
         get() = mainProjection.rotatePhi
         set(value) = allProjections.forEach { it.rotatePhi = value }
+
     override var rotateGamma: Angle
         get() = mainProjection.rotateGamma
         set(value) = allProjections.forEach { it.rotateGamma = value }
@@ -37,10 +41,10 @@ abstract class ComposedProjection() : CachedProjection() {
     override var preClip: StreamPreClip
         get() = mainProjection.preClip
         set(value) = allProjections.forEach { it.preClip = value }
+
     override var postClip: StreamPostClip
         get() = mainProjection.postClip
         set(value) = allProjections.forEach { it.postClip = value }
-
 
     override var precision: Double
         get() = mainProjection.precision
@@ -48,7 +52,6 @@ abstract class ComposedProjection() : CachedProjection() {
             allProjections.forEach { it.precision = value }
             reset()
         }
-
 
     override var translateX: Double
         get() = mainProjection.translateX
@@ -82,7 +85,6 @@ abstract class ComposedProjection() : CachedProjection() {
     override fun rotate(lambda: Angle, phi: Angle, gamma: Angle?) {
         allProjections.forEach { it.rotate(lambda, phi, gamma) }
     }
-
 
 
     override fun project(lambda: Double, phi: Double): DoubleArray =

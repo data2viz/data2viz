@@ -1,6 +1,5 @@
 package io.data2viz.geo.stream
 
-import io.data2viz.math.toRadians
 
 
 /**

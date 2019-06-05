@@ -26,17 +26,15 @@ class CirclePreClip(val radius: Double): StreamPreClip {
  */
 class ClipCircle(val radius: Double) : ClippableHasStart {
 
-    private val cr = cos(radius)
+    private val cosRadius = cos(radius)
     private val delta = 6.0.toRadians()
-    private val smallRadius = cr > 0
-    private val notHemisphere = abs(cr) > EPSILON // TODO optimise for this common case
+    private val smallRadius = cosRadius > 0
+    private val notHemisphere = abs(cosRadius) > EPSILON // TODO optimise for this common case
 
     override val start: DoubleArray
         get() = if (smallRadius) doubleArrayOf(0.0, -radius) else doubleArrayOf(-PI, radius - PI)
 
-    override fun pointVisible(x: Double, y: Double): Boolean {
-        return cos(x) * cos(y) > cr
-    }
+    override fun pointVisible(x: Double, y: Double): Boolean = cos(x) * cos(y) > cosRadius
 
     override fun clipLine(stream: Stream): ClipStream {
 
@@ -156,8 +154,8 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         // Two polar points.
         if (determinant == .0) return a
 
-        val c1 = cr * n2n2 / determinant
-        val c2 = -cr * n1n2 / determinant
+        val c1 = cosRadius * n2n2 / determinant
+        val c2 = -cosRadius * n1n2 / determinant
         val n1xn2 = cartesianCross(n1, n2)
         var A = cartesianScale(n1, c1)
         val B = cartesianScale(n2, c2)
@@ -195,8 +193,8 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
         // Two polar points.
         if (determinant == .0) return null
 
-        val c1 = cr * n2n2 / determinant
-        val c2 = -cr * n1n2 / determinant
+        val c1 = cosRadius * n2n2 / determinant
+        val c2 = -cosRadius * n1n2 / determinant
         val n1xn2 = cartesianCross(n1, n2)
         var A = cartesianScale(n1, c1)
         val B = cartesianScale(n2, c2)
