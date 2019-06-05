@@ -90,6 +90,7 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         }
         compileTestKotlinCommon {
             kotlinOptions.freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+            kotlinOptions.freeCompilerArgs += ["-Xsanitize-parentheses"]
         }
 
     }
@@ -181,6 +182,7 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
         compileTestKotlin { 
             kotlinOptions.jvmTarget = 1.8
             kotlinOptions.freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+            kotlinOptions.freeCompilerArgs += ["-Xsanitize-parentheses"]
         }
 
         test {
