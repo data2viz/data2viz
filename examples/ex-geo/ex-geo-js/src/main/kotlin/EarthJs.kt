@@ -1,5 +1,6 @@
 package io.data2viz.examples.geo
 
+import io.data2viz.geo.geometry.geoGraticule
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.viz.Viz
 import io.data2viz.viz.bindRendererOn
@@ -104,9 +105,13 @@ private fun onSettingsChanged(
 private fun loadViz(filename: String, projectionName: String) {
 
     GlobalScope.promise {
-        val request = window.fetch(Request(filename))
-        val response = request.await()
 
+        val geoJson =
+            if (filename == "graticule")
+                geoGraticule().graticule()
+            else window.fetch(Request(filename))
+                .await().text()
+                .await().toGeoJsonObject()
 
         val oldCanvas = document.getElementById(canvaseVizHtmlElementId)
         val parent = oldCanvas!!.parentElement
@@ -117,7 +122,7 @@ private fun loadViz(filename: String, projectionName: String) {
         parent.appendChild(newCanvas)
 
         currentViz?.stopAnimations()
-        currentViz = geoViz(response.text().await().toGeoJsonObject(), projectionName, vizWidth, vizHeight)
+        currentViz = geoViz(geoJson, projectionName, vizWidth, vizHeight)
 
         currentViz!!.bindRendererOn(newCanvas)
         val anim = animationEnabled
