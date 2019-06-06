@@ -28,10 +28,10 @@ private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stre
     }
 }
 
-private fun transformRotate(rotate: Projector): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
+private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
     object : DelegateStreamAdapter(stream) {
         override fun point(x: Double, y: Double, z: Double) {
-            stream.point(rotate.projectLambda(x, y), rotate.projectPhi(x, y), 0.0)
+            stream.point(rotateProjector.projectLambda(x, y), rotateProjector.projectPhi(x, y), 0.0)
         }
     }
 }
@@ -247,61 +247,46 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 }
 
 /**
- * Scale & translate projector based on values from [projection]
+ * Scale & translate projector based on values from [projector]
  *
  * @see RotationProjector
  */
 class TranslateAndScaleProjector(
-    val projection: Projector,
+    val projector: Projector,
     var scale: Double,
     var recenterDx: Double,
     var recenterDy: Double
 ) : NoCommonCalculationsProjector {
 
-
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        val projected = projection.project(lambda, phi)
+        val projected = projector.project(lambda, phi)
         projected[0] = internalProjectLambda(projected[0])
         projected[1] = internalProjectPhi(projected[1])
         return projected
     }
 
-    override fun projectLambda(lambda: Double, phi: Double): Double =
-        internalProjectLambda(projection.projectLambda(lambda, phi))
+    override fun projectLambda(lambda: Double, phi: Double): Double = internalProjectLambda(projector.projectLambda(lambda, phi))
+    override fun projectPhi(lambda: Double, phi: Double): Double = internalProjectPhi(projector.projectPhi(lambda, phi))
 
-    override fun projectPhi(lambda: Double, phi: Double): Double =
-        internalProjectPhi(projection.projectPhi(lambda, phi))
-
-
-    private fun internalProjectLambda(lambda: Double) =
-        recenterDx + lambda * scale
-
-    private fun internalProjectPhi(phi: Double) =
-        recenterDy - phi * scale
+    private fun internalProjectLambda(lambda: Double) = recenterDx + lambda * scale
+    private fun internalProjectPhi(phi: Double) = recenterDy - phi * scale
 
 
     // TODO: need re-check. invert not exist in d3 implementation
     override fun invert(lambda: Double, phi: Double): DoubleArray {
 
-        val inverted = projection.invert(
+        return projector.invert(
             internalInvertLambda(lambda),
             internalInvertPhi(phi)
         )
-        return inverted
     }
 
-    override fun invertLambda(lambda: Double, phi: Double): Double =
-        internalProjectLambda(projection.invertLambda(lambda, phi))
-
-    override fun invertPhi(lambda: Double, phi: Double): Double =
-        internalProjectPhi(projection.invertPhi(lambda, phi))
+    override fun invertLambda(lambda: Double, phi: Double): Double = internalProjectLambda(projector.invertLambda(lambda, phi))
+    override fun invertPhi(lambda: Double, phi: Double): Double = internalProjectPhi(projector.invertPhi(lambda, phi))
 
 
-    private fun internalInvertLambda(lambda: Double) =
-        (lambda - recenterDx) / scale
-
-    private fun internalInvertPhi(phi: Double) =
-        -(phi - recenterDy) / scale
+    private fun internalInvertLambda(lambda: Double) = (lambda - recenterDx) / scale
+    private fun internalInvertPhi(phi: Double) = -(phi - recenterDy) / scale
 
 
 }
