@@ -2,6 +2,8 @@ dependencies {
     expectedBy project(":geo:d2v-geo-common")
     compile project(":core:d2v-core-jvm")
     compile "io.data2viz.geojson:geojson-jvm:$geojson_version"
+
+    testCompile project(":data2viz:d2v-data2viz-jfx")
 }
 
 task copyJsonTestFiles(type: Copy) {
@@ -10,3 +12,7 @@ task copyJsonTestFiles(type: Copy) {
 }
 
 build.dependsOn copyJsonTestFiles
+
+apply plugin: 'application'
+applicationDefaultJvmArgs = ["-Djavafx.animation.fullspeed=true", "-Xms512m", "-Xmx1024m"]
+mainClassName="io.data2viz.examples.geo.EarthJFXApplication"
