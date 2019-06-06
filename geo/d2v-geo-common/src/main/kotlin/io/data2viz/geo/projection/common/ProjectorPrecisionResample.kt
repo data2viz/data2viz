@@ -7,36 +7,35 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
 
+/**
+ * maximum depth of subdivision
+ */
 const val MAX_DEPTH = 16
 
+/**
+ * cos(minimum angular distance)
+ */
 val COS_MIN_DISTANCE = 30.deg.cos
 
 /**
- * Resample projector with given delta2Precision precision
- *
- * @param delta2Precision usually is Precision  * Precision
- * @see ProjectorProjection
- * @return resampled Stream
+ * if deltaPrecision > .0
+ *    adds a Resample stream in the chain to split the lines representing curves into smaller segments, to have
+ *    a smooth line.
+ * else
+ *    just perform the projection of points, transforming spheric coordinates into cartesian ones.
  */
-fun precisionResample(project: Projector, delta2Precision: Double) =
-    when {
-        delta2Precision != .0 -> { stream: Stream -> PrecisionResampleStream(stream, project, delta2Precision) }
-        else -> resampleNone(project)
-    }
-
-private fun resampleNone(project: Projector): (Stream) -> Stream {
-    return { stream: Stream ->
-        object : DelegateStreamAdapter(stream) {
-            override fun point(x: Double, y: Double, z: Double) {
-                stream.point(project.projectLambda(x, y), project.projectPhi(x, y), 0.0)
-            }
-        }
-    }
-}
+fun precisionResample(projector: Projector, delta2Precision: Double): (Stream) -> Stream =
+    if (delta2Precision != .0) //todo > .0 ?
+        { stream: Stream -> PrecisionResampleStream(stream, projector, delta2Precision) }
+    else
+        resampleNone(projector)
 
 
-
-private class PrecisionResampleStream(val stream: Stream, val projector: Projector, val delta2Precision: Double): Stream {
+private class PrecisionResampleStream(
+    val stream: Stream,
+    val projector: Projector,
+    val delta2Precision: Double = .5
+) : Stream {
 
     // First point
     var lambda00 = Double.NaN
@@ -54,48 +53,67 @@ private class PrecisionResampleStream(val stream: Stream, val projector: Project
     var b0 = Double.NaN
     var c0 = Double.NaN
 
-    var currentPoint: PointFunction = DefaultPointFunction
-    var currentLineStart: LineStartFunction = DefaultLineStartFunction
-    var currentLineEnd: LineEndFunction = DefaultLineEndFunction
+    enum class PointContext      { DEFAULT, RING, LINE }
+    enum class LineStartContext  { DEFAULT, RING}
+    enum class LineEndContext    { DEFAULT, RING}
 
-    var currentPolygonStart = {
-        stream.polygonStart()
-        currentLineStart = RingLineStartFunction
+    var pointContext         = PointContext.DEFAULT
+    var lineStartContext     = LineStartContext.DEFAULT
+    var lineEndContext       = LineEndContext.DEFAULT
+
+    override fun lineStart() {
+        when (lineStartContext) {
+            LineStartContext.DEFAULT -> lineStartDefault()
+            LineStartContext.RING -> lineStartRing()
+        }
     }
-    var currentPolygonEnd = {
+
+    override fun lineEnd() {
+        when (lineEndContext) {
+            LineEndContext.DEFAULT -> lineEndDefault()
+            LineEndContext.RING -> lineEndRing()
+        }
+    }
+
+    override fun point(x: Double, y: Double, z: Double) {
+        when (pointContext) {
+            PointContext.DEFAULT -> pointDefault(x,y,z)
+            PointContext.RING -> pointRing(x,y,z)
+            PointContext.LINE -> pointLine(x, y, z)
+        }
+    }
+
+    override fun polygonEnd() {
         stream.polygonEnd()
-        currentLineStart = DefaultLineStartFunction
+        lineStartContext = LineStartContext.DEFAULT
     }
 
-    override fun lineEnd() = currentLineEnd.invoke(this)
-    override fun lineStart() = currentLineStart.invoke(this)
-    override fun point(x: Double, y: Double, z: Double) = currentPoint.invoke(this, x, y, z)
-    override fun polygonEnd() = currentPolygonEnd()
-    override fun polygonStart() = currentPolygonStart()
+    override fun polygonStart() {
+        stream.polygonStart()
+        lineStartContext = LineStartContext.RING
+    }
 
     internal fun resampleLineTo(
         x0: Double, y0: Double, lambda0: Double, a0: Double, b0: Double, c0: Double,
         x1: Double, y1: Double, lambda1: Double, a1: Double, b1: Double, c1: Double,
         depth: Int, stream: Stream
     ) {
-        var newDepth = depth
-
         val dx = x1 - x0
         val dy = y1 - y0
         val d2 = dx * dx + dy * dy
-        if (d2 > 4 * delta2Precision && newDepth != 0) {
-            newDepth--
+        if (d2 > 4 * delta2Precision && depth > 0) {
+            val newDepth = depth - 1
+
             var a = a0 + a1
             var b = b0 + b1
             var c = c0 + c1
             val m = sqrt(a * a + b * b + c * c)
             c /= m
-            val phi2 = c.limitedAsin
+            val phi2 = c.limitedAsin //todo why? d3js use asin
             val lambda2 = when {
                 abs(abs(c) - 1) < EPSILON || abs(lambda0 - lambda1) < EPSILON -> (lambda0 + lambda1) / 2
                 else -> atan2(b, a)
             }
-
             val x2 = projector.projectLambda(lambda2, phi2)
             val y2 = projector.projectPhi(lambda2, phi2)
 
@@ -115,114 +133,90 @@ private class PrecisionResampleStream(val stream: Stream, val projector: Project
         }
     }
 
-    private interface PointFunction {
-        fun invoke(resampleStream: PrecisionResampleStream, x: Double, y: Double, z: Double)
+    /**
+     * By default, just delegate to next stream after projection.
+     */
+    fun pointDefault(x: Double, y: Double, z: Double) {
+        stream.point(
+            projector.projectLambda(x, y),
+            projector.projectPhi(x, y),
+            z
+        )
     }
 
-    private interface LineStartFunction {
-        fun invoke(resampleStream: PrecisionResampleStream)
-    }
+    fun pointLine(lambda: Double, phi: Double, alt: Double) {
+        val cosPhi = cos(phi)
+        val cart0 = cosPhi * cos(lambda)
+        val cart1 = cosPhi * sin(lambda)
+        val cart2 = sin(phi)
 
-    private interface LineEndFunction {
-        fun invoke(resampleStream: PrecisionResampleStream)
-    }
+        val p0 = projector.projectLambda(lambda, phi)
+        val p1 = projector.projectPhi(lambda, phi)
 
+        resampleLineTo(
+            x0, y0, lambda0, a0, b0, c0,
+            p0, p1, lambda, cart0, cart1, cart2,
+            MAX_DEPTH, stream
+        )
 
-    private object DefaultPointFunction : PointFunction {
-        override fun invoke(resampleStream: PrecisionResampleStream, x: Double, y: Double, z: Double) {
-            resampleStream.stream.point(
-                resampleStream.projector.projectLambda(x, y),
-                resampleStream.projector.projectPhi(x, y),
-                0.0
-            )
-        }
-
-    }
-
-    private object LinePointFunction : PointFunction {
-
-        override fun invoke(resampleStream: PrecisionResampleStream, x: Double, y: Double, z: Double) {
-
-            resampleStream.apply {
-
-                val cosPhi = cos(y)
-                val cart0 = cosPhi * cos(x)
-                val cart1 = cosPhi * sin(x)
-                val cart2 = sin(y)
-
-                val p0 = projector.projectLambda(x, y)
-                val p1 = projector.projectPhi(x, y)
-                resampleLineTo(x0, y0, lambda0, a0, b0, c0, p0, p1, x, cart0, cart1, cart2,
-                    MAX_DEPTH, stream)
-                x0 = p0
-                y0 = p1
-                lambda0 = x
-                a0 = cart0
-                b0 = cart1
-                c0 = cart2
-                stream.point(x0, y0, z)
-            }
-
-        }
-
+        x0 = p0
+        y0 = p1
+        lambda0 = lambda
+        a0 = cart0
+        b0 = cart1
+        c0 = cart2
+        stream.point(x0, y0, alt)
     }
 
 
-    private object RingPointFunction : PointFunction {
-
-        override fun invoke(resampleStream: PrecisionResampleStream, x: Double, y: Double, z: Double) {
-            resampleStream.apply {
-                lambda00 = x
-                LinePointFunction.invoke(resampleStream, x, y, 0.0)
-                x00 = x0
-                y00 = y0
-                a00 = a0
-                b00 = b0
-                c00 = c0
-                currentPoint = LinePointFunction
-            }
-        }
-
+    fun pointRing(x: Double, y: Double, z: Double) {
+        lambda00 = x
+        pointLine(x, y, z)
+        x00 = x0
+        y00 = y0
+        a00 = a0
+        b00 = b0
+        c00 = c0
+        pointContext = PointContext.LINE
     }
 
-    private object DefaultLineStartFunction : LineStartFunction {
-
-        override fun invoke(resampleStream: PrecisionResampleStream) {
-            resampleStream.x0 = Double.NaN
-            resampleStream.currentPoint = DefaultPointFunction
-            resampleStream.stream.lineStart()
-        }
+    fun lineStartDefault() {
+        x0 = Double.NaN
+        pointContext = PointContext.DEFAULT
+        stream.lineStart()
     }
 
-    private object DefaultLineEndFunction : LineEndFunction {
-
-        override fun invoke(resampleStream: PrecisionResampleStream) {
-            resampleStream.currentPoint = DefaultPointFunction
-            resampleStream.stream.lineEnd()
-        }
+    fun lineStartRing() {
+        lineStartDefault()
+        pointContext = PointContext.RING
+        lineEndContext = LineEndContext.RING
     }
 
-    private object RingLineStartFunction : LineStartFunction {
+    fun lineEndDefault() {
+        pointContext = PointContext.DEFAULT
+        stream.lineEnd()
+    }
 
-        override fun invoke(resampleStream: PrecisionResampleStream) {
-            resampleStream.apply {
-                DefaultLineStartFunction.invoke(resampleStream)
-                currentPoint = RingPointFunction
-                currentLineEnd = RingLineEndFunction
+    fun lineEndRing() {
+        resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00, MAX_DEPTH, stream)
+        lineEndContext = LineEndContext.DEFAULT
+        lineEnd()
+    }
+}
+
+/**
+ * No resampling, just project points before passing to next stream.
+ */
+private fun resampleNone(projector: Projector): (Stream) -> Stream {
+    return { stream: Stream ->
+        object : DelegateStreamAdapter(stream) {
+            override fun point(x: Double, y: Double, z: Double) {
+                stream.point(
+                    projector.projectLambda(x, y),
+                    projector.projectPhi(x, y),
+                    z
+                )
             }
         }
     }
-
-    private object RingLineEndFunction : LineEndFunction {
-
-        override fun invoke(resampleStream: PrecisionResampleStream) {
-            resampleStream.apply {
-                resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00,
-                    MAX_DEPTH, stream)
-                currentLineEnd = DefaultLineEndFunction
-                lineEnd()
-            }
-        }
-    }
-
 }
