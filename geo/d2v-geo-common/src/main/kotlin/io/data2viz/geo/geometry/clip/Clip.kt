@@ -37,7 +37,6 @@ interface StreamPreClip {
     fun preClip(stream: Stream): Stream
 }
 
-
 /**
  * // TODO: refactor in sealed/enum or refactor all stream API
  * Takes a line and cuts into visible segments. Values for clean:
@@ -93,13 +92,8 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
         currentPoint.invoke(this, x, y, z)
     }
 
-    override fun lineStart() {
-        currentLineStart.invoke(this)
-    }
-
-    override fun lineEnd() {
-        currentLineEnd.invoke(this)
-    }
+    override fun lineStart()    = currentLineStart.invoke(this)
+    override fun lineEnd()      = currentLineEnd.invoke(this)
 
     override fun polygonStart() {
         currentPoint = PointRingPointFunction
@@ -270,16 +264,16 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
         }
     }
 
-
     internal object LinePointFunction : PointFunction {
+
         override fun invoke(clip: ClippableStream, x: Double, y: Double, z: Double) {
             clip.line.point(x, y, z)
         }
 
-
     }
 
     internal object PointRingPointFunction : PointFunction {
+
         override fun invoke(clip: ClippableStream, x: Double, y: Double, z: Double) {
             clip.ring!!.add(doubleArrayOf(x, y))
             clip.ringSink.point(x, y, z)
