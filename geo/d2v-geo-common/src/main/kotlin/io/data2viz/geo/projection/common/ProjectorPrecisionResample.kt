@@ -53,45 +53,6 @@ private class PrecisionResampleStream(
     var b0 = Double.NaN
     var c0 = Double.NaN
 
-    enum class PointContext      { DEFAULT, RING, LINE }
-    enum class LineStartContext  { DEFAULT, RING}
-    enum class LineEndContext    { DEFAULT, RING}
-
-    var pointContext         = PointContext.DEFAULT
-    var lineStartContext     = LineStartContext.DEFAULT
-    var lineEndContext       = LineEndContext.DEFAULT
-
-    override fun lineStart() {
-        when (lineStartContext) {
-            LineStartContext.DEFAULT -> lineStartDefault()
-            LineStartContext.RING -> lineStartRing()
-        }
-    }
-
-    override fun lineEnd() {
-        when (lineEndContext) {
-            LineEndContext.DEFAULT -> lineEndDefault()
-            LineEndContext.RING -> lineEndRing()
-        }
-    }
-
-    override fun point(x: Double, y: Double, z: Double) {
-        when (pointContext) {
-            PointContext.DEFAULT -> pointDefault(x,y,z)
-            PointContext.RING -> pointRing(x,y,z)
-            PointContext.LINE -> pointLine(x, y, z)
-        }
-    }
-
-    override fun polygonEnd() {
-        stream.polygonEnd()
-        lineStartContext = LineStartContext.DEFAULT
-    }
-
-    override fun polygonStart() {
-        stream.polygonStart()
-        lineStartContext = LineStartContext.RING
-    }
 
     internal fun resampleLineTo(
         x0: Double, y0: Double, lambda0: Double, a0: Double, b0: Double, c0: Double,
@@ -132,6 +93,48 @@ private class PrecisionResampleStream(
             }
         }
     }
+
+    enum class PointContext      { DEFAULT, RING, LINE }
+    enum class LineStartContext  { DEFAULT, RING}
+    enum class LineEndContext    { DEFAULT, RING}
+
+    var pointContext         = PointContext.DEFAULT
+    var lineStartContext     = LineStartContext.DEFAULT
+    var lineEndContext       = LineEndContext.DEFAULT
+
+    override fun lineStart() {
+        when (lineStartContext) {
+            LineStartContext.DEFAULT -> lineStartDefault()
+            LineStartContext.RING -> lineStartRing()
+        }
+    }
+
+    override fun lineEnd() {
+        when (lineEndContext) {
+            LineEndContext.DEFAULT -> lineEndDefault()
+            LineEndContext.RING -> lineEndRing()
+        }
+    }
+
+    override fun point(x: Double, y: Double, z: Double) {
+        when (pointContext) {
+            PointContext.DEFAULT -> pointDefault(x,y,z)
+            PointContext.LINE -> pointLine(x, y, z)
+            PointContext.RING -> pointRing(x,y,z)
+        }
+    }
+
+    override fun polygonStart() {
+        stream.polygonStart()
+        lineStartContext = LineStartContext.RING
+    }
+
+    override fun polygonEnd() {
+        stream.polygonEnd()
+        lineStartContext = LineStartContext.DEFAULT
+    }
+
+
 
     /**
      * By default, just delegate to next stream after projection.
@@ -182,7 +185,7 @@ private class PrecisionResampleStream(
 
     fun lineStartDefault() {
         x0 = Double.NaN
-        pointContext = PointContext.DEFAULT
+        pointContext = PointContext.LINE
         stream.lineStart()
     }
 
