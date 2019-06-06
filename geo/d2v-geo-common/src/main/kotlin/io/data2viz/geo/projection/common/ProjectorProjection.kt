@@ -79,7 +79,7 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
     override var preClip: StreamPreClip = antimeridianPreClip
     override var postClip: StreamPostClip = noPostClip
 
-    private var resampleProjector = precisionResample(translateAndScaleProjector, _precisionDelta2)
+    private var resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
 
     override var scale: Double
         get() = _scale
@@ -166,7 +166,7 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
         get() = sqrt(_precisionDelta2)
         set(value) {
             _precisionDelta2 = value * value
-            resampleProjector = precisionResample(translateAndScaleProjector, _precisionDelta2)
+            resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
             reset()
         }
 

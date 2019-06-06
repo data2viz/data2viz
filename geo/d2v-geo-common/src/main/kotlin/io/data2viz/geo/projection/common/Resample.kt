@@ -24,14 +24,14 @@ val COS_MIN_DISTANCE = 30.deg.cos
  * else
  *    just perform the projection of points, transforming spheric coordinates into cartesian ones.
  */
-fun precisionResample(projector: Projector, delta2Precision: Double): (Stream) -> Stream =
+fun resample(projector: Projector, delta2Precision: Double): (Stream) -> Stream =
     if (delta2Precision != .0) //todo > .0 ?
-        { stream: Stream -> PrecisionResampleStream(stream, projector, delta2Precision) }
+        { stream: Stream -> ResampleStream(stream, projector, delta2Precision) }
     else
         resampleNone(projector)
 
 
-private class PrecisionResampleStream(
+private class ResampleStream(
     val stream: Stream,
     val projector: Projector,
     val delta2Precision: Double = .5
