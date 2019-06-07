@@ -16,7 +16,7 @@ import kotlin.math.sqrt
 /**
  * Create [Projection] for give [Projector]
  */
-fun projection(projector: Projector, init: ProjectorProjection.() -> Unit) =
+fun projection(projector: Projector, init: ProjectorProjection.() -> Unit): Projection =
     ProjectorProjection(projector)
         .apply(init)
 
