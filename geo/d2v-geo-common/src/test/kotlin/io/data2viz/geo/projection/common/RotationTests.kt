@@ -11,25 +11,27 @@ class RotationTests : TestBase() {
     fun a_rotation_of_90_0_only_rotates_longitude() {
         val point = doubleArrayOf(.0, .0)
         val rotation = RotationProjector(90.0.deg, .0.deg)
-        rotation.projectLambda(point[0], point[1]) shouldBeClose 90.0
-        rotation.projectPhi(point[0], point[1]) shouldBeClose .0
+        val projected = rotation.project(point[0], point[1])
+        projected[0] shouldBeClose 90.0
+        projected[1] shouldBeClose .0
     }
 
     @Test
     fun a_rotation_of_90_0_wraps_around_when_crossing_the_antimeridian() {
         val point = doubleArrayOf(150.0, .0)
         val rotation = RotationProjector(90.0.deg, .0.deg)
-        rotation.projectLambda(point[0], point[1]) shouldBeClose -120.0
-        rotation.projectPhi(point[0], point[1]) shouldBeClose .0
+        val projected = rotation.project(point[0], point[1])
+        projected[0] shouldBeClose -120.0
+        projected[1] shouldBeClose .0
     }
 
     @Test
     fun a_rotation_of_minus_45_45_rotates_latitude_and_longitude() {
         val point = doubleArrayOf(.0, .0)
         val rotation = RotationProjector((-45.0).deg, 45.0.deg)
-
-        rotation.projectLambda(point[0], point[1]) shouldBeClose -54.73561
-        rotation.projectPhi(point[0], point[1]) shouldBeClose 30.0
+        val projected = rotation.project(point[0], point[1])
+        projected[0] shouldBeClose -54.73561
+        projected[1] shouldBeClose 30.0
     }
 
     @Test

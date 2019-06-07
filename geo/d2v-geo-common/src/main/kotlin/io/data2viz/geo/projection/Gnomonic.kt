@@ -26,25 +26,11 @@ class GnomonicProjector : Projector {
         )
     }
 
-    override fun invertLambda(lambda: Double, phi: Double): Double = azimuthalInvertLambda (::atan)(lambda, phi)
-
-    override fun invertPhi(lambda: Double, phi: Double): Double = azimuthalInvertPhi (::atan)(lambda, phi)
 
     override fun invert(lambda: Double, phi: Double): DoubleArray = azimuthalInvert(::atan)(lambda, phi)
 
-    override fun projectLambda(lambda: Double, phi: Double): Double {
-        val cy = cy(phi)
-        val k = k(lambda, cy)
-        return internalProjectLambda(cy, lambda, k)
-    }
-
     private fun internalProjectLambda(cy: Double, lambda: Double, k: Double) = cy * sin(lambda) / k
 
-    override fun projectPhi(lambda: Double, phi: Double): Double {
-        val cy = cy(phi)
-        val k = k(lambda, cy)
-        return internalProjectPhi(phi, k)
-    }
 
     private fun internalProjectPhi(phi: Double, k: Double) = sin(phi) / k
 

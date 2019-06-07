@@ -17,11 +17,7 @@ fun identityProjection(init: Projection.() -> Unit = {}) =
         init()
     }
 
-internal class IdentityProjection : NoCommonCalculationsProjector {
-
-    override fun projectLambda(lambda: Double, phi: Double): Double = lambda
-    override fun projectPhi(lambda: Double, phi: Double): Double = phi
-    override fun invertLambda(lambda: Double, phi: Double): Double = lambda
-    override fun invertPhi(lambda: Double, phi: Double): Double = phi
-
+internal class IdentityProjection : Projector {
+    override fun invert(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(lambda, phi)
+    override fun project(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(lambda, phi)
 }

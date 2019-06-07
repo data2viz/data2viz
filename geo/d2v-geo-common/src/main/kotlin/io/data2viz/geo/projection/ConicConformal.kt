@@ -30,11 +30,13 @@ internal class ConicConformalBaseConditionalProjector(
     private val conicConformalProjector: ConicConformalProjector = ConicConformalProjector(),
     private val mercatorProjector: MercatorProjector = MercatorProjector()
 ) : ConicProjector, BaseConditionalProjector() {
+
     override var phi0: Double
         get() = conicConformalProjector.phi0
         set(value) {
             conicConformalProjector.phi0 = value
         }
+
     override var phi1: Double
         get() = conicConformalProjector.phi1
         set(value) {
@@ -43,8 +45,10 @@ internal class ConicConformalBaseConditionalProjector(
 
     override val baseProjector: Projector
         get() = mercatorProjector
+
     override val nestedProjector: Projector
         get() = conicConformalProjector
+
     override val isNeedUseBaseProjector: Boolean
         get() = conicConformalProjector.isPossibleToUseProjector
 }
@@ -92,34 +96,16 @@ class ConicConformalProjector : ConicProjector, Projector {
 
     private fun cy0() = cos(phi0)
 
-
-    override fun invertLambda(lambda: Double, phi: Double): Double {
-        val fy = fy(phi)
-        return intervalInvertLambda(lambda, fy)
-
-    }
-
-    override fun invertPhi(lambda: Double, phi: Double): Double {
-        val fy = fy(phi)
-        val rInvert = rInvert(lambda, fy)
-        return internalInvertPhi(rInvert)
-
-    }
-
     override fun invert(lambda: Double, phi: Double): DoubleArray {
 
         val fy = fy(phi)
         val rInvert = rInvert(lambda, fy)
         return doubleArrayOf(
-            intervalInvertLambda(lambda, fy),
-            internalInvertPhi(rInvert)
+            atan2(lambda, abs(fy)) / n * sign(fy),
+            2 * atan((f / rInvert).pow(1 / n)) - HALFPI
         )
 
     }
-
-    private fun internalInvertPhi(rInvert: Double) = 2 * atan((f / rInvert).pow(1 / n)) - HALFPI
-
-    private fun intervalInvertLambda(lambda: Double, fy: Double) = atan2(lambda, abs(fy)) / n * sign(fy)
 
     private fun rInvert(lambda: Double, fy: Double) = sign(n) * sqrt(lambda * lambda + fy * fy)
 
@@ -127,29 +113,11 @@ class ConicConformalProjector : ConicProjector, Projector {
         val convertedPhi = convertPhi(phi)
         val r = r(convertedPhi)
         return doubleArrayOf(
-            internalProjectLambda(r, lambda),
-            internalProjectPhi(r, lambda)
+            r * sin(n * lambda),
+            f - r * cos(n * lambda)
         )
-
     }
 
-    override fun projectLambda(lambda: Double, phi: Double): Double {
-
-        val convertedPhi = convertPhi(phi)
-        val r = r(convertedPhi)
-        return internalProjectLambda(r, lambda)
-
-    }
-
-    private fun internalProjectLambda(r: Double, lambda: Double) = r * sin(n * lambda)
-
-    override fun projectPhi(lambda: Double, phi: Double): Double {
-        val convertedPhi = convertPhi(phi)
-        val r = r(convertedPhi)
-        return internalProjectPhi(r, lambda)
-    }
-
-    private fun internalProjectPhi(r: Double, lambda: Double) = f - r * cos(n * lambda)
 
     private fun fy(phi: Double) = f - phi
 

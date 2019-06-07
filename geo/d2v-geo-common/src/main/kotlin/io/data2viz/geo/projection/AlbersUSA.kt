@@ -45,8 +45,8 @@ class AlbersUSAProjection : ComposedProjection() {
     }
     override val mainProjection: Projection
         get() = lower48
-    override val allProjections: Collection<Projection> = listOf(lower48, alaska, hawaii)
 
+    override val allProjections: Collection<Projection> = listOf(lower48, alaska, hawaii)
 
     override var scale: Double
         get() = lower48.scale

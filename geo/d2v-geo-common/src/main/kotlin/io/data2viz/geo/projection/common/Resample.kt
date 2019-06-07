@@ -75,8 +75,10 @@ private class ResampleStream(
                 abs(abs(c) - 1) < EPSILON || abs(lambda0 - lambda1) < EPSILON -> (lambda0 + lambda1) / 2
                 else -> atan2(b, a)
             }
-            val x2 = projector.projectLambda(lambda2, phi2)
-            val y2 = projector.projectPhi(lambda2, phi2)
+
+            val projected2 = projector.project(lambda2, phi2)
+            val x2 = projected2[0]
+            val y2 = projected2[1]
 
             val dx2 = x2 - x0
             val dy2 = y2 - y0
@@ -134,15 +136,14 @@ private class ResampleStream(
         lineStartContext = LineStartContext.DEFAULT
     }
 
-
-
     /**
      * By default, just delegate to next stream after projection.
      */
     fun pointDefault(x: Double, y: Double, z: Double) {
+        val projected = projector.project(x,y)
         stream.point(
-            projector.projectLambda(x, y),
-            projector.projectPhi(x, y),
+            projected[0],
+            projected[1],
             z
         )
     }
@@ -153,8 +154,10 @@ private class ResampleStream(
         val cart1 = cosPhi * sin(lambda)
         val cart2 = sin(phi)
 
-        val p0 = projector.projectLambda(lambda, phi)
-        val p1 = projector.projectPhi(lambda, phi)
+        val projected = projector.project(lambda,phi)
+
+        val p0 = projected[0]
+        val p1 = projected[1]
 
         resampleLineTo(
             x0, y0, lambda0, a0, b0, c0,
@@ -170,7 +173,6 @@ private class ResampleStream(
         c0 = cart2
         stream.point(x0, y0, alt)
     }
-
 
     fun pointRing(x: Double, y: Double, z: Double) {
         lambda00 = x
@@ -214,9 +216,12 @@ private fun resampleNone(projector: Projector): (Stream) -> Stream {
     return { stream: Stream ->
         object : DelegateStreamAdapter(stream) {
             override fun point(x: Double, y: Double, z: Double) {
+
+                val projected = projector.project(x,y)
+
                 stream.point(
-                    projector.projectLambda(x, y),
-                    projector.projectPhi(x, y),
+                    projected[0],
+                    projected[1],
                     z
                 )
             }

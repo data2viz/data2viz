@@ -31,7 +31,8 @@ private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stre
 private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
     object : DelegateStreamAdapter(stream) {
         override fun point(x: Double, y: Double, z: Double) {
-            stream.point(rotateProjector.projectLambda(x, y), rotateProjector.projectPhi(x, y), 0.0)
+            val projection = rotateProjector.project(x,y)
+            stream.point(projection[0], projection[1], 0.0)
         }
     }
 }
@@ -43,29 +44,29 @@ private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> Del
  * @see Projection
  * @see ComposedProjection
  */
-open class ProjectorProjection(val projection: Projector) : CachedProjection() {
+open class ProjectorProjection(val projector: Projector) : CachedProjection() {
 
-    protected var _translateX = 480.0
-    protected var _translateY = 250.0
+    private var _translateX = 480.0
+    private var _translateY = 250.0
 
 
     // Center
-    protected var _recenterDx = 0.0
-    protected var _recenterDy = 0.0
+    private var _recenterDx = 0.0
+    private var _recenterDy = 0.0
 
     // in radians
-    protected var _centerLat = 0.0
+    private var _centerLat = 0.0
     // in radians
-    protected var _centerLon = 0.0
+    private var _centerLon = 0.0
 
-    protected var _scale = 150.0
+    private var _scale = 150.0
 
     /**
      * TODO: rework to affine matrix transformations or at least separate Scale & Translate phase
      */
     protected lateinit var composedTransformationsProjector: Projector
 
-    protected val translateAndScaleProjector = TranslateAndScaleProjector(projection, _scale, _recenterDx, _recenterDy)
+    protected val translateAndScaleProjector = TranslateAndScaleProjector(projector, _scale, _recenterDx, _recenterDy)
 
     // Precision
     private var _precisionDelta2 = 0.5
@@ -105,8 +106,8 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 
 
     override fun translate(x: Double, y: Double) {
-        _translateX = x;
-        _translateY = y;
+        _translateX = x
+        _translateY = y
         recenter()
     }
 
@@ -190,32 +191,6 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
         return composedTransformationsProjector.project(lambdaRadians, phiRadians)
     }
 
-    // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
-    override fun projectLambda(lambda: Double, phi: Double): Double =
-        composedTransformationsProjector.projectLambda(lambda.toRadians(), phi.toRadians())
-
-    // TODO why translateAndScaleProjector? Maybe composedTransformationsProjector?
-    override fun projectPhi(lambda: Double, phi: Double): Double =
-        composedTransformationsProjector.projectPhi(lambda.toRadians(), phi.toRadians())
-
-
-    override fun invertLambda(lambda: Double, phi: Double): Double {
-        val newLambda = (lambda - _recenterDx) / _scale
-        val newPhi = (_recenterDy - phi) / _scale
-        return composedTransformationsProjector.invertLambda(
-            newLambda,
-            newPhi
-        )
-    }
-
-    override fun invertPhi(lambda: Double, phi: Double): Double {
-        val newLambda = (lambda - _recenterDx) / _scale
-        val newPhi = (_recenterDy - phi) / _scale
-        return composedTransformationsProjector.invertPhi(
-            newLambda,
-            newPhi
-        )
-    }
 
     override fun invert(lambda: Double, phi: Double): DoubleArray {
         val newLambda = (lambda - _recenterDx) / _scale
@@ -235,8 +210,10 @@ open class ProjectorProjection(val projection: Projector) : CachedProjection() {
 
         composedTransformationsProjector = ComposedProjector(rotator, translateAndScaleProjector)
 
-        _recenterDx = translateX - (projection.projectLambda(_centerLat, _centerLon) * _scale)
-        _recenterDy = translateY + (projection.projectPhi(_centerLat, _centerLon) * _scale)
+        val projectedCenter = projector.project(_centerLat, _centerLon)
+
+        _recenterDx = translateX - (projectedCenter[0] * _scale)
+        _recenterDy = translateY + (projectedCenter[1] * _scale)
 
         translateAndScaleProjector.scale = _scale
         translateAndScaleProjector.recenterDx = _recenterDx
@@ -256,38 +233,24 @@ class TranslateAndScaleProjector(
     var scale: Double,
     var recenterDx: Double,
     var recenterDy: Double
-) : NoCommonCalculationsProjector {
+) : Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val projected = projector.project(lambda, phi)
-        projected[0] = internalProjectLambda(projected[0])
-        projected[1] = internalProjectPhi(projected[1])
+        projected[0] = recenterDx + projected[0] * scale
+        projected[1] = recenterDy - projected[1] * scale
         return projected
     }
-
-    override fun projectLambda(lambda: Double, phi: Double): Double = internalProjectLambda(projector.projectLambda(lambda, phi))
-    override fun projectPhi(lambda: Double, phi: Double): Double = internalProjectPhi(projector.projectPhi(lambda, phi))
-
-    private fun internalProjectLambda(lambda: Double) = recenterDx + lambda * scale
-    private fun internalProjectPhi(phi: Double) = recenterDy - phi * scale
 
 
     // TODO: need re-check. invert not exist in d3 implementation
     override fun invert(lambda: Double, phi: Double): DoubleArray {
 
         return projector.invert(
-            internalInvertLambda(lambda),
-            internalInvertPhi(phi)
+            (lambda - recenterDx) / scale,
+            -(phi - recenterDy) / scale
         )
     }
-
-    override fun invertLambda(lambda: Double, phi: Double): Double = internalProjectLambda(projector.invertLambda(lambda, phi))
-    override fun invertPhi(lambda: Double, phi: Double): Double = internalProjectPhi(projector.invertPhi(lambda, phi))
-
-
-    private fun internalInvertLambda(lambda: Double) = (lambda - recenterDx) / scale
-    private fun internalInvertPhi(phi: Double) = -(phi - recenterDy) / scale
-
 
 }
 

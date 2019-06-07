@@ -27,40 +27,18 @@ private fun doubleAtan(d: Double) = 2 * atan(d)
  * The stereographic projection.
  */
 class StereographicProjector : Projector {
+
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        val cy = cy(phi)
-        val k = k(lambda, cy)
-        return doubleArrayOf(internalProjectLambda(cy, lambda, k), internalProjectPhi(phi, k))
+        val cy = cos(phi)
+        val k = 1 + cos(lambda) * cy
+        return doubleArrayOf(
+            cy * sin(lambda) / k,
+            sin(phi) / k
+        )
     }
-
-
-    override fun invertLambda(lambda: Double, phi: Double): Double
-            = azimuthalInvertLambda(::doubleAtan)(lambda, phi)
-
-    override fun invertPhi(lambda: Double, phi: Double): Double
-            = azimuthalInvertPhi(::doubleAtan)(lambda, phi)
 
     override fun invert(lambda: Double, phi: Double): DoubleArray
             = azimuthalInvert(::doubleAtan)(lambda, phi)
 
 
-    override fun projectLambda(lambda: Double, phi: Double): Double {
-        val cy = cy(phi)
-        val k = k(lambda, cy)
-        return internalProjectLambda(cy, lambda, k)
-    }
-
-    private fun internalProjectLambda(cy: Double, lambda: Double, k: Double) = cy * sin(lambda) / k
-
-    override fun projectPhi(lambda: Double, phi: Double): Double {
-        val cy = cy(phi)
-        val k = k(lambda, cy)
-        return internalProjectPhi(phi, k)
-    }
-
-    private fun internalProjectPhi(phi: Double, k: Double) = sin(phi) / k
-
-    private fun k(lambda: Double, cy: Double) = 1 + cos(lambda) * cy
-
-    private fun cy(phi: Double) = cos(phi)
 }

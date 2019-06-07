@@ -84,58 +84,22 @@ class ConicEqualAreaProjector : ConicProjector, Projector {
 
     private fun sy0() = sin(phi0)
 
-
-    override fun invertLambda(lambda: Double, phi: Double): Double {
-        val r0y = r0y(phi)
-        return internalInvertLambda(lambda, r0y)
-    }
-
-    override fun invertPhi(lambda: Double, phi: Double): Double {
-        val r0y = r0y(phi)
-        return internalInvertPhi(lambda, r0y)
-    }
-
     override fun invert(lambda: Double, phi: Double): DoubleArray {
         val r0y = r0y(phi)
         return doubleArrayOf(
-            internalInvertLambda(lambda, r0y),
-            internalInvertPhi(lambda, r0y)
+            atan2(lambda, abs(r0y)) / n * sign(r0y),
+            asin((c - (lambda * lambda + r0y * r0y) * n * n) / (2 * n))
         )
     }
-
-    private fun internalInvertPhi(lambda: Double, r0y: Double) =
-        asin((c - (lambda * lambda + r0y * r0y) * n * n) / (2 * n))
-
-    private fun internalInvertLambda(lambda: Double, r0y: Double) = atan2(lambda, abs(r0y)) / n * sign(r0y)
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val r = r(phi)
 
         return doubleArrayOf(
-            internalProjectLambda(r, lambda),
-            internalProjectPhi(r, lambda)
+            r * sin(lambda * n),
+            r0 - r * cos(lambda * n)
         )
     }
-
-    override fun projectLambda(lambda: Double, phi: Double): Double {
-        val r = r(phi)
-        return internalProjectLambda(r, lambda)
-
-    }
-
-    override fun projectPhi(lambda: Double, phi: Double): Double {
-
-        val r = r(phi)
-
-        return internalProjectPhi(r, lambda)
-
-    }
-
-    private fun internalProjectLambda(r: Double, lambda: Double): Double = r * sin(lambda * n)
-
-
-    private fun internalProjectPhi(r: Double, lambda: Double): Double = r0 - r * cos(lambda * n)
-
 
     private fun r0y(phi: Double) = r0 - phi
 

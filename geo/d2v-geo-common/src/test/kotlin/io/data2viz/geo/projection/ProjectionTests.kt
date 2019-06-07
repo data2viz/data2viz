@@ -23,8 +23,6 @@ class ProjectionTests : TestBase() {
         phi: Double,
         result: DoubleArray
     ) {
-        projection.projectLambda(lambda, phi) shouldBeSimilar result[0]
-        projection.projectPhi(lambda, phi) shouldBeSimilar result[1]
 
 
         val projectPointResult = projection.project(lambda, phi)

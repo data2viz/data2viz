@@ -10,10 +10,6 @@ import io.data2viz.math.TAU
 import kotlin.math.*
 
 
-/**
- * @see MercatorProjector
- * @see MercatorProjection
- */
 fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(MercatorProjector()).apply {
     scale = 961 / TAU
 }.apply(init)
@@ -23,19 +19,9 @@ fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(Me
  *
  * @see MercatorProjection
  */
-class MercatorProjector : NoCommonCalculationsProjector {
-    override fun projectLambda(lambda: Double, phi: Double): Double = lambda
-
-    override fun projectPhi(lambda: Double, phi: Double): Double = ln(tan((HALFPI + phi) / 2))
-
-    override fun invertLambda(lambda: Double, phi: Double): Double {
-        return lambda
-    }
-
-    override fun invertPhi(lambda: Double, phi: Double): Double {
-        return 2 * atan(exp(phi)) - HALFPI
-    }
-
+class MercatorProjector : Projector {
+    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
+    override fun invert(lambda: Double, phi: Double) = doubleArrayOf(lambda, 2 * atan(exp(phi)) - HALFPI)
 }
 
 /**
@@ -98,12 +84,14 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
 
         val lambda = invert[0]
         val phi = invert[1]
-        val t0 = projectLambda(lambda, phi)
-        val t1 = projectPhi(lambda, phi)
+
+        val projected = project(lambda, phi)
+        val t0 = projected[0]
+        val t1 = projected[1]
 
         this.extentPostClip = when {
             extentPostClip == null -> Extent(t0 - k, t1 - k, k * 2, k * 2)
-            projection is MercatorProjector -> Extent(
+            projector is MercatorProjector -> Extent(
                 max(t0 - k, extentPostClip!!.x0),
                 extentPostClip!!.y0,
                 max(0.0, min(k * 2, extentPostClip!!.width)),

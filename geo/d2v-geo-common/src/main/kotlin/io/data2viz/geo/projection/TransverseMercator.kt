@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection
 
 
-import io.data2viz.geo.projection.common.NoCommonCalculationsProjector
+import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.Angle
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
@@ -11,7 +11,8 @@ import kotlin.math.ln
 import kotlin.math.tan
 
 
-fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit = {}) = TransverseMercatorProjection().also {
+fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit = {}) =
+    TransverseMercatorProjection().also {
 
     it.rotate(0.deg, 0.deg, 90.deg)
     it.scale = 159.155
@@ -23,14 +24,10 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit =
  * @see TransverseMercatorProjector
  * @see TransverseMercatorProjection
  */
-class TransverseMercatorProjector : NoCommonCalculationsProjector {
+class TransverseMercatorProjector : Projector {
 
-    override fun invertLambda(lambda: Double, phi: Double): Double = -phi
-
-    override fun invertPhi(lambda: Double, phi: Double): Double = 2 * atan(exp(lambda)) - HALFPI
-
-    override fun projectLambda(lambda: Double, phi: Double): Double = ln(tan((HALFPI + phi) / 2))
-    override fun projectPhi(lambda: Double, phi: Double): Double = -lambda
+    override fun project(lambda: Double, phi: Double) = doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
+    override fun invert(lambda: Double, phi: Double) = doubleArrayOf(-phi, 2 * atan(exp(lambda)) - HALFPI)
 
 }
 
