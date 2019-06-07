@@ -18,23 +18,14 @@ fun gnomonicProjection(init: Projection.() -> Unit = {}) =
 class GnomonicProjector : Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        val cy = cy(phi)
-        val k = k(lambda, cy)
+        val cy = cos(phi)
+        val k = cos(lambda) * cy
         return doubleArrayOf(
-            internalProjectLambda(cy, lambda, k),
-            internalProjectPhi(phi, k)
+            cy * sin(lambda) / k,
+            sin(phi) / k
         )
     }
 
-
     override fun invert(x: Double, y: Double): DoubleArray = azimuthalInvert(::atan)(x, y)
 
-    private fun internalProjectLambda(cy: Double, lambda: Double, k: Double) = cy * sin(lambda) / k
-
-
-    private fun internalProjectPhi(phi: Double, k: Double) = sin(phi) / k
-
-    private fun k(lambda: Double, cy: Double) = cos(lambda) * cy
-
-    private fun cy(phi: Double) = cos(phi)
 }

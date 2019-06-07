@@ -193,12 +193,9 @@ open class ProjectorProjection(val projector: Projector) : CachedProjection() {
 
 
     override fun invert(x: Double, y: Double): DoubleArray {
-        val newLambda = (x - _recenterDx) / _scale
-        val newPhi = (_recenterDy - y) / _scale
-        val inverted = composedTransformationsProjector.invert(
-            newLambda,
-            newPhi
-        )
+        val newX = (x - _recenterDx) / _scale
+        val newY = (_recenterDy - y) / _scale
+        val inverted = composedTransformationsProjector.invert(newX, newY)
         return doubleArrayOf(
             inverted[0].toDegrees(),
             inverted[1].toDegrees()
@@ -226,7 +223,6 @@ open class ProjectorProjection(val projector: Projector) : CachedProjection() {
 /**
  * Scale & translate projector based on values from [projector]
  *
- * @see RotationProjector
  */
 class TranslateAndScaleProjector(
     val projector: Projector,

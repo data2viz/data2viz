@@ -29,10 +29,10 @@ private fun doubleAtan(d: Double) = 2 * atan(d)
 class StereographicProjector : Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
-        val cy = cos(phi)
-        val k = 1 + cos(lambda) * cy
+        val cosPhi = cos(phi)
+        val k = 1 + cos(lambda) * cosPhi
         return doubleArrayOf(
-            cy * sin(lambda) / k,
+            cosPhi * sin(lambda) / k,
             sin(phi) / k
         )
     }

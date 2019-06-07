@@ -107,7 +107,7 @@ class ConicConformalProjector : ConicProjector, Projector {
 
     }
 
-    private fun rInvert(lambda: Double, fy: Double) = sign(n) * sqrt(lambda * lambda + fy * fy)
+    private fun rInvert(x: Double, fy: Double) = sign(n) * sqrt(x * x + fy * fy)
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val convertedPhi = convertPhi(phi)

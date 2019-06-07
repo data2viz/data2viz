@@ -15,15 +15,20 @@ data class Intersection(
 )
 
 interface InterpolateFunction {
-    fun invoke(from: DoubleArray, to: DoubleArray, direction: Int, stream: Stream)
+    fun invoke(from: DoubleArray, to: DoubleArray,
+               direction: Int,
+               stream: Stream)
 }
 /**
  * A generalized polygon clipping algorithm: given a polygon that has been cut into its visible line segments,
  * and rejoins the segments by interpolating along the postClip edge.
  */
 fun rejoin(
-    segments: List<List<DoubleArray>>, compareIntersection: Comparator<Intersection>,
-    startInside: Boolean, interpolateFunction: InterpolateFunction, stream: Stream
+    segments: List<List<DoubleArray>>,
+    compareIntersection: Comparator<Intersection>,
+    startInside: Boolean,
+    interpolateFunction: InterpolateFunction,
+    stream: Stream
 ) {
     val subject = mutableListOf<Intersection>()
     val clip = mutableListOf<Intersection>()

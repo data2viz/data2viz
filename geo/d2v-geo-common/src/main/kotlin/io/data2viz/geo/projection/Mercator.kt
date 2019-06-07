@@ -85,7 +85,7 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
         val lambda = invert[0]
         val phi = invert[1]
 
-        val projected = project(lambda, phi)
+        val projected = projector.project(lambda, phi)
         val t0 = projected[0]
         val t1 = projected[1]
 
