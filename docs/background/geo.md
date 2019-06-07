@@ -2,11 +2,13 @@
 # Date2Viz geo
 
 The goal of Data2viz `Geo` module is to provide tools to facilitate map projections: 
-the transformation of the latitudes and longitudes of locations from the surface of a
- sphere into locations on a plane. Data2viz started by from a port of D3JS code to 
- Kotlin multiplatform. The `geo` module makes no exception and is a direct translation
-  of D3JS algorithms and mechanisms into Kotlin. So, it's a good idea to refer to all 
-  D3JS resources on the subject.
+the transformation of the latitude and longitude of locations from the surface of a
+ sphere into x and y positions on a plane. 
+ 
+> Data2viz started from a port of D3JS code to  Kotlin multiplatform. The `geo` 
+module makes no exception and is a direct translation of D3JS algorithms and 
+mechanisms into Kotlin. So, it's a good idea to refer to all D3JS resources on 
+the subject.
 
 These transformations could be relatively simple: a math function to transform 
 Geographic coordinates (longitude and latitude) into cartesian coordinates (x and y) 
@@ -61,8 +63,8 @@ Polygon                Stream 1      Stream x      PathStream              Path
      point (x,y,z)    │      │       │      │      │      │   lineTo     │      │    
      ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
                       │      │       │      │      │      │              │      │    
-     point (x,y,z)    │      │       │      │      │      │              │      │    
-     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │              │      │    
+     point (x,y,z)    │      │       │      │      │      │   lineTo     │      │    
+     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
                       │      │       │      │      │      │              │      │    
      line end         │      │       │      │      │      │              │      │    
      ───────────────▶ │      │  ──▶  │      │  ──▶ │      │              │      │    
@@ -74,10 +76,23 @@ Polygon                Stream 1      Stream x      PathStream              Path
                       
 ```  
 
+A polygon of three points, for example, calls on the first stream a series of calls on the first
+stream: `polygonStart`,`lineStart`,`point(x,y,z)`,`point(x,y,z)`,`point(x,y,z)`, `lineEnd`,`polygonEnd`.
+Coordinates are only transmitted during `point` calls. `polygon` and `line` call give the context of 
+the current transmitted GeoJson object. 
+
+Depending on the Stream's role, the calls to downstream Stream are synchronous or buffered. 
+`TransformRadian` Stream, for example, which is only changing coordinates from degrees to radians
+during `point` calls, transmits immediately (synchronously) the calls to its following Stream. The
+number of transmitted Point from input to output of a Stream can differ. For instance, `ResampleStream`
+uses an adaptative algorithm to generate intermediary points to have smooth curves made of lines.    
+ 
+
 While each `Stream` perform a specific part of the transformation, preserving the 
 Stream chain, the last `Stream` transform the incoming calls into a a `Path`.
 
-So, what `Streams` composes a global projection (now from top to down) ?
+So, what `Streams` composes a global projection?  
+_Previous left to right flow is now presented from top to down due to the number of steps._
 
 ```
     GeoJson object
@@ -104,9 +119,9 @@ So, what `Streams` composes a global projection (now from top to down) ?
  +-----------------+ 
           │
           ▼
- +-----------------+       +----------------------------+       +-----------------+       +---------------------+ 
- |     Resample    |  ──▶  | TranslateAndScaleProjector |  ──▶  | RotateProjector |  ──▶  | ProjectionProjector | 
- +-----------------+       +----------------------------+       +-----------------+       +---------------------+ 
+ +-----------------+       +----------------------------+       +---------------------+ 
+ |     Resample    |  ──▶  | TranslateAndScaleProjector |  ──▶  | ProjectionProjector | 
+ +-----------------+       +----------------------------+       +---------------------+ 
           │
           ▼
  +-----------------+ 
