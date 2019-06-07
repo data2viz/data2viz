@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
 
 val allProjections = hashMapOf(
     "albers" to albersProjection(),
-    "albersUSA" to albersUSAProjection() {
+    "albersUSA" to albersUSAProjection {
         scale = 500.0
     },
     "azimuthalEqualArea" to azimuthalEqualAreaProjection(),

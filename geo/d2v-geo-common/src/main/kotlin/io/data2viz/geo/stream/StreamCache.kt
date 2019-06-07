@@ -5,7 +5,7 @@ import io.data2viz.geo.projection.common.CachedProjection
  * Cache transformed stream result
  * @see CachedProjection
  */
-class StreamCache() {
+class StreamCache {
 
     fun isCacheValidFor(originalStream: Stream) = originalSourceStream == originalStream
 

@@ -11,7 +11,7 @@ import io.data2viz.geo.stream.StreamCache
  * @see StreamCache
  * @see ProjectorProjection
  */
-abstract class CachedProjection() : Projection {
+abstract class CachedProjection : Projection {
 
     val streamCache = StreamCache()
 
