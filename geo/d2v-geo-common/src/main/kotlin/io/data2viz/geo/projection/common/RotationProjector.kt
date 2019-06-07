@@ -9,8 +9,8 @@ import kotlin.math.*
 /**
  * Create a rotation [Projector]
  *
- * @see ComposedProjector
- * @see TranslateAndScaleProjector
+ * See https://github.com/d3/d3-geo/blob/master/src/rotation.js
+ * TODO Why gamma is nullable? By default all rotation could be 0.0.
  */
 class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null) : Projector {
 
@@ -133,4 +133,3 @@ internal fun createRotateRadiansProjector(deltaLambda: Double, deltaPhi: Double,
         else -> IdentityRotationProjector
     }
 }
-
