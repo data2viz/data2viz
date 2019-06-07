@@ -23,10 +23,10 @@ open class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Doubl
         return doubleArrayOf(k * cy * sin(lambda), k * sin(phi))
     }
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        val z = sqrt(lambda * lambda + phi * phi)
+    override fun invert(x: Double, y: Double): DoubleArray {
+        val z = sqrt(x * x + y * y)
         val c = angle(z)
         val sc = sin(c)
-        return doubleArrayOf(atan2(lambda * sc, z * cos(c)), (if (z != .0) phi * sc / z else z).asin)
+        return doubleArrayOf(atan2(x * sc, z * cos(c)), (if (z != .0) y * sc / z else z).asin)
     }
 }

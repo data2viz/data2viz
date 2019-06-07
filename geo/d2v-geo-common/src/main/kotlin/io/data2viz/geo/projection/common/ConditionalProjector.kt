@@ -7,7 +7,7 @@ import io.data2viz.geo.projection.*
  */
 abstract class ConditionalProjector : Projector {
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray = activeProjector.invert(lambda, phi)
+    override fun invert(x: Double, y: Double): DoubleArray = activeProjector.invert(x, y)
 
     override fun project(lambda: Double, phi: Double): DoubleArray = activeProjector.project(lambda, phi)
 

@@ -21,7 +21,7 @@ fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(Me
  */
 class MercatorProjector : Projector {
     override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
-    override fun invert(lambda: Double, phi: Double) = doubleArrayOf(lambda, 2 * atan(exp(phi)) - HALFPI)
+    override fun invert(x: Double, y: Double) = doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
 }
 
 /**

@@ -89,8 +89,8 @@ abstract class ComposedProjection : CachedProjection() {
     override fun project(lambda: Double, phi: Double): DoubleArray =
         chooseNestedProjection(lambda, phi).project(lambda, phi)
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray =
-        chooseNestedProjection(lambda, phi).invert(lambda, phi)
+    override fun invert(x: Double, y: Double): DoubleArray =
+        chooseNestedProjection(x, y).invert(x, y)
 
     /**
      * Chooses projection by (lambda, phi) coordinates

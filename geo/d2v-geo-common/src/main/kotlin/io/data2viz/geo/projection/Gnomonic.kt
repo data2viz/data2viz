@@ -27,7 +27,7 @@ class GnomonicProjector : Projector {
     }
 
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray = azimuthalInvert(::atan)(lambda, phi)
+    override fun invert(x: Double, y: Double): DoubleArray = azimuthalInvert(::atan)(x, y)
 
     private fun internalProjectLambda(cy: Double, lambda: Double, k: Double) = cy * sin(lambda) / k
 

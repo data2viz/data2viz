@@ -26,8 +26,8 @@ class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null) : Proje
         return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
     }
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        val p = rotator.invert(lambda.toRadians(), phi.toRadians())
+    override fun invert(x: Double, y: Double): DoubleArray {
+        val p = rotator.invert(x.toRadians(), y.toRadians())
         return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
     }
 }
@@ -49,10 +49,10 @@ internal object IdentityRotationProjector : Projector {
         )
     }
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
+    override fun invert(x: Double, y: Double): DoubleArray {
         return doubleArrayOf(
-            identityProjectionX(lambda),
-            identityProjectionY(phi)
+            identityProjectionX(x),
+            identityProjectionY(y)
         )
     }
 }
@@ -66,10 +66,10 @@ internal class RotationLambdaProjector(val deltaLambda: Double) : Projector {
         )
     }
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray =
+    override fun invert(x: Double, y: Double): DoubleArray =
         doubleArrayOf(
-            identityProjectionX(lambda - deltaLambda),
-            identityProjectionY(phi)
+            identityProjectionX(x - deltaLambda),
+            identityProjectionY(y)
         )
 }
 
@@ -95,11 +95,11 @@ internal class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) :
 
     }
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        val cosPhi = cos(phi)
-        val newX = cos(lambda) * cosPhi
-        val newY = sin(lambda) * cosPhi
-        val z = sin(phi)
+    override fun invert(x: Double, y: Double): DoubleArray {
+        val cosPhi = cos(y)
+        val newX = cos(x) * cosPhi
+        val newY = sin(x) * cosPhi
+        val z = sin(y)
         val k = z * cosDeltaGamma - newY * sinDeltaGamma
         return doubleArrayOf(
             atan2(newY * cosDeltaGamma + z * sinDeltaGamma, newX * cosDeltaPhi + k * sinDeltaPhi),

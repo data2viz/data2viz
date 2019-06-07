@@ -37,8 +37,8 @@ class StereographicProjector : Projector {
         )
     }
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray
-            = azimuthalInvert(::doubleAtan)(lambda, phi)
+    override fun invert(x: Double, y: Double): DoubleArray
+            = azimuthalInvert(::doubleAtan)(x, y)
 
 
 }

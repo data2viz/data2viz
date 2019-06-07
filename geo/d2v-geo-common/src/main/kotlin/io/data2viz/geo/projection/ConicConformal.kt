@@ -96,12 +96,12 @@ class ConicConformalProjector : ConicProjector, Projector {
 
     private fun cy0() = cos(phi0)
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
+    override fun invert(x: Double, y: Double): DoubleArray {
 
-        val fy = fy(phi)
-        val rInvert = rInvert(lambda, fy)
+        val fy = fy(y)
+        val rInvert = rInvert(x, fy)
         return doubleArrayOf(
-            atan2(lambda, abs(fy)) / n * sign(fy),
+            atan2(x, abs(fy)) / n * sign(fy),
             2 * atan((f / rInvert).pow(1 / n)) - HALFPI
         )
 
