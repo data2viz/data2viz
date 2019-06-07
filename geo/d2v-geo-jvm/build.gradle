@@ -2,8 +2,6 @@ dependencies {
     expectedBy project(":geo:d2v-geo-common")
     compile project(":core:d2v-core-jvm")
     compile "io.data2viz.geojson:geojson-jvm:$geojson_version"
-
-    testCompile project(":data2viz:d2v-data2viz-jfx")
 }
 
 task copyJsonTestFiles(type: Copy) {
