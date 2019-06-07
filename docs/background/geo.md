@@ -1,5 +1,5 @@
 
-# Date2Viz geo
+# Data2Viz geo module
 
 The goal of Data2viz `Geo` module is to provide tools to facilitate map projections: 
 the transformation of the latitude and longitude of locations from the surface of a
