@@ -12,8 +12,14 @@ val Double.limitedAsin: Double
     get() = when {
         this > 1 -> HALFPI
         this < -1 -> -HALFPI
-        else -> asin(this)
+        else -> this.asin
     }
+
+val Double.asin: Double
+    get() = asin(this)
+
+val Double.acos: Double
+    get() = acos(this)
 
 /**
  * @return 0 if value > 1, PI if value < -1, in other cases acos(value)
@@ -22,5 +28,5 @@ val Double.limitedAcos: Double
     get() = when {
         this > 1 -> .0
         this < -1 -> PI
-        else -> acos(this)
+        else -> this.acos
     }
