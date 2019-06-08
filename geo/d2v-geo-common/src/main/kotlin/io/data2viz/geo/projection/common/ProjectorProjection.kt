@@ -44,7 +44,7 @@ private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> Del
  * @see Projection
  * @see ComposedProjection
  */
-open class ProjectorProjection(val projector: Projector) : CachedProjection() {
+open class ProjectorProjection(val projector: Projector) : Projection {
 
     private var _translateX = 480.0
     private var _translateY = 250.0
@@ -168,11 +168,10 @@ open class ProjectorProjection(val projector: Projector) : CachedProjection() {
         set(value) {
             _precisionDelta2 = value * value
             resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
-            reset()
         }
 
 
-    override fun fullCycleStream(stream: Stream): Stream {
+    override fun stream(stream: Stream): Stream {
         return transformRadians(
             transformRotate(rotator)(
                     preClip.preClip(
