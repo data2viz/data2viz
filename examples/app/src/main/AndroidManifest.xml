@@ -33,6 +33,14 @@
                     android:value=".MainActivity"
             />
         </activity>
+        <activity android:name=".EventsActivity"
+                  android:label="Events sample"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"
+            />
+        </activity>
         <activity android:name=".ForceActivity"
                   android:label="Animated Forces"
                   android:parentActivityName=".MainActivity">

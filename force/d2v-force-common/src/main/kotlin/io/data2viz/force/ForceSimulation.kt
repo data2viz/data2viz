@@ -17,6 +17,8 @@ private val initialAngle = PI * (3.0 - sqrt(5.0))
  */
 class ForceSimulation<D> internal constructor() {
 
+    private var started = false
+
     // AVAILABLE FORCES
     fun forceX(init: ForceX<D>.() -> Unit = {}) = addForce(ForceX<D>().apply(init)) as ForceX
     fun forceY(init: ForceY<D>.() -> Unit = {}) = addForce(ForceY<D>().apply(init)) as ForceY
@@ -35,7 +37,7 @@ class ForceSimulation<D> internal constructor() {
     var initForceNode: ForceNode<D>.() -> Unit = { }
         set(value) {
             field = value
-            initSimulation()
+            initSimulation(true)
         }
 
     /**
@@ -51,7 +53,7 @@ class ForceSimulation<D> internal constructor() {
     var domainObjects: List<D> = listOf()
         set(value) {
             field = value
-            initSimulation()
+            initSimulation(true)
         }
 
     private var _nodes = listOf<ForceNode<D>>()
@@ -69,9 +71,8 @@ class ForceSimulation<D> internal constructor() {
 
     /**
      * Restarts current simulation
-     * TODO really ? only restart timer but intensity remains 1.0...
      */
-    fun restart() {
+    fun play() {
         stepper.restart { step() }
     }
 
@@ -139,17 +140,17 @@ class ForceSimulation<D> internal constructor() {
             field = value.coerceAtLeast(0.pct)
         }
 
+    private var _friction = 0.6
+
     /**
-     * Sets the velocity decay factor to the specified percentage in the range [0,100] which defaults to 40%.
-     * The decay factor is akin to atmospheric friction; after the application of any forces during a tick,
-     * each node’s velocity is multiplied by 1 - decay.
-     * As with lowering the intensity decay rate, less velocity decay may converge on a better solution, but risks
+     * Sets the friction factor to the specified percentage in the range [0,100] which defaults to 40%.
+     * As with lowering the intensity decay rate, less friction may converge on a better solution, but risks
      * numerical instabilities and oscillation.
      */
-    var velocityDecay = 60.pct
-        get() = 100.pct - field
+    var friction
+        get() = Percent(1 - _friction)
         set(value) {
-            field = 100.pct - value.coerceToDefault()
+            _friction = 1 - value.coerceToDefault().value
         }
 
     /**
@@ -163,10 +164,12 @@ class ForceSimulation<D> internal constructor() {
 
     /**
      * InitSimulation is called when the simulation starts.
-     * Check if everything is initialized as some properties may have been set after some others
+     * Check if everything is initialized as some properties may have been set after some others.
+     * updateNodes is set to false when the simulation starts (this erase all nodes values) else it is set to true
+     * (this update all previous nodes values)
      */
-    private fun initSimulation() {
-        initializeNodes()
+    private fun initSimulation(updateNodes:Boolean) {
+        initializeNodes(updateNodes)
         _forces.forEach { initializeForce(it) }
     }
 
@@ -184,7 +187,7 @@ class ForceSimulation<D> internal constructor() {
     /**
      * Increments the current intensity by (intensityTarget - intensity) × intensityDecay;
      * then invokes each registered force, passing the new intensity;
-     * then decrements each node’s velocity by velocity × velocityDecay;
+     * then decrements each node’s velocity by velocity × friction;
      * lastly increments each node’s position by velocity.
      *
      * This method does not dispatch events;
@@ -198,6 +201,11 @@ class ForceSimulation<D> internal constructor() {
     // TODO For large graphs, static layouts should be computed in a web worker to avoid freezing the user interface.
     // TODO private ?
     fun tick() {
+        if (!started) {
+            started = true
+            initSimulation(false)
+        }
+
         intensity += (intensityTarget - intensity) * intensityDecay
 
         _forces.forEach { force ->
@@ -209,26 +217,26 @@ class ForceSimulation<D> internal constructor() {
                 node.x = node.fixedX!!
                 node.vx = .0
             } else {
-                node.vx *= velocityDecay.value
+                node.vx *= _friction
                 node.x += node.vx
             }
             if (node.fixedY != null) {
                 node.y = node.fixedY!!
                 node.vy = .0
             } else {
-                node.vy *= velocityDecay.value
+                node.vy *= _friction
                 node.y += node.vy
             }
         }
     }
 
-    private fun initializeNodes() {
+    private fun initializeNodes(updateNodes:Boolean) {
         val oldNodes = _nodes.toList()
         val oldNodeSize = oldNodes.size
         _nodes = List(domainObjects.size) { ForceNode(it, domainObjects[it]) }
         domainObjects.forEachIndexed { index, domain ->
             val node = _nodes[index]
-            if (index < oldNodeSize && oldNodes[index].domain == node.domain) {
+            if (updateNodes && index < oldNodeSize && oldNodes[index].domain == node.domain) {
                 val oldNode = oldNodes[index]
                 node.position = oldNode.position
                 node.velocity = oldNode.velocity

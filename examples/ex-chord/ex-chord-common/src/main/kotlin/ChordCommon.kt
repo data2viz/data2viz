@@ -12,8 +12,7 @@ import io.data2viz.geom.Size
 import io.data2viz.math.Percent
 import io.data2viz.math.pct
 import io.data2viz.shape.arcBuilder
-import io.data2viz.viz.Viz
-import io.data2viz.viz.viz
+import io.data2viz.viz.*
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -97,7 +96,9 @@ fun chordViz(): Viz = viz {
             }
         }
     }
+
 }
+
 
 
 //Todo Move in API
