@@ -80,7 +80,7 @@ open class ProjectorProjection(val projector: Projector) : Projection {
     override var preClip: StreamPreClip = antimeridianPreClip
     override var postClip: StreamPostClip = noPostClip
 
-    private var resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
+    private var resampleProjector: (Stream) -> Stream = resample(translateAndScaleProjector, _precisionDelta2)
 
     override var scale: Double
         get() = _scale
