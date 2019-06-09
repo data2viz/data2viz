@@ -107,6 +107,7 @@ While each `Stream` perform a specific part of the transformation, preserving th
 Stream chain, the last `Stream` transform the incoming calls into a a `Path`.
 
 So, what `Streams` composes a global projection?
+
 _Previous left to right flow is now presented from top to down due to the number of steps._
 
 ```
