@@ -2,8 +2,8 @@ package io.data2viz.geo.projection
 
 
 import io.data2viz.geo.geojson.geoPath
-import io.data2viz.geo.geometry.clip.RectanglePostClip
-import io.data2viz.geo.geometry.clip.ExtentPostClip
+import io.data2viz.geo.geometry.clip.RectangleClip
+import io.data2viz.geo.geometry.clip.ExtentClip
 import io.data2viz.geojson.MultiPolygon
 import io.data2viz.geom.Extent
 import io.data2viz.geom.PathGeom
@@ -12,7 +12,7 @@ import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class RectangleClippingTests : TestBase() {
+class RectanglePostClippingTests : TestBase() {
 
     fun getProjection() = equirectangularProjection {
         translate(480.0, 350.0)
@@ -48,7 +48,7 @@ class RectangleClippingTests : TestBase() {
     @Test
     fun rectangle_clipping_east() {
         val projection = getProjection()
-        projection.postClip = RectanglePostClip(48.0, 50.0, 498.0, 500.0)
+        projection.postClip = RectangleClip(48.0, 50.0, 498.0, 500.0)
 
         val path = PathGeom()
         geoPath(projection, path).project(polygon)
@@ -59,7 +59,7 @@ class RectangleClippingTests : TestBase() {
     @Test
     fun rectangle_clipping_north() {
         val projection = getProjection()
-        projection.postClip = RectanglePostClip(200.0, 200.0, 700.0, 500.0)
+        projection.postClip = RectangleClip(200.0, 200.0, 700.0, 500.0)
 
         val path = PathGeom()
         geoPath(projection, path).project(polygon)
@@ -70,7 +70,7 @@ class RectangleClippingTests : TestBase() {
     @Test
     fun rectangle_clipping_south() {
         val projection = getProjection()
-        projection.postClip = RectanglePostClip(48.0, 50.0, 700.0, 300.0)
+        projection.postClip = RectangleClip(48.0, 50.0, 700.0, 300.0)
 
         val path = PathGeom()
         geoPath(projection, path).project(polygon)
@@ -81,7 +81,7 @@ class RectangleClippingTests : TestBase() {
     @Test
     fun rectangle_clipping_west() {
         val projection = getProjection()
-        projection.postClip = RectanglePostClip(250.0, 50.0, 700.0, 500.0)
+        projection.postClip = RectangleClip(250.0, 50.0, 700.0, 500.0)
 
         val path = PathGeom()
         geoPath(projection, path).project(polygon)
@@ -92,11 +92,11 @@ class RectangleClippingTests : TestBase() {
     @Test
     fun rectangle_vs_extent() {
         val projection = getProjection()
-        projection.postClip = RectanglePostClip(250.0, 50.0, 700.0, 500.0)
+        projection.postClip = RectangleClip(250.0, 50.0, 700.0, 500.0)
         val path1 = PathGeom()
         geoPath(projection, path1).project(polygon)
 
-        projection.postClip = ExtentPostClip(Extent(250.0, 50.0, 700.0, 500.0))
+        projection.postClip = ExtentClip(Extent(250.0, 50.0, 700.0, 500.0))
         val path2 = PathGeom()
         geoPath(projection, path2).project(polygon)
 

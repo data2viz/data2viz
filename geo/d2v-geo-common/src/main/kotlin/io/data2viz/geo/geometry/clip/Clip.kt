@@ -5,36 +5,12 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 
-
-
-
-/**
- * Don't clip anything
- */
-val noPreClip = object : StreamPreClip {
-    override fun preClip(stream: Stream) =  stream
+val NoClip = object : StreamClip {
+    override fun clipStream(stream: Stream) =  stream
 }
 
-/**
- * Don't clip anything
- */
-val noPostClip = object : StreamPostClip {
-    override fun postClip(stream: Stream): Stream = stream
-}
-
-
-/**
- * Separate interface for IDE suggestions
- */
-interface StreamPostClip {
-    fun postClip(stream: Stream): Stream
-}
-
-/**
- * Separate interface for IDE suggestions
- */
-interface StreamPreClip {
-    fun preClip(stream: Stream): Stream
+interface StreamClip {
+    fun clipStream(stream: Stream): Stream
 }
 
 /**
@@ -45,26 +21,56 @@ interface StreamPreClip {
  *  2 - there were intersections, and the first and last segments should be rejoined.
  */
 interface ClipStream : Stream {
+
     var clean: Int
 }
 
 
 internal interface Clippable {
+
+    /**
+     * Indicate if the point will be visible after clipping.
+     */
     fun pointVisible(x: Double, y: Double): Boolean
+
+    /**
+     *
+     */
     fun clipLine(stream: Stream): ClipStream
-    fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream)
+
+    fun interpolate(
+        from: DoubleArray?,
+        to: DoubleArray?,
+                    direction: Int,
+                    stream: Stream)
+
 }
 
 
 internal interface ClippableHasStart : Clippable {
-    val start: DoubleArray
-}
 
+    val start: DoubleArray
+
+}
 
 internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : Stream {
 
 
-    internal val line = clip.clipLine(sink)
+    // context of execution of stream
+
+    // a line can be projected in the context of a polygon or not
+    enum class LineStartContext  { DEFAULT, POLYGON}
+    enum class LineEndContext    { DEFAULT, POLYGON}
+
+    //a point can be projected in the context of a polygon, a line, or nothing
+    enum class PointContext      { DEFAULT, POLYGON, LINE }
+
+    var pointContext         = PointContext.DEFAULT
+    var lineStartContext     = LineStartContext.DEFAULT
+    var lineEndContext       = LineEndContext.DEFAULT
+
+
+    internal val line: ClipStream = clip.clipLine(sink)
 
     internal val ringBuffer = ClipBufferStream()
     internal val ringSink = clip.clipLine(ringBuffer)
@@ -76,9 +82,9 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
     internal val polygon: MutableList<List<DoubleArray>> = mutableListOf()
     internal var ring: MutableList<DoubleArray>? = null
 
-    internal var currentPoint: PointFunction = DefaultPointFunction
-    internal var currentLineStart: LineStartFunction = DefaultLineStartFunction
-    internal var currentLineEnd: LineEndFunction = DefaultLineEndFunction
+    private var currentPoint: PointFunction = DefaultPointFunction
+    private var currentLineStart: LineStartFunction = DefaultLineStartFunction
+    private var currentLineEnd: LineEndFunction = DefaultLineEndFunction
 
     private val compareIntersection = Comparator<Intersection> { i1, i2 ->
         val a = i1.point
@@ -88,12 +94,9 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
         ca.compareTo(cb)
     }
 
-    override fun point(x: Double, y: Double, z: Double) {
-        currentPoint.invoke(this, x, y, z)
-    }
-
-    override fun lineStart()    = currentLineStart.invoke(this)
-    override fun lineEnd()      = currentLineEnd.invoke(this)
+    override fun point(x: Double, y: Double, z: Double) { currentPoint.point(this, x, y, z) }
+    override fun lineStart()    = currentLineStart.lineStart(this)
+    override fun lineEnd()      = currentLineEnd.lineEnd(this)
 
     override fun polygonStart() {
         currentPoint = PointRingPointFunction
@@ -105,7 +108,6 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
         override fun invoke(from: DoubleArray, to: DoubleArray, direction: Int, stream: Stream) {
             clip.interpolate(from, to, direction, stream)
         }
-
     }
 
     override fun polygonEnd() {
@@ -150,27 +152,27 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
     }
 
 
-    internal interface PointFunction {
-        fun invoke(clip: ClippableStream, x: Double, y: Double, z: Double)
+    private interface PointFunction {
+        fun point(clip: ClippableStream, x: Double, y: Double, z: Double)
     }
 
-    internal interface LineStartFunction {
-        fun invoke(clip: ClippableStream)
+    private interface LineStartFunction {
+        fun lineStart(clip: ClippableStream)
     }
 
 
-    internal interface LineEndFunction {
-        fun invoke(clip: ClippableStream)
+    private interface LineEndFunction {
+        fun lineEnd(clip: ClippableStream)
     }
 
-    internal object DefaultPointFunction : PointFunction {
-        override fun invoke(clip: ClippableStream, x: Double, y: Double, z: Double) {
+    private object DefaultPointFunction : PointFunction {
+        override fun point(clip: ClippableStream, x: Double, y: Double, z: Double) {
             if (clip.clip.pointVisible(x, y)) clip.sink.point(x, y, z)
         }
     }
 
-    internal object RingPointFunction : PointFunction {
-        override fun invoke(clip: ClippableStream, x: Double, y: Double, z: Double) {
+    private object RingPointFunction : PointFunction {
+        override fun point(clip: ClippableStream, x: Double, y: Double, z: Double) {
             clip.apply {
                 ring!!.add(doubleArrayOf(x, y))
                 ringSink.point(x, y, z)
@@ -178,8 +180,8 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
         }
     }
 
-    internal object DefaultLineStartFunction : LineStartFunction {
-        override fun invoke(clip: ClippableStream) {
+    private object DefaultLineStartFunction : LineStartFunction {
+        override fun lineStart(clip: ClippableStream) {
             clip.apply {
                 currentPoint = LinePointFunction
                 line.lineStart()
@@ -187,9 +189,8 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
         }
     }
 
-
-    internal object DefaultLineEndFunction : LineEndFunction {
-        override fun invoke(clip: ClippableStream) {
+    private object DefaultLineEndFunction : LineEndFunction {
+        override fun lineEnd(clip: ClippableStream) {
             clip.apply {
                 currentPoint = DefaultPointFunction
                 line.lineEnd()
@@ -197,9 +198,8 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
         }
     }
 
-
-    internal object RingLineStartFunction : LineStartFunction {
-        override fun invoke(clip: ClippableStream) {
+    private object RingLineStartFunction : LineStartFunction {
+        override fun lineStart(clip: ClippableStream) {
             clip.apply {
                 ringSink.lineStart()
                 ring = mutableListOf()
@@ -207,14 +207,14 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
         }
     }
 
-    internal object RingLineEndFunction : LineEndFunction {
-        override fun invoke(clip: ClippableStream) {
+    private object RingLineEndFunction : LineEndFunction {
+        override fun lineEnd(clip: ClippableStream) {
             clip.apply {
                 requireNotNull(ring, { "Error on ClippableStream.ringEnd, ring can't be null." })
 
                 val ringList = ring!!
 
-                RingPointFunction.invoke(this, ringList[0][0], ringList[0][1], 0.0)
+                RingPointFunction.point(this, ringList[0][0], ringList[0][1], 0.0)
 
                 ringSink.lineEnd()
 
@@ -266,7 +266,7 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
 
     internal object LinePointFunction : PointFunction {
 
-        override fun invoke(clip: ClippableStream, x: Double, y: Double, z: Double) {
+        override fun point(clip: ClippableStream, x: Double, y: Double, z: Double) {
             clip.line.point(x, y, z)
         }
 
@@ -274,7 +274,7 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
 
     internal object PointRingPointFunction : PointFunction {
 
-        override fun invoke(clip: ClippableStream, x: Double, y: Double, z: Double) {
+        override fun point(clip: ClippableStream, x: Double, y: Double, z: Double) {
             clip.ring!!.add(doubleArrayOf(x, y))
             clip.ringSink.point(x, y, z)
         }
@@ -292,7 +292,6 @@ internal class ClipBufferStream : Stream {
 
     override fun lineStart() {
         line = mutableListOf()
-
         lines.add(line)
     }
 

@@ -1,7 +1,6 @@
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.geometry.clip.StreamPostClip
-import io.data2viz.geo.geometry.clip.StreamPreClip
+import io.data2viz.geo.geometry.clip.StreamClip
 import io.data2viz.geo.stream.MultiplexStream
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
@@ -38,11 +37,11 @@ abstract class ComposedProjection : Projection {
         set(value) = allProjections.forEach { it.rotateGamma = value }
 
 
-    override var preClip: StreamPreClip
+    override var preClip: StreamClip
         get() = mainProjection.preClip
         set(value) = allProjections.forEach { it.preClip = value }
 
-    override var postClip: StreamPostClip
+    override var postClip: StreamClip
         get() = mainProjection.postClip
         set(value) = allProjections.forEach { it.postClip = value }
 

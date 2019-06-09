@@ -1,7 +1,6 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.geometry.clip.noPostClip
-import io.data2viz.geo.geometry.clip.noPreClip
+import io.data2viz.geo.geometry.clip.NoClip
 import io.data2viz.geo.projection.common.*
 import io.data2viz.math.PI
 
@@ -11,8 +10,8 @@ import io.data2viz.math.PI
  */
 fun identityProjection(init: Projection.() -> Unit = {}) =
     projection(IdentityProjection()) {
-        preClip = noPreClip
-        postClip = noPostClip
+        preClip = NoClip
+        postClip = NoClip
         scale = 180 / PI
         init()
     }

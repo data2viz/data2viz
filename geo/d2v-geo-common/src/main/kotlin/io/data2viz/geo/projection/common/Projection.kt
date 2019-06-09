@@ -115,11 +115,11 @@ interface Projection : Projector {
      *
      * By default [antimeridianPreClip]
      *
-     * @see noPreClip
+     * @see NoClip
      * @see anglePreClip
      * @see antimeridianPreClip
      */
-    var preClip: StreamPreClip
+    var preClip: StreamClip
 
     /**
      * If postclip is specified, sets the projection’s cartesian clipping
@@ -127,12 +127,11 @@ interface Projection : Projector {
      * If postclip is not specified,
      * returns the current cartesian clipping function .
      *
-     * * By default [noPostClip]
+     * * By default [NoClip]
      *
      * @see extentPostClip
-     * @see noPostClip
      */
-    var postClip: StreamPostClip
+    var postClip: StreamClip
 
 
     /**

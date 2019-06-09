@@ -15,8 +15,8 @@ import kotlin.math.sqrt
  * Clip geometries using a Geo Circle.
  * @param radius radius in radians
  */
-class CirclePreClip(val radius: Double): StreamPreClip {
-    override fun preClip(stream: Stream): Stream {
+class CirclePreClip(val radius: Double): StreamClip {
+    override fun clipStream(stream: Stream): Stream {
         return ClippableStream(ClipCircle(radius), stream)
     }
 

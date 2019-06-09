@@ -4,11 +4,12 @@ import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
 
-private class AnglePreClip(val angle: Angle) : StreamPreClip {
+private class AnglePreClip(val angle: Angle) : StreamClip {
 
     val clipCircle = CirclePreClip(angle.rad)
-    override fun preClip(stream: Stream): Stream {
-        return clipCircle.preClip(stream)
+
+    override fun clipStream(stream: Stream): Stream {
+        return clipCircle.clipStream(stream)
     }
 
 }

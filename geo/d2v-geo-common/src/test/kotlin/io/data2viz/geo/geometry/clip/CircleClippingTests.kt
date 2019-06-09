@@ -10,6 +10,9 @@ import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
+
+val generateHtml = true
+
 class CircleClippingTests : TestBase() {
 
     fun getProjection() = equirectangularProjection {
@@ -58,14 +61,16 @@ class CircleClippingTests : TestBase() {
         val path = PathGeom()
         geoPath(projection, path).project(polygon)
         val svg = path.svgPath.round()
-        println(html(svg))
+        if (generateHtml){
+            println(generateHtmlWithSvg(svg))
+        }
         svg shouldBe "M683.777313,411.146783L654.532925,437.266463L480,437.266463L480,437.266463L392.733537,350L480,262.733537L654.532925,262.733537L683.777313,288.853217L683.777346,288.853387L686.677678,306.771700L688.516820,324.816908L689.367380,342.933016L689.262404,361.068632L688.197834,379.173618L686.132199,397.195868Z".round()
     }
 }
 
 
 
-fun html(svg:String) = """
+fun generateHtmlWithSvg(svg:String) = """
 <html lang="en"><body><svg width="960" height="700">
     <path d="$svg"
           style="fill:none; stroke:black"></path></svg>
