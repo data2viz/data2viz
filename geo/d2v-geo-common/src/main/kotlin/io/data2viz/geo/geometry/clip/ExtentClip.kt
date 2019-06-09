@@ -5,9 +5,9 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 
 
-class ExtentPostClip(val extent: Extent) : StreamPostClip {
+class ExtentClip(val extent: Extent) : StreamClip {
     val clipRectangle = ClipRectangle(extent)
-    override fun postClip(stream: Stream): Stream {
+    override fun clipStream(stream: Stream): Stream {
         return clipRectangle.clipLine(stream)
     }
 
@@ -19,12 +19,12 @@ class ExtentPostClip(val extent: Extent) : StreamPostClip {
  * If extent is specified, sets the projection’s viewport clip extent to the specified bounds in pixels
  */
 var Projection.extentPostClip: Extent?
-    get() = (postClip as? ExtentPostClip)?.extent
+    get() = (postClip as? ExtentClip)?.extent
     set(value) {
 
         if (value != null) {
-            postClip = ExtentPostClip(value)
+            postClip = ExtentClip(value)
         } else {
-            postClip = noPostClip
+            postClip = NoClip
         }
     }

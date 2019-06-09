@@ -30,14 +30,143 @@ fun resample(projector: Projector, delta2Precision: Double): (Stream) -> Stream 
     else
         resampleNone(projector)
 
-
+/**
+ * ResampleStream is the core of projection transformation. It uses a Projector to
+ * convert geographic coordinates to cartesian coordinates and also generates intermediary
+ * points to smooth the cartesian lines (curves).
+ *
+ * The next Stream is fed with cartesian coordinates.
+ */
 private class ResampleStream(
     val stream: Stream,
     val projector: Projector,
     val delta2Precision: Double = .5
 ) : Stream {
 
-    // First point
+    // context of execution of stream
+
+    // a line can be projected in the context of a polygon or not
+    enum class LineStartContext  { DEFAULT, POLYGON}
+    enum class LineEndContext    { DEFAULT, POLYGON}
+
+    //a point can be projected in the context of a polygon, a line, or nothing
+    enum class PointContext      { DEFAULT, POLYGON, LINE }
+
+    var pointContext         = PointContext.DEFAULT
+    var lineStartContext     = LineStartContext.DEFAULT
+    var lineEndContext       = LineEndContext.DEFAULT
+
+    override fun polygonStart() {
+        stream.polygonStart()
+        lineStartContext = LineStartContext.POLYGON
+    }
+
+    override fun polygonEnd() {
+        stream.polygonEnd()
+        lineStartContext = LineStartContext.DEFAULT
+    }
+
+    override fun lineStart() {
+        when (lineStartContext) {
+            LineStartContext.POLYGON -> lineStartPolygon()
+            LineStartContext.DEFAULT -> lineStartDefault()
+        }
+    }
+
+    fun lineStartPolygon() {
+        lineStartDefault()
+        pointContext = PointContext.POLYGON
+        lineEndContext = LineEndContext.POLYGON
+    }
+
+    fun lineStartDefault() {
+        x0 = Double.NaN  //todo why set only x0
+        pointContext = PointContext.LINE
+        stream.lineStart()
+    }
+
+    override fun lineEnd() {
+        when (lineEndContext) {
+            LineEndContext.POLYGON -> lineEndPolygon()
+            LineEndContext.DEFAULT -> lineEndDefault()
+        }
+    }
+
+    override fun point(x: Double, y: Double, z: Double) {
+        when (pointContext) {
+            PointContext.POLYGON -> pointPolygon(x,y,z)
+            PointContext.LINE    -> pointLine(x, y, z)
+            PointContext.DEFAULT -> pointDefault(x,y,z)
+        }
+    }
+
+
+    fun lineEndDefault() {
+        pointContext = PointContext.DEFAULT
+        stream.lineEnd()
+    }
+
+    fun lineEndPolygon() {
+        resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00, MAX_DEPTH, stream)
+        lineEndContext = LineEndContext.DEFAULT
+        lineEnd()
+    }
+
+    /**
+     * First point of a polygon, same as line but also store initial values.
+     */
+    fun pointPolygon(lambda: Double, phi: Double, alt: Double) {
+        lambda00 = lambda
+        pointLine(lambda, phi, alt)
+        x00 = x0
+        y00 = y0
+        a00 = a0
+        b00 = b0
+        c00 = c0
+        pointContext = PointContext.LINE
+    }
+
+    fun pointLine(lambda: Double, phi: Double, alt: Double) {
+        val radiusAtLat = cos(phi)
+        val dz = radiusAtLat * cos(lambda)
+        val dx = radiusAtLat * sin(lambda)
+        val dy = sin(phi)
+
+        val projected = projector.project(lambda,phi)
+
+        val p0 = projected[0]
+        val p1 = projected[1]
+
+        //todo check first call to resample (x0, y0, ... set to NaN)
+        resampleLineTo(
+            x0, y0, lambda0, a0, b0, c0,
+            p0, p1, lambda, dz, dx, dy,
+            MAX_DEPTH, stream
+        )
+
+        //set previous point with the new projected point
+        x0 = p0
+        y0 = p1
+        lambda0 = lambda
+        a0 = dz
+        b0 = dx
+        c0 = dy
+        stream.point(x0, y0, alt)
+    }
+
+    /**
+     * A point outside of polygon or line context, just project and delegate to next stream after projection.
+     */
+    fun pointDefault(lambda: Double, phi: Double, alt: Double) {
+        val projected = projector.project(lambda,phi)
+        stream.point(
+            projected[0],
+            projected[1],
+            alt
+        )
+    }
+
+    // First point of polygon (used to generate the last line to close the polygon)
     var lambda00 = Double.NaN
     var x00 = Double.NaN
     var y00 = Double.NaN
@@ -54,6 +183,9 @@ private class ResampleStream(
     var c0 = Double.NaN
 
 
+    /**
+     * Recursively smooth the current line by creating intermediary points
+     */
     internal fun resampleLineTo(
         x0: Double, y0: Double, lambda0: Double, a0: Double, b0: Double, c0: Double,
         x1: Double, y1: Double, lambda1: Double, a1: Double, b1: Double, c1: Double,
@@ -64,7 +196,6 @@ private class ResampleStream(
         val d2 = dx * dx + dy * dy
         if (d2 > 4 * delta2Precision && depth > 0) {
             val newDepth = depth - 1
-
             var a = a0 + a1
             var b = b0 + b1
             var c = c0 + c1
@@ -89,124 +220,21 @@ private class ResampleStream(
             ) { // angular distance
                 a /= m
                 b /= m
-                resampleLineTo(x0, y0, lambda0, a0, b0, c0, x2, y2, lambda2, a, b, c, newDepth, stream)
+
+                //new intermediate point (x2, y2) recursively resample line before and after it.
+                resampleLineTo(
+                    x0, y0, lambda0, a0, b0, c0,
+                    x2, y2, lambda2, a, b, c,
+                    newDepth, stream)
                 stream.point(x2, y2, 0.0)
-                resampleLineTo(x2, y2, lambda2, a, b, c, x1, y1, lambda1, a1, b1, c1, newDepth, stream)
+                resampleLineTo(
+                    x2, y2, lambda2, a, b, c,
+                    x1, y1, lambda1, a1, b1, c1,
+                    newDepth, stream)
             }
         }
     }
 
-    enum class PointContext      { DEFAULT, RING, LINE }
-    enum class LineStartContext  { DEFAULT, RING}
-    enum class LineEndContext    { DEFAULT, RING}
-
-    var pointContext         = PointContext.DEFAULT
-    var lineStartContext     = LineStartContext.DEFAULT
-    var lineEndContext       = LineEndContext.DEFAULT
-
-    override fun lineStart() {
-        when (lineStartContext) {
-            LineStartContext.DEFAULT -> lineStartDefault()
-            LineStartContext.RING -> lineStartRing()
-        }
-    }
-
-    override fun lineEnd() {
-        when (lineEndContext) {
-            LineEndContext.DEFAULT -> lineEndDefault()
-            LineEndContext.RING -> lineEndRing()
-        }
-    }
-
-    override fun point(x: Double, y: Double, z: Double) {
-        when (pointContext) {
-            PointContext.DEFAULT -> pointDefault(x,y,z)
-            PointContext.LINE -> pointLine(x, y, z)
-            PointContext.RING -> pointRing(x,y,z)
-        }
-    }
-
-    override fun polygonStart() {
-        stream.polygonStart()
-        lineStartContext = LineStartContext.RING
-    }
-
-    override fun polygonEnd() {
-        stream.polygonEnd()
-        lineStartContext = LineStartContext.DEFAULT
-    }
-
-    /**
-     * By default, just delegate to next stream after projection.
-     */
-    fun pointDefault(x: Double, y: Double, z: Double) {
-        val projected = projector.project(x,y)
-        stream.point(
-            projected[0],
-            projected[1],
-            z
-        )
-    }
-
-    fun pointLine(lambda: Double, phi: Double, alt: Double) {
-        val cosPhi = cos(phi)
-        val cart0 = cosPhi * cos(lambda)
-        val cart1 = cosPhi * sin(lambda)
-        val cart2 = sin(phi)
-
-        val projected = projector.project(lambda,phi)
-
-        val p0 = projected[0]
-        val p1 = projected[1]
-
-        resampleLineTo(
-            x0, y0, lambda0, a0, b0, c0,
-            p0, p1, lambda, cart0, cart1, cart2,
-            MAX_DEPTH, stream
-        )
-
-        x0 = p0
-        y0 = p1
-        lambda0 = lambda
-        a0 = cart0
-        b0 = cart1
-        c0 = cart2
-        stream.point(x0, y0, alt)
-    }
-
-    fun pointRing(x: Double, y: Double, z: Double) {
-        lambda00 = x
-        pointLine(x, y, z)
-        x00 = x0
-        y00 = y0
-        a00 = a0
-        b00 = b0
-        c00 = c0
-        pointContext = PointContext.LINE
-    }
-
-    fun lineStartDefault() {
-        x0 = Double.NaN
-        pointContext = PointContext.LINE
-        stream.lineStart()
-    }
-
-    fun lineStartRing() {
-        lineStartDefault()
-        pointContext = PointContext.RING
-        lineEndContext = LineEndContext.RING
-    }
-
-    fun lineEndDefault() {
-        pointContext = PointContext.DEFAULT
-        stream.lineEnd()
-    }
-
-    fun lineEndRing() {
-        resampleLineTo(x0, y0, lambda0, a0, b0, c0, x00, y00, lambda00, a00, b00, c00, MAX_DEPTH, stream)
-        lineEndContext = LineEndContext.DEFAULT
-        lineEnd()
-    }
 }
 
 /**

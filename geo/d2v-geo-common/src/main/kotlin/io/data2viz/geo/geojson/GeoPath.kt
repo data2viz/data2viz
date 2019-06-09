@@ -60,9 +60,7 @@ class GeoPath(val projection: Projection, val path: Path?) {
     private val boundsStream    = BoundsStream()
     private val centroidStream  = CentroidStream()
     private val measureStream   = MeasureStream()
-    private val pathStream: PathStream? = if (path != null) PathStream(
-        path
-    ) else null
+    private val pathStream: PathStream? = path?.let { PathStream(it) }
 
     /**
      * Renders the given object, which may be any GeoJSON feature or geometry object:

@@ -54,7 +54,6 @@ class AlbersUSAProjection : ComposedProjection() {
             lower48.scale = value
             alaska.scale = value * 0.35
             hawaii.scale = value
-            reset()
         }
 
     override var precision: Double
@@ -63,7 +62,6 @@ class AlbersUSAProjection : ComposedProjection() {
             lower48.precision = value
             alaska.precision = value * 0.35
             hawaii.precision = value
-            reset()
         }
 
 
@@ -109,8 +107,6 @@ class AlbersUSAProjection : ComposedProjection() {
             x - 0.115 * k - EPSILON,
             y + 0.234 * k - EPSILON
         )
-
-        reset()
     }
 
     //TODO: return project Double.NAN when projection not possible, for example projecting area outside US

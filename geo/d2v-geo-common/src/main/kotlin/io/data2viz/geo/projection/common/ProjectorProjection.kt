@@ -1,9 +1,8 @@
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.geometry.clip.StreamPostClip
-import io.data2viz.geo.geometry.clip.StreamPreClip
+import io.data2viz.geo.geometry.clip.NoClip
+import io.data2viz.geo.geometry.clip.StreamClip
 import io.data2viz.geo.geometry.clip.antimeridianPreClip
-import io.data2viz.geo.geometry.clip.noPostClip
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
@@ -44,7 +43,7 @@ private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> Del
  * @see Projection
  * @see ComposedProjection
  */
-open class ProjectorProjection(val projector: Projector) : CachedProjection() {
+open class ProjectorProjection(val projector: Projector) : Projection {
 
     private var _translateX = 480.0
     private var _translateY = 250.0
@@ -77,10 +76,11 @@ open class ProjectorProjection(val projector: Projector) : CachedProjection() {
     protected var _rotationGamma = 0.0
     protected lateinit var rotator: Projector
 
-    override var preClip: StreamPreClip = antimeridianPreClip
-    override var postClip: StreamPostClip = noPostClip
+    override var preClip: StreamClip = antimeridianPreClip
 
-    private var resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
+    override var postClip: StreamClip = NoClip
+
+    private var resampleProjector: (Stream) -> Stream = resample(translateAndScaleProjector, _precisionDelta2)
 
     override var scale: Double
         get() = _scale
@@ -168,16 +168,15 @@ open class ProjectorProjection(val projector: Projector) : CachedProjection() {
         set(value) {
             _precisionDelta2 = value * value
             resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
-            reset()
         }
 
 
-    override fun fullCycleStream(stream: Stream): Stream {
+    override fun stream(stream: Stream): Stream {
         return transformRadians(
             transformRotate(rotator)(
-                    preClip.preClip(
+                    preClip.clipStream(
                         resampleProjector(
-                            postClip.postClip(stream)
+                            postClip.clipStream(stream)
                         )
                 )
             )
@@ -192,13 +191,10 @@ open class ProjectorProjection(val projector: Projector) : CachedProjection() {
     }
 
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        val newLambda = (lambda - _recenterDx) / _scale
-        val newPhi = (_recenterDy - phi) / _scale
-        val inverted = composedTransformationsProjector.invert(
-            newLambda,
-            newPhi
-        )
+    override fun invert(x: Double, y: Double): DoubleArray {
+        val newX = (x - _recenterDx) / _scale
+        val newY = (_recenterDy - y) / _scale
+        val inverted = composedTransformationsProjector.invert(newX, newY)
         return doubleArrayOf(
             inverted[0].toDegrees(),
             inverted[1].toDegrees()
@@ -226,7 +222,6 @@ open class ProjectorProjection(val projector: Projector) : CachedProjection() {
 /**
  * Scale & translate projector based on values from [projector]
  *
- * @see RotationProjector
  */
 class TranslateAndScaleProjector(
     val projector: Projector,
@@ -244,11 +239,11 @@ class TranslateAndScaleProjector(
 
 
     // TODO: need re-check. invert not exist in d3 implementation
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
+    override fun invert(x: Double, y: Double): DoubleArray {
 
         return projector.invert(
-            (lambda - recenterDx) / scale,
-            -(phi - recenterDy) / scale
+            (x - recenterDx) / scale,
+            -(y - recenterDy) / scale
         )
     }
 

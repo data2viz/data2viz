@@ -34,12 +34,12 @@ class EqualEarthProjector : Projector {
         )
     }
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        var l = phi
+    override fun invert(x: Double, y: Double): DoubleArray {
+        var l = y
         var l2 = l * l
         var l6 = l2 * l2 * l2
         for (i in 0 until iterations) {
-            val fy = l * (A1 + A2 * l2 + l6 * (A3 + A4 * l2)) - phi
+            val fy = l * (A1 + A2 * l2 + l6 * (A3 + A4 * l2)) - y
             val fpy = A1 + 3 * A2 * l2 + l6 * (7 * A3 + 9 * A4 * l2)
             val delta = fy / fpy
             l2 = l * l
@@ -48,7 +48,7 @@ class EqualEarthProjector : Projector {
             if (abs(delta) < EPSILON2) break
         }
         return doubleArrayOf(
-            M * lambda * (A1 + 3 * A2 * l2 + l6 * (7 * A3 + 9 * A4 * l2)) / cos(l),
+            M * x * (A1 + 3 * A2 * l2 + l6 * (7 * A3 + 9 * A4 * l2)) / cos(l),
             asin(sin(l) / M)
         )
     }

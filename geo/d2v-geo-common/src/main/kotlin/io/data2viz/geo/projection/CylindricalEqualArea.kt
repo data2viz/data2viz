@@ -29,6 +29,6 @@ class CylindricalEqualAreaProjector() : Projector {
 
     override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda * cosPhi0, sin(phi) / cosPhi0)
 
-    override fun invert(lambda: Double, phi: Double) = doubleArrayOf( lambda / cosPhi0, asin(phi * cosPhi0))
+    override fun invert(x: Double, y: Double) = doubleArrayOf( x / cosPhi0, asin(y * cosPhi0))
 
 }

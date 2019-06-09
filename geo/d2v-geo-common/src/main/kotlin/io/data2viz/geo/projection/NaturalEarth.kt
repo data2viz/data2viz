@@ -20,8 +20,8 @@ fun naturalEarthProjection(init: Projection.() -> Unit = {}) =
  */
 class NaturalEarthProjection : Projector {
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray {
-        var newPhi = phi
+    override fun invert(x: Double, y: Double): DoubleArray {
+        var newPhi = y
         var i = 25
         var delta:Double
         do {
@@ -34,7 +34,7 @@ class NaturalEarthProjection : Projector {
         } while (abs(delta) > EPSILON && --i > 0)
         val phi2 = newPhi * newPhi
         return doubleArrayOf(
-            lambda / (0.8707 + (phi2) * (-0.131979 + phi2 * (-0.013791 + phi2 * phi2 * phi2 * (0.003971 - 0.001529 * phi2)))),
+            x / (0.8707 + (phi2) * (-0.131979 + phi2 * (-0.013791 + phi2 * phi2 * phi2 * (0.003971 - 0.001529 * phi2)))),
             newPhi
         )
     }

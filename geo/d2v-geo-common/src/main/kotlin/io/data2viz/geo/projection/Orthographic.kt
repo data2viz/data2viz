@@ -20,6 +20,6 @@ fun orthographicProjection(init: Projection.() -> Unit = {}) =
 internal class OrthographicProjector : Projector {
 
     override fun project(lambda: Double, phi: Double) = doubleArrayOf(cos(phi) * sin(lambda), sin(phi))
-    override fun invert(lambda: Double, phi: Double) = azimuthalInvert(::asin)(lambda, phi)
+    override fun invert(x: Double, y: Double) = azimuthalInvert(::asin)(x, y)
 
 }

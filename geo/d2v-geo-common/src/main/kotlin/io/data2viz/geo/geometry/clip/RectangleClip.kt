@@ -8,31 +8,31 @@ import kotlin.math.abs
 private const val CLIPMAX = 1e9
 private const val CLIPMIN = -CLIPMAX
 
-class RectanglePostClip(x0: Double, y0: Double, x1: Double, y1: Double) : StreamPostClip {
+class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : StreamClip {
     val clipRectangle = ClipRectangle(Extent(x0, y0, x1, y1))
-    override fun postClip(stream: Stream): Stream {
+
+    override fun clipStream(stream: Stream): Stream {
         return clipRectangle.clipLine(stream)
     }
-
 }
 
-
-
 /**
- * Generates a clipping function which transforms a stream such that geometries are bounded by The given Extent.
+ * Generates a clipping function which transforms a stream such that geometries are bounded by the given Extent.
  * Typically used for post-clipping.
  */
 class ClipRectangle(val extent: Extent) : Clippable {
     // TODO refactor function references :: to objects like in CircleClip
 //  Function references have poor performance due to GC & memory allocation
 
-    override fun pointVisible(x: Double, y: Double): Boolean = x in extent.x0..extent.x1 && y in extent.y0..extent.y1
+    override fun pointVisible(x: Double, y: Double): Boolean {
+        return x in extent.x0..extent.x1 &&
+                y in extent.y0..extent.y1
+    }
 
     val interpolateFunction = object : InterpolateFunction {
         override fun invoke(from: DoubleArray, to: DoubleArray, direction: Int, stream: Stream) {
             interpolate(from, to, direction, stream)
         }
-
     }
 
     override fun clipLine(stream: Stream): ClipStream {
@@ -55,8 +55,8 @@ class ClipRectangle(val extent: Extent) : Clippable {
             private var v_ = false
 
             private var segments: MutableList<List<DoubleArray>>? = null
-            private var ring: ArrayList<DoubleArray>? = null
-            private var polygon: ArrayList<List<DoubleArray>>? = null
+            private var ring: MutableList<DoubleArray>? = null
+            private var polygon: MutableList<List<DoubleArray>>? = null
             private var first = false
 
             private var currentPoint = ::justPoint
@@ -135,19 +135,19 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 var newX = x
                 var newY = y
 
-                val v = pointVisible(newX, newY)
+                val visible = pointVisible(newX, newY)
                 if (polygon != null) ring?.add(doubleArrayOf(newX, newY))
                 if (first) {
                     x__ = newX
                     y__ = newY
-                    v__ = v
+                    v__ = visible
                     first = false
-                    if (v) {
+                    if (visible) {
                         activeStream.lineStart()
                         activeStream.point(newX, newY, 0.0)
                     }
                 } else {
-                    if (v && v_) activeStream.point(newX, newY, 0.0)
+                    if (visible && v_) activeStream.point(newX, newY, 0.0)
                     else {
                         x_ = x_.coerceIn(CLIPMIN, CLIPMAX)
                         y_ = y_.coerceIn(CLIPMIN, CLIPMAX)
@@ -162,9 +162,9 @@ class ClipRectangle(val extent: Extent) : Clippable {
                                 activeStream.point(a[0], a[1], 0.0)
                             }
                             activeStream.point(b[0], b[1], 0.0)
-                            if (!v) activeStream.lineEnd()
+                            if (!visible) activeStream.lineEnd()
                             clean = 0
-                        } else if (v) {
+                        } else if (visible) {
                             activeStream.lineStart()
                             activeStream.point(newX, newY, 0.0)
                             clean = 0
@@ -174,7 +174,7 @@ class ClipRectangle(val extent: Extent) : Clippable {
 
                 x_ = newX
                 y_ = newY
-                v_ = v
+                v_ = visible
             }
 
             // TODO may have issues. Need rework
@@ -219,7 +219,12 @@ class ClipRectangle(val extent: Extent) : Clippable {
         }
     }
 
-    override fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream) {
+    override fun interpolate(
+        from: DoubleArray?,
+        to: DoubleArray?,
+        direction: Int,
+        stream: Stream) {
+
         var a = if (from == null) 0 else corner(from, direction)
         val a1 = if (from == null) 0 else corner(to, direction)
 
@@ -232,9 +237,13 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 )
                 a = (a + direction + 4) % 4
             } while (a != a1)
-        } else if (to != null) stream.point(to[0], to[1], 0.0)
+        } else if (to != null)
+            stream.point(to[0], to[1], 0.0)
     }
 
+    /**
+     *
+     */
     private fun corner(p: DoubleArray?, direction: Int): Int {
         if (p == null) return if (direction > 0) 3 else 2
         return when {

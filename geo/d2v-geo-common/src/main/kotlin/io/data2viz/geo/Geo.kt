@@ -14,7 +14,6 @@ typealias GeoPoint = DoubleArray
 val GeoPoint.lambda: Double
         get() = this[0]
 
-
 /**
  * The latitude in degrees
  */

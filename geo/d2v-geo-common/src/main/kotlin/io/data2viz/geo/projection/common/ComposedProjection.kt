@@ -1,7 +1,6 @@
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.geometry.clip.StreamPostClip
-import io.data2viz.geo.geometry.clip.StreamPreClip
+import io.data2viz.geo.geometry.clip.StreamClip
 import io.data2viz.geo.stream.MultiplexStream
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
@@ -12,7 +11,7 @@ import io.data2viz.geo.projection.AlbersUSAProjection
  * For base projection see [ProjectorProjection]
  * @see AlbersUSAProjection
  */
-abstract class ComposedProjection : CachedProjection() {
+abstract class ComposedProjection : Projection {
 
     abstract val mainProjection: Projection
     abstract val allProjections: Collection<Projection>
@@ -38,11 +37,11 @@ abstract class ComposedProjection : CachedProjection() {
         set(value) = allProjections.forEach { it.rotateGamma = value }
 
 
-    override var preClip: StreamPreClip
+    override var preClip: StreamClip
         get() = mainProjection.preClip
         set(value) = allProjections.forEach { it.preClip = value }
 
-    override var postClip: StreamPostClip
+    override var postClip: StreamClip
         get() = mainProjection.postClip
         set(value) = allProjections.forEach { it.postClip = value }
 
@@ -50,28 +49,24 @@ abstract class ComposedProjection : CachedProjection() {
         get() = mainProjection.precision
         set(value) {
             allProjections.forEach { it.precision = value }
-            reset()
         }
 
     override var translateX: Double
         get() = mainProjection.translateX
         set(value) {
             allProjections.forEach { it.translateX = value }
-            reset()
         }
 
     override var translateY: Double
         get() = mainProjection.translateY
         set(value) {
             allProjections.forEach { it.translateY = value }
-            reset()
         }
 
     override var scale: Double
         get() = mainProjection.scale
         set(value) {
             allProjections.forEach { it.scale = value }
-            reset()
         }
 
     override fun translate(x: Double, y: Double) {
@@ -89,8 +84,8 @@ abstract class ComposedProjection : CachedProjection() {
     override fun project(lambda: Double, phi: Double): DoubleArray =
         chooseNestedProjection(lambda, phi).project(lambda, phi)
 
-    override fun invert(lambda: Double, phi: Double): DoubleArray =
-        chooseNestedProjection(lambda, phi).invert(lambda, phi)
+    override fun invert(x: Double, y: Double): DoubleArray =
+        chooseNestedProjection(x, y).invert(x, y)
 
     /**
      * Chooses projection by (lambda, phi) coordinates
@@ -98,7 +93,7 @@ abstract class ComposedProjection : CachedProjection() {
     protected abstract fun chooseNestedProjection(lambda: Double, phi: Double): Projection
 
 
-    override fun fullCycleStream(stream: Stream): Stream =
+    override fun stream(stream: Stream): Stream =
         MultiplexStream(allProjections.map { it.stream(stream) })
 
 }

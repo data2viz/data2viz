@@ -1,240 +1,173 @@
 
-# Date2Viz geo
+# Date2Viz geo module
 
-Data2viz `io.data2viz.geo` module goal is to provide tools to facilitate map projections: 
-the transformation of the latitudes and longitudes of locations from the surface of a sphere into 
-locations on a plane. However, projections are not limited to discrete points. To draw maps, we need 
-more complex geometries: lines (streets, highways, and boundaries), polygons (countries, provinces, 
-tracts of land), and multi-part collections of these types.
+```
+     .-'';'-.                 ┌──────────────────┐
+  ,'    [_,-. `.              │                  │
+ /)    ,--,_>\_ \             │   ) `"""";._/}   │
+|     (      \_  |    ──▶     │   |       ' /    │
+|_     `-.    /  |            │   \        |     │
+ \`-.    ;  _(’ /             │    '--. .-.\     │
+  `.(     \/  ,'              │ USA    `   `     │
+     `-....-´                 └──────────────────┘
 
-The [GeoJson specification](https://tools.ietf.org/html/rfc7946) defines these geometries. 
+```
 
+The goal of Data2viz `Geo` module is to provide tools to facilitate map projections: 
+the transformation of the latitude and longitude of locations from the surface of a
+ sphere into x and y positions on a plane.
+
+> Data2viz started from a port of D3JS code to  Kotlin multiplatform. The `geo`
+module makes no exception and is a direct translation of D3JS algorithms and
+mechanisms into Kotlin. So, it's a good idea to refer to all D3JS resources on
+the subject.
+
+These transformations could be relatively simple: a math function to transform 
+Geographic coordinates (longitude and latitude) into cartesian coordinates (x and y) 
+to define a position on the screen.
+
+However, projections are not limited to discrete points. To draw maps, we need more 
+complex geometries: lines (streets, highways, and boundaries), polygons (countries, 
+provinces, tracts of land), and multi-part collections of these types.
+
+Data2viz geo module projects GeoJson objects on the screen using projections. The 
+[GeoJson specification](https://tools.ietf.org/html/rfc7946) defines a few object types: 
+ - Point: a discrete location specified by its longitude, its latitude, and an optional altitude,
+- Multipoint: a collection of points,
+- LineString: a line defined by a list of points.
+- MultiLineString: a collection of lines.
+- Polygon: an external close line (a ring), with optional internal rings representing holes.
+- MultiPolygon: a collection of polygons.
+- GeometryCollection: a collection of geometries of the previous types.
+- Feature: an association of a geometry with properties.
+- FeatureCollection: a collection of Features.
+
+The primary use case of the `Geo` module is to perform the transformation of a 
+GeoJson object into a path rendered on the screen:
+
+```
+              ┌──────────────────┐
+GeoJson  ──▶  │    Projection    │  ──▶   Path
+              └──────────────────┘
+```
+
+As GeoJson objects are only composed of Polygons, lines, and points, Data2viz 
+uses a simplified interface, `Stream` to deal with those base objects. 
  
-which are the start of this API. 
-
-`GeoJson   —>   projection   —>   Path`
-
-The module provide the basics projections: orthographic, ...
-
-The API is designed to allow the addition of new projections.
-
-Main interfaces are `Projector` & `Projection`
-
-## Projector
-
-`Projector` represents one transformation. It may be Projection transformation like 
-`OrthographicProjector ` or common transformations like `RotationProjector`. There are two methods
-
-* project
-* invert (actually should invert project operation)
-
-```
-interface Projector {
-
-    fun project(lambda: Double, phi: Double): DoubleArray
-
-    fun invert(lambda: Double, phi: Double): DoubleArray
-    
- ...
-}
-
-```
-
-Example:
-
-
-```
- class OrthographicProjector : Projector {
-override fun project(lambda: Double, phi: Double): DoubleArray 
-    = doubleArrayOf(cos(phi) * sin(lambda), sin(phi))
-    
-
-override fun invert(lambda: Double, phi: Double)
-	= azimuthalInvert(::asin)(lambda, phi)}    
-    ...
-    
-```
-
-It is not required to implement `invert`, in this case it is better to use `NoInvertProjector` which throws error if somebody will use invert function, when projector doesn't actually support it.
-
-### Composed projectors
-
-It is possible to compose two projectors ino one by `ComposedProjector`. For example it is used in `ProjectorProjection` to combine scale projector, rotate projector and translate projector
-
-### Conditional projectors
-
-Some projections like `ConicConformal` use different projectors for different `lambda` and `phi`. Special `ConditionalProjector` provides API to select nexted projector before `project` and `invert` operations
-
-### Performance
-
-Point project and invert is easy to understand and write, but it is have one big issue: low performance due to a lot of `doubleArray` creation during transformation.
-
-To remove this bottleneck `Projector` have additional methods
-
-```
-    fun projectLambda(lambda: Double, phi: Double): Double
-
-    fun projectPhi(lambda: Double, phi: Double): Double
-    
-    fun invertLambda(lambda: Double, phi: Double): Double
-
-    fun invertPhi(lambda: Double, phi: Double): Double
-
-```
-
-Internal code sometimes use point and sometimes use axys transformations (whatever is best for performance in current state).
-
-Internal Projectors ovverides both all 6 methods (2 for point project/invert and 4 for separated project/invert by axys).
-
-There are `SimpleProjector` which have bad performance but require to override only point project/invert functions
-
-## Projection
-
-`Projection` is container for any `Projector` which provides additional transformations like:
-
-* `scale`
-* `translate`
-* `rotate`
-* `precision`
-* `center`
-
-And clipping
-
-* `preClip`
-* `postClip`
-
-`Projection` provides `stream` method to apply all transformations and receive `Path` with transformed and clipped original `GeoJSON` object
-
-Base implementation for `Projection` is `ProjectorProjection` which actually add additional transformations to given `Projector`
-
-### Transformations API
-
-Projection supports two ways to add additional transformations - by **point** and by **axys**
-For example `Translate` (same for other APIs):
-
-```
-var translateX: Double // x axys
-
-var translateY: Double // y axys
-
-fun translate(x: Double, y: Double) // point
-
-```
-
-Point transformation is fast and usually used in internal calculations.
-Axys transformations is easy to use in client code, for example when you want to change only one axys
-
-
-### Clipping API
-
-`Projection` provides `preClip` and `postClip` 
-
-Original d3-geo API contains `angleClip`, `extentClip`, `antimeridianClip`, `noClip` are implemented as extesions, because it is actually special variants for `preClip` and `postClip`
-
-Geo module provides fit clipping extesions, which helps to clip projeciton to given `GeoJsonObject` area:
-
-```
-fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection
-fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection 
-fun Projection.fitHeight(height: Double, geo: GeoJsonObject): Projection 
-fun Projection.fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection 
-```
-
-Actually, they use `Extent` clipping
-
-
-## Stream
-
-`Stream` helps convert original geo object (geo module provides extensions for `GeoJSON` objects) with given `Projection` to `Path` which can be used in `viz` 
-
-```
-interface Stream {
-    fun point(x: Double, y: Double, z: Double) {}
-    fun lineStart() {}
-    fun lineEnd() {}
-    fun polygonStart() {}
-    fun polygonEnd() {}
-    fun sphere() {}
-}
-```
-
-Geo module converts geo object (like `GeoJson`) to sequence of Stream API calls, for example:
-
-Given GeoJSON object
-
-```
-{
-	"type": "Polygon",
-	"coordinates": [
-		[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]
-	]
-}
-```
- Will produce the following series of method calls on the stream:
  
- ```
-stream.polygonStart();
-stream.lineStart();
-stream.point(0, 0);
-stream.point(0, 1);
-stream.point(1, 1);
-stream.point(1, 0);
-stream.lineEnd();
-stream.polygonEnd();
- ```
- 
-Usually, `Stream` is Adapter for another `Stream` and make one simple operation like scale, rotate, project, clip or transformAngleToRadians:
+The global transformation mechanism is split into a chain of `Streams`:
+
 
 ```
-private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
-    object : DelegateStreamAdapter(stream) {
-        override fun point(x: Double, y: Double, z: Double) =
-            stream.point(x.toRadians(), y.toRadians(), z.toRadians())
-    }
-}
+
+Polygon                Stream 1      Stream x      PathStream              Path     
+                      ┌──────┐       ┌──────┐      ┌──────┐              ┌──────┐
+                      │      │       │      │      │      │              │      │        
+     polygon start    │      │       │      │      │      │    moveTo    │      │        
+     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
+                      │      │       │      │      │      │              │      │    
+     line start       │      │       │      │      │      │   lineTo     │      │    
+     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
+                      │      │       │      │      │      │              │      │    
+     point (x,y,z)    │      │       │      │      │      │   lineTo     │      │    
+     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
+                      │      │       │      │      │      │              │      │    
+     point (x,y,z)    │      │       │      │      │      │   lineTo     │      │    
+     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
+                      │      │       │      │      │      │              │      │    
+     point (x,y,z)    │      │       │      │      │      │   lineTo     │      │
+     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │
+                      │      │       │      │      │      │              │      │    
+     line end         │      │       │      │      │      │              │      │    
+     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │              │      │    
+                      │      │       │      │      │      │              │      │    
+     polygon end      │      │       │      │      │      │              │      │    
+     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │              │      │    
+                      │      │       │      │      │      │              │      │        
+                      └──────┘       └──────┘      └──────┘              └──────┘
+
 ```
 
-Actually, `ProjectorPorjection` is sequence of streams:
+A polygon of three points, for instance, calls on the first stream this
+series of calls: `polygonStart`,`lineStart`,`point(x,y,z)`,`point(x,y,z)`
+,`point(x,y,z)`, `lineEnd`,`polygonEnd`. Coordinates are only transmitted
+during `point` calls. `polygon` and `line` call give the context of
+the current transmitted GeoJson object.
+
+Depending on the Stream's role, the calls to downstream Stream are synchronous
+or buffered. `TransformRadian` Stream, for example, which is only changing
+coordinates from degrees to radians during `point` calls, transmits immediately
+(synchronously) the calls to its following Stream. The number of transmitted Point
+from input to output of a Stream can differ. For instance, `ResampleStream` uses an
+ adaptative algorithm to generate intermediary points to have smooth curves made of
+ lines.
+
+
+While each `Stream` perform a specific part of the transformation, preserving the
+Stream chain, the last `Stream` transform the incoming calls into a a `Path`.
+
+So, what `Streams` composes a global projection?
+
+_Previous left to right flow is now presented from top to down due to the number of steps._
 
 ```
-override fun fullCycleStream(stream: Stream): Stream {
-        return transformRadians(transformRotate(rotator)(preClip.preClip(resampleProjector(postClip.postClip(stream)))))
-    }
+    GeoJson object
+
+          │
+          ▼
+ ┌─────────────────┐
+ │ TransformRadian │
+ └─────────────────┘
+          │
+          ▼
+ ┌─────────────────┐       ┌─────────────────┐
+ │ TransformRotate │  ──▶  │ RotateProjector │
+ └─────────────────┘       └─────────────────┘
+          │
+          ▼
+ ┌─────────────────┐
+ │     PreClip     │
+ └─────────────────┘
+          │
+          ▼
+ ┌─────────────────┐       ┌────────────────────────────┐       ┌─────────────────────┐
+ │     Resample    │  ──▶  │ TranslateAndScaleProjector │  ──▶  │ ProjectionProjector │
+ └─────────────────┘       └────────────────────────────┘       └─────────────────────┘
+          │
+          ▼
+ ┌─────────────────┐
+ │    PostClip     │
+ └─────────────────┘
+          │
+          ▼
+ ┌─────────────────┐
+ │    PathStream   │
+ └─────────────────┘
+          │
+          ▼
+         Path
+
 ```
 
-### Extending Projection
+`TransformRadian` stream has the simple role of transforming longitude and latitude
+coordinates from degrees (GeoJson specification) to radians, which is the default
+unit for trigonometry calculus.
 
-Sometimes, `ProjectorProjection` is extended to add addtional functionality. For example `MercatorProjection` creates new clip functions each time when transformation arguments changes
+`TransformRotate` stream allows applying a rotation transformation on all axes
+(yaw, pitch, roll) while the coordinates are still geometric.
 
-### Composed projections
+`PreClip` stream allows cutting objects while the coordinates are still
+geometric. Few types of clip can be applied. The most usual per-clip are
+ CircleClip and AntimeridianClip that clip geometries through the antimeridian.
 
-You can combine diffrent projecitons and projectors, for example `AlbersUSAProjection` which actually project 3 areas (lower 48 US states, Hawai and Alaska).
+`Resample` stream performs a lot of transformations. It converts the geometric
+coordinates to cartesian coordinates. It transforms cartesian coordinates by
+applying translation and scaling to fit the expected display.  Finally, it
+resamples the lines, creating intermediary points to smooth curves.
 
-<img src="../img/geo-proecjtion-albers-usa.png" width="400">
+`PostClip` stream allows cutting objects with cartesian coordinates. The most
+usual post-clip is RectangleClip.
 
-### Use Projection in Viz
-
-To convert given `GeoJsonObject` and `Projection` you should:
-
-* create new `GeoPath` with given `Projection` and `Path` from viz `PathNode` via `val geoPath = geoPath(geoProjection, path)`.
-* Stream `GeoJsonObject` to created `GeoPath` like `geoPath.path(geoJsonObject)`
-
-### Performance
-
-### Caching
-
-`ProjectorProjection` extends `CachedProjection` to cache transformed stream and use it as result if original stream was not changed
-
-## Performance
-
-### Non-functional approach
-
-Original `d3-geo` use functional approach and often uses functions as objects. In Kotlin we replace this approach to more object oriented style, because assigning new function as object causes new object creation and it is bad for performance due to GC
-
-
-### Copy-pasted code piecies
-
-Sometimes, internal code copy-paste some math operations, like coneverting **cartesian** coordinates to **spherical** and vica versa.
-
-Usually, math functions return `doubleArray` which causes a lot of memory allocations. So instead of 
-`fun cartesian(spherical: DoubleArray): DoubleArray` sometimes code use copy-pasted implementation without new `doubleArray` creation.
+`PathStream` is the last element of the chain. It converts all the previous
+chained transformations into calls on a Path using `moveTo`, `lineTo` and
+`arc` function calls. `arc` calls displays single points as circles.
