@@ -1,6 +1,6 @@
 import io.data2viz.examples.geo.geoPathNode
 import io.data2viz.examples.geo.geoViz
-import io.data2viz.examples.geo.isProjectionSupportRotation
+import io.data2viz.examples.geo.isProjectionSupportTransformations
 
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.deg
@@ -17,7 +17,7 @@ fun geoVizAutoRotate(
     val viz = geoViz(world, projectionName, vizWidth, vizHeight)
 
     viz.animation { _: Double ->
-        if (isProjectionSupportRotation) {
+        if (isProjectionSupportTransformations) {
             rotateByTime(geoPathNode)
         }
     }

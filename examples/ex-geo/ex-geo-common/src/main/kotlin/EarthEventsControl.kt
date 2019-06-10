@@ -1,5 +1,6 @@
 import io.data2viz.examples.geo.geoPathNode
 import io.data2viz.examples.geo.geoViz
+import io.data2viz.examples.geo.isProjectionSupportTransformations
 import io.data2viz.examples.geo.projection
 import io.data2viz.geo.geometry.*
 import io.data2viz.geojson.GeoJsonObject
@@ -19,8 +20,10 @@ fun geoVizEventsControl(
 ): Viz {
     val viz = geoViz(world, projectionName, vizWidth, vizHeight)
 
-    viz.addGeoControlEvents()
-    viz.launchStartRotateAnimation()
+    if (isProjectionSupportTransformations) {
+        viz.addGeoControlEvents()
+        viz.launchStartRotateAnimation()
+    }
 
     return viz
 }

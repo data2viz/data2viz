@@ -3,12 +3,8 @@ package io.data2viz.examples.geo
 import io.data2viz.color.Colors
 import io.data2viz.geo.projection.*
 import io.data2viz.geojson.GeoJsonObject
-import io.data2viz.geom.Point
-import io.data2viz.math.Angle
 import io.data2viz.math.deg
-import io.data2viz.time.Date
 import io.data2viz.viz.*
-import kotlin.math.atan2
 import kotlin.math.roundToInt
 
 
@@ -54,7 +50,7 @@ val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 val projection
     get() = geoPathNode.geoProjection
 
-var isProjectionSupportRotation: Boolean = true
+var isProjectionSupportTransformations: Boolean = true
 
 lateinit var geoPathNode: GeoPathNode
 
@@ -97,7 +93,7 @@ internal fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Doub
 
 
         // don't rotate projections which not don't support rotations in d3
-        isProjectionSupportRotation = when (projectionName) {
+        isProjectionSupportTransformations = when (projectionName) {
             "albersUSA", "identity" -> false
             else -> true
         }
@@ -106,7 +102,7 @@ internal fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Doub
 
 
 
-        if (isProjectionSupportRotation) {
+        if (isProjectionSupportTransformations) {
             geoPathNode.geoProjection.rotate(0.0.deg, 0.0.deg, 0.0.deg)
             geoPathNode.redrawPath()
         }
