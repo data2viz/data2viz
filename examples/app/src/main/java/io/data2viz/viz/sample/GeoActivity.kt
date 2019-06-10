@@ -31,7 +31,6 @@ class GeoActivity : AppCompatActivity() {
     )
 
     lateinit var layoutViz: FrameLayout
-    lateinit var buttonStartStop: Button
     lateinit var textFps: FPSMeterView
     lateinit var spinnerFiles: Spinner
     lateinit var spinnerProjections: Spinner
@@ -48,22 +47,9 @@ class GeoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_geo)
 
         layoutViz = findViewById(R.id.layout_viz)
-        buttonStartStop = findViewById(R.id.button_start_stop_animations)
         textFps = findViewById(R.id.text_fps)
         spinnerFiles = findViewById(R.id.spinner_files)
         spinnerProjections = findViewById(R.id.spinner_projections)
-
-        buttonStartStop.setOnClickListener {
-
-            if (isAnimationStarted) {
-                view?.stopAnimations()
-            } else {
-                view?.startAnimations()
-
-            }
-
-            isAnimationStarted = !isAnimationStarted
-        }
 
         spinnerFiles.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, allFiles)
         spinnerProjections.adapter =

@@ -37,7 +37,6 @@ class EarthJFXApplication : Application() {
     private val vizHeight = 500.0
 
     private val root = Group()
-    private val startStopButton = Button()
 
     private val comboBoxFiles = ComboBox(FXCollections.observableArrayList(allFiles)).apply {
         selectionModel.select(defaultFileIndex)
@@ -60,18 +59,6 @@ class EarthJFXApplication : Application() {
     override fun start(stage: Stage?) {
 
         val nativeFpsLabel = Label()
-
-        startStopButton.text = "Start/Stop viz animations"
-
-        startStopButton.onAction = EventHandler<ActionEvent> {
-
-            if (animationEnabled)
-                viz.stopAnimations()
-            else
-                viz.startAnimations()
-
-            animationEnabled = !animationEnabled
-        }
 
         comboBoxProjections.valueProperty().addListener { _, _, _ -> onSelectionChanged() }
         comboBoxFiles.valueProperty().addListener { _, _, _ -> onSelectionChanged() }
@@ -98,7 +85,6 @@ class EarthJFXApplication : Application() {
 
         val header = HBox().apply {
             with(children) {
-                add(startStopButton)
                 add(comboBoxProjections)
                 add(comboBoxFiles)
                 add(nativeFpsLabel)

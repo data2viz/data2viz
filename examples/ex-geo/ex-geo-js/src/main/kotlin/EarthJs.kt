@@ -32,7 +32,7 @@ val vizHeight = 500.0
 
 lateinit var selectFile: HTMLSelectElement
 lateinit var selectProjection: HTMLSelectElement
-lateinit var buttonStartStop: HTMLButtonElement
+var buttonStartStop: HTMLButtonElement? = null
 
 var isBenchmarkWithD3: Boolean = false
 val isNeedAutoRotation: Boolean
@@ -69,7 +69,7 @@ fun main(args: Array<String>) {
 
     selectFile.onchange = { onSelectionChanged() }
     selectProjection.onchange = { onSelectionChanged() }
-    buttonStartStop.onclick = {
+    buttonStartStop?.onclick = {
 
         if (animationEnabled) {
             currentViz?.stopAnimations()
