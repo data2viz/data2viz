@@ -1,8 +1,10 @@
 package io.data2viz.examples.geo
 
+import geoVizEventsControl
 import io.data2viz.geo.geometry.geoGraticule
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
+import io.data2viz.viz.ExperimentalKZoomEvent
 import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.Viz
 import javafx.animation.AnimationTimer
@@ -21,6 +23,7 @@ import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
 
+@ExperimentalKZoomEvent
 class EarthJFXApplication : Application() {
 
     companion object {
@@ -94,7 +97,7 @@ class EarthJFXApplication : Application() {
         frameRateMeter.start()
 
         val header = HBox().apply {
-            with(children){
+            with(children) {
                 add(startStopButton)
                 add(comboBoxProjections)
                 add(comboBoxFiles)
@@ -102,11 +105,18 @@ class EarthJFXApplication : Application() {
             }
         }
 
-        content.children.add(header)
+
+
+        content.children.apply {
+            add(header)
+            add(Label("Drag globe to rotate"))
+            add(Label("Scale (ctrl + mouse wheel or touchpad gesture) to zoom"))
+        }
         root.children.add(content)
 
         stage?.let {
-            it.scene = (Scene(root, vizWidth, vizHeight))
+            // 100 px for header
+            it.scene = (Scene(root, vizWidth, vizHeight +100))
             it.show()
             stage.title = "JavaFx - data2viz - EarthJFXApplication.kt"
         }
@@ -132,7 +142,7 @@ class EarthJFXApplication : Application() {
     private fun newViz(): Viz {
         val projectionName: String = getSelectedProjectionName()
         val jsonObject = getGeoJsonObject(projectionName)
-        return geoViz(jsonObject, projectionName).also {
+        return geoVizEventsControl(jsonObject, projectionName).also {
             JFxVizRenderer(canvas, it)
         }
     }

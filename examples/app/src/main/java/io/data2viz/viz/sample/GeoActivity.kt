@@ -6,14 +6,17 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.*
+import geoVizEventsControl
 import io.data2viz.examples.geo.*
 import io.data2viz.geojson.toGeoJsonObject
+import io.data2viz.viz.ExperimentalKZoomEvent
 import io.data2viz.viz.Viz
 import io.data2viz.viz.VizView
 import io.data2viz.viz.toView
 import io.data2viz.viz.ui.FPSMeterView
 
 
+@ExperimentalKZoomEvent
 class GeoActivity : AppCompatActivity() {
 
 
@@ -110,7 +113,7 @@ class GeoActivity : AppCompatActivity() {
         val world = resources.openRawResource(resId!!)
             .reader().readText().toGeoJsonObject()
 
-        viz = geoViz(world, projection)
+        viz = geoVizEventsControl(world, projection)
         view = viz!!.toView(this)
 
         textFps.vizView = view

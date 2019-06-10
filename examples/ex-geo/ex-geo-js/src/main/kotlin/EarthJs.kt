@@ -1,7 +1,11 @@
 package io.data2viz.examples.geo
 
+import geoVizAutoRotate
+import geoVizEventsControl
 import io.data2viz.geo.geometry.geoGraticule
+import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
+import io.data2viz.viz.ExperimentalKZoomEvent
 import io.data2viz.viz.Viz
 import io.data2viz.viz.bindRendererOn
 import kotlinx.coroutines.GlobalScope
@@ -30,13 +34,20 @@ lateinit var selectFile: HTMLSelectElement
 lateinit var selectProjection: HTMLSelectElement
 lateinit var buttonStartStop: HTMLButtonElement
 
+var isBenchmarkWithD3: Boolean = false
+val isNeedAutoRotation: Boolean
+    get() = isBenchmarkWithD3
+
 var animationEnabled = true
 
+@ExperimentalKZoomEvent
 fun main(args: Array<String>) {
 
     selectFile = document.getElementById(selectFileHtmlElementId).unsafeCast<HTMLSelectElement>()
     selectProjection = document.getElementById(selectProjectionHtmlElementId).unsafeCast<HTMLSelectElement>()
     buttonStartStop = document.getElementById(buttonStartStopHtmlElementId).unsafeCast<HTMLButtonElement>()
+
+    isBenchmarkWithD3 = document.getElementById("benchmark_with_d3") != null
 
     allFiles.forEach { filename ->
         selectFile.options.add(document.createElement("option") {
@@ -56,11 +67,11 @@ fun main(args: Array<String>) {
     selectProjection.selectedIndex = defaultProjectionIndex
 
 
-    selectFile.onchange = {onSelectionChanged()}
-    selectProjection.onchange = {onSelectionChanged()}
+    selectFile.onchange = { onSelectionChanged() }
+    selectProjection.onchange = { onSelectionChanged() }
     buttonStartStop.onclick = {
 
-        if(animationEnabled) {
+        if (animationEnabled) {
             currentViz?.stopAnimations()
         } else {
             currentViz?.startAnimations()
@@ -74,6 +85,7 @@ fun main(args: Array<String>) {
 
 }
 
+@ExperimentalKZoomEvent
 private fun onSelectionChanged() {
 
     val selectFile = document.getElementById(selectFileHtmlElementId).unsafeCast<HTMLSelectElement>()
@@ -83,6 +95,7 @@ private fun onSelectionChanged() {
     onSettingsChanged(selectFile, selectProjection)
 }
 
+@ExperimentalKZoomEvent
 private fun onSettingsChanged(
     selectFile: HTMLSelectElement,
     selectProjection: HTMLSelectElement
@@ -90,19 +103,20 @@ private fun onSettingsChanged(
 
     var projectionValue = selectProjection.options[selectProjection.selectedIndex]!!.getAttribute("value")!!
 
-    val fileValue = if(projectionsToSingleFile.containsKey(projectionValue)) {
+    val fileValue = if (projectionsToSingleFile.containsKey(projectionValue)) {
         projectionsToSingleFile[projectionValue]!!
-    } else{
+    } else {
         selectFile.options[selectFile.selectedIndex]!!.getAttribute("value")!!
     }
 
-    loadViz(fileValue, projectionValue)
+    loadEventsControlViz(fileValue, projectionValue)
 
     // call callback in raw js, needed for d3 comparasion sample
     js("onSettingsChanged(fileValue, projectionValue)")
 }
 
-private fun loadViz(filename: String, projectionName: String) {
+@ExperimentalKZoomEvent
+private fun loadEventsControlViz(filename: String, projectionName: String) {
 
     GlobalScope.promise {
 
@@ -118,17 +132,32 @@ private fun loadViz(filename: String, projectionName: String) {
         parent!!.removeChild(oldCanvas)
         val newCanvas = document.createElement("canvas") {
             this.id = canvaseVizHtmlElementId
+            oldCanvas.getAttributeNames().forEach {
+                attributeName ->
+                this.setAttribute(attributeName, oldCanvas.getAttribute(attributeName)!!)
+            }
         }.unsafeCast<HTMLCanvasElement>()
         parent.appendChild(newCanvas)
 
         currentViz?.stopAnimations()
-        currentViz = geoViz(geoJson, projectionName, vizWidth, vizHeight)
+        currentViz = loadViz(geoJson, projectionName)
 
         currentViz!!.bindRendererOn(newCanvas)
         val anim = animationEnabled
 
-        if(!anim) {
+        if (!anim) {
             currentViz?.stopAnimations()
         }
     }
 }
+
+@ExperimentalKZoomEvent
+private fun loadViz(geoJson: GeoJsonObject, projectionName: String): Viz = if (isNeedAutoRotation) {
+    geoVizAutoRotate(geoJson, projectionName, vizWidth, vizHeight)
+} else {
+    geoVizEventsControl(geoJson, projectionName, vizWidth, vizHeight)
+}
+
+
+
+
