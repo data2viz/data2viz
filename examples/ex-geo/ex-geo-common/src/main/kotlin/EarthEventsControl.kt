@@ -6,7 +6,9 @@ import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
 import io.data2viz.math.toRadians
+import io.data2viz.time.Date
 import io.data2viz.viz.*
+
 
 @ExperimentalKZoomEvent
 fun geoVizEventsControl(
@@ -18,13 +20,42 @@ fun geoVizEventsControl(
     val viz = geoViz(world, projectionName, vizWidth, vizHeight)
 
     viz.addGeoControlEvents()
+    viz.launchStartRotateAnimation()
 
     return viz
 }
 
-lateinit var startDragCartesianPoint:DoubleArray
-lateinit var startDragQuaternion:DoubleArray
-lateinit var startDragRotationAngles:Array<Angle>
+lateinit var startDragCartesianPoint: DoubleArray
+lateinit var startDragQuaternion: DoubleArray
+lateinit var startDragRotationAngles: Array<Angle>
+
+
+fun Viz.launchStartRotateAnimation() {
+
+    val durationInMs = 3000L
+    val totalLambdaAngleDiffDeg = 360
+    val startRotationLambda = projection.rotateLambda
+
+    val endTime = Date().apply { plusMilliseconds(durationInMs) }
+    animation {
+        val diffMilliseconds = endTime.getTime() - Date().getTime()
+
+        if (diffMilliseconds > 0) {
+
+            val percent = 1 - diffMilliseconds / durationInMs
+
+            val deceleratedPercent = sqrtDecelerate(percent)
+
+            val currentFrameRotationDegree = (deceleratedPercent * totalLambdaAngleDiffDeg).deg
+            projection.rotateLambda = startRotationLambda + currentFrameRotationDegree
+            geoPathNode.redrawPath()
+        } else {
+            stop()
+        }
+    }
+}
+
+fun sqrtDecelerate(originPercent: Double) = (1 - (1 - originPercent) * (1 - originPercent))
 
 /**
  *
@@ -67,11 +98,12 @@ fun Viz.addGeoControlEvents() {
 
                 val inverted = projection.invert(evt.pos.x, evt.pos.y)
 
-                val currentDragCartesianPoint = cartesian(doubleArrayOf(inverted[0].toRadians(), inverted[1].toRadians()))
+                val currentDragCartesianPoint =
+                    cartesian(doubleArrayOf(inverted[0].toRadians(), inverted[1].toRadians()))
                 val currentDragQuaternion = quaternionMultiply(
                     startDragQuaternion,
                     quaternionDelta(startDragCartesianPoint, currentDragCartesianPoint)
-                );
+                )
 
                 val rotationAngles = eulerRotation(currentDragQuaternion)
                 rotateByAngles(geoPathNode, rotationAngles[0].deg, rotationAngles[1].deg, rotationAngles[2].deg)
