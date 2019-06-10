@@ -192,9 +192,7 @@ open class ProjectorProjection(val projector: Projector) : Projection {
 
 
     override fun invert(x: Double, y: Double): DoubleArray {
-        val newX = (x - _recenterDx) / _scale
-        val newY = (_recenterDy - y) / _scale
-        val inverted = composedTransformationsProjector.invert(newX, newY)
+        val inverted = composedTransformationsProjector.invert(x, y)
         return doubleArrayOf(
             inverted[0].toDegrees(),
             inverted[1].toDegrees()
@@ -238,7 +236,7 @@ class TranslateAndScaleProjector(
     }
 
 
-    // TODO: need re-check. invert not exist in d3 implementation
+
     override fun invert(x: Double, y: Double): DoubleArray {
 
         return projector.invert(
