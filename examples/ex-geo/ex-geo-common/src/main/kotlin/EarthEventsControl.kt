@@ -38,7 +38,7 @@ lateinit var startDragRotationAngles: Array<Angle>
 var isUserStartControlDuringStartAnimation = false
 
 // 0 scale remove all nodes, negative scale invert geo coordinates
-val minProjectionScale = 1.0
+val minProjectionScale = 10.0
 val diffInMillisecondsToDetectZoom = 200
 lateinit var startZoomCartesianPoint: DoubleArray
 lateinit var startZoomQuaternion: DoubleArray
