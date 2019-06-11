@@ -73,13 +73,11 @@ fun sqrtDecelerate(originPercent: Double) = (1 - (1 - originPercent) * (1 - orig
 fun Viz.addGeoControlEvents() {
 
     on(KPointerDrag) { evt ->
-
-        println("onEvent ${evt.action} ${evt.pos}")
         when (evt.action) {
 
             KDragEvent.KDragAction.Start -> {
 
-                if(!isUserStartControlDuringStartAnimation) {
+                if (!isUserStartControlDuringStartAnimation) {
                     isUserStartControlDuringStartAnimation = true
                 }
 
@@ -101,6 +99,9 @@ fun Viz.addGeoControlEvents() {
             }
             KDragEvent.KDragAction.Dragging -> {
 
+                val previousRotateLambda = projection.rotateLambda
+                val previousRotatePhi = projection.rotatePhi
+                val previousRotateGamma = projection.rotateGamma
 
                 projection.rotate(
                     startDragRotationAngles[0],
@@ -112,20 +113,35 @@ fun Viz.addGeoControlEvents() {
 
                 val currentDragCartesianPoint =
                     cartesian(doubleArrayOf(inverted[0].toRadians(), inverted[1].toRadians()))
-                val currentDragQuaternion = quaternionMultiply(
-                    startDragQuaternion,
-                    quaternionDelta(startDragCartesianPoint, currentDragCartesianPoint)
-                )
 
-                val rotationAngles = eulerRotation(currentDragQuaternion)
-                rotateByAngles(geoPathNode, rotationAngles[0].deg, rotationAngles[1].deg, rotationAngles[2].deg)
+
+                if (!currentDragCartesianPoint[0].isNaN() &&
+                    !currentDragCartesianPoint[1].isNaN() &&
+                    !currentDragCartesianPoint[2].isNaN()
+                ) {
+
+                    val currentDragQuaternion = quaternionMultiply(
+                        startDragQuaternion,
+                        quaternionDelta(startDragCartesianPoint, currentDragCartesianPoint)
+                    )
+
+                    val rotationAngles = eulerRotation(currentDragQuaternion)
+                    rotateByAngles(geoPathNode, rotationAngles[0].deg, rotationAngles[1].deg, rotationAngles[2].deg)
+                } else {
+                    projection.rotate(
+                        previousRotateLambda,
+                        previousRotatePhi,
+                        previousRotateGamma
+                    )
+                }
 
             }
+
         }
     }
 
     on(KZoom) { evt ->
-        if(!isUserStartControlDuringStartAnimation) {
+        if (!isUserStartControlDuringStartAnimation) {
             isUserStartControlDuringStartAnimation = true
         }
         zoomByDelta(geoPathNode, evt.delta)
