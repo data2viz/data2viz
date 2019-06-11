@@ -34,6 +34,85 @@ lateinit var startDragQuaternion: DoubleArray
 lateinit var startDragRotationAngles: Array<Angle>
 var isUserStartControlDuringStartAnimation = false
 
+// 0 scale remove all nodes, negative scale invert geo coordinates
+val minProjectionScale = 1.0
+val diffInMillisecondsToDetectZoom = 200
+lateinit var startZoomCartesianPoint: DoubleArray
+lateinit var startZoomQuaternion: DoubleArray
+lateinit var startZoomRotationAngles: Array<Angle>
+
+
+@ExperimentalKZoomEvent
+fun zoomStarted(evt: KZoomEvent) {
+
+    if (!isUserStartControlDuringStartAnimation) {
+        isUserStartControlDuringStartAnimation = true
+    }
+
+    val inverted = projection.invert(evt.currentZoomPos.x, evt.currentZoomPos.y)
+
+    startZoomCartesianPoint = cartesian(doubleArrayOf(inverted[0].toRadians(), inverted[1].toRadians()))
+
+    startZoomRotationAngles = arrayOf(
+        projection.rotateLambda,
+        projection.rotatePhi,
+        projection.rotateGamma
+    )
+    startZoomQuaternion = quaternion(
+        doubleArrayOf(
+            startZoomRotationAngles[0].deg,
+            startZoomRotationAngles[1].deg,
+            startZoomRotationAngles[2].deg
+        )
+
+    )
+}
+
+/**
+ * Port of https://github.com/vasturiano/d3-geo-zoom
+ */
+@ExperimentalKZoomEvent
+fun zoomed(evt: KZoomEvent) {
+
+    val previousRotateLambda = projection.rotateLambda
+    val previousRotatePhi = projection.rotatePhi
+    val previousRotateGamma = projection.rotateGamma
+    projection.scale = max(projection.scale + evt.delta, minProjectionScale)
+
+    projection.rotate(
+        startZoomRotationAngles[0],
+        startZoomRotationAngles[1],
+        startZoomRotationAngles[2]
+    )
+
+    val inverted = projection.invert(evt.currentZoomPos.x, evt.currentZoomPos.y)
+
+    val currentZoomCartesianPoint =
+        cartesian(doubleArrayOf(inverted[0].toRadians(), inverted[1].toRadians()))
+
+    if (!currentZoomCartesianPoint[0].isNaN() &&
+        !currentZoomCartesianPoint[1].isNaN() &&
+        !currentZoomCartesianPoint[2].isNaN()
+    ) {
+
+        val currentZoomQuaternion = quaternionMultiply(
+            startZoomQuaternion,
+            quaternionDelta(startZoomCartesianPoint, currentZoomCartesianPoint)
+        )
+
+        val rotationAngles = eulerRotation(currentZoomQuaternion)
+        rotationAngles[2] = 0.0; // Don't rotate on Z axis
+        rotateByAngles(geoPathNode, rotationAngles[0].deg, rotationAngles[1].deg, rotationAngles[2].deg)
+    } else {
+        projection.rotate(
+            previousRotateLambda,
+            previousRotatePhi,
+            previousRotateGamma
+        )
+    }
+
+}
+
 fun Viz.launchStartRotateAnimation() {
 
     val durationInMs = 3000L
@@ -140,24 +219,29 @@ fun Viz.addGeoControlEvents() {
         }
     }
 
+    var lastZoomTime = Date()
+
     on(KZoom) { evt ->
-        if (!isUserStartControlDuringStartAnimation) {
-            isUserStartControlDuringStartAnimation = true
+
+        val inverted = projection.invert(evt.currentZoomPos.x, evt.currentZoomPos.y)
+
+        // dont zoom if pointer not on globe
+        if(inverted[0].isNaN() || inverted[1].isNaN()) {
+            return@on
         }
-        zoomByDelta(geoPathNode, evt.delta)
+
+        val now = Date()
+        val diffMilliseconds = now.getTime() - lastZoomTime.getTime()
+        if (diffMilliseconds > diffInMillisecondsToDetectZoom) {
+            zoomStarted(evt)
+        } else {
+            zoomed(evt)
+        }
+
+        lastZoomTime = now
+
     }
 
-}
-
-// 0 scale remove all nodes, negative scale invert geo coordinates
-val minProjectionScale = 1.0
-
-private fun zoomByDelta(
-    geoPathNode: GeoPathNode,
-    delta: Double
-) {
-    projection.scale = max(projection.scale + delta, minProjectionScale)
-    geoPathNode.redrawPath()
 }
 
 
