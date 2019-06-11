@@ -11,15 +11,15 @@ import kotlin.math.*
  * Returns the unit quaternion for the given Euler rotation angles [λ, φ, γ] in degrees.
  */
 fun quaternion(eulerAngles: DoubleArray): DoubleArray {
-    var l = eulerAngles[0] / 2 * DEG_TO_RAD
-    var sl = sin(l)
-    var cl = cos(l) // λ / 2
-    var p = eulerAngles[1] / 2 * DEG_TO_RAD
-    var sp = sin(p)
-    var cp = cos(p) // φ / 2
-    var g = eulerAngles[2] / 2 * DEG_TO_RAD
-    var sg = sin(g)
-    var cg = cos(g) // γ / 2
+    val l = eulerAngles[0] / 2 * DEG_TO_RAD
+    val sl = sin(l)
+    val cl = cos(l) // λ / 2
+    val p = eulerAngles[1] / 2 * DEG_TO_RAD
+    val sp = sin(p)
+    val cp = cos(p) // φ / 2
+    val g = eulerAngles[2] / 2 * DEG_TO_RAD
+    val sg = sin(g)
+    val cg = cos(g) // γ / 2
     return doubleArrayOf(
         cl * cp * cg + sl * sp * sg,
         sl * cp * cg - cl * sp * sg,
@@ -46,11 +46,11 @@ fun eulerRotation(q: DoubleArray): DoubleArray {
 */
 fun quaternionDelta(v0: DoubleArray, v1: DoubleArray, alpha: Double = 1.0):DoubleArray {
 
-    var w = cartesianCross(v0, v1)
-    var l = sqrt(cartesianDot(w, w));
+    val w = cartesianCross(v0, v1)
+    val l = sqrt(cartesianDot(w, w));
     if (l == -0.0 || l == 0.0 || l.isNaN()) return doubleArrayOf(1.0, 0.0, 0.0, 0.0)
-    var t = alpha * acos(max(-1.0, min(1.0, cartesianDot(v0, v1)))) / 2
-    var s = sin(t); // t = θ / 2
+    val t = alpha * acos(max(-1.0, min(1.0, cartesianDot(v0, v1)))) / 2
+    val s = sin(t); // t = θ / 2
     return doubleArrayOf(cos(t), w[2] / l * s, -w[1] / l * s, w[0] / l * s)
 };
 
