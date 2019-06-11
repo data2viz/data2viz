@@ -9,6 +9,7 @@ import io.data2viz.math.deg
 import io.data2viz.math.toRadians
 import io.data2viz.time.Date
 import io.data2viz.viz.*
+import kotlin.math.max
 
 
 @ExperimentalKZoomEvent
@@ -71,6 +72,7 @@ fun Viz.addGeoControlEvents() {
 
     on(KPointerDrag) { evt ->
 
+        println("onEvent ${evt.action} ${evt.pos}")
         when (evt.action) {
 
             KDragEvent.KDragAction.Start -> {
@@ -121,15 +123,14 @@ fun Viz.addGeoControlEvents() {
 
 }
 
+// 0 scale remove all nodes, negative scale invert geo coordinates
+val minProjectionScale = 1.0
 
 private fun zoomByDelta(
     geoPathNode: GeoPathNode,
     delta: Double
 ) {
-
-    val projection = geoPathNode.geoProjection
-
-    projection.scale += delta
+    projection.scale = max(projection.scale + delta, minProjectionScale)
     geoPathNode.redrawPath()
 }
 
