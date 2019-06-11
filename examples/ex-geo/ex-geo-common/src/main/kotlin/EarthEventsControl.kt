@@ -32,7 +32,7 @@ fun geoVizEventsControl(
 lateinit var startDragCartesianPoint: DoubleArray
 lateinit var startDragQuaternion: DoubleArray
 lateinit var startDragRotationAngles: Array<Angle>
-
+var isUserStartControlDuringStartAnimation = false
 
 fun Viz.launchStartRotateAnimation() {
 
@@ -41,10 +41,12 @@ fun Viz.launchStartRotateAnimation() {
     val startRotationLambda = projection.rotateLambda
 
     val endTime = Date().apply { plusMilliseconds(durationInMs) }
+
+    isUserStartControlDuringStartAnimation = false
     animation {
         val diffMilliseconds = endTime.getTime() - Date().getTime()
 
-        if (diffMilliseconds > 0) {
+        if (diffMilliseconds > 0 && !isUserStartControlDuringStartAnimation) {
 
             val percent = 1 - diffMilliseconds / durationInMs
 
@@ -77,6 +79,10 @@ fun Viz.addGeoControlEvents() {
 
             KDragEvent.KDragAction.Start -> {
 
+                if(!isUserStartControlDuringStartAnimation) {
+                    isUserStartControlDuringStartAnimation = true
+                }
+
                 val inverted = projection.invert(evt.pos.x, evt.pos.y)
                 startDragCartesianPoint = cartesian(doubleArrayOf(inverted[0].toRadians(), inverted[1].toRadians()))
                 startDragRotationAngles = arrayOf(
@@ -94,6 +100,7 @@ fun Viz.addGeoControlEvents() {
                 )
             }
             KDragEvent.KDragAction.Dragging -> {
+
 
                 projection.rotate(
                     startDragRotationAngles[0],
@@ -118,6 +125,9 @@ fun Viz.addGeoControlEvents() {
     }
 
     on(KZoom) { evt ->
+        if(!isUserStartControlDuringStartAnimation) {
+            isUserStartControlDuringStartAnimation = true
+        }
         zoomByDelta(geoPathNode, evt.delta)
     }
 
