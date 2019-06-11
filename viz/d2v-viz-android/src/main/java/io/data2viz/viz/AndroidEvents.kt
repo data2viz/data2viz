@@ -130,14 +130,16 @@ actual class KZoom {
                         val diffSpan = (detector.currentSpan - detector.previousSpan).toDouble()
 
                         val currentTime = System.currentTimeMillis()
+                        val zoomPoint = Point(detector.focusX.toDouble(), detector.focusY.toDouble())
                         if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
-                            zoomStartPoint = Point(detector.focusX.toDouble(), detector.focusY.toDouble())
+                            zoomStartPoint = zoomPoint
                         }
                         lastZoomTime = currentTime
 
                         listener(
                             KZoomEvent(
                                 zoomStartPoint,
+                                zoomPoint,
                                 KZoomEvent.scaleDelta(diffSpan, minZoomDeltaValue, maxZoomDeltaValue)
                             )
                         )

@@ -113,18 +113,20 @@ actual class KZoom {
         }
 
         private fun onZoom(
-            x:Double, y:Double,
+            x: Double, y: Double,
             currentDelta: Double, minDelta: Double,
             maxDelta: Double
         ): KZoomEvent {
 
             val currentTime = System.currentTimeMillis()
+            val zoomPoint = Point(x, y)
             if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
-                zoomStartPoint = Point(x, y)
+                zoomStartPoint = zoomPoint
             }
             lastZoomTime = currentTime
             return KZoomEvent(
                 zoomStartPoint,
+                zoomPoint,
                 KZoomEvent.scaleDelta(
                     currentDelta,
                     minDelta,

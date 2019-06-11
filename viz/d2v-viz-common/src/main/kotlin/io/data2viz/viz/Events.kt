@@ -116,6 +116,7 @@ annotation class ExperimentalKZoomEvent            // Experimental API marker
 @ExperimentalKZoomEvent
 class KZoomEvent(
     val startZoomPos: Point,
+    val currentZoomPos: Point,
     val delta: Double
 ) : KEvent {
     companion object {
