@@ -24,10 +24,13 @@ fun geoVizEventsControl(
     if (isProjectionSupportTransformations) {
         viz.addGeoControlEvents()
         viz.launchStartRotateAnimation()
+        viz.launchEventsControlRedrawAnimation()
     }
 
     return viz
 }
+
+var isNeedRedrawAfterControlEvents = false
 
 lateinit var startDragCartesianPoint: DoubleArray
 lateinit var startDragQuaternion: DoubleArray
@@ -102,7 +105,7 @@ fun zoomed(evt: KZoomEvent) {
 
         val rotationAngles = eulerRotation(currentZoomQuaternion)
         rotationAngles[2] = 0.0; // Don't rotate on Z axis
-        rotateByAngles(geoPathNode, rotationAngles[0].deg, rotationAngles[1].deg, rotationAngles[2].deg)
+        rotateByAngles(rotationAngles[0].deg, rotationAngles[1].deg, rotationAngles[2].deg)
     } else {
         projection.rotate(
             previousRotateLambda,
@@ -112,6 +115,17 @@ fun zoomed(evt: KZoomEvent) {
     }
 
 }
+
+
+fun Viz.launchEventsControlRedrawAnimation() {
+
+    animation {
+        if(isNeedRedrawAfterControlEvents) {
+            geoPathNode.redrawPath()
+        }
+    }
+}
+
 
 fun Viz.launchStartRotateAnimation() {
 
@@ -205,7 +219,7 @@ fun Viz.addGeoControlEvents() {
                     )
 
                     val rotationAngles = eulerRotation(currentDragQuaternion)
-                    rotateByAngles(geoPathNode, rotationAngles[0].deg, rotationAngles[1].deg, rotationAngles[2].deg)
+                    rotateByAngles(rotationAngles[0].deg, rotationAngles[1].deg, rotationAngles[2].deg)
                 } else {
                     projection.rotate(
                         previousRotateLambda,
@@ -246,11 +260,10 @@ fun Viz.addGeoControlEvents() {
 
 
 private fun rotateByAngles(
-    geoPathNode: GeoPathNode,
     angleLambda: Angle,
     anglePhi: Angle,
     angleGamma: Angle
 ) {
     projection.rotate(angleLambda, anglePhi, angleGamma)
-    geoPathNode.redrawPath()
+    isNeedRedrawAfterControlEvents = true
 }
