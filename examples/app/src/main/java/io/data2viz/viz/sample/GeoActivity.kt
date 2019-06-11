@@ -5,7 +5,10 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import android.widget.Spinner
 import geoVizEventsControl
 import io.data2viz.examples.geo.*
 import io.data2viz.geojson.toGeoJsonObject
@@ -14,6 +17,9 @@ import io.data2viz.viz.Viz
 import io.data2viz.viz.VizView
 import io.data2viz.viz.toView
 import io.data2viz.viz.ui.FPSMeterView
+import android.util.DisplayMetrics
+
+
 
 
 @ExperimentalKZoomEvent
@@ -99,7 +105,8 @@ class GeoActivity : AppCompatActivity() {
         val world = resources.openRawResource(resId!!)
             .reader().readText().toGeoJsonObject()
 
-        viz = geoVizEventsControl(world, projection)
+        val size = layoutViz.width.toDouble()
+        viz = geoVizEventsControl(world, projection, size, size)
         view = viz!!.toView(this)
 
         textFps.vizView = view
