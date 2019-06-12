@@ -53,7 +53,10 @@ internal interface ClippableHasStart : Clippable {
 
 }
 
-internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : Stream {
+internal class ClippableStream(
+    val clip: ClippableHasStart,
+    val outputStream: Stream
+) : Stream {
 
 
     // context of execution of stream
@@ -70,7 +73,7 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
     var lineEndContext       = LineEndContext.DEFAULT
 
 
-    internal val line: ClipStream = clip.clipLine(sink)
+    internal val line: ClipStream = clip.clipLine(outputStream)
 
     internal val ringBuffer = ClipBufferStream()
     internal val ringSink = clip.clipLine(ringBuffer)
@@ -119,23 +122,23 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
 
         if (segments.isNotEmpty()) {
             if (!polygonStarted) {
-                sink.polygonStart()
+                outputStream.polygonStart()
                 polygonStarted = true
             }
 
-            rejoin(segments.flatten(), compareIntersection, startInside, interpolateFunction, sink)
+            rejoin(segments.flatten(), compareIntersection, startInside, interpolateFunction, outputStream)
         } else if (startInside) {
             if (!polygonStarted) {
-                sink.polygonStart()
+                outputStream.polygonStart()
                 polygonStarted = true
             }
-            sink.lineStart()
-            clip.interpolate(null, null, 1, sink)
-            sink.lineEnd()
+            outputStream.lineStart()
+            clip.interpolate(null, null, 1, outputStream)
+            outputStream.lineEnd()
         }
 
         if (polygonStarted) {
-            sink.polygonEnd()
+            outputStream.polygonEnd()
             polygonStarted = false
         }
 
@@ -144,11 +147,11 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
     }
 
     override fun sphere() {
-        sink.polygonStart()
-        sink.lineStart()
-        clip.interpolate(null, null, 1, sink)
-        sink.lineEnd()
-        sink.polygonEnd()
+        outputStream.polygonStart()
+        outputStream.lineStart()
+        clip.interpolate(null, null, 1, outputStream)
+        outputStream.lineEnd()
+        outputStream.polygonEnd()
     }
 
 
@@ -167,7 +170,7 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
 
     private object DefaultPointFunction : PointFunction {
         override fun point(clip: ClippableStream, x: Double, y: Double, z: Double) {
-            if (clip.clip.pointVisible(x, y)) clip.sink.point(x, y, z)
+            if (clip.clip.pointVisible(x, y)) clip.outputStream.point(x, y, z)
         }
     }
 
@@ -235,17 +238,17 @@ internal class ClippableStream(val clip: ClippableHasStart, val sink: Stream) : 
                     val m = segment.lastIndex
                     if (m > 0) {
                         if (!polygonStarted) {
-                            sink.polygonStart()
+                            outputStream.polygonStart()
                             polygonStarted = true
                         }
-                        sink.lineStart()
+                        outputStream.lineStart()
                         (0 until m).forEach {
                             val currentSegmentPiece = segment[it]
                             val x = currentSegmentPiece[0]
                             val y = currentSegmentPiece[1]
-                            sink.point(x, y, 0.0)
+                            outputStream.point(x, y, 0.0)
                         }
-                        sink.lineEnd()
+                        outputStream.lineEnd()
                     }
                     return
                 }
