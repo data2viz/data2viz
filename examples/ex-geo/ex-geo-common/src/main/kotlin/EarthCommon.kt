@@ -4,10 +4,7 @@ import io.data2viz.color.Colors
 import io.data2viz.geo.projection.*
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.deg
-import io.data2viz.time.Date
-import io.data2viz.viz.GeoPathNode
-import io.data2viz.viz.Viz
-import io.data2viz.viz.viz
+import io.data2viz.viz.*
 import kotlin.math.roundToInt
 
 
@@ -50,7 +47,14 @@ val defaultFileIndex = allFiles.indexOf("world-110m-30percent.json")
 val defaultProjectionIndex = allProjectionsNames.indexOf("orthographic")
 
 
-fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.0, vizHeight: Double = 500.0): Viz {
+val projection
+    get() = geoPathNode.geoProjection
+
+var isProjectionSupportTransformations: Boolean = true
+
+lateinit var geoPathNode: GeoPathNode
+
+internal fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.0, vizHeight: Double = 500.0): Viz {
 
     val projection = allProjections[projectionName]!!
     projection.translateX = vizWidth / 2.0
@@ -61,7 +65,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
         width = vizWidth
         height = vizHeight
 
-        val geoPathNode = GeoPathNode().apply {
+        geoPathNode = GeoPathNode().apply {
             stroke = Colors.Web.black
             strokeWidth = 1.0
             fill = Colors.Web.whitesmoke
@@ -75,30 +79,34 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
 
         val fps = text {
             x = 10.0
-            y = 40.0
+            y = 15.0
             fill = Colors.Web.red
         }
 
         text {
             x = 10.0
-            y = 60.0
+            y = 30.0
             fill = Colors.Web.red
             textContent = projectionName
         }
 
 
+
         // don't rotate projections which not don't support rotations in d3
-        val isNeedRotate = when (projectionName) {
+        isProjectionSupportTransformations = when (projectionName) {
             "albersUSA", "identity" -> false
             else -> true
         }
 
 
 
-        if (isNeedRotate) {
+
+
+        if (isProjectionSupportTransformations) {
             geoPathNode.geoProjection.rotate(0.0.deg, 0.0.deg, 0.0.deg)
             geoPathNode.redrawPath()
         }
+
 
         animation { now: Double ->
 
@@ -108,10 +116,6 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
                 fps.textContent = "Internal FPS: ${FPS.value.roundToInt()}"
             }
 
-
-            if (isNeedRotate) {
-                rotateByTime(geoPathNode)
-            }
 
         }
 
@@ -127,24 +131,7 @@ fun geoViz(world: GeoJsonObject, projectionName: String, vizWidth: Double = 500.
     }
 }
 
-private fun rotateByTime(
-    geoPathNode: GeoPathNode
-) {
 
-    val projection = geoPathNode.geoProjection
-
-
-    val unixTime = Date().getTime()
-    // Full rotation cycles per minute
-    val fullRotationCyclesPerMinute = 6
-
-    val minute = 1000 * 60
-    val ratio = (unixTime % minute) / minute
-    val angle = ratio * 360 * fullRotationCyclesPerMinute % 360
-    // Rotate only X axys
-    projection.rotateLambda = angle.deg
-    geoPathNode.redrawPath()
-}
 
 
 object FPS {

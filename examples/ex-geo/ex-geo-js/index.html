@@ -9,13 +9,14 @@
 <body>
 
 <div>
-    <button id="button_start_stop">Start/stop viz animations</button>
     <select class="geo_select" id="select_projection"></select>
     <select class="geo_select" id="select_file"></select>
     <span> JS Benchmark FPS:<span id="fps"></span> </span>
 </div>
 <div>Data2Viz</div>
-<canvas id="viz"></canvas>
+<div>Drag globe to rotate</div>
+<div>Scale (ctrl + mouse wheel or touchpad gesture) to zoom</div>
+<canvas style="border:1px solid black;" id="viz"></canvas>
 <script>
     function onSettingsChanged(projection, filename) {
         //console.log("onSettingChanged " + projection + " " + filename)

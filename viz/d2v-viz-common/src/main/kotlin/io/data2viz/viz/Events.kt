@@ -116,6 +116,7 @@ annotation class ExperimentalKZoomEvent            // Experimental API marker
 @ExperimentalKZoomEvent
 class KZoomEvent(
     val startZoomPos: Point,
+    val currentZoomPos: Point,
     val delta: Double
 ) : KEvent {
     companion object {
@@ -211,7 +212,6 @@ expect class KZoom {
 class KPointerDrag {
     companion object PointerDragEventListener : KEventListener<KDragEvent> {
 
-        const val minDistanceForDetectDragging = 100
 
         private var downActionPos: Point? = null
         private var dragInProgress: Boolean = false
@@ -227,13 +227,8 @@ class KPointerDrag {
 
                     val startPos = downActionPos
                     if (startPos != null) {
-
-                        val distance = distance(startPos, it.pos)
-
-                        if (distance > minDistanceForDetectDragging) {
-                            dragInProgress = true
-                            listener(KDragEvent(KDragEvent.KDragAction.Start, it))
-                        }
+                        dragInProgress = true
+                        listener(KDragEvent(KDragEvent.KDragAction.Start, it))
                     }
                 }
             })

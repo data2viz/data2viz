@@ -1,8 +1,10 @@
 package io.data2viz.examples.geo
 
+import geoVizEventsControl
 import io.data2viz.geo.geometry.geoGraticule
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.toGeoJsonObject
+import io.data2viz.viz.ExperimentalKZoomEvent
 import io.data2viz.viz.JFxVizRenderer
 import io.data2viz.viz.Viz
 import javafx.animation.AnimationTimer
@@ -21,6 +23,7 @@ import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
 
+@ExperimentalKZoomEvent
 class EarthJFXApplication : Application() {
 
     companion object {
@@ -34,7 +37,6 @@ class EarthJFXApplication : Application() {
     private val vizHeight = 500.0
 
     private val root = Group()
-    private val startStopButton = Button()
 
     private val comboBoxFiles = ComboBox(FXCollections.observableArrayList(allFiles)).apply {
         selectionModel.select(defaultFileIndex)
@@ -57,18 +59,6 @@ class EarthJFXApplication : Application() {
     override fun start(stage: Stage?) {
 
         val nativeFpsLabel = Label()
-
-        startStopButton.text = "Start/Stop viz animations"
-
-        startStopButton.onAction = EventHandler<ActionEvent> {
-
-            if (animationEnabled)
-                viz.stopAnimations()
-            else
-                viz.startAnimations()
-
-            animationEnabled = !animationEnabled
-        }
 
         comboBoxProjections.valueProperty().addListener { _, _, _ -> onSelectionChanged() }
         comboBoxFiles.valueProperty().addListener { _, _, _ -> onSelectionChanged() }
@@ -94,19 +84,25 @@ class EarthJFXApplication : Application() {
         frameRateMeter.start()
 
         val header = HBox().apply {
-            with(children){
-                add(startStopButton)
+            with(children) {
                 add(comboBoxProjections)
                 add(comboBoxFiles)
                 add(nativeFpsLabel)
             }
         }
 
-        content.children.add(header)
+
+
+        content.children.apply {
+            add(header)
+            add(Label("Drag globe to rotate"))
+            add(Label("Scale (ctrl + mouse wheel or touchpad gesture) to zoom"))
+        }
         root.children.add(content)
 
         stage?.let {
-            it.scene = (Scene(root, vizWidth, vizHeight))
+            // 100 px for header
+            it.scene = (Scene(root, vizWidth, vizHeight +100))
             it.show()
             stage.title = "JavaFx - data2viz - EarthJFXApplication.kt"
         }
@@ -132,7 +128,7 @@ class EarthJFXApplication : Application() {
     private fun newViz(): Viz {
         val projectionName: String = getSelectedProjectionName()
         val jsonObject = getGeoJsonObject(projectionName)
-        return geoViz(jsonObject, projectionName).also {
+        return geoVizEventsControl(jsonObject, projectionName).also {
             JFxVizRenderer(canvas, it)
         }
     }

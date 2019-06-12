@@ -5,15 +5,24 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import android.widget.Spinner
+import geoVizEventsControl
 import io.data2viz.examples.geo.*
 import io.data2viz.geojson.toGeoJsonObject
+import io.data2viz.viz.ExperimentalKZoomEvent
 import io.data2viz.viz.Viz
 import io.data2viz.viz.VizView
 import io.data2viz.viz.toView
 import io.data2viz.viz.ui.FPSMeterView
+import android.util.DisplayMetrics
 
 
+
+
+@ExperimentalKZoomEvent
 class GeoActivity : AppCompatActivity() {
 
 
@@ -28,7 +37,6 @@ class GeoActivity : AppCompatActivity() {
     )
 
     lateinit var layoutViz: FrameLayout
-    lateinit var buttonStartStop: Button
     lateinit var textFps: FPSMeterView
     lateinit var spinnerFiles: Spinner
     lateinit var spinnerProjections: Spinner
@@ -45,22 +53,9 @@ class GeoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_geo)
 
         layoutViz = findViewById(R.id.layout_viz)
-        buttonStartStop = findViewById(R.id.button_start_stop_animations)
         textFps = findViewById(R.id.text_fps)
         spinnerFiles = findViewById(R.id.spinner_files)
         spinnerProjections = findViewById(R.id.spinner_projections)
-
-        buttonStartStop.setOnClickListener {
-
-            if (isAnimationStarted) {
-                view?.stopAnimations()
-            } else {
-                view?.startAnimations()
-
-            }
-
-            isAnimationStarted = !isAnimationStarted
-        }
 
         spinnerFiles.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, allFiles)
         spinnerProjections.adapter =
@@ -110,7 +105,8 @@ class GeoActivity : AppCompatActivity() {
         val world = resources.openRawResource(resId!!)
             .reader().readText().toGeoJsonObject()
 
-        viz = geoViz(world, projection)
+        val size = layoutViz.width.toDouble()
+        viz = geoVizEventsControl(world, projection, size, size)
         view = viz!!.toView(this)
 
         textFps.vizView = view
