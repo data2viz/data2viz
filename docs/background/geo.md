@@ -5,7 +5,7 @@
      .-'';'-.                 ┌──────────────────┐
   ,'    [_,-. `.              │                  │
  /)    ,--,_>\_ \             │   ) `"""";._/}   │
-|     (      \_  |    ──▶     │   |       ' /    │
+|     (      \_  |    ──>     │   |       ' /    │
 |_     `-.    /  |            │   \        |     │
  \`-.    ;  _(’ /             │    '--. .-.\     │
   `.(     \/  ,'              │ USA    `   `     │
@@ -47,13 +47,15 @@ GeoJson object into a path rendered on the screen:
 
 ```
               ┌──────────────────┐
-GeoJson  ──▶  │    Projection    │  ──▶   Path
+GeoJson  ──>  │    Projection    │  ──>   Path
               └──────────────────┘
 ```
 
 As GeoJson objects are only composed of Polygons, lines, and points, Data2viz 
 uses a simplified interface, `Stream` to deal with those base objects. 
- 
+
+
+## Streams 
  
 The global transformation mechanism is split into a chain of `Streams`:
 
@@ -64,25 +66,25 @@ Polygon                Stream 1      Stream x      PathStream              Path
                       ┌──────┐       ┌──────┐      ┌──────┐              ┌──────┐
                       │      │       │      │      │      │              │      │        
      polygon start    │      │       │      │      │      │    moveTo    │      │        
-     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
+     ───────────────> │      │  ──>  │      │  ──> │      │   ───────>   │      │    
                       │      │       │      │      │      │              │      │    
      line start       │      │       │      │      │      │   lineTo     │      │    
-     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
+     ───────────────> │      │  ──>  │      │  ──> │      │   ───────>   │      │    
                       │      │       │      │      │      │              │      │    
      point (x,y,z)    │      │       │      │      │      │   lineTo     │      │    
-     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
+     ───────────────> │      │  ──>  │      │  ──> │      │   ───────>   │      │    
                       │      │       │      │      │      │              │      │    
      point (x,y,z)    │      │       │      │      │      │   lineTo     │      │    
-     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │    
+     ───────────────> │      │  ──>  │      │  ──> │      │   ───────>   │      │    
                       │      │       │      │      │      │              │      │    
      point (x,y,z)    │      │       │      │      │      │   lineTo     │      │
-     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │   ───────▶   │      │
+     ───────────────> │      │  ──>  │      │  ──> │      │   ───────>   │      │
                       │      │       │      │      │      │              │      │    
      line end         │      │       │      │      │      │              │      │    
-     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │              │      │    
+     ───────────────> │      │  ──>  │      │  ──> │      │              │      │    
                       │      │       │      │      │      │              │      │    
      polygon end      │      │       │      │      │      │              │      │    
-     ───────────────▶ │      │  ──▶  │      │  ──▶ │      │              │      │    
+     ───────────────> │      │  ──>  │      │  ──> │      │              │      │    
                       │      │       │      │      │      │              │      │        
                       └──────┘       └──────┘      └──────┘              └──────┘
 
@@ -114,37 +116,37 @@ _Previous left to right flow is now presented from top to down due to the number
     GeoJson object
 
           │
-          ▼
+          v
  ┌─────────────────┐
  │ TransformRadian │
  └─────────────────┘
           │
-          ▼
+          v
  ┌─────────────────┐       ┌─────────────────┐
- │ TransformRotate │  ──▶  │ RotateProjector │
+ │ TransformRotate │  ──>  │ RotateProjector │
  └─────────────────┘       └─────────────────┘
           │
-          ▼
+          v
  ┌─────────────────┐
  │     PreClip     │
  └─────────────────┘
           │
-          ▼
+          v
  ┌─────────────────┐       ┌────────────────────────────┐       ┌─────────────────────┐
- │     Resample    │  ──▶  │ TranslateAndScaleProjector │  ──▶  │ ProjectionProjector │
+ │     Resample    │  ──>  │ TranslateAndScaleProjector │  ──>  │ ProjectionProjector │
  └─────────────────┘       └────────────────────────────┘       └─────────────────────┘
           │
-          ▼
+          v
  ┌─────────────────┐
  │    PostClip     │
  └─────────────────┘
           │
-          ▼
+          v
  ┌─────────────────┐
  │    PathStream   │
  └─────────────────┘
           │
-          ▼
+          v
          Path
 
 ```
@@ -171,3 +173,46 @@ usual post-clip is RectangleClip.
 `PathStream` is the last element of the chain. It converts all the previous
 chained transformations into calls on a Path using `moveTo`, `lineTo` and
 `arc` function calls. `arc` calls displays single points as circles.
+
+
+## Projection
+
+A `Projection` is an assembly of all these streams to perform the global transformation wanted 
+by the user. The Geo Module provides some factories to get and configure projections in a 
+straightforward way, using a discoverable API.
+
+```kotlin
+//default Mercator projection
+val mercatorProjection = Geo.Projections.Mercator()
+
+//Mercator projection with scale, and center set to display France
+val franceMercator = Geo.Projections.Mercator {
+    fixExtend(screen, france)
+}
+
+```
+
+A projection provides some setters to configure and modify it. It's possible to :
+ - set the rotation of the map on all axes in geographic coordinates
+ - set pre and post clip,
+ - set scale,
+ - ...
+
+A projection allows to project any kind of GeoJson objects:
+
+```kotlin
+//projecting a country GeoJson object and retrieving it as a new path
+val path = projection.project(country)
+
+//projecting a country GeoJson object on a predefined path
+projection.project(country, countryPath)
+```
+
+It's also possible to project simple 
+
+## Projectors
+
+This interface represents the elementary transformation from geographic to cartesian coordinate.  
+It provides two functions: 
+ - `project`: geographic to cartesian transformation
+ - `invert`: cartesian to geographic transformation.
