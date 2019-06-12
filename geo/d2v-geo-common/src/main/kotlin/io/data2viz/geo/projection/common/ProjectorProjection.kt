@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection.common
 
 import io.data2viz.geo.geometry.clip.NoClip
-import io.data2viz.geo.geometry.clip.StreamClip
+import io.data2viz.geo.geometry.clip.ClipStreamBuilder
 import io.data2viz.geo.geometry.clip.antimeridianPreClip
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
@@ -76,9 +76,9 @@ open class ProjectorProjection(val projector: Projector) : Projection {
     protected var _rotationGamma = 0.0
     protected lateinit var rotator: Projector
 
-    override var preClip: StreamClip = antimeridianPreClip
+    override var preClip: ClipStreamBuilder = antimeridianPreClip
 
-    override var postClip: StreamClip = NoClip
+    override var postClip: ClipStreamBuilder = NoClip
 
     private var resampleProjector: (Stream) -> Stream = resample(translateAndScaleProjector, _precisionDelta2)
 
@@ -174,9 +174,9 @@ open class ProjectorProjection(val projector: Projector) : Projection {
     override fun bindTo(outputStream: Stream): Stream {
         return transformRadians(
             transformRotate(rotator)(
-                    preClip.clipStream(
+                    preClip.bindTo(
                         resampleProjector(
-                            postClip.clipStream(outputStream)
+                            postClip.bindTo(outputStream)
                         )
                 )
             )

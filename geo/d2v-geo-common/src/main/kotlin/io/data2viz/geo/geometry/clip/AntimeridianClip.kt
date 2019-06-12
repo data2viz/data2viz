@@ -16,11 +16,11 @@ import kotlin.math.sin
  * that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.
  *
  */
-val antimeridianPreClip = object : StreamClip {
+val antimeridianPreClip = object : ClipStreamBuilder {
     val antimeridianClip = AntimeridianClip()
 
-    override fun clipStream(stream: Stream): Stream {
-        return ClippableStream(antimeridianClip, stream)
+    override fun bindTo(outputStream: Stream): Stream {
+        return ClippableStream(antimeridianClip, outputStream)
     }
 
 }

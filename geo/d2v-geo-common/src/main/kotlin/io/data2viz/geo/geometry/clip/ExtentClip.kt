@@ -5,23 +5,23 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 
 
-class ExtentClip(val extent: Extent) : StreamClip {
+class ExtentClip(val extent: Extent) : ClipStreamBuilder {
+
     val clipRectangle = ClipRectangle(extent)
-    override fun clipStream(stream: Stream): Stream {
-        return clipRectangle.clipLine(stream)
+
+    override fun bindTo(outputStream: Stream): Stream {
+        return clipRectangle.clipLine(outputStream)
     }
 
 }
 
-
-
 /**
- * If extent is specified, sets the projection’s viewport clip extent to the specified bounds in pixels
+ * Enable to get or set a RectanglePostClip as an Extent (in pixels).
  */
 var Projection.extentPostClip: Extent?
     get() = (postClip as? ExtentClip)?.extent
-    set(value) {
 
+    set(value) {
         if (value != null) {
             postClip = ExtentClip(value)
         } else {

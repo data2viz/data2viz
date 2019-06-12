@@ -118,7 +118,7 @@ interface Projection : Projector {
      * @see anglePreClip
      * @see antimeridianPreClip
      */
-    var preClip: StreamClip
+    var preClip: ClipStreamBuilder
 
     /**
      * If postclip is specified, sets the projection’s cartesian clipping
@@ -130,7 +130,7 @@ interface Projection : Projector {
      *
      * @see extentPostClip
      */
-    var postClip: StreamClip
+    var postClip: ClipStreamBuilder
 
 
     /**

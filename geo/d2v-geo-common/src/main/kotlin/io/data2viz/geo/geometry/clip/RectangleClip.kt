@@ -8,11 +8,11 @@ import kotlin.math.abs
 private const val CLIPMAX = 1e9
 private const val CLIPMIN = -CLIPMAX
 
-class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : StreamClip {
+class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStreamBuilder {
     val clipRectangle = ClipRectangle(Extent(x0, y0, x1, y1))
 
-    override fun clipStream(stream: Stream): Stream {
-        return clipRectangle.clipLine(stream)
+    override fun bindTo(outputStream: Stream): Stream {
+        return clipRectangle.clipLine(outputStream)
     }
 }
 

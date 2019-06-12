@@ -5,12 +5,23 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 
-val NoClip = object : StreamClip {
-    override fun clipStream(stream: Stream) =  stream
+/**
+ * Default clipping. Install no Clip Stream by just returning the current
+ * output Stream.
+ */
+val NoClip = object : ClipStreamBuilder {
+    override fun bindTo(outputStream: Stream) = outputStream
 }
 
-interface StreamClip {
-    fun clipStream(stream: Stream): Stream
+/**
+ * Installs a ClipStream into the chain of Stream.
+ */
+interface ClipStreamBuilder {
+
+    /**
+     * Adds a ClipStream in front of the [outputStream]
+     */
+    fun bindTo(outputStream: Stream): Stream
 }
 
 /**
@@ -29,7 +40,7 @@ interface ClipStream : Stream {
 internal interface Clippable {
 
     /**
-     * Indicate if the point will be visible after clipping.
+     * Indicates if the point will be visible after clipping.
      */
     fun pointVisible(x: Double, y: Double): Boolean
 
