@@ -171,12 +171,12 @@ open class ProjectorProjection(val projector: Projector) : Projection {
         }
 
 
-    override fun stream(stream: Stream): Stream {
+    override fun bindTo(outputStream: Stream): Stream {
         return transformRadians(
             transformRotate(rotator)(
                     preClip.clipStream(
                         resampleProjector(
-                            postClip.clipStream(stream)
+                            postClip.clipStream(outputStream)
                         )
                 )
             )

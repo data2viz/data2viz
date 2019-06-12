@@ -3,7 +3,6 @@ package io.data2viz.geo.projection.common
 
 import io.data2viz.geo.geometry.clip.*
 import io.data2viz.geo.stream.Stream
-import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.Angle
 
 
@@ -12,7 +11,7 @@ import io.data2viz.math.Angle
  * with transformations: [translate], [scale], [rotate], [precision], [center]
  * and clipping: [preClip], [postClip]
  *
- * Use [stream] to combine all operations
+ * Use [bindTo] to combine all operations
  *
  * @see Stream
  */
@@ -135,16 +134,16 @@ interface Projection : Projector {
 
 
     /**
-     * Returns a projection stream for the specified output stream.
-     * Any input geometry is projected before being streamed to the output stream.
+     * Returns a projection stream that ultimately sends calls to the specified outputStream.
+     * Any input geometry is projected before being streamed to the outputStream.
+     *
      * A typical projection involves several geometry transformations:
      * the input geometry is first converted to radians, rotated on three axes,
      * clipped to the small circle or cut along the antimeridian, and lastly projected to the plane
      * with adaptive resampling, scale and translation.
      *
-     * Example usage: [GeoJsonObject].stream()
      */
-    fun stream(stream: Stream): Stream
+    fun bindTo(outputStream: Stream): Stream
 
 
 }
