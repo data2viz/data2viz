@@ -28,12 +28,13 @@
   var throwCCE = Kotlin.throwCCE;
   var BandedScale = $module$d2v_scale_js.io.data2viz.scale.BandedScale;
   var Colors = $module$d2v_color_js.io.data2viz.color.Colors;
-  var TextAnchor = $module$d2v_viz_js.io.data2viz.viz.TextAnchor;
-  var TextAlignmentBaseline = $module$d2v_viz_js.io.data2viz.viz.TextAlignmentBaseline;
+  var TextHAlign = $module$d2v_viz_js.io.data2viz.viz.TextHAlign;
+  var TextVAlign = $module$d2v_viz_js.io.data2viz.viz.TextVAlign;
   var toString = Kotlin.toString;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Enum = Kotlin.kotlin.Enum;
   var throwISE = Kotlin.throwISE;
+  var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
   Orient.prototype = Object.create(Enum.prototype);
   Orient.prototype.constructor = Orient;
   function axis$lambda($receiver) {
@@ -47,7 +48,6 @@
     $receiver_0.build_surbf1$($receiver);
     return $receiver_0;
   }
-  var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
   function AxisElement(orient, scale) {
     this.orient = orient;
     this.scale = scale;
@@ -125,26 +125,26 @@
       var tmp$, tmp$_0;
       switch (this$AxisElement.orient.name) {
         case 'LEFT':
-          tmp$ = TextAnchor.END;
+          tmp$ = TextHAlign.RIGHT;
           break;
         case 'RIGHT':
-          tmp$ = TextAnchor.START;
+          tmp$ = TextHAlign.LEFT;
           break;
-        default:tmp$ = TextAnchor.MIDDLE;
+        default:tmp$ = TextHAlign.MIDDLE;
           break;
       }
-      $receiver.anchor = tmp$;
+      $receiver.hAlign = tmp$;
       switch (this$AxisElement.orient.name) {
         case 'TOP':
-          tmp$_0 = TextAlignmentBaseline.BASELINE;
+          tmp$_0 = TextVAlign.BASELINE;
           break;
         case 'BOTTOM':
-          tmp$_0 = TextAlignmentBaseline.HANGING;
+          tmp$_0 = TextVAlign.HANGING;
           break;
-        default:tmp$_0 = TextAlignmentBaseline.MIDDLE;
+        default:tmp$_0 = TextVAlign.MIDDLE;
           break;
       }
-      $receiver.baseline = tmp$_0;
+      $receiver.vAlign = tmp$_0;
       $receiver.fill = Colors.Web.black;
       if (this$AxisElement.orient.isHorizontal())
         $receiver.y = closure$spacing * this$AxisElement.k;

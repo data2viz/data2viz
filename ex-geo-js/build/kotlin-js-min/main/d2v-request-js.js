@@ -16,6 +16,8 @@
   var throwISE = Kotlin.throwISE;
   var Unit = Kotlin.kotlin.Unit;
   var ensureNotNull = Kotlin.ensureNotNull;
+  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
+  var isBlank = Kotlin.kotlin.text.isBlank_gw00vp$;
   HTTPMethod.prototype = Object.create(Enum.prototype);
   HTTPMethod.prototype.constructor = HTTPMethod;
   function HTTPMethod(name, ordinal) {
@@ -68,7 +70,6 @@
     init($receiver);
     return $receiver;
   }
-  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
   function Request(url) {
     this.url = url;
     this.httpMethod = HTTPMethod$GET_getInstance();
@@ -92,7 +93,6 @@
       return Unit;
     };
   }
-  var isBlank = Kotlin.kotlin.text.isBlank_gw00vp$;
   Request.prototype.send_jiaja$ = function (callback) {
     this.xhr.open(this.httpMethod.name, this.url, true, this.user, this.password);
     var $receiver = this.mimeType;

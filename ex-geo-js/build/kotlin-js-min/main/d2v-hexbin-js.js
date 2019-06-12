@@ -25,8 +25,12 @@
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
   var Extent = $module$d2v_core_js.io.data2viz.geom.Extent;
   var Math_0 = Math;
-  var hexagon;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var hexagon;
   function Bin(points, x, y) {
     if (points === void 0) {
       points = ArrayList_init();
@@ -112,8 +116,6 @@
       this.dy_0 = this._radius_0 * 1.5;
     }
   });
-  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   HexbinGenerator.prototype.invoke_ccv9pi$ = function (points) {
     var binsById = LinkedHashMap_init();
     var bins = ArrayList_init();
@@ -159,8 +161,6 @@
     }
     return bins;
   };
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   HexbinGenerator.prototype.hexagon_0 = function (radius) {
     var $receiver = hexagon;
     var destination = ArrayList_init_0(collectionSizeOrDefault($receiver, 10));

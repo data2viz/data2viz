@@ -14,26 +14,32 @@
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var ensureNotNull = Kotlin.ensureNotNull;
-  var Unit = Kotlin.kotlin.Unit;
   var mutableListOf = Kotlin.kotlin.collections.mutableListOf_i5x0yv$;
   var get_lastIndex = Kotlin.kotlin.collections.get_lastIndex_55thoc$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var equals = Kotlin.equals;
+  var throwCCE = Kotlin.throwCCE;
+  var reversed = Kotlin.kotlin.collections.reversed_7wnvza$;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
-  var getCallableRef = Kotlin.getCallableRef;
   var toList = Kotlin.kotlin.collections.toList_7wnvza$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
   var toMutableList = Kotlin.kotlin.collections.toMutableList_4c7yge$;
-  var equals = Kotlin.equals;
+  var downTo = Kotlin.kotlin.ranges.downTo_dqglrj$;
+  var Unit = Kotlin.kotlin.Unit;
+  var Math_0 = Math;
+  var getCallableRef = Kotlin.getCallableRef;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   var roundToInt = Kotlin.kotlin.math.roundToInt_yrwdxr$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   var shuffled = Kotlin.kotlin.collections.shuffled_7wnvza$;
   var listOf = Kotlin.kotlin.collections.listOf_mh5how$;
   var listOf_0 = Kotlin.kotlin.collections.listOf_i5x0yv$;
   var RuntimeException_init = Kotlin.kotlin.RuntimeException_init_pdl1vj$;
+  var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
   var first = Kotlin.kotlin.collections.first_2p1efm$;
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
-  var throwCCE = Kotlin.throwCCE;
   var slice = Kotlin.kotlin.collections.slice_6bjbi1$;
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function ClusterNode(data, depth, height, value, children, parent, x, y) {
     if (children === void 0) {
       children = ArrayList_init();
@@ -129,7 +135,6 @@
     this.dx_0 = 1.0;
     this.dy_0 = 1.0;
   }
-  var reversed = Kotlin.kotlin.collections.reversed_7wnvza$;
   ClusterLayout.prototype.cluster_ho9wf8$ = function (root) {
     var tmp$;
     var rootCluster = this.makeCluster_0(root);
@@ -443,7 +448,6 @@
   Link.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.source, other.source) && Kotlin.equals(this.target, other.target)))));
   };
-  var downTo = Kotlin.kotlin.ranges.downTo_dqglrj$;
   function hierarchy(data, children, value) {
     if (value === void 0)
       value = null;
@@ -885,7 +889,6 @@
     this.radius = null;
     this.padding = this.constantZero_0;
   }
-  var Math_0 = Math;
   PackLayout.prototype.pack_zhympb$ = function (root) {
     var rootPack = this.makePack_0(root);
     rootPack.x = this.dx_0 / 2;
@@ -1627,7 +1630,6 @@
       shift += w.s_8be2vx$ + change;
     }
   };
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   TreeLayout.prototype.makeTree_0 = function (root) {
     var rootTree = new TreeNode(root.data, root.depth, root.height, root.value);
     rootTree.ancestor_8be2vx$ = rootTree;
@@ -1811,7 +1813,6 @@
       this.paddingLeft = value;
     }
   });
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   TreemapLayout.prototype.treemap_zhympb$ = function (root) {
     var rootTreemap = makeTreemap(root);
     var size = root.height + 1 | 0;
@@ -1978,7 +1979,6 @@
   Circle.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.x, other.x) && Kotlin.equals(this.y, other.y) && Kotlin.equals(this.r, other.r)))));
   };
-  var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
   function enclose(circles) {
     var i = 0;
     var shuffledCircles = shuffled(circles);

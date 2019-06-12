@@ -30,8 +30,33 @@
   var downTo = Kotlin.kotlin.ranges.downTo_dqglrj$;
   var IntRange = Kotlin.kotlin.ranges.IntRange;
   var min = Kotlin.kotlin.collections.min_l63kqw$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var Math_0 = Math;
+  var sortedWith = Kotlin.kotlin.collections.sortedWith_eknfly$;
+  var wrapFunction = Kotlin.wrapFunction;
+  var Comparator = Kotlin.kotlin.Comparator;
+  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
   SankeyAlignment.prototype = Object.create(Enum.prototype);
   SankeyAlignment.prototype.constructor = SankeyAlignment;
+  function Comparator$ObjectLiteral(closure$comparison) {
+    this.closure$comparison = closure$comparison;
+  }
+  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
+    return this.closure$comparison(a, b);
+  };
+  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
+  var compareBy$lambda = wrapFunction(function () {
+    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
+    return function (closure$selector) {
+      return function (a, b) {
+        var selector = closure$selector;
+        return compareValues(selector(a), selector(b));
+      };
+    };
+  });
   function SankeyAlignment(name, ordinal) {
     Enum.call(this);
     this.name$ = name;
@@ -189,7 +214,6 @@
   SankeyLink.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.source, other.source) && Kotlin.equals(this.target, other.target) && Kotlin.equals(this.index, other.index) && Kotlin.equals(this.value, other.value) && Kotlin.equals(this.y0, other.y0) && Kotlin.equals(this.y1, other.y1) && Kotlin.equals(this.width, other.width)))));
   };
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function SankeyNode(data, index, sourceLinks, targetLinks, value, depth, height, x0, x1, y0, y1) {
     if (sourceLinks === void 0) {
       sourceLinks = ArrayList_init();
@@ -403,7 +427,6 @@
       }
     }
   };
-  var Math_0 = Math;
   SankeyLayout.prototype.computeNodeDepths_0 = function () {
     var nodeList = toList(this.nodes);
     var next = ArrayList_init();
@@ -564,25 +587,6 @@
   function SankeyLayout$resolveCollisions$lambda$lambda(it) {
     return it.y0;
   }
-  var sortedWith = Kotlin.kotlin.collections.sortedWith_eknfly$;
-  var wrapFunction = Kotlin.wrapFunction;
-  var compareBy$lambda = wrapFunction(function () {
-    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
-    return function (closure$selector) {
-      return function (a, b) {
-        var selector = closure$selector;
-        return compareValues(selector(a), selector(b));
-      };
-    };
-  });
-  var Comparator = Kotlin.kotlin.Comparator;
-  function Comparator$ObjectLiteral(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   SankeyLayout.prototype.resolveCollisions_0 = function (columns) {
     var tmp$;
     tmp$ = columns.entries.iterator();
@@ -623,7 +627,6 @@
       }
     }
   };
-  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
   SankeyLayout.prototype.computeNodeBreadths_0 = function () {
     var $receiver = this.nodes;
     var destination = LinkedHashMap_init();
@@ -660,8 +663,6 @@
       this.resolveCollisions_0(columns);
     }
   };
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   SankeyLayout.prototype.initializeNodeBreadth_0 = function (columns) {
     var destination = ArrayList_init_0(columns.size);
     var tmp$;
@@ -722,7 +723,6 @@
       element.value = Math_0.max(sum, sum_0);
     }
   };
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
   SankeyLayout.prototype.computeNodeLinks_0 = function (data, flow) {
     var tmp$ = this.nodes;
     var destination = ArrayList_init_0(collectionSizeOrDefault(data, 10));

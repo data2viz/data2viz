@@ -20,11 +20,14 @@
   var Point = $module$d2v_core_js.io.data2viz.geom.Point;
   var mutableListOf = Kotlin.kotlin.collections.mutableListOf_i5x0yv$;
   var kotlin_js_internal_DoubleCompanionObject = Kotlin.kotlin.js.internal.DoubleCompanionObject;
+  var Math_0 = Math;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var get_lastIndex = Kotlin.kotlin.collections.get_lastIndex_m7z4lg$;
   var Comparator = Kotlin.kotlin.Comparator;
   var sortWith = Kotlin.kotlin.collections.sortWith_iwcb0m$;
   var IntRange = Kotlin.kotlin.ranges.IntRange;
+  var Array_0 = Array;
   var get_lastIndex_0 = Kotlin.kotlin.collections.get_lastIndex_55thoc$;
   var equals = Kotlin.equals;
   var asSequence = Kotlin.kotlin.collections.asSequence_us0mfu$;
@@ -36,6 +39,9 @@
   var filterNotNull_1 = Kotlin.kotlin.collections.filterNotNull_emfgvx$;
   var sort = Kotlin.kotlin.collections.sort_pbinho$;
   var toMutableList = Kotlin.kotlin.collections.toMutableList_us0mfu$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   var Enum = Kotlin.kotlin.Enum;
   var throwISE = Kotlin.throwISE;
   var Comparable = Kotlin.kotlin.Comparable;
@@ -169,7 +175,6 @@
     attachCircle(lArc);
     attachCircle(rArc);
   }
-  var Math_0 = Math;
   function removeBeach(circle) {
     var tmp$, tmp$_0, tmp$_1;
     var beach = ensureNotNull(circle.node.arcNode);
@@ -275,7 +280,6 @@
     return site.y === directrix ? site.x : kotlin_js_internal_DoubleCompanionObject.POSITIVE_INFINITY;
   }
   var wCells;
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function Cell(site) {
     Cell$Companion_getInstance();
     this.site = site;
@@ -351,7 +355,6 @@
     kind: Kind_CLASS,
     interfaces: [Comparator]
   };
-  var Array_0 = Array;
   function sortCellHalfedges() {
     var tmp$;
     var edgeCount;
@@ -766,8 +769,6 @@
     that._found_0 = i0;
     return radius == null || d2.v <= radius * radius ? (tmp$_3 = cell.v) != null ? tmp$_3.site : null : null;
   };
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   function Diagram$polygons$lambda(this$Diagram) {
     return function (cell) {
       var $receiver = cell.halfedges;
@@ -835,7 +836,6 @@
     }
     return destination_0;
   };
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   Diagram.prototype.triangles = function () {
     var triangles = ArrayList_init();
     var tmp$, tmp$_0;

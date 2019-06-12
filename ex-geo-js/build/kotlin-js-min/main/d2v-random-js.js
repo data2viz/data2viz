@@ -16,6 +16,7 @@
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
   var Random = Kotlin.kotlin.random.Random;
   var Kind_CLASS = Kotlin.Kind.CLASS;
+  var Math_0 = Math;
   function RandomDistribution(random) {
     RandomDistribution$Default_getInstance();
     if (random === void 0)
@@ -94,7 +95,6 @@
       n = 1.0;
     return RandomDistribution$bates$lambda(n, this);
   };
-  var Math_0 = Math;
   function RandomDistribution$logNormal$lambda(closure$mu, closure$sigma, this$RandomDistribution) {
     return function () {
       var x = this$RandomDistribution.normal_lu1900$(closure$mu, closure$sigma)();

@@ -18,6 +18,7 @@
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var isNaN_0 = Kotlin.kotlin.isNaN_yrwdxr$;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
+  var Math_0 = Math;
   var equals = Kotlin.equals;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var toString = Kotlin.toString;
@@ -30,11 +31,13 @@
   var take = Kotlin.kotlin.text.take_6ic1pp$;
   var endsWith = Kotlin.kotlin.text.endsWith_7epoxm$;
   var takeLast = Kotlin.kotlin.text.takeLast_6ic1pp$;
-  var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
+  var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
   var AssertionError = Kotlin.kotlin.AssertionError;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init_za3lpa$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var lazy = Kotlin.kotlin.lazy_klfg04$;
   var round = Kotlin.kotlin.math.round_14dthe$;
@@ -141,7 +144,6 @@
     this.expected = expected;
     this.tolerance = tolerance;
   }
-  var Math_0 = Math;
   ToleranceMatcher.prototype.test_11rb$ = function (value) {
     if (this.tolerance === 0.0 && (!isNaN_0(this.expected) || !isNaN_0(value)))
       println('[WARN] When comparing doubles (' + this.expected + ', ' + value + ') consider using tolerance, eg: a shouldBe b plusOrMinus c ');
@@ -659,12 +661,10 @@
     simpleName: 'namespace',
     interfaces: []
   };
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function TestBase() {
     this.regex = Regex_init('[-+]?(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+|\\d+)(?:[eE][-]?\\d+)?');
     this.tests = ArrayList_init();
   }
-  var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init_za3lpa$;
   TestBase.prototype.round_pdl1vz$ = function ($receiver) {
     var regex = this.regex;
     var replace_20wsma$result;

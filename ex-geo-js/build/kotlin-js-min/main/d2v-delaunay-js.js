@@ -18,8 +18,12 @@
   var kotlin_js_internal_DoubleCompanionObject = Kotlin.kotlin.js.internal.DoubleCompanionObject;
   var ensureNotNull = Kotlin.ensureNotNull;
   var Error_init = Kotlin.kotlin.Error_init_pdl1vj$;
+  var isNaN_0 = Kotlin.kotlin.isNaN_yrwdxr$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
+  var Array_0 = Array;
+  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
+  var Math_0 = Math;
   function Point(x, y) {
     this.x = x;
     this.y = y;
@@ -64,9 +68,6 @@
     simpleName: 'TypedIntArray',
     interfaces: []
   };
-  var Array_0 = Array;
-  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
-  var Math_0 = Math;
   function Delaunator(points) {
     this.getX = Delaunator$getX$lambda;
     this.getY = Delaunator$getY$lambda;
@@ -408,7 +409,6 @@
       return (tmp$_0 = (tmp$ = $receiver == null || $receiver === -0.0 || $receiver === 0.0 || isNaN_0($receiver) ? null : $receiver) != null ? tmp$ : coords[2 * i | 0] - coords[2 * j | 0]) != null ? tmp$_0 : coords[(2 * i | 0) + 1 | 0] - coords[(2 * j | 0) + 1 | 0];
     };
   });
-  var isNaN_0 = Kotlin.kotlin.isNaN_yrwdxr$;
   function quicksort(ids, coords, left, right, cx, cy) {
     var tmp$;
     var j;

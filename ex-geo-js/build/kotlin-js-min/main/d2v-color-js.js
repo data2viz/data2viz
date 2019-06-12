@@ -24,6 +24,7 @@
   var math = Kotlin.kotlin.math;
   var round = Kotlin.kotlin.math.round_14dthe$;
   var numberToInt = Kotlin.numberToInt;
+  var Math_0 = Math;
   var coerceIn = Kotlin.kotlin.ranges.coerceIn_e4yvb3$;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var lazy = Kotlin.kotlin.lazy_klfg04$;
@@ -31,9 +32,14 @@
   var coerceAtLeast = Kotlin.kotlin.ranges.coerceAtLeast_dqglrj$;
   var coerceAtMost = Kotlin.kotlin.ranges.coerceAtMost_dqglrj$;
   var IntRange = Kotlin.kotlin.ranges.IntRange;
+  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   var Point = $module$d2v_core_js.io.data2viz.geom.Point;
   var toList = Kotlin.kotlin.collections.toList_7wnvza$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var toInt = Kotlin.kotlin.text.toInt_6ic1pp$;
+  var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
   function ColorStop(percent, color) {
     this.percent = percent;
     this.color = color;
@@ -125,7 +131,6 @@
     var z = xyz2lab((0.0193339 * labB + 0.119192 * labA + 0.9503041 * labL) / Zn);
     return Colors_getInstance().lab_tuy7uw$(get_pct(116.0 * y - 16), 500.0 * (x - y), 200.0 * (y - z), $receiver.alpha);
   }
-  var Math_0 = Math;
   function toHsla($receiver) {
     var tmp$;
     var rPercent = $receiver.r / 255.0;
@@ -488,7 +493,6 @@
     }
     return Colors_instance;
   }
-  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
   function EncodedColors(colorsAsString) {
     EncodedColors$Companion_getInstance();
     if (!(colorsAsString.length % 6 === 0)) {
@@ -2826,8 +2830,6 @@
     var x = percent * this.colors.size;
     return tmp$.get_za3lpa$(coerceAtMost(coerceAtLeast(numberToInt(Math_0.floor(x)), 0), this.colors.size - 1 | 0));
   };
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   function EncodedColors$colors$lambda(closure$colorsAsString) {
     return function () {
       var $receiver = closure$colorsAsString;
@@ -3294,7 +3296,6 @@
   LinearGradientSecondColorBuilder.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.builder, other.builder) && Kotlin.equals(this.firstColor, other.firstColor)))));
   };
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function LinearGradient() {
     this.x1_nnxpt2$_0 = 0.0;
     this.y1_nnxp2d$_0 = 0.0;
@@ -3598,7 +3599,6 @@
   function get_color($receiver) {
     return get_col($receiver);
   }
-  var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
   function get_col_0($receiver) {
     var regex = Regex_init('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
     if (!regex.matches_6bul2c$($receiver)) {

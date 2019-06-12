@@ -20,9 +20,13 @@
   var throwCCE = Kotlin.throwCCE;
   var ensureNotNull = Kotlin.ensureNotNull;
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
+  var Array_0 = Array;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   var mutableListOf = Kotlin.kotlin.collections.mutableListOf_i5x0yv$;
   var get_lastIndex = Kotlin.kotlin.collections.get_lastIndex_55thoc$;
   var IntRange = Kotlin.kotlin.ranges.IntRange;
+  var Math_0 = Math;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
@@ -116,8 +120,6 @@
     setNodeFromIndex(ensureNotNull(parent), jndex, ensureNotNull(node));
     setNodeFromIndex(parent, index, leaf);
   }
-  var Array_0 = Array;
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   function addAll($receiver, data) {
     var array = Array_0(data.size);
     var tmp$;
@@ -223,7 +225,6 @@
     }
     return copy;
   }
-  var Math_0 = Math;
   function cover($receiver, x, y) {
     if (isNaN_0(x) || isNaN_0(y))
       return;
@@ -309,7 +310,6 @@
       return false;
     };
   }
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function data($receiver) {
     var data = ArrayList_init();
     visit($receiver, data$lambda(data));

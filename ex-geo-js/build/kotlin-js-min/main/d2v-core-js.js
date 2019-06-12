@@ -17,6 +17,10 @@
   var math = Kotlin.kotlin.math;
   var toString = Kotlin.toString;
   var ensureNotNull = Kotlin.ensureNotNull;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
+  var NotImplementedError_init = Kotlin.kotlin.NotImplementedError;
+  var Math_0 = Math;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var numberToDouble = Kotlin.numberToDouble;
   var last = Kotlin.kotlin.collections.last_2p1efm$;
@@ -25,6 +29,8 @@
   var sortWith = Kotlin.kotlin.collections.sortWith_nqfjgj$;
   var get_lastIndex = Kotlin.kotlin.collections.get_lastIndex_55thoc$;
   var downTo = Kotlin.kotlin.ranges.downTo_dqglrj$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
   var coerceAtLeast = Kotlin.kotlin.ranges.coerceAtLeast_38ydlf$;
@@ -118,7 +124,6 @@
     simpleName: 'Path',
     interfaces: []
   };
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function PathGeom() {
     this.commands = ArrayList_init();
   }
@@ -150,7 +155,6 @@
     var element = new BezierCurveTo(cpx1, cpy1, cpx2, cpy2, x, y);
     $receiver.add_11rb$(element);
   };
-  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
   PathGeom.prototype.arcTo_1lq62i$ = function (cpx, cpy, x, y, radius) {
     if (!(radius >= 0.0)) {
       var message = 'Negative radius:' + radius;
@@ -434,7 +438,6 @@
     this.endAngle = endAngle;
     this.counterClockWise = counterClockWise;
   }
-  var NotImplementedError_init = Kotlin.kotlin.NotImplementedError;
   Object.defineProperty(Arc.prototype, 'x', {
     get: function () {
       throw new NotImplementedError_init('An operation is not implemented: ' + 'not implemented');
@@ -559,7 +562,6 @@
     simpleName: 'ClosePath',
     interfaces: [PathCommand]
   };
-  var Math_0 = Math;
   function get_svgPath($receiver) {
     var tempX0 = {v: 0.0};
     var tempY0 = {v: 0.0};
@@ -913,8 +915,6 @@
   function polygonHull$lambda_0(it) {
     return it.point.y;
   }
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   function polygonHull(points) {
     var size = points.size;
     if (!(size > 2)) {

@@ -20,6 +20,8 @@
   var IntRange = Kotlin.kotlin.ranges.IntRange;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var ensureNotNull = Kotlin.ensureNotNull;
+  var Math_0 = Math;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var LN2;
   var INFINITY;
   function tilesLayout(init) {
@@ -83,7 +85,6 @@
       this.zoom_8r9u35$_0 = zoom;
     }
   });
-  var Math_0 = Math;
   TilesLayout.prototype.eventualyRecompute_0 = function () {
     if (!this.stale_0)
       return;
@@ -95,7 +96,6 @@
     var x_0 = z - this.zoom + 8.0;
     this._tileSize_0 = Math_0.pow(2.0, x_0);
   };
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   TilesLayout.prototype.tiles = function () {
     if (this.stale_0)
       this.eventualyRecompute_0();

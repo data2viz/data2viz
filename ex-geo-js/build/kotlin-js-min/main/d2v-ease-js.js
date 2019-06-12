@@ -15,6 +15,7 @@
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var coerceAtLeast = Kotlin.kotlin.ranges.coerceAtLeast_38ydlf$;
+  var Math_0 = Math;
   var tau;
   var halfPi;
   var b1;
@@ -86,7 +87,6 @@
       return ($receiver <= 1 ? 1 - this$ease$_0.bounceOut(1 - $receiver) : this$ease$_0.bounceOut($receiver - 1) + 1) / 2;
     };
   }
-  var Math_0 = Math;
   function ease$Companion$circleIn$lambda(it) {
     var x = 1 - it * it;
     return 1 - Math_0.sqrt(x);

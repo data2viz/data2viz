@@ -33,14 +33,18 @@
   var indexOf = Kotlin.kotlin.text.indexOf_l5u8uk$;
   var toIntOrNull = Kotlin.kotlin.text.toIntOrNull_pdl1vz$;
   var coerceAtLeast = Kotlin.kotlin.ranges.coerceAtLeast_dqglrj$;
-  var toString = Kotlin.toString;
+  var Math_0 = Math;
+  var iterator = Kotlin.kotlin.text.iterator_gw00vp$;
   var toBoxedChar = Kotlin.toBoxedChar;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var toString = Kotlin.toString;
   var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var RegexOption = Kotlin.kotlin.text.RegexOption;
   var Regex_init = Kotlin.kotlin.text.Regex_init_sb3q2$;
   var Enum = Kotlin.kotlin.Enum;
   var throwISE = Kotlin.throwISE;
+  var NoSuchElementException_init = Kotlin.kotlin.NoSuchElementException;
   var listOf_0 = Kotlin.kotlin.collections.listOf_mh5how$;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var round = Kotlin.kotlin.math.round_14dthe$;
@@ -96,7 +100,7 @@
     if (fill === void 0)
       fill = 32;
     if (align === void 0)
-      align = Align$RIGTH_getInstance();
+      align = Align$RIGHT_getInstance();
     if (sign === void 0)
       sign = Sign$MINUS_getInstance();
     if (symbol === void 0)
@@ -117,7 +121,7 @@
     if (fill === void 0)
       fill = 32;
     if (align === void 0)
-      align = Align$RIGTH_getInstance();
+      align = Align$RIGHT_getInstance();
     if (sign === void 0)
       sign = Sign$MINUS_getInstance();
     if (symbol === void 0)
@@ -132,7 +136,6 @@
       precision = null;
     return formatter_3($receiver, specify_0(type, fill, align, sign, symbol, zero, width, groupSeparation, precision));
   }
-  var Math_0 = Math;
   function formatter$format(closure$prefix, closure$suffix, closure$formatType, closure$precision, closure$spec, closure$maybeSuffix, this$formatter, closure$groupFunction, closure$width) {
     return function (value) {
       var tmp$;
@@ -177,6 +180,7 @@
           tmp$ = slice(padding, new IntRange(0, padLength)) + valuePrefix + returnValue + valueSuffix + slice(padding, until(0, padding.length - 1 - padLength | 0));
           break;
         case 'RIGTH':
+        case 'RIGHT':
           tmp$ = padding + valuePrefix + returnValue + valueSuffix;
           break;
         default:tmp$ = Kotlin.noWhenBranchMatched();
@@ -206,7 +210,6 @@
       return format(value);
     });
   }
-  var iterator = Kotlin.kotlin.text.iterator_gw00vp$;
   function numerals($receiver, valueAsString) {
     var tmp$;
     if ($receiver.numerals == null)
@@ -248,7 +251,6 @@
     var x = formatDecimal(Math_0.abs(value));
     return x != null ? x.exponent : 0;
   }
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function formatGroup$lambda(closure$group, closure$groupSeparator) {
     return function (value, width) {
       var i = value.length;
@@ -466,7 +468,7 @@
     if (fill === void 0)
       fill = 32;
     if (align === void 0)
-      align = Align$RIGTH_getInstance();
+      align = Align$RIGHT_getInstance();
     if (sign === void 0)
       sign = Sign$MINUS_getInstance();
     if (symbol === void 0)
@@ -588,10 +590,9 @@
       }
     };
   }
-  var NoSuchElementException_init = Kotlin.kotlin.NoSuchElementException;
   function specify(specifier) {
     var fill = 32;
-    var align = Align$RIGTH_getInstance();
+    var align = Align$RIGHT_getInstance();
     var sign = Sign$MINUS_getInstance();
     var symbol = null;
     var zero;
@@ -682,7 +683,7 @@
     if (fill === void 0)
       fill = 32;
     if (align === void 0)
-      align = Align$RIGTH_getInstance();
+      align = Align$RIGHT_getInstance();
     if (sign === void 0)
       sign = Sign$MINUS_getInstance();
     if (symbol === void 0)
@@ -952,10 +953,16 @@
   function Align_initFields() {
     Align_initFields = function () {
     };
-    Align$RIGTH_instance = new Align('RIGTH', 0, '>');
-    Align$LEFT_instance = new Align('LEFT', 1, '<');
-    Align$CENTER_instance = new Align('CENTER', 2, '^');
-    Align$RIGHT_WITHOUT_SIGN_instance = new Align('RIGHT_WITHOUT_SIGN', 3, '=');
+    Align$RIGHT_instance = new Align('RIGHT', 0, '>');
+    Align$RIGTH_instance = new Align('RIGTH', 1, '>');
+    Align$LEFT_instance = new Align('LEFT', 2, '<');
+    Align$CENTER_instance = new Align('CENTER', 3, '^');
+    Align$RIGHT_WITHOUT_SIGN_instance = new Align('RIGHT_WITHOUT_SIGN', 4, '=');
+  }
+  var Align$RIGHT_instance;
+  function Align$RIGHT_getInstance() {
+    Align_initFields();
+    return Align$RIGHT_instance;
   }
   var Align$RIGTH_instance;
   function Align$RIGTH_getInstance() {
@@ -986,11 +993,13 @@
     interfaces: [Enum]
   };
   function Align$values() {
-    return [Align$RIGTH_getInstance(), Align$LEFT_getInstance(), Align$CENTER_getInstance(), Align$RIGHT_WITHOUT_SIGN_getInstance()];
+    return [Align$RIGHT_getInstance(), Align$RIGTH_getInstance(), Align$LEFT_getInstance(), Align$CENTER_getInstance(), Align$RIGHT_WITHOUT_SIGN_getInstance()];
   }
   Align.values = Align$values;
   function Align$valueOf(name) {
     switch (name) {
+      case 'RIGHT':
+        return Align$RIGHT_getInstance();
       case 'RIGTH':
         return Align$RIGTH_getInstance();
       case 'LEFT':
@@ -1368,6 +1377,9 @@
     get: Sign$SPACE_getInstance
   });
   package$format.Sign = Sign;
+  Object.defineProperty(Align, 'RIGHT', {
+    get: Align$RIGHT_getInstance
+  });
   Object.defineProperty(Align, 'RIGTH', {
     get: Align$RIGTH_getInstance
   });

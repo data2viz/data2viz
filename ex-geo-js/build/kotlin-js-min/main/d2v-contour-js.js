@@ -22,6 +22,13 @@
   var toMutableList = Kotlin.kotlin.collections.toMutableList_4c7yge$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var rangeTo = Kotlin.kotlin.ranges.rangeTo_38ydlf$;
+  var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
+  var copyToArray = Kotlin.kotlin.collections.copyToArray;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var Array_0 = Array;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   function GeoJson(type, value, coordinates) {
     this.type = type;
     this.value = value;
@@ -74,7 +81,6 @@
     this.dx = 1;
     this.dy = 1;
   }
-  var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
   Contour.prototype.size_vux9f0$ = function (dx, dy) {
     if (dx <= 0 || dy <= 0) {
       throw IllegalStateException_init('invalid size'.toString());
@@ -82,7 +88,6 @@
     this.dx = dx;
     this.dy = dy;
   };
-  var copyToArray = Kotlin.kotlin.collections.copyToArray;
   function Contour$contours$lambda$lambda(closure$polygons, closure$holes) {
     return function (ring) {
       if (doubleArea(copyToArray(ring)) > 0)
@@ -92,11 +97,6 @@
       return Unit;
     };
   }
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
-  var Array_0 = Array;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   Contour.prototype.contours_awc180$ = function (values) {
     if (values.length !== Kotlin.imul(this.dx, this.dy)) {
       throw IllegalStateException_init('Wrong value size'.toString());

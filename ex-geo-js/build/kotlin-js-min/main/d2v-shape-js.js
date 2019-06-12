@@ -16,20 +16,30 @@
   'use strict';
   var ensureNotNull = Kotlin.ensureNotNull;
   var Kind_CLASS = Kotlin.Kind.CLASS;
+  var Math_0 = Math;
+  var Array_0 = Array;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var math = Kotlin.kotlin.math;
   var Enum = Kotlin.kotlin.Enum;
   var throwISE = Kotlin.throwISE;
-  var Unit = Kotlin.kotlin.Unit;
   var IntRange = Kotlin.kotlin.ranges.IntRange;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var Path = $module$d2v_core_js.io.data2viz.geom.Path;
   var isNaN_0 = Kotlin.kotlin.isNaN_yrwdxr$;
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
   var downTo = Kotlin.kotlin.ranges.downTo_dqglrj$;
+  var Unit = Kotlin.kotlin.Unit;
   var getCallableRef = Kotlin.getCallableRef;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
+  var copyToArray = Kotlin.kotlin.collections.copyToArray;
+  var sortedWith = Kotlin.kotlin.collections.sortedWith_eknfly$;
+  var wrapFunction = Kotlin.wrapFunction;
+  var Comparator = Kotlin.kotlin.Comparator;
   var reversed = Kotlin.kotlin.collections.reversed_7wnvza$;
   var plus = Kotlin.kotlin.collections.plus_mydzjv$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   Symbols.prototype = Object.create(Enum.prototype);
   Symbols.prototype.constructor = Symbols;
   MonotoneX.prototype = Object.create(AbstractMonotone.prototype);
@@ -64,7 +74,6 @@
     this.endAngle = const_0(0.0);
     this.padAngle = const_0(0.0);
   }
-  var Math_0 = Math;
   ArcBuilder.prototype.centroid_11rb$ = function (datum) {
     var r = this.innerRadius(datum) + this.outerRadius(datum) / 2.0;
     var a = this.startAngle(datum) + this.endAngle(datum) / 2.0 - halfPi;
@@ -456,7 +465,6 @@
     this.yTopline = null;
     this.defined = const_0(true);
   }
-  var Array_0 = Array;
   AreaBuilder.prototype.render_pzuqs$ = function (data, path) {
     var tmp$;
     var n = data.size;
@@ -1108,7 +1116,6 @@
     simpleName: 'BasisOpen',
     interfaces: [Curve]
   };
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function Bundle(path, beta) {
     if (beta === void 0)
       beta = 0.85;
@@ -2447,8 +2454,6 @@
     this.order = StackOrder$NONE_getInstance();
     this.offset = StackOffset$NONE_getInstance();
   }
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
-  var copyToArray = Kotlin.kotlin.collections.copyToArray;
   StackGenerator.prototype.stack_4ezy5m$ = function (data) {
     var ret = ArrayList_init();
     var firstValue = this.series(data.get_za3lpa$(0));
@@ -2493,6 +2498,22 @@
     simpleName: 'StackGenerator',
     interfaces: []
   };
+  function Comparator$ObjectLiteral(closure$comparison) {
+    this.closure$comparison = closure$comparison;
+  }
+  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
+    return this.closure$comparison(a, b);
+  };
+  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
+  var compareBy$lambda = wrapFunction(function () {
+    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
+    return function (closure$selector) {
+      return function (a, b) {
+        var selector = closure$selector;
+        return compareValues(selector(a), selector(b));
+      };
+    };
+  });
   function StackOffset(name, ordinal) {
     Enum.call(this);
     this.name$ = name;
@@ -2581,25 +2602,6 @@
   function offsetNone$lambda(it) {
     return it.index;
   }
-  var sortedWith = Kotlin.kotlin.collections.sortedWith_eknfly$;
-  var wrapFunction = Kotlin.wrapFunction;
-  var compareBy$lambda = wrapFunction(function () {
-    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
-    return function (closure$selector) {
-      return function (a, b) {
-        var selector = closure$selector;
-        return compareValues(selector(a), selector(b));
-      };
-    };
-  });
-  var Comparator = Kotlin.kotlin.Comparator;
-  function Comparator$ObjectLiteral(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   function offsetNone($receiver) {
     var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral(compareBy$lambda(offsetNone$lambda)));
     var array = Array_0($receiver.get_za3lpa$(0).stackedValues.size);
@@ -2629,24 +2631,8 @@
   function offsetExpand$lambda(it) {
     return it.index;
   }
-  var compareBy$lambda_0 = wrapFunction(function () {
-    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
-    return function (closure$selector) {
-      return function (a, b) {
-        var selector = closure$selector;
-        return compareValues(selector(a), selector(b));
-      };
-    };
-  });
-  function Comparator$ObjectLiteral_0(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral_0.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral_0.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   function offsetExpand($receiver) {
-    var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral_0(compareBy$lambda_0(offsetExpand$lambda)));
+    var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral(compareBy$lambda(offsetExpand$lambda)));
     var array = Array_0($receiver.get_za3lpa$(0).stackedValues.size);
     var tmp$;
     tmp$ = array.length - 1 | 0;
@@ -2690,24 +2676,8 @@
   function offsetDiverging$lambda(it) {
     return it.index;
   }
-  var compareBy$lambda_1 = wrapFunction(function () {
-    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
-    return function (closure$selector) {
-      return function (a, b) {
-        var selector = closure$selector;
-        return compareValues(selector(a), selector(b));
-      };
-    };
-  });
-  function Comparator$ObjectLiteral_1(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral_1.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral_1.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   function offsetDiverging($receiver) {
-    var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral_1(compareBy$lambda_1(offsetDiverging$lambda)));
+    var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral(compareBy$lambda(offsetDiverging$lambda)));
     var array = Array_0($receiver.get_za3lpa$(0).stackedValues.size);
     var tmp$;
     tmp$ = array.length - 1 | 0;
@@ -2750,24 +2720,8 @@
   function offsetSilhouette$lambda(it) {
     return it.index;
   }
-  var compareBy$lambda_2 = wrapFunction(function () {
-    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
-    return function (closure$selector) {
-      return function (a, b) {
-        var selector = closure$selector;
-        return compareValues(selector(a), selector(b));
-      };
-    };
-  });
-  function Comparator$ObjectLiteral_2(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral_2.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral_2.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   function offsetSilhouette($receiver) {
-    var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral_2(compareBy$lambda_2(offsetSilhouette$lambda)));
+    var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral(compareBy$lambda(offsetSilhouette$lambda)));
     var array = Array_0($receiver.get_za3lpa$(0).stackedValues.size);
     var tmp$;
     tmp$ = array.length - 1 | 0;
@@ -2809,24 +2763,8 @@
   function offsetWiggle$lambda(it) {
     return it.index;
   }
-  var compareBy$lambda_3 = wrapFunction(function () {
-    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
-    return function (closure$selector) {
-      return function (a, b) {
-        var selector = closure$selector;
-        return compareValues(selector(a), selector(b));
-      };
-    };
-  });
-  function Comparator$ObjectLiteral_3(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral_3.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral_3.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   function offsetWiggle($receiver) {
-    var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral_3(compareBy$lambda_3(offsetWiggle$lambda)));
+    var orderedParams = sortedWith($receiver, new Comparator$ObjectLiteral(compareBy$lambda(offsetWiggle$lambda)));
     var sum = 0.0;
     var firstSerie = orderedParams.get_za3lpa$(0).stackedValues;
     var seriesSize = firstSerie.size;
@@ -2862,6 +2800,38 @@
     firstSerie.get_za3lpa$(seriesSize - 1 | 0).to = firstSerie.get_za3lpa$(seriesSize - 1 | 0).to + firstSerie.get_za3lpa$(seriesSize - 1 | 0).from;
     return offsetNone($receiver);
   }
+  function Comparator$ObjectLiteral_0(closure$comparison) {
+    this.closure$comparison = closure$comparison;
+  }
+  Comparator$ObjectLiteral_0.prototype.compare = function (a, b) {
+    return this.closure$comparison(a, b);
+  };
+  Comparator$ObjectLiteral_0.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
+  var compareBy$lambda_0 = wrapFunction(function () {
+    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
+    return function (closure$selector) {
+      return function (a, b) {
+        var selector = closure$selector;
+        return compareValues(selector(a), selector(b));
+      };
+    };
+  });
+  function Comparator$ObjectLiteral_1(closure$comparison) {
+    this.closure$comparison = closure$comparison;
+  }
+  Comparator$ObjectLiteral_1.prototype.compare = function (a, b) {
+    return this.closure$comparison(a, b);
+  };
+  Comparator$ObjectLiteral_1.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
+  var compareByDescending$lambda = wrapFunction(function () {
+    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
+    return function (closure$selector) {
+      return function (a, b) {
+        var selector = closure$selector;
+        return compareValues(selector(b), selector(a));
+      };
+    };
+  });
   function StackOrder(name, ordinal) {
     Enum.call(this);
     this.name$ = name;
@@ -2980,26 +2950,8 @@
   function sortAscending$lambda(it) {
     return it.sum;
   }
-  var compareBy$lambda_4 = wrapFunction(function () {
-    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
-    return function (closure$selector) {
-      return function (a, b) {
-        var selector = closure$selector;
-        return compareValues(selector(a), selector(b));
-      };
-    };
-  });
-  function Comparator$ObjectLiteral_4(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral_4.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral_4.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   function sortAscending($receiver) {
-    var $receiver_0 = sortedWith(sumSeries($receiver), new Comparator$ObjectLiteral_4(compareBy$lambda_4(sortAscending$lambda)));
+    var $receiver_0 = sortedWith(sumSeries($receiver), new Comparator$ObjectLiteral_0(compareBy$lambda_0(sortAscending$lambda)));
     var destination = ArrayList_init_0(collectionSizeOrDefault($receiver_0, 10));
     var tmp$;
     tmp$ = $receiver_0.iterator();
@@ -3012,24 +2964,8 @@
   function sortDescending$lambda(it) {
     return it.sum;
   }
-  var compareByDescending$lambda = wrapFunction(function () {
-    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
-    return function (closure$selector) {
-      return function (a, b) {
-        var selector = closure$selector;
-        return compareValues(selector(b), selector(a));
-      };
-    };
-  });
-  function Comparator$ObjectLiteral_5(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral_5.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral_5.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   function sortDescending($receiver) {
-    var $receiver_0 = sortedWith(sumSeries($receiver), new Comparator$ObjectLiteral_5(compareByDescending$lambda(sortDescending$lambda)));
+    var $receiver_0 = sortedWith(sumSeries($receiver), new Comparator$ObjectLiteral_1(compareByDescending$lambda(sortDescending$lambda)));
     var destination = ArrayList_init_0(collectionSizeOrDefault($receiver_0, 10));
     var tmp$;
     tmp$ = $receiver_0.iterator();

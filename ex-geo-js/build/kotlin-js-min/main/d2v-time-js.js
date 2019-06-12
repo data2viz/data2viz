@@ -22,6 +22,9 @@
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var L1 = Kotlin.Long.ONE;
   var toList = Kotlin.kotlin.collections.toList_7wnvza$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
+  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   Day.prototype = Object.create(Interval.prototype);
   Day.prototype.constructor = Day;
@@ -86,6 +89,18 @@
   }
   function currentSecond() {
     return Date_init().second();
+  }
+  function compareTo($receiver, other) {
+    var tmp$;
+    var time = $receiver.getTime();
+    var otherTime = other.getTime();
+    if (time < otherTime)
+      tmp$ = -1;
+    else if (time > otherTime)
+      tmp$ = 1;
+    else
+      tmp$ = 0;
+    return tmp$;
   }
   function Day() {
     Interval.call(this, Day_init$lambda, Day_init$lambda_0, Day_init$lambda_1, Day_init$lambda_2);
@@ -170,7 +185,6 @@
       step = L1;
     return this.offseti_agn825$_0(Date_init_2(date), step);
   };
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   Interval.prototype.range_4ahvhd$ = function (start, stop, step) {
     if (step === void 0)
       step = L1;
@@ -221,8 +235,6 @@
       return this$Interval.count_6v3okc$(date(1970, 1, 1), d) % closure$step === 0;
     };
   }
-  var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
-  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
   Interval.prototype.every_za3lpa$ = function (step) {
     var tmp$;
     if (this.counti_916a41$_0 == null) {
@@ -598,6 +610,7 @@
   package$time.currentHour = currentHour;
   package$time.currentMinute = currentMinute;
   package$time.currentSecond = currentSecond;
+  package$time.compareTo_y2wkht$ = compareTo;
   package$time.Day = Day;
   Object.defineProperty(package$time, 'timeDay', {
     get: function () {

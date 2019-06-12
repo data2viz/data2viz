@@ -31,6 +31,8 @@
   var kotlin_js_internal_DoubleCompanionObject = Kotlin.kotlin.js.internal.DoubleCompanionObject;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var Kind_CLASS = Kotlin.Kind.CLASS;
+  var Math_0 = Math;
+  var Array_0 = Array;
   var interpolateNumber = $module$d2v_interpolate_js.io.data2viz.interpolate.interpolateNumber_lu1900$;
   var uninterpolateNumber = $module$d2v_interpolate_js.io.data2viz.interpolate.uninterpolateNumber_lu1900$;
   var tickStep = $module$d2v_core_js.io.data2viz.math.tickStep_syxxoe$;
@@ -44,22 +46,26 @@
   var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init;
   var ensureNotNull = Kotlin.ensureNotNull;
   var reversed = Kotlin.kotlin.collections.reversed_7wnvza$;
+  var IllegalStateException_init_0 = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
   var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
   var Percent = $module$d2v_core_js.io.data2viz.math.Percent;
   var get_pct = $module$d2v_core_js.io.data2viz.math.get_pct_rcaex3$;
   var toMutableList = Kotlin.kotlin.collections.toMutableList_4c7yge$;
   var log = Kotlin.kotlin.math.log_lu1900$;
+  var isNaN_0 = Kotlin.kotlin.isNaN_yrwdxr$;
   var numberToInt = Kotlin.numberToInt;
   var ArrayList = Kotlin.kotlin.collections.ArrayList;
   var throwCCE = Kotlin.throwCCE;
   var arrayListOf = Kotlin.kotlin.collections.arrayListOf_i5x0yv$;
-  var Unit = Kotlin.kotlin.Unit;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   var HashMap_init = Kotlin.kotlin.collections.HashMap_init_q3lmfv$;
-  var isNaN_0 = Kotlin.kotlin.isNaN_yrwdxr$;
+  var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
   var sorted = Kotlin.kotlin.collections.sorted_exjks8$;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var first_0 = Kotlin.kotlin.collections.first_us0mfu$;
   var last_0 = Kotlin.kotlin.collections.last_us0mfu$;
+  var Unit = Kotlin.kotlin.Unit;
   var interpolateRound = $module$d2v_interpolate_js.io.data2viz.interpolate.interpolateRound_lu1900$;
   var interpolatePoint = $module$d2v_interpolate_js.io.data2viz.interpolate.interpolatePoint_840z2k$;
   var uninterpolatePointOnX = $module$d2v_interpolate_js.io.data2viz.interpolate.uninterpolatePointOnX_840z2k$;
@@ -82,6 +88,7 @@
   var date = $module$d2v_time_js.io.data2viz.time.date_fw2154$;
   var L1 = Kotlin.Long.ONE;
   var date_0 = $module$d2v_time_js.io.data2viz.time.date_ui44o2$;
+  var Comparator = Kotlin.kotlin.Comparator;
   BandScale.prototype = Object.create(BandedScale.prototype);
   BandScale.prototype.constructor = BandScale;
   PointScale.prototype = Object.create(BandedScale.prototype);
@@ -172,8 +179,6 @@
   BandedScale.prototype.ticks_za3lpa$$default = function (count) {
     return this.domain;
   };
-  var Math_0 = Math;
-  var Array_0 = Array;
   BandedScale.prototype.rescale = function () {
     var n = this.indexableDomain_u45y1f$_0._domain_8be2vx$.size;
     var reverse_0 = this.range.end < this.range.start;
@@ -355,7 +360,6 @@
       this.rescale();
     }
   });
-  var IllegalStateException_init_0 = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
   ContinuousScale.prototype.invoke_11rb$ = function (domainValue) {
     var tmp$, tmp$_0;
     if (this.domainToRange_mi7vq2$_0 == null) {
@@ -701,8 +705,6 @@
   LogScale.prototype.nice_za3lpa$$default = function (count) {
     this.domain = this.niceLogScale_0(this.domain, LogScale$nice$lambda(this), LogScale$nice$lambda_0(this));
   };
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   LogScale.prototype.ticks_za3lpa$$default = function (count) {
     var tmp$, tmp$_0;
     var domainStart = first(this._domain);
@@ -715,7 +717,7 @@
     var i = log(domainStart, this.base);
     var j = log(domainEnd, this.base);
     var tickList = ArrayList_init();
-    var test = !(this.base % 1 === 0.0 || this.base % 1 === kotlin_js_internal_DoubleCompanionObject.NaN);
+    var test = !(this.base % 1 === 0.0 || isNaN_0(this.base % 1));
     if (test && j - i < count) {
       i = round(i) - 1;
       j = round(j) + 1;
@@ -803,7 +805,6 @@
     simpleName: 'IndexableDomain',
     interfaces: [DiscreteDomain]
   };
-  var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
   function OrdinalScale(range, indexableDomain) {
     if (range === void 0) {
       range = emptyList();
@@ -905,7 +906,7 @@
   PowerScale.prototype.uninterpolateDomain_xwzc9q$ = function (from, to) {
     var dFrom = this.raise_0(from, this.exponent);
     var dTo = this.raise_0(to, this.exponent) - dFrom;
-    return dTo === 0.0 || dTo === kotlin_js_internal_DoubleCompanionObject.NaN ? PowerScale$uninterpolateDomain$lambda : PowerScale$uninterpolateDomain$lambda_0(this, dFrom, dTo);
+    return dTo === 0.0 || isNaN_0(dTo) ? PowerScale$uninterpolateDomain$lambda : PowerScale$uninterpolateDomain$lambda_0(this, dFrom, dTo);
   };
   function PowerScale$interpolateDomain$lambda(closure$ra, closure$rb, this$PowerScale) {
     return function (t) {
@@ -2172,6 +2173,9 @@
       this.clamp_gaoomr$_0 = clamp;
     }
   });
+  SequentialScale.prototype.invoke_za3lpa$ = function (domainValue) {
+    return this.invoke_14dthe$(domainValue);
+  };
   SequentialScale.prototype.invoke_14dthe$ = function (domainValue) {
     var uninterpolatedDomain = uninterpolateNumber(this.domain.start, this.domain.end)(domainValue);
     if (this.clamp)
@@ -2210,6 +2214,9 @@
       this._domain = toList(value);
     }
   });
+  ThresholdScale.prototype.invoke_za3lpa$ = function (domainValue) {
+    return this.invoke_11rb$(domainValue);
+  };
   ThresholdScale.prototype.invoke_11rb$ = function (domainValue) {
     if (!(this._range.size === (this._domain.size + 1 | 0))) {
       var message = 'The range size (actual: ' + this._range.size + ') must be 1 more than the domain size (actual: ' + this._domain.size + ').';
@@ -2240,6 +2247,13 @@
     simpleName: 'ThresholdScale',
     interfaces: [DiscreteDomain, DiscreteRange, Scale]
   };
+  function Comparator$ObjectLiteral(closure$comparison) {
+    this.closure$comparison = closure$comparison;
+  }
+  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
+    return this.closure$comparison(a, b);
+  };
+  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   function dateComparator$lambda(a, b) {
     return a.millisecondsBetween_fw2154$(b).toNumber() > 0 ? -1 : a.millisecondsBetween_fw2154$(b).toNumber() < 0 ? 1 : 0;
   }
@@ -2474,14 +2488,6 @@
   SequentialScale.prototype.ticks_za3lpa$ = Tickable.prototype.ticks_za3lpa$;
   TimeScale.prototype.nice_za3lpa$ = NiceableScale.prototype.nice_za3lpa$;
   TimeScale.prototype.ticks_za3lpa$ = Tickable.prototype.ticks_za3lpa$;
-  var Comparator = Kotlin.kotlin.Comparator;
-  function Comparator$ObjectLiteral(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   dateComparator = new Comparator$ObjectLiteral(dateComparator$lambda);
   tickIntervals = listOf([new TickInterval(time.timeSecond, 1, time.durationSecond), new TickInterval(time.timeSecond, 5, Kotlin.Long.fromInt(5).multiply(time.durationSecond)), new TickInterval(time.timeSecond, 15, Kotlin.Long.fromInt(15).multiply(time.durationSecond)), new TickInterval(time.timeSecond, 30, Kotlin.Long.fromInt(30).multiply(time.durationSecond)), new TickInterval(time.timeMinute, 1, time.durationMinute), new TickInterval(time.timeMinute, 5, Kotlin.Long.fromInt(5).multiply(time.durationMinute)), new TickInterval(time.timeMinute, 15, Kotlin.Long.fromInt(15).multiply(time.durationMinute)), new TickInterval(time.timeMinute, 30, Kotlin.Long.fromInt(30).multiply(time.durationMinute)), new TickInterval(time.timeHour, 1, time.durationHour), new TickInterval(time.timeHour, 3, Kotlin.Long.fromInt(3).multiply(time.durationHour)), new TickInterval(time.timeHour, 6, Kotlin.Long.fromInt(6).multiply(time.durationHour)), new TickInterval(time.timeHour, 12, Kotlin.Long.fromInt(12).multiply(time.durationHour)), new TickInterval(time.timeDay, 1, time.durationDay), new TickInterval(time.timeDay, 2, Kotlin.Long.fromInt(2).multiply(time.durationDay)), new TickInterval(time.timeSunday, 1, time.durationWeek), new TickInterval(time.timeMonth, 1, time.durationMonth), new TickInterval(time.timeMonth, 3, Kotlin.Long.fromInt(3).multiply(time.durationMonth)), new TickInterval(time.timeYear, 1, time.durationYear)]);
   Kotlin.defineModule('d2v-scale-js', _);

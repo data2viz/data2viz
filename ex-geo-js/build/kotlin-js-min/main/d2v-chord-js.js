@@ -14,11 +14,25 @@
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
   var toList = Kotlin.kotlin.collections.toList_7wnvza$;
-  var Unit = Kotlin.kotlin.Unit;
   var ensureNotNull = Kotlin.ensureNotNull;
   var sortWith = Kotlin.kotlin.collections.sortWith_iwcb0m$;
   var math = Kotlin.kotlin.math;
   var toList_0 = Kotlin.kotlin.collections.toList_us0mfu$;
+  var copyToArray = Kotlin.kotlin.collections.copyToArray;
+  var Comparator = Kotlin.kotlin.Comparator;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
+  var Math_0 = Math;
+  var Unit = Kotlin.kotlin.Unit;
+  function Comparator$ObjectLiteral(closure$comparison) {
+    this.closure$comparison = closure$comparison;
+  }
+  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
+    return this.closure$comparison(a, b);
+  };
+  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   function ChordSubgroup(index, subIndex, startAngle, endAngle, value) {
     if (index === void 0)
       index = 0;
@@ -190,7 +204,6 @@
     this.sortSubgroups = null;
     this.sortChords = null;
   }
-  var copyToArray = Kotlin.kotlin.collections.copyToArray;
   function ChordLayout$chord$lambda(this$ChordLayout, closure$groupSums) {
     return function (a, b) {
       return ensureNotNull(this$ChordLayout.sortGroups).compare(closure$groupSums[a], closure$groupSums[b]);
@@ -201,26 +214,6 @@
       return ensureNotNull(this$ChordLayout.sortSubgroups).compare(closure$flow(closure$data.get_za3lpa$(closure$index), closure$data.get_za3lpa$(a)), closure$flow(closure$data.get_za3lpa$(closure$index), closure$data.get_za3lpa$(b)));
     };
   }
-  var Comparator = Kotlin.kotlin.Comparator;
-  function Comparator$ObjectLiteral(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_287e2$;
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
-  function Comparator$ObjectLiteral_0(closure$comparison) {
-    this.closure$comparison = closure$comparison;
-  }
-  Comparator$ObjectLiteral_0.prototype.compare = function (a, b) {
-    return this.closure$comparison(a, b);
-  };
-  Comparator$ObjectLiteral_0.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
-  var Math_0 = Math;
   ChordLayout.prototype.chord_5nmfia$ = function (data, flow) {
     var n = data.size;
     var sizeRange = until(0, n);
@@ -269,7 +262,7 @@
       k.v += x.v;
     }
     if (this.sortGroups != null) {
-      sortWith(groupIndex, new Comparator$ObjectLiteral_0(ChordLayout$chord$lambda(this, groupSums)));
+      sortWith(groupIndex, new Comparator$ObjectLiteral(ChordLayout$chord$lambda(this, groupSums)));
     }
     if (this.sortSubgroups != null) {
       var tmp$_2, tmp$_0_1;

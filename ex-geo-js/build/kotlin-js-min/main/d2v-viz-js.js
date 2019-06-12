@@ -23,33 +23,34 @@
   var CircleGeom = $module$d2v_core_js.io.data2viz.geom.CircleGeom;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Circle = $module$d2v_core_js.io.data2viz.geom.Circle;
-  var Unit = Kotlin.kotlin.Unit;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
+  var Unit = Kotlin.kotlin.Unit;
+  var Enum = Kotlin.kotlin.Enum;
+  var throwISE = Kotlin.throwISE;
+  var Annotation = Kotlin.kotlin.Annotation;
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
+  var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var Math_0 = Math;
   var PathGeom = $module$d2v_core_js.io.data2viz.geom.PathGeom;
   var Path = $module$d2v_core_js.io.data2viz.geom.Path;
   var RectGeom = $module$d2v_core_js.io.data2viz.geom.RectGeom;
   var Rect = $module$d2v_core_js.io.data2viz.geom.Rect;
-  var Pair = Kotlin.kotlin.Pair;
-  var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
+  var replace = Kotlin.kotlin.text.replace_r2fvfm$;
   var Colors = $module$d2v_color_js.io.data2viz.color.Colors;
-  var math = $module$d2v_core_js.io.data2viz.math;
-  var get_col = $module$d2v_color_js.io.data2viz.color.get_col_s8ev3n$;
-  var get_pct = $module$d2v_core_js.io.data2viz.math.get_pct_rcaex3$;
-  var IntRange = Kotlin.kotlin.ranges.IntRange;
-  var Enum = Kotlin.kotlin.Enum;
-  var throwISE = Kotlin.throwISE;
-  var ensureNotNull = Kotlin.ensureNotNull;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
-  var throwUPAE = Kotlin.throwUPAE;
   var mutableListOf = Kotlin.kotlin.collections.mutableListOf_i5x0yv$;
   var HasSize = $module$d2v_core_js.io.data2viz.geom.HasSize;
   var throwCCE = Kotlin.throwCCE;
   var numberToInt = Kotlin.numberToInt;
   var timer = $module$d2v_timer_js.io.data2viz.timer.timer_k9susy$;
-  var math_0 = Kotlin.kotlin.math;
+  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
+  var math = Kotlin.kotlin.math;
   var Color = $module$d2v_color_js.io.data2viz.color.Color;
   var LinearGradient = $module$d2v_color_js.io.data2viz.color.LinearGradient;
   var RadialGradient = $module$d2v_color_js.io.data2viz.color.RadialGradient;
+  var throwUPAE = Kotlin.throwUPAE;
+  var Point = $module$d2v_core_js.io.data2viz.geom.Point;
   var MoveTo = $module$d2v_core_js.io.data2viz.geom.MoveTo;
   var LineTo = $module$d2v_core_js.io.data2viz.geom.LineTo;
   var QuadraticCurveTo = $module$d2v_core_js.io.data2viz.geom.QuadraticCurveTo;
@@ -60,6 +61,10 @@
   var RectCmd = $module$d2v_core_js.io.data2viz.geom.RectCmd;
   CircleNode.prototype = Object.create(Node.prototype);
   CircleNode.prototype.constructor = CircleNode;
+  KMouseEvent.prototype = Object.create(KPointerEvent.prototype);
+  KMouseEvent.prototype.constructor = KMouseEvent;
+  KDragEvent$KDragAction.prototype = Object.create(Enum.prototype);
+  KDragEvent$KDragAction.prototype.constructor = KDragEvent$KDragAction;
   GroupNode.prototype = Object.create(Node.prototype);
   GroupNode.prototype.constructor = GroupNode;
   Layer.prototype = Object.create(GroupNode.prototype);
@@ -72,10 +77,10 @@
   RectNode.prototype.constructor = RectNode;
   StateManagerStatus.prototype = Object.create(Enum.prototype);
   StateManagerStatus.prototype.constructor = StateManagerStatus;
-  TextAnchor.prototype = Object.create(Enum.prototype);
-  TextAnchor.prototype.constructor = TextAnchor;
-  TextAlignmentBaseline.prototype = Object.create(Enum.prototype);
-  TextAlignmentBaseline.prototype.constructor = TextAlignmentBaseline;
+  TextHAlign.prototype = Object.create(Enum.prototype);
+  TextHAlign.prototype.constructor = TextHAlign;
+  TextVAlign.prototype = Object.create(Enum.prototype);
+  TextVAlign.prototype.constructor = TextVAlign;
   TextNode.prototype = Object.create(Node.prototype);
   TextNode.prototype.constructor = TextNode;
   FontWeight.prototype = Object.create(Enum.prototype);
@@ -141,7 +146,7 @@
   TextAlign.prototype.component2 = function () {
     return this.vertical;
   };
-  TextAlign.prototype.copy_ik9my9$ = function (horizontal, vertical) {
+  TextAlign.prototype.copy_yf6jvm$ = function (horizontal, vertical) {
     return new TextAlign(horizontal === void 0 ? this.horizontal : horizontal, vertical === void 0 ? this.vertical : vertical);
   };
   TextAlign.prototype.toString = function () {
@@ -157,20 +162,342 @@
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.horizontal, other.horizontal) && Kotlin.equals(this.vertical, other.vertical)))));
   };
   function get_textAlign($receiver) {
-    return textAlign($receiver, $receiver.anchor, $receiver.baseline);
+    return textAlign($receiver, $receiver.hAlign, $receiver.vAlign);
   }
   function set_textAlign($receiver, value) {
-    $receiver.anchor = value.horizontal;
-    $receiver.baseline = value.vertical;
+    $receiver.hAlign = value.horizontal;
+    $receiver.vAlign = value.vertical;
   }
   function textAlign($receiver, horizontal, vertical) {
     if (horizontal === void 0)
-      horizontal = $receiver.anchor;
+      horizontal = TextHAlign$LEFT_getInstance();
     if (vertical === void 0)
-      vertical = $receiver.baseline;
+      vertical = TextVAlign$BASELINE_getInstance();
     return new TextAlign(horizontal, vertical);
   }
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  function addEventHandle($receiver, handle) {
+    if (handle.isAddedToRenderer) {
+      throw IllegalStateException_init("Can't add event handle which already added to Renderer".toString());
+    }
+    handle.disposable = addNativeEventListenerFromHandle($receiver, handle);
+  }
+  function removeEventHandle($receiver, handle) {
+    if (!handle.isAddedToRenderer) {
+      throw IllegalStateException_init(("Can't remove event handle which not added to Renderer. " + handle).toString());
+    }
+    ensureNotNull(handle.disposable).dispose();
+    handle.disposable = null;
+  }
+  function Disposable() {
+  }
+  Disposable.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'Disposable',
+    interfaces: []
+  };
+  function CompositeDisposable(disposables) {
+    if (disposables === void 0) {
+      disposables = ArrayList_init();
+    }
+    this.disposables = disposables;
+  }
+  CompositeDisposable.prototype.dispose = function () {
+    var tmp$;
+    tmp$ = this.disposables.iterator();
+    while (tmp$.hasNext()) {
+      var element = tmp$.next();
+      element.dispose();
+    }
+    this.disposables.clear();
+  };
+  CompositeDisposable.prototype.add_5h210y$ = function (disposable) {
+    this.disposables.add_11rb$(disposable);
+  };
+  CompositeDisposable.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'CompositeDisposable',
+    interfaces: [Disposable]
+  };
+  function KEvent() {
+  }
+  KEvent.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'KEvent',
+    interfaces: []
+  };
+  function KEventHandle(eventListener, listener, onDispose) {
+    this.eventListener = eventListener;
+    this.listener = listener;
+    this.onDispose = onDispose;
+    this.disposable = null;
+  }
+  Object.defineProperty(KEventHandle.prototype, 'isAddedToRenderer', {
+    get: function () {
+      return this.disposable != null;
+    }
+  });
+  KEventHandle.prototype.dispose = function () {
+    this.onDispose(this);
+  };
+  KEventHandle.prototype.toString = function () {
+    return 'KEventHandle(eventListener=' + this.eventListener + ')';
+  };
+  KEventHandle.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KEventHandle',
+    interfaces: [Disposable]
+  };
+  function KPointerEvent(pos) {
+    this.pos = pos;
+  }
+  KPointerEvent.prototype.toString = function () {
+    return 'KPointerEvent(pos=' + this.pos + ')';
+  };
+  KPointerEvent.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerEvent',
+    interfaces: [KEvent]
+  };
+  function KMouseEvent(pos, altKey, ctrlKey, shiftKey, metaKey) {
+    KPointerEvent.call(this, pos);
+    this.altKey = altKey;
+    this.ctrlKey = ctrlKey;
+    this.shiftKey = shiftKey;
+    this.metaKey = metaKey;
+  }
+  KMouseEvent.prototype.toString = function () {
+    return 'KMouseEvent(pos=' + this.pos + ')';
+  };
+  KMouseEvent.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KMouseEvent',
+    interfaces: [KPointerEvent]
+  };
+  function KDragEvent(action, pointerEvent) {
+    this.action = action;
+    this.pointerEvent = pointerEvent;
+  }
+  Object.defineProperty(KDragEvent.prototype, 'pos', {
+    get: function () {
+      return this.pointerEvent.pos;
+    }
+  });
+  KDragEvent.prototype.toString = function () {
+    return 'KDragEvent(action=' + this.action + ', pos=' + this.pos + ')';
+  };
+  function KDragEvent$KDragAction(name, ordinal) {
+    Enum.call(this);
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function KDragEvent$KDragAction_initFields() {
+    KDragEvent$KDragAction_initFields = function () {
+    };
+    KDragEvent$KDragAction$Start_instance = new KDragEvent$KDragAction('Start', 0);
+    KDragEvent$KDragAction$Dragging_instance = new KDragEvent$KDragAction('Dragging', 1);
+    KDragEvent$KDragAction$Finish_instance = new KDragEvent$KDragAction('Finish', 2);
+  }
+  var KDragEvent$KDragAction$Start_instance;
+  function KDragEvent$KDragAction$Start_getInstance() {
+    KDragEvent$KDragAction_initFields();
+    return KDragEvent$KDragAction$Start_instance;
+  }
+  var KDragEvent$KDragAction$Dragging_instance;
+  function KDragEvent$KDragAction$Dragging_getInstance() {
+    KDragEvent$KDragAction_initFields();
+    return KDragEvent$KDragAction$Dragging_instance;
+  }
+  var KDragEvent$KDragAction$Finish_instance;
+  function KDragEvent$KDragAction$Finish_getInstance() {
+    KDragEvent$KDragAction_initFields();
+    return KDragEvent$KDragAction$Finish_instance;
+  }
+  KDragEvent$KDragAction.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KDragAction',
+    interfaces: [Enum]
+  };
+  function KDragEvent$KDragAction$values() {
+    return [KDragEvent$KDragAction$Start_getInstance(), KDragEvent$KDragAction$Dragging_getInstance(), KDragEvent$KDragAction$Finish_getInstance()];
+  }
+  KDragEvent$KDragAction.values = KDragEvent$KDragAction$values;
+  function KDragEvent$KDragAction$valueOf(name) {
+    switch (name) {
+      case 'Start':
+        return KDragEvent$KDragAction$Start_getInstance();
+      case 'Dragging':
+        return KDragEvent$KDragAction$Dragging_getInstance();
+      case 'Finish':
+        return KDragEvent$KDragAction$Finish_getInstance();
+      default:throwISE('No enum constant io.data2viz.viz.KDragEvent.KDragAction.' + name);
+    }
+  }
+  KDragEvent$KDragAction.valueOf_61zpoe$ = KDragEvent$KDragAction$valueOf;
+  KDragEvent.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KDragEvent',
+    interfaces: [KEvent]
+  };
+  function ExperimentalKZoomEvent() {
+  }
+  ExperimentalKZoomEvent.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'ExperimentalKZoomEvent',
+    interfaces: [Annotation]
+  };
+  function KZoomEvent(startZoomPos, currentZoomPos, delta) {
+    KZoomEvent$Companion_getInstance();
+    this.startZoomPos = startZoomPos;
+    this.currentZoomPos = currentZoomPos;
+    this.delta = delta;
+  }
+  function KZoomEvent$Companion() {
+    KZoomEvent$Companion_instance = this;
+    this.diffTimeBetweenZoomEventsToDetectRestart = 500;
+    this.minDelta = -100.0;
+    this.maxDelta = 100.0;
+  }
+  KZoomEvent$Companion.prototype.isNewZoom_xg1spd$ = function (currentTime, lastTime) {
+    if (lastTime == null) {
+      return true;
+    }
+     else {
+      return currentTime - lastTime > 500;
+    }
+  };
+  KZoomEvent$Companion.prototype.isNewZoom_r25hsp$ = function (currentTime, lastTime) {
+    if (lastTime == null) {
+      return true;
+    }
+     else {
+      return currentTime.subtract(lastTime).toNumber() > 500;
+    }
+  };
+  KZoomEvent$Companion.prototype.scaleDelta_1lq62i$ = function (currentDelta, originMinDelta, originMaxDelta, newMinDelta, newMaxDelta) {
+    if (newMinDelta === void 0)
+      newMinDelta = this.minDelta;
+    if (newMaxDelta === void 0)
+      newMaxDelta = this.maxDelta;
+    var originBoundsSize = originMaxDelta - originMinDelta;
+    var currentDeltaPercentInBounds = (currentDelta - originMinDelta) / originBoundsSize;
+    var newBoundsSize = newMaxDelta - newMinDelta;
+    var newDeltaValue = newMinDelta + newBoundsSize * currentDeltaPercentInBounds;
+    if (newDeltaValue > this.maxDelta) {
+      newDeltaValue = this.maxDelta;
+    }
+    if (newDeltaValue < this.minDelta) {
+      newDeltaValue = this.minDelta;
+    }
+    return newDeltaValue;
+  };
+  KZoomEvent$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var KZoomEvent$Companion_instance = null;
+  function KZoomEvent$Companion_getInstance() {
+    if (KZoomEvent$Companion_instance === null) {
+      new KZoomEvent$Companion();
+    }
+    return KZoomEvent$Companion_instance;
+  }
+  KZoomEvent.prototype.toString = function () {
+    return 'KZoomEvent(startZoomPos=' + this.startZoomPos + ', delta=' + this.delta + ')';
+  };
+  KZoomEvent.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KZoomEvent',
+    interfaces: [KEvent]
+  };
+  function KEventListener() {
+  }
+  KEventListener.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'KEventListener',
+    interfaces: []
+  };
+  function KPointerDrag() {
+    KPointerDrag$PointerDragEventListener_getInstance();
+  }
+  function KPointerDrag$PointerDragEventListener() {
+    KPointerDrag$PointerDragEventListener_instance = this;
+    this.downActionPos_0 = null;
+    this.dragInProgress_0 = false;
+  }
+  function KPointerDrag$PointerDragEventListener$addNativeListener$lambda(this$KPointerDrag$, closure$listener) {
+    return function (it) {
+      if (this$KPointerDrag$.dragInProgress_0) {
+        closure$listener(new KDragEvent(KDragEvent$KDragAction$Dragging_getInstance(), it));
+      }
+       else {
+        var startPos = this$KPointerDrag$.downActionPos_0;
+        if (startPos != null) {
+          this$KPointerDrag$.dragInProgress_0 = true;
+          closure$listener(new KDragEvent(KDragEvent$KDragAction$Start_getInstance(), it));
+        }
+      }
+      return Unit;
+    };
+  }
+  function KPointerDrag$PointerDragEventListener$addNativeListener$lambda_0(closure$listener, this$KPointerDrag$) {
+    return function (it) {
+      this$KPointerDrag$.onDragNotPossible_0(closure$listener, it);
+      return Unit;
+    };
+  }
+  function KPointerDrag$PointerDragEventListener$addNativeListener$lambda_1(this$KPointerDrag$) {
+    return function (it) {
+      this$KPointerDrag$.downActionPos_0 = it.pos;
+      return Unit;
+    };
+  }
+  function KPointerDrag$PointerDragEventListener$addNativeListener$lambda_2(closure$listener, this$KPointerDrag$) {
+    return function (it) {
+      this$KPointerDrag$.onDragNotPossible_0(closure$listener, it);
+      return Unit;
+    };
+  }
+  KPointerDrag$PointerDragEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    var compositeDisposable = new CompositeDisposable();
+    compositeDisposable.add_5h210y$(KPointerMove$PointerMoveEventListener_getInstance().addNativeListener_80knxr$(target, KPointerDrag$PointerDragEventListener$addNativeListener$lambda(this, listener)));
+    compositeDisposable.add_5h210y$(KPointerLeave$PointerLeaveEventListener_getInstance().addNativeListener_80knxr$(target, KPointerDrag$PointerDragEventListener$addNativeListener$lambda_0(listener, this)));
+    compositeDisposable.add_5h210y$(KPointerDown$PointerDownEventListener_getInstance().addNativeListener_80knxr$(target, KPointerDrag$PointerDragEventListener$addNativeListener$lambda_1(this)));
+    compositeDisposable.add_5h210y$(KPointerUp$PointerUpEventListener_getInstance().addNativeListener_80knxr$(target, KPointerDrag$PointerDragEventListener$addNativeListener$lambda_2(listener, this)));
+    return compositeDisposable;
+  };
+  KPointerDrag$PointerDragEventListener.prototype.distance_0 = function (pos1, pos2) {
+    var $receiver = pos1.x - pos2.x;
+    var xSquare = Math_0.pow($receiver, 2.0);
+    var $receiver_0 = pos1.y - pos2.y;
+    var ySquare = Math_0.pow($receiver_0, 2.0);
+    var x = xSquare + ySquare;
+    return Math_0.sqrt(x);
+  };
+  KPointerDrag$PointerDragEventListener.prototype.onDragNotPossible_0 = function (listener, motionEvent) {
+    this.downActionPos_0 = null;
+    if (this.dragInProgress_0) {
+      this.dragInProgress_0 = false;
+      listener(new KDragEvent(KDragEvent$KDragAction$Finish_getInstance(), motionEvent));
+    }
+  };
+  KPointerDrag$PointerDragEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PointerDragEventListener',
+    interfaces: [KEventListener]
+  };
+  var KPointerDrag$PointerDragEventListener_instance = null;
+  function KPointerDrag$PointerDragEventListener_getInstance() {
+    if (KPointerDrag$PointerDragEventListener_instance === null) {
+      new KPointerDrag$PointerDragEventListener();
+    }
+    return KPointerDrag$PointerDragEventListener_instance;
+  }
+  KPointerDrag.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerDrag',
+    interfaces: []
+  };
   function GroupNode() {
     Node.call(this);
     this.transform_shx8rt$_0 = null;
@@ -319,20 +646,44 @@
       this.style_u8faqh$_0.strokeWidth = value;
     }
   });
-  Object.defineProperty(Node.prototype, 'anchor', {
+  Object.defineProperty(Node.prototype, 'textColor', {
     get: function () {
-      return this.style_u8faqh$_0.anchor;
+      return this.style_u8faqh$_0.textColor;
     },
     set: function (value) {
-      this.style_u8faqh$_0.anchor = value;
+      this.style_u8faqh$_0.textColor = value;
+    }
+  });
+  Object.defineProperty(Node.prototype, 'hAlign', {
+    get: function () {
+      return this.style_u8faqh$_0.hAlign;
+    },
+    set: function (value) {
+      this.style_u8faqh$_0.hAlign = value;
+    }
+  });
+  Object.defineProperty(Node.prototype, 'anchor', {
+    get: function () {
+      return this.hAlign;
+    },
+    set: function (value) {
+      this.hAlign = value;
+    }
+  });
+  Object.defineProperty(Node.prototype, 'vAlign', {
+    get: function () {
+      return this.style_u8faqh$_0.vAlign;
+    },
+    set: function (value) {
+      this.style_u8faqh$_0.vAlign = value;
     }
   });
   Object.defineProperty(Node.prototype, 'baseline', {
     get: function () {
-      return this.style_u8faqh$_0.baseline;
+      return this.vAlign;
     },
     set: function (value) {
-      this.style_u8faqh$_0.baseline = value;
+      this.vAlign = value;
     }
   });
   Node.$metadata$ = {
@@ -489,716 +840,6 @@
     simpleName: 'RectNode',
     interfaces: [HasStroke, HasFill, Rect, Node]
   };
-  function RenderingTest(name, viz) {
-    this.name = name;
-    this.viz = viz;
-  }
-  RenderingTest.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'RenderingTest',
-    interfaces: []
-  };
-  RenderingTest.prototype.component1 = function () {
-    return this.name;
-  };
-  RenderingTest.prototype.component2 = function () {
-    return this.viz;
-  };
-  RenderingTest.prototype.copy_mg2rqt$ = function (name, viz) {
-    return new RenderingTest(name === void 0 ? this.name : name, viz === void 0 ? this.viz : viz);
-  };
-  RenderingTest.prototype.toString = function () {
-    return 'RenderingTest(name=' + Kotlin.toString(this.name) + (', viz=' + Kotlin.toString(this.viz)) + ')';
-  };
-  RenderingTest.prototype.hashCode = function () {
-    var result = 0;
-    result = result * 31 + Kotlin.hashCode(this.name) | 0;
-    result = result * 31 + Kotlin.hashCode(this.viz) | 0;
-    return result;
-  };
-  RenderingTest.prototype.equals = function (other) {
-    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.viz, other.viz)))));
-  };
-  function next($receiver) {
-    var x = $receiver.first;
-    var y = $receiver.second;
-    if (x >= 350) {
-      x = 25.0;
-      y += 50.0;
-    }
-     else
-      x += 50.0;
-    return new Pair(x, y);
-  }
-  var linesOfText;
-  var fontSizeValue;
-  var fontFamilyValue;
-  function allRenderingTests$lambda$lambda(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().SANS_SERIF;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$ITALIC_getInstance();
-      $receiver.fontWeight = FontWeight$BOLD_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_0(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().SANS_SERIF;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$ITALIC_getInstance();
-      $receiver.fontWeight = FontWeight$NORMAL_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_0($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_0(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_1(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().SANS_SERIF;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$NORMAL_getInstance();
-      $receiver.fontWeight = FontWeight$BOLD_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_1($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_1(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_2(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().SANS_SERIF;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$NORMAL_getInstance();
-      $receiver.fontWeight = FontWeight$NORMAL_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_2($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_2(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_3(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().SERIF;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$ITALIC_getInstance();
-      $receiver.fontWeight = FontWeight$BOLD_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_3($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_3(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_4(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().SERIF;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$ITALIC_getInstance();
-      $receiver.fontWeight = FontWeight$NORMAL_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_4($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_4(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_5(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().SERIF;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$NORMAL_getInstance();
-      $receiver.fontWeight = FontWeight$BOLD_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_5($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_5(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_6(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().SERIF;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$NORMAL_getInstance();
-      $receiver.fontWeight = FontWeight$NORMAL_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_6($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_6(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_7(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().MONOSPACE;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$ITALIC_getInstance();
-      $receiver.fontWeight = FontWeight$BOLD_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_7($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_7(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_8(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().MONOSPACE;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$ITALIC_getInstance();
-      $receiver.fontWeight = FontWeight$NORMAL_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_8($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_8(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_9(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().MONOSPACE;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$NORMAL_getInstance();
-      $receiver.fontWeight = FontWeight$BOLD_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_9($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_9(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_10(closure$line, closure$index) {
-    return function ($receiver) {
-      $receiver.fontFamily = FontFamily$Companion_getInstance().MONOSPACE;
-      $receiver.fontSize = 20.0;
-      $receiver.fontStyle = FontPosture$NORMAL_getInstance();
-      $receiver.fontWeight = FontWeight$NORMAL_getInstance();
-      $receiver.anchor = TextAnchor$START_getInstance();
-      $receiver.baseline = TextAlignmentBaseline$BASELINE_getInstance();
-      $receiver.textContent = closure$line;
-      $receiver.y = fontSizeValue + fontSizeValue * closure$index;
-      $receiver.fill = Colors.Web.black;
-      $receiver.fontSize = fontSizeValue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_10($receiver) {
-    var index = 0;
-    for (var tmp$ = linesOfText.iterator(); tmp$.hasNext(); ++index) {
-      var line = tmp$.next();
-      $receiver.text_6q900q$(allRenderingTests$lambda$lambda_10(line, index));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$addToParent$lambda$lambda($receiver) {
-    $receiver.translate_lu1900$(10.0, 10.0);
-    $receiver.rotate_14dthe$(0.1 * math.PI / 2);
-    return Unit;
-  }
-  function allRenderingTests$lambda$addToParent$lambda$lambda_0($receiver) {
-    $receiver.height = 10.0;
-    $receiver.width = 10.0;
-    $receiver.fill = Colors.Web.black;
-    return Unit;
-  }
-  function allRenderingTests$lambda$addToParent(closure$depth) {
-    return function closure$addToParent(parent) {
-      var tmp$, tmp$_0;
-      tmp$ = closure$depth.v;
-      closure$depth.v = tmp$ + 1 | 0;
-      if (closure$depth.v === 41)
-        return;
-      var receiver = new GroupNode();
-      closure$addToParent;
-      var closure$addToParent_0 = closure$addToParent;
-      parent.add_vetai8$(receiver);
-      receiver.transform_tabxxp$(allRenderingTests$lambda$addToParent$lambda$lambda);
-      receiver.rect_afayqr$(allRenderingTests$lambda$addToParent$lambda$lambda_0);
-      closure$addToParent_0(receiver);
-      tmp$_0 = closure$depth.v;
-      closure$depth.v = tmp$_0 - 1 | 0;
-    };
-  }
-  function allRenderingTests$lambda$lambda$lambda($receiver) {
-    $receiver.translate_lu1900$(250.0, 125.0);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_0($receiver) {
-    $receiver.height = 10.0;
-    $receiver.width = 10.0;
-    $receiver.fill = Colors.Web.black;
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_11($receiver) {
-    $receiver.transform_tabxxp$(allRenderingTests$lambda$lambda$lambda);
-    $receiver.rect_afayqr$(allRenderingTests$lambda$lambda$lambda_0);
-    return Unit;
-  }
-  function allRenderingTests$lambda_11($receiver) {
-    var depth = {v: 0};
-    var addToParent = allRenderingTests$lambda$addToParent(depth);
-    addToParent($receiver.group_mdx85a$(allRenderingTests$lambda$lambda_11));
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_1($receiver) {
-    $receiver.x = 100.0;
-    $receiver.y = 100.0;
-    $receiver.width = 20.0;
-    $receiver.height = 10.0;
-    $receiver.fill = Colors.Web.red;
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_12(this$) {
-    return function ($receiver) {
-      this$.rect_afayqr$(allRenderingTests$lambda$lambda$lambda_1);
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_12($receiver) {
-    $receiver.rect_afayqr$(allRenderingTests$lambda$lambda_12($receiver));
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_13($receiver) {
-    $receiver.x = 200.0;
-    $receiver.y = 200.0;
-    $receiver.radius = 100.0;
-    $receiver.fill = Colors.Web.red;
-    return Unit;
-  }
-  function allRenderingTests$lambda_13($receiver) {
-    $receiver.circle_107i6h$(allRenderingTests$lambda$lambda_13);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_14($receiver) {
-    $receiver.x = 200.0;
-    $receiver.y = 200.0;
-    $receiver.radius = 100.0;
-    $receiver.fill = null;
-    $receiver.stroke = Colors.Web.red;
-    $receiver.strokeWidth = 20.0;
-    return Unit;
-  }
-  function allRenderingTests$lambda_14($receiver) {
-    $receiver.circle_107i6h$(allRenderingTests$lambda$lambda_14);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_15($receiver) {
-    $receiver.x = 200.0;
-    $receiver.y = 200.0;
-    $receiver.radius = 100.0;
-    $receiver.fill = null;
-    $receiver.stroke = Colors.Web.red;
-    return Unit;
-  }
-  function allRenderingTests$lambda_15($receiver) {
-    $receiver.circle_107i6h$(allRenderingTests$lambda$lambda_15);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_16($receiver) {
-    $receiver.x = 200.0;
-    $receiver.y = 200.0;
-    $receiver.radius = 100.0;
-    $receiver.fill = get_col(16631384);
-    $receiver.stroke = get_col(788615).withAlpha_o5f5ne$(get_pct(50));
-    $receiver.strokeWidth = 40.0;
-    return Unit;
-  }
-  function allRenderingTests$lambda_16($receiver) {
-    $receiver.circle_107i6h$(allRenderingTests$lambda$lambda_16);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_2(closure$pos, closure$it) {
-    return function ($receiver) {
-      closure$pos.v = next(closure$pos.v);
-      $receiver.moveTo_lu1900$(closure$pos.v.first, closure$pos.v.second);
-      $receiver.arc_6p3vsx$(closure$pos.v.first, closure$pos.v.second, 25.0, 0.0, closure$it * (2 * math.PI / 8.0), false);
-      $receiver.closePath();
-      $receiver.fill = Colors.Web.grey;
-      $receiver.stroke = null;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_17($receiver) {
-    var pos = {v: new Pair(-25.0, 25.0)};
-    var tmp$;
-    tmp$ = (new IntRange(0, 15)).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
-      $receiver.path_omiyse$(allRenderingTests$lambda$lambda$lambda_2(pos, element));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_3(closure$pos, closure$it) {
-    return function ($receiver) {
-      closure$pos.v = next(closure$pos.v);
-      $receiver.moveTo_lu1900$(closure$pos.v.first, closure$pos.v.second);
-      $receiver.arc_6p3vsx$(closure$pos.v.first, closure$pos.v.second, 25.0, 0.0, (-closure$it | 0) * (2 * math.PI / 8.0), false);
-      $receiver.closePath();
-      $receiver.fill = Colors.Web.grey;
-      $receiver.stroke = null;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_18($receiver) {
-    var pos = {v: new Pair(-25.0, 25.0)};
-    var tmp$;
-    tmp$ = (new IntRange(0, 15)).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
-      $receiver.path_omiyse$(allRenderingTests$lambda$lambda$lambda_3(pos, element));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_4(closure$pos, closure$it) {
-    return function ($receiver) {
-      closure$pos.v = next(closure$pos.v);
-      $receiver.moveTo_lu1900$(closure$pos.v.first, closure$pos.v.second);
-      $receiver.arc_6p3vsx$(closure$pos.v.first, closure$pos.v.second, 25.0, 0.0, closure$it * (2 * math.PI / 8.0), true);
-      $receiver.closePath();
-      $receiver.fill = Colors.Web.grey;
-      $receiver.stroke = null;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_19($receiver) {
-    var pos = {v: new Pair(-25.0, 25.0)};
-    var tmp$;
-    tmp$ = (new IntRange(0, 15)).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
-      $receiver.path_omiyse$(allRenderingTests$lambda$lambda$lambda_4(pos, element));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_5(closure$pos, closure$it) {
-    return function ($receiver) {
-      closure$pos.v = next(closure$pos.v);
-      $receiver.moveTo_lu1900$(closure$pos.v.first, closure$pos.v.second);
-      $receiver.arc_6p3vsx$(closure$pos.v.first, closure$pos.v.second, 25.0, 0.0, (-closure$it | 0) * (2 * math.PI / 8.0), true);
-      $receiver.closePath();
-      $receiver.fill = Colors.Web.grey;
-      $receiver.stroke = null;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_20($receiver) {
-    var pos = {v: new Pair(-25.0, 25.0)};
-    var tmp$;
-    tmp$ = (new IntRange(0, 15)).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
-      $receiver.path_omiyse$(allRenderingTests$lambda$lambda$lambda_5(pos, element));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_6(closure$pos, closure$posNeg, closure$it) {
-    return function ($receiver) {
-      closure$pos.v = next(closure$pos.v);
-      closure$posNeg.v *= -1;
-      $receiver.moveTo_lu1900$(closure$pos.v.first, closure$pos.v.second);
-      $receiver.arc_6p3vsx$(closure$pos.v.first, closure$pos.v.second, 25.0, closure$it * closure$posNeg.v / 10.0, -closure$posNeg.v * closure$it * (2 * math.PI / 8.0), false);
-      $receiver.closePath();
-      $receiver.fill = Colors.Web.grey;
-      $receiver.stroke = null;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_21($receiver) {
-    var pos = {v: new Pair(-25.0, 25.0)};
-    var posNeg = {v: 1.0};
-    var tmp$;
-    tmp$ = (new IntRange(0, 15)).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
-      $receiver.path_omiyse$(allRenderingTests$lambda$lambda$lambda_6(pos, posNeg, element));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_7(closure$pos, closure$posNeg, closure$it) {
-    return function ($receiver) {
-      closure$pos.v = next(closure$pos.v);
-      closure$posNeg.v *= -1;
-      $receiver.moveTo_lu1900$(closure$pos.v.first, closure$pos.v.second);
-      $receiver.arc_6p3vsx$(closure$pos.v.first, closure$pos.v.second, 25.0, closure$it * closure$posNeg.v / 10.0, -closure$posNeg.v * closure$it * (2 * math.PI / 8.0), true);
-      $receiver.closePath();
-      $receiver.fill = Colors.Web.grey;
-      $receiver.stroke = null;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_22($receiver) {
-    var pos = {v: new Pair(-25.0, 25.0)};
-    var posNeg = {v: 1.0};
-    var tmp$;
-    tmp$ = (new IntRange(0, 15)).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
-      $receiver.path_omiyse$(allRenderingTests$lambda$lambda$lambda_7(pos, posNeg, element));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_8(closure$pos, closure$posNeg, closure$it) {
-    return function ($receiver) {
-      closure$pos.v = next(closure$pos.v);
-      closure$posNeg.v *= -1;
-      $receiver.moveTo_lu1900$(closure$pos.v.first - 15.0, closure$pos.v.second - 15.0);
-      $receiver.lineTo_lu1900$(closure$pos.v.first - 15.0, closure$pos.v.second - 5.0);
-      $receiver.arc_6p3vsx$(closure$pos.v.first, closure$pos.v.second, 25.0, closure$it * closure$posNeg.v / 10.0, -closure$posNeg.v * closure$it * (2 * math.PI / 8.0), false);
-      $receiver.lineTo_lu1900$(closure$pos.v.first + 15.0, closure$pos.v.second + 15.0);
-      $receiver.closePath();
-      $receiver.fill = Colors.Web.grey;
-      $receiver.stroke = Colors.Web.blue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_23($receiver) {
-    var pos = {v: new Pair(-25.0, 25.0)};
-    var posNeg = {v: 1.0};
-    var tmp$;
-    tmp$ = (new IntRange(0, 15)).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
-      $receiver.path_omiyse$(allRenderingTests$lambda$lambda$lambda_8(pos, posNeg, element));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda$lambda_9(closure$pos, closure$posNeg, closure$it) {
-    return function ($receiver) {
-      closure$pos.v = next(closure$pos.v);
-      closure$posNeg.v *= -1;
-      $receiver.moveTo_lu1900$(closure$pos.v.first - 15.0, closure$pos.v.second - 15.0);
-      $receiver.lineTo_lu1900$(closure$pos.v.first - 15.0, closure$pos.v.second - 5.0);
-      $receiver.arc_6p3vsx$(closure$pos.v.first, closure$pos.v.second, 25.0, closure$it * closure$posNeg.v / 10.0, -closure$posNeg.v * closure$it * (2 * math.PI / 8.0), true);
-      $receiver.lineTo_lu1900$(closure$pos.v.first + 15.0, closure$pos.v.second + 15.0);
-      $receiver.closePath();
-      $receiver.fill = Colors.Web.grey;
-      $receiver.stroke = Colors.Web.blue;
-      return Unit;
-    };
-  }
-  function allRenderingTests$lambda_24($receiver) {
-    var pos = {v: new Pair(-25.0, 25.0)};
-    var posNeg = {v: 1.0};
-    var tmp$;
-    tmp$ = (new IntRange(0, 15)).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
-      $receiver.path_omiyse$(allRenderingTests$lambda$lambda$lambda_9(pos, posNeg, element));
-    }
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_17($receiver) {
-    $receiver.moveTo_lu1900$(0.0, 0.0);
-    $receiver.lineTo_lu1900$(20.0, 80.0);
-    $receiver.moveTo_lu1900$(60.0, 70.0);
-    $receiver.lineTo_lu1900$(20.0, 80.0);
-    $receiver.arc_6p3vsx$(0.0, 60.0, 20.0, 0.0, 40.0, false);
-    $receiver.lineTo_lu1900$(100.0, 112.0);
-    $receiver.lineTo_lu1900$(120.0, 180.0);
-    $receiver.moveTo_lu1900$(160.0, 170.0);
-    $receiver.lineTo_lu1900$(120.0, 180.0);
-    $receiver.arc_6p3vsx$(100.0, 160.0, 20.0, 0.0, -40.0, false);
-    $receiver.lineTo_lu1900$(200.0, 212.0);
-    $receiver.lineTo_lu1900$(220.0, 280.0);
-    $receiver.moveTo_lu1900$(260.0, 270.0);
-    $receiver.lineTo_lu1900$(220.0, 280.0);
-    $receiver.arc_6p3vsx$(200.0, 260.0, 20.0, 0.0, 2.0, false);
-    $receiver.lineTo_lu1900$(300.0, 312.0);
-    $receiver.closePath();
-    $receiver.fill = Colors.Web.grey;
-    $receiver.stroke = Colors.Web.blue;
-    return Unit;
-  }
-  function allRenderingTests$lambda_25($receiver) {
-    $receiver.path_omiyse$(allRenderingTests$lambda$lambda_17);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_18($receiver) {
-    $receiver.moveTo_lu1900$(20.0, 20.0);
-    $receiver.lineTo_lu1900$(40.0, 40.0);
-    $receiver.lineTo_lu1900$(60.0, 20.0);
-    $receiver.moveTo_lu1900$(80.0, 40.0);
-    $receiver.lineTo_lu1900$(100.0, 20.0);
-    $receiver.stroke = Colors.Web.red;
-    return Unit;
-  }
-  function allRenderingTests$lambda_26($receiver) {
-    $receiver.path_omiyse$(allRenderingTests$lambda$lambda_18);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_19($receiver) {
-    $receiver.rect_6y0v78$(10.0, 10.0, 200.0, 100.0);
-    $receiver.fill = Colors.Web.red;
-    return Unit;
-  }
-  function allRenderingTests$lambda_27($receiver) {
-    $receiver.path_omiyse$(allRenderingTests$lambda$lambda_19);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_20($receiver) {
-    $receiver.x = 50.0;
-    $receiver.y = 50.0;
-    $receiver.radius = 50.0;
-    $receiver.fill = Colors.Web.black;
-    $receiver.visible = false;
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_21($receiver) {
-    $receiver.x = 150.0;
-    $receiver.y = 50.0;
-    $receiver.radius = 50.0;
-    $receiver.fill = Colors.Web.black;
-    return Unit;
-  }
-  function allRenderingTests$lambda_28($receiver) {
-    $receiver.circle_107i6h$(allRenderingTests$lambda$lambda_20);
-    $receiver.circle_107i6h$(allRenderingTests$lambda$lambda_21);
-    return Unit;
-  }
-  function allRenderingTests$lambda$lambda_22($receiver) {
-    $receiver.x = 50.0;
-    $receiver.y = 50.0;
-    $receiver.radius = 50.0;
-    $receiver.fill = Colors.Web.black;
-    return Unit;
-  }
-  function allRenderingTests$lambda_29($receiver) {
-    $receiver.activeLayer.visible = false;
-    $receiver.circle_107i6h$(allRenderingTests$lambda$lambda_22);
-    return Unit;
-  }
-  var allRenderingTests;
-  function renderingTest$lambda(closure$init) {
-    return function ($receiver) {
-      $receiver.width = 400.0;
-      $receiver.height = 400.0;
-      closure$init($receiver);
-      return Unit;
-    };
-  }
-  function renderingTest(name, init) {
-    var viz_0 = viz(renderingTest$lambda(init));
-    return new RenderingTest(name, viz_0);
-  }
   function StateManager() {
     this.status = StateManagerStatus$REST_getInstance();
     this.properties = ArrayList_init();
@@ -1286,9 +927,12 @@
   function StyleImpl() {
     this.fill_l1sct0$_0 = null;
     this.stroke_1w52jt$_0 = null;
+    this.textColor_riwbw1$_0 = null;
     this.strokeWidth_l4w949$_0 = 1.0;
-    this.anchor_eyj0fu$_0 = TextAnchor$START_getInstance();
-    this.baseline_1osq8m$_0 = TextAlignmentBaseline$BASELINE_getInstance();
+    this.hAlign_pi4kky$_0 = TextHAlign$LEFT_getInstance();
+    this.anchor_eyj0fu$_0 = this.hAlign;
+    this.vAlign_hwcds0$_0 = TextVAlign$BASELINE_getInstance();
+    this.baseline_1osq8m$_0 = this.vAlign;
   }
   Object.defineProperty(StyleImpl.prototype, 'fill', {
     get: function () {
@@ -1306,6 +950,14 @@
       this.stroke_1w52jt$_0 = stroke;
     }
   });
+  Object.defineProperty(StyleImpl.prototype, 'textColor', {
+    get: function () {
+      return this.textColor_riwbw1$_0;
+    },
+    set: function (textColor) {
+      this.textColor_riwbw1$_0 = textColor;
+    }
+  });
   Object.defineProperty(StyleImpl.prototype, 'strokeWidth', {
     get: function () {
       return this.strokeWidth_l4w949$_0;
@@ -1314,12 +966,28 @@
       this.strokeWidth_l4w949$_0 = strokeWidth;
     }
   });
+  Object.defineProperty(StyleImpl.prototype, 'hAlign', {
+    get: function () {
+      return this.hAlign_pi4kky$_0;
+    },
+    set: function (hAlign) {
+      this.hAlign_pi4kky$_0 = hAlign;
+    }
+  });
   Object.defineProperty(StyleImpl.prototype, 'anchor', {
     get: function () {
       return this.anchor_eyj0fu$_0;
     },
     set: function (anchor) {
       this.anchor_eyj0fu$_0 = anchor;
+    }
+  });
+  Object.defineProperty(StyleImpl.prototype, 'vAlign', {
+    get: function () {
+      return this.vAlign_hwcds0$_0;
+    },
+    set: function (vAlign) {
+      this.vAlign_hwcds0$_0 = vAlign;
     }
   });
   Object.defineProperty(StyleImpl.prototype, 'baseline', {
@@ -1341,8 +1009,9 @@
     this.fillSet_0 = false;
     this.strokeSet_0 = false;
     this.strokeWidthSet_0 = false;
-    this.anchorSet_0 = false;
-    this.baselineSet_0 = false;
+    this.textColorSet_0 = false;
+    this.hAlignSet_0 = false;
+    this.vAlignSet_0 = false;
   }
   Object.defineProperty(HierarchicalStyle.prototype, 'fill', {
     get: function () {
@@ -1383,30 +1052,59 @@
       (tmp$ = this.style_0) != null ? (tmp$.strokeWidth = value) : null;
     }
   });
-  Object.defineProperty(HierarchicalStyle.prototype, 'anchor', {
+  Object.defineProperty(HierarchicalStyle.prototype, 'textColor', {
     get: function () {
       var tmp$, tmp$_0;
-      return this.anchorSet_0 ? ensureNotNull((tmp$ = this.style_0) != null ? tmp$.anchor : null) : ensureNotNull((tmp$_0 = this.parent) != null ? tmp$_0.anchor : null);
+      return this.textColorSet_0 ? (tmp$ = this.style_0) != null ? tmp$.textColor : null : (tmp$_0 = this.parent) != null ? tmp$_0.textColor : null;
     },
     set: function (value) {
       var tmp$;
       if (this.style_0 == null)
         this.style_0 = new StyleImpl();
-      this.anchorSet_0 = true;
-      (tmp$ = this.style_0) != null ? (tmp$.anchor = value) : null;
+      this.textColorSet_0 = true;
+      (tmp$ = this.style_0) != null ? (tmp$.textColor = value) : null;
+    }
+  });
+  Object.defineProperty(HierarchicalStyle.prototype, 'hAlign', {
+    get: function () {
+      var tmp$, tmp$_0;
+      return this.hAlignSet_0 ? ensureNotNull((tmp$ = this.style_0) != null ? tmp$.hAlign : null) : ensureNotNull((tmp$_0 = this.parent) != null ? tmp$_0.hAlign : null);
+    },
+    set: function (value) {
+      var tmp$;
+      if (this.style_0 == null)
+        this.style_0 = new StyleImpl();
+      this.hAlignSet_0 = true;
+      (tmp$ = this.style_0) != null ? (tmp$.hAlign = value) : null;
+    }
+  });
+  Object.defineProperty(HierarchicalStyle.prototype, 'anchor', {
+    get: function () {
+      return this.hAlign;
+    },
+    set: function (value) {
+      this.hAlign = value;
+    }
+  });
+  Object.defineProperty(HierarchicalStyle.prototype, 'vAlign', {
+    get: function () {
+      var tmp$, tmp$_0;
+      return this.vAlignSet_0 ? ensureNotNull((tmp$ = this.style_0) != null ? tmp$.vAlign : null) : ensureNotNull((tmp$_0 = this.parent) != null ? tmp$_0.vAlign : null);
+    },
+    set: function (value) {
+      var tmp$;
+      if (this.style_0 == null)
+        this.style_0 = new StyleImpl();
+      this.vAlignSet_0 = true;
+      (tmp$ = this.style_0) != null ? (tmp$.vAlign = value) : null;
     }
   });
   Object.defineProperty(HierarchicalStyle.prototype, 'baseline', {
     get: function () {
-      var tmp$, tmp$_0;
-      return this.baselineSet_0 ? ensureNotNull((tmp$ = this.style_0) != null ? tmp$.baseline : null) : ensureNotNull((tmp$_0 = this.parent) != null ? tmp$_0.baseline : null);
+      return this.vAlign;
     },
     set: function (value) {
-      var tmp$;
-      if (this.style_0 == null)
-        this.style_0 = new StyleImpl();
-      this.baselineSet_0 = true;
-      (tmp$ = this.style_0) != null ? (tmp$.baseline = value) : null;
+      this.vAlign = value;
     }
   });
   HierarchicalStyle.$metadata$ = {
@@ -1414,108 +1112,124 @@
     simpleName: 'HierarchicalStyle',
     interfaces: [Style]
   };
-  function TextAnchor(name, ordinal) {
+  function TextHAlign(name, ordinal) {
     Enum.call(this);
     this.name$ = name;
     this.ordinal$ = ordinal;
   }
-  function TextAnchor_initFields() {
-    TextAnchor_initFields = function () {
+  function TextHAlign_initFields() {
+    TextHAlign_initFields = function () {
     };
-    TextAnchor$START_instance = new TextAnchor('START', 0);
-    TextAnchor$MIDDLE_instance = new TextAnchor('MIDDLE', 1);
-    TextAnchor$END_instance = new TextAnchor('END', 2);
+    TextHAlign$LEFT_instance = new TextHAlign('LEFT', 0);
+    TextHAlign$START_instance = new TextHAlign('START', 1);
+    TextHAlign$MIDDLE_instance = new TextHAlign('MIDDLE', 2);
+    TextHAlign$RIGHT_instance = new TextHAlign('RIGHT', 3);
+    TextHAlign$END_instance = new TextHAlign('END', 4);
   }
-  var TextAnchor$START_instance;
-  function TextAnchor$START_getInstance() {
-    TextAnchor_initFields();
-    return TextAnchor$START_instance;
+  var TextHAlign$LEFT_instance;
+  function TextHAlign$LEFT_getInstance() {
+    TextHAlign_initFields();
+    return TextHAlign$LEFT_instance;
   }
-  var TextAnchor$MIDDLE_instance;
-  function TextAnchor$MIDDLE_getInstance() {
-    TextAnchor_initFields();
-    return TextAnchor$MIDDLE_instance;
+  var TextHAlign$START_instance;
+  function TextHAlign$START_getInstance() {
+    TextHAlign_initFields();
+    return TextHAlign$START_instance;
   }
-  var TextAnchor$END_instance;
-  function TextAnchor$END_getInstance() {
-    TextAnchor_initFields();
-    return TextAnchor$END_instance;
+  var TextHAlign$MIDDLE_instance;
+  function TextHAlign$MIDDLE_getInstance() {
+    TextHAlign_initFields();
+    return TextHAlign$MIDDLE_instance;
   }
-  TextAnchor.$metadata$ = {
+  var TextHAlign$RIGHT_instance;
+  function TextHAlign$RIGHT_getInstance() {
+    TextHAlign_initFields();
+    return TextHAlign$RIGHT_instance;
+  }
+  var TextHAlign$END_instance;
+  function TextHAlign$END_getInstance() {
+    TextHAlign_initFields();
+    return TextHAlign$END_instance;
+  }
+  TextHAlign.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: 'TextAnchor',
+    simpleName: 'TextHAlign',
     interfaces: [Enum]
   };
-  function TextAnchor$values() {
-    return [TextAnchor$START_getInstance(), TextAnchor$MIDDLE_getInstance(), TextAnchor$END_getInstance()];
+  function TextHAlign$values() {
+    return [TextHAlign$LEFT_getInstance(), TextHAlign$START_getInstance(), TextHAlign$MIDDLE_getInstance(), TextHAlign$RIGHT_getInstance(), TextHAlign$END_getInstance()];
   }
-  TextAnchor.values = TextAnchor$values;
-  function TextAnchor$valueOf(name) {
+  TextHAlign.values = TextHAlign$values;
+  function TextHAlign$valueOf(name) {
     switch (name) {
+      case 'LEFT':
+        return TextHAlign$LEFT_getInstance();
       case 'START':
-        return TextAnchor$START_getInstance();
+        return TextHAlign$START_getInstance();
       case 'MIDDLE':
-        return TextAnchor$MIDDLE_getInstance();
+        return TextHAlign$MIDDLE_getInstance();
+      case 'RIGHT':
+        return TextHAlign$RIGHT_getInstance();
       case 'END':
-        return TextAnchor$END_getInstance();
-      default:throwISE('No enum constant io.data2viz.viz.TextAnchor.' + name);
+        return TextHAlign$END_getInstance();
+      default:throwISE('No enum constant io.data2viz.viz.TextHAlign.' + name);
     }
   }
-  TextAnchor.valueOf_61zpoe$ = TextAnchor$valueOf;
-  function TextAlignmentBaseline(name, ordinal) {
+  TextHAlign.valueOf_61zpoe$ = TextHAlign$valueOf;
+  function TextVAlign(name, ordinal) {
     Enum.call(this);
     this.name$ = name;
     this.ordinal$ = ordinal;
   }
-  function TextAlignmentBaseline_initFields() {
-    TextAlignmentBaseline_initFields = function () {
+  function TextVAlign_initFields() {
+    TextVAlign_initFields = function () {
     };
-    TextAlignmentBaseline$HANGING_instance = new TextAlignmentBaseline('HANGING', 0);
-    TextAlignmentBaseline$MIDDLE_instance = new TextAlignmentBaseline('MIDDLE', 1);
-    TextAlignmentBaseline$BASELINE_instance = new TextAlignmentBaseline('BASELINE', 2);
+    TextVAlign$HANGING_instance = new TextVAlign('HANGING', 0);
+    TextVAlign$MIDDLE_instance = new TextVAlign('MIDDLE', 1);
+    TextVAlign$BASELINE_instance = new TextVAlign('BASELINE', 2);
   }
-  var TextAlignmentBaseline$HANGING_instance;
-  function TextAlignmentBaseline$HANGING_getInstance() {
-    TextAlignmentBaseline_initFields();
-    return TextAlignmentBaseline$HANGING_instance;
+  var TextVAlign$HANGING_instance;
+  function TextVAlign$HANGING_getInstance() {
+    TextVAlign_initFields();
+    return TextVAlign$HANGING_instance;
   }
-  var TextAlignmentBaseline$MIDDLE_instance;
-  function TextAlignmentBaseline$MIDDLE_getInstance() {
-    TextAlignmentBaseline_initFields();
-    return TextAlignmentBaseline$MIDDLE_instance;
+  var TextVAlign$MIDDLE_instance;
+  function TextVAlign$MIDDLE_getInstance() {
+    TextVAlign_initFields();
+    return TextVAlign$MIDDLE_instance;
   }
-  var TextAlignmentBaseline$BASELINE_instance;
-  function TextAlignmentBaseline$BASELINE_getInstance() {
-    TextAlignmentBaseline_initFields();
-    return TextAlignmentBaseline$BASELINE_instance;
+  var TextVAlign$BASELINE_instance;
+  function TextVAlign$BASELINE_getInstance() {
+    TextVAlign_initFields();
+    return TextVAlign$BASELINE_instance;
   }
-  TextAlignmentBaseline.$metadata$ = {
+  TextVAlign.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: 'TextAlignmentBaseline',
+    simpleName: 'TextVAlign',
     interfaces: [Enum]
   };
-  function TextAlignmentBaseline$values() {
-    return [TextAlignmentBaseline$HANGING_getInstance(), TextAlignmentBaseline$MIDDLE_getInstance(), TextAlignmentBaseline$BASELINE_getInstance()];
+  function TextVAlign$values() {
+    return [TextVAlign$HANGING_getInstance(), TextVAlign$MIDDLE_getInstance(), TextVAlign$BASELINE_getInstance()];
   }
-  TextAlignmentBaseline.values = TextAlignmentBaseline$values;
-  function TextAlignmentBaseline$valueOf(name) {
+  TextVAlign.values = TextVAlign$values;
+  function TextVAlign$valueOf(name) {
     switch (name) {
       case 'HANGING':
-        return TextAlignmentBaseline$HANGING_getInstance();
+        return TextVAlign$HANGING_getInstance();
       case 'MIDDLE':
-        return TextAlignmentBaseline$MIDDLE_getInstance();
+        return TextVAlign$MIDDLE_getInstance();
       case 'BASELINE':
-        return TextAlignmentBaseline$BASELINE_getInstance();
-      default:throwISE('No enum constant io.data2viz.viz.TextAlignmentBaseline.' + name);
+        return TextVAlign$BASELINE_getInstance();
+      default:throwISE('No enum constant io.data2viz.viz.TextVAlign.' + name);
     }
   }
-  TextAlignmentBaseline.valueOf_61zpoe$ = TextAlignmentBaseline$valueOf;
+  TextVAlign.valueOf_61zpoe$ = TextVAlign$valueOf;
   function TextNode() {
     Node.call(this);
     this.transform_eg0kf5$_0 = null;
     this.x = 0.0;
     this.y = 0.0;
-    this.textContent = 'Type something';
+    this.textContent_dmbbup$_0 = 'Type something';
     this.fontSize = 12.0;
     this.fontFamily = FontFamily$Companion_getInstance().SANS_SERIF;
     this.fontWeight = FontWeight$NORMAL_getInstance();
@@ -1529,11 +1243,25 @@
       this.transform_eg0kf5$_0 = transform;
     }
   });
+  Object.defineProperty(TextNode.prototype, 'textContent', {
+    get: function () {
+      return this.textContent_dmbbup$_0;
+    },
+    set: function (value) {
+      this.textContent_dmbbup$_0 = makeVizFriendlyText(value);
+    }
+  });
   TextNode.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'TextNode',
     interfaces: [HasTransform, HasStroke, HasFill, Node]
   };
+  function makeVizFriendlyText($receiver) {
+    return replaceNewLineWithSpace($receiver);
+  }
+  function replaceNewLineWithSpace($receiver) {
+    return replace($receiver, 10, 32);
+  }
   function FontFamily(name) {
     FontFamily$Companion_getInstance();
     this.name = name;
@@ -1649,16 +1377,66 @@
       activeLayer = new Layer();
     this.activeLayer = activeLayer;
     this.$delegate_jlwl53$_0 = activeLayer;
-    this.activeLayer.parent = this;
     this.style_0 = new StyleImpl();
+    this.activeLayer.parent = this;
+    this.textColor = Colors.Web.black;
     this.config = new VizConfig();
     this.width_p2f4jt$_0 = 100.0;
     this.height_d5hk3m$_0 = 100.0;
     this.layers = mutableListOf([this.activeLayer]);
     this.resizeBehavior_0 = null;
-    this.renderer_9w8zxa$_0 = this.renderer_9w8zxa$_0;
+    this.renderer_9w8zxa$_0 = null;
+    this.eventListeners = ArrayList_init();
     this.animationTimers_8be2vx$ = ArrayList_init();
   }
+  Object.defineProperty(Viz.prototype, 'fill', {
+    get: function () {
+      return this.style_0.fill;
+    },
+    set: function (value) {
+      this.style_0.fill = value;
+    }
+  });
+  Object.defineProperty(Viz.prototype, 'stroke', {
+    get: function () {
+      return this.style_0.stroke;
+    },
+    set: function (value) {
+      this.style_0.stroke = value;
+    }
+  });
+  Object.defineProperty(Viz.prototype, 'strokeWidth', {
+    get: function () {
+      return this.style_0.strokeWidth;
+    },
+    set: function (value) {
+      this.style_0.strokeWidth = value;
+    }
+  });
+  Object.defineProperty(Viz.prototype, 'textColor', {
+    get: function () {
+      return this.style_0.textColor;
+    },
+    set: function (value) {
+      this.style_0.textColor = value;
+    }
+  });
+  Object.defineProperty(Viz.prototype, 'hAlign', {
+    get: function () {
+      return this.style_0.hAlign;
+    },
+    set: function (value) {
+      this.style_0.hAlign = value;
+    }
+  });
+  Object.defineProperty(Viz.prototype, 'vAlign', {
+    get: function () {
+      return this.style_0.vAlign;
+    },
+    set: function (value) {
+      this.style_0.vAlign = value;
+    }
+  });
   Object.defineProperty(Viz.prototype, 'width', {
     get: function () {
       return this.width_p2f4jt$_0;
@@ -1677,22 +1455,49 @@
   });
   Object.defineProperty(Viz.prototype, 'renderer', {
     get: function () {
-      if (this.renderer_9w8zxa$_0 == null)
-        return throwUPAE('renderer');
       return this.renderer_9w8zxa$_0;
     },
-    set: function (renderer) {
-      this.renderer_9w8zxa$_0 = renderer;
+    set: function (newValue) {
+      var oldValue = this.renderer_9w8zxa$_0;
+      this.renderer_9w8zxa$_0 = newValue;
+      var tmp$;
+      tmp$ = this.eventListeners.iterator();
+      while (tmp$.hasNext()) {
+        var element = tmp$.next();
+        if (oldValue != null) {
+          removeEventHandle(oldValue, element);
+        }
+        if (newValue != null) {
+          addEventHandle(newValue, element);
+        }
+      }
     }
   });
+  function Viz$on$lambda(this$Viz) {
+    return function (it) {
+      var tmp$;
+      this$Viz.eventListeners.remove_11rb$(it);
+      if ((tmp$ = this$Viz.renderer) != null) {
+        removeEventHandle(tmp$, it);
+      }
+      return Unit;
+    };
+  }
+  Viz.prototype.on_8o0vxr$ = function (eventListener, listener) {
+    var tmp$;
+    var eventHandle = new KEventHandle(eventListener, listener, Viz$on$lambda(this));
+    this.eventListeners.add_11rb$(eventHandle);
+    (tmp$ = this.renderer) != null ? (addEventHandle(tmp$, eventHandle), Unit) : null;
+    return eventHandle;
+  };
   Viz.prototype.render = function () {
-    this.renderer.render();
+    ensureNotNull(this.renderer).render();
   };
   Viz.prototype.startAnimations = function () {
-    this.renderer.startAnimations();
+    ensureNotNull(this.renderer).startAnimations();
   };
   Viz.prototype.stopAnimations = function () {
-    this.renderer.stopAnimations();
+    ensureNotNull(this.renderer).stopAnimations();
   };
   Viz.prototype.animation_o5zv02$ = function (block) {
     this.animationTimers_8be2vx$.add_11rb$(block);
@@ -1721,44 +1526,20 @@
     this.activeLayer = layer;
     return layer;
   };
-  Object.defineProperty(Viz.prototype, 'fill', {
-    get: function () {
-      return this.style_0.fill;
-    },
-    set: function (value) {
-      this.style_0.fill = value;
-    }
-  });
-  Object.defineProperty(Viz.prototype, 'stroke', {
-    get: function () {
-      return this.style_0.stroke;
-    },
-    set: function (value) {
-      this.style_0.stroke = value;
-    }
-  });
-  Object.defineProperty(Viz.prototype, 'strokeWidth', {
-    get: function () {
-      return this.style_0.strokeWidth;
-    },
-    set: function (value) {
-      this.style_0.strokeWidth = value;
-    }
-  });
   Object.defineProperty(Viz.prototype, 'anchor', {
     get: function () {
-      return this.style_0.anchor;
+      return this.$delegate_jlwl53$_0.anchor;
     },
-    set: function (value) {
-      this.style_0.anchor = value;
+    set: function (tmp$) {
+      this.$delegate_jlwl53$_0.anchor = tmp$;
     }
   });
   Object.defineProperty(Viz.prototype, 'baseline', {
     get: function () {
-      return this.style_0.baseline;
+      return this.$delegate_jlwl53$_0.baseline;
     },
-    set: function (value) {
-      this.style_0.baseline = value;
+    set: function (tmp$) {
+      this.$delegate_jlwl53$_0.baseline = tmp$;
     }
   });
   Viz.prototype.add_vetai8$ = function (node) {
@@ -1998,7 +1779,6 @@
       return 'No canvas in the document corresponding to ' + closure$canvasId;
     };
   }
-  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
   function bindRendererOn($receiver, canvasId) {
     var tmp$;
     var value = (tmp$ = document.getElementById(canvasId)) == null || Kotlin.isType(tmp$, HTMLCanvasElement) ? tmp$ : throwCCE();
@@ -2117,7 +1897,7 @@
   };
   function render($receiver, context) {
     context.beginPath();
-    context.arc($receiver.x, $receiver.y, $receiver.radius, 0.0, 2 * math_0.PI, false);
+    context.arc($receiver.x, $receiver.y, $receiver.radius, 0.0, 2 * math.PI, false);
     if ($receiver.fill != null) {
       context.fill();
     }
@@ -2125,7 +1905,6 @@
       context.stroke();
     }
   }
-  var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
   function toCanvasPaint($receiver, context) {
     if (Kotlin.isType($receiver, Color))
       return $receiver.rgba;
@@ -2156,6 +1935,333 @@
       gradient.addColorStop(element.percent.value, element.color.rgba);
     }
     return gradient;
+  }
+  function KPointerDown() {
+    KPointerDown$PointerDownEventListener_getInstance();
+  }
+  function KPointerDown$PointerDownEventListener() {
+    KPointerDown$PointerDownEventListener_instance = this;
+  }
+  KPointerDown$PointerDownEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    return createJsListener(target, listener, 'mousedown');
+  };
+  KPointerDown$PointerDownEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PointerDownEventListener',
+    interfaces: [KEventListener]
+  };
+  var KPointerDown$PointerDownEventListener_instance = null;
+  function KPointerDown$PointerDownEventListener_getInstance() {
+    if (KPointerDown$PointerDownEventListener_instance === null) {
+      new KPointerDown$PointerDownEventListener();
+    }
+    return KPointerDown$PointerDownEventListener_instance;
+  }
+  KPointerDown.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerDown',
+    interfaces: []
+  };
+  function KPointerUp() {
+    KPointerUp$PointerUpEventListener_getInstance();
+  }
+  function KPointerUp$PointerUpEventListener() {
+    KPointerUp$PointerUpEventListener_instance = this;
+  }
+  KPointerUp$PointerUpEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    return createJsListener(target, listener, 'mouseup');
+  };
+  KPointerUp$PointerUpEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PointerUpEventListener',
+    interfaces: [KEventListener]
+  };
+  var KPointerUp$PointerUpEventListener_instance = null;
+  function KPointerUp$PointerUpEventListener_getInstance() {
+    if (KPointerUp$PointerUpEventListener_instance === null) {
+      new KPointerUp$PointerUpEventListener();
+    }
+    return KPointerUp$PointerUpEventListener_instance;
+  }
+  KPointerUp.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerUp',
+    interfaces: []
+  };
+  function KPointerEnter() {
+    KPointerEnter$PointerEnterEventListener_getInstance();
+  }
+  function KPointerEnter$PointerEnterEventListener() {
+    KPointerEnter$PointerEnterEventListener_instance = this;
+  }
+  KPointerEnter$PointerEnterEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    return createJsListener(target, listener, 'mouseenter');
+  };
+  KPointerEnter$PointerEnterEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PointerEnterEventListener',
+    interfaces: [KEventListener]
+  };
+  var KPointerEnter$PointerEnterEventListener_instance = null;
+  function KPointerEnter$PointerEnterEventListener_getInstance() {
+    if (KPointerEnter$PointerEnterEventListener_instance === null) {
+      new KPointerEnter$PointerEnterEventListener();
+    }
+    return KPointerEnter$PointerEnterEventListener_instance;
+  }
+  KPointerEnter.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerEnter',
+    interfaces: []
+  };
+  function KPointerLeave() {
+    KPointerLeave$PointerLeaveEventListener_getInstance();
+  }
+  function KPointerLeave$PointerLeaveEventListener() {
+    KPointerLeave$PointerLeaveEventListener_instance = this;
+  }
+  KPointerLeave$PointerLeaveEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    return createJsListener(target, listener, 'mouseleave');
+  };
+  KPointerLeave$PointerLeaveEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PointerLeaveEventListener',
+    interfaces: [KEventListener]
+  };
+  var KPointerLeave$PointerLeaveEventListener_instance = null;
+  function KPointerLeave$PointerLeaveEventListener_getInstance() {
+    if (KPointerLeave$PointerLeaveEventListener_instance === null) {
+      new KPointerLeave$PointerLeaveEventListener();
+    }
+    return KPointerLeave$PointerLeaveEventListener_instance;
+  }
+  KPointerLeave.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerLeave',
+    interfaces: []
+  };
+  function KPointerDoubleClick() {
+    KPointerDoubleClick$PointerDoubleClickEventListener_getInstance();
+  }
+  function KPointerDoubleClick$PointerDoubleClickEventListener() {
+    KPointerDoubleClick$PointerDoubleClickEventListener_instance = this;
+  }
+  KPointerDoubleClick$PointerDoubleClickEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    return createJsListener(target, listener, 'dblclick');
+  };
+  KPointerDoubleClick$PointerDoubleClickEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PointerDoubleClickEventListener',
+    interfaces: [KEventListener]
+  };
+  var KPointerDoubleClick$PointerDoubleClickEventListener_instance = null;
+  function KPointerDoubleClick$PointerDoubleClickEventListener_getInstance() {
+    if (KPointerDoubleClick$PointerDoubleClickEventListener_instance === null) {
+      new KPointerDoubleClick$PointerDoubleClickEventListener();
+    }
+    return KPointerDoubleClick$PointerDoubleClickEventListener_instance;
+  }
+  KPointerDoubleClick.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerDoubleClick',
+    interfaces: []
+  };
+  function KPointerMove() {
+    KPointerMove$PointerMoveEventListener_getInstance();
+  }
+  function KPointerMove$PointerMoveEventListener() {
+    KPointerMove$PointerMoveEventListener_instance = this;
+  }
+  KPointerMove$PointerMoveEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    return createJsListener(target, listener, 'mousemove');
+  };
+  KPointerMove$PointerMoveEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PointerMoveEventListener',
+    interfaces: [KEventListener]
+  };
+  var KPointerMove$PointerMoveEventListener_instance = null;
+  function KPointerMove$PointerMoveEventListener_getInstance() {
+    if (KPointerMove$PointerMoveEventListener_instance === null) {
+      new KPointerMove$PointerMoveEventListener();
+    }
+    return KPointerMove$PointerMoveEventListener_instance;
+  }
+  KPointerMove.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerMove',
+    interfaces: []
+  };
+  function KPointerClick() {
+    KPointerClick$PointerClickEventListener_getInstance();
+  }
+  function KPointerClick$PointerClickEventListener() {
+    KPointerClick$PointerClickEventListener_instance = this;
+  }
+  KPointerClick$PointerClickEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    return createJsListener(target, listener, 'click');
+  };
+  KPointerClick$PointerClickEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PointerClickEventListener',
+    interfaces: [KEventListener]
+  };
+  var KPointerClick$PointerClickEventListener_instance = null;
+  function KPointerClick$PointerClickEventListener_getInstance() {
+    if (KPointerClick$PointerClickEventListener_instance === null) {
+      new KPointerClick$PointerClickEventListener();
+    }
+    return KPointerClick$PointerClickEventListener_instance;
+  }
+  KPointerClick.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KPointerClick',
+    interfaces: []
+  };
+  function KZoom() {
+    KZoom$ZoomEventListener_getInstance();
+  }
+  function KZoom$ZoomEventListener() {
+    KZoom$ZoomEventListener_instance = this;
+    this.minGestureZoomDeltaValue = -10.0;
+    this.maxGestureZoomDeltaValue = 10.0;
+    this.minWheelZoomDeltaValue = -100.0;
+    this.maxWheelZoomDeltaValue = 100.0;
+    this.lastZoomTime = null;
+    this.zoomStartPoint_zb099k$_0 = this.zoomStartPoint_zb099k$_0;
+  }
+  Object.defineProperty(KZoom$ZoomEventListener.prototype, 'zoomStartPoint', {
+    get: function () {
+      if (this.zoomStartPoint_zb099k$_0 == null)
+        return throwUPAE('zoomStartPoint');
+      return this.zoomStartPoint_zb099k$_0;
+    },
+    set: function (zoomStartPoint) {
+      this.zoomStartPoint_zb099k$_0 = zoomStartPoint;
+    }
+  });
+  function KZoom$ZoomEventListener$addNativeListener$ObjectLiteral(closure$htmlElement, closure$listener) {
+    this.closure$htmlElement = closure$htmlElement;
+    this.closure$listener = closure$listener;
+  }
+  KZoom$ZoomEventListener$addNativeListener$ObjectLiteral.prototype.handleEvent = function (event) {
+    var tmp$;
+    var $receiver = Kotlin.isType(tmp$ = event, WheelEvent) ? tmp$ : throwCCE();
+    this.closure$htmlElement;
+    this.closure$listener;
+    var closure$htmlElement = this.closure$htmlElement;
+    var closure$listener = this.closure$listener;
+    event.preventDefault();
+    var invertedDelta = $receiver.deltaY * -1;
+    var currentTime = Date.now();
+    var zoomPoint = new Point($receiver.clientX - closure$htmlElement.offsetLeft, $receiver.clientY - closure$htmlElement.offsetTop);
+    if (KZoomEvent$Companion_getInstance().isNewZoom_xg1spd$(currentTime, KZoom$ZoomEventListener_getInstance().lastZoomTime)) {
+      KZoom$ZoomEventListener_getInstance().zoomStartPoint = zoomPoint;
+    }
+    if (event.ctrlKey) {
+      closure$listener(new KZoomEvent(KZoom$ZoomEventListener_getInstance().zoomStartPoint, zoomPoint, KZoomEvent$Companion_getInstance().scaleDelta_1lq62i$(invertedDelta, KZoom$ZoomEventListener_getInstance().minWheelZoomDeltaValue, KZoom$ZoomEventListener_getInstance().maxWheelZoomDeltaValue)));
+    }
+     else {
+      closure$listener(new KZoomEvent(KZoom$ZoomEventListener_getInstance().zoomStartPoint, zoomPoint, KZoomEvent$Companion_getInstance().scaleDelta_1lq62i$(invertedDelta, KZoom$ZoomEventListener_getInstance().minGestureZoomDeltaValue, KZoom$ZoomEventListener_getInstance().maxGestureZoomDeltaValue)));
+    }
+    KZoom$ZoomEventListener_getInstance().lastZoomTime = currentTime;
+  };
+  KZoom$ZoomEventListener$addNativeListener$ObjectLiteral.$metadata$ = {
+    kind: Kind_CLASS,
+    interfaces: []
+  };
+  KZoom$ZoomEventListener.prototype.addNativeListener_80knxr$ = function (target, listener) {
+    var htmlElement = target;
+    var nativeListener = new KZoom$ZoomEventListener$addNativeListener$ObjectLiteral(htmlElement, listener);
+    var $receiver = new JsListener(htmlElement, 'wheel', nativeListener);
+    $receiver.init();
+    return $receiver;
+  };
+  KZoom$ZoomEventListener.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'ZoomEventListener',
+    interfaces: [KEventListener]
+  };
+  var KZoom$ZoomEventListener_instance = null;
+  function KZoom$ZoomEventListener_getInstance() {
+    if (KZoom$ZoomEventListener_instance === null) {
+      new KZoom$ZoomEventListener();
+    }
+    return KZoom$ZoomEventListener_instance;
+  }
+  KZoom.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'KZoom',
+    interfaces: []
+  };
+  function createJsListener$ObjectLiteral(closure$htmlElement, closure$listener) {
+    this.closure$htmlElement = closure$htmlElement;
+    this.closure$listener = closure$listener;
+  }
+  createJsListener$ObjectLiteral.prototype.handleEvent = function (event) {
+    var nativeEvent = convertToKEvent(event, this.closure$htmlElement);
+    this.closure$listener(nativeEvent);
+  };
+  createJsListener$ObjectLiteral.$metadata$ = {
+    kind: Kind_CLASS,
+    interfaces: []
+  };
+  function createJsListener(target, listener, jsEventName) {
+    var htmlElement = target;
+    var nativeListener = new createJsListener$ObjectLiteral(htmlElement, listener);
+    var $receiver = new JsListener(htmlElement, jsEventName, nativeListener);
+    $receiver.init();
+    return $receiver;
+  }
+  function JsListener(htmlElement, type, listener) {
+    this.htmlElement = htmlElement;
+    this.type = type;
+    this.listener = listener;
+  }
+  JsListener.prototype.init = function () {
+    this.htmlElement.addEventListener(this.type, this.listener);
+  };
+  JsListener.prototype.dispose = function () {
+    this.htmlElement.removeEventListener(this.type, this.listener);
+  };
+  JsListener.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'JsListener',
+    interfaces: [Disposable]
+  };
+  JsListener.prototype.component1 = function () {
+    return this.htmlElement;
+  };
+  JsListener.prototype.component2 = function () {
+    return this.type;
+  };
+  JsListener.prototype.component3 = function () {
+    return this.listener;
+  };
+  JsListener.prototype.copy_ub876k$ = function (htmlElement, type, listener) {
+    return new JsListener(htmlElement === void 0 ? this.htmlElement : htmlElement, type === void 0 ? this.type : type, listener === void 0 ? this.listener : listener);
+  };
+  JsListener.prototype.toString = function () {
+    return 'JsListener(htmlElement=' + Kotlin.toString(this.htmlElement) + (', type=' + Kotlin.toString(this.type)) + (', listener=' + Kotlin.toString(this.listener)) + ')';
+  };
+  JsListener.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.htmlElement) | 0;
+    result = result * 31 + Kotlin.hashCode(this.type) | 0;
+    result = result * 31 + Kotlin.hashCode(this.listener) | 0;
+    return result;
+  };
+  JsListener.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.htmlElement, other.htmlElement) && Kotlin.equals(this.type, other.type) && Kotlin.equals(this.listener, other.listener)))));
+  };
+  function addNativeEventListenerFromHandle($receiver, handle) {
+    var tmp$;
+    var jsCanvasRenderer = Kotlin.isType(tmp$ = $receiver, JsCanvasRenderer) ? tmp$ : throwCCE();
+    return handle.eventListener.addNativeListener_80knxr$(jsCanvasRenderer.context.canvas, handle.listener);
+  }
+  function convertToKEvent($receiver, target) {
+    var kPointerMoveEvent = new KMouseEvent(new Point($receiver.clientX - target.offsetLeft, $receiver.clientY - target.offsetTop), $receiver.altKey, $receiver.ctrlKey, $receiver.shiftKey, $receiver.metaKey);
+    return kPointerMoveEvent;
   }
   function render_0($receiver, context) {
     var tmp$;
@@ -2260,10 +2366,12 @@
     }
   }
   function render_4($receiver, context) {
-    context.textAlign = get_js_0($receiver.anchor);
-    context.textBaseline = get_js($receiver.baseline);
+    var tmp$;
+    context.textAlign = get_js_0($receiver.hAlign);
+    context.textBaseline = get_js($receiver.vAlign);
     context.font = get_js_2($receiver.fontStyle) + ' ' + get_js_1($receiver.fontWeight) + ' ' + $receiver.fontSize + 'px ' + $receiver.fontFamily.name;
-    if ($receiver.fill != null) {
+    if ((tmp$ = $receiver.textColor) != null) {
+      context.fillStyle = toCanvasPaint(tmp$, context);
       context.fillText($receiver.textContent, $receiver.x, $receiver.y);
     }
     if ($receiver.stroke != null) {
@@ -2284,8 +2392,10 @@
   function get_js_0($receiver) {
     switch ($receiver.name) {
       case 'START':
+      case 'LEFT':
         return 'left';
       case 'END':
+      case 'RIGHT':
         return 'right';
       case 'MIDDLE':
         return 'center';
@@ -2317,7 +2427,36 @@
   package$viz.TextAlign = TextAlign;
   package$viz.get_textAlign_lqwhv2$ = get_textAlign;
   package$viz.set_textAlign_wqzlt4$ = set_textAlign;
-  package$viz.textAlign_39dvyb$ = textAlign;
+  package$viz.textAlign_swvb04$ = textAlign;
+  package$viz.addEventHandle_2i0bkv$ = addEventHandle;
+  package$viz.removeEventHandle_2i0bkv$ = removeEventHandle;
+  package$viz.Disposable = Disposable;
+  package$viz.CompositeDisposable = CompositeDisposable;
+  package$viz.KEvent = KEvent;
+  package$viz.KEventHandle = KEventHandle;
+  package$viz.KPointerEvent = KPointerEvent;
+  package$viz.KMouseEvent = KMouseEvent;
+  Object.defineProperty(KDragEvent$KDragAction, 'Start', {
+    get: KDragEvent$KDragAction$Start_getInstance
+  });
+  Object.defineProperty(KDragEvent$KDragAction, 'Dragging', {
+    get: KDragEvent$KDragAction$Dragging_getInstance
+  });
+  Object.defineProperty(KDragEvent$KDragAction, 'Finish', {
+    get: KDragEvent$KDragAction$Finish_getInstance
+  });
+  KDragEvent.KDragAction = KDragEvent$KDragAction;
+  package$viz.KDragEvent = KDragEvent;
+  package$viz.ExperimentalKZoomEvent = ExperimentalKZoomEvent;
+  Object.defineProperty(KZoomEvent, 'Companion', {
+    get: KZoomEvent$Companion_getInstance
+  });
+  package$viz.KZoomEvent = KZoomEvent;
+  package$viz.KEventListener = KEventListener;
+  Object.defineProperty(KPointerDrag, 'PointerDragEventListener', {
+    get: KPointerDrag$PointerDragEventListener_getInstance
+  });
+  package$viz.KPointerDrag = KPointerDrag;
   package$viz.GroupNode = GroupNode;
   package$viz.HasChildren = HasChildren;
   package$viz.Layer = Layer;
@@ -2325,28 +2464,6 @@
   package$viz.Node = Node;
   package$viz.PathNode = PathNode;
   package$viz.RectNode = RectNode;
-  package$viz.RenderingTest = RenderingTest;
-  Object.defineProperty(package$viz, 'linesOfText', {
-    get: function () {
-      return linesOfText;
-    }
-  });
-  Object.defineProperty(package$viz, 'fontSizeValue', {
-    get: function () {
-      return fontSizeValue;
-    }
-  });
-  Object.defineProperty(package$viz, 'fontFamilyValue', {
-    get: function () {
-      return fontFamilyValue;
-    }
-  });
-  Object.defineProperty(package$viz, 'allRenderingTests', {
-    get: function () {
-      return allRenderingTests;
-    }
-  });
-  package$viz.renderingTest_3decbe$ = renderingTest;
   package$viz.StateManager = StateManager;
   Object.defineProperty(StateManagerStatus, 'REST', {
     get: StateManagerStatus$REST_getInstance
@@ -2362,26 +2479,32 @@
   package$viz.Style = Style;
   package$viz.StyleImpl = StyleImpl;
   package$viz.HierarchicalStyle = HierarchicalStyle;
-  Object.defineProperty(TextAnchor, 'START', {
-    get: TextAnchor$START_getInstance
+  Object.defineProperty(TextHAlign, 'LEFT', {
+    get: TextHAlign$LEFT_getInstance
   });
-  Object.defineProperty(TextAnchor, 'MIDDLE', {
-    get: TextAnchor$MIDDLE_getInstance
+  Object.defineProperty(TextHAlign, 'START', {
+    get: TextHAlign$START_getInstance
   });
-  Object.defineProperty(TextAnchor, 'END', {
-    get: TextAnchor$END_getInstance
+  Object.defineProperty(TextHAlign, 'MIDDLE', {
+    get: TextHAlign$MIDDLE_getInstance
   });
-  package$viz.TextAnchor = TextAnchor;
-  Object.defineProperty(TextAlignmentBaseline, 'HANGING', {
-    get: TextAlignmentBaseline$HANGING_getInstance
+  Object.defineProperty(TextHAlign, 'RIGHT', {
+    get: TextHAlign$RIGHT_getInstance
   });
-  Object.defineProperty(TextAlignmentBaseline, 'MIDDLE', {
-    get: TextAlignmentBaseline$MIDDLE_getInstance
+  Object.defineProperty(TextHAlign, 'END', {
+    get: TextHAlign$END_getInstance
   });
-  Object.defineProperty(TextAlignmentBaseline, 'BASELINE', {
-    get: TextAlignmentBaseline$BASELINE_getInstance
+  package$viz.TextHAlign = TextHAlign;
+  Object.defineProperty(TextVAlign, 'HANGING', {
+    get: TextVAlign$HANGING_getInstance
   });
-  package$viz.TextAlignmentBaseline = TextAlignmentBaseline;
+  Object.defineProperty(TextVAlign, 'MIDDLE', {
+    get: TextVAlign$MIDDLE_getInstance
+  });
+  Object.defineProperty(TextVAlign, 'BASELINE', {
+    get: TextVAlign$BASELINE_getInstance
+  });
+  package$viz.TextVAlign = TextVAlign;
   package$viz.TextNode = TextNode;
   Object.defineProperty(FontFamily, 'Companion', {
     get: FontFamily$Companion_getInstance
@@ -2421,6 +2544,41 @@
   package$viz.toCanvasPaint_kswsrv$ = toCanvasPaint;
   package$viz.toCanvasGradient_rq3hm6$ = toCanvasGradient;
   package$viz.toCanvasGradient_f9mw60$ = toCanvasGradient_0;
+  Object.defineProperty(KPointerDown, 'PointerDownEventListener', {
+    get: KPointerDown$PointerDownEventListener_getInstance
+  });
+  package$viz.KPointerDown = KPointerDown;
+  Object.defineProperty(KPointerUp, 'PointerUpEventListener', {
+    get: KPointerUp$PointerUpEventListener_getInstance
+  });
+  package$viz.KPointerUp = KPointerUp;
+  Object.defineProperty(KPointerEnter, 'PointerEnterEventListener', {
+    get: KPointerEnter$PointerEnterEventListener_getInstance
+  });
+  package$viz.KPointerEnter = KPointerEnter;
+  Object.defineProperty(KPointerLeave, 'PointerLeaveEventListener', {
+    get: KPointerLeave$PointerLeaveEventListener_getInstance
+  });
+  package$viz.KPointerLeave = KPointerLeave;
+  Object.defineProperty(KPointerDoubleClick, 'PointerDoubleClickEventListener', {
+    get: KPointerDoubleClick$PointerDoubleClickEventListener_getInstance
+  });
+  package$viz.KPointerDoubleClick = KPointerDoubleClick;
+  Object.defineProperty(KPointerMove, 'PointerMoveEventListener', {
+    get: KPointerMove$PointerMoveEventListener_getInstance
+  });
+  package$viz.KPointerMove = KPointerMove;
+  Object.defineProperty(KPointerClick, 'PointerClickEventListener', {
+    get: KPointerClick$PointerClickEventListener_getInstance
+  });
+  package$viz.KPointerClick = KPointerClick;
+  Object.defineProperty(KZoom, 'ZoomEventListener', {
+    get: KZoom$ZoomEventListener_getInstance
+  });
+  package$viz.KZoom = KZoom;
+  package$viz.JsListener = JsListener;
+  package$viz.addNativeEventListenerFromHandle_2i0bkv$ = addNativeEventListenerFromHandle;
+  package$viz.convertToKEvent_u7ml53$ = convertToKEvent;
   package$viz.render_gg89ve$ = render_0;
   package$viz.render_ewmr2t$ = render_1;
   package$viz.render_eb5h8$ = render_2;
@@ -2428,10 +2586,6 @@
   package$viz.render_6qybup$ = render_4;
   PathNode.prototype.arc_6p3vsx$ = Path.prototype.arc_6p3vsx$;
   Object.defineProperty(Viz.prototype, 'size', Object.getOwnPropertyDescriptor(HasSize.prototype, 'size'));
-  linesOfText = listOf(['The quick brown,', 'fox jumps over', 'the lazy dog.']);
-  fontSizeValue = 40.0;
-  fontFamilyValue = 'Roboto';
-  allRenderingTests = listOf([renderingTest('text-SANS_SERIF_ITALIC_BOLD', allRenderingTests$lambda), renderingTest('text-SANS_SERIF_ITALIC_NORMAL', allRenderingTests$lambda_0), renderingTest('text-SANS_SERIF_NORMAL_BOLD', allRenderingTests$lambda_1), renderingTest('text-SANS_SERIF_NORMAL_NORMAL', allRenderingTests$lambda_2), renderingTest('text-SERIF_ITALIC_BOLD', allRenderingTests$lambda_3), renderingTest('text-SERIF_ITALIC_NORMAL', allRenderingTests$lambda_4), renderingTest('text-SERIF_NORMAL_BOLD', allRenderingTests$lambda_5), renderingTest('text-SERIF_NORMAL_NORMAL', allRenderingTests$lambda_6), renderingTest('text-MONOSPACE_ITALIC_BOLD', allRenderingTests$lambda_7), renderingTest('text-MONOSPACE_ITALIC_NORMAL', allRenderingTests$lambda_8), renderingTest('text-MONOSPACE_NORMAL_BOLD', allRenderingTests$lambda_9), renderingTest('text-MONOSPACE_NORMAL_NORMAL', allRenderingTests$lambda_10), renderingTest('transform', allRenderingTests$lambda_11), renderingTest('rect1', allRenderingTests$lambda_12), renderingTest('circle1', allRenderingTests$lambda_13), renderingTest('circle2', allRenderingTests$lambda_14), renderingTest('circle3', allRenderingTests$lambda_15), renderingTest('circle4', allRenderingTests$lambda_16), renderingTest('arc1-positive-clockwise', allRenderingTests$lambda_17), renderingTest('arc2-negative-clockwise', allRenderingTests$lambda_18), renderingTest('arc3-positive-counterclockwise', allRenderingTests$lambda_19), renderingTest('arc4-negative-counterclockwise', allRenderingTests$lambda_20), renderingTest('arc5-positive-negative-clockwise', allRenderingTests$lambda_21), renderingTest('arc6-positive-negative-counterclockwise', allRenderingTests$lambda_22), renderingTest('arc7-checking-points-order-clockwise', allRenderingTests$lambda_23), renderingTest('arc8-checking-points-order-counterclockwise', allRenderingTests$lambda_24), renderingTest('arc9-complex-drawing', allRenderingTests$lambda_25), renderingTest('path1', allRenderingTests$lambda_26), renderingTest('path.rect', allRenderingTests$lambda_27), renderingTest('visible1', allRenderingTests$lambda_28), renderingTest('visible2-layer', allRenderingTests$lambda_29)]);
   Kotlin.defineModule('d2v-viz-js', _);
   return _;
 }));

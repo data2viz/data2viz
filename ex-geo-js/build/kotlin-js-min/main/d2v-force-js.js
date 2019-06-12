@@ -20,13 +20,16 @@
   }
 }(this, function (_, Kotlin, $module$d2v_core_js, $module$d2v_quadtree_js, $module$d2v_timer_js) {
   'use strict';
+  var Random = Kotlin.kotlin.random.Random;
+  var math = $module$d2v_core_js.io.data2viz.math;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
-  var Unit = Kotlin.kotlin.Unit;
   var Point = $module$d2v_core_js.io.data2viz.geom.Point;
   var Kind_CLASS = Kotlin.Kind.CLASS;
+  var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
   var throwUPAE = Kotlin.throwUPAE;
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
   var quadtree = $module$d2v_quadtree_js.io.data2viz.quadtree.quadtree_tz1x4d$;
+  var Unit = Kotlin.kotlin.Unit;
   var getCallableRef = Kotlin.getCallableRef;
   var visitAfter = $module$d2v_quadtree_js.io.data2viz.quadtree.visitAfter_690jwc$;
   var visit = $module$d2v_quadtree_js.io.data2viz.quadtree.visit_jsbco0$;
@@ -36,15 +39,38 @@
   var throwCCE = Kotlin.throwCCE;
   var toList = $module$d2v_quadtree_js.io.data2viz.quadtree.toList_dw9rom$;
   var kotlin_js_internal_DoubleCompanionObject = Kotlin.kotlin.js.internal.DoubleCompanionObject;
-  var Random = Kotlin.kotlin.random.Random;
-  var math = $module$d2v_core_js.io.data2viz.math;
-  var rangeTo = Kotlin.kotlin.ranges.rangeTo_38ydlf$;
+  var get_pct = $module$d2v_core_js.io.data2viz.math.get_pct_rcaex3$;
+  var Math_0 = Math;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
+  var flatten = Kotlin.kotlin.collections.flatten_u0ad8z$;
   var isNaN_0 = Kotlin.kotlin.isNaN_yrwdxr$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var Array_0 = Array;
+  var point = $module$d2v_core_js.io.data2viz.geom.point_lu1900$;
+  var Vector = $module$d2v_core_js.io.data2viz.geom.Vector;
+  var point_0 = $module$d2v_core_js.io.data2viz.geom.point_vux9f0$;
+  var math_0 = Kotlin.kotlin.math;
+  var Percent = $module$d2v_core_js.io.data2viz.math.Percent;
+  var plus = Kotlin.kotlin.collections.plus_qloxvw$;
+  var minus = Kotlin.kotlin.collections.minus_2ws7j4$;
+  var toList_0 = Kotlin.kotlin.collections.toList_7wnvza$;
+  var equals = Kotlin.equals;
   var timer = $module$d2v_timer_js.io.data2viz.timer.timer_k9susy$;
   var Enum = Kotlin.kotlin.Enum;
   var throwISE = Kotlin.throwISE;
+  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
   SimulationEvent.prototype = Object.create(Enum.prototype);
   SimulationEvent.prototype.constructor = SimulationEvent;
+  function forceSimulation(init) {
+    var $receiver = new ForceSimulation();
+    init($receiver);
+    return $receiver;
+  }
+  function jiggle() {
+    return (Random.Default.nextDouble() - 0.5) * math.EPSILON;
+  }
   function Force() {
   }
   Force.$metadata$ = {
@@ -53,19 +79,18 @@
     interfaces: []
   };
   function forceCenter(center) {
-    return new ForceCenter(center);
+    var $receiver = new ForceCenter();
+    $receiver.center = center;
+    return $receiver;
   }
-  var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
-  function ForceCenter(center) {
-    if (center === void 0)
-      center = new Point(0.0, 0.0);
-    this.center = center;
+  function ForceCenter() {
     this._nodes_0 = emptyList();
+    this.center = new Point(0.0, 0.0);
   }
-  ForceCenter.prototype.assignNodes_qipxwu$ = function (nodes) {
+  ForceCenter.prototype.assignNodes_oydpol$ = function (nodes) {
     this._nodes_0 = nodes;
   };
-  ForceCenter.prototype.applyForceToNodes_14dthe$ = function (alpha) {
+  ForceCenter.prototype.applyForceToNodes_14dthe$ = function (intensity) {
     var size = this._nodes_0.size;
     var sx = {v: 0.0};
     var sy = {v: 0.0};
@@ -96,7 +121,6 @@
     init($receiver);
     return $receiver;
   }
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function ForceCollision() {
     this.x_0 = ForceCollision$x$lambda;
     this.y_0 = ForceCollision$y$lambda;
@@ -105,11 +129,11 @@
     this.xi_0 = kotlin_js_internal_DoubleCompanionObject.NaN;
     this.yi_0 = kotlin_js_internal_DoubleCompanionObject.NaN;
     this.currentNode_c4mtyc$_0 = this.currentNode_c4mtyc$_0;
-    this.iterations = 1;
-    this.strength = 0.7;
-    this.radius_z5yoph$_0 = ForceCollision$radius$lambda;
-    this.nodes_0 = emptyList();
-    this.radiuses_0 = ArrayList_init();
+    this.iterations_zciiwp$_0 = 1;
+    this.strength_rfnizg$_0 = get_pct(70);
+    this.radiusGet_evnjeb$_0 = ForceCollision$radiusGet$lambda;
+    this._nodes_0 = emptyList();
+    this._radiuses_0 = emptyList();
   }
   Object.defineProperty(ForceCollision.prototype, 'currentNode_0', {
     get: function () {
@@ -121,44 +145,60 @@
       this.currentNode_c4mtyc$_0 = currentNode;
     }
   });
-  Object.defineProperty(ForceCollision.prototype, 'radius', {
+  Object.defineProperty(ForceCollision.prototype, 'iterations', {
     get: function () {
-      return this.radius_z5yoph$_0;
+      return this.iterations_zciiwp$_0;
     },
     set: function (value) {
-      this.radius_z5yoph$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.iterations_zciiwp$_0 = Math_0.max(1, value);
     }
   });
-  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
-  ForceCollision.prototype.assignNodes_qipxwu$ = function (nodes) {
-    this.nodes_0 = nodes;
-    this.radiuses_0.clear();
-    var tmp$, tmp$_0;
-    var index = 0;
+  Object.defineProperty(ForceCollision.prototype, 'strength', {
+    get: function () {
+      return this.strength_rfnizg$_0;
+    },
+    set: function (value) {
+      this.strength_rfnizg$_0 = value.coerceToDefault();
+    }
+  });
+  Object.defineProperty(ForceCollision.prototype, 'radiusGet', {
+    get: function () {
+      return this.radiusGet_evnjeb$_0;
+    },
+    set: function (value) {
+      this.radiusGet_evnjeb$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
+    }
+  });
+  ForceCollision.prototype.assignNodes_oydpol$ = function (nodes) {
+    this._nodes_0 = nodes;
+    var transform = this.radiusGet;
+    var destination = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$;
     tmp$ = nodes.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
-      this.radiuses_0.add_11rb$(this.radius(item, checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0)), nodes));
+      destination.add_11rb$(transform(item));
     }
+    this._radiuses_0 = destination;
   };
-  ForceCollision.prototype.applyForceToNodes_14dthe$ = function (alpha) {
+  ForceCollision.prototype.applyForceToNodes_14dthe$ = function (intensity) {
     var tmp$;
     tmp$ = until(0, this.iterations).iterator();
     while (tmp$.hasNext()) {
       var element = tmp$.next();
-      var tree = quadtree(this.x_0, this.y_0, this.nodes_0);
+      var tree = quadtree(this.x_0, this.y_0, this._nodes_0);
       visitAfter(tree, getCallableRef('prepare', function ($receiver, quad, x0, y0, x1, y1) {
         return $receiver.prepare_0(quad, x0, y0, x1, y1), Unit;
       }.bind(null, this)));
       var tmp$_0, tmp$_0_0;
       var index = 0;
-      tmp$_0 = this.nodes_0.iterator();
+      tmp$_0 = this._nodes_0.iterator();
       while (tmp$_0.hasNext()) {
         var item = tmp$_0.next();
         checkIndexOverflow((tmp$_0_0 = index, index = tmp$_0_0 + 1 | 0, tmp$_0_0));
         this.currentNode_0 = item;
-        this.ri_0 = this.radiuses_0.get_za3lpa$(item.index);
+        this.ri_0 = this._radiuses_0.get_za3lpa$(item.index);
         this.ri2_0 = this.ri_0 * this.ri_0;
         this.xi_0 = item.x + item.vx;
         this.yi_0 = item.y + item.vy;
@@ -168,7 +208,6 @@
       }
     }
   };
-  var Math_0 = Math;
   ForceCollision.prototype.applyForce_0 = function (quad, x0, y0, x1, y1) {
     var data = Kotlin.isType(quad, LeafNode) ? quad.data : null;
     var rj = ensureNotNull(quad.value);
@@ -189,7 +228,7 @@
           }
           var x_0 = l;
           var sqrtl = Math_0.sqrt(x_0);
-          l = (r - sqrtl) / sqrtl * this.strength;
+          l = (r - sqrtl) / sqrtl * this.strength.value;
           x *= l;
           y *= l;
           rj *= rj;
@@ -208,7 +247,7 @@
   ForceCollision.prototype.prepare_0 = function (quad, x0, y0, x1, y1) {
     var tmp$;
     if (Kotlin.isType(quad, LeafNode)) {
-      quad.value = this.radiuses_0.get_za3lpa$(quad.data.index);
+      quad.value = this._radiuses_0.get_za3lpa$(quad.data.index);
       return;
     }
     quad.value = 0.0;
@@ -227,7 +266,7 @@
   function ForceCollision$y$lambda(node) {
     return node.y;
   }
-  function ForceCollision$radius$lambda(f, f_0, f_1) {
+  function ForceCollision$radiusGet$lambda($receiver) {
     return 100.0;
   }
   ForceCollision.$metadata$ = {
@@ -235,18 +274,16 @@
     simpleName: 'ForceCollision',
     interfaces: [Force]
   };
-  function Link(source, target, _index) {
-    if (_index === void 0)
-      _index = 0;
+  function Link(source, target, distance, strength) {
+    if (distance === void 0)
+      distance = 30.0;
+    if (strength === void 0)
+      strength = kotlin_js_internal_DoubleCompanionObject.NaN;
     this.source = source;
     this.target = target;
-    this._index_8be2vx$ = _index;
+    this.distance = distance;
+    this.strength = strength;
   }
-  Object.defineProperty(Link.prototype, 'index', {
-    get: function () {
-      return this._index_8be2vx$;
-    }
-  });
   Link.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'Link',
@@ -258,119 +295,118 @@
   Link.prototype.component2 = function () {
     return this.target;
   };
-  Link.prototype.component3_8be2vx$ = function () {
-    return this._index_8be2vx$;
+  Link.prototype.component3 = function () {
+    return this.distance;
   };
-  Link.prototype.copy_6p19ak$ = function (source, target, _index) {
-    return new Link(source === void 0 ? this.source : source, target === void 0 ? this.target : target, _index === void 0 ? this._index_8be2vx$ : _index);
+  Link.prototype.component4 = function () {
+    return this.strength;
+  };
+  Link.prototype.copy_rnylw0$ = function (source, target, distance, strength) {
+    return new Link(source === void 0 ? this.source : source, target === void 0 ? this.target : target, distance === void 0 ? this.distance : distance, strength === void 0 ? this.strength : strength);
   };
   Link.prototype.toString = function () {
-    return 'Link(source=' + Kotlin.toString(this.source) + (', target=' + Kotlin.toString(this.target)) + (', _index=' + Kotlin.toString(this._index_8be2vx$)) + ')';
+    return 'Link(source=' + Kotlin.toString(this.source) + (', target=' + Kotlin.toString(this.target)) + (', distance=' + Kotlin.toString(this.distance)) + (', strength=' + Kotlin.toString(this.strength)) + ')';
   };
   Link.prototype.hashCode = function () {
     var result = 0;
     result = result * 31 + Kotlin.hashCode(this.source) | 0;
     result = result * 31 + Kotlin.hashCode(this.target) | 0;
-    result = result * 31 + Kotlin.hashCode(this._index_8be2vx$) | 0;
+    result = result * 31 + Kotlin.hashCode(this.distance) | 0;
+    result = result * 31 + Kotlin.hashCode(this.strength) | 0;
     return result;
   };
   Link.prototype.equals = function (other) {
-    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.source, other.source) && Kotlin.equals(this.target, other.target) && Kotlin.equals(this._index_8be2vx$, other._index_8be2vx$)))));
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.source, other.source) && Kotlin.equals(this.target, other.target) && Kotlin.equals(this.distance, other.distance) && Kotlin.equals(this.strength, other.strength)))));
   };
-  function forceLink$lambda($receiver) {
-    return Unit;
-  }
   function forceLink(init) {
-    if (init === void 0)
-      init = forceLink$lambda;
     var $receiver = new ForceLink();
     init($receiver);
     return $receiver;
   }
   function ForceLink() {
-    this.nodes_0 = emptyList();
+    this._nodes_0 = emptyList();
     this._links_0 = emptyList();
-    this.distances_0 = emptyList();
-    this.strengths_0 = emptyList();
     this.bias_0 = [];
     this.count_0 = [];
     this.iterations = 1;
-    this.linksAccessor = ForceLink$linksAccessor$lambda;
-    this.strengthsAccessor_wz01rg$_0 = ForceLink$strengthsAccessor$lambda(this);
-    this.distancesAccessor_z4gers$_0 = ForceLink$distancesAccessor$lambda;
+    this.linkGet = ForceLink$linkGet$lambda;
   }
   Object.defineProperty(ForceLink.prototype, 'links', {
     get: function () {
       return this._links_0;
     }
   });
-  Object.defineProperty(ForceLink.prototype, 'strengthsAccessor', {
-    get: function () {
-      return this.strengthsAccessor_wz01rg$_0;
-    },
-    set: function (value) {
-      this.strengthsAccessor_wz01rg$_0 = value;
-      this.initializeStrengths_0();
-    }
-  });
-  Object.defineProperty(ForceLink.prototype, 'distancesAccessor', {
-    get: function () {
-      return this.distancesAccessor_z4gers$_0;
-    },
-    set: function (value) {
-      this.distancesAccessor_z4gers$_0 = value;
-      this.initializeDistances_0();
-    }
-  });
-  var Array_0 = Array;
-  ForceLink.prototype.assignNodes_qipxwu$ = function (nodes) {
-    this.nodes_0 = nodes;
-    this._links_0 = this.linksAccessor(nodes);
-    var array = Array_0(nodes.size);
+  ForceLink.prototype.assignNodes_oydpol$ = function (nodes) {
+    this._nodes_0 = nodes;
+    var transform = this.linkGet;
+    var destination = ArrayList_init_0();
     var tmp$;
-    tmp$ = array.length - 1 | 0;
-    for (var i = 0; i <= tmp$; i++) {
+    tmp$ = nodes.iterator();
+    while (tmp$.hasNext()) {
+      var element = tmp$.next();
+      var tmp$_0;
+      if ((tmp$_0 = transform(element)) != null) {
+        destination.add_11rb$(tmp$_0);
+      }
+    }
+    this._links_0 = flatten(destination);
+    var array = Array_0(nodes.size);
+    var tmp$_1;
+    tmp$_1 = array.length - 1 | 0;
+    for (var i = 0; i <= tmp$_1; i++) {
       array[i] = 0;
     }
     this.count_0 = array;
-    var tmp$_0, tmp$_0_0;
+    var tmp$_2, tmp$_0_0;
     var index = 0;
-    tmp$_0 = this._links_0.iterator();
-    while (tmp$_0.hasNext()) {
-      var item = tmp$_0.next();
-      var tmp$_1, tmp$_2, tmp$_3, tmp$_4;
-      item._index_8be2vx$ = checkIndexOverflow((tmp$_0_0 = index, index = tmp$_0_0 + 1 | 0, tmp$_0_0));
-      tmp$_1 = this.count_0;
-      tmp$_2 = item.source.index;
-      tmp$_1[tmp$_2] = tmp$_1[tmp$_2] + 1 | 0;
+    tmp$_2 = this._links_0.iterator();
+    while (tmp$_2.hasNext()) {
+      var item = tmp$_2.next();
+      checkIndexOverflow((tmp$_0_0 = index, index = tmp$_0_0 + 1 | 0, tmp$_0_0));
+      var tmp$_3, tmp$_4, tmp$_5, tmp$_6;
       tmp$_3 = this.count_0;
-      tmp$_4 = item.target.index;
+      tmp$_4 = item.source.index;
       tmp$_3[tmp$_4] = tmp$_3[tmp$_4] + 1 | 0;
+      tmp$_5 = this.count_0;
+      tmp$_6 = item.target.index;
+      tmp$_5[tmp$_6] = tmp$_5[tmp$_6] + 1 | 0;
     }
     var array_0 = Array_0(this._links_0.size);
-    var tmp$_5;
-    tmp$_5 = array_0.length - 1 | 0;
-    for (var i_0 = 0; i_0 <= tmp$_5; i_0++) {
+    var tmp$_7;
+    tmp$_7 = array_0.length - 1 | 0;
+    for (var i_0 = 0; i_0 <= tmp$_7; i_0++) {
       array_0[i_0] = 0.0;
     }
     this.bias_0 = array_0;
-    var tmp$_6, tmp$_0_1;
+    var tmp$_8, tmp$_0_1;
     var index_0 = 0;
-    tmp$_6 = this._links_0.iterator();
-    while (tmp$_6.hasNext()) {
-      var item_0 = tmp$_6.next();
+    tmp$_8 = this._links_0.iterator();
+    while (tmp$_8.hasNext()) {
+      var item_0 = tmp$_8.next();
       this.bias_0[checkIndexOverflow((tmp$_0_1 = index_0, index_0 = tmp$_0_1 + 1 | 0, tmp$_0_1))] = this.count_0[item_0.source.index] / (this.count_0[item_0.source.index] + this.count_0[item_0.target.index] | 0);
     }
     this.initializeStrengths_0();
-    this.initializeDistances_0();
-  };
-  ForceLink.prototype.initializeDistances_0 = function () {
-    this.distances_0 = this.distancesAccessor(this._links_0);
   };
   ForceLink.prototype.initializeStrengths_0 = function () {
-    this.strengths_0 = this.strengthsAccessor(this._links_0);
+    var $receiver = this._links_0;
+    var destination = ArrayList_init_0();
+    var tmp$;
+    tmp$ = $receiver.iterator();
+    while (tmp$.hasNext()) {
+      var element = tmp$.next();
+      if (isNaN_0(element.strength))
+        destination.add_11rb$(element);
+    }
+    var tmp$_0;
+    tmp$_0 = destination.iterator();
+    while (tmp$_0.hasNext()) {
+      var element_0 = tmp$_0.next();
+      var a = this.count_0[element_0.source.index];
+      var b = this.count_0[element_0.target.index];
+      element_0.strength = 1.0 / Math_0.min(a, b);
+    }
   };
-  ForceLink.prototype.applyForceToNodes_14dthe$ = function (alpha) {
+  ForceLink.prototype.applyForceToNodes_14dthe$ = function (intensity) {
     var tmp$;
     tmp$ = until(0, this.iterations).iterator();
     while (tmp$.hasNext()) {
@@ -391,7 +427,7 @@
           y = jiggle();
         var x_0 = x * x + y * y;
         var l = Math_0.sqrt(x_0);
-        l = (l - this.distances_0.get_za3lpa$(index_0)) / l * alpha * this.strengths_0.get_za3lpa$(index_0);
+        l = (l - item.distance) / l * intensity * item.strength;
         x *= l;
         y *= l;
         var b = this.bias_0[index_0];
@@ -403,55 +439,18 @@
       }
     }
   };
-  function ForceLink$linksAccessor$lambda(it) {
-    return emptyList();
-  }
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
-  function ForceLink$strengthsAccessor$lambda(this$ForceLink) {
-    return function (links) {
-      var destination = ArrayList_init_0(collectionSizeOrDefault(links, 10));
-      var tmp$;
-      tmp$ = links.iterator();
-      while (tmp$.hasNext()) {
-        var item = tmp$.next();
-        var tmp$_0 = destination.add_11rb$;
-        var this$ForceLink_0 = this$ForceLink;
-        var a = this$ForceLink_0.count_0[item.source.index];
-        var b = this$ForceLink_0.count_0[item.target.index];
-        tmp$_0.call(destination, 1.0 / Math_0.min(a, b));
-      }
-      return destination;
-    };
-  }
-  function ForceLink$distancesAccessor$lambda(links) {
-    var $receiver = until(0, links.size);
-    var destination = ArrayList_init_0(collectionSizeOrDefault($receiver, 10));
-    var tmp$;
-    tmp$ = $receiver.iterator();
-    while (tmp$.hasNext()) {
-      var item = tmp$.next();
-      destination.add_11rb$(30.0);
-    }
-    return destination;
+  function ForceLink$linkGet$lambda($receiver) {
+    return null;
   }
   ForceLink.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ForceLink',
     interfaces: [Force]
   };
-  function forceNBody$lambda($receiver) {
-    return Unit;
-  }
   function forceNBody(init) {
-    if (init === void 0)
-      init = forceNBody$lambda;
     var $receiver = new ForceNBody();
     init($receiver);
     return $receiver;
-  }
-  function jiggle() {
-    return (Random.Default.nextDouble() - 0.5) * math.EPSILON;
   }
   function ForceNBody() {
     this.theta2_0 = 0.81;
@@ -459,11 +458,11 @@
     this.distanceMax2_0 = 10000.0;
     this.x_0 = ForceNBody$x$lambda;
     this.y_0 = ForceNBody$y$lambda;
-    this.currentAlpha_0 = 0.0;
+    this.currentIntensity_0 = 0.0;
     this.currentNode_rw4rfm$_0 = this.currentNode_rw4rfm$_0;
-    this.strength_wsc15m$_0 = ForceNBody$strength$lambda;
-    this.nodes_0 = emptyList();
-    this.strengths_0 = ArrayList_init();
+    this.strengthGet_ddcgf8$_0 = ForceNBody$strengthGet$lambda;
+    this._nodes_0 = emptyList();
+    this._strengths_0 = emptyList();
   }
   Object.defineProperty(ForceNBody.prototype, 'currentNode_0', {
     get: function () {
@@ -502,35 +501,36 @@
       this.distanceMax2_0 = value * value;
     }
   });
-  Object.defineProperty(ForceNBody.prototype, 'strength', {
+  Object.defineProperty(ForceNBody.prototype, 'strengthGet', {
     get: function () {
-      return this.strength_wsc15m$_0;
+      return this.strengthGet_ddcgf8$_0;
     },
     set: function (value) {
-      this.strength_wsc15m$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.strengthGet_ddcgf8$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
     }
   });
-  ForceNBody.prototype.assignNodes_qipxwu$ = function (nodes) {
-    this.nodes_0 = nodes;
-    this.strengths_0.clear();
-    var tmp$, tmp$_0;
-    var index = 0;
+  ForceNBody.prototype.assignNodes_oydpol$ = function (nodes) {
+    this._nodes_0 = nodes;
+    var transform = this.strengthGet;
+    var destination = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$;
     tmp$ = nodes.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
-      this.strengths_0.add_11rb$(this.strength(item, checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0)), nodes));
+      destination.add_11rb$(transform(item));
     }
+    this._strengths_0 = destination;
   };
-  ForceNBody.prototype.applyForceToNodes_14dthe$ = function (alpha) {
-    this.currentAlpha_0 = alpha;
-    var tree = quadtree(this.x_0, this.y_0, this.nodes_0);
+  ForceNBody.prototype.applyForceToNodes_14dthe$ = function (intensity) {
+    this.currentIntensity_0 = intensity;
+    var tree = quadtree(this.x_0, this.y_0, this._nodes_0);
     visitAfter(tree, getCallableRef('accumulate', function ($receiver, quad, x0, y0, x1, y1) {
       return $receiver.accumulate_0(quad, x0, y0, x1, y1), Unit;
     }.bind(null, this)));
     var tmp$, tmp$_0;
     var index = 0;
-    tmp$ = this.nodes_0.iterator();
+    tmp$ = this._nodes_0.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
       checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
@@ -562,7 +562,7 @@
           var x_0 = this.distanceMin2_0 * l;
           l = Math_0.sqrt(x_0);
         }
-        var increment = ensureNotNull(quad.value) * this.currentAlpha_0 / l;
+        var increment = ensureNotNull(quad.value) * this.currentIntensity_0 / l;
         this.currentNode_0.vx = this.currentNode_0.vx + x * increment;
         this.currentNode_0.vy = this.currentNode_0.vy + y * increment;
       }
@@ -587,7 +587,7 @@
     }
     do {
       if (ensureNotNull(newQuad).data !== this.currentNode_0) {
-        w = this.strengths_0.get_za3lpa$(ensureNotNull(newQuad).data.index) * this.currentAlpha_0 / l;
+        w = this._strengths_0.get_za3lpa$(ensureNotNull(newQuad).data.index) * this.currentIntensity_0 / l;
         this.currentNode_0.vx = this.currentNode_0.vx + x * w;
         this.currentNode_0.vy = this.currentNode_0.vy + y * w;
       }
@@ -623,7 +623,7 @@
       ensureNotNull(q).x = q.data.x;
       q.y = q.data.y;
       do {
-        strength.v += this.strengths_0.get_za3lpa$(ensureNotNull(q).data.index);
+        strength.v += this._strengths_0.get_za3lpa$(ensureNotNull(q).data.index);
         q = q.next;
       }
        while (q != null);
@@ -636,7 +636,7 @@
   function ForceNBody$y$lambda(node) {
     return node.y;
   }
-  function ForceNBody$strength$lambda(f, f_0, f_1) {
+  function ForceNBody$strengthGet$lambda($receiver) {
     return -30.0;
   }
   ForceNBody.$metadata$ = {
@@ -644,7 +644,7 @@
     simpleName: 'ForceNBody',
     interfaces: [Force]
   };
-  function ForceNode(index, x, y, vx, vy, fixedX, fixedY) {
+  function ForceNode(index, domain, x, y, vx, vy, fixedX, fixedY) {
     if (x === void 0)
       x = kotlin_js_internal_DoubleCompanionObject.NaN;
     if (y === void 0)
@@ -658,6 +658,7 @@
     if (fixedY === void 0)
       fixedY = null;
     this.index = index;
+    this.domain = domain;
     this.x = x;
     this.y = y;
     this.vx = vx;
@@ -665,6 +666,24 @@
     this.fixedX = fixedX;
     this.fixedY = fixedY;
   }
+  Object.defineProperty(ForceNode.prototype, 'position', {
+    get: function () {
+      return point(this.x, this.y);
+    },
+    set: function (value) {
+      this.x = value.x;
+      this.y = value.y;
+    }
+  });
+  Object.defineProperty(ForceNode.prototype, 'velocity', {
+    get: function () {
+      return new Vector(this.vx, this.vy);
+    },
+    set: function (value) {
+      this.vx = value.vx;
+      this.vy = value.vy;
+    }
+  });
   ForceNode.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ForceNode',
@@ -674,32 +693,36 @@
     return this.index;
   };
   ForceNode.prototype.component2 = function () {
-    return this.x;
+    return this.domain;
   };
   ForceNode.prototype.component3 = function () {
-    return this.y;
+    return this.x;
   };
   ForceNode.prototype.component4 = function () {
-    return this.vx;
+    return this.y;
   };
   ForceNode.prototype.component5 = function () {
-    return this.vy;
+    return this.vx;
   };
   ForceNode.prototype.component6 = function () {
-    return this.fixedX;
+    return this.vy;
   };
   ForceNode.prototype.component7 = function () {
+    return this.fixedX;
+  };
+  ForceNode.prototype.component8 = function () {
     return this.fixedY;
   };
-  ForceNode.prototype.copy_t5b7g6$ = function (index, x, y, vx, vy, fixedX, fixedY) {
-    return new ForceNode(index === void 0 ? this.index : index, x === void 0 ? this.x : x, y === void 0 ? this.y : y, vx === void 0 ? this.vx : vx, vy === void 0 ? this.vy : vy, fixedX === void 0 ? this.fixedX : fixedX, fixedY === void 0 ? this.fixedY : fixedY);
+  ForceNode.prototype.copy_mydubp$ = function (index, domain, x, y, vx, vy, fixedX, fixedY) {
+    return new ForceNode(index === void 0 ? this.index : index, domain === void 0 ? this.domain : domain, x === void 0 ? this.x : x, y === void 0 ? this.y : y, vx === void 0 ? this.vx : vx, vy === void 0 ? this.vy : vy, fixedX === void 0 ? this.fixedX : fixedX, fixedY === void 0 ? this.fixedY : fixedY);
   };
   ForceNode.prototype.toString = function () {
-    return 'ForceNode(index=' + Kotlin.toString(this.index) + (', x=' + Kotlin.toString(this.x)) + (', y=' + Kotlin.toString(this.y)) + (', vx=' + Kotlin.toString(this.vx)) + (', vy=' + Kotlin.toString(this.vy)) + (', fixedX=' + Kotlin.toString(this.fixedX)) + (', fixedY=' + Kotlin.toString(this.fixedY)) + ')';
+    return 'ForceNode(index=' + Kotlin.toString(this.index) + (', domain=' + Kotlin.toString(this.domain)) + (', x=' + Kotlin.toString(this.x)) + (', y=' + Kotlin.toString(this.y)) + (', vx=' + Kotlin.toString(this.vx)) + (', vy=' + Kotlin.toString(this.vy)) + (', fixedX=' + Kotlin.toString(this.fixedX)) + (', fixedY=' + Kotlin.toString(this.fixedY)) + ')';
   };
   ForceNode.prototype.hashCode = function () {
     var result = 0;
     result = result * 31 + Kotlin.hashCode(this.index) | 0;
+    result = result * 31 + Kotlin.hashCode(this.domain) | 0;
     result = result * 31 + Kotlin.hashCode(this.x) | 0;
     result = result * 31 + Kotlin.hashCode(this.y) | 0;
     result = result * 31 + Kotlin.hashCode(this.vx) | 0;
@@ -709,7 +732,85 @@
     return result;
   };
   ForceNode.prototype.equals = function (other) {
-    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.index, other.index) && Kotlin.equals(this.x, other.x) && Kotlin.equals(this.y, other.y) && Kotlin.equals(this.vx, other.vx) && Kotlin.equals(this.vy, other.vy) && Kotlin.equals(this.fixedX, other.fixedX) && Kotlin.equals(this.fixedY, other.fixedY)))));
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.index, other.index) && Kotlin.equals(this.domain, other.domain) && Kotlin.equals(this.x, other.x) && Kotlin.equals(this.y, other.y) && Kotlin.equals(this.vx, other.vx) && Kotlin.equals(this.vy, other.vy) && Kotlin.equals(this.fixedX, other.fixedX) && Kotlin.equals(this.fixedY, other.fixedY)))));
+  };
+  function ForcePoint() {
+    this.defaultPoint_0 = point_0(0, 0);
+    this.pointGet_7dr1bp$_0 = ForcePoint$pointGet$lambda(this);
+    this.strengthGet_k93ayk$_0 = ForcePoint$strengthGet$lambda;
+    this._nodes_0 = emptyList();
+    this._strengths_0 = emptyList();
+    this._x_0 = emptyList();
+    this._y_0 = emptyList();
+  }
+  Object.defineProperty(ForcePoint.prototype, 'pointGet', {
+    get: function () {
+      return this.pointGet_7dr1bp$_0;
+    },
+    set: function (value) {
+      this.pointGet_7dr1bp$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
+    }
+  });
+  Object.defineProperty(ForcePoint.prototype, 'strengthGet', {
+    get: function () {
+      return this.strengthGet_k93ayk$_0;
+    },
+    set: function (value) {
+      this.strengthGet_k93ayk$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
+    }
+  });
+  ForcePoint.prototype.assignNodes_oydpol$ = function (nodes) {
+    this._nodes_0 = nodes;
+    var destination = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$;
+    tmp$ = nodes.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      destination.add_11rb$(this.pointGet(item).x);
+    }
+    this._x_0 = destination;
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$_0;
+    tmp$_0 = nodes.iterator();
+    while (tmp$_0.hasNext()) {
+      var item_0 = tmp$_0.next();
+      destination_0.add_11rb$(this.pointGet(item_0).y);
+    }
+    this._y_0 = destination_0;
+    var destination_1 = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$_1;
+    tmp$_1 = nodes.iterator();
+    while (tmp$_1.hasNext()) {
+      var item_1 = tmp$_1.next();
+      destination_1.add_11rb$(this.strengthGet(item_1).value);
+    }
+    this._strengths_0 = destination_1;
+  };
+  ForcePoint.prototype.applyForceToNodes_14dthe$ = function (intensity) {
+    var tmp$, tmp$_0;
+    var index = 0;
+    tmp$ = this._nodes_0.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      var index_0 = checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
+      item.vx = item.vx + (this._x_0.get_za3lpa$(index_0) - item.x) * this._strengths_0.get_za3lpa$(index_0) * intensity;
+      item.vy = item.vy + (this._y_0.get_za3lpa$(index_0) - item.y) * this._strengths_0.get_za3lpa$(index_0) * intensity;
+    }
+  };
+  function ForcePoint$pointGet$lambda(this$ForcePoint) {
+    return function ($receiver) {
+      return this$ForcePoint.defaultPoint_0;
+    };
+  }
+  function ForcePoint$strengthGet$lambda($receiver) {
+    return get_pct(10);
+  }
+  ForcePoint.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'ForcePoint',
+    interfaces: [Force]
   };
   function forceRadial(init) {
     var $receiver = new ForceRadial();
@@ -717,86 +818,99 @@
     return $receiver;
   }
   function ForceRadial() {
-    this.radius_dt8oje$_0 = ForceRadial$radius$lambda;
-    this.strength_1pnqwb$_0 = ForceRadial$strength$lambda;
-    this.center_8shplj$_0 = ForceRadial$center$lambda(this);
+    this.radiusGet_15x1ks$_0 = ForceRadial$radiusGet$lambda;
+    this.strengthGet_ovue0j$_0 = ForceRadial$strengthGet$lambda;
+    this.centerGet_eye7ev$_0 = ForceRadial$centerGet$lambda(this);
     this.defaultCenter_0 = new Point(0.0, 0.0);
-    this.nodes_0 = emptyList();
-    this.strengths_0 = ArrayList_init();
-    this.centers_0 = ArrayList_init();
-    this.radiuses_0 = ArrayList_init();
+    this._nodes_0 = emptyList();
+    this._strengths_0 = emptyList();
+    this._centers_0 = emptyList();
+    this._radiuses_0 = emptyList();
   }
-  Object.defineProperty(ForceRadial.prototype, 'radius', {
+  Object.defineProperty(ForceRadial.prototype, 'radiusGet', {
     get: function () {
-      return this.radius_dt8oje$_0;
+      return this.radiusGet_15x1ks$_0;
     },
     set: function (value) {
-      this.radius_dt8oje$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.radiusGet_15x1ks$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
     }
   });
-  Object.defineProperty(ForceRadial.prototype, 'strength', {
+  Object.defineProperty(ForceRadial.prototype, 'strengthGet', {
     get: function () {
-      return this.strength_1pnqwb$_0;
+      return this.strengthGet_ovue0j$_0;
     },
     set: function (value) {
-      this.strength_1pnqwb$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.strengthGet_ovue0j$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
     }
   });
-  Object.defineProperty(ForceRadial.prototype, 'center', {
+  Object.defineProperty(ForceRadial.prototype, 'centerGet', {
     get: function () {
-      return this.center_8shplj$_0;
+      return this.centerGet_eye7ev$_0;
     },
     set: function (value) {
-      this.center_8shplj$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.centerGet_eye7ev$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
     }
   });
-  ForceRadial.prototype.assignNodes_qipxwu$ = function (nodes) {
-    this.nodes_0 = nodes;
-    this.radiuses_0.clear();
-    this.centers_0.clear();
-    this.strengths_0.clear();
-    var tmp$, tmp$_0;
-    var index = 0;
+  ForceRadial.prototype.assignNodes_oydpol$ = function (nodes) {
+    this._nodes_0 = nodes;
+    var transform = this.radiusGet;
+    var destination = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$;
     tmp$ = nodes.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
-      var index_0 = checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
-      this.radiuses_0.add_11rb$(this.radius(item, index_0, nodes));
-      this.centers_0.add_11rb$(this.center(item, index_0, nodes));
-      this.strengths_0.add_11rb$(this.strength(item, index_0, nodes));
+      destination.add_11rb$(transform(item));
     }
+    this._radiuses_0 = destination;
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$_0;
+    tmp$_0 = nodes.iterator();
+    while (tmp$_0.hasNext()) {
+      var item_0 = tmp$_0.next();
+      destination_0.add_11rb$(this.strengthGet(item_0).value);
+    }
+    this._strengths_0 = destination_0;
+    var transform_0 = this.centerGet;
+    var destination_1 = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$_1;
+    tmp$_1 = nodes.iterator();
+    while (tmp$_1.hasNext()) {
+      var item_1 = tmp$_1.next();
+      destination_1.add_11rb$(transform_0(item_1));
+    }
+    this._centers_0 = destination_1;
   };
-  ForceRadial.prototype.applyForceToNodes_14dthe$ = function (alpha) {
+  ForceRadial.prototype.applyForceToNodes_14dthe$ = function (intensity) {
     var tmp$, tmp$_0;
     var index = 0;
-    tmp$ = this.nodes_0.iterator();
+    tmp$ = this._nodes_0.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
       var index_0 = checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
-      var dx = item.x - this.centers_0.get_za3lpa$(index_0).x;
+      var dx = item.x - this._centers_0.get_za3lpa$(index_0).x;
       if (dx === 0.0)
         dx = math.EPSILON;
-      var dy = item.y - this.centers_0.get_za3lpa$(index_0).y;
+      var dy = item.y - this._centers_0.get_za3lpa$(index_0).y;
       if (dy === 0.0)
         dy = math.EPSILON;
       var x = dx * dx + dy * dy;
       var r = Math_0.sqrt(x);
-      var k = (this.radiuses_0.get_za3lpa$(index_0) - r) * this.strengths_0.get_za3lpa$(index_0) * alpha / r;
+      var k = (this._radiuses_0.get_za3lpa$(index_0) - r) * this._strengths_0.get_za3lpa$(index_0) * intensity / r;
       item.vx = item.vx + dx * k;
       item.vy = item.vy + dy * k;
     }
   };
-  function ForceRadial$radius$lambda(f, f_0, f_1) {
+  function ForceRadial$radiusGet$lambda($receiver) {
     return 100.0;
   }
-  function ForceRadial$strength$lambda(f, f_0, f_1) {
-    return 0.1;
+  function ForceRadial$strengthGet$lambda($receiver) {
+    return get_pct(10);
   }
-  function ForceRadial$center$lambda(this$ForceRadial) {
-    return function (f, f_0, f_1) {
+  function ForceRadial$centerGet$lambda(this$ForceRadial) {
+    return function ($receiver) {
       return this$ForceRadial.defaultCenter_0;
     };
   }
@@ -807,44 +921,117 @@
   };
   var initialRadius;
   var initialAngle;
-  function forceSimulation(nodes, init) {
-    if (nodes === void 0) {
-      nodes = emptyList();
-    }
-    var $receiver = new ForceSimulation();
-    $receiver.nodes = nodes;
-    init($receiver);
-    return $receiver;
-  }
-  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
   function ForceSimulation() {
-    this.nodes_4karvz$_0 = emptyList();
-    this._forces_0 = LinkedHashMap_init();
+    this.started_0 = false;
+    this.initForceNode_8rf9tp$_0 = ForceSimulation$initForceNode$lambda;
+    this.domainObjects_611u28$_0 = emptyList();
+    this._nodes_0 = emptyList();
+    this._forces_0 = emptyList();
     this.tickEvents_0 = LinkedHashMap_init();
     this.endEvents_0 = LinkedHashMap_init();
     this.stepper_0 = timer(void 0, void 0, ForceSimulation$stepper$lambda(this));
-    this.initializeNodes_0();
-    this.alpha_1mpzdq$_0 = 1.0;
-    this.alphaMin_8q204g$_0 = 0.001;
-    var $receiver = this.alphaMin;
+    this.intensity_5watf1$_0 = get_pct(100);
+    this.intensityMin_p4cf91$_0 = get_pct(0.1);
+    var $receiver = this.intensityMin.value;
     var x = 1.0 / 300.0;
-    this.alphaDecay_67yqh4$_0 = 1.0 - Math_0.pow($receiver, x);
-    this.alphaTarget_upifan$_0 = 0.0;
-    this.velocityDecay_ydgohv$_0 = 0.6;
+    this.intensityDecay_dufgj7$_0 = new Percent(1.0 - Math_0.pow($receiver, x));
+    this.intensityTarget_h2jct8$_0 = get_pct(0);
+    this._friction_0 = 0.6;
   }
-  Object.defineProperty(ForceSimulation.prototype, 'nodes', {
+  function ForceSimulation$forceX$lambda($receiver) {
+    return Unit;
+  }
+  ForceSimulation.prototype.forceX_2ylmsr$ = function (init) {
+    if (init === void 0)
+      init = ForceSimulation$forceX$lambda;
+    var tmp$;
+    var $receiver = new ForceX();
+    init($receiver);
+    return Kotlin.isType(tmp$ = this.addForce_0($receiver), ForceX) ? tmp$ : throwCCE();
+  };
+  function ForceSimulation$forceY$lambda($receiver) {
+    return Unit;
+  }
+  ForceSimulation.prototype.forceY_3ssvzq$ = function (init) {
+    if (init === void 0)
+      init = ForceSimulation$forceY$lambda;
+    var tmp$;
+    var $receiver = new ForceY();
+    init($receiver);
+    return Kotlin.isType(tmp$ = this.addForce_0($receiver), ForceY) ? tmp$ : throwCCE();
+  };
+  function ForceSimulation$forcePoint$lambda($receiver) {
+    return Unit;
+  }
+  ForceSimulation.prototype.forcePoint_b8w4gj$ = function (init) {
+    if (init === void 0)
+      init = ForceSimulation$forcePoint$lambda;
+    var tmp$;
+    var $receiver = new ForcePoint();
+    init($receiver);
+    return Kotlin.isType(tmp$ = this.addForce_0($receiver), ForcePoint) ? tmp$ : throwCCE();
+  };
+  ForceSimulation.prototype.forceRadial_bv8b6k$ = function (init) {
+    var tmp$;
+    var $receiver = new ForceRadial();
+    init($receiver);
+    return Kotlin.isType(tmp$ = this.addForce_0($receiver), ForceRadial) ? tmp$ : throwCCE();
+  };
+  function ForceSimulation$forceNBody$lambda($receiver) {
+    return Unit;
+  }
+  ForceSimulation.prototype.forceNBody_nma8s3$ = function (init) {
+    if (init === void 0)
+      init = ForceSimulation$forceNBody$lambda;
+    var tmp$;
+    var $receiver = new ForceNBody();
+    init($receiver);
+    return Kotlin.isType(tmp$ = this.addForce_0($receiver), ForceNBody) ? tmp$ : throwCCE();
+  };
+  ForceSimulation.prototype.forceCollision_kl9ov$ = function (init) {
+    var tmp$;
+    var $receiver = new ForceCollision();
+    init($receiver);
+    return Kotlin.isType(tmp$ = this.addForce_0($receiver), ForceCollision) ? tmp$ : throwCCE();
+  };
+  ForceSimulation.prototype.forceCenter_nwpf16$ = function (init) {
+    var tmp$;
+    var $receiver = new ForceCenter();
+    init($receiver);
+    return Kotlin.isType(tmp$ = this.addForce_0($receiver), ForceCenter) ? tmp$ : throwCCE();
+  };
+  function ForceSimulation$forceLink$lambda($receiver) {
+    return Unit;
+  }
+  ForceSimulation.prototype.forceLink_efbme7$ = function (init) {
+    if (init === void 0)
+      init = ForceSimulation$forceLink$lambda;
+    var tmp$;
+    var $receiver = new ForceLink();
+    init($receiver);
+    return Kotlin.isType(tmp$ = this.addForce_0($receiver), ForceLink) ? tmp$ : throwCCE();
+  };
+  Object.defineProperty(ForceSimulation.prototype, 'initForceNode', {
     get: function () {
-      return this.nodes_4karvz$_0;
+      return this.initForceNode_8rf9tp$_0;
     },
     set: function (value) {
-      this.nodes_4karvz$_0 = value;
-      this.initializeNodes_0();
-      var tmp$;
-      tmp$ = this._forces_0.values.iterator();
-      while (tmp$.hasNext()) {
-        var element = tmp$.next();
-        this.initializeForce_0(element);
-      }
+      this.initForceNode_8rf9tp$_0 = value;
+      this.initSimulation_0(true);
+    }
+  });
+  Object.defineProperty(ForceSimulation.prototype, 'domainObjects', {
+    get: function () {
+      return this.domainObjects_611u28$_0;
+    },
+    set: function (value) {
+      this.domainObjects_611u28$_0 = value;
+      this.initSimulation_0(true);
+    }
+  });
+  Object.defineProperty(ForceSimulation.prototype, 'nodes', {
+    get: function () {
+      return this._nodes_0;
     }
   });
   Object.defineProperty(ForceSimulation.prototype, 'forces', {
@@ -852,14 +1039,14 @@
       return this._forces_0;
     }
   });
-  function ForceSimulation$restart$lambda(this$ForceSimulation) {
+  function ForceSimulation$play$lambda(this$ForceSimulation) {
     return function ($receiver, it) {
       this$ForceSimulation.step_0();
       return Unit;
     };
   }
-  ForceSimulation.prototype.restart = function () {
-    this.stepper_0.restart_k9susy$(void 0, void 0, ForceSimulation$restart$lambda(this));
+  ForceSimulation.prototype.play = function () {
+    this.stepper_0.restart_k9susy$(void 0, void 0, ForceSimulation$play$lambda(this));
   };
   ForceSimulation.prototype.stop = function () {
     this.stepper_0.stop();
@@ -872,7 +1059,7 @@
       var element = tmp$.next();
       element(this);
     }
-    if (this.alpha < this.alphaMin) {
+    if (this.intensity.compareTo_o5f5ne$(this.intensityMin) < 0) {
       this.stepper_0.stop();
       var tmp$_0;
       tmp$_0 = this.endEvents_0.values.iterator();
@@ -882,84 +1069,77 @@
       }
     }
   };
-  var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
-  Object.defineProperty(ForceSimulation.prototype, 'alpha', {
+  Object.defineProperty(ForceSimulation.prototype, 'intensity', {
     get: function () {
-      return this.alpha_1mpzdq$_0;
+      return this.intensity_5watf1$_0;
     },
     set: function (value) {
-      if (!rangeTo(0.0, 1.0).contains_mef7kx$(value)) {
-        var message = 'Failed requirement.';
-        throw IllegalArgumentException_init(message.toString());
-      }
-      this.alpha_1mpzdq$_0 = value;
+      this.intensity_5watf1$_0 = value.coerceAtLeast_o5f5ne$(get_pct(0));
     }
   });
-  Object.defineProperty(ForceSimulation.prototype, 'alphaMin', {
+  Object.defineProperty(ForceSimulation.prototype, 'intensityMin', {
     get: function () {
-      return this.alphaMin_8q204g$_0;
+      return this.intensityMin_p4cf91$_0;
     },
     set: function (value) {
-      if (!rangeTo(0.0, 1.0).contains_mef7kx$(value)) {
-        var message = 'Failed requirement.';
-        throw IllegalArgumentException_init(message.toString());
-      }
-      this.alphaMin_8q204g$_0 = value;
+      this.intensityMin_p4cf91$_0 = value.coerceAtLeast_o5f5ne$(get_pct(0));
     }
   });
-  Object.defineProperty(ForceSimulation.prototype, 'alphaDecay', {
+  Object.defineProperty(ForceSimulation.prototype, 'intensityDecay', {
     get: function () {
-      return this.alphaDecay_67yqh4$_0;
+      return this.intensityDecay_dufgj7$_0;
     },
     set: function (value) {
-      if (!rangeTo(0.0, 1.0).contains_mef7kx$(value)) {
-        var message = 'Failed requirement.';
-        throw IllegalArgumentException_init(message.toString());
-      }
-      this.alphaDecay_67yqh4$_0 = value;
+      this.intensityDecay_dufgj7$_0 = value.coerceAtLeast_o5f5ne$(get_pct(0));
     }
   });
-  Object.defineProperty(ForceSimulation.prototype, 'alphaTarget', {
+  Object.defineProperty(ForceSimulation.prototype, 'intensityTarget', {
     get: function () {
-      return this.alphaTarget_upifan$_0;
+      return this.intensityTarget_h2jct8$_0;
     },
     set: function (value) {
-      if (!rangeTo(0.0, 1.0).contains_mef7kx$(value)) {
-        var message = 'Failed requirement.';
-        throw IllegalArgumentException_init(message.toString());
-      }
-      this.alphaTarget_upifan$_0 = value;
+      this.intensityTarget_h2jct8$_0 = value.coerceAtLeast_o5f5ne$(get_pct(0));
     }
   });
-  Object.defineProperty(ForceSimulation.prototype, 'velocityDecay', {
+  Object.defineProperty(ForceSimulation.prototype, 'friction', {
     get: function () {
-      return 1.0 - this.velocityDecay_ydgohv$_0;
+      return new Percent(1 - this._friction_0);
     },
     set: function (value) {
-      if (!rangeTo(0.0, 1.0).contains_mef7kx$(value)) {
-        var message = 'Failed requirement.';
-        throw IllegalArgumentException_init(message.toString());
-      }
-      this.velocityDecay_ydgohv$_0 = 1.0 - value;
+      this._friction_0 = 1 - value.coerceToDefault().value;
     }
   });
-  ForceSimulation.prototype.addForce_i3w8j1$ = function (name, force) {
+  ForceSimulation.prototype.addForce_0 = function (force) {
     this.initializeForce_0(force);
-    this._forces_0.put_xwzc9p$(name, force);
+    this._forces_0 = plus(this._forces_0, force);
+    return force;
   };
-  ForceSimulation.prototype.removeForce_61zpoe$ = function (name) {
-    this._forces_0.remove_11rb$(name);
-  };
-  ForceSimulation.prototype.initializeForce_0 = function (force) {
-    force.assignNodes_qipxwu$(this.nodes);
-  };
-  ForceSimulation.prototype.tick = function () {
-    this.alpha = this.alpha + (this.alphaTarget - this.alpha) * this.alphaDecay;
+  ForceSimulation.prototype.initSimulation_0 = function (updateNodes) {
+    this.initializeNodes_0(updateNodes);
     var tmp$;
-    tmp$ = this._forces_0.values.iterator();
+    tmp$ = this._forces_0.iterator();
     while (tmp$.hasNext()) {
       var element = tmp$.next();
-      element.applyForceToNodes_14dthe$(this.alpha);
+      this.initializeForce_0(element);
+    }
+  };
+  ForceSimulation.prototype.removeForce_pf4102$ = function (force) {
+    this._forces_0 = minus(this._forces_0, force);
+  };
+  ForceSimulation.prototype.initializeForce_0 = function (force) {
+    force.assignNodes_oydpol$(this.nodes);
+  };
+  ForceSimulation.prototype.tick = function () {
+    if (!this.started_0) {
+      this.started_0 = true;
+      this.initSimulation_0(false);
+    }
+    this.intensity = this.intensity.plus_o5f5ne$(this.intensityTarget.minus_o5f5ne$(this.intensity).times_o5f5ne$(this.intensityDecay));
+    var tmp$;
+    tmp$ = this._forces_0.iterator();
+    while (tmp$.hasNext()) {
+      var element = tmp$.next();
+      element.applyForceToNodes_14dthe$(this.intensity.value);
     }
     var tmp$_0;
     tmp$_0 = this.nodes.iterator();
@@ -970,7 +1150,7 @@
         element_0.vx = 0.0;
       }
        else {
-        element_0.vx = element_0.vx * this.velocityDecay;
+        element_0.vx = element_0.vx * this._friction_0;
         element_0.x = element_0.x + element_0.vx;
       }
       if (element_0.fixedY != null) {
@@ -978,28 +1158,46 @@
         element_0.vy = 0.0;
       }
        else {
-        element_0.vy = element_0.vy * this.velocityDecay;
+        element_0.vy = element_0.vy * this._friction_0;
         element_0.y = element_0.y + element_0.vy;
       }
     }
   };
-  ForceSimulation.prototype.initializeNodes_0 = function () {
+  ForceSimulation.prototype.initializeNodes_0 = function (updateNodes) {
+    var oldNodes = toList_0(this._nodes_0);
+    var oldNodeSize = oldNodes.size;
+    var size = this.domainObjects.size;
+    var list = ArrayList_init(size);
+    for (var index = 0; index < size; index++) {
+      list.add_11rb$(new ForceNode(index, this.domainObjects.get_za3lpa$(index)));
+    }
+    this._nodes_0 = list;
     var tmp$, tmp$_0;
-    var index = 0;
-    tmp$ = this.nodes.iterator();
+    var index_0 = 0;
+    tmp$ = this.domainObjects.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
-      var index_0 = checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
-      item.index = index_0;
-      if (isNaN_0(item.x) || isNaN_0(item.y)) {
-        var radius = initialRadius * Math_0.sqrt(index_0);
-        var angle = index_0 * initialAngle;
-        item.x = radius * Math_0.cos(angle);
-        item.y = radius * Math_0.sin(angle);
+      var index_1 = checkIndexOverflow((tmp$_0 = index_0, index_0 = tmp$_0 + 1 | 0, tmp$_0));
+      var node = this._nodes_0.get_za3lpa$(index_1);
+      if (updateNodes && index_1 < oldNodeSize && equals(oldNodes.get_za3lpa$(index_1).domain, node.domain)) {
+        var oldNode = oldNodes.get_za3lpa$(index_1);
+        node.position = oldNode.position;
+        node.velocity = oldNode.velocity;
+        node.fixedX = oldNode.fixedX;
+        node.fixedY = oldNode.fixedY;
       }
-      if (isNaN_0(item.vx) || isNaN_0(item.vy)) {
-        item.vx = 0.0;
-        item.vy = 0.0;
+       else {
+        this.initForceNode(node);
+        if (isNaN_0(node.x) || isNaN_0(node.y)) {
+          var radius = initialRadius * Math_0.sqrt(index_1);
+          var angle = index_1 * initialAngle;
+          node.x = radius * Math_0.cos(angle);
+          node.y = radius * Math_0.sin(angle);
+        }
+        if (isNaN_0(node.vx) || isNaN_0(node.vy)) {
+          node.vx = 0.0;
+          node.vy = 0.0;
+        }
       }
     }
   };
@@ -1022,7 +1220,7 @@
     }
     return closest.v;
   };
-  ForceSimulation.prototype.on_dosft2$ = function (type, name, callback) {
+  ForceSimulation.prototype.on_npiyv9$ = function (type, name, callback) {
     switch (type.name) {
       case 'TICK':
         this.tickEvents_0.put_xwzc9p$(name, callback);
@@ -1032,6 +1230,9 @@
         break;
     }
   };
+  function ForceSimulation$initForceNode$lambda($receiver) {
+    return Unit;
+  }
   function ForceSimulation$stepper$lambda(this$ForceSimulation) {
     return function ($receiver, it) {
       this$ForceSimulation.step_0();
@@ -1083,140 +1284,142 @@
     }
   }
   SimulationEvent.valueOf_61zpoe$ = SimulationEvent$valueOf;
-  function forceX$lambda($receiver) {
-    return Unit;
-  }
   function forceX(init) {
-    if (init === void 0)
-      init = forceX$lambda;
     var $receiver = new ForceX();
     init($receiver);
     return $receiver;
   }
   function ForceX() {
-    this.x_q1dmc9$_0 = ForceX$x$lambda;
-    this.strength_y88cyq$_0 = ForceX$strength$lambda;
-    this.nodes_0 = emptyList();
-    this.strengths_0 = ArrayList_init();
-    this.xz_0 = ArrayList_init();
+    this.xGet_lwekl7$_0 = ForceX$xGet$lambda;
+    this.strengthGet_dagrdw$_0 = ForceX$strengthGet$lambda;
+    this._nodes_0 = emptyList();
+    this._strengths_0 = emptyList();
+    this._x_0 = emptyList();
   }
-  Object.defineProperty(ForceX.prototype, 'x', {
+  Object.defineProperty(ForceX.prototype, 'xGet', {
     get: function () {
-      return this.x_q1dmc9$_0;
+      return this.xGet_lwekl7$_0;
     },
     set: function (value) {
-      this.x_q1dmc9$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.xGet_lwekl7$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
     }
   });
-  Object.defineProperty(ForceX.prototype, 'strength', {
+  Object.defineProperty(ForceX.prototype, 'strengthGet', {
     get: function () {
-      return this.strength_y88cyq$_0;
+      return this.strengthGet_dagrdw$_0;
     },
     set: function (value) {
-      this.strength_y88cyq$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.strengthGet_dagrdw$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
     }
   });
-  ForceX.prototype.assignNodes_qipxwu$ = function (nodes) {
-    this.nodes_0 = nodes;
-    this.xz_0.clear();
-    this.strengths_0.clear();
-    var tmp$, tmp$_0;
-    var index = 0;
+  ForceX.prototype.assignNodes_oydpol$ = function (nodes) {
+    this._nodes_0 = nodes;
+    var transform = this.xGet;
+    var destination = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$;
     tmp$ = nodes.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
-      var index_0 = checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
-      this.xz_0.add_11rb$(this.x(item, index_0, nodes));
-      this.strengths_0.add_11rb$(this.strength(item, index_0, nodes));
+      destination.add_11rb$(transform(item));
     }
+    this._x_0 = destination;
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$_0;
+    tmp$_0 = nodes.iterator();
+    while (tmp$_0.hasNext()) {
+      var item_0 = tmp$_0.next();
+      destination_0.add_11rb$(this.strengthGet(item_0).value);
+    }
+    this._strengths_0 = destination_0;
   };
-  ForceX.prototype.applyForceToNodes_14dthe$ = function (alpha) {
+  ForceX.prototype.applyForceToNodes_14dthe$ = function (intensity) {
     var tmp$, tmp$_0;
     var index = 0;
-    tmp$ = this.nodes_0.iterator();
+    tmp$ = this._nodes_0.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
       var index_0 = checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
-      item.vx = item.vx + (this.xz_0.get_za3lpa$(index_0) - item.x) * this.strengths_0.get_za3lpa$(index_0) * alpha;
+      item.vx = item.vx + (this._x_0.get_za3lpa$(index_0) - item.x) * this._strengths_0.get_za3lpa$(index_0) * intensity;
     }
   };
-  function ForceX$x$lambda(f, f_0, f_1) {
+  function ForceX$xGet$lambda($receiver) {
     return 0.0;
   }
-  function ForceX$strength$lambda(f, f_0, f_1) {
-    return 0.1;
+  function ForceX$strengthGet$lambda($receiver) {
+    return get_pct(10);
   }
   ForceX.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ForceX',
     interfaces: [Force]
   };
-  function forceY$lambda($receiver) {
-    return Unit;
-  }
   function forceY(init) {
-    if (init === void 0)
-      init = forceY$lambda;
     var $receiver = new ForceY();
     init($receiver);
     return $receiver;
   }
   function ForceY() {
-    this.y_q1e9cn$_0 = ForceY$y$lambda;
-    this.strength_4idgf7$_0 = ForceY$strength$lambda;
-    this.nodes_0 = emptyList();
-    this.strengths_0 = ArrayList_init();
-    this.yz_0 = ArrayList_init();
+    this.yGet_77ghrt$_0 = ForceY$yGet$lambda;
+    this.strengthGet_lngmx1$_0 = ForceY$strengthGet$lambda;
+    this._nodes_0 = emptyList();
+    this._strengths_0 = emptyList();
+    this._y_0 = emptyList();
   }
-  Object.defineProperty(ForceY.prototype, 'y', {
+  Object.defineProperty(ForceY.prototype, 'yGet', {
     get: function () {
-      return this.y_q1e9cn$_0;
+      return this.yGet_77ghrt$_0;
     },
     set: function (value) {
-      this.y_q1e9cn$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.yGet_77ghrt$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
     }
   });
-  Object.defineProperty(ForceY.prototype, 'strength', {
+  Object.defineProperty(ForceY.prototype, 'strengthGet', {
     get: function () {
-      return this.strength_4idgf7$_0;
+      return this.strengthGet_lngmx1$_0;
     },
     set: function (value) {
-      this.strength_4idgf7$_0 = value;
-      this.assignNodes_qipxwu$(this.nodes_0);
+      this.strengthGet_lngmx1$_0 = value;
+      this.assignNodes_oydpol$(this._nodes_0);
     }
   });
-  ForceY.prototype.assignNodes_qipxwu$ = function (nodes) {
-    this.nodes_0 = nodes;
-    this.yz_0.clear();
-    this.strengths_0.clear();
-    var tmp$, tmp$_0;
-    var index = 0;
+  ForceY.prototype.assignNodes_oydpol$ = function (nodes) {
+    this._nodes_0 = nodes;
+    var transform = this.yGet;
+    var destination = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$;
     tmp$ = nodes.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
-      var index_0 = checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
-      this.yz_0.add_11rb$(this.y(item, index_0, nodes));
-      this.strengths_0.add_11rb$(this.strength(item, index_0, nodes));
+      destination.add_11rb$(transform(item));
     }
+    this._y_0 = destination;
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(nodes, 10));
+    var tmp$_0;
+    tmp$_0 = nodes.iterator();
+    while (tmp$_0.hasNext()) {
+      var item_0 = tmp$_0.next();
+      destination_0.add_11rb$(this.strengthGet(item_0).value);
+    }
+    this._strengths_0 = destination_0;
   };
-  ForceY.prototype.applyForceToNodes_14dthe$ = function (alpha) {
+  ForceY.prototype.applyForceToNodes_14dthe$ = function (intensity) {
     var tmp$, tmp$_0;
     var index = 0;
-    tmp$ = this.nodes_0.iterator();
+    tmp$ = this._nodes_0.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
       var index_0 = checkIndexOverflow((tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0));
-      item.vy = item.vy + (this.yz_0.get_za3lpa$(index_0) - item.y) * this.strengths_0.get_za3lpa$(index_0) * alpha;
+      item.vy = item.vy + (this._y_0.get_za3lpa$(index_0) - item.y) * this._strengths_0.get_za3lpa$(index_0) * intensity;
     }
   };
-  function ForceY$y$lambda(f, f_0, f_1) {
+  function ForceY$yGet$lambda($receiver) {
     return 0.0;
   }
-  function ForceY$strength$lambda(f, f_0, f_1) {
-    return 0.1;
+  function ForceY$strengthGet$lambda($receiver) {
+    return get_pct(10);
   }
   ForceY.$metadata$ = {
     kind: Kind_CLASS,
@@ -1226,21 +1429,22 @@
   var package$io = _.io || (_.io = {});
   var package$data2viz = package$io.data2viz || (package$io.data2viz = {});
   var package$force = package$data2viz.force || (package$data2viz.force = {});
+  package$force.forceSimulation_3y4g3l$ = forceSimulation;
+  package$force.jiggle_8be2vx$ = jiggle;
   package$force.Force = Force;
-  package$force.forceCenter_mowjvf$ = forceCenter;
+  package$force.forceCenter_jkkpf5$ = forceCenter;
   package$force.ForceCenter = ForceCenter;
-  package$force.forceCollision_afsb16$ = forceCollision;
+  package$force.forceCollision_3wu9z8$ = forceCollision;
   package$force.ForceCollision = ForceCollision;
   package$force.Link = Link;
-  package$force.forceLink_phnvl6$ = forceLink;
+  package$force.forceLink_1a67fw$ = forceLink;
   package$force.ForceLink = ForceLink;
-  package$force.forceNBody_yo3wig$ = forceNBody;
-  package$force.jiggle_8be2vx$ = jiggle;
+  package$force.forceNBody_mg1xz2$ = forceNBody;
   package$force.ForceNBody = ForceNBody;
   package$force.ForceNode = ForceNode;
-  package$force.forceRadial_qbxk35$ = forceRadial;
+  package$force.ForcePoint = ForcePoint;
+  package$force.forceRadial_e8eyjr$ = forceRadial;
   package$force.ForceRadial = ForceRadial;
-  package$force.forceSimulation_3aqnqx$ = forceSimulation;
   package$force.ForceSimulation = ForceSimulation;
   Object.defineProperty(SimulationEvent, 'TICK', {
     get: SimulationEvent$TICK_getInstance
@@ -1249,12 +1453,12 @@
     get: SimulationEvent$END_getInstance
   });
   package$force.SimulationEvent = SimulationEvent;
-  package$force.forceX_xyu5wg$ = forceX;
+  package$force.forceX_fvwcfq$ = forceX;
   package$force.ForceX = ForceX;
-  package$force.forceY_91a3hb$ = forceY;
+  package$force.forceY_es05p1$ = forceY;
   package$force.ForceY = ForceY;
   initialRadius = 10.0;
-  initialAngle = math.PI * (3.0 - Math_0.sqrt(5.0));
+  initialAngle = math_0.PI * (3.0 - Math_0.sqrt(5.0));
   Kotlin.defineModule('d2v-force-js', _);
   return _;
 }));

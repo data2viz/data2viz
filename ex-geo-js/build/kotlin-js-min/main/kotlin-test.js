@@ -11,7 +11,6 @@
   }
 }(this, function (_, Kotlin) {
   'use strict';
-  var Unit = Kotlin.kotlin.Unit;
   var ensureNotNull = Kotlin.ensureNotNull;
   var Throwable = Error;
   var defineInlineFunction = Kotlin.defineInlineFunction;
@@ -21,9 +20,10 @@
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var AssertionError_init = Kotlin.kotlin.AssertionError_init;
   var AssertionError_init_0 = Kotlin.kotlin.AssertionError_init_pdl1vj$;
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Annotation = Kotlin.kotlin.Annotation;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
+  var Unit = Kotlin.kotlin.Unit;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
   var throwCCE = Kotlin.throwCCE;
   var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException_init_pdl1vj$;
@@ -209,6 +209,7 @@
     interfaces: []
   };
   function DefaultAsserter() {
+    DefaultAsserter_instance = this;
   }
   DefaultAsserter.prototype.fail_pdl1vj$ = function (message) {
     if (message == null)
@@ -217,17 +218,27 @@
       throw AssertionError_init_0(message);
   };
   DefaultAsserter.$metadata$ = {
-    kind: Kind_CLASS,
+    kind: Kind_OBJECT,
     simpleName: 'DefaultAsserter',
     interfaces: [Asserter]
   };
+  var DefaultAsserter_instance = null;
+  function DefaultAsserter_getInstance() {
+    if (DefaultAsserter_instance === null) {
+      new DefaultAsserter();
+    }
+    return DefaultAsserter_instance;
+  }
+  function DefaultAsserter_0() {
+    return DefaultAsserter_getInstance();
+  }
   function messagePrefix(message) {
     return message == null ? '' : toString(message) + '. ';
   }
   function overrideAsserter(value) {
-    var previous = _asserter;
+    var $receiver = _asserter;
     _asserter = value;
-    return previous;
+    return $receiver;
   }
   function setAdapter(adapter) {
     setAdapter_0(adapter);
@@ -560,7 +571,10 @@
   package$test.assertFailsWith_jbbixx$ = assertFailsWith_0;
   package$test.Asserter = Asserter;
   package$test.AsserterContributor = AsserterContributor;
-  package$test.DefaultAsserter = DefaultAsserter;
+  Object.defineProperty(package$test, 'DefaultAsserter', {
+    get: DefaultAsserter_getInstance
+  });
+  package$test.DefaultAsserterConstructor = DefaultAsserter_0;
   package$test.messagePrefix_7efafy$ = messagePrefix;
   package$test.overrideAsserter_wbnzx$ = overrideAsserter;
   _.setAdapter = setAdapter;

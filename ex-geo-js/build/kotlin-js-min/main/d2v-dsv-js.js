@@ -16,6 +16,7 @@
   var lazy = Kotlin.kotlin.lazy_klfg04$;
   var unboxChar = Kotlin.unboxChar;
   var toBoxedChar = Kotlin.toBoxedChar;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   Dsv$Token$EOF.prototype = Object.create(Dsv$Token.prototype);
   Dsv$Token$EOF.prototype.constructor = Dsv$Token$EOF;
   Dsv$Token$EOL.prototype = Object.create(Dsv$Token.prototype);
@@ -124,7 +125,6 @@
       return new Dsv$Token$TextToken(closure$text.substring(j));
     };
   }
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   Dsv.prototype.parseRows_61zpoe$ = function (text) {
     var rows = ArrayList_init();
     var N = text.length;

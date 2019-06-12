@@ -20,6 +20,7 @@
   var numberToInt = Kotlin.numberToInt;
   var IntRange = Kotlin.kotlin.ranges.IntRange;
   var coerceIn = Kotlin.kotlin.ranges.coerceIn_nayhkp$;
+  var Math_0 = Math;
   var math = $module$d2v_core_js.io.data2viz.math;
   var coerceAtMost = Kotlin.kotlin.ranges.coerceAtMost_38ydlf$;
   var color = $module$d2v_color_js.io.data2viz.color;
@@ -31,12 +32,13 @@
   var Comparator = Kotlin.kotlin.Comparator;
   var roundToInt = Kotlin.kotlin.math.roundToInt_yrwdxr$;
   var getCallableRef = Kotlin.getCallableRef;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   function computeSpline(t1, v0, v1, v2, v3) {
     var t2 = t1 * t1;
     var t3 = t2 * t1;
     return ((1 - 3 * t1 + 3 * t2 - t3) * v0 + (4 - 6 * t2 + 3 * t3) * v1 + (1 + 3 * t1 + 3 * t2 - 3 * t3) * v2 + t3 * v3) / 6;
   }
-  var Math_0 = Math;
   function basis$lambda(closure$n, closure$values) {
     return function (percent) {
       var x = percent.times_3p81yu$(closure$n);
@@ -358,8 +360,6 @@
       return color.Colors.rgb_o6sw6o$(roundToInt(closure$r(percent)), roundToInt(closure$g(percent)), roundToInt(closure$b(percent)));
     };
   }
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   function interpolateRgbBasis(colorsList, cyclical) {
     if (cyclical === void 0)
       cyclical = false;
