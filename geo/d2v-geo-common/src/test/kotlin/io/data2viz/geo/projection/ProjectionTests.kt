@@ -9,24 +9,25 @@ internal fun pt(a: Double, b: Double, c: Double) = arrayOf(a, b, c)
 
 class ProjectionTests : TestBase() {
 
-    fun checkProjection(projection: Projection, lambda: Double, phi: Double, screenPoint: DoubleArray) {
-        checkProject(projection, lambda, phi, screenPoint)
+    fun checkProjection(projection: Projection, lambda: Double, phi: Double, screenX: Double, screenY: Double) {
+        checkProject(projection, lambda, phi, screenX, screenY)
 
-        checkInvert(projection, lambda, phi, screenPoint)
+        checkInvert(projection, lambda, phi, screenX, screenY)
     }
 
     private fun checkProject(
         projection: Projection,
         lambda: Double,
         phi: Double,
-        screenPoint: DoubleArray
+        screenX: Double,
+        screenY: Double
     ) {
 
 
         val projectPointResult = projection.project(lambda, phi)
 
-        projectPointResult[0] shouldBeSimilar screenPoint[0]
-        projectPointResult[1] shouldBeSimilar screenPoint[1]
+        projectPointResult[0] shouldBeSimilar screenX
+        projectPointResult[1] shouldBeSimilar screenY
     }
 
 
@@ -34,10 +35,11 @@ class ProjectionTests : TestBase() {
         projection: Projection,
         lambda: Double,
         phi: Double,
-        screenPoint: DoubleArray
+        screenX: Double,
+        screenY: Double
     ) {
 
-        val invert = projection.invert(screenPoint[0], screenPoint[1])
+        val invert = projection.invert(screenX, screenY)
 
         invert[0] shouldBeSimilar lambda
         invert[1] shouldBeSimilar phi
