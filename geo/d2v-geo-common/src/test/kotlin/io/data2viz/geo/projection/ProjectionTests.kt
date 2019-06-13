@@ -3,6 +3,7 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.test.TestBase
 import io.data2viz.test.matchers.ToleranceMatcher
+import kotlin.math.abs
 
 internal fun pt(a: Double, b: Double) = arrayOf(a, b)
 internal fun pt(a: Double, b: Double, c: Double) = arrayOf(a, b, c)
@@ -41,7 +42,13 @@ class ProjectionTests : TestBase() {
 
         val invert = projection.invert(screenX, screenY)
 
-        invert[0] shouldBeSimilar lambda
+        val delta = abs(lambda - invert[0]) % 360
+
+        if(delta > 0.1) {
+            throw AssertionError("checkInvert lambda is invalid excepted = $lambda actual = ${invert[0]} delta = $delta")
+        }
+
+
         invert[1] shouldBeSimilar phi
     }
 }
