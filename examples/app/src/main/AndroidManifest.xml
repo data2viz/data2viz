@@ -7,9 +7,13 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:name="android.support.multidex.MultiDexApplication"
+            android:name=".Data2VizApplication"
             android:theme="@style/AppTheme">
 
+        <meta-data
+                android:name="io.fabric.ApiKey"
+                android:value="dd555b7ee176584cad6d07fe66b09138662796e2"
+        />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -27,14 +31,6 @@
         </activity>
         <activity android:name=".ChordActivity"
                   android:label="Chord Diagram"
-                  android:parentActivityName=".MainActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MainActivity"
-            />
-        </activity>
-        <activity android:name=".EventsActivity"
-                  android:label="Events sample"
                   android:parentActivityName=".MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
