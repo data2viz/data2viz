@@ -10,10 +10,17 @@ internal fun pt(a: Double, b: Double, c: Double) = arrayOf(a, b, c)
 
 class ProjectionTests : TestBase() {
 
-    fun checkProjection(projection: Projection, lambda: Double, phi: Double, screenX: Double, screenY: Double) {
-        checkProject(projection, lambda, phi, screenX, screenY)
+    fun checkProjection(
+        projection: Projection,
+        lambda: Double,
+        phi: Double,
+        screenX: Double,
+        screenY: Double,
+        deltaPrecision: Double? = null
+    ) {
+        checkProject(projection, lambda, phi, screenX, screenY, deltaPrecision ?: 0.000001) // 1e-6
 
-        checkInvert(projection, lambda, phi, screenX, screenY)
+        checkInvert(projection, lambda, phi, screenX, screenY, deltaPrecision ?: 0.001) // 1e-3
     }
 
     private fun checkProject(
@@ -21,14 +28,15 @@ class ProjectionTests : TestBase() {
         lambda: Double,
         phi: Double,
         screenX: Double,
-        screenY: Double
+        screenY: Double,
+        deltaPrecision: Double
     ) {
 
 
         val projectPointResult = projection.project(lambda, phi)
 
-        projectPointResult[0] shouldBeSimilar screenX
-        projectPointResult[1] shouldBeSimilar screenY
+        inDelta(projectPointResult[0], screenX, deltaPrecision)
+        inDelta(projectPointResult[1], screenY, deltaPrecision)
     }
 
 
@@ -37,20 +45,24 @@ class ProjectionTests : TestBase() {
         lambda: Double,
         phi: Double,
         screenX: Double,
-        screenY: Double
+        screenY: Double,
+        deltaPrecision: Double
     ) {
 
         val invert = projection.invert(screenX, screenY)
 
         val delta = abs(lambda - invert[0]) % 360
 
-        if(delta > 0.1) {
+        if (delta > deltaPrecision) {
             throw AssertionError("checkInvert lambda is invalid excepted = $lambda actual = ${invert[0]} delta = $delta")
         }
 
-
-        invert[1] shouldBeSimilar phi
+        inDelta(invert[1], phi, deltaPrecision)
     }
+
+    fun inDelta(actual: Double, expected: Double, delta: Double) =
+        abs(actual - expected) <= delta;
+
 }
 
 // TODO precision is 0.1 instead of epsilion. Should be fixed. See shoudBeClose
