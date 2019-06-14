@@ -81,18 +81,6 @@ abstract class ComposedProjection : Projection {
         allProjections.forEach { it.rotate(lambda, phi, gamma) }
     }
 
-    override fun project(lambda: Double, phi: Double): DoubleArray =
-        chooseNestedProjection(lambda, phi).project(lambda, phi)
-
-    override fun invert(x: Double, y: Double): DoubleArray =
-        chooseNestedProjection(x, y).invert(x, y)
-
-    /**
-     * Chooses projection by (lambda, phi) coordinates
-     */
-    protected abstract fun chooseNestedProjection(lambda: Double, phi: Double): Projection
-
-
     override fun bindTo(downstream: Stream): Stream =
         MultiplexStream(allProjections.map { it.bindTo(downstream) })
 

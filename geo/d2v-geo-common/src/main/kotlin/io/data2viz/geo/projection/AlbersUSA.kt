@@ -3,6 +3,7 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.ComposedProjection
 import io.data2viz.geo.projection.common.Projection
+import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
@@ -29,6 +30,19 @@ fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit = {}) = AlbersUSAPr
  * @see ConicEqualAreaProjector
  */
 class AlbersUSAProjection : ComposedProjection() {
+
+
+    var point: DoubleArray = doubleArrayOf()
+    // Strange logic from d3 need refactor. Look at project implementation
+    lateinit var lower48Point: Stream
+    lateinit var alaskaPoint: Stream
+    lateinit var hawaiiPoint: Stream
+
+    val pointStream = object : Stream {
+        override fun point(x: Double, y: Double, z: Double) {
+            point = doubleArrayOf(x, y)
+        }
+    }
 
 
     private val lower48 = albersProjection()
@@ -65,61 +79,98 @@ class AlbersUSAProjection : ComposedProjection() {
         }
 
 
-    // TODO: Strange logic from d3, but without custom translate projection not properly centered
-    private var customTranslateX = 0.0
-    private var customTranslateY = 0.0
-
     override var translateX: Double
         get() = super.translateX
         set(value) {
-            super.translateX = value
-            customTranslateX += value
-            translateNestedProjections()
+            translate(value, lower48.translateY)
         }
 
     override var translateY: Double
         get() = super.translateY
         set(value) {
-            super.translateY = value
-            customTranslateY += value
-            translateNestedProjections()
+            translate(lower48.translateX, value)
         }
 
-    private fun translateNestedProjections() {
+    override fun translate(x: Double, y: Double) {
         val k = lower48.scale
-        val x = customTranslateX
-        val y = customTranslateY
-        lower48.translate(x, y)
-        lower48.extentPostClip = Extent(x - 0.455 * k, y - 0.238 * k, x + 0.455 * k, y + 0.238 * k)
 
+
+
+        lower48.translate(x, y)
         alaska.translate(x - 0.307 * k, y + 0.201 * k)
+        hawaii.translate(x - 0.205 * k, y + 0.212 * k)
+
+        initClipExtent(x, y)
+
+    }
+
+    private fun initClipExtent(x: Double, y: Double) {
+
+        val k = lower48.scale
+        // TODO: need refactor
+        // Strange logic from d3: lower48Point, alaskaPoint, hawaiiPoint should be refactored and removed
+
+        lower48.extentPostClip = Extent(
+            x - 0.455 * k,
+            y - 0.238 * k,
+            x + 0.455 * k,
+            y + 0.238 * k
+        )
+
+        lower48Point = lower48.bindTo(pointStream)
+
         alaska.extentPostClip = Extent(
             x - 0.425 * k + EPSILON,
             y + 0.120 * k + EPSILON,
             x - 0.214 * k - EPSILON,
             y + 0.234 * k - EPSILON
         )
+        alaskaPoint = alaska.bindTo(pointStream)
 
-        hawaii.translate(x - 0.205 * k, y + 0.212 * k)
         hawaii.extentPostClip = Extent(
             x - 0.214 * k + EPSILON,
             y + 0.166 * k + EPSILON,
             x - 0.115 * k - EPSILON,
             y + 0.234 * k - EPSILON
         )
+        hawaiiPoint = hawaii.bindTo(pointStream)
     }
 
-    //TODO: return project Double.NAN when projection not possible, for example projecting area outside US
-    override fun chooseNestedProjection(lambda: Double, phi: Double): Projection {
+    override fun project(lambda: Double, phi: Double): DoubleArray {
+
+        // TODO: need refactor
+        // strange logic taken from d3. Should be refactored to something similar to invert implementation
+        point = doubleArrayOf(Double.NaN, Double.NaN)
+        lower48Point.point(lambda, phi, 0.0)
+
+        if (point[0].isNaN() || point[1].isNaN()) {
+            alaskaPoint.point(lambda, phi, 0.0)
+        }
+
+        if (point[0].isNaN() || point[1].isNaN()) {
+            hawaiiPoint.point(lambda, phi, 0.0)
+        }
+
+        return point
+    }
+
+    override fun invert(x: Double, y: Double): DoubleArray {
         val k = lower48.scale
 
-        val newX = (lambda - lower48.translateX) / k
-        val newY = (phi - lower48.translateY) / k
+        val newX = (x - lower48.translateX) / k
+        val newY = (y - lower48.translateY) / k
 
-        return when {
+        val projection = when {
             newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska
             newY >= 0.166 && newY < 0.234 && newX >= -0.214 && newX < -0.115 -> hawaii
             else -> lower48
         }
+
+        return projection.invert(x, y)
     }
+
+    init {
+        initClipExtent(lower48.translateX, lower48.translateY)
+    }
+
 }
