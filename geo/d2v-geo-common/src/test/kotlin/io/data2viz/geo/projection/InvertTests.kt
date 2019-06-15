@@ -8,7 +8,7 @@ import kotlin.test.Test
 
 class InvertProjectionsTests : TestBase() {
 
-    val util = ProjectionTests()
+
 
     val worldPoints = arrayOf(
         doubleArrayOf(-0.0, 0.0),
@@ -111,7 +111,7 @@ class InvertProjectionsTests : TestBase() {
         points.forEach { point ->
 
             val projected = projection.project(point[0], point[1])
-            util.checkProjection(projection, point[0], point[1], projected[0], projected[1])
+            checkProjectAndInvert(projection, point[0], point[1], projected[0], projected[1])
         }
     }
 }
