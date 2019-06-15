@@ -23,7 +23,7 @@ class ProjectionTests : TestBase() {
         checkInvert(projection, lambda, phi, screenX, screenY, deltaPrecision ?: 0.001) // 1e-3
     }
 
-    private fun checkProject(
+    fun checkProject(
         projection: Projection,
         lambda: Double,
         phi: Double,
@@ -40,7 +40,7 @@ class ProjectionTests : TestBase() {
     }
 
 
-    private fun checkInvert(
+    fun checkInvert(
         projection: Projection,
         lambda: Double,
         phi: Double,
