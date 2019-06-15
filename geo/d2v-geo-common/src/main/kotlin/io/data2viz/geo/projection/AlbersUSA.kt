@@ -160,10 +160,17 @@ class AlbersUSAProjection : ComposedProjection() {
         val newX = (x - lower48.translateX) / k
         val newY = (y - lower48.translateY) / k
 
+
         val projection = when {
-            newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> alaska
-            newY >= 0.166 && newY < 0.234 && newX >= -0.214 && newX < -0.115 -> hawaii
-            else -> lower48
+            newY >= 0.120 && newY < 0.234 && newX >= -0.425 && newX < -0.214 -> {
+                alaska
+            }
+            newY >= 0.166 && newY < 0.234 && newX >= -0.214 && newX < -0.115 ->  {
+                hawaii
+            }
+            else ->  {
+                lower48
+            }
         }
 
         return projection.invert(x, y)
