@@ -3,10 +3,12 @@ package io.data2viz.geo.geometry.clip
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
+import io.data2viz.math.toRadians
 
 private class AnglePreClip(val angle: Angle) : StreamClip {
 
-    val clipCircle = CirclePreClip(angle.rad)
+    val transformedAngleInDegrees = (angle.deg % 360)
+    val clipCircle = CirclePreClip(transformedAngleInDegrees.toRadians())
 
     override fun clipStream(stream: Stream): Stream {
         return clipCircle.clipStream(stream)
