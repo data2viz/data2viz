@@ -1,87 +1,90 @@
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.projection.ProjectionTests
+import io.data2viz.geo.projection.checkProject
 import io.data2viz.geo.projection.gnomonicProjection
+import io.data2viz.geo.projection.inDelta
+import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
-class AngleTests: TestBase() {
+class AngleTests : TestBase() {
 
-    val util = ProjectionTests()
+    
 
     @Test
     fun angle_defaults_to_zero() {
-//        val projection = gnomonicProjection()
-
-//        util.checkProjection(projection, 0.0, 0.0, doubleArrayOf(0.0, 0.0));
-//        util.checkProjection(projection, 10.0, 0.0, doubleArrayOf(0.017632698070846498, 0.0));
-//        util.checkProjection(projection, -10.0, 0.0, doubleArrayOf(-0.017632698070846498, 0.0));
-//        util.checkProjection(projection, 0.0, 10.0, doubleArrayOf(0.0, -0.017632698070846498));
-//        util.checkProjection(projection, 0.0, -10.0, doubleArrayOf(0.0, 0.017632698070846498));
-//        util.checkProjection(projection, 10.0, 10.0, doubleArrayOf(0.17632698070846495, -0.17904710860483972));
-//        util.checkProjection(projection, 10.0, -10.0, doubleArrayOf(0.17632698070846495, 0.17904710860483972));
-//        util.checkProjection(projection, -10.0, 10.0, doubleArrayOf(-0.17632698070846495, -0.17904710860483972));
-//        util.checkProjection(projection, -10.0, -10.0, doubleArrayOf(-0.17632698070846495, 0.17904710860483972));
-
-
+        val projection = gnomonicProjection {
+            scale = 1.0
+            translate(0.0, 0.0)
+            anglePreClip  = 0.0.deg
         }
 
+        checkProject(projection, 0.0, 0.0, 0.0, 0.0)
+        checkProject(projection, 10.0, 0.0, 0.017632698070846498, 0.0)
+        checkProject(projection, -10.0, 0.0, -0.017632698070846498, 0.0)
+        checkProject(projection, 0.0, 10.0, 0.0, -0.017632698070846498)
+        checkProject(projection, 0.0, -10.0, 0.0, 0.017632698070846498)
+        checkProject(projection, 10.0, 10.0, 0.17632698070846495, -0.17904710860483972)
+        checkProject(projection, 10.0, -10.0, 0.17632698070846495, 0.17904710860483972)
+        checkProject(projection, -10.0, 10.0, -0.17632698070846495, -0.17904710860483972)
+        checkProject(projection, -10.0, -10.0, -0.17632698070846495, 0.17904710860483972)
 
+    }
+
+    @Test
+    fun angle_rotates_by_30_degrees_after_projecting() {
+        val projection = gnomonicProjection {
+            scale = 1.0
+            translate(0.0, 0.0)
+            anglePreClip = 30.0.deg
+        }
+
+        inDelta(projection.anglePreClip!!.deg, 30.0)
+
+        checkProject(projection, 0.0, 0.0, 0.0, 0.0)
+        checkProject(projection, 10.0, 0.0, 0.1527036446661393, -0.08816349035423247)
+        checkProject(projection, -10.0, 0.0, -0.1527036446661393, 0.08816349035423247)
+        checkProject(projection, 0.0, 10.0, -0.08816349035423247, -0.1527036446661393)
+        checkProject(projection, 0.0, -10.0, 0.08816349035423247, 0.1527036446661393)
+        checkProject(projection, 10.0, 10.0, 0.06318009036371944, -0.24322283488017502)
+        checkProject(projection, 10.0, -10.0, 0.24222719896855913, 0.0668958541717101)
+        checkProject(projection, -10.0, 10.0, -0.24222719896855913, -0.0668958541717101)
+        checkProject(projection, -10.0, -10.0, -0.06318009036371944, 0.24322283488017502)
+
+    }
+
+    @Test
+    fun angle_rotates_by_minus_30_degrees_after_projecting() {
+        val projection = gnomonicProjection {
+            scale = 1.0
+            translate(0.0, 0.0)
+            anglePreClip = (-30.0).deg
+        }
+
+        inDelta(projection.anglePreClip!!.deg, -30.0)
+
+        checkProject(projection, 0.0, 0.0, 0.0, 0.0)
+        checkProject(projection, 10.0, 0.0, 0.1527036446661393, 0.08816349035423247)
+        checkProject(projection, -10.0, 0.0, -0.1527036446661393, -0.08816349035423247)
+        checkProject(projection, 0.0, 10.0, 0.08816349035423247, -0.1527036446661393)
+        checkProject(projection, 0.0, -10.0, -0.08816349035423247, 0.1527036446661393)
+        checkProject(projection, 10.0, 10.0, 0.24222719896855913, -0.0668958541717101)
+        checkProject(projection, 10.0, -10.0, 0.06318009036371944, 0.24322283488017502)
+        checkProject(projection, -10.0, 10.0, -0.06318009036371944, -0.24322283488017502)
+        checkProject(projection, -10.0, -10.0, -0.24222719896855913, 0.0668958541717101)
+
+    }
+
+
+    @Test
+    fun angle_wraps_around_360() {
+        val projection = gnomonicProjection {
+            scale = 1.0
+            translate(0.0, 0.0)
+            anglePreClip = 360.0.deg
+        }
+
+        inDelta(projection.anglePreClip!!.deg, 0.0)
+
+    }
 }
-
-//var_tape_=_require("tape"),
-//d3_=_require("../../");
-//
-//require("../inDelta");
-//require("./projectionEqual");
-//
-//tape("projection.angle(…)_defaults_to_zero",_function(test)_{
-//____var_projection_=_d3.geoGnomonic().scale(1).translate([0,_0]);
-//____test.equal(projection.angle(),_0);
-//____test.projectionEqual(projection,_[0,_0],_[0,_0]);
-//____test.projectionEqual(projection,_[10,_0],_[0.17632698070846498,_0]);
-//____test.projectionEqual(projection,_[-10,_0],_[-0.17632698070846498,_0]);
-//____test.projectionEqual(projection,_[0,_10],_[0,_-0.17632698070846498]);
-//____test.projectionEqual(projection,_[0,_-10],_[0,_0.17632698070846498]);
-//____test.projectionEqual(projection,_[10,_10],_[0.17632698070846495,_-0.17904710860483972]);
-//____test.projectionEqual(projection,_[10,_-10],_[0.17632698070846495,_0.17904710860483972]);
-//____test.projectionEqual(projection,_[-10,_10],_[-0.17632698070846495,_-0.17904710860483972]);
-//____test.projectionEqual(projection,_[-10,_-10],_[-0.17632698070846495,_0.17904710860483972]);
-//____test.end();
-//});
-//
-//tape("projection.angle(…)_rotates_by_the_specified_degrees_after_projecting",_function(test)_{
-//____var_projection_=_d3.geoGnomonic().scale(1).translate([0,_0]).angle(30);
-//____test.inDelta(projection.angle(),_30);
-//____test.projectionEqual(projection,_[0,_0],_[0,_0]);
-//____test.projectionEqual(projection,_[10,_0],_[0.1527036446661393,_-0.08816349035423247]);
-//____test.projectionEqual(projection,_[-10,_0],_[-0.1527036446661393,_0.08816349035423247]);
-//____test.projectionEqual(projection,_[0,_10],_[-0.08816349035423247,_-0.1527036446661393]);
-//____test.projectionEqual(projection,_[0,_-10],_[0.08816349035423247,_0.1527036446661393]);
-//____test.projectionEqual(projection,_[10,_10],_[0.06318009036371944,_-0.24322283488017502]);
-//____test.projectionEqual(projection,_[10,_-10],_[0.24222719896855913,_0.0668958541717101]);
-//____test.projectionEqual(projection,_[-10,_10],_[-0.24222719896855913,_-0.0668958541717101]);
-//____test.projectionEqual(projection,_[-10,_-10],_[-0.06318009036371944,_0.24322283488017502]);
-//____test.end();
-//});
-//
-//tape("projection.angle(…)_rotates_by_the_specified_degrees_after_projecting",_function(test)_{
-//____var_projection_=_d3.geoGnomonic().scale(1).translate([0,_0]).angle(-30);
-//____test.inDelta(projection.angle(),_-30);
-//____test.projectionEqual(projection,_[0,_0],_[0,_0]);
-//____test.projectionEqual(projection,_[10,_0],_[0.1527036446661393,_0.08816349035423247]);
-//____test.projectionEqual(projection,_[-10,_0],_[-0.1527036446661393,_-0.08816349035423247]);
-//____test.projectionEqual(projection,_[0,_10],_[0.08816349035423247,_-0.1527036446661393]);
-//____test.projectionEqual(projection,_[0,_-10],_[-0.08816349035423247,_0.1527036446661393]);
-//____test.projectionEqual(projection,_[10,_10],_[0.24222719896855913,_-0.0668958541717101]);
-//____test.projectionEqual(projection,_[10,_-10],_[0.06318009036371944,_0.24322283488017502]);
-//____test.projectionEqual(projection,_[-10,_10],_[-0.06318009036371944,_-0.24322283488017502]);
-//____test.projectionEqual(projection,_[-10,_-10],_[-0.24222719896855913,_0.0668958541717101]);
-//____test.end();
-//});
-//
-//tape("projection.angle(…)_wraps_around_360°",_function(test)_{
-//____var_projection_=_d3.geoGnomonic().scale(1).translate([0,_0]).angle(360);
-//____test.equal(projection.angle(),_0);
-//____test.end();
-//});
