@@ -1,17 +1,11 @@
 package io.data2viz.geo.projection
 
-import io.data2viz.geom.Extent
-import io.data2viz.geo.geojson.Sphere
-import io.data2viz.geo.geojson.geoPath
 import io.data2viz.geo.geometry.clip.extentPostClip
-import io.data2viz.geom.PathGeom
-import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
 class MercatorProjectionTests : TestBase() {
 
-    val util = ProjectionTests()
 
 
 
@@ -105,9 +99,9 @@ tape("mercator.rotate(…) does not affect the automatic postClip extent", funct
 //            rotate = arrayOf(20.0.deg, 10.0.deg, 30.0.deg)
 //        }
 //
-//        util.checkProjection(projection, 84.0, 59.0, doubleArrayOf(468.39738235470327, -301.9997264679594))
-//        util.checkProjection(projection, -22.0, 16.0, doubleArrayOf(-41.232469642834104, -58.132750186605435))
-//        util.checkProjection(projection, 800.0, -800.0, doubleArrayOf(206.79103709446065, 151.98632483005113))
+//        util.checkProjectAndInvert(projection, 84.0, 59.0, doubleArrayOf(468.39738235470327, -301.9997264679594))
+//        util.checkProjectAndInvert(projection, -22.0, 16.0, doubleArrayOf(-41.232469642834104, -58.132750186605435))
+//        util.checkProjectAndInvert(projection, 800.0, -800.0, doubleArrayOf(206.79103709446065, 151.98632483005113))
 //    }
 //
 //    @Test
@@ -118,9 +112,9 @@ tape("mercator.rotate(…) does not affect the automatic postClip extent", funct
 //            rotate = arrayOf(5.0.deg, .0.deg, (-30.0).deg)
 //        }
 //
-//        util.checkProjection(projection, 84.0, 59.0, doubleArrayOf(278.67805496267147, 119.04407321930081))
-//        util.checkProjection(projection, -22.0, 16.0, doubleArrayOf(22.511032184577658, 138.94899164036798))
-//        util.checkProjection(projection, 800.0, -800.0, doubleArrayOf(-193.4977306320785, 464.9972618113396))
+//        util.checkProjectAndInvert(projection, 84.0, 59.0, doubleArrayOf(278.67805496267147, 119.04407321930081))
+//        util.checkProjectAndInvert(projection, -22.0, 16.0, doubleArrayOf(22.511032184577658, 138.94899164036798))
+//        util.checkProjectAndInvert(projection, 800.0, -800.0, doubleArrayOf(-193.4977306320785, 464.9972618113396))
 //    }
 //
 //    @Test
@@ -133,8 +127,8 @@ tape("mercator.rotate(…) does not affect the automatic postClip extent", funct
 //            precision = .0
 //        }
 //
-//        util.checkProjection(projection, 84.0, 59.0, doubleArrayOf(-98.18516654577843, 18.672644484723165))
-//        util.checkProjection(projection, -22.0, 16.0, doubleArrayOf(-100.74508864271014, 19.421488829918328))
-//        util.checkProjection(projection, 800.0, -800.0, doubleArrayOf(-99.63002236034055, 21.473889277898014))
+//        util.checkProjectAndInvert(projection, 84.0, 59.0, doubleArrayOf(-98.18516654577843, 18.672644484723165))
+//        util.checkProjectAndInvert(projection, -22.0, 16.0, doubleArrayOf(-100.74508864271014, 19.421488829918328))
+//        util.checkProjectAndInvert(projection, 800.0, -800.0, doubleArrayOf(-99.63002236034055, 21.473889277898014))
 //    }
 }
