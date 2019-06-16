@@ -52,12 +52,15 @@ class PolygonContainsTests : TestBase() {
         }
         val transformedPoint = pointRadians(point)
 
-        // Trick 1/0 instead of true/false for js implementation
-        if (exceptedResult) {
-            polygonContains(transformedPolygon, transformedPoint) shouldBe 1
-        } else {
-            polygonContains(transformedPolygon, transformedPoint) shouldBe 0
+        var polygonContainsResult:Any = polygonContains(transformedPolygon, transformedPoint)
+
+        // Workaround for test on JS platform
+        polygonContainsResult = when (polygonContainsResult) {
+            0, false -> false
+            else -> true
         }
+
+        polygonContainsResult shouldBe exceptedResult
     }
 
     private fun pointRadians(point: DoubleArray): DoubleArray =
@@ -621,7 +624,6 @@ class PolygonContainsTests : TestBase() {
         testPolygonContains(polygon, doubleArrayOf(-90.0, -80.0), true)
 
 
-
     }
 
 
@@ -646,8 +648,6 @@ class PolygonContainsTests : TestBase() {
         testPolygonContains(polygon, doubleArrayOf(-44.0, 10.0), true)
         testPolygonContains(polygon, doubleArrayOf(0.0, 10.0), true)
         testPolygonContains(polygon, doubleArrayOf(30.0, 80.0), true)
-
-
 
 
     }
