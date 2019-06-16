@@ -11,7 +11,7 @@ import kotlin.math.*
  */
 fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
     val lambda = point[0]
-    val phi = point[1]
+    var phi = point[1]
     val normal0 = sin(lambda)
     val normal1 = -cos(lambda)
     val normal2 = 0.0
@@ -83,6 +83,12 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
                 intersectionD2 /= intersectionNormalize
 
                 val phiArc = (if (antimeridian xor (delta >= 0)) -1 else 1) * asin(intersectionD2)
+
+                val pole = sin(phi);
+
+                // For next line see d3-geo issue #105
+                if (pole == -1.0 || pole == 1.0) phi += pole * EPSILON;
+
                 if (phi > phiArc ||
                     (phi == phiArc && ((d0 != .0 && !d0.isNaN()) ||
                             (d1 != .0 && !d1.isNaN())))
