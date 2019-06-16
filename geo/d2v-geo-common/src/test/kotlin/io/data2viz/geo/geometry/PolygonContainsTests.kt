@@ -70,7 +70,7 @@ class PolygonContainsTests : TestBase() {
     @Test
     fun polygonContains_empty_point_returns_false() {
 
-        testPolygonContains(listOf(), doubleArrayOf(0.0), false)
+        testPolygonContains(listOf(), doubleArrayOf(0.0, 0.0), false)
     }
 
     @Test
