@@ -52,7 +52,7 @@ class GeoPath(val projection: Projection, val path: Path?) {
     var pointRadius
         get() = pathStream!!.pointRadius
     set(value) {
-        pathStream!!.pointRadius
+        pathStream!!.pointRadius = value
     }
 
 
