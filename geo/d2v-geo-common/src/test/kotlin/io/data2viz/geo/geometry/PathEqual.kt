@@ -9,10 +9,13 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
-fun calculateSvgPath(projection: Projection, sourceGeoJsonObject: GeoJsonObject, precision: Int = 6): String {
+fun calculateSvgPath(projection: Projection, sourceGeoJsonObject: GeoJsonObject,  precision: Int = 6, pointRadius : Double? = null): String {
     val path = PathGeom()
 
     val geoPath = geoPath(projection, path)
+    if(pointRadius != null) {
+        geoPath.pointRadius = pointRadius
+    }
     geoPath.project(sourceGeoJsonObject)
 
     return normalizePath(path.svgPath, precision)
