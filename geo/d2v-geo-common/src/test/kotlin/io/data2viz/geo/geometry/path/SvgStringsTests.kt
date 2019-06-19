@@ -26,16 +26,11 @@ class SvgStringsTests : TestBase() {
     @Test
     fun geoPath_Point_renders_a_point() {
 
-        println("project = " + equirectangular.project(-63.0, 18.0).joinToString())
-
-        val pathGeom = PathGeom()
-        val geoPath = geoPath(
-            equirectangular, pathGeom
+        val actualSvgPath = calculateSvgPath(
+            equirectangular, Point(pt(-63.0, 18.0))
         )
 
-        geoPath.project(Point(pt(-63.0, 18.0)))
-        val actualSvgPath = pathGeom.svgPath
-        actualSvgPath shouldBe "M169.5,160A4.5,4.5,0,1,1,160.5,160A4.5,4.5,0,1,1,169.5,160"
+        actualSvgPath shouldBe "M169.500000,160A4.500000,4.500000,0,1,1,160.500000,160A4.500000,4.500000,0,1,1,169.500000,160"
         //actualSvgPath shouldBe "M165,160m0,4.500000a4.500000,4.500000 0 1,1 0,-9a4.500000,4.500000 0 1,1 0,9z" // from d3
     }
 
@@ -62,7 +57,7 @@ class SvgStringsTests : TestBase() {
                 )
             )
         )
-        actualSvgPath shouldBe "M169.5,160A4.5,4.5,0,1,1,160.5,160A4.5,4.5,0,1,1,169.5,160M174.5,160A4.5,4.5,0,1,1,165.5,160A4.5,4.5,0,1,1,174.5,160M174.5,165A4.5,4.5,0,1,1,165.5,165A4.5,4.5,0,1,1,174.5,165"
+        actualSvgPath shouldBe "M169.500000,160A4.500000,4.500000,0,1,1,160.500000,160A4.500000,4.500000,0,1,1,169.500000,160M174.500000,160A4.500000,4.500000,0,1,1,165.500000,160A4.500000,4.500000,0,1,1,174.500000,160M174.500000,165A4.500000,4.500000,0,1,1,165.500000,165A4.500000,4.500000,0,1,1,174.500000,165"
 //        actualSvgPath shouldBe "M165,160m0,4.500000a4.500000,4.500000 0 1,1 0,-9a4.500000,4.500000 0 1,1 0,9zM170,160m0,4.500000a4.500000,4.500000 0 1,1 0,-9a4.500000,4.500000 0 1,1 0,9zM170,165m0,4.500000a4.500000,4.500000 0 1,1 0,-9a4.500000,4.500000 0 1,1 0,9z" // from d3
     }
 
