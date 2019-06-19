@@ -1,19 +1,13 @@
 package io.data2viz.geo.geojson
 
+import io.data2viz.geo.geojson.path.GeoCircle
+import io.data2viz.geo.geometry.shouldBeBoolean
 import io.data2viz.geo.projection.pt
-import io.data2viz.geo.geojson.Sphere
-import io.data2viz.geo.geojson.contains
 import io.data2viz.geojson.*
 import io.data2viz.test.TestBase
-import kotlin.math.PI
 import kotlin.test.Test
 
 class ContainsTests : TestBase() {
-
-    val equirectangular = io.data2viz.geo.projection.equirectangularProjection() {
-        scale = 900.0 / PI
-        precision = .0
-    }
 
     @Test
     fun a_sphere_contains_any_point() {
@@ -46,12 +40,12 @@ class ContainsTests : TestBase() {
         lineString.contains(pt(.0, .0)) shouldBe true
         lineString.contains(pt(1.0, 2.0)) shouldBe true
 
-        // TODO
-        /*
-        test.equal(d3.geoContains({type: "LineString", coordinates: [[0, 0], [1,2]]}, d3.geoInterpolate([0, 0], [1,2])(0.3)), true);
-        test.equal(d3.geoContains({type: "LineString", coordinates: [[0, 0], [1,2]]}, d3.geoInterpolate([0, 0], [1,2])(1.3)), false);
-        test.equal(d3.geoContains({type: "LineString", coordinates: [[0, 0], [1,2]]}, d3.geoInterpolate([0, 0], [1,2])(-0.3)), false);
-         */
+        val interpolateFunction = geoInterpolate(doubleArrayOf(0.0, 0.0), doubleArrayOf(1.0, 2.0))
+
+        lineString.contains(interpolateFunction.interpolate(0.3).toTypedArray()) shouldBe true
+        lineString.contains(interpolateFunction.interpolate(1.3).toTypedArray()) shouldBe false
+        lineString.contains(interpolateFunction.interpolate(-0.3).toTypedArray()) shouldBe false
+
     }
 
     @Test
@@ -112,37 +106,54 @@ class ContainsTests : TestBase() {
         featureCollection.contains(pt(12.0, 25.0)) shouldBe false
     }
 
-    /*
-tape("null contains nothing", function(test) {
-  test.equal(d3.geoContains(null, [0, 0]), false);
-  test.end();
-});
 
-tape("a Polygon contains a point", function(test) {
-  var polygon = d3.geoCircle().radius(60)();
-  test.equal(d3.geoContains(polygon, [1, 1]), true);
-  test.equal(d3.geoContains(polygon, [-180, 0]), false);
-  test.end();
-});
+    @Test
+    fun a_Polygon_contains_a_point() {
 
-tape("a Polygon with a hole doesn't contain a point", function(test) {
-  var outer = d3.geoCircle().radius(60)().coordinates[0],
-      inner = d3.geoCircle().radius(3)().coordinates[0],
-      polygon = {type:"Polygon", coordinates: [outer, inner]};
-  test.equal(d3.geoContains(polygon, [1, 1]), false);
-  test.equal(d3.geoContains(polygon, [5, 0]), true);
-  test.equal(d3.geoContains(polygon, [65, 0]), false);
-  test.end();
-});
+        val geoCircle = GeoCircle<Int>()
+        geoCircle.radius = { 60.0 }
+        val polygon = geoCircle.circle()
 
-tape("a MultiPolygon contains a point", function(test) {
-  var p1 = d3.geoCircle().radius(6)().coordinates,
-      p2 = d3.geoCircle().radius(6).center([90,0])().coordinates,
-      polygon = {type:"MultiPolygon", coordinates: [p1, p2]};
-  test.equal(d3.geoContains(polygon, [1, 0]), true);
-  test.equal(d3.geoContains(polygon, [90, 1]), true);
-  test.equal(d3.geoContains(polygon, [90, 45]), false);
-  test.end();
-});
-     */
+        println("polygon = ${polygon.coordinates[0].size}")
+        println("polygon = ${polygon.coordinates.joinToString{ ""+it.joinToString { "\n("+it.joinToString()+")"}}}")
+
+        polygon.contains(pt(1.0, 1.0)) shouldBeBoolean  true
+        polygon.contains(pt(-180.0, 0.0)) shouldBeBoolean false
+
+    }
+
+    @Test
+    fun a_Polygon_with_a_hole_doesnt_contain_a_point() {
+
+        val geoCircle = GeoCircle<Int>()
+        geoCircle.radius = { 60.0 }
+        val outer = geoCircle.circle().coordinates[0]
+        geoCircle.radius = { 3.0 }
+        val inner = geoCircle.circle().coordinates[0]
+
+        val polygon = Polygon(arrayOf(outer, inner))
+
+        polygon.contains(pt(1.0, 1.0)) shouldBeBoolean false
+        polygon.contains(pt(5.0, 0.0)) shouldBeBoolean true
+        polygon.contains(pt(65.0, 0.0)) shouldBeBoolean false
+
+    }
+
+
+    @Test
+    fun a_MultiPolygon_contains_a_point() {
+
+        val geoCircle = GeoCircle<Int>()
+        geoCircle.radius = { 6.0 }
+        val p1 = geoCircle.circle().coordinates
+        geoCircle.center = { doubleArrayOf(90.0, 0.0) }
+        val p2 = geoCircle.circle().coordinates
+
+        val polygon = MultiPolygon(arrayOf(p1, p2))
+
+        polygon.contains(pt(1.0, 1.0)) shouldBeBoolean true
+        polygon.contains(pt(90.0, 1.0)) shouldBeBoolean true
+        polygon.contains(pt(90.0, 45.0)) shouldBeBoolean false
+
+    }
 }
