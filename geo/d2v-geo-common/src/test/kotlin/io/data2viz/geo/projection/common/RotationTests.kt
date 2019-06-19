@@ -47,9 +47,9 @@ class RotationTests : TestBase() {
 
         val rotate = RotationProjector(0.deg, 0.deg)
 
-        rotate.project(180.0, 0.0)[0] shouldBe 180
-        rotate.project(-180.0, 0.0)[0] shouldBe -180
-        rotate.project(360.0, 0.0)[0] shouldBe 0
+        rotate.project(180.0, 0.0)[0] shouldBe 180.0
+        rotate.project(-180.0, 0.0)[0] shouldBe -180.0
+        rotate.project(360.0, 0.0)[0] shouldBe 0.0
         inDelta(rotate.project(2562.0, 0.0)[0], 42.0, 1.0 / 10000000000)
         inDelta(rotate.project(-2562.0, 0.0)[0], -42.0, 1.0 / 10000000000)
     }
