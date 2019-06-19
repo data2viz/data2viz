@@ -1,227 +1,339 @@
 package io.data2viz.geo.stream
 
-//var tape = require("tape"),
-//d3 = require("../");
-//
-//tape("geoStream(object) ignores unknown types", function(test) {
-//    d3.geoStream({type: "Unknown"}, {});
-//    d3.geoStream({type: "Feature", geometry: {type: "Unknown"}}, {});
-//    d3.geoStream({type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Unknown"}}]}, {});
-//    d3.geoStream({type: "GeometryCollection", geometries: [{type: "Unknown"}]}, {});
-//    test.end();
-//});
-//
-//tape("geoStream(object) ignores null geometries", function(test) {
-//    d3.geoStream(null, {});
-//    d3.geoStream({type: "Feature", geometry: null }, {});
-//    d3.geoStream({type: "FeatureCollection", features: [{type: "Feature", geometry: null }]}, {});
-//    d3.geoStream({type: "GeometryCollection", geometries: [null]}, {});
-//    test.end();
-//});
-//
-//tape("geoStream(object) returns void", function(test) {
-//    test.equal(d3.geoStream({type: "Point", coordinates: [1, 2]}, {point: function() { return true; }}), undefined);
-//    test.end();
-//});
-//
-//tape("geoStream(object) allows empty multi-geometries", function(test) {
-//    d3.geoStream({type: "MultiPoint", coordinates: []}, {});
-//    d3.geoStream({type: "MultiLineString", coordinates: []}, {});
-//    d3.geoStream({type: "MultiPolygon", coordinates: []}, {});
-//    test.end();
-//});
-//
-//tape("geoStream(Sphere) ↦ sphere", function(test) {
-//    var calls = 0;
-//    d3.geoStream({type: "Sphere"}, {
-//        sphere: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls, 1);
-//    }
-//    });
-//    test.equal(calls, 1);
-//    test.end();
-//});
-//
-//tape("geoStream(Point) ↦ point", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "Point", coordinates: [1, 2, 3]}, {
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(++calls, 1);
-//    }
-//    });
-//    test.equal(calls, 1);
-//    test.end();
-//});
-//
-//tape("geoStream(MultiPoint) ↦ point*", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "MultiPoint", coordinates: [[1, 2, 3], [4, 5, 6]]}, {
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(1 <= ++calls && calls <= 2, true);
-//    }
-//    });
-//    test.equal(calls, 2);
-//    test.end();
-//});
-//
-//tape("geoStream(LineString) ↦ lineStart, point{2,}, lineEnd", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "LineString", coordinates: [[1, 2, 3], [4, 5, 6]]}, {
-//        lineStart: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls, 1);
-//    },
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(2 <= ++calls && calls <= 3, true);
-//    },
-//        lineEnd: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls, 4);
-//    }
-//    });
-//    test.equal(calls, 4);
-//    test.end();
-//});
-//
-//tape("geoStream(MultiLineString) ↦ (lineStart, point{2,}, lineEnd)*", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "MultiLineString", coordinates: [[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]]}, {
-//        lineStart: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 1 || calls === 5, true);
-//    },
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(2 <= ++calls && calls <= 3 || 6 <= calls && calls <= 7, true);
-//    },
-//        lineEnd: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 4 || calls === 8, true);
-//    }
-//    });
-//    test.equal(calls, 8);
-//    test.end();
-//});
-//
-//tape("geoStream(Polygon) ↦ polygonStart, lineStart, point{2,}, lineEnd, polygonEnd", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "Polygon", coordinates: [[[1, 2, 3], [4, 5, 6], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [7, 8, 9]]]}, {
-//        polygonStart: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 1, true);
-//    },
-//        lineStart: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 2 || calls === 6, true);
-//    },
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(3 <= ++calls && calls <= 4 || 7 <= calls && calls <= 8, true);
-//    },
-//        lineEnd: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 5 || calls === 9, true);
-//    },
-//        polygonEnd: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 10, true);
-//    }
-//    });
-//    test.equal(calls, 10);
-//    test.end();
-//});
-//
-//tape("geoStream(MultiPolygon) ↦ (polygonStart, lineStart, point{2,}, lineEnd, polygonEnd)*", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "MultiPolygon", coordinates: [[[[1, 2, 3], [4, 5, 6], [1, 2, 3]]], [[[7, 8, 9], [10, 11, 12], [7, 8, 9]]]]}, {
-//        polygonStart: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 1 || calls === 7, true);
-//    },
-//        lineStart: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 2 || calls === 8, true);
-//    },
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(3 <= ++calls && calls <= 4 || 9 <= calls && calls <= 10, true);
-//    },
-//        lineEnd: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 5 || calls === 11, true);
-//    },
-//        polygonEnd: function() {
-//        test.equal(arguments.length, 0);
-//        test.equal(++calls === 6 || calls === 12, true);
-//    }
-//    });
-//    test.equal(calls, 12);
-//    test.end();
-//});
-//
-//tape("geoStream(Feature) ↦ .*", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "Feature", geometry: {type: "Point", coordinates: [1, 2, 3]}}, {
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(++calls, 1);
-//    }
-//    });
-//    test.equal(calls, 1);
-//    test.end();
-//});
-//
-//tape("geoStream(FeatureCollection) ↦ .*", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Point", coordinates: [1, 2, 3]}}]}, {
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(++calls, 1);
-//    }
-//    });
-//    test.equal(calls, 1);
-//    test.end();
-//});
-//
-//tape("geoStream(GeometryCollection) ↦ .*", function(test) {
-//    var calls = 0, coordinates = 0;
-//    d3.geoStream({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [1, 2, 3]}]}, {
-//        point: function(translateX, translateY, z) {
-//        test.equal(arguments.length, 3);
-//        test.equal(translateX, ++coordinates);
-//        test.equal(translateY, ++coordinates);
-//        test.equal(z, ++coordinates);
-//        test.equal(++calls, 1);
-//    }
-//    });
-//    test.equal(calls, 1);
-//    test.end();
-//});
+import io.data2viz.geo.geojson.Sphere
+import io.data2viz.geo.geojson.stream
+import io.data2viz.geo.projection.pt
+import io.data2viz.geojson.*
+import io.data2viz.math.EPSILON
+import io.data2viz.test.TestBase
+import kotlin.test.Test
+
+
+class StreamTests : TestBase() {
+
+    val emptyStream = object : Stream {}
+
+    @Test
+    fun geoStream_object_allows_empty_multi_geometries() {
+
+        MultiPoint(arrayOf()).stream(emptyStream)
+        MultiLineString(arrayOf()).stream(emptyStream)
+        MultiPolygon(arrayOf()).stream(emptyStream)
+
+    }
+
+
+    @Test
+    fun geoStream_Sphere_sphere() {
+
+        var calls = 0
+        Sphere().stream(object : Stream {
+
+            override fun sphere() {
+                calls++
+            }
+        })
+
+        calls shouldBe 1
+    }
+
+
+    @Test
+    fun geoStream_Point_point() {
+
+        var calls = 0
+        Point(pt(1.0, 2.0, 3.0)).stream(object : Stream {
+
+            override fun point(x: Double, y: Double, z: Double) {
+                x shouldBeClose 1.0
+                y shouldBeClose 2.0
+                z shouldBeClose 3.0
+                calls++
+            }
+        })
+
+        calls shouldBe 1
+    }
+
+    @Test
+    fun geoStream_MultiPoint_point() {
+
+        var calls = 0
+        var pointCalls = 0
+        val coordinates = arrayOf(
+            pt(1.0, 2.0, 3.0),
+            pt(4.0, 5.0, 6.0)
+        )
+        MultiPoint(
+            coordinates
+        ).stream(object : Stream {
+
+            override fun point(x: Double, y: Double, z: Double) {
+                coordinates[pointCalls][0] shouldBeClose x
+                coordinates[pointCalls][1] shouldBeClose y
+                coordinates[pointCalls][2] shouldBeClose z
+                pointCalls++
+                calls++
+                (calls in 1..2) shouldBe true
+            }
+        })
+
+        calls shouldBe 2
+    }
+
+
+    @Test
+    fun geoStream_LineString_lineStart_point_lineEnd() {
+
+        var calls = 0
+        var pointCalls = 0
+        val coordinates = arrayOf(
+            pt(1.0, 2.0, 3.0),
+            pt(4.0, 5.0, 6.0)
+        )
+        LineString(
+            coordinates
+        ).stream(object : Stream {
+
+            override fun lineStart() {
+                ++calls shouldBe 1
+
+            }
+
+            override fun lineEnd() {
+                ++calls shouldBe 4
+            }
+
+            override fun point(x: Double, y: Double, z: Double) {
+                coordinates[pointCalls][0] shouldBeClose x
+                coordinates[pointCalls][1] shouldBeClose y
+                coordinates[pointCalls][2] shouldBeClose z
+                pointCalls++
+                calls++
+                (calls in 2..3) shouldBe true
+            }
+        })
+
+        calls shouldBe 4
+
+    }
+
+
+    @Test
+    fun geoStream_MultiLineString_lineStart_point_lineEnd() {
+
+        var calls = 0
+        var pointCalls = 0
+        val coordinates = arrayOf(
+            arrayOf(
+                pt(1.0, 2.0, 3.0),
+                pt(4.0, 5.0, 6.0)
+            ),
+            arrayOf(
+                pt(7.0, 8.0, 9.0),
+                pt(10.0, 11.0, 12.0)
+            )
+        )
+        MultiLineString(
+            coordinates
+        ).stream(object : Stream {
+
+            override fun lineStart() {
+                (++calls == 1 || calls == 5) shouldBe true
+            }
+
+            override fun lineEnd() {
+                (++calls == 4 || calls == 8) shouldBe true
+            }
+
+            override fun point(x: Double, y: Double, z: Double) {
+
+                val row = pointCalls / 2
+                val index = pointCalls % 2
+
+                coordinates[row][index][0] shouldBeClose x
+                coordinates[row][index][1] shouldBeClose y
+                coordinates[row][index][2] shouldBeClose z
+                pointCalls++
+
+                calls++
+                (calls in 2..3 || calls in 6..7) shouldBe true
+            }
+        })
+
+        calls shouldBe 8
+    }
+
+
+    @Test
+    fun geoStream_Polygon_polygonStart_lineStart_point_lineEnd_polygonEnd() {
+
+        var calls = 0
+        var pointCalls = 0
+        val coordinates = arrayOf(
+            arrayOf(
+                pt(1.0, 2.0, 3.0),
+                pt(4.0, 5.0, 6.0),
+                pt(1.0, 2.0, 3.0)
+            ),
+            arrayOf(
+                pt(7.0, 8.0, 9.0),
+                pt(10.0, 11.0, 12.0),
+                pt(7.0, 8.0, 9.0)
+            )
+        )
+        Polygon(
+            coordinates
+        ).stream(object : Stream {
+
+            override fun polygonStart() {
+                (++calls == 1) shouldBe true
+            }
+
+            override fun polygonEnd() {
+                (++calls == 10) shouldBe true
+            }
+
+            override fun lineStart() {
+                (++calls == 2 || calls == 6) shouldBe true
+            }
+
+            override fun lineEnd() {
+                (++calls == 5 || calls == 9) shouldBe true
+            }
+
+            override fun point(x: Double, y: Double, z: Double) {
+
+                val row = pointCalls / 2
+                val index = pointCalls % 2
+
+                coordinates[row][index][0] shouldBeClose x
+                coordinates[row][index][1] shouldBeClose y
+                coordinates[row][index][2] shouldBeClose z
+                pointCalls++
+
+                calls++
+                (calls in 3..4 || calls in 7..8) shouldBe true
+            }
+        })
+
+        calls shouldBe 10
+    }
+
+
+    @Test
+    fun geoStream_MultiPolygon_polygonStart_lineStart_point_lineEnd_polygonEnd() {
+
+        var calls = 0
+        var pointCalls = 0
+        val coordinates = arrayOf(
+            arrayOf(
+                arrayOf(
+                    pt(1.0, 2.0, 3.0),
+                    pt(4.0, 5.0, 6.0),
+                    pt(1.0, 2.0, 3.0)
+                )
+            ),
+            arrayOf(
+                arrayOf(
+                    pt(7.0, 8.0, 9.0),
+                    pt(10.0, 11.0, 12.0),
+                    pt(7.0, 8.0, 9.0)
+                )
+            )
+        )
+        MultiPolygon(
+            coordinates
+        ).stream(object : Stream {
+
+            override fun polygonStart() {
+                (++calls == 1 || calls == 7) shouldBe true
+            }
+
+            override fun polygonEnd() {
+                (++calls == 6 || calls == 12) shouldBe true
+            }
+
+            override fun lineStart() {
+                (++calls == 2 || calls == 8) shouldBe true
+            }
+
+            override fun lineEnd() {
+                (++calls == 5 || calls == 11) shouldBe true
+            }
+
+            override fun point(x: Double, y: Double, z: Double) {
+
+                val row = pointCalls / 2
+                val index = pointCalls % 2
+
+                coordinates[row][0][index][0] shouldBeClose x
+                coordinates[row][0][index][1] shouldBeClose y
+                coordinates[row][0][index][2] shouldBeClose z
+                pointCalls++
+
+                calls++
+                (calls in 3..4 || calls in 9..10) shouldBe true
+            }
+        })
+
+        calls shouldBe 12
+    }
+
+
+    @Test
+    fun geoStream_Feature() {
+
+        var calls = 0
+        Feature(Point(pt(1.0, 2.0, 3.0))).stream(object : Stream {
+
+            override fun point(x: Double, y: Double, z: Double) {
+                x shouldBeClose 1.0
+                y shouldBeClose 2.0
+                z shouldBeClose 3.0
+                calls++
+            }
+        })
+
+        calls shouldBe 1
+    }
+
+    @Test
+    fun geoStream_FeatureCollection() {
+
+        var calls = 0
+        FeatureCollection(
+            arrayOf(Feature(Point(pt(1.0, 2.0, 3.0))))
+        ).stream(object : Stream {
+
+            override fun point(x: Double, y: Double, z: Double) {
+                x shouldBeClose 1.0 
+                y shouldBeClose 2.0
+                z shouldBeClose 3.0
+                calls++
+            }
+        })
+
+        calls shouldBe 1
+    }
+
+    @Test
+    fun geoStream_GeometryCollection() {
+
+        var calls = 0
+        GeometryCollection(
+            arrayOf(Point(pt(1.0, 2.0, 3.0)))
+        ).stream(object : Stream {
+
+            override fun point(x: Double, y: Double, z: Double) {
+                x shouldBeClose 1.0 
+                y shouldBeClose 2.0
+                z shouldBeClose 3.0
+                calls++
+            }
+        })
+
+        calls shouldBe 1
+    }
+
+}
