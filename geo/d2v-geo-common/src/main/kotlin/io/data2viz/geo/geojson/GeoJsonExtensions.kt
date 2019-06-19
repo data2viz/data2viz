@@ -36,9 +36,7 @@ fun GeoJsonObject.contains(point: Position): Boolean =
 
 private fun Lines.contains(point: Position): Boolean {
     val radiansCoordinates = map { it.map { toRadians(it) } }
-    val coords = radiansCoordinates.toMutableList()
-    coords.removeAt(coords.lastIndex)
-    return polygonContains(coords, toRadians(point))
+    return polygonContains(radiansCoordinates, toRadians(point))
 }
 
 private fun Positions.contains(point: Position): Boolean {
