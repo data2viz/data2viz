@@ -93,7 +93,7 @@ abstract class ComposedProjection : Projection {
     protected abstract fun chooseNestedProjection(lambda: Double, phi: Double): Projection
 
 
-    override fun bindTo(outputStream: Stream): Stream =
-        MultiplexStream(allProjections.map { it.bindTo(outputStream) })
+    override fun bindTo(downstream: Stream): Stream =
+        MultiplexStream(allProjections.map { it.bindTo(downstream) })
 
 }

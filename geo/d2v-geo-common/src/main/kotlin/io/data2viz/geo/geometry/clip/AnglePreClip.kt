@@ -8,8 +8,8 @@ private class AnglePreClip(val angle: Angle) : ClipStreamBuilder {
 
     val clipCircle = CirclePreClip(angle.rad)
 
-    override fun bindTo(outputStream: Stream): Stream {
-        return clipCircle.bindTo(outputStream)
+    override fun bindTo(downstream: Stream): Stream {
+        return clipCircle.bindTo(downstream)
     }
 
 }

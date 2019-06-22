@@ -16,8 +16,8 @@ import kotlin.math.sqrt
  * @param radius radius in radians
  */
 class CirclePreClip(val radius: Double): ClipStreamBuilder {
-    override fun bindTo(outputStream: Stream): Stream {
-        return ClippableStream(ClipCircle(radius), outputStream)
+    override fun bindTo(downstream: Stream): Stream {
+        return ClippableStream(CircleClipper(radius), downstream)
     }
 
 }
@@ -27,7 +27,7 @@ class CirclePreClip(val radius: Double): ClipStreamBuilder {
  * radius angle around the projection’s center.
  * Typically used for pre-clipping.
  */
-class ClipCircle(val radius: Double) : ClippableHasStart {
+class CircleClipper(val radius: Double) : ClipperWithStart {
 
     private val cosRadius = cos(radius)
     private val delta = 6.0.toRadians()
@@ -35,11 +35,14 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
     private val notHemisphere = abs(cosRadius) > EPSILON // TODO optimise for this common case
 
     override val start: DoubleArray
-        get() = if (smallRadius) doubleArrayOf(0.0, -radius) else doubleArrayOf(-PI, radius - PI)
+        get() = if (smallRadius)
+            doubleArrayOf(0.0, -radius)
+        else
+            doubleArrayOf(-PI, radius - PI)
 
     override fun pointVisible(x: Double, y: Double): Boolean = cos(x) * cos(y) > cosRadius
 
-    override fun clipLine(stream: Stream): ClipStream {
+    override fun clipLine(downstream: Stream): ClipStream {
 
         return object : ClipStream {
 
@@ -64,7 +67,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
                 if (point0 == null) {
                     v00 = v
                     v0 = v
-                    if (v) stream.lineStart()
+                    if (v) downstream.lineStart()
                 }
 
                 // Handle degeneracies.
@@ -82,14 +85,14 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
                     _clean = 0
                     if (v) {
                         // outside going in
-                        stream.lineStart()
+                        downstream.lineStart()
                         point2 = intersect(point1, point0!!)
-                        stream.point(point2!![0], point2[1], .0)            // TODO : point2 may be null ??
+                        downstream.point(point2!![0], point2[1], .0)            // TODO : point2 may be null ??
                     } else {
                         // inside going out
                         point2 = intersect(point0!!, point1)
-                        stream.point(point2!![0], point2[1], .0)            // TODO : point2 may be null ??
-                        stream.lineEnd()
+                        downstream.point(point2!![0], point2[1], .0)            // TODO : point2 may be null ??
+                        downstream.lineEnd()
                     }
                     point0 = point2
                 } else if (notHemisphere && point0 != null && smallRadius xor v) {
@@ -101,22 +104,22 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
                         if (t != null) {
                             _clean = 0
                             if (smallRadius) {
-                                stream.lineStart()
-                                stream.point(t[0][0], t[0][1], .0)
-                                stream.point(t[1][0], t[1][1], .0)
-                                stream.lineEnd()
+                                downstream.lineStart()
+                                downstream.point(t[0][0], t[0][1], .0)
+                                downstream.point(t[1][0], t[1][1], .0)
+                                downstream.lineEnd()
                             } else {
-                                stream.point(t[1][0], t[1][1], .0)
-                                stream.lineEnd()
-                                stream.lineStart()
-                                stream.point(t[0][0], t[0][1], .0)
+                                downstream.point(t[1][0], t[1][1], .0)
+                                downstream.lineEnd()
+                                downstream.lineStart()
+                                downstream.point(t[0][0], t[0][1], .0)
                             }
                         }
                     }
                 }
 
                 if (v && (point0 == null || !pointEqual(point0!!, point1))) {
-                    stream.point(point1[0], point1[1], .0)
+                    downstream.point(point1[0], point1[1], .0)
                 }
                 point0 = point1
                 v0 = v
@@ -130,7 +133,7 @@ class ClipCircle(val radius: Double) : ClippableHasStart {
             }
 
             override fun lineEnd() {
-                if (v0) stream.lineEnd()
+                if (v0) downstream.lineEnd()
                 point0 = null
             }
         }

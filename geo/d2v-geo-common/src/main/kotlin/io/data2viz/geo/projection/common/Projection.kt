@@ -134,8 +134,8 @@ interface Projection : Projector {
 
 
     /**
-     * Returns a projection stream that ultimately sends calls to the specified outputStream.
-     * Any input geometry is projected before being streamed to the outputStream.
+     * Returns a projection stream that ultimately sends calls to the specified downstream.
+     * Any input geometry is projected before being streamed to the downstream.
      *
      * A typical projection involves several geometry transformations:
      * the input geometry is first converted to radians, rotated on three axes,
@@ -143,7 +143,7 @@ interface Projection : Projector {
      * with adaptive resampling, scale and translation.
      *
      */
-    fun bindTo(outputStream: Stream): Stream
+    fun bindTo(downstream: Stream): Stream
 
 
 }

@@ -7,10 +7,10 @@ import io.data2viz.geom.Extent
 
 class ExtentClip(val extent: Extent) : ClipStreamBuilder {
 
-    val clipRectangle = ClipRectangle(extent)
+    val clipRectangle = RectangleClipper(extent)
 
-    override fun bindTo(outputStream: Stream): Stream {
-        return clipRectangle.clipLine(outputStream)
+    override fun bindTo(downstream: Stream): Stream {
+        return clipRectangle.clipLine(downstream)
     }
 
 }
