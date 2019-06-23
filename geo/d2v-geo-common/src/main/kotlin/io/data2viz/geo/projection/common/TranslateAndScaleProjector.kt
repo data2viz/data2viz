@@ -19,7 +19,6 @@ class TranslateAndScaleProjector(
     }
 
 
-    // TODO: need re-check. invert not exist in d3 implementation
     override fun invert(x: Double, y: Double): DoubleArray {
 
         return projector.invert(
