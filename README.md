@@ -27,45 +27,12 @@ Data2viz allows you to develop data visualizations through a fully typed DSL. It
  
 You can try it on [data2viz playground](https://play.data2viz.io/tutorials/colors/).
 
-## How can I use it?
-Artifacts are published on [Maven Central](https://repo.maven.apache.org/maven2/io/data2viz/) and [Bintray](https://bintray.com/data2viz/data2viz/data2viz).
+## Where should I start?
 
-For example: to use data2viz in a Kotlin Javascript project, you need to add the following to the repositories and dependencies blocks:
-
-```kotlin
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile "io.data2viz:d2v-data2viz-js:$data2viz_version"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-}
-```
-
-You can then create a visualization in your code and render it in the context of your application. For example:
-```kotlin
-fun main(args: Array<String>) {
-    println("starting a first viz")
-    viz {
-        width = 400.0
-        height = 400.0
-
-        rect {
-            width = 50.0
-            height = 50.0
-            x = 100.0
-            y = 100.0
-            style.fill = colors.red
-        }
-
-    }.bindRendererOn("viz")     // <- the canvas id of which the viz is rendered.
-
-}
-```
-
-You can also [clone the examples repo](https://github.com/data2viz/data2viz-examples) or have a look
-at the [example directory](examples) in this repo.
+All data2viz documentation is located in 
+[a distinct documentation project](https://github.com/data2viz/data2viz-docs). 
+You should start here and follow 
+[the first JavaFX tutorial](https://github.com/data2viz/data2viz-docs/blob/master/tutorials/javafx-bar-chart/javafx-bar-chart.md).
 
 
 ## Some samples
