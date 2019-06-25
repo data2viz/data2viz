@@ -1,7 +1,7 @@
 package io.data2viz.geo.projection.common
 
 import io.data2viz.geo.geometry.clip.NoClip
-import io.data2viz.geo.geometry.clip.StreamClip
+import io.data2viz.geo.geometry.clip.ClipStreamBuilder
 import io.data2viz.geo.geometry.clip.antimeridianPreClip
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
@@ -76,9 +76,9 @@ open class ProjectorProjection(val projector: Projector) : Projection {
     protected var _rotationGamma = 0.0
     protected lateinit var rotator: Projector
 
-    override var preClip: StreamClip = antimeridianPreClip
+    override var preClip: ClipStreamBuilder = antimeridianPreClip
 
-    override var postClip: StreamClip = NoClip
+    override var postClip: ClipStreamBuilder = NoClip
 
     private var resampleProjector: (Stream) -> Stream = resample(translateAndScaleProjector, _precisionDelta2)
 
@@ -171,12 +171,12 @@ open class ProjectorProjection(val projector: Projector) : Projection {
         }
 
 
-    override fun stream(stream: Stream): Stream {
+    override fun bindTo(downstream: Stream): Stream {
         return transformRadians(
             transformRotate(rotator)(
-                    preClip.clipStream(
+                    preClip.bindTo(
                         resampleProjector(
-                            postClip.clipStream(stream)
+                            postClip.bindTo(downstream)
                         )
                 )
             )
@@ -192,9 +192,7 @@ open class ProjectorProjection(val projector: Projector) : Projection {
 
 
     override fun invert(x: Double, y: Double): DoubleArray {
-        val newX = (x - _recenterDx) / _scale
-        val newY = (_recenterDy - y) / _scale
-        val inverted = composedTransformationsProjector.invert(newX, newY)
+        val inverted = composedTransformationsProjector.invert(x, y)
         return doubleArrayOf(
             inverted[0].toDegrees(),
             inverted[1].toDegrees()
@@ -214,37 +212,6 @@ open class ProjectorProjection(val projector: Projector) : Projection {
         translateAndScaleProjector.scale = _scale
         translateAndScaleProjector.recenterDx = _recenterDx
         translateAndScaleProjector.recenterDy = _recenterDy
-    }
-
-
-}
-
-/**
- * Scale & translate projector based on values from [projector]
- *
- */
-class TranslateAndScaleProjector(
-    val projector: Projector,
-    var scale: Double,
-    var recenterDx: Double,
-    var recenterDy: Double
-) : Projector {
-
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val projected = projector.project(lambda, phi)
-        projected[0] = recenterDx + projected[0] * scale
-        projected[1] = recenterDy - projected[1] * scale
-        return projected
-    }
-
-
-    // TODO: need re-check. invert not exist in d3 implementation
-    override fun invert(x: Double, y: Double): DoubleArray {
-
-        return projector.invert(
-            (x - recenterDx) / scale,
-            -(y - recenterDy) / scale
-        )
     }
 
 }

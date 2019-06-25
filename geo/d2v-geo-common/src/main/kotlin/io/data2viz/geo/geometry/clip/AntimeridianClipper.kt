@@ -16,22 +16,22 @@ import kotlin.math.sin
  * that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.
  *
  */
-val antimeridianPreClip = object : StreamClip {
-    val antimeridianClip = AntimeridianClip()
+val antimeridianPreClip = object : ClipStreamBuilder {
+    val antimeridianClip = AntimeridianClipper()
 
-    override fun clipStream(stream: Stream): Stream {
-        return ClippableStream(antimeridianClip, stream)
+    override fun bindTo(downstream: Stream): Stream {
+        return ClippableStream(antimeridianClip, downstream)
     }
 
 }
 
 
-private class AntimeridianClip : ClippableHasStart {
+private class AntimeridianClipper : ClipperWithStart {
 
     override var start = doubleArrayOf(-PI, -HALFPI)
     override fun pointVisible(x: Double, y: Double) = true
 
-    override fun clipLine(stream: Stream): ClipStream {
+    override fun clipLine(downstream: Stream): ClipStream {
         var lambda0 = Double.NaN
         var phi0 = Double.NaN
         var sign0 = Double.NaN
@@ -46,7 +46,7 @@ private class AntimeridianClip : ClippableHasStart {
                 }
 
             override fun lineStart() {
-                stream.lineStart()
+                downstream.lineStart()
                 clean = 1
             }
 
@@ -57,31 +57,31 @@ private class AntimeridianClip : ClippableHasStart {
                 val delta = abs(lambda1 - lambda0)
                 if (abs(delta - PI) < EPSILON) { // Line crosses pole
                     phi0 = if ((phi0 + phi1) / 2 > 0) HALFPI else -HALFPI
-                    stream.point(lambda0, phi0, 0.0)
-                    stream.point(sign0, phi0, 0.0)
-                    stream.lineEnd()
-                    stream.lineStart()
-                    stream.point(sign1, phi0, 0.0)
-                    stream.point(lambda1, phi0, 0.0)
+                    downstream.point(lambda0, phi0, 0.0)
+                    downstream.point(sign0, phi0, 0.0)
+                    downstream.lineEnd()
+                    downstream.lineStart()
+                    downstream.point(sign1, phi0, 0.0)
+                    downstream.point(lambda1, phi0, 0.0)
                     clean = 0
                 } else if (sign0 != sign1 && delta >= PI) {
                     if (abs(lambda0 - sign0) < EPSILON) lambda0 -= sign0 * EPSILON
                     if (abs(lambda1 - sign1) < EPSILON) lambda1 -= sign1 * EPSILON
                     phi0 = intersect(lambda0, phi0, lambda1, phi1)
-                    stream.point(sign0, phi0, 0.0)
-                    stream.lineEnd()
-                    stream.lineStart()
-                    stream.point(sign1, phi0, 0.0)
+                    downstream.point(sign0, phi0, 0.0)
+                    downstream.lineEnd()
+                    downstream.lineStart()
+                    downstream.point(sign1, phi0, 0.0)
                     clean = 0
                 }
                 lambda0 = lambda1
                 phi0 = phi1
-                stream.point(lambda0, phi0, 0.0)
+                downstream.point(lambda0, phi0, 0.0)
                 sign0 = sign1
             }
 
             override fun lineEnd() {
-                stream.lineEnd()
+                downstream.lineEnd()
                 lambda0 = Double.NaN
                 phi0 = Double.NaN
             }

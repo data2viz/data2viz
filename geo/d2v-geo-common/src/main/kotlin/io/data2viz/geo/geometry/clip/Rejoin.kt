@@ -14,11 +14,6 @@ data class Intersection(
     var previous: Intersection? = null
 )
 
-interface InterpolateFunction {
-    fun invoke(from: DoubleArray, to: DoubleArray,
-               direction: Int,
-               stream: Stream)
-}
 /**
  * A generalized polygon clipping algorithm: given a polygon that has been cut into its visible line segments,
  * and rejoins the segments by interpolating along the postClip edge.
@@ -27,7 +22,7 @@ fun rejoin(
     segments: List<List<DoubleArray>>,
     compareIntersection: Comparator<Intersection>,
     startInside: Boolean,
-    interpolateFunction: InterpolateFunction,
+    clipper: Clipper,
     stream: Stream
 ) {
     val subject = mutableListOf<Intersection>()
@@ -103,7 +98,7 @@ fun rejoin(
                 if (isSubject) {
                     if (points != null) points.forEach { stream.point(it[0], it[1], .0) }
                 } else {
-                    interpolateFunction.invoke(current.point, current.next!!.point, 1, stream)
+                    clipper.interpolate(current.point, current.next!!.point, 1, stream)
                 }
                 current = current.next!!
             } else {
@@ -111,7 +106,7 @@ fun rejoin(
                     points = current.previous!!.points
                     if (points != null) points.asReversed().forEach { stream.point(it[0], it[1], .0) }
                 } else {
-                    interpolateFunction.invoke(current.point, current.previous!!.point, -1, stream)
+                    clipper.interpolate(current.point, current.previous!!.point, -1, stream)
                 }
                 current = current.previous!!
             }
@@ -142,6 +137,6 @@ fun link(list: List<Intersection>) {
     b.previous = a
 }
 
-internal fun pointEqual(p0: DoubleArray, p1: DoubleArray): Boolean {
-    return abs(p0[0] - p1[0]) < EPSILON && abs(p0[1] - p1[1]) < EPSILON
-}
+internal fun pointEqual(p0: DoubleArray, p1: DoubleArray): Boolean =
+        abs(p0[0] - p1[0]) < EPSILON &&
+        abs(p0[1] - p1[1]) < EPSILON

@@ -8,11 +8,11 @@ import kotlin.math.abs
 private const val CLIPMAX = 1e9
 private const val CLIPMIN = -CLIPMAX
 
-class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : StreamClip {
-    val clipRectangle = ClipRectangle(Extent(x0, y0, x1, y1))
+class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStreamBuilder {
+    val clipRectangle = RectangleClipper(Extent(x0, y0, x1, y1))
 
-    override fun clipStream(stream: Stream): Stream {
-        return clipRectangle.clipLine(stream)
+    override fun bindTo(downstream: Stream): Stream {
+        return clipRectangle.clipLine(downstream)
     }
 }
 
@@ -20,7 +20,7 @@ class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : StreamClip
  * Generates a clipping function which transforms a stream such that geometries are bounded by the given Extent.
  * Typically used for post-clipping.
  */
-class ClipRectangle(val extent: Extent) : Clippable {
+class RectangleClipper(val extent: Extent) : Clipper {
     // TODO refactor function references :: to objects like in CircleClip
 //  Function references have poor performance due to GC & memory allocation
 
@@ -29,20 +29,16 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 y in extent.y0..extent.y1
     }
 
-    val interpolateFunction = object : InterpolateFunction {
-        override fun invoke(from: DoubleArray, to: DoubleArray, direction: Int, stream: Stream) {
-            interpolate(from, to, direction, stream)
-        }
-    }
+    enum class PointContext {DEFAULT, LINE}
 
-    override fun clipLine(stream: Stream): ClipStream {
+    override fun clipLine(downstream: Stream): ClipStream {
 
         return object : ClipStream {
 
             override var clean: Int = 0
 
-            private var activeStream = stream
-            private val bufferStream = ClipBufferStream()
+            private var activeStream = downstream
+            private val bufferStream = BufferStream()
 
             // first point
             private var x__ = Double.NaN
@@ -59,14 +55,18 @@ class ClipRectangle(val extent: Extent) : Clippable {
             private var polygon: MutableList<List<DoubleArray>>? = null
             private var first = false
 
-            private var currentPoint = ::justPoint
+            private var pointContext = PointContext.DEFAULT
 
-            override fun point(x: Double, y: Double, z: Double) {
-                currentPoint(x, y)
+
+            override fun polygonStart() {
+                activeStream = bufferStream
+                segments = ArrayList()
+                polygon = ArrayList()
+                clean = 1
             }
 
             override fun lineStart() {
-                currentPoint = ::linePoint
+                pointContext = PointContext.LINE
 
                 val poly = polygon
                 if (poly != null) {
@@ -81,51 +81,15 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 y_ = Double.NaN
             }
 
-            override fun lineEnd() {
-                if (segments != null) {
-                    linePoint(x__, y__)
-                    if (v__ && v_) bufferStream.rejoin()
-                    segments!!.add(bufferStream.result().flatten())
+
+            override fun point(x: Double, y: Double, z: Double) {
+                when(pointContext) {
+                    PointContext.DEFAULT -> pointDefault(x, y)
+                    PointContext.LINE -> linePoint(x, y)
                 }
-                currentPoint = ::justPoint
-                if (v_) activeStream.lineEnd()
             }
 
-            override fun polygonStart() {
-                activeStream = bufferStream
-                segments = ArrayList()
-                polygon = ArrayList()
-                clean = 1
-            }
-
-            override fun polygonEnd() {
-                val startInside = polygonInside() != 0
-                val cleanInside = clean != 0 && startInside
-                val visible = segments?.isNotEmpty() ?: false
-
-                if (cleanInside || visible) {
-                    stream.polygonStart()
-                    if (cleanInside) {
-                        stream.lineStart()
-                        interpolate(null, null, 1, stream)
-                        stream.lineEnd()
-                    }
-                    if (visible) rejoin(
-                        segments!!,
-                        Comparator { o1: Intersection, o2 -> comparePoint(o1.point, o2.point) },
-                        startInside,
-                        interpolateFunction,
-                        stream
-                    )
-                    stream.polygonEnd()
-                }
-                activeStream = stream
-                segments = null
-                polygon = null
-                ring = null
-            }
-
-            private fun justPoint(x: Double, y: Double) {
+            private fun pointDefault(x: Double, y: Double) {
                 if (pointVisible(x, y)) {
                     activeStream.point(x, y, 0.0)
                 }
@@ -176,6 +140,45 @@ class ClipRectangle(val extent: Extent) : Clippable {
                 y_ = newY
                 v_ = visible
             }
+
+            override fun lineEnd() {
+                if (segments != null) {
+                    linePoint(x__, y__)
+                    if (v__ && v_) bufferStream.rejoin()
+                    segments!!.add(bufferStream.result().flatten())
+                }
+                pointContext = PointContext.DEFAULT
+                if (v_) activeStream.lineEnd()
+            }
+
+            override fun polygonEnd() {
+                val startInside = polygonInside() != 0
+                val cleanInside = clean != 0 && startInside
+                val visible = segments?.isNotEmpty() ?: false
+
+                if (cleanInside || visible) {
+                    downstream.polygonStart()
+                    if (cleanInside) {
+                        downstream.lineStart()
+                        interpolate(null, null, 1, downstream)
+                        downstream.lineEnd()
+                    }
+                    if (visible) rejoin(
+                        segments!!,
+                        Comparator { o1: Intersection, o2 -> comparePoint(o1.point, o2.point) },
+                        startInside,
+                        this@RectangleClipper,
+                        downstream
+                    )
+                    downstream.polygonEnd()
+                }
+                activeStream = downstream
+                segments = null
+                polygon = null
+                ring = null
+            }
+
+
 
             // TODO may have issues. Need rework
             private fun polygonInside(): Int {

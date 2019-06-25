@@ -25,11 +25,11 @@ abstract class CachedProjection : Projection {
 
     
 
-    override fun stream(stream: Stream): Stream {
+    override fun bindTo(downstream: Stream): Stream {
 
-        if (!streamCache.isCacheValidFor(stream)) {
-            val resultStream = fullCycleStream(stream)
-            streamCache.cache(stream, resultStream)
+        if (!streamCache.isCacheValidFor(downstream)) {
+            val resultStream = fullCycleStream(downstream)
+            streamCache.cache(downstream, resultStream)
         }
 
         return streamCache.cachedResultStream!!
