@@ -6,10 +6,18 @@ apply plugin: 'com.novoda.android-command'
 buildscript {
     repositories {
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.novoda:gradle-android-command-plugin:2.0.1'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
+}
+
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 android {
@@ -41,7 +49,10 @@ android {
 
 
 dependencies {
-    
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
+        transitive = true;
+    }
     compile 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:design:28.0.0-rc02'
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -68,11 +79,11 @@ dependencies {
 
     expectedBy project(":ex-line-of-sight:ex-line-of-sight-common")
 
+    expectedBy project(":ex-events:ex-events-common")
+
     expectedBy project(":ex-chord:ex-chord-common")
     compile project(":chord:d2v-chord-common")
     compile project(":chord:d2v-chord-jvm")
-
-    expectedBy project(":ex-events:ex-events-common")
 
     expectedBy project(":ex-sankey:ex-sankey-common")
     compile project(":sankey:d2v-sankey-common")
