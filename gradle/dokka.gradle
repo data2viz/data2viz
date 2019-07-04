@@ -1,5 +1,4 @@
 
-apply plugin: 'org.jetbrains.dokka'
 
 tasks.withType(dokka.getClass()) {
     jdkVersion = 8
@@ -19,4 +18,19 @@ task dokkaJavadoc(type: dokka.getClass()) {
 task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     classifier = 'javadoc'
     from "$buildDir/javadoc"
+}
+
+task dokkaHtml(type: dokka.getClass()) {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/dokka/html"
+}
+
+task dokkaMd(type: dokka.getClass()) {
+    outputFormat = 'markdown'
+    outputDirectory = "$buildDir/dokka/md"
+}
+
+task dokkaGfm(type: dokka.getClass()) {
+    outputFormat = 'gfm'
+    outputDirectory = "$buildDir/dokka/gfm"
 }

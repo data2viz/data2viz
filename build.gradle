@@ -20,6 +20,7 @@ buildscript {
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${dokka_version}"
         classpath "org.kordamp.gradle:stats-gradle-plugin:$stats_version"
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
 
@@ -229,14 +230,20 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
     }
 }
 
+
+
 // --------------- Configure sub-projects that are published ---------------
 
 configure(subprojects.findAll { it.name.startsWith('d2v-') }) {
-    def platform = platformOf(project)
-    if( platform == "jvm" || platform == "jfx"){
-        apply from: rootProject.file('gradle/dokka.gradle')
-    }
 
+    def platform = platformOf(project)
+    if( platform == "android" || it.name.endsWith("app")){
+        apply plugin: 'org.jetbrains.dokka-android'
+    } else {
+        apply plugin: 'org.jetbrains.dokka'
+    }
+    apply from: rootProject.file('gradle/dokka.gradle')
+    
     apply plugin: 'org.kordamp.gradle.stats'
     apply from: rootProject.file('gradle/publish-bintray.gradle')
 
