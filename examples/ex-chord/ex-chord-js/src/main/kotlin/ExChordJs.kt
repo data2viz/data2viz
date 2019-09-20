@@ -1,12 +1,11 @@
 package io.data2viz.examples.chord
 
 import io.data2viz.viz.KPointerDoubleClick
-import io.data2viz.viz.bindRendererOn
+import io.data2viz.viz.bindRendererOnNewCanvas
 
-@Suppress("unused")
-fun main(args: Array<String>) {
+fun main() {
     val chordViz = chordViz()
-    chordViz.bindRendererOn("chord")
+    chordViz.bindRendererOnNewCanvas()
     chordViz.on(KPointerDoubleClick) { evt ->
         println("AFTER INIT Pointer double click:: ${evt.pos}")
     }
