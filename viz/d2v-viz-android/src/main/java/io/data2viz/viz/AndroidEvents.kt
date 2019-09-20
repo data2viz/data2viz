@@ -36,7 +36,7 @@ actual class KPointerEnter {
             val handler = object : DetectInBoundsVizTouchListener() {
                 override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
                     if (newInBoundsValue) {
-                        val kevent = event.convertToKEvent()
+                        val kevent = event.toKEvent()
                         listener(kevent)
                     }
                 }
@@ -56,7 +56,7 @@ actual class KPointerLeave {
             val handler = object : DetectInBoundsVizTouchListener() {
                 override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
                     if (!newInBoundsValue) {
-                        val kevent = event.convertToKEvent()
+                        val kevent = event.toKEvent()
                         listener(kevent)
                     }
                 }
@@ -74,7 +74,7 @@ actual class KPointerClick {
                 MotionEvent.ACTION_UP,
                 object : DetectClickVizTouchListener() {
                     override fun onClick(event: MotionEvent) {
-                        val kevent = event.convertToKEvent()
+                        val kevent = event.toKEvent()
                         listener(kevent)
                     }
 
@@ -93,7 +93,7 @@ actual class KPointerDoubleClick {
                 MotionEvent.ACTION_UP,
                 object : DetectDoubleClickVizTouchListener() {
                     override fun onDoubleClick(event: MotionEvent) {
-                        val kevent = event.convertToKEvent()
+                        val kevent = event.toKEvent()
                         listener(kevent)
                     }
                 }
@@ -101,7 +101,7 @@ actual class KPointerDoubleClick {
     }
 }
 
-@ExperimentalKZoomEvent
+@ExperimentalKEvent
 actual class KZoom {
     actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
         const val minZoomDeltaValue = -100.0
@@ -164,8 +164,8 @@ private fun checkIsViewInBounds(
     x: Float,
     y: Float
 ): Boolean {
-    var boundsRect = Rect()
-    var locationOnScreen = IntArray(2)
+    val boundsRect = Rect()
+    val locationOnScreen = IntArray(2)
     view.getDrawingRect(boundsRect)
     view.getLocationOnScreen(locationOnScreen)
     boundsRect.offset(locationOnScreen[0], locationOnScreen[1])
@@ -186,7 +186,7 @@ private fun addSimpleAndroidEventHandle(
             // Simple events only for single touch
             if (event?.pointerCount == 1) {
                 if (event.action == action) {
-                    val kevent = event.convertToKEvent()
+                    val kevent = event.toKEvent()
                     listener(kevent)
                 }
             }
@@ -293,16 +293,14 @@ abstract class DetectDoubleClickVizTouchListener :
 }
 
 
-actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
+internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
 
     val androidCanvasRenderer = this as AndroidCanvasRenderer
     return handle.eventListener.addNativeListener(androidCanvasRenderer, handle.listener)
 }
 
 
-private fun MotionEvent.convertToKEvent(): KPointerEvent {
-    val KPointerMoveEvent = io.data2viz.viz.KPointerEvent(
-        io.data2viz.geom.Point(x.toDouble(), y.toDouble())
-    )
-    return KPointerMoveEvent
-}
+private fun MotionEvent.toKEvent(): KPointerEvent =
+	KPointerEvent(
+		Point(x.toDouble(), y.toDouble())
+	)

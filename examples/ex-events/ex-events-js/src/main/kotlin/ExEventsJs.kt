@@ -1,6 +1,6 @@
 package io.data2viz.examples.events
 
-import io.data2viz.viz.ExperimentalKZoomEvent
+import io.data2viz.viz.ExperimentalKEvent
 import io.data2viz.viz.Viz
 import io.data2viz.viz.bindRendererOn
 import org.w3c.dom.Element
@@ -8,7 +8,7 @@ import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 import kotlin.browser.document
 
-@ExperimentalKZoomEvent
+@ExperimentalKEvent
 fun main() {
     val eventsViz = eventsViz()
     eventsViz.bindRendererOn("events")
@@ -25,7 +25,7 @@ fun main() {
 
 }
 
-@ExperimentalKZoomEvent
+@ExperimentalKEvent
 private fun toggleEventsState(
     viz: Viz,
     button: Element

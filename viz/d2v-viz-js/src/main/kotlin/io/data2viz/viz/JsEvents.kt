@@ -60,7 +60,7 @@ actual class KPointerClick {
     }
 }
 
-@ExperimentalKZoomEvent
+@ExperimentalKEvent
 actual class KZoom {
     actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
 
@@ -129,7 +129,7 @@ private fun createJsListener(
     val htmlElement = target.unsafeCast<HTMLElement>()
     val nativeListener = object : EventListener {
         override fun handleEvent(event: Event) {
-            val nativeEvent = event.convertToKEvent(htmlElement)
+            val nativeEvent = event.toKEvent(htmlElement)
             listener(nativeEvent)
         }
     }
@@ -150,20 +150,18 @@ data class JsListener(val htmlElement: HTMLElement, val type: String, val listen
 }
 
 
-actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
+internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
     val jsCanvasRenderer = this as JsCanvasRenderer
     return handle.eventListener.addNativeListener(jsCanvasRenderer.context.canvas, handle.listener)
 }
 
 
-fun Event.convertToKEvent(target: HTMLElement): KPointerEvent = unsafeCast<MouseEvent>().run {
-    val kPointerMoveEvent =
-        KMouseEvent(
-            Point(clientX.toDouble() - target.offsetLeft, clientY.toDouble() - target.offsetTop),
-            this.altKey,
-            this.ctrlKey,
-            this.shiftKey,
-            this.metaKey
-        )
-    kPointerMoveEvent
+fun Event.toKEvent(target: HTMLElement): KPointerEvent = unsafeCast<MouseEvent>().run {
+    KMouseEvent(
+		Point(clientX.toDouble() - target.offsetLeft, clientY.toDouble() - target.offsetTop),
+		altKey,
+		ctrlKey,
+		shiftKey,
+		metaKey
+	)
 }

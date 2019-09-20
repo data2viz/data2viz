@@ -67,7 +67,7 @@ fun Viz.removeEvents() {
 }
 
 
-@ExperimentalKZoomEvent
+@ExperimentalKEvent
 fun Viz.addEvents() {
 
     val compositeDisposable = CompositeDisposable()

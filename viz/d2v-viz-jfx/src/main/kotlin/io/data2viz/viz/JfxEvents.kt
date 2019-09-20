@@ -66,7 +66,7 @@ actual class KPointerClick {
     }
 }
 
-@ExperimentalKZoomEvent
+@ExperimentalKEvent
 actual class KZoom {
     actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
         const val minGestureZoomDeltaValue = 0.8
@@ -150,7 +150,7 @@ private fun createSimpleJvmEventHandle(
 ): JvmEventHandle<MouseEvent> {
 
     val eventHandler = EventHandler<MouseEvent> { event ->
-        val kevent = event.convertToKEvent()
+        val kevent = event.toKEvent()
         listener(kevent)
     }
     val canvas = target as Canvas
@@ -212,7 +212,7 @@ private fun createJvmClickEventHandle(
 
     val eventHandler = EventHandler<MouseEvent> { event ->
         if (event.clickCount == eventClickCount) {
-            val kevent = event.convertToKEvent()
+            val kevent = event.toKEvent()
             listener(kevent)
         }
     }
@@ -222,22 +222,16 @@ private fun createJvmClickEventHandle(
     }
 }
 
-actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
+internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
     val jFxVizRenderer = this as JFxVizRenderer
     return handle.eventListener.addNativeListener(jFxVizRenderer.canvas, handle.listener)
 }
 
 
-/**
- *
- */
-private fun MouseEvent.convertToKEvent(): KPointerEvent {
-    val kPointerMoveEvent = KMouseEvent(
-        Point(x, y),
-        this.isAltDown,
-        this.isControlDown,
-        this.isShiftDown,
-        this.isMetaDown
-    )
-    return kPointerMoveEvent
-}
+private fun MouseEvent.toKEvent(): KPointerEvent = KMouseEvent(
+	Point(x, y),
+	isAltDown,
+	isControlDown,
+	isShiftDown,
+	isMetaDown
+)

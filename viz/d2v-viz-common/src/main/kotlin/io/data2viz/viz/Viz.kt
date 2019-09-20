@@ -66,15 +66,9 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
             style.vAlign = value
         }
 
-
     init {
         activeLayer.parent = this
         textColor = Colors.Web.black
-//
-//        val listener = addEventListener(EventType.MouseMove) { evt ->
-//            println(evt.pos)
-//        }
-//
     }
 
     val config = VizConfig()
@@ -86,27 +80,18 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
 
     private var resizeBehavior: ((Double, Double) -> Unit)? = null
 
+	val eventListeners = mutableListOf<KEventHandle<*>>()
+
     var renderer: VizRenderer? = null
     set(newValue) {
         val oldValue = field
-
-
         field = newValue
-
         eventListeners.forEach {
-            if(oldValue != null) {
-                oldValue.removeEventHandle(it)
-            }
-
-            if(newValue != null) {
-                newValue.addEventHandle(it)
-            }
+            oldValue?.removeEventHandle(it)
+			newValue?.addEventHandle(it)
         }
 
     }
-
-
-    val eventListeners = mutableListOf<KEventHandle<*>>()
 
     fun <T> on(eventListener: KEventListener<T>, listener: (T) -> Unit): KEventHandle<T> where  T : KEvent {
         val eventHandle = KEventHandle(eventListener, listener) {

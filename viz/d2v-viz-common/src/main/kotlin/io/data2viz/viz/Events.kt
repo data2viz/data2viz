@@ -5,45 +5,11 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 
-fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : io.data2viz.viz.KEvent {
+@Experimental
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+annotation class ExperimentalKEvent
 
-    if (handle.isAddedToRenderer) {
-        error("Can't add event handle which already added to Renderer")
-    }
-
-    handle.disposable = addNativeEventListenerFromHandle(handle)
-}
-
-expect fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent
-
-fun <T> VizRenderer.removeEventHandle(handle: KEventHandle<T>) where T : io.data2viz.viz.KEvent {
-
-    if (!handle.isAddedToRenderer) {
-        error("Can't remove event handle which not added to Renderer. $handle")
-    }
-
-    handle.disposable!!.dispose()
-    handle.disposable = null
-}
-
-/**
- * TODO: Make generic disposable class in API?
- */
-interface Disposable {
-    fun dispose()
-}
-
-class CompositeDisposable(val disposables: MutableList<Disposable> = mutableListOf()) : Disposable {
-    override fun dispose() {
-        disposables.forEach { it.dispose() }
-        disposables.clear()
-    }
-
-    fun add(disposable: Disposable) {
-        disposables.add(disposable)
-    }
-
-}
 
 /**
  * Marker interface on events.
@@ -107,13 +73,9 @@ class KDragEvent(
     }
 }
 
-@Experimental
-@Retention(AnnotationRetention.BINARY)
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
-annotation class ExperimentalKZoomEvent            // Experimental API marker
 
 
-@ExperimentalKZoomEvent
+@ExperimentalKEvent
 class KZoomEvent(
     val startZoomPos: Point,
     val delta: Double
@@ -203,12 +165,13 @@ expect class KPointerDoubleClick {
     companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
 }
 
-@ExperimentalKZoomEvent
+@ExperimentalKEvent
 expect class KZoom {
     companion object ZoomEventListener : KEventListener<KZoomEvent>
 }
 
 class KPointerDrag {
+
     companion object PointerDragEventListener : KEventListener<KDragEvent> {
 
         const val minDistanceForDetectDragging = 100
@@ -275,3 +238,43 @@ class KPointerDrag {
 }
 
 
+internal fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : KEvent {
+
+	if (handle.isAddedToRenderer) {
+		error("Can't add event handle which already added to Renderer")
+	}
+
+	handle.disposable = addNativeEventListenerFromHandle(handle)
+}
+
+internal expect fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent
+
+internal fun <T> VizRenderer.removeEventHandle(handle: KEventHandle<T>) where T : KEvent {
+
+	if (!handle.isAddedToRenderer) {
+		error("Can't remove event handle which not added to Renderer. $handle")
+	}
+
+	handle.disposable!!.dispose()
+	handle.disposable = null
+}
+
+
+/**
+ * TODO: Make generic disposable class in API?
+ */
+interface Disposable {
+	fun dispose()
+}
+
+class CompositeDisposable(val disposables: MutableList<Disposable> = mutableListOf()) : Disposable {
+	override fun dispose() {
+		disposables.forEach { it.dispose() }
+		disposables.clear()
+	}
+
+	fun add(disposable: Disposable) {
+		disposables.add(disposable)
+	}
+
+}
