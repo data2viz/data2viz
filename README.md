@@ -103,7 +103,14 @@ Open live JavaScript version
 
 APIs are mostly stabilized now, but there may still be some breaking changes before v1.0.
 
-### Version v0.7 (Current):
+### Version v0.8 (Current):
+
+This version brings multiplatform events to the library. It is now possible to add pointer events to
+a visualization and retrieve position during different events: move, click, double-click, ...
+
+This version also includes some major internal modifications on the Geo module.
+
+### Version v0.7 :
 
 This major version brings support for Android. This addition of Android as a target
 platform had a big impact on the design of data2viz. Before v0.7 basic visual elements 
