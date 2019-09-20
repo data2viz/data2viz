@@ -38,8 +38,10 @@ module.exports = {
     devtool: 'source-map',
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Data2viz Line Of Sight Example'
-        }),
+            title: 'Data2viz Line Of Sight Example',
+			template: 'index.html'
+
+		}),
         new UglifyJSPlugin({
             sourceMap: true
         })
