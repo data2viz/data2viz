@@ -1,3 +1,3 @@
 
-require("ex-chord-js");
+require("ex-events-js");
 require("style.css");

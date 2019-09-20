@@ -9,8 +9,7 @@ import org.w3c.dom.events.EventListener
 import kotlin.browser.document
 
 @ExperimentalKZoomEvent
-@Suppress("unused")
-fun main(args: Array<String>) {
+fun main() {
     val eventsViz = eventsViz()
     eventsViz.bindRendererOn("events")
 

@@ -1,5 +1,5 @@
 {
-  "name": "example-chord-js",
+  "name": "example-events-js",
   "dependencies": {
     "webpack": "3.10.0"
   },
