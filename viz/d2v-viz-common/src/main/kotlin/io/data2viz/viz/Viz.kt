@@ -80,7 +80,7 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
 
     private var resizeBehavior: ((Double, Double) -> Unit)? = null
 
-	val eventListeners = mutableListOf<KEventHandle<*>>()
+	private val eventListeners = mutableListOf<KEventHandle<*>>()
 
     var renderer: VizRenderer? = null
     set(newValue) {
@@ -93,7 +93,7 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
 
     }
 
-    fun <T> on(eventListener: KEventListener<T>, listener: (T) -> Unit): KEventHandle<T> where  T : KEvent {
+    fun <T:KEvent> on(eventListener: KEventListener<T>, listener: (T) -> Unit): Disposable {
         val eventHandle = KEventHandle(eventListener, listener) {
             eventListeners.remove(it)
 

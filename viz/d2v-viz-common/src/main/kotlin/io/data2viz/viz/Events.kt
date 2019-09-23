@@ -17,24 +17,13 @@ annotation class ExperimentalKEvent
 interface KEvent
 
 
-class KEventHandle<T>(
-    val eventListener: KEventListener<T>,
-    val listener: (T) -> Unit,
-    val onDispose: (KEventHandle<T>) -> Unit
-) : Disposable where T : KEvent {
-
-    var disposable: Disposable? = null
-
-    val isAddedToRenderer get() = disposable != null
-
-    override fun dispose() {
-        onDispose(this)
-    }
-
-    override fun toString(): String {
-        return "KEventHandle(eventListener=$eventListener)"
-    }
+/**
+ * Todo: Make generic disposable class in API?
+ */
+interface Disposable {
+	fun dispose()
 }
+
 
 /**
  * Common Pointer event. Can be subclassed into more specific events.
@@ -59,77 +48,6 @@ class KMouseEvent(
     val metaKey: Boolean
 ) : KPointerEvent(pos) {
     override fun toString(): String = "KMouseEvent(pos=$pos)"
-}
-
-class KDragEvent(
-    val action: KDragAction,
-    val pointerEvent: KPointerEvent
-) : KEvent {
-    val pos get() = pointerEvent.pos
-    override fun toString(): String = "KDragEvent(action=$action, pos=$pos)"
-
-    enum class KDragAction {
-        Start, Dragging, Finish
-    }
-}
-
-
-
-@ExperimentalKEvent
-class KZoomEvent(
-    val startZoomPos: Point,
-    val delta: Double
-) : KEvent {
-    companion object {
-
-        const val diffTimeBetweenZoomEventsToDetectRestart = 500
-        fun isNewZoom(currentTime: Double, lastTime: Double?) =
-            if (lastTime == null) {
-                true
-            } else {
-                currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
-            }
-
-        fun isNewZoom(currentTime: Long, lastTime: Long?) =
-            if (lastTime == null) {
-                true
-            } else {
-                currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
-            }
-
-        const val minDelta = -100.0
-        const val maxDelta = 100.0
-
-        fun scaleDelta(
-            currentDelta: Double,
-            originMinDelta: Double,
-            originMaxDelta: Double,
-            newMinDelta: Double = minDelta,
-            newMaxDelta: Double = maxDelta
-        ): Double {
-            val originBoundsSize = originMaxDelta - originMinDelta
-            val currentDeltaPercentInBounds = (currentDelta - originMinDelta) / originBoundsSize
-
-            val newBoundsSize = newMaxDelta - newMinDelta
-            var newDeltaValue = newMinDelta + newBoundsSize * currentDeltaPercentInBounds
-
-            if (newDeltaValue > maxDelta) {
-                newDeltaValue = maxDelta
-            }
-
-            if (newDeltaValue < minDelta) {
-                newDeltaValue = minDelta
-
-            }
-
-            return newDeltaValue
-        }
-    }
-
-    override fun toString(): String {
-        return "KZoomEvent(startZoomPos=$startZoomPos, delta=$delta)"
-    }
-
 }
 
 
@@ -165,9 +83,82 @@ expect class KPointerDoubleClick {
     companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
 }
 
+class KDragEvent(
+	val action: KDragAction,
+	val pointerEvent: KPointerEvent
+) : KEvent {
+	val pos get() = pointerEvent.pos
+	override fun toString(): String = "KDragEvent(action=$action, pos=$pos)"
+
+	enum class KDragAction {
+		Start, Dragging, Finish
+	}
+}
+
+
+
 @ExperimentalKEvent
 expect class KZoom {
     companion object ZoomEventListener : KEventListener<KZoomEvent>
+}
+
+
+
+@ExperimentalKEvent
+class KZoomEvent(
+	val startZoomPos: Point,
+	val delta: Double
+) : KEvent {
+	companion object {
+
+		const val diffTimeBetweenZoomEventsToDetectRestart = 500
+		fun isNewZoom(currentTime: Double, lastTime: Double?) =
+			if (lastTime == null) {
+				true
+			} else {
+				currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
+			}
+
+		fun isNewZoom(currentTime: Long, lastTime: Long?) =
+			if (lastTime == null) {
+				true
+			} else {
+				currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
+			}
+
+		const val minDelta = -100.0
+		const val maxDelta = 100.0
+
+		fun scaleDelta(
+			currentDelta: Double,
+			originMinDelta: Double,
+			originMaxDelta: Double,
+			newMinDelta: Double = minDelta,
+			newMaxDelta: Double = maxDelta
+		): Double {
+			val originBoundsSize = originMaxDelta - originMinDelta
+			val currentDeltaPercentInBounds = (currentDelta - originMinDelta) / originBoundsSize
+
+			val newBoundsSize = newMaxDelta - newMinDelta
+			var newDeltaValue = newMinDelta + newBoundsSize * currentDeltaPercentInBounds
+
+			if (newDeltaValue > maxDelta) {
+				newDeltaValue = maxDelta
+			}
+
+			if (newDeltaValue < minDelta) {
+				newDeltaValue = minDelta
+
+			}
+
+			return newDeltaValue
+		}
+	}
+
+	override fun toString(): String {
+		return "KZoomEvent(startZoomPos=$startZoomPos, delta=$delta)"
+	}
+
 }
 
 class KPointerDrag {
@@ -237,7 +228,6 @@ class KPointerDrag {
     }
 }
 
-
 internal fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : KEvent {
 
 	if (handle.isAddedToRenderer) {
@@ -248,6 +238,27 @@ internal fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : K
 }
 
 internal expect fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent
+
+internal class KEventHandle<T>(
+	val eventListener: KEventListener<T>,
+	val listener: (T) -> Unit,
+	val onDispose: (KEventHandle<T>) -> Unit
+) : Disposable where T : KEvent {
+
+	var disposable: Disposable? = null
+
+	val isAddedToRenderer
+		get() = disposable != null
+
+	override fun dispose() {
+		onDispose(this)
+	}
+
+	override fun toString(): String {
+		return "KEventHandle(eventListener=$eventListener)"
+	}
+}
+
 
 internal fun <T> VizRenderer.removeEventHandle(handle: KEventHandle<T>) where T : KEvent {
 
@@ -260,14 +271,9 @@ internal fun <T> VizRenderer.removeEventHandle(handle: KEventHandle<T>) where T 
 }
 
 
-/**
- * TODO: Make generic disposable class in API?
- */
-interface Disposable {
-	fun dispose()
-}
 
-class CompositeDisposable(val disposables: MutableList<Disposable> = mutableListOf()) : Disposable {
+
+internal class CompositeDisposable(val disposables: MutableList<Disposable> = mutableListOf()) : Disposable {
 	override fun dispose() {
 		disposables.forEach { it.dispose() }
 		disposables.clear()
