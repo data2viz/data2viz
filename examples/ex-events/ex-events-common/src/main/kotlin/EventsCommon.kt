@@ -13,9 +13,9 @@ var logMessageTexts = mutableListOf<TextNode>()
 val maxRows = vizSize.height / textFontSize
 val maxLogMessages = (maxRows - 1).roundToInt()
 
-var allEventsDisposable: CompositeDisposable? = null
+val allEvents = mutableListOf<Disposable>()
 
-val isEventsAdded get() = allEventsDisposable != null
+val isEventsAdded get() = allEvents.isNotEmpty()
 
 val addEventsText = "Add events"
 val removeEventsText = "Remove events"
@@ -61,53 +61,49 @@ fun eventsViz(): Viz = viz {
 }
 
 fun Viz.removeEvents() {
-    allEventsDisposable?.dispose()
-    allEventsDisposable = null
-
+	allEvents.forEach { it.dispose() }
+    allEvents.clear()
 }
 
 
 @ExperimentalKEvent
 fun Viz.addEvents() {
 
-    val compositeDisposable = CompositeDisposable()
-    compositeDisposable.add(on(KPointerClick) { evt ->
+	allEvents += on(KPointerClick) { evt ->
         addToLog(this, "Pointer click:: ${evt.pos}")
-    })
-    compositeDisposable.add(on(KPointerDoubleClick) { evt ->
+    }
+
+    allEvents += on(KPointerDoubleClick) { evt ->
         addToLog(this, "Pointer double click:: ${evt.pos}")
-    })
+    }
 
-    compositeDisposable.add(on(KPointerMove) { evt ->
+	allEvents += on(KPointerMove) { evt ->
         addToLog(this, "Pointer move:: ${evt.pos}")
-    })
+    }
 
-    compositeDisposable.add(on(KPointerEnter) { evt ->
+	allEvents += on(KPointerEnter) { evt ->
         addToLog(this, "Pointer enter:: ${evt.pos}")
-    })
+    }
 
-    compositeDisposable.add(on(KPointerLeave) { evt ->
+	allEvents += on(KPointerLeave) { evt ->
         addToLog(this, "Pointer leave:: ${evt.pos}")
-    })
+    }
 
-    compositeDisposable.add(on(KPointerDown) { evt ->
+	allEvents += on(KPointerDown) { evt ->
         addToLog(this, "Pointer down:: ${evt.pos}")
-    })
+    }
 
-    compositeDisposable.add(on(KPointerUp) { evt ->
+	allEvents += on(KPointerUp) { evt ->
         addToLog(this, "Pointer up:: ${evt.pos}")
-    })
+    }
 
-    compositeDisposable.add(on(KPointerDrag) { evt ->
+	allEvents += on(KPointerDrag) { evt ->
         addToLog(this, "Pointer drag(${evt.action}):: ${evt.pos}")
-    })
+    }
 
-    compositeDisposable.add(on(KZoom) { evt ->
+	allEvents += on(KZoom) { evt ->
         addToLog(this, "Zoom ${evt.startZoomPos} :: ${evt.delta}")
-    })
-
-
-    allEventsDisposable = compositeDisposable
+    }
 
 }
 
