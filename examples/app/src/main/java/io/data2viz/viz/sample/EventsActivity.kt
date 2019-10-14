@@ -44,7 +44,7 @@ class EventsActivity : AppCompatActivity() {
         button: Button
     ) {
         if (isEventsAdded) {
-            viz.removeEvents()
+			removeEvents()
             button.text = addEventsText
         } else {
             viz.addEvents()

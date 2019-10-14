@@ -60,8 +60,8 @@ fun eventsViz(): Viz = viz {
 
 }
 
-fun Viz.removeEvents() {
-	allEvents.forEach { it.dispose() }
+fun removeEvents() {
+    allEvents.forEach { it.dispose() }
     allEvents.clear()
 }
 
@@ -69,7 +69,7 @@ fun Viz.removeEvents() {
 @ExperimentalKEvent
 fun Viz.addEvents() {
 
-	allEvents += on(KPointerClick) { evt ->
+    allEvents += on(KPointerClick) { evt ->
         addToLog(this, "Pointer click:: ${evt.pos}")
     }
 
@@ -77,31 +77,31 @@ fun Viz.addEvents() {
         addToLog(this, "Pointer double click:: ${evt.pos}")
     }
 
-	allEvents += on(KPointerMove) { evt ->
+    allEvents += on(KPointerMove) { evt ->
         addToLog(this, "Pointer move:: ${evt.pos}")
     }
 
-	allEvents += on(KPointerEnter) { evt ->
+    allEvents += on(KPointerEnter) { evt ->
         addToLog(this, "Pointer enter:: ${evt.pos}")
     }
 
-	allEvents += on(KPointerLeave) { evt ->
+    allEvents += on(KPointerLeave) { evt ->
         addToLog(this, "Pointer leave:: ${evt.pos}")
     }
 
-	allEvents += on(KPointerDown) { evt ->
+    allEvents += on(KPointerDown) { evt ->
         addToLog(this, "Pointer down:: ${evt.pos}")
     }
 
-	allEvents += on(KPointerUp) { evt ->
+    allEvents += on(KPointerUp) { evt ->
         addToLog(this, "Pointer up:: ${evt.pos}")
     }
 
-	allEvents += on(KPointerDrag) { evt ->
+    allEvents += on(KPointerDrag) { evt ->
         addToLog(this, "Pointer drag(${evt.action}):: ${evt.pos}")
     }
 
-	allEvents += on(KZoom) { evt ->
+    allEvents += on(KZoom) { evt ->
         addToLog(this, "Zoom ${evt.startZoomPos} :: ${evt.delta}")
     }
 

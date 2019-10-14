@@ -1,8 +1,6 @@
 package io.data2viz.viz
 
 import io.data2viz.geom.Point
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 
 @Experimental
@@ -16,12 +14,16 @@ annotation class ExperimentalKEvent
  */
 interface KEvent
 
-
 /**
- * Todo: Make generic disposable class in API?
+ * TODO: rename with a more explicit name.
  */
 interface Disposable {
-	fun dispose()
+
+    /**
+     * Remove the event listener from the Viz.
+     * TODO: rename with a more explicit name.
+     */
+    fun dispose()
 }
 
 
@@ -84,17 +86,16 @@ expect class KPointerDoubleClick {
 }
 
 class KDragEvent(
-	val action: KDragAction,
-	val pointerEvent: KPointerEvent
+    val action: KDragAction,
+    val pointerEvent: KPointerEvent
 ) : KEvent {
-	val pos get() = pointerEvent.pos
-	override fun toString(): String = "KDragEvent(action=$action, pos=$pos)"
+    val pos get() = pointerEvent.pos
+    override fun toString(): String = "KDragEvent(action=$action, pos=$pos)"
 
-	enum class KDragAction {
-		Start, Dragging, Finish
-	}
+    enum class KDragAction {
+        Start, Dragging, Finish
+    }
 }
-
 
 
 @ExperimentalKEvent
@@ -103,61 +104,59 @@ expect class KZoom {
 }
 
 
-
 @ExperimentalKEvent
 class KZoomEvent(
-	val startZoomPos: Point,
-	val delta: Double
+    val startZoomPos: Point,
+    val delta: Double
 ) : KEvent {
-	companion object {
+    companion object {
 
-		const val diffTimeBetweenZoomEventsToDetectRestart = 500
-		fun isNewZoom(currentTime: Double, lastTime: Double?) =
-			if (lastTime == null) {
-				true
-			} else {
-				currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
-			}
+        const val diffTimeBetweenZoomEventsToDetectRestart = 500
+        fun isNewZoom(currentTime: Double, lastTime: Double?) =
+            if (lastTime == null) {
+                true
+            } else {
+                currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
+            }
 
-		fun isNewZoom(currentTime: Long, lastTime: Long?) =
-			if (lastTime == null) {
-				true
-			} else {
-				currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
-			}
+        fun isNewZoom(currentTime: Long, lastTime: Long?) =
+            if (lastTime == null) {
+                true
+            } else {
+                currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
+            }
 
-		const val minDelta = -100.0
-		const val maxDelta = 100.0
+        const val minDelta = -100.0
+        const val maxDelta = 100.0
 
-		fun scaleDelta(
-			currentDelta: Double,
-			originMinDelta: Double,
-			originMaxDelta: Double,
-			newMinDelta: Double = minDelta,
-			newMaxDelta: Double = maxDelta
-		): Double {
-			val originBoundsSize = originMaxDelta - originMinDelta
-			val currentDeltaPercentInBounds = (currentDelta - originMinDelta) / originBoundsSize
+        fun scaleDelta(
+            currentDelta: Double,
+            originMinDelta: Double,
+            originMaxDelta: Double,
+            newMinDelta: Double = minDelta,
+            newMaxDelta: Double = maxDelta
+        ): Double {
+            val originBoundsSize = originMaxDelta - originMinDelta
+            val currentDeltaPercentInBounds = (currentDelta - originMinDelta) / originBoundsSize
 
-			val newBoundsSize = newMaxDelta - newMinDelta
-			var newDeltaValue = newMinDelta + newBoundsSize * currentDeltaPercentInBounds
+            val newBoundsSize = newMaxDelta - newMinDelta
+            var newDeltaValue = newMinDelta + newBoundsSize * currentDeltaPercentInBounds
 
-			if (newDeltaValue > maxDelta) {
-				newDeltaValue = maxDelta
-			}
+            if (newDeltaValue > maxDelta) {
+                newDeltaValue = maxDelta
+            }
 
-			if (newDeltaValue < minDelta) {
-				newDeltaValue = minDelta
+            if (newDeltaValue < minDelta) {
+                newDeltaValue = minDelta
+            }
 
-			}
+            return newDeltaValue
+        }
+    }
 
-			return newDeltaValue
-		}
-	}
-
-	override fun toString(): String {
-		return "KZoomEvent(startZoomPos=$startZoomPos, delta=$delta)"
-	}
+    override fun toString(): String {
+        return "KZoomEvent(startZoomPos=$startZoomPos, delta=$delta)"
+    }
 
 }
 
@@ -190,7 +189,6 @@ class KPointerDrag {
 
             compositeDisposable.add(KPointerDown.addNativeListener(target) {
                 downActionPos = it.pos
-
             })
 
             compositeDisposable.add(KPointerUp.addNativeListener(target) {
@@ -206,64 +204,58 @@ class KPointerDrag {
                 dragInProgress = false
                 listener(KDragEvent(KDragEvent.KDragAction.Finish, motionEvent))
             }
-
         }
+
     }
 }
 
 internal fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : KEvent {
+    check(!handle.isAddedToRenderer)
+    { "Can't add event handle which already added to Renderer" }
 
-	if (handle.isAddedToRenderer) {
-		error("Can't add event handle which already added to Renderer")
-	}
-
-	handle.disposable = addNativeEventListenerFromHandle(handle)
+    handle.disposable = addNativeEventListenerFromHandle(handle)
 }
 
 internal expect fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent
 
 internal class KEventHandle<T>(
-	val eventListener: KEventListener<T>,
-	val listener: (T) -> Unit,
-	val onDispose: (KEventHandle<T>) -> Unit
+    val eventListener: KEventListener<T>,
+    val listener: (T) -> Unit,
+    val onDispose: (KEventHandle<T>) -> Unit
 ) : Disposable where T : KEvent {
 
-	var disposable: Disposable? = null
+    var disposable: Disposable? = null
 
-	val isAddedToRenderer
-		get() = disposable != null
+    val isAddedToRenderer
+        get() = disposable != null
 
-	override fun dispose() {
-		onDispose(this)
-	}
+    override fun dispose() {
+        onDispose(this)
+    }
 
-	override fun toString(): String {
-		return "KEventHandle(eventListener=$eventListener)"
-	}
+    override fun toString(): String = "KEventHandle(eventListener=$eventListener)"
 }
 
-
+/**
+ * Todo check the reason of VizRenderer receiver. Why not using KEventHandle.remove()
+ */
 internal fun <T> VizRenderer.removeEventHandle(handle: KEventHandle<T>) where T : KEvent {
 
-	if (!handle.isAddedToRenderer) {
-		error("Can't remove event handle which not added to Renderer. $handle")
-	}
+    check(handle.isAddedToRenderer) { "Can't remove event handle which not added to Renderer. $handle" }
 
-	handle.disposable!!.dispose()
-	handle.disposable = null
+    handle.disposable!!.dispose()
+    handle.disposable = null
 }
-
-
 
 
 internal class CompositeDisposable(val disposables: MutableList<Disposable> = mutableListOf()) : Disposable {
-	override fun dispose() {
-		disposables.forEach { it.dispose() }
-		disposables.clear()
-	}
+    override fun dispose() {
+        disposables.forEach { it.dispose() }
+        disposables.clear()
+    }
 
-	fun add(disposable: Disposable) {
-		disposables.add(disposable)
-	}
+    fun add(disposable: Disposable) {
+        disposables.add(disposable)
+    }
 
 }

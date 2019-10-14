@@ -31,7 +31,7 @@ private fun toggleEventsState(
     button: Element
 ) {
     if (isEventsAdded) {
-        viz.removeEvents()
+        removeEvents()
         button.innerHTML = addEventsText
     } else {
         viz.addEvents()

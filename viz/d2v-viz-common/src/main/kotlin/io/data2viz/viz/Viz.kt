@@ -80,7 +80,7 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
 
     private var resizeBehavior: ((Double, Double) -> Unit)? = null
 
-	private val eventListeners = mutableListOf<KEventHandle<*>>()
+    private val eventListeners = mutableListOf<KEventHandle<*>>()
 
     var renderer: VizRenderer? = null
     set(newValue) {
@@ -88,14 +88,21 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
         field = newValue
         eventListeners.forEach {
             oldValue?.removeEventHandle(it)
-			newValue?.addEventHandle(it)
+            newValue?.addEventHandle(it)
         }
 
     }
 
-    fun <T:KEvent> on(eventListener: KEventListener<T>, listener: (T) -> Unit): Disposable {
+    /**
+     * This is the common function call to add all type of events listener to a Viz.
+     *
+     * 	val handle = on(KPointerClick) { evt -> println("Pointer click:: ${evt.pos}")}
+     *
+     * 	A disposable handle is returned, allowing the caller to remove the listener.
+     */
+    fun <T : KEvent> on(eventListener: KEventListener<T>, listener: (T) -> Unit): Disposable {
         val eventHandle = KEventHandle(eventListener, listener) {
-            eventListeners.remove(it)
+            eventListeners.remove(it) //todo why?
 
             renderer?.apply {
                 removeEventHandle(it)

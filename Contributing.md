@@ -14,3 +14,6 @@ Accordingly, it is mandatory to test all performance optimizations in
 isolated branches, with a complete performance report comparing the 
 results before and after the modification. The tests must compare 
 the results on all platforms. 
+
+## Code style
+Spaces, NOT tabs.
