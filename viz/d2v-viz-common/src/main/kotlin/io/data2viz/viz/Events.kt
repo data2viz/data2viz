@@ -165,8 +165,6 @@ class KPointerDrag {
 
     companion object PointerDragEventListener : KEventListener<KDragEvent> {
 
-        const val minDistanceForDetectDragging = 100
-
         private var downActionPos: Point? = null
         private var dragInProgress: Boolean = false
 
@@ -178,16 +176,10 @@ class KPointerDrag {
                 if (dragInProgress) {
                     listener(KDragEvent(KDragEvent.KDragAction.Dragging, it))
                 } else {
-
                     val startPos = downActionPos
                     if (startPos != null) {
-
-                        val distance = distance(startPos, it.pos)
-
-                        if (distance > minDistanceForDetectDragging) {
-                            dragInProgress = true
-                            listener(KDragEvent(KDragEvent.KDragAction.Start, it))
-                        }
+                        dragInProgress = true
+                        listener(KDragEvent(KDragEvent.KDragAction.Start, it))
                     }
                 }
             })
@@ -206,15 +198,6 @@ class KPointerDrag {
             })
 
             return compositeDisposable
-        }
-
-        /**
-         * TODO: Move to API?
-         */
-        private fun distance(pos1: Point, pos2: Point): Double {
-            val xSquare = (pos1.x - pos2.x).pow(2.0)
-            val ySquare = (pos1.y - pos2.y).pow(2.0)
-            return sqrt(xSquare + ySquare)
         }
 
         private fun onDragNotPossible(listener: (KDragEvent) -> Unit, motionEvent: KPointerEvent) {
