@@ -85,7 +85,7 @@ fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
 
 }
 
-private fun getPixelRatio(): Double{
+internal fun getPixelRatio(): Double{
     var pixelRatio = 1.0
     js("""
         if((typeof window.devicePixelRatio) !== 'undefined') {

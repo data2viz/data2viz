@@ -19,11 +19,13 @@ package io.data2viz.viz
 
 
 import io.data2viz.geom.Point
+import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
+import kotlin.browser.window
 import kotlin.js.Date
 
 
@@ -143,7 +145,7 @@ private fun createJsListener(
     listener: (KPointerEvent) -> Unit,
     jsEventName: String
 ): JsListener {
-    val htmlElement = target.unsafeCast<HTMLElement>()
+    val htmlElement = target.unsafeCast<HTMLCanvasElement>()
     val nativeListener = object : EventListener {
         override fun handleEvent(event: Event) {
             val nativeEvent = event.toKEvent(htmlElement)
@@ -173,12 +175,47 @@ internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
 }
 
 
-fun Event.toKEvent(target: HTMLElement): KPointerEvent = unsafeCast<MouseEvent>().run {
+private data class MouseData(
+    var x: Double = .0,
+    var y: Double = .0,
+    var lastX: Double = .0,
+    var lastY: Double = .0,
+    var b1: Boolean = false,
+    var b2: Boolean = false,
+    var b3: Boolean = false
+)
+
+private val mouse = MouseData()
+
+private val pixelRatio by lazy { getPixelRatio() }
+
+/**
+ * The canvas can have styling with modifies its size. KEvent uses position of the Viz.
+ * So we need to convert the current mouse position to the mouse position with Canvas
+ * coordinates,
+ *
+ * See: https://stackoverflow.com/a/43873988
+ */
+fun Event.toKEvent(canvas: HTMLCanvasElement): KPointerEvent = unsafeCast<MouseEvent>().run {
+    val bounds = canvas.getBoundingClientRect()
+    mouse.x = pageX - bounds.left - window.scrollX
+    mouse.y = pageY - bounds.top  - window.scrollY
+
+    mouse.x *= canvas.width
+    mouse.y *= canvas.height
+
+    mouse.x /= bounds.width
+    mouse.y /= bounds.height
+
+    mouse.x /= pixelRatio
+    mouse.y /= pixelRatio
+
+
     KMouseEvent(
-		Point(clientX.toDouble() - target.offsetLeft, clientY.toDouble() - target.offsetTop),
-		altKey,
-		ctrlKey,
-		shiftKey,
-		metaKey
-	)
+        Point(mouse.x, mouse.y),
+        altKey,
+        ctrlKey,
+        shiftKey,
+        metaKey
+    )
 }
