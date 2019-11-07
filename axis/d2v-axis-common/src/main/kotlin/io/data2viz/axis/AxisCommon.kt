@@ -17,6 +17,7 @@
 
 package io.data2viz.axis
 
+import io.data2viz.color.Color
 import io.data2viz.color.Colors
 import io.data2viz.scale.*
 import io.data2viz.viz.*
@@ -42,6 +43,18 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
     var tickPadding = 3.0
     var tickFormat = {n:D -> n.toString()}
 
+    var tickColor:Color = Colors.Web.black
+    var textColor:Color = Colors.Web.black
+    var lineColor:Color = Colors.Web.black
+
+    var color:Color = Colors.Web.black
+        set(value) {
+            tickColor = value
+            textColor = value
+            lineColor = value
+            field = value
+        }
+
     val k = if (orient == Orient.TOP || orient == Orient.LEFT) -1 else 1
 
     fun center(scale: BandedScale<D>): (D) -> Double {
@@ -62,7 +75,7 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
 
         with(content){
             path {
-                stroke = Colors.Web.black
+                stroke = lineColor
                 fill = null
                 strokeWidth = 1.0
 
@@ -87,12 +100,12 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                     if (orient.isHorizontal())
                         line {
                             y2 = k * tickSizeInner
-                            stroke = Colors.Web.black
+                            stroke = tickColor
                         }
                     else
                         line {
                             x2 = k * tickSizeInner
-                            stroke = Colors.Web.black
+                            stroke = tickColor
                         }
                     text {
                         hAlign = when (orient) {
@@ -106,7 +119,7 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D,Double>)  {
                             Orient.BOTTOM -> TextVAlign.HANGING
                             else -> TextVAlign.MIDDLE
                         }
-                        fill = Colors.Web.black
+                        fill = textColor
                         if(orient.isHorizontal()) 
                             y = spacing * k
                         else

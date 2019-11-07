@@ -1,4 +1,7 @@
+# 0.8.0-RC3
+> Unpublished
 
+* Add color parameters for AxisElement (#161)
 
 # 0.8.0-RC2
 > Published 05 Nov 2019
