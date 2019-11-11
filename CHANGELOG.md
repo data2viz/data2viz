@@ -1,5 +1,10 @@
 
 
+# 0.8.0-RC3
+> Published 12 Nov 2019
+* Fix KPointerEvent position inside browser when external CSS size applied (#160)
+
+
 # 0.8.0-RC2
 > Published 05 Nov 2019
 
