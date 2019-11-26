@@ -99,6 +99,8 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
     }
     if ( platform == "js") {
         apply plugin: 'kotlin-platform-js'
+        apply from: rootProject.file('gradle/publish-npm-js.gradle')
+
         dependencies {
             compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
             testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
@@ -122,6 +124,8 @@ configure(subprojects.findAll { !sourceless.contains(it.name) }) {
                 freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
             } 
         }
+
+        preparePublishNpm.dependsOn(compileKotlin2Js)
     }
     if ( platform == "android") {
         apply plugin: 'com.android.library'
