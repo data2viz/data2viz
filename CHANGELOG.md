@@ -1,5 +1,9 @@
 
 
+# 0.8.0-RC4
+> Published 26 Nov 2019
+* Breaking change timeFormat module renamed in time-format (#164)
+
 # 0.8.0-RC3
 > Published 12 Nov 2019
 * Fix KPointerEvent position inside browser when external CSS size applied (#160)
