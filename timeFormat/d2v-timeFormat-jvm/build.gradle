@@ -1,4 +1,0 @@
-dependencies {
-    compile project(":time:d2v-time-jvm")
-    expectedBy project(":timeFormat:d2v-timeFormat-common")
-}

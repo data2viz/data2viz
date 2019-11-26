@@ -2,7 +2,7 @@ dependencies {
     expectedBy project(":scale:d2v-scale-common")
     compile project(":core:d2v-core-jvm")
     compile project(":time:d2v-time-android")
-    compile project(":timeFormat:d2v-timeFormat-android")
+    compile project(":time-format:d2v-time-format-android")
     compile project(":color:d2v-color-jvm")
     compile project(":interpolate:d2v-interpolate-jvm")
 }

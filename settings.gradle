@@ -95,10 +95,10 @@ def d2v = [
         ":time:d2v-time-js",
         ":time:d2v-time-jvm",
 
-        ":timeFormat:d2v-timeFormat-android",
-        ":timeFormat:d2v-timeFormat-common",
-        ":timeFormat:d2v-timeFormat-js",
-        ":timeFormat:d2v-timeFormat-jvm",
+        ":time-format:d2v-time-format-android",
+        ":time-format:d2v-time-format-common",
+        ":time-format:d2v-time-format-js",
+        ":time-format:d2v-time-format-jvm",
 
         ":timer:d2v-timer-android",
         ":timer:d2v-timer-common",
