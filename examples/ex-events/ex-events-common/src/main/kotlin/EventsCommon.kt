@@ -68,43 +68,18 @@ fun removeEvents() {
 
 @ExperimentalKEvent
 fun Viz.addEvents() {
-
-    allEvents += on(KPointerClick) { evt ->
-        addToLog(this, "Pointer click:: ${evt.pos}")
-    }
-
-    allEvents += on(KPointerDoubleClick) { evt ->
-        addToLog(this, "Pointer double click:: ${evt.pos}")
-    }
-
-    allEvents += on(KPointerMove) { evt ->
-        addToLog(this, "Pointer move:: ${evt.pos}")
-    }
-
-    allEvents += on(KPointerEnter) { evt ->
-        addToLog(this, "Pointer enter:: ${evt.pos}")
-    }
-
-    allEvents += on(KPointerLeave) { evt ->
-        addToLog(this, "Pointer leave:: ${evt.pos}")
-    }
-
-    allEvents += on(KPointerDown) { evt ->
-        addToLog(this, "Pointer down:: ${evt.pos}")
-    }
-
-    allEvents += on(KPointerUp) { evt ->
-        addToLog(this, "Pointer up:: ${evt.pos}")
-    }
-
-    allEvents += on(KPointerDrag) { evt ->
-        addToLog(this, "Pointer drag(${evt.action}):: ${evt.pos}")
-    }
-
-    allEvents += on(KZoom) { evt ->
-        addToLog(this, "Zoom ${evt.startZoomPos} :: ${evt.delta}")
-    }
-
+    allEvents += on(KTouchStart)            { evt -> addToLog(this, "Touch start:: ${evt.pos}") }
+    allEvents += on(KTouchEnd)              { evt -> addToLog(this, "Touch end:: ${evt.pos}") }
+    allEvents += on(KTouchMove)             { evt -> addToLog(this, "Touch move:: ${evt.pos}") }
+    allEvents += on(KPointerClick)          { evt -> addToLog(this, "Pointer click:: ${evt.pos}") }
+    allEvents += on(KPointerDoubleClick)    { evt -> addToLog(this, "Pointer double click:: ${evt.pos}") }
+    allEvents += on(KMouseMove)             { evt -> addToLog(this, "Mouse move:: ${evt.pos}") }
+    allEvents += on(KPointerEnter)          { evt -> addToLog(this, "Pointer enter:: ${evt.pos}") }
+    allEvents += on(KPointerLeave)          { evt -> addToLog(this, "Pointer leave:: ${evt.pos}") }
+    allEvents += on(KMouseDown)             { evt -> addToLog(this, "Mouse down:: ${evt.pos}") }
+    allEvents += on(KMouseUp)               { evt -> addToLog(this, "Mouse up:: ${evt.pos}") }
+    allEvents += on(KPointerDrag)           { evt -> addToLog(this, "Pointer drag(${evt.action}):: ${evt.pos}") }
+    allEvents += on(KZoom)                  { evt -> addToLog(this, "Zoom ${evt.startZoomPos} :: ${evt.delta}") }
 }
 
 

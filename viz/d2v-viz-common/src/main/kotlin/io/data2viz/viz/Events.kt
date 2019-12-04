@@ -74,16 +74,28 @@ interface KEventListener<T> where  T : KEvent {
     fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
 }
 
-expect class KPointerMove {
-    companion object PointerMoveEventListener : KEventListener<KPointerEvent>
+expect class KMouseMove {
+    companion object PointerMoveEventListener : KEventListener<KMouseEvent>
 }
 
-expect class KPointerDown {
-    companion object PointerDownEventListener : KEventListener<KPointerEvent>
+expect class KMouseDown {
+    companion object PointerDownEventListener : KEventListener<KMouseEvent>
 }
 
-expect class KPointerUp {
-    companion object PointerUpEventListener : KEventListener<KPointerEvent>
+expect class KMouseUp {
+    companion object PointerUpEventListener : KEventListener<KMouseEvent>
+}
+
+expect class KTouchStart {
+    companion object TouchStartEventListener : KEventListener<KPointerEvent>
+}
+
+expect class KTouchEnd {
+    companion object TouchEndEventListener : KEventListener<KPointerEvent>
+}
+
+expect class KTouchMove {
+    companion object TouchMoveEventListener : KEventListener<KPointerEvent>
 }
 
 expect class KPointerEnter {
@@ -188,7 +200,7 @@ class KPointerDrag {
 
             val compositeDisposable = CompositeDisposable()
 
-            compositeDisposable.add(KPointerMove.addNativeListener(target) {
+            compositeDisposable.add(KMouseMove.addNativeListener(target) {
                 if (dragInProgress) {
                     listener(KDragEvent(KDragEvent.KDragAction.Dragging, it))
                 } else {
@@ -204,11 +216,11 @@ class KPointerDrag {
                 onDragNotPossible(listener, it)
             })
 
-            compositeDisposable.add(KPointerDown.addNativeListener(target) {
+            compositeDisposable.add(KMouseDown.addNativeListener(target) {
                 downActionPos = it.pos
             })
 
-            compositeDisposable.add(KPointerUp.addNativeListener(target) {
+            compositeDisposable.add(KMouseUp.addNativeListener(target) {
                 onDragNotPossible(listener, it)
             })
 

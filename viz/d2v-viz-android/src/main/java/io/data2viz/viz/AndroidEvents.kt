@@ -24,27 +24,50 @@ import android.view.View
 import io.data2viz.geom.Point
 
 
-actual class KPointerMove {
-    actual companion object PointerMoveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
+private val emptyDisposable = object : Disposable { override fun dispose() {} }
+
+
+actual class KTouchStart {
+    actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+            addSingleTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_DOWN)
     }
 }
 
-actual class KPointerDown {
-    actual companion object PointerDownEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_DOWN)
+actual class KTouchEnd {
+    actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+            addSingleTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_UP)
     }
 }
 
-actual class KPointerUp {
-    actual companion object PointerUpEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            addSimpleAndroidEventHandle(target, listener, MotionEvent.ACTION_UP)
+actual class KTouchMove {
+    actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+            addSingleTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
     }
 }
 
+actual class KMouseMove {
+    actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit) = emptyDisposable
+    }
+}
+
+actual class KMouseDown {
+    actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit) = emptyDisposable
+    }
+}
+
+actual class KMouseUp {
+    actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
+    }
+}
+
+
+@ExperimentalKEvent
 actual class KPointerEnter {
     actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
@@ -53,7 +76,7 @@ actual class KPointerEnter {
             val handler = object : DetectInBoundsVizTouchListener() {
                 override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
                     if (newInBoundsValue) {
-                        val kevent = event.toKEvent()
+                        val kevent = event.toKMouseEvent()
                         listener(kevent)
                     }
                 }
@@ -63,9 +86,9 @@ actual class KPointerEnter {
     }
 }
 
+@ExperimentalKEvent
 actual class KPointerLeave {
     actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
-
 
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
 
@@ -73,7 +96,7 @@ actual class KPointerLeave {
             val handler = object : DetectInBoundsVizTouchListener() {
                 override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
                     if (!newInBoundsValue) {
-                        val kevent = event.toKEvent()
+                        val kevent = event.toKMouseEvent()
                         listener(kevent)
                     }
                 }
@@ -91,8 +114,8 @@ actual class KPointerClick {
                 MotionEvent.ACTION_UP,
                 object : DetectClickVizTouchListener() {
                     override fun onClick(event: MotionEvent) {
-                        val kevent = event.toKEvent()
-                        listener(kevent)
+                        val kEvent = event.toKMouseEvent()
+                        listener(kEvent)
                     }
 
                 }
@@ -110,7 +133,7 @@ actual class KPointerDoubleClick {
                 MotionEvent.ACTION_UP,
                 object : DetectDoubleClickVizTouchListener() {
                     override fun onDoubleClick(event: MotionEvent) {
-                        val kevent = event.toKEvent()
+                        val kevent = event.toKMouseEvent()
                         listener(kevent)
                     }
                 }
@@ -190,7 +213,7 @@ private fun checkIsViewInBounds(
     return isInBounds
 }
 
-private fun addSimpleAndroidEventHandle(
+private fun addSingleTouchAndroidEventHandle(
     target: Any,
     listener: (KPointerEvent) -> Unit,
     action: Int
@@ -203,7 +226,7 @@ private fun addSimpleAndroidEventHandle(
             // Simple events only for single touch
             if (event?.pointerCount == 1) {
                 if (event.action == action) {
-                    val kevent = event.toKEvent()
+                    val kevent = event.toKMouseEvent()
                     listener(kevent)
                 }
             }
@@ -317,7 +340,7 @@ internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
 }
 
 
-private fun MotionEvent.toKEvent(): KPointerEvent =
-	KPointerEvent(
-		Point(x.toDouble(), y.toDouble())
-	)
+private fun MotionEvent.toKMouseEvent(): KPointerEvent =
+    KPointerEvent(
+        Point(x.toDouble(), y.toDouble())
+    )
