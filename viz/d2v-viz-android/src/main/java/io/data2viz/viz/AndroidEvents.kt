@@ -67,7 +67,6 @@ actual class KMouseUp {
 }
 
 
-@ExperimentalKEvent
 actual class KPointerEnter {
     actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
@@ -86,7 +85,6 @@ actual class KPointerEnter {
     }
 }
 
-@ExperimentalKEvent
 actual class KPointerLeave {
     actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
 
