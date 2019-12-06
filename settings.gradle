@@ -1,123 +1,123 @@
 def d2v = [
-        ":axis:d2v-axis-android",
-        ":axis:d2v-axis-common",
-        ":axis:d2v-axis-js",
-        ":axis:d2v-axis-jfx",
+//        ":axis:d2v-axis-android",
+//        ":axis:d2v-axis-common",
+//        ":axis:d2v-axis-js",
+//        ":axis:d2v-axis-jfx",
 
-        ":chord:d2v-chord-common",
-        ":chord:d2v-chord-js",
-        ":chord:d2v-chord-jvm",
+//        ":chord:d2v-chord-common",
+//        ":chord:d2v-chord-js",
+//        ":chord:d2v-chord-jvm",
+//
+//        ":color:d2v-color-common",
+//        ":color:d2v-color-js",
+//        ":color:d2v-color-jvm",
 
-        ":color:d2v-color-common",
-        ":color:d2v-color-js",
-        ":color:d2v-color-jvm",
-
-        ":contour:d2v-contour-common",
-        ":contour:d2v-contour-js",
-        ":contour:d2v-contour-jvm",
+//        ":contour:d2v-contour-common",
+//        ":contour:d2v-contour-js",
+//        ":contour:d2v-contour-jvm",
 
         ":core:d2v-core-common",
         ":core:d2v-core-js",
         ":core:d2v-core-jvm",
 
-        ":delaunay:d2v-delaunay-common",
-        ":delaunay:d2v-delaunay-js",
-        ":delaunay:d2v-delaunay-jvm",
-
-        ":dsv:d2v-dsv-common",
-        ":dsv:d2v-dsv-js",
-        ":dsv:d2v-dsv-jvm",
-
-        ":ease:d2v-ease-common",
-        ":ease:d2v-ease-js",
-        ":ease:d2v-ease-jvm",
-
-        ":force:d2v-force-android",
-        ":force:d2v-force-common",
-        ":force:d2v-force-js",
-        ":force:d2v-force-jfx",
-
+//        ":delaunay:d2v-delaunay-common",
+//        ":delaunay:d2v-delaunay-js",
+//        ":delaunay:d2v-delaunay-jvm",
+//
+//        ":dsv:d2v-dsv-common",
+//        ":dsv:d2v-dsv-js",
+//        ":dsv:d2v-dsv-jvm",
+//
+//        ":ease:d2v-ease-common",
+//        ":ease:d2v-ease-js",
+//        ":ease:d2v-ease-jvm",
+//
+//        ":force:d2v-force-android",
+//        ":force:d2v-force-common",
+//        ":force:d2v-force-js",
+//        ":force:d2v-force-jfx",
+//
         ":format:d2v-format-common",
         ":format:d2v-format-js",
         ":format:d2v-format-jvm",
-
-        ":geo:d2v-geo-common",
-        ":geo:d2v-geo-js",
-        ":geo:d2v-geo-jvm",
-
-        ":hexbin:d2v-hexbin-common",
-        ":hexbin:d2v-hexbin-js",
-        ":hexbin:d2v-hexbin-jvm",
-
-        ":hierarchy:d2v-hierarchy-common",
-        ":hierarchy:d2v-hierarchy-js",
-        ":hierarchy:d2v-hierarchy-jvm",
-
-        ":interpolate:d2v-interpolate-common",
-        ":interpolate:d2v-interpolate-js",
-        ":interpolate:d2v-interpolate-jvm",
-
-        ":quadtree:d2v-quadtree-common",
-        ":quadtree:d2v-quadtree-js",
-        ":quadtree:d2v-quadtree-jvm",
-
-        ":random:d2v-random-common",
-        ":random:d2v-random-js",
-        ":random:d2v-random-jvm",
-
-        ":request:d2v-request-common",
-        ":request:d2v-request-js",
-        ":request:d2v-request-jvm",
-
-        ":sankey:d2v-sankey-common",
-        ":sankey:d2v-sankey-js",
-        ":sankey:d2v-sankey-jvm",
-
-        ":scale:d2v-scale-android",
-        ":scale:d2v-scale-common",
-        ":scale:d2v-scale-js",
-        ":scale:d2v-scale-jvm",
-
-        ":shape:d2v-shape-common",
-        ":shape:d2v-shape-js",
-        ":shape:d2v-shape-jvm",
-
+//
+//        ":geo:d2v-geo-common",
+//        ":geo:d2v-geo-js",
+//        ":geo:d2v-geo-jvm",
+//
+//        ":hexbin:d2v-hexbin-common",
+//        ":hexbin:d2v-hexbin-js",
+//        ":hexbin:d2v-hexbin-jvm",
+//
+//        ":hierarchy:d2v-hierarchy-common",
+//        ":hierarchy:d2v-hierarchy-js",
+//        ":hierarchy:d2v-hierarchy-jvm",
+//
+//        ":interpolate:d2v-interpolate-common",
+//        ":interpolate:d2v-interpolate-js",
+//        ":interpolate:d2v-interpolate-jvm",
+//
+//        ":quadtree:d2v-quadtree-common",
+//        ":quadtree:d2v-quadtree-js",
+//        ":quadtree:d2v-quadtree-jvm",
+//
+//        ":random:d2v-random-common",
+//        ":random:d2v-random-js",
+//        ":random:d2v-random-jvm",
+//
+//        ":request:d2v-request-common",
+//        ":request:d2v-request-js",
+//        ":request:d2v-request-jvm",
+//
+//        ":sankey:d2v-sankey-common",
+//        ":sankey:d2v-sankey-js",
+//        ":sankey:d2v-sankey-jvm",
+//
+//        ":scale:d2v-scale-android",
+//        ":scale:d2v-scale-common",
+//        ":scale:d2v-scale-js",
+//        ":scale:d2v-scale-jvm",
+//
+//        ":shape:d2v-shape-common",
+//        ":shape:d2v-shape-js",
+//        ":shape:d2v-shape-jvm",
+//
         ":tests:d2v-tests-common",
         ":tests:d2v-tests-js",
         ":tests:d2v-tests-jvm",
-
-        ":tile:d2v-tile-common",
-        ":tile:d2v-tile-js",
-        ":tile:d2v-tile-jvm",
-
-        ":time:d2v-time-android",
-        ":time:d2v-time-common",
-        ":time:d2v-time-js",
-        ":time:d2v-time-jvm",
-
-        ":time-format:d2v-time-format-android",
-        ":time-format:d2v-time-format-common",
-        ":time-format:d2v-time-format-js",
-        ":time-format:d2v-time-format-jvm",
-
-        ":timer:d2v-timer-android",
-        ":timer:d2v-timer-common",
-        ":timer:d2v-timer-js",
-        ":timer:d2v-timer-jfx",
-
-        ":transition:d2v-transition-android",
-        ":transition:d2v-transition-common",
-        ":transition:d2v-transition-js",
-        ":transition:d2v-transition-jfx",
-
-        ":viz:d2v-viz-android",
-        ":viz:d2v-viz-common",
-        ":viz:d2v-viz-js",
-        ":viz:d2v-viz-jfx",
-
-        ":voronoi:d2v-voronoi-common",
-        ":voronoi:d2v-voronoi-js",
-        ":voronoi:d2v-voronoi-jvm"
+//
+//        ":tile:d2v-tile-common",
+//        ":tile:d2v-tile-js",
+//        ":tile:d2v-tile-jvm",
+//
+//        ":time:d2v-time-android",
+//        ":time:d2v-time-common",
+//        ":time:d2v-time-js",
+//        ":time:d2v-time-jvm",
+//
+//        ":time-format:d2v-time-format-android",
+//        ":time-format:d2v-time-format-common",
+//        ":time-format:d2v-time-format-js",
+//        ":time-format:d2v-time-format-jvm",
+//
+//        ":timer:d2v-timer-android",
+//        ":timer:d2v-timer-common",
+//        ":timer:d2v-timer-js",
+//        ":timer:d2v-timer-jfx",
+//
+//        ":transition:d2v-transition-android",
+//        ":transition:d2v-transition-common",
+//        ":transition:d2v-transition-js",
+//        ":transition:d2v-transition-jfx",
+//
+//        ":viz:d2v-viz-android",
+//        ":viz:d2v-viz-common",
+//        ":viz:d2v-viz-js",
+//        ":viz:d2v-viz-jfx",
+//
+//        ":voronoi:d2v-voronoi-common",
+//        ":voronoi:d2v-voronoi-js",
+//        ":voronoi:d2v-voronoi-jvm"
 ]
 
 System.setProperty("all_d2v", d2v.join(","))
@@ -125,65 +125,65 @@ d2v.forEach {
     includeAndFilter(it)
 }
 
-[":data2viz:d2v-data2viz-common",
- ":data2viz:d2v-data2viz-js",
- ":data2viz:d2v-data2viz-jfx"].forEach{includeAndFilter(it)}
+//[":data2viz:d2v-data2viz-common",
+// ":data2viz:d2v-data2viz-js",
+// ":data2viz:d2v-data2viz-jfx"].forEach{includeAndFilter(it)}
 
-includeAndFilter(":viz:rendering-app")
+//includeAndFilter(":viz:rendering-app")
 
-if (include_js.toBoolean()) {
-    include ":site"
-}
+//if (include_js.toBoolean()) {
+//    include ":site"
+//}
 
 def examples = [ 
-        ":app",
-
-        ":ex-chord",
-        ":ex-chord:ex-chord-common",
-        ":ex-chord:ex-chord-js", 
-        ":ex-chord:ex-chord-jfx",
-        
-        ":ex-events",
-        ":ex-events:ex-events-common",
-        ":ex-events:ex-events-js", 
-        ":ex-events:ex-events-jfx",
-        
-        ":ex-delaunay", 
-        ":ex-delaunay:ex-delaunay-js",
-
-        ":ex-lets-make-a-barchart",
-        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-common",
-        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-js",
-        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-jfx",
-
-        ":ex-force", 
-        ":ex-force:ex-force-common",
-        ":ex-force:ex-force-js",
-        ":ex-force:ex-force-jfx",
-
-        ":ex-full",
-        ":ex-full:ex-full-js",
-
-        ":ex-geo",
-        ":ex-geo:ex-geo-common", 
-        ":ex-geo:ex-geo-js", 
-        ":ex-geo:ex-geo-jfx",
-        
-        ":ex-line-of-sight", 
-        ":ex-line-of-sight:ex-line-of-sight-common", 
-        ":ex-line-of-sight:ex-line-of-sight-js", 
-        ":ex-line-of-sight:ex-line-of-sight-jfx",
-        
-        ":ex-sankey",
-        ":ex-sankey:ex-sankey-common", 
-        ":ex-sankey:ex-sankey-js", 
-        ":ex-sankey:ex-sankey-jfx",
-        
-        ":ex-streamGraph",
-        ":ex-streamGraph:ex-streamGraph-common", 
-        ":ex-streamGraph:ex-streamGraph-js", 
-        ":ex-streamGraph:ex-streamGraph-jfx",
-        
+//        ":app",
+//
+//        ":ex-chord",
+//        ":ex-chord:ex-chord-common",
+//        ":ex-chord:ex-chord-js",
+//        ":ex-chord:ex-chord-jfx",
+//
+//        ":ex-events",
+//        ":ex-events:ex-events-common",
+//        ":ex-events:ex-events-js",
+//        ":ex-events:ex-events-jfx",
+//
+//        ":ex-delaunay",
+//        ":ex-delaunay:ex-delaunay-js",
+//
+//        ":ex-lets-make-a-barchart",
+//        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-common",
+//        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-js",
+//        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-jfx",
+//
+//        ":ex-force",
+//        ":ex-force:ex-force-common",
+//        ":ex-force:ex-force-js",
+//        ":ex-force:ex-force-jfx",
+//
+//        ":ex-full",
+//        ":ex-full:ex-full-js",
+//
+//        ":ex-geo",
+//        ":ex-geo:ex-geo-common",
+//        ":ex-geo:ex-geo-js",
+//        ":ex-geo:ex-geo-jfx",
+//
+//        ":ex-line-of-sight",
+//        ":ex-line-of-sight:ex-line-of-sight-common",
+//        ":ex-line-of-sight:ex-line-of-sight-js",
+//        ":ex-line-of-sight:ex-line-of-sight-jfx",
+//
+//        ":ex-sankey",
+//        ":ex-sankey:ex-sankey-common",
+//        ":ex-sankey:ex-sankey-js",
+//        ":ex-sankey:ex-sankey-jfx",
+//
+//        ":ex-streamGraph",
+//        ":ex-streamGraph:ex-streamGraph-common",
+//        ":ex-streamGraph:ex-streamGraph-js",
+//        ":ex-streamGraph:ex-streamGraph-jfx",
+//
 ]
 
 
