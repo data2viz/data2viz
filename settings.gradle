@@ -16,9 +16,9 @@ def d2v = [
 //        ":contour:d2v-contour-js",
 //        ":contour:d2v-contour-jvm",
 
-        ":core:d2v-core-common",
-        ":core:d2v-core-js",
-        ":core:d2v-core-jvm",
+//        ":core",
+//        ":core:d2v-core-js",
+//        ":core:d2v-core-jvm",
 
 //        ":delaunay:d2v-delaunay-common",
 //        ":delaunay:d2v-delaunay-js",
@@ -37,9 +37,10 @@ def d2v = [
 //        ":force:d2v-force-js",
 //        ":force:d2v-force-jfx",
 //
-        ":format:d2v-format-common",
-        ":format:d2v-format-js",
-        ":format:d2v-format-jvm",
+//        ":format",
+//        ":format:d2v-format-common",
+//        ":format:d2v-format-js",
+//        ":format:d2v-format-jvm",
 //
 //        ":geo:d2v-geo-common",
 //        ":geo:d2v-geo-js",
@@ -82,9 +83,7 @@ def d2v = [
 //        ":shape:d2v-shape-js",
 //        ":shape:d2v-shape-jvm",
 //
-        ":tests:d2v-tests-common",
-        ":tests:d2v-tests-js",
-        ":tests:d2v-tests-jvm",
+        ":d2v-tests",
 //
 //        ":tile:d2v-tile-common",
 //        ":tile:d2v-tile-js",

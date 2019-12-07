@@ -1,8 +1,0 @@
-
-
-dependencies {
-    expectedBy project(":tests:d2v-tests-common")
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    compile "junit:junit:4.12"
-}
-

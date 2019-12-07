@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version '1.3.61'
+}
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+
+sourceCompatibility = 1.8
+
+
+kotlin {
+    js{}
+    jvm{}
+}
+
+
+sourceSets {
+    commonMain {
+        dependencies {
+            implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
+            testImplementation "org.jetbrains.kotlin:kotlin-test-common"
+        }
+    }
+    commonTest {
+        dependencies {
+            implementation kotlin('test-common')
+            implementation kotlin('test-annotations-common')
+        }
+    }
+    jsMain {
+        dependencies {
+            implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
+            testImplementation "org.jetbrains.kotlin:kotlin-test-js"
+
+            implementation kotlin('stdlib-common')
+        }
+    }
+    jsTest {
+        dependencies {
+            implementation kotlin('test-common')
+            implementation kotlin('test-annotations-common')
+        }
+    }
+    jvmMain {
+        dependencies {
+            implementation kotlin('stdlib-common')
+        }
+    }
+    jvmTest {
+        dependencies {
+            implementation kotlin('test-common')
+            implementation kotlin('test-annotations-common')
+        }
+    }
+}

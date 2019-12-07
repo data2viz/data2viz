@@ -1,3 +1,0 @@
-dependencies {
-    expectedBy project(":format:d2v-format-common")
-}
