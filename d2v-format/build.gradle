@@ -26,7 +26,7 @@ kotlin {
         }
         commonTest {
             dependencies {
-                api project(":d2v-tests:d2v-tests-common")
+                api project(":d2v-tests")
 //            testCompile project(":tests:d2v-tests-js")
                 implementation kotlin('test-common')
                 implementation kotlin('test-annotations-common')

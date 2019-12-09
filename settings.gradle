@@ -33,7 +33,7 @@ def d2v = [
 //        ":force:d2v-force-js",
 //        ":force:d2v-force-jfx",
 //
-//        ":format",
+        ":d2v-format",
 //        ":format:d2v-format-common",
 //        ":format:d2v-format-js",
 //        ":format:d2v-format-jvm",
