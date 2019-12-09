@@ -1,7 +1,0 @@
-dependencies {
-    expectedBy project(":color:d2v-color-common")
-    compile project(":core:d2v-core-common")
-    compile project(":core:d2v-core-js")
-}
-
-apply from: rootProject.file('gradle/test-js.gradle')

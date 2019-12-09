@@ -1,8 +1,0 @@
-dependencies {
-    expectedBy project(":scale:d2v-scale-common")
-    compile project(":core:d2v-core-jvm")
-    compile project(":time:d2v-time-jvm")
-    compile project(":time-format:d2v-time-format-jvm")
-    compile project(":color:d2v-color-jvm")
-    compile project(":interpolate:d2v-interpolate-jvm")
-}

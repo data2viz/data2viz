@@ -1,7 +1,0 @@
-dependencies {
-    compile project(":interpolate:d2v-interpolate-common")
-    compile project(":core:d2v-core-common")
-    compile project(":time:d2v-time-common")
-    compile project(":time-format:d2v-time-format-common")
-    compile project(":color:d2v-color-common")
-}

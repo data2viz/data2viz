@@ -1,3 +1,0 @@
-dependencies {
-    expectedBy project(":time:d2v-time-common")
-}

@@ -8,17 +8,13 @@ def d2v = [
 //        ":chord:d2v-chord-js",
 //        ":chord:d2v-chord-jvm",
 //
-//        ":color:d2v-color-common",
-//        ":color:d2v-color-js",
-//        ":color:d2v-color-jvm",
+        ":d2v-color",
 
 //        ":contour:d2v-contour-common",
 //        ":contour:d2v-contour-js",
 //        ":contour:d2v-contour-jvm",
 
         ":d2v-core",
-//        ":core:d2v-core-js",
-//        ":core:d2v-core-jvm",
 
 //        ":delaunay:d2v-delaunay-common",
 //        ":delaunay:d2v-delaunay-js",
@@ -54,9 +50,7 @@ def d2v = [
 //        ":hierarchy:d2v-hierarchy-js",
 //        ":hierarchy:d2v-hierarchy-jvm",
 //
-//        ":interpolate:d2v-interpolate-common",
-//        ":interpolate:d2v-interpolate-js",
-//        ":interpolate:d2v-interpolate-jvm",
+        ":d2v-interpolate",
 //
 //        ":quadtree:d2v-quadtree-common",
 //        ":quadtree:d2v-quadtree-js",
@@ -74,6 +68,7 @@ def d2v = [
 //        ":sankey:d2v-sankey-js",
 //        ":sankey:d2v-sankey-jvm",
 //
+        ":d2v-scale",
 //        ":scale:d2v-scale-android",
 //        ":scale:d2v-scale-common",
 //        ":scale:d2v-scale-js",
@@ -89,6 +84,7 @@ def d2v = [
 //        ":tile:d2v-tile-js",
 //        ":tile:d2v-tile-jvm",
 //
+        ":d2v-time",
 //        ":time:d2v-time-android",
 //        ":time:d2v-time-common",
 //        ":time:d2v-time-js",
