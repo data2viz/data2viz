@@ -74,6 +74,7 @@ def d2v = [
 //        ":scale:d2v-scale-js",
 //        ":scale:d2v-scale-jvm",
 //
+        ":d2v-shape",
 //        ":shape:d2v-shape-common",
 //        ":shape:d2v-shape-js",
 //        ":shape:d2v-shape-jvm",

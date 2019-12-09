@@ -1,5 +1,0 @@
-dependencies {
-    compile project(":core:d2v-core-common")
-    testCompile project(":tests:d2v-tests-common")
-    testCompile project(":format:d2v-format-common")
-}
