@@ -16,7 +16,7 @@ def d2v = [
 //        ":contour:d2v-contour-js",
 //        ":contour:d2v-contour-jvm",
 
-//        ":core",
+        ":d2v-core",
 //        ":core:d2v-core-js",
 //        ":core:d2v-core-jvm",
 
