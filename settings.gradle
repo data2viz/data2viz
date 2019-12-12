@@ -4,19 +4,12 @@ def d2v = [
 //        ":axis:d2v-axis-js",
 //        ":axis:d2v-axis-jfx",
 
-//        ":chord:d2v-chord-common",
-//        ":chord:d2v-chord-js",
-//        ":chord:d2v-chord-jvm",
-//
+        ":d2v-chord",
         ":d2v-color",
-
-//        ":contour:d2v-contour-common",
-//        ":contour:d2v-contour-js",
-//        ":contour:d2v-contour-jvm",
-
+        ":d2v-contour",
         ":d2v-core",
 
-//        ":delaunay:d2v-delaunay-common",
+        ":d2v-delaunay",
 //        ":delaunay:d2v-delaunay-js",
 //        ":delaunay:d2v-delaunay-jvm",
 //
@@ -24,96 +17,35 @@ def d2v = [
 //        ":dsv:d2v-dsv-js",
 //        ":dsv:d2v-dsv-jvm",
 //
-//        ":ease:d2v-ease-common",
-//        ":ease:d2v-ease-js",
-//        ":ease:d2v-ease-jvm",
-//
-//        ":force:d2v-force-android",
-//        ":force:d2v-force-common",
-//        ":force:d2v-force-js",
-//        ":force:d2v-force-jfx",
-//
+        ":d2v-ease",
+        ":d2v-force",
         ":d2v-format",
-//        ":format:d2v-format-common",
-//        ":format:d2v-format-js",
-//        ":format:d2v-format-jvm",
-//
-//        ":geo:d2v-geo-common",
-//        ":geo:d2v-geo-js",
-//        ":geo:d2v-geo-jvm",
-//
-//        ":hexbin:d2v-hexbin-common",
-//        ":hexbin:d2v-hexbin-js",
-//        ":hexbin:d2v-hexbin-jvm",
-//
-//        ":hierarchy:d2v-hierarchy-common",
-//        ":hierarchy:d2v-hierarchy-js",
-//        ":hierarchy:d2v-hierarchy-jvm",
-//
+        ":d2v-geo",
+        ":d2v-hexbin",
+        ":d2v-hierarchy",
         ":d2v-interpolate",
-//
-//        ":quadtree:d2v-quadtree-common",
-//        ":quadtree:d2v-quadtree-js",
-//        ":quadtree:d2v-quadtree-jvm",
-//
-//        ":random:d2v-random-common",
-//        ":random:d2v-random-js",
-//        ":random:d2v-random-jvm",
-//
+        ":d2v-quadtree",
+        ":d2v-random",
+
 //        ":request:d2v-request-common",
 //        ":request:d2v-request-js",
 //        ":request:d2v-request-jvm",
 //
-//        ":sankey:d2v-sankey-common",
-//        ":sankey:d2v-sankey-js",
-//        ":sankey:d2v-sankey-jvm",
-//
+        ":d2v-sankey",
         ":d2v-scale",
 //        ":scale:d2v-scale-android",
 //        ":scale:d2v-scale-common",
 //        ":scale:d2v-scale-js",
 //        ":scale:d2v-scale-jvm",
-//
         ":d2v-shape",
-//        ":shape:d2v-shape-common",
-//        ":shape:d2v-shape-js",
-//        ":shape:d2v-shape-jvm",
-//
         ":d2v-tests",
-//
-//        ":tile:d2v-tile-common",
-//        ":tile:d2v-tile-js",
-//        ":tile:d2v-tile-jvm",
-//
+        ":d2v-tile",
         ":d2v-time",
-//        ":time:d2v-time-android",
-//        ":time:d2v-time-common",
-//        ":time:d2v-time-js",
-//        ":time:d2v-time-jvm",
-//
-//        ":time-format:d2v-time-format-android",
-//        ":time-format:d2v-time-format-common",
-//        ":time-format:d2v-time-format-js",
-//        ":time-format:d2v-time-format-jvm",
-//
-//        ":timer:d2v-timer-android",
-//        ":timer:d2v-timer-common",
-//        ":timer:d2v-timer-js",
-//        ":timer:d2v-timer-jfx",
-//
-//        ":transition:d2v-transition-android",
-//        ":transition:d2v-transition-common",
-//        ":transition:d2v-transition-js",
-//        ":transition:d2v-transition-jfx",
-//
-//        ":viz:d2v-viz-android",
-//        ":viz:d2v-viz-common",
-//        ":viz:d2v-viz-js",
-//        ":viz:d2v-viz-jfx",
-//
-//        ":voronoi:d2v-voronoi-common",
-//        ":voronoi:d2v-voronoi-js",
-//        ":voronoi:d2v-voronoi-jvm"
+        ":d2v-time-format",
+        ":d2v-timer",
+//        ":d2v-transition",
+//        ":d2v-viz",
+        "d2v-voronoi"
 ]
 
 System.setProperty("all_d2v", d2v.join(","))
@@ -215,3 +147,5 @@ def includeAndFilter(project){
         return true
     }
 }
+
+enableFeaturePreview('GRADLE_METADATA')
