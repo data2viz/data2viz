@@ -1,5 +1,0 @@
-
-dependencies{
-    expectedBy project(":delaunay:d2v-delaunay-common")
-}
-
