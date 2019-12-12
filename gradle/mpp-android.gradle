@@ -1,0 +1,38 @@
+
+
+if (include_android.toBoolean()) {
+    apply plugin: 'com.android.library'
+    android {
+        compileSdkVersion 28
+        defaultConfig {
+            minSdkVersion 17
+            targetSdkVersion 28
+            versionCode 1
+            versionName "$version"
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        }
+        buildTypes {
+            release {
+                minifyEnabled false
+            }
+        }
+    }
+
+    kotlin {
+        android() {
+            publishLibraryVariants("release")
+            mavenPublication {
+                artifactId = "${project.name}"
+            }
+        }
+        sourceSets {
+            main {
+                dependencies {
+                    implementation kotlin('stdlib')
+                }
+            }
+        }
+    }
+
+}
+

@@ -1,0 +1,27 @@
+
+
+if (include_jfx.toBoolean() || include_android.toBoolean()) {
+    kotlin {
+        jvm()
+        sourceSets {
+
+            jvmMain {
+                dependencies {
+                    implementation kotlin('stdlib')
+                }
+            }
+            jvmTest {
+                dependencies {
+                    if (project.name != "d2v-tests") {
+                        implementation project(":d2v-tests")
+                    }
+                    implementation kotlin('test')
+                    implementation kotlin('test-junit')
+                }
+            }
+
+        }
+
+    }
+
+}

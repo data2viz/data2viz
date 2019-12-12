@@ -1,0 +1,27 @@
+
+
+if (include_js.toBoolean()) {
+    kotlin {
+        js {
+            browser {}
+        }
+
+        sourceSets {
+            jsMain {
+                dependencies {
+                    implementation kotlin('stdlib-js')
+                }
+            }
+            jsTest {
+                dependencies {
+                    if (project.name != "d2v-tests") {
+                        implementation project(":d2v-tests")
+                        implementation kotlin('test-js')
+                    }
+                }
+            }
+        }
+
+    }
+
+}

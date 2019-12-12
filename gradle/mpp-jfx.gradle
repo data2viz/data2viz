@@ -1,0 +1,21 @@
+
+if (include_jfx.toBoolean()) {
+    kotlin {
+        jvm("jfx") {}
+        sourceSets {
+            jfxMain {
+                dependencies {
+                    implementation kotlin('stdlib')
+                }
+            }
+            jfxTest {
+                dependencies {
+                    implementation project(":d2v-tests")
+                    implementation kotlin('test')
+                    implementation kotlin('test-junit')
+
+                }
+            }
+        }
+    }
+}

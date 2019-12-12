@@ -1,3 +1,0 @@
-dependencies {
-    expectedBy project(":hierarchy:d2v-hierarchy-common")
-}
