@@ -39,7 +39,6 @@ kotlin {
         }
         jvmMain {
             dependencies {
-//                implementation kotlin('reflect')
                 implementation kotlin('stdlib')
             }
         }

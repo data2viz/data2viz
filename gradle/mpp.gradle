@@ -1,0 +1,78 @@
+
+sourceCompatibility = 1.8
+
+
+if (include_js.toBoolean()) {
+    kotlin {
+        js {
+            browser {}
+        }
+
+        sourceSets {
+            jsMain {
+                dependencies {
+                    implementation kotlin('stdlib-js')
+                }
+            }
+            jsTest {
+                dependencies {
+                    if (project.name != "d2v-tests"){
+                        implementation project(":d2v-tests")
+                        implementation kotlin('test-js')
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+if (include_jfx.toBoolean() || include_android.toBoolean()) {
+    kotlin {
+        jvm()
+        sourceSets {
+
+            jvmMain {
+                dependencies {
+                    implementation kotlin('stdlib')
+                }
+            }
+            jvmTest {
+                dependencies {
+                    if (project.name != "d2v-tests") {
+                        implementation project(":d2v-tests")
+                    }
+                    implementation kotlin('test')
+                    implementation kotlin('test-junit')
+                }
+            }
+
+        }
+
+    }
+
+}
+
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+            }
+        }
+        commonTest {
+            dependencies {
+                println "Project: ${project.name}"
+                if (project.name != "d2v-tests"){
+                    implementation project(":d2v-tests")
+                }
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }
+        }
+    }
+}
+
+
+

@@ -1,9 +1,3 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-}
-
 plugins {
     id 'org.jetbrains.kotlin.multiplatform' version '1.3.61'
 }
@@ -11,16 +5,13 @@ plugins {
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-repositories {
-    mavenCentral()
-}
 
 kotlin {
-    jvm()
     js {
-        browser {
-        }
+        browser {}
     }
+    jvm()
+
     sourceSets {
         commonMain {
             dependencies {

@@ -1,51 +1,50 @@
 def d2v = [
+
+//        ":d2v-chord",
+        ":d2v-color",
+//        ":d2v-contour",
+        ":d2v-core",
+//        ":d2v-delaunay",
+//        ":d2v-ease",
+//        ":d2v-force",
+//        ":d2v-format",
+//        ":d2v-geo",
+//        ":d2v-hexbin",
+//        ":d2v-hierarchy",
+//        ":d2v-interpolate",
+//        ":d2v-quadtree",
+//        ":d2v-random",
+//        ":d2v-sankey",
+//        ":d2v-scale",
+//        ":d2v-shape",
+        ":d2v-tests",
+//        ":d2v-tile",
+//        ":d2v-time",
+//        ":d2v-time-format",
+//        ":d2v-timer",
+//        ":d2v-transition",
+//        ":d2v-viz",
+//        ":d2v-voronoi"
+
+
 //        ":axis:d2v-axis-android",
 //        ":axis:d2v-axis-common",
 //        ":axis:d2v-axis-js",
 //        ":axis:d2v-axis-jfx",
-
-        ":d2v-chord",
-        ":d2v-color",
-        ":d2v-contour",
-        ":d2v-core",
-
-        ":d2v-delaunay",
-//        ":delaunay:d2v-delaunay-js",
-//        ":delaunay:d2v-delaunay-jvm",
 //
 //        ":dsv:d2v-dsv-common",
 //        ":dsv:d2v-dsv-js",
 //        ":dsv:d2v-dsv-jvm",
 //
-        ":d2v-ease",
-        ":d2v-force",
-        ":d2v-format",
-        ":d2v-geo",
-        ":d2v-hexbin",
-        ":d2v-hierarchy",
-        ":d2v-interpolate",
-        ":d2v-quadtree",
-        ":d2v-random",
-
 //        ":request:d2v-request-common",
 //        ":request:d2v-request-js",
 //        ":request:d2v-request-jvm",
 //
-        ":d2v-sankey",
-        ":d2v-scale",
 //        ":scale:d2v-scale-android",
 //        ":scale:d2v-scale-common",
 //        ":scale:d2v-scale-js",
 //        ":scale:d2v-scale-jvm",
-        ":d2v-shape",
-        ":d2v-tests",
-        ":d2v-tile",
-        ":d2v-time",
-        ":d2v-time-format",
-        ":d2v-timer",
-//        ":d2v-transition",
-//        ":d2v-viz",
-        "d2v-voronoi"
+
 ]
 
 System.setProperty("all_d2v", d2v.join(","))
