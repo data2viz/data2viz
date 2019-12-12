@@ -18,7 +18,6 @@ kotlin {
         }
         commonTest {
             dependencies {
-                println "Project: ${project.name}"
                 if (project.name != "d2v-tests") {
                     implementation project(":d2v-tests")
                 }

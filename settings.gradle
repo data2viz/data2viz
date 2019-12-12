@@ -6,6 +6,7 @@ def d2v = [
 //        ":d2v-contour",
         ":d2v-core",
         ":d2v-delaunay",
+        ":d2v-dsv",
         ":d2v-ease",
         ":d2v-force",
         ":d2v-format",
@@ -31,15 +32,11 @@ def d2v = [
 //        ":dsv:d2v-dsv-common",
 //        ":dsv:d2v-dsv-js",
 //        ":dsv:d2v-dsv-jvm",
-//
+
 //        ":request:d2v-request-common",
 //        ":request:d2v-request-js",
 //        ":request:d2v-request-jvm",
 //
-//        ":scale:d2v-scale-android",
-//        ":scale:d2v-scale-common",
-//        ":scale:d2v-scale-js",
-//        ":scale:d2v-scale-jvm",
 
 ]
 

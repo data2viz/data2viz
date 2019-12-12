@@ -1,3 +1,0 @@
-dependencies {
-    expectedBy project(":dsv:d2v-dsv-common")
-}
