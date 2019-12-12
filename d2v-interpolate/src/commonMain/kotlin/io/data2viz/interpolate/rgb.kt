@@ -19,7 +19,6 @@ package io.data2viz.interpolate
 
 import io.data2viz.color.Color
 import io.data2viz.color.Colors
-import io.data2viz.color.RgbColor
 import io.data2viz.math.PI
 import io.data2viz.math.Percent
 import kotlin.math.pow

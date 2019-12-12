@@ -37,7 +37,7 @@ object Colors {
      * Instantiate a color using its rgb Int value and alpha. Should be used with hexadecimal literal.
      * @sample: `Colors.rgb(0x0b0b0b, .5)`
      */
-    fun rgb(rgb:Int, alpha: Percent = 100.pct): RgbColor = RgbColor(rgb, alpha)
+    fun rgb(rgb:Int, alpha: Percent = 100.pct): RgbColor = rgb(rgb, alpha)
 
     /**
      * Instantiate a color using its r,g,b Int values and alpha
