@@ -7,8 +7,10 @@ apply plugin: 'maven-publish'
 
 
 kotlin {
-    js {
-        browser {}
+    if (include_js.toBoolean()) {
+        js {
+            browser {}
+        }
     }
     jvm()
 
@@ -36,14 +38,16 @@ kotlin {
                 implementation kotlin('test-junit')
             }
         }
-        jsMain {
-            dependencies {
-                implementation kotlin('stdlib-js')
+        if (include_js.toBoolean()) {
+            jsMain {
+                dependencies {
+                    implementation kotlin('stdlib-js')
+                }
             }
-        }
-        jsTest {
-            dependencies {
-                implementation kotlin('test-js')
+            jsTest {
+                dependencies {
+                    implementation kotlin('test-js')
+                }
             }
         }
     }
