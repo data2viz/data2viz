@@ -1,5 +1,6 @@
 def d2v = [
 
+        ":d2v-axis",
         ":d2v-chord",
         ":d2v-color",
 //        ":d2v-contour",
@@ -27,11 +28,6 @@ def d2v = [
         ":d2v-voronoi"
 
 
-//        ":axis:d2v-axis-android",
-//        ":axis:d2v-axis-common",
-//        ":axis:d2v-axis-js",
-//        ":axis:d2v-axis-jfx",
-//
 //        ":dsv:d2v-dsv-common",
 //        ":dsv:d2v-dsv-js",
 //        ":dsv:d2v-dsv-jvm",
