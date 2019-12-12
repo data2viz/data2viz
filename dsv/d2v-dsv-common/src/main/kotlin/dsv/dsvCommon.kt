@@ -19,7 +19,6 @@ package io.data2viz.dsv
 
 import io.data2viz.dsv.Dsv.Token.*
 
-
 class Dsv(val delimiterCode: Char = ',') {
 
     sealed class Token {
@@ -29,7 +28,7 @@ class Dsv(val delimiterCode: Char = ',') {
     }
 
     fun parse() {}
-    fun parseRows(text: String): MutableList<List<String>> {
+    fun parseRows(text: String): List<List<String>> {
 
         val rows = mutableListOf<List<String>>()
         val N = text.length
@@ -37,10 +36,11 @@ class Dsv(val delimiterCode: Char = ',') {
         var n = 0
         val EOL = EOL()
         var eol = false
+        var eof = false
         val regexp by lazy { Regex("\"\"") }
 
         fun token(): Token {
-            if (I >= N) return EOF()
+            if (eof || I >= N) return EOF()
             if (eol) {
                 eol = false
                 return EOL
@@ -49,22 +49,31 @@ class Dsv(val delimiterCode: Char = ',') {
             val j = I
             var c: Char
 
+//            var i, j = I, c;
+//            if (text.charCodeAt(j) === QUOTE) {
+//                while (I++ < N && text.charCodeAt(I) !== QUOTE || text.charCodeAt(++I) === QUOTE);
+//                if ((i = I) >= N) eof = true;
+//                else if ((c = text.charCodeAt(I++)) === NEWLINE) eol = true;
+//                else if (c === RETURN) { eol = true; if (text.charCodeAt(I) === NEWLINE) ++I; }
+//                return text.slice(j + 1, i - 1).replace(/""/g, "\"");
+//            }
+
+            // Unescape quotes
             if (text[j] == '"') {
-                var i = j
-                while (i++ < N) {
-                    if (text[i] == '"') {
-                        if (text[i + 1] != '"') break
-                        ++i
+                while (I++ < N && text[I] != '"' || (++I < N && text[I] == '"')) {}
+
+                // Find next delimiter or newline
+                val i = I
+                if (I >= N) eof = true
+                else {
+                    c = text[I++]
+                    if (c == '\n') eol = true
+                    else if (c == '\r') {
+                        eol = true
+                        if (text[I] == '\n') ++I
                     }
                 }
-                I = i + 2
-                c = text[i + 1]
-                if (c == '\r') {
-                    eol = true
-                    if (text[i + 2] == '\n') ++I
-                } else if (c == '\n') eol = true
-                return TextToken(text.substring(j + 1, i).replace(regexp, "\""))
-
+                return TextToken(text.substring(j + 1, i - 1).replace(regexp, "\""))
             }
 
             while (I < N) {
@@ -96,7 +105,7 @@ class Dsv(val delimiterCode: Char = ',') {
             rows += row
             t = token()
         }
-        return rows
+        return rows.toList()
     }
 
     fun format() {}

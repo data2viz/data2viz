@@ -26,7 +26,6 @@ class DsvTests : TestBase() {
 
     @Test
     fun one_cell() {
-
         csv.parseRows("a") shouldBe listOf(listOf("a"))
         csv.parseRows("abc") shouldBe listOf(listOf("abc"))
         csv.parseRows("a\n") shouldBe listOf(listOf("a"))
