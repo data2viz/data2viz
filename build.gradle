@@ -1,10 +1,30 @@
-//allprojects {
-//    group = 'io.data2viz'
-//    repositories {
-//        google()
-//    }
-//}
-//
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.2'
+    }
+}
+repositories {
+    google()
+    jcenter()
+}
+
+allprojects {
+
+    group = 'io.data2viz'
+    version = "0.8.0-RC6"
+
+    repositories {
+        mavenLocal()
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
+
 //buildscript {
 //
 //    repositories {
