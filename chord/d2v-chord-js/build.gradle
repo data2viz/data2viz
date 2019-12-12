@@ -1,5 +1,0 @@
-dependencies {
-    compile project(":core:d2v-core-js")
-    expectedBy project(":chord:d2v-chord-common")
-}
-apply from: rootProject.file('gradle/test-js.gradle')
