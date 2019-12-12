@@ -1,0 +1,6 @@
+dependencies {
+    expectedBy project(":force:d2v-force-common")
+    api project(":core:d2v-core-jvm")
+    api project(":quadtree:d2v-quadtree-jvm")
+    api project(":timer:d2v-timer-android")
+}
