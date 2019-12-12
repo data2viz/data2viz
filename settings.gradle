@@ -23,7 +23,7 @@ def d2v = [
         ":d2v-time-format",
         ":d2v-timer",
 //        ":d2v-transition",
-//        ":d2v-viz",
+        ":d2v-viz",
         ":d2v-voronoi"
 
 
