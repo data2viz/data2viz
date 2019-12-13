@@ -59,4 +59,40 @@ class DsvTests : TestBase() {
         csv.parseRows("\"new\r\nline\"") shouldBe listOf(listOf("new\r\nline"))
     }
 
+    @Test
+    fun parse_rows_with_comma_in_quotes() {
+        csv.parseRows("John,Doe,120 any st.,\"Anytown, WW\",08123") shouldBe
+                listOf(listOf("John","Doe","120 any st.","Anytown, WW","08123"))
+    }
+
+    @Test
+    fun parse_rows_with_UTF8() {
+        csv.parseRows("a,b,c\n1,2,3\n4,5,ʤ") shouldBe
+                listOf(listOf("a", "b", "c"),
+                    listOf("1", "2", "3"),
+                    listOf("4", "5", "ʤ"))
+    }
+
+    @Test
+    fun parse_rows_with_empty_cells() {
+        csv.parseRows("a,b,c\n1,\"\",\"\"\n2,3,4") shouldBe
+                listOf(listOf("a", "b", "c"),
+                    listOf("1", "", ""),
+                    listOf("2", "3", "4"))
+    }
+
+    @Test
+    fun parse_rows_with_missing_cells() {
+        csv.parseRows("a,b,c\n1\n2,3,4") shouldBe
+                listOf(listOf("a", "b", "c"),
+                    listOf("1"),
+                    listOf("2", "3", "4"))
+    }
+
+    @Test
+    fun parse_rows_containing_json() {
+        csv.parseRows("1,\"{\"\"type\"\": \"\"Point\"\", \"\"coordinates\"\": [102.0, 0.5]}\"") shouldBe
+                listOf(listOf("1", "{\"type\": \"Point\", \"coordinates\": [102.0, 0.5]}"))
+    }
+
 }
