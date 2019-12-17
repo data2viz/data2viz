@@ -10,13 +10,11 @@ task stubSources(type: Jar) {
 }
 
 
-println "Publish bintray"
 
 afterEvaluate {
     publishing {
         publications {
-            maven(MavenPublication) { publication ->
-                println publication.artifactId
+            all { publication ->
                 pom.withXml(configureMavenCentralMetadata)
             }
         }
