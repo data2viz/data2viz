@@ -20,7 +20,7 @@ repositories {
 allprojects {
 
     group = 'io.data2viz.d2v'
-    version = "0.8.0-RC6"
+    version = "$version"
 
     repositories {
         mavenLocal()
