@@ -24,4 +24,76 @@ if (include_js.toBoolean()) {
 
     }
 
+    def npmDeployDir = file("$buildDir/npm")
+
+    task preparePublishNpm(type: Copy, dependsOn: compileKotlinJs) {
+        npmDeployDir.mkdirs()
+        from(kotlin.targets.js.compilations.main.output.allOutputs)
+        from("../build/js/packages/d2v-$project.name/package.json")
+        into npmDeployDir
+
+        doLast {
+            def jsonFile = file("$buildDir/npm/package.json")
+            def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
+            def newFile = new File( npmDeployDir, "package.json")
+            newFile.write(generatePackageJson(
+                    version,
+                    project.name,
+                    parsedJson.dependencies))
+        }
+
+    }
+
+    task publishNpm(type: Exec, dependsOn: [preparePublishNpm]) {
+
+        if (!project.hasProperty("npmToken")) {
+            logger.warn 'warn: to publish on npm the build needs a npmToken property.'
+            return
+        }
+
+        workingDir = npmDeployDir
+//        commandLine 'npm', 'publish', '--dry-run', "--//registry.npmjs.org/:_authToken=$npmToken"
+        commandLine 'npm', 'publish', '--access=public', "--//registry.npmjs.org/:_authToken=$npmToken"
+    }
+
+
+}
+
+
+static def generatePackageJson(String version, String projectName, Map dependencies) {
+
+    def d2vDeps = dependencies.findAll {it.key.contains("d2v")}
+    println d2vDeps
+
+    def d2vDependencies = ""
+    if (d2vDeps != null && !d2vDeps.empty) {
+        d2vDependencies = """
+  "dependencies": {""" +
+                d2vDeps.collect { """ "@data2viz/$it.key": "$version" """ }.join(",") + """
+  },
+"""
+    }
+
+    return """
+{
+    "name": "@data2viz/d2v-$projectName",
+    "version" : "$version",
+    "description" : "Data2viz $projectName module",
+    "author": "Data2viz",
+    "main": "d2v-${projectName}.js",
+    "license": "Apache-2.0",
+    "homepage": "https://data2viz.io",
+    $d2vDependencies
+    "bugs": {"url": "https://github.com/data2viz/data2viz/issues"},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/data2viz/data2viz.git"
+    },
+    "keywords": [
+        "Kotlin",
+        "JavaScript",
+        "data2viz"
+    ]
+}
+""".toString()
 }
