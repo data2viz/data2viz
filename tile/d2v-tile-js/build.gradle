@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":core:core-common")
+    compile project(":core:core-js")
+}

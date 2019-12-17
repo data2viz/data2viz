@@ -1,6 +1,0 @@
-dependencies {
-    expectedBy project(":geo:d2v-geo-common")
-    compile project(":core:d2v-core-js")
-    compile "io.data2viz.geojson:geojson-js:$geojson_version"
-}
-apply from: rootProject.file('gradle/test-js.gradle')

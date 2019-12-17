@@ -1,5 +1,0 @@
-dependencies {
-    testCompile project(":tests:d2v-tests-common")
-    compile project(":core:d2v-core-common")
-    compile "io.data2viz.geojson:geojson-common:$geojson_version"
-}

@@ -1,0 +1,4 @@
+dependencies {
+    expectedBy project(":time:time-common")
+    compile 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+}

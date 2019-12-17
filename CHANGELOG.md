@@ -1,4 +1,5 @@
-
+# 0.8.0-RC6
+**Breaking change**: Due to the use of the new MPP () the released of  
 
 # 0.8.0-RC5
 * Breaking change: make distinction between mouse and touch events (#162)
@@ -16,7 +17,7 @@
 > Published 05 Nov 2019
 
 
-* Add Copyright 
+* Add Copyright
 * Remove minimum distance for drag (#159)
 
 # 0.8.0-RC1

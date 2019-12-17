@@ -1,0 +1,10 @@
+apply from: rootProject.file('gradle/test-js.gradle')
+
+dependencies {
+    compile project(":color:color-common")
+    compile project(":core:core-js")
+    compile project(":scale:scale-js")
+    compile project(":viz:viz-js")
+    testCompile project(":format:format-js")
+    expectedBy project(":axis:axis-common")
+}

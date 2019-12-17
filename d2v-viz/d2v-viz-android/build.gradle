@@ -1,8 +1,0 @@
-
-dependencies {
-    expectedBy project(":viz:d2v-viz-common")
-    compile project(":color:d2v-color-jvm")
-    compile project(":timer:d2v-timer-common")
-    compile project(":timer:d2v-timer-android")
-}
-

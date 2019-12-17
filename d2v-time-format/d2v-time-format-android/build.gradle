@@ -1,4 +1,0 @@
-dependencies {
-    compile project(":time:d2v-time-android")
-    expectedBy project(":time-format:d2v-time-format-common")
-}

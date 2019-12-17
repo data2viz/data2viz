@@ -1,0 +1,35 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform'
+}
+
+apply from: rootProject.file('gradle/mpp-common.gradle')
+apply from: rootProject.file('gradle/mpp-jvm.gradle')
+apply from: rootProject.file('gradle/mpp-js.gradle')
+
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                api project(':core')
+                api "io.data2viz.geojson:geojson-common:$geojson_version"
+            }
+        }
+
+        if (include_jfx.toBoolean() || include_android.toBoolean()) {
+            jvmMain {
+                dependencies {
+                    api "io.data2viz.geojson:geojson-jvm:$geojson_version"
+                }
+            }
+        }
+        if (include_js.toBoolean()) {
+            jsMain {
+                dependencies {
+                    api "io.data2viz.geojson:geojson-js:$geojson_version"
+                    implementation kotlin('stdlib-js')
+                }
+            }
+        }
+
+    }
+}

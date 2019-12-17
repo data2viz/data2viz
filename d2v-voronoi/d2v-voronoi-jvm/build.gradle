@@ -1,5 +1,0 @@
-dependencies {
-    expectedBy project(":voronoi:d2v-voronoi-common")
-    compile project(":core:d2v-core-common")
-    compile project(":core:d2v-core-jvm")
-}

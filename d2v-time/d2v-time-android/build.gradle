@@ -1,4 +1,0 @@
-dependencies {
-    expectedBy project(":time:d2v-time-common")
-    compile 'com.jakewharton.threetenabp:threetenabp:1.1.0'
-}

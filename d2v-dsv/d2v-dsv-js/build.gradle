@@ -1,5 +1,0 @@
-dependencies {
-    expectedBy project(":dsv:d2v-dsv-common")
-}
-
-apply from: rootProject.file('gradle/test-js.gradle')

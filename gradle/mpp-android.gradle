@@ -22,7 +22,7 @@ if (include_android.toBoolean()) {
         android() {
             publishLibraryVariants("release")
             mavenPublication {
-                artifactId = "${project.name}"
+                artifactId = "${project.name}-android"
             }
         }
         sourceSets {
@@ -34,7 +34,7 @@ if (include_android.toBoolean()) {
             test {
                 dependencies {
                     implementation kotlin('stdlib')
-                    implementation project(":d2v-tests")
+                    implementation project(":tests")
                     implementation kotlin('test')
                     implementation kotlin('test-junit')
                 }

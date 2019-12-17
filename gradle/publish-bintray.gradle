@@ -1,83 +1,46 @@
-// Configures publishing of Maven artifacts to Bintray
-
+apply plugin: 'base'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
-//apply plugin: 'signing'
 
+apply from: project.rootProject.file('gradle/mavenMetadata.gradle')
 
-def platform = platformOf(project)
-def module = moduleOf(project)
-
-// --------------- pom configuration ---------------
-
-def pomConfig = {
-    licenses {
-        license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution "repo"
-        }
-    }
-    developers {
-        developer {
-            id "Data2viz"
-            name "Data2viz team"
-            organization "Data2viz"
-            organizationUrl "https://data2viz.io"
-        }
-    }
-
-    scm {
-        url "https://github.com/data2viz/data2viz"
-    }
-}
-
-// ------------- tasks
-
-task sourcesJar(type: Jar) {
+task stubSources(type: Jar) {
     classifier = 'sources'
-    if (platform == "android") {
-        from android.sourceSets.main.java.sourceFiles
-    } else {
-        from sourceSets.main.allSource
-    }
-    if (platform != "common") {
-        // add common source, too
-        from rootProject.file("$module/d2v-$module-common/src/main/kotlin")
-    }
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            if (platform != "android") {
-                from components.java
-            }
 
-            if( platform == "jfx" || platform == "jvm")
-                artifact javadocJar
-            artifact sourcesJar
+println "Publish bintray"
 
-            def description = project.description
-            if (description == null) {
-                description = "$platform lib of ${project.name}"
-            }
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('name', project.name)
-                root.appendNode('description', description)
-                root.appendNode('url', 'https://github.com/data2viz/data2viz')
-                root.children().last() + pomConfig
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) { publication ->
+                println publication.artifactId
+                pom.withXml(configureMavenCentralMetadata)
             }
         }
     }
 }
 
-//signing {
-//    sign configurations.archives
-//}
 
+
+// This specifies the publications to upload to bintray before doing the bintrayUpload gradle task.
+//In the mpp configuration of one module after 1.3,
+// it is not uploaded unless you explicitly specify artifacts in publications like this.
+// It is not necessary to have the findAll part,
+// [project name]-kotlinMultiplatformbut a directory containing only pom files will be uploaded, so it is better to exclude it.
+bintrayUpload.doFirst {
+    publications = publishing.publications.collect {
+        it.name
+    }.findAll {
+        it != "kotlinMultiplatform"
+    }
+}
+
+//The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
+// This will create maven artifacts when running bintrayUplaod's task.
+bintrayUpload.dependsOn publishToMavenLocal
 
 if (project.hasProperty("bintray.user")) {
     bintray {
@@ -100,9 +63,4 @@ if (project.hasProperty("bintray.user")) {
 
     }
 
-    bintrayUpload.doLast {
-        println("Uploaded $project.name version $project.version")
-    }
 }
-
-//publishToMavenLocal.dependsOn(project.tasks.signArchives)

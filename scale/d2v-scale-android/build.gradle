@@ -1,0 +1,8 @@
+dependencies {
+    expectedBy project(":scale:scale-common")
+    compile project(":core:core-jvm")
+    compile project(":time:time-android")
+    compile project(":time-format:time-format-android")
+    compile project(":color:color-jvm")
+    compile project(":interpolate:interpolate-jvm")
+}

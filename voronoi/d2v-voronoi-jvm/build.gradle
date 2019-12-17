@@ -1,0 +1,5 @@
+dependencies {
+    expectedBy project(":voronoi:voronoi-common")
+    compile project(":core:core-common")
+    compile project(":core:core-jvm")
+}

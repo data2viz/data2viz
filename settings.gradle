@@ -1,41 +1,36 @@
 def d2v = [
 
-        ":d2v-axis",
-        ":d2v-chord",
-        ":d2v-color",
-//        ":d2v-contour",
-        ":d2v-core",
-        ":d2v-delaunay",
-        ":d2v-dsv",
-        ":d2v-ease",
-        ":d2v-force",
-        ":d2v-format",
-        ":d2v-geo",
-        ":d2v-hexbin",
-        ":d2v-hierarchy",
-        ":d2v-interpolate",
-        ":d2v-quadtree",
-        ":d2v-random",
-        ":d2v-sankey",
-        ":d2v-scale",
-        ":d2v-shape",
-        ":d2v-tests",
-        ":d2v-tile",
-        ":d2v-time",
-        ":d2v-time-format",
-        ":d2v-timer",
-//        ":d2v-transition",
-        ":d2v-viz",
-        ":d2v-voronoi"
+        ":axis",
+        ":chord",
+        ":color",
+        ":contour",
+        ":core",
+        ":delaunay",
+        ":dsv",
+        ":ease",
+        ":force",
+        ":format",
+        ":geo",
+        ":hexbin",
+        ":hierarchy",
+        ":interpolate",
+        ":quadtree",
+        ":random",
+        ":sankey",
+        ":scale",
+        ":shape",
+        ":tests",
+        ":tile",
+        ":time",
+        ":time-format",
+        ":timer",
+        ":transition",
+        ":viz",
+        ":voronoi"
 
-
-//        ":dsv:d2v-dsv-common",
-//        ":dsv:d2v-dsv-js",
-//        ":dsv:d2v-dsv-jvm",
-
-//        ":request:d2v-request-common",
-//        ":request:d2v-request-js",
-//        ":request:d2v-request-jvm",
+//        ":request:request-common",
+//        ":request:request-js",
+//        ":request:request-jvm",
 //
 
 ]
@@ -45,9 +40,9 @@ d2v.forEach {
     includeAndFilter(it)
 }
 
-//[":data2viz:d2v-data2viz-common",
-// ":data2viz:d2v-data2viz-js",
-// ":data2viz:d2v-data2viz-jfx"].forEach{includeAndFilter(it)}
+//[":data2viz:data2viz-common",
+// ":data2viz:data2viz-js",
+// ":data2viz:data2viz-jfx"].forEach{includeAndFilter(it)}
 
 //includeAndFilter(":viz:rendering-app")
 

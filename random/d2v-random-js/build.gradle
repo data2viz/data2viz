@@ -1,0 +1,8 @@
+
+dependencies{
+    expectedBy project(":random:random-common")
+    testCompile project(":color:color-common")
+    testCompile project(":color:color-js")
+}
+
+apply from: rootProject.file('gradle/test-js.gradle')

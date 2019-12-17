@@ -1,4 +1,0 @@
-dependencies {
-    expectedBy project(":ex-streamGraph:ex-streamGraph-common")
-    compile project(":data2viz:d2v-data2viz-jfx")
-}

@@ -1,0 +1,8 @@
+dependencies {
+    compile project(":color:color-jvm")
+    compile project(":core:core-jvm")
+    compile project(":scale:scale-android")
+    compile project(":viz:viz-android")
+    testCompile project(":format:format-jvm")
+    expectedBy project(":axis:axis-common")
+}

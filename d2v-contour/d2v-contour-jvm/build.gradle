@@ -1,6 +1,0 @@
-dependencies {
-    expectedBy project(":contour:d2v-contour-common")
-    testCompile project(":tests:d2v-tests-common")
-    testCompile project(":tests:d2v-tests-jvm")
-    testCompile 'no.tornado:tornadofx:1.7.11'
-}

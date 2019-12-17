@@ -1,0 +1,4 @@
+dependencies {
+    testCompile project(":tests:tests-common")
+    compile project(":shape:shape-common")
+}

@@ -1,0 +1,10 @@
+dependencies {
+    expectedBy project(":voronoi:voronoi-common")
+    compile project(":core:core-js")
+    testCompile project(":color:color-common")
+    testCompile project(":interpolate:interpolate-js")
+    testCompile project(":viz:viz-js")
+    testCompile project(":timer:timer-js")
+}
+
+apply from: rootProject.file('gradle/test-js.gradle')

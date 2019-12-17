@@ -1,5 +1,0 @@
-
-dependencies{
-    expectedBy project(":random:d2v-random-common")
-}
-

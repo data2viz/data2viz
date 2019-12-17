@@ -10,7 +10,7 @@ if (include_jfx.toBoolean()) {
             }
             jfxTest {
                 dependencies {
-                    implementation project(":d2v-tests")
+                    implementation project(":tests")
                     implementation kotlin('test')
                     implementation kotlin('test-junit')
 
