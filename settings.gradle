@@ -102,7 +102,7 @@ def examples = [
 ]
 
 
-rootProject.name = "data2vizandroid"
+rootProject.name = "d2v"
 
 examples.forEach{
     def included = includeAndFilter(it)
