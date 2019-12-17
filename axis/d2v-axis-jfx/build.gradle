@@ -1,8 +1,0 @@
-dependencies {
-    compile project(":color:color-jvm")
-    compile project(":core:core-jvm")
-    compile project(":scale:scale-jvm")
-    compile project(":viz:viz-jfx")
-    testCompile project(":format:format-jvm")
-    expectedBy project(":axis:axis-common")
-}
