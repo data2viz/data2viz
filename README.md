@@ -41,7 +41,7 @@ This module is a high performant algorithm to compute the Voronoi diagram. You s
 ### [ease](https://github.com/data2viz/data2viz/tree/master/ease)
 This module contains a collection of easing functions to manage acceleration inside animations.
 
-### [dsv](https://github.com/data2viz/data2viz/tree/master/dvv)
+### [dsv](https://github.com/data2viz/data2viz/tree/master/dsv)
 Minimal way of parsing CSV, TSV files using Kotlin.
 
 ### [force](https://github.com/data2viz/data2viz/tree/master/force)
@@ -74,7 +74,7 @@ A generator for sankey charts.
 ### [hierarchy](https://github.com/data2viz/data2viz/tree/master/hierarchy)
 A generator for hierarchical charts.
 
-### [test](https://github.com/data2viz/data2viz/tree/master/test)
+### [tests](https://github.com/data2viz/data2viz/tree/master/tests)
 An internal module used to simplify multiplatform testing with a higher DSL.
 
 ### [timer](https://github.com/data2viz/data2viz/tree/master/timer)
