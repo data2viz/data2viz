@@ -6,155 +6,107 @@
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) 
 # Isomorphic dataviz
 
-Data2viz is a multiplatform data visualization library based on Kotlin. The rendering produces the same result
-on each platform: Android, JavaScript and JavaFX.
+Data2viz is a data visualization toolbox for Kotlin Multiplatform.
 
+You can pick what you need in the different modules and use them independently in the following environments: Android, JavaScript, and JavaFX (iOs to come). 
 
-The algorithms and other portions are ported from [d3js](https://github.com/d3/d3) modules.
+Your code produces the same results and rendering on each platform.
 
+A lot of algorithms come from [d3js](https://github.com/d3/d3) modules.
 
-The code is separated in modules that can be independently used. Some are specifically designed for visualization 
-([d2v-axis](https://github.com/data2viz/data2viz/tree/master/axis),
-[d2v-path](https://github.com/data2viz/data2viz/tree/master/path),
-[d2v-shape](https://github.com/data2viz/data2viz/tree/master/shape), 
-[d2v-viz](https://github.com/data2viz/data2viz/tree/master/viz)) while others can be used outside of dataviz projects. 
-For example, 
-[d2v-format](https://github.com/data2viz/data2viz/tree/master/format) 
-can be used as a multiplatform Kotlin format library outside of any dataviz project.
+### [core](https://github.com/data2viz/data2viz/tree/master/core)
+This module exposes some basics elements like Circle, Rect, Path, and also some parts of DSL (percent, angles, etc.).
+
+### [color](https://github.com/data2viz/data2viz/tree/master/color)
+This module provides algorithms to create, modify, and convert colors through differents spaces (RGB, HCL, HSL, Lab). It also manage linear and radial color gradients. You can easily use it outside of data2viz. 
+
+### [shape](https://github.com/data2viz/data2viz/tree/master/shape)
+Algorithms to generate paths: symbols, curves, ...
+
+### [scale](https://github.com/data2viz/data2viz/tree/master/scale)
+Different ways to convert data to sizes.
+
+### [interpolate](https://github.com/data2viz/data2viz/tree/master/interpolate)
+Functions to perform interpolation of various elements (numbers, colors, points, curves)
+
+### [random](https://github.com/data2viz/data2viz/tree/master/random)
+Algorithms to generate random data.
+
+### [axis](https://github.com/data2viz/data2viz/tree/master/axis)
+Helper module to create axis for charts, using scales. 
+
+### [delaunay](https://github.com/data2viz/data2viz/tree/master/delaunay)
+This module is a high performant algorithm to compute the Voronoi diagram. You should use it in many use cases to find the closest point of interest to the pointer position. 
+
+### [ease](https://github.com/data2viz/data2viz/tree/master/ease)
+This module contains a collection of easing functions to manage acceleration inside animations.
+
+### [dsv](https://github.com/data2viz/data2viz/tree/master/dvv)
+Minimal way of parsing CSV, TSV files using Kotlin.
+
+### [force](https://github.com/data2viz/data2viz/tree/master/force)
+Use physics to animate your visualizations.
+
+### [format](https://github.com/data2viz/data2viz/tree/master/format)
+Different ways of formating numbers and currencies.
+
+### [time](https://github.com/data2viz/data2viz/tree/master/time)
+Some multiplatform classes to manage time and dates in visualizations.
+
+### [time-format](https://github.com/data2viz/data2viz/tree/master/time-format)
+Extend formatting to time and dates.
+
+### [quadtree](https://github.com/data2viz/data2viz/tree/master/quadtree)
+Separation of space through the quadtree algorithm.
+
+### [voronoi](https://github.com/data2viz/data2viz/tree/master/voronoi)
+Fortune's algorithm implementation of the Voronoi diagram. You should probably use Delaunay instead.
+
+### [geo](https://github.com/data2viz/data2viz/tree/master/geo)
+A collection of mechanisms and functions to project GeoJson elements (points, lines, polygons) on a screen using different implementations of projections.
+
+### [hexbin](https://github.com/data2viz/data2viz/tree/master/hexbin)
+A useful way of aggregating data using hexagons. You can represent data through the fill color or the area.
+
+### [sankey](https://github.com/data2viz/data2viz/tree/master/sankey)
+A generator for sankey charts.
+
+### [hierarchy](https://github.com/data2viz/data2viz/tree/master/hierarchy)
+A generator for hierarchical charts.
+
+### [test](https://github.com/data2viz/data2viz/tree/master/test)
+An internal module used to simplify multiplatform testing with a higher DSL.
+
+### [timer](https://github.com/data2viz/data2viz/tree/master/timer)
+A multiplatform implementation to manage animations through shared frames.
+
+### [viz](https://github.com/data2viz/data2viz/tree/master/viz)
+Multiplatorm API and implementation of rendering and events management.
+
 
 Data2viz allows you to develop data visualizations through a fully typed DSL. It simplifies the creation of complex
  visualizations via the IDE’s context-based suggestions.
  
-You can try it on [data2viz playground](https://play.data2viz.io/tutorials/colors/).
-
 ## Where should I start?
+
+### Documentation
 
 All data2viz documentation is located in 
 [a distinct documentation project](https://github.com/data2viz/data2viz-docs). 
-You should start here and follow 
+You should start there and follow 
 [the first JavaFX tutorial](https://github.com/data2viz/data2viz-docs/blob/master/tutorials/javafx-bar-chart/javafx-bar-chart.md).
 
+### Data2viz Playground
 
-## Some samples
-
-All examples are available in the [examples](examples) directory. Here is a small sample you what you can
-do with data2viz. All examples are able to run in the browser and as JavaFX applications. You can open the JavaScript version
-of each example using the links below.
-
-You can also install the Android demo app [directly from the Play Store](https://play.google.com/store/apps/details?id=io.data2viz.data2canvas).
-
-
-The easiest option is to build data2viz is gradle tasks (from terminal or IDEA gradle view)
-
-* to run Android application you should run `:installDebug` task like `./gradlew :app:installDebug`
-* to tun JFX application you should run :run task like `./gradlew :ex-geo:ex-geo-jfx:run`
-* to build JS files you should run `:build` like `./gradlew :ex-geo:ex-geo-js:build` and open `index.html` from module directory
-
-
-<a href="https://play.google.com/store/apps/details?id=io.data2viz.data2canvas" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/docs/img/android-world-animation.png" width="250">
-</a>
-
-#### [Geo projection](examples/ex-geo)
-
-This code uses the geo module to show how to load a GeoJson file and render it using a
-projection.
-
-<a target="_blank" href="https://data2viz.github.io/data2viz/ex-geo-js/index.html" >
-Open live JavaScript version
-</a>
-
-[See code](examples/ex-geo)
-
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-geo" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/geo.png" width="400">
-</a>
-
-#### [Forces](examples/ex-force)
-
-This demo shows how to use different types of forces: radial, nbody, x, and y forces.
-
-<a target="_blank" href="https://data2viz.github.io/data2viz/ex-force-js/index.html" >
-Open live JavaScript version
-</a>
-
-[See code](examples/ex-force)
-
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-force" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/force.png" width="400">
-</a>
-
-#### [Chord Graph](examples/ex-chord)
-
-This demonstrates a chord diagram, which shows relationships between entities using arcs.
-
-<a target="_blank" href="https://data2viz.github.io/data2viz/ex-chord-js/index.html" >
-Open live JavaScript version
-</a>
-
-[See code](examples/ex-chord)
-
-<a href="https://github.com/data2viz/data2viz/tree/master/examples/ex-chord" >
-<img src="https://raw.githubusercontent.com/data2viz/data2viz/master/examples/images/chord.png" width="400">
-</a>
+You can also play with the API without installing anything. 
+[Data2viz playground](https://play.data2viz.io/) is a website where 
+you can browse existing sample, modify them online and immediately 
+see the result. 
 
 
 ## Current status and roadmap
 
 APIs are mostly stabilized now, but there may still be some breaking changes before v1.0.
-
-### Version v0.8 (Current):
-
-This version brings multiplatform events to the library. It is now possible to add pointer events to
-a visualization and retrieve position during different events: move, click, double-click, ...
-
-This version also includes some major internal modifications on the Geo module.
-
-### Version v0.7 :
-
-This major version brings support for Android. This addition of Android as a target
-platform had a big impact on the design of data2viz. Before v0.7 basic visual elements 
-(rectangles, circles, ...) were wrappers on specific platform elements. Now, these elements
-are a memory version of the visualization. Elements are just rendered on each platform 
-using canvas. 
-
-This version includes a cleaner hierarchy with layers at its base.
-
-### Version v0.6:
-
-The current version contains the following modules:
-
-  - axis: a module that display axis for scales.
-  - chord: generator for chord charts.
-  - colors: manage different color spaces (RGBA, HSLA, LAB), gradients, categories of colors, ...
-  - core: some main elements like trigonometric functions, namespace constants.
-  - dsv: parsing of CSV, TSV files.
-  - ease: a collection of functions used by transitions.
-  - format: a multiplatform formatting library with a DSL
-  - geo: mechanism and algorithms to project GeoJson objects on a visualization.
-  - hierarchy: generator for hierarchical charts.
-  - path: abstraction over path generation.
-  - random: various randomize functions.
-  - sankey: generator for sankey charts.
-  - scale: manage the transformation between domain objects and visualizations.
-  - selection: a way of selecting visual elements of a datavisualization in order to apply some modifications.
-  - shape: provides some generators for curves, areas, lines, stack, symbols,...
-  - test: an internal module used to simplify multiplatform testing with a higher DSL.
-  - tile: manage the loading, and display of tiles.
-  - time: a multiplatform module to simplify time management inside datavisualizations.
-  - time-format: formatting date and time.
-  - timer: multiplatform way of managing animations through shared frames.
-  - transitions: modifying visual elements through animated transitions.
-  - viz: multiplatform abstraction over visual elements (circle, rectangle, ...)
-  - voronoi: the voronoi algorithm
-
-
-### Roadmap:
-
-- We plan to release a chart module inspired by [vega-lite](https://vega.github.io/vega-lite/) to enable very fast charting development
-- We'll create all necessary geographic projections
-- Before the v1.0 release, we'll spend some time on polishing APIs and DSLs in order to improve the consistency
-of the library
 
 
 ## Inspirations
