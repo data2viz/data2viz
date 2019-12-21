@@ -160,10 +160,6 @@ class HexbinGenerator {
         return bins
     }
 
-    private fun hexagon(radius: Double): List<Point> {
-        return hexagon.map { it * radius }
-    }
-
     /**
      * Build the path for the hexagon centered at the given origin Point.
      * If radius is not specified, the hexbin’s current radius is used.
@@ -171,7 +167,7 @@ class HexbinGenerator {
      * hexbins.
      */
     fun hexagon(path: Path, origin: Point, radius: Double? = null) {
-        val hex = hexagon(if (radius == null) _radius else radius)
+        val hex = hexagon(radius ?: _radius)
         path.moveTo(origin.x + hex[0].x, origin.y + hex[0].y)
         (1 until hex.size).forEach { index ->
             path.lineTo(origin.x + hex[index].x, origin.y + hex[index].y)
@@ -218,4 +214,7 @@ class HexbinGenerator {
             path.closePath()
         }
     }
+
 }
+
+private fun hexagon(radius: Double): List<Point> = hexagon.map { it * radius }
