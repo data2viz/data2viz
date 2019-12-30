@@ -4,11 +4,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 
-task stubSources(type: Jar) {
-    classifier = 'sources'
-}
-
-
 afterEvaluate {
     publishing {
         publications {
@@ -16,7 +11,6 @@ afterEvaluate {
                 pom.withXml(configureMavenCentralMetadata)
 
                 def type = publication.name
-                println "publish $type"
                 switch (type) {
                     case 'kotlinMultiplatform':
                         publication.artifactId = "$project.name"
@@ -38,6 +32,17 @@ afterEvaluate {
     }
 }
 
+// Workaround for upload of module.json file, remove when issue fixed https://github.com/bintray/gradle-bintray-plugin/issues/229
+bintrayUpload.doFirst {
+    publishing.publications.all { publication ->
+        def moduleFile = file("$buildDir/publications/$publication.name/module.json")
+        if (moduleFile.exists()) {
+            artifact(moduleFile) {
+                extension = "module"
+            }
+        }
+    }
+}
 
 bintrayUpload.dependsOn publishToMavenLocal
 
