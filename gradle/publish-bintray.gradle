@@ -3,12 +3,10 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
-apply from: project.rootProject.file('gradle/mavenMetadata.gradle')
 
 task stubSources(type: Jar) {
     classifier = 'sources'
 }
-
 
 
 afterEvaluate {
@@ -61,4 +59,35 @@ if (project.hasProperty("bintray.user")) {
 
     }
 
+}
+
+
+project.ext.configureMavenCentralMetadata = { pom ->
+    def root = asNode()
+    root.appendNode('name', project.name)
+    root.appendNode('description', "Data2viz ${project.name} library")
+    root.appendNode('url', 'https://github.com/data2viz/data2viz')
+    root.children().last() + pomConfig
+}
+
+project.ext.pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "Data2viz"
+            name "Data2viz team"
+            organization "Data2viz"
+            organizationUrl "https://data2viz.io"
+        }
+    }
+
+    scm {
+        url "https://github.com/data2viz/data2viz"
+    }
 }
