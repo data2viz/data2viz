@@ -6,6 +6,12 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 
+## 0.8.0-RC8
+> Published 30 Dec 2019
+
+**Breaking change**: publish common code as `-common` artifact and metadata
+as artifact without suffix.
+
 ## 0.8.0-RC7
 > Published 18 Dec 2019
 
