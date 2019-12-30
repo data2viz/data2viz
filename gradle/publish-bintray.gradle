@@ -14,37 +14,39 @@ afterEvaluate {
         publications {
             all { publication ->
                 pom.withXml(configureMavenCentralMetadata)
+
+                def type = publication.name
+                println "publish $type"
+                switch (type) {
+                    case 'kotlinMultiplatform':
+                        publication.artifactId = "$project.name"
+                        break
+                    case 'metadata':
+                        publication.artifactId = "$project.name-common"
+                        break
+                    case 'androidRelease':
+                        publication.artifactId = "$project.name-android"
+                        break
+                    default:
+                        publication.artifactId = "$project.name-$type"
+                        break
+                }
+
             }
+
         }
     }
 }
 
 
-
-// This specifies the publications to upload to bintray before doing the bintrayUpload gradle task.
-//In the mpp configuration of one module after 1.3,
-// it is not uploaded unless you explicitly specify artifacts in publications like this.
-// It is not necessary to have the findAll part,
-// [project name]-kotlinMultiplatformbut a directory containing only pom files will be uploaded, so it is better to exclude it.
-bintrayUpload.doFirst {
-    publications = publishing.publications.collect {
-        it.name
-    }.findAll {
-        it != "kotlinMultiplatform"
-    }
-}
-
-//The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
-// This will create maven artifacts when running bintrayUplaod's task.
 bintrayUpload.dependsOn publishToMavenLocal
 
 if (project.hasProperty("bintray.user")) {
     bintray {
         user = project.property('bintray.user')
         key = project.property('bintray.key')
-        configurations = ['archives']
-        publications = ['maven']
-
+        publications = ['kotlinMultiplatform', 'js', 'jfx', 'jvm', 'androidRelease', 'metadata']
+        dryRun = false
         pkg {
             repo = 'data2viz'
             name = 'data2viz'
