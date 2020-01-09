@@ -21,6 +21,7 @@ import io.data2viz.color.Color
 import io.data2viz.color.EncodedColors
 import io.data2viz.geom.Point
 import io.data2viz.interpolate.*
+import kotlin.jvm.JvmName
 
 /**
  * Generic signature of scales.
@@ -175,6 +176,9 @@ object Scales {
             TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 
         fun sequential(interpolator: Interpolator<Double>) = SequentialScale(interpolator)
+
+        @JvmName("sequentialColor")
+        fun sequential(interpolator: Interpolator<Color>) = SequentialScale(interpolator)
     }
 
     object Quantized {
@@ -241,22 +245,22 @@ object ScalesChromatic {
 
         object SingleHue {
             fun blues(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.blues.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.blues9.colors)).apply(init)
 
             fun greens(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.greens.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.greens9.colors)).apply(init)
 
             fun greys(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.greys.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.greys9.colors)).apply(init)
 
             fun oranges(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.oranges.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.oranges9.colors)).apply(init)
 
             fun purples(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.purples.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.purples9.colors)).apply(init)
 
             fun reds(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.reds.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.reds9.colors)).apply(init)
         }
 
         // TODO warm, cool, cubehelix
@@ -275,69 +279,72 @@ object ScalesChromatic {
                 SequentialScale(rgbBasisInterpolator(EncodedColors.plasma.colors)).apply(init)
 
             fun blue_green(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.BuGN.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.BuGN9.colors)).apply(init)
 
             fun blue_purple(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.BuPu.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.BuPu9.colors)).apply(init)
 
             fun green_blue(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.GnBu.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.GnBu9.colors)).apply(init)
 
             fun orange_red(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.OrRd.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.OrRd9.colors)).apply(init)
 
             fun purple_blue(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.PuBu.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.PuBu9.colors)).apply(init)
 
             fun purple_blue_green(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.PuBuGn.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.PuBuGn9.colors)).apply(init)
 
             fun purple_red(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.PuRd.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.PuRd9.colors)).apply(init)
 
             fun red_purple(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.RdPu.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.RdPu9.colors)).apply(init)
 
             fun yellow_green(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.YlGn.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.YlGn9.colors)).apply(init)
 
             fun yellow_green_blue(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnbU.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnbU9.colors)).apply(init)
 
             fun yellow_green_brown(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnBr.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnBr9.colors)).apply(init)
 
             fun yellow_green_red(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnRd.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.YlGnRd9.colors)).apply(init)
         }
 
         object Diverging {
             fun brown_blueGreen(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.BrBG.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.BrBG11.colors)).apply(init)
 
             fun pink_green(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.PiYG.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.PiYG11.colors)).apply(init)
 
             fun purple_green(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.PRGn.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.PRGn11.colors)).apply(init)
 
             fun purple_orange(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.PuOR.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.PuOR11.colors)).apply(init)
 
             fun red_blue(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.RdBU.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.RdBU11.colors)).apply(init)
 
             fun red_grey(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.RdGY.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.RdGY11.colors)).apply(init)
 
-            fun red_yelow_blue(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.RdYlBu.last().colors)).apply(init)
+            fun red_yellow_blue(init: SequentialScale<Color>.() -> Unit = {}) =
+                SequentialScale(rgbBasisInterpolator(EncodedColors.RdYlBu11.colors)).apply(init)
+
+            fun blue_yellow_red(init: SequentialScale<Color>.() -> Unit = {}) =
+                SequentialScale(rgbBasisInterpolator(EncodedColors.BuYlRd11.colors)).apply(init)
 
             fun red_yellow_green(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.RdYlGn.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.RdYlGn11.colors)).apply(init)
 
             fun spectral(init: SequentialScale<Color>.() -> Unit = {}) =
-                SequentialScale(rgbBasisInterpolator(EncodedColors.spectral.last().colors)).apply(init)
+                SequentialScale(rgbBasisInterpolator(EncodedColors.spectral11.colors)).apply(init)
         }
 
         // TODO rainbow
