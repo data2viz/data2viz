@@ -60,7 +60,7 @@ class IndexableDomain<D> : DiscreteDomain<D> {
 open class OrdinalScale<D, R> internal constructor(
     range: List<R> = listOf(),
     val indexableDomain: IndexableDomain<D> = IndexableDomain()
-) : Scale<D, R>, DiscreteDomain<D> by indexableDomain {
+) : Scale<D, R>, DiscreteDomain<D> by indexableDomain, FirstLastRange<D, R> {
 
     protected val _range: MutableList<R> = arrayListOf()
 
@@ -111,6 +111,14 @@ open class OrdinalScale<D, R> internal constructor(
             _range.isEmpty() -> _unknown ?: throw IllegalStateException()
             else -> _range[index % _range.size]
         }
+    }
+
+    override fun start(): R {
+        return range.first()
+    }
+
+    override fun end(): R {
+        return range.last()
     }
 
 }
