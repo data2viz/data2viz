@@ -25,6 +25,7 @@ matrix:
 
     # Common + JS
     - language: java
+      os: osx
       jdk: oraclejdk8
       addons:
         apt:
@@ -32,12 +33,18 @@ matrix:
             - oracle-java8-installer
       dist: trusty
 
+      before_install:
+        - brew update
+
+      install:
+        - brew cask install google-chrome
+
       cache:
         yarn: true
         directories:
         - $HOME/.m2
         - $HOME/.gradle
-      install: true
+
       script: ./gradlew check -Pinclude_android=false -Pinclude_js=true -Pinclude_jfx=false --stacktrace
 
     # Common + Android
