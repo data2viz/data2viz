@@ -38,7 +38,7 @@ matrix:
         - $HOME/.m2
         - $HOME/.gradle
       install: true
-      script: ./gradlew check -Pinclude_android=false -Pinclude_js=true -Pinclude_jfx=false
+      script: ./gradlew check -Pinclude_android=false -Pinclude_js=true -Pinclude_jfx=false --stacktrace
 
     # Common + Android
     - language: android
