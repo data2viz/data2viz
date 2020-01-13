@@ -66,11 +66,19 @@ class JFxVizRenderer(
 }
 
 fun GraphicsContext.addTransform(transform: Transform) {
-    translate(transform.translate?.x ?: .0, transform.translate?.y ?:.0)
-    rotate(+ (transform.rotate?.delta ?: .0) * 180 / PI)
+    transform.transformations.forEach {
+        when(it) {
+            is Translation -> translate(it.x, it.y)
+            is Rotation -> rotate(+it.delta * 180 / PI)
+        }
+    }
 }
 
 fun GraphicsContext.removeTransform(transform: Transform) {
-    translate(-(transform.translate?.x ?:.0), -(transform.translate?.y ?:.0))
-    rotate(- (transform.rotate?.delta ?: .0) * 180 / PI)
+    transform.transformations.reversed().forEach {
+        when(it) {
+            is Translation -> translate(-it.x, -it.y)
+            is Rotation -> rotate(-it.delta * 180 / PI)
+        }
+    }
 }
