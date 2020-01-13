@@ -17,7 +17,6 @@
 
 package io.data2viz.viz
 
-import io.data2viz.color.Colors
 import io.data2viz.math.HALFPI
 import io.data2viz.test.TestBase
 import org.w3c.dom.CanvasRenderingContext2D
@@ -25,7 +24,7 @@ import org.w3c.dom.DOMMatrix
 import org.w3c.dom.HTMLCanvasElement
 import kotlin.browser.document
 import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 
 class TestTransformJS : TestBase(){
@@ -38,6 +37,7 @@ class TestTransformJS : TestBase(){
         document.body?.appendChild(canvas)
         val viz = viz {}
 
+        assertTrue { false } //Test failure
 
         viz.bindRendererOn(canvas)
         val initialTransform = context.getTransform()
