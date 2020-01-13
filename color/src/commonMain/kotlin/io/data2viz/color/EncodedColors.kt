@@ -22,7 +22,7 @@ import kotlin.math.floor
 
 fun String.toColors(): List<Color> {
     require(length % 6 == 0) { "String size should be a multiple of 6, format RRGGBBRRGGBB..." }
-    return (0 until (length / 6) - 1).map { "#${substring(6 * it, 6 * it + 6)}".col }
+    return (0 until (length / 6)).map { "#${substring(6 * it, 6 * it + 6)}".col }
 }
 
 /**
