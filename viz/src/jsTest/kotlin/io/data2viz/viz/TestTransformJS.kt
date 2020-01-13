@@ -37,8 +37,6 @@ class TestTransformJS : TestBase(){
         document.body?.appendChild(canvas)
         val viz = viz {}
 
-        assertTrue { false } //Test failure
-
         viz.bindRendererOn(canvas)
         val initialTransform = context.getTransform()
         viz.apply {

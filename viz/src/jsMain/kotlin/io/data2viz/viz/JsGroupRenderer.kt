@@ -54,7 +54,9 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
 			}
 
         if (node is HasTransform && node.transform != null) {
-            node.transform!!.transformations.reversed().forEach {
+            node.transform!!.transformations
+//                .reversed()
+                .forEach {
                 when (it) {
                     is Translation -> context.translate(-it.x, -it.y)
                     is Rotation -> context.rotate(-it.delta)
