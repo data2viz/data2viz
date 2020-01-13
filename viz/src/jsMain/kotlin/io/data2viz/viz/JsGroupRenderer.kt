@@ -24,12 +24,14 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
 
 	children.forEach { node ->
 
-		if (node is HasTransform) {
-			node.transform?.also {
-				context.translate(it.translate?.x ?:.0, it.translate?.y ?:.0)
-				context.rotate(it.rotate?.delta ?: .0)
-			}
-		}
+        if (node is HasTransform && node.transform != null) {
+            node.transform!!.transformations.forEach {
+                when (it) {
+                    is Translation -> context.translate(it.x, it.y)
+                    is Rotation -> context.rotate(+it.delta)
+                }
+            }
+        }
 
 		if (node is HasFill) {
 			context.fillStyle = node.fill?.toCanvasPaint(context)
@@ -51,12 +53,14 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
 				else                -> error("Unknow type ${node::class}")
 			}
 
-		if (node is HasTransform) {
-			node.transform?.also {
-				context.translate(-(it.translate?.x ?:.0), -(it.translate?.y ?:.0))
-				context.rotate(-(it.rotate?.delta ?:.0))
-			}
-		}
+        if (node is HasTransform && node.transform != null) {
+            node.transform!!.transformations.reversed().forEach {
+                when (it) {
+                    is Translation -> context.translate(-it.x, -it.y)
+                    is Rotation -> context.rotate(-it.delta)
+                }
+            }
+        }
 
 	}
 

@@ -26,12 +26,15 @@ fun GroupNode.render(renderer: AndroidCanvasRenderer) {
 	with(renderer) {
 		children.forEach { node ->
 
-			if (node is HasTransform) {
-				node.transform?.also {
-					canvas.translate(it.translate?.x?.dp ?: .0f, it.translate?.y?.dp ?: .0f)
-					canvas.rotate((+ (it.rotate?.delta ?: .0) * 180 / PI).toFloat())
-				}
-			}
+            if (node is HasTransform && node.transform != null) {
+                node.transform!!.transformations.forEach {
+                    when (it) {
+                        is Translation -> canvas.translate(it.x.dp , it.y.dp )
+                        is Rotation -> canvas.rotate(+ (it.delta * 180 / PI).toFloat())
+                    }
+                }
+            }
+
 
 			if (node is HasStroke) {
 				paint.strokeWidth = (node.strokeWidth ?: 1.0).toFloat()
@@ -48,13 +51,14 @@ fun GroupNode.render(renderer: AndroidCanvasRenderer) {
 					else -> error("Unknow type ${node::class}")
 				}
 
-			if (node is HasTransform) {
-				node.transform?.also {
-					canvas.translate(-(it.translate?.x?.dp ?: .0f), -(it.translate?.y?.dp ?: .0f))
-					canvas.rotate((- (it.rotate?.delta ?: .0) * 180 / PI).toFloat())
-
-				}
-			}
+            if (node is HasTransform && node.transform != null) {
+                node.transform!!.transformations.reversed().forEach {
+                    when (it) {
+                        is Translation -> canvas.translate(-it.x.dp , -it.y.dp )
+                        is Rotation -> canvas.rotate(- (it.delta * 180 / PI).toFloat())
+                    }
+                }
+            }
 
 		}
 	}
