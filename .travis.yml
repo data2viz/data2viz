@@ -24,14 +24,7 @@ matrix:
       script: xvfb-run ./gradlew check -Pinclude_android=false -Pinclude_js=false -Pinclude_jfx=true
 
     # Common + JS
-    - language: java
-      os: osx
-      jdk: oraclejdk8
-      addons:
-        apt:
-          packages:
-            - oracle-java8-installer
-      dist: trusty
+    - os: osx
 
       before_install:
         - brew update
