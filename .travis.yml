@@ -26,17 +26,15 @@ matrix:
     # Common + JS
     - os: osx
       osx_image: xcode9.3  # Last version with java 8
-      before_install:
-        - brew update
 
-      install:
-        - brew cask install google-chrome
+      addons:
+        chrome: stable
 
       cache:
         yarn: true
         directories:
-        - $HOME/.m2
-        - $HOME/.gradle
+          - $HOME/.m2
+          - $HOME/.gradle
 
       script: ./gradlew check -Pinclude_android=false -Pinclude_js=true -Pinclude_jfx=false --stacktrace
 
