@@ -492,4 +492,32 @@ class ColorTests : TestBase() {
 
         gradient.andColor(hotpink, 100.pct).colorStops.size shouldBe 3
     }
+
+    @Test
+    fun opacify_RGB() {
+        // fully opaque color *********************************************************
+        hotpink.rgba shouldBe "rgba(255, 105, 180, 1.0)"
+        hotpink.opacify(2.0).rgba shouldBe "rgba(255, 105, 180, 1.0)"
+        hotpink.opacify(3.0).rgba shouldBe "rgba(255, 105, 180, 1.0)"
+        hotpink.opacify(.5).rgba shouldBe "rgba(255, 105, 180, 0.5)"
+        hotpink.opacify(.2).rgba shouldBe "rgba(255, 105, 180, 0.2)"
+        hotpink.opacify(.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+
+        // color already transparent -> no change possible *******************************
+        hotpink.withAlpha(0.pct).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+        hotpink.withAlpha(0.pct).opacify(2.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+        hotpink.withAlpha(0.pct).opacify(3.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+        hotpink.withAlpha(0.pct).opacify(.5).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+        hotpink.withAlpha(0.pct).opacify(.2).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+        hotpink.withAlpha(0.pct).opacify(.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+
+        // partially opaque color *********************************************************
+        hotpink.withAlpha(20.pct).rgba shouldBe "rgba(255, 105, 180, 0.2)"
+        hotpink.withAlpha(20.pct).opacify(2.0).rgba shouldBe "rgba(255, 105, 180, 0.4)"
+        hotpink.withAlpha(20.pct).opacify(4.0).alpha.value shouldBeClose 0.8
+        hotpink.withAlpha(20.pct).opacify(8.0).rgba shouldBe "rgba(255, 105, 180, 1.0)"
+        hotpink.withAlpha(80.pct).opacify(.5).rgba shouldBe "rgba(255, 105, 180, 0.4)"
+        hotpink.withAlpha(80.pct).opacify(.1).alpha.value shouldBeClose 0.08
+        hotpink.withAlpha(80.pct).opacify(.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+    }
 }
