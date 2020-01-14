@@ -30,8 +30,8 @@ import io.data2viz.math.pct
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  */
 class RgbColor
-    @Deprecated("Use factory function or Int.col extension.", ReplaceWith("Colors.rgb(rgb,a)", "io.data2viz.colors.Colors"))
-    constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
+@Deprecated("Use factory function or Int.col extension.", ReplaceWith("Colors.rgb(rgb,a)", "io.data2viz.colors.Colors"))
+constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
 
     override val alpha = a.coerceToDefault()
 
@@ -45,7 +45,7 @@ class RgbColor
         get() = rgb and 0xff
 
     override fun luminance() = toLuminance()
-    override fun contrast(other:Color): Double {
+    override fun contrast(other: Color): Double {
         val lumA = luminance()
         val lumB = other.luminance()
         return if (lumA > lumB) (lumA.value + 0.05) / (lumB.value + 0.05) else (lumB.value + 0.05) / (lumA.value + 0.05)
@@ -60,6 +60,7 @@ class RgbColor
     override fun darken(strength: Double): Color = toLab().darken(strength)
     override fun saturate(strength: Double): Color = toLab().saturate(strength)
     override fun desaturate(strength: Double): Color = toLab().desaturate(strength)
+    override fun opacify(strength: Double): Color = withAlpha(Percent(alpha * strength))
     override fun withHue(hue: Angle) = toHcl().withHue(hue)
 
     fun withRed(red: Int): RgbColor {
