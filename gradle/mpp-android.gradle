@@ -20,10 +20,7 @@ if (include_android.toBoolean()) {
 
     kotlin {
         android() {
-            publishLibraryVariants("release")
-            mavenPublication {
-                artifactId = "${project.name}-android"
-            }
+            publishLibraryVariants("debug", "release")
         }
         sourceSets {
             main {

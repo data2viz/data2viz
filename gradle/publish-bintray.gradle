@@ -3,7 +3,6 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
-
 afterEvaluate {
     publishing {
         publications {
@@ -21,13 +20,14 @@ afterEvaluate {
                     case 'androidRelease':
                         publication.artifactId = "$project.name-android"
                         break
+                    case 'androidDebug':
+                        publication.artifactId = "$project.name-android-debug"
+                        break
                     default:
                         publication.artifactId = "$project.name-$type"
                         break
                 }
-
             }
-
         }
     }
 }
@@ -63,11 +63,8 @@ if (project.hasProperty("bintray.user")) {
                 vcsTag = "v${project.version}"
             }
         }
-
     }
-
 }
-
 
 project.ext.configureMavenCentralMetadata = { pom ->
     def root = asNode()
