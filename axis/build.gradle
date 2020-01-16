@@ -13,7 +13,6 @@ kotlin {
         commonMain {
             dependencies {
                 api project(':color')
-                api project(':core')
                 api project(':scale')
                 api project(':viz')
             }
