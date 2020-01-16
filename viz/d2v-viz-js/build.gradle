@@ -1,4 +1,3 @@
-apply from: rootProject.file('gradle/bundle-example.gradle')
 
 dependencies {
     expectedBy project(":viz:viz-common")
