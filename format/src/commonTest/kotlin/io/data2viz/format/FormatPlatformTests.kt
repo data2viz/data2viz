@@ -50,25 +50,25 @@ class FormatPlatformTests : TestBase() {
         156333.6845233.toStringDigits(3)    shouldBe "21221110011"
         156333.6845233.toStringDigits(2)    shouldBe "100110001010101110"
 
-        156334.0.toStringDigits(10)     shouldBe "156334"
-        156334.0.toStringDigits(6)      shouldBe "3203434"
-        156334.0.toStringDigits(3)      shouldBe "21221110011"
-        156334.0.toStringDigits(2)      shouldBe "100110001010101110"
+        156334.0.toStringDigits(10)         shouldBe "156334"
+        156334.0.toStringDigits(6)          shouldBe "3203434"
+        156334.0.toStringDigits(3)          shouldBe "21221110011"
+        156334.0.toStringDigits(2)          shouldBe "100110001010101110"
 
         // testing big numbers
-        1234567890123.0.toStringDigits(10) shouldBe "1234567890123"
-        1e21.toStringDigits(10) shouldBe "1e+21"
+        1234567890123.0.toStringDigits(10)  shouldBe "1234567890123"
+        1e21.toStringDigits(10)             shouldBe "1e+21"
     }
 
     // TODO check exceptions (digits < 1...)
     @Test
     fun check_platform_dependent_formatters_toPrecision() {
-        0.000123.toPrecision(12)    shouldBe "0.000123000000000"
-        0.000123.toPrecision(10)    shouldBe "0.0001230000000"
-        0.000123.toPrecision(6)     shouldBe "0.000123000"
-        0.000123.toPrecision(3)     shouldBe "0.000123"
-        0.000123.toPrecision(2)     shouldBe "0.00012"
-        0.000123.toPrecision(1)     shouldBe "0.0001"
+        0.000123.toPrecision(12)        shouldBe "0.000123000000000"
+        0.000123.toPrecision(10)        shouldBe "0.0001230000000"
+        0.000123.toPrecision(6)         shouldBe "0.000123000"
+        0.000123.toPrecision(3)         shouldBe "0.000123"
+        0.000123.toPrecision(2)         shouldBe "0.00012"
+        0.000123.toPrecision(1)         shouldBe "0.0001"
 
         156333.6845233.toPrecision(12)  shouldBe "156333.684523"
         156333.6845233.toPrecision(10)  shouldBe "156333.6845"
@@ -77,10 +77,10 @@ class FormatPlatformTests : TestBase() {
         156333.6845233.toPrecision(2)   shouldBe "1.6e+5"
         156333.6845233.toPrecision(1)   shouldBe "2e+5"
 
-        1234.5.toPrecision(1) shouldBe "1e+3"
-        1234.5.toPrecision(2) shouldBe "1.2e+3"
-        1234.5.toPrecision(4) shouldBe "1235"
-        1234.5.toPrecision(8) shouldBe "1234.5000"
+        1234.5.toPrecision(1)           shouldBe "1e+3"
+        1234.5.toPrecision(2)           shouldBe "1.2e+3"
+        1234.5.toPrecision(4)           shouldBe "1235"
+        1234.5.toPrecision(8)           shouldBe "1234.5000"
     }
 
     @Test
@@ -90,14 +90,18 @@ class FormatPlatformTests : TestBase() {
         156333.6845233.toExponential()      shouldBe "1.563336845233e+5"
         77.1234.toExponential()             shouldBe "7.71234e+1"
         77.0.toExponential()                shouldBe "7.7e+1"
-        77.1234.toExponential(2)     shouldBe  "7.71e+1"
-        77.1234.toExponential(4)     shouldBe "7.7123e+1"
-        77.1234.toExponential(6)     shouldBe "7.712340e+1"
-        77.1234.toExponential(8)     shouldBe "7.71234000e+1"
+        77.1234.toExponential(2)            shouldBe  "7.71e+1"
+        77.1234.toExponential(4)            shouldBe "7.7123e+1"
+        77.1234.toExponential(6)            shouldBe "7.712340e+1"
+        77.1234.toExponential(8)            shouldBe "7.71234000e+1"
         000077.1234.toExponential()         shouldBe "7.71234e+1"
 
-        1e21.toExponential() shouldBe "1e+21"
+        1e21.toExponential()                shouldBe "1e+21"
+
+        1.26190788E8.toExponential()        shouldBe "1.26190788e+8"
+        1.26190788e8.toExponential()        shouldBe "1.26190788e+8"
+        2600.12345E4.toExponential()        shouldBe "2.60012345e+7"
+        260.012345E5.toExponential()        shouldBe "2.60012345e+7"
+        260.012345e5.toExponential()        shouldBe "2.60012345e+7"
     }
-
-
 }

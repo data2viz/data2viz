@@ -23,20 +23,20 @@ import kotlin.math.abs
 import kotlin.math.roundToLong
 
 
-internal actual fun Double.toStringDigits(radix: Int): String = 
-        if (this > Long.MAX_VALUE || this < Long.MIN_VALUE) 
-            toExponential() 
-        else 
-            (this).roundToLong().toString(radix)
+internal actual fun Double.toStringDigits(radix: Int): String =
+    if (this > Long.MAX_VALUE || this < Long.MIN_VALUE)
+        toExponential()
+    else
+        (this).roundToLong().toString(radix)
 
 
-internal actual fun Double.toFixed(digits: Int): String = 
-        BigDecimal(this)
-                .setScale(digits, BigDecimal.ROUND_HALF_UP)
-                .toString()
+internal actual fun Double.toFixed(digits: Int): String =
+    BigDecimal(this)
+        .setScale(digits, BigDecimal.ROUND_HALF_UP)
+        .toString()
 
-internal actual fun Double.toExponential(digits: Int): String = 
-        String.format(Locale.US, "%." + digits + "e", this)
+internal actual fun Double.toExponential(digits: Int): String =
+    String.format(Locale.US, "%." + digits + "e", this)
         .replace("e+0", "e+")
         .replace("e-0", "e-")
 
@@ -49,16 +49,17 @@ internal actual fun Double.toExponential(): String {
     if (exponentIndex >= 0) fracRemovedDecExpZeros = fracRemovedDecExpZeros.substring(0,  exponentIndex)
     fracRemovedDecExpZeros = fracRemovedDecExpZeros.dropWhile { it == '0' }
     val fractionalPartSize = fracRemovedDecExpZeros.length
-    val integerPartSize = integerPart.substring(0, integerPart.indexOfFirst { it == '.' }).length
+    val commaPosition = integerPart.indexOfFirst { it == '.' }
+    val integerPartSize = if (commaPosition >= 0) integerPart.substring(0, commaPosition).length else integerPart.length
     val pattern = "%" + integerPartSize + "." + (integerPartSize + fractionalPartSize - 1) + "e"
     return String.format(Locale.US, pattern, this)
-            .replace("e+0", "e+")
-            .replace("e-0", "e-")
+        .replace("e+0", "e+")
+        .replace("e-0", "e-")
 }
 
 
-internal actual fun Double.toPrecision(digits: Int): String = 
-        String.format(Locale.US, "%." + digits + "g", this)
+internal actual fun Double.toPrecision(digits: Int): String =
+    String.format(Locale.US, "%." + digits + "g", this)
         .replace("e+0", "e+")
         .replace("e-0", "e-")
 
