@@ -6,6 +6,10 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 
+## 0.8.0-RC10
+
+bugs: #182
+
 ## 0.8.0-RC8
 > Published 30 Dec 2019
 
