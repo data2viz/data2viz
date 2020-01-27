@@ -7,8 +7,18 @@ This version also includes some major internal modifications on the Geo module.
 
 
 ## 0.8.0-RC10
+> Published 16 Jan 2020
+* android debug variant is now deployed
+* bugs: #182
 
-bugs: #182
+**Breaking change**: publish common code as `-common` artifact and metadata
+as artifact without suffix.
+
+## 0.8.0-RC9
+> Published 30 Dec 2019
+
+**Breaking change**: publish common code as `-common` artifact and metadata
+as artifact without suffix.
 
 ## 0.8.0-RC8
 > Published 30 Dec 2019

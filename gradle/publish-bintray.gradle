@@ -50,7 +50,7 @@ if (project.hasProperty("bintray.user")) {
     bintray {
         user = project.property('bintray.user')
         key = project.property('bintray.key')
-        publications = ['kotlinMultiplatform', 'js', 'jfx', 'jvm', 'androidRelease', 'metadata']
+        publications = ['kotlinMultiplatform', 'js', 'jfx', 'jvm', 'androidDebug', 'androidRelease', 'metadata']
         dryRun = false
         pkg {
             repo = 'data2viz'
