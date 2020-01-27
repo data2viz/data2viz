@@ -11,21 +11,21 @@ kotlin {
         commonMain {
             dependencies {
                 api project(':core')
-                api "io.data2viz.geojson:geojson-common:$geojson_version"
+                api "io.data2viz.geojson:core:$geojson_version"
             }
         }
 
         if (include_jfx.toBoolean() || include_android.toBoolean()) {
             jvmMain {
                 dependencies {
-                    api "io.data2viz.geojson:geojson-jvm:$geojson_version"
+                    api "io.data2viz.geojson:core:$geojson_version"
                 }
             }
         }
         if (include_js.toBoolean()) {
             jsMain {
                 dependencies {
-                    api "io.data2viz.geojson:geojson-js:$geojson_version"
+                    api "io.data2viz.geojson:core:$geojson_version"
                     implementation kotlin('stdlib-js')
                 }
             }
