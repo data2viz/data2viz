@@ -165,12 +165,12 @@ class Graticule {
     /**
      * Returns a GeoJSON MultiLineString geometry object representing all meridians and parallels for this graticule.
      */
-    fun graticule() = MultiLineString(buildLines().map { it.map { arrayOf(it[0], it[1]) }.toTypedArray() }.toTypedArray())
+    fun graticule() = MultiLineString(buildLines().map { it.map { doubleArrayOf(it[0], it[1]) }.toTypedArray() }.toTypedArray())
 
     /**
      * Returns an array of GeoJSON LineString geometry objects, one for each meridian or parallel for this graticule.
      */
-    fun lines() = buildLines().map { LineString(it.map { arrayOf(it[0], it[1]) }.toTypedArray()) }
+    fun lines() = buildLines().map { LineString(it.map { doubleArrayOf(it[0], it[1]) }.toTypedArray()) }
 
     /**
      * Returns a GeoJSON Polygon geometry object representing the outline of this graticule, i.e. along the
@@ -182,7 +182,7 @@ class Graticule {
         coordinates += majorX(majorExtent.x1).asReversed().subList(1, majorX(majorExtent.x1).lastIndex)
         coordinates += majorY(majorExtent.y0).asReversed().subList(1, majorY(majorExtent.y0).lastIndex)
 
-        return Polygon(arrayOf(coordinates.map { arrayOf(it[0], it[1]) }.toTypedArray()))
+        return Polygon(arrayOf(coordinates.map { doubleArrayOf(it[0], it[1]) }.toTypedArray()))
     }
 
     private fun buildLines(): List<List<DoubleArray>> {
