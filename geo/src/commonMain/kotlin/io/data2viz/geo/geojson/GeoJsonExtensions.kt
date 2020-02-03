@@ -145,6 +145,5 @@ private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
 /**
  * Convert spherical [position] to cartesian doubleArray
  */
-fun toRadians(position: Position): DoubleArray {
-    return position.map { it.toRadians() }.toDoubleArray()
-}
+fun toRadians(position: Position): DoubleArray =
+    DoubleArray(position.size) { position[it].toRadians() }
