@@ -41,19 +41,19 @@ class RectanglePreClippingTests : TestBase() {
     val polygon = Polygon(
             arrayOf(
                 arrayOf(
-                    arrayOf(-8.0, 15.0),
-                    arrayOf(-6.0, 15.0),
-                    arrayOf(-6.0, -15.0),
-                    arrayOf(-8.0, -15.0),
-                    arrayOf(-8.0, 15.0)
+                    doubleArrayOf(-8.0, 15.0),
+                    doubleArrayOf(-6.0, 15.0),
+                    doubleArrayOf(-6.0, -15.0),
+                    doubleArrayOf(-8.0, -15.0),
+                    doubleArrayOf(-8.0, 15.0)
                 )
             )
     )
 
     val line = LineString(
         arrayOf(
-            arrayOf(6.0, 15.0),
-            arrayOf(6.0, -15.0)
+            doubleArrayOf(6.0, 15.0),
+            doubleArrayOf(6.0, -15.0)
         )
 
     )
@@ -61,11 +61,11 @@ class RectanglePreClippingTests : TestBase() {
     val clipZonePolygon = Polygon(
             arrayOf(
                 arrayOf(
-                    arrayOf(-10.0, 10.0),
-                    arrayOf(10.0, 10.0),
-                    arrayOf(10.0, -10.0),
-                    arrayOf(-10.0, -10.0),
-                    arrayOf(-10.0, 10.0)
+                    doubleArrayOf(-10.0, 10.0),
+                    doubleArrayOf(10.0, 10.0),
+                    doubleArrayOf(10.0, -10.0),
+                    doubleArrayOf(-10.0, -10.0),
+                    doubleArrayOf(-10.0, 10.0)
                 )
             )
     )

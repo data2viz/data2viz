@@ -24,10 +24,12 @@ import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Extent
 import kotlin.math.min
 
+private const val defaultScale = 150.0
+
 private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJsonObject): Projection {
     val clip = projection.extentPostClip
 
-    projection.scale = 150.0
+    projection.scale = defaultScale
     projection.translate(.0, .0)
     if (clip != null) projection.extentPostClip = null
 
@@ -55,7 +57,7 @@ fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
         val k = min(w / (size.width), h / (size.height))
         val x = extent.x0 + (w - (k * (size.x1 + size.x0))) / 2
         val y = extent.y0 + (h - (k * (size.y1 + size.y0))) / 2
-        this.scale = k * 150
+        this.scale = k * defaultScale
         this.translate(x, y)
     }
     return fit(this, fitBounds, geo)
@@ -71,7 +73,7 @@ fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection {
         val k = width / size.width
         val x = (width - (k * (size.x1 + size.x0))) / 2
         val y = -k * size.y0
-        this.scale = k * 150
+        this.scale = k * defaultScale
         this.translate(x, y)
     }
     return fit(this, fitBounds, geo)
@@ -86,7 +88,7 @@ fun Projection.fitHeight(height: Double, geo: GeoJsonObject): Projection {
         val k = height / size.height
         val x = -k * size.x0
         val y = (height - (k * (size.y1 + size.y0))) / 2
-        this.scale = k * 150
+        this.scale = k * defaultScale
         this.translate(x, y)
     }
     return fit(this, fitBounds, geo)

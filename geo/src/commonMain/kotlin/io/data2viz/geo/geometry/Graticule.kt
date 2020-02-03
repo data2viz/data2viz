@@ -72,6 +72,7 @@ class Graticule {
 
     private var minorStepX = 10.0
     private var minorStepY = 10.0
+
     private var majorStepX = 90.0
     private var majorStepY = 360.0
 
@@ -165,12 +166,17 @@ class Graticule {
     /**
      * Returns a GeoJSON MultiLineString geometry object representing all meridians and parallels for this graticule.
      */
-    fun graticule() = MultiLineString(buildLines().map { it.map { doubleArrayOf(it[0], it[1]) }.toTypedArray() }.toTypedArray())
+    fun graticule(): MultiLineString =
+        MultiLineString(
+            buildLines().map {
+                it.map { doubleArrayOf(it[0], it[1]) }.toTypedArray() }.toTypedArray())
 
     /**
      * Returns an array of GeoJSON LineString geometry objects, one for each meridian or parallel for this graticule.
      */
-    fun lines() = buildLines().map { LineString(it.map { doubleArrayOf(it[0], it[1]) }.toTypedArray()) }
+    fun lines(): List<LineString> =
+        buildLines().map {
+            LineString(it.map { doubleArrayOf(it[0], it[1]) }.toTypedArray()) }
 
     /**
      * Returns a GeoJSON Polygon geometry object representing the outline of this graticule, i.e. along the
@@ -186,7 +192,11 @@ class Graticule {
     }
 
     private fun buildLines(): List<List<DoubleArray>> {
-        val lines = range(ceil(majorExtent.x0 / majorStepX) * majorStepX, majorExtent.x1, majorStepX).map(majorX)
+        val lines = range(
+                ceil(majorExtent.x0 / majorStepX) * majorStepX,
+                majorExtent.x1,
+                majorStepX)
+            .map(majorX)
             .toMutableList()
         lines += range(ceil(majorExtent.y0 / majorStepY) * majorStepY, majorExtent.y1, majorStepY).map(majorY)
         lines += range(

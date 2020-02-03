@@ -52,13 +52,13 @@ class CircleClippingTests : TestBase() {
         arrayOf(
             arrayOf(
                 arrayOf(
-                    arrayOf(.0, -25.0),
-                    arrayOf(-25.0, .0),
-                    arrayOf(.0, 25.0),
-                    arrayOf(50.0, 25.0),
-                    arrayOf(75.0, .0),
-                    arrayOf(50.0, -25.0),
-                    arrayOf(.0, -25.0)
+                    doubleArrayOf(.0, -25.0),
+                    doubleArrayOf(-25.0, .0),
+                    doubleArrayOf(.0, 25.0),
+                    doubleArrayOf(50.0, 25.0),
+                    doubleArrayOf(75.0, .0),
+                    doubleArrayOf(50.0, -25.0),
+                    doubleArrayOf(.0, -25.0)
                 )
             )
         )

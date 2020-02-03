@@ -20,8 +20,8 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.projection.common.Projection
 import kotlin.math.abs
 
-internal fun pt(a: Double, b: Double) = arrayOf(a, b)
-internal fun pt(a: Double, b: Double, c: Double) = arrayOf(a, b, c)
+internal fun pt(a: Double, b: Double) = doubleArrayOf(a, b)
+internal fun pt(a: Double, b: Double, c: Double) = doubleArrayOf(a, b, c)
 
 val projectTestPrecision = 0.000001 // 1e-6
 val invertTestPrecision = 0.001 // 1e-3
