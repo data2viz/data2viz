@@ -24,6 +24,7 @@ import io.data2viz.geo.projection.identityProjection
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geom.Path
 import io.data2viz.geojson.*
+import io.data2viz.geom.PathGeom
 
 
 /**
@@ -44,7 +45,7 @@ import io.data2viz.geojson.*
  * a sphere has no coordinates. Any additional arguments are passed along to the pointRadius accessor.
  *
  */
-fun geoPath(projection: Projection = identityProjection(), path: Path? = null) = GeoPath(projection, path)
+fun geoPath(projection: Projection = identityProjection(), path: Path = PathGeom()) = GeoPath(projection, path)
 
 /**
  * If a projection is specified, sets the current projection to the specified projection.
@@ -58,7 +59,7 @@ fun geoPath(projection: Projection = identityProjection(), path: Path? = null) =
  *
  * @see PathStream
  */
-class GeoPath(val projection: Projection = identityProjection(), val path: Path?) {
+class GeoPath(val projection: Projection = identityProjection(), val path: Path = PathGeom()) {
 
     /**
      * Radius of the circle used to display Point and MultiPoint geometries to the specified number.
@@ -76,7 +77,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path?
     private val boundsStream    = BoundsStream()
     private val centroidStream  = CentroidStream()
     private val measureStream   = MeasureStream()
-    private val pathStream: PathStream? = path?.let { PathStream(it) }
+    private val pathStream: PathStream? = path.let { PathStream(it) }
 
     /**
      * Renders the given object, which may be any GeoJSON feature or geometry object:
