@@ -23,7 +23,6 @@ import io.data2viz.geo.geojson.path.GeoCentroidStream
 
 
 /**
- *
  * Returns the cartesian centroid of the specified GeoJSON object.
  * This is the cartesian equivalent of [GeoCentroidStream]
  */
