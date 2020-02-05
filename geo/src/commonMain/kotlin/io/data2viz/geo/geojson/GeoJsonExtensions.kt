@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geojson
 
+import io.data2viz.geo.geojson.path.geoCentroid
 import io.data2viz.geo.geometry.polygonContains
 import io.data2viz.geo.geojson.path.geoDistance
 import io.data2viz.geo.stream.Stream
@@ -28,6 +29,10 @@ import io.data2viz.math.toRadians
 
 class Sphere : Geometry
 
+/**
+ * Compute the centroid of the GeoJsonObject in degrees
+ */
+fun GeoJsonObject.centroid(): Position = geoCentroid(this)
 
 /**
  *
@@ -49,6 +54,8 @@ fun GeoJsonObject.contains(point: Position): Boolean =
         is Feature              -> geometry.contains(point)
         else                    -> false
     }
+
+
 
 
 private fun Lines.contains(point: Position): Boolean {
@@ -104,12 +111,12 @@ fun GeoJsonObject.stream(stream: Stream) {
 
 private fun streamGeometry(geo: GeoJsonObject, stream: Stream) {
     when (geo) {
-        is Point            -> streamPoint(geo.coordinates, stream)
-        is LineString       -> streamLine(geo.coordinates, stream, false)
-        is MultiPoint       -> geo.coordinates.forEach { streamPoint(it, stream) }
-        is MultiPolygon     -> geo.coordinates.forEach { streamPolygon(it, stream) }
-        is Polygon          -> streamPolygon(geo.coordinates, stream)
-        is MultiLineString  -> geo.coordinates.forEach { streamLine(it, stream, false) }
+        is Point            -> streamPoint(geo.pos, stream)
+        is LineString       -> streamLine(geo.positions, stream, false)
+        is MultiPoint       -> geo.positions.forEach { streamPoint(it, stream) }
+        is MultiPolygon     -> geo.surface.forEach { streamPolygon(it, stream) }
+        is Polygon          -> streamPolygon(geo.lines, stream)
+        is MultiLineString  -> geo.lines.forEach { streamLine(it, stream, false) }
         is Sphere -> streamSphere(stream)
     }
 }
@@ -142,8 +149,6 @@ private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
     stream.lineEnd()
 }
 
-/**
- * Convert spherical [position] to cartesian doubleArray
- */
-fun toRadians(position: Position): DoubleArray =
-    DoubleArray(position.size) { position[it].toRadians() }
+private fun toRadians(position: Position): DoubleArray = DoubleArray(position.size) { position[it].toRadians() }
+
+typealias GeoPoint = Point
