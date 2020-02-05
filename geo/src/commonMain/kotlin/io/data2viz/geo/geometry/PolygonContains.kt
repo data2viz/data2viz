@@ -44,7 +44,7 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
 
         var point0 = ring.last()
         var lambda0 = point0[0]
-        var phi0 = point0[1] / 2 + QUARTERPI
+        val phi0 = point0[1] / 2 + QUARTERPI
 
         var sinPhi0 = sin(phi0)
         var cosPhi0 = cos(phi0)
@@ -101,10 +101,10 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
 
                 val phiArc = (if (antimeridian xor (delta >= 0)) -1 else 1) * asin(intersectionD2)
 
-                val pole = sin(phi);
+                val pole = sin(phi)
 
                 // For next line see https://github.com/d3/d3-geo/issues/105
-                if (pole == -1.0 || pole == 1.0) phi += pole * EPSILON;
+                if (pole == -1.0 || pole == 1.0) phi += pole * EPSILON
 
                 if (phi > phiArc ||
                     (phi == phiArc && ((d0 != .0 && !d0.isNaN()) ||
