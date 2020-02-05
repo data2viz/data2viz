@@ -55,7 +55,7 @@ class AlbersUSAProjection : ComposedProjection() {
     lateinit var alaskaPoint: Stream
     lateinit var hawaiiPoint: Stream
 
-    val pointStream = object : Stream {
+    val pointStream = object : Stream() {
         override fun point(x: Double, y: Double, z: Double) {
             point = doubleArrayOf(x, y)
         }

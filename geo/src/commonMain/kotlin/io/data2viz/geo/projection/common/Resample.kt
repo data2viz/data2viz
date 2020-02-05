@@ -58,7 +58,7 @@ private class ResampleStream(
     val stream: Stream,
     val projector: Projector,
     val delta2Precision: Double = .5
-) : Stream {
+) : Stream() {
 
     // context of execution of stream
 

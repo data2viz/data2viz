@@ -21,14 +21,13 @@ import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geo.projection.pt
 import io.data2viz.geojson.*
-import io.data2viz.math.EPSILON
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
 
 class StreamTests : TestBase() {
 
-    val emptyStream = object : Stream {}
+    val emptyStream = object : Stream() {}
 
     @Test
     fun geoStream_object_allows_empty_multi_geometries() {
@@ -44,7 +43,7 @@ class StreamTests : TestBase() {
     fun geoStream_Sphere_sphere() {
 
         var calls = 0
-        Sphere().stream(object : Stream {
+        Sphere().stream(object : Stream() {
 
             override fun sphere() {
                 calls++
@@ -59,7 +58,7 @@ class StreamTests : TestBase() {
     fun geoStream_Point_point() {
 
         var calls = 0
-        Point(pt(1.0, 2.0, 3.0)).stream(object : Stream {
+        Point(pt(1.0, 2.0, 3.0)).stream(object : Stream() {
 
             override fun point(x: Double, y: Double, z: Double) {
                 x shouldBeClose 1.0
@@ -83,7 +82,7 @@ class StreamTests : TestBase() {
         )
         MultiPoint(
             coordinates
-        ).stream(object : Stream {
+        ).stream(object : Stream() {
 
             override fun point(x: Double, y: Double, z: Double) {
                 coordinates[pointCalls][0] shouldBeClose x
@@ -110,7 +109,7 @@ class StreamTests : TestBase() {
         )
         LineString(
             coordinates
-        ).stream(object : Stream {
+        ).stream(object : Stream() {
 
             override fun lineStart() {
                 ++calls shouldBe 1
@@ -153,7 +152,7 @@ class StreamTests : TestBase() {
         )
         MultiLineString(
             coordinates
-        ).stream(object : Stream {
+        ).stream(object : Stream() {
 
             override fun lineStart() {
                 (++calls == 1 || calls == 5) shouldBe true
@@ -201,7 +200,7 @@ class StreamTests : TestBase() {
         )
         Polygon(
             coordinates
-        ).stream(object : Stream {
+        ).stream(object : Stream() {
 
             override fun polygonStart() {
                 (++calls == 1) shouldBe true
@@ -261,7 +260,7 @@ class StreamTests : TestBase() {
         )
         MultiPolygon(
             coordinates
-        ).stream(object : Stream {
+        ).stream(object : Stream() {
 
             override fun polygonStart() {
                 (++calls == 1 || calls == 7) shouldBe true
@@ -302,7 +301,7 @@ class StreamTests : TestBase() {
     fun geoStream_Feature() {
 
         var calls = 0
-        Feature(Point(pt(1.0, 2.0, 3.0))).stream(object : Stream {
+        Feature(Point(pt(1.0, 2.0, 3.0))).stream(object : Stream() {
 
             override fun point(x: Double, y: Double, z: Double) {
                 x shouldBeClose 1.0
@@ -321,7 +320,7 @@ class StreamTests : TestBase() {
         var calls = 0
         FeatureCollection(
             arrayOf(Feature(Point(pt(1.0, 2.0, 3.0))))
-        ).stream(object : Stream {
+        ).stream(object : Stream() {
 
             override fun point(x: Double, y: Double, z: Double) {
                 x shouldBeClose 1.0 
@@ -340,7 +339,7 @@ class StreamTests : TestBase() {
         var calls = 0
         GeometryCollection(
             arrayOf(Point(pt(1.0, 2.0, 3.0)))
-        ).stream(object : Stream {
+        ).stream(object : Stream() {
 
             override fun point(x: Double, y: Double, z: Double) {
                 x shouldBeClose 1.0 

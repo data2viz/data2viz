@@ -35,7 +35,7 @@ fun geoCentroid(geo: GeoJsonObject): Position = GeoCentroidStream().result(geo)
  * Returns the spherical centroid of the specified GeoJSON object.
  * This is the spherical equivalent of [CentroidStream]
  */
-class GeoCentroidStream : Stream {
+class GeoCentroidStream : Stream() {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
     //  Function references have poor performance due to GC & memory allocation

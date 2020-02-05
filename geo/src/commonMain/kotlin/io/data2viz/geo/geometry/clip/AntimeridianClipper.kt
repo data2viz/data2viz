@@ -53,7 +53,7 @@ private class AntimeridianClipper : ClipperWithStart {
         var phi0 = Double.NaN
         var sign0 = Double.NaN
 
-        return object : ClipStream {
+        return object : ClipStream() {
             private var currentClean = 0
 
             override var clean

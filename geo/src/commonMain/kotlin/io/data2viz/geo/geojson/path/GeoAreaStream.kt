@@ -38,7 +38,7 @@ fun geoArea(geo: GeoJsonObject) = GeoAreaStream().result(geo)
  * Stream and returns via [result] the spherical area of the specified GeoJSON object in steradians.
  * This is the spherical equivalent of [AreaStream]
  */
-class GeoAreaStream : Stream {
+class GeoAreaStream : Stream() {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
     //  Function references have poor performance due to GC & memory allocation

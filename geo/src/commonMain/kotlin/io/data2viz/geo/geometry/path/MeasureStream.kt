@@ -29,7 +29,7 @@ import io.data2viz.geo.geojson.path.GeoLengthStream
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
  * This is the cartesian equivalent of [GeoLengthStream]
  */
-internal class MeasureStream : Stream {
+internal class MeasureStream : Stream() {
 
     // TODO : check for use of D3 "adder"
     // TODO refactor function references :: to objects like in ProjectorResambleStream.

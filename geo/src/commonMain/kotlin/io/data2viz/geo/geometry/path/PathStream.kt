@@ -31,7 +31,7 @@ import io.data2viz.geo.geojson.GeoPath
  *
  * @see GeoPath
  */
-internal class PathStream(private val path: Path) : Stream {
+internal class PathStream(private val path: Path) : Stream() {
 
 
     enum class PathCmd {

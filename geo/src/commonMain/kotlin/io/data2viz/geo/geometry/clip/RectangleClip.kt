@@ -50,7 +50,7 @@ class RectangleClipper(val extent: Extent) : Clipper {
 
     override fun clipLine(downstream: Stream): ClipStream {
 
-        return object : ClipStream {
+        return object : ClipStream() {
 
             override var clean: Int = 0
 

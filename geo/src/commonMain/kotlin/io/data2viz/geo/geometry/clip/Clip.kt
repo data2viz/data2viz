@@ -48,9 +48,9 @@ interface ClipStreamBuilder {
  *  1 - no intersections;
  *  2 - there were intersections, and the first and last segments should be rejoined.
  */
-interface ClipStream : Stream {
+abstract class ClipStream : Stream() {
 
-    var clean: Int
+    abstract var clean: Int
 }
 
 
@@ -82,7 +82,7 @@ internal interface ClipperWithStart : Clipper {
 internal class ClippableStream(
     val clipper: ClipperWithStart,
     val downstream: Stream
-) : Stream {
+) : Stream() {
 
     // context of execution of stream
     // a line can be projected in the context of a polygon or not
@@ -269,7 +269,7 @@ internal class ClippableStream(
 }
 
 
-internal class BufferStream : Stream {
+internal class BufferStream : Stream() {
     private var lines: MutableList<List<DoubleArray>> = mutableListOf()
     private lateinit var line: MutableList<DoubleArray>
 

@@ -24,7 +24,7 @@ package io.data2viz.geo.stream
  * point depends on whether the point is inside of a line, and likewise a line is distinguished
  * from a ring by a polygon. Despite the name “stream”, these method calls are currently synchronous.
  */
-interface Stream {
+abstract class Stream {
 
     /**
      * Indicates a point with the specified coordinates translateX and translateY (and optionally z).
@@ -33,14 +33,14 @@ interface Stream {
      * context of a polygon or line, a point indicates a point geometry object (Point or
      * MultiPoint). Within a line or polygon ring, the point indicates a control point.
      */
-    fun point(x: Double, y: Double, z: Double) {}
+    open fun point(x: Double, y: Double, z: Double) {}
 
     /**
      * Indicates the start of a line or ring. Within a polygon, indicates the start of a ring.
      * The first ring of a polygon is the exterior ring, and is typically clockwise.
      * Any subsequent rings indicate holes in the polygon, and are typically counterclockwise.
      */
-    fun lineStart() {}
+    open fun lineStart() {}
 
     /**
      * Indicates the end of a line or ring. Within a polygon, indicates the end of a ring. Unlike GeoJSON,
@@ -67,23 +67,23 @@ interface Stream {
      *  stream.lineEnd();
      *  stream.polygonEnd();
      */
-    fun lineEnd() {}
+    open fun lineEnd() {}
 
 
     /**
      * Indicates the start of a polygon. The first line of a polygon indicates the exterior ring,
      * and any subsequent lines indicate interior holes.
      */
-    fun polygonStart() {}
+    open fun polygonStart() {}
 
     /**
      * Indicates the end of a polygon.
      */
-    fun polygonEnd() {}
+    open fun polygonEnd() {}
 
 
     /**
      * Indicates the sphere (the globe; the unit sphere centered at ⟨0,0,0⟩).
      */
-    fun sphere() {}
+    open fun sphere() {}
 }

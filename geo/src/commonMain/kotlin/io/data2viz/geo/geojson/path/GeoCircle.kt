@@ -37,7 +37,7 @@ class GeoCircle<D> {
     private var ring: MutableList<DoubleArray> = mutableListOf()
     private var rotate: ((x: Double, y: Double) -> DoubleArray)? = null
 
-    private val circleStream: Stream = object : Stream {
+    private val circleStream: Stream = object : Stream() {
         override fun point(x: Double, y: Double, z: Double) {
             val value = rotate!!(x, y)
             ring.add(doubleArrayOf(value[0].toDegrees(), value[1].toDegrees()))

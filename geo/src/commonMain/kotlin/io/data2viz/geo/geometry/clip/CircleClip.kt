@@ -61,7 +61,7 @@ class CircleClipper(val radius: Double) : ClipperWithStart {
 
     override fun clipLine(downstream: Stream): ClipStream {
 
-        return object : ClipStream {
+        return object : ClipStream() {
 
             private var _clean = 0
             private var point0: DoubleArray? = null             // previous point
