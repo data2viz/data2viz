@@ -17,36 +17,38 @@
 
 package io.data2viz.geo
 
+import io.data2viz.geojson.Position
+
 
 /**
- * An alias to GeoJson points.
+ * An alias to GeoJson Position.
  * The Array must have a size of 2 of 3. The first two elements are the longitude (phi)
  * and latitude (lambda). The last, if it exists, represents the altitude.
  */
-typealias GeoPoint = DoubleArray
+typealias GeoPoint = Position
 
 /**
  * The longitude in degrees
  */
-val GeoPoint.lambda: Double
+val GeoPoint.lon: Double
         get() = this[0]
 
 /**
  * The latitude in degrees
  */
-val GeoPoint.phi: Double
+val GeoPoint.lat: Double
         get() = this[1]
 
 /**
  * The altitude if specified
  */
 val GeoPoint.alt: Double?
-        get() = if (size > 2) this[2] else null
+        get() = if (this.size > 2) this[2] else null
 
 
-fun GeoPoint.component1() = this.lambda
-fun GeoPoint.component2() = this.phi
-fun GeoPoint.component3() = this.alt
+//fun GeoPoint.component1() = this.lon
+//fun GeoPoint.component2() = this.lat
+//fun GeoPoint.component3() = this.alt
 
 
 fun GeoPoint(lambda:Double, phi:Double, alt: Double? = null): GeoPoint =
