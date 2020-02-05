@@ -60,7 +60,7 @@ private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> Del
  * @see Projection
  * @see ComposedProjection
  */
-open class ProjectorProjection(val projector: Projector) : Projection {
+open class ProjectorProjection(val projector: Projector) : Projection() {
 
     private var _translateX = 480.0
     private var _translateY = 250.0
