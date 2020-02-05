@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geojson.path
 
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geojson.GeoJsonObject
@@ -25,9 +26,10 @@ import io.data2viz.math.EPSILON2
 import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import io.data2viz.geo.geometry.path.CentroidStream
+import io.data2viz.geojson.Position
 import kotlin.math.*
 
-fun geoCentroid(geo: GeoJsonObject) = GeoCentroidStream().result(geo)
+fun geoCentroid(geo: GeoJsonObject): Position = GeoCentroidStream().result(geo)
 
 /**
  * Returns the spherical centroid of the specified GeoJSON object.
@@ -60,7 +62,7 @@ class GeoCentroidStream : Stream {
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
     
-    fun result(geo: GeoJsonObject): DoubleArray {
+    fun result(geo: GeoJsonObject): GeoPoint {
         _W0 = .0
         _W1 = .0
         _X0 = .0
