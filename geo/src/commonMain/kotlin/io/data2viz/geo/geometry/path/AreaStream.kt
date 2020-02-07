@@ -26,7 +26,7 @@ import kotlin.math.abs
 
 
 /**
- * Stream and returns via [result] the spherical area of the specified GeoJSON object in cartesian.
+ * Stream and returns via [area] the area of the specified GeoJSON object in cartesian.
  * This is the cartesian equivalent of [GeoAreaStream]
  */
 internal class AreaStream : Stream() {
@@ -44,7 +44,7 @@ internal class AreaStream : Stream() {
     private var currentLineStart: () -> Unit = noop
     private var currentLineEnd: () -> Unit = noop
 
-    fun result(): Double {
+    fun area(): Double {
         val a = areaSum / 2.0
         areaSum = .0
         return a

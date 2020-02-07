@@ -37,7 +37,7 @@ internal class BoundsStream : Stream() {
             Double.NEGATIVE_INFINITY
         )
 
-    fun result(): Extent {
+    fun bounds(): Extent {
         val result = bounds.copy()
         bounds = Extent(
             Double.POSITIVE_INFINITY,

@@ -49,7 +49,7 @@ internal class CentroidStream : Stream() {
     private var currentLineStart: () -> Unit = ::centroidLineStart
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
-    internal fun result(): DoubleArray {
+    internal fun centroid(): DoubleArray {
         val centroid = when {
             _Z2 != .0 -> doubleArrayOf(_X2 / _Z2, _Y2 / _Z2)
             _Z1 != .0 -> doubleArrayOf(_X1 / _Z1, _Y1 / _Z1)

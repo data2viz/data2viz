@@ -44,7 +44,7 @@ internal class MeasureStream : Stream() {
 
     private var currentPoint: (Double, Double) -> Unit = noop2
 
-    fun result(): Double {
+    fun length(): Double {
         val result = lengthSum
         lengthSum = .0
         return result
