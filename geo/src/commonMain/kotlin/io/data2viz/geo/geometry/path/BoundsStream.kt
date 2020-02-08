@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.path
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geom.Extent
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geojson.path.GeoBoundsStream
@@ -49,9 +50,13 @@ internal class BoundsStream : Stream() {
     }
 
     override fun point(x: Double, y: Double, z: Double) {
-        if (x < bounds.x0) bounds.x0 = x
-        if (x > bounds.x1) bounds.x1 = x
-        if (y < bounds.y0) bounds.y0 = y
-        if (y > bounds.y1) bounds.y1 = y
+        point(StreamPoint(x, y, z))
+    }
+    
+    override fun point(point: StreamPoint) {
+        if (point.x < bounds.x0) bounds.x0 = point.x
+        if (point.x > bounds.x1) bounds.x1 = point.x
+        if (point.y < bounds.y0) bounds.y0 = point.y
+        if (point.y > bounds.y1) bounds.y1 = point.y
     }
 }

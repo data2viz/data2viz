@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.path
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import kotlin.math.sqrt
 import io.data2viz.geo.geojson.path.GeoCentroidStream
@@ -70,7 +71,8 @@ internal class CentroidStream : Stream() {
         return centroid
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
+    override fun point(x: Double, y: Double, z: Double) = point(StreamPoint(x, y, z))
+    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
