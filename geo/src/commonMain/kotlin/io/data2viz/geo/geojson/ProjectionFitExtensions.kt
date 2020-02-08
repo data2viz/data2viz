@@ -35,7 +35,7 @@ private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJso
 
     val boundsStream = BoundsStream()
     geo.stream(projection.bindTo(boundsStream))
-    fitBounds(boundsStream.result())
+    fitBounds(boundsStream.bounds())
     if (clip != null) projection.extentPostClip = clip
 
     return projection
