@@ -52,11 +52,11 @@ class AlbersUSAProjection : ComposedProjection() {
 
     var point: DoubleArray = doubleArrayOf()
     // Strange logic from d3 need refactor. Look at project implementation
-    lateinit var lower48Point: Stream
-    lateinit var alaskaPoint: Stream
-    lateinit var hawaiiPoint: Stream
+    lateinit var lower48Point: Stream<StreamPoint>
+    lateinit var alaskaPoint: Stream<StreamPoint>
+    lateinit var hawaiiPoint: Stream<StreamPoint>
 
-    val pointStream = object : Stream() {
+    val pointStream = object : Stream<StreamPoint>() {
 //        override fun point(x: Double, y: Double, z: Double) {
 //            point(StreamPoint(x, y, z))
 //        }

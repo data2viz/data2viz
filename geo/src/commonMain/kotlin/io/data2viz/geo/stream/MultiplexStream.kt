@@ -25,7 +25,7 @@ import io.data2viz.geo.projection.AlbersUSAProjection
  * projection that are composed of few projections.
  * @see AlbersUSAProjection
  */
-class MultiplexStream(private val streams: Collection<Stream>) : Stream() {
+class MultiplexStream(private val streams: Collection<Stream<StreamPoint>>) : Stream<StreamPoint>() {
 //    override fun point(x: Double, y: Double, z: Double) = streams.forEach { it.point(StreamPoint(x, y, z)) }
     override fun point(point: StreamPoint)              = streams.forEach { it.point(point) }
     override fun lineStart()                            = streams.forEach { it.lineStart() }

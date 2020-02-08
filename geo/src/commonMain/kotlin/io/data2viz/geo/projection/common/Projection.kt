@@ -18,6 +18,7 @@
 package io.data2viz.geo.projection.common
 
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geometry.clip.*
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
@@ -161,7 +162,7 @@ abstract class Projection : Projector {
      * with adaptive resampling, scale and translation.
      *
      */
-    internal abstract fun bindTo(downstream: Stream): Stream
+    internal abstract fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint>
 
 
 }

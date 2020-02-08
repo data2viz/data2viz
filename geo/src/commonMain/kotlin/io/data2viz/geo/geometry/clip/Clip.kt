@@ -28,7 +28,7 @@ import io.data2viz.math.HALFPI
  * output Stream.
  */
 val NoClip = object : ClipStreamBuilder {
-    override fun bindTo(downstream: Stream) = downstream
+    override fun bindTo(downstream: Stream<StreamPoint>) = downstream
 }
 
 /**
@@ -39,7 +39,7 @@ interface ClipStreamBuilder {
     /**
      * Adds a ClipStream in front of the [downstream]
      */
-    fun bindTo(downstream: Stream): Stream
+    fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint>
 }
 
 /**
@@ -49,7 +49,7 @@ interface ClipStreamBuilder {
  *  1 - no intersections;
  *  2 - there were intersections, and the first and last segments should be rejoined.
  */
-abstract class ClipStream : Stream() {
+abstract class ClipStream : Stream<StreamPoint>() {
 
     abstract var clean: Int
 }
@@ -65,13 +65,13 @@ interface Clipper {
     /**
      * In
      */
-    fun clipLine(downstream: Stream): ClipStream
+    fun clipLine(downstream: Stream<StreamPoint>): ClipStream
 
     fun interpolate(
         from: DoubleArray?,
         to: DoubleArray?,
         direction: Int,
-        stream: Stream
+        stream: Stream<StreamPoint>
     )
 }
 
@@ -82,8 +82,8 @@ internal interface ClipperWithStart : Clipper {
 
 internal class ClippableStream(
     val clipper: ClipperWithStart,
-    val downstream: Stream
-) : Stream() {
+    val downstream: Stream<StreamPoint>
+) : Stream<StreamPoint>() {
 
     // context of execution of stream
     // a line can be projected in the context of a polygon or not
@@ -273,7 +273,7 @@ internal class ClippableStream(
 }
 
 
-internal class BufferStream : Stream() {
+internal class BufferStream : Stream<StreamPoint>() {
     private var lines: MutableList<List<DoubleArray>> = mutableListOf()
     private lateinit var line: MutableList<DoubleArray>
 

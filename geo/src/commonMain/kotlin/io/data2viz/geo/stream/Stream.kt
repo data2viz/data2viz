@@ -26,7 +26,7 @@ import io.data2viz.geo.StreamPoint
  * point depends on whether the point is inside of a line, and likewise a line is distinguished
  * from a ring by a polygon. Despite the name “stream”, these method calls are currently synchronous.
  */
-abstract class Stream {
+abstract class Stream<T> {
 
     /**
      * Indicates a point with the specified coordinates translateX and translateY (and optionally z).
@@ -35,7 +35,7 @@ abstract class Stream {
      * context of a polygon or line, a point indicates a point geometry object (Point or
      * MultiPoint). Within a line or polygon ring, the point indicates a control point.
      */
-    open fun point(point: StreamPoint) {}
+    open fun point(point: T) {}
 
     /**
      * Indicates the start of a line or ring. Within a polygon, indicates the start of a ring.

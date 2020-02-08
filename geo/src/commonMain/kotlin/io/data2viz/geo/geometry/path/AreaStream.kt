@@ -30,7 +30,7 @@ import kotlin.math.abs
  * Stream and returns via [area] the area of the specified GeoJSON object in cartesian.
  * This is the cartesian equivalent of [GeoAreaStream]
  */
-internal class AreaStream : Stream() {
+internal class AreaStream : Stream<StreamPoint>() {
 
     // TODO : check for use of D3 "adder"
 

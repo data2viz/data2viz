@@ -28,7 +28,7 @@ import io.data2viz.geo.geojson.path.GeoBoundsStream
  *
  * This is the cartesian equivalent of [GeoBoundsStream]
  */
-internal class BoundsStream : Stream() {
+internal class BoundsStream : Stream<StreamPoint>() {
 
     private var bounds =
         Extent(

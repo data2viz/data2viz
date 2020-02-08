@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.stream.StreamCache
 
@@ -42,7 +43,7 @@ abstract class CachedProjection : Projection() {
 
     
 
-    override fun bindTo(downstream: Stream): Stream {
+    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
 
         if (!streamCache.isCacheValidFor(downstream)) {
             val resultStream = fullCycleStream(downstream)
@@ -58,7 +59,7 @@ abstract class CachedProjection : Projection() {
      * @param stream original source stream
      * @return result stream with applied transformations
      */
-    protected abstract fun fullCycleStream(stream: Stream): Stream
+    protected abstract fun fullCycleStream(stream: Stream<StreamPoint>): Stream<StreamPoint>
 
 }
 

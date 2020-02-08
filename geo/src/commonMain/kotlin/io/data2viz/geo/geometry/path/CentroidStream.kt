@@ -27,7 +27,7 @@ import io.data2viz.geo.geojson.path.GeoCentroidStream
  * Returns the cartesian centroid of the specified GeoJSON object.
  * This is the cartesian equivalent of [GeoCentroidStream]
  */
-internal class CentroidStream : Stream() {
+internal class CentroidStream : Stream<StreamPoint>() {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
     //  Function references have poor performance due to GC & memory allocation

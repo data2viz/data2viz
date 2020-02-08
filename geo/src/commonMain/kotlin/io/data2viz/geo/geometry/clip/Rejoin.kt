@@ -41,7 +41,7 @@ fun rejoin(
     compareIntersection: Comparator<Intersection>,
     startInside: Boolean,
     clipper: Clipper,
-    stream: Stream
+    stream: Stream<StreamPoint>
 ) {
     val subject = mutableListOf<Intersection>()
     val clip = mutableListOf<Intersection>()

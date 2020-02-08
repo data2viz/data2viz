@@ -37,14 +37,14 @@ fun projection(projector: Projector, init: ProjectorProjection.() -> Unit): Proj
     ProjectorProjection(projector)
         .apply(init)
 
-private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
+private val transformRadians: (stream: Stream<StreamPoint>) -> DelegateStreamAdapter = { stream: Stream<StreamPoint> ->
     object : DelegateStreamAdapter(stream) {
         override fun point(point: StreamPoint) =
             stream.point(StreamPoint(point.x.toRadians(), point.y.toRadians(), point.z))
     }
 }
 
-private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
+private fun transformRotate(rotateProjector: Projector): (stream: Stream<StreamPoint>) -> DelegateStreamAdapter = { stream: Stream<StreamPoint> ->
     object : DelegateStreamAdapter(stream) {
         override fun point(point:StreamPoint) {
             val projection = rotateProjector.project(point.x, point.y)
@@ -97,7 +97,7 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
 
     override var postClip: ClipStreamBuilder = NoClip
 
-    private var resampleProjector: (Stream) -> Stream = resample(translateAndScaleProjector, _precisionDelta2)
+    private var resampleProjector: (Stream<StreamPoint>) -> Stream<StreamPoint> = resample(translateAndScaleProjector, _precisionDelta2)
 
     override var scale: Double
         get() = _scale
@@ -188,7 +188,7 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
         }
 
 
-    override fun bindTo(downstream: Stream): Stream {
+    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
         return transformRadians(
             transformRotate(rotator)(
                     preClip.bindTo(

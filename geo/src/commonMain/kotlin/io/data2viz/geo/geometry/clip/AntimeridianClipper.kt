@@ -37,7 +37,7 @@ import kotlin.math.sin
 val antimeridianPreClip = object : ClipStreamBuilder {
     val antimeridianClip = AntimeridianClipper()
 
-    override fun bindTo(downstream: Stream): Stream {
+    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
         return ClippableStream(antimeridianClip, downstream)
     }
 
@@ -49,7 +49,7 @@ private class AntimeridianClipper : ClipperWithStart {
     override var start = doubleArrayOf(-PI, -HALFPI)
     override fun pointVisible(x: Double, y: Double) = true
 
-    override fun clipLine(downstream: Stream): ClipStream {
+    override fun clipLine(downstream: Stream<StreamPoint>): ClipStream {
         var lambda0 = Double.NaN
         var phi0 = Double.NaN
         var sign0 = Double.NaN
@@ -123,7 +123,7 @@ private class AntimeridianClipper : ClipperWithStart {
         }
     }
 
-    override fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream) {
+    override fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream<StreamPoint>) {
         if (from == null || to == null) {
             val phi = direction * HALFPI
             stream.point(StreamPoint(-PI, phi, 0.0))

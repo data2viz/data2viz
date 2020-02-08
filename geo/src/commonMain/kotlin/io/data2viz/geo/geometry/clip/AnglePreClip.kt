@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
@@ -27,7 +28,7 @@ private class AnglePreClip(val angle: Angle) : ClipStreamBuilder {
     val transformedAngleInDegrees = (angle.deg % 360)
     val clipCircle = CirclePreClip(transformedAngleInDegrees.toRadians())
 
-    override fun bindTo(downstream: Stream): Stream {
+    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
         return clipCircle.bindTo(downstream)
     }
 

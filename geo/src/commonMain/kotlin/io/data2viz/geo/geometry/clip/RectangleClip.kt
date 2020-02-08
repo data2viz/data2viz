@@ -29,7 +29,7 @@ private const val CLIPMIN = -CLIPMAX
 class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStreamBuilder {
     val clipRectangle = RectangleClipper(Extent(x0, y0, x1, y1))
 
-    override fun bindTo(downstream: Stream): Stream {
+    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
         return clipRectangle.clipLine(downstream)
     }
 }
@@ -49,7 +49,7 @@ class RectangleClipper(val extent: Extent) : Clipper {
 
     enum class PointContext {DEFAULT, LINE}
 
-    override fun clipLine(downstream: Stream): ClipStream {
+    override fun clipLine(downstream: Stream<StreamPoint>): ClipStream {
 
         return object : ClipStream() {
 
@@ -246,7 +246,7 @@ class RectangleClipper(val extent: Extent) : Clipper {
         from: DoubleArray?,
         to: DoubleArray?,
         direction: Int,
-        stream: Stream) {
+        stream: Stream<StreamPoint>) {
 
         var a = if (from == null) 0 else corner(from, direction)
         val a1 = if (from == null) 0 else corner(to, direction)

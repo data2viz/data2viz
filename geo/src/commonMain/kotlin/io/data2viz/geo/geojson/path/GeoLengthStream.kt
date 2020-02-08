@@ -54,7 +54,7 @@ fun geoLength(geo: GeoJsonObject): Double
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
  * This is the spherical equivalent of [MeasureStream]
  */
-class GeoLengthStream : Stream() {
+class GeoLengthStream : Stream<StreamPoint>() {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
 //  Function references have poor performance due to GC & memory allocation

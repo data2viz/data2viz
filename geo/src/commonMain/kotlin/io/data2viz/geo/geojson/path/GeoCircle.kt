@@ -38,7 +38,7 @@ class GeoCircle<D> {
     private var ring: MutableList<DoubleArray> = mutableListOf()
     private var rotate: ((x: Double, y: Double) -> DoubleArray)? = null
 
-    private val circleStream: Stream = object : Stream() {
+    private val circleStream: Stream<StreamPoint> = object : Stream<StreamPoint>() {
 
         override fun point(point:StreamPoint) {
             val value = rotate!!(point.x, point.y)
@@ -97,7 +97,7 @@ class GeoCircle<D> {
  * Generates a circle centered at [0°, 0°], with a given radius and precision.
  */
 fun geoCircle(
-    stream: Stream,
+    stream: Stream<StreamPoint>,
     radius: Double,
     delta: Double,
     direction: Int,

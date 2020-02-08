@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geometry.clip.ClipStreamBuilder
 import io.data2viz.geo.stream.MultiplexStream
 import io.data2viz.geo.stream.Stream
@@ -98,7 +99,7 @@ abstract class ComposedProjection : Projection() {
         allProjections.forEach { it.rotate(lambda, phi, gamma) }
     }
 
-    override fun bindTo(downstream: Stream): Stream =
+    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> =
         MultiplexStream(allProjections.map { it.bindTo(downstream) })
 
 }

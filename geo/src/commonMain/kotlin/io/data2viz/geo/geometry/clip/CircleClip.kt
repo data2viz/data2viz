@@ -34,7 +34,7 @@ import kotlin.math.sqrt
  * @param radius radius in radians
  */
 class CirclePreClip(val radius: Double): ClipStreamBuilder {
-    override fun bindTo(downstream: Stream): Stream = ClippableStream(CircleClipper(radius), downstream)
+    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> = ClippableStream(CircleClipper(radius), downstream)
 }
 
 /**
@@ -57,7 +57,7 @@ class CircleClipper(val radius: Double) : ClipperWithStart {
 
     override fun pointVisible(x: Double, y: Double): Boolean = cos(x) * cos(y) > cosRadius
 
-    override fun clipLine(downstream: Stream): ClipStream {
+    override fun clipLine(downstream: Stream<StreamPoint>): ClipStream {
 
         return object : ClipStream() {
 
@@ -157,7 +157,7 @@ class CircleClipper(val radius: Double) : ClipperWithStart {
         }
     }
 
-    override fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream) {
+    override fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream<StreamPoint>) {
         geoCircle(stream, radius, delta, direction, from, to)
     }
 

@@ -42,9 +42,9 @@ val COS_MIN_DISTANCE = 30.deg.cos
  * else
  *    just perform the projection of points, transforming spheric coordinates into cartesian ones.
  */
-fun resample(projector: Projector, delta2Precision: Double): (Stream) -> Stream =
+fun resample(projector: Projector, delta2Precision: Double): (Stream<StreamPoint>) -> Stream<StreamPoint> =
     if (delta2Precision != .0) //todo > .0 ?
-        { stream: Stream -> ResampleStream(stream, projector, delta2Precision) }
+        { stream: Stream<StreamPoint> -> ResampleStream(stream, projector, delta2Precision) }
     else
         resampleNone(projector)
 
@@ -56,10 +56,10 @@ fun resample(projector: Projector, delta2Precision: Double): (Stream) -> Stream 
  * The next Stream is fed with cartesian coordinates.
  */
 private class ResampleStream(
-    val stream: Stream,
+    val stream: Stream<StreamPoint>,
     val projector: Projector,
     val delta2Precision: Double = .5
-) : Stream() {
+) : Stream<StreamPoint>() {
 
     // context of execution of stream
 
@@ -210,7 +210,7 @@ private class ResampleStream(
     internal fun resampleLineTo(
         x0: Double, y0: Double, lambda0: Double, a0: Double, b0: Double, c0: Double,
         x1: Double, y1: Double, lambda1: Double, a1: Double, b1: Double, c1: Double,
-        depth: Int, stream: Stream
+        depth: Int, stream: Stream<StreamPoint>
     ) {
         val dx = x1 - x0
         val dy = y1 - y0
@@ -261,8 +261,8 @@ private class ResampleStream(
 /**
  * No resampling, just project points before passing to next stream.
  */
-private fun resampleNone(projector: Projector): (Stream) -> Stream {
-    return { stream: Stream ->
+private fun resampleNone(projector: Projector): (Stream<StreamPoint>) -> Stream<StreamPoint> {
+    return { stream: Stream<StreamPoint> ->
         object : DelegateStreamAdapter(stream) {
             override fun point(point: StreamPoint) {
 

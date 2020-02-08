@@ -51,7 +51,7 @@ fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
  * maximum latitude is typically the minimum translateY-value.)
  * This is the spherical equivalent of [BoundsStream]
  */
-class GeoBoundsStream : Stream() {
+class GeoBoundsStream : Stream<StreamPoint>() {
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
 //  Function references have poor performance due to GC & memory allocation
 

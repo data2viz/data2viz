@@ -101,7 +101,7 @@ internal val noop3: (Double, Double, Double) -> Unit = { _, _, _ -> }
 /**
  * Stream all children to [stream]
  */
-fun GeoJsonObject.stream(stream: Stream) {
+fun GeoJsonObject.stream(stream: Stream<StreamPoint>) {
     when (this) {
         is FeatureCollection    -> features.forEach { it.stream(stream) }
         is Feature              -> geometry.stream(stream)
@@ -110,7 +110,7 @@ fun GeoJsonObject.stream(stream: Stream) {
     }
 }
 
-private fun streamGeometry(geo: GeoJsonObject, stream: Stream) {
+private fun streamGeometry(geo: GeoJsonObject, stream: Stream<StreamPoint>) {
     when (geo) {
         is Point            -> streamPoint(geo.pos, stream)
         is LineString       -> streamLine(geo.positions, stream, false)
@@ -122,16 +122,16 @@ private fun streamGeometry(geo: GeoJsonObject, stream: Stream) {
     }
 }
 
-private fun streamSphere(stream: Stream) {
+private fun streamSphere(stream: Stream<StreamPoint>) {
     stream.sphere()
 }
 
-private fun streamPoint(coordinates: Position, stream: Stream) {
+private fun streamPoint(coordinates: Position, stream: Stream<StreamPoint>) {
     val z = coordinates.alt ?: .0
     stream.point(StreamPoint(coordinates.lon, coordinates.lat, z))
 }
 
-private fun streamPolygon(coords: Lines, stream: Stream) {
+private fun streamPolygon(coords: Lines, stream: Stream<StreamPoint>) {
     stream.polygonStart()
     coords.forEach {
         streamLine(it, stream, true)
@@ -139,7 +139,7 @@ private fun streamPolygon(coords: Lines, stream: Stream) {
     stream.polygonEnd()
 }
 
-private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
+private fun streamLine(coords: Positions, stream: Stream<StreamPoint>, closed: Boolean) {
     val size = if (closed) coords.size - 1 else coords.size
 
     stream.lineStart()
