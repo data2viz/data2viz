@@ -61,10 +61,10 @@ class StreamTests : TestBase() {
         var calls = 0
         Point(pt(1.0, 2.0, 3.0)).stream(object : Stream() {
 
-            override fun point(x: Double, y: Double, z: Double) {
-                x shouldBeClose 1.0
-                y shouldBeClose 2.0
-                z shouldBeClose 3.0
+            override fun point(point: StreamPoint) {
+                point.x shouldBeClose 1.0
+                point.y shouldBeClose 2.0
+                point.z!! shouldBeClose 3.0
                 calls++
             }
         })
@@ -85,10 +85,10 @@ class StreamTests : TestBase() {
             coordinates
         ).stream(object : Stream() {
 
-            override fun point(x: Double, y: Double, z: Double) {
-                coordinates[pointCalls][0] shouldBeClose x
-                coordinates[pointCalls][1] shouldBeClose y
-                coordinates[pointCalls][2] shouldBeClose z
+            override fun point(point: StreamPoint) {
+                coordinates[pointCalls][0] shouldBeClose point.x
+                coordinates[pointCalls][1] shouldBeClose point.y
+                coordinates[pointCalls][2] shouldBeClose point.z!!
                 pointCalls++
                 calls++
                 (calls in 1..2) shouldBe true
@@ -121,10 +121,10 @@ class StreamTests : TestBase() {
                 ++calls shouldBe 4
             }
 
-            override fun point(x: Double, y: Double, z: Double) {
-                coordinates[pointCalls][0] shouldBeClose x
-                coordinates[pointCalls][1] shouldBeClose y
-                coordinates[pointCalls][2] shouldBeClose z
+            override fun point(point: StreamPoint) {
+                coordinates[pointCalls][0] shouldBeClose point.x
+                coordinates[pointCalls][1] shouldBeClose point.y
+                coordinates[pointCalls][2] shouldBeClose point.z!!
                 pointCalls++
                 calls++
                 (calls in 2..3) shouldBe true
@@ -163,14 +163,14 @@ class StreamTests : TestBase() {
                 (++calls == 4 || calls == 8) shouldBe true
             }
 
-            override fun point(x: Double, y: Double, z: Double) {
+            override fun point(point: StreamPoint) {
 
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][index][0] shouldBeClose x
-                coordinates[row][index][1] shouldBeClose y
-                coordinates[row][index][2] shouldBeClose z
+                coordinates[row][index][0] shouldBeClose point.x
+                coordinates[row][index][1] shouldBeClose point.y
+                coordinates[row][index][2] shouldBeClose point.z!!
                 pointCalls++
 
                 calls++
@@ -219,14 +219,14 @@ class StreamTests : TestBase() {
                 (++calls == 5 || calls == 9) shouldBe true
             }
 
-            override fun point(x: Double, y: Double, z: Double) {
+            override fun point(point: StreamPoint) {
 
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][index][0] shouldBeClose x
-                coordinates[row][index][1] shouldBeClose y
-                coordinates[row][index][2] shouldBeClose z
+                coordinates[row][index][0] shouldBeClose point.x
+                coordinates[row][index][1] shouldBeClose point.y
+                coordinates[row][index][2] shouldBeClose point.z!!
                 pointCalls++
 
                 calls++
@@ -279,14 +279,14 @@ class StreamTests : TestBase() {
                 (++calls == 5 || calls == 11) shouldBe true
             }
 
-            override fun point(x: Double, y: Double, z: Double) {
+            override fun point(point:StreamPoint) {
 
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][0][index][0] shouldBeClose x
-                coordinates[row][0][index][1] shouldBeClose y
-                coordinates[row][0][index][2] shouldBeClose z
+                coordinates[row][0][index][0] shouldBeClose point.x
+                coordinates[row][0][index][1] shouldBeClose point.y
+                coordinates[row][0][index][2] shouldBeClose point.z!!
                 pointCalls++
 
                 calls++
@@ -304,9 +304,6 @@ class StreamTests : TestBase() {
         var calls = 0
         Feature(Point(pt(1.0, 2.0, 3.0))).stream(object : Stream() {
 
-            override fun point(x: Double, y: Double, z: Double) {
-                point(StreamPoint(x,y,z))
-            }
             override fun point(point: StreamPoint) {
                 point.x shouldBeClose 1.0
                 point.y shouldBeClose 2.0
@@ -326,10 +323,10 @@ class StreamTests : TestBase() {
             arrayOf(Feature(Point(pt(1.0, 2.0, 3.0))))
         ).stream(object : Stream() {
 
-            override fun point(x: Double, y: Double, z: Double) {
-                x shouldBeClose 1.0 
-                y shouldBeClose 2.0
-                z shouldBeClose 3.0
+            override fun point(point: StreamPoint) {
+                point.x shouldBeClose 1.0
+                point.y shouldBeClose 2.0
+                point.z!! shouldBeClose 3.0
                 calls++
             }
         })
@@ -345,10 +342,10 @@ class StreamTests : TestBase() {
             arrayOf(Point(pt(1.0, 2.0, 3.0)))
         ).stream(object : Stream() {
 
-            override fun point(x: Double, y: Double, z: Double) {
-                x shouldBeClose 1.0 
-                y shouldBeClose 2.0
-                z shouldBeClose 3.0
+            override fun point(point: StreamPoint) {
+                point.x shouldBeClose 1.0
+                point.y shouldBeClose 2.0
+                point.z!! shouldBeClose 3.0
                 calls++
             }
         })

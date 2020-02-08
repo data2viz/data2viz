@@ -131,9 +131,9 @@ internal class ClippableStream(
         }
     }
 
-    override fun point(x: Double, y: Double, z: Double) {
-        point(StreamPoint(x, y, z))
-    }
+//    override fun point(x: Double, y: Double, z: Double) {
+//        point(StreamPoint(x, y, z))
+//    }
     override fun point(point: StreamPoint) {
         when (pointContext) {
             PointContext.RING -> pointRing(point)
@@ -203,7 +203,7 @@ internal class ClippableStream(
                     val currentSegmentPiece = segment[it]
                     val x = currentSegmentPiece[0]
                     val y = currentSegmentPiece[1]
-                    downstream.point(x, y, 0.0)
+                    downstream.point(StreamPoint(x, y, 0.0))
                 }
                 downstream.lineEnd()
             }
@@ -282,8 +282,8 @@ internal class BufferStream : Stream() {
         lines.add(line)
     }
 
-    override fun point(x: Double, y: Double, z: Double) {
-        line.add(doubleArrayOf(x, y))
+    override fun point(point: StreamPoint) {
+        line.add(doubleArrayOf(point.x, point.y))
     }
 
     fun rejoin() {

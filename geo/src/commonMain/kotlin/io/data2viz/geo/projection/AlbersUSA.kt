@@ -57,9 +57,9 @@ class AlbersUSAProjection : ComposedProjection() {
     lateinit var hawaiiPoint: Stream
 
     val pointStream = object : Stream() {
-        override fun point(x: Double, y: Double, z: Double) {
-            point(StreamPoint(x, y, z))
-        }
+//        override fun point(x: Double, y: Double, z: Double) {
+//            point(StreamPoint(x, y, z))
+//        }
         override fun point(pt: StreamPoint) {
             point = doubleArrayOf(pt.x, pt.y)
         }
@@ -162,14 +162,14 @@ class AlbersUSAProjection : ComposedProjection() {
         // TODO: need refactor
         // strange logic taken from d3. Should be refactored to something similar to invert implementation
         point = doubleArrayOf(Double.NaN, Double.NaN)
-        lower48Point.point(lambda, phi, 0.0)
+        lower48Point.point(StreamPoint(lambda, phi, 0.0))
 
         if (point[0].isNaN() || point[1].isNaN()) {
-            alaskaPoint.point(lambda, phi, 0.0)
+            alaskaPoint.point(StreamPoint(lambda, phi, 0.0))
         }
 
         if (point[0].isNaN() || point[1].isNaN()) {
-            hawaiiPoint.point(lambda, phi, 0.0)
+            hawaiiPoint.point(StreamPoint(lambda, phi, 0.0))
         }
 
         return point

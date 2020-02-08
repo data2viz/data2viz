@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
@@ -59,7 +60,7 @@ fun rejoin(
             stream.lineStart()
             (0 until n).forEach {index ->
                 p0 = segment[index]
-                stream.point(p0[0], p0[1], .0)
+                stream.point(StreamPoint(p0[0], p0[1], .0))
             }
             stream.lineEnd()
             return
@@ -113,7 +114,7 @@ fun rejoin(
 
             if (current.entry) {
                 if (isSubject) {
-                    if (points != null) points.forEach { stream.point(it[0], it[1], .0) }
+                    if (points != null) points.forEach { stream.point(StreamPoint(it[0], it[1], .0)) }
                 } else {
                     clipper.interpolate(current.point, current.next!!.point, 1, stream)
                 }
@@ -121,7 +122,7 @@ fun rejoin(
             } else {
                 if (isSubject) {
                     points = current.previous!!.points
-                    if (points != null) points.asReversed().forEach { stream.point(it[0], it[1], .0) }
+                    if (points != null) points.asReversed().forEach { stream.point(StreamPoint(it[0], it[1], .0)) }
                 } else {
                     clipper.interpolate(current.point, current.previous!!.point, -1, stream)
                 }

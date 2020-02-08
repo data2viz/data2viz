@@ -18,6 +18,7 @@
 package io.data2viz.geo.geojson.path
 
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geo.geometry.cartesian
 import io.data2viz.geo.geometry.cartesianCross
@@ -130,7 +131,8 @@ class GeoBoundsStream : Stream() {
         else Extent(lambda0, phi0,lambda1, phi1)
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
+//    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
+    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -252,7 +254,7 @@ class GeoBoundsStream : Stream() {
             lambda00 = x
             phi00 = y
         }
-        areaStream.point(x, y, .0)
+        areaStream.point(StreamPoint(x, y, .0))
         linePoint(x, y)
     }
 

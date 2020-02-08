@@ -49,10 +49,6 @@ internal class BoundsStream : Stream() {
         return result
     }
 
-    override fun point(x: Double, y: Double, z: Double) {
-        point(StreamPoint(x, y, z))
-    }
-    
     override fun point(point: StreamPoint) {
         if (point.x < bounds.x0) bounds.x0 = point.x
         if (point.x > bounds.x1) bounds.x1 = point.x

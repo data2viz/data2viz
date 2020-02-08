@@ -70,9 +70,9 @@ class CircleClipper(val radius: Double) : ClipperWithStart {
             override var clean: Int = 0
                 get() = _clean or ((if (v00 && v0) 1 else 0) shl 1)
 
-            override fun point(x: Double, y: Double, z: Double) {
-                point(StreamPoint(x,y,z))
-            }
+//            override fun point(x: Double, y: Double, z: Double) {
+//                point(StreamPoint(x,y,z))
+//            }
             override fun point(point: StreamPoint) {
                 val point1 = doubleArrayOf(point.x, point.y)
                 var point2: DoubleArray?
@@ -105,11 +105,11 @@ class CircleClipper(val radius: Double) : ClipperWithStart {
                         // outside going in
                         downstream.lineStart()
                         point2 = intersect(point1, point0!!)
-                        downstream.point(point2!![0], point2[1], .0)            // TODO : point2 may be null ??
+                        downstream.point(StreamPoint(point2!![0], point2[1], .0))            // TODO : point2 may be null ??
                     } else {
                         // inside going out
                         point2 = intersect(point0!!, point1)
-                        downstream.point(point2!![0], point2[1], .0)            // TODO : point2 may be null ??
+                        downstream.point(StreamPoint(point2!![0], point2[1], .0))            // TODO : point2 may be null ??
                         downstream.lineEnd()
                     }
                     point0 = point2
@@ -123,21 +123,21 @@ class CircleClipper(val radius: Double) : ClipperWithStart {
                             _clean = 0
                             if (smallRadius) {
                                 downstream.lineStart()
-                                downstream.point(t[0][0], t[0][1], .0)
-                                downstream.point(t[1][0], t[1][1], .0)
+                                downstream.point(StreamPoint(t[0][0], t[0][1], .0))
+                                downstream.point(StreamPoint(t[1][0], t[1][1], .0))
                                 downstream.lineEnd()
                             } else {
-                                downstream.point(t[1][0], t[1][1], .0)
+                                downstream.point(StreamPoint(t[1][0], t[1][1], .0))
                                 downstream.lineEnd()
                                 downstream.lineStart()
-                                downstream.point(t[0][0], t[0][1], .0)
+                                downstream.point(StreamPoint(t[0][0], t[0][1], .0))
                             }
                         }
                     }
                 }
 
                 if (v && (point0 == null || !pointEqual(point0!!, point1))) {
-                    downstream.point(point1[0], point1[1], .0)
+                    downstream.point(StreamPoint(point1[0], point1[1], .0))
                 }
                 point0 = point1
                 v0 = v

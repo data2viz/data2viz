@@ -51,7 +51,6 @@ internal class MeasureStream : Stream() {
         return result
     }
 
-    override fun point(x: Double, y: Double, z: Double) = point(StreamPoint(x,y,z))
     override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
     override fun lineStart() {
         currentPoint = ::lengthPointFirst

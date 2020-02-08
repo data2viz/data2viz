@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geojson.path
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geojson.noop
 import io.data2viz.geo.geojson.noop2
@@ -73,7 +74,7 @@ class GeoLengthStream : Stream() {
         return lengthSum
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
+    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
     override fun lineStart() {
         currentPoint = ::lengthPointFirst
         currentLineEnd = ::lengthLineEnd

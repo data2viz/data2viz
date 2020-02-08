@@ -110,9 +110,9 @@ private class ResampleStream(
         }
     }
 
-    override fun point(x: Double, y: Double, z: Double) {
-        point(StreamPoint(x, y, z))
-    }
+//    override fun point(x: Double, y: Double, z: Double) {
+//        point(StreamPoint(x, y, z))
+//    }
     override fun point(point: StreamPoint) {
         when (pointContext) {
             PointContext.POLYGON -> pointPolygon(point.x,point.y,point.z ?: .0)
@@ -172,7 +172,7 @@ private class ResampleStream(
         a0 = dz
         b0 = dx
         c0 = dy
-        stream.point(x0, y0, alt)
+        stream.point(StreamPoint(x0, y0, alt))
     }
 
     /**
@@ -180,11 +180,11 @@ private class ResampleStream(
      */
     fun pointDefault(lambda: Double, phi: Double, alt: Double) {
         val projected = projector.project(lambda,phi)
-        stream.point(
+        stream.point(StreamPoint(
             projected[0],
             projected[1],
             alt
-        )
+        ))
     }
 
     // First point of polygon (used to generate the last line to close the polygon)
@@ -247,7 +247,7 @@ private class ResampleStream(
                     x0, y0, lambda0, a0, b0, c0,
                     x2, y2, lambda2, a, b, c,
                     newDepth, stream)
-                stream.point(x2, y2, 0.0)
+                stream.point(StreamPoint(x2, y2, 0.0))
                 resampleLineTo(
                     x2, y2, lambda2, a, b, c,
                     x1, y1, lambda1, a1, b1, c1,
@@ -264,15 +264,15 @@ private class ResampleStream(
 private fun resampleNone(projector: Projector): (Stream) -> Stream {
     return { stream: Stream ->
         object : DelegateStreamAdapter(stream) {
-            override fun point(x: Double, y: Double, z: Double) {
+            override fun point(point: StreamPoint) {
 
-                val projected = projector.project(x,y)
+                val projected = projector.project(point.x,point.y)
 
-                stream.point(
+                stream.point(StreamPoint(
                     projected[0],
                     projected[1],
-                    z
-                )
+                    point.z
+                ))
             }
         }
     }

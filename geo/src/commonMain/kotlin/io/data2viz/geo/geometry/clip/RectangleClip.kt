@@ -99,9 +99,9 @@ class RectangleClipper(val extent: Extent) : Clipper {
                 y_ = Double.NaN
             }
 
-            override fun point(x: Double, y: Double, z: Double) {
-                point(StreamPoint(x, y, z))
-            }
+//            override fun point(x: Double, y: Double, z: Double) {
+//                point(StreamPoint(x, y, z))
+//            }
             override fun point(point: StreamPoint) {
                 when(pointContext) {
                     PointContext.DEFAULT -> pointDefault(point.x, point.y)
@@ -111,7 +111,7 @@ class RectangleClipper(val extent: Extent) : Clipper {
 
             private fun pointDefault(x: Double, y: Double) {
                 if (pointVisible(x, y)) {
-                    activeStream.point(x, y, 0.0)
+                    activeStream.point(StreamPoint(x, y, 0.0))
                 }
             }
 
@@ -128,10 +128,10 @@ class RectangleClipper(val extent: Extent) : Clipper {
                     first = false
                     if (visible) {
                         activeStream.lineStart()
-                        activeStream.point(newX, newY, 0.0)
+                        activeStream.point(StreamPoint(newX, newY, 0.0))
                     }
                 } else {
-                    if (visible && v_) activeStream.point(newX, newY, 0.0)
+                    if (visible && v_) activeStream.point(StreamPoint(newX, newY, 0.0))
                     else {
                         x_ = x_.coerceIn(CLIPMIN, CLIPMAX)
                         y_ = y_.coerceIn(CLIPMIN, CLIPMAX)
@@ -143,14 +143,14 @@ class RectangleClipper(val extent: Extent) : Clipper {
                         if (clipLine(a, b, extent)) {
                             if (!v_) {
                                 activeStream.lineStart()
-                                activeStream.point(a[0], a[1], 0.0)
+                                activeStream.point(StreamPoint(a[0], a[1], 0.0))
                             }
-                            activeStream.point(b[0], b[1], 0.0)
+                            activeStream.point(StreamPoint(b[0], b[1], 0.0))
                             if (!visible) activeStream.lineEnd()
                             clean = 0
                         } else if (visible) {
                             activeStream.lineStart()
-                            activeStream.point(newX, newY, 0.0)
+                            activeStream.point(StreamPoint(newX, newY, 0.0))
                             clean = 0
                         }
                     }
@@ -253,15 +253,15 @@ class RectangleClipper(val extent: Extent) : Clipper {
 
         if (from == null || a != a1 || to != null && (comparePoint(from, to) < 0) xor (direction > 0)) {
             do {
-                stream.point(
+                stream.point(StreamPoint(
                     if (a == 0 || a == 3) extent.x0 else extent.x1,
                     if (a > 1) extent.y1 else extent.y0,
                     0.0
-                )
+                ))
                 a = (a + direction + 4) % 4
             } while (a != a1)
         } else if (to != null)
-            stream.point(to[0], to[1], 0.0)
+            stream.point(StreamPoint(to[0], to[1], 0.0))
     }
 
     /**

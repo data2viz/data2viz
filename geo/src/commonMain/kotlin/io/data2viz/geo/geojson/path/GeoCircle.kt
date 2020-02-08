@@ -45,9 +45,6 @@ class GeoCircle<D> {
             ring.add(doubleArrayOf(value[0].toDegrees(), value[1].toDegrees()))
         }
 
-        override fun point(x: Double, y: Double, z: Double) {
-            TODO("remove implementation")
-        }
     }
 
 

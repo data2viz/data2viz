@@ -68,9 +68,6 @@ private class AntimeridianClipper : ClipperWithStart {
                 clean = 1
             }
 
-            override fun point(x: Double, y: Double, z: Double) {
-                point(StreamPoint(x,y, z))
-            }
 
             override fun point(point: StreamPoint) {
                 var lambda1 = point.x
@@ -79,26 +76,26 @@ private class AntimeridianClipper : ClipperWithStart {
                 val delta = abs(lambda1 - lambda0)
                 if (abs(delta - PI) < EPSILON) { // Line crosses pole
                     phi0 = if ((phi0 + phi1) / 2 > 0) HALFPI else -HALFPI
-                    downstream.point(lambda0, phi0, 0.0)
-                    downstream.point(sign0, phi0, 0.0)
+                    downstream.point(StreamPoint(lambda0, phi0, 0.0))
+                    downstream.point(StreamPoint(sign0, phi0, 0.0))
                     downstream.lineEnd()
                     downstream.lineStart()
-                    downstream.point(sign1, phi0, 0.0)
-                    downstream.point(lambda1, phi0, 0.0)
+                    downstream.point(StreamPoint(sign1, phi0, 0.0))
+                    downstream.point(StreamPoint(lambda1, phi0, 0.0))
                     clean = 0
                 } else if (sign0 != sign1 && delta >= PI) {
                     if (abs(lambda0 - sign0) < EPSILON) lambda0 -= sign0 * EPSILON
                     if (abs(lambda1 - sign1) < EPSILON) lambda1 -= sign1 * EPSILON
                     phi0 = intersect(lambda0, phi0, lambda1, phi1)
-                    downstream.point(sign0, phi0, 0.0)
+                    downstream.point(StreamPoint(sign0, phi0, 0.0))
                     downstream.lineEnd()
                     downstream.lineStart()
-                    downstream.point(sign1, phi0, 0.0)
+                    downstream.point(StreamPoint(sign1, phi0, 0.0))
                     clean = 0
                 }
                 lambda0 = lambda1
                 phi0 = phi1
-                downstream.point(lambda0, phi0, 0.0)
+                downstream.point(StreamPoint(lambda0, phi0, 0.0))
                 sign0 = sign1
             }
 
@@ -129,21 +126,21 @@ private class AntimeridianClipper : ClipperWithStart {
     override fun interpolate(from: DoubleArray?, to: DoubleArray?, direction: Int, stream: Stream) {
         if (from == null || to == null) {
             val phi = direction * HALFPI
-            stream.point(-PI, phi, 0.0)
-            stream.point(0.0, phi, 0.0)
-            stream.point(PI, phi, 0.0)
-            stream.point(PI, 0.0, 0.0)
-            stream.point(PI, -phi, 0.0)
-            stream.point(0.0, -phi, 0.0)
-            stream.point(-PI, -phi, 0.0)
-            stream.point(-PI, 0.0, 0.0)
-            stream.point(-PI, phi, 0.0)
+            stream.point(StreamPoint(-PI, phi, 0.0))
+            stream.point(StreamPoint(0.0, phi, 0.0))
+            stream.point(StreamPoint(PI, phi, 0.0))
+            stream.point(StreamPoint(PI, 0.0, 0.0))
+            stream.point(StreamPoint(PI, -phi, 0.0))
+            stream.point(StreamPoint(0.0, -phi, 0.0))
+            stream.point(StreamPoint(-PI, -phi, 0.0))
+            stream.point(StreamPoint(-PI, 0.0, 0.0))
+            stream.point(StreamPoint(-PI, phi, 0.0))
         } else if (abs(from[0] - to[0]) > EPSILON) {
             val lambda = if (from[0] < to[0]) PI else -PI
             val phi = direction * lambda / 2
-            stream.point(-lambda, phi, 0.0)
-            stream.point(0.0, phi, 0.0)
-            stream.point(lambda, phi, 0.0)
-        } else stream.point(to[0], to[1], 0.0)
+            stream.point(StreamPoint(-lambda, phi, 0.0))
+            stream.point(StreamPoint(0.0, phi, 0.0))
+            stream.point(StreamPoint(lambda, phi, 0.0))
+        } else stream.point(StreamPoint(to[0], to[1], 0.0))
     }
 }

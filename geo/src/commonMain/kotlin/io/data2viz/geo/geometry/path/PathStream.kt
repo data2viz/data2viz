@@ -48,7 +48,7 @@ internal class PathStream(private val path: Path) : Stream() {
 
     private var line = false
 
-    private var point = PathCmd.POINT
+    private var pointCmd = PathCmd.POINT
 
     override fun polygonStart() {
         line = true
@@ -59,31 +59,28 @@ internal class PathStream(private val path: Path) : Stream() {
     }
 
     override fun lineStart() {
-        point = PathCmd.MOVE
+        pointCmd = PathCmd.MOVE
     }
 
     override fun lineEnd() {
         if (line) path.closePath()
-        point = PathCmd.POINT
+        pointCmd = PathCmd.POINT
     }
 
     /**
      * Process a Point. Depending of the current draw path
      * it results in different calls on the Path.
      */
-    override fun point(x: Double, y: Double, z: Double) {
-        point(StreamPoint(x, y, z))
-    }
-    override fun point(pt: StreamPoint) {
-        when (point) {
+    override fun point(point: StreamPoint) {
+        when (pointCmd) {
             PathCmd.MOVE -> {
-                path.moveTo(pt.x, pt.y)
-                point = PathCmd.LINE
+                path.moveTo(point.x, point.y)
+                pointCmd = PathCmd.LINE
             }
-            PathCmd.LINE -> path.lineTo(pt.x, pt.y)
+            PathCmd.LINE -> path.lineTo(point.x, point.y)
             PathCmd.POINT ->  {
-                path.moveTo(pt.x + pointRadius, pt.y)
-                path.arc(pt.x, pt.y, pointRadius, 0.0, TAU, false)
+                path.moveTo(point.x + pointRadius, point.y)
+                path.arc(point.x, point.y, pointRadius, 0.0, TAU, false)
             }
         }
     }

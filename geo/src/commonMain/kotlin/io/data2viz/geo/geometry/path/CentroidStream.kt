@@ -71,7 +71,6 @@ internal class CentroidStream : Stream() {
         return centroid
     }
 
-    override fun point(x: Double, y: Double, z: Double) = point(StreamPoint(x, y, z))
     override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()

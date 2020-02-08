@@ -35,11 +35,7 @@ abstract class Stream {
      * context of a polygon or line, a point indicates a point geometry object (Point or
      * MultiPoint). Within a line or polygon ring, the point indicates a control point.
      */
-    open fun point(x: Double, y: Double, z: Double) {}
-
-    open fun point(point: StreamPoint) {
-        point(point.x, point.y, point.z ?: .0)
-    }
+    open fun point(point: StreamPoint) {}
 
     /**
      * Indicates the start of a line or ring. Within a polygon, indicates the start of a ring.

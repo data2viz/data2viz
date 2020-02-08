@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geometry.clip.NoClip
 import io.data2viz.geo.geometry.clip.ClipStreamBuilder
 import io.data2viz.geo.geometry.clip.antimeridianPreClip
@@ -36,19 +37,18 @@ fun projection(projector: Projector, init: ProjectorProjection.() -> Unit): Proj
     ProjectorProjection(projector)
         .apply(init)
 
-
 private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
     object : DelegateStreamAdapter(stream) {
-        override fun point(x: Double, y: Double, z: Double) =
-            stream.point(x.toRadians(), y.toRadians(), z)
+        override fun point(point: StreamPoint) =
+            stream.point(StreamPoint(point.x.toRadians(), point.y.toRadians(), point.z))
     }
 }
 
 private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
     object : DelegateStreamAdapter(stream) {
-        override fun point(x: Double, y: Double, z: Double) {
-            val projection = rotateProjector.project(x,y)
-            stream.point(projection[0], projection[1], 0.0)
+        override fun point(point:StreamPoint) {
+            val projection = rotateProjector.project(point.x, point.y)
+            stream.point(StreamPoint(projection[0], projection[1], 0.0))
         }
     }
 }

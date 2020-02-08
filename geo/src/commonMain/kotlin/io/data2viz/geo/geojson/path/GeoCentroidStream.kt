@@ -18,6 +18,7 @@
 package io.data2viz.geo.geojson.path
 
 import io.data2viz.geo.GeoPoint
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geojson.GeoJsonObject
@@ -102,7 +103,7 @@ class GeoCentroidStream : Stream() {
         return doubleArrayOf(atan2(y, x).toDegrees(), asin(z / sqrt(m)).toDegrees())
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
+    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {

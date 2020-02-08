@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geojson
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geojson.path.geoCentroid
 import io.data2viz.geo.geometry.polygonContains
 import io.data2viz.geo.geojson.path.geoDistance
@@ -127,7 +128,7 @@ private fun streamSphere(stream: Stream) {
 
 private fun streamPoint(coordinates: Position, stream: Stream) {
     val z = coordinates.alt ?: .0
-    stream.point(coordinates.lon, coordinates.lat, z)
+    stream.point(StreamPoint(coordinates.lon, coordinates.lat, z))
 }
 
 private fun streamPolygon(coords: Lines, stream: Stream) {
@@ -144,7 +145,7 @@ private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
     stream.lineStart()
     for (i in 0 until size) {
         val p = coords[i]
-        stream.point(p[0], p[1], if (p.size > 2) p[2] else .0)
+        stream.point(StreamPoint(p[0], p[1], if (p.size > 2) p[2] else .0))
     }
     stream.lineEnd()
 }
