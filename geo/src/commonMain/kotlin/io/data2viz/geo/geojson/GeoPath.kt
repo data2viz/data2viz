@@ -112,7 +112,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path 
      */
     fun centroid(geo: GeoJsonObject): DoubleArray {
         geo.stream(projection.bindTo(centroidStream))
-        return centroidStream.result()
+        return centroidStream.centroid()
     }
 
     /**
@@ -125,7 +125,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path 
      */
     fun area(geo: GeoJsonObject): Double {
         geo.stream(projection.bindTo(areaStream))
-        return areaStream.result()
+        return areaStream.area()
     }
 
     /**
@@ -143,7 +143,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path 
      */
     fun bounds(geo: GeoJsonObject): Extent {
         geo.stream(projection.bindTo(boundsStream))
-        return boundsStream.result()
+        return boundsStream.bounds()
     }
 
     /**
@@ -155,6 +155,6 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path 
      */
     fun measure(geo: GeoJsonObject): Double {
         geo.stream(projection.bindTo(measureStream))
-        return measureStream.result()
+        return measureStream.length()
     }
 }
