@@ -17,6 +17,8 @@
 
 package io.data2viz.geo.stream
 
+import io.data2viz.geo.StreamPoint
+
 /**
  * Transforms geometry using a sequence of function calls, rather than materializing
  * intermediate representations, to minimize overhead. Streams must implement several
@@ -33,7 +35,12 @@ abstract class Stream {
      * context of a polygon or line, a point indicates a point geometry object (Point or
      * MultiPoint). Within a line or polygon ring, the point indicates a control point.
      */
-    open fun point(x: Double, y: Double, z: Double) {}
+    open fun point(x: Double, y: Double, z: Double) {
+    }
+
+    open fun point(point: StreamPoint) {
+        point(point.x, point.y, point.z ?: .0)
+    }
 
     /**
      * Indicates the start of a line or ring. Within a polygon, indicates the start of a ring.
