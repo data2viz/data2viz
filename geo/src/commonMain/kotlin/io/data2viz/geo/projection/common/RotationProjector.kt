@@ -17,11 +17,9 @@
 
 package io.data2viz.geo.projection.common
 
-import io.data2viz.math.Angle
-import io.data2viz.math.TAU
-import io.data2viz.math.toDegrees
-import io.data2viz.math.toRadians
+import io.data2viz.math.*
 import kotlin.math.*
+import kotlin.math.PI
 
 /**
  * Create a rotation [Projector]
@@ -29,13 +27,13 @@ import kotlin.math.*
  * See https://github.com/d3/d3-geo/blob/master/src/rotation.js
  * TODO Why gamma is nullable? By default all rotation could be 0.0.
  */
-class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null) : Projector {
+class RotationProjector(lambda: Angle = 0.deg, phi: Angle = 0.deg, gamma: Angle = 0.deg) : Projector {
 
     val rotator =
         createRotateRadiansProjector(
             lambda.rad,
             phi.rad,
-            gamma?.rad ?: 0.0
+            gamma.rad
         )
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
