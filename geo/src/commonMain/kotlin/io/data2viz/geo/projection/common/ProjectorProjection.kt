@@ -40,7 +40,7 @@ fun projection(projector: Projector, init: ProjectorProjection.() -> Unit): Proj
 private val transformRadians: (stream: Stream) -> DelegateStreamAdapter = { stream: Stream ->
     object : DelegateStreamAdapter(stream) {
         override fun point(x: Double, y: Double, z: Double) =
-            stream.point(x.toRadians(), y.toRadians(), z.toRadians())
+            stream.point(x.toRadians(), y.toRadians(), z)
     }
 }
 
