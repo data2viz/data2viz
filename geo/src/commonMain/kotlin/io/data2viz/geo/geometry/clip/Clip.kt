@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geometry.polygonContains
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
@@ -131,26 +132,29 @@ internal class ClippableStream(
     }
 
     override fun point(x: Double, y: Double, z: Double) {
+        point(StreamPoint(x, y, z))
+    }
+    override fun point(point: StreamPoint) {
         when (pointContext) {
-            PointContext.RING -> pointRing(x, y, z)
-            PointContext.LINE -> pointLine(x, y, z)
-            PointContext.DEFAULT -> pointDefault(x, y, z)
+            PointContext.RING -> pointRing(point)
+            PointContext.LINE -> pointLine(point)
+            PointContext.DEFAULT -> pointDefault(point)
         }
     }
 
-    private fun pointRing(x: Double, y: Double, z: Double) {
-        ring!!.add(doubleArrayOf(x, y))
-        ringSink.point(x, y, z)
+    private fun pointRing(point: StreamPoint) {
+        ring!!.add(doubleArrayOf(point.x, point.y))
+        ringSink.point(point)
     }
 
 
-    private fun pointLine(x: Double, y: Double, z: Double) {
-        clipStream.point(x, y, z)
+    private fun pointLine(point: StreamPoint) {
+        clipStream.point(point)
     }
 
-    private fun pointDefault(x: Double, y: Double, z: Double) {
-        if (clipper.pointVisible(x, y))
-            downstream.point(x, y, z)
+    private fun pointDefault(point: StreamPoint) {
+        if (clipper.pointVisible(point.x, point.y))
+            downstream.point(point)
     }
 
     override fun lineEnd() {
@@ -170,7 +174,7 @@ internal class ClippableStream(
 
         val ringList = ring!!
 
-        pointRing(ringList[0][0], ringList[0][1], 0.0)
+        pointRing(StreamPoint(ringList[0][0], ringList[0][1], 0.0))
 
         ringSink.lineEnd()
 
