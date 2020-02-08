@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
@@ -68,8 +69,12 @@ private class AntimeridianClipper : ClipperWithStart {
             }
 
             override fun point(x: Double, y: Double, z: Double) {
-                var lambda1 = x
-                val phi1 = y
+                point(StreamPoint(x,y, z))
+            }
+
+            override fun point(point: StreamPoint) {
+                var lambda1 = point.x
+                val phi1 = point.y
                 val sign1 = if (lambda1 > 0) PI else -PI
                 val delta = abs(lambda1 - lambda0)
                 if (abs(delta - PI) < EPSILON) { // Line crosses pole
