@@ -19,15 +19,36 @@ package io.data2viz.geo.geometry
 
 import kotlin.math.*
 
+
+data class Cartesian(val x: Double, val y: Double, val z: Double) {
+
+    operator fun plus(c: Cartesian)  = Cartesian(x + c.x, y + c.y, z + c.z)
+    operator fun times(k: Double) = Cartesian(x*k, y*k, z*k)
+
+    fun normalize(): Cartesian {
+        val l = sqrt(x*y + y*y + z*z)
+        return Cartesian(x/l, y/l, z/l)
+    }
+
+    fun toSpherical() =  doubleArrayOf( atan2(y,x), asin(z))
+
+}
+
 fun spherical(cartesian: DoubleArray): DoubleArray {
-    return doubleArrayOf(atan2(cartesian[1], cartesian[0]), asin(cartesian[2]))
+    return doubleArrayOf(
+        atan2(cartesian[1],
+        cartesian[0]),
+        asin(cartesian[2]))
 }
 
 fun cartesian(spherical: DoubleArray): DoubleArray {
     val lambda = spherical[0]
     val phi = spherical[1]
     val cosPhi = cos(phi)
-    return doubleArrayOf(cosPhi * cos(lambda), cosPhi * sin(lambda), sin(phi))
+    return doubleArrayOf(
+        cosPhi * cos(lambda),
+        cosPhi * sin(lambda),
+        sin(phi))
 }
 
 
