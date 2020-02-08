@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 import io.data2viz.math.EPSILON
@@ -98,11 +99,13 @@ class RectangleClipper(val extent: Extent) : Clipper {
                 y_ = Double.NaN
             }
 
-
             override fun point(x: Double, y: Double, z: Double) {
+                point(StreamPoint(x, y, z))
+            }
+            override fun point(point: StreamPoint) {
                 when(pointContext) {
-                    PointContext.DEFAULT -> pointDefault(x, y)
-                    PointContext.LINE -> linePoint(x, y)
+                    PointContext.DEFAULT -> pointDefault(point.x, point.y)
+                    PointContext.LINE -> linePoint(point.x, point.y)
                 }
             }
 

@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geometry.*
 import io.data2viz.geo.geojson.path.geoCircle
@@ -33,10 +34,7 @@ import kotlin.math.sqrt
  * @param radius radius in radians
  */
 class CirclePreClip(val radius: Double): ClipStreamBuilder {
-    override fun bindTo(downstream: Stream): Stream {
-        return ClippableStream(CircleClipper(radius), downstream)
-    }
-
+    override fun bindTo(downstream: Stream): Stream = ClippableStream(CircleClipper(radius), downstream)
 }
 
 /**
@@ -73,13 +71,16 @@ class CircleClipper(val radius: Double) : ClipperWithStart {
                 get() = _clean or ((if (v00 && v0) 1 else 0) shl 1)
 
             override fun point(x: Double, y: Double, z: Double) {
-                val point1 = doubleArrayOf(x, y)
+                point(StreamPoint(x,y,z))
+            }
+            override fun point(point: StreamPoint) {
+                val point1 = doubleArrayOf(point.x, point.y)
                 var point2: DoubleArray?
-                var v = pointVisible(x, y)
+                var v = pointVisible(point.x, point.y)
                 val c = if (smallRadius) {
-                    if (v) 0 else code(x, y)
+                    if (v) 0 else code(point.x, point.y)
                 } else {
-                    if (v) code(x + (if (x < 0) PI else -PI), y) else 0
+                    if (v) code(point.x + (if (point.x < 0) PI else -PI), point.y) else 0
                 }
                 if (point0 == null) {
                     v00 = v

@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geometry.limitedAsin
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
@@ -110,10 +111,13 @@ private class ResampleStream(
     }
 
     override fun point(x: Double, y: Double, z: Double) {
+        point(StreamPoint(x, y, z))
+    }
+    override fun point(point: StreamPoint) {
         when (pointContext) {
-            PointContext.POLYGON -> pointPolygon(x,y,z)
-            PointContext.LINE    -> pointLine(x, y, z)
-            PointContext.DEFAULT -> pointDefault(x,y,z)
+            PointContext.POLYGON -> pointPolygon(point.x,point.y,point.z ?: .0)
+            PointContext.LINE    -> pointLine(point.x, point.y, point.z ?: .0)
+            PointContext.DEFAULT -> pointDefault(point.x,point.y,point.z ?: .0)
         }
     }
 

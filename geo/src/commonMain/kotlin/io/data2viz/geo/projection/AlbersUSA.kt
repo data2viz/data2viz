@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.ComposedProjection
 import io.data2viz.geo.projection.common.Projection
@@ -57,7 +58,10 @@ class AlbersUSAProjection : ComposedProjection() {
 
     val pointStream = object : Stream() {
         override fun point(x: Double, y: Double, z: Double) {
-            point = doubleArrayOf(x, y)
+            point(StreamPoint(x, y, z))
+        }
+        override fun point(pt: StreamPoint) {
+            point = doubleArrayOf(pt.x, pt.y)
         }
     }
 

@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.stream
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geo.projection.pt
@@ -304,9 +305,12 @@ class StreamTests : TestBase() {
         Feature(Point(pt(1.0, 2.0, 3.0))).stream(object : Stream() {
 
             override fun point(x: Double, y: Double, z: Double) {
-                x shouldBeClose 1.0
-                y shouldBeClose 2.0
-                z shouldBeClose 3.0
+                point(StreamPoint(x,y,z))
+            }
+            override fun point(point: StreamPoint) {
+                point.x shouldBeClose 1.0
+                point.y shouldBeClose 2.0
+                point.z!! shouldBeClose 3.0
                 calls++
             }
         })

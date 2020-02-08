@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry.path
 
+import io.data2viz.geo.StreamPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.TAU
 import io.data2viz.geom.Path
@@ -71,15 +72,18 @@ internal class PathStream(private val path: Path) : Stream() {
      * it results in different calls on the Path.
      */
     override fun point(x: Double, y: Double, z: Double) {
+        point(StreamPoint(x, y, z))
+    }
+    override fun point(pt: StreamPoint) {
         when (point) {
             PathCmd.MOVE -> {
-                path.moveTo(x, y)
+                path.moveTo(pt.x, pt.y)
                 point = PathCmd.LINE
             }
-            PathCmd.LINE -> path.lineTo(x, y)
+            PathCmd.LINE -> path.lineTo(pt.x, pt.y)
             PathCmd.POINT ->  {
-                path.moveTo(x + pointRadius, y)
-                path.arc(x, y, pointRadius, 0.0, TAU, false)
+                path.moveTo(pt.x + pointRadius, pt.y)
+                path.arc(pt.x, pt.y, pointRadius, 0.0, TAU, false)
             }
         }
     }

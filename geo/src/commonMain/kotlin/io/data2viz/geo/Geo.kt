@@ -18,12 +18,14 @@
 package io.data2viz.geo
 
 import io.data2viz.geojson.Position
+import io.data2viz.math.Angle
+import io.data2viz.math.deg
 
 
 /**
  * An alias to GeoJson Position.
- * The Array must have a size of 2 of 3. The first two elements are the longitude (phi)
- * and latitude (lambda). The last, if it exists, represents the altitude.
+ * The Array must have a size of 2 of 3. The first two elements are the longitude
+ * and latitude . The last, if it exists, represents the altitude.
  */
 typealias GeoPoint = Position
 
@@ -44,6 +46,15 @@ val GeoPoint.lat: Double
  */
 val GeoPoint.alt: Double?
         get() = if (this.size > 2) this[2] else null
+
+
+
+data class StreamPoint(val x: Double, val y: Double, val z: Double? = null)
+
+fun Position.toKPos() = KPos(lon.deg, lat.deg, alt)
+
+data class KPos(val lon: Angle, val lat: Angle, val alt:Double?)
+
 
 
 //fun GeoPoint.component1() = this.lon
