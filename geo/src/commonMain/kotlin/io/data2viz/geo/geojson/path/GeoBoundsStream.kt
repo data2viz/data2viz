@@ -18,7 +18,8 @@
 package io.data2viz.geo.geojson.path
 
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geo.geometry.cartesian
 import io.data2viz.geo.geometry.cartesianCross
@@ -32,6 +33,7 @@ import io.data2viz.math.toDegrees
 import io.data2viz.math.toRadians
 import kotlin.math.abs
 import io.data2viz.geo.geometry.path.BoundsStream
+import io.data2viz.math.rad
 
 fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
 
@@ -51,7 +53,7 @@ fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
  * maximum latitude is typically the minimum translateY-value.)
  * This is the spherical equivalent of [BoundsStream]
  */
-class GeoBoundsStream : Stream<StreamPoint>() {
+class GeoBoundsStream : Stream<GeoJsonPoint>() {
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
 //  Function references have poor performance due to GC & memory allocation
 
@@ -132,7 +134,7 @@ class GeoBoundsStream : Stream<StreamPoint>() {
     }
 
 //    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
-    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
+    override fun point(point: GeoJsonPoint) = currentPoint(point.lon.rad, point.lat.rad)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -244,18 +246,18 @@ class GeoBoundsStream : Stream<StreamPoint>() {
         p0 = null
     }
 
-    private fun boundsRingPoint(x: Double, y: Double) {
+    private fun boundsRingPoint(lambda: Double, phi: Double) {
         if (p0 != null) {
-            val delta = x - lambda2
+            val delta = lambda - lambda2
             deltaSum += if (abs(delta) > 180.0) {
                 delta + if (delta > 0) 360.0 else -360.0
             } else delta
         } else {
-            lambda00 = x
-            phi00 = y
+            lambda00 = lambda
+            phi00 = phi
         }
-        areaStream.point(StreamPoint(x, y, .0))
-        linePoint(x, y)
+        areaStream.point(GeoJsonPoint(lambda.rad, phi.rad, .0))
+        linePoint(lambda, phi)
     }
 
     private fun boundsRingStart() {

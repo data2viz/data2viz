@@ -17,13 +17,14 @@
 
 package io.data2viz.geo.geojson
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.geo.geojson.path.geoCentroid
 import io.data2viz.geo.geometry.polygonContains
 import io.data2viz.geo.geojson.path.geoDistance
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.*
 import io.data2viz.math.EPSILON
+import io.data2viz.math.deg
 import io.data2viz.math.toRadians
 
 
@@ -101,7 +102,7 @@ internal val noop3: (Double, Double, Double) -> Unit = { _, _, _ -> }
 /**
  * Stream all children to [stream]
  */
-fun GeoJsonObject.stream(stream: Stream<StreamPoint>) {
+fun GeoJsonObject.stream(stream: Stream<GeoJsonPoint>) {
     when (this) {
         is FeatureCollection    -> features.forEach { it.stream(stream) }
         is Feature              -> geometry.stream(stream)
@@ -110,7 +111,7 @@ fun GeoJsonObject.stream(stream: Stream<StreamPoint>) {
     }
 }
 
-private fun streamGeometry(geo: GeoJsonObject, stream: Stream<StreamPoint>) {
+private fun streamGeometry(geo: GeoJsonObject, stream: Stream<GeoJsonPoint>) {
     when (geo) {
         is Point            -> streamPoint(geo.pos, stream)
         is LineString       -> streamLine(geo.positions, stream, false)
@@ -122,16 +123,15 @@ private fun streamGeometry(geo: GeoJsonObject, stream: Stream<StreamPoint>) {
     }
 }
 
-private fun streamSphere(stream: Stream<StreamPoint>) {
+private fun streamSphere(stream: Stream<GeoJsonPoint>) {
     stream.sphere()
 }
 
-private fun streamPoint(coordinates: Position, stream: Stream<StreamPoint>) {
-    val z = coordinates.alt ?: .0
-    stream.point(StreamPoint(coordinates.lon, coordinates.lat, z))
+private fun streamPoint(coordinates: Position, stream: Stream<GeoJsonPoint>) {
+    stream.point(GeoJsonPoint(coordinates.lon.deg, coordinates.lat.deg, coordinates.alt))
 }
 
-private fun streamPolygon(coords: Lines, stream: Stream<StreamPoint>) {
+private fun streamPolygon(coords: Lines, stream: Stream<GeoJsonPoint>) {
     stream.polygonStart()
     coords.forEach {
         streamLine(it, stream, true)
@@ -139,13 +139,12 @@ private fun streamPolygon(coords: Lines, stream: Stream<StreamPoint>) {
     stream.polygonEnd()
 }
 
-private fun streamLine(coords: Positions, stream: Stream<StreamPoint>, closed: Boolean) {
+private fun streamLine(coords: Positions, stream: Stream<GeoJsonPoint>, closed: Boolean) {
     val size = if (closed) coords.size - 1 else coords.size
-
     stream.lineStart()
     for (i in 0 until size) {
         val p = coords[i]
-        stream.point(StreamPoint(p[0], p[1], if (p.size > 2) p[2] else .0))
+        stream.point(GeoJsonPoint(p[0].deg, p[1].deg, if (p.size > 2) p[2] else .0))
     }
     stream.lineEnd()
 }

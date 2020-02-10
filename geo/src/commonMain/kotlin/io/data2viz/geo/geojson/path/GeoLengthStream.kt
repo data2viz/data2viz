@@ -17,16 +17,14 @@
 
 package io.data2viz.geo.geojson.path
 
-import io.data2viz.geo.StreamPoint
-import io.data2viz.geo.stream.Stream
+import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.geo.geojson.noop
-import io.data2viz.geo.geojson.noop2
 import io.data2viz.geo.geojson.stream
+import io.data2viz.geo.geometry.path.MeasureStream
+import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.geojson.LineString
 import io.data2viz.geojson.Position
-import io.data2viz.math.toRadians
-import io.data2viz.geo.geometry.path.MeasureStream
 import kotlin.math.*
 
 /**
@@ -54,7 +52,7 @@ fun geoLength(geo: GeoJsonObject): Double
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
  * This is the spherical equivalent of [MeasureStream]
  */
-class GeoLengthStream : Stream<StreamPoint>() {
+class GeoLengthStream : Stream<GeoJsonPoint>() {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
 //  Function references have poor performance due to GC & memory allocation
@@ -65,7 +63,7 @@ class GeoLengthStream : Stream<StreamPoint>() {
     private var cosPhi0 = Double.NaN
     private var sinPhi0 = Double.NaN
 
-    private var currentPoint: (Double, Double) -> Unit = noop2
+    private var currentPoint: (point: GeoJsonPoint) -> Unit = no_geo
     private var currentLineEnd: () -> Unit = noop
 
     fun result(geo: GeoJsonObject): Double {
@@ -74,7 +72,7 @@ class GeoLengthStream : Stream<StreamPoint>() {
         return lengthSum
     }
 
-    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
+    override fun point(point: GeoJsonPoint) = currentPoint(point)
     override fun lineStart() {
         currentPoint = ::lengthPointFirst
         currentLineEnd = ::lengthLineEnd
@@ -82,34 +80,32 @@ class GeoLengthStream : Stream<StreamPoint>() {
 
     override fun lineEnd() = currentLineEnd()
 
-    private fun lengthPointFirst(x: Double, y: Double) {
-        val lambda = x.toRadians()
-        val phi = y.toRadians()
-        lambda0 = lambda
-        sinPhi0 = sin(phi)
-        cosPhi0 = cos(phi)
+    private fun lengthPointFirst(point: GeoJsonPoint) {
+        lambda0 = point.lon.rad
+        sinPhi0 = point.lat.sin
+        cosPhi0 = point.lat.cos
         currentPoint = ::lengthPoint
     }
 
     private fun lengthLineEnd() {
-        currentPoint = noop2
+        currentPoint = no_geo
         currentLineEnd = noop
     }
 
-    private fun lengthPoint(x: Double, y: Double) {
-        val lambda = x.toRadians()
-        val phi = y.toRadians()
-        val sinPhi = sin(phi)
-        val cosPhi = cos(phi)
-        val delta = abs(lambda - lambda0)
+    private fun lengthPoint(point: GeoJsonPoint) {
+        val sinPhi = point.lat.sin
+        val cosPhi = point.lat.cos
+        val delta = abs(point.lon.rad - lambda0)
         val cosDelta = cos(delta)
         val sinDelta = sin(delta)
         val a = cosPhi * sinDelta
         val b = cosPhi0 * sinPhi - sinPhi0 * cosPhi * cosDelta
         val c = sinPhi0 * sinPhi + cosPhi0 * cosPhi * cosDelta
         lengthSum += atan2(sqrt(a * a + b * b), c)
-        lambda0 = lambda
+        lambda0 = point.lon.rad
         sinPhi0 = sinPhi
         cosPhi0 = cosPhi
     }
 }
+
+val no_geo: (GeoJsonPoint) -> Unit = {}
