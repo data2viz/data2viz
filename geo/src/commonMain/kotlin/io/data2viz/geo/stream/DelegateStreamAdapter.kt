@@ -17,15 +17,14 @@
 
 package io.data2viz.geo.stream
 
-import io.data2viz.geo.StreamPoint
 
 
 /**
  * This stream delegates all calls to the delegate, allowing to override only what should
  * be treated another way.
  */
-open class DelegateStreamAdapter(val delegate: Stream<StreamPoint>) : Stream<StreamPoint>() {
-    override fun point(point: StreamPoint)                  = delegate.point(point)
+open class DelegateStreamAdapter<T>(val delegate: Stream<T>) : Stream<T>() {
+    override fun point(point: T)                          = delegate.point(point)
     override fun lineStart()                                = delegate.lineStart()
     override fun lineEnd()                                  = delegate.lineEnd()
     override fun polygonStart()                             = delegate.polygonStart()
