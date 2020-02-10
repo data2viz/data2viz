@@ -17,17 +17,13 @@
 
 package io.data2viz.geo.stream
 
-import io.data2viz.geo.StreamPoint
-import io.data2viz.geo.projection.AlbersUSAProjection
-
 /**
  * Delegates the stream calls to a collection of streams. It simplifies the creation of
  * projection that are composed of few projections.
- * @see AlbersUSAProjection
+ * @see io.data2viz.geo.projection.AlbersUSAProjection
  */
-class MultiplexStream(private val streams: Collection<Stream<StreamPoint>>) : Stream<StreamPoint>() {
-//    override fun point(x: Double, y: Double, z: Double) = streams.forEach { it.point(StreamPoint(x, y, z)) }
-    override fun point(point: StreamPoint)              = streams.forEach { it.point(point) }
+class MultiplexStream<T>(private val streams: Collection<Stream<T>>) : Stream<T>() {
+    override fun point(point: T)                        = streams.forEach { it.point(point) }
     override fun lineStart()                            = streams.forEach { it.lineStart() }
     override fun lineEnd()                              = streams.forEach { it.lineEnd() }
     override fun polygonStart()                         = streams.forEach { it.polygonStart() }
