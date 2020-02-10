@@ -17,8 +17,6 @@
 
 package io.data2viz.geo.stream
 
-import io.data2viz.geo.StreamPoint
-
 /**
  * Transforms geometry using a sequence of function calls, rather than materializing
  * intermediate representations, to minimize overhead. Streams must implement several
