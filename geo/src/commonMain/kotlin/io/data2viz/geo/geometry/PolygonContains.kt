@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.geometry
 
+import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.math.EPSILON
 import io.data2viz.math.QUARTERPI
 import io.data2viz.math.TAU
@@ -26,9 +27,9 @@ import kotlin.math.*
 /**
  * @return whether [polygon] contains given [point]
  */
-fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
-    val lambda = point[0]
-    var phi = point[1]
+fun polygonContains(polygon: List<List<GeoJsonPoint>>, point: GeoJsonPoint): Boolean {
+    val lambda = point.lon.rad
+    var phi = point.lat.rad
     val normal0 = sin(lambda)
     val normal1 = -cos(lambda)
     val normal2 = 0.0
@@ -43,8 +44,8 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
         if (ring.isEmpty()) continue
 
         var point0 = ring.last()
-        var lambda0 = point0[0]
-        val phi0 = point0[1] / 2 + QUARTERPI
+        var lambda0 = point0.lon.rad
+        val phi0 = point0.lat.rad / 2 + QUARTERPI
 
         var sinPhi0 = sin(phi0)
         var cosPhi0 = cos(phi0)
@@ -52,8 +53,8 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
 
         for (j in ring.indices) {
             val point1 = ring[j]
-            val lambda1 = point1[0]
-            val phi1 = point1[1] / 2 + QUARTERPI
+            val lambda1 = point1.lon.rad
+            val phi1 = point1.lat.rad / 2 + QUARTERPI
 
             val sinPhi1 = sin(phi1)
             val cosPhi1 = cos(phi1)
@@ -68,15 +69,15 @@ fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boole
 
             // Optimized. Don't use normalize, cartesign and other functions for points to avoid memory allocation for double arrays
             if (antimeridian xor (lambda0 >= lambda) xor (lambda1 >= lambda)) {
-                val lambdaA0 = point0[0]
-                val phiA0 = point0[1]
+                val lambdaA0 = point0.lon.rad
+                val phiA0 = point0.lat.rad
                 val cosPhiA = cos(phiA0)
                 val a0 = cosPhiA * cos(lambdaA0)
                 val a1 = cosPhiA * sin(lambdaA0)
                 val a2 = sin(phiA0)
 
-                val lambdaB0 = point1[0]
-                val phiB0 = point1[1]
+                val lambdaB0 = point1.lon.rad
+                val phiB0 = point1.lat.rad
                 val cosPhiB = cos(phiB0)
                 val b0 = cosPhiB * cos(lambdaB0)
                 val b1 = cosPhiB * sin(lambdaB0)

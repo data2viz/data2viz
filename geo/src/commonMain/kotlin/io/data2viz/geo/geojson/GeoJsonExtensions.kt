@@ -61,9 +61,12 @@ fun GeoJsonObject.contains(point: Position): Boolean =
 
 
 private fun Lines.contains(point: Position): Boolean {
-    val radiansCoordinates = map { it.map { toRadians(it) } }
-    return polygonContains(radiansCoordinates, toRadians(point))
+    val radiansCoordinates = map { it.map { geoJsonPoint(it) } }
+    return polygonContains(radiansCoordinates, geoJsonPoint(point))
 }
+
+private fun geoJsonPoint(it: Position) = GeoJsonPoint(it[0].deg, it[1].deg)
+
 
 private fun Positions.contains(point: Position): Boolean {
     val ab = geoDistance(this[0], this[1])
