@@ -16,24 +16,24 @@
  */
 
 package io.data2viz.geo.stream
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.CachedProjection
 
 /**
  * Cache transformed stream result
  * @see CachedProjection
  */
-class StreamCache {
+class StreamCache<T> {
 
-    fun isCacheValidFor(originalStream: Stream<StreamPoint>) = originalSourceStream == originalStream
+    fun isCacheValidFor(originalStream: Stream<T>) = originalSourceStream == originalStream
 
-    var cachedResultStream: Stream<StreamPoint>? = null
+    var cachedResultStream: Stream<T>? = null
         private set
-    var originalSourceStream: Stream<StreamPoint>? = null
+    var originalSourceStream: Stream<T>? = null
         private set
 
 
-    fun cache(originalStream: Stream<StreamPoint>, resultStream: Stream<StreamPoint>) {
+    fun cache(originalStream: Stream<T>, resultStream: Stream<T>) {
         originalSourceStream = originalStream
         cachedResultStream = resultStream
     }
