@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry.path
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geojson.noop
 import io.data2viz.geo.geojson.noop2
 import io.data2viz.geo.stream.Stream
@@ -30,7 +30,7 @@ import kotlin.math.abs
  * Stream and returns via [area] the area of the specified GeoJSON object in cartesian.
  * This is the cartesian equivalent of [GeoAreaStream]
  */
-internal class AreaStream : Stream<StreamPoint>() {
+internal class AreaStream : Stream<Point3D>() {
 
     // TODO : check for use of D3 "adder"
 
@@ -51,7 +51,7 @@ internal class AreaStream : Stream<StreamPoint>() {
         return a
     }
 
-    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
+    override fun point(point: Point3D) = currentPoint(point.x, point.y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {

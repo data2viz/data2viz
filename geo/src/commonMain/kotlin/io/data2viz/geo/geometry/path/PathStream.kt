@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry.path
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.TAU
 import io.data2viz.geom.Path
@@ -32,7 +32,7 @@ import io.data2viz.geo.geojson.GeoPath
  *
  * @see GeoPath
  */
-internal class PathStream(private val path: Path) : Stream<StreamPoint>() {
+internal class PathStream(private val path: Path) : Stream<Point3D>() {
 
 
     enum class PathCmd {
@@ -71,7 +71,7 @@ internal class PathStream(private val path: Path) : Stream<StreamPoint>() {
      * Process a Point. Depending of the current draw path
      * it results in different calls on the Path.
      */
-    override fun point(point: StreamPoint) {
+    override fun point(point: Point3D) {
         when (pointCmd) {
             PathCmd.MOVE -> {
                 path.moveTo(point.x, point.y)

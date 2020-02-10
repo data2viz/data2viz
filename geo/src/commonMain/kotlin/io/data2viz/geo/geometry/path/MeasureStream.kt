@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry.path
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geojson.noop2
 import io.data2viz.geo.stream.Stream
 import kotlin.math.sqrt
@@ -30,7 +30,7 @@ import io.data2viz.geo.geojson.path.GeoLengthStream
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
  * This is the cartesian equivalent of [GeoLengthStream]
  */
-internal class MeasureStream : Stream<StreamPoint>() {
+internal class MeasureStream : Stream<Point3D>() {
 
     // TODO : check for use of D3 "adder"
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
@@ -51,7 +51,7 @@ internal class MeasureStream : Stream<StreamPoint>() {
         return result
     }
 
-    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
+    override fun point(point: Point3D) = currentPoint(point.x, point.y)
     override fun lineStart() {
         currentPoint = ::lengthPointFirst
     }

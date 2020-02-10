@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry.path
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.stream.Stream
 import kotlin.math.sqrt
 import io.data2viz.geo.geojson.path.GeoCentroidStream
@@ -27,7 +27,7 @@ import io.data2viz.geo.geojson.path.GeoCentroidStream
  * Returns the cartesian centroid of the specified GeoJSON object.
  * This is the cartesian equivalent of [GeoCentroidStream]
  */
-internal class CentroidStream : Stream<StreamPoint>() {
+internal class CentroidStream : Stream<Point3D>() {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
     //  Function references have poor performance due to GC & memory allocation
@@ -71,7 +71,7 @@ internal class CentroidStream : Stream<StreamPoint>() {
         return centroid
     }
 
-    override fun point(point: StreamPoint) = currentPoint(point.x, point.y)
+    override fun point(point: Point3D) = currentPoint(point.x, point.y)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
