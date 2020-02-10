@@ -49,7 +49,22 @@ val GeoPoint.alt: Double?
 
 
 
-data class StreamPoint(val x: Double, val y: Double, val z: Double? = null)
+data class Point3D(
+    val x: Double,
+    val y: Double,
+    val z: Double? = null
+)
+
+data class Rotation3D(
+    val lambda  : Angle = 0.deg,
+    val phi     : Angle = 0.deg,
+    val gamma   : Angle = 0.deg
+)
+
+data class GeoJsonPoint(
+    val lon: Angle = 0.deg,
+    val lat: Angle = 0.deg,
+    val z: Double? = null)
 
 fun Position.toKPos() = KPos(lon.deg, lat.deg, alt)
 
