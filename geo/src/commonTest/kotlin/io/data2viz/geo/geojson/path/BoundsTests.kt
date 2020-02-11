@@ -27,7 +27,7 @@ class BoundsTests : TestBase() {
     @Test
     fun geobounds_feature() {
         val result = GeoBoundsStream()
-            .result(Feature(MultiPoint(arrayOf(
+            .bounds(Feature(MultiPoint(arrayOf(
                 pt(-123.0, 39.0),
                 pt(-122.0, 38.0)
             ))))
@@ -37,7 +37,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_featureCollection() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             FeatureCollection(
                 arrayOf(
                     Feature(Point(pt(-123.0, 39.0))),
@@ -51,7 +51,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_GeometryCollection() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             GeometryCollection(
                 arrayOf(
                     Point(pt(-123.0, 39.0)),
@@ -65,7 +65,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_LineString_simple() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             LineString(
                 arrayOf(
                     pt(-123.0, 39.0),
@@ -79,7 +79,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_LineString_symmetry() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             LineString(
                 arrayOf(
                     pt(-30.0, -20.0),
@@ -87,7 +87,7 @@ class BoundsTests : TestBase() {
                 )
             )
         )
-        val result2 = GeoBoundsStream().result(
+        val result2 = GeoBoundsStream().bounds(
             LineString(
                 arrayOf(
                     pt(130.0, 40.0),
@@ -101,7 +101,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_LineString_containing_coincident_points() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             LineString(
                 arrayOf(
                     pt(-123.0, 39.0),
@@ -116,7 +116,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_LineString_meridian() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             LineString(
                 arrayOf(
                     pt(.0, .0),
@@ -131,7 +131,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_LineString_equator() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             LineString(
                 arrayOf(
                     pt(.0, .0),
@@ -146,7 +146,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_LineString_containing_an_inflection_point_in_the_northern_hemisphere() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             LineString(
                 arrayOf(
                     pt(-45.0, 60.0),
@@ -160,7 +160,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_LineString_containing_an_inflection_point_in_the_southern_hemisphere() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             LineString(
                 arrayOf(
                     pt(-45.0, -60.0),
@@ -174,7 +174,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiLineString() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiLineString(
                 arrayOf(
                     arrayOf(
@@ -190,7 +190,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiPoint_simple() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiPoint(
                 arrayOf(
                     pt(-123.0, 39.0),
@@ -204,7 +204,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiPoint_2_points_near_antimeridian() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiPoint(
                 arrayOf(
                     pt(-179.0, 39.0),
@@ -218,7 +218,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiPoint_2_points_near_antimeridian_2_points_near_primary_meridian() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiPoint(
                 arrayOf(
                     pt(-179.0, 39.0),
@@ -234,7 +234,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiPoint_2_points_near_primary_meridian_2_points_near_antimeridian() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiPoint(
                 arrayOf(
                     pt(-1.0, .0),
@@ -250,7 +250,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiPoint_4_mixed_points_near_primary_meridian_and_antimeridian() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiPoint(
                 arrayOf(
                     pt(-1.0, .0),
@@ -266,7 +266,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiPoint_3_points_near_antimeridian() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiPoint(
                 arrayOf(
                     pt(178.0, 38.0),
@@ -281,7 +281,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiPoint_various_points_near_antimeridian() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiPoint(
                 arrayOf(
                     pt(-179.0, 39.0),
@@ -297,7 +297,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_MultiPolygon() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             MultiPolygon(
                 arrayOf(
                     arrayOf(
@@ -326,7 +326,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_Point() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             Point(
                 pt(-123.0, 39.0)
             )
@@ -337,7 +337,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_Polygon_simple() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -355,7 +355,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_Polygon_larger_than_a_hemisphere_small_counter_clockwise() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -374,7 +374,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_Polygon_larger_than_a_hemisphere_large_lat_lon_rectangle() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -395,7 +395,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_Polygon_larger_than_a_hemisphere_south_pole() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -414,7 +414,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_Polygon_larger_than_a_hemisphere_excluding_both_poles() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -439,7 +439,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_Polygon_south_pole() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -457,7 +457,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_Polygon_ring() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             Polygon(
                 arrayOf(
                     arrayOf(
@@ -481,7 +481,7 @@ class BoundsTests : TestBase() {
 
     @Test
     fun geobounds_nestedCollection() {
-        val result = GeoBoundsStream().result(
+        val result = GeoBoundsStream().bounds(
             FeatureCollection(
                 arrayOf(
                     Feature(

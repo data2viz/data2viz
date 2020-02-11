@@ -19,7 +19,6 @@ package io.data2viz.geo.geojson.path
 
 
 import io.data2viz.geo.GeoJsonPoint
-import io.data2viz.geo.Point3D
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geo.geometry.cartesian
 import io.data2viz.geo.geometry.cartesianCross
@@ -28,14 +27,11 @@ import io.data2viz.geo.geometry.spherical
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 import io.data2viz.geojson.GeoJsonObject
-import io.data2viz.math.EPSILON
-import io.data2viz.math.toDegrees
-import io.data2viz.math.toRadians
 import kotlin.math.abs
 import io.data2viz.geo.geometry.path.BoundsStream
-import io.data2viz.math.rad
+import io.data2viz.math.*
 
-fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
+fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().bounds(geo)
 
 
 
@@ -84,7 +80,7 @@ class GeoBoundsStream : Stream<GeoJsonPoint>() {
     private var currentLineStart: () -> Unit = ::boundsLineStart
     private var currentLineEnd: () -> Unit = ::boundsLineEnd
 
-    fun result(geo: GeoJsonObject): Extent {
+    fun bounds(geo: GeoJsonObject): Extent {
         phi0 = Double.POSITIVE_INFINITY
         lambda0 = phi0
         phi1 = -lambda0
@@ -134,7 +130,7 @@ class GeoBoundsStream : Stream<GeoJsonPoint>() {
     }
 
 //    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
-    override fun point(point: GeoJsonPoint) = currentPoint(point.lon.rad, point.lat.rad)
+    override fun point(point: GeoJsonPoint) = currentPoint(point.lon.deg, point.lat.deg)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -256,7 +252,7 @@ class GeoBoundsStream : Stream<GeoJsonPoint>() {
             lambda00 = lambda
             phi00 = phi
         }
-        areaStream.point(GeoJsonPoint(lambda.rad, phi.rad, .0))
+        areaStream.point(GeoJsonPoint(lambda.deg, phi.deg, .0))
         linePoint(lambda, phi)
     }
 

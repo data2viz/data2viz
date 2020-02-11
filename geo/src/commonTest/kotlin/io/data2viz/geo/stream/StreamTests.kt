@@ -63,8 +63,8 @@ class StreamTests : TestBase() {
         Point(pt(1.0, 2.0, 3.0)).stream(object : Stream<GeoJsonPoint>() {
 
             override fun point(point: GeoJsonPoint) {
-                point.lon.rad shouldBeClose 1.0
-                point.lat.rad shouldBeClose 2.0
+                point.lon.deg shouldBeClose 1.0
+                point.lat.deg shouldBeClose 2.0
                 point.z!! shouldBeClose 3.0
                 calls++
             }
@@ -87,8 +87,8 @@ class StreamTests : TestBase() {
         ).stream(object : Stream<GeoJsonPoint>() {
 
             override fun point(point: GeoJsonPoint) {
-                coordinates[pointCalls][0] shouldBeClose point.lon.rad
-                coordinates[pointCalls][1] shouldBeClose point.lat.rad
+                coordinates[pointCalls][0] shouldBeClose point.lon.deg
+                coordinates[pointCalls][1] shouldBeClose point.lat.deg
                 coordinates[pointCalls][2] shouldBeClose point.z!!
                 pointCalls++
                 calls++
@@ -123,8 +123,8 @@ class StreamTests : TestBase() {
             }
 
             override fun point(point: GeoJsonPoint) {
-                coordinates[pointCalls][0] shouldBeClose point.lon.rad
-                coordinates[pointCalls][1] shouldBeClose point.lat.rad
+                coordinates[pointCalls][0] shouldBeClose point.lon.deg
+                coordinates[pointCalls][1] shouldBeClose point.lat.deg
                 coordinates[pointCalls][2] shouldBeClose point.z!!
                 pointCalls++
                 calls++
@@ -169,8 +169,8 @@ class StreamTests : TestBase() {
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][index][0] shouldBeClose point.lon.rad
-                coordinates[row][index][1] shouldBeClose point.lat.rad
+                coordinates[row][index][0] shouldBeClose point.lon.deg
+                coordinates[row][index][1] shouldBeClose point.lat.deg
                 coordinates[row][index][2] shouldBeClose point.z!!
                 pointCalls++
 
@@ -225,8 +225,8 @@ class StreamTests : TestBase() {
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][index][0] shouldBeClose point.lon.rad
-                coordinates[row][index][1] shouldBeClose point.lat.rad
+                coordinates[row][index][0] shouldBeClose point.lon.deg
+                coordinates[row][index][1] shouldBeClose point.lat.deg
                 coordinates[row][index][2] shouldBeClose point.z!!
                 pointCalls++
 
@@ -285,8 +285,8 @@ class StreamTests : TestBase() {
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][0][index][0] shouldBeClose point.lon.rad
-                coordinates[row][0][index][1] shouldBeClose point.lat.rad
+                coordinates[row][0][index][0] shouldBeClose point.lon.deg
+                coordinates[row][0][index][1] shouldBeClose point.lat.deg
                 coordinates[row][0][index][2] shouldBeClose point.z!!
                 pointCalls++
 
@@ -306,8 +306,8 @@ class StreamTests : TestBase() {
         Feature(Point(pt(1.0, 2.0, 3.0))).stream(object : Stream<GeoJsonPoint>() {
 
             override fun point(point: GeoJsonPoint) {
-                point.lon.rad shouldBeClose 1.0
-                point.lat.rad shouldBeClose 2.0
+                point.lon.deg shouldBeClose 1.0
+                point.lat.deg shouldBeClose 2.0
                 point.z!! shouldBeClose 3.0
                 calls++
             }
@@ -325,8 +325,8 @@ class StreamTests : TestBase() {
         ).stream(object : Stream<GeoJsonPoint>() {
 
             override fun point(point: GeoJsonPoint) {
-                point.lon.rad shouldBeClose 1.0
-                point.lat.rad shouldBeClose 2.0
+                point.lon.deg shouldBeClose 1.0
+                point.lat.deg shouldBeClose 2.0
                 point.z!! shouldBeClose 3.0
                 calls++
             }
@@ -344,8 +344,8 @@ class StreamTests : TestBase() {
         ).stream(object : Stream<GeoJsonPoint>() {
 
             override fun point(point: GeoJsonPoint) {
-                point.lon.rad shouldBeClose 1.0
-                point.lat.rad shouldBeClose 2.0
+                point.lon.deg shouldBeClose 1.0
+                point.lat.deg shouldBeClose 2.0
                 point.z!! shouldBeClose 3.0
                 calls++
             }
