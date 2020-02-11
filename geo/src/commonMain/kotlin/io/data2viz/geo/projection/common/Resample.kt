@@ -47,15 +47,32 @@ fun resample(projector: Projector, delta2Precision: Double): (Stream<Point3D>) -
     if (delta2Precision > .0)
         { stream: Stream<Point3D> -> ResampleStream(stream, projector, delta2Precision) }
     else
-        resampleNone(projector)
+        { stream: Stream<Point3D> -> ResampleNone(stream, projector) }
+
 
 /**
- * ResampleStream is the core of projection transformation. It uses a Projector to
- * convert geographic coordinates to cartesian coordinates and also generates intermediary
- * points to smooth the cartesian lines (curves).
- *
- * The next Stream is fed with cartesian coordinates.
+ * No resampling, just project points before passing to next stream.
  */
+private class ResampleNone(
+    val stream: Stream<Point3D>,
+    val projector: Projector): Stream<GeoJsonPoint>() {
+
+    override fun point(point: GeoJsonPoint) {
+        val projected = projector.project(point.lon.rad, point.lat.rad)
+        stream.point(Point3D(
+            projected[0],
+            projected[1],
+            point.z
+        ))
+    }
+
+    override fun lineStart() { stream.lineStart() }
+    override fun lineEnd() { stream.lineEnd() }
+    override fun polygonStart() { stream.polygonStart() }
+    override fun polygonEnd() { stream.polygonEnd() }
+    override fun sphere() { stream.sphere() }
+}
+
 private class ResampleStream(
     val stream: Stream<Point3D>,
     val projector: Projector,
@@ -259,20 +276,3 @@ private class ResampleStream(
 
 }
 
-/**
- * No resampling, just project points before passing to next stream.
- */
-private fun resampleNone(projector: Projector): (Stream<Point3D>) -> Stream<GeoJsonPoint> {
-    return { stream: Stream<Point3D> ->
-        object : Stream<GeoJsonPoint> () {
-            override fun point(point: GeoJsonPoint) {
-                val projected = projector.project(point.lon.rad, point.lat.rad)
-                stream.point(Point3D(
-                    projected[0],
-                    projected[1],
-                    point.z
-                ))
-            }
-        }
-    }
-}

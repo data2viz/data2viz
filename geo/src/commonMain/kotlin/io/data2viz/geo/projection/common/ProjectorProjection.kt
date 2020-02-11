@@ -19,7 +19,6 @@ package io.data2viz.geo.projection.common
 
 import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.geo.Point3D
-import io.data2viz.geo.geometry.clip.NoClipGeoJsonPoint
 import io.data2viz.geo.geometry.clip.ClipStreamBuilder
 import io.data2viz.geo.geometry.clip.NoClipPoint3D
 import io.data2viz.geo.geometry.clip.antimeridianPreClip
@@ -93,7 +92,7 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
 
     override var postClip: ClipStreamBuilder<Point3D> = NoClipPoint3D
 
-    private var resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
+    private var resampleProjector: (Stream<Point3D>) -> Stream<GeoJsonPoint> = resample(translateAndScaleProjector, _precisionDelta2)
 
     override var scale: Double
         get() = _scale
@@ -185,11 +184,11 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
 
 
     override fun bindTo(downstream: Stream<Point3D>): Stream<GeoJsonPoint> {
-        val postClip: Stream<Point3D>       = postClip.bindTo(downstream)
-        val resample: Stream<GeoJsonPoint>  = resampleProjector(postClip)
-        val preclip: Stream<GeoJsonPoint>   = preClip.bindTo(resample)
-        val transformRotate: Stream<GeoJsonPoint> = transformRotate(rotator)(preclip)
-        return transformRotate
+        return transformRotate(rotator)(
+                    preClip.bindTo(
+                        resampleProjector(
+                            postClip.bindTo(downstream)))
+        )
     }
 
 
