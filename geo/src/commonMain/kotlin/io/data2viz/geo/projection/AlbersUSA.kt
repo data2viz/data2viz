@@ -17,7 +17,9 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.ComposedProjection
 import io.data2viz.geo.projection.common.Projection
@@ -25,6 +27,7 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
+import io.data2viz.math.rad
 
 /**
  * @see AlbersUSAProjection
@@ -50,21 +53,17 @@ fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit = {}) = AlbersUSAPr
 class AlbersUSAProjection : ComposedProjection() {
 
 
-    var point: DoubleArray = doubleArrayOf()
+    var point: Point3D = Point3D()
     // Strange logic from d3 need refactor. Look at project implementation
-    lateinit var lower48Point: Stream<StreamPoint>
-    lateinit var alaskaPoint: Stream<StreamPoint>
-    lateinit var hawaiiPoint: Stream<StreamPoint>
+    lateinit var lower48Point: Stream<GeoJsonPoint>
+    lateinit var alaskaPoint: Stream<GeoJsonPoint>
+    lateinit var hawaiiPoint: Stream<GeoJsonPoint>
 
-    val pointStream = object : Stream<StreamPoint>() {
-//        override fun point(x: Double, y: Double, z: Double) {
-//            point(StreamPoint(x, y, z))
-//        }
-        override fun point(pt: StreamPoint) {
-            point = doubleArrayOf(pt.x, pt.y)
+    val pointStream = object : Stream<Point3D>() {
+        override fun point(pt: Point3D) {
+            point = pt
         }
     }
-
 
     private val lower48 = albersProjection()
     private val alaska = conicEqualAreaProjection {
@@ -115,14 +114,11 @@ class AlbersUSAProjection : ComposedProjection() {
     override fun translate(x: Double, y: Double) {
         val k = lower48.scale
 
-
-
         lower48.translate(x, y)
         alaska.translate(x - 0.307 * k, y + 0.201 * k)
         hawaii.translate(x - 0.205 * k, y + 0.212 * k)
 
         initClipExtent(x, y)
-
     }
 
     private fun initClipExtent(x: Double, y: Double) {
@@ -161,18 +157,19 @@ class AlbersUSAProjection : ComposedProjection() {
 
         // TODO: need refactor
         // strange logic taken from d3. Should be refactored to something similar to invert implementation
-        point = doubleArrayOf(Double.NaN, Double.NaN)
-        lower48Point.point(StreamPoint(lambda, phi, 0.0))
+        point = Point3D(Double.NaN,Double.NaN)
 
-        if (point[0].isNaN() || point[1].isNaN()) {
-            alaskaPoint.point(StreamPoint(lambda, phi, 0.0))
+        val geoPoint = GeoJsonPoint(lambda.rad, phi.rad, 0.0)
+        lower48Point.point(geoPoint)
+
+        if (point.x.isNaN() || point.y.isNaN()) {
+            alaskaPoint.point(geoPoint)
         }
 
-        if (point[0].isNaN() || point[1].isNaN()) {
-            hawaiiPoint.point(StreamPoint(lambda, phi, 0.0))
+        if (point.x.isNaN() || point.y.isNaN()) {
+            hawaiiPoint.point(geoPoint)
         }
-
-        return point
+        return doubleArrayOf(point.x, point.y)
     }
 
     override fun invert(x: Double, y: Double): DoubleArray {

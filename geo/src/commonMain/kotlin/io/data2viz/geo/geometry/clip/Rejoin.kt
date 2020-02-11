@@ -17,34 +17,36 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.KPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
 
-data class Intersection(
-    val point: DoubleArray,
-    val points: List<DoubleArray>?,
-    var other: Intersection?,
+data class Intersection<T>(
+    val point: T,
+    val points: List<T>?,
+    var other: Intersection<T>?,
     var entry: Boolean,
     var visited: Boolean = false,
-    var next: Intersection? = null,
-    var previous: Intersection? = null
+    var next: Intersection<T>? = null,
+    var previous: Intersection<T>? = null
 )
 
 /**
  * A generalized polygon clipping algorithm: given a polygon that has been cut into its visible line segments,
  * and rejoins the segments by interpolating along the postClip edge.
  */
-fun rejoin(
-    segments: List<List<DoubleArray>>,
-    compareIntersection: Comparator<Intersection>,
+fun <T: KPoint> rejoin(
+    segments: List<List<T>>,
+    compareIntersection: Comparator<Intersection<T>>,
     startInside: Boolean,
-    clipper: Clipper,
-    stream: Stream<StreamPoint>
+    clipper: Clipper<T>,
+    stream: Stream<T>
 ) {
-    val subject = mutableListOf<Intersection>()
-    val clip = mutableListOf<Intersection>()
+    val subject = mutableListOf<Intersection<T>>()
+    val clip = mutableListOf<Intersection<T>>()
 
     segments.forEach {segment ->
         val n = segment.size - 1
@@ -60,7 +62,7 @@ fun rejoin(
             stream.lineStart()
             (0 until n).forEach {index ->
                 p0 = segment[index]
-                stream.point(StreamPoint(p0[0], p0[1], .0))
+                stream.point(p0)
             }
             stream.lineEnd()
             return
@@ -114,7 +116,7 @@ fun rejoin(
 
             if (current.entry) {
                 if (isSubject) {
-                    if (points != null) points.forEach { stream.point(StreamPoint(it[0], it[1], .0)) }
+                    if (points != null) points.forEach { stream.point(it) }
                 } else {
                     clipper.interpolate(current.point, current.next!!.point, 1, stream)
                 }
@@ -122,7 +124,7 @@ fun rejoin(
             } else {
                 if (isSubject) {
                     points = current.previous!!.points
-                    if (points != null) points.asReversed().forEach { stream.point(StreamPoint(it[0], it[1], .0)) }
+                    if (points != null) points.asReversed().forEach { stream.point(it) }
                 } else {
                     clipper.interpolate(current.point, current.previous!!.point, -1, stream)
                 }
@@ -138,11 +140,11 @@ fun rejoin(
     }
 }
 
-fun link(list: List<Intersection>) {
+fun <T> link(list: List<Intersection<T>>) {
     if (list.isEmpty()) return
 
     var a = list.first()
-    var b:Intersection
+    var b:Intersection<T>
 
     (1 until list.size).forEach { index ->
         a.next = list[index]
@@ -158,3 +160,26 @@ fun link(list: List<Intersection>) {
 internal fun pointEqual(p0: DoubleArray, p1: DoubleArray): Boolean =
         abs(p0[0] - p1[0]) < EPSILON &&
         abs(p0[1] - p1[1]) < EPSILON
+
+internal fun <POINT: KPoint> pointEqual(p0: POINT, p1: POINT): Boolean =
+    when(p0) {
+        is GeoJsonPoint ->
+                abs(p0.lon.rad - (p1 as GeoJsonPoint).lon.rad) < EPSILON &&
+                abs(p0.lat.rad - p1.lat.rad) < EPSILON
+
+        is Point3D ->
+                    abs(p0.x - (p1 as Point3D).x) < EPSILON &&
+                    abs(p0.y - p1.y) < EPSILON
+
+        else -> false //why KPoint is a sealed class
+    }
+
+
+
+
+/**
+ * Todo check if EPSILON is enought for GeoJsonPoint (1e-6 rad may be big).
+ */
+internal fun pointEqual(p0: GeoJsonPoint, p1: GeoJsonPoint): Boolean =
+        abs(p0.lon.rad - p1.lon.rad) < EPSILON &&
+        abs(p0.lat.rad - p1.lat.rad) < EPSILON

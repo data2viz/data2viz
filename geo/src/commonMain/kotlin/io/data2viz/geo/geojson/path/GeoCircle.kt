@@ -17,16 +17,14 @@
 
 package io.data2viz.geo.geojson.path
 
+import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geometry.cartesian
 import io.data2viz.geo.geometry.cartesianNormalize
 import io.data2viz.geo.projection.common.createRotateRadiansProjector
 import io.data2viz.geojson.Polygon
-import io.data2viz.math.EPSILON
-import io.data2viz.math.TAU
-import io.data2viz.math.toDegrees
-import io.data2viz.math.toRadians
+import io.data2viz.math.*
 import kotlin.math.*
 
 /**
@@ -38,15 +36,14 @@ class GeoCircle<D> {
     private var ring: MutableList<DoubleArray> = mutableListOf()
     private var rotate: ((x: Double, y: Double) -> DoubleArray)? = null
 
-    private val circleStream: Stream<Point3D> = object : Stream<Point3D>() {
+    private val circleStream: Stream<GeoJsonPoint> = object : Stream<GeoJsonPoint>() {
 
-        override fun point(point:Point3D) {
-            val value = rotate!!(point.x, point.y)
+        override fun point(point:GeoJsonPoint) {
+            val value = rotate!!(point.lon.rad, point.lat.rad)
             ring.add(doubleArrayOf(value[0].toDegrees(), value[1].toDegrees()))
         }
 
     }
-
 
     /**
      * Sets the circle center to the specified point [longitude, latitude] in degrees, specified as a function;
@@ -97,7 +94,7 @@ class GeoCircle<D> {
  * Generates a circle centered at [0°, 0°], with a given radius and precision.
  */
 fun geoCircle(
-    stream: Stream<Point3D>,
+    stream: Stream<GeoJsonPoint>,
     radius: Double,
     delta: Double,
     direction: Int,
@@ -131,7 +128,7 @@ fun geoCircle(
 
         val spher0 = atan2(cartesian1, cartesian0)
         val spher1 = asin(cartesian2)
-        stream.point(Point3D(spher0, spher1))
+        stream.point(GeoJsonPoint(spher0.rad, spher1.rad))
         t -= step
     }
 }

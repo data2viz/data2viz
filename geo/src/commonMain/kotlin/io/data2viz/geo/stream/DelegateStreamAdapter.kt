@@ -24,7 +24,7 @@ package io.data2viz.geo.stream
  * be treated another way.
  */
 open class DelegateStreamAdapter<T>(val delegate: Stream<T>) : Stream<T>() {
-    override fun point(point: T)                          = delegate.point(point)
+    override fun point(point: T)                            = delegate.point(point)
     override fun lineStart()                                = delegate.lineStart()
     override fun lineEnd()                                  = delegate.lineEnd()
     override fun polygonStart()                             = delegate.polygonStart()

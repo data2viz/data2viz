@@ -17,17 +17,17 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 
 
-class ExtentClip(val extent: Extent) : ClipStreamBuilder {
+class ExtentClip(val extent: Extent) : ClipStreamBuilder<Point3D> {
 
     val clipRectangle = RectangleClipper(extent)
 
-    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
+    override fun bindTo(downstream: Stream<Point3D>): Stream<Point3D> {
         return clipRectangle.clipLine(downstream)
     }
 
@@ -43,6 +43,6 @@ var Projection.extentPostClip: Extent?
         if (value != null) {
             postClip = ExtentClip(value)
         } else {
-            postClip = NoClip
+            postClip = NoClipPoint3D
         }
     }

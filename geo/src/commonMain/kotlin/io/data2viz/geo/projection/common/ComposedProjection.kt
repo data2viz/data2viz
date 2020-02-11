@@ -17,7 +17,8 @@
 
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.ClipStreamBuilder
 import io.data2viz.geo.stream.MultiplexStream
 import io.data2viz.geo.stream.Stream
@@ -55,11 +56,11 @@ abstract class ComposedProjection : Projection() {
         set(value) = allProjections.forEach { it.rotateGamma = value }
 
 
-    override var preClip: ClipStreamBuilder
+    override var preClip: ClipStreamBuilder<GeoJsonPoint>
         get() = mainProjection.preClip
         set(value) = allProjections.forEach { it.preClip = value }
 
-    override var postClip: ClipStreamBuilder
+    override var postClip: ClipStreamBuilder<Point3D>
         get() = mainProjection.postClip
         set(value) = allProjections.forEach { it.postClip = value }
 
@@ -99,7 +100,7 @@ abstract class ComposedProjection : Projection() {
         allProjections.forEach { it.rotate(lambda, phi, gamma) }
     }
 
-    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> =
+    override fun bindTo(downstream: Stream<Point3D>): Stream<GeoJsonPoint> =
         MultiplexStream(allProjections.map { it.bindTo(downstream) })
 
 }

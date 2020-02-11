@@ -49,11 +49,13 @@ val GeoPoint.alt: Double?
 
 
 
+sealed class KPoint
+
 data class Point3D(
-    val x: Double,
-    val y: Double,
+    val x: Double = .0,
+    val y: Double = .0,
     val z: Double? = null
-)
+): KPoint()
 
 data class Rotation3D(
     val lambda  : Angle = 0.deg,
@@ -64,7 +66,10 @@ data class Rotation3D(
 data class GeoJsonPoint(
     val lon: Angle = 0.deg,
     val lat: Angle = 0.deg,
-    val z: Double? = null)
+    val z: Double? = null): KPoint() {
+
+    operator fun plus(other: GeoJsonPoint): GeoJsonPoint  = copy(lon + other.lon, lat + other.lat)
+}
 
 fun Position.toKPos() = KPos(lon.deg, lat.deg, alt)
 

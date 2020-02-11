@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 import io.data2viz.math.EPSILON
@@ -26,10 +26,10 @@ import kotlin.math.abs
 private const val CLIPMAX = 1e9
 private const val CLIPMIN = -CLIPMAX
 
-class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStreamBuilder {
+class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStreamBuilder<Point3D> {
     val clipRectangle = RectangleClipper(Extent(x0, y0, x1, y1))
 
-    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
+    override fun bindTo(downstream: Stream<Point3D>): Stream<Point3D> {
         return clipRectangle.clipLine(downstream)
     }
 }
@@ -38,25 +38,25 @@ class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStream
  * Generates a clipping function which transforms a stream such that geometries are bounded by the given Extent.
  * Typically used for post-clipping.
  */
-class RectangleClipper(val extent: Extent) : Clipper {
+class RectangleClipper(val extent: Extent) : Clipper<Point3D> {
     // TODO refactor function references :: to objects like in CircleClip
 //  Function references have poor performance due to GC & memory allocation
 
-    override fun pointVisible(x: Double, y: Double): Boolean {
-        return x in extent.x0..extent.x1 &&
-                y in extent.y0..extent.y1
+    override fun pointVisible(point: Point3D): Boolean {
+        return point.x in extent.x0..extent.x1 &&
+                point.y in extent.y0..extent.y1
     }
 
     enum class PointContext {DEFAULT, LINE}
 
-    override fun clipLine(downstream: Stream<StreamPoint>): ClipStream {
+    override fun clipLine(downstream: Stream<Point3D>): ClipStream<Point3D> {
 
-        return object : ClipStream() {
+        return object : ClipStream<Point3D>() {
 
             override var clean: Int = 0
 
             private var activeStream = downstream
-            private val bufferStream = BufferStream()
+            private val bufferStream = BufferStream<Point3D>()
 
             // first point
             private var x__ = Double.NaN
@@ -68,9 +68,9 @@ class RectangleClipper(val extent: Extent) : Clipper {
             private var y_ = Double.NaN
             private var v_ = false
 
-            private var segments: MutableList<List<DoubleArray>>? = null
-            private var ring: MutableList<DoubleArray>? = null
-            private var polygon: MutableList<List<DoubleArray>>? = null
+            private var segments: MutableList<List<Point3D>>? = null
+            private var ring: MutableList<Point3D>? = null
+            private var polygon: MutableList<List<Point3D>>? = null
             private var first = false
 
             private var pointContext = PointContext.DEFAULT
@@ -88,7 +88,7 @@ class RectangleClipper(val extent: Extent) : Clipper {
 
                 val poly = polygon
                 if (poly != null) {
-                    val r = ArrayList<DoubleArray>()
+                    val r = ArrayList<Point3D>()
                     ring = r
                     poly.add(r)
                 }
@@ -102,25 +102,25 @@ class RectangleClipper(val extent: Extent) : Clipper {
 //            override fun point(x: Double, y: Double, z: Double) {
 //                point(StreamPoint(x, y, z))
 //            }
-            override fun point(point: StreamPoint) {
+            override fun point(point: Point3D) {
                 when(pointContext) {
-                    PointContext.DEFAULT -> pointDefault(point.x, point.y)
-                    PointContext.LINE -> linePoint(point.x, point.y)
+                    PointContext.DEFAULT -> pointDefault(point)
+                    PointContext.LINE -> linePoint(point)
                 }
             }
 
-            private fun pointDefault(x: Double, y: Double) {
-                if (pointVisible(x, y)) {
-                    activeStream.point(StreamPoint(x, y, 0.0))
+            private fun pointDefault(point: Point3D) {
+                if (pointVisible(point)) {
+                    activeStream.point(point)
                 }
             }
 
-            private fun linePoint(x: Double, y: Double) {
-                var newX = x
-                var newY = y
+            private fun linePoint(point: Point3D) {
+                var newX = point.x
+                var newY = point.y
 
-                val visible = pointVisible(newX, newY)
-                if (polygon != null) ring?.add(doubleArrayOf(newX, newY))
+                val visible = pointVisible(point)
+                if (polygon != null) ring?.add(Point3D(newX, newY))
                 if (first) {
                     x__ = newX
                     y__ = newY
@@ -128,10 +128,10 @@ class RectangleClipper(val extent: Extent) : Clipper {
                     first = false
                     if (visible) {
                         activeStream.lineStart()
-                        activeStream.point(StreamPoint(newX, newY, 0.0))
+                        activeStream.point(Point3D(newX, newY, 0.0))
                     }
                 } else {
-                    if (visible && v_) activeStream.point(StreamPoint(newX, newY, 0.0))
+                    if (visible && v_) activeStream.point(Point3D(newX, newY, 0.0))
                     else {
                         x_ = x_.coerceIn(CLIPMIN, CLIPMAX)
                         y_ = y_.coerceIn(CLIPMIN, CLIPMAX)
@@ -143,14 +143,14 @@ class RectangleClipper(val extent: Extent) : Clipper {
                         if (clipLine(a, b, extent)) {
                             if (!v_) {
                                 activeStream.lineStart()
-                                activeStream.point(StreamPoint(a[0], a[1], 0.0))
+                                activeStream.point(Point3D(a[0], a[1], 0.0))
                             }
-                            activeStream.point(StreamPoint(b[0], b[1], 0.0))
+                            activeStream.point(Point3D(b[0], b[1], 0.0))
                             if (!visible) activeStream.lineEnd()
                             clean = 0
                         } else if (visible) {
                             activeStream.lineStart()
-                            activeStream.point(StreamPoint(newX, newY, 0.0))
+                            activeStream.point(Point3D(newX, newY, 0.0))
                             clean = 0
                         }
                     }
@@ -163,7 +163,7 @@ class RectangleClipper(val extent: Extent) : Clipper {
 
             override fun lineEnd() {
                 if (segments != null) {
-                    linePoint(x__, y__)
+                    linePoint(Point3D(x__, y__))
                     if (v__ && v_) bufferStream.rejoin()
                     segments!!.add(bufferStream.result().flatten())
                 }
@@ -185,7 +185,7 @@ class RectangleClipper(val extent: Extent) : Clipper {
                     }
                     if (visible) rejoin(
                         segments!!,
-                        Comparator { o1: Intersection, o2 -> comparePoint(o1.point, o2.point) },
+                        Comparator { o1: Intersection<Point3D>, o2 -> comparePoint(o1.point, o2.point) },
                         startInside,
                         this@RectangleClipper,
                         downstream
@@ -204,10 +204,10 @@ class RectangleClipper(val extent: Extent) : Clipper {
             private fun polygonInside(): Int {
                 var winding = 0
 
-                var ring: List<DoubleArray>
+                var ring: List<Point3D>
                 var j: Int
                 var m: Int
-                var point: DoubleArray
+                var point: Point3D
                 var a0: Double
                 var a1: Double
                 var b0: Double
@@ -219,14 +219,14 @@ class RectangleClipper(val extent: Extent) : Clipper {
                     j = 1
                     m = ring.size
                     point = ring[0]
-                    b0 = point[0]
-                    b1 = point[1]
+                    b0 = point.x
+                    b1 = point.y
                     while (j < m) {
                         a0 = b0
                         a1 = b1
                         point = ring[j]
-                        b0 = point[0]
-                        b1 = point[1]
+                        b0 = point.x
+                        b1 = point.y
 
                         if (a1 <= extent.y1) {
                             if (b1 > extent.y1 && ((b0 - a0) * (extent.y1 - a1)) > ((b1 - a1) * (extent.x0 - a0))) ++winding
@@ -243,17 +243,17 @@ class RectangleClipper(val extent: Extent) : Clipper {
     }
 
     override fun interpolate(
-        from: DoubleArray?,
-        to: DoubleArray?,
+        from: Point3D?,
+        to: Point3D?,
         direction: Int,
-        stream: Stream<StreamPoint>) {
+        stream: Stream<Point3D>) {
 
         var a = if (from == null) 0 else corner(from, direction)
         val a1 = if (from == null) 0 else corner(to, direction)
 
         if (from == null || a != a1 || to != null && (comparePoint(from, to) < 0) xor (direction > 0)) {
             do {
-                stream.point(StreamPoint(
+                stream.point(Point3D(
                     if (a == 0 || a == 3) extent.x0 else extent.x1,
                     if (a > 1) extent.y1 else extent.y0,
                     0.0
@@ -261,40 +261,40 @@ class RectangleClipper(val extent: Extent) : Clipper {
                 a = (a + direction + 4) % 4
             } while (a != a1)
         } else if (to != null)
-            stream.point(StreamPoint(to[0], to[1], 0.0))
+            stream.point(to)
     }
 
     /**
      *
      */
-    private fun corner(p: DoubleArray?, direction: Int): Int {
+    private fun corner(p: Point3D?, direction: Int): Int {
         if (p == null) return if (direction > 0) 3 else 2
         return when {
             direction > 0 -> when {
-                abs(p[0] - extent.x0) < EPSILON -> 0
-                abs(p[0] - extent.x1) < EPSILON -> 2
-                abs(p[1] - extent.y1) < EPSILON -> 1
+                abs(p.x - extent.x0) < EPSILON -> 0
+                abs(p.x - extent.x1) < EPSILON -> 2
+                abs(p.y - extent.y1) < EPSILON -> 1
                 else -> 3
             }
             else -> when {
-                abs(p[0] - extent.x0) < EPSILON -> 0
-                abs(p[0] - extent.x1) < EPSILON -> 2
-                abs(p[1] - extent.y1) < EPSILON -> 1
+                abs(p.x - extent.x0) < EPSILON -> 0
+                abs(p.x - extent.x1) < EPSILON -> 2
+                abs(p.y - extent.y1) < EPSILON -> 1
                 else -> 3
             }
         }
     }
 
-    private fun comparePoint(a: DoubleArray, b: DoubleArray): Int {
+    private fun comparePoint(a: Point3D, b: Point3D): Int {
         val ca = corner(a, 1)
         val cb = corner(b, 1)
 
         return when {
             ca != cb -> ca.compareTo(cb)
-            ca == 0 -> b[1].compareTo(a[1])
-            ca == 1 -> a[0].compareTo(b[0])
-            ca == 2 -> a[1].compareTo(b[1])
-            else -> b[0].compareTo(a[0])
+            ca == 0 -> b.y.compareTo(a.y)
+            ca == 1 -> a.x.compareTo(b.x)
+            ca == 2 -> a.y.compareTo(b.y)
+            else -> b.x.compareTo(a.x)
         }
     }
 
@@ -367,5 +367,6 @@ class RectangleClipper(val extent: Extent) : Clipper {
 
         return true
     }
+
 
 }

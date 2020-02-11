@@ -36,12 +36,10 @@ class TranslateAndScaleProjector(
     }
 
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-
-        return projector.invert(
+    override fun invert(x: Double, y: Double): DoubleArray =
+        projector.invert(
             (x - recenterDx) / scale,
             -(y - recenterDy) / scale
         )
-    }
 
 }

@@ -17,7 +17,8 @@
 
 package io.data2viz.geo.stream
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geo.projection.pt
@@ -28,7 +29,7 @@ import kotlin.test.Test
 
 class StreamTests : TestBase() {
 
-    val emptyStream = object : Stream<StreamPoint>() {}
+    val emptyStream = object : Stream<GeoJsonPoint>() {}
 
     @Test
     fun geoStream_object_allows_empty_multi_geometries() {
@@ -44,7 +45,7 @@ class StreamTests : TestBase() {
     fun geoStream_Sphere_sphere() {
 
         var calls = 0
-        Sphere().stream(object : Stream<StreamPoint>() {
+        Sphere().stream(object : Stream<GeoJsonPoint>() {
 
             override fun sphere() {
                 calls++
@@ -59,11 +60,11 @@ class StreamTests : TestBase() {
     fun geoStream_Point_point() {
 
         var calls = 0
-        Point(pt(1.0, 2.0, 3.0)).stream(object : Stream<StreamPoint>() {
+        Point(pt(1.0, 2.0, 3.0)).stream(object : Stream<GeoJsonPoint>() {
 
-            override fun point(point: StreamPoint) {
-                point.x shouldBeClose 1.0
-                point.y shouldBeClose 2.0
+            override fun point(point: GeoJsonPoint) {
+                point.lon.rad shouldBeClose 1.0
+                point.lat.rad shouldBeClose 2.0
                 point.z!! shouldBeClose 3.0
                 calls++
             }
@@ -83,11 +84,11 @@ class StreamTests : TestBase() {
         )
         MultiPoint(
             coordinates
-        ).stream(object : Stream<StreamPoint>() {
+        ).stream(object : Stream<GeoJsonPoint>() {
 
-            override fun point(point: StreamPoint) {
-                coordinates[pointCalls][0] shouldBeClose point.x
-                coordinates[pointCalls][1] shouldBeClose point.y
+            override fun point(point: GeoJsonPoint) {
+                coordinates[pointCalls][0] shouldBeClose point.lon.rad
+                coordinates[pointCalls][1] shouldBeClose point.lat.rad
                 coordinates[pointCalls][2] shouldBeClose point.z!!
                 pointCalls++
                 calls++
@@ -110,7 +111,7 @@ class StreamTests : TestBase() {
         )
         LineString(
             coordinates
-        ).stream(object : Stream<StreamPoint>() {
+        ).stream(object : Stream<GeoJsonPoint>() {
 
             override fun lineStart() {
                 ++calls shouldBe 1
@@ -121,9 +122,9 @@ class StreamTests : TestBase() {
                 ++calls shouldBe 4
             }
 
-            override fun point(point: StreamPoint) {
-                coordinates[pointCalls][0] shouldBeClose point.x
-                coordinates[pointCalls][1] shouldBeClose point.y
+            override fun point(point: GeoJsonPoint) {
+                coordinates[pointCalls][0] shouldBeClose point.lon.rad
+                coordinates[pointCalls][1] shouldBeClose point.lat.rad
                 coordinates[pointCalls][2] shouldBeClose point.z!!
                 pointCalls++
                 calls++
@@ -153,7 +154,7 @@ class StreamTests : TestBase() {
         )
         MultiLineString(
             coordinates
-        ).stream(object : Stream<StreamPoint>() {
+        ).stream(object : Stream<GeoJsonPoint>() {
 
             override fun lineStart() {
                 (++calls == 1 || calls == 5) shouldBe true
@@ -163,13 +164,13 @@ class StreamTests : TestBase() {
                 (++calls == 4 || calls == 8) shouldBe true
             }
 
-            override fun point(point: StreamPoint) {
+            override fun point(point: GeoJsonPoint) {
 
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][index][0] shouldBeClose point.x
-                coordinates[row][index][1] shouldBeClose point.y
+                coordinates[row][index][0] shouldBeClose point.lon.rad
+                coordinates[row][index][1] shouldBeClose point.lat.rad
                 coordinates[row][index][2] shouldBeClose point.z!!
                 pointCalls++
 
@@ -201,7 +202,7 @@ class StreamTests : TestBase() {
         )
         Polygon(
             coordinates
-        ).stream(object : Stream<StreamPoint>() {
+        ).stream(object : Stream<GeoJsonPoint>() {
 
             override fun polygonStart() {
                 (++calls == 1) shouldBe true
@@ -219,13 +220,13 @@ class StreamTests : TestBase() {
                 (++calls == 5 || calls == 9) shouldBe true
             }
 
-            override fun point(point: StreamPoint) {
+            override fun point(point: GeoJsonPoint) {
 
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][index][0] shouldBeClose point.x
-                coordinates[row][index][1] shouldBeClose point.y
+                coordinates[row][index][0] shouldBeClose point.lon.rad
+                coordinates[row][index][1] shouldBeClose point.lat.rad
                 coordinates[row][index][2] shouldBeClose point.z!!
                 pointCalls++
 
@@ -261,7 +262,7 @@ class StreamTests : TestBase() {
         )
         MultiPolygon(
             coordinates
-        ).stream(object : Stream<StreamPoint>() {
+        ).stream(object : Stream<GeoJsonPoint>() {
 
             override fun polygonStart() {
                 (++calls == 1 || calls == 7) shouldBe true
@@ -279,13 +280,13 @@ class StreamTests : TestBase() {
                 (++calls == 5 || calls == 11) shouldBe true
             }
 
-            override fun point(point:StreamPoint) {
+            override fun point(point:GeoJsonPoint) {
 
                 val row = pointCalls / 2
                 val index = pointCalls % 2
 
-                coordinates[row][0][index][0] shouldBeClose point.x
-                coordinates[row][0][index][1] shouldBeClose point.y
+                coordinates[row][0][index][0] shouldBeClose point.lon.rad
+                coordinates[row][0][index][1] shouldBeClose point.lat.rad
                 coordinates[row][0][index][2] shouldBeClose point.z!!
                 pointCalls++
 
@@ -302,11 +303,11 @@ class StreamTests : TestBase() {
     fun geoStream_Feature() {
 
         var calls = 0
-        Feature(Point(pt(1.0, 2.0, 3.0))).stream(object : Stream<StreamPoint>() {
+        Feature(Point(pt(1.0, 2.0, 3.0))).stream(object : Stream<GeoJsonPoint>() {
 
-            override fun point(point: StreamPoint) {
-                point.x shouldBeClose 1.0
-                point.y shouldBeClose 2.0
+            override fun point(point: GeoJsonPoint) {
+                point.lon.rad shouldBeClose 1.0
+                point.lat.rad shouldBeClose 2.0
                 point.z!! shouldBeClose 3.0
                 calls++
             }
@@ -321,11 +322,11 @@ class StreamTests : TestBase() {
         var calls = 0
         FeatureCollection(
             arrayOf(Feature(Point(pt(1.0, 2.0, 3.0))))
-        ).stream(object : Stream<StreamPoint>() {
+        ).stream(object : Stream<GeoJsonPoint>() {
 
-            override fun point(point: StreamPoint) {
-                point.x shouldBeClose 1.0
-                point.y shouldBeClose 2.0
+            override fun point(point: GeoJsonPoint) {
+                point.lon.rad shouldBeClose 1.0
+                point.lat.rad shouldBeClose 2.0
                 point.z!! shouldBeClose 3.0
                 calls++
             }
@@ -340,11 +341,11 @@ class StreamTests : TestBase() {
         var calls = 0
         GeometryCollection(
             arrayOf(Point(pt(1.0, 2.0, 3.0)))
-        ).stream(object : Stream<StreamPoint>() {
+        ).stream(object : Stream<GeoJsonPoint>() {
 
-            override fun point(point: StreamPoint) {
-                point.x shouldBeClose 1.0
-                point.y shouldBeClose 2.0
+            override fun point(point: GeoJsonPoint) {
+                point.lon.rad shouldBeClose 1.0
+                point.lat.rad shouldBeClose 2.0
                 point.z!! shouldBeClose 3.0
                 calls++
             }

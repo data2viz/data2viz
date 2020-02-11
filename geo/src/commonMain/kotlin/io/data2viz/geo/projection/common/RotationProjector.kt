@@ -27,7 +27,10 @@ import kotlin.math.PI
  * See https://github.com/d3/d3-geo/blob/master/src/rotation.js
  * TODO Why gamma is nullable? By default all rotation could be 0.0.
  */
-class RotationProjector(lambda: Angle = 0.deg, phi: Angle = 0.deg, gamma: Angle = 0.deg) : Projector {
+class RotationProjector(
+    lambda: Angle = 0.deg,
+    phi: Angle = 0.deg,
+    gamma: Angle = 0.deg) : Projector {
 
     val rotator =
         createRotateRadiansProjector(
@@ -47,46 +50,49 @@ class RotationProjector(lambda: Angle = 0.deg, phi: Angle = 0.deg, gamma: Angle 
     }
 }
 
-private fun identityProjectionX(x: Double) = when {
-    x > PI -> x - TAU
-    x < -PI -> x + TAU
-    else -> x
-}
-
-private fun identityProjectionY(y: Double) = y
 
 internal object IdentityRotationProjector : Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         return doubleArrayOf(
-            identityProjectionX(lambda),
-            identityProjectionY(phi)
+            normalizeLongitude(lambda),
+            phi
         )
     }
 
     override fun invert(x: Double, y: Double): DoubleArray {
         return doubleArrayOf(
-            identityProjectionX(x),
-            identityProjectionY(y)
+            normalizeLongitude(x),
+            y
         )
     }
 }
 
-internal class RotationLambdaProjector(val deltaLambda: Double) : Projector {
+internal class RotationLambdaProjector(val deltaLambda: Double): Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         return doubleArrayOf(
-            identityProjectionX(lambda + deltaLambda),
-            identityProjectionY(phi)
+            normalizeLongitude(lambda + deltaLambda),
+            phi
         )
     }
 
     override fun invert(x: Double, y: Double): DoubleArray =
         doubleArrayOf(
-            identityProjectionX(x - deltaLambda),
-            identityProjectionY(y)
+            normalizeLongitude(x - deltaLambda),
+            y
         )
 }
+
+/**
+ * -PI < lon < PI
+ */
+private fun normalizeLongitude(lambda: Double) = when {
+    lambda > PI -> lambda - TAU
+    lambda < -PI -> lambda + TAU
+    else -> lambda
+}
+
 
 internal class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) : Projector {
 
@@ -124,12 +130,17 @@ internal class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) :
 }
 
 /**
- * Create or compose new Projector for given angles
+ * Create or compose new Projector for given angles.
+ *
  *
  * @see RotationLambdaProjector
  * @see RotationPhiGammaProjector
  */
-internal fun createRotateRadiansProjector(deltaLambda: Double, deltaPhi: Double, deltaGamma: Double): Projector {
+internal fun createRotateRadiansProjector(
+    deltaLambda: Double,
+    deltaPhi: Double,
+    deltaGamma: Double): Projector {
+
     val newDeltaLambda = deltaLambda % TAU
     val atLeastOneSecondaryAngleIsZero = deltaPhi != .0 || deltaGamma != .0
     return when {

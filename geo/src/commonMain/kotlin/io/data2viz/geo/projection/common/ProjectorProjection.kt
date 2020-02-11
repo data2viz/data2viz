@@ -17,9 +17,11 @@
 
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.StreamPoint
-import io.data2viz.geo.geometry.clip.NoClip
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
+import io.data2viz.geo.geometry.clip.NoClipGeoJsonPoint
 import io.data2viz.geo.geometry.clip.ClipStreamBuilder
+import io.data2viz.geo.geometry.clip.NoClipPoint3D
 import io.data2viz.geo.geometry.clip.antimeridianPreClip
 import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
@@ -37,25 +39,19 @@ fun projection(projector: Projector, init: ProjectorProjection.() -> Unit): Proj
     ProjectorProjection(projector)
         .apply(init)
 
-private val transformRadians: (stream: Stream<StreamPoint>) -> DelegateStreamAdapter = { stream: Stream<StreamPoint> ->
-    object : DelegateStreamAdapter(stream) {
-        override fun point(point: StreamPoint) =
-            stream.point(StreamPoint(point.x.toRadians(), point.y.toRadians(), point.z))
-    }
-}
 
-private fun transformRotate(rotateProjector: Projector): (stream: Stream<StreamPoint>) -> DelegateStreamAdapter = { stream: Stream<StreamPoint> ->
-    object : DelegateStreamAdapter(stream) {
-        override fun point(point:StreamPoint) {
-            val projection = rotateProjector.project(point.x, point.y)
-            stream.point(StreamPoint(projection[0], projection[1], 0.0))
+private fun transformRotate(rotateProjector: Projector): (stream: Stream<GeoJsonPoint>) -> DelegateStreamAdapter<GeoJsonPoint> =
+    { stream: Stream<GeoJsonPoint> ->
+        object : DelegateStreamAdapter<GeoJsonPoint>(stream) {
+            override fun point(point:GeoJsonPoint) {
+                val projection = rotateProjector.project(point.lon.rad, point.lat.rad)
+                stream.point(GeoJsonPoint(projection[0].rad, projection[1].rad, 0.0))
+            }
         }
-    }
 }
 
 /**
  * Base [Projection] implementation
- * Uses [CachedProjection]
  *
  * @see Projection
  * @see ComposedProjection
@@ -93,11 +89,11 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
     protected var _rotationGamma = 0.0
     protected lateinit var rotator: Projector
 
-    override var preClip: ClipStreamBuilder = antimeridianPreClip
+    override var preClip: ClipStreamBuilder<GeoJsonPoint> = antimeridianPreClip
 
-    override var postClip: ClipStreamBuilder = NoClip
+    override var postClip: ClipStreamBuilder<Point3D> = NoClipPoint3D
 
-    private var resampleProjector: (Stream<StreamPoint>) -> Stream<StreamPoint> = resample(translateAndScaleProjector, _precisionDelta2)
+    private var resampleProjector = resample(translateAndScaleProjector, _precisionDelta2)
 
     override var scale: Double
         get() = _scale
@@ -188,16 +184,12 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
         }
 
 
-    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
-        return transformRadians(
-            transformRotate(rotator)(
-                    preClip.bindTo(
-                        resampleProjector(
-                            postClip.bindTo(downstream)
-                        )
-                )
-            )
-        )
+    override fun bindTo(downstream: Stream<Point3D>): Stream<GeoJsonPoint> {
+        val postClip: Stream<Point3D>       = postClip.bindTo(downstream)
+        val resample: Stream<GeoJsonPoint>  = resampleProjector(postClip)
+        val preclip: Stream<GeoJsonPoint>   = preClip.bindTo(resample)
+        val transformRotate: Stream<GeoJsonPoint> = transformRotate(rotator)(preclip)
+        return transformRotate
     }
 
 

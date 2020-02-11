@@ -17,7 +17,8 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.polygonContains
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
@@ -27,19 +28,23 @@ import io.data2viz.math.HALFPI
  * Default clipping. Install no Clip Stream and just returns current
  * output Stream.
  */
-val NoClip = object : ClipStreamBuilder {
-    override fun bindTo(downstream: Stream<StreamPoint>) = downstream
+val NoClipGeoJsonPoint = object : ClipStreamBuilder<GeoJsonPoint> {
+    override fun bindTo(downstream: Stream<GeoJsonPoint>) = downstream
+}
+
+val NoClipPoint3D = object : ClipStreamBuilder<Point3D> {
+    override fun bindTo(downstream: Stream<Point3D>) = downstream
 }
 
 /**
  * Installs a ClipStream into the chain of Stream.
  */
-interface ClipStreamBuilder {
+interface ClipStreamBuilder<T> {
 
     /**
      * Adds a ClipStream in front of the [downstream]
      */
-    fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint>
+    fun bindTo(downstream: Stream<T>): Stream<T>
 }
 
 /**
@@ -49,41 +54,41 @@ interface ClipStreamBuilder {
  *  1 - no intersections;
  *  2 - there were intersections, and the first and last segments should be rejoined.
  */
-abstract class ClipStream : Stream<StreamPoint>() {
+abstract class ClipStream<T> : Stream<T>() {
 
     abstract var clean: Int
 }
 
 
-interface Clipper {
+interface Clipper<T> {
 
     /**
      * Indicates if the point will be visible after clipping.
      */
-    fun pointVisible(x: Double, y: Double): Boolean
+    fun pointVisible(point:T): Boolean
 
     /**
      * In
      */
-    fun clipLine(downstream: Stream<StreamPoint>): ClipStream
+    fun clipLine(downstream: Stream<T>): ClipStream<T>
 
     fun interpolate(
-        from: DoubleArray?,
-        to: DoubleArray?,
+        from: T?,
+        to: T?,
         direction: Int,
-        stream: Stream<StreamPoint>
+        stream: Stream<T>
     )
 }
 
 
-internal interface ClipperWithStart : Clipper {
-    val start: DoubleArray
+internal interface ClipperWithStart<T> : Clipper<T> {
+    val start: T
 }
 
 internal class ClippableStream(
-    val clipper: ClipperWithStart,
-    val downstream: Stream<StreamPoint>
-) : Stream<StreamPoint>() {
+    val clipper: ClipperWithStart<GeoJsonPoint>,
+    val downstream: Stream<GeoJsonPoint>
+) : Stream<GeoJsonPoint>() {
 
     // context of execution of stream
     // a line can be projected in the context of a polygon or not
@@ -100,16 +105,16 @@ internal class ClippableStream(
     internal var polygonStarted = false
 
 
-    internal val clipStream: ClipStream = clipper.clipLine(downstream)
+    internal val clipStream = clipper.clipLine(downstream)
 
-    internal val ringBuffer = BufferStream()
+    internal val ringBuffer = BufferStream<GeoJsonPoint>()
     internal val ringSink = clipper.clipLine(ringBuffer)
 
 
-    internal val segments: MutableList<List<List<DoubleArray>>> = mutableListOf()
+    internal val segments: MutableList<List<List<GeoJsonPoint>>> = mutableListOf()
 
-    internal val polygon: MutableList<List<DoubleArray>> = mutableListOf()
-    internal var ring: MutableList<DoubleArray>? = null
+    internal val polygon: MutableList<List<GeoJsonPoint>> = mutableListOf()
+    internal var ring: MutableList<GeoJsonPoint>? = null
 
 
     override fun polygonStart() {
@@ -134,7 +139,7 @@ internal class ClippableStream(
 //    override fun point(x: Double, y: Double, z: Double) {
 //        point(StreamPoint(x, y, z))
 //    }
-    override fun point(point: StreamPoint) {
+    override fun point(point: GeoJsonPoint) {
         when (pointContext) {
             PointContext.RING -> pointRing(point)
             PointContext.LINE -> pointLine(point)
@@ -142,18 +147,18 @@ internal class ClippableStream(
         }
     }
 
-    private fun pointRing(point: StreamPoint) {
-        ring!!.add(doubleArrayOf(point.x, point.y))
+    private fun pointRing(point: GeoJsonPoint) {
+        ring!!.add(point)
         ringSink.point(point)
     }
 
 
-    private fun pointLine(point: StreamPoint) {
+    private fun pointLine(point: GeoJsonPoint) {
         clipStream.point(point)
     }
 
-    private fun pointDefault(point: StreamPoint) {
-        if (clipper.pointVisible(point.x, point.y))
+    private fun pointDefault(point: GeoJsonPoint) {
+        if (clipper.pointVisible(point))
             downstream.point(point)
     }
 
@@ -174,12 +179,12 @@ internal class ClippableStream(
 
         val ringList = ring!!
 
-        pointRing(StreamPoint(ringList[0][0], ringList[0][1], 0.0))
+        pointRing(ringList[0])
 
         ringSink.lineEnd()
 
         val clean = ringSink.clean
-        val ringSegments: MutableList<List<DoubleArray>> = ringBuffer.result()
+        val ringSegments: MutableList<List<GeoJsonPoint>> = ringBuffer.result()
 
 
         ringList.removeAt(ringList.lastIndex)
@@ -200,10 +205,8 @@ internal class ClippableStream(
                 }
                 downstream.lineStart()
                 (0 until m).forEach {
-                    val currentSegmentPiece = segment[it]
-                    val x = currentSegmentPiece[0]
-                    val y = currentSegmentPiece[1]
-                    downstream.point(StreamPoint(x, y, 0.0))
+                    val currentSegmentPiece: GeoJsonPoint = segment[it]
+                    downstream.point(currentSegmentPiece)
                 }
                 downstream.lineEnd()
             }
@@ -263,39 +266,39 @@ internal class ClippableStream(
     }
 
 
-    private val compareIntersection = Comparator<Intersection> { i1, i2 ->
+    private val compareIntersection = Comparator<Intersection<GeoJsonPoint>> { i1, i2 ->
         val a = i1.point
         val b = i2.point
-        val ca = if (a[0] < 0) a[1] - HALFPI - EPSILON else HALFPI - a[1]
-        val cb = if (b[0] < 0) b[1] - HALFPI - EPSILON else HALFPI - b[1]
+        val ca = if (a.lon.rad < 0) a.lat.rad - HALFPI - EPSILON else HALFPI - a.lat.rad
+        val cb = if (b.lon.rad < 0) b.lat.rad - HALFPI - EPSILON else HALFPI - b.lat.rad
         ca.compareTo(cb)
     }
 }
 
 
-internal class BufferStream : Stream<StreamPoint>() {
-    private var lines: MutableList<List<DoubleArray>> = mutableListOf()
-    private lateinit var line: MutableList<DoubleArray>
+internal class BufferStream<T> : Stream<T>() {
+    private var lines: MutableList<List<T>> = mutableListOf()
+    private lateinit var line: MutableList<T>
 
     override fun lineStart() {
         line = mutableListOf()
         lines.add(line)
     }
 
-    override fun point(point: StreamPoint) {
-        line.add(doubleArrayOf(point.x, point.y))
+    override fun point(point: T) {
+        line.add(point)
     }
 
     fun rejoin() {
         if (lines.size > 1) {
-            val l = mutableListOf<List<DoubleArray>>()
+            val l = mutableListOf<List<T>>()
             l.add(lines.removeAt(lines.lastIndex))
             l.add(lines.removeAt(0))
             lines.addAll(l)
         }
     }
 
-    fun result(): MutableList<List<DoubleArray>> {
+    fun result(): MutableList<List<T>> {
         val oldLines = lines
         lines = mutableListOf()
         return oldLines

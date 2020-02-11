@@ -17,7 +17,8 @@
 
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.StreamPoint
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.stream.StreamCache
 
@@ -29,38 +30,38 @@ import io.data2viz.geo.stream.StreamCache
  * @see StreamCache
  * @see ProjectorProjection
  */
-abstract class CachedProjection : Projection() {
-
-    val streamCache = StreamCache()
-
-
-    /**
-     * Reset cache
-     */
-    fun reset() {
-        streamCache.reset()
-    }
-
-    
-
-    override fun bindTo(downstream: Stream<StreamPoint>): Stream<StreamPoint> {
-
-        if (!streamCache.isCacheValidFor(downstream)) {
-            val resultStream = fullCycleStream(downstream)
-            streamCache.cache(downstream, resultStream)
-        }
-
-        return streamCache.cachedResultStream!!
-    }
-
-    /**
-     * Provides full cycle of transformations
-     *
-     * @param stream original source stream
-     * @return result stream with applied transformations
-     */
-    protected abstract fun fullCycleStream(stream: Stream<StreamPoint>): Stream<StreamPoint>
-
-}
+//abstract class CachedProjection : Projection() {
+//
+//    val streamCache = StreamCache<GeoJsonPoint>()
+//
+//
+//    /**
+//     * Reset cache
+//     */
+//    fun reset() {
+//        streamCache.reset()
+//    }
+//
+//
+//
+//    override fun bindTo(downstream: Stream<Point3D>): Stream<GeoJsonPoint> {
+//
+//        if (!streamCache.isCacheValidFor(downstream)) {
+//            val resultStream = fullCycleStream(downstream)
+//            streamCache.cache(downstream, resultStream)
+//        }
+//
+//        return streamCache.cachedResultStream!!
+//    }
+//
+//    /**
+//     * Provides full cycle of transformations
+//     *
+//     * @param stream original source stream
+//     * @return result stream with applied transformations
+//     */
+//    protected abstract fun fullCycleStream(stream: Stream<Point3D>): Stream<Point3D>
+//
+//}
 
 

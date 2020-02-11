@@ -16,12 +16,10 @@
  */
 
 package io.data2viz.geo.stream
-import io.data2viz.geo.Point3D
-import io.data2viz.geo.projection.common.CachedProjection
 
 /**
  * Cache transformed stream result
- * @see CachedProjection
+ * @see io.data2viz.geo.projection.common.CachedProjection
  */
 class StreamCache<T> {
 
