@@ -18,10 +18,13 @@
 package io.data2viz.geo.projection
 
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.Angle
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
+import io.data2viz.math.rad
 import kotlin.math.atan
 import kotlin.math.exp
 import kotlin.math.ln
@@ -41,10 +44,10 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit =
  * @see TransverseMercatorProjector
  * @see TransverseMercatorProjection
  */
-class TransverseMercatorProjector : Projector {
+class TransverseMercatorProjector : Projector<GeoJsonPoint, Point3D> {
 
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
-    override fun invert(x: Double, y: Double) = doubleArrayOf(-y, 2 * atan(exp(x)) - HALFPI)
+    override fun project(point: GeoJsonPoint) = Point3D(ln(tan((HALFPI + point.lat.rad) / 2)), -point.lon.rad)
+    override fun invert(point: Point3D) = GeoJsonPoint(-point.y.rad, (2 * atan(exp(point.x)) - HALFPI).rad)
 
 }
 

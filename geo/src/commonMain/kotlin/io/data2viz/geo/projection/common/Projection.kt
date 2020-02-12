@@ -35,7 +35,7 @@ import io.data2viz.math.deg
  *
  * @see Stream
  */
-abstract class Projection : Projector {
+abstract class Projection : Projector<GeoJsonPoint, Point3D> {
     /**
      * The scale factor corresponds linearly to the distance between projected points;
      * however, absolute scale factors are not equivalent across projections.

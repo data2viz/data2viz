@@ -17,13 +17,13 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.*
 import io.data2viz.geom.Extent
-import io.data2viz.math.Angle
-import io.data2viz.math.HALFPI
+import io.data2viz.math.*
 import io.data2viz.math.PI
-import io.data2viz.math.TAU
 import kotlin.math.*
 
 
@@ -36,9 +36,17 @@ fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(Me
  *
  * @see MercatorProjection
  */
-class MercatorProjector : Projector {
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
-    override fun invert(x: Double, y: Double) = doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
+class MercatorProjector : Projector<GeoJsonPoint, Point3D> {
+    override fun project(point: GeoJsonPoint) =
+        Point3D(
+            point.lon.rad,
+            ln(tan((HALFPI + point.lat.rad) / 2)))
+
+    override fun invert(point: Point3D) =
+        GeoJsonPoint(
+            point.x.rad,
+            (2 * atan(exp(point.y)) - HALFPI).rad
+        )
 }
 
 /**
@@ -48,7 +56,7 @@ class MercatorProjector : Projector {
  *
  * @see MercatorProjector
  */
-open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectorProjection(projector) {
+open class MercatorProjection(projector: Projector<GeoJsonPoint, Point3D> = MercatorProjector()) : ProjectorProjection(projector) {
 
     override var scale: Double
         get() = super.scale
@@ -97,14 +105,11 @@ open class MercatorProjection(projector: Projector = MercatorProjector()) : Proj
     // TODO Implement different extentPostClip to pass null tests
     private fun reclip() {
         val k = PI * scale
-        val invert = RotationProjector(rotateLambda, rotatePhi, rotateGamma).invert(.0, .0)
+        val invert = RotationProjector(rotateLambda, rotatePhi, rotateGamma).invert(GeoJsonPoint())
 
-        val lambda = invert[0]
-        val phi = invert[1]
-
-        val projected = projector.project(lambda, phi)
-        val t0 = projected[0]
-        val t1 = projected[1]
+        val projected = projector.project(invert)
+        val t0 = projected.x
+        val t1 = projected.y
 
         this.extentPostClip = when {
             extentPostClip == null -> Extent(t0 - k, t1 - k, k * 2, k * 2)

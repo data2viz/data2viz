@@ -26,25 +26,23 @@ import io.data2viz.geo.stream.DelegateStreamAdapter
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
 import io.data2viz.math.rad
-import io.data2viz.math.toDegrees
-import io.data2viz.math.toRadians
 import kotlin.math.sqrt
 
 
 /**
  * Create [Projection] for give [Projector]
  */
-fun projection(projector: Projector, init: ProjectorProjection.() -> Unit): Projection =
+fun projection(projector: Projector<GeoJsonPoint, Point3D>, init: ProjectorProjection.() -> Unit): Projection =
     ProjectorProjection(projector)
         .apply(init)
 
 
-private fun transformRotate(rotateProjector: Projector): (stream: Stream<GeoJsonPoint>) -> DelegateStreamAdapter<GeoJsonPoint> =
+private fun transformRotate(rotateProjector: Projector<GeoJsonPoint, GeoJsonPoint>): (stream: Stream<GeoJsonPoint>) -> DelegateStreamAdapter<GeoJsonPoint> =
     { stream: Stream<GeoJsonPoint> ->
         object : DelegateStreamAdapter<GeoJsonPoint>(stream) {
             override fun point(point:GeoJsonPoint) {
-                val projection = rotateProjector.project(point.lon.rad, point.lat.rad)
-                stream.point(GeoJsonPoint(projection[0].rad, projection[1].rad, 0.0))
+                val projection = rotateProjector.project(point)
+                stream.point(projection)
             }
         }
 }
@@ -55,7 +53,7 @@ private fun transformRotate(rotateProjector: Projector): (stream: Stream<GeoJson
  * @see Projection
  * @see ComposedProjection
  */
-open class ProjectorProjection(val projector: Projector) : Projection() {
+open class ProjectorProjection(val projector: Projector<GeoJsonPoint, Point3D>) : Projection() {
 
     private var _translateX = 480.0
     private var _translateY = 250.0
@@ -75,7 +73,7 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
     /**
      * TODO: rework to affine matrix transformations or at least separate Scale & Translate phase
      */
-    protected lateinit var composedTransformationsProjector: Projector
+    protected lateinit var composedTransformationsProjector: Projector<GeoJsonPoint, Point3D>
 
     protected val translateAndScaleProjector = TranslateAndScaleProjector(projector, _scale, _recenterDx, _recenterDy)
 
@@ -86,7 +84,7 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
     protected var _rotationLambda = 0.0
     protected var _rotationPhi = 0.0
     protected var _rotationGamma = 0.0
-    protected lateinit var rotator: Projector
+    protected lateinit var rotator: Projector<GeoJsonPoint, GeoJsonPoint>
 
     override var preClip: ClipStreamBuilder<GeoJsonPoint> = antimeridianPreClip
 
@@ -192,30 +190,17 @@ open class ProjectorProjection(val projector: Projector) : Projection() {
     }
 
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val lambdaRadians = lambda.toRadians()
-        val phiRadians = phi.toRadians()
-        return composedTransformationsProjector.project(lambdaRadians, phiRadians)
-    }
-
-
-    override fun invert(x: Double, y: Double): DoubleArray {
-        val inverted = composedTransformationsProjector.invert(x, y)
-        return doubleArrayOf(
-            inverted[0].toDegrees(),
-            inverted[1].toDegrees()
-        )
-    }
+    override fun project(point: GeoJsonPoint): Point3D = composedTransformationsProjector.project(point)
+    override fun invert(point: Point3D): GeoJsonPoint = composedTransformationsProjector.invert(point)
 
     private fun recenter() {
         rotator = createRotateRadiansProjector(_rotationLambda, _rotationPhi, _rotationGamma)
-
         composedTransformationsProjector = ComposedProjector(rotator, translateAndScaleProjector)
 
-        val projectedCenter = projector.project(_centerLat, _centerLon)
+        val projectedCenter = projector.project(GeoJsonPoint(_centerLat.rad, _centerLon.rad))
 
-        _recenterDx = translateX - (projectedCenter[0] * _scale)
-        _recenterDy = translateY + (projectedCenter[1] * _scale)
+        _recenterDx = translateX - (projectedCenter.x * _scale)
+        _recenterDy = translateY + (projectedCenter.y * _scale)
 
         translateAndScaleProjector.scale = _scale
         translateAndScaleProjector.recenterDx = _recenterDx

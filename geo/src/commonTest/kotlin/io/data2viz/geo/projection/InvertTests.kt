@@ -17,7 +17,9 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.geo.projection.common.Projection
+import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
@@ -126,9 +128,8 @@ class InvertProjectionsTests : TestBase() {
 
     private fun testProjection(projection: Projection, points: Array<DoubleArray>) {
         points.forEach { point ->
-
-            val projected = projection.project(point[0], point[1])
-            checkProjectAndInvert(projection, point[0], point[1], projected[0], projected[1])
+            val projected = projection.project(GeoJsonPoint(point[0].deg, point[1].deg))
+            checkProjectAndInvert(projection, point[0], point[1], projected.x, projected.y)
         }
     }
 }

@@ -17,14 +17,18 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projection
+import io.data2viz.math.deg
+import io.data2viz.math.rad
 import kotlin.math.abs
 
 internal fun pt(a: Double, b: Double) = doubleArrayOf(a, b)
 internal fun pt(a: Double, b: Double, c: Double) = doubleArrayOf(a, b, c)
 
-val projectTestPrecision = 0.000001 // 1e-6
-val invertTestPrecision = 0.001 // 1e-3
+val projectTestPrecision = 1e-6
+val invertTestPrecision = 1e-3
 
 fun checkProjectAndInvert(
     projection: Projection,
@@ -35,7 +39,6 @@ fun checkProjectAndInvert(
     deltaPrecision: Double? = null
 ) {
     checkProject(projection, lambda, phi, screenX, screenY, deltaPrecision ?: projectTestPrecision)
-
     checkInvert(projection, lambda, phi, screenX, screenY, deltaPrecision ?: invertTestPrecision)
 }
 
@@ -49,10 +52,10 @@ fun checkProject(
 ) {
 
 
-    val projectPointResult = projection.project(lambda, phi)
+    val projectPointResult = projection.project(GeoJsonPoint(lambda.deg, phi.deg))
 
-    inDelta(projectPointResult[0], screenX, deltaPrecision ?: projectTestPrecision)
-    inDelta(projectPointResult[1], screenY, deltaPrecision ?: projectTestPrecision)
+    inDelta(projectPointResult.x, screenX, deltaPrecision ?: projectTestPrecision)
+    inDelta(projectPointResult.y, screenY, deltaPrecision ?: projectTestPrecision)
 }
 
 
@@ -65,15 +68,13 @@ fun checkInvert(
     deltaPrecision: Double? = null
 ) {
 
-    val invert = projection.invert(screenX, screenY)
-
-    val delta = abs(lambda - invert[0]) % 360
-
+    val invert = projection.invert(Point3D( screenX, screenY))
+    val delta = abs(lambda - invert.lon.deg) % 360
     if (delta > deltaPrecision ?: invertTestPrecision) {
-        throw AssertionError("checkInvert lambda is invalid excepted = $lambda actual = ${invert[0]} delta = $delta")
+        throw AssertionError("checkInvert lambda is invalid excepted = $lambda actual = ${invert.lon.deg} delta = $delta")
     }
 
-    inDelta(invert[1], phi, deltaPrecision)
+    inDelta(invert.lat.deg, phi, deltaPrecision)
 }
 
 fun inDelta(actual: Double, expected: Double, delta: Double? = null) =

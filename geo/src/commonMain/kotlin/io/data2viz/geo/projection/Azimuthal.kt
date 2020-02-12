@@ -17,9 +17,12 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.asin
 import io.data2viz.geo.geometry.limitedAsin
 import io.data2viz.geo.projection.common.Projector
+import io.data2viz.math.rad
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -32,18 +35,19 @@ fun azimuthalInvert(angle: (Double) -> Double) = { x: Double, y: Double ->
     doubleArrayOf(atan2(x * sc, z * cos(c)), (if (z == 0.0) z else y * sc / z).limitedAsin)
 }
 
-open class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Double) : Projector {
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val cx = cos(lambda)
-        val cy = cos(phi)
+open class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Double) : Projector<GeoJsonPoint, Point3D> {
+
+    override fun project(point: GeoJsonPoint): Point3D {
+        val cx = point.lon.cos
+        val cy = point.lat.cos
         val k = scale(cx * cy)
-        return doubleArrayOf(k * cy * sin(lambda), k * sin(phi))
+        return Point3D(k * cy * point.lon.sin, k * point.lat.sin)
     }
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        val z = sqrt(x * x + y * y)
+    override fun invert(point: Point3D): GeoJsonPoint {
+        val z = sqrt(point.x * point.x + point.y * point.y)
         val c = angle(z)
         val sc = sin(c)
-        return doubleArrayOf(atan2(x * sc, z * cos(c)), (if (z != .0) y * sc / z else z).asin)
+        return GeoJsonPoint(atan2(point.x * sc, z * cos(c)).rad, (if (z != .0) point.y * sc / z else z).asin.rad)
     }
 }

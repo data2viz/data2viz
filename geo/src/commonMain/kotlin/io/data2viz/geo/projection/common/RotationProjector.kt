@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.math.*
 import kotlin.math.*
 import kotlin.math.PI
@@ -30,7 +31,7 @@ import kotlin.math.PI
 class RotationProjector(
     lambda: Angle = 0.deg,
     phi: Angle = 0.deg,
-    gamma: Angle = 0.deg) : Projector {
+    gamma: Angle = 0.deg) : Projector<GeoJsonPoint, GeoJsonPoint> {
 
     val rotator =
         createRotateRadiansProjector(
@@ -39,62 +40,50 @@ class RotationProjector(
             gamma.rad
         )
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val p = rotator.project(lambda.toRadians(), phi.toRadians())
-        return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
-    }
+    override fun project(point: GeoJsonPoint): GeoJsonPoint = rotator.project(point)
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        val p = rotator.invert(x.toRadians(), y.toRadians())
-        return doubleArrayOf(p[0].toDegrees(), p[1].toDegrees())
-    }
+    override fun invert(point: GeoJsonPoint): GeoJsonPoint = rotator.invert(point)
 }
 
 
-internal object IdentityRotationProjector : Projector {
+internal object IdentityRotationProjector : Projector<GeoJsonPoint, GeoJsonPoint> {
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        return doubleArrayOf(
-            normalizeLongitude(lambda),
-            phi
+    override fun project(point: GeoJsonPoint): GeoJsonPoint {
+        return point.copy(
+            lon = normalizeLon(point.lon)
         )
     }
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        return doubleArrayOf(
-            normalizeLongitude(x),
-            y
+    override fun invert(point: GeoJsonPoint): GeoJsonPoint {
+        return point.copy(
+            lon = normalizeLon(point.lon)
         )
     }
 }
 
-internal class RotationLambdaProjector(val deltaLambda: Double): Projector {
+internal class RotationLambdaProjector(val deltaLambda: Double): Projector<GeoJsonPoint, GeoJsonPoint> {
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        return doubleArrayOf(
-            normalizeLongitude(lambda + deltaLambda),
-            phi
-        )
-    }
-
-    override fun invert(x: Double, y: Double): DoubleArray =
-        doubleArrayOf(
-            normalizeLongitude(x - deltaLambda),
-            y
-        )
+    override fun project(point: GeoJsonPoint): GeoJsonPoint = point.copy(lon = normalizeLon(point.lon + deltaLambda.rad))
+    override fun invert(point: GeoJsonPoint): GeoJsonPoint  = point.copy(lon = normalizeLon(point.lon - deltaLambda.rad))
 }
 
 /**
  * -PI < lon < PI
  */
-private fun normalizeLongitude(lambda: Double) = when {
+private fun normalizeLon(lambda: Double) = when {
     lambda > PI -> lambda - TAU
     lambda < -PI -> lambda + TAU
     else -> lambda
 }
 
+private fun normalizeLon(lon: Angle) = when {
+    lon > ANGLE_PI -> lon - ANGLE_TAU
+    lon < -ANGLE_PI-> lon + ANGLE_TAU
+    else -> lon
+}
 
-internal class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) : Projector {
+
+internal class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) : Projector<GeoJsonPoint, GeoJsonPoint> {
 
     private val cosDeltaPhi = cos(deltaPhi)
     private val sinDeltaPhi = sin(deltaPhi)
@@ -102,29 +91,30 @@ internal class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) :
     private val sinDeltaGamma = sin(deltaGamma)
 
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val cosPhi = cos(phi)
-        val x = cos(lambda) * cosPhi
-        val y = sin(lambda) * cosPhi
-        val z = sin(phi)
+    override fun project(point: GeoJsonPoint): GeoJsonPoint {
+        val cosPhi = point.lat.cos
+        val x = point.lon.cos * cosPhi
+        val y = point.lon.sin * cosPhi
+        val z = point.lat.sin
         val k = z * cosDeltaPhi + x * sinDeltaPhi
 
-        return doubleArrayOf(
-            atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi),
-            asin(k * cosDeltaGamma + y * sinDeltaGamma)
+        return point.copy(
+            lon = atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi).rad,
+            lat = asin(k * cosDeltaGamma + y * sinDeltaGamma).rad
         )
 
     }
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        val cosPhi = cos(y)
-        val newX = cos(x) * cosPhi
-        val newY = sin(x) * cosPhi
-        val z = sin(y)
+    override fun invert(point:GeoJsonPoint): GeoJsonPoint {
+        val cosPhi = point.lat.cos
+        val newX = point.lon.cos * cosPhi
+        val newY = point.lon.sin * cosPhi
+        val z = point.lat.sin
         val k = z * cosDeltaGamma - newY * sinDeltaGamma
-        return doubleArrayOf(
-            atan2(newY * cosDeltaGamma + z * sinDeltaGamma, newX * cosDeltaPhi + k * sinDeltaPhi),
-            asin(k * cosDeltaPhi - newX * sinDeltaPhi)
+
+        return point.copy(
+            lon = atan2(newY * cosDeltaGamma + z * sinDeltaGamma, newX * cosDeltaPhi + k * sinDeltaPhi).rad,
+            lat = asin(k * cosDeltaPhi - newX * sinDeltaPhi).rad
         )
     }
 }
@@ -139,7 +129,7 @@ internal class RotationPhiGammaProjector(deltaPhi: Double, deltaGamma: Double) :
 internal fun createRotateRadiansProjector(
     deltaLambda: Double,
     deltaPhi: Double,
-    deltaGamma: Double): Projector {
+    deltaGamma: Double): Projector<GeoJsonPoint, GeoJsonPoint> {
 
     val newDeltaLambda = deltaLambda % TAU
     val atLeastOneSecondaryAngleIsZero = deltaPhi != .0 || deltaGamma != .0

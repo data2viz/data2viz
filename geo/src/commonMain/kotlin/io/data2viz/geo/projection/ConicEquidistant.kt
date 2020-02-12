@@ -17,10 +17,13 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.BaseConditionalProjector
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
+import io.data2viz.math.rad
 import kotlin.math.*
 
 fun conicEquidistantProjection(init: ConicProjection.() -> Unit = {}) =
@@ -50,16 +53,18 @@ internal class ConicEquidistantBaseConditionalProjector(
             conicEquidistantProjector.phi1 = value
         }
 
-    override val baseProjector: Projector
+    override val baseProjector: Projector<GeoJsonPoint, Point3D>
         get() = equirectangularProjector
-    override val nestedProjector: Projector
+
+    override val nestedProjector: Projector<GeoJsonPoint, Point3D>
         get() = conicEquidistantProjector
+
     override val isNeedUseBaseProjector: Boolean
         get() = conicEquidistantProjector.isPossibleToUseProjector
 
 }
 
-class ConicEquidistantProjector : ConicProjector, Projector {
+class ConicEquidistantProjector : ConicProjector, Projector<GeoJsonPoint, Point3D> {
 
     override var phi0: Double = 0.0
         set(value) {
@@ -101,19 +106,19 @@ class ConicEquidistantProjector : ConicProjector, Projector {
     private fun cy0() = cos(phi0)
 
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        val gy = g - y
-        return doubleArrayOf(
-            atan2(x, abs(gy)) / n * sign(gy),
-            g - sign(n) * sqrt(x * x + gy * gy)
+    override fun invert(point: Point3D): GeoJsonPoint {
+        val gy = g - point.y
+        return GeoJsonPoint(
+            (atan2(point.x, abs(gy)) / n * sign(gy)).rad,
+            (g - sign(n) * sqrt(point.x * point.x + gy * gy)).rad
         )
 
     }
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val gphi = g - phi
-        val nlambda = n * lambda
-        return doubleArrayOf(
+    override fun project(point: GeoJsonPoint): Point3D {
+        val gphi = g - point.lat.rad
+        val nlambda = n * point.lon.rad
+        return Point3D(
             gphi * sin(nlambda),
             g - gphi * cos(nlambda)
         )

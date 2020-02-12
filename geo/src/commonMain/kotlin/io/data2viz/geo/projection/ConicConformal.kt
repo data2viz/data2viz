@@ -17,11 +17,14 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.BaseConditionalProjector
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
 import io.data2viz.math.deg
+import io.data2viz.math.rad
 import kotlin.math.*
 
 /**
@@ -60,17 +63,17 @@ internal class ConicConformalBaseConditionalProjector(
             conicConformalProjector.phi1 = value
         }
 
-    override val baseProjector: Projector
+    override val baseProjector: Projector<GeoJsonPoint, Point3D>
         get() = mercatorProjector
 
-    override val nestedProjector: Projector
+    override val nestedProjector: Projector<GeoJsonPoint, Point3D>
         get() = conicConformalProjector
 
     override val isNeedUseBaseProjector: Boolean
         get() = conicConformalProjector.isPossibleToUseProjector
 }
 
-class ConicConformalProjector : ConicProjector, Projector {
+class ConicConformalProjector : ConicProjector, Projector<GeoJsonPoint, Point3D> {
 
 
     override var phi0: Double = 0.0
@@ -113,25 +116,25 @@ class ConicConformalProjector : ConicProjector, Projector {
 
     private fun cy0() = cos(phi0)
 
-    override fun invert(x: Double, y: Double): DoubleArray {
+    override fun invert(point: Point3D): GeoJsonPoint {
 
-        val fy = fy(y)
-        val rInvert = rInvert(x, fy)
-        return doubleArrayOf(
-            atan2(x, abs(fy)) / n * sign(fy),
-            2 * atan((f / rInvert).pow(1 / n)) - HALFPI
+        val fy = fy(point.y)
+        val rInvert = rInvert(point.x, fy)
+        return GeoJsonPoint(
+            (atan2(point.x, abs(fy)) / n * sign(fy)).rad,
+            (2 * atan((f / rInvert).pow(1 / n)) - HALFPI).rad
         )
 
     }
 
     private fun rInvert(x: Double, fy: Double) = sign(n) * sqrt(x * x + fy * fy)
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val convertedPhi = convertPhi(phi)
+    override fun project(point: GeoJsonPoint): Point3D {
+        val convertedPhi = convertPhi(point.lat.rad)
         val r = r(convertedPhi)
-        return doubleArrayOf(
-            r * sin(n * lambda),
-            f - r * cos(n * lambda)
+        return Point3D(
+            r * sin(n * point.lon.rad),
+            f - r * cos(n * point.lon.rad)
         )
     }
 

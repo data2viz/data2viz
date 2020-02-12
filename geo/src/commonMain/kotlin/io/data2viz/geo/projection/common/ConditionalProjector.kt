@@ -17,18 +17,20 @@
 
 package io.data2viz.geo.projection.common
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.*
 /**
  * Abstract Projector which delegate projector & invert to another projection depending current settings
  * @see BaseConditionalProjector
  */
-abstract class ConditionalProjector : Projector {
+abstract class ConditionalProjector : Projector<GeoJsonPoint, Point3D> {
 
-    override fun invert(x: Double, y: Double): DoubleArray = activeProjector.invert(x, y)
+    override fun invert(point: Point3D): GeoJsonPoint = activeProjector.invert(point)
 
-    override fun project(lambda: Double, phi: Double): DoubleArray = activeProjector.project(lambda, phi)
+    override fun project(point: GeoJsonPoint): Point3D = activeProjector.project(point)
 
-    abstract val activeProjector: Projector
+    abstract val activeProjector: Projector<GeoJsonPoint, Point3D>
 }
 
 /**
@@ -41,12 +43,12 @@ abstract class ConditionalProjector : Projector {
  */
 abstract class BaseConditionalProjector : ConditionalProjector() {
 
-    abstract val baseProjector: Projector
-    abstract val nestedProjector: Projector
+    abstract val baseProjector: Projector<GeoJsonPoint, Point3D>
+    abstract val nestedProjector: Projector<GeoJsonPoint, Point3D>
     abstract val isNeedUseBaseProjector: Boolean
 
 
-    override val activeProjector: Projector
+    override val activeProjector: Projector<GeoJsonPoint, Point3D>
         get() = if (isNeedUseBaseProjector) {
             baseProjector
         } else {

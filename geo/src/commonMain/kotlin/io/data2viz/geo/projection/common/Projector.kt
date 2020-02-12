@@ -22,8 +22,8 @@ package io.data2viz.geo.projection.common
  * The unitary mathematical function that transform geographic coordinates (lambda, phi) into
  * cartesian coordinates (x,y).
  */
-interface Projectable {
-    fun project(lambda: Double, phi: Double): DoubleArray
+interface Projectable<FROM, TO> {
+    fun project(point: FROM): TO
 }
 
 
@@ -31,9 +31,9 @@ interface Projectable {
  * The unitary mathematical function that transform cartesian coordinates (x,y) into
  * geographic coordinates (lambda,phi). Not all projections are invertable.
  */
-interface Invertable {
-    fun invert(x: Double, y: Double): DoubleArray
+interface Invertable<FROM, TO> {
+    fun invert(point: TO): FROM
 }
 
 
-interface Projector: Projectable, Invertable
+interface Projector<FROM, TO>: Projectable<FROM, TO>, Invertable<FROM, TO>

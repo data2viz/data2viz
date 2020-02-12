@@ -18,13 +18,15 @@
 package io.data2viz.geo.geojson.path
 
 import io.data2viz.geo.GeoJsonPoint
-import io.data2viz.geo.Point3D
-import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geometry.cartesian
 import io.data2viz.geo.geometry.cartesianNormalize
 import io.data2viz.geo.projection.common.createRotateRadiansProjector
+import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.Polygon
-import io.data2viz.math.*
+import io.data2viz.math.EPSILON
+import io.data2viz.math.TAU
+import io.data2viz.math.rad
+import io.data2viz.math.toRadians
 import kotlin.math.*
 
 /**
@@ -34,13 +36,13 @@ class GeoCircle<D> {
     // TODO: remove D?
 
     private var ring: MutableList<DoubleArray> = mutableListOf()
-    private var rotate: ((x: Double, y: Double) -> DoubleArray)? = null
+    private var rotate: ((GeoJsonPoint) -> GeoJsonPoint)? = null
 
     private val circleStream: Stream<GeoJsonPoint> = object : Stream<GeoJsonPoint>() {
 
         override fun point(point:GeoJsonPoint) {
-            val value = rotate!!(point.lon.rad, point.lat.rad)
-            ring.add(doubleArrayOf(value[0].toDegrees(), value[1].toDegrees()))
+            val value = rotate!!(point)
+            ring.add(doubleArrayOf(value.lon.deg, value.lat.deg))
         }
 
     }

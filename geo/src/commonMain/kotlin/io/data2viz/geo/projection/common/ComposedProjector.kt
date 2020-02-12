@@ -24,15 +24,15 @@ package io.data2viz.geo.projection.common
  *
  * @see ProjectorProjection
  */
-class ComposedProjector(val a: Projector, val b:Projector): Projector  {
+class ComposedProjector<FROM,INTERMEDIATE, TO>(val a: Projector<FROM, INTERMEDIATE>, val b:Projector<INTERMEDIATE, TO>): Projector<FROM, TO>  {
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val p = a.project(lambda, phi)
-        return b.project(p[0], p[1])
+    override fun project(point: FROM): TO {
+        val p = a.project(point)
+        return b.project(p)
     }
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        val p = b.invert(x, y)
-        return a.invert(p[0], p[1])
+    override fun invert(point: TO): FROM {
+        val p = b.invert(point)
+        return a.invert(p)
     }
 }

@@ -17,6 +17,7 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.geo.projection.common.RotationProjector
 import io.data2viz.math.deg
 import io.data2viz.test.TestBase
@@ -26,48 +27,46 @@ class RotationTests : TestBase() {
 
     @Test
     fun a_rotation_of_90_0_only_rotates_longitude() {
-        val point = doubleArrayOf(.0, .0)
         val rotation = RotationProjector(90.0.deg, .0.deg)
-        val projected = rotation.project(point[0], point[1])
-        projected[0] shouldBeClose 90.0
-        projected[1] shouldBeClose .0
+        val projected = rotation.project(GeoJsonPoint())
+        projected.lon.deg shouldBeClose 90.0
+        projected.lat.deg shouldBeClose .0
     }
 
     @Test
     fun a_rotation_of_90_0_wraps_around_when_crossing_the_antimeridian() {
-        val point = doubleArrayOf(150.0, .0)
+        val point = GeoJsonPoint(150.deg, .0.deg)
         val rotation = RotationProjector(90.0.deg, .0.deg)
-        val projected = rotation.project(point[0], point[1])
-        projected[0] shouldBeClose -120.0
-        projected[1] shouldBeClose .0
+        val projected = rotation.project(point)
+        projected.lon.deg shouldBeClose -120.0
+        projected.lat.deg shouldBeClose .0
     }
 
     @Test
     fun a_rotation_of_minus_45_45_rotates_latitude_and_longitude() {
-        val point = doubleArrayOf(.0, .0)
         val rotation = RotationProjector((-45.0).deg, 45.0.deg)
-        val projected = rotation.project(point[0], point[1])
-        projected[0] shouldBeClose -54.73561
-        projected[1] shouldBeClose 30.0
+        val projected = rotation.project(GeoJsonPoint())
+        projected.lon.deg shouldBeClose -54.73561
+        projected.lat.deg shouldBeClose 30.0
     }
 
     @Test
     fun a_rotation_of_minus_45_45_inverse_rotation_of_latitude_and_longitude() {
 
-        val point = RotationProjector((-45.0).deg, 45.0.deg).invert(-54.73561, 30.0)
-        point[0] shouldBeClose .0
-        point[1] shouldBeClose .0
+        val point = RotationProjector((-45.0).deg, 45.0.deg).invert( GeoJsonPoint(-54.73561.deg, 30.0.deg))
+        point.lat.deg shouldBeClose .0
+        point.lon.deg shouldBeClose .0
     }
 
     @Test
     fun the_identity_rotation_constrains_longitudes_to_minus_180_180() {
 
         val rotate = RotationProjector(0.deg, 0.deg)
+        rotate.project(GeoJsonPoint(180.deg, 0.deg)).lon.deg shouldBe 180.0
+        rotate.project(GeoJsonPoint(-180.deg, 0.deg)).lon.deg shouldBe -180.0
+        rotate.project(GeoJsonPoint(360.deg, 0.deg)).lon.deg shouldBe 0.0
 
-        rotate.project(180.0, 0.0)[0] shouldBe 180.0
-        rotate.project(-180.0, 0.0)[0] shouldBe -180.0
-        rotate.project(360.0, 0.0)[0] shouldBe 0.0
-        inDelta(rotate.project(2562.0, 0.0)[0], 42.0, 1.0 / 10000000000)
-        inDelta(rotate.project(-2562.0, 0.0)[0], -42.0, 1.0 / 10000000000)
+        inDelta(rotate.project(GeoJsonPoint(2562.deg, 0.deg)).lon.deg, 42.0, 1.0 / 10000000000)
+        inDelta(rotate.project(GeoJsonPoint(-2562.deg, 0.deg)).lon.deg, -42.0, 1.0 / 10000000000)
     }
 }

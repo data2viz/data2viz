@@ -17,10 +17,13 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.EPSILON
+import io.data2viz.math.rad
 import kotlin.math.abs
 
 fun naturalEarthProjection(init: Projection.() -> Unit = {}) =
@@ -35,10 +38,10 @@ fun naturalEarthProjection(init: Projection.() -> Unit = {}) =
  * It is neither conformal nor equal-area,
  * but appealing to the eye for small-scale maps of the whole world.
  */
-class NaturalEarthProjection : Projector {
+class NaturalEarthProjection : Projector<GeoJsonPoint, Point3D> {
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        var newPhi = y
+    override fun invert(point: Point3D): GeoJsonPoint {
+        var newPhi = point.y
         var i = 25
         var delta:Double
         do {
@@ -50,18 +53,18 @@ class NaturalEarthProjection : Projector {
             newPhi -= delta
         } while (abs(delta) > EPSILON && --i > 0)
         val phi2 = newPhi * newPhi
-        return doubleArrayOf(
-            x / (0.8707 + (phi2) * (-0.131979 + phi2 * (-0.013791 + phi2 * phi2 * phi2 * (0.003971 - 0.001529 * phi2)))),
-            newPhi
+        return GeoJsonPoint(
+            (point.x / (0.8707 + (phi2) * (-0.131979 + phi2 * (-0.013791 + phi2 * phi2 * phi2 * (0.003971 - 0.001529 * phi2))))).rad,
+            newPhi.rad
         )
     }
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val phi2 = phi * phi
+    override fun project(point: GeoJsonPoint): Point3D {
+        val phi2 = point.lat.rad * point.lat.rad
         val phi4 = phi2 * phi2
-        return doubleArrayOf(
-            lambda * (0.8707 - 0.131979 * phi2 + phi4 * (-0.013791 + phi4 * (0.003971 * phi2 - 0.001529 * phi4))),
-            phi * (1.007226 + phi2 * (0.015085 + phi4 * (-0.044475 + 0.028874 * phi2 - 0.005916 * phi4)))
+        return Point3D(
+            point.lon.rad * (0.8707 - 0.131979 * phi2 + phi4 * (-0.013791 + phi4 * (0.003971 * phi2 - 0.001529 * phi4))),
+            point.lat.rad * (1.007226 + phi2 * (0.015085 + phi4 * (-0.044475 + 0.028874 * phi2 - 0.005916 * phi4)))
         )
     }
 

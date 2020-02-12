@@ -17,6 +17,8 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.geo.projection.common.ProjectorProjection
 import io.data2viz.math.Angle
@@ -27,7 +29,7 @@ fun conicProjection(projection: ConicProjector, init: ConicProjection.() -> Unit
     ConicProjection(projection).apply(init)
 
 
-interface ConicProjector : Projector {
+interface ConicProjector : Projector<GeoJsonPoint, Point3D> {
     /**
      * Minimum parallel angle value in radians
      *

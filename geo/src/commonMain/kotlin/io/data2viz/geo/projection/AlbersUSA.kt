@@ -18,7 +18,6 @@
 package io.data2viz.geo.projection
 
 import io.data2viz.geo.GeoJsonPoint
-import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.ComposedProjection
@@ -27,7 +26,6 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.geom.Extent
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
-import io.data2viz.math.rad
 
 /**
  * @see AlbersUSAProjection
@@ -53,15 +51,15 @@ fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit = {}) = AlbersUSAPr
 class AlbersUSAProjection : ComposedProjection() {
 
 
-    var point: Point3D = Point3D()
+    private var streamPoint: Point3D = Point3D()
     // Strange logic from d3 need refactor. Look at project implementation
     lateinit var lower48Point: Stream<GeoJsonPoint>
     lateinit var alaskaPoint: Stream<GeoJsonPoint>
     lateinit var hawaiiPoint: Stream<GeoJsonPoint>
 
     val pointStream = object : Stream<Point3D>() {
-        override fun point(pt: Point3D) {
-            point = pt
+        override fun point(point: Point3D) {
+            streamPoint = point
         }
     }
 
@@ -153,30 +151,28 @@ class AlbersUSAProjection : ComposedProjection() {
         hawaiiPoint = hawaii.bindTo(pointStream)
     }
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
+    override fun project(point: GeoJsonPoint): Point3D {
 
         // TODO: need refactor
         // strange logic taken from d3. Should be refactored to something similar to invert implementation
-        point = Point3D(Double.NaN,Double.NaN)
+        streamPoint = Point3D(Double.NaN,Double.NaN)
 
-        val geoPoint = GeoJsonPoint(lambda.rad, phi.rad, 0.0)
-        lower48Point.point(geoPoint)
+        lower48Point.point(point)
 
-        if (point.x.isNaN() || point.y.isNaN()) {
-            alaskaPoint.point(geoPoint)
+        if (streamPoint.x.isNaN() || streamPoint.y.isNaN()) {
+            alaskaPoint.point(point)
         }
-
-        if (point.x.isNaN() || point.y.isNaN()) {
-            hawaiiPoint.point(geoPoint)
+        if (streamPoint.x.isNaN() || streamPoint.y.isNaN()) {
+            hawaiiPoint.point(point)
         }
-        return doubleArrayOf(point.x, point.y)
+        return Point3D(streamPoint.x, streamPoint.y)
     }
 
-    override fun invert(x: Double, y: Double): DoubleArray {
+    override fun invert(point: Point3D): GeoJsonPoint {
         val k = lower48.scale
 
-        val newX = (x - lower48.translateX) / k
-        val newY = (y - lower48.translateY) / k
+        val newX = (point.x - lower48.translateX) / k
+        val newY = (point.y - lower48.translateY) / k
 
 
         val projection = when {
@@ -191,7 +187,7 @@ class AlbersUSAProjection : ComposedProjection() {
             }
         }
 
-        return projection.invert(x, y)
+        return projection.invert(point)
     }
 
     init {

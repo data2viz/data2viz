@@ -17,10 +17,13 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.BaseConditionalProjector
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
+import io.data2viz.math.rad
 import kotlin.math.*
 
 /**
@@ -54,16 +57,18 @@ internal class ConicEqualAreaBaseConditionalProjector(
             conicEqualAreaProjector.phi1 = value
         }
 
-    override val baseProjector: Projector
+    override val baseProjector: Projector<GeoJsonPoint, Point3D>
         get() = cylindricalEqualAreaProjector
-    override val nestedProjector: Projector
+
+    override val nestedProjector: Projector<GeoJsonPoint, Point3D>
         get() = conicEqualAreaProjector
+
     override val isNeedUseBaseProjector: Boolean
         get() = conicEqualAreaProjector.isPossibleToUseProjector
 }
 
 
-class ConicEqualAreaProjector : ConicProjector, Projector {
+class ConicEqualAreaProjector : ConicProjector, Projector<GeoJsonPoint, Point3D> {
 
     override var phi0: Double = 0.0
         set(value) {
@@ -101,20 +106,20 @@ class ConicEqualAreaProjector : ConicProjector, Projector {
 
     private fun sy0() = sin(phi0)
 
-    override fun invert(x: Double, y: Double): DoubleArray {
-        val r0y = r0y(y)
-        return doubleArrayOf(
-            atan2(x, abs(r0y)) / n * sign(r0y),
-            asin((c - (x * x + r0y * r0y) * n * n) / (2 * n))
+    override fun invert(point: Point3D): GeoJsonPoint {
+        val r0y = r0y(point.y)
+        return GeoJsonPoint(
+            (atan2(point.x, abs(r0y)) / n * sign(r0y)).rad,
+            (asin((c - (point.x * point.x + r0y * r0y) * n * n) / (2 * n))).rad
         )
     }
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val r = r(phi)
+    override fun project(point: GeoJsonPoint): Point3D {
+        val r = r(point.lat.rad)
 
-        return doubleArrayOf(
-            r * sin(lambda * n),
-            r0 - r * cos(lambda * n)
+        return Point3D(
+            r * sin(point.lon.rad * n),
+            r0 - r * cos(point.lon.rad * n)
         )
     }
 

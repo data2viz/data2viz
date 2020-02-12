@@ -17,9 +17,12 @@
 
 package io.data2viz.geo.projection
 
+import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.anglePreClip
 import io.data2viz.geo.projection.common.*
 import io.data2viz.math.deg
+import io.data2viz.math.rad
 import kotlin.math.atan
 import kotlin.math.cos
 import kotlin.math.sin
@@ -32,17 +35,18 @@ fun gnomonicProjection(init: Projection.() -> Unit = {}) =
         init()
     }
 
-class GnomonicProjector : Projector {
+class GnomonicProjector : Projector<GeoJsonPoint, Point3D> {
 
-    override fun project(lambda: Double, phi: Double): DoubleArray {
-        val cy = cos(phi)
-        val k = cos(lambda) * cy
-        return doubleArrayOf(
-            cy * sin(lambda) / k,
-            sin(phi) / k
+    override fun project(point: GeoJsonPoint): Point3D {
+        val cy = point.lat.cos
+        val k = point.lon.cos * cy
+        return Point3D(
+            cy * point.lon.sin / k,
+            point.lat.sin / k
         )
     }
 
-    override fun invert(x: Double, y: Double): DoubleArray = azimuthalInvert(::atan)(x, y)
+    override fun invert(point: Point3D): GeoJsonPoint =
+        azimuthalInvert(::atan)(point.x, point.y).let { GeoJsonPoint(it[0].rad, it[1].rad) }
 
 }
