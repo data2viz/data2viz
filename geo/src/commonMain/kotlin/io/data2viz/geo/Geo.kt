@@ -71,19 +71,4 @@ data class GeoJsonPoint(
     operator fun plus(other: GeoJsonPoint): GeoJsonPoint  = copy(lon + other.lon, lat + other.lat)
 }
 
-fun Position.toKPos() = KPos(lon.deg, lat.deg, alt)
 
-data class KPos(val lon: Angle, val lat: Angle, val alt:Double?)
-
-
-
-//fun GeoPoint.component1() = this.lon
-//fun GeoPoint.component2() = this.lat
-//fun GeoPoint.component3() = this.alt
-
-
-fun GeoPoint(lambda:Double, phi:Double, alt: Double? = null): GeoPoint =
-        if (alt == null)
-                doubleArrayOf(lambda, phi)
-        else
-                doubleArrayOf(lambda, phi, alt)
