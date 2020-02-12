@@ -19,16 +19,14 @@ package io.data2viz.geo.geojson.path
 
 import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.geo.GeoPoint
-import io.data2viz.geo.Point3D
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.EPSILON
 import io.data2viz.math.EPSILON2
-import io.data2viz.math.toDegrees
-import io.data2viz.math.toRadians
 import io.data2viz.geo.geometry.path.CentroidStream
 import io.data2viz.geojson.Position
+import io.data2viz.math.rad
 import kotlin.math.*
 
 fun geoCentroid(geo: GeoJsonObject): Position = GeoCentroidStream().result(geo)
@@ -66,7 +64,10 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
     
-    fun result(geo: GeoJsonObject): GeoPoint {
+    fun result(geo: GeoJsonObject): GeoPoint =
+        centroid(geo)?.let{ doubleArrayOf(it.lon.deg, it.lat.deg) } ?: doubleArrayOf(Double.NaN, Double.NaN)
+
+    fun centroid(geo: GeoJsonObject): GeoJsonPoint? {
         _W0 = .0
         _W1 = .0
         _X0 = .0
@@ -100,10 +101,10 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
             m = x * x + y * y + z * z
 
             // If the feature still has an undefined centroid, then return.
-            if (m < EPSILON2) return doubleArrayOf(Double.NaN, Double.NaN)
+            if (m < EPSILON2) return null
         }
 
-        return doubleArrayOf(atan2(y, x).toDegrees(), asin(z / sqrt(m)).toDegrees())
+        return GeoJsonPoint(atan2(y, x).rad, asin(z / sqrt(m)).rad)
     }
 
     override fun point(point: GeoJsonPoint) = currentPoint(point)
