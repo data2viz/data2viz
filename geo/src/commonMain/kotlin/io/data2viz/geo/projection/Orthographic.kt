@@ -39,5 +39,5 @@ fun orthographicProjection(init: Projection.() -> Unit = {}) =
 
 internal class OrthographicProjector : Projector<GeoJsonPoint, Point3D> {
     override fun project(point:GeoJsonPoint) = Point3D(point.lat.cos * point.lon.sin, point.lat.sin)
-    override fun invert(point: Point3D) = azimuthalInvert(::asin)(point.x, point.y).let { GeoJsonPoint(it[0].rad, it[1].rad) }
+    override fun invert(point: Point3D) = azimuthalInvertPoint(::asin)(point)
 }

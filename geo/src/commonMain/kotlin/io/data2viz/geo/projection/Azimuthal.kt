@@ -28,11 +28,12 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-fun azimuthalInvert(angle: (Double) -> Double) = { x: Double, y: Double ->
-    val z = sqrt(x * x + y * y)
+fun azimuthalInvertPoint(angle: (Double) -> Double) = { point: Point3D ->
+    val z = sqrt(point.x * point.x + point.y * point.y)
     val c = angle(z)
     val sc = sin(c)
-    doubleArrayOf(atan2(x * sc, z * cos(c)), (if (z == 0.0) z else y * sc / z).limitedAsin)
+    GeoJsonPoint(atan2(point.x * sc, z * cos(c)).rad,
+        (if (z == 0.0) z else point.y * sc / z).limitedAsin.rad)
 }
 
 open class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Double) : Projector<GeoJsonPoint, Point3D> {

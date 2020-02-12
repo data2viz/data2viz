@@ -57,10 +57,7 @@ class StereographicProjector : Projector<GeoJsonPoint, Point3D> {
         )
     }
 
-    override fun invert(point: Point3D): GeoJsonPoint {
-        val arr = azimuthalInvert(::doubleAtan)(point.x, point.y)
-        return GeoJsonPoint(arr[0].rad, arr[1].rad)
-    }
-
+    override fun invert(point: Point3D): GeoJsonPoint
+            = azimuthalInvertPoint (::doubleAtan)(point)
 
 }

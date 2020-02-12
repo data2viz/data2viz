@@ -46,7 +46,6 @@ class GnomonicProjector : Projector<GeoJsonPoint, Point3D> {
         )
     }
 
-    override fun invert(point: Point3D): GeoJsonPoint =
-        azimuthalInvert(::atan)(point.x, point.y).let { GeoJsonPoint(it[0].rad, it[1].rad) }
+    override fun invert(point: Point3D): GeoJsonPoint = azimuthalInvertPoint(::atan)(point)
 
 }
