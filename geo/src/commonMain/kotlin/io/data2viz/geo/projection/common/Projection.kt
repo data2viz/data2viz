@@ -18,7 +18,7 @@
 package io.data2viz.geo.projection.common
 
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.*
 import io.data2viz.geo.stream.Stream
@@ -35,7 +35,7 @@ import io.data2viz.math.deg
  *
  * @see Stream
  */
-abstract class Projection : Projector<GeoJsonPoint, Point3D> {
+abstract class Projection : Projector<GeoPoint, Point3D> {
     /**
      * The scale factor corresponds linearly to the distance between projected points;
      * however, absolute scale factors are not equivalent across projections.
@@ -138,7 +138,7 @@ abstract class Projection : Projector<GeoJsonPoint, Point3D> {
      * @see anglePreClip
      * @see antimeridianPreClip
      */
-    abstract var preClip: ClipStreamBuilder<GeoJsonPoint>
+    abstract var preClip: ClipStreamBuilder<GeoPoint>
 
     /**
      * If postclip is specified, sets the projection’s cartesian clipping
@@ -163,7 +163,7 @@ abstract class Projection : Projector<GeoJsonPoint, Point3D> {
      * with adaptive resampling, scale and translation.
      *
      */
-    internal abstract fun bindTo(downstream: Stream<Point3D>): Stream<GeoJsonPoint>
+    internal abstract fun bindTo(downstream: Stream<Point3D>): Stream<GeoPoint>
 
 
 }

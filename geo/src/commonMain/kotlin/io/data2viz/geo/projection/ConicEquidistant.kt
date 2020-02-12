@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.BaseConditionalProjector
 import io.data2viz.geo.projection.common.Projector
@@ -53,10 +53,10 @@ internal class ConicEquidistantBaseConditionalProjector(
             conicEquidistantProjector.phi1 = value
         }
 
-    override val baseProjector: Projector<GeoJsonPoint, Point3D>
+    override val baseProjector: Projector<GeoPoint, Point3D>
         get() = equirectangularProjector
 
-    override val nestedProjector: Projector<GeoJsonPoint, Point3D>
+    override val nestedProjector: Projector<GeoPoint, Point3D>
         get() = conicEquidistantProjector
 
     override val isNeedUseBaseProjector: Boolean
@@ -64,7 +64,7 @@ internal class ConicEquidistantBaseConditionalProjector(
 
 }
 
-class ConicEquidistantProjector : ConicProjector, Projector<GeoJsonPoint, Point3D> {
+class ConicEquidistantProjector : ConicProjector, Projector<GeoPoint, Point3D> {
 
     override var phi0: Double = 0.0
         set(value) {
@@ -106,16 +106,16 @@ class ConicEquidistantProjector : ConicProjector, Projector<GeoJsonPoint, Point3
     private fun cy0() = cos(phi0)
 
 
-    override fun invert(point: Point3D): GeoJsonPoint {
+    override fun invert(point: Point3D): GeoPoint {
         val gy = g - point.y
-        return GeoJsonPoint(
+        return GeoPoint(
             (atan2(point.x, abs(gy)) / n * sign(gy)).rad,
             (g - sign(n) * sqrt(point.x * point.x + gy * gy)).rad
         )
 
     }
 
-    override fun project(point: GeoJsonPoint): Point3D {
+    override fun project(point: GeoPoint): Point3D {
         val gphi = g - point.lat.rad
         val nlambda = n * point.lon.rad
         return Point3D(

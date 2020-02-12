@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.*
@@ -36,14 +36,14 @@ fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(Me
  *
  * @see MercatorProjection
  */
-class MercatorProjector : Projector<GeoJsonPoint, Point3D> {
-    override fun project(point: GeoJsonPoint) =
+class MercatorProjector : Projector<GeoPoint, Point3D> {
+    override fun project(point: GeoPoint) =
         Point3D(
             point.lon.rad,
             ln(tan((HALFPI + point.lat.rad) / 2)))
 
     override fun invert(point: Point3D) =
-        GeoJsonPoint(
+        GeoPoint(
             point.x.rad,
             (2 * atan(exp(point.y)) - HALFPI).rad
         )
@@ -56,7 +56,7 @@ class MercatorProjector : Projector<GeoJsonPoint, Point3D> {
  *
  * @see MercatorProjector
  */
-open class MercatorProjection(projector: Projector<GeoJsonPoint, Point3D> = MercatorProjector()) : ProjectorProjection(projector) {
+open class MercatorProjection(projector: Projector<GeoPoint, Point3D> = MercatorProjector()) : ProjectorProjection(projector) {
 
     override var scale: Double
         get() = super.scale
@@ -105,7 +105,7 @@ open class MercatorProjection(projector: Projector<GeoJsonPoint, Point3D> = Merc
     // TODO Implement different extentPostClip to pass null tests
     private fun reclip() {
         val k = PI * scale
-        val invert = RotationProjector(rotateLambda, rotatePhi, rotateGamma).invert(GeoJsonPoint())
+        val invert = RotationProjector(rotateLambda, rotatePhi, rotateGamma).invert(GeoPoint())
 
         val projected = projector.project(invert)
         val t0 = projected.x

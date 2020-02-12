@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.Projector
@@ -36,7 +36,7 @@ fun equirectangularProjection(init: Projection.() -> Unit = {}) =
  * Pseudocylindrical projections are a generalization of cylindrical projections.
  * The equirectangular (plate carrée) projection.
  */
-internal class EquirectangularProjector : Projector<GeoJsonPoint, Point3D> {
-    override fun project(point: GeoJsonPoint) = Point3D(point.lon.rad, point.lat.rad)
-    override fun invert(point: Point3D) = GeoJsonPoint(point.x.rad, point.y.rad)
+internal class EquirectangularProjector : Projector<GeoPoint, Point3D> {
+    override fun project(point: GeoPoint) = Point3D(point.lon.rad, point.lat.rad)
+    override fun invert(point: Point3D) = GeoPoint(point.x.rad, point.y.rad)
 }

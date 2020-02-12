@@ -17,40 +17,26 @@
 
 package io.data2viz.geo
 
-import io.data2viz.geojson.Position
 import io.data2viz.math.Angle
 import io.data2viz.math.deg
 
-
-/**
- * An alias to GeoJson Position.
- * The Array must have a size of 2 of 3. The first two elements are the longitude
- * and latitude . The last, if it exists, represents the altitude.
- */
-typealias GeoPoint = Position
-
-/**
- * The longitude in degrees
- */
-val GeoPoint.lon: Double
-        get() = this[0]
-
-/**
- * The latitude in degrees
- */
-val GeoPoint.lat: Double
-        get() = this[1]
-
-/**
- * The altitude if specified
- */
-val GeoPoint.alt: Double?
-        get() = if (this.size > 2) this[2] else null
-
-
-
 sealed class KPoint
 
+
+/**
+ * A geographic point has a longitude (lon), a latitude (lat) and an option altitude (alt)
+ */
+data class GeoPoint(
+    val lon: Angle = 0.deg,
+    val lat: Angle = 0.deg,
+    val alt: Double? = null): KPoint() {
+
+    operator fun plus(other: GeoPoint): GeoPoint  = copy(lon + other.lon, lat + other.lat)
+}
+
+/**
+ * A GeoPoint projected on a plan.
+ */
 data class Point3D(
     val x: Double = .0,
     val y: Double = .0,
@@ -63,12 +49,5 @@ data class Rotation3D(
     val gamma   : Angle = 0.deg
 )
 
-data class GeoJsonPoint(
-    val lon: Angle = 0.deg,
-    val lat: Angle = 0.deg,
-    val z: Double? = null): KPoint() {
-
-    operator fun plus(other: GeoJsonPoint): GeoJsonPoint  = copy(lon + other.lon, lat + other.lat)
-}
 
 

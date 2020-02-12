@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.KPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.stream.Stream
@@ -163,8 +163,8 @@ internal fun pointEqual(p0: DoubleArray, p1: DoubleArray): Boolean =
 
 internal fun <POINT: KPoint> pointEqual(p0: POINT, p1: POINT): Boolean =
     when(p0) {
-        is GeoJsonPoint ->
-                abs(p0.lon.rad - (p1 as GeoJsonPoint).lon.rad) < EPSILON &&
+        is GeoPoint ->
+                abs(p0.lon.rad - (p1 as GeoPoint).lon.rad) < EPSILON &&
                 abs(p0.lat.rad - p1.lat.rad) < EPSILON
 
         is Point3D ->
@@ -180,6 +180,6 @@ internal fun <POINT: KPoint> pointEqual(p0: POINT, p1: POINT): Boolean =
 /**
  * Todo check if EPSILON is enought for GeoJsonPoint (1e-6 rad may be big).
  */
-internal fun pointEqual(p0: GeoJsonPoint, p1: GeoJsonPoint): Boolean =
+internal fun pointEqual(p0: GeoPoint, p1: GeoPoint): Boolean =
         abs(p0.lon.rad - p1.lon.rad) < EPSILON &&
         abs(p0.lat.rad - p1.lat.rad) < EPSILON

@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.Projector
@@ -38,9 +38,9 @@ fun naturalEarthProjection(init: Projection.() -> Unit = {}) =
  * It is neither conformal nor equal-area,
  * but appealing to the eye for small-scale maps of the whole world.
  */
-class NaturalEarthProjection : Projector<GeoJsonPoint, Point3D> {
+class NaturalEarthProjection : Projector<GeoPoint, Point3D> {
 
-    override fun invert(point: Point3D): GeoJsonPoint {
+    override fun invert(point: Point3D): GeoPoint {
         var newPhi = point.y
         var i = 25
         var delta:Double
@@ -53,13 +53,13 @@ class NaturalEarthProjection : Projector<GeoJsonPoint, Point3D> {
             newPhi -= delta
         } while (abs(delta) > EPSILON && --i > 0)
         val phi2 = newPhi * newPhi
-        return GeoJsonPoint(
+        return GeoPoint(
             (point.x / (0.8707 + (phi2) * (-0.131979 + phi2 * (-0.013791 + phi2 * phi2 * phi2 * (0.003971 - 0.001529 * phi2))))).rad,
             newPhi.rad
         )
     }
 
-    override fun project(point: GeoJsonPoint): Point3D {
+    override fun project(point: GeoPoint): Point3D {
         val phi2 = point.lat.rad * point.lat.rad
         val phi4 = phi2 * phi2
         return Point3D(

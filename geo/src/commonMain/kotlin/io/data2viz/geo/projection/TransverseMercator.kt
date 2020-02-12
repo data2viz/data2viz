@@ -18,7 +18,7 @@
 package io.data2viz.geo.projection
 
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.Angle
@@ -44,10 +44,10 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit =
  * @see TransverseMercatorProjector
  * @see TransverseMercatorProjection
  */
-class TransverseMercatorProjector : Projector<GeoJsonPoint, Point3D> {
+class TransverseMercatorProjector : Projector<GeoPoint, Point3D> {
 
-    override fun project(point: GeoJsonPoint) = Point3D(ln(tan((HALFPI + point.lat.rad) / 2)), -point.lon.rad)
-    override fun invert(point: Point3D) = GeoJsonPoint(-point.y.rad, (2 * atan(exp(point.x)) - HALFPI).rad)
+    override fun project(point: GeoPoint) = Point3D(ln(tan((HALFPI + point.lat.rad) / 2)), -point.lon.rad)
+    override fun invert(point: Point3D) = GeoPoint(-point.y.rad, (2 * atan(exp(point.x)) - HALFPI).rad)
 
 }
 

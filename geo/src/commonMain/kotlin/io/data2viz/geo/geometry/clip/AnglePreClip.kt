@@ -17,18 +17,18 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.Angle
 import io.data2viz.math.toRadians
 
-private class AnglePreClip(val angle: Angle) : ClipStreamBuilder<GeoJsonPoint> {
+private class AnglePreClip(val angle: Angle) : ClipStreamBuilder<GeoPoint> {
 
     val transformedAngleInDegrees = (angle.deg % 360)
     val clipCircle = CirclePreClip(transformedAngleInDegrees.toRadians())
 
-    override fun bindTo(downstream: Stream<GeoJsonPoint>): Stream<GeoJsonPoint> {
+    override fun bindTo(downstream: Stream<GeoPoint>): Stream<GeoPoint> {
         return clipCircle.bindTo(downstream)
     }
 

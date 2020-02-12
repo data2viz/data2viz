@@ -17,17 +17,14 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.anglePreClip
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.deg
-import io.data2viz.math.rad
 import kotlin.math.atan
-import kotlin.math.cos
-import kotlin.math.sin
 
 
 /**
@@ -46,9 +43,9 @@ private fun doubleAtan(d: Double) = 2 * atan(d)
 /**
  * The stereographic projection.
  */
-class StereographicProjector : Projector<GeoJsonPoint, Point3D> {
+class StereographicProjector : Projector<GeoPoint, Point3D> {
 
-    override fun project(point: GeoJsonPoint): Point3D {
+    override fun project(point: GeoPoint): Point3D {
         val cosPhi = point.lat.cos
         val k = 1 + point.lon.cos * cosPhi
         return Point3D(
@@ -57,7 +54,7 @@ class StereographicProjector : Projector<GeoJsonPoint, Point3D> {
         )
     }
 
-    override fun invert(point: Point3D): GeoJsonPoint
+    override fun invert(point: Point3D): GeoPoint
             = azimuthalInvertPoint (::doubleAtan)(point)
 
 }

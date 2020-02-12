@@ -17,8 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.GeoJsonPoint
-import io.data2viz.geo.Point3D
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geometry.*
 import io.data2viz.geo.geojson.path.geoCircle
@@ -31,8 +30,8 @@ import kotlin.math.sqrt
  * Clip geometries using a Geo Circle.
  * @param radius radius in radians
  */
-class CirclePreClip(val radius: Double) : ClipStreamBuilder<GeoJsonPoint> {
-    override fun bindTo(downstream: Stream<GeoJsonPoint>): Stream<GeoJsonPoint> =
+class CirclePreClip(val radius: Double) : ClipStreamBuilder<GeoPoint> {
+    override fun bindTo(downstream: Stream<GeoPoint>): Stream<GeoPoint> =
         ClippableStream(CircleClipper(radius.rad), downstream)
 }
 
@@ -41,27 +40,27 @@ class CirclePreClip(val radius: Double) : ClipStreamBuilder<GeoJsonPoint> {
  * radius angle around the projection’s center.
  * Typically used for pre-clipping.
  */
-class CircleClipper(val radius: Angle) : ClipperWithStart<GeoJsonPoint> {
+class CircleClipper(val radius: Angle) : ClipperWithStart<GeoPoint> {
 
     private val cosRadius = radius.cos
     private val delta = 6.0.toRadians()
     private val smallRadius = cosRadius > 0
     private val notHemisphere = abs(cosRadius) > EPSILON // TODO optimise for this common case
 
-    override val start: GeoJsonPoint
+    override val start: GeoPoint
         get() = if (smallRadius)
-            GeoJsonPoint(0.0.rad, -radius)
+            GeoPoint(0.0.rad, -radius)
         else
-            GeoJsonPoint(-PI.rad, radius - ANGLE_PI)
+            GeoPoint(-PI.rad, radius - ANGLE_PI)
 
-    override fun pointVisible(point: GeoJsonPoint): Boolean = point.lon.cos * point.lat.cos > cosRadius
+    override fun pointVisible(point: GeoPoint): Boolean = point.lon.cos * point.lat.cos > cosRadius
 
-    override fun clipLine(downstream: Stream<GeoJsonPoint>): ClipStream<GeoJsonPoint> {
+    override fun clipLine(downstream: Stream<GeoPoint>): ClipStream<GeoPoint> {
 
-        return object : ClipStream<GeoJsonPoint>() {
+        return object : ClipStream<GeoPoint>() {
 
             private var _clean = 0
-            private var point0: GeoJsonPoint? = null             // previous point
+            private var point0: GeoPoint? = null             // previous point
             private var c0 = 0                                  // code for previous point
             private var visible0 = false                              // visibility of previous point
             private var visible00 = false                             // visibility of first point
@@ -69,9 +68,9 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoJsonPoint> {
             override var clean: Int = 0
                 get() = _clean or ((if (visible00 && visible0) 1 else 0) shl 1)
 
-            override fun point(point: GeoJsonPoint) {
+            override fun point(point: GeoPoint) {
                 var point1 = point
-                var point2: GeoJsonPoint?
+                var point2: GeoPoint?
                 var visible = pointVisible(point)
                 val c = if (smallRadius) {
                     if (visible) 0 else code(point.lon.rad, point.lat.rad)
@@ -89,7 +88,7 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoJsonPoint> {
                 if (visible != visible0) {
                     point2 = intersect(point0!!, point1)
                     if (point2 == null || pointEqual(point0!!, point2) || pointEqual(point1, point2)) {
-                        point1 += GeoJsonPoint(ANGLE_EPSILON, ANGLE_EPSILON)
+                        point1 += GeoPoint(ANGLE_EPSILON, ANGLE_EPSILON)
                         visible = pointVisible(point1)
                     }
                 }
@@ -118,21 +117,21 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoJsonPoint> {
                             _clean = 0
                             if (smallRadius) {
                                 downstream.lineStart()
-                                downstream.point(GeoJsonPoint(t[0].lon, t[0].lat, .0))
-                                downstream.point(GeoJsonPoint(t[1].lon, t[1].lat, .0))
+                                downstream.point(GeoPoint(t[0].lon, t[0].lat, .0))
+                                downstream.point(GeoPoint(t[1].lon, t[1].lat, .0))
                                 downstream.lineEnd()
                             } else {
-                                downstream.point(GeoJsonPoint(t[1].lon, t[1].lat, .0))
+                                downstream.point(GeoPoint(t[1].lon, t[1].lat, .0))
                                 downstream.lineEnd()
                                 downstream.lineStart()
-                                downstream.point(GeoJsonPoint(t[0].lon, t[0].lat, .0))
+                                downstream.point(GeoPoint(t[0].lon, t[0].lat, .0))
                             }
                         }
                     }
                 }
 
                 if (visible && (point0 == null || !pointEqual(point0!!, point1))) {
-                    downstream.point(GeoJsonPoint(point1.lon, point1.lat, .0))
+                    downstream.point(GeoPoint(point1.lon, point1.lat, .0))
                 }
                 point0 = point1
                 visible0 = visible
@@ -152,14 +151,14 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoJsonPoint> {
         }
     }
 
-    override fun interpolate(from: GeoJsonPoint?, to: GeoJsonPoint?, direction: Int, stream: Stream<GeoJsonPoint>) {
+    override fun interpolate(from: GeoPoint?, to: GeoPoint?, direction: Int, stream: Stream<GeoPoint>) {
         geoCircle(stream, radius.rad, delta, direction, from?.toArray(), to?.toArray())
     }
 
-    private fun intersect(a: GeoJsonPoint, b: GeoJsonPoint) =
+    private fun intersect(a: GeoPoint, b: GeoPoint) =
         intersect(a.toArray(), b.toArray()).toGeoJsonPoint()
 
-    private fun GeoJsonPoint.toArray() = doubleArrayOf(lon.rad, lat.rad )
+    private fun GeoPoint.toArray() = doubleArrayOf(lon.rad, lat.rad )
 
     // Intersects the great circle between a and b with the postClip circle.
     private fun intersect(a: DoubleArray, b: DoubleArray): DoubleArray? {
@@ -200,9 +199,9 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoJsonPoint> {
         return q
     }
 
-    fun DoubleArray?.toGeoJsonPoint() = if (this == null) null else GeoJsonPoint(this[0].rad, this[1].rad)
+    fun DoubleArray?.toGeoJsonPoint() = if (this == null) null else GeoPoint(this[0].rad, this[1].rad)
 
-    private fun intersects(a: GeoJsonPoint, b: GeoJsonPoint): Array<GeoJsonPoint>? =
+    private fun intersects(a: GeoPoint, b: GeoPoint): Array<GeoPoint>? =
         intersects(a.toArray(), b.toArray())?.let { Array(it.size) { i: Int -> it[i].toGeoJsonPoint()!! } }
 
     // TODO : factorize with intersect !

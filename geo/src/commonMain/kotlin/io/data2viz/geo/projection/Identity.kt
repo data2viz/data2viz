@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.NoClipGeoJsonPoint
 import io.data2viz.geo.geometry.clip.NoClipPoint3D
@@ -37,7 +37,7 @@ fun identityProjection(init: Projection.() -> Unit = {}) =
         init()
     }
 
-internal class IdentityProjection : Projector<GeoJsonPoint, Point3D> {
-    override fun project(point: GeoJsonPoint) = Point3D(point.lon.rad, point.lat.rad)
-    override fun invert(point : Point3D)= GeoJsonPoint(point.x.rad, point.y.rad)
+internal class IdentityProjection : Projector<GeoPoint, Point3D> {
+    override fun project(point: GeoPoint) = Point3D(point.lon.rad, point.lat.rad)
+    override fun invert(point : Point3D)= GeoPoint(point.x.rad, point.y.rad)
 }

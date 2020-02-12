@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geojson.path
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.geometry.cartesian
 import io.data2viz.geo.geometry.cartesianNormalize
 import io.data2viz.geo.projection.common.createRotateRadiansProjector
@@ -36,11 +36,11 @@ class GeoCircle<D> {
     // TODO: remove D?
 
     private var ring: MutableList<DoubleArray> = mutableListOf()
-    private var rotate: ((GeoJsonPoint) -> GeoJsonPoint)? = null
+    private var rotate: ((GeoPoint) -> GeoPoint)? = null
 
-    private val circleStream: Stream<GeoJsonPoint> = object : Stream<GeoJsonPoint>() {
+    private val circleStream: Stream<GeoPoint> = object : Stream<GeoPoint>() {
 
-        override fun point(point:GeoJsonPoint) {
+        override fun point(point:GeoPoint) {
             val value = rotate!!(point)
             ring.add(doubleArrayOf(value.lon.deg, value.lat.deg))
         }
@@ -96,7 +96,7 @@ class GeoCircle<D> {
  * Generates a circle centered at [0°, 0°], with a given radius and precision.
  */
 fun geoCircle(
-    stream: Stream<GeoJsonPoint>,
+    stream: Stream<GeoPoint>,
     radius: Double,
     delta: Double,
     direction: Int,
@@ -130,7 +130,7 @@ fun geoCircle(
 
         val spher0 = atan2(cartesian1, cartesian0)
         val spher1 = asin(cartesian2)
-        stream.point(GeoJsonPoint(spher0.rad, spher1.rad))
+        stream.point(GeoPoint(spher0.rad, spher1.rad))
         t -= step
     }
 }

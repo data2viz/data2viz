@@ -18,7 +18,7 @@
 package io.data2viz.geo.geojson.path
 
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geo.geometry.cartesian
 import io.data2viz.geo.geometry.cartesianCross
@@ -49,7 +49,7 @@ fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().bounds(geo)
  * maximum latitude is typically the minimum translateY-value.)
  * This is the spherical equivalent of [BoundsStream]
  */
-class GeoBoundsStream : Stream<GeoJsonPoint>() {
+class GeoBoundsStream : Stream<GeoPoint>() {
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
 //  Function references have poor performance due to GC & memory allocation
 
@@ -130,7 +130,7 @@ class GeoBoundsStream : Stream<GeoJsonPoint>() {
     }
 
 //    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
-    override fun point(point: GeoJsonPoint) = currentPoint(point.lon.deg, point.lat.deg)
+    override fun point(point: GeoPoint) = currentPoint(point.lon.deg, point.lat.deg)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -252,7 +252,7 @@ class GeoBoundsStream : Stream<GeoJsonPoint>() {
             lambda00 = lambda
             phi00 = phi
         }
-        areaStream.point(GeoJsonPoint(lambda.deg, phi.deg, .0))
+        areaStream.point(GeoPoint(lambda.deg, phi.deg, .0))
         linePoint(lambda, phi)
     }
 

@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.math.EPSILON
 import io.data2viz.math.QUARTERPI
 import io.data2viz.math.TAU
@@ -27,7 +27,7 @@ import kotlin.math.*
 /**
  * @return whether [polygon] contains given [point]
  */
-fun polygonContains(polygon: List<List<GeoJsonPoint>>, point: GeoJsonPoint): Boolean {
+fun polygonContains(polygon: List<List<GeoPoint>>, point: GeoPoint): Boolean {
     val lambda = point.lon.rad
     var phi = point.lat.rad
     val normal0 = sin(lambda)

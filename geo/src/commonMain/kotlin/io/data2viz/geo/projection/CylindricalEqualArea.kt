@@ -17,19 +17,18 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.math.rad
 import kotlin.math.asin
 import kotlin.math.cos
-import kotlin.math.sin
 
 /**
  * Simple cylindrical equal area
  * Used in [ConicEqualAreaBaseConditionalProjector]
  */
-class CylindricalEqualAreaProjector() : Projector<GeoJsonPoint, Point3D> {
+class CylindricalEqualAreaProjector() : Projector<GeoPoint, Point3D> {
 
     constructor(phi:Double) : this() {
         phi0 = phi
@@ -47,8 +46,8 @@ class CylindricalEqualAreaProjector() : Projector<GeoJsonPoint, Point3D> {
         cosPhi0 = cos(phi0)
     }
 
-    override fun project(point: GeoJsonPoint) = Point3D(point.lon.rad * cosPhi0, point.lat.sin / cosPhi0)
+    override fun project(point: GeoPoint) = Point3D(point.lon.rad * cosPhi0, point.lat.sin / cosPhi0)
 
-    override fun invert(point: Point3D) = GeoJsonPoint( (point.x / cosPhi0).rad, asin(point.y * cosPhi0).rad)
+    override fun invert(point: Point3D) = GeoPoint( (point.x / cosPhi0).rad, asin(point.y * cosPhi0).rad)
 
 }

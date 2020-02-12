@@ -17,24 +17,17 @@
 
 package io.data2viz.geo.geojson
 
-import io.data2viz.geo.GeoJsonPoint
-import io.data2viz.geo.geojson.path.geoCentroid
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.geometry.polygonContains
 import io.data2viz.geo.geojson.path.geoDistance
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geojson.*
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
-import io.data2viz.math.toRadians
-
 
 
 class Sphere : Geometry
 
-/**
- * Compute the centroid of the GeoJsonObject in degrees
- */
-fun GeoJsonObject.centroid(): Position = geoCentroid(this)
 
 /**
  *
@@ -58,14 +51,12 @@ fun GeoJsonObject.contains(point: Position): Boolean =
     }
 
 
-
-
 private fun Lines.contains(point: Position): Boolean {
     val radiansCoordinates = map { it.map { geoJsonPoint(it) } }
     return polygonContains(radiansCoordinates, geoJsonPoint(point))
 }
 
-private fun geoJsonPoint(it: Position) = GeoJsonPoint(it[0].deg, it[1].deg)
+private fun geoJsonPoint(it: Position) = GeoPoint(it[0].deg, it[1].deg)
 
 
 private fun Positions.contains(point: Position): Boolean {
@@ -105,7 +96,7 @@ internal val noop3: (Double, Double, Double) -> Unit = { _, _, _ -> }
 /**
  * Stream all children to [stream]
  */
-fun GeoJsonObject.stream(stream: Stream<GeoJsonPoint>) {
+fun GeoJsonObject.stream(stream: Stream<GeoPoint>) {
     when (this) {
         is FeatureCollection    -> features.forEach { it.stream(stream) }
         is Feature              -> geometry.stream(stream)
@@ -114,7 +105,7 @@ fun GeoJsonObject.stream(stream: Stream<GeoJsonPoint>) {
     }
 }
 
-private fun streamGeometry(geo: GeoJsonObject, stream: Stream<GeoJsonPoint>) {
+private fun streamGeometry(geo: GeoJsonObject, stream: Stream<GeoPoint>) {
     when (geo) {
         is Point            -> streamPoint(geo.pos, stream)
         is LineString       -> streamLine(geo.positions, stream, false)
@@ -126,15 +117,15 @@ private fun streamGeometry(geo: GeoJsonObject, stream: Stream<GeoJsonPoint>) {
     }
 }
 
-private fun streamSphere(stream: Stream<GeoJsonPoint>) {
+private fun streamSphere(stream: Stream<GeoPoint>) {
     stream.sphere()
 }
 
-private fun streamPoint(coordinates: Position, stream: Stream<GeoJsonPoint>) {
-    stream.point(GeoJsonPoint(coordinates.lon.deg, coordinates.lat.deg, coordinates.alt))
+private fun streamPoint(coordinates: Position, stream: Stream<GeoPoint>) {
+    stream.point(GeoPoint(coordinates.lon.deg, coordinates.lat.deg, coordinates.alt))
 }
 
-private fun streamPolygon(coords: Lines, stream: Stream<GeoJsonPoint>) {
+private fun streamPolygon(coords: Lines, stream: Stream<GeoPoint>) {
     stream.polygonStart()
     coords.forEach {
         streamLine(it, stream, true)
@@ -142,16 +133,12 @@ private fun streamPolygon(coords: Lines, stream: Stream<GeoJsonPoint>) {
     stream.polygonEnd()
 }
 
-private fun streamLine(coords: Positions, stream: Stream<GeoJsonPoint>, closed: Boolean) {
+private fun streamLine(coords: Positions, stream: Stream<GeoPoint>, closed: Boolean) {
     val size = if (closed) coords.size - 1 else coords.size
     stream.lineStart()
     for (i in 0 until size) {
         val p = coords[i]
-        stream.point(GeoJsonPoint(p[0].deg, p[1].deg, if (p.size > 2) p[2] else .0))
+        stream.point(GeoPoint(p[0].deg, p[1].deg, if (p.size > 2) p[2] else .0))
     }
     stream.lineEnd()
 }
-
-private fun toRadians(position: Position): DoubleArray = DoubleArray(position.size) { position[it].toRadians() }
-
-typealias GeoPoint = Point

@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.limitedAsin
 import io.data2viz.geo.stream.Stream
@@ -43,7 +43,7 @@ val COS_MIN_DISTANCE = 30.deg.cos
  * else
  *    just perform the projection of points, transforming spheric coordinates into cartesian ones.
  */
-fun resample(projector: Projector<GeoJsonPoint, Point3D>, delta2Precision: Double): (Stream<Point3D>) -> Stream<GeoJsonPoint> =
+fun resample(projector: Projector<GeoPoint, Point3D>, delta2Precision: Double): (Stream<Point3D>) -> Stream<GeoPoint> =
     if (delta2Precision > .0)
         { stream: Stream<Point3D> -> ResampleStream(stream, projector, delta2Precision) }
     else
@@ -55,9 +55,9 @@ fun resample(projector: Projector<GeoJsonPoint, Point3D>, delta2Precision: Doubl
  */
 private class ResampleNone(
     val stream: Stream<Point3D>,
-    val projector: Projector<GeoJsonPoint, Point3D>): Stream<GeoJsonPoint>() {
+    val projector: Projector<GeoPoint, Point3D>): Stream<GeoPoint>() {
 
-    override fun point(point: GeoJsonPoint) { stream.point(projector.project(point)) }
+    override fun point(point: GeoPoint) { stream.point(projector.project(point)) }
     override fun lineStart() { stream.lineStart() }
     override fun lineEnd() { stream.lineEnd() }
     override fun polygonStart() { stream.polygonStart() }
@@ -67,9 +67,9 @@ private class ResampleNone(
 
 private class ResampleStream(
     val stream: Stream<Point3D>,
-    val projector: Projector<GeoJsonPoint, Point3D>,
+    val projector: Projector<GeoPoint, Point3D>,
     val delta2Precision: Double = .5
-) : Stream<GeoJsonPoint>() {
+) : Stream<GeoPoint>() {
 
     // context of execution of stream
 
@@ -123,7 +123,7 @@ private class ResampleStream(
 //    override fun point(x: Double, y: Double, z: Double) {
 //        point(StreamPoint(x, y, z))
 //    }
-    override fun point(point: GeoJsonPoint) {
+    override fun point(point: GeoPoint) {
         when (pointContext) {
             PointContext.POLYGON -> pointPolygon(point)
             PointContext.LINE    -> pointLine(point)
@@ -146,7 +146,7 @@ private class ResampleStream(
     /**
      * First point of a polygon, same as line but also store initial values.
      */
-    fun pointPolygon(point:GeoJsonPoint) {
+    fun pointPolygon(point:GeoPoint) {
         lambda00 = point.lon.rad
         pointLine(point)
         x00 = x0
@@ -157,7 +157,7 @@ private class ResampleStream(
         pointContext = PointContext.LINE
     }
 
-    fun pointLine(point: GeoJsonPoint) {
+    fun pointLine(point: GeoPoint) {
         val radiusAtLat = point.lat.cos
         val dz = radiusAtLat * point.lon.cos
         val dx = radiusAtLat * point.lon.sin
@@ -182,13 +182,13 @@ private class ResampleStream(
         a0 = dz
         b0 = dx
         c0 = dy
-        stream.point(Point3D(x0, y0, point.z))
+        stream.point(Point3D(x0, y0, point.alt))
     }
 
     /**
      * A point outside of polygon or line context, just project and delegate to next stream after projection.
      */
-    fun pointDefault(point: GeoJsonPoint) {
+    fun pointDefault(point: GeoPoint) {
         val projected = projector.project(point)
         stream.point(projected)
     }
@@ -234,7 +234,7 @@ private class ResampleStream(
                 else -> atan2(b, a)
             }
 
-            val projected2 = projector.project(GeoJsonPoint(lambda2.rad, phi2.rad))
+            val projected2 = projector.project(GeoPoint(lambda2.rad, phi2.rad))
             val x2 = projected2.x
             val y2 = projected2.y
 

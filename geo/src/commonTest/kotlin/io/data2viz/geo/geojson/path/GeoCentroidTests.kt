@@ -22,6 +22,7 @@ import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.geojson.Sphere
 import io.data2viz.geo.projection.pt
 import io.data2viz.geojson.*
+import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -29,10 +30,10 @@ class GeoCentroidTests : TestBase() {
 
     @Test
     fun geocentroid_of_a_point_is_itself() {
-        centroid(Point(pt(.0, .0))) shouldBeClose doubleArrayOf(.0, .0)
-        centroid(Point(pt(1.0, 1.0))) shouldBeClose doubleArrayOf(1.0, 1.0)
-        centroid(Point(pt(2.0, 3.0))) shouldBeClose doubleArrayOf(2.0, 3.0)
-        centroid(Point(pt(-4.0, -5.0))) shouldBeClose doubleArrayOf(-4.0, -5.0)
+        centroid(Point(pt(.0, .0))) shouldBeClose target(.0, .0)
+        centroid(Point(pt(1.0, 1.0))) shouldBeClose target(1.0, 1.0)
+        centroid(Point(pt(2.0, 3.0))) shouldBeClose target(2.0, 3.0)
+        centroid(Point(pt(-4.0, -5.0))) shouldBeClose target(-4.0, -5.0)
     }
 
     @Test
@@ -44,7 +45,7 @@ class GeoCentroidTests : TestBase() {
                     pt(1.0, 2.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(0.499847, 1.000038)
+        ) shouldBeClose target(0.499847, 1.000038)
 
         centroid(
             MultiPoint(
@@ -53,7 +54,7 @@ class GeoCentroidTests : TestBase() {
                     pt(-179.0, .0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(180.0, .0)
+        ) shouldBeClose target(180.0, .0)
     }
 
     @Test
@@ -65,7 +66,7 @@ class GeoCentroidTests : TestBase() {
                     pt(180.0, .0)
                 )
             )
-        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        ) shouldBe null
 
         centroid(
             MultiPoint(
@@ -76,7 +77,7 @@ class GeoCentroidTests : TestBase() {
                     pt(-90.0, .0)
                 )
             )
-        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        ) shouldBe null
 
         centroid(
             MultiPoint(
@@ -87,12 +88,12 @@ class GeoCentroidTests : TestBase() {
                     pt(.0, -90.0)
                 )
             )
-        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        ) shouldBe null
     }
 
     @Test
     fun geocentroid_of_an_empty_set_of_points_is_ambiguous() {
-        centroid(MultiPoint(arrayOf())) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        centroid(MultiPoint(arrayOf())) shouldBe null
     }
 
     @Test
@@ -104,7 +105,7 @@ class GeoCentroidTests : TestBase() {
                     pt(1.0, .0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(0.5, .0)
+        ) shouldBeClose target(0.5, .0)
 
         centroid(
             LineString(
@@ -113,7 +114,7 @@ class GeoCentroidTests : TestBase() {
                     pt(.0, 90.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(.0, 45.0)
+        ) shouldBeClose target(.0, 45.0)
 
         centroid(
             LineString(
@@ -123,7 +124,7 @@ class GeoCentroidTests : TestBase() {
                     pt(.0, 90.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(.0, 45.0)
+        ) shouldBeClose target(.0, 45.0)
 
         centroid(
             LineString(
@@ -132,7 +133,7 @@ class GeoCentroidTests : TestBase() {
                     pt(1.0, 1.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(.0, .0)
+        ) shouldBeClose target(.0, .0)
 
         centroid(
             LineString(
@@ -141,7 +142,7 @@ class GeoCentroidTests : TestBase() {
                     pt(60.0, 1.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(.0, .0)
+        ) shouldBeClose target(.0, .0)
 
         centroid(
             LineString(
@@ -150,7 +151,7 @@ class GeoCentroidTests : TestBase() {
                     pt(-179.0, 1.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(180.0, .0)
+        ) shouldBeClose target(180.0, .0)
 
         centroid(
             LineString(
@@ -160,7 +161,7 @@ class GeoCentroidTests : TestBase() {
                     pt(179.0, .0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(.0, .0)
+        ) shouldBeClose target(.0, .0)
 
         centroid(
             LineString(
@@ -170,7 +171,7 @@ class GeoCentroidTests : TestBase() {
                     pt(.0, 90.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(.0, .0)
+        ) shouldBeClose target(.0, .0)
     }
 
     @Test
@@ -182,7 +183,7 @@ class GeoCentroidTests : TestBase() {
                     pt(.0, .0)
                 )
             )
-        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        ) shouldBe null
 
         centroid(
             MultiLineString(
@@ -193,7 +194,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        ) shouldBe null
     }
 
     @Test
@@ -207,7 +208,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(.0, 1.0)
+        ) shouldBeClose target(.0, 1.0)
     }
 
     @Test
@@ -219,7 +220,7 @@ class GeoCentroidTests : TestBase() {
                     pt(1.0, 1.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(1.0, 1.0)
+        ) shouldBeClose target(1.0, 1.0)
 
         // TODO
 //        test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}, {type: "LineString", coordinates: [[1, 2], [1, 2]]}]}), [0.666534, 1.333408], 1e-6);
@@ -239,7 +240,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(2.0, 1.000076)
+        ) shouldBeClose target(2.0, 1.000076)
 
         // TODO
 //        test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}, {type: "Polygon", coordinates: [[[1, 2], [1, 2], [1, 2], [1, 2]]]}]}), [0.799907, 1.600077], 1e-6);
@@ -259,7 +260,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(1.0, 1.0)
+        ) shouldBeClose target(1.0, 1.0)
 
         // TODO
 //        test.inDelta(d3.geoCentroid({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}, {type: "Polygon", coordinates: [[[1, 2], [1, 2], [1, 2], [1, 2]]]}]}), [0.799907, 1.600077], 1e-6);
@@ -276,7 +277,7 @@ class GeoCentroidTests : TestBase() {
                     pt(.0, .0)
                 )
             )
-        ) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        ) shouldBe null
     }
 
     @Test
@@ -293,7 +294,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(0.5, .0)
+        ) shouldBeClose target(0.5, .0)
 
         centroid(
             Polygon(
@@ -301,7 +302,7 @@ class GeoCentroidTests : TestBase() {
                     (-180..180).map { pt(it.toDouble(), -60.0) }.toTypedArray()
                 )
             )
-        )[1] shouldBeClose -90.0
+        )?.lat?.deg ?: .0 shouldBeClose -90.0
 
         centroid(
             Polygon(
@@ -315,7 +316,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(5.0, .0)
+        ) shouldBeClose target(5.0, .0)
     }
 
     @Test
@@ -332,12 +333,12 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(-179.5, 4.987448)
+        ) shouldBeClose target(-179.5, 4.987448)
     }
 
     @Test
     fun geocentroid_of_a_sphere_is_ambiguous() {
-        centroid(Sphere()) shouldBe doubleArrayOf(Double.NaN, Double.NaN)
+        centroid(Sphere()) shouldBe null
     }
 
     @Test
@@ -348,7 +349,7 @@ class GeoCentroidTests : TestBase() {
                     (-180..180).map { pt(it.toDouble(), -60.0) }.toTypedArray()
                 )
             )
-        )[1] shouldBeClose -90.0
+        )?.lat?.deg ?: .0 shouldBeClose -90.0
     }
 
     @Test
@@ -364,7 +365,7 @@ class GeoCentroidTests : TestBase() {
                 )
             )
         )
-        centroid(geo) shouldBeClose doubleArrayOf(5.0, .0)
+        centroid(geo) shouldBeClose target(5.0, .0)
     }
 
     @Test
@@ -382,7 +383,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(5.0, .0)
+        ) shouldBeClose target(5.0, .0)
     }
 
     @Test
@@ -399,7 +400,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(-179.5, 4.987448)
+        ) shouldBeClose target(-179.5, 4.987448)
     }
 
     @Test
@@ -413,7 +414,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(1.0, 1.0)
+        ) shouldBeClose target(1.0, 1.0)
 
         centroid(
             Feature(
@@ -421,7 +422,7 @@ class GeoCentroidTests : TestBase() {
                     pt(1.0, 1.0)
                 )
             )
-        ) shouldBeClose doubleArrayOf(1.0, 1.0)
+        ) shouldBeClose target(1.0, 1.0)
 
         centroid(
             Feature(
@@ -437,7 +438,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(.5, .0)
+        ) shouldBeClose target(.5, .0)
     }
 
     @Test
@@ -456,7 +457,7 @@ class GeoCentroidTests : TestBase() {
                     Feature(Point(pt(.0, .0)))
                 )
             )
-        ) shouldBeClose doubleArrayOf(179.5, .0)
+        ) shouldBeClose target(179.5, .0)
     }
 
     @Test
@@ -473,11 +474,13 @@ class GeoCentroidTests : TestBase() {
                     Point(pt(.0, .0))
                 )
             )
-        ) shouldBeClose doubleArrayOf(179.5, .0)
+        ) shouldBeClose target(179.5, .0)
     }
 
     @Test
     fun geocentroid_of_a_non_empty_polygon_a_non_empty_linestring_and_a_point_only_considers_the_polygon() {
+        val lon = -179.5
+        val lat = 0.500006
         centroid(
             GeometryCollection(
                 arrayOf(
@@ -501,7 +504,7 @@ class GeoCentroidTests : TestBase() {
                     Point(pt(.0, .0))
                 )
             )
-        ) shouldBeClose doubleArrayOf(-179.5, 0.500006)
+        ) shouldBeClose target(lon, lat)
 
         centroid(
             GeometryCollection(
@@ -526,7 +529,7 @@ class GeoCentroidTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose doubleArrayOf(-179.5, 0.500006)
+        ) shouldBeClose target(-179.5, 0.500006)
     }
 
     @Test
@@ -538,7 +541,7 @@ class GeoCentroidTests : TestBase() {
                     Feature(Point(pt(1.0, 2.0)))
                 )
             )
-        ) shouldBeClose doubleArrayOf(1.0, 2.0)
+        ) shouldBeClose target(1.0, 2.0)
 
         centroid(
             FeatureCollection(
@@ -547,10 +550,21 @@ class GeoCentroidTests : TestBase() {
                     Feature(Sphere())
                 )
             )
-        ) shouldBeClose doubleArrayOf(2.0, 3.0)
+        ) shouldBeClose target(2.0, 3.0)
     }
 
-    private fun centroid(geo: GeoJsonObject): GeoPoint = GeoCentroidStream().result(geo)
+    private fun target(lon: Double, lat: Double) = GeoPoint(lon.deg, lat.deg)
+
+    infix fun GeoPoint?.shouldBeClose(other: GeoPoint) {
+        if (this == null)
+            throw AssertionError("Result should not be null")
+
+        lon.rad shouldBeClose other.lon.rad
+        lat.rad shouldBeClose other.lat.rad
+    }
+
+
+    private fun centroid(geo: GeoJsonObject): GeoPoint? = GeoCentroidStream().centroid(geo)
 
     /*
 tape("the drawCentroid of a detailed feature is correct", function(test) {

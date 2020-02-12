@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.extentPostClip
 import io.data2viz.geo.projection.common.ComposedProjection
@@ -53,9 +53,9 @@ class AlbersUSAProjection : ComposedProjection() {
 
     private var streamPoint: Point3D = Point3D()
     // Strange logic from d3 need refactor. Look at project implementation
-    lateinit var lower48Point: Stream<GeoJsonPoint>
-    lateinit var alaskaPoint: Stream<GeoJsonPoint>
-    lateinit var hawaiiPoint: Stream<GeoJsonPoint>
+    lateinit var lower48Point: Stream<GeoPoint>
+    lateinit var alaskaPoint: Stream<GeoPoint>
+    lateinit var hawaiiPoint: Stream<GeoPoint>
 
     val pointStream = object : Stream<Point3D>() {
         override fun point(point: Point3D) {
@@ -151,7 +151,7 @@ class AlbersUSAProjection : ComposedProjection() {
         hawaiiPoint = hawaii.bindTo(pointStream)
     }
 
-    override fun project(point: GeoJsonPoint): Point3D {
+    override fun project(point: GeoPoint): Point3D {
 
         // TODO: need refactor
         // strange logic taken from d3. Should be refactored to something similar to invert implementation
@@ -168,7 +168,7 @@ class AlbersUSAProjection : ComposedProjection() {
         return Point3D(streamPoint.x, streamPoint.y)
     }
 
-    override fun invert(point: Point3D): GeoJsonPoint {
+    override fun invert(point: Point3D): GeoPoint {
         val k = lower48.scale
 
         val newX = (point.x - lower48.translateX) / k

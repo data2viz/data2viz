@@ -17,11 +17,10 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.Projection
 import io.data2viz.math.deg
-import io.data2viz.math.rad
 import kotlin.math.abs
 
 internal fun pt(a: Double, b: Double) = doubleArrayOf(a, b)
@@ -52,7 +51,7 @@ fun checkProject(
 ) {
 
 
-    val projectPointResult = projection.project(GeoJsonPoint(lambda.deg, phi.deg))
+    val projectPointResult = projection.project(GeoPoint(lambda.deg, phi.deg))
 
     inDelta(projectPointResult.x, screenX, deltaPrecision ?: projectTestPrecision)
     inDelta(projectPointResult.y, screenY, deltaPrecision ?: projectTestPrecision)

@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.math.deg
 import io.data2viz.test.TestBase
 import kotlin.test.Test
@@ -38,7 +38,7 @@ class AlbersUsaTests : TestBase() {
 
         checkProject(albersUsa, -149.9003, 61.2181, 171.2, 446.9, 0.1) // Anchorage, AK
         checkProject(albersUsa, -157.8583, 21.3069, 298.5, 451.0, 0.1) // Honolulu, HI
-        val projectedParis = albersUsa.project(GeoJsonPoint(2.3522.deg, 48.8566.deg)) // Paris, France
+        val projectedParis = albersUsa.project(GeoPoint(2.3522.deg, 48.8566.deg)) // Paris, France
 
         projectedParis.x shouldEqual Double.NaN
         projectedParis.y shouldEqual Double.NaN

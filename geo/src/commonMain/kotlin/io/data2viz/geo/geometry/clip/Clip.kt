@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.polygonContains
 import io.data2viz.geo.stream.Stream
@@ -28,8 +28,8 @@ import io.data2viz.math.HALFPI
  * Default clipping. Install no Clip Stream and just returns current
  * output Stream.
  */
-val NoClipGeoJsonPoint = object : ClipStreamBuilder<GeoJsonPoint> {
-    override fun bindTo(downstream: Stream<GeoJsonPoint>) = downstream
+val NoClipGeoJsonPoint = object : ClipStreamBuilder<GeoPoint> {
+    override fun bindTo(downstream: Stream<GeoPoint>) = downstream
 }
 
 val NoClipPoint3D = object : ClipStreamBuilder<Point3D> {
@@ -86,9 +86,9 @@ internal interface ClipperWithStart<T> : Clipper<T> {
 }
 
 internal class ClippableStream(
-    val clipper: ClipperWithStart<GeoJsonPoint>,
-    val downstream: Stream<GeoJsonPoint>
-) : Stream<GeoJsonPoint>() {
+    val clipper: ClipperWithStart<GeoPoint>,
+    val downstream: Stream<GeoPoint>
+) : Stream<GeoPoint>() {
 
     // context of execution of stream
     // a line can be projected in the context of a polygon or not
@@ -107,14 +107,14 @@ internal class ClippableStream(
 
     internal val clipStream = clipper.clipLine(downstream)
 
-    internal val ringBuffer = BufferStream<GeoJsonPoint>()
+    internal val ringBuffer = BufferStream<GeoPoint>()
     internal val ringSink = clipper.clipLine(ringBuffer)
 
 
-    internal val segments: MutableList<List<List<GeoJsonPoint>>> = mutableListOf()
+    internal val segments: MutableList<List<List<GeoPoint>>> = mutableListOf()
 
-    internal val polygon: MutableList<List<GeoJsonPoint>> = mutableListOf()
-    internal var ring: MutableList<GeoJsonPoint>? = null
+    internal val polygon: MutableList<List<GeoPoint>> = mutableListOf()
+    internal var ring: MutableList<GeoPoint>? = null
 
 
     override fun polygonStart() {
@@ -139,7 +139,7 @@ internal class ClippableStream(
 //    override fun point(x: Double, y: Double, z: Double) {
 //        point(StreamPoint(x, y, z))
 //    }
-    override fun point(point: GeoJsonPoint) {
+    override fun point(point: GeoPoint) {
         when (pointContext) {
             PointContext.RING -> pointRing(point)
             PointContext.LINE -> pointLine(point)
@@ -147,17 +147,17 @@ internal class ClippableStream(
         }
     }
 
-    private fun pointRing(point: GeoJsonPoint) {
+    private fun pointRing(point: GeoPoint) {
         ring!!.add(point)
         ringSink.point(point)
     }
 
 
-    private fun pointLine(point: GeoJsonPoint) {
+    private fun pointLine(point: GeoPoint) {
         clipStream.point(point)
     }
 
-    private fun pointDefault(point: GeoJsonPoint) {
+    private fun pointDefault(point: GeoPoint) {
         if (clipper.pointVisible(point))
             downstream.point(point)
     }
@@ -184,7 +184,7 @@ internal class ClippableStream(
         ringSink.lineEnd()
 
         val clean = ringSink.clean
-        val ringSegments: MutableList<List<GeoJsonPoint>> = ringBuffer.result()
+        val ringSegments: MutableList<List<GeoPoint>> = ringBuffer.result()
 
 
         ringList.removeAt(ringList.lastIndex)
@@ -205,7 +205,7 @@ internal class ClippableStream(
                 }
                 downstream.lineStart()
                 (0 until m).forEach {
-                    val currentSegmentPiece: GeoJsonPoint = segment[it]
+                    val currentSegmentPiece: GeoPoint = segment[it]
                     downstream.point(currentSegmentPiece)
                 }
                 downstream.lineEnd()
@@ -266,7 +266,7 @@ internal class ClippableStream(
     }
 
 
-    private val compareIntersection = Comparator<Intersection<GeoJsonPoint>> { i1, i2 ->
+    private val compareIntersection = Comparator<Intersection<GeoPoint>> { i1, i2 ->
         val a = i1.point
         val b = i2.point
         val ca = if (a.lon.rad < 0) a.lat.rad - HALFPI - EPSILON else HALFPI - a.lat.rad

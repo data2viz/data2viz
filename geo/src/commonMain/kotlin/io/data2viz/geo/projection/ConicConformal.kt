@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.projection.common.BaseConditionalProjector
 import io.data2viz.geo.projection.common.Projector
@@ -63,17 +63,17 @@ internal class ConicConformalBaseConditionalProjector(
             conicConformalProjector.phi1 = value
         }
 
-    override val baseProjector: Projector<GeoJsonPoint, Point3D>
+    override val baseProjector: Projector<GeoPoint, Point3D>
         get() = mercatorProjector
 
-    override val nestedProjector: Projector<GeoJsonPoint, Point3D>
+    override val nestedProjector: Projector<GeoPoint, Point3D>
         get() = conicConformalProjector
 
     override val isNeedUseBaseProjector: Boolean
         get() = conicConformalProjector.isPossibleToUseProjector
 }
 
-class ConicConformalProjector : ConicProjector, Projector<GeoJsonPoint, Point3D> {
+class ConicConformalProjector : ConicProjector, Projector<GeoPoint, Point3D> {
 
 
     override var phi0: Double = 0.0
@@ -116,11 +116,11 @@ class ConicConformalProjector : ConicProjector, Projector<GeoJsonPoint, Point3D>
 
     private fun cy0() = cos(phi0)
 
-    override fun invert(point: Point3D): GeoJsonPoint {
+    override fun invert(point: Point3D): GeoPoint {
 
         val fy = fy(point.y)
         val rInvert = rInvert(point.x, fy)
-        return GeoJsonPoint(
+        return GeoPoint(
             (atan2(point.x, abs(fy)) / n * sign(fy)).rad,
             (2 * atan((f / rInvert).pow(1 / n)) - HALFPI).rad
         )
@@ -129,7 +129,7 @@ class ConicConformalProjector : ConicProjector, Projector<GeoJsonPoint, Point3D>
 
     private fun rInvert(x: Double, fy: Double) = sign(n) * sqrt(x * x + fy * fy)
 
-    override fun project(point: GeoJsonPoint): Point3D {
+    override fun project(point: GeoPoint): Point3D {
         val convertedPhi = convertPhi(point.lat.rad)
         val r = r(convertedPhi)
         return Point3D(

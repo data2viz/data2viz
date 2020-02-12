@@ -17,8 +17,7 @@
 
 package io.data2viz.geo.geometry
 
-import io.data2viz.geo.GeoJsonPoint
-import io.data2viz.geo.geojson.geoPath
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.geojson.path.GeoCircle
 import io.data2viz.geojson.Polygon
 import io.data2viz.math.PI
@@ -71,7 +70,7 @@ class PolygonContainsTests : TestBase() {
             transformedPolygon.add(mutableRow)
         }
 
-        fun geoJsonPoint(it: DoubleArray) = GeoJsonPoint(it[0].deg, it[1].deg)
+        fun geoJsonPoint(it: DoubleArray) = GeoPoint(it[0].deg, it[1].deg)
 
         val polygonContainsResult: Boolean = polygonContains(polygon.map{ it.map{ geoJsonPoint(it) }}, geoJsonPoint(point))
 

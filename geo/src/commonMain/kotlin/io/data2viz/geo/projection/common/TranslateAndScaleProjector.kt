@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 
 /**
@@ -25,13 +25,13 @@ import io.data2viz.geo.Point3D
  *
  */
 class TranslateAndScaleProjector(
-    val projector: Projector<GeoJsonPoint, Point3D>,
+    val projector: Projector<GeoPoint, Point3D>,
     var scale: Double,
     var recenterDx: Double,
     var recenterDy: Double
-) : Projector<GeoJsonPoint, Point3D> {
+) : Projector<GeoPoint, Point3D> {
 
-    override fun project(point: GeoJsonPoint): Point3D {
+    override fun project(point: GeoPoint): Point3D {
         val projected = projector.project(point)
         return projected.copy(
             x = recenterDx + projected.x * scale,
@@ -40,7 +40,7 @@ class TranslateAndScaleProjector(
     }
 
 
-    override fun invert(point: Point3D): GeoJsonPoint =
+    override fun invert(point: Point3D): GeoPoint =
         projector.invert(
             point.copy(
                 x = (point.x - recenterDx) / scale,

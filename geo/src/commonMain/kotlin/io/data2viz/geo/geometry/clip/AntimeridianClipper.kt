@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geometry.clip
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
@@ -34,27 +34,27 @@ import kotlin.math.sin
  * that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.
  *
  */
-val antimeridianPreClip = object : ClipStreamBuilder<GeoJsonPoint> {
+val antimeridianPreClip = object : ClipStreamBuilder<GeoPoint> {
     val antimeridianClip = AntimeridianClipper()
 
-    override fun bindTo(downstream: Stream<GeoJsonPoint>): Stream<GeoJsonPoint> {
+    override fun bindTo(downstream: Stream<GeoPoint>): Stream<GeoPoint> {
         return ClippableStream(antimeridianClip, downstream)
     }
 
 }
 
 
-private class AntimeridianClipper : ClipperWithStart<GeoJsonPoint> {
+private class AntimeridianClipper : ClipperWithStart<GeoPoint> {
 
-    override var start = GeoJsonPoint(-PI.rad, -HALFPI.rad)
-    override fun pointVisible(point: GeoJsonPoint) = true
+    override var start = GeoPoint(-PI.rad, -HALFPI.rad)
+    override fun pointVisible(point: GeoPoint) = true
 
-    override fun clipLine(downstream: Stream<GeoJsonPoint>): ClipStream<GeoJsonPoint> {
+    override fun clipLine(downstream: Stream<GeoPoint>): ClipStream<GeoPoint> {
         var lambda0 = Double.NaN
         var phi0 = Double.NaN
         var sign0 = Double.NaN
 
-        return object : ClipStream<GeoJsonPoint>() {
+        return object : ClipStream<GeoPoint>() {
             private var currentClean = 0
 
             override var clean
@@ -68,33 +68,33 @@ private class AntimeridianClipper : ClipperWithStart<GeoJsonPoint> {
                 clean = 1
             }
 
-            override fun point(point: GeoJsonPoint) {
+            override fun point(point: GeoPoint) {
                 var lambda1 = point.lon.rad
                 val phi1 = point.lat.rad
                 val sign1 = if (lambda1 > 0) PI else -PI
                 val delta = abs(lambda1 - lambda0)
                 if (abs(delta - PI) < EPSILON) { // Line crosses pole
                     phi0 = if ((phi0 + phi1) / 2 > 0) HALFPI else -HALFPI
-                    downstream.point(GeoJsonPoint(lambda0.rad, phi0.rad, 0.0))
-                    downstream.point(GeoJsonPoint(sign0.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(lambda0.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(sign0.rad, phi0.rad, 0.0))
                     downstream.lineEnd()
                     downstream.lineStart()
-                    downstream.point(GeoJsonPoint(sign1.rad, phi0.rad, 0.0))
-                    downstream.point(GeoJsonPoint(lambda1.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(sign1.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(lambda1.rad, phi0.rad, 0.0))
                     clean = 0
                 } else if (sign0 != sign1 && delta >= PI) {
                     if (abs(lambda0 - sign0) < EPSILON) lambda0 -= sign0 * EPSILON
                     if (abs(lambda1 - sign1) < EPSILON) lambda1 -= sign1 * EPSILON
                     phi0 = intersect(lambda0, phi0, lambda1, phi1)
-                    downstream.point(GeoJsonPoint(sign0.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(sign0.rad, phi0.rad, 0.0))
                     downstream.lineEnd()
                     downstream.lineStart()
-                    downstream.point(GeoJsonPoint(sign1.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(sign1.rad, phi0.rad, 0.0))
                     clean = 0
                 }
                 lambda0 = lambda1
                 phi0 = phi1
-                downstream.point(GeoJsonPoint(lambda0.rad, phi0.rad, 0.0))
+                downstream.point(GeoPoint(lambda0.rad, phi0.rad, 0.0))
                 sign0 = sign1
             }
 
@@ -122,24 +122,24 @@ private class AntimeridianClipper : ClipperWithStart<GeoJsonPoint> {
         }
     }
 
-    override fun interpolate(from: GeoJsonPoint?, to: GeoJsonPoint?, direction: Int, stream: Stream<GeoJsonPoint>) {
+    override fun interpolate(from: GeoPoint?, to: GeoPoint?, direction: Int, stream: Stream<GeoPoint>) {
         if (from == null || to == null) {
             val phi = direction * HALFPI
-            stream.point(GeoJsonPoint(-PI.rad, phi.rad, 0.0))
-            stream.point(GeoJsonPoint(0.0.rad, phi.rad, 0.0))
-            stream.point(GeoJsonPoint(PI.rad, phi.rad, 0.0))
-            stream.point(GeoJsonPoint(PI.rad, 0.0.rad, 0.0))
-            stream.point(GeoJsonPoint(PI.rad, -phi.rad, 0.0))
-            stream.point(GeoJsonPoint(0.0.rad, -phi.rad, 0.0))
-            stream.point(GeoJsonPoint(-PI.rad, -phi.rad, 0.0))
-            stream.point(GeoJsonPoint(-PI.rad, 0.0.rad, 0.0))
-            stream.point(GeoJsonPoint(-PI.rad, phi.rad, 0.0))
+            stream.point(GeoPoint(-PI.rad, phi.rad, 0.0))
+            stream.point(GeoPoint(0.0.rad, phi.rad, 0.0))
+            stream.point(GeoPoint(PI.rad, phi.rad, 0.0))
+            stream.point(GeoPoint(PI.rad, 0.0.rad, 0.0))
+            stream.point(GeoPoint(PI.rad, -phi.rad, 0.0))
+            stream.point(GeoPoint(0.0.rad, -phi.rad, 0.0))
+            stream.point(GeoPoint(-PI.rad, -phi.rad, 0.0))
+            stream.point(GeoPoint(-PI.rad, 0.0.rad, 0.0))
+            stream.point(GeoPoint(-PI.rad, phi.rad, 0.0))
         } else if (abs(from.lon.rad - to.lon.rad) > EPSILON) {
             val lambda = if (from.lon.rad < to.lon.rad) PI else -PI
             val phi = direction * lambda / 2
-            stream.point(GeoJsonPoint(-lambda.rad, phi.rad, 0.0))
-            stream.point(GeoJsonPoint(0.0.rad, phi.rad, 0.0))
-            stream.point(GeoJsonPoint(lambda.rad, phi.rad, 0.0))
+            stream.point(GeoPoint(-lambda.rad, phi.rad, 0.0))
+            stream.point(GeoPoint(0.0.rad, phi.rad, 0.0))
+            stream.point(GeoPoint(lambda.rad, phi.rad, 0.0))
         } else stream.point(to)
     }
 

@@ -17,7 +17,7 @@
 
 package io.data2viz.geo.geojson.path
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.geojson.noop
 import io.data2viz.geo.geojson.stream
 import io.data2viz.geo.geometry.path.MeasureStream
@@ -52,7 +52,7 @@ fun geoLength(geo: GeoJsonObject): Double
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
  * This is the spherical equivalent of [MeasureStream]
  */
-class GeoLengthStream : Stream<GeoJsonPoint>() {
+class GeoLengthStream : Stream<GeoPoint>() {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
 //  Function references have poor performance due to GC & memory allocation
@@ -63,7 +63,7 @@ class GeoLengthStream : Stream<GeoJsonPoint>() {
     private var cosPhi0 = Double.NaN
     private var sinPhi0 = Double.NaN
 
-    private var currentPoint: (point: GeoJsonPoint) -> Unit = no_geo
+    private var currentPoint: (point: GeoPoint) -> Unit = no_geo
     private var currentLineEnd: () -> Unit = noop
 
     fun result(geo: GeoJsonObject): Double {
@@ -72,7 +72,7 @@ class GeoLengthStream : Stream<GeoJsonPoint>() {
         return lengthSum
     }
 
-    override fun point(point: GeoJsonPoint) = currentPoint(point)
+    override fun point(point: GeoPoint) = currentPoint(point)
     override fun lineStart() {
         currentPoint = ::lengthPointFirst
         currentLineEnd = ::lengthLineEnd
@@ -80,7 +80,7 @@ class GeoLengthStream : Stream<GeoJsonPoint>() {
 
     override fun lineEnd() = currentLineEnd()
 
-    private fun lengthPointFirst(point: GeoJsonPoint) {
+    private fun lengthPointFirst(point: GeoPoint) {
         lambda0 = point.lon.rad
         sinPhi0 = point.lat.sin
         cosPhi0 = point.lat.cos
@@ -92,7 +92,7 @@ class GeoLengthStream : Stream<GeoJsonPoint>() {
         currentLineEnd = noop
     }
 
-    private fun lengthPoint(point: GeoJsonPoint) {
+    private fun lengthPoint(point: GeoPoint) {
         val sinPhi = point.lat.sin
         val cosPhi = point.lat.cos
         val delta = abs(point.lon.rad - lambda0)
@@ -108,4 +108,4 @@ class GeoLengthStream : Stream<GeoJsonPoint>() {
     }
 }
 
-val no_geo: (GeoJsonPoint) -> Unit = {}
+val no_geo: (GeoPoint) -> Unit = {}

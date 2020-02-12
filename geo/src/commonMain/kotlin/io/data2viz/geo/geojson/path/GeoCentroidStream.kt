@@ -17,7 +17,6 @@
 
 package io.data2viz.geo.geojson.path
 
-import io.data2viz.geo.GeoJsonPoint
 import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geojson.stream
@@ -25,17 +24,15 @@ import io.data2viz.geojson.GeoJsonObject
 import io.data2viz.math.EPSILON
 import io.data2viz.math.EPSILON2
 import io.data2viz.geo.geometry.path.CentroidStream
-import io.data2viz.geojson.Position
 import io.data2viz.math.rad
 import kotlin.math.*
 
-fun geoCentroid(geo: GeoJsonObject): Position = GeoCentroidStream().result(geo)
 
 /**
  * Returns the spherical centroid of the specified GeoJSON object.
  * This is the spherical equivalent of [CentroidStream]
  */
-class GeoCentroidStream : Stream<GeoJsonPoint>() {
+class GeoCentroidStream : Stream<GeoPoint>() {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
     //  Function references have poor performance due to GC & memory allocation
@@ -52,22 +49,19 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
     private var _Y2 = .0
     private var _Z2 = .0
 
-    private var point00 = GeoJsonPoint()
+    private var point00 = GeoPoint()
 
 
     private var x0 = Double.NaN
     private var y0 = Double.NaN
     private var z0 = Double.NaN         // previous point
 
-    private var currentPoint: (GeoJsonPoint) -> Unit = ::centroidPoint
+    private var currentPoint: (GeoPoint) -> Unit = ::centroidPoint
     private var currentLineStart: () -> Unit = ::centroidLineStart
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
     
-    fun result(geo: GeoJsonObject): GeoPoint =
-        centroid(geo)?.let{ doubleArrayOf(it.lon.deg, it.lat.deg) } ?: doubleArrayOf(Double.NaN, Double.NaN)
-
-    fun centroid(geo: GeoJsonObject): GeoJsonPoint? {
+    fun centroid(geo: GeoJsonObject): GeoPoint? {
         _W0 = .0
         _W1 = .0
         _X0 = .0
@@ -104,10 +98,10 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
             if (m < EPSILON2) return null
         }
 
-        return GeoJsonPoint(atan2(y, x).rad, asin(z / sqrt(m)).rad)
+        return GeoPoint(atan2(y, x).rad, asin(z / sqrt(m)).rad)
     }
 
-    override fun point(point: GeoJsonPoint) = currentPoint(point)
+    override fun point(point: GeoPoint) = currentPoint(point)
     override fun lineStart() = currentLineStart()
     override fun lineEnd() = currentLineEnd()
     override fun polygonStart() {
@@ -121,7 +115,7 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
     }
 
     // Arithmetic mean of Cartesian vectors.
-    private fun centroidPoint(point: GeoJsonPoint) {
+    private fun centroidPoint(point: GeoPoint) {
         val cosPhi = point.lat.cos
         centroidPointCartesian(cosPhi * point.lon.cos, cosPhi * point.lon.sin, point.lat.sin)
     }
@@ -137,7 +131,7 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
         currentPoint = ::centroidLinePointFirst
     }
 
-    private fun centroidLinePointFirst(point: GeoJsonPoint) {
+    private fun centroidLinePointFirst(point: GeoPoint) {
         val cosPhi = point.lat.cos
         x0 = cosPhi * point.lon.cos
         y0 = cosPhi * point.lon.sin
@@ -146,7 +140,7 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
         centroidPointCartesian(x0, y0, z0)
     }
 
-    private fun centroidLinePoint(point: GeoJsonPoint) {
+    private fun centroidLinePoint(point: GeoPoint) {
         val cosPhi = point.lat.cos
         val a = cosPhi * point.lon.cos
         val b = cosPhi * point.lon.sin
@@ -180,7 +174,7 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
         currentPoint = ::centroidPoint
     }
 
-    private fun centroidRingPointFirst(point: GeoJsonPoint) {
+    private fun centroidRingPointFirst(point: GeoPoint) {
         point00 = point
         val cosPhi = point.lat.cos
         currentPoint = ::centroidRingPoint
@@ -190,7 +184,7 @@ class GeoCentroidStream : Stream<GeoJsonPoint>() {
         centroidPointCartesian(x0, y0, z0)
     }
 
-    private fun centroidRingPoint(point: GeoJsonPoint) {
+    private fun centroidRingPoint(point: GeoPoint) {
         val cosPhi = point.lat.cos
         val a = cosPhi * point.lon.cos
         val b = cosPhi * point.lon.sin

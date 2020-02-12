@@ -17,16 +17,13 @@
 
 package io.data2viz.geo.projection
 
-import io.data2viz.geo.GeoJsonPoint
+import io.data2viz.geo.GeoPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.clip.anglePreClip
 import io.data2viz.geo.projection.common.*
 import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
-import io.data2viz.math.rad
 import kotlin.math.asin
-import kotlin.math.cos
-import kotlin.math.sin
 
 
 fun orthographicProjection(init: Projection.() -> Unit = {}) =
@@ -37,7 +34,7 @@ fun orthographicProjection(init: Projection.() -> Unit = {}) =
     }
 
 
-internal class OrthographicProjector : Projector<GeoJsonPoint, Point3D> {
-    override fun project(point:GeoJsonPoint) = Point3D(point.lat.cos * point.lon.sin, point.lat.sin)
+internal class OrthographicProjector : Projector<GeoPoint, Point3D> {
+    override fun project(point:GeoPoint) = Point3D(point.lat.cos * point.lon.sin, point.lat.sin)
     override fun invert(point: Point3D) = azimuthalInvertPoint(::asin)(point)
 }

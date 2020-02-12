@@ -17,11 +17,6 @@
 
 package io.data2viz.geo.projection.common
 
-import io.data2viz.geo.GeoJsonPoint
-import io.data2viz.geo.Point3D
-import io.data2viz.geo.stream.Stream
-import io.data2viz.geo.stream.StreamCache
-
 
 /**
  * Abstract projection implementation with caching stream transformations caching
