@@ -14,7 +14,9 @@ plugins {
 
 repositories {
     google()
+//    mavenLocal()
     jcenter()
+
 }
 
 allprojects {
