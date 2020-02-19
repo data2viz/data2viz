@@ -65,7 +65,7 @@ interface Clipper<T> {
     /**
      * Indicates if the point will be visible after clipping.
      */
-    fun pointVisible(point:T): Boolean
+    fun isPointVisible(point:T): Boolean
 
     /**
      * In
@@ -158,7 +158,7 @@ internal class ClippableStream(
     }
 
     private fun pointDefault(point: GeoPoint) {
-        if (clipper.pointVisible(point))
+        if (clipper.isPointVisible(point))
             downstream.point(point)
     }
 

@@ -42,7 +42,7 @@ class RectangleClipper(val extent: Extent) : Clipper<Point3D> {
     // TODO refactor function references :: to objects like in CircleClip
 //  Function references have poor performance due to GC & memory allocation
 
-    override fun pointVisible(point: Point3D): Boolean {
+    override fun isPointVisible(point: Point3D): Boolean {
         return point.x in extent.x0..extent.x1 &&
                 point.y in extent.y0..extent.y1
     }
@@ -110,7 +110,7 @@ class RectangleClipper(val extent: Extent) : Clipper<Point3D> {
             }
 
             private fun pointDefault(point: Point3D) {
-                if (pointVisible(point)) {
+                if (isPointVisible(point)) {
                     activeStream.point(point)
                 }
             }
@@ -119,7 +119,7 @@ class RectangleClipper(val extent: Extent) : Clipper<Point3D> {
                 var newX = point.x
                 var newY = point.y
 
-                val visible = pointVisible(point)
+                val visible = isPointVisible(point)
                 if (polygon != null) ring?.add(Point3D(newX, newY))
                 if (first) {
                     x__ = newX

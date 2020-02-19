@@ -47,7 +47,7 @@ val antimeridianPreClip = object : ClipStreamBuilder<GeoPoint> {
 private class AntimeridianClipper : ClipperWithStart<GeoPoint> {
 
     override var start = GeoPoint(-PI.rad, -HALFPI.rad)
-    override fun pointVisible(point: GeoPoint) = true
+    override fun isPointVisible(point: GeoPoint) = true
 
     override fun clipLine(downstream: Stream<GeoPoint>): ClipStream<GeoPoint> {
         var lambda0 = Double.NaN
@@ -55,6 +55,7 @@ private class AntimeridianClipper : ClipperWithStart<GeoPoint> {
         var sign0 = Double.NaN
 
         return object : ClipStream<GeoPoint>() {
+
             private var currentClean = 0
 
             override var clean
@@ -75,26 +76,26 @@ private class AntimeridianClipper : ClipperWithStart<GeoPoint> {
                 val delta = abs(lambda1 - lambda0)
                 if (abs(delta - PI) < EPSILON) { // Line crosses pole
                     phi0 = if ((phi0 + phi1) / 2 > 0) HALFPI else -HALFPI
-                    downstream.point(GeoPoint(lambda0.rad, phi0.rad, 0.0))
-                    downstream.point(GeoPoint(sign0.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(lambda0.rad, phi0.rad))
+                    downstream.point(GeoPoint(sign0.rad, phi0.rad))
                     downstream.lineEnd()
                     downstream.lineStart()
-                    downstream.point(GeoPoint(sign1.rad, phi0.rad, 0.0))
-                    downstream.point(GeoPoint(lambda1.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(sign1.rad, phi0.rad))
+                    downstream.point(GeoPoint(lambda1.rad, phi0.rad))
                     clean = 0
                 } else if (sign0 != sign1 && delta >= PI) {
                     if (abs(lambda0 - sign0) < EPSILON) lambda0 -= sign0 * EPSILON
                     if (abs(lambda1 - sign1) < EPSILON) lambda1 -= sign1 * EPSILON
                     phi0 = intersect(lambda0, phi0, lambda1, phi1)
-                    downstream.point(GeoPoint(sign0.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(sign0.rad, phi0.rad))
                     downstream.lineEnd()
                     downstream.lineStart()
-                    downstream.point(GeoPoint(sign1.rad, phi0.rad, 0.0))
+                    downstream.point(GeoPoint(sign1.rad, phi0.rad))
                     clean = 0
                 }
                 lambda0 = lambda1
                 phi0 = phi1
-                downstream.point(GeoPoint(lambda0.rad, phi0.rad, 0.0))
+                downstream.point(GeoPoint(lambda0.rad, phi0.rad))
                 sign0 = sign1
             }
 
@@ -111,8 +112,7 @@ private class AntimeridianClipper : ClipperWithStart<GeoPoint> {
                         val cosPhi0 = cos(phi0)
                         val cosPhi1 = cos(phi1)
                         atan(
-                            (sin(phi0) * cosPhi1 * sin(lambda1)
-                                    - sin(phi1) * cosPhi0 * sin(lambda0))
+                            (sin(phi0) * cosPhi1 * sin(lambda1) - sin(phi1) * cosPhi0 * sin(lambda0))
                                     / (cosPhi0 * cosPhi1 * sinLambda0Lambda1)
                         )
                     }
@@ -125,21 +125,21 @@ private class AntimeridianClipper : ClipperWithStart<GeoPoint> {
     override fun interpolate(from: GeoPoint?, to: GeoPoint?, direction: Int, stream: Stream<GeoPoint>) {
         if (from == null || to == null) {
             val phi = direction * HALFPI
-            stream.point(GeoPoint(-PI.rad, phi.rad, 0.0))
-            stream.point(GeoPoint(0.0.rad, phi.rad, 0.0))
-            stream.point(GeoPoint(PI.rad, phi.rad, 0.0))
-            stream.point(GeoPoint(PI.rad, 0.0.rad, 0.0))
-            stream.point(GeoPoint(PI.rad, -phi.rad, 0.0))
-            stream.point(GeoPoint(0.0.rad, -phi.rad, 0.0))
-            stream.point(GeoPoint(-PI.rad, -phi.rad, 0.0))
-            stream.point(GeoPoint(-PI.rad, 0.0.rad, 0.0))
-            stream.point(GeoPoint(-PI.rad, phi.rad, 0.0))
+            stream.point(GeoPoint( -PI.rad,  phi.rad))
+            stream.point(GeoPoint( 0.0.rad,  phi.rad))
+            stream.point(GeoPoint(  PI.rad,  phi.rad))
+            stream.point(GeoPoint(  PI.rad,  0.0.rad))
+            stream.point(GeoPoint(  PI.rad, -phi.rad))
+            stream.point(GeoPoint( 0.0.rad, -phi.rad))
+            stream.point(GeoPoint( -PI.rad, -phi.rad))
+            stream.point(GeoPoint( -PI.rad,  0.0.rad))
+            stream.point(GeoPoint( -PI.rad,  phi.rad))
         } else if (abs(from.lon.rad - to.lon.rad) > EPSILON) {
             val lambda = if (from.lon.rad < to.lon.rad) PI else -PI
             val phi = direction * lambda / 2
-            stream.point(GeoPoint(-lambda.rad, phi.rad, 0.0))
-            stream.point(GeoPoint(0.0.rad, phi.rad, 0.0))
-            stream.point(GeoPoint(lambda.rad, phi.rad, 0.0))
+            stream.point(GeoPoint( -lambda.rad, phi.rad))
+            stream.point(GeoPoint(     0.0.rad, phi.rad))
+            stream.point(GeoPoint(  lambda.rad, phi.rad))
         } else stream.point(to)
     }
 

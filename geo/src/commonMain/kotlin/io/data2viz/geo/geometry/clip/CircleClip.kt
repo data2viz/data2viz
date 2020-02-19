@@ -53,7 +53,7 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoPoint> {
         else
             GeoPoint(-PI.rad, radius - ANGLE_PI)
 
-    override fun pointVisible(point: GeoPoint): Boolean = point.lon.cos * point.lat.cos > cosRadius
+    override fun isPointVisible(point: GeoPoint): Boolean = point.lon.cos * point.lat.cos > cosRadius
 
     override fun clipLine(downstream: Stream<GeoPoint>): ClipStream<GeoPoint> {
 
@@ -71,7 +71,7 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoPoint> {
             override fun point(point: GeoPoint) {
                 var point1 = point
                 var point2: GeoPoint?
-                var visible = pointVisible(point)
+                var visible = isPointVisible(point)
                 val c = if (smallRadius) {
                     if (visible) 0 else code(point.lon.rad, point.lat.rad)
                 } else {
@@ -89,7 +89,7 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoPoint> {
                     point2 = intersect(point0!!, point1)
                     if (point2 == null || pointEqual(point0!!, point2) || pointEqual(point1, point2)) {
                         point1 += GeoPoint(ANGLE_EPSILON, ANGLE_EPSILON)
-                        visible = pointVisible(point1)
+                        visible = isPointVisible(point1)
                     }
                 }
 
@@ -281,14 +281,14 @@ class CircleClipper(val radius: Angle) : ClipperWithStart<GeoPoint> {
 
     // Generates a 4-bit vector representing the location of a point relative to
     // the small circle's bounding box.
-    fun code(x: Double, y: Double): Int {
+    private fun code(lambda: Double, phi: Double): Int {
         val r = if (smallRadius)
             radius.rad else PI - radius.rad
         var code = 0
-        if (x < -r) code = code or 1               // left
-        else if (y > r) code = code or 2           // right
-        if (y < -r) code = code or 4               // below
-        else if (y > r) code = code or 8           // above
+        if (lambda < -r) code = code or 1               // left
+        else if (phi > r) code = code or 2           // right
+        if (phi < -r) code = code or 4               // below
+        else if (phi > r) code = code or 8           // above
         return code
     }
 }

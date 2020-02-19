@@ -67,6 +67,7 @@ private fun reorderExtent(extent: Extent) {
  * You [graticule] and [lines] for result
  */
 class Graticule {
+
     private var minorExtent = Extent(Double.NaN, Double.NaN, Double.NaN, Double.NaN)
     private var majorExtent = Extent(Double.NaN, Double.NaN, Double.NaN, Double.NaN)
 
@@ -80,8 +81,6 @@ class Graticule {
     private lateinit var minorY: (Double) -> List<DoubleArray>
     private lateinit var majorX: (Double) -> List<DoubleArray>
     private lateinit var majorY: (Double) -> List<DoubleArray>
-
-
 
     /**
      * The precision for this graticule, in degrees which defaults to 2.5°.
@@ -187,7 +186,6 @@ class Graticule {
         coordinates += majorY(majorExtent.y1).subList(1, majorY(majorExtent.y1).lastIndex)
         coordinates += majorX(majorExtent.x1).asReversed().subList(1, majorX(majorExtent.x1).lastIndex)
         coordinates += majorY(majorExtent.y0).asReversed().subList(1, majorY(majorExtent.y0).lastIndex)
-
         return Polygon(arrayOf(coordinates.map { doubleArrayOf(it[0], it[1]) }.toTypedArray()))
     }
 
@@ -218,13 +216,13 @@ class Graticule {
     }
 
     private fun graticuleX(y0: Double, y1: Double, dy: Double): (Double) -> List<DoubleArray> {
-        val y = range(y0, y1 - EPSILON, dy).toMutableList()
+        val y: MutableList<Double> = range(y0, y1 - EPSILON, dy).toMutableList()
         y += y1
         return { x: Double -> y.map { doubleArrayOf(x, it) } }
     }
 
     private fun graticuleY(x0: Double, x1: Double, dx: Double): (Double) -> List<DoubleArray> {
-        val x = range(x0, x1 - EPSILON, dx).toMutableList()
+        val x: MutableList<Double> = range(x0, x1 - EPSILON, dx).toMutableList()
         x += x1
         return { y: Double -> x.map { doubleArrayOf(it, y) } }
     }
