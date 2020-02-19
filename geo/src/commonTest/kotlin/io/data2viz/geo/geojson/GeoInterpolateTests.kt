@@ -17,7 +17,6 @@
 
 package io.data2viz.geo.geojson
 
-import io.data2viz.geo.geojson.geoInterpolate
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
