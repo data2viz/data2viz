@@ -48,7 +48,7 @@ internal fun tany(y: Double): Double {
 
 internal class ConicConformalBaseConditionalProjector(
     private val conicConformalProjector: ConicConformalProjector = ConicConformalProjector(),
-    private val mercatorProjector: MercatorProjector = MercatorProjector()
+    private val mercatorProjector: MercatorProjector = MercatorProjector
 ) : ConicProjector, BaseConditionalProjector() {
 
     override var phi0: Double

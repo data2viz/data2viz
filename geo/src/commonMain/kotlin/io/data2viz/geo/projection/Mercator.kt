@@ -27,7 +27,7 @@ import io.data2viz.math.PI
 import kotlin.math.*
 
 
-fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(MercatorProjector()).apply {
+fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(MercatorProjector).apply {
     scale = 961 / TAU
 }.apply(init)
 
@@ -36,7 +36,7 @@ fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(Me
  *
  * @see MercatorProjection
  */
-class MercatorProjector : Projector<GeoPoint, Point3D> {
+object MercatorProjector : Projector<GeoPoint, Point3D> {
     override fun project(point: GeoPoint) =
         Point3D(
             point.lon.rad,
@@ -56,7 +56,7 @@ class MercatorProjector : Projector<GeoPoint, Point3D> {
  *
  * @see MercatorProjector
  */
-open class MercatorProjection(projector: Projector<GeoPoint, Point3D> = MercatorProjector()) : ProjectorProjection(projector) {
+open class MercatorProjection(projector: Projector<GeoPoint, Point3D> = MercatorProjector) : ProjectorProjection(projector) {
 
     override var scale: Double
         get() = super.scale
@@ -106,25 +106,44 @@ open class MercatorProjection(projector: Projector<GeoPoint, Point3D> = Mercator
     private fun reclip() {
         val k = PI * scale
         val invert = RotationProjector(rotateLambda, rotatePhi, rotateGamma).invert(GeoPoint())
-
         val projected = projector.project(invert)
         val t0 = projected.x
         val t1 = projected.y
 
         this.extentPostClip = when {
+
             extentPostClip == null -> Extent(t0 - k, t1 - k, k * 2, k * 2)
+//            extentPostClip == null -> Extent(t0 - k, t1 - k, t0 + k, t1 + k)
+
             projector is MercatorProjector -> Extent(
-                max(t0 - k, extentPostClip!!.x0),
-                extentPostClip!!.y0,
-                max(0.0, min(k * 2, extentPostClip!!.width)),
-                extentPostClip!!.height
-            )
+                max(t0 - k, extentPostClip!!.x0), extentPostClip!!.y0,
+                max(0.0, min(k * 2, extentPostClip!!.width)), extentPostClip!!.height
+//                    max(t0 - k, extentPostClip!!.x0), extentPostClip!!.y0,
+//                    min(t0 + k, extentPostClip!!.x1), extentPostClip!!.y1
+                )
+
             else -> Extent(
-                extentPostClip!!.x0,
-                max(t1 - k, extentPostClip!!.y0),
-                extentPostClip!!.width,
-                min(k * 2, extentPostClip!!.height)
+                extentPostClip!!.x0, max(t1 - k, extentPostClip!!.y0),
+                extentPostClip!!.x1, min(t1 + k, extentPostClip!!.y1)
             )
         }
     }
 }
+
+//m.clipExtent = function(_) {
+//    return arguments.length ? ((_ == null ? x0 = y0 = x1 = y1 = null :
+//    (x0 = +_[0][0], y0 = +_[0][1], x1 = +_[1][0], y1 = +_[1][1])), reclip()) :
+//    x0 == null ? null
+//    : [[x0, y0], [x1, y1]];
+//};
+//
+//function reclip() {
+//    var k = pi * scale(),
+//    t = m(rotation(m.rotate()).invert([0, 0]));
+//    return clipExtent(x0 == null
+//        ? [[t[0] - k, t[1] - k], [t[0] + k, t[1] + k]] : project === mercatorRaw
+//    ? [[Math.max(t[0] - k, x0), y0], [Math.min(t[0] + k, x1), y1]]
+//    : [[x0, Math.max(t[1] - k, y0)], [x1, Math.min(t[1] + k, y1)]]);
+//}
+//
+//return reclip();
