@@ -116,7 +116,7 @@ fun <T: KPoint> rejoin(
 
             if (current.entry) {
                 if (isSubject) {
-                    if (points != null) points.forEach { stream.point(it) }
+                    points?.forEach { stream.point(it) }
                 } else {
                     clipper.interpolate(current.point, current.next!!.point, 1, stream)
                 }
@@ -124,7 +124,7 @@ fun <T: KPoint> rejoin(
             } else {
                 if (isSubject) {
                     points = current.previous!!.points
-                    if (points != null) points.asReversed().forEach { stream.point(it) }
+                    points?.asReversed()?.forEach { stream.point(it) }
                 } else {
                     clipper.interpolate(current.point, current.previous!!.point, -1, stream)
                 }
@@ -156,10 +156,6 @@ fun <T> link(list: List<Intersection<T>>) {
     a.next = b
     b.previous = a
 }
-
-internal fun pointEqual(p0: DoubleArray, p1: DoubleArray): Boolean =
-        abs(p0[0] - p1[0]) < EPSILON &&
-        abs(p0[1] - p1[1]) < EPSILON
 
 internal fun <POINT: KPoint> pointEqual(p0: POINT, p1: POINT): Boolean =
     when(p0) {

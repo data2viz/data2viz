@@ -32,6 +32,7 @@ data class GeoPoint(
     val alt: Double? = null): KPoint() {
 
     operator fun plus(other: GeoPoint): GeoPoint  = copy(lon + other.lon, lat + other.lat)
+
 }
 
 /**
