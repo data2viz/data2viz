@@ -10,6 +10,7 @@ This version also includes some major internal modifications on the Geo module.
 > Published 16 Jan 2020
 * android debug variant is now deployed
 * bugs: #182
+* Date now implements Comparable<Date>
 
 **Breaking change**: publish common code as `-common` artifact and metadata
 as artifact without suffix.
