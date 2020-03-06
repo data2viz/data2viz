@@ -27,7 +27,7 @@ val UNIX_TIME = date(1970)
 val milliToNano = 1000000
 
 
-actual class Date {
+actual class Date : Comparable<Date> {
 
     private var date: LocalDateTime
 
@@ -114,4 +114,8 @@ actual class Date {
     actual fun year(): Int = date.year
 
     actual fun getTime():Double = UNIX_TIME.millisecondsBetween(this).toDouble()
+
+    override fun compareTo(other: Date): Int {
+        return this.getTime().compareTo(other.getTime())
+    }
 }
