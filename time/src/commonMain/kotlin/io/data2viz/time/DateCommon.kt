@@ -55,7 +55,7 @@ fun currentSecond():Int = Date().second()
  * A date-time without a time-zone in the ISO-8601 calendar system,
  * such as {@code 2007-12-03T10:15:30}.
  */
-expect class Date {
+expect class Date : Comparable<Date> {
 
     constructor()
     constructor(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int)

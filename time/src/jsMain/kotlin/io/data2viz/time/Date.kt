@@ -19,7 +19,7 @@ package io.data2viz.time
 
 typealias JsDate = io.data2viz.time.js.Date
 
-actual class Date {
+actual class Date : Comparable<Date> {
 
     private var date: JsDate
 
@@ -130,6 +130,10 @@ actual class Date {
     actual fun year(): Int = date.getFullYear()
 
     actual fun getTime(): Double = date.getTime()
+
+    override fun compareTo(other: Date): Int {
+        return this.getTime().compareTo(other.getTime())
+    }
 
 //    actual operator fun minus(otherDate:Date): Date
 
