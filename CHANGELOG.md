@@ -11,6 +11,7 @@ This version also includes some major internal modifications on the Geo module.
 * android debug variant is now deployed
 * bugs: #182
 * Date now implements Comparable<Date>
+* Give access to several properties of AxisElement like stroke color and width
 
 **Breaking change**: publish common code as `-common` artifact and metadata
 as artifact without suffix.
