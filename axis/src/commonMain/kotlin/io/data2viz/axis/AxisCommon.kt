@@ -47,10 +47,12 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D, Double>) {
     var tickSizeInner = 6.0
     var tickSizeOuter = 6.0
     var tickPadding = 3.0
-    var stroke: ColorOrGradient = Colors.Web.black
-    var strokeWidth: Double = 1.0
+    var axisStroke: ColorOrGradient? = Colors.Web.black
+    var axisStrokeWidth: Double? = 1.0
+    var tickStroke: ColorOrGradient? = Colors.Web.black
+    var tickStrokeWidth: Double? = 1.0
     var fontSize: Double = 12.0
-    var fontColor: ColorOrGradient = Colors.Web.black
+    var fontColor: ColorOrGradient? = Colors.Web.black
     var fontFamily: FontFamily = FontFamily.SANS_SERIF
     var fontWeight: FontWeight = FontWeight.NORMAL
     var fontStyle: FontPosture = FontPosture.NORMAL
@@ -78,21 +80,23 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D, Double>) {
         with(content) {
 
             // the main axis line
-            path {
-                stroke = this@AxisElement.stroke
-                fill = null
-                strokeWidth = this@AxisElement.strokeWidth
+            if (axisStroke != null && axisStrokeWidth != null) {
+                path {
+                    stroke = axisStroke
+                    strokeWidth = axisStrokeWidth
+                    fill = null
 
-                if (orient.isVertical()) {
-                    moveTo(tickSizeOuter * k, start)
-                    lineTo(.0, start)
-                    lineTo(.0, end)
-                    lineTo(tickSizeOuter * k, end)
-                } else {
-                    moveTo(start, tickSizeOuter * k)
-                    lineTo(start, .0)
-                    lineTo(end, .0)
-                    lineTo(end, tickSizeOuter * k)
+                    if (orient.isVertical()) {
+                        moveTo(tickSizeOuter * k, start)
+                        lineTo(.0, start)
+                        lineTo(.0, end)
+                        lineTo(tickSizeOuter * k, end)
+                    } else {
+                        moveTo(start, tickSizeOuter * k)
+                        lineTo(start, .0)
+                        lineTo(end, .0)
+                        lineTo(end, tickSizeOuter * k)
+                    }
                 }
             }
 
@@ -102,47 +106,49 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D, Double>) {
                     transform {
                         if (orient.isHorizontal()) translate(x = position(it)) else translate(y = position(it))
                     }
-                    if (orient.isHorizontal())
-                        line {
-                            y2 = k * tickSizeInner
-                            stroke = this@AxisElement.stroke
-                            strokeWidth = this@AxisElement.strokeWidth
-                        }
-                    else
-                        line {
-                            x2 = k * tickSizeInner
-                            stroke = this@AxisElement.stroke
-                            strokeWidth = this@AxisElement.strokeWidth
-                        }
-                    text {
-                        textColor = fontColor
-                        fontWeight = this@AxisElement.fontWeight
-                        fontSize = this@AxisElement.fontSize
-                        fontFamily = this@AxisElement.fontFamily
-                        fontStyle = this@AxisElement.fontStyle
-                        hAlign = when (orient) {
-                            Orient.LEFT -> TextHAlign.RIGHT
-                            Orient.RIGHT -> TextHAlign.LEFT
-                            else -> TextHAlign.MIDDLE
-                        }
-
-                        vAlign = when (orient) {
-                            Orient.TOP -> TextVAlign.BASELINE
-                            Orient.BOTTOM -> TextVAlign.HANGING
-                            else -> TextVAlign.MIDDLE
-                        }
+                    if (tickStroke != null && tickStrokeWidth != null) {
                         if (orient.isHorizontal())
-                            y = spacing * k
+                            line {
+                                y2 = k * tickSizeInner
+                                stroke = tickStroke
+                                strokeWidth = tickStrokeWidth
+                            }
                         else
-                            x = spacing * k
-                        textContent = tickFormat(it)
+                            line {
+                                x2 = k * tickSizeInner
+                                stroke = tickStroke
+                                strokeWidth = tickStrokeWidth
+                            }
                     }
+                    if (fontColor != null) {
+                        text {
+                            textColor = fontColor
+                            fontWeight = this@AxisElement.fontWeight
+                            fontSize = this@AxisElement.fontSize
+                            fontFamily = this@AxisElement.fontFamily
+                            fontStyle = this@AxisElement.fontStyle
+                            hAlign = when (orient) {
+                                Orient.LEFT -> TextHAlign.RIGHT
+                                Orient.RIGHT -> TextHAlign.LEFT
+                                else -> TextHAlign.MIDDLE
+                            }
 
+                            vAlign = when (orient) {
+                                Orient.TOP -> TextVAlign.BASELINE
+                                Orient.BOTTOM -> TextVAlign.HANGING
+                                else -> TextVAlign.MIDDLE
+                            }
+                            if (orient.isHorizontal())
+                                y = spacing * k
+                            else
+                                x = spacing * k
+                            textContent = tickFormat(it)
+                        }
+                    }
                 }
             }
         }
     }
-
 }
 
 enum class Orient {
