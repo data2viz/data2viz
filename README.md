@@ -94,7 +94,7 @@ Data2viz allows you to develop data visualizations through a fully typed DSL. It
 All data2viz documentation is located in 
 [a distinct documentation project](https://github.com/data2viz/data2viz-docs). 
 You should start there and follow 
-[the first JavaFX tutorial](https://github.com/data2viz/data2viz-docs/blob/master/tutorials/javafx-bar-chart/javafx-bar-chart.md).
+[the first JavaFX tutorial](https://github.com/data2viz/data2viz-docs/blob/master/tutorials/barchart-jfx/javafx-bar-chart.md).
 
 ### Data2viz Playground
 
