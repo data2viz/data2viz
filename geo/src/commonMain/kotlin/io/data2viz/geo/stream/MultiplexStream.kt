@@ -22,7 +22,7 @@ package io.data2viz.geo.stream
  * projection that are composed of few projections.
  * @see io.data2viz.geo.projection.AlbersUSAProjection
  */
-class MultiplexStream<T>(private val streams: Collection<Stream<T>>) : Stream<T>() {
+class MultiplexStream<T>(private val streams: Iterable<Stream<T>>) : Stream<T>() {
     override fun point(point: T)                        = streams.forEach { it.point(point) }
     override fun lineStart()                            = streams.forEach { it.lineStart() }
     override fun lineEnd()                              = streams.forEach { it.lineEnd() }
