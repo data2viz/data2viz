@@ -18,6 +18,7 @@
 package io.data2viz.geo.geometry.clip
 
 import io.data2viz.geo.GeoPoint
+import io.data2viz.geo.KPoint
 import io.data2viz.geo.Point3D
 import io.data2viz.geo.geometry.polygonContains
 import io.data2viz.geo.stream.Stream
@@ -59,11 +60,14 @@ abstract class ClipStream<T> : Stream<T>() {
     abstract var clean: Int
 }
 
-
-interface Clipper<T> {
+/**
+ *
+ */
+interface Clipper<T: KPoint> {
 
     /**
      * Indicates if the point will be visible after clipping.
+	 * TODO: implement as an extension function
      */
     fun isPointVisible(point:T): Boolean
 
@@ -72,6 +76,9 @@ interface Clipper<T> {
      */
     fun clipLine(downstream: Stream<T>): ClipStream<T>
 
+	/**
+	 * direction can be 1 or -1
+	 */
     fun interpolate(
         from: T?,
         to: T?,
@@ -81,7 +88,7 @@ interface Clipper<T> {
 }
 
 
-internal interface ClipperWithStart<T> : Clipper<T> {
+internal interface ClipperWithStart<T : KPoint> : Clipper<T> {
     val start: T
 }
 
