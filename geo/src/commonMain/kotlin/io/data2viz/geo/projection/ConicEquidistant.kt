@@ -39,7 +39,7 @@ fun conicEquidistantProjection(init: ConicProjection.() -> Unit = {}) =
  */
 internal class ConicEquidistantBaseConditionalProjector(
     private val conicEquidistantProjector: ConicEquidistantProjector = ConicEquidistantProjector(),
-    private val equirectangularProjector: EquirectangularProjector = EquirectangularProjector()
+    private val equirectangularProjector: EquirectangularProjector = EquirectangularProjector
 ) : ConicProjector, BaseConditionalProjector() {
 
     override var phi0: Double
