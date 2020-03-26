@@ -50,7 +50,7 @@ fun <T: KPoint> rejoin(
 
     segments.forEach {segment ->
         val n = segment.size - 1
-        if (n <= 0) return
+        if (n <= 0) return@forEach
 
         var p0 = segment[0]
         val p1 = segment[n]
@@ -65,7 +65,7 @@ fun <T: KPoint> rejoin(
                 stream.point(p0)
             }
             stream.lineEnd()
-            return
+            return@forEach
         }
 
         var x = Intersection(p0, segment, null, true)
