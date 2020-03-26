@@ -138,7 +138,7 @@ private fun streamLine(coords: Positions, stream: Stream<GeoPoint>, closed: Bool
     stream.lineStart()
     for (i in 0 until size) {
         val p = coords[i]
-        stream.point(GeoPoint(p[0].deg, p[1].deg, if (p.size > 2) p[2] else .0))
+        stream.point(GeoPoint(p[0].deg, p[1].deg, if (p.size > 2) p[2] else null))
     }
     stream.lineEnd()
 }
