@@ -90,7 +90,7 @@ private class AntimeridianClipper : ClipperWithStart<GeoPoint> {
                     downstream.point(GeoPoint(sign0.rad, phi0.rad))
                     downstream.lineEnd()
                     downstream.lineStart()
-                    downstream.point(GeoPoint(sign1.rad, phi0.rad))
+                    downstream.point(GeoPoint(sign1.rad, phi0.rad)) //TODO remove unnecessary allocations
                     clean = 0
                 }
                 lambda0 = lambda1
