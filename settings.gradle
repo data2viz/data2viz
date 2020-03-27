@@ -40,6 +40,8 @@ d2v.forEach {
     includeAndFilter(it)
 }
 
+
+include(":examples:ex-geo")
 //[":data2viz:data2viz-common",
 // ":data2viz:data2viz-js",
 // ":data2viz:data2viz-jfx"].forEach{includeAndFilter(it)}

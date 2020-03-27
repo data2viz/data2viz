@@ -1,0 +1,47 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform'
+    id 'application'
+}
+
+apply from: rootProject.file('gradle/mpp-common.gradle')
+apply from: rootProject.file('gradle/mpp-jfx.gradle')
+apply from: rootProject.file('gradle/mpp-js.gradle')
+
+
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                api project(':core')
+                api project(':geo')
+                api project(':viz')
+                api "io.data2viz.geojson:core:$geojson_version"
+            }
+        }
+
+        if (include_jfx.toBoolean() || include_android.toBoolean()) {
+            jvmMain {
+                dependencies {
+                    api "io.data2viz.geojson:core:$geojson_version"
+                }
+            }
+        }
+        if (include_js.toBoolean()) {
+            jsMain {
+                dependencies {
+                    api "io.data2viz.geojson:core:$geojson_version"
+                    api project(':viz')
+                    implementation kotlin('stdlib-js')
+                }
+            }
+        }
+
+    }
+}
+
+
+dependencies {
+}
+
+
+mainClassName = 'geo.MainJfx'
