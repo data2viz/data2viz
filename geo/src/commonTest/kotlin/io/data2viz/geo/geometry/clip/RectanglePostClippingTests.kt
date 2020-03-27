@@ -27,11 +27,12 @@ import io.data2viz.geom.PathGeom
 import io.data2viz.geom.svgPath
 import io.data2viz.math.deg
 import io.data2viz.test.TestBase
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class RectanglePostClippingTests : TestBase() {
 
-    fun getProjection() = equirectangularProjection {
+    private fun getProjection() = equirectangularProjection {
         translate(480.0, 350.0)
         scale = 2000.0
         precision = .0
@@ -71,6 +72,34 @@ class RectanglePostClippingTests : TestBase() {
         geoPath(projection, path).project(polygon)
 
         path.svgPath.round() shouldBe "M498,332L480,350L305.46707480056705,350L305.46707480056705,350L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480,175.46707480056705L498,193.46707480056705L498,332Z".round()
+    }
+
+
+    @Test @Ignore
+    fun rectangle_clipping_east_concave() {
+        val projection = getProjection()
+        projection.postClip = RectangleClip(48.0, 50.0, 498.0, 500.0)
+
+        val polygon = MultiPolygon(
+            arrayOf(
+                arrayOf(
+                    arrayOf(
+                        doubleArrayOf(5.0, 5.0),
+                        doubleArrayOf(2.50, 7.5),
+                        doubleArrayOf(5.0, 10.0),
+                        doubleArrayOf(12.5, 10.0),
+                        doubleArrayOf(10.0, 7.5),
+                        doubleArrayOf(12.5, 5.0),
+                        doubleArrayOf(5.0, 5.0)
+                    )
+                )
+            )
+        )
+        val path = PathGeom()
+        geoPath(projection, path).project(polygon)
+        path.svgPath.round() shouldBe "M498,332L480,350L305.46707480056705,350L305.46707480056705,350L218.20061220085057,262.7335374002835L305.46707480056705,175.46707480056705L480,175.46707480056705L498,193.46707480056705L498,332Z".round()
+
+
     }
 
     @Test
