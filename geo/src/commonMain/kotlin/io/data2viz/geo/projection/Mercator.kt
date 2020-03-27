@@ -106,14 +106,13 @@ open class MercatorProjection(projector: Projector<GeoPoint, Point3D> = Mercator
     private fun reclip() {
         val k = PI * scale
         val invert = RotationProjector(rotateLambda, rotatePhi, rotateGamma).invert(GeoPoint())
-        val projected = projector.project(invert)
-        val t0 = projected.x
+		val projected = projector.project(invert)
+		val t0 = projected.x
         val t1 = projected.y
 
         this.extentPostClip = when {
 
-            extentPostClip == null -> Extent(t0 - k, t1 - k, k * 2, k * 2)
-//            extentPostClip == null -> Extent(t0 - k, t1 - k, t0 + k, t1 + k)
+            extentPostClip == null -> Extent(t0 - k, t1 - k, t0 + k, t1 + k)
 
             projector is MercatorProjector -> Extent(
                 max(t0 - k, extentPostClip!!.x0), extentPostClip!!.y0,
