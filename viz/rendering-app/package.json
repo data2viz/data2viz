@@ -6,4 +6,5 @@
   },
   "scripts": {
     "diffs": "node diff.js"
-  }}
+  }
+}

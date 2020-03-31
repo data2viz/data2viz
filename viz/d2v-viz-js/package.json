@@ -16,4 +16,5 @@
     "render": "node puppeteer.js",
     "bundle": "webpack",
     "diffs": "node diff.js"
-  }}
+  }
+}
