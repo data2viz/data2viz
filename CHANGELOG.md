@@ -12,6 +12,7 @@ This version also includes some major internal modifications on the Geo module.
 * bugs: #182
 * Date now implements Comparable<Date>
 * Give access to several properties of AxisElement like stroke color and width
+* Fix an issue due to floating points in the ticks() function
 
 **Breaking change**: publish common code as `-common` artifact and metadata
 as artifact without suffix.

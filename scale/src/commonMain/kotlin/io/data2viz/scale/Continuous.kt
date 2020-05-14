@@ -83,7 +83,7 @@ open class LinearScale<R>
     }
 
     override fun ticks(count: Int): List<Double> {
-        return io.data2viz.math.ticks(_domain.first(), _domain.last(), count)
+        return ticks(_domain.first(), _domain.last(), count)
     }
 }
 
