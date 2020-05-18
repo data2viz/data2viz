@@ -34,17 +34,17 @@ class ScaleLinearTests : TestBase() {
                     range = listOf(.0, 1.0)
                 }
 
-        scale(.5) shouldBeClose .5
-        scale(0.1) shouldBeClose 0.1
-        scale(0.133) shouldBeClose 0.133
-        scale(0.9) shouldBeClose 0.9
+        scale(.5)       shouldBeClose .5
+        scale(0.1)      shouldBeClose 0.1
+        scale(0.133)    shouldBeClose 0.133
+        scale(0.9)      shouldBeClose 0.9
 
         scale.domain = listOf(.0, 1.0)
         scale.range = listOf(1.0, .0)
-        scale(.5) shouldBeClose 0.5
-        scale(0.1) shouldBeClose 0.9
-        scale(0.133) shouldBeClose 0.867
-        scale(0.9) shouldBe (0.1 plusOrMinus 1e6)            // TODO find why it is in fact 0.09999999999999998
+        scale(.5)       shouldBeClose 0.5
+        scale(0.1)      shouldBeClose 0.9
+        scale(0.133)    shouldBeClose 0.867
+        scale(0.9)      shouldBeClose  0.1          // TODO find why it is in fact 0.09999999999999998
     }
 
     @Test
