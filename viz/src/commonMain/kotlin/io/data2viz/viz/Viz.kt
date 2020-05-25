@@ -59,6 +59,12 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
             style.stroke = value
         }
 
+    override var dashedLine: DoubleArray?
+        get() = style.dashedLine
+        set(value) {
+            style.dashedLine = value
+        }
+
     override var strokeWidth: Double?
         get() = style.strokeWidth
         set(value) {
@@ -219,6 +225,7 @@ interface HasStroke {
 
     var stroke: ColorOrGradient?
     var strokeWidth: Double?
+    var dashedLine: DoubleArray?
 }
 
 interface HasFill {

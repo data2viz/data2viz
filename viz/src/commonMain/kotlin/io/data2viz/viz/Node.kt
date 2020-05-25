@@ -55,15 +55,23 @@ abstract class Node : Style {
     override var fill: ColorOrGradient?
         get() = style.fill
         set(value) {style.fill = value}
+
     override var stroke: ColorOrGradient?
         get() = style.stroke
         set(value) {style.stroke = value}
+
+    override var dashedLine: DoubleArray?
+        get() = style.dashedLine
+        set(value) {style.dashedLine = value}
+
     override var strokeWidth: Double?
         get() = style.strokeWidth
         set(value) {style.strokeWidth = value}
+
     override var textColor: ColorOrGradient?
         get() = style.textColor
         set(value) {style.textColor = value}
+
     override var hAlign: TextHAlign
         get() = style.hAlign
         set(value) {style.hAlign = value}
@@ -72,6 +80,7 @@ abstract class Node : Style {
     override var anchor: TextHAlign
         get() = hAlign
         set(value) {hAlign = value}
+
     override var vAlign: TextVAlign
         get() = style.vAlign
         set(value) {
@@ -82,6 +91,5 @@ abstract class Node : Style {
         get() = vAlign
         set(value) {
             vAlign = value}
-
 
 }

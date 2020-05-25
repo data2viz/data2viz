@@ -30,6 +30,7 @@ interface Style {
     var stroke: ColorOrGradient?
     var strokeWidth: Double?
     var textColor: ColorOrGradient?
+    var dashedLine: DoubleArray?
 
 
     @Deprecated("Use hAlign", ReplaceWith("hAlign"))
@@ -44,6 +45,7 @@ interface Style {
 internal class StyleImpl: Style {
     override var fill: ColorOrGradient? = null
     override var stroke: ColorOrGradient? = null
+    override var dashedLine: DoubleArray? = doubleArrayOf()
     override var textColor: ColorOrGradient? = null
     override var strokeWidth: Double? = 1.0
     override var hAlign: TextHAlign = TextHAlign.LEFT
@@ -65,7 +67,23 @@ class HierarchicalStyle(var parent:Style?): Style {
             style?.fill = value
         }
 
+    private var dashedLineSet = false
+    override var dashedLine: DoubleArray?
+        get() =
+            if (dashedLineSet)
+                style!!.dashedLine
+            else
+                parent?.dashedLine
+
+        set(value) {
+            if (style == null)
+                style = StyleImpl()
+            dashedLineSet = true
+            style?.dashedLine = value
+        }
+
     private var strokeSet = false
+
     override var stroke: ColorOrGradient?
         get() = if (strokeSet) style!!.stroke else parent?.stroke
         set(value) {
