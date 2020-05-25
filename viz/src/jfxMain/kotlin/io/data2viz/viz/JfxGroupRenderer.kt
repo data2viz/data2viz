@@ -20,6 +20,9 @@ package io.data2viz.viz
 import javafx.scene.canvas.*
 
 
+private val emptySegments = doubleArrayOf()
+
+
 fun GroupNode.render(gc: GraphicsContext) {
 
 	children.forEach { node ->
@@ -34,10 +37,16 @@ fun GroupNode.render(gc: GraphicsContext) {
 			gc.fill = node.fill?.toPaint()
 		}
 
-		if (node is HasStroke) {
+        var dashedSet = false
+
+        if (node is HasStroke) {
 			gc.stroke = node.stroke?.toPaint()
 			gc.lineWidth = node.strokeWidth ?: 1.0
-		}
+            node.dashedLine?.let {
+                gc.setLineDashes(*it)
+                dashedSet = true
+            }
+        }
 
 		if (node.visible)
 			when (node) {
@@ -50,7 +59,12 @@ fun GroupNode.render(gc: GraphicsContext) {
 				else            -> error("Unknow type ${node::class}")
 			}
 
-		if (node is HasTransform) {
+        if (dashedSet) {
+            gc.setLineDashes(*emptySegments)
+        }
+
+
+        if (node is HasTransform) {
 			node.transform?.also {
 				gc.removeTransform(it)
 			}
