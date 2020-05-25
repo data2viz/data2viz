@@ -19,6 +19,8 @@ package io.data2viz.viz
 
 import org.w3c.dom.*
 
+private val emptySegments = emptyArray<Double>()
+
 fun GroupNode.render(context: CanvasRenderingContext2D) {
 
 
@@ -37,10 +39,17 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
 			context.fillStyle = node.fill?.toCanvasPaint(context)
 		}
 
+
+        var dashedSet = false
+
 		if (node is HasStroke) {
 			context.strokeStyle = node.stroke?.toCanvasPaint(context)
 			context.lineWidth = node.strokeWidth ?: 1.0
-		}
+            node.dashedLine?.let {
+                context.setLineDash(it.toTypedArray())
+                dashedSet = true
+            }
+        }
 
 		if (node.visible)
 			when (node) {
@@ -52,6 +61,10 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
 				is LineNode         -> node.render(context)
 				else                -> error("Unknow type ${node::class}")
 			}
+
+        if (dashedSet) {
+            context.setLineDash(emptySegments)
+        }
 
         if (node is HasTransform && node.transform != null) {
             node.transform!!.transformations
