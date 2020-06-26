@@ -45,12 +45,13 @@ class StackGenerator<T> {
         val ret = mutableListOf<StackParam<T>>()
 
         // BUILDING : build the StackParam and StackSpace that function will return
-        val firstValue = series(data[0])
-        firstValue.forEachIndexed { index, _ ->
-            val stackedValues = mutableListOf<StackSpace<T>>()
-            val stack = StackParam(stackedValues, index)
-            ret.add(stack)
-        }
+
+        // TODO : maybe it is better to set the number of stackes needed if there is not always all values for each series
+
+        // fix #202 : take the series with most elements (so series did not need to have a value for each category)
+        val totalSeriesNum: Int = data.map { series(it).size }.max()!!
+        (0 until totalSeriesNum).map { ret.add(StackParam(mutableListOf(), it)) }
+
         data.forEachIndexed { index1, element ->
             series(element).forEachIndexed { index2, serie ->
                 val stack = ret[index2]
