@@ -23,6 +23,18 @@ import kotlin.random.*
 typealias RandomGenerator = () -> Double
 
 /**
+ * Generate random numbers from various distributions using a Integer seed
+ */
+fun RandomDistribution(seed: Int) = RandomDistribution(Random(seed))
+
+
+/**
+ * Generate random numbers from various distributions using a Long seed
+ */
+fun RandomDistribution(seed: Long) = RandomDistribution(Random(seed))
+
+
+/**
  * Generate random numbers from various distributions.
  */
 class RandomDistribution internal constructor(private val random:Random = Random){

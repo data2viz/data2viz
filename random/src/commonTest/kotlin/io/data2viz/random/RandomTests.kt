@@ -27,6 +27,35 @@ const val nbPoints = 60000
 
 class RandomTests : TestBase() {
 
+
+    @Test
+    fun integerSeededDistribution() {
+        val randomFunction1 = RandomDistribution(42).uniform(min, max)
+        val list1 = (0 until 10)
+            .map { randomFunction1() }
+
+        val randomFunction2 = RandomDistribution(42).uniform(min, max)
+
+        val list2 = (0 until 10)
+            .map { randomFunction2() }
+
+        list1 shouldBe list2
+    }
+
+    @Test
+    fun longSeededDistribution() {
+        val randomFunction1 = RandomDistribution(424242424242424242L).uniform(min, max)
+        val list1 = (0 until 10)
+            .map { randomFunction1() }
+
+        val randomFunction2 = RandomDistribution(424242424242424242L).uniform(min, max)
+
+        val list2 = (0 until 10)
+            .map { randomFunction2() }
+
+        list1 shouldBe list2
+    }
+
     @Test
     fun uniformRandomDistribution_0_1() {
         val randomFunction = RandomDistribution(Random(42)).uniform(min, max)
