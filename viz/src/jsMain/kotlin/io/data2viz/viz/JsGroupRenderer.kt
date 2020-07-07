@@ -24,7 +24,7 @@ private val emptySegments = emptyArray<Double>()
 fun GroupNode.render(context: CanvasRenderingContext2D) {
 
 
-	children.forEach { node ->
+    children.forEach { node ->
 
         if (node is HasTransform && node.transform != null) {
             node.transform!!.transformations.forEach {
@@ -35,32 +35,32 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
             }
         }
 
-		if (node is HasFill) {
-			context.fillStyle = node.fill?.toCanvasPaint(context)
-		}
+        if (node is HasFill) {
+            context.fillStyle = node.fill?.toCanvasPaint(context)
+        }
 
 
         var dashedSet = false
 
-		if (node is HasStroke) {
-			context.strokeStyle = node.stroke?.toCanvasPaint(context)
-			context.lineWidth = node.strokeWidth ?: 1.0
+        if (node is HasStroke) {
+            context.strokeStyle = node.stroke?.toCanvasPaint(context)
+            context.lineWidth = node.strokeWidth ?: 1.0
             node.dashedLine?.let {
                 context.setLineDash(it.toTypedArray())
                 dashedSet = true
             }
         }
 
-		if (node.visible)
-			when (node) {
-				is CircleNode       -> node.render(context)
-				is RectNode         -> node.render(context)
-				is GroupNode        -> node.render(context)
-				is PathNode         -> node.render(context)
-				is TextNode         -> node.render(context)
-				is LineNode         -> node.render(context)
-				else                -> error("Unknow type ${node::class}")
-			}
+        if (node.visible)
+            when (node) {
+                is CircleNode   -> node.render(context)
+                is RectNode     -> node.render(context)
+                is GroupNode    -> node.render(context)
+                is PathNode     -> node.render(context)
+                is TextNode     -> node.render(context)
+                is LineNode     -> node.render(context)
+                else            -> error("Unknow type ${node::class}")
+            }
 
         if (dashedSet) {
             context.setLineDash(emptySegments)
@@ -71,13 +71,13 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
                 .reversed()
                 .forEach {
                 when (it) {
-                    is Translation -> context.translate(-it.x, -it.y)
-                    is Rotation -> context.rotate(-it.delta)
+                    is Translation  -> context.translate(-it.x, -it.y)
+                    is Rotation     -> context.rotate(-it.delta)
                 }
             }
         }
 
-	}
+    }
 
-	context.translate(.0, .0)
+    context.translate(.0, .0)
 }

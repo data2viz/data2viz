@@ -25,39 +25,39 @@ private val emptySegments = doubleArrayOf()
 
 fun GroupNode.render(gc: GraphicsContext) {
 
-	children.forEach { node ->
+    children.forEach { node ->
 
-		if (node is HasTransform) {
-			node.transform?.also {
-				gc.addTransform(it)
-			}
-		}
+        if (node is HasTransform) {
+            node.transform?.also {
+                gc.addTransform(it)
+            }
+        }
 
-		if (node is HasFill) {
-			gc.fill = node.fill?.toPaint()
-		}
+        if (node is HasFill) {
+            gc.fill = node.fill?.toPaint()
+        }
 
         var dashedSet = false
 
         if (node is HasStroke) {
-			gc.stroke = node.stroke?.toPaint()
-			gc.lineWidth = node.strokeWidth ?: 1.0
+            gc.stroke = node.stroke?.toPaint()
+            gc.lineWidth = node.strokeWidth ?: 1.0
             node.dashedLine?.let {
                 gc.setLineDashes(*it)
                 dashedSet = true
             }
         }
 
-		if (node.visible)
-			when (node) {
-				is CircleNode       -> node.render(gc)
-				is RectNode         -> node.render(gc)
-				is GroupNode        -> node.render(gc)
-				is PathNode     	-> node.render(gc)
-				is TextNode         -> node.render(gc)
-				is LineNode         -> node.render(gc)
-				else            -> error("Unknow type ${node::class}")
-			}
+        if (node.visible)
+            when (node) {
+                is CircleNode -> node.render(gc)
+                is RectNode -> node.render(gc)
+                is GroupNode -> node.render(gc)
+                is PathNode -> node.render(gc)
+                is TextNode -> node.render(gc)
+                is LineNode -> node.render(gc)
+                else -> error("Unknow type ${node::class}")
+            }
 
         if (dashedSet) {
             gc.setLineDashes(*emptySegments)
@@ -65,11 +65,11 @@ fun GroupNode.render(gc: GraphicsContext) {
 
 
         if (node is HasTransform) {
-			node.transform?.also {
-				gc.removeTransform(it)
-			}
-		}
+            node.transform?.also {
+                gc.removeTransform(it)
+            }
+        }
 
-	}
+    }
 
 }
