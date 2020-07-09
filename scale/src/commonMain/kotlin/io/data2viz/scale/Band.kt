@@ -17,6 +17,8 @@
 
 package io.data2viz.scale
 
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
 import kotlin.math.floor
 import kotlin.math.max
 
@@ -32,7 +34,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
     protected var _paddingInner: Double = 0.0
     protected var _paddingOuter: Double = 0.0
 
-    abstract var padding: Double
+    abstract var padding: Percent
 
     override var domain: List<D>
         get() = indexableDomain._domain
@@ -40,6 +42,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
             indexableDomain.domain = value
             rescale()
         }
+
     override var range: StrictlyContinuous<Double> = intervalOf(0.0, 1.0)
         get() = field
         set(value) {
@@ -53,9 +56,14 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
             rescale()
         }
 
-    var align: Double = 0.5
+    /**
+     * Sets the band alignment to the specified value which must be in the range [0%, 100%].
+     * [align] specifies how the outer padding in the scale’s range is distributed.
+     * The default align = 50% centers the bands within the range, with equal outer padding on both sides.
+     */
+    var align: Percent = 50.pct
         set(value) {
-            field = value.coerceIn(.0..1.0)
+            field = value.coerceToDefault()
             rescale()
         }
 
@@ -83,7 +91,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
         if (round)
             step = floor(step)
 
-        start += (stop - start - step * (n - _paddingInner)) * align
+        start += (stop - start - step * (n - _paddingInner)) * align.value
         bandwidth = step * (1 - _paddingInner)
         if (round) {
             start = kotlin.math.round(start)
@@ -114,25 +122,36 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
  */
 class BandScale<D> internal constructor() : BandedScale<D>() {
 
-    override var padding: Double
-        get() = _paddingInner
+    override var padding: Percent
+        get() = Percent(_paddingInner)
         set(value) {
-            _paddingInner = value
-            _paddingOuter = value
+            _paddingInner = value.value
+            _paddingOuter = value.value
             rescale()
         }
 
+    /**
+     * Sets the inner padding to the specified value which must be in the range [0%, 100%].
+     * Returns the current inner padding which defaults to 0%.
+     * The inner padding determines the ratio of the range that is reserved for blank space before each band.
+     */
     var paddingInner
-        get() = _paddingInner
+        get() = Percent(_paddingInner)
         set(value) {
-            _paddingInner = value.coerceIn(.0..1.0)
+            _paddingInner = value.coerceToDefault().value
             rescale()
         }
 
+    /**
+     * Sets the outer padding to the specified value which must be in the range [0%, 100%].
+     * Returns the current outer padding which defaults to 0%.
+     * The outer padding determines the ratio of the range that is reserved for blank space before the first
+     * band and after the last band.
+     */
     var paddingOuter
-        get() = _paddingOuter
+        get() = Percent(_paddingOuter)
         set(value) {
-            _paddingOuter = value.coerceIn(.0..1.0)
+            _paddingOuter = value.coerceToDefault().value
             rescale()
         }
 }
@@ -145,15 +164,15 @@ class BandScale<D> internal constructor() : BandedScale<D>() {
 class PointScale<D> : BandedScale<D>() {
 
     /**
-     * Sets the outer padding to the specified value which must be in the range [0, 1].
-     * Returns the current outer padding which defaults to 0.
+     * Sets the outer padding to the specified value which must be in the range [0%, 100%].
+     * Returns the current outer padding which defaults to 0%.
      * The outer padding determines the ratio of the range that is reserved for blank space before the first
-     * point and after the last point. Equivalent to band.paddingOuter.
+     * point and after the last point.
      */
-    override var padding: Double
-        get() = _paddingOuter
+    override var padding: Percent
+        get() = Percent(_paddingOuter)
         set(value) {
-            _paddingOuter = value
+            _paddingOuter = value.coerceToDefault().value
             rescale()
         }
 

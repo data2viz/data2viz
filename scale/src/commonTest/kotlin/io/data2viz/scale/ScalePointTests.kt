@@ -17,6 +17,7 @@
 
 package io.data2viz.scale
 
+import io.data2viz.math.pct
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -31,8 +32,8 @@ class ScalePointTests : TestBase() {
         scale.bandwidth shouldBeClose .0
         scale.step shouldBeClose 1.0
         scale.round shouldBe false
-        scale.padding shouldBeClose .0
-        scale.align shouldBeClose .5
+        scale.padding shouldBe 0.pct
+        scale.align shouldBe 50.pct
     }
 
     @Test
@@ -51,7 +52,7 @@ class ScalePointTests : TestBase() {
         val bandScale = Scales.Discrete.band<String>()
         bandScale.range = intervalOf(.0, 960.0)
         bandScale.domain = listOf("foo", "bar")
-        bandScale.paddingInner = 1.0
+        bandScale.paddingInner = 100.pct
 
         bandScale.domain shouldBe pointScale.domain
         bandScale.range shouldBe pointScale.range
@@ -64,13 +65,13 @@ class ScalePointTests : TestBase() {
         val pointScale = Scales.Discrete.point<String>()
         pointScale.range = intervalOf(.0, 960.0)
         pointScale.domain = listOf("foo", "bar")
-        pointScale.padding = .5
+        pointScale.padding = 50.pct
 
         val bandScale = Scales.Discrete.band<String>()
         bandScale.range = intervalOf(.0, 960.0)
         bandScale.domain = listOf("foo", "bar")
-        bandScale.paddingInner = 1.0
-        bandScale.paddingOuter = .5
+        bandScale.paddingInner = 100.pct
+        bandScale.paddingOuter = 50.pct
 
         bandScale.domain shouldBe pointScale.domain
         bandScale.range shouldBe pointScale.range

@@ -17,6 +17,7 @@
 
 package io.data2viz.scale
 
+import io.data2viz.math.pct
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -32,9 +33,9 @@ class ScaleBandTests : TestBase() {
         scale.bandwidth shouldBeClose 1.0
         scale.step shouldBeClose 1.0
         scale.round shouldBe false
-        scale.paddingInner shouldBeClose .0
-        scale.paddingOuter shouldBeClose .0
-        scale.align shouldBeClose .5
+        scale.paddingInner shouldBe 0.pct
+        scale.paddingOuter shouldBe 0.pct
+        scale.align shouldBe 50.pct
     }
 
     @Test
@@ -55,7 +56,7 @@ class ScaleBandTests : TestBase() {
         scale("c") shouldBeClose 80.0
         scale.bandwidth shouldBeClose 40.0
 
-        scale.padding = .2
+        scale.padding = 20.pct
         scale("a") shouldBeClose 7.5
         scale("b") shouldBeClose 45.0
         scale("c") shouldBeClose 82.5
@@ -96,7 +97,7 @@ class ScaleBandTests : TestBase() {
         scale.domain = listOf("a", "b", "c")
         scale.step shouldBeClose 320.0
 
-        scale.padding = .5
+        scale.padding = 50.pct
         scale.domain = listOf("a")
         scale.step shouldBeClose 640.0
 
@@ -121,7 +122,7 @@ class ScaleBandTests : TestBase() {
         scale.domain = listOf("a", "b", "c")
         scale.bandwidth shouldBeClose 320.0
 
-        scale.padding = .5
+        scale.padding = 50.pct
         scale.domain = listOf()
         scale.bandwidth shouldBeClose 480.0
 
@@ -141,11 +142,11 @@ class ScaleBandTests : TestBase() {
         scale.step shouldBeClose 960.0
         scale.bandwidth shouldBeClose 960.0
 
-        scale.padding = .5
+        scale.padding = 50.pct
         scale.step shouldBeClose 960.0
         scale.bandwidth shouldBeClose 480.0
 
-        scale.padding = 1.0
+        scale.padding = 100.pct
         scale.step shouldBeClose 960.0
         scale.bandwidth shouldBeClose .0
     }
@@ -160,12 +161,12 @@ class ScaleBandTests : TestBase() {
         scale.step shouldBeClose 960.0
         scale.bandwidth shouldBeClose 960.0
 
-        scale.padding = .5
+        scale.padding = 50.pct
         scale("foo") shouldBeClose 320.0
         scale.step shouldBeClose 640.0
         scale.bandwidth shouldBeClose 320.0
 
-        scale.padding = 1.0
+        scale.padding = 100.pct
         scale("foo") shouldBeClose 480.0
         scale.step shouldBeClose 480.0
         scale.bandwidth shouldBeClose .0
@@ -214,7 +215,7 @@ class ScaleBandTests : TestBase() {
         scale("c") shouldBeClose 0.0
         scale.bandwidth shouldBeClose 40.0
 
-        scale.padding = .2
+        scale.padding = 20.pct
         scale("a") shouldBeClose 82.5
         scale("b") shouldBeClose 45.0
         scale("c") shouldBeClose 7.5
@@ -223,19 +224,19 @@ class ScaleBandTests : TestBase() {
 
 
     @Test
-    fun band_paddingInner_p_specifies_the_inner_padding() {
+    fun band_paddingInner_specifies_the_inner_padding() {
         val scale = Scales.Discrete.band<String>()
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(120.0, .0)
         scale.round = true
-        scale.paddingInner = .1
+        scale.paddingInner = 10.pct
 
         scale("a") shouldBeClose 83.0
         scale("b") shouldBeClose 42.0
         scale("c") shouldBeClose 1.0
         scale.bandwidth shouldBeClose 37.0
 
-        scale.paddingInner = .2
+        scale.paddingInner = 20.pct
         scale.bandwidth shouldBeClose 34.0
     }
 
@@ -243,34 +244,34 @@ class ScaleBandTests : TestBase() {
     fun band_paddingInner_coerces_padding_to_0_1() {
         val scale = Scales.Discrete.band<String>()
 
-        scale.paddingInner = 1.0
-        scale.paddingInner shouldBeClose 1.0
+        scale.paddingInner = 100.pct
+        scale.paddingInner shouldBe 100.pct
 
-        scale.paddingInner = -1.0
-        scale.paddingInner shouldBeClose .0
+        scale.paddingInner = -100.pct
+        scale.paddingInner shouldBe 0.pct
 
-        scale.paddingInner = 2.0
-        scale.paddingInner shouldBeClose 1.0
+        scale.paddingInner = 200.pct
+        scale.paddingInner shouldBe 100.pct
 
-        scale.paddingInner = Double.NaN
-        scale.paddingInner shouldBe Double.NaN
+        scale.paddingInner = Double.NaN.pct
+        scale.paddingInner.value shouldBe Double.NaN
     }
 
     @Test
-    fun band_paddingOutr_p_specifies_the_outer_padding() {
+    fun band_paddingOuter_specifies_the_outer_padding() {
         val scale = Scales.Discrete.band<String>()
         scale.domain = listOf("a", "b", "c")
         scale.range = intervalOf(120.0, .0)
         scale.round = true
-        scale.paddingInner = .2
-        scale.paddingOuter = .1
+        scale.paddingInner = 20.pct
+        scale.paddingOuter = 10.pct
 
         scale("a") shouldBeClose 84.0
         scale("b") shouldBeClose 44.0
         scale("c") shouldBeClose 4.0
         scale.bandwidth shouldBeClose 32.0
 
-        scale.paddingOuter = 1.0
+        scale.paddingOuter = 100.pct
         scale("a") shouldBeClose 75.0
         scale("b") shouldBeClose 50.0
         scale("c") shouldBeClose 25.0
@@ -281,17 +282,17 @@ class ScaleBandTests : TestBase() {
     fun band_paddingOuter_coerces_padding_to_0_1() {
         val scale = Scales.Discrete.band<String>()
 
-        scale.paddingOuter = 1.0
-        scale.paddingOuter shouldBeClose 1.0
+        scale.paddingOuter = 100.pct
+        scale.paddingOuter shouldBe 100.pct
 
-        scale.paddingOuter = -1.0
-        scale.paddingOuter shouldBeClose .0
+        scale.paddingOuter = -100.pct
+        scale.paddingOuter shouldBe 0.pct
 
-        scale.paddingOuter = 2.0
-        scale.paddingOuter shouldBeClose 1.0
+        scale.paddingOuter = 200.pct
+        scale.paddingOuter shouldBe 100.pct
 
-        scale.paddingOuter = Double.NaN
-        scale.paddingOuter shouldBe Double.NaN
+        scale.paddingOuter = Double.NaN.pct
+        scale.paddingOuter.value shouldBe Double.NaN
     }
 
     @Test
@@ -306,7 +307,7 @@ class ScaleBandTests : TestBase() {
         scale("c") shouldBeClose 66.0        // TODO 67.0
         scale.bandwidth shouldBeClose 33.0
 
-        scale.padding = .2
+        scale.padding = 20.pct
         scale("a") shouldBeClose 7.0
         scale("b") shouldBeClose 38.0
         scale("c") shouldBeClose 69.0
