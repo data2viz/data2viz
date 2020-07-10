@@ -68,7 +68,6 @@ class ScaleLogTests : TestBase() {
     @Test
     fun log_base_b_sets_log_base_changing_ticks() {
         val scale =  scaleLog()
-        scale.range = listOf(.0, 1.0)
         scale.domain = listOf(1.0, 32.0)
 
         scale.base = 2.0
@@ -120,7 +119,99 @@ class ScaleLogTests : TestBase() {
         scale(100.0) shouldBeClose 1.0
     }
 
+    @Test
+    fun log_test_ticks() {
+        val scale = scaleLog()
 
-    // TODO : add more scale tests
-    // TODO tests throw (domain >0 and <0 ...)
+        scale.domain = listOf(100.0, 1.0)
+
+        scale.ticks() shouldBe listOf(100.0,
+            90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0,
+            9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+
+        scale(50) shouldBeClose 0.150515
+    }
+
+    @Test
+    fun log_domain_can_take_negative_values() {
+        val scale =  scaleLog()
+
+        scale.domain = listOf(-100.0, -1.0)
+
+        // TODO
+//        scale.ticks() shouldBe listOf(-100.0,
+//            -90.0, -80.0, -70.0, -60.0, -50.0, -40.0, -30.0, -20.0, -10.0,
+//            -9.0, -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0)
+
+        scale(-50) shouldBeClose 0.150515
+    }
+
+    @Test
+    fun log_ticks_generates_the_expected_power_of_ten_for_ascending_ticks() {
+        val scale =  scaleLog()
+
+        scale.domain = listOf(1e-1, 1e1)
+        scale.ticks() shouldBe listOf(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0)
+
+        scale.domain = listOf(1e-1, 1e0)
+        scale.ticks() shouldBe listOf(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+
+        scale.domain = listOf(-1e0, -1e-1)
+        scale.ticks() shouldBe listOf(-0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, -0.8, -0.9, -1.0).reversed()
+    }
+
+    @Test
+    fun log_ticks_generates_the_expected_power_of_ten_for_descending_domains() {
+        val scale =  scaleLog()
+
+        scale.domain = listOf(-1e-1, -1e1)
+        scale.ticks() shouldBe listOf(-10.0, -9.0, -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1).reversed()
+
+        scale.domain = listOf(-1e-1, -1e0)
+        scale.ticks() shouldBe listOf(-1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1).reversed()
+
+        scale.domain = listOf(1e0, 1e-1)
+        scale.ticks() shouldBe listOf(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0).reversed()
+    }
+
+    @Test
+    fun log_ticks_generate_the_expected_power_of_ten_ticks_for_small_domains() {
+        val scale =  scaleLog()
+
+        scale.domain = listOf(1.0, 5.0)
+        scale.ticks() shouldBe listOf(1.0, 2.0, 3.0, 4.0, 5.0)
+
+        scale.domain = listOf(5.0, 1.0)
+        scale.ticks() shouldBe listOf(5.0, 4.0, 3.0, 2.0, 1.0)
+        scale.ticks(20) shouldBe listOf(5.0, 4.8, 4.6, 4.4, 4.2, 4.0, 3.8, 3.6, 3.4, 3.2, 3.0, 2.8, 2.6, 2.4, 2.2, 2.0, 1.8, 1.6, 1.4, 1.2, 1.0)
+
+        scale.domain = listOf(-1.0, -5.0)
+        scale.ticks() shouldBe listOf(-1.0, -2.0, -3.0, -4.0, -5.0)
+
+        scale.domain = listOf(-5.0, -1.0)
+        scale.ticks() shouldBe listOf(-5.0, -4.0, -3.0, -2.0, -1.0)
+
+        scale.domain = listOf(286.9252014, 329.4978332)
+        scale.ticks(1) shouldBe listOf(300.0)
+        scale.ticks(2) shouldBe listOf(300.0)
+        scale.ticks(3) shouldBe listOf(300.0, 320.0)
+        scale.ticks(4) shouldBe listOf(290.0, 300.0, 310.0, 320.0)
+        scale.ticks() shouldBe listOf(290.0, 295.0, 300.0, 305.0, 310.0, 315.0, 320.0, 325.0)
+    }
+
+    @Test
+    fun log_ticks_generate_linear_ticks_when_the_domain_is_small() {
+        val scale = scaleLog()
+
+        scale.domain = listOf(41.0, 42.0)
+        scale.ticks() shouldBe listOf(41.0, 41.1, 41.2, 41.3, 41.4, 41.5, 41.6, 41.7, 41.8, 41.9, 42.0)
+
+        scale.domain = listOf(42.0, 41.0)
+        scale.ticks() shouldBe listOf(42.0, 41.9, 41.8, 41.7, 41.6, 41.5, 41.4, 41.3, 41.2, 41.1, 41.0)
+
+        scale.domain = listOf(1600.0, 1400.0)
+        scale.ticks() shouldBe listOf(1600.0, 1580.0, 1560.0, 1540.0, 1520.0, 1500.0, 1480.0, 1460.0, 1440.0, 1420.0, 1400.0)
+    }
+
+    // TODO tickformats
 }

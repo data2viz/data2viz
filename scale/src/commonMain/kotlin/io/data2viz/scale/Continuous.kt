@@ -166,7 +166,7 @@ abstract class ContinuousScale<D, R>(
         return rangeToDomain?.invoke(rangeValue) ?: throw IllegalStateException()
     }
 
-    protected fun rescale() {
+    protected open fun rescale() {
         rangeToDomain = null
         domainToRange = null
     }

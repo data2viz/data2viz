@@ -19,7 +19,9 @@ package io.data2viz.scale
 
 import io.data2viz.interpolate.Interpolator
 import io.data2viz.interpolate.UnInterpolator
-import io.data2viz.math.*
+import io.data2viz.math.Percent
+import io.data2viz.math.pct
+import io.data2viz.math.ticks
 import kotlin.math.*
 
 /**
@@ -27,11 +29,17 @@ import kotlin.math.*
  * before the output range value is computed.
  * The mapping to the range value y can be expressed as a function of the domain value x: y = m log(x) + b.
  */
-internal class LogScale
+class LogScale
     internal constructor(base: Double = 10.0, interpolateRange: (Double, Double) -> Interpolator<Double>,
                        uninterpolateRange: ((Double, Double) -> UnInterpolator<Double>)? = null,
                        rangeComparator: Comparator<Double>? = null)
     : LinearScale<Double>(interpolateRange, uninterpolateRange, rangeComparator) {
+
+    // this log function can accept negative values if needed
+    private lateinit var innerLog: (Double) -> Double
+
+    // when having negative values for the log, this pow translate them correctly
+    private lateinit var innerPow: (Double) -> Double
 
     var base: Double = base
         set(value) {
@@ -63,6 +71,17 @@ internal class LogScale
             rescale()
         }
 
+    override fun rescale() {
+        super.rescale()
+        if (_domain.first() < 0) {
+            innerLog = { -log(-it, base) }
+            innerPow = { -(base.pow(-it)) }
+        } else {
+            innerLog = { log(it, base) }
+            innerPow = { base.pow(it) }
+        }
+    }
+
     override fun uninterpolateDomain(from: Double, to: Double): UnInterpolator<Double> {
         val diff = ln(to / from)
         return if (diff != .0 && diff != Double.NaN) { t -> Percent(ln(t / from) / diff) }
@@ -88,56 +107,58 @@ internal class LogScale
     init {
         _domain.clear()
         _domain.addAll(arrayListOf(1.0, 10.0))
+        _range.clear()
+        _range.addAll(arrayListOf(.0, 1.0))
     }
 
     override fun nice(count: Int) {
-        domain = niceLogScale(domain, { x -> base.pow(floor(log(x, base))) }, { x -> base.pow(ceil(log(x, base))) })
+        domain = niceLogScale(domain, { x -> innerPow(floor(innerLog(x))) }, { x -> innerPow(ceil(innerLog(x))) })
     }
 
     override fun ticks(count: Int): List<Double> {
         var domainStart = _domain.first()
         var domainEnd = _domain.last()
-        val domainReversed = domainEnd < domainStart
 
+        val domainReversed = domainEnd < domainStart
         if (domainReversed) {
             domainStart = _domain.last()
             domainEnd = _domain.first()
         }
 
-        var i = log(domainStart, base)
-        var j = log(domainEnd, base)
+        var logStart = innerLog(domainStart)
+        var logEnd = innerLog(domainEnd)
         var tickList = arrayListOf<Double>()
 
-        val test = !((base % 1) == .0 || (base % 1).isNaN())
-
-        if (test && (j - i < count)) {
-            i = round(i) - 1
-            j = round(j) + 1
+        val integerBase = ((base % 1.0) == .0 || (base % 1.0).isNaN())
+        if (integerBase && (logEnd - logStart < count)) {
+            logStart = floor(logStart)
+            logEnd = ceil(logEnd)
             if (domainStart > 0) {
-                while (i < j) {
-                    val p = base.pow(i)
+                while (logStart <= logEnd) {
+                    val p = innerPow(logStart)
                     for (k in 1 until base.toInt()) {
                         val t = p * k
                         if (t < domainStart) continue
                         if (t > domainEnd) break
                         tickList.add(t)
                     }
-                    ++i
+                    ++logStart
                 }
             } else {
-                while (i < j) {
-                    val p = base.pow(i)
-                    for (k in (base - 1.0).toInt() until 0) {
+                while (logStart <= logEnd) {
+                    val p = innerPow(logStart)
+                    for (k in (base - 1).toInt() downTo 1) {
                         val t = p * k
                         if (t < domainStart) continue
                         if (t > domainEnd) break
                         tickList.add(t)
                     }
-                    ++i
+                    ++logStart
                 }
             }
+            if (tickList.size * 2 < count) tickList = ticks(domainStart, domainEnd, count) as ArrayList<Double>
         } else {
-            tickList = io.data2viz.math.ticks(i, j, min((j - i).toInt(), count)).map({ base.pow(it) }) as ArrayList<Double>
+            tickList = ticks(logStart, logEnd, min((logEnd - logStart).toInt(), count)).map { innerPow(it) } as ArrayList<Double>
         }
 
         return if (domainReversed) tickList.reversed() else tickList
