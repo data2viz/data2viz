@@ -58,12 +58,12 @@ class LogScale
     override var domain: List<Double>
         get() = _domain
         set(value) {
-            if (value.contains(.0)) throw IllegalArgumentException("The domain interval must not contain 0, as log(0) = -∞.")
-            val totalPositives = value.filter { it > 0}.size
-            val totalNegatives = value.filter { it > 0}.size
-            if ((totalPositives > 0 && totalPositives < value.size)
-                    || (totalNegatives > 0 && totalNegatives < value.size))
-                throw IllegalArgumentException("The domain interval must contain only positive or negative elements.")
+            val containPositive = value.first() > .0
+            value.forEach {
+                if (it == .0) throw IllegalArgumentException("The domain interval must not contain 0, as log(0) = -∞.")
+                if ((containPositive && it < .0) || (!containPositive && it > .0))
+                    throw IllegalArgumentException("The domain interval must contain only positive or negative elements.")
+            }
 
             // copy the value (no binding intended)
             _domain.clear()
@@ -84,7 +84,7 @@ class LogScale
 
     override fun uninterpolateDomain(from: Double, to: Double): UnInterpolator<Double> {
         val diff = ln(to / from)
-        return if (diff != .0 && diff != Double.NaN) { t -> Percent(ln(t / from) / diff) }
+        return if (diff != .0 && !diff.isNaN()) { t -> Percent(ln(t / from) / diff) }
         else { _ -> 0.pct }
     }
 
