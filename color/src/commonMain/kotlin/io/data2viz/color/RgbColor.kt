@@ -122,13 +122,15 @@ val Int.col: RgbColor
 val Int.color: RgbColor
     get() = this.col
 
+
+private val regex: Regex by lazy { """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex() }
+
 /**
  * Instantiate a color from an String representing its hexadecimal value.
  * Ex: "#12abCD".col
  */
 val String.col: RgbColor
     get():RgbColor {
-        val regex = """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRegex()
         require(this.matches(regex)) {
             "Conversion of string to io.data2viz.col.RgbColor works for encoded colors like #12abCD"
         }
