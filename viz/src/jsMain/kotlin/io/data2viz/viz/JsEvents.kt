@@ -117,7 +117,7 @@ actual class KZoom {
         lateinit var zoomStartPoint: Point
 
         override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
-            val htmlElement = target.unsafeCast<HTMLElement>()
+            val htmlElement = target.unsafeCast<HTMLCanvasElement>()
             val nativeListener = object : EventListener {
                 override fun handleEvent(event: Event) {
                     (event as WheelEvent).apply {
@@ -128,10 +128,7 @@ actual class KZoom {
 
                         val currentTime = Date.now()
                         if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
-                            zoomStartPoint = Point(
-                                clientX.toDouble() - htmlElement.offsetLeft,
-                                clientY.toDouble() - htmlElement.offsetTop
-                            )
+                            zoomStartPoint = pointOnCanvas(htmlElement)
                         }
                         if (event.ctrlKey) {
                             // wheel
@@ -236,7 +233,7 @@ private val pixelRatio by lazy { getPixelRatio() }
  *
  * See: https://stackoverflow.com/a/43873988
  */
-fun Event.toKMouseEvent(canvas: HTMLCanvasElement): KMouseEvent = unsafeCast<MouseEvent>().run {
+private fun MouseEvent.pointOnCanvas(canvas: HTMLCanvasElement): Point {
     val bounds = canvas.getBoundingClientRect()
     mouse.x = pageX - bounds.left - window.scrollX
     mouse.y = pageY - bounds.top  - window.scrollY
@@ -249,10 +246,13 @@ fun Event.toKMouseEvent(canvas: HTMLCanvasElement): KMouseEvent = unsafeCast<Mou
 
     mouse.x /= pixelRatio
     mouse.y /= pixelRatio
+    return Point(mouse.x, mouse.y)
+}
 
 
+private fun Event.toKMouseEvent(canvas: HTMLCanvasElement): KMouseEvent = unsafeCast<MouseEvent>().run {
     KMouseEvent(
-        Point(mouse.x, mouse.y),
+        this.pointOnCanvas(canvas),
         altKey,
         ctrlKey,
         shiftKey,
