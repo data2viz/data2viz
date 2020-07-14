@@ -28,12 +28,12 @@ import kotlin.math.floor
 import kotlin.math.min
 
 
-// uninterpolate  [value A .. value B] --> [0 .. 1]
-// interpolate [0 .. 1] --> [value A .. value B]
+// uninterpolate  [value A .. value B] --> [0% .. 100%]
+// interpolate [0% .. 100%] --> [value A .. value B]
 
 
 open class LinearScale<R>
-    internal constructor(
+    constructor(
         interpolateRange: (R, R) -> Interpolator<R>,
         uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
         rangeComparator: Comparator<R>? = null) :
