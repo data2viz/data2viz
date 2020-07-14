@@ -6,13 +6,18 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 
+## 0.8.0-RC11
+> Published 14 Jul 2020
+* bugs #205: Zoom event position is wrong when canvas has css margins. 
+* Fix an issue due to floating points in the ticks() function
+
+
 ## 0.8.0-RC10
 > Published 16 Jan 2020
 * android debug variant is now deployed
 * bugs: #182
 * Date now implements Comparable<Date>
 * Give access to several properties of AxisElement like stroke color and width
-* Fix an issue due to floating points in the ticks() function
 
 **Breaking change**: publish common code as `-common` artifact and metadata
 as artifact without suffix.
