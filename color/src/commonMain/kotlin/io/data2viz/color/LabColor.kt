@@ -56,6 +56,7 @@ internal constructor(lightness: Percent, aComponent: Double, bComponent: Double,
     override fun darken(strength: Double): Color = Colors.lab((labL - (Kn * strength).pct), labA, labB, alpha)
     override fun saturate(strength: Double): Color = toHcl().saturate(strength)
     override fun desaturate(strength: Double): Color = toHcl().desaturate(strength)
+    override fun opacify(strength: Double): Color = withAlpha(Percent(alpha * strength))
     override fun withAlpha(alpha: Percent) = Colors.lab(labL, labA, labB, alpha)
     override fun withHue(hue: Angle) = toHcl().withHue(hue)
 

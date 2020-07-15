@@ -59,6 +59,7 @@ internal constructor(val h: Angle, val c: Double, lightness: Percent, a: Percent
     override fun darken(strength: Double): Color = Colors.hcl(h, c, (l - (Kn * strength).pct), alpha)
     override fun saturate(strength: Double): Color = Colors.hcl(h, max(.0, (c + (Kn * strength))), l, alpha)
     override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
+    override fun opacify(strength: Double): Color = withAlpha(Percent(alpha * strength))
     override fun withAlpha(alpha: Percent) = Colors.hcl(h, c, l, alpha)
     override fun withHue(hue: Angle) = Colors.hcl(hue, c, l, alpha)
 

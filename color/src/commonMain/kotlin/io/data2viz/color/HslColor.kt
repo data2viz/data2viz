@@ -55,6 +55,7 @@ internal constructor(hue: Angle, saturation: Percent, lightness: Percent, a: Per
     override fun darken(strength: Double): Color = toRgb().darken(strength)
     override fun saturate(strength: Double): Color = toRgb().saturate(strength)
     override fun desaturate(strength: Double): Color = toRgb().desaturate(strength)
+    override fun opacify(strength: Double): Color = withAlpha(Percent(alpha * strength))
     override fun withAlpha(alpha: Percent) = Colors.hsl(h, s, l, alpha)
     override fun withHue(hue: Angle) = toHcl().withHue(hue)
 

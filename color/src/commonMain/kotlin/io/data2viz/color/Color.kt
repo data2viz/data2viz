@@ -74,6 +74,12 @@ interface Color : ColorOrGradient {
     fun darken(strength: Double = 1.0):Color
     fun saturate(strength: Double = 1.0):Color
     fun desaturate(strength: Double = 1.0):Color
+
+    /**
+     * Make a color more (strength > 1.0) or more (strength < 1.0) transparent.
+     * Note that a fully transparent color (alpha = 0%) will remain transparent.
+     */
+    fun opacify(strength: Double = 1.0):Color
     fun withAlpha(alpha: Percent):Color
 
     /**
