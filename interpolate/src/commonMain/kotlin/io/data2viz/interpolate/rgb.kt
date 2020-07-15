@@ -27,7 +27,6 @@ import kotlin.math.sqrt
 private const val pi_1_3 = PI / 3.0
 private const val pi_2_3 = PI * 2.0 / 3.0
 
-// TODO add alpha interpolation
 // TODO List instead of start, end ? (validate and check size !!)
 // TODO rename interpolate
 // TODO : check colors interpolation from chroma.js
@@ -38,11 +37,13 @@ private fun interpolateRgb(start: Color, end: Color, gamma: Double = 1.0): Inter
     val r = interpolator(start.r.toDouble(), end.r.toDouble())
     val g = interpolator(start.g.toDouble(), end.g.toDouble())
     val b = interpolator(start.b.toDouble(), end.b.toDouble())
+    val a = interpolator(start.alpha.value, end.alpha.value)
 
     return fun(percent: Percent) = Colors.rgb(
         r(percent).roundToInt(),
         g(percent).roundToInt(),
-        b(percent).roundToInt()
+        b(percent).roundToInt(),
+        Percent(a(percent))
     )
 }
 
