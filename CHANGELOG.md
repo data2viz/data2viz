@@ -7,6 +7,7 @@ This version also includes some major internal modifications on the Geo module.
 
 
 * Add color parameters for AxisElement (#161)
+bugs: #182
 
 ## 0.8.0-RC11
 > Published 14 Jul 2020
