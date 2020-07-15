@@ -495,29 +495,80 @@ class ColorTests : TestBase() {
 
     @Test
     fun opacify_RGB() {
+
         // fully opaque color *********************************************************
-        hotpink.rgba shouldBe "rgba(255, 105, 180, 1.0)"
-        hotpink.opacify(2.0).rgba shouldBe "rgba(255, 105, 180, 1.0)"
-        hotpink.opacify(3.0).rgba shouldBe "rgba(255, 105, 180, 1.0)"
-        hotpink.opacify(.5).rgba shouldBe "rgba(255, 105, 180, 0.5)"
-        hotpink.opacify(.2).rgba shouldBe "rgba(255, 105, 180, 0.2)"
-        hotpink.opacify(.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+        hotpink.r shouldBe 255
+        hotpink.g shouldBe 105
+        hotpink.b shouldBe 180
+        hotpink.alpha.value shouldBe 1.0
+
+        var opacify = hotpink.opacify(2.0)
+        opacify.r shouldBe 255
+        opacify.g shouldBe 105
+        opacify.b shouldBe 180
+        opacify.alpha.value shouldBe 1.0
+
+        opacify = hotpink.opacify(3.0)
+        opacify.r shouldBe 255
+        opacify.g shouldBe 105
+        opacify.b shouldBe 180
+        opacify.alpha.value shouldBe 1.0
+
+        opacify = hotpink.opacify(0.5)
+        opacify.r shouldBe 255
+        opacify.g shouldBe 105
+        opacify.b shouldBe 180
+        opacify.alpha.value shouldBe 0.5
+
+        opacify = hotpink.opacify(0.2)
+        opacify.r shouldBe 255
+        opacify.g shouldBe 105
+        opacify.b shouldBe 180
+        opacify.alpha.value shouldBe 0.2
+
+        opacify = hotpink.opacify(.0)
+        opacify.r shouldBe 255
+        opacify.g shouldBe 105
+        opacify.b shouldBe 180
+        opacify.alpha.value shouldBe .0
 
         // color already transparent -> no change possible *******************************
-        hotpink.withAlpha(0.pct).rgba shouldBe "rgba(255, 105, 180, 0.0)"
-        hotpink.withAlpha(0.pct).opacify(2.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
-        hotpink.withAlpha(0.pct).opacify(3.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
-        hotpink.withAlpha(0.pct).opacify(.5).rgba shouldBe "rgba(255, 105, 180, 0.0)"
-        hotpink.withAlpha(0.pct).opacify(.2).rgba shouldBe "rgba(255, 105, 180, 0.0)"
-        hotpink.withAlpha(0.pct).opacify(.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+        hotpink.withAlpha(0.pct).alpha.value shouldBe .0
+
+        opacify = hotpink.withAlpha(0.pct).opacify(2.0)
+        opacify.alpha.value shouldBe .0
+
+        opacify = hotpink.withAlpha(0.pct).opacify(3.0)
+        opacify.alpha.value shouldBe .0
+
+        opacify = hotpink.withAlpha(0.pct).opacify(.5)
+        opacify.alpha.value shouldBe .0
+
+        opacify = hotpink.withAlpha(0.pct).opacify(.2)
+        opacify.alpha.value shouldBe .0
+
+        opacify = hotpink.withAlpha(0.pct).opacify(.0)
+        opacify.alpha.value shouldBe .0
 
         // partially opaque color *********************************************************
-        hotpink.withAlpha(20.pct).rgba shouldBe "rgba(255, 105, 180, 0.2)"
-        hotpink.withAlpha(20.pct).opacify(2.0).rgba shouldBe "rgba(255, 105, 180, 0.4)"
-        hotpink.withAlpha(20.pct).opacify(4.0).alpha.value shouldBeClose 0.8
-        hotpink.withAlpha(20.pct).opacify(8.0).rgba shouldBe "rgba(255, 105, 180, 1.0)"
-        hotpink.withAlpha(80.pct).opacify(.5).rgba shouldBe "rgba(255, 105, 180, 0.4)"
-        hotpink.withAlpha(80.pct).opacify(.1).alpha.value shouldBeClose 0.08
-        hotpink.withAlpha(80.pct).opacify(.0).rgba shouldBe "rgba(255, 105, 180, 0.0)"
+        hotpink.withAlpha(20.pct).alpha.value shouldBe .2
+
+        opacify = hotpink.withAlpha(20.pct).opacify(2.0)
+        opacify.alpha.value shouldBe .4
+
+        opacify = hotpink.withAlpha(20.pct).opacify(4.0)
+        opacify.alpha.value shouldBe .8
+
+        opacify = hotpink.withAlpha(20.pct).opacify(8.0)
+        opacify.alpha.value shouldBe 1.0
+
+        opacify = hotpink.withAlpha(80.pct).opacify(.5)
+        opacify.alpha.value shouldBe .4
+
+        opacify = hotpink.withAlpha(80.pct).opacify(.1)
+        opacify.alpha.value shouldBeClose .08
+
+        opacify = hotpink.withAlpha(80.pct).opacify(.0)
+        opacify.alpha.value shouldBe .0
     }
 }
