@@ -6,6 +6,8 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 
+* Add color parameters for AxisElement (#161)
+
 ## 0.8.0-RC11
 > Published 14 Jul 2020
 * bugs #205: Zoom event position is wrong when canvas has css margins. 
