@@ -41,17 +41,18 @@ fun ticks(start: Double, stop: Double, count: Int): List<Double> {
     if (step == .0) return listOf()
 
     lateinit var ticks: List<Double>
+    val range = if (start <= stop) (start..stop) else (stop..start)
     if (step > 0) {
         from = ceil(from / step)
         to = floor(to / step)
         val numTicks = ceil(to - from + 1).toInt()
-        ticks = (0 until numTicks).map { (from + it) * step }
+        ticks = (0 until numTicks).map { (from + it) * step }.filter { range.contains(it) }
     } else {
         step = -step
         from = floor(from * step)
         to = ceil(to * step)
         val numTicks = ceil(to - from + 1).toInt()
-        ticks = (0 until numTicks).map { (from + it) / step }
+        ticks = (0 until numTicks).map { (from + it) / step }.filter { range.contains(it) }
     }
     return if (reverse) ticks.reversed() else ticks
 }

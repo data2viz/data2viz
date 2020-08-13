@@ -810,6 +810,26 @@ class ScaleLinearTests : TestBase() {
         scale.ticks().size shouldBe scale.ticks(10).size
     }
 
+    @Test
+    fun tick_values_does_not_contains_values_outside_of_domain() {
+        val scale = Scales.Continuous.linear()
+
+        scale.domain = listOf(14.649324193073626, 17.002125621713716)
+        scale.ticks(10) shouldBe listOf(14.8, 15.0, 15.2, 15.4, 15.6, 15.8, 16.0, 16.2, 16.4, 16.6, 16.8, 17.0)
+
+        scale.domain = listOf(17.002125621713716, 14.649324193073626)
+        scale.ticks(10) shouldBe listOf(14.8, 15.0, 15.2, 15.4, 15.6, 15.8, 16.0, 16.2, 16.4, 16.6, 16.8, 17.0).reversed()
+
+        scale.domain = listOf(14.649324193073626, 17.2)
+        scale.ticks(10) shouldBe listOf(14.8, 15.0, 15.2, 15.4, 15.6, 15.8, 16.0, 16.2, 16.4, 16.6, 16.8, 17.0, 17.2)
+
+        scale.domain = listOf(14.6, 17.2)
+        scale.ticks(10) shouldBe listOf(14.6, 14.8, 15.0, 15.2, 15.4, 15.6, 15.8, 16.0, 16.2, 16.4, 16.6, 16.8, 17.0, 17.2)
+
+        scale.domain = listOf(14.6, 17.0002)
+        scale.ticks(10) shouldBe listOf(14.6, 14.8, 15.0, 15.2, 15.4, 15.6, 15.8, 16.0, 16.2, 16.4, 16.6, 16.8, 17.0)
+    }
+
     // TODO "linear.tickFormat(count) returns a format suitable for the ticks" etc...
     // TODO "linear.copy() returns a copy with changes to the interpolator are isolated"
 }
