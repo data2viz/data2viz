@@ -828,6 +828,12 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(14.6, 17.0002)
         scale.ticks(10) shouldBe listOf(14.6, 14.8, 15.0, 15.2, 15.4, 15.6, 15.8, 16.0, 16.2, 16.4, 16.6, 16.8, 17.0)
+
+        scale.domain = listOf(1.0006002, 1.0007002)
+        scale.ticks(10) shouldBe listOf(1.00061, 1.00062, 1.00063, 1.00064, 1.00065, 1.00066, 1.00067, 1.00068, 1.00069, 1.0007)
+
+        scale.domain = listOf(1.0007002, 1.0006002)
+        scale.ticks(10) shouldBe listOf(1.00061, 1.00062, 1.00063, 1.00064, 1.00065, 1.00066, 1.00067, 1.00068, 1.00069, 1.0007).reversed()
     }
 
     // TODO "linear.tickFormat(count) returns a format suitable for the ticks" etc...
