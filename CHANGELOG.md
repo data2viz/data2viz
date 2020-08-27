@@ -6,11 +6,15 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 
+## 0.8.0
+> Published 27 Aug 2020
+* bug #216 fix an issue when a scale returned tick values outside of its range
+
 ## 0.8.0-RC12
+> Published 14 Jul 2020
 * Linear RGB interpolation now also interpolates alpha channel
 * bug #202 fix an issue in Stack when all series do not contains values for each category
 * bug #204 BandedScale padding and alignment now use Percent
-* bug #216 fix an issue when a scale returned tick values outside of its range
 
 ## 0.8.0-RC11
 > Published 14 Jul 2020
