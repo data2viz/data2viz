@@ -7,8 +7,8 @@ This version also includes some major internal modifications on the Geo module.
 
 
 ## 0.8.1
-> Published 
-* Kotlin 1.4
+> Published 28 Aug 2020
+* Kotlin 1.4 version
 
 ## 0.8.0
 > Published 27 Aug 2020
