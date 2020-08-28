@@ -17,7 +17,7 @@
 
 package io.data2viz.timer
 
-import kotlin.browser.window
+import kotlinx.browser.window
 import kotlin.js.Date
 
 

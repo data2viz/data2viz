@@ -6,6 +6,10 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 
+## 0.8.1
+> Published 
+* Kotlin 1.4
+
 ## 0.8.0
 > Published 27 Aug 2020
 * bug #216 fix an issue when a scale returned tick values outside of its range

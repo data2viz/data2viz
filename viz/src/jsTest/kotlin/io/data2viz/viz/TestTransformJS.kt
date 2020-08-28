@@ -22,7 +22,7 @@ import io.data2viz.test.TestBase
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.DOMMatrix
 import org.w3c.dom.HTMLCanvasElement
-import kotlin.browser.document
+import kotlinx.browser.document
 import kotlin.test.Test
 import kotlin.test.assertTrue
 

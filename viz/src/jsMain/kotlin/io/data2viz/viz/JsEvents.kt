@@ -25,7 +25,7 @@ import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
-import kotlin.browser.window
+import kotlinx.browser.window
 import kotlin.js.Date
 
 

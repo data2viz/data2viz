@@ -21,7 +21,7 @@ import io.data2viz.color.*
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 import org.w3c.dom.*
-import kotlin.browser.document
+import kotlinx.browser.document
 import kotlin.math.PI
 
 

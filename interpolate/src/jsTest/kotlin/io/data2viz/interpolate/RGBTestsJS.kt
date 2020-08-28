@@ -24,7 +24,7 @@ import io.data2viz.color.Colors.Web.red
 import io.data2viz.math.*
 import io.data2viz.test.TestBase
 import io.data2viz.test.namespace
-import kotlin.browser.document
+import kotlinx.browser.document
 import kotlin.test.Test
 
 class RGBTestsJS : TestBase() {

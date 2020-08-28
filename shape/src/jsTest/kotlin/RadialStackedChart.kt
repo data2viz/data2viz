@@ -7,7 +7,7 @@ import io.data2viz.shape.pi
 import io.data2viz.shape.tau
 import org.w3c.dom.Text
 import org.w3c.dom.svg.SVGElement
-import kotlin.browser.document
+import kotlinx.browser.document
 import kotlin.math.sqrt
 
 data class Population(

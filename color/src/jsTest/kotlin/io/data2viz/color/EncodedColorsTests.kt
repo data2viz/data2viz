@@ -26,7 +26,7 @@ import io.data2viz.color.EncodedColors.Companion.plasma
 import io.data2viz.color.EncodedColors.Companion.viridis
 import io.data2viz.test.namespace
 import io.data2viz.test.TestBase
-import kotlin.browser.document
+import kotlinx.browser.document
 import kotlin.test.Test
 
 val browserEnabled:Boolean = js("typeof document !== 'undefined'") as Boolean

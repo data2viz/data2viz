@@ -19,8 +19,8 @@ package io.data2viz.interpolate
 
 import io.data2viz.test.namespace
 import io.data2viz.test.TestBase
-import kotlin.browser.document
-import kotlin.dom.appendText
+import kotlinx.browser.document
+import kotlinx.dom.appendText
 import kotlin.test.Test
 
 
