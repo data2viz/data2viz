@@ -20,18 +20,32 @@ package io.data2viz.scale
 import io.data2viz.interpolate.Interpolator
 import io.data2viz.interpolate.UnInterpolator
 import io.data2viz.math.Percent
-import io.data2viz.math.pct
 import io.data2viz.math.tickStep
 import io.data2viz.time.*
+import kotlinx.datetime.*
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.ZERO
+import kotlin.time.DurationUnit
+import kotlin.time.ExperimentalTime
 
-val dateComparator = Comparator<Date> { a, b -> if (a.millisecondsBetween(b) > 0) -1 else if (a.millisecondsBetween(b) < 0) 1 else 0 }
+val dateComparator = Comparator<LocalDateTime> { a, b -> a.compareTo(b) }
 
+@ExperimentalTime
 private data class TickInterval(
-        val interval: Interval,
-        val step: Int,
-        val duration: Long
+    val interval: Interval,
+    val step: Int,
+    val duration: Long
 )
 
+val durationSecond = 1000L
+val durationMinute = 60000L
+val durationHour = 3600000L
+val durationDay = 86400000L
+val durationWeek = 604800000L        // (day * 7)
+val durationMonth = 2592000000L      // (day * 30)
+val durationYear = 31536000000L      // (day * 365)
+
+@ExperimentalTime
 private val tickIntervals = listOf(
         TickInterval(timeSecond, 1, durationSecond),
         TickInterval(timeSecond, 5, 5 * durationSecond),
@@ -58,37 +72,33 @@ private val tickIntervals = listOf(
  * and invert returns a date.
  * Time scales implement ticks based on calendar intervals, taking the pain out of generating axes for temporal domains.
  */
-class TimeScale<R> internal constructor(interpolateRange: (R, R) -> Interpolator<R>,
-                   uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
-                   rangeComparator: Comparator<R>? = null)
-    : ContinuousScale<Date, R>(interpolateRange, uninterpolateRange, rangeComparator),
-        NiceableScale<Date>,
-        Tickable<Date> {
+@ExperimentalTime
+class TimeScale<R> internal constructor(
+    interpolateRange: (R, R) -> Interpolator<R>,
+    uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
+    rangeComparator: Comparator<R>? = null
+)
+    : ContinuousScale<LocalDateTime, R>(interpolateRange, uninterpolateRange, rangeComparator),
+        NiceableScale<LocalDateTime> ,
+        Tickable<LocalDateTime> {
 
     init {
         _domain.clear()
-        _domain.addAll(listOf(date(2000, 1, 1), date(2000, 1, 2)))
+        _domain.addAll(listOf(LocalDateTime(2000, 1, 1, 0, 0, 0, 0), LocalDateTime(2000, 1, 2, 0, 0, 0, 0)))
     }
 
-    override fun uninterpolateDomain(from: Date, to: Date): UnInterpolator<Date> {
-        return { date ->
-            if (from.millisecondsBetween(to) != 0L)
-                Percent((from.millisecondsBetween(date)) / (from.millisecondsBetween(to)).toDouble())
-            else 0.pct
-        }
+    override fun uninterpolateDomain(from: LocalDateTime, to: LocalDateTime): UnInterpolator<LocalDateTime> {
+        val range = to - from
+        return { date -> if (range == ZERO) Percent(.0) else Percent((date - from) / range) }
     }
 
-    override fun interpolateDomain(from: Date, to: Date): Interpolator<Date> {
-        val diff = from.millisecondsBetween(to)
-        return { percent ->
-            val date: Date = date(from)
-            val milliseconds = percent.value.toLong() * diff
-            date.plusMilliseconds(milliseconds)
-            date
-        }
+    override fun interpolateDomain(from: LocalDateTime, to: LocalDateTime): Interpolator<LocalDateTime> {
+        val range = to - from
+        val fromInstant = from.toInstant(defaultTZ)
+        return { percent -> (fromInstant + (range * percent.value)).toLocalDateTime(defaultTZ) }
     }
 
-    override fun domainComparator(): Comparator<Date> = dateComparator
+    override fun domainComparator(): Comparator<LocalDateTime> = dateComparator
 
     /**
      * Extends the domain so that it starts and ends on nice round values. This method typically modifies
@@ -110,37 +120,38 @@ class TimeScale<R> internal constructor(interpolateRange: (R, R) -> Interpolator
     override fun nice(count: Int) {
         val start = _domain.first()
         val end = _domain.last()
-        val interval: Interval = tickInterval(count, start, end)
+        val interval = tickInterval(count, start, end)
         niceDomain(end, start, interval)
         rescale()
     }
 
-    private fun tickInterval(count: Int, start: Date, end: Date): Interval {
-        val target = start.millisecondsBetween(end) / count
-        val intervalIndex = bisectRight(tickIntervals.map { it.duration }, target, naturalOrder())
+    private fun tickInterval(count: Int, start: LocalDateTime, end: LocalDateTime): Interval {
+        val diff: Duration = end - start
+        val targetDuration = diff / count
+        val intervalIndex = bisectRight(tickIntervals.map { it.duration }, targetDuration.toLong(DurationUnit.MILLISECONDS), naturalOrder())
         val step: Int?
         var interval: Interval = timeYear
         if (intervalIndex == tickIntervals.size) {
-            step = tickStep(start.getTime() / durationYear, end.getTime() / durationYear, count).toInt()
+            step = tickStep(start.toInstant(defaultTZ).toEpochMilliseconds().toDouble() / durationYear, end.toInstant(defaultTZ).toEpochMilliseconds().toDouble() / durationYear, count).toInt()
         } else if (intervalIndex > 0) {
-            val l = target.toDouble() / tickIntervals[intervalIndex - 1].duration
-            val l1 = tickIntervals[intervalIndex].duration / target.toDouble()
+            val l = targetDuration.toDouble(DurationUnit.MILLISECONDS) / tickIntervals[intervalIndex - 1].duration
+            val l1 = tickIntervals[intervalIndex].duration / targetDuration.toDouble(DurationUnit.MILLISECONDS)
             val tickInterval = tickIntervals[if (l < l1) intervalIndex - 1 else intervalIndex]
             step = tickInterval.step
             interval = tickInterval.interval
         } else {
-            step = tickStep(start.getTime(), end.getTime(), count).toInt()
+            step = tickStep(start.toInstant(defaultTZ).toEpochMilliseconds().toDouble(), end.toInstant(defaultTZ).toEpochMilliseconds().toDouble(), count).toInt()
             interval = timeMillisecond
         }
         if (step > 0) interval = interval.every(step)
         return interval
     }
 
-    private fun niceDomain(end: Date, start: Date, interval: Interval) {
+    private fun niceDomain(end: LocalDateTime, start: LocalDateTime, interval: Interval) {
         var first = 0
         var last = _domain.size - 1
 
-        if (end.isBefore(start)) {
+        if (end < start) {
             first = domain.size - 1
             last = 0
         }
@@ -171,16 +182,16 @@ class TimeScale<R> internal constructor(interpolateRange: (R, R) -> Interpolator
      * 1- and 3-month.
      * 1-year.
      */
-    override fun ticks(count: Int): List<Date> {
+    override fun ticks(count: Int): List<LocalDateTime> {
         var first = 0
         var last = _domain.size - 1
 
         var start = _domain[first]
         var end = _domain[last]
 
-        if (start.millisecondsBetween(end) == 0L) return listOf()
+        if ((end - start) == ZERO) return listOf()
 
-        val reversed = end.isBefore(start)
+        val reversed = end < start
         if (reversed) {
             first = _domain.size - 1
             last = 0
@@ -188,13 +199,33 @@ class TimeScale<R> internal constructor(interpolateRange: (R, R) -> Interpolator
             end = _domain[last]
         }
 
-        val endPlus = date(end)
-        endPlus.plusMilliseconds(1)
+        val endPlus = end + DateTimeUnit.MILLISECOND.duration
 
         val tickInterval = tickInterval(count, start, end)
         val ticks = tickInterval.range(start, endPlus)
 
         return if (reversed) ticks.reversed() else ticks
     }
+
+    /**
+     * Returns every an array of dates representing every interval boundary after or equal to start (inclusive)
+     * and before stop (exclusive).
+     * If step is specified > 1 then every stepth boundary will be returned; for example, for the d2v.timeDay
+     * interval a step of 2 will return every other day.
+     * The first date in the returned array is the earliest boundary after or equal to start; subsequent dates are
+     * offset by step intervals and floored.
+     * Thus, two overlapping ranges may be consistent.
+     */
+//    fun range(start: Date, stop: Date, step: Long = 1): List<Date> {
+//        val range = arrayListOf<Date>()
+//        var current = ceil(start)
+//        if (step > 0) {
+//            while (current.isBefore(stop)) {
+//                range.add(current)
+//                current = floori(offseti(Date(current), step))
+//            }
+//        }
+//        return range.toList()
+//    }
 }
 

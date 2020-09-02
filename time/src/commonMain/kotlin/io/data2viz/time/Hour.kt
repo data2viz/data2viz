@@ -17,23 +17,18 @@
 
 package io.data2viz.time
 
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDateTime
+import kotlin.time.ExperimentalTime
+
+@ExperimentalTime
 class Hour : Interval(
-        fun (date:Date): Date {
-            date.setMinute(0)
-            date.setSecond(0)
-            date.setMillisecond(0)
-            return date
-        },
-        fun (date:Date, step:Long): Date {
-            date.plusHours(step)
-            return date
-        },
-        fun (start:Date, end:Date): Int {
-            return start.hoursBetween(end).toInt()
-        },
-        fun (date:Date): Int {
-            return date.hour()
-        }
+        fun(date: LocalDateTime): LocalDateTime =
+                LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, 0, 0, 0),
+        fun(date: LocalDateTime, step: Int): LocalDateTime = date + (DateTimeUnit.HOUR * step).duration,
+        fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).inHours.toInt(),
+        fun(date: LocalDateTime): Int = date.hour
 )
 
+@ExperimentalTime
 val timeHour = Hour()

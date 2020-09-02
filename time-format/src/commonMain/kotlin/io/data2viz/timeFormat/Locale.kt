@@ -17,7 +17,6 @@
 
 package io.data2viz.timeFormat
 
-import io.data2viz.time.*
 import kotlin.math.abs
 
 // return {y: y, m: 0, d: 1, H: 0, M: 0, S: 0, L: 0};
@@ -36,7 +35,7 @@ data class ParseDate(
         var zone: Int? = null
 )
 
-private fun date(d: ParseDate): Date {
+private fun date(d: ParseDate): LocaleDateTime {
     val date = date(d.year ?: 0, d.month ?: 1, 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
 
     // add days (cause day value may be a number of days <= 0 or > 31)

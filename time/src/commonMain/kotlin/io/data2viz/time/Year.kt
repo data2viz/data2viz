@@ -17,27 +17,16 @@
 
 package io.data2viz.time
 
+import kotlinx.datetime.LocalDateTime
+import kotlin.time.ExperimentalTime
+
+@ExperimentalTime
 class Year : Interval(
-        fun (date:Date): Date {
-            date.setMonth(1)
-            date.setDayOfMonth(1)
-            date.setHour(0)
-            date.setMinute(0)
-            date.setSecond(0)
-            date.setMillisecond(0)
-            return date
-        },
-        fun (date:Date, step:Long): Date {
-            date.plusYears(step)
-            return date
-        },
-        fun (start:Date, end:Date): Int {
-            return end.year() - start.year()
-        },
-        fun (date:Date): Int {
-            return date.year()
-        }
+        fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, 1, 1, 0, 0, 0, 0),
+        fun(date: LocalDateTime, step: Int): LocalDateTime = LocalDateTime(date.year + step, date.monthNumber, date.dayOfMonth, date.hour, date.minute, date.second, date.nanosecond),
+        fun(start: LocalDateTime, end: LocalDateTime): Int = ((end - start).inDays / 365.0).toInt(),
+        fun(date: LocalDateTime): Int = date.year
 )
 
-
+@ExperimentalTime
 val timeYear = Year()

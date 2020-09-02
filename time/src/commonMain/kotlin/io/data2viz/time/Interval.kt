@@ -17,10 +17,23 @@
 
 package io.data2viz.time
 
-//var t0 = Date()
-//var t1 = Date()
+import kotlinx.datetime.*
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
-// TODO use Int instead of Long ?
+val defaultTZ: TimeZone = TimeZone.UTC
+
+@ExperimentalTime
+operator fun LocalDateTime.minus(other: LocalDateTime): Duration = this.toInstant(defaultTZ) - other.toInstant(defaultTZ)
+
+@ExperimentalTime
+operator fun LocalDateTime.plus(other: Duration): LocalDateTime = (this.toInstant(defaultTZ) + other).toLocalDateTime(defaultTZ)
+
+@ExperimentalTime
+operator fun LocalDateTime.minus(other: Duration): LocalDateTime = (this.toInstant(defaultTZ) - other).toLocalDateTime(defaultTZ)
+
+fun LocalDateTime.copy() = LocalDateTime(year, monthNumber, dayOfMonth, hour, minute, second, nanosecond)
+
 /**
  * Constructs a new custom interval given the specified floor and offset functions and an optional count function.
  *
@@ -40,28 +53,28 @@ package io.data2viz.time
  * For example, for the timeDay interval, this returns the number of days since the start of the month.
  * If a field function is not specified, it defaults to counting the number of interval boundaries since the UNIX
  * epoch of January 1, 1970 UTC. The field function defines the behavior of interval.every.
+ *
+ * [floor] Returns a new date representing the latest interval boundary date before or equal to date.
+ * For example, d2v.timeDay.floor(date) typically returns 12:00 AM local time on the given date.
+ * This method is idempotent: if the specified date is already floored to the current interval, a new date
+ * with an identical time is returned.
+ * Furthermore, the returned date is the minimum expressible value of the associated interval,
+ * such that interval.floor(interval.floor(date) - 1) returns the preceeding interval boundary date.
+ *
+ * [offset] Returns a new date equal to date plus step intervals.
+ * If step is not specified it defaults to 1.
+ * If step is negative, then the returned date will be before the specified date;
+ * if step is zero, then a copy of the specified date is returned.
+ * This method does not round the specified date to the interval.
+ * For example, if date is today at 5:34 PM, then d2v.timeDay.offset(date, 1) returns 5:34 PM tomorrow
+ * (even if daylight saving changes!).
+ *
  */
-open class Interval(private val floori: (Date) -> Date,
-                    private val offseti: (Date, Long) -> Date,
-                    private val counti: ((Date, Date) -> Int)? = null,
-                    private val field: ((Date) -> Int)? = null) {
-
-    /**
-     * Alias for interval.floor. For example, d2v.timeYear(date) and d2v.timeYear.floor(date) are equivalent.
-     */
-    /*fun interval(date: Date): Date {
-        return floori(date)
-    }*/
-
-    /**
-     * Returns a new date representing the latest interval boundary date before or equal to date.
-     * For example, d2v.timeDay.floor(date) typically returns 12:00 AM local time on the given date.
-     * This method is idempotent: if the specified date is already floored to the current interval, a new date
-     * with an identical time is returned.
-     * Furthermore, the returned date is the minimum expressible value of the associated interval,
-     * such that interval.floor(interval.floor(date) - 1) returns the preceeding interval boundary date.
-     */
-    fun floor(date: Date): Date = floori(Date(date))
+@ExperimentalTime
+open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
+                    val offset: (LocalDateTime, Int) -> LocalDateTime,
+                    val count: ((LocalDateTime, LocalDateTime) -> Int)? = null,
+                    private val field: ((LocalDateTime) -> Int)? = null) {
 
     /**
      * Returns a new date representing the earliest interval boundary date after or equal to date.
@@ -71,11 +84,12 @@ open class Interval(private val floori: (Date) -> Date,
      * Furthermore, the returned date is the maximum expressible value of the associated interval,
      * such that interval.ceil(interval.ceil(date) + 1) returns the following interval boundary date.
      */
-    fun ceil(date: Date): Date {
-        var newDate = Date(date.minusMilliseconds(1))
-        newDate = floori(newDate)
-        newDate = offseti(newDate, 1)
-        newDate = floori(newDate)
+    @ExperimentalTime
+    fun ceil(date: LocalDateTime): LocalDateTime {
+        var newDate = date - DateTimeUnit.MILLISECOND.duration
+        newDate = floor(newDate)
+        newDate = offset(newDate, 1)
+        newDate = floor(newDate)
         return newDate
     }
 
@@ -86,25 +100,13 @@ open class Interval(private val floori: (Date) -> Date,
      * This method is idempotent: if the specified date is already rounded to the current interval,
      * a new date with an identical time is returned.
      */
-    fun round(date: Date): Date {
+    @ExperimentalTime
+    fun round(date: LocalDateTime): LocalDateTime {
         val d0 = floor(date)
         val d1 = ceil(date)
-        val millisecondsBetween1 = d0.millisecondsBetween(date)
-        val millisecondsBetween2 = date.millisecondsBetween(d1)
+        val millisecondsBetween1 = (date - d0).inMilliseconds
+        val millisecondsBetween2 = (d1 - date).inMilliseconds
         return if (millisecondsBetween1 < millisecondsBetween2) d0 else d1
-    }
-
-    /**
-     * Returns a new date equal to date plus step intervals.
-     * If step is not specified it defaults to 1.
-     * If step is negative, then the returned date will be before the specified date;
-     * if step is zero, then a copy of the specified date is returned.
-     * This method does not round the specified date to the interval.
-     * For example, if date is today at 5:34 PM, then d2v.timeDay.offset(date, 1) returns 5:34 PM tomorrow
-     * (even if daylight saving changes!).
-     */
-    fun offset(date: Date, step: Long = 1): Date {
-        return offseti(Date(date), step)
     }
 
     /**
@@ -116,13 +118,14 @@ open class Interval(private val floori: (Date) -> Date,
      * offset by step intervals and floored.
      * Thus, two overlapping ranges may be consistent.
      */
-    fun range(start: Date, stop: Date, step: Long = 1): List<Date> {
-        val range = arrayListOf<Date>()
+    @ExperimentalTime
+    fun range(start: LocalDateTime, stop: LocalDateTime, step: Int = 1): List<LocalDateTime> {
+        val range = arrayListOf<LocalDateTime>()
         var current = ceil(start)
         if (step > 0) {
-            while (current.isBefore(stop)) {
+            while (current < stop) {
                 range.add(current)
-                current = floori(offseti(Date(current), step))
+                current = floor(offset(current.copy(), step))
             }
         }
         return range.toList()
@@ -135,40 +138,30 @@ open class Interval(private val floori: (Date) -> Date,
      * The returned filtered interval does not support interval.count.
      * See also interval.every.
      */
-    fun filter(test: (Date) -> Boolean): Interval {
+    @ExperimentalTime
+    fun filter(test: (LocalDateTime) -> Boolean): Interval {
         return Interval(
-                fun(date: Date): Date {
-                    var newDate = date
-                    floori(newDate)
+                fun(date: LocalDateTime): LocalDateTime {
+                    var newDate = floor(date)
                     while (!test(newDate)) {
-                        newDate = newDate.minusMilliseconds(1)
-                        floori(newDate)
+                        newDate = floor(newDate - DateTimeUnit.MILLISECOND.duration)
                     }
                     return newDate
                 },
-                fun(date: Date, step: Long): Date {
+                fun(date: LocalDateTime, step: Int): LocalDateTime {
                     var newStep = step - 1
+                    var newDate = date
                     while (newStep >= 0) {
                         newStep--
-                        offseti(date, 1)
-                        while (!test(date)) {
-                            offseti(date, 1)
+                        newDate = offset(date, 1)
+                        while (!test(newDate)) {
+                            newDate = offset(newDate, 1)
                         }
                     }
-                    return date
+                    return newDate
                 }
         )
     }
-
-    /**
-     * interval.filter = function(test) {
-    return newInterval(function(date) {
-    if (date >= date) while (floori(date), !test(date)) date.setTime(date - 1);
-    }, function(date, step) {
-    if (date >= date) while (--step >= 0) while (offseti(date, 1), !test(date)) {} // eslint-disable-line no-empty
-    });
-    };
-     */
 
     /**
      * Returns a filtered view of this interval representing every stepth date.
@@ -179,14 +172,15 @@ open class Interval(private val floori: (Date) -> Date,
      * timeMonth, and thus the interval number resets at the start of each month.
      * If step is not valid, raise exception. If step is one, returns this interval.
      */
+    @ExperimentalTime
     fun every(step: Int): Interval {
-        checkNotNull(counti, { "The given Count function must not be null." })
+        checkNotNull(count, { "The given Count function must not be null." })
         require(step > 0, { " The given Step parameter must be greater than zero." })
         if (step == 1) return this
         return if (field != null) {
             filter { d -> field.invoke(d) % step == 0; }
         } else {
-            filter { d -> count(date(1970, 1, 1), d) % step == 0; }
+            filter { d -> count(LocalDateTime(1970, 1, 1, 0, 0), d) % step == 0; }
         }
     }
 
@@ -195,10 +189,10 @@ open class Interval(private val floori: (Date) -> Date,
      * Note that this behavior is slightly different than interval.range because its purpose is to return the
      * zero-based number of the specified end date relative to the specified start date.
      */
-    fun count(start: Date, stop: Date): Int {
-        checkNotNull(counti, { "The given Count function must not be null." })
+    fun count(start: LocalDateTime, stop: LocalDateTime): Int {
+        checkNotNull(count, { "The given Count function must not be null." })
         val from = floor(start)
         val to = floor(stop)
-        return counti.invoke(from, to)
+        return count.invoke(from, to)
     }
 }
