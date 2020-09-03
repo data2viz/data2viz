@@ -23,32 +23,41 @@ import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 class Weekday(day: Int) : Interval(
-        fun(date: LocalDateTime): LocalDateTime {
-            val dayofMonth = (date.dayOfMonth - (date.dayOfWeek.ordinal + 7 - day) % 7) + 1
-            return if (dayofMonth >= 1) {
-                LocalDateTime(date.year, date.monthNumber, dayofMonth, 0, 0, 0, 0)
-            } else {
-                date + (DateTimeUnit.HOUR.duration * 24 * (dayofMonth - 2))
-            }
-        },
-        fun(date: LocalDateTime, step: Int): LocalDateTime = date + (DateTimeUnit.HOUR * 24 * 7 * step).duration,
-        fun(start: LocalDateTime, end: LocalDateTime): Int = ((end - start).inDays.toInt() / 7)
+    fun(date: LocalDateTime): LocalDateTime {
+        val dayofMonth = (date.dayOfMonth - (date.dayOfWeek.ordinal + 7 - day) % 7) + 1
+        return if (dayofMonth >= 1) {
+            LocalDateTime(date.year, date.monthNumber, dayofMonth, 0, 0, 0, 0)
+        } else {
+            date + (DateTimeUnit.HOUR.duration * 24 * (dayofMonth - 2))
+        }
+    },
+    fun(date: LocalDateTime, step: Int): LocalDateTime {
+        return when {
+            step > 0 -> date + (DateTimeUnit.HOUR * 24 * 7 * step).duration
+            step < 0 -> date - (DateTimeUnit.HOUR * 24 * 7 * -step).duration
+            else -> date
+        }
+    },
+    fun(start: LocalDateTime, end: LocalDateTime): Int = ((end - start).inDays.toInt() / 7)
 )
 
-// TODO TESTS seems to be a bug as timeSunday returns "mondays"
-
-// The value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
 @ExperimentalTime
 val timeMonday = Weekday(1)
+
 @ExperimentalTime
 val timeTuesday = Weekday(2)
+
 @ExperimentalTime
 val timeWednesday = Weekday(3)
+
 @ExperimentalTime
 val timeThursday = Weekday(4)
+
 @ExperimentalTime
 val timeFriday = Weekday(5)
+
 @ExperimentalTime
 val timeSaturday = Weekday(6)
+
 @ExperimentalTime
-val timeSunday = Weekday(7)
+val timeSunday = Weekday(0)

@@ -17,7 +17,13 @@
 
 package io.data2viz.timeFormat
 
+import io.data2viz.time.*
+import kotlinx.datetime.DateTimePeriod
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDateTime
 import kotlin.math.abs
+import kotlin.time.DurationUnit
+import kotlin.time.ExperimentalTime
 
 // return {y: y, m: 0, d: 1, H: 0, M: 0, S: 0, L: 0};
 data class ParseDate(
@@ -35,11 +41,16 @@ data class ParseDate(
         var zone: Int? = null
 )
 
-private fun date(d: ParseDate): LocaleDateTime {
-    val date = date(d.year ?: 0, d.month ?: 1, 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
+@ExperimentalTime
+private fun date(d: ParseDate): LocalDateTime {
+    var date = LocalDateTime(d.year ?: 0, d.month ?: 1, 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
 
     // add days (cause day value may be a number of days <= 0 or > 31)
-    if (d.day != null) date.plusDays(d.day!!.toLong() - 1)
+    if (d.day != null) {
+        date = if (d.day!! > 1) date + (DateTimeUnit.HOUR * 24 * (d.day!! - 1)).duration
+        else if (d.day!! <= 0) date - (DateTimeUnit.HOUR * 24 * -(d.day!! - 1)).duration
+        else date
+    }
 
     return date
 }
@@ -71,11 +82,19 @@ private fun date(d: ParseDate): LocaleDateTime {
     "%": formatLiteralPercent
 }*/
 
+@ExperimentalTime
 val defaultLocale = Locale()
+
+@ExperimentalTime
 fun autoFormat() = defaultLocale.autoFormat()
+
+@ExperimentalTime
 fun format(specifier: String) = defaultLocale.format(specifier)
+
+@ExperimentalTime
 fun parse(specifier: String) = defaultLocale.parse(specifier)
 
+@ExperimentalTime
 class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     val locale_dateTime = timeLocale.dateTime
     val locale_date = timeLocale.date
@@ -97,7 +116,8 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     val shortMonthRe = formatRe(locale_shortMonths)
     val shortMonthLookup = formatLookup(locale_shortMonths)
 
-    val formats = mutableMapOf<Char, ((Date, String) -> String)?>(
+    @ExperimentalTime
+    val formats = mutableMapOf<Char, ((LocalDateTime, String) -> String)?>(
             Pair('a', ::formatShortWeekday),
             Pair('A', ::formatWeekday),
             Pair('b', ::formatShortMonth),
@@ -156,43 +176,44 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     val timeFormat = format(locale_time)
 
     init {
-        formats['c'] = fun(date: Date, _: String): String { return dateTimeFormat(date) }
-        formats['x'] = fun(date: Date, _: String): String { return dateFormat(date) }
-        formats['X'] = fun(date: Date, _: String): String { return timeFormat(date) }
+        formats['c'] = fun(date: LocalDateTime, _: String): String { return dateTimeFormat(date) }
+        formats['x'] = fun(date: LocalDateTime, _: String): String { return dateFormat(date) }
+        formats['X'] = fun(date: LocalDateTime, _: String): String { return timeFormat(date) }
     }
 
-    fun autoFormat(): (Date) -> String {
+    @ExperimentalTime
+    fun autoFormat(): (LocalDateTime) -> String {
         val formatMillisecond = format(".%L")
         val formatSecond = format(":%S")
         val formatMinute = format("%I:%M")
         val formatHour = format("%I %p")
-//        val formatDay = format("%a %d")
+        val formatDay = format("%a %d")
         val formatWeek = format("%b %d")
         val formatMonth = format("%B")
         val formatYear = format("%Y")
 
-        return fun(date: Date): String {
+        return fun(date: LocalDateTime): String {
             val formatter =
-                    if (timeYear.floor(date).month() < date.month()) formatMonth else {
-                        if (timeMonth.floor(date).dayOfYear() < date.dayOfMonth()) formatWeek else {
-//                          if (timeSunday.floor(date).dayOfWeek() < date.dayOfWeek()) formatDay else {
-                            if (timeDay.floor(date).hour() < date.hour()) formatHour else {
-                                if (timeHour.floor(date).minute() < date.minute()) formatMinute else {
-                                    if (timeMinute.floor(date).second() < date.second()) formatSecond else {
-                                        if (timeSecond.floor(date).millisecond() < date.millisecond()) formatMillisecond else
+                if (timeYear.floor(date).month < date.month) formatMonth else {
+                    if (timeMonth.floor(date).dayOfYear < date.dayOfMonth) formatWeek else {
+//                        if (timeSunday.floor(date).dayOfWeek < date.dayOfWeek) formatDay else {
+                            if (timeDay.floor(date).hour < date.hour) formatHour else {
+                                if (timeHour.floor(date).minute < date.minute) formatMinute else {
+                                    if (timeMinute.floor(date).second < date.second) formatSecond else {
+                                        if (timeSecond.floor(date).nanosecond < date.nanosecond) formatMillisecond else
                                             formatYear
                                     }
                                 }
-//                          }
-                            }
+//                            }
                         }
                     }
+                }
             return formatter(date)
         }
     }
 
-    fun format(specifier: String): (Date) -> String {
-        return fun(date: Date): String {
+    fun format(specifier: String): (LocalDateTime) -> String {
+        return fun(date: LocalDateTime): String {
             val string = mutableListOf<String>()
             var i = 0
             var j = 0
@@ -225,8 +246,8 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         }
     }
 
-    fun parse(specifier: String): (String) -> Date? {
-        return fun(dateString: String): Date? {
+    fun parse(specifier: String): (String) -> LocalDateTime? {
+        return fun(dateString: String): LocalDateTime? {
             val d = newYear(1900)
             val i = parseSpecifier(d, specifier, dateString, 0)
             if (i != dateString.length) return null
@@ -245,7 +266,7 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
                 val day = if (d.zone != null) {
                     0//utcDate(newYear(d.y)).getUTCDay()
                 } else {
-                    date(newYear(d.year)).dayOfWeek()
+                    date(newYear(d.year)).dayOfWeek.ordinal + 1
                 }
                 d.month = 1
                 d.day = if (d.weekNumberMonday != null) {
@@ -491,106 +512,109 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return if (n != null) i + n.groupValues[0].length else -1
     }
 
-    fun formatShortWeekday(d: Date, p: String): String {
-        return locale_shortWeekdays[d.dayOfWeek() % 7]
+    fun formatShortWeekday(d: LocalDateTime, p: String): String {
+        return locale_shortWeekdays[(d.dayOfWeek.ordinal + 1) % 7]
     }
 
-    fun formatWeekday(d: Date, p: String): String {
-        return locale_weekdays[d.dayOfWeek() % 7]
+    fun formatWeekday(d: LocalDateTime, p: String): String {
+        return locale_weekdays[(d.dayOfWeek.ordinal + 1) % 7]
     }
 
-    fun formatShortMonth(d: Date, p: String): String {
-        return locale_shortMonths[d.month() - 1]
+    fun formatShortMonth(d: LocalDateTime, p: String): String {
+        return locale_shortMonths[d.monthNumber - 1]
     }
 
-    fun formatMonth(d: Date, p: String): String {
-        return locale_months[d.month() - 1]
+    fun formatMonth(d: LocalDateTime, p: String): String {
+        return locale_months[d.monthNumber - 1]
     }
 
-    fun formatPeriod(d: Date, p: String): String {
-        return locale_periods[if (d.hour() >= 12) 1 else 0]
+    fun formatPeriod(d: LocalDateTime, p: String): String {
+        return locale_periods[if (d.hour >= 12) 1 else 0]
     }
 
-    fun formatDayOfMonth(d: Date, p: String): String {
-        return pad(d.dayOfMonth(), p, 2)
+    fun formatDayOfMonth(d: LocalDateTime, p: String): String {
+        return pad(d.dayOfMonth, p, 2)
     }
 
-    fun formatHour24(d: Date, p: String): String {
-        return pad(d.hour(), p, 2)
+    fun formatHour24(d: LocalDateTime, p: String): String {
+        return pad(d.hour, p, 2)
     }
 
-    fun formatHour12(d: Date, p: String): String {
-        val hour = d.hour() % 12
+    fun formatHour12(d: LocalDateTime, p: String): String {
+        val hour = d.hour % 12
         return pad(if (hour == 0) 12 else hour, p, 2)
     }
 
-    // TODO JS version moved to date? (see comment)
-    fun formatDayOfYear(d: Date, p: String): String {
-        return pad(d.dayOfYear(), p, 3)
+    // TODO JS version moved to LocalDateTime? (see comment)
+    fun formatDayOfYear(d: LocalDateTime, p: String): String {
+        return pad(d.dayOfYear, p, 3)
     }
 
-    fun formatMilliseconds(d: Date, p: String): String {
-        return pad(d.millisecond(), p, 3)
+    fun formatMilliseconds(d: LocalDateTime, p: String): String {
+        return pad(d.nanosecond / 1_000_000, p, 3)
     }
 
-    fun formatMonthNumber(d: Date, p: String): String {
-        return pad(d.month(), p, 2)
+    fun formatMonthNumber(d: LocalDateTime, p: String): String {
+        return pad(d.monthNumber, p, 2)
     }
 
-    fun formatMinutes(d: Date, p: String): String {
-        return pad(d.minute(), p, 2)
+    fun formatMinutes(d: LocalDateTime, p: String): String {
+        return pad(d.minute, p, 2)
     }
 
-    fun formatSeconds(d: Date, p: String): String {
-        return pad(d.second(), p, 2)
+    fun formatSeconds(d: LocalDateTime, p: String): String {
+        return pad(d.second, p, 2)
     }
 
-    fun formatWeekNumberSunday(d: Date, p: String): String {
+    @ExperimentalTime
+    fun formatWeekNumberSunday(d: LocalDateTime, p: String): String {
         val start = timeYear.floor(d)
         val value = timeSunday.count(start, d)
         return pad(value, p, 2)
     }
 
-    fun formatWeekdayNumber(d: Date, p: String): String {
-        return d.dayOfWeek().toString()
+    fun formatWeekdayNumber(d: LocalDateTime, p: String): String {
+        return d.dayOfWeek.toString()
     }
 
-    fun formatWeekNumberMonday(d: Date, p: String): String {
+    @ExperimentalTime
+    fun formatWeekNumberMonday(d: LocalDateTime, p: String): String {
         return pad(timeMonday.count(timeYear.floor(d), d), p, 2)
     }
 
-    fun formatYear(d: Date, p: String): String {
-        return pad(d.year() % 100, p, 2)
+    fun formatYear(d: LocalDateTime, p: String): String {
+        return pad(d.year % 100, p, 2)
     }
 
-    fun formatFullYear(d: Date, p: String): String {
-        return pad(d.year() % 10000, p, 4)
+    fun formatFullYear(d: LocalDateTime, p: String): String {
+        return pad(d.year % 10000, p, 4)
     }
 
-    fun formatZone(d: Date, p: String): String {
-        var z = d.getTimezoneOffset()
+    fun formatZone(d: LocalDateTime, p: String): String {
+//        var z = d.getTimezoneOffset()
+        var z = 0
         val sign = if (z > 0) "-" else "+"
         z = abs(z)
         return sign + pad(z / 60, "0", 2) + pad(z % 60, "0", 2)
     }
 
-    fun formatLiteralPercent(d: Date, p: String): String {
+    fun formatLiteralPercent(d: LocalDateTime, p: String): String {
         return "%"
     }
 
-/*fun formatUTCShortWeekday(d:Date): String {
+/*fun formatUTCShortWeekday(d:LocalDateTime): String {
     return locale_shortWeekdays[d.getUTCDay()]
 }
 
-fun formatUTCWeekday(d:Date): String {
+fun formatUTCWeekday(d:LocalDateTime): String {
     return locale_weekdays[d.getUTCDay()]
 }
 
-fun formatUTCShortMonth(d:Date): String {
+fun formatUTCShortMonth(d:LocalDateTime): String {
     return locale_shortMonths[d.getUTCMonth()]
 }
 
-fun formatUTCMonth(d:Date): String {
+fun formatUTCMonth(d:LocalDateTime): String {
     return locale_months[d.getUTCMonth()]
 }
 
@@ -601,20 +625,20 @@ fun formatUTCPeriod(d:Date): String {
 
 /*fun localDate(d) {
     if (0 <= d.y && d.y < 100) {
-        var date = new Date (-1, d.m, d.d, d.H, d.M, d.S, d.L)
+        var LocalDateTime = new LocalDateTime (-1, d.m, d.d, d.H, d.M, d.S, d.L)
         date.setFullYear(d.y)
         return date
     }
-    return Date(d.y, d.m, d.d, d.H, d.M, d.S, d.L)
+    return LocalDateTime(d.y, d.m, d.d, d.H, d.M, d.S, d.L)
 }
 
 fun utcDate(d) {
     if (0 <= d.y && d.y < 100) {
-        var date = new Date (Date.UTC(-1, d.m, d.d, d.H, d.M, d.S, d.L))
+        var date = new LocalDateTime (LocalDateTime.UTC(-1, d.m, d.d, d.H, d.M, d.S, d.L))
         date.setUTCFullYear(d.y)
         return date
     }
-    return Date(Date.UTC(d.y, d.m, d.d, d.H, d.M, d.S, d.L))
+    return LocalDateTime(LocalDateTime.UTC(d.y, d.m, d.d, d.H, d.M, d.S, d.L))
 }*/
 
 fun newYear(y: Int?): ParseDate {

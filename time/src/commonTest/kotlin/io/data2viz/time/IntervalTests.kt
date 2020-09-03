@@ -17,27 +17,24 @@
 
 package io.data2viz.time
 
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class IntervalTests : TestDate() {
 
     @Test
     fun interval_floor_offset_returns_a_custom_time_interval() {
         val interval = Interval(
-                fun (date:Date): Date {
-                    date.setMinute(0)
-                    date.setSecond(0)
-                    date.setMillisecond(0)
-                    return date
-                },
-                fun (date:Date, step:Long): Date {
-                    date.setHour(date.hour() + step.toInt())
-                    return date
-                }
+                fun (date:LocalDateTime): LocalDateTime =
+                    LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, 0, 0, 0),
+                fun (date:LocalDateTime, step:Int): LocalDateTime = date + (DateTimeUnit.HOUR * step).duration,
         )
 
-        val date1 = interval.floor(Date(2015, 1, 1, 12, 34, 56, 789))
-        val date2 = Date(2015, 1, 1, 12, 0, 0, 0)
+        val date1 = interval.floor(LocalDateTime(2015, 1, 1, 12, 34, 56, 789))
+        val date2 = LocalDateTime(2015, 1, 1, 12, 0, 0, 0)
         date1 shouldBe date2
     }
 
@@ -82,7 +79,7 @@ class IntervalTests : TestDate() {
     }, function(date, step) {
     date.setUTCHours(date.getUTCHours() + step);
     }, function(start, end) {
-    return dates.push(new Date(+start), new Date(+end)), (end - start) / 36e5;
+    return dates.push(new LocalDateTime(+start), new LocalDateTime(+end)), (end - start) / 36e5;
     });
     i.count(date.utc(2015, 0, 1, 12, 34), date.utc(2015, 0, 1, 15, 56));
     test.deepEqual(dates, [date.utc(2015, 0, 1, 12), date.utc(2015, 0, 1, 15)]);

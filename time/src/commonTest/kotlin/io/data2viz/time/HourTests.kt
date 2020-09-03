@@ -17,47 +17,49 @@
 
 package io.data2viz.time
 
+import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class HourTests : TestDate() {
-
 
     @Test
     fun hour_floor_date_returns_hours() {
         val time = timeHour
 
-        time.floor(date(2010, 12, 31, 23, 59)) shouldBe date(2010, 12, 31, 23)
-        time.floor(date(2011, 1, 1, 0, 0)) shouldBe date(2011, 1, 1, 0)
-        time.floor(date(2011, 1, 1, 0, 1)) shouldBe date(2011, 1, 1, 0)
+        time.floor(LocalDateTime(2010, 12, 31, 23, 59)) shouldBe LocalDateTime(2010, 12, 31, 23, 0)
+        time.floor(LocalDateTime(2011, 1, 1, 0, 0)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
+        time.floor(LocalDateTime(2011, 1, 1, 0, 1)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
     }
 
     @Test
     fun hour_ceil_returns_hours() {
         val time = timeHour
 
-        time.ceil(date(2010, 12, 31, 23, 59)) shouldBe date(2011, 1, 1, 0)
-        time.ceil(date(2011, 1, 1, 0, 0)) shouldBe date(2011, 1, 1, 0)
-        time.ceil(date(2011, 1, 1, 0, 1)) shouldBe date(2011, 1, 1, 1)
+        time.ceil(LocalDateTime(2010, 12, 31, 23, 59)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
+        time.ceil(LocalDateTime(2011, 1, 1, 0, 0)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
+        time.ceil(LocalDateTime(2011, 1, 1, 0, 1)) shouldBe LocalDateTime(2011, 1, 1, 1, 0)
     }
 
     @Test
     fun hour_offset_date_step_does_not_modify_the_passed_date() {
         val time = timeHour
-        val date = date(2010, 12, 31, 23, 59, 59, 999)
+        val date = LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
 
         time.offset(date, 1)
-        date shouldBe date(2010, 12, 31, 23, 59, 59, 999)
+        date shouldBe LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
     }
 
     @Test
     fun hour_offset_date_step_does_not_round_the_passed_date() {
         val time = timeHour
-        val date1 = date(2010, 12, 31, 23, 59, 59, 456)
+        val date1 = LocalDateTime(2010, 12, 31, 23, 59, 59, 456)
 
-        val date2 = date(2011, 1, 1, 0, 59, 59, 456)
+        val date2 = LocalDateTime(2011, 1, 1, 0, 59, 59, 456)
         time.offset(date1, 1) shouldBe date2
 
-        val date3 = date(2010, 12, 31, 21, 59, 59, 456)
+        val date3 = LocalDateTime(2010, 12, 31, 21, 59, 59, 456)
         time.offset(date1, -2) shouldBe date3
     }
 
@@ -65,17 +67,17 @@ class HourTests : TestDate() {
     fun hour_offset_allows_negative_positive_zero_step() {
         val time = timeHour
 
-        time.offset(date(2010, 12, 31, 12), -1) shouldBe date(2010, 12, 31, 11)
-        time.offset(date(2011, 1, 1, 1), -2) shouldBe date(2010, 12, 31, 23)
-        time.offset(date(2011, 1, 1, 0), -1) shouldBe date(2010, 12, 31, 23)
+        time.offset(LocalDateTime(2010, 12, 31, 12, 0), -1) shouldBe LocalDateTime(2010, 12, 31, 11, 0)
+        time.offset(LocalDateTime(2011, 1, 1, 1, 0), -2) shouldBe LocalDateTime(2010, 12, 31, 23, 0)
+        time.offset(LocalDateTime(2011, 1, 1, 0, 0), -1) shouldBe LocalDateTime(2010, 12, 31, 23, 0)
 
-        time.offset(date(2010, 12, 31, 11), 1) shouldBe date(2010, 12, 31, 12)
-        time.offset(date(2010, 12, 31, 23), 2) shouldBe date(2011, 1, 1, 1)
-        time.offset(date(2010, 12, 31, 23), 1) shouldBe date(2011, 1, 1, 0)
+        time.offset(LocalDateTime(2010, 12, 31, 11, 0), 1) shouldBe LocalDateTime(2010, 12, 31, 12, 0)
+        time.offset(LocalDateTime(2010, 12, 31, 23, 0), 2) shouldBe LocalDateTime(2011, 1, 1, 1, 0)
+        time.offset(LocalDateTime(2010, 12, 31, 23, 0), 1) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
 
-        val date1 = date(2010, 12, 31, 23, 59, 59, 999)
+        val date1 = LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
         time.offset(date1, 0) shouldBe date1
-        val date2 = date(2010, 12, 31, 23, 59, 58, 0)
+        val date2 = LocalDateTime(2010, 12, 31, 23, 59, 58, 0)
         time.offset(date2, 0) shouldBe date2
     }
 
@@ -83,13 +85,13 @@ class HourTests : TestDate() {
     fun hour_range_start_stop_cans_kip_hours() {
         val time = timeHour
         val result = listOf(
-                date(2011, 2, 1, 1),
-                date(2011, 2, 1, 4),
-                date(2011, 2, 1, 7),
-                date(2011, 2, 1, 10)
+                LocalDateTime(2011, 2, 1, 1, 0),
+                LocalDateTime(2011, 2, 1, 4, 0),
+                LocalDateTime(2011, 2, 1, 7, 0),
+                LocalDateTime(2011, 2, 1, 10, 0)
         )
 
-        val range = time.range(date(2011, 2, 1, 1), date(2011, 2, 1, 13), 3)
+        val range = time.range(LocalDateTime(2011, 2, 1, 1, 0), LocalDateTime(2011, 2, 1, 13, 0), 3)
         range.forEachIndexed { index, r ->
             r shouldBe result[index]
         }
@@ -99,12 +101,12 @@ class HourTests : TestDate() {
     fun hour_range_start_stop_returns_hours_between_start_inclusive_and_stop_exclusive() {
         val time = timeHour
         val result = listOf(
-                date(2010, 12, 31, 23),
-                date(2011, 1, 1, 0),
-                date(2011, 1, 1, 1)
+                LocalDateTime(2010, 12, 31, 23, 0),
+                LocalDateTime(2011, 1, 1, 0, 0),
+                LocalDateTime(2011, 1, 1, 1, 0)
         )
 
-        val range = time.range(date(2010, 12, 31, 23), date(2011, 1, 1, 2))
+        val range = time.range(LocalDateTime(2010, 12, 31, 23, 0), LocalDateTime(2011, 1, 1, 2, 0))
         range.forEachIndexed { index, r ->
             r shouldBe result[index]
         }
@@ -114,12 +116,12 @@ class HourTests : TestDate() {
     fun hour_range_start_stop_returns_hours() {
         val time = timeHour
         val result = listOf(
-                date(2010, 12, 31, 23),
-                date(2011, 1, 1, 0),
-                date(2011, 1, 1, 1)
+                LocalDateTime(2010, 12, 31, 23, 0),
+                LocalDateTime(2011, 1, 1, 0, 0),
+                LocalDateTime(2011, 1, 1, 1, 0)
         )
 
-        val range = time.range(date(2010, 12, 31, 23), date(2011, 1, 1, 2))
+        val range = time.range(LocalDateTime(2010, 12, 31, 23, 0), LocalDateTime(2011, 1, 1, 2, 0))
         range.forEachIndexed { index, r ->
             r shouldBe result[index]
         }

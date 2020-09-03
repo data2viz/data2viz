@@ -25,8 +25,11 @@ class Month : Interval(
         fun (date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, 1, 0, 0, 0, 0),
         fun (date:LocalDateTime, step:Int): LocalDateTime {
                 val increment = (date.monthNumber + step) - 1
-                val newMonth = (increment % 12) + 1
-                val newYear = date.year + (increment / 12)
+                var monthIncrement = increment
+                while (monthIncrement < 0) monthIncrement += 12
+                val newMonth = (monthIncrement % 12) + 1
+                var newYear = date.year + (increment / 12)
+                if (increment < 0) newYear -= 1
                 return LocalDateTime(newYear, newMonth, date.dayOfMonth, date.hour, date.minute, date.second, date.nanosecond)
         },
         fun (start:LocalDateTime, end:LocalDateTime): Int = ((end - start).inDays / 30.0).toInt(),

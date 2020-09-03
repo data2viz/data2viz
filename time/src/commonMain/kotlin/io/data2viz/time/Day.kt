@@ -25,7 +25,13 @@ import kotlin.time.ExperimentalTime
 class Day : Interval(
     fun(date: LocalDateTime): LocalDateTime =
         LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, 0, 0, 0, 0),
-    fun(date: LocalDateTime, step: Int): LocalDateTime = date + (DateTimeUnit.HOUR * 24 * step).duration,
+    fun(date: LocalDateTime, step: Int): LocalDateTime {
+        return when {
+            step > 0 -> date + (DateTimeUnit.HOUR * 24 * step).duration
+            step < 0 -> date - (DateTimeUnit.HOUR * 24 * -step).duration
+            else -> date
+        }
+    },
     fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).inDays.toInt(),
     fun(date: LocalDateTime): Int = date.dayOfMonth - 1
 )

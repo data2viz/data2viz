@@ -23,11 +23,17 @@ import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 class Second : Interval(
-        fun (date: LocalDateTime): LocalDateTime =
-            LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, date.second, 0),
-        fun (date:LocalDateTime, step:Int): LocalDateTime = date + (DateTimeUnit.SECOND * step).duration,
-        fun (start:LocalDateTime, end:LocalDateTime): Int = (end - start).inSeconds.toInt(),
-        fun (date:LocalDateTime): Int = date.second
+    fun(date: LocalDateTime): LocalDateTime =
+        LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, date.second, 0),
+    fun(date: LocalDateTime, step: Int): LocalDateTime {
+        return when {
+            step > 0 -> date + (DateTimeUnit.SECOND * step).duration
+            step < 0 -> date - (DateTimeUnit.SECOND * -step).duration
+            else -> date
+        }
+    },
+    fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).inSeconds.toInt(),
+    fun(date: LocalDateTime): Int = date.second
 )
 
 @ExperimentalTime

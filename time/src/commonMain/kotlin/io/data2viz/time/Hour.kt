@@ -25,7 +25,13 @@ import kotlin.time.ExperimentalTime
 class Hour : Interval(
         fun(date: LocalDateTime): LocalDateTime =
                 LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, 0, 0, 0),
-        fun(date: LocalDateTime, step: Int): LocalDateTime = date + (DateTimeUnit.HOUR * step).duration,
+        fun(date: LocalDateTime, step: Int): LocalDateTime {
+                return when {
+                        step > 0 -> date + (DateTimeUnit.HOUR * step).duration
+                        step < 0 -> date - (DateTimeUnit.HOUR * -step).duration
+                        else -> date
+                }
+        },
         fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).inHours.toInt(),
         fun(date: LocalDateTime): Int = date.hour
 )

@@ -24,7 +24,13 @@ import kotlin.time.ExperimentalTime
 @ExperimentalTime
 class Millisecond : Interval(
         fun(date: LocalDateTime): LocalDateTime = date.copy(),
-        fun(date: LocalDateTime, step: Int): LocalDateTime = date + (DateTimeUnit.MILLISECOND.duration * step),
+        fun(date: LocalDateTime, step: Int): LocalDateTime {
+                return when {
+                        step > 0 -> date + (DateTimeUnit.MILLISECOND * step).duration
+                        step < 0 -> date - (DateTimeUnit.MILLISECOND * -step).duration
+                        else -> date
+                }
+        },
         fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).inMilliseconds.toInt(),
         fun(date: LocalDateTime): Int = date.nanosecond / 1_000_000
 )

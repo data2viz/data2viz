@@ -25,7 +25,13 @@ import kotlin.time.ExperimentalTime
 class Minute : Interval(
     fun(date: LocalDateTime): LocalDateTime =
         LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, 0, 0),
-    fun(date: LocalDateTime, step: Int): LocalDateTime = date + (DateTimeUnit.MINUTE * step).duration,
+    fun(date: LocalDateTime, step: Int): LocalDateTime {
+        return when {
+            step > 0 -> date + (DateTimeUnit.MINUTE * step).duration
+            step < 0 -> date - (DateTimeUnit.MINUTE * -step).duration
+            else -> date
+        }
+    },
     fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).inMinutes.toInt(),
     fun(date: LocalDateTime): Int = date.minute
 )
