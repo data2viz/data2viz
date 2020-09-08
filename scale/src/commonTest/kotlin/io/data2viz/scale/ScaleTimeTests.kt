@@ -21,7 +21,6 @@ import io.data2viz.test.TestBase
 import kotlinx.datetime.LocalDateTime
 import kotlin.math.roundToInt
 import kotlin.test.Test
-import kotlin.time.ExperimentalTime
 
 class ScaleTimeTests : TestBase() {
 
@@ -38,7 +37,6 @@ class ScaleTimeTests : TestBase() {
             throw AssertionError("$this did not equal $date")
     }
 
-    @ExperimentalTime
     @Test
     fun time_scale_returns_limit_values() {
         val scale = Scales.Continuous.time()
@@ -59,7 +57,6 @@ class ScaleTimeTests : TestBase() {
         scale(LocalDateTime(2009, 1, 1, 0, 0)).roundToInt() shouldBe 90
     }
 
-    @ExperimentalTime
     @Test
     fun time_clamp_returns_limit_values() {
         val scale = Scales.Continuous.time()
@@ -78,7 +75,6 @@ class ScaleTimeTests : TestBase() {
         scale(LocalDateTime(2, 1, 1, 0, 0)).roundToInt() shouldBe 0
     }
 
-    @ExperimentalTime
     @Test
     fun time_clamp_invert_returns_limit_values() {
         val scale = Scales.Continuous.time()
@@ -98,7 +94,6 @@ class ScaleTimeTests : TestBase() {
         scale.invert(1100.0) shouldBe LocalDateTime(2010, 1, 1, 0, 0)
     }
 
-    @ExperimentalTime
     @Test
     fun time_nice_can_nice_multi_year_domains() {
         val scale = Scales.Continuous.time()
@@ -116,7 +111,6 @@ class ScaleTimeTests : TestBase() {
         scale.domain.last() shouldBe LocalDateTime(2140, 1, 1, 0, 0)
     }
 
-    @ExperimentalTime
     @Test
     fun time_nice_is_an_alias_for_nice_10() {
         val scale = Scales.Continuous.time()
@@ -128,7 +122,6 @@ class ScaleTimeTests : TestBase() {
         scale.domain.last() shouldBe LocalDateTime(2009, 1, 2, 0, 0)
     }
 
-    @ExperimentalTime
     @Test
     fun time_nice_can_nice_subsecond_domains() {
         val scale = Scales.Continuous.time()
@@ -140,7 +133,6 @@ class ScaleTimeTests : TestBase() {
         scale.domain.last() shouldBe LocalDateTime(2013, 5, 6, 12, 44, 20, 130000000)
     }
 
-    @ExperimentalTime
     @Test
     fun time_nice_can_nice_empty_domains() {
         val scale = Scales.Continuous.time()
@@ -152,7 +144,6 @@ class ScaleTimeTests : TestBase() {
         scale.domain.last() shouldBe LocalDateTime(2013, 5, 6, 12, 44)
     }
 
-    @ExperimentalTime
     @Test
     fun time_nice_count_use_the_specified_tick_count() {
         val scale = Scales.Continuous.time()
@@ -168,7 +159,6 @@ class ScaleTimeTests : TestBase() {
         scale.domain.last() shouldBe LocalDateTime(2009, 1, 2, 0, 0)
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_subsecond_ticks() {
         val scale = Scales.Continuous.time()
@@ -191,7 +181,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_1_second_ticks() {
         val scale = Scales.Continuous.time()
@@ -213,7 +202,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_5_seconds_ticks() {
         val scale = Scales.Continuous.time()
@@ -235,7 +223,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_15_seconds_ticks() {
         val scale = Scales.Continuous.time()
@@ -256,7 +243,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_30_seconds_ticks() {
         val scale = Scales.Continuous.time()
@@ -277,7 +263,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_1_minute_ticks() {
         val scale = Scales.Continuous.time()
@@ -298,7 +283,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_5_minutes_ticks() {
         val scale = Scales.Continuous.time()
@@ -319,7 +303,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_15_minutes_ticks() {
         val scale = Scales.Continuous.time()
@@ -340,7 +323,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_30_minutes_ticks() {
         val scale = Scales.Continuous.time()
@@ -361,7 +343,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_1_hour_ticks() {
         val scale = Scales.Continuous.time()
@@ -382,7 +363,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_3_hours_ticks() {
         val scale = Scales.Continuous.time()
@@ -405,7 +385,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_6_hours_ticks() {
         val scale = Scales.Continuous.time()
@@ -426,7 +405,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_12_hours_ticks() {
         val scale = Scales.Continuous.time()
@@ -447,7 +425,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_1_day_ticks() {
         val scale = Scales.Continuous.time()
@@ -468,7 +445,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_2_days_ticks() {
         val scale = Scales.Continuous.time()
@@ -491,7 +467,7 @@ class ScaleTimeTests : TestBase() {
 
     // TODO : actually test don't pass due to a bug in timeWeek (timeSunday used here)
     // check timeSunday as it seems to returns mondays !! :D
-//    @ExperimentalTime
+
 //    @Test
 //    fun time_ticks_count_can_generate_1_week_ticks() {
 //        val scale = Scales.Continuous.time()
@@ -512,7 +488,7 @@ class ScaleTimeTests : TestBase() {
 //        }
 //    }
 
-    @ExperimentalTime
+
     @Test
     fun time_ticks_count_can_generate_1_month_ticks() {
         val scale = Scales.Continuous.time()
@@ -533,7 +509,7 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
+
     @Test
     fun time_ticks_count_can_generate_3_months_ticks() {
         val scale = Scales.Continuous.time()
@@ -554,7 +530,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_1_year_ticks() {
         val scale = Scales.Continuous.time()
@@ -592,7 +567,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
     @Test
     fun time_ticks_count_can_generate_multi_years_ticks() {
         val scale = Scales.Continuous.time()
@@ -613,7 +587,7 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-    @ExperimentalTime
+
     @Test
     fun time_ticks_count_returns_no_ticks_for_empty_domain() {
         val scale = Scales.Continuous.time()
@@ -625,8 +599,6 @@ class ScaleTimeTests : TestBase() {
     }
 
 
-
-    @ExperimentalTime
     @Test
     fun time_ticks_count_returns_descending_ticks_for_descending_domain() {
         val scale = Scales.Continuous.time()

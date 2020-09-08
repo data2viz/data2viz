@@ -21,7 +21,6 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
 import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class Second : Interval(
     fun(date: LocalDateTime): LocalDateTime =
         LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, date.second, 0),
@@ -36,5 +35,4 @@ class Second : Interval(
     fun(date: LocalDateTime): Int = date.second
 )
 
-@ExperimentalTime
 val timeSecond = Second()

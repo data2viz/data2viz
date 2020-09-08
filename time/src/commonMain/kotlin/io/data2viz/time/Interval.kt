@@ -23,13 +23,10 @@ import kotlin.time.ExperimentalTime
 
 val defaultTZ: TimeZone = TimeZone.UTC
 
-@ExperimentalTime
 operator fun LocalDateTime.minus(other: LocalDateTime): Duration = this.toInstant(defaultTZ) - other.toInstant(defaultTZ)
 
-@ExperimentalTime
 operator fun LocalDateTime.plus(other: Duration): LocalDateTime = (this.toInstant(defaultTZ) + other).toLocalDateTime(defaultTZ)
 
-@ExperimentalTime
 operator fun LocalDateTime.minus(other: Duration): LocalDateTime = (this.toInstant(defaultTZ) - other).toLocalDateTime(defaultTZ)
 
 fun LocalDateTime.copy() = LocalDateTime(year, monthNumber, dayOfMonth, hour, minute, second, nanosecond)
@@ -70,7 +67,6 @@ fun LocalDateTime.copy() = LocalDateTime(year, monthNumber, dayOfMonth, hour, mi
  * (even if daylight saving changes!).
  *
  */
-@ExperimentalTime
 open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
                     val offset: (LocalDateTime, Int) -> LocalDateTime,
                     val count: ((LocalDateTime, LocalDateTime) -> Int)? = null,
@@ -84,7 +80,6 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * Furthermore, the returned date is the maximum expressible value of the associated interval,
      * such that interval.ceil(interval.ceil(date) + 1) returns the following interval boundary date.
      */
-    @ExperimentalTime
     fun ceil(date: LocalDateTime): LocalDateTime {
         var newDate = date - DateTimeUnit.MILLISECOND.duration
         newDate = floor(newDate)
@@ -100,7 +95,6 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * This method is idempotent: if the specified date is already rounded to the current interval,
      * a new date with an identical time is returned.
      */
-    @ExperimentalTime
     fun round(date: LocalDateTime): LocalDateTime {
         val d0 = floor(date)
         val d1 = ceil(date)
@@ -118,7 +112,6 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * offset by step intervals and floored.
      * Thus, two overlapping ranges may be consistent.
      */
-    @ExperimentalTime
     fun range(start: LocalDateTime, stop: LocalDateTime, step: Int = 1): List<LocalDateTime> {
         val range = arrayListOf<LocalDateTime>()
         var current = ceil(start)
@@ -138,7 +131,6 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * The returned filtered interval does not support interval.count.
      * See also interval.every.
      */
-    @ExperimentalTime
     fun filter(test: (LocalDateTime) -> Boolean): Interval {
         return Interval(
                 fun(date: LocalDateTime): LocalDateTime {
@@ -172,7 +164,6 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * timeMonth, and thus the interval number resets at the start of each month.
      * If step is not valid, raise exception. If step is one, returns this interval.
      */
-    @ExperimentalTime
     fun every(step: Int): Interval {
         checkNotNull(count, { "The given Count function must not be null." })
         require(step > 0, { " The given Step parameter must be greater than zero." })

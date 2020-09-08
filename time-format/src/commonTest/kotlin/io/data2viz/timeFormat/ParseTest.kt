@@ -21,10 +21,8 @@ import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
 import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class ParseTest : TestDate() {
 
-    
     @Test
     fun parse_string() {
         val parser = parse("%c")

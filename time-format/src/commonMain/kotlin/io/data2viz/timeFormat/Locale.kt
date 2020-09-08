@@ -41,7 +41,6 @@ data class ParseDate(
         var zone: Int? = null
 )
 
-@ExperimentalTime
 private fun date(d: ParseDate): LocalDateTime {
     var date = LocalDateTime(d.year ?: 0, d.month ?: 1, 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
 
@@ -82,19 +81,14 @@ private fun date(d: ParseDate): LocalDateTime {
     "%": formatLiteralPercent
 }*/
 
-@ExperimentalTime
 val defaultLocale = Locale()
 
-@ExperimentalTime
 fun autoFormat() = defaultLocale.autoFormat()
 
-@ExperimentalTime
 fun format(specifier: String) = defaultLocale.format(specifier)
 
-@ExperimentalTime
 fun parse(specifier: String) = defaultLocale.parse(specifier)
 
-@ExperimentalTime
 class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     val locale_dateTime = timeLocale.dateTime
     val locale_date = timeLocale.date
@@ -116,7 +110,6 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     val shortMonthRe = formatRe(locale_shortMonths)
     val shortMonthLookup = formatLookup(locale_shortMonths)
 
-    @ExperimentalTime
     val formats = mutableMapOf<Char, ((LocalDateTime, String) -> String)?>(
             Pair('a', ::formatShortWeekday),
             Pair('A', ::formatWeekday),
@@ -181,7 +174,6 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         formats['X'] = fun(date: LocalDateTime, _: String): String { return timeFormat(date) }
     }
 
-    @ExperimentalTime
     fun autoFormat(): (LocalDateTime) -> String {
         val formatMillisecond = format(".%L")
         val formatSecond = format(":%S")
@@ -566,7 +558,7 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return pad(d.second, p, 2)
     }
 
-    @ExperimentalTime
+//    @ExperimentalTime
     fun formatWeekNumberSunday(d: LocalDateTime, p: String): String {
         val start = timeYear.floor(d)
         val value = timeSunday.count(start, d)
@@ -577,7 +569,7 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return d.dayOfWeek.toString()
     }
 
-    @ExperimentalTime
+//    @ExperimentalTime
     fun formatWeekNumberMonday(d: LocalDateTime, p: String): String {
         return pad(timeMonday.count(timeYear.floor(d), d), p, 2)
     }

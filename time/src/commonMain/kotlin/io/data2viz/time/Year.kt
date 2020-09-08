@@ -20,7 +20,6 @@ package io.data2viz.time
 import kotlinx.datetime.LocalDateTime
 import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class Year : Interval(
         fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, 1, 1, 0, 0, 0, 0),
         fun(date: LocalDateTime, step: Int): LocalDateTime = LocalDateTime(date.year + step, date.monthNumber, date.dayOfMonth, date.hour, date.minute, date.second, date.nanosecond),
@@ -28,5 +27,4 @@ class Year : Interval(
         fun(date: LocalDateTime): Int = date.year
 )
 
-@ExperimentalTime
 val timeYear = Year()

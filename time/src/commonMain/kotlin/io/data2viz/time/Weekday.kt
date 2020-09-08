@@ -21,7 +21,6 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
 import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class Weekday(day: Int) : Interval(
     fun(date: LocalDateTime): LocalDateTime {
         val dayofMonth = (date.dayOfMonth - (date.dayOfWeek.ordinal + 7 - day) % 7) + 1
@@ -41,23 +40,16 @@ class Weekday(day: Int) : Interval(
     fun(start: LocalDateTime, end: LocalDateTime): Int = ((end - start).inDays.toInt() / 7)
 )
 
-@ExperimentalTime
 val timeMonday = Weekday(1)
 
-@ExperimentalTime
 val timeTuesday = Weekday(2)
 
-@ExperimentalTime
 val timeWednesday = Weekday(3)
 
-@ExperimentalTime
 val timeThursday = Weekday(4)
 
-@ExperimentalTime
 val timeFriday = Weekday(5)
 
-@ExperimentalTime
 val timeSaturday = Weekday(6)
 
-@ExperimentalTime
 val timeSunday = Weekday(0)

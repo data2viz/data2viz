@@ -21,7 +21,6 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
 import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class Millisecond : Interval(
         fun(date: LocalDateTime): LocalDateTime = date.copy(),
         fun(date: LocalDateTime, step: Int): LocalDateTime {
@@ -35,5 +34,4 @@ class Millisecond : Interval(
         fun(date: LocalDateTime): Int = date.nanosecond / 1_000_000
 )
 
-@ExperimentalTime
 val timeMillisecond = Millisecond()

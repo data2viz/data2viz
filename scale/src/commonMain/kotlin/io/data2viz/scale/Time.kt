@@ -30,7 +30,6 @@ import kotlin.time.ExperimentalTime
 
 val dateComparator = Comparator<LocalDateTime> { a, b -> a.compareTo(b) }
 
-@ExperimentalTime
 private data class TickInterval(
     val interval: Interval,
     val step: Int,
@@ -45,7 +44,6 @@ val durationWeek = 604800000L        // (day * 7)
 val durationMonth = 2592000000L      // (day * 30)
 val durationYear = 31536000000L      // (day * 365)
 
-@ExperimentalTime
 private val tickIntervals = listOf(
         TickInterval(timeSecond, 1, durationSecond),
         TickInterval(timeSecond, 5, 5 * durationSecond),
@@ -72,7 +70,7 @@ private val tickIntervals = listOf(
  * and invert returns a date.
  * Time scales implement ticks based on calendar intervals, taking the pain out of generating axes for temporal domains.
  */
-@ExperimentalTime
+//@ExperimentalTime
 class TimeScale<R> internal constructor(
     interpolateRange: (R, R) -> Interpolator<R>,
     uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,

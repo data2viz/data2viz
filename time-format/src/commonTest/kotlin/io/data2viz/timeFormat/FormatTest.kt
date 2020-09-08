@@ -21,7 +21,6 @@ import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
 import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class FormatTest : TestDate() {
 
     @Test

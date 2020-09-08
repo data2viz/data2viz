@@ -174,7 +174,6 @@ object Scales {
         fun sqrtRound(init: PowerScale<Double>.() -> Unit = {}) =
             PowerScale(.5, ::interpolateRound, ::uninterpolateNumber, naturalOrder()).apply(init)
 
-        @ExperimentalTime
         fun time(init: TimeScale<Double>.() -> Unit = {}) =
             TimeScale(::interpolateNumber, ::uninterpolateNumber, naturalOrder()).apply(init)
 

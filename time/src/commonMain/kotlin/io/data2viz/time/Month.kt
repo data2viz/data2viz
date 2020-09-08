@@ -20,7 +20,6 @@ package io.data2viz.time
 import kotlinx.datetime.LocalDateTime
 import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class Month : Interval(
         fun (date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, 1, 0, 0, 0, 0),
         fun (date:LocalDateTime, step:Int): LocalDateTime {
@@ -36,5 +35,4 @@ class Month : Interval(
         fun (date:LocalDateTime): Int = date.monthNumber - 1
 )
 
-@ExperimentalTime
 val timeMonth = Month()
