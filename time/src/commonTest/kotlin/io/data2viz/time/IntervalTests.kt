@@ -17,10 +17,9 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
-import kotlin.time.ExperimentalTime
 
 class IntervalTests : TestDate() {
 
@@ -29,7 +28,7 @@ class IntervalTests : TestDate() {
         val interval = Interval(
                 fun (date:LocalDateTime): LocalDateTime =
                     LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, 0, 0, 0),
-                fun (date:LocalDateTime, step:Int): LocalDateTime = date + (DateTimeUnit.HOUR * step).duration,
+                fun (date:LocalDateTime, step:Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, step),
         )
 
         val date1 = interval.floor(LocalDateTime(2015, 1, 1, 12, 34, 56, 789))

@@ -18,18 +18,11 @@
 package io.data2viz.time
 
 import kotlinx.datetime.*
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
 
 val defaultTZ: TimeZone = TimeZone.UTC
 
-operator fun LocalDateTime.minus(other: LocalDateTime): Duration = this.toInstant(defaultTZ) - other.toInstant(defaultTZ)
-
-operator fun LocalDateTime.plus(other: Duration): LocalDateTime = (this.toInstant(defaultTZ) + other).toLocalDateTime(defaultTZ)
-
-operator fun LocalDateTime.minus(other: Duration): LocalDateTime = (this.toInstant(defaultTZ) - other).toLocalDateTime(defaultTZ)
-
-fun LocalDateTime.copy() = LocalDateTime(year, monthNumber, dayOfMonth, hour, minute, second, nanosecond)
+operator fun LocalDateTime.minus(other: LocalDateTime): DateTimePeriod = this.toInstant(defaultTZ).periodUntil(other.toInstant(defaultTZ), defaultTZ)
+operator fun LocalDateTime.plus(period: DateTimePeriod): LocalDateTime = this.toInstant(defaultTZ).plus(period, defaultTZ).toLocalDateTime(defaultTZ)
 
 /**
  * Constructs a new custom interval given the specified floor and offset functions and an optional count function.
@@ -81,7 +74,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * such that interval.ceil(interval.ceil(date) + 1) returns the following interval boundary date.
      */
     fun ceil(date: LocalDateTime): LocalDateTime {
-        var newDate = date - DateTimeUnit.MILLISECOND.duration
+        var newDate = date + DateTimePeriod(0, 0, 0, 0, 0, 0, -1_000_000)
         newDate = floor(newDate)
         newDate = offset(newDate, 1)
         newDate = floor(newDate)
@@ -98,8 +91,9 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
     fun round(date: LocalDateTime): LocalDateTime {
         val d0 = floor(date)
         val d1 = ceil(date)
-        val millisecondsBetween1 = (date - d0).inMilliseconds
-        val millisecondsBetween2 = (d1 - date).inMilliseconds
+        val dateInstant = date.toInstant(defaultTZ)
+        val millisecondsBetween1 = d0.toInstant(defaultTZ).until(dateInstant, DateTimeUnit.MILLISECOND, defaultTZ)
+        val millisecondsBetween2 = dateInstant.until(d1.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ)
         return if (millisecondsBetween1 < millisecondsBetween2) d0 else d1
     }
 
@@ -118,7 +112,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
         if (step > 0) {
             while (current < stop) {
                 range.add(current)
-                current = floor(offset(current.copy(), step))
+                current = floor(offset(current, step))
             }
         }
         return range.toList()
@@ -136,7 +130,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
                 fun(date: LocalDateTime): LocalDateTime {
                     var newDate = floor(date)
                     while (!test(newDate)) {
-                        newDate = floor(newDate - DateTimeUnit.MILLISECOND.duration)
+                        newDate = floor(newDate + DateTimePeriod(0, 0, 0, 0, 0, 0, -1_000_000))
                     }
                     return newDate
                 },

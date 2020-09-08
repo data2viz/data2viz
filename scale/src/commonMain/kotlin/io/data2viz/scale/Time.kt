@@ -23,10 +23,6 @@ import io.data2viz.math.Percent
 import io.data2viz.math.tickStep
 import io.data2viz.time.*
 import kotlinx.datetime.*
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.ZERO
-import kotlin.time.DurationUnit
-import kotlin.time.ExperimentalTime
 
 val dateComparator = Comparator<LocalDateTime> { a, b -> a.compareTo(b) }
 
@@ -70,7 +66,6 @@ private val tickIntervals = listOf(
  * and invert returns a date.
  * Time scales implement ticks based on calendar intervals, taking the pain out of generating axes for temporal domains.
  */
-//@ExperimentalTime
 class TimeScale<R> internal constructor(
     interpolateRange: (R, R) -> Interpolator<R>,
     uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
@@ -86,14 +81,22 @@ class TimeScale<R> internal constructor(
     }
 
     override fun uninterpolateDomain(from: LocalDateTime, to: LocalDateTime): UnInterpolator<LocalDateTime> {
-        val range = to - from
-        return { date -> if (range == ZERO) Percent(.0) else Percent((date - from) / range) }
+        val fromInstant = from.toInstant(defaultTZ)
+        val range = fromInstant.until(to.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
+        val nullRange = from == to
+        return { date ->
+            if (nullRange) Percent(.0)
+            else {
+                val diff = fromInstant.until(date.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
+                Percent(diff / range)
+            }
+        }
     }
 
     override fun interpolateDomain(from: LocalDateTime, to: LocalDateTime): Interpolator<LocalDateTime> {
-        val range = to - from
         val fromInstant = from.toInstant(defaultTZ)
-        return { percent -> (fromInstant + (range * percent.value)).toLocalDateTime(defaultTZ) }
+        val range = fromInstant.until(to.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
+        return { percent -> from + DateTimePeriod(0, 0, 0, 0, 0, 0, (range * percent.value * 1_000_000).toLong()) }
     }
 
     override fun domainComparator(): Comparator<LocalDateTime> = dateComparator
@@ -124,16 +127,16 @@ class TimeScale<R> internal constructor(
     }
 
     private fun tickInterval(count: Int, start: LocalDateTime, end: LocalDateTime): Interval {
-        val diff: Duration = end - start
-        val targetDuration = diff / count
-        val intervalIndex = bisectRight(tickIntervals.map { it.duration }, targetDuration.toLong(DurationUnit.MILLISECONDS), naturalOrder())
+        val diff = start.toInstant(defaultTZ).until(end.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ)
+        val targetDuration = diff / count.toDouble()
+        val intervalIndex = bisectRight(tickIntervals.map { it.duration }, targetDuration.toLong(), naturalOrder())
         val step: Int?
         var interval: Interval = timeYear
         if (intervalIndex == tickIntervals.size) {
             step = tickStep(start.toInstant(defaultTZ).toEpochMilliseconds().toDouble() / durationYear, end.toInstant(defaultTZ).toEpochMilliseconds().toDouble() / durationYear, count).toInt()
         } else if (intervalIndex > 0) {
-            val l = targetDuration.toDouble(DurationUnit.MILLISECONDS) / tickIntervals[intervalIndex - 1].duration
-            val l1 = tickIntervals[intervalIndex].duration / targetDuration.toDouble(DurationUnit.MILLISECONDS)
+            val l = targetDuration / tickIntervals[intervalIndex - 1].duration
+            val l1 = tickIntervals[intervalIndex].duration / targetDuration
             val tickInterval = tickIntervals[if (l < l1) intervalIndex - 1 else intervalIndex]
             step = tickInterval.step
             interval = tickInterval.interval
@@ -187,7 +190,7 @@ class TimeScale<R> internal constructor(
         var start = _domain[first]
         var end = _domain[last]
 
-        if ((end - start) == ZERO) return listOf()
+        if (end == start) return listOf()
 
         val reversed = end < start
         if (reversed) {
@@ -197,7 +200,7 @@ class TimeScale<R> internal constructor(
             end = _domain[last]
         }
 
-        val endPlus = end + DateTimeUnit.MILLISECOND.duration
+        val endPlus = end + DateTimePeriod(0, 0, 0, 0, 0, 0, 1_000_000)
 
         val tickInterval = tickInterval(count, start, end)
         val ticks = tickInterval.range(start, endPlus)

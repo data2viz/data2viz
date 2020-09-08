@@ -467,8 +467,7 @@ class ScaleTimeTests : TestBase() {
 
     // TODO : actually test don't pass due to a bug in timeWeek (timeSunday used here)
     // check timeSunday as it seems to returns mondays !! :D
-
-//    @Test
+//    //    @Test
 //    fun time_ticks_count_can_generate_1_week_ticks() {
 //        val scale = Scales.Continuous.time()
 //        scale.range = listOf(.0, 1.0)
@@ -487,7 +486,6 @@ class ScaleTimeTests : TestBase() {
 //            tick shouldBe ticks[index]
 //        }
 //    }
-
 
     @Test
     fun time_ticks_count_can_generate_1_month_ticks() {
@@ -508,7 +506,6 @@ class ScaleTimeTests : TestBase() {
             tick shouldBe ticks[index]
         }
     }
-
 
     @Test
     fun time_ticks_count_can_generate_3_months_ticks() {
@@ -587,7 +584,6 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
-
     @Test
     fun time_ticks_count_returns_no_ticks_for_empty_domain() {
         val scale = Scales.Continuous.time()
@@ -597,6 +593,7 @@ class ScaleTimeTests : TestBase() {
         val ticks = scale.ticks(6)
         ticks.size shouldBe 0
     }
+
 
 
     @Test

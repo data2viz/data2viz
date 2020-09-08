@@ -45,10 +45,13 @@ private fun date(d: ParseDate): LocalDateTime {
     var date = LocalDateTime(d.year ?: 0, d.month ?: 1, 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
 
     // add days (cause day value may be a number of days <= 0 or > 31)
+//    if (d.day != null) {
+//        date = if (d.day!! > 1) date + (DateTimeUnit.HOUR * 24 * (d.day!! - 1)).duration
+//        else if (d.day!! <= 0) date - (DateTimeUnit.HOUR * 24 * -(d.day!! - 1)).duration
+//        else date
+//    }
     if (d.day != null) {
-        date = if (d.day!! > 1) date + (DateTimeUnit.HOUR * 24 * (d.day!! - 1)).duration
-        else if (d.day!! <= 0) date - (DateTimeUnit.HOUR * 24 * -(d.day!! - 1)).duration
-        else date
+        date = date + DateTimePeriod(0, 0, d.day!! - 1)
     }
 
     return date
@@ -558,7 +561,6 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return pad(d.second, p, 2)
     }
 
-//    @ExperimentalTime
     fun formatWeekNumberSunday(d: LocalDateTime, p: String): String {
         val start = timeYear.floor(d)
         val value = timeSunday.count(start, d)
@@ -569,7 +571,6 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return d.dayOfWeek.toString()
     }
 
-//    @ExperimentalTime
     fun formatWeekNumberMonday(d: LocalDateTime, p: String): String {
         return pad(timeMonday.count(timeYear.floor(d), d), p, 2)
     }

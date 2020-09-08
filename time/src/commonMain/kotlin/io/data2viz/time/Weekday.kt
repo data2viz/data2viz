@@ -17,9 +17,8 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
-import kotlin.time.ExperimentalTime
 
 class Weekday(day: Int) : Interval(
     fun(date: LocalDateTime): LocalDateTime {
@@ -27,29 +26,17 @@ class Weekday(day: Int) : Interval(
         return if (dayofMonth >= 1) {
             LocalDateTime(date.year, date.monthNumber, dayofMonth, 0, 0, 0, 0)
         } else {
-            date + (DateTimeUnit.HOUR.duration * 24 * (dayofMonth - 2))
+            date + DateTimePeriod(0, 0, (dayofMonth - 2))//date + (DateTimeUnit.HOUR.duration * 24 * (dayofMonth - 2))
         }
     },
-    fun(date: LocalDateTime, step: Int): LocalDateTime {
-        return when {
-            step > 0 -> date + (DateTimeUnit.HOUR * 24 * 7 * step).duration
-            step < 0 -> date - (DateTimeUnit.HOUR * 24 * 7 * -step).duration
-            else -> date
-        }
-    },
-    fun(start: LocalDateTime, end: LocalDateTime): Int = ((end - start).inDays.toInt() / 7)
+    fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, step),
+    fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).days
 )
 
 val timeMonday = Weekday(1)
-
 val timeTuesday = Weekday(2)
-
 val timeWednesday = Weekday(3)
-
 val timeThursday = Weekday(4)
-
 val timeFriday = Weekday(5)
-
 val timeSaturday = Weekday(6)
-
 val timeSunday = Weekday(0)

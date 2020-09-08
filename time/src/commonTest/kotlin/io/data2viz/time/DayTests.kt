@@ -19,7 +19,6 @@ package io.data2viz.time
 
 import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
-import kotlin.time.ExperimentalTime
 
 class DayTests : TestDate() {
 

@@ -17,20 +17,13 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
-import kotlin.time.ExperimentalTime
 
 class Millisecond : Interval(
-        fun(date: LocalDateTime): LocalDateTime = date.copy(),
-        fun(date: LocalDateTime, step: Int): LocalDateTime {
-                return when {
-                        step > 0 -> date + (DateTimeUnit.MILLISECOND * step).duration
-                        step < 0 -> date - (DateTimeUnit.MILLISECOND * -step).duration
-                        else -> date
-                }
-        },
-        fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).inMilliseconds.toInt(),
+        fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, date.second, date.nanosecond),
+        fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, 0, 0, 0, step * 1_000_000L),
+        fun(start: LocalDateTime, end: LocalDateTime): Int = ((end - start).nanoseconds / 1_000_000).toInt(),
         fun(date: LocalDateTime): Int = date.nanosecond / 1_000_000
 )
 

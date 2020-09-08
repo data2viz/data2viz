@@ -17,21 +17,14 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
-import kotlin.time.ExperimentalTime
 
 class Minute : Interval(
     fun(date: LocalDateTime): LocalDateTime =
         LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, 0, 0),
-    fun(date: LocalDateTime, step: Int): LocalDateTime {
-        return when {
-            step > 0 -> date + (DateTimeUnit.MINUTE * step).duration
-            step < 0 -> date - (DateTimeUnit.MINUTE * -step).duration
-            else -> date
-        }
-    },
-    fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).inMinutes.toInt(),
+    fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, 0, step),
+    fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).minutes,
     fun(date: LocalDateTime): Int = date.minute
 )
 

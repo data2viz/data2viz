@@ -19,10 +19,8 @@ package io.data2viz.time
 
 import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
-import kotlin.time.ExperimentalTime
 
 class MonthTests : TestDate() {
-
 
     @Test
     fun month_floor_date_returns_months() {
