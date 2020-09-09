@@ -645,6 +645,16 @@ class ScaleTimeTests : TestBase() {
     }
 
 
+    @Test
+    fun additionnal_weekdays_tests() {
+        val scale = Scales.Continuous.time()
+        scale.range = listOf(.0, 1.0)
+        scale.domain = listOf(LocalDateTime(2020, 1, 1, 0, 0), LocalDateTime(2020, 2, 11, 15, 0))
+
+        val ticks = scale.ticks()
+        ticks.size shouldBe 6
+    }
+
     /**
     tape("time.domain([-1e50, 1e50]) is equivalent to time.domain([NaN, NaN])", function(test) {
     var x = scale.scaleTime().domain([-1e50, 1e50]);

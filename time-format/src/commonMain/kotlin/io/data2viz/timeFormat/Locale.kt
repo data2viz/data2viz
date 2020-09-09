@@ -259,7 +259,7 @@ class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
                 val preValue = if (d.weekNumberMonday != null) 1 else 0
                 if (d.weekDay == null) d.weekDay = preValue
                 val day = if (d.zone != null) {
-                    0//utcDate(newYear(d.y)).getUTCDay()
+                    0
                 } else {
                     date(newYear(d.year)).dayOfWeek.ordinal + 1
                 }
