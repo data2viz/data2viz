@@ -644,6 +644,47 @@ class ScaleTimeTests : TestBase() {
         }
     }
 
+    @Test
+    fun tick_values_does_not_contains_values_outside_of_domain() {
+        val scale = Scales.Continuous.time()
+        var start = LocalDateTime(2018, 2, 13, 5, 22)
+        var end = LocalDateTime(2020, 5, 8, 16, 44)
+
+        scale.domain = listOf(start, end)
+        scale.ticks(10).forEach {
+            (it >= start) shouldBe true
+            (it <= end) shouldBe true
+        }
+
+        scale.ticks(4).forEach {
+            (it >= start) shouldBe true
+            (it <= end) shouldBe true
+        }
+
+        scale.ticks(20).forEach {
+            (it >= start) shouldBe true
+            (it <= end) shouldBe true
+        }
+
+        start = LocalDateTime(1955, 12, 20, 22, 54)
+        end = LocalDateTime(2035, 4, 16, 2, 7)
+
+        scale.domain = listOf(start, end)
+        scale.ticks(10).forEach {
+            (it >= start) shouldBe true
+            (it <= end) shouldBe true
+        }
+
+        scale.ticks(4).forEach {
+            (it >= start) shouldBe true
+            (it <= end) shouldBe true
+        }
+
+        scale.ticks(20).forEach {
+            (it >= start) shouldBe true
+            (it <= end) shouldBe true
+        }
+    }
 
     @Test
     fun additionnal_weekdays_tests() {
