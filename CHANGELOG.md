@@ -5,7 +5,8 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
-## 0.8.2
+## 0.8.2-RC1
+> Published 10 Sep 2020
 * Use kotlinx.datetime instead of date from the time module
 * Use LocalDateTime for the TimeScale, the Interval and the whole time-format module
 
