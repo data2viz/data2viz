@@ -21,6 +21,8 @@ import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
 
+// TODO change date() to LocalDateTime when version > 8.3
+@Suppress("DEPRECATION")
 class IntervalTests : TestDate() {
 
     @Test
@@ -31,8 +33,8 @@ class IntervalTests : TestDate() {
                 fun (date:LocalDateTime, step:Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, step),
         )
 
-        val date1 = interval.floor(LocalDateTime(2015, 1, 1, 12, 34, 56, 789))
-        val date2 = LocalDateTime(2015, 1, 1, 12, 0, 0, 0)
+        val date1 = interval.floor(date(2015, 1, 1, 12, 34, 56, 789))
+        val date2 = date(2015, 1, 1, 12, 0, 0, 0)
         date1 shouldBe date2
     }
 

@@ -20,7 +20,7 @@ package io.data2viz.time
 import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
 
-class DateTests : TestDate() {
+class DeprecatedDateTests : TestDate() {
 
 
     @Test
@@ -35,13 +35,13 @@ class DateTests : TestDate() {
         } catch (e:IllegalArgumentException) {
             catchedExceptionMonth = true
         }
+        catchedExceptionMonth shouldBe true
+
         try {
             date(2020, 1, 0)
         } catch (e:IllegalArgumentException) {
             catchedExceptionDay = true
         }
-
-        catchedExceptionMonth shouldBe true
         catchedExceptionDay shouldBe true
 
         date(2020, 12, 10, 11, 9, 8) shouldBe LocalDateTime(2020, 12, 10, 11, 9, 8)

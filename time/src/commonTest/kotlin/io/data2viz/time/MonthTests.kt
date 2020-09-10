@@ -17,149 +17,150 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
 
+// TODO change date() to LocalDateTime when version > 8.3
+@Suppress("DEPRECATION")
 class MonthTests : TestDate() {
 
     @Test
     fun month_floor_date_returns_months() {
         val time = timeMonth
 
-        time.floor(LocalDateTime(2010, 12, 31, 23, 59, 59)) shouldBe LocalDateTime(2010, 12, 1, 0, 0)
-        time.floor(LocalDateTime(2011, 1, 1, 0, 0, 0)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
-        time.floor(LocalDateTime(2011, 1, 1, 0, 0, 1)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
+        time.floor(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2010, 12, 1, 0, 0)
+        time.floor(date(2011, 1, 1, 0, 0, 0)) shouldBe date(2011, 1, 1, 0, 0)
+        time.floor(date(2011, 1, 1, 0, 0, 1)) shouldBe date(2011, 1, 1, 0, 0)
     }
 
     @Test
     fun month_floor_observes_start_of_DST() {
         val time = timeMonth
 
-        time.floor(LocalDateTime(2011, 3, 13, 1, 0)) shouldBe LocalDateTime(2011, 3, 1, 0, 0)
+        time.floor(date(2011, 3, 13, 1, 0)) shouldBe date(2011, 3, 1, 0, 0)
     }
 
     @Test
     fun month_floor_observes_end_of_DST() {
         val time = timeMonth
 
-        time.floor(LocalDateTime(2011, 11, 6, 1, 0)) shouldBe LocalDateTime(2011, 11, 1, 0, 0)
+        time.floor(date(2011, 11, 6, 1, 0)) shouldBe date(2011, 11, 1, 0, 0)
     }
 
     @Test
     fun month_floor_handles_years_in_first_century() {
         val time = timeMonth
 
-        time.floor(LocalDateTime(11, 11, 6, 7, 0)) shouldBe LocalDateTime(11, 11, 1, 0, 0)
+        time.floor(date(11, 11, 6, 7, 0)) shouldBe date(11, 11, 1, 0, 0)
     }
 
     @Test
     fun month_ceil_returns_months() {
         val time = timeMonth
 
-        time.ceil(LocalDateTime(2010, 12, 31, 23, 59, 59)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
-        time.ceil(LocalDateTime(2011, 1, 1, 0, 0, 0)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
-        time.ceil(LocalDateTime(2011, 1, 1, 0, 0, 1)) shouldBe LocalDateTime(2011, 2, 1, 0, 0)
+        time.ceil(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2011, 1, 1, 0, 0)
+        time.ceil(date(2011, 1, 1, 0, 0, 0)) shouldBe date(2011, 1, 1, 0, 0)
+        time.ceil(date(2011, 1, 1, 0, 0, 1)) shouldBe date(2011, 2, 1, 0, 0)
     }
 
     @Test
     fun month_ceil_observes_start_of_DST() {
         val time = timeMonth
 
-        time.ceil(LocalDateTime(2011, 3, 13, 1, 0)) shouldBe LocalDateTime(2011, 4, 1, 0, 0)
+        time.ceil(date(2011, 3, 13, 1, 0)) shouldBe date(2011, 4, 1, 0, 0)
     }
 
     @Test
     fun month_ceil_observes_end_of_DST() {
         val time = timeMonth
 
-        time.ceil(LocalDateTime(2011, 11, 6, 1, 0)) shouldBe LocalDateTime(2011, 12, 1, 0, 0)
+        time.ceil(date(2011, 11, 6, 1, 0)) shouldBe date(2011, 12, 1, 0, 0)
     }
 
     @Test
     fun month_offset_does_not_modify_passed_in_date() {
         val time = timeMonth
-        val date = LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
+        val date = date(2010, 12, 31, 23, 59, 59, 999)
 
-        time.offset(date, 1) shouldBe LocalDateTime(2011, 1, 31, 23, 59, 59, 999)
-        date shouldBe LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
+        time.offset(date, 1) shouldBe date(2011, 1, 31, 23, 59, 59, 999)
+        date shouldBe date(2010, 12, 31, 23, 59, 59, 999)
     }
 
     @Test
     fun month_offset_does_not_round_passed_in_date() {
         val time = timeMonth
 
-        time.offset(LocalDateTime(2010, 12, 31, 23, 59, 59, 999), 1) shouldBe LocalDateTime(2011, 1, 31, 23, 59, 59, 999)
-        time.offset(LocalDateTime(2010, 12, 31, 23, 59, 59, 456), -2) shouldBe LocalDateTime(2010, 10, 31, 23, 59, 59, 456)
+        time.offset(date(2010, 12, 31, 23, 59, 59, 999), 1) shouldBe date(2011, 1, 31, 23, 59, 59, 999)
+        time.offset(date(2010, 12, 31, 23, 59, 59, 456), -2) shouldBe date(2010, 10, 31, 23, 59, 59, 456)
     }
 
     @Test
     fun month_offset_allows_negative_offsets() {
         val time = timeMonth
 
-        time.offset(LocalDateTime(2010, 12, 1, 0, 0), -1) shouldBe LocalDateTime(2010, 11, 1, 0, 0)
-        time.offset(LocalDateTime(2011, 1, 1, 0, 0), -2) shouldBe LocalDateTime(2010, 11, 1, 0, 0)
-        time.offset(LocalDateTime(2011, 1, 1, 0, 0), -1) shouldBe LocalDateTime(2010, 12, 1, 0, 0)
+        time.offset(date(2010, 12, 1, 0, 0), -1) shouldBe date(2010, 11, 1, 0, 0)
+        time.offset(date(2011, 1, 1, 0, 0), -2) shouldBe date(2010, 11, 1, 0, 0)
+        time.offset(date(2011, 1, 1, 0, 0), -1) shouldBe date(2010, 12, 1, 0, 0)
     }
 
     @Test
     fun month_offset_allows_positive_offsets() {
         val time = timeMonth
 
-        time.offset(LocalDateTime(2010, 11, 1, 0, 0), 1) shouldBe LocalDateTime(2010, 12, 1, 0, 0)
-        time.offset(LocalDateTime(2010, 11, 1, 0, 0), 2) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
-        time.offset(LocalDateTime(2010, 12, 1, 0, 0), 1) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
+        time.offset(date(2010, 11, 1, 0, 0), 1) shouldBe date(2010, 12, 1, 0, 0)
+        time.offset(date(2010, 11, 1, 0, 0), 2) shouldBe date(2011, 1, 1, 0, 0)
+        time.offset(date(2010, 12, 1, 0, 0), 1) shouldBe date(2011, 1, 1, 0, 0)
     }
 
     @Test
     fun month_offset_allows_zero_offsets() {
         val time = timeMonth
 
-        time.offset(LocalDateTime(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
-        time.offset(LocalDateTime(2010, 12, 31, 23, 59, 58, 0), 0) shouldBe LocalDateTime(2010, 12, 31, 23, 59, 58, 0)
+        time.offset(date(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe date(2010, 12, 31, 23, 59, 59, 999)
+        time.offset(date(2010, 12, 31, 23, 59, 58, 0), 0) shouldBe date(2010, 12, 31, 23, 59, 58, 0)
     }
 
     @Test
     fun timeMonth_floor_returns_months() {
         val time = timeMonth
 
-        time.floor(LocalDateTime(2010, 11, 30, 23, 0)) shouldBe LocalDateTime(2010, 11, 1, 0, 0)
-        time.floor(LocalDateTime(2010, 1, 1, 0, 0)) shouldBe LocalDateTime(2010, 1, 1, 0, 0)
-        time.floor(LocalDateTime(2010, 1, 1, 1, 0)) shouldBe LocalDateTime(2010, 1, 1, 0, 0)
+        time.floor(date(2010, 11, 30, 23, 0)) shouldBe date(2010, 11, 1, 0, 0)
+        time.floor(date(2010, 1, 1, 0, 0)) shouldBe date(2010, 1, 1, 0, 0)
+        time.floor(date(2010, 1, 1, 1, 0)) shouldBe date(2010, 1, 1, 0, 0)
     }
 
     @Test
     fun timeMonth_floor_handles_months_in_the_first_century() {
         val time = timeMonth
 
-        time.floor(LocalDateTime(11, 11, 6, 7, 0)) shouldBe LocalDateTime(11, 11, 1, 0, 0)
+        time.floor(date(11, 11, 6, 7, 0)) shouldBe date(11, 11, 1, 0, 0)
     }
 
     @Test
     fun timeMonth_round_returns_months() {
         val time = timeMonth
 
-        time.round(LocalDateTime(2010, 12, 16, 12, 0)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
-        time.round(LocalDateTime(2010, 12, 16, 11, 0)) shouldBe LocalDateTime(2010, 12, 1, 0, 0)
+        time.round(date(2010, 12, 16, 12, 0)) shouldBe date(2011, 1, 1, 0, 0)
+        time.round(date(2010, 12, 16, 11, 0)) shouldBe date(2010, 12, 1, 0, 0)
     }
 
     @Test
     fun timeMonth_ceil_returns_months() {
         val time = timeMonth
 
-        time.ceil(LocalDateTime(2010, 11, 30, 23, 0)) shouldBe LocalDateTime(2010, 12, 1, 0, 0)
-        time.ceil(LocalDateTime(2010, 12, 1, 1, 0)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
-        time.ceil(LocalDateTime(2011, 2, 1, 0, 0)) shouldBe LocalDateTime(2011, 2, 1, 0, 0)
-        time.ceil(LocalDateTime(2011, 3, 1, 0, 0)) shouldBe LocalDateTime(2011, 3, 1, 0, 0)
-        time.ceil(LocalDateTime(2011, 4, 1, 0, 0)) shouldBe LocalDateTime(2011, 4, 1, 0, 0)
+        time.ceil(date(2010, 11, 30, 23, 0)) shouldBe date(2010, 12, 1, 0, 0)
+        time.ceil(date(2010, 12, 1, 1, 0)) shouldBe date(2011, 1, 1, 0, 0)
+        time.ceil(date(2011, 2, 1, 0, 0)) shouldBe date(2011, 2, 1, 0, 0)
+        time.ceil(date(2011, 3, 1, 0, 0)) shouldBe date(2011, 3, 1, 0, 0)
+        time.ceil(date(2011, 4, 1, 0, 0)) shouldBe date(2011, 4, 1, 0, 0)
     }
 
     @Test
     fun month_offset_does_not_modify_the_passed_in_date() {
         val time = timeMonth
-        val d = LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
+        val d = date(2010, 12, 31, 23, 59, 59, 999)
 
         time.offset(d, 1)
-        d shouldBe LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
+        d shouldBe date(2010, 12, 31, 23, 59, 59, 999)
     }
 
     /*
