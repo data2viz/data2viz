@@ -204,14 +204,13 @@ class DayTests : TestDate() {
         time.count(LocalDateTime(2011, 1, 1, 0, 0), LocalDateTime(2011, 11, 6, 2, 0)) shouldBe 309
     }
 
-    // TODO : finish
     @Test
     fun day_count_start_end_does_not_exhibit_floating_point_error() {
-//        val timeDay = timeDay
-//        val timeYear = timeYear()
-//        val date = LocalDateTime(2011, 5, 9)
+        val timeDay = timeDay
+        val timeYear = timeYear
+        val date = LocalDateTime(2011, 5, 9, 0, 0)
 
-//        timeDay.count(timeYear.floor(date), date) shouldBe 128
+        timeDay.count(timeYear.floor(date), date) shouldBe 128
     }
 
     @Test
@@ -267,14 +266,16 @@ class DayTests : TestDate() {
         }
     }
 
-    /*@Test
-    fun day_floor_date_observes_daylight_saving() {
-        val time = timeDay()
 
-//        time.floor(LocalDateTime(2011, 3, 13, 7)) shouldBe LocalDateTime(2011, 3, 12)
-    }*/
 
     /**
+
+    @Test
+    fun day_floor_date_observes_daylight_saving() {
+    val time = timeDay
+
+    time.floor(LocalDateTime(2011, 3, 13, 7, 0)) shouldBe LocalDateTime(2011, 3, 12, 0, 0)
+    }
 
     tape("timeDay.floor(date) observes daylight saving", function(test) {
     test.deepEqual(time.timeDay.floor(date.utc(2011, 02, 13, 07)), date.local(2011, 02, 12));

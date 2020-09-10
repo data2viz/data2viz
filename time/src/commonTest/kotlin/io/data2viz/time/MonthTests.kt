@@ -115,15 +115,54 @@ class MonthTests : TestDate() {
         val time = timeMonth
 
         time.offset(LocalDateTime(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
+        time.offset(LocalDateTime(2010, 12, 31, 23, 59, 58, 0), 0) shouldBe LocalDateTime(2010, 12, 31, 23, 59, 58, 0)
+    }
+
+    @Test
+    fun timeMonth_floor_returns_months() {
+        val time = timeMonth
+
+        time.floor(LocalDateTime(2010, 11, 30, 23, 0)) shouldBe LocalDateTime(2010, 11, 1, 0, 0)
+        time.floor(LocalDateTime(2010, 1, 1, 0, 0)) shouldBe LocalDateTime(2010, 1, 1, 0, 0)
+        time.floor(LocalDateTime(2010, 1, 1, 1, 0)) shouldBe LocalDateTime(2010, 1, 1, 0, 0)
+    }
+
+    @Test
+    fun timeMonth_floor_handles_months_in_the_first_century() {
+        val time = timeMonth
+
+        time.floor(LocalDateTime(11, 11, 6, 7, 0)) shouldBe LocalDateTime(11, 11, 1, 0, 0)
+    }
+
+    @Test
+    fun timeMonth_round_returns_months() {
+        val time = timeMonth
+
+        time.round(LocalDateTime(2010, 12, 16, 12, 0)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
+        time.round(LocalDateTime(2010, 12, 16, 11, 0)) shouldBe LocalDateTime(2010, 12, 1, 0, 0)
+    }
+
+    @Test
+    fun timeMonth_ceil_returns_months() {
+        val time = timeMonth
+
+        time.ceil(LocalDateTime(2010, 11, 30, 23, 0)) shouldBe LocalDateTime(2010, 12, 1, 0, 0)
+        time.ceil(LocalDateTime(2010, 12, 1, 1, 0)) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
+        time.ceil(LocalDateTime(2011, 2, 1, 0, 0)) shouldBe LocalDateTime(2011, 2, 1, 0, 0)
+        time.ceil(LocalDateTime(2011, 3, 1, 0, 0)) shouldBe LocalDateTime(2011, 3, 1, 0, 0)
+        time.ceil(LocalDateTime(2011, 4, 1, 0, 0)) shouldBe LocalDateTime(2011, 4, 1, 0, 0)
+    }
+
+    @Test
+    fun month_offset_does_not_modify_the_passed_in_date() {
+        val time = timeMonth
+        val d = LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
+
+        time.offset(d, 1)
+        d shouldBe LocalDateTime(2010, 12, 31, 23, 59, 59, 999)
     }
 
     /*
-tape("timeMonth.floor(date) returns months", function(test) {
-  test.deepEqual(time.timeMonth.floor(date.local(2010, 11, 31, 23)), date.local(2010, 11, 01));
-  test.deepEqual(time.timeMonth.floor(date.local(2011, 00, 01, 00)), date.local(2011, 00, 01));
-  test.deepEqual(time.timeMonth.floor(date.local(2011, 00, 01, 01)), date.local(2011, 00, 01));
-  test.end();
-});
 
 tape("timeMonth.floor(date) observes daylight saving", function(test) {
   test.deepEqual(time.timeMonth.floor(date.utc(2011, 02, 13, 07)), date.local(2011, 02, 01));
@@ -134,17 +173,6 @@ tape("timeMonth.floor(date) observes daylight saving", function(test) {
   test.deepEqual(time.timeMonth.floor(date.utc(2011, 10, 06, 08)), date.local(2011, 10, 01));
   test.deepEqual(time.timeMonth.floor(date.utc(2011, 10, 06, 09)), date.local(2011, 10, 01));
   test.deepEqual(time.timeMonth.floor(date.utc(2011, 10, 06, 10)), date.local(2011, 10, 01));
-  test.end();
-});
-
-tape("timeMonth.floor(date) handles years in the first century", function(test) {
-  test.deepEqual(time.timeMonth.floor(date.local(0011, 10, 06, 07)), date.local(0011, 10, 01));
-  test.end();
-});
-
-tape("timeMonth.round(date) returns months", function(test) {
-  test.deepEqual(time.timeMonth.round(date.local(2010, 11, 16, 12)), date.local(2011, 00, 01));
-  test.deepEqual(time.timeMonth.round(date.local(2010, 11, 16, 11)), date.local(2010, 11, 01));
   test.end();
 });
 
@@ -166,14 +194,7 @@ tape("timeMonth.round(date) handles midnight for leap years", function(test) {
   test.end();
 });
 
-tape("timeMonth.ceil(date) returns months", function(test) {
-  test.deepEqual(time.timeMonth.ceil(date.local(2010, 10, 30, 23)), date.local(2010, 11, 01));
-  test.deepEqual(time.timeMonth.ceil(date.local(2010, 11, 01, 01)), date.local(2011, 00, 01));
-  test.deepEqual(time.timeMonth.ceil(date.local(2011, 1, 1)), date.local(2011, 1, 1));
-  test.deepEqual(time.timeMonth.ceil(date.local(2011, 2, 1)), date.local(2011, 2, 1));
-  test.deepEqual(time.timeMonth.ceil(date.local(2011, 3, 1)), date.local(2011, 3, 1));
-  test.end();
-});
+
 
 tape("timeMonth.ceil(date) observes daylight saving", function(test) {
   test.deepEqual(time.timeMonth.ceil(date.utc(2011, 02, 13, 07)), date.local(2011, 03, 01));
@@ -208,26 +229,6 @@ tape("timeMonth.offset(date, step) does not modify the passed-in date", function
 tape("timeMonth.offset(date, step) does not round the passed-in date", function(test) {
   test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 999), +1), date.local(2011, 00, 31, 23, 59, 59, 999));
   test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 456), -2), date.local(2010, 09, 31, 23, 59, 59, 456));
-  test.end();
-});
-
-tape("timeMonth.offset(date, step) allows step to be negative", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31), -1), date.local(2010, 10, 31));
-  test.deepEqual(time.timeMonth.offset(date.local(2011, 00, 01), -2), date.local(2010, 10, 01));
-  test.deepEqual(time.timeMonth.offset(date.local(2011, 00, 01), -1), date.local(2010, 11, 01));
-  test.end();
-});
-
-tape("timeMonth.offset(date, step) allows step to be positive", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31), +1), date.local(2011, 00, 31));
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 30), +2), date.local(2011, 01, 30));
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 30), +1), date.local(2011, 00, 30));
-  test.end();
-});
-
-tape("timeMonth.offset(date, step) allows step to be zero", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 999), 0), date.local(2010, 11, 31, 23, 59, 59, 999));
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 58, 000), 0), date.local(2010, 11, 31, 23, 59, 58, 000));
   test.end();
 });
 
