@@ -22,7 +22,6 @@ import kotlin.test.Test
 
 class DeprecatedDateTests : TestDate() {
 
-
     @Test
     fun test_deprecated_date_constructor() {
         date(2020) shouldBe LocalDateTime(2020, 1, 1, 0, 0)
@@ -47,5 +46,28 @@ class DeprecatedDateTests : TestDate() {
         date(2020, 12, 10, 11, 9, 8) shouldBe LocalDateTime(2020, 12, 10, 11, 9, 8)
     }
 
+    @Test
+    fun test_deprecated_date_functions() {
+        val date = date(2020)
+        date.year() shouldBe 2020
+        date.month() shouldBe 1
+        date.dayOfYear() shouldBe 1
+        date.dayOfMonth() shouldBe 1
+        date.hour() shouldBe 0
+        date.minute() shouldBe 0
+        date.second() shouldBe 0
+        date.millisecond() shouldBe 0
 
+        val date2 = date(2017, 8, 6, 14, 22, 53, 997)
+        date2.year() shouldBe 2017
+        date2.month() shouldBe 8
+        date2.dayOfYear() shouldBe 218
+        date2.dayOfMonth() shouldBe 6
+        date2.hour() shouldBe 14
+        date2.minute() shouldBe 22
+        date2.second() shouldBe 53
+        date2.millisecond() shouldBe 997
+
+        date2.isBefore(date) shouldBe true
+    }
 }
