@@ -19,8 +19,8 @@ package io.data2viz.voronoi
 
 import io.data2viz.geom.Point
 import io.data2viz.test.matchers.Matchers
-import org.junit.Test
-import java.lang.Math.random
+import kotlin.random.Random
+import kotlin.test.Test
 
 
 class DiagramTests : Matchers {
@@ -28,12 +28,12 @@ class DiagramTests : Matchers {
     fun List<Point>.sites() = mapIndexed { index, point -> Site(point, index) }.toTypedArray()
 
     @Test
-    fun `diagram 1 site`() {
+    fun diagram1Site() {
         Diagram(listOf(pt(10, 10)).sites())
     }
 
     @Test
-    fun `diagram 5 sites`() {
+    fun diagram5sites() {
         val diagram = Diagram(listOf(
                 pt(10, 10),
                 pt(20, 10),
@@ -60,7 +60,7 @@ class DiagramTests : Matchers {
     }
 
     @Test
-    fun `diagram 2 sites`() {
+    fun diagram2sites() {
         val diagram = Diagram(listOf(
                 pt(10, 10),
                 pt(30, 10)
@@ -70,9 +70,11 @@ class DiagramTests : Matchers {
     }
 
     @Test
-    fun `diagram 16384 sites`() {
+    fun diagram16384sites() {
+
+
         val points = (1..16384).map {
-            pt(random() * 100, random() * 100)
+            pt(Random.nextDouble(100.0), Random.nextDouble(100.0))
         }
 
         val diagram = Diagram(points.sites(), clipEnd = Point(100.0, 100.0))

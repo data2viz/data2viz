@@ -19,7 +19,7 @@ package io.data2viz.voronoi
 
 import io.data2viz.test.matchers.Matchers
 import io.data2viz.voronoi.RedBlackColor.*
-import org.junit.Test
+import kotlin.test.Test
 
 
 /**
@@ -30,7 +30,7 @@ class RedBlackTreeTest : Matchers {
 
 
     @Test
-    fun `7 inserts`() {
+    fun inserts() {
         val tree = tree()
         val n1 = tree.insert(1.node())
         tree.root shouldBe n1
@@ -102,7 +102,7 @@ class RedBlackTreeTest : Matchers {
     }
 
     @Test
-    fun `insert after second`() {
+    fun insertaftersecond() {
         val tree = tree()
         val n1 = tree.insert(1.node())
         val n2 = tree.insert(2.node())
@@ -127,7 +127,7 @@ class RedBlackTreeTest : Matchers {
     }
 
     @Test
-    fun `remove child in the middle`() {
+    fun removechildinthemiddle() {
         val tree = tree()
         tree.insert(1.node())
         tree.insert(2.node())
@@ -139,7 +139,7 @@ class RedBlackTreeTest : Matchers {
     }
 
     @Test
-    fun `remove root with child n2`() {
+    fun removerootwithchildn2() {
         val n1 = 1.node()
         val n2 = 2.node()
         val tree = tree().apply {
@@ -152,7 +152,7 @@ class RedBlackTreeTest : Matchers {
     }
 
     @Test
-    fun `remove root with child n1`() {
+    fun removerootwithchildn1() {
         val n1 = 1.node()
         val n2 = 2.node()
         val tree = tree().apply {
@@ -166,7 +166,7 @@ class RedBlackTreeTest : Matchers {
 
 
     @Test
-    fun `when remove unique node then root is null`() {
+    fun whenremoveuniquenodethenrootisnull() {
         val tree = tree()
         val n1 = tree.insert(1.node())
         tree.remove(n1)
@@ -174,7 +174,7 @@ class RedBlackTreeTest : Matchers {
     }
 
     @Test
-    fun `second insert with reference should be right`() {
+    fun secondinsertwithreferenceshouldberight() {
         val n1 = 1.node()
         val n2 = 2.node()
         tree().apply {
@@ -187,7 +187,7 @@ class RedBlackTreeTest : Matchers {
     }
 
     @Test
-    fun `third insert with reference on first should rotate left`() {
+    fun thirdinsertwithreferenceonfirstshouldrotateleft() {
         val n1 = 1.node()
         val n2 = 2.node()
         val n3 = 3.node()
@@ -202,7 +202,7 @@ class RedBlackTreeTest : Matchers {
     }
 
     @Test
-    fun `third insert with reference should rotate left`() {
+    fun thirdinsertwithreferenceshouldrotateleft() {
         val n1 = 1.node()
         val n2 = 2.node()
         val n3 = 3.node()
