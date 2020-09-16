@@ -21,8 +21,11 @@ import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 
 class Weekday(day: Int) : Interval(
-    fun(date: LocalDateTime): LocalDateTime =
-        LocalDateTime(date.year, date.month, (date.dayOfMonth - (date.dayOfWeek.ordinal + 7 - day) % 7), 0, 0),
+    fun(date: LocalDateTime): LocalDateTime {
+        val dayOfMonth = date.dayOfMonth - (date.dayOfWeek.ordinal + 7 - day) % 7
+        return if (dayOfMonth < 0) LocalDateTime(date.year, date.month, 1, 0, 0) + DateTimePeriod(0, 0, dayOfMonth - 1)
+        else LocalDateTime(date.year, date.month, dayOfMonth, 0, 0)
+    },
     fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, step * 7),
     fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).days
 )
