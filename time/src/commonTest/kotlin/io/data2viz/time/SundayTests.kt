@@ -25,14 +25,14 @@ class SundayTests : TestDate() {
 
     @Test
     fun timeSunday_floor_returns_Sundays() {
-        val time = timeSunday
+        val sunday = timeSunday
 
-        time.floor(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2010, 12, 26)
-        time.floor(date(2011,  1,  1,  0,  0,  0)) shouldBe date(2010, 12, 26)
-        time.floor(date(2011,  1,  1,  0,  0,  1)) shouldBe date(2010, 12, 26)
-        time.floor(date(2011,  1,  1, 23, 59, 59)) shouldBe date(2010, 12, 26)
-        time.floor(date(2011,  1,  2,  0,  0,  0)) shouldBe date(2011,  1,  2)
-        time.floor(date(2011,  1,  2,  0,  0,  1)) shouldBe date(2011,  1,  2)
+        sunday.floor(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2010, 12, 26)
+        sunday.floor(date(2011,  1,  1,  0,  0,  0)) shouldBe date(2010, 12, 26)
+        sunday.floor(date(2011,  1,  1,  0,  0,  1)) shouldBe date(2010, 12, 26)
+        sunday.floor(date(2011,  1,  1, 23, 59, 59)) shouldBe date(2010, 12, 26)
+        sunday.floor(date(2011,  1,  2,  0,  0,  0)) shouldBe date(2011,  1,  2)
+        sunday.floor(date(2011,  1,  2,  0,  0,  1)) shouldBe date(2011,  1,  2)
     }
 
     // TODO not working
@@ -48,47 +48,47 @@ class SundayTests : TestDate() {
 
     @Test
     fun timeSunday_ceil_returns_Sundays() {
-        val time = timeSunday
+        val sunday = timeSunday
 
-        time.ceil(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2011, 1, 2)
-        time.ceil(date(2011,  1,  1,  0,  0,  0)) shouldBe date(2011, 1, 2)
-        time.ceil(date(2011,  1,  1,  0,  0,  1)) shouldBe date(2011, 1, 2)
-        time.ceil(date(2011,  1,  1, 23, 59, 59)) shouldBe date(2011, 1, 2)
-        time.ceil(date(2011,  1,  2,  0,  0,  0)) shouldBe date(2011, 1, 2)
-        time.ceil(date(2011,  1,  2,  0,  0,  1)) shouldBe date(2011, 1, 9)
+        sunday.ceil(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2011, 1, 2)
+        sunday.ceil(date(2011,  1,  1,  0,  0,  0)) shouldBe date(2011, 1, 2)
+        sunday.ceil(date(2011,  1,  1,  0,  0,  1)) shouldBe date(2011, 1, 2)
+        sunday.ceil(date(2011,  1,  1, 23, 59, 59)) shouldBe date(2011, 1, 2)
+        sunday.ceil(date(2011,  1,  2,  0,  0,  0)) shouldBe date(2011, 1, 2)
+        sunday.ceil(date(2011,  1,  2,  0,  0,  1)) shouldBe date(2011, 1, 9)
     }
 
     @Test
     fun timeSunday_offset_allows_negative_step() {
-        val time = timeSunday
+        val sunday = timeSunday
 
-        time.offset(date(2010, 12, 1), -1) shouldBe date(2010, 11, 24)
-        time.offset(date(2011,  1,  1), -2) shouldBe date(2010, 12, 18)
-        time.offset(date(2011,  1,  1), -1) shouldBe date(2010, 12, 25)
+        sunday.offset(date(2010, 12, 1), -1) shouldBe date(2010, 11, 24)
+        sunday.offset(date(2011,  1,  1), -2) shouldBe date(2010, 12, 18)
+        sunday.offset(date(2011,  1,  1), -1) shouldBe date(2010, 12, 25)
     }
 
     @Test
     fun timeSunday_offset_allows_positive_step() {
-        val time = timeSunday
+        val sunday = timeSunday
 
-        time.offset(date(2010, 11, 24), 1) shouldBe date(2010, 12, 1)
-        time.offset(date(2010,  12,  18), 2) shouldBe date(2011, 1, 1)
-        time.offset(date(2010,  12,  25), 1) shouldBe date(2011, 1, 1)
+        sunday.offset(date(2010, 11, 24), 1) shouldBe date(2010, 12, 1)
+        sunday.offset(date(2010,  12,  18), 2) shouldBe date(2011, 1, 1)
+        sunday.offset(date(2010,  12,  25), 1) shouldBe date(2011, 1, 1)
     }
 
     @Test
     fun timeSunday_offset_allows_zero_step() {
-        val time = timeSunday
+        val sunday = timeSunday
 
-        time.offset(date(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe date(2010, 12, 31, 23, 59, 59, 999)
-        time.offset(date(2010, 12, 31, 23, 59, 58,   0), 0) shouldBe date(2010, 12, 31, 23, 59, 58,   0)
+        sunday.offset(date(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe date(2010, 12, 31, 23, 59, 59, 999)
+        sunday.offset(date(2010, 12, 31, 23, 59, 58,   0), 0) shouldBe date(2010, 12, 31, 23, 59, 58,   0)
     }
 
     @Test
     fun timeSunday_range_start_stop_returns_Sundays_between_start_inclusive_and_stop_exclusive() {
-        val time = timeSunday
+        val sunday = timeSunday
 
-        time.range(date(2011, 12, 1), date(2012, 1, 15)) shouldBe listOf(
+        sunday.range(date(2011, 12, 1), date(2012, 1, 15)) shouldBe listOf(
             date(2011, 12,  4),
             date(2011, 12, 11),
             date(2011, 12, 18),
@@ -100,9 +100,9 @@ class SundayTests : TestDate() {
 
     @Test
     fun timeSunday_range_start_stop_returns_Sundays() {
-        val time = timeSunday
+        val sunday = timeSunday
 
-        time.range(date(2011, 12, 1, 12, 23), date(2012, 1, 14, 12, 23)) shouldBe listOf(
+        sunday.range(date(2011, 12, 1, 12, 23), date(2012, 1, 14, 12, 23)) shouldBe listOf(
             date(2011, 12,  4),
             date(2011, 12, 11),
             date(2011, 12, 18),
@@ -114,8 +114,8 @@ class SundayTests : TestDate() {
 
     @Test
     fun issue_fix_specific_sunday_over_several_months() {
-        val time = timeSunday
-        time.range(date(2019,7,6,8,53,42,715), date(2019,9,25,22,0,48,33)).size shouldBe 12
+        val sunday = timeSunday
+        sunday.range(date(2019,7,6,8,53,42,715), date(2019,9,25,22,0,48,33)).size shouldBe 12
     }
 
     /**

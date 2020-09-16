@@ -23,8 +23,10 @@ import kotlinx.datetime.LocalDateTime
 class Weekday(day: Int) : Interval(
     floor = fun(date: LocalDateTime): LocalDateTime {
         val weekFlooredDay = date.dayOfMonth - (date.dayOfWeek.ordinal + 7 - day) % 7
-        return if (weekFlooredDay < 1) LocalDateTime(date.year, date.month, 1, 0, 0) + DateTimePeriod(0, 0, weekFlooredDay - 1)
-        else LocalDateTime(date.year, date.month, weekFlooredDay, 0, 0)
+        return if (weekFlooredDay < 1)
+            LocalDateTime(date.year, date.month, 1, 0, 0) + DateTimePeriod(0, 0, weekFlooredDay - 1)
+        else
+            LocalDateTime(date.year, date.month, weekFlooredDay, 0, 0)
     },
     offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, step * 7),
     count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).days
