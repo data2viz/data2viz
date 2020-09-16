@@ -5,6 +5,10 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.3
+> Published 16 Sep 2020
+* Fix runtime exception on Weekday #225
+
 ## 0.8.2
 > Published 10 Sep 2020
 * Reintroduce the date() and Date() constructors, mark them as deprecated (you should use LocalDateTime instead)
