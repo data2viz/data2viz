@@ -112,6 +112,9 @@ class SundayTests : TestDate() {
         )
     }
 
+    /**
+     * https://github.com/data2viz/data2viz/issues/225
+     */
     @Test
     fun issue_fix_specific_sunday_over_several_months() {
         val sunday = timeSunday

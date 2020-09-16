@@ -32,10 +32,39 @@ class Weekday(day: Int) : Interval(
     count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).days
 )
 
+/**
+ * Monday-based weeks (e.g., February 6, 2012 at 12:00 AM).
+ */
 val timeMonday = Weekday(0)
+
+/**
+ * Tuesday-based weeks (e.g., February 7, 2012 at 12:00 AM).
+ */
+
 val timeTuesday = Weekday(1)
+
+/**
+ * Wednesday-based weeks (e.g., February 8, 2012 at 12:00 AM).
+ */
 val timeWednesday = Weekday(2)
+
+/**
+ * Thursday-based weeks (e.g., February 9, 2012 at 12:00 AM).
+ */
 val timeThursday = Weekday(3)
+
+/**
+ * Friday-based weeks (e.g., February 10, 2012 at 12:00 AM).
+ */
 val timeFriday = Weekday(4)
+
+/**
+ * Saturday-based weeks (e.g., February 11, 2012 at 12:00 AM).
+ */
 val timeSaturday = Weekday(5)
+
+
+/**
+ * Sunday-based weeks (e.g., February 5, 2012 at 12:00 AM).
+ */
 val timeSunday = Weekday(6)
