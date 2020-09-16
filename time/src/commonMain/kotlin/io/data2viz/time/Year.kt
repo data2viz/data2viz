@@ -21,10 +21,10 @@ import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 
 class Year : Interval(
-        fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, 1, 1, 0, 0, 0, 0),
-        fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(step),
-        fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).years,
-        fun(date: LocalDateTime): Int = date.year
+        floor = fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, 1, 1, 0, 0, 0, 0),
+        offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(step),
+        count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).years,
+        field = fun(date: LocalDateTime): Int = date.year
 )
 
 val timeYear = Year()

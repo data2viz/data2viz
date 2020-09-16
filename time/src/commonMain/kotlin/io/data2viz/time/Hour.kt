@@ -21,11 +21,11 @@ import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 
 class Hour : Interval(
-    fun(date: LocalDateTime): LocalDateTime =
+    floor = fun(date: LocalDateTime): LocalDateTime =
         LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, 0, 0, 0),
-    fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, step),
-    fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).hours,
-    fun(date: LocalDateTime): Int = date.hour
+    offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, step),
+    count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).hours,
+    field = fun(date: LocalDateTime): Int = date.hour
 )
 
 val timeHour = Hour()

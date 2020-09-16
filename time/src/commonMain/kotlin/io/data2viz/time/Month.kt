@@ -21,10 +21,10 @@ import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 
 class Month : Interval(
-        fun (date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, 1, 0, 0, 0, 0),
-        fun (date:LocalDateTime, step:Int): LocalDateTime = date + DateTimePeriod(0, step),
-        fun (start:LocalDateTime, end:LocalDateTime): Int = (end - start).months,
-        fun (date:LocalDateTime): Int = date.monthNumber - 1
+        floor = fun (date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, 1, 0, 0, 0, 0),
+        offset = fun (date:LocalDateTime, step:Int): LocalDateTime = date + DateTimePeriod(0, step),
+        count = fun (start:LocalDateTime, end:LocalDateTime): Int = (end - start).months,
+        field = fun (date:LocalDateTime): Int = date.monthNumber - 1
 )
 
 val timeMonth = Month()
