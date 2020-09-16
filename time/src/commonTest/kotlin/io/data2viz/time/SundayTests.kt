@@ -112,6 +112,12 @@ class SundayTests : TestDate() {
         )
     }
 
+    @Test
+    fun issue_fix_specific_sunday_over_several_months() {
+        val time = timeSunday
+        time.range(date(2019,7,6,8,53,42,715), date(2019,9,25,22,0,48,33)).size shouldBe 12
+    }
+
     /**
 
     tape("timeSunday.floor(date) handles years in the first century", function(test) {
