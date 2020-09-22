@@ -55,6 +55,11 @@ class FontFamily private constructor(val name: String) {
         fun specifiedFont(name: String) = FontFamily(name)
     }
 
+    override fun toString(): String {
+        return "FontFamily(name='$name')"
+    }
+
+
 }
 
 enum class FontWeight {
