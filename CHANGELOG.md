@@ -5,6 +5,10 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.4
+> Published 23 Sep 2020
+* Add a image node to allow to draw images/icons #219
+
 ## 0.8.3
 > Published 16 Sep 2020
 * Fix runtime exception on Weekday #225
