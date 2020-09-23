@@ -59,6 +59,7 @@ fun GroupNode.render(context: CanvasRenderingContext2D) {
                 is PathNode     -> node.render(context)
                 is TextNode     -> node.render(context)
                 is LineNode     -> node.render(context)
+                is ImageNode    -> node.render(context)
                 else            -> error("Unknow type ${node::class}")
             }
 

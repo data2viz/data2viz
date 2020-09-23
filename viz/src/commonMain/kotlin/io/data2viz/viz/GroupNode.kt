@@ -68,4 +68,8 @@ open class GroupNode : Node(),
             .apply(init)
             .also { add(it) }
 
+    override fun image(init: ImageNode.() -> Unit): ImageNode = ImageNode()
+            .apply(init)
+            .also { add(it) }
+
 }

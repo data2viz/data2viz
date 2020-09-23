@@ -48,6 +48,7 @@ fun GroupNode.render(renderer: AndroidCanvasRenderer) {
 					is PathNode     -> node.render(renderer)
 					is TextNode     -> node.render(renderer)
 					is LineNode     -> node.render(renderer)
+					is ImageNode    -> node.render(renderer)
 					else -> error("Unknow type ${node::class}")
 				}
 

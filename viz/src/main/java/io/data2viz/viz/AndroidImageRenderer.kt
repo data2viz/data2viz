@@ -17,16 +17,32 @@
 
 package io.data2viz.viz
 
-interface HasChildren: Style {
+import android.graphics.*
 
-    fun add(node: Node)
-    fun remove(node: Node)
-    fun clear()
-    fun group(init: GroupNode.() -> Unit): GroupNode
-    fun line(init: LineNode.() -> Unit): LineNode
-    fun circle(init: CircleNode.() -> Unit): CircleNode
-    fun rect(init: RectNode.() -> Unit): RectNode
-    fun text(init: TextNode.() -> Unit): TextNode
-    fun path(init: PathNode.() -> Unit): PathNode
-    fun image(init: ImageNode.() -> Unit): ImageNode
+
+fun ImageNode.render(renderer: AndroidCanvasRenderer) {
+
+    image?.let { img ->
+
+        val bitmap = when (img){
+            is LocalImage -> img.image
+            else -> error("Unknown image type:: $img")
+        }
+
+        with(renderer) {
+
+            var rect = size?.let { RectF(x.dp, y.dp, it.width.dp, it.height.dp) }
+                ?: RectF(x.dp, y.dp, bitmap.width.toFloat(), bitmap.height.toFloat())
+
+            canvas.drawBitmap(bitmap, null, rect  ,null)
+        }
+
+    }
+
 }
+
+
+fun Bitmap.toLocalImage() = LocalImage(this)
+
+
+public class LocalImage(val image: Bitmap): ImageHandler

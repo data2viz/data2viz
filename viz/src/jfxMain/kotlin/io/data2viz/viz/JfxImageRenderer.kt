@@ -17,16 +17,30 @@
 
 package io.data2viz.viz
 
-interface HasChildren: Style {
+import javafx.scene.canvas.*
+import javafx.scene.image.Image
 
-    fun add(node: Node)
-    fun remove(node: Node)
-    fun clear()
-    fun group(init: GroupNode.() -> Unit): GroupNode
-    fun line(init: LineNode.() -> Unit): LineNode
-    fun circle(init: CircleNode.() -> Unit): CircleNode
-    fun rect(init: RectNode.() -> Unit): RectNode
-    fun text(init: TextNode.() -> Unit): TextNode
-    fun path(init: PathNode.() -> Unit): PathNode
-    fun image(init: ImageNode.() -> Unit): ImageNode
+fun ImageNode.render(gc: GraphicsContext) {
+
+    image?.let { img ->
+        val canvasImageSource = when (img){
+            is LocalImage -> img.image
+            else -> error("Unknown image type:: $img")
+        }
+
+        size?.let { s ->
+            gc.drawImage(canvasImageSource, x, y, s.width, s.height)
+        } ?: {
+            gc.drawImage(canvasImageSource, x, y)
+        }
+
+    }
+
 }
+
+
+fun Image.toLocalImage() = LocalImage(this)
+
+
+public class LocalImage(val image: Image): ImageHandler
+
