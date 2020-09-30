@@ -6,6 +6,7 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 ## 0.8.5
+> Published 30 Sep 2020
 * Introduce new Date Interpolator in the interpolate module 
 
 ## 0.8.4
