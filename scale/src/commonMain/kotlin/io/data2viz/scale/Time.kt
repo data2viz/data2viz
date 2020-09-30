@@ -19,7 +19,8 @@ package io.data2viz.scale
 
 import io.data2viz.interpolate.Interpolator
 import io.data2viz.interpolate.UnInterpolator
-import io.data2viz.math.Percent
+import io.data2viz.interpolate.interpolateDate
+import io.data2viz.interpolate.uninterpolateDate
 import io.data2viz.math.tickStep
 import io.data2viz.time.*
 import kotlinx.datetime.*
@@ -80,24 +81,8 @@ class TimeScale<R> internal constructor(
         _domain.addAll(listOf(LocalDateTime(2000, 1, 1, 0, 0, 0, 0), LocalDateTime(2000, 1, 2, 0, 0, 0, 0)))
     }
 
-    override fun uninterpolateDomain(from: LocalDateTime, to: LocalDateTime): UnInterpolator<LocalDateTime> {
-        val fromInstant = from.toInstant(defaultTZ)
-        val range = fromInstant.until(to.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
-        val nullRange = from == to
-        return { date ->
-            if (nullRange) Percent(.0)
-            else {
-                val diff = fromInstant.until(date.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
-                Percent(diff / range)
-            }
-        }
-    }
-
-    override fun interpolateDomain(from: LocalDateTime, to: LocalDateTime): Interpolator<LocalDateTime> {
-        val fromInstant = from.toInstant(defaultTZ)
-        val range = fromInstant.until(to.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
-        return { percent -> from + DateTimePeriod(0, 0, 0, 0, 0, 0, (range * percent.value * 1_000_000).toLong()) }
-    }
+    override fun interpolateDomain(from: LocalDateTime, to: LocalDateTime): Interpolator<LocalDateTime> = interpolateDate(from, to)
+    override fun uninterpolateDomain(from: LocalDateTime, to: LocalDateTime): UnInterpolator<LocalDateTime> = uninterpolateDate(from, to)
 
     override fun domainComparator(): Comparator<LocalDateTime> = dateComparator
 

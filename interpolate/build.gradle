@@ -12,6 +12,7 @@ kotlin {
         commonMain {
             dependencies {
                 api project(':color')
+                api project(':time')
             }
         }
     }

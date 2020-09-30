@@ -17,5 +17,28 @@
 
 package io.data2viz.interpolate
 
-// TODO interpolateDate, when https://youtrack.jetbrains.com/issue/KT-2506 is fixed
-// fun interpolateDate(a: Date, b: Date): (Date) -> Date
+import io.data2viz.math.Percent
+import io.data2viz.time.defaultTZ
+import io.data2viz.time.plus
+import kotlinx.datetime.*
+
+// TODO optimize using DateTimePeriod ?
+fun interpolateDate(start: LocalDateTime, end: LocalDateTime): Interpolator<LocalDateTime>{
+    val fromInstant = start.toInstant(defaultTZ)
+    val range = fromInstant.until(end.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
+    return { percent -> start + DateTimePeriod(0, 0, 0, 0, 0, 0, (range * percent.value * 1_000_000).toLong()) }
+}
+
+// TODO optimize using DateTimePeriod ?
+fun uninterpolateDate(start: LocalDateTime, end: LocalDateTime): UnInterpolator<LocalDateTime> {
+    val fromInstant = start.toInstant(defaultTZ)
+    val range = fromInstant.until(end.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
+    val nullRange = (start == end)
+    return { date ->
+        if (nullRange) Percent(.0)
+        else {
+            val diff = fromInstant.until(date.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
+            Percent(diff / range)
+        }
+    }
+}

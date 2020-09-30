@@ -21,9 +21,7 @@ import io.data2viz.color.Color
 import io.data2viz.color.EncodedColors
 import io.data2viz.geom.Point
 import io.data2viz.interpolate.*
-import io.data2viz.time.defaultTZ
 import kotlin.jvm.JvmName
-import kotlin.time.ExperimentalTime
 
 /**
  * Generic signature of scales.
