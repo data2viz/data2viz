@@ -4,6 +4,8 @@ apply plugin: 'maven-publish'
 
 kotlin {
 
+    explicitApiWarning()
+
     targets.all {
         compilations.all {
             kotlinOptions {
