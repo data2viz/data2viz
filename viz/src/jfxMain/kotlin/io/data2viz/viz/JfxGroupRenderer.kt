@@ -17,7 +17,7 @@
 
 package io.data2viz.viz
 
-import javafx.scene.canvas.*
+import javafx.scene.canvas.GraphicsContext
 
 
 private val emptySegments = doubleArrayOf()
@@ -50,12 +50,13 @@ fun GroupNode.render(gc: GraphicsContext) {
 
         if (node.visible)
             when (node) {
-                is CircleNode -> node.render(gc)
-                is RectNode -> node.render(gc)
-                is GroupNode -> node.render(gc)
-                is PathNode -> node.render(gc)
-                is TextNode -> node.render(gc)
-                is LineNode -> node.render(gc)
+                is CircleNode   -> node.render(gc)
+                is RectNode     -> node.render(gc)
+                is GroupNode    -> node.render(gc)
+                is PathNode     -> node.render(gc)
+                is TextNode     -> node.render(gc)
+                is LineNode     -> node.render(gc)
+                is ImageNode    -> node.render(gc)
                 else -> error("Unknow type ${node::class}")
             }
 
