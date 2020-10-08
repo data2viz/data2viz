@@ -6,7 +6,7 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 ## 0.8.6
-* Fix an issue in the JfxGroupRenderer, it can now handle Image.
+* Fix JfxGroupRenderer image rendering #227.
 
 ## 0.8.5
 > Published 30 Sep 2020
