@@ -22,11 +22,11 @@ package io.data2viz.scale
  * domain to discrete values in the range.
  * The input domain is still continuous, and divided into slices based on a set of threshold values.
  */
-class ThresholdScale<R> internal constructor() : Scale<Double, R>, DiscreteRange<R>, DiscreteDomain<Double> {
+public class ThresholdScale<R> internal constructor() : Scale<Double, R>, DiscreteRange<R>, DiscreteDomain<Double> {
 
 
-    var _domain: List<Double> = listOf(.5)
-    var _range: List<R> = listOf()
+    public var _domain: List<Double> = listOf(.5)
+    public var _range: List<R> = listOf()
 
     /**
      * Sets the scale’s range to the specified array of values.
@@ -52,7 +52,7 @@ class ThresholdScale<R> internal constructor() : Scale<Double, R>, DiscreteRange
             _domain = value.toList()
         }
 
-    operator fun invoke(domainValue: Int): R {
+    public operator fun invoke(domainValue: Int): R {
         return this(domainValue.toDouble())
     }
 
@@ -71,7 +71,7 @@ class ThresholdScale<R> internal constructor() : Scale<Double, R>, DiscreteRange
      * This method is useful for interaction, say to determine the value in the domain that corresponds to the
      * pixel location under the mouse.
      */
-    fun invertExtent(rangeValue: R): List<Double> {
+    public fun invertExtent(rangeValue: R): List<Double> {
         check(_range.size == _domain.size + 1,
             { "The range size (actual: ${_range.size}) must be 1 more than the domain size (actual: ${_domain.size})." })
         val i = _range.indexOf(rangeValue)

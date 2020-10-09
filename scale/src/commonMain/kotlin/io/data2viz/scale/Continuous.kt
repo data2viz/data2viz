@@ -32,7 +32,7 @@ import kotlin.math.min
 // interpolate [0% .. 100%] --> [value A .. value B]
 
 
-open class LinearScale<R>
+public open class LinearScale<R>
     constructor(
         interpolateRange: (R, R) -> Interpolator<R>,
         uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
@@ -41,13 +41,13 @@ open class LinearScale<R>
         Tickable<Double>,
         NiceableScale<Double> {
 
-    val comparator = naturalOrder<Double>()
+    public val comparator: Comparator<Double> = naturalOrder<Double>()
 
     override fun interpolateDomain(from: Double, to: Double): Interpolator<Double> = interpolateNumber(from, to)
     override fun uninterpolateDomain(from: Double, to: Double): UnInterpolator<Double> = uninterpolateNumber(from, to)
     override fun domainComparator(): Comparator<Double> = comparator
 
-    operator fun invoke(domainValue: Int): R {
+    public operator fun invoke(domainValue: Int): R {
         return this(domainValue.toDouble())
     }
 
@@ -95,10 +95,10 @@ open class LinearScale<R>
  * A continuous scale is not constructed directly; instead, try a linear, power, log,
  * identity, time or sequential color scale.
  */
-abstract class ContinuousScale<D, R>(
-        val interpolateRange: (R, R) -> Interpolator<R>,
-        val uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
-        val rangeComparator: Comparator<R>? = null) :
+public abstract class ContinuousScale<D, R>(
+    public val interpolateRange: (R, R) -> Interpolator<R>,
+    public val uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
+    public val rangeComparator: Comparator<R>? = null) :
         ContinuousDomain<D>,
         ContinuousRangeScale<D, R>,
         ClampableScale,
@@ -134,9 +134,9 @@ abstract class ContinuousScale<D, R>(
             rescale()
         }
 
-    abstract fun interpolateDomain(from: D, to: D): Interpolator<D>
-    abstract fun uninterpolateDomain(from: D, to: D): UnInterpolator<D>
-    abstract fun domainComparator(): Comparator<D>
+    public abstract fun interpolateDomain(from: D, to: D): Interpolator<D>
+    public abstract fun uninterpolateDomain(from: D, to: D): UnInterpolator<D>
+    public abstract fun domainComparator(): Comparator<D>
 
 
     override operator fun invoke(domainValue: D): R {
@@ -281,7 +281,7 @@ abstract class ContinuousScale<D, R>(
  * The returned insertion point i partitions the array into two halves so that all v <= x for v in array.slice(lo, i)
  * for the left side and all v > x for v in array.slice(i, hi) for the right side.
  */
-fun <T> bisectRight(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
+public fun <T> bisectRight(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
     var lo = low
     var hi = high
     while (lo < hi) {
@@ -294,7 +294,7 @@ fun <T> bisectRight(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0
     return lo
 }
 
-fun <T> bisectLeft(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
+public fun <T> bisectLeft(list: List<T>, x: T, comparator: Comparator<T>, low: Int = 0, high: Int = list.size): Int {
     var lo = low
     var hi = high
     while (lo < hi) {

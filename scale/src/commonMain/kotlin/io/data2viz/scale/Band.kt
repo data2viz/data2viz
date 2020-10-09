@@ -23,7 +23,7 @@ import kotlin.math.floor
 import kotlin.math.max
 
 
-abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = IndexableDomain()) :
+public abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = IndexableDomain()) :
     Scale<D, Double>,
     DiscreteDomain<D> by indexableDomain,
     Tickable<D>,
@@ -34,7 +34,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
     protected var _paddingInner: Double = 0.0
     protected var _paddingOuter: Double = 0.0
 
-    abstract var padding: Percent
+    public abstract var padding: Percent
 
     override var domain: List<D>
         get() = indexableDomain._domain
@@ -50,7 +50,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
             rescale()
         }
 
-    var round: Boolean = false
+    public var round: Boolean = false
         set(value) {
             field = value
             rescale()
@@ -61,16 +61,16 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
      * [align] specifies how the outer padding in the scale’s range is distributed.
      * The default align = 50% centers the bands within the range, with equal outer padding on both sides.
      */
-    var align: Percent = 50.pct
+    public var align: Percent = 50.pct
         set(value) {
             field = value.coerceToDefault()
             rescale()
         }
 
-    var step: Double = 1.0
+    public var step: Double = 1.0
         private set
 
-    var bandwidth: Double = 1.0
+    public var bandwidth: Double = 1.0
         private set
 
     private var ordinalRange: MutableList<Double> = ArrayList()
@@ -120,7 +120,7 @@ abstract class BandedScale<D>(private val indexableDomain: IndexableDomain<D> = 
  * Band scales are typically used for bar charts with an ordinal or categorical dimension.
  * The unknown value of a band scale is always NaN: they do not allow implicit domain construction.
  */
-class BandScale<D> internal constructor() : BandedScale<D>() {
+public class BandScale<D> internal constructor() : BandedScale<D>() {
 
     override var padding: Percent
         get() = Percent(_paddingInner)
@@ -135,7 +135,7 @@ class BandScale<D> internal constructor() : BandedScale<D>() {
      * Returns the current inner padding which defaults to 0%.
      * The inner padding determines the ratio of the range that is reserved for blank space before each band.
      */
-    var paddingInner
+    public var paddingInner: Percent
         get() = Percent(_paddingInner)
         set(value) {
             _paddingInner = value.coerceToDefault().value
@@ -148,7 +148,7 @@ class BandScale<D> internal constructor() : BandedScale<D>() {
      * The outer padding determines the ratio of the range that is reserved for blank space before the first
      * band and after the last band.
      */
-    var paddingOuter
+    public var paddingOuter: Percent
         get() = Percent(_paddingOuter)
         set(value) {
             _paddingOuter = value.coerceToDefault().value
@@ -161,7 +161,7 @@ class BandScale<D> internal constructor() : BandedScale<D>() {
  * Point scales are typically used for scatterplots with an ordinal or categorical dimension.
  * The unknown value of a point scale is always NaN: they do not allow implicit domain construction.
  */
-class PointScale<D> : BandedScale<D>() {
+public class PointScale<D> : BandedScale<D>() {
 
     /**
      * Sets the outer padding to the specified value which must be in the range [0%, 100%].

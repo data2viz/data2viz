@@ -29,7 +29,7 @@ import kotlin.math.*
  * before the output range value is computed.
  * The mapping to the range value y can be expressed as a function of the domain value x: y = m log(x) + b.
  */
-open class LogScale
+public open class LogScale
     constructor(base: Double = 10.0, interpolateRange: (Double, Double) -> Interpolator<Double>,
                        uninterpolateRange: ((Double, Double) -> UnInterpolator<Double>)? = null,
                        rangeComparator: Comparator<Double>? = null)
@@ -41,7 +41,7 @@ open class LogScale
     // when having negative values for the log, this pow translate them correctly
     private lateinit var innerPow: (Double) -> Double
 
-    var base: Double = base
+    public var base: Double = base
         set(value) {
             field = value
             rescale()

@@ -29,7 +29,7 @@ import kotlin.math.max
  * the output range determines the number of quantiles that will be computed from the domain.
  * To compute the quantiles, the domain is sorted, and treated as a population of discrete values;
  */
-class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
+public class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
 
         
     private var thresholds: MutableList<Double> = arrayListOf()
@@ -41,7 +41,7 @@ class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<
      * to the first threshold but less than the second threshold are in the second quantile, and so on.
      * Internally, the thresholds array is used with bisect to find the output quantile associated with the given input value.
      */
-    val quantiles
+    public val quantiles: List<Double>
         get() = thresholds.toList()
 
     /**
@@ -87,7 +87,7 @@ class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<
         }
     }
 
-    fun invertExtent(rangeValue: R): List<Double> {
+    public fun invertExtent(rangeValue: R): List<Double> {
         check(domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
         check(range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
         val index = range.indexOf(rangeValue)
@@ -107,7 +107,7 @@ class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<
 }
 
 // TODO move to array module
-fun quantile(values: List<Double>, p: Double, f: (Double, Int, List<Double>) -> Double = { x, _, _ -> x }): Double {
+public fun quantile(values: List<Double>, p: Double, f: (Double, Int, List<Double>) -> Double = { x, _, _ -> x }): Double {
     require(values.isNotEmpty(), { "Values must not be empty." })
 
     val size = values.size

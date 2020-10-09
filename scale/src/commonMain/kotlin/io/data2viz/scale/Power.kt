@@ -28,13 +28,13 @@ import kotlin.math.pow
  * Power scales also support negative domain values, in which case the input value and the resulting output
  * value are multiplied by -1.
  */
-class PowerScale<R>
+public class PowerScale<R>
     internal constructor(exponent: Double = 1.0, interpolateRange: (R, R) -> Interpolator<R>,
                     uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
                     rangeComparator: Comparator<R>? = null)
     : LinearScale<R>(interpolateRange, uninterpolateRange, rangeComparator) {
 
-    var exponent: Double = exponent
+    public var exponent: Double = exponent
         set(value) {
             field = value
             rescale()

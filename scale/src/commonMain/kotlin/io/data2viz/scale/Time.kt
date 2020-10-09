@@ -25,7 +25,7 @@ import io.data2viz.math.tickStep
 import io.data2viz.time.*
 import kotlinx.datetime.*
 
-val dateComparator = Comparator<LocalDateTime> { a, b -> a.compareTo(b) }
+private val dateComparator = Comparator<LocalDateTime> { a, b -> a.compareTo(b) }
 
 private data class TickInterval(
     val interval: Interval,
@@ -33,13 +33,13 @@ private data class TickInterval(
     val duration: Long
 )
 
-val durationSecond = 1000L
-val durationMinute = 60000L
-val durationHour = 3600000L
-val durationDay = 86400000L
-val durationWeek = 604800000L        // (day * 7)
-val durationMonth = 2592000000L      // (day * 30)
-val durationYear = 31536000000L      // (day * 365)
+private val durationSecond = 1000L
+private val durationMinute = 60000L
+private val durationHour = 3600000L
+private val durationDay = 86400000L
+private val durationWeek = 604800000L        // (day * 7)
+private val durationMonth = 2592000000L      // (day * 30)
+private val durationYear = 31536000000L      // (day * 365)
 
 private val tickIntervals = listOf(
         TickInterval(timeSecond, 1, durationSecond),
@@ -67,7 +67,7 @@ private val tickIntervals = listOf(
  * and invert returns a date.
  * Time scales implement ticks based on calendar intervals, taking the pain out of generating axes for temporal domains.
  */
-class TimeScale<R> internal constructor(
+public class TimeScale<R> internal constructor(
     interpolateRange: (R, R) -> Interpolator<R>,
     uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
     rangeComparator: Comparator<R>? = null

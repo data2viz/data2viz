@@ -28,24 +28,24 @@ import io.data2viz.interpolate.uninterpolateNumber
  *
  * These scales do not expose invert, range, rangeRound and interpolate methods.
  */
-class SequentialScale<R>
-internal constructor(var interpolator: Interpolator<R>) : Tickable<Double>, ClampableScale,
+public class SequentialScale<R>
+internal constructor(public var interpolator: Interpolator<R>) : Tickable<Double>, ClampableScale,
     StrictlyContinuousDomain<Double> {
 
     override var domain: StrictlyContinuous<Double> = intervalOf(0.0, 1.0)
 
     override var clamp: Boolean = false
 
-    operator fun invoke(domainValue: Int): R {
+    public operator fun invoke(domainValue: Int): R {
         return this(domainValue.toDouble())
     }
 
-    operator fun invoke(domainValue: Double): R {
+    public operator fun invoke(domainValue: Double): R {
         var uninterpolatedDomain = uninterpolateNumber(domain.start, domain.end)(domainValue)
         if (clamp) uninterpolatedDomain = uninterpolatedDomain.coerceToDefault()
         return interpolator(uninterpolatedDomain)
     }
 
-    override fun ticks(count: Int) = io.data2viz.math.ticks(domain.start, domain.end, count)
+    override fun ticks(count: Int): List<Double> = io.data2viz.math.ticks(domain.start, domain.end, count)
 }
 
