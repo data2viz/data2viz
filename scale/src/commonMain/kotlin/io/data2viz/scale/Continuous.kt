@@ -63,10 +63,10 @@ public open class LinearScale<R>
      * guaranteeing that the returned ticks will exactly cover the domain. Nicing is useful if the domain is computed
      * from data, say using extent, and may be irregular. For example, for a domain of [0.201479…, 0.996679…],
      * a nice domain might be [0.2, 1.0]. If the domain has more than two values, nicing the domain only affects
-     * the first and last value. See also d3-array’s tickStep.
+     * the first and last value.
      *
      * Nicing a scale only modifies the current domain; it does not automatically nice domains that are
-     * subsequently set using continuous.domain. You must re-nice the scale af  ter setting the new domain, if desired.
+     * subsequently set using continuous.domain. You must re-nice the scale after setting the new domain, if desired.
      */
     override fun nice(count: Int) {
         val last = _domain.size - 1

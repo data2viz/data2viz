@@ -26,16 +26,16 @@ import kotlin.jvm.JvmName
 /**
  * Generic signature of scales.
  *
- * A scale can map a domain object dimension D to a representation value.
+ * A scale can map a domain object dimension DOMAIN to a representation value.
  *
- * Then at runtime, one can ask an R object for a specific value of domain.
- * The rules defining the returns of R from D depends a lot on the type and
+ * Then at runtime, one can ask an RANGE object for a specific value of domain.
+ * The rules defining the returns of RANGE from DOMAIN depends a lot on the type and
  * implementation of the Scale.
  *
  * a Domain object -> Range object
  */
-public interface Scale<D, out R> {
-    public operator fun invoke(domainValue: D): R
+public interface Scale<DOMAIN, out RANGE> {
+    public operator fun invoke(domainValue: DOMAIN): RANGE
 }
 
 public interface ContinuousDomain<D> {
@@ -88,7 +88,25 @@ public interface ClampableScale {
     public val clamp: Boolean
 }
 
+/**
+ * Niceable scales implements [NiceableScale.nice] to possibly extends their domain to the nearest round values.
+ *
+ * Some niceableScale are: [LinearScale], [TimeScale], [LogScale] and [PowerScale]
+ */
 public interface NiceableScale<D> : ContinuousDomain<D> {
+
+    /**
+     * Extends the domain so that it starts and ends on nice round values.
+     * This method typically modifies the scale’s domain, and may only extend the bounds to the nearest round value.
+     * An optional tick count argument allows greater control over the step size used to extend the bounds,
+     * guaranteeing that the returned ticks will exactly cover the domain. Nicing is useful if the domain is computed
+     * from data, say using extent, and may be irregular. For example, for a domain of [0.201479…, 0.996679…],
+     * a nice domain might be [0.2, 1.0]. If the domain has more than two values, nicing the domain only affects
+     * the first and last value.
+     *
+     * Nicing a scale only modifies the current domain; it does not automatically nice domains that are
+     * subsequently set using continuous.domain. You must re-nice the scale after setting the new domain, if desired.
+     */
     public fun nice(count: Int = 10)
 }
 
