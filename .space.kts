@@ -2,10 +2,9 @@
 
 
 job("Build and run core") {
-    container("gradle") {
-        // run 'gradle build'
-        shellScript {
-            content = "gradle build"
+    container("gradle:6.6-jdk8") {
+        kotlinScript { api ->
+            api.gradle(":core:build", "-x", "test")
         }
     }
 }
