@@ -1,8 +1,8 @@
 
-job("Build and run core") {
+job("Build and test JFx") {
     container("gradle:6.6-jdk8") {
         shellScript {
-            content = "gradle :core:build -x jvmTest  -Pinclude_android=false -Pinclude_js=true -Pinclude_jfx=false --stacktrace"
+            content = "gradle build -x jsBrowserTest -x jsTest -Pinclude_android=false -Pinclude_js=false -Pinclude_jfx=true --stacktrace"
         }
     }
 }
