@@ -20,8 +20,8 @@ package io.data2viz.scale
 
 public class IndexableDomain<D> : DiscreteDomain<D> {
 
-    internal val index: MutableMap<D, Int> = HashMap()
-    internal val _domain: MutableList<D> = arrayListOf()
+    internal val index: MutableMap<D, Int> = mutableMapOf()
+    internal val _domain: MutableList<D> = mutableListOf()
 
     /**
      * The first element in domain will be mapped to the first element in the range, the second domain value to
@@ -62,7 +62,7 @@ public open class OrdinalScale<D, R> internal constructor(
     public val indexableDomain: IndexableDomain<D> = IndexableDomain()
 ) : Scale<D, R>, DiscreteDomain<D> by indexableDomain, FirstLastRange<D, R> {
 
-    protected val _range: MutableList<R> = arrayListOf()
+    protected val _range: MutableList<R> = mutableListOf()
 
     init {
         _range.addAll(range.toList())

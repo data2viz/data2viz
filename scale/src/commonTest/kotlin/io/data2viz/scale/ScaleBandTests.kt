@@ -197,7 +197,7 @@ class ScaleBandTests : TestBase() {
     @Test
     fun band_domain_makes_a_copy_of_the_domain() {
         val scale = Scales.Discrete.band<String>()
-        val domain = arrayListOf("red", "blue")
+        val domain = mutableListOf("red", "blue")
 
         scale.domain = domain
         domain.add("green")

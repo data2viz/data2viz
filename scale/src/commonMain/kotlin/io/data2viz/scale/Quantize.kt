@@ -27,7 +27,7 @@ package io.data2viz.scale
 public class QuantizeScale<R> internal constructor() : Scale<Double, R>, StrictlyContinuousDomain<Double>, DiscreteRange<R> {
 
 
-    private val quantizedDomain:ArrayList<Double> = arrayListOf(.5)
+    private val quantizedDomain:MutableList<Double> = mutableListOf(.5)
 
     // copy the value (no binding intended)
     override var range: List<R> = listOf()

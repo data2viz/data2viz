@@ -32,7 +32,7 @@ import kotlin.math.max
 public class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
 
         
-    private var thresholds: MutableList<Double> = arrayListOf()
+    private var thresholds: MutableList<Double> = mutableListOf()
 
     /**
      * Returns the quantile thresholds.
@@ -81,7 +81,7 @@ public class QuantileScale<R> internal constructor() : Scale<Double, R>,Discrete
 
         var i = 0
         val n = max(1, range.size)
-        thresholds = arrayListOf()
+        thresholds = mutableListOf()
         while (++i < n) {
             thresholds.add(i - 1, quantile(domain, i / n.toDouble()))
         }

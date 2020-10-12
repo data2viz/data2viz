@@ -106,9 +106,9 @@ public open class LogScale
 
     init {
         _domain.clear()
-        _domain.addAll(arrayListOf(1.0, 10.0))
+        _domain.addAll(listOf(1.0, 10.0))
         _range.clear()
-        _range.addAll(arrayListOf(.0, 1.0))
+        _range.addAll(listOf(.0, 1.0))
     }
 
     override fun nice(count: Int) {
@@ -127,7 +127,7 @@ public open class LogScale
 
         var logStart = innerLog(domainStart)
         var logEnd = innerLog(domainEnd)
-        var tickList = arrayListOf<Double>()
+        var tickList = mutableListOf<Double>()
 
         val integerBase = ((base % 1.0) == .0 || (base % 1.0).isNaN())
         if (integerBase && (logEnd - logStart < count)) {
@@ -156,9 +156,10 @@ public open class LogScale
                     ++logStart
                 }
             }
-            if (tickList.size * 2 < count) tickList = ticks(domainStart, domainEnd, count) as ArrayList<Double>
+            if (tickList.size * 2 < count)
+                tickList = ticks(domainStart, domainEnd, count).toMutableList()
         } else {
-            tickList = ticks(logStart, logEnd, min((logEnd - logStart).toInt(), count)).map { innerPow(it) } as ArrayList<Double>
+            tickList = (ticks(logStart, logEnd, min((logEnd - logStart).toInt(), count)).map { innerPow(it) }).toMutableList()
         }
 
         return if (domainReversed) tickList.reversed() else tickList

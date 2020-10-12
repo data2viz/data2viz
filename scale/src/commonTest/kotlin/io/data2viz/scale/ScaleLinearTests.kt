@@ -76,7 +76,7 @@ class ScaleLinearTests : TestBase() {
     fun linear_Number_clamp_noclamp() {
         val scale = Scales.Continuous.linear()
 
-        scale.domain = arrayListOf(.0, 100.0)
+        scale.domain = listOf(.0, 100.0)
         scale.range = listOf(.0, -100.0)
         scale(50.0) shouldBeClose -50.0
         scale(10.0) shouldBeClose -10.0
@@ -454,77 +454,77 @@ class ScaleLinearTests : TestBase() {
     fun linear_accept_array_of_values() {
         val scale = Scales.Continuous.linear()
 
-        scale.domain = arrayListOf()
+        scale.domain = listOf()
         scale.domain.size shouldBe 0
-        scale.domain shouldBe arrayListOf()
+        scale.domain shouldBe listOf()
 
-        scale.domain = arrayListOf(1.0, 2.0)
+        scale.domain = listOf(1.0, 2.0)
         scale.domain.size shouldBe 2
-        scale.domain shouldBe arrayListOf(1.0, 2.0)
+        scale.domain shouldBe listOf(1.0, 2.0)
 
-        scale.domain = arrayListOf(1.0, 2.0, 3.0)
+        scale.domain = listOf(1.0, 2.0, 3.0)
         scale.domain.size shouldBe 3
-        scale.domain shouldBe arrayListOf(1.0, 2.0, 3.0)
+        scale.domain shouldBe listOf(1.0, 2.0, 3.0)
     }
 
     @Test
     fun linear_no_binding_for_domain_setter() {
         val scale = Scales.Continuous.linear()
 
-        val array:MutableList<Double> = arrayListOf(1.0, 2.0)
+        val array:MutableList<Double> = mutableListOf(1.0, 2.0)
         scale.domain = array
         scale.domain.size shouldBe 2
-        scale.domain shouldBe arrayListOf(1.0, 2.0)
+        scale.domain shouldBe listOf(1.0, 2.0)
 
         array.add(3.0)
         array.size shouldBe 3
         scale.domain.size shouldBe 2
-        scale.domain shouldBe arrayListOf(1.0, 2.0)
+        scale.domain shouldBe listOf(1.0, 2.0)
     }
 
     @Test
     fun linear_no_binding_for_domain_getter() {
         val scale = Scales.Continuous.linear()
 
-        scale.domain = arrayListOf(1.0, 2.0)
+        scale.domain = listOf(1.0, 2.0)
         val array:MutableList<Double> = scale.domain.toMutableList()
         scale.domain.size shouldBe 2
-        scale.domain shouldBe arrayListOf(1.0, 2.0)
+        scale.domain shouldBe listOf(1.0, 2.0)
 
         array.add(3.0)
         array.size shouldBe 3
         scale.domain.size shouldBe 2
-        scale.domain shouldBe arrayListOf(1.0, 2.0)
+        scale.domain shouldBe listOf(1.0, 2.0)
     }
 
     @Test
     fun linear_no_binding_for_range_setter() {
         val scale = Scales.Continuous.linear()
 
-        val array:MutableList<Double> = arrayListOf(1.0, 2.0)
+        val array:MutableList<Double> = mutableListOf(1.0, 2.0)
         scale.range = array
         scale.range.size shouldBe 2
-        scale.range shouldBe arrayListOf(1.0, 2.0)
+        scale.range shouldBe listOf(1.0, 2.0)
 
         array.add(3.0)
         array.size shouldBe 3
         scale.range.size shouldBe 2
-        scale.range shouldBe arrayListOf(1.0, 2.0)
+        scale.range shouldBe listOf(1.0, 2.0)
     }
 
     @Test
     fun linear_no_binding_for_range_getter() {
         val scale = Scales.Continuous.linear()
 
-        scale.range = arrayListOf(1.0, 2.0)
+        scale.range = listOf(1.0, 2.0)
         val array:MutableList<Double> = scale.range.toMutableList()
         scale.range.size shouldBe 2
-        scale.range shouldBe arrayListOf(1.0, 2.0)
+        scale.range shouldBe listOf(1.0, 2.0)
 
         array.add(3.0)
         array.size shouldBe 3
         scale.range.size shouldBe 2
-        scale.range shouldBe arrayListOf(1.0, 2.0)
+        scale.range shouldBe listOf(1.0, 2.0)
     }
 
     // TODO tape("linear.rangeRound(range) is an alias for linear.range(range).interpolate(interpolateRound)", function(test) {
@@ -584,39 +584,39 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(.0, .96)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, 1.0)
+        scale.domain shouldBe listOf(.0, 1.0)
 
         scale.domain = listOf(.0, 96.0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, 100.0)
+        scale.domain shouldBe listOf(.0, 100.0)
 
         scale.domain = listOf(.96, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(1.0, .0)
+        scale.domain shouldBe listOf(1.0, .0)
 
         scale.domain = listOf(96.0, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(100.0, .0)
+        scale.domain shouldBe listOf(100.0, .0)
 
         scale.domain = listOf(.0, -.96)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, -1.0)
+        scale.domain shouldBe listOf(.0, -1.0)
 
         scale.domain = listOf(.0, -96.0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, -100.0)
+        scale.domain shouldBe listOf(.0, -100.0)
 
         scale.domain = listOf(-.96, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(-1.0, .0)
+        scale.domain shouldBe listOf(-1.0, .0)
 
         scale.domain = listOf(-96.0, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(-100.0, .0)
+        scale.domain shouldBe listOf(-100.0, .0)
 
         scale.domain = listOf(-.1, 51.1)
         scale.nice(8)
-        scale.domain shouldBe arrayListOf(-10.0, 60.0)
+        scale.domain shouldBe listOf(-10.0, 60.0)
     }
 
     @Test
@@ -625,31 +625,31 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(1.1, 10.9)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(1.0, 11.0)
+        scale.domain shouldBe listOf(1.0, 11.0)
 
         scale.domain = listOf(10.9, 1.1)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(11.0, 1.0)
+        scale.domain shouldBe listOf(11.0, 1.0)
 
         scale.domain = listOf(.7, 11.001)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, 12.0)
+        scale.domain shouldBe listOf(.0, 12.0)
 
         scale.domain = listOf(123.1, 6.7)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(130.0, .0)
+        scale.domain shouldBe listOf(130.0, .0)
 
         scale.domain = listOf(.0, .49)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, .5)
+        scale.domain shouldBe listOf(.0, .5)
 
         scale.domain = listOf(.0, 14.1)
         scale.nice(5)
-        scale.domain shouldBe arrayListOf(.0, 20.0)
+        scale.domain shouldBe listOf(.0, 20.0)
 
         scale.domain = listOf(.0, 15.0)
         scale.nice(5)
-        scale.domain shouldBe arrayListOf(.0, 20.0)
+        scale.domain shouldBe listOf(.0, 20.0)
         scale.range = listOf(.0, 100.0)
         scale(20.0) shouldBeClose 100.0
     }
@@ -660,11 +660,11 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(.0, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, .0)
+        scale.domain shouldBe listOf(.0, .0)
 
         scale.domain = listOf(.5, .5)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.5, .5)
+        scale.domain shouldBe listOf(.5, .5)
     }
 
     @Test
@@ -673,11 +673,11 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(1.1, 1.0, 2.0, 3.0, 10.9)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(1.0, 1.0, 2.0, 3.0, 11.0)
+        scale.domain shouldBe listOf(1.0, 1.0, 2.0, 3.0, 11.0)
 
         scale.domain = listOf(123.1, 1.0, 2.0, 3.0, -0.9)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(130.0, 1.0, 2.0, 3.0, -10.0)
+        scale.domain shouldBe listOf(130.0, 1.0, 2.0, 3.0, -10.0)
     }
 
     @Test
@@ -686,15 +686,15 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(12.0, 87.0)
         scale.nice(5)
-        scale.domain shouldBe arrayListOf(.0, 100.0)
+        scale.domain shouldBe listOf(.0, 100.0)
 
         scale.domain = listOf(12.0, 87.0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(10.0, 90.0)
+        scale.domain shouldBe listOf(10.0, 90.0)
 
         scale.domain = listOf(12.0, 87.0)
         scale.nice(100)
-        scale.domain shouldBe arrayListOf(12.0, 87.0)
+        scale.domain shouldBe listOf(12.0, 87.0)
     }
 
     @Test
@@ -703,28 +703,28 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(.0, 1.0)
         scale.ticks(10).size shouldBe 11
-        scale.ticks(10) shouldBe arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
-        scale.ticks(9) shouldBe  arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
-        scale.ticks(8) shouldBe  arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
-        scale.ticks(7) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
-        scale.ticks(6) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
-        scale.ticks(5) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
-        scale.ticks(4) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
-        scale.ticks(3) shouldBe  arrayListOf(0.0,                     0.5,                     1.0)
-        scale.ticks(2) shouldBe  arrayListOf(0.0,                     0.5,                     1.0)
-        scale.ticks(1) shouldBe  arrayListOf(0.0,                                              1.0)
+        scale.ticks(10) shouldBe listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+        scale.ticks(9) shouldBe  listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+        scale.ticks(8) shouldBe  listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+        scale.ticks(7) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
+        scale.ticks(6) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
+        scale.ticks(5) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
+        scale.ticks(4) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
+        scale.ticks(3) shouldBe  listOf(0.0,                     0.5,                     1.0)
+        scale.ticks(2) shouldBe  listOf(0.0,                     0.5,                     1.0)
+        scale.ticks(1) shouldBe  listOf(0.0,                                              1.0)
 
         scale.domain = listOf(-100.0, 100.0)
-        scale.ticks(10) shouldBe arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
-        scale.ticks(9) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
-        scale.ticks(8) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
-        scale.ticks(7) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
-        scale.ticks(6) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0)
-        scale.ticks(5) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0)
-        scale.ticks(4) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0)
-        scale.ticks(3) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0)
-        scale.ticks(2) shouldBe  arrayListOf(-100.0,                                    .0,                               100.0)
-        scale.ticks(1) shouldBe  arrayListOf(                                           .0                                     )
+        scale.ticks(10) shouldBe listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
+        scale.ticks(9) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
+        scale.ticks(8) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
+        scale.ticks(7) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
+        scale.ticks(6) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0)
+        scale.ticks(5) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0)
+        scale.ticks(4) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0)
+        scale.ticks(3) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0)
+        scale.ticks(2) shouldBe  listOf(-100.0,                                    .0,                               100.0)
+        scale.ticks(1) shouldBe  listOf(                                           .0                                     )
     }
 
     @Test
@@ -733,28 +733,28 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(1.0, .0)
         scale.ticks(10).size shouldBe 11
-        scale.ticks(10) shouldBe arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0).reversed()
-        scale.ticks(9) shouldBe  arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0).reversed()
-        scale.ticks(8) shouldBe  arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0).reversed()
-        scale.ticks(7) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0).reversed()
-        scale.ticks(6) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0).reversed()
-        scale.ticks(5) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0).reversed()
-        scale.ticks(4) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0).reversed()
-        scale.ticks(3) shouldBe  arrayListOf(0.0,                     0.5,                     1.0).reversed()
-        scale.ticks(2) shouldBe  arrayListOf(0.0,                     0.5,                     1.0).reversed()
-        scale.ticks(1) shouldBe  arrayListOf(0.0,                                              1.0).reversed()
+        scale.ticks(10) shouldBe listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0).reversed()
+        scale.ticks(9) shouldBe  listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0).reversed()
+        scale.ticks(8) shouldBe  listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0).reversed()
+        scale.ticks(7) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0).reversed()
+        scale.ticks(6) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0).reversed()
+        scale.ticks(5) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0).reversed()
+        scale.ticks(4) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0).reversed()
+        scale.ticks(3) shouldBe  listOf(0.0,                     0.5,                     1.0).reversed()
+        scale.ticks(2) shouldBe  listOf(0.0,                     0.5,                     1.0).reversed()
+        scale.ticks(1) shouldBe  listOf(0.0,                                              1.0).reversed()
 
         scale.domain = listOf(100.0, -100.0)
-        scale.ticks(10) shouldBe arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0).reversed()
-        scale.ticks(9) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0).reversed()
-        scale.ticks(8) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0).reversed()
-        scale.ticks(7) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0).reversed()
-        scale.ticks(6) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0).reversed()
-        scale.ticks(5) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0).reversed()
-        scale.ticks(4) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0).reversed()
-        scale.ticks(3) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0).reversed()
-        scale.ticks(2) shouldBe  arrayListOf(-100.0,                                    .0,                               100.0).reversed()
-        scale.ticks(1) shouldBe  arrayListOf(                                           .0                                     ).reversed()
+        scale.ticks(10) shouldBe listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0).reversed()
+        scale.ticks(9) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0).reversed()
+        scale.ticks(8) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0).reversed()
+        scale.ticks(7) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0).reversed()
+        scale.ticks(6) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0).reversed()
+        scale.ticks(5) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0).reversed()
+        scale.ticks(4) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0).reversed()
+        scale.ticks(3) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0).reversed()
+        scale.ticks(2) shouldBe  listOf(-100.0,                                    .0,                               100.0).reversed()
+        scale.ticks(1) shouldBe  listOf(                                           .0                                     ).reversed()
     }
 
     @Test
@@ -763,28 +763,28 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(.0, 0.25, 0.9, 1.0)
         scale.ticks(10).size shouldBe 11
-        scale.ticks(10) shouldBe arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
-        scale.ticks(9) shouldBe  arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
-        scale.ticks(8) shouldBe  arrayListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
-        scale.ticks(7) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
-        scale.ticks(6) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
-        scale.ticks(5) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
-        scale.ticks(4) shouldBe  arrayListOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
-        scale.ticks(3) shouldBe  arrayListOf(0.0,                     0.5,                     1.0)
-        scale.ticks(2) shouldBe  arrayListOf(0.0,                     0.5,                     1.0)
-        scale.ticks(1) shouldBe  arrayListOf(0.0,                                              1.0)
+        scale.ticks(10) shouldBe listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+        scale.ticks(9) shouldBe  listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+        scale.ticks(8) shouldBe  listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+        scale.ticks(7) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
+        scale.ticks(6) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
+        scale.ticks(5) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
+        scale.ticks(4) shouldBe  listOf(0.0,      0.2,      0.4,      0.6,      0.8,      1.0)
+        scale.ticks(3) shouldBe  listOf(0.0,                     0.5,                     1.0)
+        scale.ticks(2) shouldBe  listOf(0.0,                     0.5,                     1.0)
+        scale.ticks(1) shouldBe  listOf(0.0,                                              1.0)
 
         scale.domain = listOf(-100.0, .0, 100.0)
-        scale.ticks(10) shouldBe arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
-        scale.ticks(9) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
-        scale.ticks(8) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
-        scale.ticks(7) shouldBe  arrayListOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
-        scale.ticks(6) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0)
-        scale.ticks(5) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0)
-        scale.ticks(4) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0)
-        scale.ticks(3) shouldBe  arrayListOf(-100.0,               -50.0,               .0,             50.0,             100.0)
-        scale.ticks(2) shouldBe  arrayListOf(-100.0,                                    .0,                               100.0)
-        scale.ticks(1) shouldBe  arrayListOf(                                           .0                                     )
+        scale.ticks(10) shouldBe listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
+        scale.ticks(9) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
+        scale.ticks(8) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
+        scale.ticks(7) shouldBe  listOf(-100.0, -80.0, -60.0,        -40.0, -20.0, .0, 20.0, 40.0,       60.0, 80.0, 100.0)
+        scale.ticks(6) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0)
+        scale.ticks(5) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0)
+        scale.ticks(4) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0)
+        scale.ticks(3) shouldBe  listOf(-100.0,               -50.0,               .0,             50.0,             100.0)
+        scale.ticks(2) shouldBe  listOf(-100.0,                                    .0,                               100.0)
+        scale.ticks(1) shouldBe  listOf(                                           .0                                     )
     }
 
     @Test
@@ -793,9 +793,9 @@ class ScaleLinearTests : TestBase() {
 
         scale.domain = listOf(.0, 1.0)
         scale.ticks(0).size shouldBe 0
-        scale.ticks(0) shouldBe arrayListOf<Double>()
+        scale.ticks(0) shouldBe listOf<Double>()
         scale.ticks(-2).size shouldBe 0
-        scale.ticks(-2) shouldBe arrayListOf<Double>()
+        scale.ticks(-2) shouldBe listOf<Double>()
 
         // TODO shouldThrow ??
 //        shouldThrow<IllegalArgumentException> { scale.ticks(-2) }

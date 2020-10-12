@@ -67,7 +67,7 @@ class ScaleOrdinalTests : TestBase() {
     fun ordinal_domain_makes_a_copy_of_the_domain() {
         val scale = Scales.Discrete.ordinal<String, String>()
 
-        val domain = arrayListOf("red", "green")
+        val domain = mutableListOf("red", "green")
         scale.domain = domain
         domain.add("blue")
         scale.domain shouldBe listOf("red", "green")
@@ -78,7 +78,7 @@ class ScaleOrdinalTests : TestBase() {
         val scale = Scales.Discrete.ordinal<String, String>()
         scale.range = listOf("toto")
 
-        scale.domain = arrayListOf("red", "green")
+        scale.domain = listOf("red", "green")
         val domain = scale.domain
         scale("blue")
         scale.domain shouldBe listOf("red", "green", "blue")
@@ -127,7 +127,7 @@ class ScaleOrdinalTests : TestBase() {
     fun ordinal_range_makes_a_copy_of_the_range() {
         val scale = Scales.Discrete.ordinal<String, String>()
 
-        val range = arrayListOf("red", "green")
+        val range = mutableListOf("red", "green")
         scale.range = range
         range.add("blue")
         scale.range shouldBe listOf("red", "green")
@@ -137,9 +137,9 @@ class ScaleOrdinalTests : TestBase() {
     fun ordinal_x_then_range_makes_a_copy_of_the_range() {
         val scale = Scales.Discrete.ordinal<String, String>()
 
-        scale.range = arrayListOf("red", "green")
+        scale.range = listOf("red", "green")
         val range = scale.range
-        scale.range = arrayListOf("red", "green", "blue")
+        scale.range = listOf("red", "green", "blue")
         scale.range shouldBe listOf("red", "green", "blue")
         range shouldBe listOf("red", "green")
     }

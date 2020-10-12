@@ -71,10 +71,10 @@ class ScaleLogTests : TestBase() {
         scale.domain = listOf(1.0, 32.0)
 
         scale.base = 2.0
-        scale.ticks() shouldBe arrayListOf(1.0, 2.0, 4.0, 8.0, 16.0, 32.0)
+        scale.ticks() shouldBe listOf(1.0, 2.0, 4.0, 8.0, 16.0, 32.0)
 
         scale.base = kotlin.math.E
-        scale.ticks() shouldBe arrayListOf(1.0, 2.71828182846, 7.38905609893, 20.0855369232)
+        scale.ticks() shouldBe listOf(1.0, 2.71828182846, 7.38905609893, 20.0855369232)
     }
 
     @Test
@@ -84,7 +84,7 @@ class ScaleLogTests : TestBase() {
         scale.domain = listOf(0.1, 100.0)
 
         scale.base = kotlin.math.E
-        scale.ticks() shouldBe arrayListOf(0.135335283237, 0.367879441171, 1.0, 2.718281828459, 7.389056098931, 20.085536923188, 54.598150033144)
+        scale.ticks() shouldBe listOf(0.135335283237, 0.367879441171, 1.0, 2.718281828459, 7.389056098931, 20.085536923188, 54.598150033144)
     }
 
     @Test
@@ -93,28 +93,28 @@ class ScaleLogTests : TestBase() {
 
         scale.domain = listOf(1.1, 10.9)
         scale.nice()
-        scale.domain shouldBe arrayListOf(1.0, 100.0)
+        scale.domain shouldBe listOf(1.0, 100.0)
 
         scale.domain = listOf(10.9, 1.1)
         scale.nice()
-        scale.domain shouldBe arrayListOf(100.0, 1.0)
+        scale.domain shouldBe listOf(100.0, 1.0)
 
         scale.domain = listOf(.7, 11.001)
         scale.nice()
-        scale.domain shouldBe arrayListOf(0.1, 100.0)
+        scale.domain shouldBe listOf(0.1, 100.0)
 
         scale.domain = listOf(123.1, 6.7)
         scale.nice()
-        scale.domain shouldBe arrayListOf(1000.0, 1.0)
+        scale.domain shouldBe listOf(1000.0, 1.0)
 
         scale.domain = listOf(0.01, 0.49)
         scale.nice()
-        scale.domain shouldBe arrayListOf(0.01, 1.0)
+        scale.domain shouldBe listOf(0.01, 1.0)
 
         scale.domain = listOf(1.5, 50.0)
         scale.range = listOf(.0, 1.0)
         scale.nice()
-        scale.domain shouldBe arrayListOf(1.0, 100.0)
+        scale.domain shouldBe listOf(1.0, 100.0)
         scale(1.0) shouldBeClose .0
         scale(100.0) shouldBeClose 1.0
     }

@@ -54,8 +54,8 @@ class ScaleIdentityTests : TestBase() {
     fun identity_domain_range_clamp_are_final_values_exceptions() {
         val scale = Scales.Continuous.identity()
 
-        scale.range shouldBe arrayListOf(.0, 1.0)
-        scale.domain shouldBe arrayListOf(.0, 1.0)
+        scale.range shouldBe listOf(.0, 1.0)
+        scale.domain shouldBe listOf(.0, 1.0)
         scale.clamp shouldBe false
     }
 

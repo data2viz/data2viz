@@ -55,12 +55,12 @@ class ScalePowerTests : TestBase() {
         scale.domain = listOf(1.0, 2.0)
         scale.range = listOf(3.0, 4.0)
         scale.exponent = .5
-        scale.domain shouldBe arrayListOf(1.0, 2.0)
-        scale.range shouldBe arrayListOf(3.0, 4.0)
+        scale.domain shouldBe listOf(1.0, 2.0)
+        scale.range shouldBe listOf(3.0, 4.0)
 
         scale.exponent = 2.0
-        scale.domain shouldBe arrayListOf(1.0, 2.0)
-        scale.range shouldBe arrayListOf(3.0, 4.0)
+        scale.domain shouldBe listOf(1.0, 2.0)
+        scale.range shouldBe listOf(3.0, 4.0)
     }
 
     @Test
@@ -79,38 +79,38 @@ class ScalePowerTests : TestBase() {
 
         scale.domain = listOf(.0, .96)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, 1.0)
+        scale.domain shouldBe listOf(.0, 1.0)
 
         scale.domain = listOf(.0, 96.0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, 100.0)
+        scale.domain shouldBe listOf(.0, 100.0)
 
         scale.domain = listOf(.96, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(1.0, .0)
+        scale.domain shouldBe listOf(1.0, .0)
 
         scale.domain = listOf(96.0, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(100.0, .0)
+        scale.domain shouldBe listOf(100.0, .0)
 
         scale.domain = listOf(.0, -.96)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, -1.0)
+        scale.domain shouldBe listOf(.0, -1.0)
 
         scale.domain = listOf(.0, -96.0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(.0, -100.0)
+        scale.domain shouldBe listOf(.0, -100.0)
 
         scale.domain = listOf(-.96, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(-1.0, .0)
+        scale.domain shouldBe listOf(-1.0, .0)
 
         scale.domain = listOf(-96.0, .0)
         scale.nice(10)
-        scale.domain shouldBe arrayListOf(-100.0, .0)
+        scale.domain shouldBe listOf(-100.0, .0)
 
         scale.domain = listOf(-.1, 51.1)
         scale.nice(8)
-        scale.domain shouldBe arrayListOf(-10.0, 60.0)
+        scale.domain shouldBe listOf(-10.0, 60.0)
     }
 }

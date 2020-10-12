@@ -73,7 +73,7 @@ public abstract class BandedScale<D>(private val indexableDomain: IndexableDomai
     public var bandwidth: Double = 1.0
         private set
 
-    private var ordinalRange: MutableList<Double> = ArrayList()
+    private var ordinalRange: MutableList<Double> = mutableListOf()
 
     override operator fun invoke(domainValue: D): Double {
         val i: Int = indexableDomain.index[domainValue] ?: return unknown

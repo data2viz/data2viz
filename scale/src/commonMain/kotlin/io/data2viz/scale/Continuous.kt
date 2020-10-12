@@ -107,8 +107,8 @@ public abstract class ContinuousScale<D, R>(
     private var rangeToDomain: ((R) -> D)? = null
     private var domainToRange: ((D) -> R)? = null
 
-    protected val _domain: MutableList<D> = arrayListOf()
-    protected val _range: MutableList<R> = arrayListOf()
+    protected val _domain: MutableList<D> = mutableListOf()
+    protected val _range: MutableList<R> = mutableListOf()
 
     override var clamp: Boolean = false
         set(value) {
