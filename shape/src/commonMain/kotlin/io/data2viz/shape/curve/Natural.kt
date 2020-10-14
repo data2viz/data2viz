@@ -20,10 +20,10 @@ package io.data2viz.shape.curve
 import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
-class Natural(override val path: Path) : Curve {
+public class Natural(override val path: Path) : Curve {
 
-    private var x = arrayListOf<Double>()
-    private var y = arrayListOf<Double>()
+    private var x = mutableListOf<Double>()
+    private var y = mutableListOf<Double>()
 
     private var lineStatus = -1
 
@@ -75,7 +75,7 @@ class Natural(override val path: Path) : Curve {
      * See https://www.particleincell.com/2012/bezier-splines/ for derivation.
      * Note : points.size > 2 (in other case we just draw a line between points)
      */
-    private fun controlPoints(points: ArrayList<Double>): Array<Array<Double>> {
+    private fun controlPoints(points: List<Double>): Array<Array<Double>> {
         val n = points.size - 1
         var m: Double
 

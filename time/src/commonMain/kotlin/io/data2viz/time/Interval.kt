@@ -107,7 +107,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * Thus, two overlapping ranges may be consistent.
      */
     fun range(start: LocalDateTime, stop: LocalDateTime, step: Int = 1): List<LocalDateTime> {
-        val range = arrayListOf<LocalDateTime>()
+        val range = mutableListOf<LocalDateTime>()
         var current = ceil(start)
         if (step > 0) {
             while (current < stop) {

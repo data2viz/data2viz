@@ -203,7 +203,7 @@ public class TimeScale<R> internal constructor(
      * Thus, two overlapping ranges may be consistent.
      */
 //    fun range(start: Date, stop: Date, step: Long = 1): List<Date> {
-//        val range = arrayListOf<Date>()
+//        val range = listOf<Date>()
 //        var current = ceil(start)
 //        if (step > 0) {
 //            while (current.isBefore(stop)) {

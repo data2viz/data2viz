@@ -20,12 +20,15 @@ package io.data2viz.shape.curve
 import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
-class Bundle(override val path: Path, val beta:Double = 0.85) : Curve {
+public class Bundle(
+    override val path: Path,
+    public val beta: Double = 0.85
+) : Curve {
 
     private val basis = Basis(path)
 
-    private var x = arrayListOf<Double>()
-    private var y = arrayListOf<Double>()
+    private var x = mutableListOf<Double>()
+    private var y = mutableListOf<Double>()
 
     // TODO : not present in D3
     override fun areaStart() {}

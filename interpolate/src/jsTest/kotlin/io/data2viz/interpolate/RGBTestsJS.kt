@@ -55,7 +55,7 @@ class RGBTestsJS : TestBase() {
     @Test
     fun rgbSplineInterpolationColorbrewSpline() {
         val iterator = rgbBasisInterpolator(
-            arrayListOf(
+            listOf(
                 0x8e0152.col,
                 0xc51b7d.col,
                 0xde77ae.col,
@@ -81,7 +81,7 @@ class RGBTestsJS : TestBase() {
     @Test
     fun rgbCyclicalSplineInterpolationColorbrewSpline() {
         val iterator = rgbBasisClosedInterpolator(
-            arrayListOf(
+            listOf(
                 0x8e0152.col,
                 0xc51b7d.col,
                 0xde77ae.col,
