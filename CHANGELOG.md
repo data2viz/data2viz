@@ -5,6 +5,10 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.8
+> Published 21 Oct 2020
+* Add Scale.copy() see #229.
+
 ## 0.8.7
 > Published 14 Oct 2020
 * Remove ArrayList to fix #228.
