@@ -29,7 +29,10 @@ import kotlin.math.max
  * the output range determines the number of quantiles that will be computed from the domain.
  * To compute the quantiles, the domain is sorted, and treated as a population of discrete values;
  */
-public class QuantileScale<R> internal constructor() : Scale<Double, R>,DiscreteDomain<Double>,  DiscreteRange<R> {
+public class QuantileScale<R> internal constructor() :
+    Scale<Double, R>,
+    DiscreteDomain<Double>,
+    DiscreteRange<R> {
 
         
     private var thresholds: MutableList<Double> = mutableListOf()
@@ -103,6 +106,14 @@ public class QuantileScale<R> internal constructor() : Scale<Double, R>,Discrete
         check(domain.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Domain" })
         check(range.isNotEmpty(), { "Can't compute a Quantile Scale with an empty Range" })
         return range[bisectRight(thresholds, domainValue, naturalOrder())]
+    }
+
+    override fun copy(): Scale<Double, R> {
+        return QuantileScale<R>().also {
+            it.domain = domain
+            it.range = range
+            it.rescale()
+        }
     }
 }
 

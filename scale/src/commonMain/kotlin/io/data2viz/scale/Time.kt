@@ -71,10 +71,9 @@ public class TimeScale<R> internal constructor(
     interpolateRange: (R, R) -> Interpolator<R>,
     uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
     rangeComparator: Comparator<R>? = null
-)
-    : ContinuousScale<LocalDateTime, R>(interpolateRange, uninterpolateRange, rangeComparator),
-        NiceableScale<LocalDateTime> ,
-        Tickable<LocalDateTime> {
+) : ContinuousScale<LocalDateTime, R>(interpolateRange, uninterpolateRange, rangeComparator),
+    NiceableScale<LocalDateTime>,
+    Tickable<LocalDateTime> {
 
     init {
         _domain.clear()
@@ -85,6 +84,13 @@ public class TimeScale<R> internal constructor(
     override fun uninterpolateDomain(from: LocalDateTime, to: LocalDateTime): UnInterpolator<LocalDateTime> = uninterpolateDate(from, to)
 
     override fun domainComparator(): Comparator<LocalDateTime> = dateComparator
+
+    override fun copy(): ContinuousScale<LocalDateTime, R>  =
+        TimeScale(interpolateRange, uninterpolateRange, rangeComparator).also {
+            it.domain = domain
+            it.range = range
+            it.clamp = clamp
+        }
 
     /**
      * Extends the domain so that it starts and ends on nice round values. This method typically modifies
@@ -192,6 +198,7 @@ public class TimeScale<R> internal constructor(
 
         return if (reversed) ticks.reversed() else ticks
     }
+
 
     /**
      * Returns every an array of dates representing every interval boundary after or equal to start (inclusive)

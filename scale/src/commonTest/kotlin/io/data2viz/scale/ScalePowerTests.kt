@@ -23,6 +23,19 @@ import kotlin.test.Test
 class ScalePowerTests : TestBase() {
 
     @Test
+    fun copy(){
+        val scale = Scales.Continuous.pow {
+            domain = listOf(10.0, 1.0)
+            range = listOf(.0, 100.0)
+        }
+
+        val copy = scale.copy()
+        copy.domain shouldBe listOf(10.0, 1.0)
+        copy.range shouldBe listOf(.0, 100.0)
+    }
+
+
+    @Test
     fun power_sets_the_exponent_to_the_specified_value() {
         val scale = Scales.Continuous.sqrt()
 

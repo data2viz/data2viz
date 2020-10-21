@@ -111,6 +111,12 @@ public open class LogScale
         _range.addAll(listOf(.0, 1.0))
     }
 
+    override fun copy(): ContinuousScale<Double, Double> = LogScale(base, interpolateRange, uninterpolateRange, rangeComparator).also {
+        it.domain = domain
+        it.range = range
+        it.clamp = clamp
+    }
+
     override fun nice(count: Int) {
         domain = niceLogScale(domain, { x -> innerPow(floor(innerLog(x))) }, { x -> innerPow(ceil(innerLog(x))) })
     }

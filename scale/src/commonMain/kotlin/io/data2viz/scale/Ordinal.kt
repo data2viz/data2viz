@@ -60,7 +60,10 @@ public class IndexableDomain<D> : DiscreteDomain<D> {
 public open class OrdinalScale<D, R> internal constructor(
     range: List<R> = listOf(),
     public val indexableDomain: IndexableDomain<D> = IndexableDomain()
-) : Scale<D, R>, DiscreteDomain<D> by indexableDomain, FirstLastRange<D, R> {
+) :
+    Scale<D, R>,
+    DiscreteDomain<D> by indexableDomain,
+    FirstLastRange<D, R> {
 
     protected val _range: MutableList<R> = mutableListOf()
 
@@ -119,6 +122,12 @@ public open class OrdinalScale<D, R> internal constructor(
 
     override fun end(): R {
         return range.last()
+    }
+
+    override fun copy(): OrdinalScale<D, R> {
+        return OrdinalScale(range, indexableDomain).also {
+            it.domain = domain
+        }
     }
 
 }

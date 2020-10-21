@@ -21,6 +21,7 @@ import io.data2viz.color.Color
 import io.data2viz.color.EncodedColors
 import io.data2viz.geom.Point
 import io.data2viz.interpolate.*
+import kotlinx.datetime.LocalDateTime
 import kotlin.jvm.JvmName
 
 /**
@@ -35,7 +36,14 @@ import kotlin.jvm.JvmName
  * a Domain object -> Range object
  */
 public interface Scale<DOMAIN, out RANGE> {
+
     public operator fun invoke(domainValue: DOMAIN): RANGE
+
+
+    /**
+     * Returns a copy of the current scale
+     */
+    public fun copy(): Scale<DOMAIN, RANGE>
 }
 
 public interface ContinuousDomain<D> {

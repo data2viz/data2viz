@@ -29,7 +29,10 @@ import io.data2viz.interpolate.uninterpolateNumber
  * These scales do not expose invert, range, rangeRound and interpolate methods.
  */
 public class SequentialScale<R>
-internal constructor(public var interpolator: Interpolator<R>) : Tickable<Double>, ClampableScale,
+internal constructor(public var interpolator: Interpolator<R>) :
+
+    Tickable<Double>,
+    ClampableScale,
     StrictlyContinuousDomain<Double> {
 
     override var domain: StrictlyContinuous<Double> = intervalOf(0.0, 1.0)

@@ -23,6 +23,19 @@ import kotlin.test.Test
 class ScaleLogTests : TestBase() {
 
     @Test
+    fun copy(){
+        val scale = Scales.Continuous.log {
+            domain = listOf(10.0, 1.0)
+            range = listOf(.0, 100.0)
+        }
+
+        val copy = scale.copy()
+        copy.domain shouldBe listOf(10.0, 1.0)
+        copy.range shouldBe listOf(.0, 100.0)
+    }
+
+
+    @Test
     fun log_x_domain_limits_maps_to_y_range_limits() {
         val scale = scaleLog()
         scale.domain = listOf(1.0, 100.0)

@@ -38,6 +38,25 @@ class ScaleTimeTests : TestBase() {
     }
 
     @Test
+    fun copy(){
+        val scale = Scales.Continuous.time {
+            domain = listOf(
+                LocalDateTime(2020, 2 ,2,0,0,0),
+                LocalDateTime(2020, 3 ,2,0,0,0)
+            )
+            range = listOf(.0, 100.0)
+        }
+
+        val copy = scale.copy()
+        copy.domain shouldBe listOf(
+            LocalDateTime(2020, 2 ,2,0,0,0),
+            LocalDateTime(2020, 3 ,2,0,0,0)
+        )
+        copy.range shouldBe listOf(.0, 100.0)
+    }
+
+
+    @Test
     fun time_scale_returns_limit_values() {
         val scale = Scales.Continuous.time()
 

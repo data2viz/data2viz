@@ -40,6 +40,13 @@ public class PowerScale<R>
             rescale()
         }
 
+    override fun copy(): ContinuousScale<Double, R> =
+        PowerScale(exponent, interpolateRange, uninterpolateRange, rangeComparator).also {
+            it.domain = domain
+            it.range = range
+            it.clamp = clamp
+    }
+
     override fun uninterpolateDomain(from: Double, to: Double): UnInterpolator<Double> {
         val dFrom = raise(from, exponent)
         val dTo = raise(to, exponent) - dFrom

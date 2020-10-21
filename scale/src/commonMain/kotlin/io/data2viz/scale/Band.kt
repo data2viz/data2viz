@@ -154,6 +154,19 @@ public class BandScale<D> internal constructor() : BandedScale<D>() {
             _paddingOuter = value.coerceToDefault().value
             rescale()
         }
+
+    override fun copy(): BandScale<D> {
+        return BandScale<D>().also {
+            it.align        = align
+            it.domain        = domain
+            it.range        = range
+            it.round        = round
+            it.padding      = padding
+            it.paddingInner = paddingInner
+            it.paddingOuter = paddingOuter
+            it.rescale()
+        }
+    }
 }
 
 /**
@@ -179,6 +192,17 @@ public class PointScale<D> : BandedScale<D>() {
     init {
         _paddingInner = 1.0
         rescale()
+    }
+
+    override fun copy(): PointScale<D> {
+        return PointScale<D>().also {
+            it.align        = align
+            it.domain        = domain
+            it.range        = range
+            it.round        = round
+            it.padding      = padding
+            it.rescale()
+        }
     }
 }
 

@@ -22,8 +22,11 @@ package io.data2viz.scale
  * domain to discrete values in the range.
  * The input domain is still continuous, and divided into slices based on a set of threshold values.
  */
-public class ThresholdScale<R> internal constructor() : Scale<Double, R>, DiscreteRange<R>, DiscreteDomain<Double> {
+public class ThresholdScale<R> internal constructor() :
 
+    Scale<Double, R>,
+    DiscreteRange<R>,
+    DiscreteDomain<Double> {
 
     public var _domain: List<Double> = listOf(.5)
     public var _range: List<R> = listOf()
@@ -81,6 +84,13 @@ public class ThresholdScale<R> internal constructor() : Scale<Double, R>, Discre
             i == 0 -> listOf(Double.NaN, _domain.first())
             i == size -> listOf(domain.last(), Double.NaN)
             else -> listOf(_domain[i - 1], _domain[i])
+        }
+    }
+
+    override fun copy(): Scale<Double, R> {
+        return ThresholdScale<R>().also {
+            it.domain = domain
+            it.range = range
         }
     }
 }

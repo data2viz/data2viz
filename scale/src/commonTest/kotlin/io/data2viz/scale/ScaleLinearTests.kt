@@ -23,8 +23,21 @@ import io.data2viz.math.pct
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class ScaleLinearTests : TestBase() {
+
+    @Test
+    fun copy(){
+        val scale = Scales.Continuous.linear {
+            domain = listOf(10.0, 1.0)
+            range = listOf(.0, 100.0)
+        }
+
+        val copy = scale.copy()
+        copy.domain shouldBe listOf(10.0, 1.0)
+        copy.range shouldBe listOf(.0, 100.0)
+    }
 
 
     @Test

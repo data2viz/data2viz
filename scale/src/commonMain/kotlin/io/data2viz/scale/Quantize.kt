@@ -69,6 +69,14 @@ public class QuantizeScale<R> internal constructor() : Scale<Double, R>, Strictl
             else -> listOf(quantizedDomain[i - 1], quantizedDomain[i])
         }
     }
+
+    override fun copy(): QuantizeScale<R> {
+        return QuantizeScale<R>().also{
+            it.domain = domain
+            it.range = range
+            it.rescale()
+        }
+    }
 }
 
 
