@@ -17,6 +17,7 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
 import io.data2viz.color.*
 
 
@@ -24,17 +25,24 @@ import io.data2viz.color.*
  * The base class of each element of the viz hierarchy.
  * Keeps a reference to the parent node.
  */
-abstract class Node : Style {
+public abstract class Node : Style {
 
-    var parent: HasChildren? = null
+    public var parent: HasChildren? = null
         get() = field
         set(value) {
             field = value
             style.parent = value
         }
 
-
-
+    /**
+     * This property allows to put classes on node to allows some selection like
+     * in the DOM through classes selectors.
+     *
+     * It's use is experimental you can use it but without the garanty that it will
+     * be there in future versions of the library.
+     */
+    @ExperimentalD2V
+    public var classes: String? = null
 
     /**
      * Specifies whether the item is visible. When set to false, the item won’t be drawn.
