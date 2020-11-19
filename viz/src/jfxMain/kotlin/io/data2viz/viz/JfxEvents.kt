@@ -258,9 +258,14 @@ private fun createJvmClickEventHandle(
     }
 }
 
+
 internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
-    val jFxVizRenderer = this as JFxVizRenderer
-    return handle.eventListener.addNativeListener(jFxVizRenderer.canvas, handle.listener)
+    return (this as? JFxVizRenderer)?.let {
+        handle.eventListener.addNativeListener(it.canvas, handle.listener)
+    } ?: object : Disposable { // for the test
+            override fun dispose() {
+        }
+    }
 }
 
 
