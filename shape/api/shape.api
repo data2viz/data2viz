@@ -1,0 +1,507 @@
+public final class io/data2viz/shape/ArcBuilder {
+	public fun <init> ()V
+	public final fun buildArcForDatum (Ljava/lang/Object;Lio/data2viz/geom/Path;)Lio/data2viz/geom/Path;
+	public final fun centroid (Ljava/lang/Object;)[Ljava/lang/Double;
+	public final fun getCornerRadius ()Lkotlin/jvm/functions/Function1;
+	public final fun getEndAngle ()Lkotlin/jvm/functions/Function1;
+	public final fun getInnerRadius ()Lkotlin/jvm/functions/Function1;
+	public final fun getOuterRadius ()Lkotlin/jvm/functions/Function1;
+	public final fun getPadAngle ()Lkotlin/jvm/functions/Function1;
+	public final fun getPadRadius ()Lkotlin/jvm/functions/Function1;
+	public final fun getStartAngle ()Lkotlin/jvm/functions/Function1;
+	public final fun setCornerRadius (Lkotlin/jvm/functions/Function1;)V
+	public final fun setEndAngle (Lkotlin/jvm/functions/Function1;)V
+	public final fun setInnerRadius (Lkotlin/jvm/functions/Function1;)V
+	public final fun setOuterRadius (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPadAngle (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPadRadius (Lkotlin/jvm/functions/Function1;)V
+	public final fun setStartAngle (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/shape/ArcBuilderKt {
+	public static final fun arcBuilder (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/ArcBuilder;
+}
+
+public final class io/data2viz/shape/ArcParams {
+	public fun <init> (DDLjava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Object;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()Ljava/lang/Double;
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun component5 ()Ljava/lang/Integer;
+	public final fun component6 ()Ljava/lang/Object;
+	public final fun copy (DDLjava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Object;)Lio/data2viz/shape/ArcParams;
+	public static synthetic fun copy$default (Lio/data2viz/shape/ArcParams;DDLjava/lang/Double;Ljava/lang/Double;Ljava/lang/Integer;Ljava/lang/Object;ILjava/lang/Object;)Lio/data2viz/shape/ArcParams;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getEndAngle ()D
+	public final fun getIndex ()Ljava/lang/Integer;
+	public final fun getPadAngle ()Ljava/lang/Double;
+	public final fun getStartAngle ()D
+	public final fun getValue ()Ljava/lang/Double;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/shape/AreaBuilder {
+	public fun <init> ()V
+	public final fun getCurve ()Lkotlin/jvm/functions/Function1;
+	public final fun getDefined ()Lkotlin/jvm/functions/Function1;
+	public final fun getXBaseline ()Lkotlin/jvm/functions/Function1;
+	public final fun getXTopline ()Lkotlin/jvm/functions/Function1;
+	public final fun getYBaseline ()Lkotlin/jvm/functions/Function1;
+	public final fun getYTopline ()Lkotlin/jvm/functions/Function1;
+	public final fun render (Ljava/util/List;Lio/data2viz/geom/Path;)Lio/data2viz/geom/Path;
+	public final fun setCurve (Lkotlin/jvm/functions/Function1;)V
+	public final fun setDefined (Lkotlin/jvm/functions/Function1;)V
+	public final fun setXBaseline (Lkotlin/jvm/functions/Function1;)V
+	public final fun setXTopline (Lkotlin/jvm/functions/Function1;)V
+	public final fun setYBaseline (Lkotlin/jvm/functions/Function1;)V
+	public final fun setYTopline (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/shape/AreaBuilderKt {
+	public static final fun areaBuilder (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/AreaBuilder;
+}
+
+public abstract interface class io/data2viz/shape/Curve {
+	public abstract fun areaEnd ()V
+	public abstract fun areaStart ()V
+	public abstract fun getPath ()Lio/data2viz/geom/Path;
+	public abstract fun lineEnd ()V
+	public abstract fun lineStart ()V
+	public abstract fun point (DD)V
+}
+
+public final class io/data2viz/shape/LineBuilder {
+	public fun <init> ()V
+	public final fun buildLine (Ljava/util/List;Lio/data2viz/geom/Path;)Lio/data2viz/geom/Path;
+	public final fun getCurve ()Lkotlin/jvm/functions/Function1;
+	public final fun getDefined ()Lkotlin/jvm/functions/Function1;
+	public final fun getX ()Lkotlin/jvm/functions/Function1;
+	public final fun getY ()Lkotlin/jvm/functions/Function1;
+	public final fun setCurve (Lkotlin/jvm/functions/Function1;)V
+	public final fun setDefined (Lkotlin/jvm/functions/Function1;)V
+	public final fun setX (Lkotlin/jvm/functions/Function1;)V
+	public final fun setY (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/shape/LineBuilderKt {
+	public static final fun const (Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public static final fun line (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/LineBuilder;
+}
+
+public final class io/data2viz/shape/MathKt {
+	public static final fun acos (D)D
+	public static final fun asin (D)D
+	public static final fun getEpsilon ()D
+	public static final fun getHalfPi ()D
+	public static final fun getPi ()D
+	public static final fun getTau ()D
+}
+
+public final class io/data2viz/shape/PieGenerator {
+	public fun <init> ()V
+	public final fun getEndAngle ()Lkotlin/jvm/functions/Function1;
+	public final fun getPadAngle ()Lkotlin/jvm/functions/Function1;
+	public final fun getStartAngle ()Lkotlin/jvm/functions/Function1;
+	public final fun getValue ()Lkotlin/jvm/functions/Function1;
+	public final fun render ([Ljava/lang/Object;)[Lio/data2viz/shape/ArcParams;
+	public final fun setEndAngle (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPadAngle (Lkotlin/jvm/functions/Function1;)V
+	public final fun setStartAngle (Lkotlin/jvm/functions/Function1;)V
+	public final fun setValue (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/shape/PieKt {
+	public static final fun pie (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/PieGenerator;
+}
+
+public abstract interface class io/data2viz/shape/Symbol {
+	public abstract fun render (Lio/data2viz/geom/Path;D)Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/SymbolGenerator {
+	public fun <init> ()V
+	public final fun getSize ()Lkotlin/jvm/functions/Function1;
+	public final fun getType ()Lkotlin/jvm/functions/Function1;
+	public final fun render (Ljava/lang/Object;Lio/data2viz/geom/Path;)Lio/data2viz/geom/Path;
+	public final fun setSize (Lkotlin/jvm/functions/Function1;)V
+	public final fun setType (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/shape/SymbolKt {
+	public static final fun getSymbol (Lio/data2viz/shape/Symbols;)Lio/data2viz/shape/Symbol;
+	public static final fun render (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/SymbolGenerator;
+}
+
+public final class io/data2viz/shape/Symbols : java/lang/Enum {
+	public static final field Circle Lio/data2viz/shape/Symbols;
+	public static final field Cross Lio/data2viz/shape/Symbols;
+	public static final field Diamond Lio/data2viz/shape/Symbols;
+	public static final field Square Lio/data2viz/shape/Symbols;
+	public static final field Star Lio/data2viz/shape/Symbols;
+	public static final field Triangle Lio/data2viz/shape/Symbols;
+	public static final field Wye Lio/data2viz/shape/Symbols;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/Symbols;
+	public static fun values ()[Lio/data2viz/shape/Symbols;
+}
+
+public final class io/data2viz/shape/areas {
+	public static final field INSTANCE Lio/data2viz/shape/areas;
+	public final fun getBasis ()Lkotlin/jvm/functions/Function1;
+	public final fun getDefault ()Lkotlin/jvm/functions/Function1;
+}
+
+public class io/data2viz/shape/curve/AbstractMonotone : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+	public final fun slope2 (D)D
+	public final fun slope3 (DD)D
+}
+
+public abstract class io/data2viz/shape/curve/AbstractRadial : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;Lio/data2viz/shape/Curve;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public final fun getCurve ()Lio/data2viz/shape/Curve;
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public abstract class io/data2viz/shape/curve/AbstractStep : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;D)V
+	public synthetic fun <init> (Lio/data2viz/geom/Path;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/Basis : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/BasisClosed : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/BasisOpen : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/Bundle : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;D)V
+	public synthetic fun <init> (Lio/data2viz/geom/Path;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public final fun getBeta ()D
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/Cardinal : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;D)V
+	public synthetic fun <init> (Lio/data2viz/geom/Path;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/CardinalClosed : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;D)V
+	public synthetic fun <init> (Lio/data2viz/geom/Path;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/CardinalOpen : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;D)V
+	public synthetic fun <init> (Lio/data2viz/geom/Path;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/CatmullRom : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;D)V
+	public synthetic fun <init> (Lio/data2viz/geom/Path;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public final fun getAlpha ()D
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/CatmullRomClosed : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;D)V
+	public synthetic fun <init> (Lio/data2viz/geom/Path;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public final fun getAlpha ()D
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/CatmullRomOpen : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;D)V
+	public synthetic fun <init> (Lio/data2viz/geom/Path;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public final fun getAlpha ()D
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/Linear : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/LinearClosed : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/MonotoneX : io/data2viz/shape/curve/AbstractMonotone {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+}
+
+public final class io/data2viz/shape/curve/MonotoneY : io/data2viz/shape/curve/AbstractMonotone {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/Natural : io/data2viz/shape/Curve {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun areaEnd ()V
+	public fun areaStart ()V
+	public fun getPath ()Lio/data2viz/geom/Path;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DD)V
+}
+
+public final class io/data2viz/shape/curve/Radial : io/data2viz/shape/curve/AbstractRadial {
+	public fun <init> (Lio/data2viz/geom/Path;Lio/data2viz/shape/Curve;)V
+}
+
+public final class io/data2viz/shape/curve/RadialLinear : io/data2viz/shape/curve/AbstractRadial {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+}
+
+public final class io/data2viz/shape/curve/Step : io/data2viz/shape/curve/AbstractStep {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun getPath ()Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/curve/StepAfter : io/data2viz/shape/curve/AbstractStep {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun getPath ()Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/curve/StepBefore : io/data2viz/shape/curve/AbstractStep {
+	public fun <init> (Lio/data2viz/geom/Path;)V
+	public fun getPath ()Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/curves {
+	public static final field INSTANCE Lio/data2viz/shape/curves;
+	public final fun getBasis ()Lkotlin/jvm/functions/Function1;
+	public final fun getBasisClosed ()Lkotlin/jvm/functions/Function1;
+	public final fun getBasisOpen ()Lkotlin/jvm/functions/Function1;
+	public final fun getBundle ()Lkotlin/jvm/functions/Function1;
+	public final fun getCardinal ()Lkotlin/jvm/functions/Function1;
+	public final fun getCardinalClosed ()Lkotlin/jvm/functions/Function1;
+	public final fun getCardinalOpen ()Lkotlin/jvm/functions/Function1;
+	public final fun getCatmullRom ()Lkotlin/jvm/functions/Function1;
+	public final fun getCatmullRomClosed ()Lkotlin/jvm/functions/Function1;
+	public final fun getCatmullRomOpen ()Lkotlin/jvm/functions/Function1;
+	public final fun getLinear ()Lkotlin/jvm/functions/Function1;
+	public final fun getLinearClosed ()Lkotlin/jvm/functions/Function1;
+	public final fun getMonotoneX ()Lkotlin/jvm/functions/Function1;
+	public final fun getMonotoneY ()Lkotlin/jvm/functions/Function1;
+	public final fun getNatural ()Lkotlin/jvm/functions/Function1;
+	public final fun getStep ()Lkotlin/jvm/functions/Function1;
+	public final fun getStepAfter ()Lkotlin/jvm/functions/Function1;
+	public final fun getStepBefore ()Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/shape/link/LinkBuilder {
+	public fun <init> ()V
+	public final fun getCurve ()Lkotlin/jvm/functions/Function5;
+	public final fun getX0 ()Lkotlin/jvm/functions/Function1;
+	public final fun getX1 ()Lkotlin/jvm/functions/Function1;
+	public final fun getY0 ()Lkotlin/jvm/functions/Function1;
+	public final fun getY1 ()Lkotlin/jvm/functions/Function1;
+	public final fun link (Ljava/lang/Object;Lio/data2viz/geom/Path;)V
+	public final fun setCurve (Lkotlin/jvm/functions/Function5;)V
+	public final fun setX0 (Lkotlin/jvm/functions/Function1;)V
+	public final fun setX1 (Lkotlin/jvm/functions/Function1;)V
+	public final fun setY0 (Lkotlin/jvm/functions/Function1;)V
+	public final fun setY1 (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/shape/link/LinkKt {
+	public static final fun linkBuilderH (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/link/LinkBuilder;
+	public static final fun linkBuilderV (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/link/LinkBuilder;
+}
+
+public final class io/data2viz/shape/stack/StackGenerator {
+	public fun <init> ()V
+	public final fun getOffset ()Lio/data2viz/shape/stack/StackOffset;
+	public final fun getOrder ()Lio/data2viz/shape/stack/StackOrder;
+	public final fun getSeries ()Lkotlin/jvm/functions/Function1;
+	public final fun setOffset (Lio/data2viz/shape/stack/StackOffset;)V
+	public final fun setOrder (Lio/data2viz/shape/stack/StackOrder;)V
+	public final fun setSeries (Lkotlin/jvm/functions/Function1;)V
+	public final fun stack (Ljava/util/List;)[Lio/data2viz/shape/stack/StackParam;
+}
+
+public final class io/data2viz/shape/stack/StackKt {
+	public static final fun stack (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/stack/StackGenerator;
+}
+
+public final class io/data2viz/shape/stack/StackOffset : java/lang/Enum {
+	public static final field DIVERGING Lio/data2viz/shape/stack/StackOffset;
+	public static final field EXPAND Lio/data2viz/shape/stack/StackOffset;
+	public static final field NONE Lio/data2viz/shape/stack/StackOffset;
+	public static final field SILHOUETTE Lio/data2viz/shape/stack/StackOffset;
+	public static final field WIGGLE Lio/data2viz/shape/stack/StackOffset;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/stack/StackOffset;
+	public static fun values ()[Lio/data2viz/shape/stack/StackOffset;
+}
+
+public final class io/data2viz/shape/stack/StackOrder : java/lang/Enum {
+	public static final field ASCENDING Lio/data2viz/shape/stack/StackOrder;
+	public static final field DESCENDING Lio/data2viz/shape/stack/StackOrder;
+	public static final field INSIDEOUT Lio/data2viz/shape/stack/StackOrder;
+	public static final field NONE Lio/data2viz/shape/stack/StackOrder;
+	public static final field REVERSE Lio/data2viz/shape/stack/StackOrder;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/stack/StackOrder;
+	public static fun values ()[Lio/data2viz/shape/stack/StackOrder;
+}
+
+public final class io/data2viz/shape/stack/StackParam {
+	public fun <init> (Ljava/util/List;I)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()I
+	public final fun copy (Ljava/util/List;I)Lio/data2viz/shape/stack/StackParam;
+	public static synthetic fun copy$default (Lio/data2viz/shape/stack/StackParam;Ljava/util/List;IILjava/lang/Object;)Lio/data2viz/shape/stack/StackParam;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIndex ()I
+	public final fun getStackedValues ()Ljava/util/List;
+	public fun hashCode ()I
+	public final fun setIndex (I)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/shape/stack/StackSpace {
+	public fun <init> (DDILjava/lang/Object;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/Object;
+	public final fun copy (DDILjava/lang/Object;)Lio/data2viz/shape/stack/StackSpace;
+	public static synthetic fun copy$default (Lio/data2viz/shape/stack/StackSpace;DDILjava/lang/Object;ILjava/lang/Object;)Lio/data2viz/shape/stack/StackSpace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getFrom ()D
+	public final fun getParamIndex ()I
+	public final fun getTo ()D
+	public fun hashCode ()I
+	public final fun setFrom (D)V
+	public final fun setTo (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/shape/symbol/Circle : io/data2viz/shape/Symbol {
+	public fun <init> ()V
+	public fun render (Lio/data2viz/geom/Path;D)Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/symbol/Cross : io/data2viz/shape/Symbol {
+	public fun <init> ()V
+	public fun render (Lio/data2viz/geom/Path;D)Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/symbol/Diamond : io/data2viz/shape/Symbol {
+	public fun <init> ()V
+	public fun render (Lio/data2viz/geom/Path;D)Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/symbol/Square : io/data2viz/shape/Symbol {
+	public fun <init> ()V
+	public fun render (Lio/data2viz/geom/Path;D)Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/symbol/Star : io/data2viz/shape/Symbol {
+	public fun <init> ()V
+	public fun render (Lio/data2viz/geom/Path;D)Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/symbol/Triangle : io/data2viz/shape/Symbol {
+	public fun <init> ()V
+	public fun render (Lio/data2viz/geom/Path;D)Lio/data2viz/geom/Path;
+}
+
+public final class io/data2viz/shape/symbol/Wye : io/data2viz/shape/Symbol {
+	public fun <init> ()V
+	public fun render (Lio/data2viz/geom/Path;D)Lio/data2viz/geom/Path;
+}
+

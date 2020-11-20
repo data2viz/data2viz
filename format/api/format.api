@@ -1,0 +1,207 @@
+public final class io/data2viz/format/Align : java/lang/Enum {
+	public static final field CENTER Lio/data2viz/format/Align;
+	public static final field LEFT Lio/data2viz/format/Align;
+	public static final field RIGHT Lio/data2viz/format/Align;
+	public static final field RIGHT_WITHOUT_SIGN Lio/data2viz/format/Align;
+	public static final field RIGTH Lio/data2viz/format/Align;
+	public fun toString ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/format/Align;
+	public static fun values ()[Lio/data2viz/format/Align;
+}
+
+public final class io/data2viz/format/CoefficientExponent {
+	public fun <init> (Ljava/lang/String;I)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun copy (Ljava/lang/String;I)Lio/data2viz/format/CoefficientExponent;
+	public static synthetic fun copy$default (Lio/data2viz/format/CoefficientExponent;Ljava/lang/String;IILjava/lang/Object;)Lio/data2viz/format/CoefficientExponent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCoefficient ()Ljava/lang/String;
+	public final fun getExponent ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/format/FormatKt {
+	public static final fun formatDecimal (DI)Lio/data2viz/format/CoefficientExponent;
+	public static synthetic fun formatDecimal$default (DIILjava/lang/Object;)Lio/data2viz/format/CoefficientExponent;
+	public static final fun formatPrefix (Lio/data2viz/format/Locale;Ljava/lang/String;D)Lkotlin/jvm/functions/Function1;
+	public static final fun formatPrefix (Ljava/lang/String;D)Lkotlin/jvm/functions/Function1;
+	public static final fun formatRounded (DI)Ljava/lang/String;
+	public static final fun formatter (Lio/data2viz/format/Locale;Lio/data2viz/format/Type;CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;)Lkotlin/jvm/functions/Function1;
+	public static final fun formatter (Lio/data2viz/format/Locale;Ljava/lang/String;)Lkotlin/jvm/functions/Function1;
+	public static final fun formatter (Lio/data2viz/format/Type;CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;)Lkotlin/jvm/functions/Function1;
+	public static final fun formatter (Ljava/lang/String;)Lkotlin/jvm/functions/Function1;
+	public static synthetic fun formatter$default (Lio/data2viz/format/Locale;Lio/data2viz/format/Type;CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;ILjava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public static synthetic fun formatter$default (Lio/data2viz/format/Type;CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;ILjava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public static final fun numerals (Lio/data2viz/format/Locale;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun precisionFixed (D)I
+	public static final fun precisionPrefix (DD)I
+	public static final fun precisionRound (DD)I
+}
+
+public final class io/data2viz/format/FormatSpec {
+	public fun <init> ()V
+	public fun <init> (CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;Lio/data2viz/format/Type;)V
+	public synthetic fun <init> (CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;Lio/data2viz/format/Type;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()C
+	public final fun component2 ()Lio/data2viz/format/Align;
+	public final fun component3 ()Lio/data2viz/format/Sign;
+	public final fun component4 ()Lio/data2viz/format/Symbol;
+	public final fun component5 ()Z
+	public final fun component6 ()Ljava/lang/Integer;
+	public final fun component7 ()Z
+	public final fun component8 ()Ljava/lang/Integer;
+	public final fun component9 ()Lio/data2viz/format/Type;
+	public final fun copy (CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;Lio/data2viz/format/Type;)Lio/data2viz/format/FormatSpec;
+	public static synthetic fun copy$default (Lio/data2viz/format/FormatSpec;CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;Lio/data2viz/format/Type;ILjava/lang/Object;)Lio/data2viz/format/FormatSpec;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAlign ()Lio/data2viz/format/Align;
+	public final fun getFill ()C
+	public final fun getGroupSeparation ()Z
+	public final fun getPrecision ()Ljava/lang/Integer;
+	public final fun getSign ()Lio/data2viz/format/Sign;
+	public final fun getSymbol ()Lio/data2viz/format/Symbol;
+	public final fun getType ()Lio/data2viz/format/Type;
+	public final fun getWidth ()Ljava/lang/Integer;
+	public final fun getZero ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/format/FormatSpecKt {
+	public static final fun specify (Lio/data2viz/format/Type;CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;)Lio/data2viz/format/FormatSpec;
+	public static final fun specify (Ljava/lang/String;)Lio/data2viz/format/FormatSpec;
+	public static synthetic fun specify$default (Lio/data2viz/format/Type;CLio/data2viz/format/Align;Lio/data2viz/format/Sign;Lio/data2viz/format/Symbol;ZLjava/lang/Integer;ZLjava/lang/Integer;ILjava/lang/Object;)Lio/data2viz/format/FormatSpec;
+}
+
+public final class io/data2viz/format/Locale {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()[Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;)Lio/data2viz/format/Locale;
+	public static synthetic fun copy$default (Lio/data2viz/format/Locale;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/data2viz/format/Locale;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCurrency ()Ljava/util/List;
+	public final fun getDecimalSeparator ()Ljava/lang/String;
+	public final fun getGroupSeparator ()Ljava/lang/String;
+	public final fun getGrouping ()Ljava/util/List;
+	public final fun getNumerals ()[Ljava/lang/String;
+	public final fun getPercent ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun setCurrency (Ljava/util/List;)V
+	public final fun setDecimalSeparator (Ljava/lang/String;)V
+	public final fun setGroupSeparator (Ljava/lang/String;)V
+	public final fun setGrouping (Ljava/util/List;)V
+	public final fun setNumerals ([Ljava/lang/String;)V
+	public final fun setPercent (Ljava/lang/String;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/format/Locales {
+	public static final field Companion Lio/data2viz/format/Locales$Companion;
+	public fun <init> ()V
+}
+
+public final class io/data2viz/format/Locales$Companion {
+	public final fun ar_001 ()Lio/data2viz/format/Locale;
+	public final fun ar_AE ()Lio/data2viz/format/Locale;
+	public final fun ar_BH ()Lio/data2viz/format/Locale;
+	public final fun ar_DJ ()Lio/data2viz/format/Locale;
+	public final fun ar_DZ ()Lio/data2viz/format/Locale;
+	public final fun ar_EG ()Lio/data2viz/format/Locale;
+	public final fun ar_EH ()Lio/data2viz/format/Locale;
+	public final fun ar_ER ()Lio/data2viz/format/Locale;
+	public final fun ar_IL ()Lio/data2viz/format/Locale;
+	public final fun ar_IQ ()Lio/data2viz/format/Locale;
+	public final fun ar_JO ()Lio/data2viz/format/Locale;
+	public final fun ar_KM ()Lio/data2viz/format/Locale;
+	public final fun ar_KW ()Lio/data2viz/format/Locale;
+	public final fun ar_LB ()Lio/data2viz/format/Locale;
+	public final fun ar_LY ()Lio/data2viz/format/Locale;
+	public final fun ar_MA ()Lio/data2viz/format/Locale;
+	public final fun ar_MR ()Lio/data2viz/format/Locale;
+	public final fun ar_OM ()Lio/data2viz/format/Locale;
+	public final fun ar_PS ()Lio/data2viz/format/Locale;
+	public final fun ar_QA ()Lio/data2viz/format/Locale;
+	public final fun ar_SA ()Lio/data2viz/format/Locale;
+	public final fun ar_SD ()Lio/data2viz/format/Locale;
+	public final fun ar_SO ()Lio/data2viz/format/Locale;
+	public final fun ar_SS ()Lio/data2viz/format/Locale;
+	public final fun ar_SY ()Lio/data2viz/format/Locale;
+	public final fun ar_TD ()Lio/data2viz/format/Locale;
+	public final fun ar_TN ()Lio/data2viz/format/Locale;
+	public final fun ar_YE ()Lio/data2viz/format/Locale;
+	public final fun ca_ES ()Lio/data2viz/format/Locale;
+	public final fun cs_CZ ()Lio/data2viz/format/Locale;
+	public final fun de_CH ()Lio/data2viz/format/Locale;
+	public final fun de_DE ()Lio/data2viz/format/Locale;
+	public final fun en_CA ()Lio/data2viz/format/Locale;
+	public final fun en_GB ()Lio/data2viz/format/Locale;
+	public final fun en_IN ()Lio/data2viz/format/Locale;
+	public final fun en_US ()Lio/data2viz/format/Locale;
+	public final fun es_ES ()Lio/data2viz/format/Locale;
+	public final fun es_MX ()Lio/data2viz/format/Locale;
+	public final fun fi_FI ()Lio/data2viz/format/Locale;
+	public final fun fr_CA ()Lio/data2viz/format/Locale;
+	public final fun fr_FR ()Lio/data2viz/format/Locale;
+	public final fun he_IL ()Lio/data2viz/format/Locale;
+	public final fun hu_HU ()Lio/data2viz/format/Locale;
+	public final fun it_IT ()Lio/data2viz/format/Locale;
+	public final fun ja_JP ()Lio/data2viz/format/Locale;
+	public final fun ko_KR ()Lio/data2viz/format/Locale;
+	public final fun locale (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Lio/data2viz/format/Locale;
+	public static synthetic fun locale$default (Lio/data2viz/format/Locales$Companion;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/data2viz/format/Locale;
+	public final fun mk_MK ()Lio/data2viz/format/Locale;
+	public final fun nl_NL ()Lio/data2viz/format/Locale;
+	public final fun pl_PL ()Lio/data2viz/format/Locale;
+	public final fun pt_BR ()Lio/data2viz/format/Locale;
+	public final fun ru_RU ()Lio/data2viz/format/Locale;
+	public final fun sv_SE ()Lio/data2viz/format/Locale;
+	public final fun uk_UA ()Lio/data2viz/format/Locale;
+	public final fun zh_CN ()Lio/data2viz/format/Locale;
+}
+
+public final class io/data2viz/format/Sign : java/lang/Enum {
+	public static final field MINUS Lio/data2viz/format/Sign;
+	public static final field PARENTHESES Lio/data2viz/format/Sign;
+	public static final field PLUS Lio/data2viz/format/Sign;
+	public static final field SPACE Lio/data2viz/format/Sign;
+	public fun toString ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/format/Sign;
+	public static fun values ()[Lio/data2viz/format/Sign;
+}
+
+public final class io/data2viz/format/Symbol : java/lang/Enum {
+	public static final field CURRENCY Lio/data2viz/format/Symbol;
+	public static final field NUMBER_BASE Lio/data2viz/format/Symbol;
+	public fun toString ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/format/Symbol;
+	public static fun values ()[Lio/data2viz/format/Symbol;
+}
+
+public final class io/data2viz/format/Type : java/lang/Enum {
+	public static final field BINARY Lio/data2viz/format/Type;
+	public static final field DECIMAL Lio/data2viz/format/Type;
+	public static final field DECIMAL_OR_EXPONENT Lio/data2viz/format/Type;
+	public static final field DECIMAL_ROUNDED Lio/data2viz/format/Type;
+	public static final field DECIMAL_WITH_SI Lio/data2viz/format/Type;
+	public static final field EXPONENT Lio/data2viz/format/Type;
+	public static final field FIXED_POINT Lio/data2viz/format/Type;
+	public static final field HEX_LOWERCASE Lio/data2viz/format/Type;
+	public static final field HEX_UPPERCASE Lio/data2viz/format/Type;
+	public static final field NONE Lio/data2viz/format/Type;
+	public static final field OCTAL Lio/data2viz/format/Type;
+	public static final field PERCENT Lio/data2viz/format/Type;
+	public static final field PERCENT_ROUNDED Lio/data2viz/format/Type;
+	public fun toString ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/format/Type;
+	public static fun values ()[Lio/data2viz/format/Type;
+}
+

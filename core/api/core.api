@@ -1,0 +1,505 @@
+public abstract interface annotation class io/data2viz/ExperimentalD2V : java/lang/annotation/Annotation {
+}
+
+public final class io/data2viz/geom/Arc : io/data2viz/geom/PathCommand {
+	public fun <init> (DDDDDZ)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun component6 ()Z
+	public final fun copy (DDDDDZ)Lio/data2viz/geom/Arc;
+	public static synthetic fun copy$default (Lio/data2viz/geom/Arc;DDDDDZILjava/lang/Object;)Lio/data2viz/geom/Arc;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCenterX ()D
+	public final fun getCenterY ()D
+	public final fun getCounterClockWise ()Z
+	public final fun getEndAngle ()D
+	public final fun getRadius ()D
+	public final fun getStartAngle ()D
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/geom/ArcTo : io/data2viz/geom/PathCommand {
+	public fun <init> (DDDDD)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun copy (DDDDD)Lio/data2viz/geom/ArcTo;
+	public static synthetic fun copy$default (Lio/data2viz/geom/ArcTo;DDDDDILjava/lang/Object;)Lio/data2viz/geom/ArcTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFromX ()D
+	public final fun getFromY ()D
+	public final fun getRadius ()D
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/geom/BezierCurveTo : io/data2viz/geom/PathCommand {
+	public fun <init> (DDDDDD)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun component6 ()D
+	public final fun copy (DDDDDD)Lio/data2viz/geom/BezierCurveTo;
+	public static synthetic fun copy$default (Lio/data2viz/geom/BezierCurveTo;DDDDDDILjava/lang/Object;)Lio/data2viz/geom/BezierCurveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCpx1 ()D
+	public final fun getCpx2 ()D
+	public final fun getCpy1 ()D
+	public final fun getCpy2 ()D
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/data2viz/geom/Circle {
+	public abstract fun getRadius ()D
+	public abstract fun getX ()D
+	public abstract fun getY ()D
+	public abstract fun setRadius (D)V
+	public abstract fun setX (D)V
+	public abstract fun setY (D)V
+}
+
+public final class io/data2viz/geom/CircleGeom : io/data2viz/geom/Circle {
+	public fun <init> ()V
+	public fun getRadius ()D
+	public fun getX ()D
+	public fun getY ()D
+	public fun setRadius (D)V
+	public fun setX (D)V
+	public fun setY (D)V
+}
+
+public final class io/data2viz/geom/ClosePath : io/data2viz/geom/PathCommand {
+	public fun <init> ()V
+	public fun getX ()D
+	public fun getY ()D
+}
+
+public final class io/data2viz/geom/Extent {
+	public fun <init> (DDDD)V
+	public final fun copy ()Lio/data2viz/geom/Extent;
+	public final fun getHeight ()D
+	public final fun getWidth ()D
+	public final fun getX0 ()D
+	public final fun getX1 ()D
+	public final fun getY0 ()D
+	public final fun getY1 ()D
+	public final fun setHeight (D)V
+	public final fun setWidth (D)V
+	public final fun setX0 (D)V
+	public final fun setX1 (D)V
+	public final fun setY0 (D)V
+	public final fun setY1 (D)V
+}
+
+public abstract interface class io/data2viz/geom/HasSize {
+	public abstract fun getHeight ()D
+	public abstract fun getSize ()Lio/data2viz/geom/Size;
+	public abstract fun getWidth ()D
+	public abstract fun setHeight (D)V
+	public abstract fun setSize (Lio/data2viz/geom/Size;)V
+	public abstract fun setWidth (D)V
+}
+
+public final class io/data2viz/geom/HasSize$DefaultImpls {
+	public static fun getSize (Lio/data2viz/geom/HasSize;)Lio/data2viz/geom/Size;
+	public static fun setSize (Lio/data2viz/geom/HasSize;Lio/data2viz/geom/Size;)V
+}
+
+public final class io/data2viz/geom/LineTo : io/data2viz/geom/PathCommand {
+	public fun <init> (DD)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun copy (DD)Lio/data2viz/geom/LineTo;
+	public static synthetic fun copy$default (Lio/data2viz/geom/LineTo;DDILjava/lang/Object;)Lio/data2viz/geom/LineTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/geom/MoveTo : io/data2viz/geom/PathCommand {
+	public fun <init> (DD)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun copy (DD)Lio/data2viz/geom/MoveTo;
+	public static synthetic fun copy$default (Lio/data2viz/geom/MoveTo;DDILjava/lang/Object;)Lio/data2viz/geom/MoveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/data2viz/geom/Path {
+	public abstract fun arc (DDDDDZ)V
+	public abstract fun arcTo (DDDDD)V
+	public abstract fun bezierCurveTo (DDDDDD)V
+	public abstract fun closePath ()V
+	public abstract fun lineTo (DD)V
+	public abstract fun moveTo (DD)V
+	public abstract fun quadraticCurveTo (DDDD)V
+	public abstract fun rect (DDDD)V
+}
+
+public final class io/data2viz/geom/Path$DefaultImpls {
+	public static synthetic fun arc$default (Lio/data2viz/geom/Path;DDDDDZILjava/lang/Object;)V
+}
+
+public abstract interface class io/data2viz/geom/PathCommand {
+	public abstract fun getX ()D
+	public abstract fun getY ()D
+}
+
+public final class io/data2viz/geom/PathGeom : io/data2viz/geom/Path {
+	public fun <init> ()V
+	public fun arc (DDDDDZ)V
+	public fun arcTo (DDDDD)V
+	public fun bezierCurveTo (DDDDDD)V
+	public final fun clearPath ()V
+	public fun closePath ()V
+	public final fun getCommands ()Ljava/util/List;
+	public fun lineTo (DD)V
+	public fun moveTo (DD)V
+	public fun quadraticCurveTo (DDDD)V
+	public fun rect (DDDD)V
+}
+
+public final class io/data2viz/geom/PathGeomKt {
+	public static final fun getSvgPath (Lio/data2viz/geom/PathGeom;)Ljava/lang/String;
+}
+
+public final class io/data2viz/geom/Point {
+	public static final field Companion Lio/data2viz/geom/Point$Companion;
+	public fun <init> ()V
+	public fun <init> (DD)V
+	public synthetic fun <init> (DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun copy (DD)Lio/data2viz/geom/Point;
+	public static synthetic fun copy$default (Lio/data2viz/geom/Point;DDILjava/lang/Object;)Lio/data2viz/geom/Point;
+	public final fun div (Ljava/lang/Number;)Lio/data2viz/geom/Point;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()D
+	public final fun getY ()D
+	public fun hashCode ()I
+	public final fun minus (Lio/data2viz/geom/Point;)Lio/data2viz/geom/Point;
+	public final fun plus (Lio/data2viz/geom/Point;)Lio/data2viz/geom/Point;
+	public final fun plus (Lio/data2viz/geom/Vector;)Lio/data2viz/geom/Point;
+	public final fun times (Ljava/lang/Number;)Lio/data2viz/geom/Point;
+	public fun toString ()Ljava/lang/String;
+	public final fun unaryMinus ()Lio/data2viz/geom/Point;
+}
+
+public final class io/data2viz/geom/Point$Companion {
+	public final fun getOrigin ()Lio/data2viz/geom/Point;
+}
+
+public final class io/data2viz/geom/PointKt {
+	public static final fun point (DD)Lio/data2viz/geom/Point;
+	public static final fun point (II)Lio/data2viz/geom/Point;
+}
+
+public final class io/data2viz/geom/Polygon {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/data2viz/geom/Polygon;
+	public static synthetic fun copy$default (Lio/data2viz/geom/Polygon;Ljava/util/List;ILjava/lang/Object;)Lio/data2viz/geom/Polygon;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPoints ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/geom/PolygonKt {
+	public static final fun contains (Lio/data2viz/geom/Polygon;Lio/data2viz/geom/Point;)Z
+	public static final fun getArea (Lio/data2viz/geom/Polygon;)D
+	public static final fun getCentroid (Lio/data2viz/geom/Polygon;)Lio/data2viz/geom/Point;
+	public static final fun getLength (Lio/data2viz/geom/Polygon;)D
+	public static final fun polygonHull (Ljava/util/List;)Lio/data2viz/geom/Polygon;
+}
+
+public final class io/data2viz/geom/QuadraticCurveTo : io/data2viz/geom/PathCommand {
+	public fun <init> (DDDD)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun copy (DDDD)Lio/data2viz/geom/QuadraticCurveTo;
+	public static synthetic fun copy$default (Lio/data2viz/geom/QuadraticCurveTo;DDDDILjava/lang/Object;)Lio/data2viz/geom/QuadraticCurveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCpx ()D
+	public final fun getCpy ()D
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/data2viz/geom/Rect : io/data2viz/geom/HasSize {
+	public abstract fun contains (Lio/data2viz/geom/Point;)Z
+	public abstract fun contains (Lio/data2viz/geom/Rect;)Z
+	public abstract fun getBottom ()D
+	public abstract fun getBottomLeft ()Lio/data2viz/geom/Point;
+	public abstract fun getBottomRight ()Lio/data2viz/geom/Point;
+	public abstract fun getCenter ()Lio/data2viz/geom/Point;
+	public abstract fun getLeft ()D
+	public abstract fun getRight ()D
+	public abstract fun getTop ()D
+	public abstract fun getTopLeft ()Lio/data2viz/geom/Point;
+	public abstract fun getTopRight ()Lio/data2viz/geom/Point;
+	public abstract fun getX ()D
+	public abstract fun getY ()D
+	public abstract fun setX (D)V
+	public abstract fun setY (D)V
+}
+
+public final class io/data2viz/geom/Rect$DefaultImpls {
+	public static fun contains (Lio/data2viz/geom/Rect;Lio/data2viz/geom/Point;)Z
+	public static fun contains (Lio/data2viz/geom/Rect;Lio/data2viz/geom/Rect;)Z
+	public static fun getBottom (Lio/data2viz/geom/Rect;)D
+	public static fun getBottomLeft (Lio/data2viz/geom/Rect;)Lio/data2viz/geom/Point;
+	public static fun getBottomRight (Lio/data2viz/geom/Rect;)Lio/data2viz/geom/Point;
+	public static fun getCenter (Lio/data2viz/geom/Rect;)Lio/data2viz/geom/Point;
+	public static fun getLeft (Lio/data2viz/geom/Rect;)D
+	public static fun getRight (Lio/data2viz/geom/Rect;)D
+	public static fun getSize (Lio/data2viz/geom/Rect;)Lio/data2viz/geom/Size;
+	public static fun getTop (Lio/data2viz/geom/Rect;)D
+	public static fun getTopLeft (Lio/data2viz/geom/Rect;)Lio/data2viz/geom/Point;
+	public static fun getTopRight (Lio/data2viz/geom/Rect;)Lio/data2viz/geom/Point;
+	public static fun setSize (Lio/data2viz/geom/Rect;Lio/data2viz/geom/Size;)V
+}
+
+public final class io/data2viz/geom/RectCmd : io/data2viz/geom/PathCommand {
+	public fun <init> (DDDD)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun copy (DDDD)Lio/data2viz/geom/RectCmd;
+	public static synthetic fun copy$default (Lio/data2viz/geom/RectCmd;DDDDILjava/lang/Object;)Lio/data2viz/geom/RectCmd;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getH ()D
+	public final fun getW ()D
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/geom/RectGeom : io/data2viz/geom/Rect {
+	public fun <init> ()V
+	public fun <init> (DDDD)V
+	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)V
+	public fun <init> (Lio/data2viz/geom/Point;Lio/data2viz/geom/Size;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public fun contains (Lio/data2viz/geom/Point;)Z
+	public fun contains (Lio/data2viz/geom/Rect;)Z
+	public final fun copy (DDDD)Lio/data2viz/geom/RectGeom;
+	public static synthetic fun copy$default (Lio/data2viz/geom/RectGeom;DDDDILjava/lang/Object;)Lio/data2viz/geom/RectGeom;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getBottom ()D
+	public fun getBottomLeft ()Lio/data2viz/geom/Point;
+	public fun getBottomRight ()Lio/data2viz/geom/Point;
+	public fun getCenter ()Lio/data2viz/geom/Point;
+	public fun getHeight ()D
+	public fun getLeft ()D
+	public fun getRight ()D
+	public fun getSize ()Lio/data2viz/geom/Size;
+	public fun getTop ()D
+	public fun getTopLeft ()Lio/data2viz/geom/Point;
+	public fun getTopRight ()Lio/data2viz/geom/Point;
+	public fun getWidth ()D
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public fun setHeight (D)V
+	public fun setSize (Lio/data2viz/geom/Size;)V
+	public fun setWidth (D)V
+	public fun setX (D)V
+	public fun setY (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/geom/Size {
+	public fun <init> (DD)V
+	public synthetic fun <init> (DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun copy (DD)Lio/data2viz/geom/Size;
+	public static synthetic fun copy$default (Lio/data2viz/geom/Size;DDILjava/lang/Object;)Lio/data2viz/geom/Size;
+	public final fun div (D)Lio/data2viz/geom/Size;
+	public final fun div (Lio/data2viz/geom/Size;)Lio/data2viz/geom/Size;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHeight ()D
+	public final fun getWidth ()D
+	public fun hashCode ()I
+	public final fun minus (D)Lio/data2viz/geom/Size;
+	public final fun minus (Lio/data2viz/geom/Size;)Lio/data2viz/geom/Size;
+	public final fun plus (D)Lio/data2viz/geom/Size;
+	public final fun plus (Lio/data2viz/geom/Size;)Lio/data2viz/geom/Size;
+	public final fun rem (D)Lio/data2viz/geom/Size;
+	public final fun rem (Lio/data2viz/geom/Size;)Lio/data2viz/geom/Size;
+	public final fun times (D)Lio/data2viz/geom/Size;
+	public final fun times (Lio/data2viz/geom/Size;)Lio/data2viz/geom/Size;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/geom/SizeKt {
+	public static final fun size (DD)Lio/data2viz/geom/Size;
+	public static final fun size (II)Lio/data2viz/geom/Size;
+}
+
+public final class io/data2viz/geom/Vector {
+	public fun <init> ()V
+	public fun <init> (DD)V
+	public synthetic fun <init> (DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun copy (DD)Lio/data2viz/geom/Vector;
+	public static synthetic fun copy$default (Lio/data2viz/geom/Vector;DDILjava/lang/Object;)Lio/data2viz/geom/Vector;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getVx ()D
+	public final fun getVy ()D
+	public fun hashCode ()I
+	public final fun minus (Lio/data2viz/geom/Vector;)Lio/data2viz/geom/Vector;
+	public final fun plus (Lio/data2viz/geom/Vector;)Lio/data2viz/geom/Vector;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/math/Angle {
+	public static final synthetic fun box-impl (D)Lio/data2viz/math/Angle;
+	public static fun constructor-impl (D)D
+	public static final fun div-FjFK4Cw (DLjava/lang/Number;)D
+	public static final fun div-I1OF4x4 (DD)D
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (DLjava/lang/Object;)Z
+	public static final fun equals-impl0 (DD)Z
+	public static final fun getCos-impl (D)D
+	public static final fun getDeg-impl (D)D
+	public final fun getRad ()D
+	public static final fun getSin-impl (D)D
+	public static final fun getTan-impl (D)D
+	public fun hashCode ()I
+	public static fun hashCode-impl (D)I
+	public static final fun minus-I1OF4x4 (DD)D
+	public static final fun normalize-FjFK4Cw (D)D
+	public static final fun plus-I1OF4x4 (DD)D
+	public static final fun times-FjFK4Cw (DLjava/lang/Number;)D
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (D)Ljava/lang/String;
+	public static final fun unaryMinus-FjFK4Cw (D)D
+	public final synthetic fun unbox-impl ()D
+}
+
+public final class io/data2viz/math/AngleKt {
+	public static final fun getDeg (Ljava/lang/Number;)D
+	public static final fun getRad (Ljava/lang/Number;)D
+	public static final fun times-xchvrRM (Ljava/lang/Number;D)D
+	public static final fun toDegrees (D)D
+	public static final fun toRadians (D)D
+}
+
+public final class io/data2viz/math/ConstantsKt {
+	public static final field DEG_TO_RAD D
+	public static final field EPSILON D
+	public static final field EPSILON2 D
+	public static final field HALFPI D
+	public static final field PI D
+	public static final field QUARTERPI D
+	public static final field RAD_TO_DEG D
+	public static final field TAU D
+	public static final field TAU_EPSILON D
+	public static final field THIRDPI D
+	public static final fun getHALFPI_ANGLE ()D
+	public static final fun getPI_ANGLE ()D
+	public static final fun getTAU_ANGLE ()D
+}
+
+public final class io/data2viz/math/Matrix {
+	public fun <init> ()V
+	public fun <init> (DDDDDD)V
+	public synthetic fun <init> (DDDDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun append (Lio/data2viz/math/Matrix;)Lio/data2viz/math/Matrix;
+	public final fun copy (DDDDDD)Lio/data2viz/math/Matrix;
+	public static synthetic fun copy$default (Lio/data2viz/math/Matrix;DDDDDDILjava/lang/Object;)Lio/data2viz/math/Matrix;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public final fun inverseTransform (Lio/data2viz/geom/Point;)Lio/data2viz/geom/Point;
+	public final fun isIdentity ()Z
+	public final fun prepend (Lio/data2viz/math/Matrix;)Lio/data2viz/math/Matrix;
+	public final fun reset ()Lio/data2viz/math/Matrix;
+	public final fun rotate-_eGRdIQ (DLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
+	public static synthetic fun rotate-_eGRdIQ$default (Lio/data2viz/math/Matrix;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/math/Matrix;
+	public final fun scale (DDLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
+	public final fun scale (DLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
+	public static synthetic fun scale$default (Lio/data2viz/math/Matrix;DDLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/math/Matrix;
+	public static synthetic fun scale$default (Lio/data2viz/math/Matrix;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/math/Matrix;
+	public fun toString ()Ljava/lang/String;
+	public final fun transform (Lio/data2viz/geom/Point;)Lio/data2viz/geom/Point;
+	public final fun translate (DD)Lio/data2viz/math/Matrix;
+	public final fun translate (Lio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
+}
+
+public final class io/data2viz/math/Percent {
+	public static final synthetic fun box-impl (D)Lio/data2viz/math/Percent;
+	public static final fun coerceAtLeast-wJQ8TTM (DD)D
+	public static final fun coerceAtMost-wJQ8TTM (DD)D
+	public static final fun coerceIn-B_mgqyo (DDD)D
+	public static final fun coerceToDefault-P6MNtoY (D)D
+	public static final fun compareTo-wJQ8TTM (DD)I
+	public static fun constructor-impl (D)D
+	public static final fun div-P6MNtoY (DLjava/lang/Number;)D
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (DLjava/lang/Object;)Z
+	public static final fun equals-impl0 (DD)Z
+	public final fun getValue ()D
+	public fun hashCode ()I
+	public static fun hashCode-impl (D)I
+	public static final fun minus-wJQ8TTM (DD)D
+	public static final fun plus-wJQ8TTM (DD)D
+	public static final fun times-impl (DLjava/lang/Number;)D
+	public static final fun times-wJQ8TTM (DD)D
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (D)Ljava/lang/String;
+	public static final fun unaryMinus-P6MNtoY (D)D
+	public static final fun unaryPlus-P6MNtoY (D)D
+	public final synthetic fun unbox-impl ()D
+}
+
+public final class io/data2viz/math/PercentKt {
+	public static final fun getPct (Ljava/lang/Number;)D
+	public static final fun times-8FJQ5fg (Ljava/lang/Number;D)D
+}
+
+public final class io/data2viz/math/TicksKt {
+	public static final fun getE10 ()D
+	public static final fun getE2 ()D
+	public static final fun getE5 ()D
+	public static final fun getLn10 ()D
+	public static final fun range (DDD)Ljava/util/List;
+	public static synthetic fun range$default (DDDILjava/lang/Object;)Ljava/util/List;
+	public static final fun tickIncrement (DDI)D
+	public static final fun tickStep (DDI)D
+	public static final fun ticks (DDI)Ljava/util/List;
+}
+

@@ -1,0 +1,69 @@
+public final class io/data2viz/interpolate/BasisKt {
+	public static final fun basis (Ljava/util/List;)Lkotlin/jvm/functions/Function1;
+	public static final fun basisClosed (Ljava/util/List;)Lkotlin/jvm/functions/Function1;
+	public static final fun computeSpline (DIIII)D
+}
+
+public final class io/data2viz/interpolate/DateKt {
+	public static final fun interpolateDate (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlin/jvm/functions/Function1;
+	public static final fun uninterpolateDate (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/interpolate/EaseKt {
+	public static final fun circleIn (D)D
+	public static final fun circleOut (D)D
+	public static final fun cubicIn (D)D
+	public static final fun cubicInOut (D)D
+	public static final fun cubicOut (D)D
+	public static final fun poly (D)Lkotlin/jvm/functions/Function1;
+	public static final fun quad (D)D
+	public static final fun sin (D)D
+}
+
+public final class io/data2viz/interpolate/HclKt {
+	public static final fun hclInterpolator (Lio/data2viz/color/Color;Lio/data2viz/color/Color;)Lkotlin/jvm/functions/Function1;
+	public static final fun hclLongInterpolator (Lio/data2viz/color/Color;Lio/data2viz/color/Color;)Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/interpolate/HslKt {
+	public static final fun hslInterpolator (Lio/data2viz/color/Color;Lio/data2viz/color/Color;)Lkotlin/jvm/functions/Function1;
+	public static final fun hslLongInterpolator (Lio/data2viz/color/Color;Lio/data2viz/color/Color;)Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/interpolate/LabKt {
+	public static final fun labInterpolator (Lio/data2viz/color/Color;Lio/data2viz/color/Color;)Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/interpolate/NumberKt {
+	public static final fun identity-wJQ8TTM (D)D
+	public static final fun interpolateNumber (DD)Lkotlin/jvm/functions/Function1;
+	public static final fun interpolateRound (DD)Lkotlin/jvm/functions/Function1;
+	public static final fun uninterpolateNumber (DD)Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/interpolate/PointComparatorX : java/util/Comparator {
+	public fun <init> ()V
+	public fun compare (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)I
+	public synthetic fun compare (Ljava/lang/Object;Ljava/lang/Object;)I
+}
+
+public final class io/data2viz/interpolate/PointComparatorY : java/util/Comparator {
+	public fun <init> ()V
+	public fun compare (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)I
+	public synthetic fun compare (Ljava/lang/Object;Ljava/lang/Object;)I
+}
+
+public final class io/data2viz/interpolate/PointKt {
+	public static final fun interpolatePoint (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lkotlin/jvm/functions/Function1;
+	public static final fun uninterpolatePointOnX (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lkotlin/jvm/functions/Function1;
+	public static final fun uninterpolatePointOnY (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/interpolate/RgbKt {
+	public static final fun rgbBasisClosedInterpolator (Ljava/util/List;)Lkotlin/jvm/functions/Function1;
+	public static final fun rgbBasisInterpolator (Ljava/util/List;)Lkotlin/jvm/functions/Function1;
+	public static final fun rgbDefaultInterpolator (Lio/data2viz/color/Color;Lio/data2viz/color/Color;)Lkotlin/jvm/functions/Function1;
+	public static final fun rgbLinearInterpolator (Lio/data2viz/color/Color;Lio/data2viz/color/Color;)Lkotlin/jvm/functions/Function1;
+	public static final fun rgbSineBowInterpolator ()Lkotlin/jvm/functions/Function1;
+}
+

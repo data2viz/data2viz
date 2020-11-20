@@ -1,0 +1,327 @@
+public abstract interface class io/data2viz/hierarchy/Children {
+	public abstract fun getParent ()Lio/data2viz/hierarchy/ParentValued;
+}
+
+public abstract interface class io/data2viz/hierarchy/CircleValues {
+	public abstract fun getR ()D
+	public abstract fun getX ()D
+	public abstract fun getY ()D
+	public abstract fun setR (D)V
+	public abstract fun setX (D)V
+	public abstract fun setY (D)V
+}
+
+public final class io/data2viz/hierarchy/ClusterLayout {
+	public fun <init> ()V
+	public final fun cluster (Lio/data2viz/hierarchy/Node;)Lio/data2viz/hierarchy/ClusterNode;
+	public final fun getNodeSize ()Z
+	public final fun nodeSize (DD)V
+	public final fun setNodeSize (Z)V
+	public final fun size (DD)V
+}
+
+public final class io/data2viz/hierarchy/ClusterNode : io/data2viz/hierarchy/Children, io/data2viz/hierarchy/ParentValued {
+	public fun <init> (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/ClusterNode;DD)V
+	public synthetic fun <init> (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/ClusterNode;DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Lio/data2viz/hierarchy/ClusterNode;
+	public final fun component7 ()D
+	public final fun component8 ()D
+	public final fun copy (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/ClusterNode;DD)Lio/data2viz/hierarchy/ClusterNode;
+	public static synthetic fun copy$default (Lio/data2viz/hierarchy/ClusterNode;Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/ClusterNode;DDILjava/lang/Object;)Lio/data2viz/hierarchy/ClusterNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getChildren ()Ljava/util/List;
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getDepth ()I
+	public final fun getHeight ()I
+	public fun getParent ()Lio/data2viz/hierarchy/ClusterNode;
+	public synthetic fun getParent ()Lio/data2viz/hierarchy/ParentValued;
+	public fun getValue ()Ljava/lang/Double;
+	public final fun getX ()D
+	public final fun getY ()D
+	public fun hashCode ()I
+	public final fun setDepth (I)V
+	public final fun setHeight (I)V
+	public fun setParent (Lio/data2viz/hierarchy/ClusterNode;)V
+	public fun setValue (Ljava/lang/Double;)V
+	public final fun setX (D)V
+	public final fun setY (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/hierarchy/HierarchyKt {
+	public static final fun ancestors (Lio/data2viz/hierarchy/Node;)Ljava/util/List;
+	public static final fun count (Lio/data2viz/hierarchy/Node;)Lio/data2viz/hierarchy/Node;
+	public static final fun descendants (Lio/data2viz/hierarchy/Node;)Ljava/util/List;
+	public static final fun hierarchy (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/data2viz/hierarchy/Node;
+	public static synthetic fun hierarchy$default (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/hierarchy/Node;
+	public static final fun leaves (Lio/data2viz/hierarchy/Node;)Ljava/util/List;
+	public static final fun links (Lio/data2viz/hierarchy/Node;)Ljava/util/List;
+	public static final fun sum (Lio/data2viz/hierarchy/Node;Lkotlin/jvm/functions/Function1;)Lio/data2viz/hierarchy/Node;
+	public static synthetic fun sum$default (Lio/data2viz/hierarchy/Node;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/hierarchy/Node;
+}
+
+public final class io/data2viz/hierarchy/Link {
+	public fun <init> (Lio/data2viz/hierarchy/Node;Lio/data2viz/hierarchy/Node;)V
+	public final fun component1 ()Lio/data2viz/hierarchy/Node;
+	public final fun component2 ()Lio/data2viz/hierarchy/Node;
+	public final fun copy (Lio/data2viz/hierarchy/Node;Lio/data2viz/hierarchy/Node;)Lio/data2viz/hierarchy/Link;
+	public static synthetic fun copy$default (Lio/data2viz/hierarchy/Link;Lio/data2viz/hierarchy/Node;Lio/data2viz/hierarchy/Node;ILjava/lang/Object;)Lio/data2viz/hierarchy/Link;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSource ()Lio/data2viz/hierarchy/Node;
+	public final fun getTarget ()Lio/data2viz/hierarchy/Node;
+	public fun hashCode ()I
+	public final fun setTarget (Lio/data2viz/hierarchy/Node;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/hierarchy/Node : io/data2viz/hierarchy/Children, io/data2viz/hierarchy/ParentValued {
+	public fun <init> (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/Node;)V
+	public synthetic fun <init> (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/Node;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Lio/data2viz/hierarchy/Node;
+	public final fun copy (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/Node;)Lio/data2viz/hierarchy/Node;
+	public static synthetic fun copy$default (Lio/data2viz/hierarchy/Node;Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/Node;ILjava/lang/Object;)Lio/data2viz/hierarchy/Node;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getChildren ()Ljava/util/List;
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getDepth ()I
+	public final fun getHeight ()I
+	public fun getParent ()Lio/data2viz/hierarchy/Node;
+	public synthetic fun getParent ()Lio/data2viz/hierarchy/ParentValued;
+	public fun getValue ()Ljava/lang/Double;
+	public fun hashCode ()I
+	public final fun setDepth (I)V
+	public final fun setHeight (I)V
+	public fun setParent (Lio/data2viz/hierarchy/Node;)V
+	public fun setValue (Ljava/lang/Double;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/hierarchy/PackLayout {
+	public fun <init> ()V
+	public final fun getPadding ()Lkotlin/jvm/functions/Function1;
+	public final fun getRadius ()Lkotlin/jvm/functions/Function1;
+	public final fun pack (Lio/data2viz/hierarchy/Node;)Lio/data2viz/hierarchy/PackNode;
+	public final fun padding (Lkotlin/jvm/functions/Function1;)V
+	public final fun radius (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPadding (Lkotlin/jvm/functions/Function1;)V
+	public final fun setRadius (Lkotlin/jvm/functions/Function1;)V
+	public final fun size (DD)V
+}
+
+public final class io/data2viz/hierarchy/PackLayoutKt {
+	public static final fun packNode (Lio/data2viz/hierarchy/PackNode;)Lio/data2viz/hierarchy/PackNode;
+}
+
+public final class io/data2viz/hierarchy/PackNode : io/data2viz/hierarchy/Children, io/data2viz/hierarchy/CircleValues, io/data2viz/hierarchy/ParentValued {
+	public fun <init> (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/PackNode;DDDLio/data2viz/hierarchy/PackNode;Lio/data2viz/hierarchy/PackNode;)V
+	public synthetic fun <init> (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/PackNode;DDDLio/data2viz/hierarchy/PackNode;Lio/data2viz/hierarchy/PackNode;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component10 ()Lio/data2viz/hierarchy/PackNode;
+	public final fun component11 ()Lio/data2viz/hierarchy/PackNode;
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Lio/data2viz/hierarchy/PackNode;
+	public final fun component7 ()D
+	public final fun component8 ()D
+	public final fun component9 ()D
+	public final fun copy (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/PackNode;DDDLio/data2viz/hierarchy/PackNode;Lio/data2viz/hierarchy/PackNode;)Lio/data2viz/hierarchy/PackNode;
+	public static synthetic fun copy$default (Lio/data2viz/hierarchy/PackNode;Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/PackNode;DDDLio/data2viz/hierarchy/PackNode;Lio/data2viz/hierarchy/PackNode;ILjava/lang/Object;)Lio/data2viz/hierarchy/PackNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getChildren ()Ljava/util/List;
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getDepth ()I
+	public final fun getHeight ()I
+	public final fun getNext ()Lio/data2viz/hierarchy/PackNode;
+	public fun getParent ()Lio/data2viz/hierarchy/PackNode;
+	public synthetic fun getParent ()Lio/data2viz/hierarchy/ParentValued;
+	public final fun getPrevious ()Lio/data2viz/hierarchy/PackNode;
+	public fun getR ()D
+	public fun getValue ()Ljava/lang/Double;
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public final fun setDepth (I)V
+	public final fun setHeight (I)V
+	public final fun setNext (Lio/data2viz/hierarchy/PackNode;)V
+	public fun setParent (Lio/data2viz/hierarchy/PackNode;)V
+	public final fun setPrevious (Lio/data2viz/hierarchy/PackNode;)V
+	public fun setR (D)V
+	public fun setValue (Ljava/lang/Double;)V
+	public fun setX (D)V
+	public fun setY (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/data2viz/hierarchy/ParentValued : io/data2viz/hierarchy/Valued {
+	public abstract fun getChildren ()Ljava/util/List;
+}
+
+public final class io/data2viz/hierarchy/PartitionLayout {
+	public fun <init> ()V
+	public final fun getPadding ()D
+	public final fun getRound ()Z
+	public final fun partition (Lio/data2viz/hierarchy/Node;)Lio/data2viz/hierarchy/TreemapNode;
+	public final fun setPadding (D)V
+	public final fun setRound (Z)V
+	public final fun size (DD)V
+}
+
+public final class io/data2viz/hierarchy/Row : io/data2viz/hierarchy/ParentValued {
+	public fun <init> (Ljava/lang/Double;ZLjava/util/List;)V
+	public final fun component1 ()Ljava/lang/Double;
+	public final fun component2 ()Z
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/Double;ZLjava/util/List;)Lio/data2viz/hierarchy/Row;
+	public static synthetic fun copy$default (Lio/data2viz/hierarchy/Row;Ljava/lang/Double;ZLjava/util/List;ILjava/lang/Object;)Lio/data2viz/hierarchy/Row;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getChildren ()Ljava/util/List;
+	public final fun getDice ()Z
+	public fun getValue ()Ljava/lang/Double;
+	public fun hashCode ()I
+	public fun setValue (Ljava/lang/Double;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/hierarchy/TreeLayout {
+	public fun <init> ()V
+	public final fun nodeSize (DD)V
+	public final fun size (DD)V
+	public final fun tree (Lio/data2viz/hierarchy/Node;)Lio/data2viz/hierarchy/TreeNode;
+}
+
+public final class io/data2viz/hierarchy/TreeNode : io/data2viz/hierarchy/Children, io/data2viz/hierarchy/ParentValued {
+	public fun <init> (Ljava/lang/Object;IILjava/lang/Double;IDDLio/data2viz/hierarchy/TreeNode;Lio/data2viz/hierarchy/TreeNode;DDDDLio/data2viz/hierarchy/TreeNode;Ljava/util/List;Lio/data2viz/hierarchy/TreeNode;)V
+	public synthetic fun <init> (Ljava/lang/Object;IILjava/lang/Double;IDDLio/data2viz/hierarchy/TreeNode;Lio/data2viz/hierarchy/TreeNode;DDDDLio/data2viz/hierarchy/TreeNode;Ljava/util/List;Lio/data2viz/hierarchy/TreeNode;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component15 ()Ljava/util/List;
+	public final fun component16 ()Lio/data2viz/hierarchy/TreeNode;
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun component6 ()D
+	public final fun component7 ()D
+	public final fun copy (Ljava/lang/Object;IILjava/lang/Double;IDDLio/data2viz/hierarchy/TreeNode;Lio/data2viz/hierarchy/TreeNode;DDDDLio/data2viz/hierarchy/TreeNode;Ljava/util/List;Lio/data2viz/hierarchy/TreeNode;)Lio/data2viz/hierarchy/TreeNode;
+	public static synthetic fun copy$default (Lio/data2viz/hierarchy/TreeNode;Ljava/lang/Object;IILjava/lang/Double;IDDLio/data2viz/hierarchy/TreeNode;Lio/data2viz/hierarchy/TreeNode;DDDDLio/data2viz/hierarchy/TreeNode;Ljava/util/List;Lio/data2viz/hierarchy/TreeNode;ILjava/lang/Object;)Lio/data2viz/hierarchy/TreeNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getChildren ()Ljava/util/List;
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getDepth ()I
+	public final fun getHeight ()I
+	public synthetic fun getParent ()Lio/data2viz/hierarchy/ParentValued;
+	public fun getParent ()Lio/data2viz/hierarchy/TreeNode;
+	public fun getValue ()Ljava/lang/Double;
+	public final fun getX ()D
+	public final fun getY ()D
+	public fun hashCode ()I
+	public final fun setDepth (I)V
+	public final fun setHeight (I)V
+	public fun setParent (Lio/data2viz/hierarchy/TreeNode;)V
+	public fun setValue (Ljava/lang/Double;)V
+	public final fun setX (D)V
+	public final fun setY (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/hierarchy/TreemapLayout {
+	public fun <init> ()V
+	public final fun getHeight ()D
+	public final fun getPaddingBottom ()Lkotlin/jvm/functions/Function1;
+	public final fun getPaddingInner ()Lkotlin/jvm/functions/Function1;
+	public final fun getPaddingLeft ()Lkotlin/jvm/functions/Function1;
+	public final fun getPaddingOuter ()Lkotlin/jvm/functions/Function1;
+	public final fun getPaddingRight ()Lkotlin/jvm/functions/Function1;
+	public final fun getPaddingTop ()Lkotlin/jvm/functions/Function1;
+	public final fun getRound ()Z
+	public final fun getTilingMethod ()Lkotlin/jvm/functions/Function5;
+	public final fun getWidth ()D
+	public final fun setHeight (D)V
+	public final fun setPaddingBottom (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPaddingInner (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPaddingLeft (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPaddingOuter (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPaddingRight (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPaddingTop (Lkotlin/jvm/functions/Function1;)V
+	public final fun setRound (Z)V
+	public final fun setTilingMethod (Lkotlin/jvm/functions/Function5;)V
+	public final fun setWidth (D)V
+	public final fun treemap (Lio/data2viz/hierarchy/Node;)Lio/data2viz/hierarchy/TreemapNode;
+}
+
+public final class io/data2viz/hierarchy/TreemapNode : io/data2viz/hierarchy/Children, io/data2viz/hierarchy/ParentValued {
+	public fun <init> (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/TreemapNode;DDDD)V
+	public synthetic fun <init> (Ljava/lang/Object;IILjava/lang/Double;Ljava/util/List;Lio/data2viz/hierarchy/TreemapNode;DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getChildren ()Ljava/util/List;
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getDepth ()I
+	public final fun getHeight ()I
+	public synthetic fun getParent ()Lio/data2viz/hierarchy/ParentValued;
+	public fun getParent ()Lio/data2viz/hierarchy/TreemapNode;
+	public fun getValue ()Ljava/lang/Double;
+	public final fun getX0 ()D
+	public final fun getX1 ()D
+	public final fun getY0 ()D
+	public final fun getY1 ()D
+	public final fun setDepth (I)V
+	public final fun setHeight (I)V
+	public fun setParent (Lio/data2viz/hierarchy/TreemapNode;)V
+	public fun setValue (Ljava/lang/Double;)V
+	public final fun setX0 (D)V
+	public final fun setX1 (D)V
+	public final fun setY0 (D)V
+	public final fun setY1 (D)V
+}
+
+public abstract interface class io/data2viz/hierarchy/Valued {
+	public abstract fun getValue ()Ljava/lang/Double;
+	public abstract fun setValue (Ljava/lang/Double;)V
+}
+
+public final class io/data2viz/hierarchy/pack/EncloseKt {
+	public static final fun enclose (Ljava/util/List;)Lio/data2viz/hierarchy/CircleValues;
+}
+
+public final class io/data2viz/hierarchy/pack/SiblingsKt {
+	public static final fun getEpsilon ()D
+	public static final fun packEnclose (Ljava/util/List;)D
+}
+
+public final class io/data2viz/hierarchy/treemap/BinaryKt {
+	public static final fun treemapBinary (Lio/data2viz/hierarchy/ParentValued;DDDD)V
+}
+
+public final class io/data2viz/hierarchy/treemap/ResquarifyKt {
+	public static final fun treemapResquarify (Lio/data2viz/hierarchy/TreemapNode;DDDD)V
+}
+
+public final class io/data2viz/hierarchy/treemap/SliceDiceKt {
+	public static final fun treemapDice (Lio/data2viz/hierarchy/ParentValued;DDDD)V
+	public static final fun treemapSlice (Lio/data2viz/hierarchy/ParentValued;DDDD)V
+	public static final fun treemapSliceDice (Lio/data2viz/hierarchy/ParentValued;DDDD)V
+}
+
+public final class io/data2viz/hierarchy/treemap/SquarifyKt {
+	public static final fun getPhi ()D
+	public static final fun treemapSquarify (Lio/data2viz/hierarchy/ParentValued;DDDD)Ljava/util/List;
+}
+
+public final class io/data2viz/hierarchy/treemap/TreemapBinary {
+	public fun <init> ()V
+	public final fun binary (Lio/data2viz/hierarchy/ParentValued;DDDD)V
+	public final fun getNodes ()Ljava/util/List;
+	public final fun getSums ()Ljava/util/List;
+	public final fun setNodes (Ljava/util/List;)V
+	public final fun setSums (Ljava/util/List;)V
+}
+

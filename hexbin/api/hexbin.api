@@ -1,0 +1,42 @@
+public final class io/data2viz/hexbin/Bin {
+	public fun <init> (Ljava/util/List;DD)V
+	public synthetic fun <init> (Ljava/util/List;DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun copy (Ljava/util/List;DD)Lio/data2viz/hexbin/Bin;
+	public static synthetic fun copy$default (Lio/data2viz/hexbin/Bin;Ljava/util/List;DDILjava/lang/Object;)Lio/data2viz/hexbin/Bin;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPoints ()Ljava/util/List;
+	public final fun getX ()D
+	public final fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/hexbin/HexbinGenerator {
+	public fun <init> ()V
+	public final fun centers ()Ljava/util/List;
+	public final fun getExtent ()Lio/data2viz/geom/Extent;
+	public final fun getHeight ()D
+	public final fun getRadius ()D
+	public final fun getWidth ()D
+	public final fun getX ()Lkotlin/jvm/functions/Function3;
+	public final fun getY ()Lkotlin/jvm/functions/Function3;
+	public final fun hexagon (Lio/data2viz/geom/Path;Lio/data2viz/geom/Point;Ljava/lang/Double;)V
+	public static synthetic fun hexagon$default (Lio/data2viz/hexbin/HexbinGenerator;Lio/data2viz/geom/Path;Lio/data2viz/geom/Point;Ljava/lang/Double;ILjava/lang/Object;)V
+	public final fun invoke (Ljava/util/List;)Ljava/util/List;
+	public final fun mesh (Lio/data2viz/geom/Path;)V
+	public final fun setExtent (Lio/data2viz/geom/Extent;)V
+	public final fun setHeight (D)V
+	public final fun setRadius (D)V
+	public final fun setWidth (D)V
+	public final fun setX (Lkotlin/jvm/functions/Function3;)V
+	public final fun setY (Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/data2viz/hexbin/HexbinKt {
+	public static final fun hexbinGenerator ()Lio/data2viz/hexbin/HexbinGenerator;
+	public static final fun hexbinGenerator (Lkotlin/jvm/functions/Function1;)Lio/data2viz/hexbin/HexbinGenerator;
+}
+

@@ -1,0 +1,116 @@
+public final class io/data2viz/sankey/SankeyAlignment : java/lang/Enum {
+	public static final field CENTER Lio/data2viz/sankey/SankeyAlignment;
+	public static final field JUSTIFY Lio/data2viz/sankey/SankeyAlignment;
+	public static final field LEFT Lio/data2viz/sankey/SankeyAlignment;
+	public static final field RIGHT Lio/data2viz/sankey/SankeyAlignment;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/sankey/SankeyAlignment;
+	public static fun values ()[Lio/data2viz/sankey/SankeyAlignment;
+}
+
+public final class io/data2viz/sankey/SankeyGraph {
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;Ljava/util/List;)Lio/data2viz/sankey/SankeyGraph;
+	public static synthetic fun copy$default (Lio/data2viz/sankey/SankeyGraph;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lio/data2viz/sankey/SankeyGraph;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLinks ()Ljava/util/List;
+	public final fun getNodes ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/sankey/SankeyLayout {
+	public fun <init> ()V
+	public final fun extent (DDDD)V
+	public final fun getAlign ()Lio/data2viz/sankey/SankeyAlignment;
+	public final fun getHeight ()D
+	public final fun getIterations ()I
+	public final fun getLinks ()Ljava/util/List;
+	public final fun getNodePadding ()D
+	public final fun getNodeWidth ()D
+	public final fun getNodes ()Ljava/util/List;
+	public final fun getWidth ()D
+	public final fun sankey (Ljava/util/List;Lkotlin/jvm/functions/Function2;)Lio/data2viz/sankey/SankeyGraph;
+	public final fun setAlign (Lio/data2viz/sankey/SankeyAlignment;)V
+	public final fun setHeight (D)V
+	public final fun setIterations (I)V
+	public final fun setNodePadding (D)V
+	public final fun setNodeWidth (D)V
+	public final fun setWidth (D)V
+}
+
+public final class io/data2viz/sankey/SankeyLayoutKt {
+	public static final fun getSankeyLinkHorizontal ()Lio/data2viz/shape/link/LinkBuilder;
+	public static final fun getSankeyLinkVertical ()Lio/data2viz/shape/link/LinkBuilder;
+}
+
+public final class io/data2viz/sankey/SankeyLink {
+	public fun <init> (Lio/data2viz/sankey/SankeyNode;Lio/data2viz/sankey/SankeyNode;IDDDD)V
+	public synthetic fun <init> (Lio/data2viz/sankey/SankeyNode;Lio/data2viz/sankey/SankeyNode;IDDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/data2viz/sankey/SankeyNode;
+	public final fun component2 ()Lio/data2viz/sankey/SankeyNode;
+	public final fun component3 ()I
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun component6 ()D
+	public final fun component7 ()D
+	public final fun copy (Lio/data2viz/sankey/SankeyNode;Lio/data2viz/sankey/SankeyNode;IDDDD)Lio/data2viz/sankey/SankeyLink;
+	public static synthetic fun copy$default (Lio/data2viz/sankey/SankeyLink;Lio/data2viz/sankey/SankeyNode;Lio/data2viz/sankey/SankeyNode;IDDDDILjava/lang/Object;)Lio/data2viz/sankey/SankeyLink;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIndex ()I
+	public final fun getSource ()Lio/data2viz/sankey/SankeyNode;
+	public final fun getTarget ()Lio/data2viz/sankey/SankeyNode;
+	public final fun getValue ()D
+	public final fun getWidth ()D
+	public final fun getY0 ()D
+	public final fun getY1 ()D
+	public fun hashCode ()I
+	public final fun setIndex (I)V
+	public final fun setValue (D)V
+	public final fun setWidth (D)V
+	public final fun setY0 (D)V
+	public final fun setY1 (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/sankey/SankeyNode {
+	public fun <init> (Ljava/lang/Object;ILjava/util/List;Ljava/util/List;DIIDDDD)V
+	public synthetic fun <init> (Ljava/lang/Object;ILjava/util/List;Ljava/util/List;DIIDDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component10 ()D
+	public final fun component11 ()D
+	public final fun component2 ()I
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()D
+	public final fun component6 ()I
+	public final fun component7 ()I
+	public final fun component8 ()D
+	public final fun component9 ()D
+	public final fun copy (Ljava/lang/Object;ILjava/util/List;Ljava/util/List;DIIDDDD)Lio/data2viz/sankey/SankeyNode;
+	public static synthetic fun copy$default (Lio/data2viz/sankey/SankeyNode;Ljava/lang/Object;ILjava/util/List;Ljava/util/List;DIIDDDDILjava/lang/Object;)Lio/data2viz/sankey/SankeyNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getDepth ()I
+	public final fun getHeight ()I
+	public final fun getIndex ()I
+	public final fun getSourceLinks ()Ljava/util/List;
+	public final fun getTargetLinks ()Ljava/util/List;
+	public final fun getValue ()D
+	public final fun getX0 ()D
+	public final fun getX1 ()D
+	public final fun getY0 ()D
+	public final fun getY1 ()D
+	public fun hashCode ()I
+	public final fun setDepth (I)V
+	public final fun setHeight (I)V
+	public final fun setIndex (I)V
+	public final fun setValue (D)V
+	public final fun setX0 (D)V
+	public final fun setX1 (D)V
+	public final fun setY0 (D)V
+	public final fun setY1 (D)V
+	public fun toString ()Ljava/lang/String;
+}
+

@@ -1,0 +1,36 @@
+public final class io/data2viz/random/RandomDistribution {
+	public static final field Default Lio/data2viz/random/RandomDistribution$Default;
+	public fun <init> ()V
+	public final fun bates (D)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun bates$default (Lio/data2viz/random/RandomDistribution;DILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+	public final fun exponential (D)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun exponential$default (Lio/data2viz/random/RandomDistribution;DILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+	public final fun irwinHall (D)Lkotlin/jvm/functions/Function0;
+	public final fun logNormal (DD)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun logNormal$default (Lio/data2viz/random/RandomDistribution;DDILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+	public final fun normal (DD)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun normal$default (Lio/data2viz/random/RandomDistribution;DDILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+	public final fun random ()D
+	public final fun uniform (DD)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun uniform$default (Lio/data2viz/random/RandomDistribution;DDILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+}
+
+public final class io/data2viz/random/RandomDistribution$Default {
+	public final fun bates (D)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun bates$default (Lio/data2viz/random/RandomDistribution$Default;DILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+	public final fun exponential (D)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun exponential$default (Lio/data2viz/random/RandomDistribution$Default;DILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+	public final fun irwinHall (D)Lkotlin/jvm/functions/Function0;
+	public final fun logNormal (DD)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun logNormal$default (Lio/data2viz/random/RandomDistribution$Default;DDILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+	public final fun normal (DD)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun normal$default (Lio/data2viz/random/RandomDistribution$Default;DDILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+	public final fun uniform (DD)Lkotlin/jvm/functions/Function0;
+	public static synthetic fun uniform$default (Lio/data2viz/random/RandomDistribution$Default;DDILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
+}
+
+public final class io/data2viz/random/RandomDistributionKt {
+	public static final fun RandomDistribution (I)Lio/data2viz/random/RandomDistribution;
+	public static final fun RandomDistribution (J)Lio/data2viz/random/RandomDistribution;
+}
+

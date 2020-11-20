@@ -1,0 +1,198 @@
+public final class io/data2viz/voronoi/Beach {
+	public field site Lio/data2viz/voronoi/Site;
+	public fun <init> ()V
+	public final fun getCircle ()Lio/data2viz/voronoi/Circle;
+	public final fun getCircleNode ()Lio/data2viz/voronoi/RedBlackNode;
+	public final fun getEdge ()Lio/data2viz/voronoi/Edge;
+	public final fun getSite ()Lio/data2viz/voronoi/Site;
+	public final fun setCircleNode (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun setEdge (Lio/data2viz/voronoi/Edge;)V
+	public final fun setSite (Lio/data2viz/voronoi/Site;)V
+}
+
+public final class io/data2viz/voronoi/BeachKt {
+	public static final fun addBeach (Lio/data2viz/voronoi/Site;)V
+	public static final fun createBeach (Lio/data2viz/voronoi/Site;)Lio/data2viz/voronoi/RedBlackNode;
+	public static final fun detachBeach (Lio/data2viz/voronoi/RedBlackNode;)V
+	public static final fun getCircle (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/Circle;
+	public static final fun getEpsilon ()D
+	public static final fun getEpsilon2 ()D
+	public static final fun getSite (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/Site;
+	public static final fun leftBreakPoint (Lio/data2viz/voronoi/RedBlackNode;D)D
+	public static final fun removeBeach (Lio/data2viz/voronoi/RedBlackNode;)V
+	public static final fun rightBreakPoint (Lio/data2viz/voronoi/RedBlackNode;D)D
+}
+
+public final class io/data2viz/voronoi/Cell {
+	public static final field Companion Lio/data2viz/voronoi/Cell$Companion;
+	public fun <init> (Lio/data2viz/voronoi/Site;)V
+	public final fun cellHalfedgeEnd (Lio/data2viz/voronoi/Edge;)Lio/data2viz/geom/Point;
+	public final fun cellHalfedgeStart (Lio/data2viz/voronoi/Edge;)Lio/data2viz/geom/Point;
+	public final fun getHalfedges ()Ljava/util/List;
+	public final fun getSite ()Lio/data2viz/voronoi/Site;
+	public final fun halfedgeAngle (Lio/data2viz/voronoi/Edge;)D
+	public final fun halfedgeEnd (Lio/data2viz/voronoi/Edge;)Lio/data2viz/geom/Point;
+	public final fun halfedgeStart (Lio/data2viz/voronoi/Edge;)Lio/data2viz/geom/Point;
+}
+
+public final class io/data2viz/voronoi/Cell$Companion {
+	public final fun createCell (Lio/data2viz/voronoi/Site;)V
+}
+
+public final class io/data2viz/voronoi/CellKt {
+	public static final fun sortCellHalfedges ()V
+}
+
+public final class io/data2viz/voronoi/Circle {
+	public field site Lio/data2viz/voronoi/Site;
+	public fun <init> ()V
+	public final fun getArcNode ()Lio/data2viz/voronoi/RedBlackNode;
+	public final fun getCy ()D
+	public final fun getSite ()Lio/data2viz/voronoi/Site;
+	public final fun getX ()D
+	public final fun getY ()D
+	public final fun setArcNode (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun setCy (D)V
+	public final fun setSite (Lio/data2viz/voronoi/Site;)V
+	public final fun setX (D)V
+	public final fun setY (D)V
+}
+
+public final class io/data2viz/voronoi/CircleKt {
+	public static final fun attachCircle (Lio/data2viz/voronoi/RedBlackNode;)V
+	public static final fun detachCircle (Lio/data2viz/voronoi/RedBlackNode;)V
+	public static final fun getCy (Lio/data2viz/voronoi/RedBlackNode;)D
+	public static final fun getSite (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/Site;
+	public static final fun getX (Lio/data2viz/voronoi/RedBlackNode;)D
+	public static final fun getY (Lio/data2viz/voronoi/RedBlackNode;)D
+	public static final fun setCy (Lio/data2viz/voronoi/RedBlackNode;D)V
+	public static final fun setSite (Lio/data2viz/voronoi/RedBlackNode;Lio/data2viz/voronoi/Site;)V
+	public static final fun setX (Lio/data2viz/voronoi/RedBlackNode;D)V
+	public static final fun setY (Lio/data2viz/voronoi/RedBlackNode;D)V
+}
+
+public final class io/data2viz/voronoi/Diagram {
+	public fun <init> ([Lio/data2viz/voronoi/Site;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)V
+	public synthetic fun <init> ([Lio/data2viz/voronoi/Site;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun find (Lio/data2viz/geom/Point;Ljava/lang/Double;)Lio/data2viz/voronoi/Site;
+	public static synthetic fun find$default (Lio/data2viz/voronoi/Diagram;Lio/data2viz/geom/Point;Ljava/lang/Double;ILjava/lang/Object;)Lio/data2viz/voronoi/Site;
+	public final fun getCells ()[Lio/data2viz/voronoi/Cell;
+	public final fun getEdges ()Ljava/util/List;
+	public final fun links ()Ljava/util/List;
+	public final fun polygons ()Ljava/util/List;
+	public final fun setCells ([Lio/data2viz/voronoi/Cell;)V
+	public final fun setEdges (Ljava/util/List;)V
+	public final fun squareDistance (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)D
+	public final fun triangleArea (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)D
+	public final fun triangles ()Ljava/util/List;
+}
+
+public final class io/data2viz/voronoi/Diagram$Link {
+	public fun <init> (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)V
+	public final fun component1 ()Lio/data2viz/geom/Point;
+	public final fun component2 ()Lio/data2viz/geom/Point;
+	public final fun copy (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lio/data2viz/voronoi/Diagram$Link;
+	public static synthetic fun copy$default (Lio/data2viz/voronoi/Diagram$Link;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/voronoi/Diagram$Link;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSource ()Lio/data2viz/geom/Point;
+	public final fun getTarget ()Lio/data2viz/geom/Point;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/voronoi/DiagramKt {
+	public static final fun pop (Ljava/util/List;)Ljava/lang/Object;
+}
+
+public final class io/data2viz/voronoi/Edge {
+	public static final field Companion Lio/data2viz/voronoi/Edge$Companion;
+	public fun <init> (Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;)V
+	public synthetic fun <init> (Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun clip (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Z
+	public final fun connect (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Z
+	public final fun getEnd ()Lio/data2viz/geom/Point;
+	public final fun getLeft ()Lio/data2viz/voronoi/Site;
+	public final fun getRight ()Lio/data2viz/voronoi/Site;
+	public final fun getStart ()Lio/data2viz/geom/Point;
+	public final fun setEnd (Lio/data2viz/geom/Point;)V
+	public final fun setLeft (Lio/data2viz/voronoi/Site;)V
+	public final fun setRight (Lio/data2viz/voronoi/Site;)V
+	public final fun setStart (Lio/data2viz/geom/Point;)V
+}
+
+public final class io/data2viz/voronoi/Edge$Companion {
+	public final fun createEdge (Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lio/data2viz/voronoi/Edge;
+	public static synthetic fun createEdge$default (Lio/data2viz/voronoi/Edge$Companion;Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/voronoi/Edge;
+	public final fun setEdgeEnd (Lio/data2viz/voronoi/Edge;Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;Lio/data2viz/geom/Point;)V
+}
+
+public final class io/data2viz/voronoi/EdgeKt {
+	public static final fun createBorderEdge (Lio/data2viz/voronoi/Site;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lio/data2viz/voronoi/Edge;
+}
+
+public final class io/data2viz/voronoi/RedBlackColor : java/lang/Enum {
+	public static final field BLACK Lio/data2viz/voronoi/RedBlackColor;
+	public static final field RED Lio/data2viz/voronoi/RedBlackColor;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/voronoi/RedBlackColor;
+	public static fun values ()[Lio/data2viz/voronoi/RedBlackColor;
+}
+
+public final class io/data2viz/voronoi/RedBlackNode {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun clean ()V
+	public final fun getC ()Lio/data2viz/voronoi/RedBlackColor;
+	public final fun getL ()Lio/data2viz/voronoi/RedBlackNode;
+	public final fun getN ()Lio/data2viz/voronoi/RedBlackNode;
+	public final fun getNode ()Ljava/lang/Object;
+	public final fun getP ()Lio/data2viz/voronoi/RedBlackNode;
+	public final fun getR ()Lio/data2viz/voronoi/RedBlackNode;
+	public final fun getU ()Lio/data2viz/voronoi/RedBlackNode;
+	public final fun setC (Lio/data2viz/voronoi/RedBlackColor;)V
+	public final fun setL (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun setN (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun setP (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun setR (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun setU (Lio/data2viz/voronoi/RedBlackNode;)V
+}
+
+public final class io/data2viz/voronoi/RedBlackTree {
+	public fun <init> ()V
+	public final fun getRoot ()Lio/data2viz/voronoi/RedBlackNode;
+	public final fun insert (Lio/data2viz/voronoi/RedBlackNode;Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/RedBlackNode;
+	public static synthetic fun insert$default (Lio/data2viz/voronoi/RedBlackTree;Lio/data2viz/voronoi/RedBlackNode;Lio/data2viz/voronoi/RedBlackNode;ILjava/lang/Object;)Lio/data2viz/voronoi/RedBlackNode;
+	public final fun remove (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun rotateLeft (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun rotateRight (Lio/data2viz/voronoi/RedBlackNode;)V
+	public final fun setRoot (Lio/data2viz/voronoi/RedBlackNode;)V
+}
+
+public final class io/data2viz/voronoi/RedBlackTreeKt {
+	public static final fun first (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/RedBlackNode;
+}
+
+public final class io/data2viz/voronoi/Site : java/lang/Comparable {
+	public fun <init> (Lio/data2viz/geom/Point;I)V
+	public fun compareTo (Lio/data2viz/voronoi/Site;)I
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public final fun getIndex ()I
+	public final fun getPos ()Lio/data2viz/geom/Point;
+	public final fun getX ()D
+	public final fun getY ()D
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/voronoi/Triangle {
+	public fun <init> (Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;)V
+	public final fun component1 ()Lio/data2viz/voronoi/Site;
+	public final fun component2 ()Lio/data2viz/voronoi/Site;
+	public final fun component3 ()Lio/data2viz/voronoi/Site;
+	public final fun copy (Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;)Lio/data2viz/voronoi/Triangle;
+	public static synthetic fun copy$default (Lio/data2viz/voronoi/Triangle;Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;Lio/data2viz/voronoi/Site;ILjava/lang/Object;)Lio/data2viz/voronoi/Triangle;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getA ()Lio/data2viz/voronoi/Site;
+	public final fun getB ()Lio/data2viz/voronoi/Site;
+	public final fun getC ()Lio/data2viz/voronoi/Site;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

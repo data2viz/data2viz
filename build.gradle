@@ -6,11 +6,15 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+        classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.2.4"
     }
 }
 plugins {
     id 'org.jetbrains.kotlin.multiplatform' version "1.4.0" apply(false)
 }
+
+apply plugin: 'binary-compatibility-validator'
+
 
 repositories {
     google()

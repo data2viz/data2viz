@@ -1,0 +1,117 @@
+public final class io/data2viz/quadtree/AddKt {
+	public static final fun add (Lio/data2viz/quadtree/Quadtree;Ljava/lang/Object;)V
+	public static final fun addAll (Lio/data2viz/quadtree/Quadtree;Ljava/util/List;)V
+}
+
+public final class io/data2viz/quadtree/CopyKt {
+	public static final fun copy (Lio/data2viz/quadtree/Quadtree;)Lio/data2viz/quadtree/Quadtree;
+}
+
+public final class io/data2viz/quadtree/CoverKt {
+	public static final fun cover (Lio/data2viz/quadtree/Quadtree;DD)V
+}
+
+public final class io/data2viz/quadtree/DataKt {
+	public static final fun data (Lio/data2viz/quadtree/Quadtree;)Ljava/util/List;
+}
+
+public final class io/data2viz/quadtree/FindKt {
+	public static final fun find (Lio/data2viz/quadtree/Quadtree;DDD)Ljava/lang/Object;
+	public static synthetic fun find$default (Lio/data2viz/quadtree/Quadtree;DDDILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/data2viz/quadtree/InternalNode : io/data2viz/quadtree/QuadtreeNode {
+	public fun <init> ()V
+	public fun <init> (Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Ljava/lang/Double;DD)V
+	public synthetic fun <init> (Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Ljava/lang/Double;DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/data2viz/quadtree/QuadtreeNode;
+	public final fun component2 ()Lio/data2viz/quadtree/QuadtreeNode;
+	public final fun component3 ()Lio/data2viz/quadtree/QuadtreeNode;
+	public final fun component4 ()Lio/data2viz/quadtree/QuadtreeNode;
+	public final fun component5 ()Ljava/lang/Double;
+	public final fun component6 ()D
+	public final fun component7 ()D
+	public final fun copy (Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Ljava/lang/Double;DD)Lio/data2viz/quadtree/InternalNode;
+	public static synthetic fun copy$default (Lio/data2viz/quadtree/InternalNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;Ljava/lang/Double;DDILjava/lang/Object;)Lio/data2viz/quadtree/InternalNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNE_0 ()Lio/data2viz/quadtree/QuadtreeNode;
+	public final fun getNW_1 ()Lio/data2viz/quadtree/QuadtreeNode;
+	public final fun getSE_2 ()Lio/data2viz/quadtree/QuadtreeNode;
+	public final fun getSW_3 ()Lio/data2viz/quadtree/QuadtreeNode;
+	public fun getValue ()Ljava/lang/Double;
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public final fun setNE_0 (Lio/data2viz/quadtree/QuadtreeNode;)V
+	public final fun setNW_1 (Lio/data2viz/quadtree/QuadtreeNode;)V
+	public final fun setSE_2 (Lio/data2viz/quadtree/QuadtreeNode;)V
+	public final fun setSW_3 (Lio/data2viz/quadtree/QuadtreeNode;)V
+	public fun setValue (Ljava/lang/Double;)V
+	public fun setX (D)V
+	public fun setY (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/quadtree/LeafNode : io/data2viz/quadtree/QuadtreeNode {
+	public fun <init> (Ljava/lang/Object;Lio/data2viz/quadtree/LeafNode;Ljava/lang/Double;DD)V
+	public synthetic fun <init> (Ljava/lang/Object;Lio/data2viz/quadtree/LeafNode;Ljava/lang/Double;DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component2 ()Lio/data2viz/quadtree/LeafNode;
+	public final fun component3 ()Ljava/lang/Double;
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun copy (Ljava/lang/Object;Lio/data2viz/quadtree/LeafNode;Ljava/lang/Double;DD)Lio/data2viz/quadtree/LeafNode;
+	public static synthetic fun copy$default (Lio/data2viz/quadtree/LeafNode;Ljava/lang/Object;Lio/data2viz/quadtree/LeafNode;Ljava/lang/Double;DDILjava/lang/Object;)Lio/data2viz/quadtree/LeafNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getNext ()Lio/data2viz/quadtree/LeafNode;
+	public fun getValue ()Ljava/lang/Double;
+	public fun getX ()D
+	public fun getY ()D
+	public fun hashCode ()I
+	public final fun setNext (Lio/data2viz/quadtree/LeafNode;)V
+	public fun setValue (Ljava/lang/Double;)V
+	public fun setX (D)V
+	public fun setY (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/quadtree/Quadtree {
+	public fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public final fun getExtent ()Lio/data2viz/geom/Extent;
+	public final fun getRoot ()Lio/data2viz/quadtree/QuadtreeNode;
+	public final fun getX ()Lkotlin/jvm/functions/Function1;
+	public final fun getY ()Lkotlin/jvm/functions/Function1;
+	public final fun setExtent (Lio/data2viz/geom/Extent;)V
+	public final fun setRoot (Lio/data2viz/quadtree/QuadtreeNode;)V
+}
+
+public final class io/data2viz/quadtree/QuadtreeKt {
+	public static final fun quadtree (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/data2viz/quadtree/Quadtree;
+	public static final fun quadtree (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/util/List;)Lio/data2viz/quadtree/Quadtree;
+	public static final fun toList (Lio/data2viz/quadtree/InternalNode;)Ljava/util/List;
+}
+
+public abstract interface class io/data2viz/quadtree/QuadtreeNode {
+	public abstract fun getValue ()Ljava/lang/Double;
+	public abstract fun getX ()D
+	public abstract fun getY ()D
+	public abstract fun setValue (Ljava/lang/Double;)V
+	public abstract fun setX (D)V
+	public abstract fun setY (D)V
+}
+
+public final class io/data2viz/quadtree/RemoveKt {
+	public static final fun remove (Lio/data2viz/quadtree/Quadtree;Ljava/lang/Object;)V
+	public static final fun removeAll (Lio/data2viz/quadtree/Quadtree;Ljava/util/List;)V
+}
+
+public final class io/data2viz/quadtree/SizeKt {
+	public static final fun size (Lio/data2viz/quadtree/Quadtree;)I
+}
+
+public final class io/data2viz/quadtree/VisitKt {
+	public static final fun visit (Lio/data2viz/quadtree/Quadtree;Lkotlin/jvm/functions/Function5;)V
+	public static final fun visitAfter (Lio/data2viz/quadtree/Quadtree;Lkotlin/jvm/functions/Function5;)V
+}
+

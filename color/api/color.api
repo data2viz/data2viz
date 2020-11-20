@@ -1,0 +1,740 @@
+public abstract interface class io/data2viz/color/Color : io/data2viz/color/ColorOrGradient {
+	public abstract fun brighten (D)Lio/data2viz/color/Color;
+	public abstract fun contrast (Lio/data2viz/color/Color;)D
+	public abstract fun darken (D)Lio/data2viz/color/Color;
+	public abstract fun desaturate (D)Lio/data2viz/color/Color;
+	public abstract fun getAlpha-P6MNtoY ()D
+	public abstract fun getB ()I
+	public abstract fun getG ()I
+	public abstract fun getR ()I
+	public abstract fun getRgb ()I
+	public abstract fun getRgbHex ()Ljava/lang/String;
+	public abstract fun getRgba ()Ljava/lang/String;
+	public abstract fun luminance-P6MNtoY ()D
+	public abstract fun opacify (D)Lio/data2viz/color/Color;
+	public abstract fun saturate (D)Lio/data2viz/color/Color;
+	public abstract fun toHcl ()Lio/data2viz/color/HclColor;
+	public abstract fun toHsl ()Lio/data2viz/color/HslColor;
+	public abstract fun toLab ()Lio/data2viz/color/LabColor;
+	public abstract fun toRgb ()Lio/data2viz/color/RgbColor;
+	public abstract fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public abstract fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+}
+
+public final class io/data2viz/color/Color$DefaultImpls {
+	public static synthetic fun brighten$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
+	public static synthetic fun darken$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
+	public static synthetic fun desaturate$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
+	public static synthetic fun opacify$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
+	public static synthetic fun saturate$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
+}
+
+public abstract interface class io/data2viz/color/ColorOrGradient {
+}
+
+public final class io/data2viz/color/ColorStop {
+	public synthetic fun <init> (DLio/data2viz/color/Color;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-P6MNtoY ()D
+	public final fun component2 ()Lio/data2viz/color/Color;
+	public final fun copy-Nm6MGwg (DLio/data2viz/color/Color;)Lio/data2viz/color/ColorStop;
+	public static synthetic fun copy-Nm6MGwg$default (Lio/data2viz/color/ColorStop;DLio/data2viz/color/Color;ILjava/lang/Object;)Lio/data2viz/color/ColorStop;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColor ()Lio/data2viz/color/Color;
+	public final fun getPercent-P6MNtoY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/color/Colors {
+	public static final field INSTANCE Lio/data2viz/color/Colors;
+	public final fun hcl-OOUne5c (DIDD)Lio/data2viz/color/HclColor;
+	public static synthetic fun hcl-OOUne5c$default (Lio/data2viz/color/Colors;DIDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
+	public final fun hcl-Ylfk17w (DDDD)Lio/data2viz/color/HclColor;
+	public static synthetic fun hcl-Ylfk17w$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
+	public final fun hsl-fcr2UD8 (DDDD)Lio/data2viz/color/HslColor;
+	public static synthetic fun hsl-fcr2UD8$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HslColor;
+	public final fun lab-ZelYf08 (DDDD)Lio/data2viz/color/LabColor;
+	public static synthetic fun lab-ZelYf08$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/LabColor;
+	public final fun lab-wFofRLk (DIID)Lio/data2viz/color/LabColor;
+	public static synthetic fun lab-wFofRLk$default (Lio/data2viz/color/Colors;DIIDILjava/lang/Object;)Lio/data2viz/color/LabColor;
+	public final fun lch-4UhK_vw (DIDD)Lio/data2viz/color/HclColor;
+	public static synthetic fun lch-4UhK_vw$default (Lio/data2viz/color/Colors;DIDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
+	public final fun lch-A4Q7TpA (DDDD)Lio/data2viz/color/HclColor;
+	public static synthetic fun lch-A4Q7TpA$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
+	public final fun rgb-3MkuwIQ (ID)Lio/data2viz/color/RgbColor;
+	public static synthetic fun rgb-3MkuwIQ$default (Lio/data2viz/color/Colors;IDILjava/lang/Object;)Lio/data2viz/color/RgbColor;
+	public final fun rgb-y1dt5aI (IIID)Lio/data2viz/color/RgbColor;
+	public static synthetic fun rgb-y1dt5aI$default (Lio/data2viz/color/Colors;IIIDILjava/lang/Object;)Lio/data2viz/color/RgbColor;
+}
+
+public final class io/data2viz/color/Colors$Gradient {
+	public static final field INSTANCE Lio/data2viz/color/Colors$Gradient;
+	public final fun linear (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lio/data2viz/color/LinearGradientFirstColorBuilder;
+	public final fun radial (Lio/data2viz/geom/Point;D)Lio/data2viz/color/RadialGradientFirstColorBuilder;
+}
+
+public final class io/data2viz/color/Colors$Web {
+	public static final field INSTANCE Lio/data2viz/color/Colors$Web;
+	public final fun getAliceblue ()Lio/data2viz/color/RgbColor;
+	public final fun getAntiquewhite ()Lio/data2viz/color/RgbColor;
+	public final fun getAqua ()Lio/data2viz/color/RgbColor;
+	public final fun getAquamarine ()Lio/data2viz/color/RgbColor;
+	public final fun getAzure ()Lio/data2viz/color/RgbColor;
+	public final fun getBeige ()Lio/data2viz/color/RgbColor;
+	public final fun getBisque ()Lio/data2viz/color/RgbColor;
+	public final fun getBlack ()Lio/data2viz/color/RgbColor;
+	public final fun getBlanchedalmond ()Lio/data2viz/color/RgbColor;
+	public final fun getBlue ()Lio/data2viz/color/RgbColor;
+	public final fun getBlueviolet ()Lio/data2viz/color/RgbColor;
+	public final fun getBrown ()Lio/data2viz/color/RgbColor;
+	public final fun getBurlywood ()Lio/data2viz/color/RgbColor;
+	public final fun getCadetblue ()Lio/data2viz/color/RgbColor;
+	public final fun getChartreuse ()Lio/data2viz/color/RgbColor;
+	public final fun getChocolate ()Lio/data2viz/color/RgbColor;
+	public final fun getCoral ()Lio/data2viz/color/RgbColor;
+	public final fun getCornflowerblue ()Lio/data2viz/color/RgbColor;
+	public final fun getCornsilk ()Lio/data2viz/color/RgbColor;
+	public final fun getCrimson ()Lio/data2viz/color/RgbColor;
+	public final fun getCyan ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkblue ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkcyan ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkgoldenrod ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkgray ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkgreen ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkgrey ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkkhaki ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkmagenta ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkolivegreen ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkorange ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkorchid ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkred ()Lio/data2viz/color/RgbColor;
+	public final fun getDarksalmon ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkseagreen ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkslateblue ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkslategray ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkslategrey ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkturquoise ()Lio/data2viz/color/RgbColor;
+	public final fun getDarkviolet ()Lio/data2viz/color/RgbColor;
+	public final fun getDeeppink ()Lio/data2viz/color/RgbColor;
+	public final fun getDeepskyblue ()Lio/data2viz/color/RgbColor;
+	public final fun getDimgray ()Lio/data2viz/color/RgbColor;
+	public final fun getDimgrey ()Lio/data2viz/color/RgbColor;
+	public final fun getDodgerblue ()Lio/data2viz/color/RgbColor;
+	public final fun getFirebrick ()Lio/data2viz/color/RgbColor;
+	public final fun getFloralwhite ()Lio/data2viz/color/RgbColor;
+	public final fun getForestgreen ()Lio/data2viz/color/RgbColor;
+	public final fun getFuchsia ()Lio/data2viz/color/RgbColor;
+	public final fun getGainsboro ()Lio/data2viz/color/RgbColor;
+	public final fun getGhostwhite ()Lio/data2viz/color/RgbColor;
+	public final fun getGold ()Lio/data2viz/color/RgbColor;
+	public final fun getGoldenrod ()Lio/data2viz/color/RgbColor;
+	public final fun getGray ()Lio/data2viz/color/RgbColor;
+	public final fun getGreen ()Lio/data2viz/color/RgbColor;
+	public final fun getGreenyellow ()Lio/data2viz/color/RgbColor;
+	public final fun getGrey ()Lio/data2viz/color/RgbColor;
+	public final fun getHoneydew ()Lio/data2viz/color/RgbColor;
+	public final fun getHotpink ()Lio/data2viz/color/RgbColor;
+	public final fun getIndianred ()Lio/data2viz/color/RgbColor;
+	public final fun getIndigo ()Lio/data2viz/color/RgbColor;
+	public final fun getIvory ()Lio/data2viz/color/RgbColor;
+	public final fun getKhaki ()Lio/data2viz/color/RgbColor;
+	public final fun getLavender ()Lio/data2viz/color/RgbColor;
+	public final fun getLavenderblush ()Lio/data2viz/color/RgbColor;
+	public final fun getLawngreen ()Lio/data2viz/color/RgbColor;
+	public final fun getLemonchiffon ()Lio/data2viz/color/RgbColor;
+	public final fun getLightblue ()Lio/data2viz/color/RgbColor;
+	public final fun getLightcoral ()Lio/data2viz/color/RgbColor;
+	public final fun getLightcyan ()Lio/data2viz/color/RgbColor;
+	public final fun getLightgoldenrodyellow ()Lio/data2viz/color/RgbColor;
+	public final fun getLightgray ()Lio/data2viz/color/RgbColor;
+	public final fun getLightgreen ()Lio/data2viz/color/RgbColor;
+	public final fun getLightgrey ()Lio/data2viz/color/RgbColor;
+	public final fun getLightpink ()Lio/data2viz/color/RgbColor;
+	public final fun getLightsalmon ()Lio/data2viz/color/RgbColor;
+	public final fun getLightseagreen ()Lio/data2viz/color/RgbColor;
+	public final fun getLightskyblue ()Lio/data2viz/color/RgbColor;
+	public final fun getLightslategray ()Lio/data2viz/color/RgbColor;
+	public final fun getLightslategrey ()Lio/data2viz/color/RgbColor;
+	public final fun getLightsteelblue ()Lio/data2viz/color/RgbColor;
+	public final fun getLightyellow ()Lio/data2viz/color/RgbColor;
+	public final fun getLime ()Lio/data2viz/color/RgbColor;
+	public final fun getLimegreen ()Lio/data2viz/color/RgbColor;
+	public final fun getLinen ()Lio/data2viz/color/RgbColor;
+	public final fun getMagenta ()Lio/data2viz/color/RgbColor;
+	public final fun getMaroon ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumaquamarine ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumblue ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumorchid ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumpurple ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumseagreen ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumslateblue ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumspringgreen ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumturquoise ()Lio/data2viz/color/RgbColor;
+	public final fun getMediumvioletred ()Lio/data2viz/color/RgbColor;
+	public final fun getMidnightblue ()Lio/data2viz/color/RgbColor;
+	public final fun getMintcream ()Lio/data2viz/color/RgbColor;
+	public final fun getMistyrose ()Lio/data2viz/color/RgbColor;
+	public final fun getMoccasin ()Lio/data2viz/color/RgbColor;
+	public final fun getNavajowhite ()Lio/data2viz/color/RgbColor;
+	public final fun getNavy ()Lio/data2viz/color/RgbColor;
+	public final fun getOldlace ()Lio/data2viz/color/RgbColor;
+	public final fun getOlive ()Lio/data2viz/color/RgbColor;
+	public final fun getOlivedrab ()Lio/data2viz/color/RgbColor;
+	public final fun getOrange ()Lio/data2viz/color/RgbColor;
+	public final fun getOrangered ()Lio/data2viz/color/RgbColor;
+	public final fun getOrchid ()Lio/data2viz/color/RgbColor;
+	public final fun getPalegoldenrod ()Lio/data2viz/color/RgbColor;
+	public final fun getPalegreen ()Lio/data2viz/color/RgbColor;
+	public final fun getPaleturquoise ()Lio/data2viz/color/RgbColor;
+	public final fun getPalevioletred ()Lio/data2viz/color/RgbColor;
+	public final fun getPapayawhip ()Lio/data2viz/color/RgbColor;
+	public final fun getPeachpuff ()Lio/data2viz/color/RgbColor;
+	public final fun getPeru ()Lio/data2viz/color/RgbColor;
+	public final fun getPink ()Lio/data2viz/color/RgbColor;
+	public final fun getPlum ()Lio/data2viz/color/RgbColor;
+	public final fun getPowderblue ()Lio/data2viz/color/RgbColor;
+	public final fun getPurple ()Lio/data2viz/color/RgbColor;
+	public final fun getRebeccapurple ()Lio/data2viz/color/RgbColor;
+	public final fun getRed ()Lio/data2viz/color/RgbColor;
+	public final fun getRosybrown ()Lio/data2viz/color/RgbColor;
+	public final fun getRoyalblue ()Lio/data2viz/color/RgbColor;
+	public final fun getSaddlebrown ()Lio/data2viz/color/RgbColor;
+	public final fun getSalmon ()Lio/data2viz/color/RgbColor;
+	public final fun getSandybrown ()Lio/data2viz/color/RgbColor;
+	public final fun getSeagreen ()Lio/data2viz/color/RgbColor;
+	public final fun getSeashell ()Lio/data2viz/color/RgbColor;
+	public final fun getSienna ()Lio/data2viz/color/RgbColor;
+	public final fun getSilver ()Lio/data2viz/color/RgbColor;
+	public final fun getSkyblue ()Lio/data2viz/color/RgbColor;
+	public final fun getSlateblue ()Lio/data2viz/color/RgbColor;
+	public final fun getSlategray ()Lio/data2viz/color/RgbColor;
+	public final fun getSlategrey ()Lio/data2viz/color/RgbColor;
+	public final fun getSnow ()Lio/data2viz/color/RgbColor;
+	public final fun getSpringgreen ()Lio/data2viz/color/RgbColor;
+	public final fun getSteelblue ()Lio/data2viz/color/RgbColor;
+	public final fun getTan ()Lio/data2viz/color/RgbColor;
+	public final fun getTeal ()Lio/data2viz/color/RgbColor;
+	public final fun getThistle ()Lio/data2viz/color/RgbColor;
+	public final fun getTomato ()Lio/data2viz/color/RgbColor;
+	public final fun getTurquoise ()Lio/data2viz/color/RgbColor;
+	public final fun getViolet ()Lio/data2viz/color/RgbColor;
+	public final fun getWheat ()Lio/data2viz/color/RgbColor;
+	public final fun getWhite ()Lio/data2viz/color/RgbColor;
+	public final fun getWhitesmoke ()Lio/data2viz/color/RgbColor;
+	public final fun getYellow ()Lio/data2viz/color/RgbColor;
+	public final fun getYellowgreen ()Lio/data2viz/color/RgbColor;
+}
+
+public final class io/data2viz/color/EncodedColors {
+	public static final field Companion Lio/data2viz/color/EncodedColors$Companion;
+	public fun <init> (Ljava/util/List;)V
+	public final fun color (D)Lio/data2viz/color/Color;
+	public final fun getColors ()Ljava/util/List;
+	public final fun reversed ()Lio/data2viz/color/EncodedColors;
+}
+
+public final class io/data2viz/color/EncodedColors$Companion {
+	public final fun getAccents ()Lio/data2viz/color/EncodedColors;
+	public final fun getBlue_red_yellow ()Lio/data2viz/color/EncodedColors;
+	public final fun getBlues3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBlues4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBlues5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBlues6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBlues7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBlues8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBlues9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBrBG9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuGN3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuGN4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuGN5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuGN6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuGN7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuGN8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuGN9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuPu3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuPu4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuPu5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuPu6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuPu7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuPu8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuPu9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getBuYlRd9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getCategory10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getCategory20 ()Lio/data2viz/color/EncodedColors;
+	public final fun getCategory20b ()Lio/data2viz/color/EncodedColors;
+	public final fun getCategory20c ()Lio/data2viz/color/EncodedColors;
+	public final fun getDark2 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGnBu3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGnBu4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGnBu5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGnBu6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGnBu7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGnBu8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGnBu9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreens3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreens4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreens5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreens6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreens7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreens8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreens9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreys3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreys4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreys5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreys6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreys7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreys8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getGreys9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getInferno ()Lio/data2viz/color/EncodedColors;
+	public final fun getMagma ()Lio/data2viz/color/EncodedColors;
+	public final fun getOrRd3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOrRd4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOrRd5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOrRd6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOrRd7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOrRd8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOrRd9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOranges3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOranges4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOranges5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOranges6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOranges7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOranges8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getOranges9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPRGn9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPaired ()Lio/data2viz/color/EncodedColors;
+	public final fun getPastel1 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPastel2 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPiYG9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPlasma ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBu3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBu4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBu5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBu6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBu7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBu8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBu9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBuGn3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBuGn4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBuGn5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBuGn6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBuGn7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBuGn8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuBuGn9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuOR9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuRd3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuRd4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuRd5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuRd6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuRd7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuRd8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPuRd9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPurples3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPurples4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPurples5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPurples6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPurples7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPurples8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getPurples9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdBU9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdGY9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdPu3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdPu4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdPu5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdPu6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdPu7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdPu8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdPu9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlBu9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getRdYlGn9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getReds3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getReds4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getReds5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getReds6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getReds7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getReds8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getReds9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSet1 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSet2 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSet3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral10 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral11 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getSpectral9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getViridis ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGn3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGn4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGn5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGn6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGn7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGn8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGn9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnBr3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnBr4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnBr5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnBr6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnBr7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnBr8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnBr9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnRd3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnRd4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnRd5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnRd6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnRd7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnRd8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnRd9 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnbU3 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnbU4 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnbU5 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnbU6 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnbU7 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnbU8 ()Lio/data2viz/color/EncodedColors;
+	public final fun getYlGnbU9 ()Lio/data2viz/color/EncodedColors;
+}
+
+public final class io/data2viz/color/EncodedColorsKt {
+	public static final fun toColors (Ljava/lang/String;)Ljava/util/List;
+}
+
+public abstract interface class io/data2viz/color/Gradient : io/data2viz/color/ColorOrGradient {
+	public abstract fun getColorStops ()Ljava/util/List;
+}
+
+public abstract interface class io/data2viz/color/HasCenter {
+	public abstract fun getCenter ()Lio/data2viz/geom/Point;
+	public abstract fun getCx ()D
+	public abstract fun getCy ()D
+	public abstract fun setCenter (Lio/data2viz/geom/Point;)V
+	public abstract fun setCx (D)V
+	public abstract fun setCy (D)V
+}
+
+public final class io/data2viz/color/HasCenter$DefaultImpls {
+	public static fun getCenter (Lio/data2viz/color/HasCenter;)Lio/data2viz/geom/Point;
+	public static fun setCenter (Lio/data2viz/color/HasCenter;Lio/data2viz/geom/Point;)V
+}
+
+public abstract interface class io/data2viz/color/HasStartAndEnd {
+	public abstract fun getEnd ()Lio/data2viz/geom/Point;
+	public abstract fun getStart ()Lio/data2viz/geom/Point;
+	public abstract fun getX1 ()D
+	public abstract fun getX2 ()D
+	public abstract fun getY1 ()D
+	public abstract fun getY2 ()D
+	public abstract fun setEnd (Lio/data2viz/geom/Point;)V
+	public abstract fun setStart (Lio/data2viz/geom/Point;)V
+	public abstract fun setX1 (D)V
+	public abstract fun setX2 (D)V
+	public abstract fun setY1 (D)V
+	public abstract fun setY2 (D)V
+}
+
+public final class io/data2viz/color/HasStartAndEnd$DefaultImpls {
+	public static fun getEnd (Lio/data2viz/color/HasStartAndEnd;)Lio/data2viz/geom/Point;
+	public static fun getStart (Lio/data2viz/color/HasStartAndEnd;)Lio/data2viz/geom/Point;
+	public static fun setEnd (Lio/data2viz/color/HasStartAndEnd;Lio/data2viz/geom/Point;)V
+	public static fun setStart (Lio/data2viz/color/HasStartAndEnd;Lio/data2viz/geom/Point;)V
+}
+
+public final class io/data2viz/color/HclColor : io/data2viz/color/Color {
+	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun brighten (D)Lio/data2viz/color/Color;
+	public fun contrast (Lio/data2viz/color/Color;)D
+	public fun darken (D)Lio/data2viz/color/Color;
+	public fun desaturate (D)Lio/data2viz/color/Color;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getAlpha-P6MNtoY ()D
+	public fun getB ()I
+	public final fun getC ()D
+	public fun getG ()I
+	public final fun getH-FjFK4Cw ()D
+	public final fun getL-P6MNtoY ()D
+	public fun getR ()I
+	public fun getRgb ()I
+	public fun getRgbHex ()Ljava/lang/String;
+	public fun getRgba ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isAchromatic ()Z
+	public fun luminance-P6MNtoY ()D
+	public fun opacify (D)Lio/data2viz/color/Color;
+	public fun saturate (D)Lio/data2viz/color/Color;
+	public fun toHcl ()Lio/data2viz/color/HclColor;
+	public fun toHsl ()Lio/data2viz/color/HslColor;
+	public fun toLab ()Lio/data2viz/color/LabColor;
+	public fun toRgb ()Lio/data2viz/color/RgbColor;
+	public fun toString ()Ljava/lang/String;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/HclColor;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/HclColor;
+}
+
+public final class io/data2viz/color/HslColor : io/data2viz/color/Color {
+	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun brighten (D)Lio/data2viz/color/Color;
+	public fun contrast (Lio/data2viz/color/Color;)D
+	public fun darken (D)Lio/data2viz/color/Color;
+	public fun desaturate (D)Lio/data2viz/color/Color;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getAlpha-P6MNtoY ()D
+	public fun getB ()I
+	public fun getG ()I
+	public final fun getH-FjFK4Cw ()D
+	public final fun getL-P6MNtoY ()D
+	public fun getR ()I
+	public fun getRgb ()I
+	public fun getRgbHex ()Ljava/lang/String;
+	public fun getRgba ()Ljava/lang/String;
+	public final fun getS-P6MNtoY ()D
+	public fun hashCode ()I
+	public final fun isAchromatic ()Z
+	public fun luminance-P6MNtoY ()D
+	public fun opacify (D)Lio/data2viz/color/Color;
+	public fun saturate (D)Lio/data2viz/color/Color;
+	public fun toHcl ()Lio/data2viz/color/HclColor;
+	public fun toHsl ()Lio/data2viz/color/HslColor;
+	public fun toLab ()Lio/data2viz/color/LabColor;
+	public fun toRgb ()Lio/data2viz/color/RgbColor;
+	public fun toString ()Ljava/lang/String;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/HslColor;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/HclColor;
+}
+
+public final class io/data2viz/color/LabColor : io/data2viz/color/Color {
+	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun brighten (D)Lio/data2viz/color/Color;
+	public fun contrast (Lio/data2viz/color/Color;)D
+	public fun darken (D)Lio/data2viz/color/Color;
+	public fun desaturate (D)Lio/data2viz/color/Color;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getAlpha-P6MNtoY ()D
+	public fun getB ()I
+	public fun getG ()I
+	public final fun getLabA ()D
+	public final fun getLabB ()D
+	public final fun getLabL-P6MNtoY ()D
+	public fun getR ()I
+	public fun getRgb ()I
+	public fun getRgbHex ()Ljava/lang/String;
+	public fun getRgba ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun luminance-P6MNtoY ()D
+	public fun opacify (D)Lio/data2viz/color/Color;
+	public fun saturate (D)Lio/data2viz/color/Color;
+	public fun toHcl ()Lio/data2viz/color/HclColor;
+	public fun toHsl ()Lio/data2viz/color/HslColor;
+	public fun toLab ()Lio/data2viz/color/LabColor;
+	public fun toRgb ()Lio/data2viz/color/RgbColor;
+	public fun toString ()Ljava/lang/String;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/LabColor;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/HclColor;
+}
+
+public final class io/data2viz/color/LinearGradient : io/data2viz/color/Gradient, io/data2viz/color/HasStartAndEnd {
+	public final fun andColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradient;
+	public fun getColorStops ()Ljava/util/List;
+	public fun getEnd ()Lio/data2viz/geom/Point;
+	public fun getStart ()Lio/data2viz/geom/Point;
+	public fun getX1 ()D
+	public fun getX2 ()D
+	public fun getY1 ()D
+	public fun getY2 ()D
+	public fun setEnd (Lio/data2viz/geom/Point;)V
+	public fun setStart (Lio/data2viz/geom/Point;)V
+	public fun setX1 (D)V
+	public fun setX2 (D)V
+	public fun setY1 (D)V
+	public fun setY2 (D)V
+}
+
+public final class io/data2viz/color/LinearGradientFirstColorBuilder {
+	public final fun component1 ()Lio/data2viz/geom/Point;
+	public final fun component2 ()Lio/data2viz/geom/Point;
+	public final fun copy (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lio/data2viz/color/LinearGradientFirstColorBuilder;
+	public static synthetic fun copy$default (Lio/data2viz/color/LinearGradientFirstColorBuilder;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/color/LinearGradientFirstColorBuilder;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnd ()Lio/data2viz/geom/Point;
+	public final fun getStart ()Lio/data2viz/geom/Point;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun withColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradientSecondColorBuilder;
+	public static synthetic fun withColor-Mu7ybNA$default (Lio/data2viz/color/LinearGradientFirstColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/LinearGradientSecondColorBuilder;
+}
+
+public final class io/data2viz/color/LinearGradientSecondColorBuilder {
+	public final fun andColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradient;
+	public static synthetic fun andColor-Mu7ybNA$default (Lio/data2viz/color/LinearGradientSecondColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/LinearGradient;
+	public final fun component1 ()Lio/data2viz/color/LinearGradientFirstColorBuilder;
+	public final fun component2 ()Lio/data2viz/color/ColorStop;
+	public final fun copy (Lio/data2viz/color/LinearGradientFirstColorBuilder;Lio/data2viz/color/ColorStop;)Lio/data2viz/color/LinearGradientSecondColorBuilder;
+	public static synthetic fun copy$default (Lio/data2viz/color/LinearGradientSecondColorBuilder;Lio/data2viz/color/LinearGradientFirstColorBuilder;Lio/data2viz/color/ColorStop;ILjava/lang/Object;)Lio/data2viz/color/LinearGradientSecondColorBuilder;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBuilder ()Lio/data2viz/color/LinearGradientFirstColorBuilder;
+	public final fun getFirstColor ()Lio/data2viz/color/ColorStop;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/color/RadialGradient : io/data2viz/color/Gradient, io/data2viz/color/HasCenter {
+	public fun <init> ()V
+	public final fun andColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradient;
+	public fun getCenter ()Lio/data2viz/geom/Point;
+	public fun getColorStops ()Ljava/util/List;
+	public fun getCx ()D
+	public fun getCy ()D
+	public final fun getRadius ()D
+	public fun setCenter (Lio/data2viz/geom/Point;)V
+	public fun setCx (D)V
+	public fun setCy (D)V
+	public final fun setRadius (D)V
+}
+
+public final class io/data2viz/color/RadialGradientFirstColorBuilder {
+	public final fun component1 ()Lio/data2viz/geom/Point;
+	public final fun component2 ()D
+	public final fun copy (Lio/data2viz/geom/Point;D)Lio/data2viz/color/RadialGradientFirstColorBuilder;
+	public static synthetic fun copy$default (Lio/data2viz/color/RadialGradientFirstColorBuilder;Lio/data2viz/geom/Point;DILjava/lang/Object;)Lio/data2viz/color/RadialGradientFirstColorBuilder;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCenter ()Lio/data2viz/geom/Point;
+	public final fun getRadius ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun withColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradientSecondColorBuilder;
+	public static synthetic fun withColor-Mu7ybNA$default (Lio/data2viz/color/RadialGradientFirstColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/RadialGradientSecondColorBuilder;
+}
+
+public final class io/data2viz/color/RadialGradientSecondColorBuilder {
+	public final fun andColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradient;
+	public static synthetic fun andColor-Mu7ybNA$default (Lio/data2viz/color/RadialGradientSecondColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/RadialGradient;
+	public final fun component1 ()Lio/data2viz/color/RadialGradientFirstColorBuilder;
+	public final fun component2 ()Lio/data2viz/color/ColorStop;
+	public final fun copy (Lio/data2viz/color/RadialGradientFirstColorBuilder;Lio/data2viz/color/ColorStop;)Lio/data2viz/color/RadialGradientSecondColorBuilder;
+	public static synthetic fun copy$default (Lio/data2viz/color/RadialGradientSecondColorBuilder;Lio/data2viz/color/RadialGradientFirstColorBuilder;Lio/data2viz/color/ColorStop;ILjava/lang/Object;)Lio/data2viz/color/RadialGradientSecondColorBuilder;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBuilder ()Lio/data2viz/color/RadialGradientFirstColorBuilder;
+	public final fun getFirstColor ()Lio/data2viz/color/ColorStop;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/color/RgbColor : io/data2viz/color/Color {
+	public synthetic fun <init> (IDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (IDLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun brighten (D)Lio/data2viz/color/Color;
+	public fun contrast (Lio/data2viz/color/Color;)D
+	public fun darken (D)Lio/data2viz/color/Color;
+	public fun desaturate (D)Lio/data2viz/color/Color;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getAlpha-P6MNtoY ()D
+	public fun getB ()I
+	public fun getG ()I
+	public fun getR ()I
+	public fun getRgb ()I
+	public fun getRgbHex ()Ljava/lang/String;
+	public fun getRgba ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun luminance-P6MNtoY ()D
+	public fun opacify (D)Lio/data2viz/color/Color;
+	public fun saturate (D)Lio/data2viz/color/Color;
+	public fun toHcl ()Lio/data2viz/color/HclColor;
+	public fun toHsl ()Lio/data2viz/color/HslColor;
+	public fun toLab ()Lio/data2viz/color/LabColor;
+	public fun toRgb ()Lio/data2viz/color/RgbColor;
+	public fun toString ()Ljava/lang/String;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/RgbColor;
+	public final fun withBlue (I)Lio/data2viz/color/RgbColor;
+	public final fun withGreen (I)Lio/data2viz/color/RgbColor;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/HclColor;
+	public final fun withRed (I)Lio/data2viz/color/RgbColor;
+}
+
+public final class io/data2viz/color/RgbColorKt {
+	public static final fun getCol (I)Lio/data2viz/color/RgbColor;
+	public static final fun getCol (Ljava/lang/String;)Lio/data2viz/color/RgbColor;
+	public static final fun getColor (I)Lio/data2viz/color/RgbColor;
+	public static final fun getColor (Ljava/lang/String;)Lio/data2viz/color/RgbColor;
+}
+

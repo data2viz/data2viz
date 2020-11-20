@@ -1,0 +1,832 @@
+public final class io/data2viz/geo/Geo {
+	public static final field INSTANCE Lio/data2viz/geo/Geo;
+}
+
+public final class io/data2viz/geo/Geo$Projections {
+	public static final field INSTANCE Lio/data2viz/geo/Geo$Projections;
+	public final fun Albers (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/ConicProjection;
+	public static synthetic fun Albers$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/ConicProjection;
+	public final fun AlbersUSA (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/AlbersUSAProjection;
+	public static synthetic fun AlbersUSA$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/AlbersUSAProjection;
+	public final fun AzimuthalEqualArea (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun AzimuthalEqualArea$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public final fun AzimuthalEquidistant (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun AzimuthalEquidistant$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public final fun EqualEarth (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun EqualEarth$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public final fun Equirectangular (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun Equirectangular$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public final fun Identity (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun Identity$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public final fun Mercator (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/MercatorProjection;
+	public static synthetic fun Mercator$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/MercatorProjection;
+	public final fun NaturalEarth (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun NaturalEarth$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public final fun Orthographic (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun Orthographic$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public final fun Stereographic (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun Stereographic$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public final fun TransverseMercator (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/TransverseMercatorProjection;
+	public static synthetic fun TransverseMercator$default (Lio/data2viz/geo/Geo$Projections;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/TransverseMercatorProjection;
+}
+
+public final class io/data2viz/geo/GeoKt {
+	public static final fun GeoPoint (DDLjava/lang/Double;)[D
+	public static synthetic fun GeoPoint$default (DDLjava/lang/Double;ILjava/lang/Object;)[D
+	public static final fun component1 ([D)D
+	public static final fun component2 ([D)D
+	public static final fun component3 ([D)Ljava/lang/Double;
+	public static final fun getAlt ([D)Ljava/lang/Double;
+	public static final fun getLambda ([D)D
+	public static final fun getPhi ([D)D
+}
+
+public final class io/data2viz/geo/geojson/GeoInterpolate {
+	public fun <init> (DDDDDDDDDD)V
+	public final fun getDistance ()D
+	public final fun getInterpolate ()Lkotlin/jvm/functions/Function1;
+	public final fun invoke (D)[D
+}
+
+public final class io/data2viz/geo/geojson/GeoInterpolateKt {
+	public static final fun geoInterpolate ([D[D)Lio/data2viz/geo/geojson/GeoInterpolate;
+}
+
+public final class io/data2viz/geo/geojson/GeoJsonExtensionsKt {
+	public static final fun contains (Lio/data2viz/geojson/GeoJsonObject;[D)Z
+	public static final fun getLines (Lio/data2viz/geojson/MultiLineString;)[[[D
+	public static final fun getLines (Lio/data2viz/geojson/Polygon;)[[[D
+	public static final fun getPos (Lio/data2viz/geojson/Point;)[D
+	public static final fun getPositions (Lio/data2viz/geojson/LineString;)[[D
+	public static final fun getPositions (Lio/data2viz/geojson/MultiPoint;)[[D
+	public static final fun getSurface (Lio/data2viz/geojson/MultiPolygon;)[[[[D
+	public static final fun stream (Lio/data2viz/geojson/GeoJsonObject;Lio/data2viz/geo/stream/Stream;)V
+	public static final fun toRadians ([D)[D
+}
+
+public final class io/data2viz/geo/geojson/GeoPath {
+	public fun <init> (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/geom/Path;)V
+	public synthetic fun <init> (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/geom/Path;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun area (Lio/data2viz/geojson/GeoJsonObject;)D
+	public final fun bounds (Lio/data2viz/geojson/GeoJsonObject;)Lio/data2viz/geom/Extent;
+	public final fun centroid (Lio/data2viz/geojson/GeoJsonObject;)[D
+	public final fun getPath ()Lio/data2viz/geom/Path;
+	public final fun getPointRadius ()D
+	public final fun getProjection ()Lio/data2viz/geo/projection/common/Projection;
+	public final fun measure (Lio/data2viz/geojson/GeoJsonObject;)D
+	public final fun project (Lio/data2viz/geojson/GeoJsonObject;)V
+	public final fun setPointRadius (D)V
+}
+
+public final class io/data2viz/geo/geojson/GeoPathKt {
+	public static final fun geoPath (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/geom/Path;)Lio/data2viz/geo/geojson/GeoPath;
+	public static synthetic fun geoPath$default (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/geom/Path;ILjava/lang/Object;)Lio/data2viz/geo/geojson/GeoPath;
+}
+
+public final class io/data2viz/geo/geojson/ProjectionFitExtensionsKt {
+	public static final fun fitExtent (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/geom/Extent;Lio/data2viz/geojson/GeoJsonObject;)Lio/data2viz/geo/projection/common/Projection;
+	public static final fun fitHeight (Lio/data2viz/geo/projection/common/Projection;DLio/data2viz/geojson/GeoJsonObject;)Lio/data2viz/geo/projection/common/Projection;
+	public static final fun fitSize (Lio/data2viz/geo/projection/common/Projection;DDLio/data2viz/geojson/GeoJsonObject;)Lio/data2viz/geo/projection/common/Projection;
+	public static final fun fitWidth (Lio/data2viz/geo/projection/common/Projection;DLio/data2viz/geojson/GeoJsonObject;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/geojson/Sphere : io/data2viz/geojson/Geometry {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/geo/geojson/path/GeoAreaStream : io/data2viz/geo/stream/Stream {
+	public fun <init> ()V
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DDD)V
+	public fun polygonEnd ()V
+	public fun polygonStart ()V
+	public final fun result (Lio/data2viz/geojson/GeoJsonObject;)D
+	public fun sphere ()V
+}
+
+public final class io/data2viz/geo/geojson/path/GeoAreaStreamKt {
+	public static final fun geoArea (Lio/data2viz/geojson/GeoJsonObject;)D
+}
+
+public final class io/data2viz/geo/geojson/path/GeoBoundsStream : io/data2viz/geo/stream/Stream {
+	public fun <init> ()V
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DDD)V
+	public fun polygonEnd ()V
+	public fun polygonStart ()V
+	public final fun result (Lio/data2viz/geojson/GeoJsonObject;)Lio/data2viz/geom/Extent;
+	public fun sphere ()V
+}
+
+public final class io/data2viz/geo/geojson/path/GeoBoundsStreamKt {
+	public static final fun geoBounds (Lio/data2viz/geojson/GeoJsonObject;)Lio/data2viz/geom/Extent;
+}
+
+public final class io/data2viz/geo/geojson/path/GeoCentroidStream : io/data2viz/geo/stream/Stream {
+	public fun <init> ()V
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DDD)V
+	public fun polygonEnd ()V
+	public fun polygonStart ()V
+	public final fun result (Lio/data2viz/geojson/GeoJsonObject;)[D
+	public fun sphere ()V
+}
+
+public final class io/data2viz/geo/geojson/path/GeoCentroidStreamKt {
+	public static final fun geoCentroid (Lio/data2viz/geojson/GeoJsonObject;)[D
+}
+
+public final class io/data2viz/geo/geojson/path/GeoCircle {
+	public fun <init> ()V
+	public final fun circle (Ljava/lang/Object;)Lio/data2viz/geojson/Polygon;
+	public static synthetic fun circle$default (Lio/data2viz/geo/geojson/path/GeoCircle;Ljava/lang/Object;ILjava/lang/Object;)Lio/data2viz/geojson/Polygon;
+	public final fun getCenter ()Lkotlin/jvm/functions/Function1;
+	public final fun getPrecision ()Lkotlin/jvm/functions/Function1;
+	public final fun getRadius ()Lkotlin/jvm/functions/Function1;
+	public final fun setCenter (Lkotlin/jvm/functions/Function1;)V
+	public final fun setPrecision (Lkotlin/jvm/functions/Function1;)V
+	public final fun setRadius (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/geo/geojson/path/GeoCircleKt {
+	public static final fun geoCircle (Lio/data2viz/geo/stream/Stream;DDI[D[D)V
+	public static synthetic fun geoCircle$default (Lio/data2viz/geo/stream/Stream;DDI[D[DILjava/lang/Object;)V
+}
+
+public final class io/data2viz/geo/geojson/path/GeoLengthStream : io/data2viz/geo/stream/Stream {
+	public fun <init> ()V
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DDD)V
+	public fun polygonEnd ()V
+	public fun polygonStart ()V
+	public final fun result (Lio/data2viz/geojson/GeoJsonObject;)D
+	public fun sphere ()V
+}
+
+public final class io/data2viz/geo/geojson/path/GeoLengthStreamKt {
+	public static final fun geoDistance ([D[D)D
+	public static final fun geoLength (Lio/data2viz/geojson/GeoJsonObject;)D
+}
+
+public final class io/data2viz/geo/geometry/CartesianKt {
+	public static final fun cartesian ([D)[D
+	public static final fun cartesianAdd ([D[D)[D
+	public static final fun cartesianCross ([D[D)[D
+	public static final fun cartesianDot ([D[D)D
+	public static final fun cartesianNormalize ([D)[D
+	public static final fun cartesianScale ([DD)[D
+	public static final fun spherical ([D)[D
+}
+
+public final class io/data2viz/geo/geometry/Graticule {
+	public fun <init> ()V
+	public final fun getExtent ()Lio/data2viz/geom/Extent;
+	public final fun getExtentMajor ()Lio/data2viz/geom/Extent;
+	public final fun getExtentMinor ()Lio/data2viz/geom/Extent;
+	public final fun getPrecision ()D
+	public final fun getStep ()[D
+	public final fun getStepMajor ()[D
+	public final fun getStepMinor ()[D
+	public final fun graticule ()Lio/data2viz/geojson/MultiLineString;
+	public final fun lines ()Ljava/util/List;
+	public final fun outline ()Lio/data2viz/geojson/Polygon;
+	public final fun setExtent (Lio/data2viz/geom/Extent;)V
+	public final fun setExtentMajor (Lio/data2viz/geom/Extent;)V
+	public final fun setExtentMinor (Lio/data2viz/geom/Extent;)V
+	public final fun setPrecision (D)V
+	public final fun setStep ([D)V
+	public final fun setStepMajor ([D)V
+	public final fun setStepMinor ([D)V
+}
+
+public final class io/data2viz/geo/geometry/GraticuleKt {
+	public static final fun geoGraticule (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/geometry/Graticule;
+	public static synthetic fun geoGraticule$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/geometry/Graticule;
+}
+
+public final class io/data2viz/geo/geometry/MathKt {
+	public static final fun getAcos (D)D
+	public static final fun getAsin (D)D
+	public static final fun getLimitedAcos (D)D
+	public static final fun getLimitedAsin (D)D
+}
+
+public final class io/data2viz/geo/geometry/PolygonContainsKt {
+	public static final fun polygonContains (Ljava/util/List;[D)Z
+}
+
+public final class io/data2viz/geo/geometry/clip/AnglePreClipKt {
+	public static final fun getAnglePreClip (Lio/data2viz/geo/projection/common/Projection;)Lio/data2viz/math/Angle;
+	public static final fun setAnglePreClip-gU-OBAA (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/math/Angle;)V
+}
+
+public final class io/data2viz/geo/geometry/clip/AntimeridianClipperKt {
+	public static final fun getAntimeridianPreClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
+}
+
+public final class io/data2viz/geo/geometry/clip/CircleClipper : io/data2viz/geo/geometry/clip/ClipperWithStart {
+	public fun <init> (D)V
+	public fun clipLine (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/geometry/clip/ClipStream;
+	public final fun code (DD)I
+	public final fun getRadius ()D
+	public fun getStart ()[D
+	public fun interpolate ([D[DILio/data2viz/geo/stream/Stream;)V
+	public fun pointVisible (DD)Z
+}
+
+public final class io/data2viz/geo/geometry/clip/CirclePreClip : io/data2viz/geo/geometry/clip/ClipStreamBuilder {
+	public fun <init> (D)V
+	public fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+	public final fun getRadius ()D
+}
+
+public final class io/data2viz/geo/geometry/clip/ClipKt {
+	public static final fun getNoClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
+}
+
+public abstract interface class io/data2viz/geo/geometry/clip/ClipStream : io/data2viz/geo/stream/Stream {
+	public abstract fun getClean ()I
+	public abstract fun setClean (I)V
+}
+
+public final class io/data2viz/geo/geometry/clip/ClipStream$DefaultImpls {
+	public static fun lineEnd (Lio/data2viz/geo/geometry/clip/ClipStream;)V
+	public static fun lineStart (Lio/data2viz/geo/geometry/clip/ClipStream;)V
+	public static fun point (Lio/data2viz/geo/geometry/clip/ClipStream;DDD)V
+	public static fun polygonEnd (Lio/data2viz/geo/geometry/clip/ClipStream;)V
+	public static fun polygonStart (Lio/data2viz/geo/geometry/clip/ClipStream;)V
+	public static fun sphere (Lio/data2viz/geo/geometry/clip/ClipStream;)V
+}
+
+public abstract interface class io/data2viz/geo/geometry/clip/ClipStreamBuilder {
+	public abstract fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+}
+
+public abstract interface class io/data2viz/geo/geometry/clip/Clipper {
+	public abstract fun clipLine (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/geometry/clip/ClipStream;
+	public abstract fun interpolate ([D[DILio/data2viz/geo/stream/Stream;)V
+	public abstract fun pointVisible (DD)Z
+}
+
+public final class io/data2viz/geo/geometry/clip/ExtentClip : io/data2viz/geo/geometry/clip/ClipStreamBuilder {
+	public fun <init> (Lio/data2viz/geom/Extent;)V
+	public fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+	public final fun getClipRectangle ()Lio/data2viz/geo/geometry/clip/RectangleClipper;
+	public final fun getExtent ()Lio/data2viz/geom/Extent;
+}
+
+public final class io/data2viz/geo/geometry/clip/ExtentClipKt {
+	public static final fun getExtentPostClip (Lio/data2viz/geo/projection/common/Projection;)Lio/data2viz/geom/Extent;
+	public static final fun setExtentPostClip (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/geom/Extent;)V
+}
+
+public final class io/data2viz/geo/geometry/clip/Intersection {
+	public fun <init> ([DLjava/util/List;Lio/data2viz/geo/geometry/clip/Intersection;ZZLio/data2viz/geo/geometry/clip/Intersection;Lio/data2viz/geo/geometry/clip/Intersection;)V
+	public synthetic fun <init> ([DLjava/util/List;Lio/data2viz/geo/geometry/clip/Intersection;ZZLio/data2viz/geo/geometry/clip/Intersection;Lio/data2viz/geo/geometry/clip/Intersection;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()[D
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Lio/data2viz/geo/geometry/clip/Intersection;
+	public final fun component4 ()Z
+	public final fun component5 ()Z
+	public final fun component6 ()Lio/data2viz/geo/geometry/clip/Intersection;
+	public final fun component7 ()Lio/data2viz/geo/geometry/clip/Intersection;
+	public final fun copy ([DLjava/util/List;Lio/data2viz/geo/geometry/clip/Intersection;ZZLio/data2viz/geo/geometry/clip/Intersection;Lio/data2viz/geo/geometry/clip/Intersection;)Lio/data2viz/geo/geometry/clip/Intersection;
+	public static synthetic fun copy$default (Lio/data2viz/geo/geometry/clip/Intersection;[DLjava/util/List;Lio/data2viz/geo/geometry/clip/Intersection;ZZLio/data2viz/geo/geometry/clip/Intersection;Lio/data2viz/geo/geometry/clip/Intersection;ILjava/lang/Object;)Lio/data2viz/geo/geometry/clip/Intersection;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEntry ()Z
+	public final fun getNext ()Lio/data2viz/geo/geometry/clip/Intersection;
+	public final fun getOther ()Lio/data2viz/geo/geometry/clip/Intersection;
+	public final fun getPoint ()[D
+	public final fun getPoints ()Ljava/util/List;
+	public final fun getPrevious ()Lio/data2viz/geo/geometry/clip/Intersection;
+	public final fun getVisited ()Z
+	public fun hashCode ()I
+	public final fun setEntry (Z)V
+	public final fun setNext (Lio/data2viz/geo/geometry/clip/Intersection;)V
+	public final fun setOther (Lio/data2viz/geo/geometry/clip/Intersection;)V
+	public final fun setPrevious (Lio/data2viz/geo/geometry/clip/Intersection;)V
+	public final fun setVisited (Z)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/geo/geometry/clip/RectangleClip : io/data2viz/geo/geometry/clip/ClipStreamBuilder {
+	public fun <init> (DDDD)V
+	public fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+	public final fun getClipRectangle ()Lio/data2viz/geo/geometry/clip/RectangleClipper;
+}
+
+public final class io/data2viz/geo/geometry/clip/RectangleClipper : io/data2viz/geo/geometry/clip/Clipper {
+	public fun <init> (Lio/data2viz/geom/Extent;)V
+	public fun clipLine (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/geometry/clip/ClipStream;
+	public final fun getExtent ()Lio/data2viz/geom/Extent;
+	public fun interpolate ([D[DILio/data2viz/geo/stream/Stream;)V
+	public fun pointVisible (DD)Z
+}
+
+public final class io/data2viz/geo/geometry/clip/RectangleClipper$PointContext : java/lang/Enum {
+	public static final field DEFAULT Lio/data2viz/geo/geometry/clip/RectangleClipper$PointContext;
+	public static final field LINE Lio/data2viz/geo/geometry/clip/RectangleClipper$PointContext;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/geo/geometry/clip/RectangleClipper$PointContext;
+	public static fun values ()[Lio/data2viz/geo/geometry/clip/RectangleClipper$PointContext;
+}
+
+public final class io/data2viz/geo/geometry/clip/RejoinKt {
+	public static final fun link (Ljava/util/List;)V
+	public static final fun rejoin (Ljava/util/List;Ljava/util/Comparator;ZLio/data2viz/geo/geometry/clip/Clipper;Lio/data2viz/geo/stream/Stream;)V
+}
+
+public final class io/data2viz/geo/projection/AlbersKt {
+	public static final fun albersProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/ConicProjection;
+	public static synthetic fun albersProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/ConicProjection;
+}
+
+public final class io/data2viz/geo/projection/AlbersUSAKt {
+	public static final fun albersUSAProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/AlbersUSAProjection;
+	public static synthetic fun albersUSAProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/AlbersUSAProjection;
+}
+
+public final class io/data2viz/geo/projection/AlbersUSAProjection : io/data2viz/geo/projection/common/ComposedProjection {
+	public field alaskaPoint Lio/data2viz/geo/stream/Stream;
+	public field hawaiiPoint Lio/data2viz/geo/stream/Stream;
+	public field lower48Point Lio/data2viz/geo/stream/Stream;
+	public fun <init> ()V
+	public final fun getAlaskaPoint ()Lio/data2viz/geo/stream/Stream;
+	public fun getAllProjections ()Ljava/util/Collection;
+	public final fun getHawaiiPoint ()Lio/data2viz/geo/stream/Stream;
+	public final fun getLower48Point ()Lio/data2viz/geo/stream/Stream;
+	public fun getMainProjection ()Lio/data2viz/geo/projection/common/Projection;
+	public final fun getPoint ()[D
+	public final fun getPointStream ()Lio/data2viz/geo/stream/Stream;
+	public fun getPrecision ()D
+	public fun getScale ()D
+	public fun getTranslateX ()D
+	public fun getTranslateY ()D
+	public fun invert (DD)[D
+	public fun project (DD)[D
+	public final fun setAlaskaPoint (Lio/data2viz/geo/stream/Stream;)V
+	public final fun setHawaiiPoint (Lio/data2viz/geo/stream/Stream;)V
+	public final fun setLower48Point (Lio/data2viz/geo/stream/Stream;)V
+	public final fun setPoint ([D)V
+	public fun setPrecision (D)V
+	public fun setScale (D)V
+	public fun setTranslateX (D)V
+	public fun setTranslateY (D)V
+	public fun translate (DD)V
+}
+
+public class io/data2viz/geo/projection/Azimuthal : io/data2viz/geo/projection/common/Projector {
+	public fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public final fun getAngle ()Lkotlin/jvm/functions/Function1;
+	public final fun getScale ()Lkotlin/jvm/functions/Function1;
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public final class io/data2viz/geo/projection/AzimuthalEqualAreaKt {
+	public static final fun azimuthalEqualAreaProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun azimuthalEqualAreaProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/AzimuthalEquidistantKt {
+	public static final fun azimuthalEquidistant (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun azimuthalEquidistant$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/AzimuthalKt {
+	public static final fun azimuthalInvert (Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/data2viz/geo/projection/ConicConformalKt {
+	public static final fun conicConformalProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/ConicProjection;
+	public static synthetic fun conicConformalProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/ConicProjection;
+}
+
+public final class io/data2viz/geo/projection/ConicConformalProjector : io/data2viz/geo/projection/ConicProjector, io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun getPhi0 ()D
+	public fun getPhi1 ()D
+	public fun invert (DD)[D
+	public final fun isPossibleToUseProjector ()Z
+	public fun project (DD)[D
+	public fun setPhi0 (D)V
+	public fun setPhi1 (D)V
+}
+
+public final class io/data2viz/geo/projection/ConicEqualAreaKt {
+	public static final fun conicEqualAreaProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/ConicProjection;
+	public static synthetic fun conicEqualAreaProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/ConicProjection;
+}
+
+public final class io/data2viz/geo/projection/ConicEqualAreaProjector : io/data2viz/geo/projection/ConicProjector, io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun getPhi0 ()D
+	public fun getPhi1 ()D
+	public fun invert (DD)[D
+	public final fun isPossibleToUseProjector ()Z
+	public fun project (DD)[D
+	public fun setPhi0 (D)V
+	public fun setPhi1 (D)V
+}
+
+public final class io/data2viz/geo/projection/ConicEquidistantKt {
+	public static final fun conicEquidistantProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/ConicProjection;
+	public static synthetic fun conicEquidistantProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/ConicProjection;
+}
+
+public final class io/data2viz/geo/projection/ConicEquidistantProjector : io/data2viz/geo/projection/ConicProjector, io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun getPhi0 ()D
+	public fun getPhi1 ()D
+	public fun invert (DD)[D
+	public final fun isPossibleToUseProjector ()Z
+	public fun project (DD)[D
+	public fun setPhi0 (D)V
+	public fun setPhi1 (D)V
+}
+
+public final class io/data2viz/geo/projection/ConicKt {
+	public static final fun conicProjection (Lio/data2viz/geo/projection/ConicProjector;Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/ConicProjection;
+	public static synthetic fun conicProjection$default (Lio/data2viz/geo/projection/ConicProjector;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/ConicProjection;
+}
+
+public final class io/data2viz/geo/projection/ConicProjection : io/data2viz/geo/projection/common/ProjectorProjection {
+	public fun <init> (Lio/data2viz/geo/projection/ConicProjector;)V
+	public final fun getConicProjector ()Lio/data2viz/geo/projection/ConicProjector;
+	public final fun getParallelsMax-FjFK4Cw ()D
+	public final fun getParallelsMin-FjFK4Cw ()D
+	public final fun parallels-CDpwy5s (DD)V
+	public final fun setParallelsMax-I1OF4x4 (D)V
+	public final fun setParallelsMin-I1OF4x4 (D)V
+}
+
+public abstract interface class io/data2viz/geo/projection/ConicProjector : io/data2viz/geo/projection/common/Projector {
+	public abstract fun getPhi0 ()D
+	public abstract fun getPhi1 ()D
+	public abstract fun setPhi0 (D)V
+	public abstract fun setPhi1 (D)V
+}
+
+public final class io/data2viz/geo/projection/CylindricalEqualAreaProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun <init> (D)V
+	public final fun getCosPhi0 ()D
+	public final fun getPhi0 ()D
+	public fun invert (DD)[D
+	public fun project (DD)[D
+	public final fun setCosPhi0 (D)V
+	public final fun setPhi0 (D)V
+}
+
+public final class io/data2viz/geo/projection/EqualEarthKt {
+	public static final field A1 D
+	public static final field A2 D
+	public static final field A3 D
+	public static final field A4 D
+	public static final field iterations I
+	public static final fun equalEarthProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun equalEarthProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+	public static final fun getM ()D
+}
+
+public final class io/data2viz/geo/projection/EqualEarthProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public final class io/data2viz/geo/projection/EquirectangularKt {
+	public static final fun equirectangularProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun equirectangularProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/GnomonicKt {
+	public static final fun gnomonicProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun gnomonicProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/GnomonicProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public final class io/data2viz/geo/projection/IdentityKt {
+	public static final fun identityProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun identityProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/MercatorKt {
+	public static final fun mercatorProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/MercatorProjection;
+	public static synthetic fun mercatorProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/MercatorProjection;
+}
+
+public class io/data2viz/geo/projection/MercatorProjection : io/data2viz/geo/projection/common/ProjectorProjection {
+	public fun <init> ()V
+	public fun <init> (Lio/data2viz/geo/projection/common/Projector;)V
+	public synthetic fun <init> (Lio/data2viz/geo/projection/common/Projector;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun center-CDpwy5s (DD)V
+	public fun getCenterLat-FjFK4Cw ()D
+	public fun getCenterLon-FjFK4Cw ()D
+	public fun getScale ()D
+	public fun getTranslateX ()D
+	public fun getTranslateY ()D
+	public fun setCenterLat-I1OF4x4 (D)V
+	public fun setCenterLon-I1OF4x4 (D)V
+	public fun setScale (D)V
+	public fun setTranslateX (D)V
+	public fun setTranslateY (D)V
+	public fun translate (DD)V
+}
+
+public final class io/data2viz/geo/projection/MercatorProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public final class io/data2viz/geo/projection/NaturalEarthKt {
+	public static final fun naturalEarthProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun naturalEarthProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/NaturalEarthProjection : io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public final class io/data2viz/geo/projection/OrthographicKt {
+	public static final fun orthographicProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun orthographicProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/StereographicKt {
+	public static final fun stereographicProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+	public static synthetic fun stereographicProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/StereographicProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public final class io/data2viz/geo/projection/TransverseMercatorKt {
+	public static final fun transverseMercatorProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/TransverseMercatorProjection;
+	public static synthetic fun transverseMercatorProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/TransverseMercatorProjection;
+}
+
+public final class io/data2viz/geo/projection/TransverseMercatorProjection : io/data2viz/geo/projection/MercatorProjection {
+	public fun <init> ()V
+	public fun center-CDpwy5s (DD)V
+	public fun getCenterLat-FjFK4Cw ()D
+	public fun getCenterLon-FjFK4Cw ()D
+	public fun getRotateGamma-FjFK4Cw ()D
+	public fun rotate-EB13cHk (DDLio/data2viz/math/Angle;)V
+	public fun setCenterLat-I1OF4x4 (D)V
+	public fun setCenterLon-I1OF4x4 (D)V
+	public fun setRotateGamma-I1OF4x4 (D)V
+}
+
+public final class io/data2viz/geo/projection/TransverseMercatorProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public abstract class io/data2viz/geo/projection/common/BaseConditionalProjector : io/data2viz/geo/projection/common/ConditionalProjector {
+	public fun <init> ()V
+	public fun getActiveProjector ()Lio/data2viz/geo/projection/common/Projector;
+	public abstract fun getBaseProjector ()Lio/data2viz/geo/projection/common/Projector;
+	public abstract fun getNestedProjector ()Lio/data2viz/geo/projection/common/Projector;
+	public abstract fun isNeedUseBaseProjector ()Z
+}
+
+public abstract class io/data2viz/geo/projection/common/CachedProjection : io/data2viz/geo/projection/common/Projection {
+	public fun <init> ()V
+	public fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+	protected abstract fun fullCycleStream (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+	public final fun getStreamCache ()Lio/data2viz/geo/stream/StreamCache;
+	public final fun reset ()V
+}
+
+public abstract class io/data2viz/geo/projection/common/ComposedProjection : io/data2viz/geo/projection/common/Projection {
+	public fun <init> ()V
+	public fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+	public fun center-CDpwy5s (DD)V
+	public abstract fun getAllProjections ()Ljava/util/Collection;
+	public fun getCenterLat-FjFK4Cw ()D
+	public fun getCenterLon-FjFK4Cw ()D
+	public abstract fun getMainProjection ()Lio/data2viz/geo/projection/common/Projection;
+	public fun getPostClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
+	public fun getPreClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
+	public fun getPrecision ()D
+	public fun getRotateGamma-FjFK4Cw ()D
+	public fun getRotateLambda-FjFK4Cw ()D
+	public fun getRotatePhi-FjFK4Cw ()D
+	public fun getScale ()D
+	public fun getTranslateX ()D
+	public fun getTranslateY ()D
+	public fun rotate-EB13cHk (DDLio/data2viz/math/Angle;)V
+	public fun setCenterLat-I1OF4x4 (D)V
+	public fun setCenterLon-I1OF4x4 (D)V
+	public fun setPostClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
+	public fun setPreClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
+	public fun setPrecision (D)V
+	public fun setRotateGamma-I1OF4x4 (D)V
+	public fun setRotateLambda-I1OF4x4 (D)V
+	public fun setRotatePhi-I1OF4x4 (D)V
+	public fun setScale (D)V
+	public fun setTranslateX (D)V
+	public fun setTranslateY (D)V
+	public fun translate (DD)V
+}
+
+public final class io/data2viz/geo/projection/common/ComposedProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> (Lio/data2viz/geo/projection/common/Projector;Lio/data2viz/geo/projection/common/Projector;)V
+	public final fun getA ()Lio/data2viz/geo/projection/common/Projector;
+	public final fun getB ()Lio/data2viz/geo/projection/common/Projector;
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public abstract class io/data2viz/geo/projection/common/ConditionalProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> ()V
+	public abstract fun getActiveProjector ()Lio/data2viz/geo/projection/common/Projector;
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public abstract interface class io/data2viz/geo/projection/common/Invertable {
+	public abstract fun invert (DD)[D
+}
+
+public abstract interface class io/data2viz/geo/projection/common/Projectable {
+	public abstract fun project (DD)[D
+}
+
+public abstract interface class io/data2viz/geo/projection/common/Projection : io/data2viz/geo/projection/common/Projector {
+	public abstract fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+	public abstract fun center-CDpwy5s (DD)V
+	public abstract fun getCenterLat-FjFK4Cw ()D
+	public abstract fun getCenterLon-FjFK4Cw ()D
+	public abstract fun getPostClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
+	public abstract fun getPreClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
+	public abstract fun getPrecision ()D
+	public abstract fun getRotateGamma-FjFK4Cw ()D
+	public abstract fun getRotateLambda-FjFK4Cw ()D
+	public abstract fun getRotatePhi-FjFK4Cw ()D
+	public abstract fun getScale ()D
+	public abstract fun getTranslateX ()D
+	public abstract fun getTranslateY ()D
+	public abstract fun rotate-EB13cHk (DDLio/data2viz/math/Angle;)V
+	public abstract fun setCenterLat-I1OF4x4 (D)V
+	public abstract fun setCenterLon-I1OF4x4 (D)V
+	public abstract fun setPostClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
+	public abstract fun setPreClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
+	public abstract fun setPrecision (D)V
+	public abstract fun setRotateGamma-I1OF4x4 (D)V
+	public abstract fun setRotateLambda-I1OF4x4 (D)V
+	public abstract fun setRotatePhi-I1OF4x4 (D)V
+	public abstract fun setScale (D)V
+	public abstract fun setTranslateX (D)V
+	public abstract fun setTranslateY (D)V
+	public abstract fun translate (DD)V
+}
+
+public final class io/data2viz/geo/projection/common/Projection$DefaultImpls {
+	public static synthetic fun rotate-EB13cHk$default (Lio/data2viz/geo/projection/common/Projection;DDLio/data2viz/math/Angle;ILjava/lang/Object;)V
+}
+
+public abstract interface class io/data2viz/geo/projection/common/Projector : io/data2viz/geo/projection/common/Invertable, io/data2viz/geo/projection/common/Projectable {
+}
+
+public class io/data2viz/geo/projection/common/ProjectorProjection : io/data2viz/geo/projection/common/Projection {
+	protected field composedTransformationsProjector Lio/data2viz/geo/projection/common/Projector;
+	protected field rotator Lio/data2viz/geo/projection/common/Projector;
+	public fun <init> (Lio/data2viz/geo/projection/common/Projector;)V
+	public fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
+	public fun center-CDpwy5s (DD)V
+	public fun getCenterLat-FjFK4Cw ()D
+	public fun getCenterLon-FjFK4Cw ()D
+	protected final fun getComposedTransformationsProjector ()Lio/data2viz/geo/projection/common/Projector;
+	public fun getPostClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
+	public fun getPreClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
+	public fun getPrecision ()D
+	public final fun getProjector ()Lio/data2viz/geo/projection/common/Projector;
+	public fun getRotateGamma-FjFK4Cw ()D
+	public fun getRotateLambda-FjFK4Cw ()D
+	public fun getRotatePhi-FjFK4Cw ()D
+	protected final fun getRotator ()Lio/data2viz/geo/projection/common/Projector;
+	public fun getScale ()D
+	protected final fun getTranslateAndScaleProjector ()Lio/data2viz/geo/projection/common/TranslateAndScaleProjector;
+	public fun getTranslateX ()D
+	public fun getTranslateY ()D
+	protected final fun get_rotationGamma ()D
+	protected final fun get_rotationLambda ()D
+	protected final fun get_rotationPhi ()D
+	public fun invert (DD)[D
+	public fun project (DD)[D
+	public fun rotate-EB13cHk (DDLio/data2viz/math/Angle;)V
+	public fun setCenterLat-I1OF4x4 (D)V
+	public fun setCenterLon-I1OF4x4 (D)V
+	protected final fun setComposedTransformationsProjector (Lio/data2viz/geo/projection/common/Projector;)V
+	public fun setPostClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
+	public fun setPreClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
+	public fun setPrecision (D)V
+	public fun setRotateGamma-I1OF4x4 (D)V
+	public fun setRotateLambda-I1OF4x4 (D)V
+	public fun setRotatePhi-I1OF4x4 (D)V
+	protected final fun setRotator (Lio/data2viz/geo/projection/common/Projector;)V
+	public fun setScale (D)V
+	public fun setTranslateX (D)V
+	public fun setTranslateY (D)V
+	protected final fun set_rotationGamma (D)V
+	protected final fun set_rotationLambda (D)V
+	protected final fun set_rotationPhi (D)V
+	public fun translate (DD)V
+}
+
+public final class io/data2viz/geo/projection/common/ProjectorProjectionKt {
+	public static final fun projection (Lio/data2viz/geo/projection/common/Projector;Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
+}
+
+public final class io/data2viz/geo/projection/common/ResampleKt {
+	public static final field MAX_DEPTH I
+	public static final fun getCOS_MIN_DISTANCE ()D
+	public static final fun resample (Lio/data2viz/geo/projection/common/Projector;D)Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/geo/projection/common/RotationProjector : io/data2viz/geo/projection/common/Projector {
+	public synthetic fun <init> (DDLio/data2viz/math/Angle;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (DDLio/data2viz/math/Angle;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getRotator ()Lio/data2viz/geo/projection/common/Projector;
+	public fun invert (DD)[D
+	public fun project (DD)[D
+}
+
+public final class io/data2viz/geo/projection/common/TranslateAndScaleProjector : io/data2viz/geo/projection/common/Projector {
+	public fun <init> (Lio/data2viz/geo/projection/common/Projector;DDD)V
+	public final fun getProjector ()Lio/data2viz/geo/projection/common/Projector;
+	public final fun getRecenterDx ()D
+	public final fun getRecenterDy ()D
+	public final fun getScale ()D
+	public fun invert (DD)[D
+	public fun project (DD)[D
+	public final fun setRecenterDx (D)V
+	public final fun setRecenterDy (D)V
+	public final fun setScale (D)V
+}
+
+public class io/data2viz/geo/stream/DelegateStreamAdapter : io/data2viz/geo/stream/Stream {
+	public fun <init> (Lio/data2viz/geo/stream/Stream;)V
+	public final fun getDelegate ()Lio/data2viz/geo/stream/Stream;
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DDD)V
+	public fun polygonEnd ()V
+	public fun polygonStart ()V
+	public fun sphere ()V
+}
+
+public final class io/data2viz/geo/stream/MultiplexStream : io/data2viz/geo/stream/Stream {
+	public fun <init> (Ljava/util/Collection;)V
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DDD)V
+	public fun polygonEnd ()V
+	public fun polygonStart ()V
+	public fun sphere ()V
+}
+
+public abstract interface class io/data2viz/geo/stream/Stream {
+	public abstract fun lineEnd ()V
+	public abstract fun lineStart ()V
+	public abstract fun point (DDD)V
+	public abstract fun polygonEnd ()V
+	public abstract fun polygonStart ()V
+	public abstract fun sphere ()V
+}
+
+public final class io/data2viz/geo/stream/Stream$DefaultImpls {
+	public static fun lineEnd (Lio/data2viz/geo/stream/Stream;)V
+	public static fun lineStart (Lio/data2viz/geo/stream/Stream;)V
+	public static fun point (Lio/data2viz/geo/stream/Stream;DDD)V
+	public static fun polygonEnd (Lio/data2viz/geo/stream/Stream;)V
+	public static fun polygonStart (Lio/data2viz/geo/stream/Stream;)V
+	public static fun sphere (Lio/data2viz/geo/stream/Stream;)V
+}
+
+public final class io/data2viz/geo/stream/StreamCache {
+	public fun <init> ()V
+	public final fun cache (Lio/data2viz/geo/stream/Stream;Lio/data2viz/geo/stream/Stream;)V
+	public final fun getCachedResultStream ()Lio/data2viz/geo/stream/Stream;
+	public final fun getOriginalSourceStream ()Lio/data2viz/geo/stream/Stream;
+	public final fun isCacheValidFor (Lio/data2viz/geo/stream/Stream;)Z
+	public final fun reset ()V
+}
+

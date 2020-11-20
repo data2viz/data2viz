@@ -1,0 +1,500 @@
+public final class io/data2viz/scale/BandScale : io/data2viz/scale/BandedScale {
+	public fun copy ()Lio/data2viz/scale/BandScale;
+	public synthetic fun copy ()Lio/data2viz/scale/Scale;
+	public fun getPadding-P6MNtoY ()D
+	public final fun getPaddingInner-P6MNtoY ()D
+	public final fun getPaddingOuter-P6MNtoY ()D
+	public fun setPadding-wJQ8TTM (D)V
+	public final fun setPaddingInner-wJQ8TTM (D)V
+	public final fun setPaddingOuter-wJQ8TTM (D)V
+}
+
+public abstract class io/data2viz/scale/BandedScale : io/data2viz/scale/DiscreteDomain, io/data2viz/scale/Scale, io/data2viz/scale/StrictlyContinuousRange, io/data2viz/scale/Tickable {
+	public fun <init> ()V
+	public fun <init> (Lio/data2viz/scale/IndexableDomain;)V
+	public synthetic fun <init> (Lio/data2viz/scale/IndexableDomain;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun end ()Ljava/lang/Double;
+	public synthetic fun end ()Ljava/lang/Object;
+	public final fun getAlign-P6MNtoY ()D
+	public final fun getBandwidth ()D
+	public fun getDomain ()Ljava/util/List;
+	public abstract fun getPadding-P6MNtoY ()D
+	public fun getRange ()Lio/data2viz/scale/StrictlyContinuous;
+	public final fun getRound ()Z
+	public final fun getStep ()D
+	protected final fun get_paddingInner ()D
+	protected final fun get_paddingOuter ()D
+	public fun invoke (Ljava/lang/Object;)Ljava/lang/Double;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	protected final fun rescale ()V
+	public final fun setAlign-wJQ8TTM (D)V
+	public fun setDomain (Ljava/util/List;)V
+	public abstract fun setPadding-wJQ8TTM (D)V
+	public fun setRange (Lio/data2viz/scale/StrictlyContinuous;)V
+	public final fun setRound (Z)V
+	protected final fun set_paddingInner (D)V
+	protected final fun set_paddingOuter (D)V
+	public fun start ()Ljava/lang/Double;
+	public synthetic fun start ()Ljava/lang/Object;
+	public fun ticks (I)Ljava/util/List;
+}
+
+public abstract interface class io/data2viz/scale/ClampableScale {
+	public abstract fun getClamp ()Z
+}
+
+public abstract interface class io/data2viz/scale/ContinuousDomain {
+	public abstract fun getDomain ()Ljava/util/List;
+	public abstract fun setDomain (Ljava/util/List;)V
+}
+
+public final class io/data2viz/scale/ContinuousKt {
+	public static final fun bisectLeft (Ljava/util/List;Ljava/lang/Object;Ljava/util/Comparator;II)I
+	public static synthetic fun bisectLeft$default (Ljava/util/List;Ljava/lang/Object;Ljava/util/Comparator;IIILjava/lang/Object;)I
+	public static final fun bisectRight (Ljava/util/List;Ljava/lang/Object;Ljava/util/Comparator;II)I
+	public static synthetic fun bisectRight$default (Ljava/util/List;Ljava/lang/Object;Ljava/util/Comparator;IIILjava/lang/Object;)I
+}
+
+public abstract interface class io/data2viz/scale/ContinuousRangeScale : io/data2viz/scale/FirstLastRange, io/data2viz/scale/Scale {
+	public abstract fun end ()Ljava/lang/Object;
+	public abstract fun getRange ()Ljava/util/List;
+	public abstract fun setRange (Ljava/util/List;)V
+	public abstract fun start ()Ljava/lang/Object;
+}
+
+public final class io/data2viz/scale/ContinuousRangeScale$DefaultImpls {
+	public static fun end (Lio/data2viz/scale/ContinuousRangeScale;)Ljava/lang/Object;
+	public static fun start (Lio/data2viz/scale/ContinuousRangeScale;)Ljava/lang/Object;
+}
+
+public abstract class io/data2viz/scale/ContinuousScale : io/data2viz/scale/ClampableScale, io/data2viz/scale/ContinuousDomain, io/data2viz/scale/ContinuousRangeScale, io/data2viz/scale/InvertableScale {
+	public fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public abstract fun domainComparator ()Ljava/util/Comparator;
+	public fun end ()Ljava/lang/Object;
+	public fun getClamp ()Z
+	public fun getDomain ()Ljava/util/List;
+	public final fun getInterpolateRange ()Lkotlin/jvm/functions/Function2;
+	public fun getRange ()Ljava/util/List;
+	public final fun getRangeComparator ()Ljava/util/Comparator;
+	public final fun getUninterpolateRange ()Lkotlin/jvm/functions/Function2;
+	protected final fun get_domain ()Ljava/util/List;
+	protected final fun get_range ()Ljava/util/List;
+	public abstract fun interpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public fun invert (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	protected fun rescale ()V
+	public fun setClamp (Z)V
+	public fun setDomain (Ljava/util/List;)V
+	public fun setRange (Ljava/util/List;)V
+	public fun start ()Ljava/lang/Object;
+	public abstract fun uninterpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+}
+
+public abstract interface class io/data2viz/scale/DiscreteDomain {
+	public abstract fun getDomain ()Ljava/util/List;
+	public abstract fun setDomain (Ljava/util/List;)V
+}
+
+public abstract interface class io/data2viz/scale/DiscreteRange {
+	public abstract fun getRange ()Ljava/util/List;
+	public abstract fun setRange (Ljava/util/List;)V
+}
+
+public abstract interface class io/data2viz/scale/FirstLastRange : io/data2viz/scale/Scale {
+	public abstract fun end ()Ljava/lang/Object;
+	public abstract fun start ()Ljava/lang/Object;
+}
+
+public final class io/data2viz/scale/IndexableDomain : io/data2viz/scale/DiscreteDomain {
+	public fun <init> ()V
+	public fun getDomain ()Ljava/util/List;
+	public fun setDomain (Ljava/util/List;)V
+}
+
+public abstract interface class io/data2viz/scale/InvertableScale : io/data2viz/scale/Scale {
+	public abstract fun invert (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public class io/data2viz/scale/LinearScale : io/data2viz/scale/ContinuousScale, io/data2viz/scale/NiceableScale, io/data2viz/scale/Tickable {
+	public fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun copy ()Lio/data2viz/scale/ContinuousScale;
+	public synthetic fun copy ()Lio/data2viz/scale/Scale;
+	public fun domainComparator ()Ljava/util/Comparator;
+	public final fun getComparator ()Ljava/util/Comparator;
+	public fun interpolateDomain (DD)Lkotlin/jvm/functions/Function1;
+	public synthetic fun interpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public final fun invoke (I)Ljava/lang/Object;
+	public fun nice (I)V
+	public fun ticks (I)Ljava/util/List;
+	public fun uninterpolateDomain (DD)Lkotlin/jvm/functions/Function1;
+	public synthetic fun uninterpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+}
+
+public class io/data2viz/scale/LogScale : io/data2viz/scale/LinearScale {
+	public fun <init> (DLkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;)V
+	public synthetic fun <init> (DLkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun copy ()Lio/data2viz/scale/ContinuousScale;
+	public synthetic fun copy ()Lio/data2viz/scale/Scale;
+	public final fun getBase ()D
+	public fun getDomain ()Ljava/util/List;
+	public fun interpolateDomain (DD)Lkotlin/jvm/functions/Function1;
+	public synthetic fun interpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public fun nice (I)V
+	protected fun rescale ()V
+	public final fun setBase (D)V
+	public fun setDomain (Ljava/util/List;)V
+	public fun ticks (I)Ljava/util/List;
+	public fun uninterpolateDomain (DD)Lkotlin/jvm/functions/Function1;
+	public synthetic fun uninterpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+}
+
+public abstract interface class io/data2viz/scale/NiceableScale : io/data2viz/scale/ContinuousDomain {
+	public abstract fun nice (I)V
+}
+
+public final class io/data2viz/scale/NiceableScale$DefaultImpls {
+	public static synthetic fun nice$default (Lio/data2viz/scale/NiceableScale;IILjava/lang/Object;)V
+}
+
+public class io/data2viz/scale/OrdinalScale : io/data2viz/scale/DiscreteDomain, io/data2viz/scale/FirstLastRange, io/data2viz/scale/Scale {
+	public fun <init> ()V
+	public fun copy ()Lio/data2viz/scale/OrdinalScale;
+	public synthetic fun copy ()Lio/data2viz/scale/Scale;
+	public fun end ()Ljava/lang/Object;
+	public fun getDomain ()Ljava/util/List;
+	public final fun getIndexableDomain ()Lio/data2viz/scale/IndexableDomain;
+	public final fun getRange ()Ljava/util/List;
+	public final fun getUnknown ()Ljava/lang/Object;
+	protected final fun get_range ()Ljava/util/List;
+	public fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun setDomain (Ljava/util/List;)V
+	public final fun setRange (Ljava/util/List;)V
+	public final fun setUnknown (Ljava/lang/Object;)V
+	public fun start ()Ljava/lang/Object;
+}
+
+public final class io/data2viz/scale/PointScale : io/data2viz/scale/BandedScale {
+	public fun <init> ()V
+	public fun copy ()Lio/data2viz/scale/PointScale;
+	public synthetic fun copy ()Lio/data2viz/scale/Scale;
+	public fun getPadding-P6MNtoY ()D
+	public fun setPadding-wJQ8TTM (D)V
+}
+
+public final class io/data2viz/scale/PowerScale : io/data2viz/scale/LinearScale {
+	public fun copy ()Lio/data2viz/scale/ContinuousScale;
+	public synthetic fun copy ()Lio/data2viz/scale/Scale;
+	public final fun getExponent ()D
+	public fun interpolateDomain (DD)Lkotlin/jvm/functions/Function1;
+	public synthetic fun interpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public final fun setExponent (D)V
+	public fun uninterpolateDomain (DD)Lkotlin/jvm/functions/Function1;
+	public synthetic fun uninterpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+}
+
+public final class io/data2viz/scale/QuantileKt {
+	public static final fun quantile (Ljava/util/List;DLkotlin/jvm/functions/Function3;)D
+	public static synthetic fun quantile$default (Ljava/util/List;DLkotlin/jvm/functions/Function3;ILjava/lang/Object;)D
+}
+
+public final class io/data2viz/scale/QuantileScale : io/data2viz/scale/DiscreteDomain, io/data2viz/scale/DiscreteRange, io/data2viz/scale/Scale {
+	public fun copy ()Lio/data2viz/scale/Scale;
+	public fun getDomain ()Ljava/util/List;
+	public final fun getQuantiles ()Ljava/util/List;
+	public fun getRange ()Ljava/util/List;
+	public final fun invertExtent (Ljava/lang/Object;)Ljava/util/List;
+	public fun invoke (D)Ljava/lang/Object;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun setDomain (Ljava/util/List;)V
+	public fun setRange (Ljava/util/List;)V
+}
+
+public final class io/data2viz/scale/QuantizeScale : io/data2viz/scale/DiscreteRange, io/data2viz/scale/Scale, io/data2viz/scale/StrictlyContinuousDomain {
+	public fun copy ()Lio/data2viz/scale/QuantizeScale;
+	public synthetic fun copy ()Lio/data2viz/scale/Scale;
+	public fun getDomain ()Lio/data2viz/scale/StrictlyContinuous;
+	public fun getRange ()Ljava/util/List;
+	public final fun invertExtent (Ljava/lang/Object;)Ljava/util/List;
+	public fun invoke (D)Ljava/lang/Object;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun setDomain (Lio/data2viz/scale/StrictlyContinuous;)V
+	public fun setRange (Ljava/util/List;)V
+}
+
+public abstract interface class io/data2viz/scale/Scale {
+	public abstract fun copy ()Lio/data2viz/scale/Scale;
+	public abstract fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/data2viz/scale/ScaleKt {
+	public static final fun intervalOf (Ljava/lang/Object;Ljava/lang/Object;)Lio/data2viz/scale/StrictlyContinuous;
+	public static final fun intervalOf ([Ljava/lang/Object;)Lio/data2viz/scale/StrictlyContinuous;
+}
+
+public final class io/data2viz/scale/Scales {
+	public static final field INSTANCE Lio/data2viz/scale/Scales;
+}
+
+public final class io/data2viz/scale/Scales$Continuous {
+	public static final field INSTANCE Lio/data2viz/scale/Scales$Continuous;
+	public final fun identity ()Lio/data2viz/scale/LinearScale;
+	public final fun linear (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun linear$default (Lio/data2viz/scale/Scales$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+	public final fun linearRound (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun linearRound$default (Lio/data2viz/scale/Scales$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+	public final fun log (DLkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LogScale;
+	public static synthetic fun log$default (Lio/data2viz/scale/Scales$Continuous;DLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LogScale;
+	public final fun logRound (D)Lio/data2viz/scale/LogScale;
+	public static synthetic fun logRound$default (Lio/data2viz/scale/Scales$Continuous;DILjava/lang/Object;)Lio/data2viz/scale/LogScale;
+	public final fun pow (DLkotlin/jvm/functions/Function1;)Lio/data2viz/scale/PowerScale;
+	public static synthetic fun pow$default (Lio/data2viz/scale/Scales$Continuous;DLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/PowerScale;
+	public final fun powRound (DLkotlin/jvm/functions/Function1;)Lio/data2viz/scale/PowerScale;
+	public static synthetic fun powRound$default (Lio/data2viz/scale/Scales$Continuous;DLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/PowerScale;
+	public final fun sequential (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public final fun sequentialColor (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public final fun sqrt (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/PowerScale;
+	public static synthetic fun sqrt$default (Lio/data2viz/scale/Scales$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/PowerScale;
+	public final fun sqrtRound (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/PowerScale;
+	public static synthetic fun sqrtRound$default (Lio/data2viz/scale/Scales$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/PowerScale;
+	public final fun time (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/TimeScale;
+	public static synthetic fun time$default (Lio/data2viz/scale/Scales$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/TimeScale;
+	public final fun vector (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun vector$default (Lio/data2viz/scale/Scales$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+}
+
+public final class io/data2viz/scale/Scales$Discrete {
+	public static final field INSTANCE Lio/data2viz/scale/Scales$Discrete;
+	public final fun band (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/BandScale;
+	public static synthetic fun band$default (Lio/data2viz/scale/Scales$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/BandScale;
+	public final fun ordinal (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun ordinal$default (Lio/data2viz/scale/Scales$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun point (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/PointScale;
+	public static synthetic fun point$default (Lio/data2viz/scale/Scales$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/PointScale;
+}
+
+public final class io/data2viz/scale/Scales$Quantized {
+	public static final field INSTANCE Lio/data2viz/scale/Scales$Quantized;
+	public final fun quantile (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/QuantileScale;
+	public static synthetic fun quantile$default (Lio/data2viz/scale/Scales$Quantized;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/QuantileScale;
+	public final fun quantize (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/QuantizeScale;
+	public static synthetic fun quantize$default (Lio/data2viz/scale/Scales$Quantized;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/QuantizeScale;
+	public final fun threshold (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/ThresholdScale;
+	public static synthetic fun threshold$default (Lio/data2viz/scale/Scales$Quantized;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/ThresholdScale;
+}
+
+public final class io/data2viz/scale/ScalesChromatic {
+	public static final field INSTANCE Lio/data2viz/scale/ScalesChromatic;
+}
+
+public final class io/data2viz/scale/ScalesChromatic$Continuous {
+	public static final field INSTANCE Lio/data2viz/scale/ScalesChromatic$Continuous;
+	public final fun defaultRGB (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun defaultRGB$default (Lio/data2viz/scale/ScalesChromatic$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+	public final fun linearHCL (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun linearHCL$default (Lio/data2viz/scale/ScalesChromatic$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+	public final fun linearHCLLong (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun linearHCLLong$default (Lio/data2viz/scale/ScalesChromatic$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+	public final fun linearHSL (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun linearHSL$default (Lio/data2viz/scale/ScalesChromatic$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+	public final fun linearHSLLong (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun linearHSLLong$default (Lio/data2viz/scale/ScalesChromatic$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+	public final fun linearLAB (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun linearLAB$default (Lio/data2viz/scale/ScalesChromatic$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+	public final fun linearRGB (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/LinearScale;
+	public static synthetic fun linearRGB$default (Lio/data2viz/scale/ScalesChromatic$Continuous;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/LinearScale;
+}
+
+public final class io/data2viz/scale/ScalesChromatic$Discrete {
+	public static final field INSTANCE Lio/data2viz/scale/ScalesChromatic$Discrete;
+	public final fun accent8 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun accent8$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun category10 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun category10$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun categoryA20 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun categoryA20$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun categoryB20 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun categoryB20$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun categoryC20 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun categoryC20$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun dark8 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun dark8$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun paired12 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun paired12$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun pale12 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun pale12$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun pastel8 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun pastel8$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun pastel9 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun pastel9$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun vivid8 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun vivid8$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+	public final fun vivid9 (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/OrdinalScale;
+	public static synthetic fun vivid9$default (Lio/data2viz/scale/ScalesChromatic$Discrete;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/OrdinalScale;
+}
+
+public final class io/data2viz/scale/ScalesChromatic$Sequential {
+	public static final field INSTANCE Lio/data2viz/scale/ScalesChromatic$Sequential;
+}
+
+public final class io/data2viz/scale/ScalesChromatic$Sequential$Cyclical {
+	public static final field INSTANCE Lio/data2viz/scale/ScalesChromatic$Sequential$Cyclical;
+	public final fun sineBow (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun sineBow$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Cyclical;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+}
+
+public final class io/data2viz/scale/ScalesChromatic$Sequential$Diverging {
+	public static final field INSTANCE Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;
+	public final fun blue_yellow_red (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun blue_yellow_red$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun brown_blueGreen (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun brown_blueGreen$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun pink_green (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun pink_green$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun purple_green (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun purple_green$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun purple_orange (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun purple_orange$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun red_blue (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun red_blue$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun red_grey (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun red_grey$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun red_yellow_blue (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun red_yellow_blue$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun red_yellow_green (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun red_yellow_green$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun spectral (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun spectral$default (Lio/data2viz/scale/ScalesChromatic$Sequential$Diverging;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+}
+
+public final class io/data2viz/scale/ScalesChromatic$Sequential$MultiHue {
+	public static final field INSTANCE Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;
+	public final fun blue_green (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun blue_green$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun blue_purple (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun blue_purple$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun green_blue (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun green_blue$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun inferno (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun inferno$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun magma (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun magma$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun orange_red (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun orange_red$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun plasma (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun plasma$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun purple_blue (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun purple_blue$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun purple_blue_green (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun purple_blue_green$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun purple_red (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun purple_red$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun red_purple (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun red_purple$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun viridis (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun viridis$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun yellow_green (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun yellow_green$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun yellow_green_blue (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun yellow_green_blue$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun yellow_green_brown (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun yellow_green_brown$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun yellow_green_red (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun yellow_green_red$default (Lio/data2viz/scale/ScalesChromatic$Sequential$MultiHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+}
+
+public final class io/data2viz/scale/ScalesChromatic$Sequential$SingleHue {
+	public static final field INSTANCE Lio/data2viz/scale/ScalesChromatic$Sequential$SingleHue;
+	public final fun blues (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun blues$default (Lio/data2viz/scale/ScalesChromatic$Sequential$SingleHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun greens (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun greens$default (Lio/data2viz/scale/ScalesChromatic$Sequential$SingleHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun greys (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun greys$default (Lio/data2viz/scale/ScalesChromatic$Sequential$SingleHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun oranges (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun oranges$default (Lio/data2viz/scale/ScalesChromatic$Sequential$SingleHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun purples (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun purples$default (Lio/data2viz/scale/ScalesChromatic$Sequential$SingleHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+	public final fun reds (Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/SequentialScale;
+	public static synthetic fun reds$default (Lio/data2viz/scale/ScalesChromatic$Sequential$SingleHue;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/scale/SequentialScale;
+}
+
+public final class io/data2viz/scale/SequentialScale : io/data2viz/scale/ClampableScale, io/data2viz/scale/StrictlyContinuousDomain, io/data2viz/scale/Tickable {
+	public fun getClamp ()Z
+	public fun getDomain ()Lio/data2viz/scale/StrictlyContinuous;
+	public final fun getInterpolator ()Lkotlin/jvm/functions/Function1;
+	public final fun invoke (D)Ljava/lang/Object;
+	public final fun invoke (I)Ljava/lang/Object;
+	public fun setClamp (Z)V
+	public fun setDomain (Lio/data2viz/scale/StrictlyContinuous;)V
+	public final fun setInterpolator (Lkotlin/jvm/functions/Function1;)V
+	public fun ticks (I)Ljava/util/List;
+}
+
+public final class io/data2viz/scale/StrictlyContinuous {
+	public fun <init> (Ljava/lang/Object;Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component2 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/Object;Ljava/lang/Object;)Lio/data2viz/scale/StrictlyContinuous;
+	public static synthetic fun copy$default (Lio/data2viz/scale/StrictlyContinuous;Ljava/lang/Object;Ljava/lang/Object;ILjava/lang/Object;)Lio/data2viz/scale/StrictlyContinuous;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnd ()Ljava/lang/Object;
+	public final fun getStart ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/data2viz/scale/StrictlyContinuousDomain {
+	public abstract fun getDomain ()Lio/data2viz/scale/StrictlyContinuous;
+	public abstract fun setDomain (Lio/data2viz/scale/StrictlyContinuous;)V
+}
+
+public abstract interface class io/data2viz/scale/StrictlyContinuousRange : io/data2viz/scale/FirstLastRange {
+	public abstract fun end ()Ljava/lang/Object;
+	public abstract fun getRange ()Lio/data2viz/scale/StrictlyContinuous;
+	public abstract fun setRange (Lio/data2viz/scale/StrictlyContinuous;)V
+	public abstract fun start ()Ljava/lang/Object;
+}
+
+public final class io/data2viz/scale/StrictlyContinuousRange$DefaultImpls {
+	public static fun end (Lio/data2viz/scale/StrictlyContinuousRange;)Ljava/lang/Object;
+	public static fun start (Lio/data2viz/scale/StrictlyContinuousRange;)Ljava/lang/Object;
+}
+
+public final class io/data2viz/scale/ThresholdScale : io/data2viz/scale/DiscreteDomain, io/data2viz/scale/DiscreteRange, io/data2viz/scale/Scale {
+	public fun copy ()Lio/data2viz/scale/Scale;
+	public fun getDomain ()Ljava/util/List;
+	public fun getRange ()Ljava/util/List;
+	public final fun get_domain ()Ljava/util/List;
+	public final fun get_range ()Ljava/util/List;
+	public final fun invertExtent (Ljava/lang/Object;)Ljava/util/List;
+	public fun invoke (D)Ljava/lang/Object;
+	public final fun invoke (I)Ljava/lang/Object;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun setDomain (Ljava/util/List;)V
+	public fun setRange (Ljava/util/List;)V
+	public final fun set_domain (Ljava/util/List;)V
+	public final fun set_range (Ljava/util/List;)V
+}
+
+public abstract interface class io/data2viz/scale/Tickable {
+	public abstract fun ticks (I)Ljava/util/List;
+}
+
+public final class io/data2viz/scale/Tickable$DefaultImpls {
+	public static synthetic fun ticks$default (Lio/data2viz/scale/Tickable;IILjava/lang/Object;)Ljava/util/List;
+}
+
+public final class io/data2viz/scale/TimeScale : io/data2viz/scale/ContinuousScale, io/data2viz/scale/NiceableScale, io/data2viz/scale/Tickable {
+	public fun copy ()Lio/data2viz/scale/ContinuousScale;
+	public synthetic fun copy ()Lio/data2viz/scale/Scale;
+	public fun domainComparator ()Ljava/util/Comparator;
+	public synthetic fun interpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public fun interpolateDomain (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlin/jvm/functions/Function1;
+	public fun nice (I)V
+	public fun ticks (I)Ljava/util/List;
+	public synthetic fun uninterpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
+	public fun uninterpolateDomain (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlin/jvm/functions/Function1;
+}
+

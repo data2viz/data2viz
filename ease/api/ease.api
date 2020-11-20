@@ -1,0 +1,111 @@
+public final class io/data2viz/ease/BackIn {
+	public fun <init> ()V
+	public fun <init> (D)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun invoke (D)D
+	public final fun overshoot (D)Lio/data2viz/ease/BackIn;
+}
+
+public final class io/data2viz/ease/BackInOut {
+	public fun <init> ()V
+	public fun <init> (D)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun invoke (D)D
+	public final fun overshoot (D)Lio/data2viz/ease/BackInOut;
+}
+
+public final class io/data2viz/ease/BackOut {
+	public fun <init> ()V
+	public fun <init> (D)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun invoke (D)D
+	public final fun overshoot (D)Lio/data2viz/ease/BackOut;
+}
+
+public final class io/data2viz/ease/ElasticIn {
+	public fun <init> ()V
+	public fun <init> (DD)V
+	public synthetic fun <init> (DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun amplitude (D)Lio/data2viz/ease/ElasticIn;
+	public final fun invoke (D)D
+	public final fun period (D)Lio/data2viz/ease/ElasticIn;
+}
+
+public final class io/data2viz/ease/ElasticInOut {
+	public fun <init> ()V
+	public fun <init> (DD)V
+	public synthetic fun <init> (DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun amplitude (D)Lio/data2viz/ease/ElasticInOut;
+	public final fun invoke (D)D
+	public final fun period (D)Lio/data2viz/ease/ElasticInOut;
+}
+
+public final class io/data2viz/ease/ElasticOut {
+	public fun <init> ()V
+	public fun <init> (DD)V
+	public synthetic fun <init> (DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun amplitude (D)Lio/data2viz/ease/ElasticOut;
+	public final fun invoke (D)D
+	public final fun period (D)Lio/data2viz/ease/ElasticOut;
+}
+
+public final class io/data2viz/ease/PolyIn {
+	public fun <init> ()V
+	public fun <init> (D)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun exponent (D)Lio/data2viz/ease/PolyIn;
+	public final fun invoke (D)D
+}
+
+public final class io/data2viz/ease/PolyInOut {
+	public fun <init> ()V
+	public fun <init> (D)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun exponent (D)Lio/data2viz/ease/PolyInOut;
+	public final fun invoke (D)D
+}
+
+public final class io/data2viz/ease/PolyOut {
+	public fun <init> ()V
+	public fun <init> (D)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun exponent (D)Lio/data2viz/ease/PolyOut;
+	public final fun invoke (D)D
+}
+
+public final class io/data2viz/ease/ease {
+	public static final field Companion Lio/data2viz/ease/ease$Companion;
+	public fun <init> ()V
+}
+
+public final class io/data2viz/ease/ease$Companion {
+	public final fun getBackIn ()Lio/data2viz/ease/BackIn;
+	public final fun getBackInOut ()Lio/data2viz/ease/BackInOut;
+	public final fun getBackOut ()Lio/data2viz/ease/BackOut;
+	public final fun getBounceIn ()Lkotlin/jvm/functions/Function1;
+	public final fun getBounceInOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getBounceOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getCircleIn ()Lkotlin/jvm/functions/Function1;
+	public final fun getCircleInOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getCircleOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getCubicIn ()Lkotlin/jvm/functions/Function1;
+	public final fun getCubicInOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getCubicOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getElasticIn ()Lio/data2viz/ease/ElasticIn;
+	public final fun getElasticInOut ()Lio/data2viz/ease/ElasticInOut;
+	public final fun getElasticOut ()Lio/data2viz/ease/ElasticOut;
+	public final fun getExpIn ()Lkotlin/jvm/functions/Function1;
+	public final fun getExpInOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getExpOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getLinear ()Lkotlin/jvm/functions/Function1;
+	public final fun getPolyIn ()Lio/data2viz/ease/PolyIn;
+	public final fun getPolyInOut ()Lio/data2viz/ease/PolyInOut;
+	public final fun getPolyOut ()Lio/data2viz/ease/PolyOut;
+	public final fun getQuadIn ()Lkotlin/jvm/functions/Function1;
+	public final fun getQuadInOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getQuadOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getSinIn ()Lkotlin/jvm/functions/Function1;
+	public final fun getSinInOut ()Lkotlin/jvm/functions/Function1;
+	public final fun getSinOut ()Lkotlin/jvm/functions/Function1;
+}
+
