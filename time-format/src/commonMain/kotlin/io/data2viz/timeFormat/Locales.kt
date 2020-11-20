@@ -17,7 +17,7 @@
 
 package io.data2viz.timeFormat
 
-data class TimeLocale(
+public data class TimeLocale(
         val dateTime: String,
         val date: String,
         val time: String,
@@ -28,9 +28,9 @@ data class TimeLocale(
         val shortMonths: List<String>
 )
 
-class Locales {
-    companion object {
-        fun locale(
+public class Locales {
+    public companion object {
+        public fun locale(
                 dateTime: String = "%x, %X",
                 date: String = "%-m/%-d/%Y",
                 time: String = "%-I:%M:%S %p",
@@ -41,7 +41,7 @@ class Locales {
                 shortMonths: List<String> = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
         ) = TimeLocale(dateTime, date, time, periods, days, shortDays, months, shortMonths)
 
-        fun defaultLocale() = locale()
+        public fun defaultLocale() = locale()
         fun ca_ES() = locale("%A, %e de %B de %Y, %X",
                 "%d/%m/%Y",
                 "%H:%M:%S",

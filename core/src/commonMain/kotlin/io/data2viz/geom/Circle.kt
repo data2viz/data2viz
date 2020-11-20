@@ -17,8 +17,26 @@
 
 package io.data2viz.geom
 
-interface Circle {
-    var x: Double
-    var y: Double
-    var radius: Double
+
+/**
+ * A circle is defined by the position [x] and [y] of its center and
+ * by its [radius]
+ */
+public interface Circle {
+
+    /**
+     * x position of the circle center
+     */
+    public var x: Double
+
+    /**
+     * x position of the circle center
+     */
+    public var y: Double
+
+    /**
+     * radius size of the circle
+     */
+    public var radius: Double
+
 }

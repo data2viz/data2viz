@@ -640,26 +640,26 @@ fun newYear(y: Int?): ParseDate {
 
 /// STRING MANIPULATIONS
 
-val pads = mapOf(Pair('-', ""), Pair('_', " "), Pair('0', "0"))
-val numberRe = Regex("^\\s*\\d+") // note: ignores next directive
+private val pads = mapOf(Pair('-', ""), Pair('_', " "), Pair('0', "0"))
+private val numberRe = Regex("^\\s*\\d+") // note: ignores next directive
 
-fun pad(value: Int, fill: String, width: Int): String {
+private fun pad(value: Int, fill: String, width: Int): String {
     val sign = if (value < 0) "-" else ""
     val string = abs(value).toString()
     return sign + (0 until (width - string.length)).map { fill }.joinToString("") + string
 }
 
-fun requote(s: String): String {
+private fun requote(s: String): String {
     val requoteRe = "/[\\\\^\$\\*\\+\\?\\|\\[\\]\\(\\)\\.\\{\\}]/g"
     return s.replace(requoteRe, "\\$&")
 }
 
-fun formatRe(names: List<String>): Regex {
+private fun formatRe(names: List<String>): Regex {
     val joinToString = names.map { it -> requote(it) }.joinToString("|")
     return Regex("^(?:$joinToString)", RegexOption.IGNORE_CASE)
 }
 
-fun formatLookup(names: List<String>): Map<String, Int> {
+private fun formatLookup(names: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     var i = -1
     val n = names.size

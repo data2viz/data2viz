@@ -23,13 +23,14 @@ import io.data2viz.math.TAU_EPSILON
 import kotlin.math.*
 
 /**
- * PathGeom is the base implementation of path that contains only the geometry of the path (without any
+ * PathGeom is the base implementation of path that contains only the
+ * geometry of the path
  */
-class PathGeom : Path {
+public class PathGeom : Path {
 
     val commands = mutableListOf<PathCommand>()
 
-    fun clearPath() {
+    public fun clearPath() {
         commands.clear()
     }
 
@@ -75,10 +76,12 @@ class PathGeom : Path {
     }
 }
 
-
-interface PathCommand {
-    val x: Double
-    val y: Double
+/**
+ * Common interface of PathCommand
+ */
+public interface PathCommand {
+    public val x: Double
+    public val y: Double
 }
 
 data class MoveTo(override val x: Double, override val y: Double) : PathCommand
