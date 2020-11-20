@@ -5,6 +5,10 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.9
+> Published 20 Nov 2020
+* Add experimental classes property on Node.
+
 ## 0.8.8
 > Published 21 Oct 2020
 * Add Scale.copy() see #229.
