@@ -1,6 +1,0 @@
-apply from: rootProject.file('gradle/test-js.gradle')
-
-dependencies {
-    expectedBy project(":sankey:sankey-common")
-    compile project(":shape:shape-js")
-}

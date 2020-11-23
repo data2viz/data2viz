@@ -1,4 +1,0 @@
-dependencies {
-    expectedBy project(":sankey:sankey-common")
-    compile project(":shape:shape-jvm")
-}

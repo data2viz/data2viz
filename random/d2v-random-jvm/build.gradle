@@ -1,5 +1,0 @@
-
-dependencies{
-    expectedBy project(":random:random-common")
-}
-

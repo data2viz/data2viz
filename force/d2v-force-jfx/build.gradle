@@ -1,8 +1,0 @@
-dependencies {
-    expectedBy project(":force:force-common")
-    compile project(":core:core-jvm")
-    compile project(":quadtree:quadtree-jvm")
-    compile project(":timer:timer-jfx")
-    testCompile project(":random:random-jvm")
-    testCompile project(":viz:viz-jfx")
-}
