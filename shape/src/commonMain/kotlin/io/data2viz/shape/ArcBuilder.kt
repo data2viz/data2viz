@@ -23,24 +23,23 @@ import kotlin.math.*
 /**
  * Instanciate a new ArcBuilder and use the lambda to initiate it.
  */
-fun <T> arcBuilder(init: ArcBuilder<T>.() -> Unit) = ArcBuilder<T>().apply(init)
+public fun <T> arcBuilder(init: ArcBuilder<T>.() -> Unit): ArcBuilder<T> = ArcBuilder<T>().apply(init)
 
 
 /**
  *
  */
-class ArcBuilder<D> {
+public class ArcBuilder<D> {
 
-    var innerRadius: (D) -> Double = const(.0)
-    var outerRadius: (D) -> Double = const(100.0)
-    var cornerRadius: (D) -> Double = const(.0)
-    var padRadius: ((D) -> Double)? = null
+    public var innerRadius: (D) -> Double = const(.0)
+    public var outerRadius: (D) -> Double = const(100.0)
+    public var cornerRadius: (D) -> Double = const(.0)
+    public var padRadius: ((D) -> Double)? = null
+    public var startAngle: (D) -> Double = const(.0)           // TODO : Angle ?
+    public var endAngle: (D) -> Double = const(.0)             // TODO : Angle ?
+    public var padAngle: (D) -> Double = const(.0)             // TODO : Angle ?
 
-    var startAngle: (D) -> Double = const(.0)           // TODO : Angle ?
-    var endAngle: (D) -> Double = const(.0)             // TODO : Angle ?
-    var padAngle: (D) -> Double = const(.0)             // TODO : Angle ?
-
-    fun centroid(datum: D): Array<Double> {
+    public fun centroid(datum: D): Array<Double> {
         val r = innerRadius(datum) + outerRadius(datum) / 2.0
         val a = startAngle(datum) + endAngle(datum) / 2.0 - halfPi
         return arrayOf(cos(a) * r, sin(a) * r)
@@ -49,7 +48,7 @@ class ArcBuilder<D> {
     /**
      * Use the datum to generate an arc on the path
      */
-    fun <C : Path> buildArcForDatum(datum: D, path: C): C {
+    public fun <C : Path> buildArcForDatum(datum: D, path: C): C {
         var r0 = innerRadius(datum)
         var r1 = outerRadius(datum)
         val a0 = startAngle(datum) - halfPi
@@ -252,7 +251,7 @@ class ArcBuilder<D> {
     }
 }
 
-data class ArcParams<T>(
+public data class ArcParams<T>(
         val startAngle: Double,
         val endAngle: Double,
         val padAngle: Double?,

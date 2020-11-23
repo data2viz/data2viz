@@ -23,9 +23,9 @@ import kotlin.math.sqrt
 import io.data2viz.hierarchy.PackNode
 import io.data2viz.hierarchy.packNode
 
-val epsilon = 1e-6
+internal val epsilon: Double = 1e-6
 
-fun <D> packEnclose(circles:List<PackNode<D>>):Double {
+internal fun <D> packEnclose(circles:List<PackNode<D>>):Double {
     if (circles.isEmpty()) return .0
 
     val n = circles.size

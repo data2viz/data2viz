@@ -23,27 +23,27 @@ import kotlin.math.round
 /**
  * An interpolator transforms a normalized continuous range (0% -> 100%) to an object T
  */
-typealias Interpolator<T> = (Percent) -> T
+public typealias Interpolator<T> = (Percent) -> T
 
 /**
  * An un-interpolator transforms an object T to a normalized continuous range (0% -> 100%)
  */
-typealias UnInterpolator<T> = (T) -> Percent
+public typealias UnInterpolator<T> = (T) -> Percent
 
-fun interpolateNumber(start: Double, end: Double): Interpolator<Double>{
+public fun interpolateNumber(start: Double, end: Double): Interpolator<Double>{
     val diff = end - start
     return { percent -> start + percent.value * diff }
 }
 
 
-fun interpolateRound(start: Double, end: Double): Interpolator<Double> {
+public fun interpolateRound(start: Double, end: Double): Interpolator<Double> {
     val diff = end - start
     return { percent -> round(start + percent.value * diff) }
 }
 
-fun uninterpolateNumber(start: Double, end: Double): UnInterpolator<Double> {
+public fun uninterpolateNumber(start: Double, end: Double): UnInterpolator<Double> {
     val diff = end - start
     return if (diff != .0) { double -> Percent((double - start) / diff) }  else { _ -> 0.pct }
 }
 
-fun identity(percent: Percent) = percent.value
+public fun identity(percent: Percent): Double = percent.value

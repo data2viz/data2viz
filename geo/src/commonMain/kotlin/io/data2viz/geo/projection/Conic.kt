@@ -23,23 +23,23 @@ import io.data2viz.math.Angle
 import io.data2viz.math.PI
 import io.data2viz.math.rad
 
-fun conicProjection(projection: ConicProjector, init: ConicProjection.() -> Unit = {}) =
+public fun conicProjection(projection: ConicProjector, init: ConicProjection.() -> Unit = {}): ConicProjection =
     ConicProjection(projection).apply(init)
 
 
-interface ConicProjector : Projector {
+public interface ConicProjector : Projector {
     /**
      * Minimum parallel angle value in radians
      *
      * @see ConicProjection.parallelsMin
      */
-    var phi0: Double
+    public var phi0: Double
     /**
      * Maximum parallel angle value in radians
      *
      * @see ConicProjection.parallelsMax
      */
-    var phi1: Double
+    public var phi1: Double
 }
 
 /**
@@ -47,7 +47,8 @@ interface ConicProjector : Projector {
  * Conic projections have two standard parallels.
  */
 
-class ConicProjection(val conicProjector: ConicProjector) : ProjectorProjection(conicProjector) {
+public class ConicProjection(
+    public val conicProjector: ConicProjector) : ProjectorProjection(conicProjector) {
     private var phi0: Double = 0.0
     private var phi1: Double = PI / 3.0
 
@@ -62,7 +63,7 @@ class ConicProjection(val conicProjector: ConicProjector) : ProjectorProjection(
      * @see parallelsMin
      * @see parallelsMax
      */
-    fun parallels(min: Angle, max: Angle) {
+    public fun parallels(min: Angle, max: Angle) {
         parallelsMin = min
         parallelsMax = max
     }
@@ -74,7 +75,7 @@ class ConicProjection(val conicProjector: ConicProjector) : ProjectorProjection(
      * @see ConicProjector.phi0
      * @see parallels
      */
-    var parallelsMin: Angle
+    public var parallelsMin: Angle
         get() = phi0.rad
         set(value) {
             phi0 = value.rad
@@ -87,7 +88,7 @@ class ConicProjection(val conicProjector: ConicProjector) : ProjectorProjection(
      * @see ConicProjector.phi1
      * @see parallels
      */
-    var parallelsMax: Angle
+    public var parallelsMax: Angle
         get() = phi1.rad
         set(value) {
             phi1 = value.rad

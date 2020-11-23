@@ -25,33 +25,33 @@ internal var firstCircle: RedBlackNode<Circle>? = null
 internal val circles = RedBlackTree<Circle>()
 internal val circlePool = mutableListOf<RedBlackNode<Circle>>()
 
-class Circle {
-    var x: Double = .0
-    var y: Double = .0
-    var cy: Double = .0
-    lateinit var site: Site
+public class Circle {
+    public var x: Double = .0
+    public var y: Double = .0
+    public var cy: Double = .0
+    public lateinit var site: Site
 
-    var arcNode: RedBlackNode<Beach>? = null
+    public var arcNode: RedBlackNode<Beach>? = null
 }
 
-var RedBlackNode<Circle>.x: Double
+public var RedBlackNode<Circle>.x: Double
     get() = node.x
     set(value) {node.x = value}
 
-var RedBlackNode<Circle>.y: Double
+public var RedBlackNode<Circle>.y: Double
     get() = node.y
     set(value) {node.y = value}
 
-var RedBlackNode<Circle>.cy: Double
+public var RedBlackNode<Circle>.cy: Double
     get() = node.cy
     set(value) {node.cy = value}
 
-var RedBlackNode<Circle>.site: Site
+public var RedBlackNode<Circle>.site: Site
     get() = node.site
     set(value) {node.site = value}
 
 
-fun attachCircle(arcNode: RedBlackNode<Beach>) {
+public fun attachCircle(arcNode: RedBlackNode<Beach>) {
     val lArc = arcNode.P
     val rArc = arcNode.N
 
@@ -107,7 +107,7 @@ fun attachCircle(arcNode: RedBlackNode<Beach>) {
         firstCircle = circle
 }
 
-fun detachCircle(arcNode: RedBlackNode<Beach>) {
+public fun detachCircle(arcNode: RedBlackNode<Beach>) {
     val circle = arcNode.node.circleNode
     if (circle != null) {
         if (circle.P == null) {

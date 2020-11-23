@@ -34,4 +34,4 @@ private fun interpolateLab(start: Color, end:Color): Interpolator<Color> {
     return fun(percent:Percent) = Colors.lab(Percent(l(percent)), a(percent), b(percent))
 }
 
-fun labInterpolator(start:Color, end:Color) = interpolateLab(start, end)
+public fun labInterpolator(start:Color, end:Color): (Percent) -> Color = interpolateLab(start, end)

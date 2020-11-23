@@ -29,9 +29,9 @@ import kotlin.math.*
  * See https://github.com/d3/d3-geo/blob/master/src/rotation.js
  * TODO Why gamma is nullable? By default all rotation could be 0.0.
  */
-class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null) : Projector {
+public class RotationProjector(lambda: Angle, phi: Angle, gamma: Angle? = null) : Projector {
 
-    val rotator =
+    public val rotator: Projector =
         createRotateRadiansProjector(
             lambda.rad,
             phi.rad,

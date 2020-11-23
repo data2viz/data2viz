@@ -25,7 +25,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class Circle : Symbol {
+public class Circle : Symbol {
     override fun <C : Path> render(path: C, size: Double): C {
         val r = sqrt(size / pi)
         with(path) {
@@ -36,7 +36,7 @@ class Circle : Symbol {
     }
 }
 
-class Cross : Symbol {
+public class Cross : Symbol {
     override fun <C : Path> render(path: C, size: Double): C {
         val r = sqrt(size / 5) / 2
         val r3 = 3 * r
@@ -59,7 +59,7 @@ class Cross : Symbol {
     }
 }
 
-class Diamond : Symbol {
+public class Diamond : Symbol {
 
     private val tan30 = sqrt(1 / 3.0)
     private val tan30_2 = tan30 * 2;
@@ -78,7 +78,7 @@ class Diamond : Symbol {
     }
 }
 
-class Square : Symbol {
+public class Square : Symbol {
     override fun <C : Path> render(path: C, size: Double): C {
         val w = sqrt(size)
         val x = -w / 2.0
@@ -87,7 +87,7 @@ class Square : Symbol {
     }
 }
 
-class Star : Symbol {
+public class Star : Symbol {
 
     private val ka = 0.89081309152928522810
     private val kr = sin(pi / 10) / sin(7 * pi / 10)

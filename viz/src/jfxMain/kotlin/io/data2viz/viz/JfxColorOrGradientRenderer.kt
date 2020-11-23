@@ -24,14 +24,16 @@ import io.data2viz.color.RadialGradient
 import javafx.scene.paint.*
 
 
-typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
-typealias JfxRadialGradient = javafx.scene.paint.RadialGradient
+public typealias JfxLinearGradient = javafx.scene.paint.LinearGradient
 
-val Color.jfxColor: javafx.scene.paint.Color
+
+public typealias JfxRadialGradient = javafx.scene.paint.RadialGradient
+
+public val Color.jfxColor: javafx.scene.paint.Color
     get() = javafx.scene.paint.Color.rgb(r, g, b, alpha.value)
 
 
-fun ColorOrGradient.toPaint() = when(this) {
+public fun ColorOrGradient.toPaint(): Paint = when(this) {
     is LinearGradient       -> toLinearGradientJFX()
     is RadialGradient       -> toRadialGradientJFX()
     is Color                -> jfxColor
@@ -39,13 +41,13 @@ fun ColorOrGradient.toPaint() = when(this) {
 }
 
 
-fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient = JfxLinearGradient(
+public fun LinearGradient.toLinearGradientJFX(): JfxLinearGradient = JfxLinearGradient(
     x1, y1, x2, y2,
     false,
     CycleMethod.NO_CYCLE, colorStops.toStops()
 )
 
-fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient = JfxRadialGradient(
+public fun RadialGradient.toRadialGradientJFX(): JfxRadialGradient = JfxRadialGradient(
     .0, .0, cx, cy, radius,
     false,
     CycleMethod.NO_CYCLE, colorStops.toStops()

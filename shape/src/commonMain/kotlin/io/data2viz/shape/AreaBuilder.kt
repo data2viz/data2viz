@@ -19,7 +19,7 @@ package io.data2viz.shape
 
 import io.data2viz.geom.Path
 
-fun <D> areaBuilder(init: AreaBuilder<D>.() -> Unit) = AreaBuilder<D>().apply(init)
+public fun <D> areaBuilder(init: AreaBuilder<D>.() -> Unit): AreaBuilder<D> = AreaBuilder<D>().apply(init)
 
 /**
  * The area generator produces an area, as in an area chart. An area is defined by two bounding lines, either splines
@@ -28,41 +28,41 @@ fun <D> areaBuilder(init: AreaBuilder<D>.() -> Unit) = AreaBuilder<D>().apply(in
  * and is rendered first; the second line (the baseline) is defined by x0 and y0 and is rendered second, with the
  * points in reverse order. With a curveLinear curve, this produces a clockwise polygon.
  */
-class AreaBuilder<D> {
+public class AreaBuilder<D> {
 
     /**
      * The type of curve used to draw the bounding lines of the area.
      */
-    var curve: (Path) -> Curve = curves.linear
+    public var curve: (Path) -> Curve = curves.linear
 
     /**
      * X-value for the base-line, should take a Domain object and return a Double.
      */
-    var xBaseline: (D) -> Double = const(.0)
+    public var xBaseline: (D) -> Double = const(.0)
 
     /**
      * Y-value for the base-line, should take a Domain object and return a Double.
      */
-    var yBaseline: (D) -> Double = const(.0)
+    public var yBaseline: (D) -> Double = const(.0)
 
     /**
      * X-value for the top-line, should take a Domain object and return a Double.
      * If xTopline is the same as xBaseline you may let it null.
      */
-    var xTopline: ((D) -> Double)? = null
+    public var xTopline: ((D) -> Double)? = null
 
     /**
      * Y-value for the top-line, should take a Domain object and return a Double.
      * If yTopline is the same as yBaseline you may let it null.
      */
-    var yTopline: ((D) -> Double)? = null
+    public var yTopline: ((D) -> Double)? = null
 
     /**
      * This will indicate if a Domain value should be displayed.
      * If defined(d) returns true, the point is on the line.
      * If defined(d) returns false, the point is omitted.
      */
-    var defined: (D) -> Boolean = const(true)
+    public var defined: (D) -> Boolean = const(true)
 
 
     // TODO : implements ?
@@ -87,7 +87,7 @@ class AreaBuilder<D> {
     /**
      * Use the data to generate an area on the path
      */
-    fun <C : Path> render(data: List<D>, path: C): C {
+    public fun <C : Path> render(data: List<D>, path: C): C {
         val n = data.size
 
         val x0z = Array(n, { 0.0 })

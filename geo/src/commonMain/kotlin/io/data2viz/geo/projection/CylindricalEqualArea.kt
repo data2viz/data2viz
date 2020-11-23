@@ -26,26 +26,26 @@ import kotlin.math.sin
  * Simple cylindrical equal area
  * Used in [ConicEqualAreaBaseConditionalProjector]
  */
-class CylindricalEqualAreaProjector() : Projector {
+public class CylindricalEqualAreaProjector() : Projector {
 
-    constructor(phi:Double) : this() {
+    public constructor(phi:Double) : this() {
         phi0 = phi
     }
 
-    var phi0:Double = 0.0
+    public var phi0:Double = 0.0
     set(value) {
         field = value
         recalculate()
     }
 
-    var cosPhi0: Double = 0.0
+    public var cosPhi0: Double = 0.0
 
     private fun recalculate() {
         cosPhi0 = cos(phi0)
     }
 
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda * cosPhi0, sin(phi) / cosPhi0)
+    override fun project(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(lambda * cosPhi0, sin(phi) / cosPhi0)
 
-    override fun invert(x: Double, y: Double) = doubleArrayOf( x / cosPhi0, asin(y * cosPhi0))
+    override fun invert(x: Double, y: Double): DoubleArray = doubleArrayOf( x / cosPhi0, asin(y * cosPhi0))
 
 }

@@ -28,7 +28,7 @@ import kotlin.math.*
  * number of links between the 2 nodes. This default was chosen because it automatically reduces the strength of links
  * connected to heavily-connected nodes, improving stability.
  */
-data class Link<D>(
+public data class Link<D>(
     val source: ForceNode<D>,
     val target: ForceNode<D>,
     val distance: Double = 30.0,
@@ -36,19 +36,19 @@ data class Link<D>(
 )
 
 @Deprecated("Deprecated", ReplaceWith("forceSimulation { forceLink { } }", " io.data2viz.force.ForceSimulation"))
-fun <D> forceLink(init: ForceLink<D>.() -> Unit) = ForceLink<D>().apply(init)
+public fun <D> forceLink(init: ForceLink<D>.() -> Unit) = ForceLink<D>().apply(init)
 
 /**
  * The link force pushes linked nodes together or apart according to the desired link distance.
  * The strength of the force is proportional to the difference between the linked nodes’ distance and the target
  * distance, similar to a spring force.
  */
-class ForceLink<D> internal constructor(): Force<D> {
+public class ForceLink<D> internal constructor(): Force<D> {
 
     private var _nodes = listOf<ForceNode<D>>()
 
     private var _links = listOf<Link<D>>()
-    val links: List<Link<D>>
+    public val links: List<Link<D>>
         get() = _links
 
     private var bias: Array<Double> =  arrayOf()
@@ -59,14 +59,14 @@ class ForceLink<D> internal constructor(): Force<D> {
      * Increasing the number of iterations greatly increases the rigidity of the constraint and avoids partial overlap
      * of nodes, but also increases the runtime cost to evaluate the force.
      */
-    var iterations = 1
+    public var iterations: Int = 1
 
     /**
      * Get the list of links from a given ForceNode, defaults to null.
      * Each Link must have a reference to a source node, a target node, a distance value (defaults to 30.0) and
      * a strength (defaults to Double.NaN) value.
      */
-    var linkGet: ForceNode<D>.()-> List<Link<D>>? = { null }
+    public var linkGet: ForceNode<D>.()-> List<Link<D>>? = { null }
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
         _nodes = nodes

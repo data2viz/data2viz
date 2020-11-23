@@ -25,23 +25,23 @@ import kotlin.math.asin
 /**
  * @return HALFPI if value > 1 or value < -1, in other cases asin(value)
  */
-val Double.limitedAsin: Double
+public val Double.limitedAsin: Double
     get() = when {
         this > 1 -> HALFPI
         this < -1 -> -HALFPI
         else -> this.asin
     }
 
-val Double.asin: Double
+public val Double.asin: Double
     get() = asin(this)
 
-val Double.acos: Double
+public val Double.acos: Double
     get() = acos(this)
 
 /**
  * @return 0 if value > 1, PI if value < -1, in other cases acos(value)
  */
-val Double.limitedAcos: Double
+public val Double.limitedAcos: Double
     get() = when {
         this > 1 -> .0
         this < -1 -> PI

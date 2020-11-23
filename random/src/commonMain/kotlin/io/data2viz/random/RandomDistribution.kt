@@ -20,26 +20,26 @@ package io.data2viz.random
 import kotlin.math.*
 import kotlin.random.*
 
-typealias RandomGenerator = () -> Double
+public typealias RandomGenerator = () -> Double
 
 /**
  * Generate random numbers from various distributions using a Integer seed
  */
-fun RandomDistribution(seed: Int) = RandomDistribution(Random(seed))
+public fun RandomDistribution(seed: Int): RandomDistribution = RandomDistribution(Random(seed))
 
 
 /**
  * Generate random numbers from various distributions using a Long seed
  */
-fun RandomDistribution(seed: Long) = RandomDistribution(Random(seed))
+public fun RandomDistribution(seed: Long): RandomDistribution = RandomDistribution(Random(seed))
 
 
 /**
  * Generate random numbers from various distributions.
  */
-class RandomDistribution internal constructor(private val random:Random = Random){
+public class RandomDistribution internal constructor(private val random:Random = Random){
 
-    companion object Default {
+    public companion object Default {
 
         private val randomDistribution= RandomDistribution()
 
@@ -48,12 +48,12 @@ class RandomDistribution internal constructor(private val random:Random = Random
          * The minimum allowed value of a returned number is min, and the maximum is max.
          * If min is not specified, it defaults to 0; if max is not specified, it defaults to 1.
          */
-        fun uniform(min: Double = .0, max: Double = 1.0): RandomGenerator       = randomDistribution.uniform(min, max)
+        public fun uniform(min: Double = .0, max: Double = 1.0): RandomGenerator       = randomDistribution.uniform(min, max)
 
         /**
          * returns a function for generating random numbers with a Bates distribution with n independent variables.
          */
-        fun bates(n: Double = 1.0): RandomGenerator                             = randomDistribution.bates(n)
+        public fun bates(n: Double = 1.0): RandomGenerator                             = randomDistribution.bates(n)
 
         /**
          * returns a function for generating random numbers with a log-normal distribution.
@@ -61,7 +61,7 @@ class RandomDistribution internal constructor(private val random:Random = Random
          * standard deviation sigma. If mu is not specified, it defaults to 0;
          * if sigma is not specified, it defaults to 1.
          */
-        fun logNormal(mu: Double = .0, sigma: Double = 1.0): RandomGenerator    = randomDistribution.logNormal(mu, sigma)
+        public fun logNormal(mu: Double = .0, sigma: Double = 1.0): RandomGenerator    = randomDistribution.logNormal(mu, sigma)
 
 
         /**
@@ -70,28 +70,28 @@ class RandomDistribution internal constructor(private val random:Random = Random
          * For example, exponential(1/40) generates random times between events where, on average, one event
          * occurs every 40 units of time.
          */
-        fun exponential(lambda: Double = 1.0): RandomGenerator                  = randomDistribution.exponential(lambda)
+        public fun exponential(lambda: Double = 1.0): RandomGenerator                  = randomDistribution.exponential(lambda)
 
         /**
          * Returns a function for generating random numbers with an Irwin–Hall distribution with n independent variables.
          */
-        fun irwinHall(n: Double): RandomGenerator                               = randomDistribution.irwinHall(n)
+        public fun irwinHall(n: Double): RandomGenerator                               = randomDistribution.irwinHall(n)
 
         /**
          * Returns a function for generating random numbers with a normal (Gaussian) distribution.
          * The expected value of the generated numbers is mu, with the given standard deviation sigma.
          * If mu is not specified, it defaults to 0.0; if sigma is not specified, it defaults to 1.0
          */
-        fun normal(mu: Double = .0, sigma: Double = 1.0): RandomGenerator       = randomDistribution.normal(mu, sigma)
+        public fun normal(mu: Double = .0, sigma: Double = 1.0): RandomGenerator       = randomDistribution.normal(mu, sigma)
     }
 
 
 
-    fun uniform(min: Double = .0, max: Double = 1.0): RandomGenerator = { random() * (max - min) + min }
-    fun bates(n: Double = 1.0): RandomGenerator = { irwinHall(n)() / n }
-    fun logNormal(mu: Double = .0, sigma: Double = 1.0): RandomGenerator = { exp(normal(mu, sigma)()) }
-    fun exponential(lambda: Double = 1.0): RandomGenerator = { -ln(1 - random()) / lambda }
-    fun irwinHall(n: Double): RandomGenerator = {
+    public fun uniform(min: Double = .0, max: Double = 1.0): RandomGenerator = { random() * (max - min) + min }
+    public fun bates(n: Double = 1.0): RandomGenerator = { irwinHall(n)() / n }
+    public fun logNormal(mu: Double = .0, sigma: Double = 1.0): RandomGenerator = { exp(normal(mu, sigma)()) }
+    public fun exponential(lambda: Double = 1.0): RandomGenerator = { -ln(1 - random()) / lambda }
+    public fun irwinHall(n: Double): RandomGenerator = {
         var sum = 0.0
         (0 until n.toInt()).forEach {
             sum += random()
@@ -100,7 +100,7 @@ class RandomDistribution internal constructor(private val random:Random = Random
     }
 
 
-    fun normal(mu: Double = .0, sigma: Double = 1.0): RandomGenerator = {
+    public fun normal(mu: Double = .0, sigma: Double = 1.0): RandomGenerator = {
         var x: Double? = null
         var r = 0.0
         var y = 0.0
@@ -117,7 +117,7 @@ class RandomDistribution internal constructor(private val random:Random = Random
         mu + sigma * y * sqrt(-2 * ln(r) / r)
     }
 
-    fun random(): Double = random.nextDouble()
+    public fun random(): Double = random.nextDouble()
 
 
 }

@@ -30,7 +30,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import io.data2viz.geo.geometry.path.AreaStream
 
-fun geoArea(geo: GeoJsonObject) = GeoAreaStream().result(geo)
+public fun geoArea(geo: GeoJsonObject): Double = GeoAreaStream().result(geo)
 
 
 
@@ -38,7 +38,7 @@ fun geoArea(geo: GeoJsonObject) = GeoAreaStream().result(geo)
  * Stream and returns via [result] the spherical area of the specified GeoJSON object in steradians.
  * This is the spherical equivalent of [AreaStream]
  */
-class GeoAreaStream : Stream {
+public class GeoAreaStream : Stream {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
     //  Function references have poor performance due to GC & memory allocation
@@ -57,15 +57,15 @@ class GeoAreaStream : Stream {
     private var currentLineStart: () -> Unit = noop
     private var currentLineEnd: () -> Unit = noop
 
-    fun result(geo: GeoJsonObject): Double {
+    public fun result(geo: GeoJsonObject): Double {
         areaSum = .0
         geo.stream(this)
         return areaSum * 2
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
-    override fun lineStart() = currentLineStart()
-    override fun lineEnd() = currentLineEnd()
+    override fun point(x: Double, y: Double, z: Double): Unit = currentPoint(x, y)
+    override fun lineStart(): Unit = currentLineStart()
+    override fun lineEnd(): Unit = currentLineEnd()
 
     override fun polygonStart() {
         areaRingSum = .0

@@ -21,17 +21,17 @@ package io.data2viz.viz
 /**
  * Manage states of an Element with Stateable properties.
  */
-class StateManager {
+public class StateManager {
 
-    var status = StateManagerStatus.REST
+    public var status: StateManagerStatus = StateManagerStatus.REST
 
-    val properties = mutableListOf<StateProperty>()
+    public val properties: MutableList<StateProperty> = mutableListOf<StateProperty>()
 
-    fun addStateProperty(property: StateProperty){
+    public fun addStateProperty(property: StateProperty){
         properties.add(property)
     }
 
-    fun percentToState(percent: Double) {
+    public fun percentToState(percent: Double) {
         status = StateManagerStatus.UPDATE_PROPERTIES
         properties.forEach {
             it.setPercent(percent)
@@ -39,10 +39,10 @@ class StateManager {
         status = StateManagerStatus.REST
     }
 }
-enum class StateManagerStatus {
+public enum class StateManagerStatus {
     REST, RECORD, UPDATE_PROPERTIES
 }
 
-interface StateProperty {
-    fun setPercent(percent: Double)
+public interface StateProperty {
+    public fun setPercent(percent: Double)
 }

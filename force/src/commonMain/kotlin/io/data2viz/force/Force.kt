@@ -20,11 +20,11 @@ package io.data2viz.force
 import io.data2viz.math.EPSILON
 import kotlin.random.Random
 
-fun <D> forceSimulation(init: ForceSimulation<D>.() -> Unit) = ForceSimulation<D>().apply { init() }
+public fun <D> forceSimulation(init: ForceSimulation<D>.() -> Unit): ForceSimulation<D> = ForceSimulation<D>().apply { init() }
 
 internal fun jiggle() = (Random.nextDouble() - 0.5) * EPSILON
 
-interface Force<D> {
+public interface Force<D> {
 
     /**
      * Assigns nodes to this force.
@@ -35,7 +35,7 @@ interface Force<D> {
      *
      * Todo should be internal. No use outside of package
      */
-    fun assignNodes(nodes: List<ForceNode<D>>)
+    public fun assignNodes(nodes: List<ForceNode<D>>)
 
     /**
      * Applies this force, optionally observing the specified intensity.
@@ -43,5 +43,5 @@ interface Force<D> {
      * forces may apply to a subset of nodes, or behave differently.
      * For example, forceLink applies to the source and target of each link.
      */
-    fun applyForceToNodes(intensity: Double)
+    public fun applyForceToNodes(intensity: Double)
 }

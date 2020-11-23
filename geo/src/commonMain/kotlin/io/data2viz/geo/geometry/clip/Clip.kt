@@ -26,19 +26,19 @@ import io.data2viz.math.HALFPI
  * Default clipping. Install no Clip Stream and just returns current
  * output Stream.
  */
-val NoClip = object : ClipStreamBuilder {
+public val NoClip: ClipStreamBuilder = object : ClipStreamBuilder {
     override fun bindTo(downstream: Stream) = downstream
 }
 
 /**
  * Installs a ClipStream into the chain of Stream.
  */
-interface ClipStreamBuilder {
+public interface ClipStreamBuilder {
 
     /**
      * Adds a ClipStream in front of the [downstream]
      */
-    fun bindTo(downstream: Stream): Stream
+    public fun bindTo(downstream: Stream): Stream
 }
 
 /**
@@ -48,25 +48,25 @@ interface ClipStreamBuilder {
  *  1 - no intersections;
  *  2 - there were intersections, and the first and last segments should be rejoined.
  */
-interface ClipStream : Stream {
+public interface ClipStream : Stream {
 
-    var clean: Int
+    public var clean: Int
 }
 
 
-interface Clipper {
+public interface Clipper {
 
     /**
      * Indicates if the point will be visible after clipping.
      */
-    fun pointVisible(x: Double, y: Double): Boolean
+    public fun pointVisible(x: Double, y: Double): Boolean
 
     /**
      * In
      */
-    fun clipLine(downstream: Stream): ClipStream
+    public fun clipLine(downstream: Stream): ClipStream
 
-    fun interpolate(
+    public fun interpolate(
         from: DoubleArray?,
         to: DoubleArray?,
         direction: Int,

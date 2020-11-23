@@ -19,14 +19,14 @@ package io.data2viz.geom
 
 import kotlin.math.sqrt
 
-data class Polygon(val points: List<Point>)
+public data class Polygon(val points: List<Point>)
 
 /**
  * Returns the signed area of the polygon. If the vertices of the polygon are in counterclockwise order
  * (assuming a coordinate system where the origin ⟨0,0⟩ is in the top-left corner), the returned area is positive;
  * otherwise it is negative, or zero.
  */
-val Polygon.area: Double
+public val Polygon.area: Double
     get() {
         var i = -1
         val size = points.size
@@ -44,7 +44,7 @@ val Polygon.area: Double
 /**
  * Returns the centroid of the polygon.
  */
-val Polygon.centroid: Point
+public val Polygon.centroid: Point
     get() {
         var i = -1
         val size = points.size
@@ -69,7 +69,7 @@ val Polygon.centroid: Point
 /**
  * Returns the length of the perimeter of the specified polygon.
  */
-val Polygon.length: Double
+public val Polygon.length: Double
     get() {
         var i = -1
         val size = points.size
@@ -95,7 +95,7 @@ val Polygon.length: Double
 /**
  * Returns true if and only if the specified point is inside the polygon.
  */
-fun Polygon.contains(point: Point): Boolean {
+public fun Polygon.contains(point: Point): Boolean {
     val size = points.size
     var p = points.last()
     val x = point.x
@@ -122,7 +122,7 @@ fun Polygon.contains(point: Point): Boolean {
  * order.
  * Returns null if points has fewer than three elements.
  */
-fun polygonHull(points: List<Point>): Polygon {
+public fun polygonHull(points: List<Point>): Polygon {
     val size = points.size
     require(size > 2) {"A polygon must have at least 3 points"}
 

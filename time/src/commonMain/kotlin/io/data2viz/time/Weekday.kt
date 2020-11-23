@@ -20,7 +20,7 @@ package io.data2viz.time
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 
-class Weekday(day: Int) : Interval(
+public class Weekday(day: Int) : Interval(
     floor = fun(date: LocalDateTime): LocalDateTime {
         val weekFlooredDay = date.dayOfMonth - (date.dayOfWeek.ordinal + 7 - day) % 7
         return if (weekFlooredDay < 1)
@@ -35,36 +35,36 @@ class Weekday(day: Int) : Interval(
 /**
  * Monday-based weeks (e.g., February 6, 2012 at 12:00 AM).
  */
-val timeMonday = Weekday(0)
+public val timeMonday: Weekday = Weekday(0)
 
 /**
  * Tuesday-based weeks (e.g., February 7, 2012 at 12:00 AM).
  */
 
-val timeTuesday = Weekday(1)
+public val timeTuesday: Weekday = Weekday(1)
 
 /**
  * Wednesday-based weeks (e.g., February 8, 2012 at 12:00 AM).
  */
-val timeWednesday = Weekday(2)
+public val timeWednesday: Weekday = Weekday(2)
 
 /**
  * Thursday-based weeks (e.g., February 9, 2012 at 12:00 AM).
  */
-val timeThursday = Weekday(3)
+public val timeThursday: Weekday = Weekday(3)
 
 /**
  * Friday-based weeks (e.g., February 10, 2012 at 12:00 AM).
  */
-val timeFriday = Weekday(4)
+public val timeFriday: Weekday = Weekday(4)
 
 /**
  * Saturday-based weeks (e.g., February 11, 2012 at 12:00 AM).
  */
-val timeSaturday = Weekday(5)
+public val timeSaturday: Weekday = Weekday(5)
 
 
 /**
  * Sunday-based weeks (e.g., February 5, 2012 at 12:00 AM).
  */
-val timeSunday = Weekday(6)
+public val timeSunday: Weekday = Weekday(6)

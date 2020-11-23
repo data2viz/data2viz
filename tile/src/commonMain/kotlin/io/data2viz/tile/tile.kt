@@ -20,15 +20,15 @@ package io.data2viz.tile
 import io.data2viz.geom.Point
 import kotlin.math.*
 
-val LN2 = ln(2.0)
-val INFINITY: Int = 2147483647
+internal val LN2 = ln(2.0)
+internal val INFINITY: Int = 2147483647
 
-fun tilesLayout(init: TilesLayout.() -> Unit): TilesLayout = TilesLayout().apply(init)
+public fun tilesLayout(init: TilesLayout.() -> Unit): TilesLayout = TilesLayout().apply(init)
 
 /**
  * A layout for determining which 256x256 quadtree tiles to display in a rectangular viewport
  */
-class TilesLayout {
+public class TilesLayout {
 
 
     private var stale = true
@@ -36,9 +36,9 @@ class TilesLayout {
     private var origin = Point(0.0, 0.0)
     private var end = Point(960.0, 500.0)
 
-    var translation = (origin + end) / 2
+    public var translation: Point = (origin + end) / 2
 
-    var zoomDelta = 0.0
+    public var zoomDelta: Double = 0.0
     set(value) {
         field = value
         stale = true
@@ -46,7 +46,7 @@ class TilesLayout {
 
     private var wrap = true
 
-    var width
+    public var width: Double
         get() = end.x - origin.x
         set(value) {
             origin = Point(0.0, origin.y)
@@ -54,7 +54,7 @@ class TilesLayout {
             stale = true
         }
 
-    var height
+    public var height: Double
         get() = end.y - origin.y
         set(value) {
             origin = Point(origin.x, 0.0)
@@ -67,22 +67,22 @@ class TilesLayout {
      * See http://wiki.openstreetmap.org/wiki/Zoom_levels
      * Determines zoom level and tileSize.
      */
-    var tilesCount: Double = 256.0
+    public var tilesCount: Double = 256.0
 
     private var _tileSize: Double = 256.0
-    val tileSize:Double
+    public val tileSize:Double
         get() {
             eventualyRecompute()
             return _tileSize
         }
 
-    var zoom = 1
+    public var zoom: Int = 1
         get() {
             eventualyRecompute()
             return field
         }
 
-    var translate: Point? = null
+    public var translate: Point? = null
 
 
     private fun eventualyRecompute(){
@@ -105,7 +105,7 @@ class TilesLayout {
     /**
      * Returns the list of tiles defined by the current layout
      */
-    fun tiles(): List<Tile> {
+    public fun tiles(): List<Tile> {
 
         if(stale) eventualyRecompute()
 
@@ -136,7 +136,7 @@ class TilesLayout {
     }
 }
 
-data class Tile(
+public data class Tile(
 
         /**
          * The current layout context of this title.

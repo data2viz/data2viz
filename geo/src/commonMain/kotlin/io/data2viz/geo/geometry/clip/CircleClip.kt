@@ -32,7 +32,8 @@ import kotlin.math.sqrt
  * Clip geometries using a Geo Circle.
  * @param radius radius in radians
  */
-class CirclePreClip(val radius: Double): ClipStreamBuilder {
+public class CirclePreClip(
+    public val radius: Double): ClipStreamBuilder {
     override fun bindTo(downstream: Stream): Stream {
         return ClippableStream(CircleClipper(radius), downstream)
     }
@@ -44,7 +45,8 @@ class CirclePreClip(val radius: Double): ClipStreamBuilder {
  * radius angle around the projection’s center.
  * Typically used for pre-clipping.
  */
-class CircleClipper(val radius: Double) : ClipperWithStart {
+public class CircleClipper(
+    public val radius: Double) : ClipperWithStart {
 
     private val cosRadius = cos(radius)
     private val delta = 6.0.toRadians()
@@ -277,7 +279,7 @@ class CircleClipper(val radius: Double) : ClipperWithStart {
 
     // Generates a 4-bit vector representing the location of a point relative to
     // the small circle's bounding box.
-    fun code(x: Double, y: Double): Int {
+    public fun code(x: Double, y: Double): Int {
         val r = if (smallRadius) radius else PI - radius
         var code = 0
         if (x < -r) code = code or 1               // left

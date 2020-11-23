@@ -17,6 +17,7 @@
 
 package io.data2viz.force
 
+import io.data2viz.math.Percent
 import io.data2viz.math.pct
 import io.data2viz.quadtree.*
 import kotlin.math.*
@@ -30,7 +31,7 @@ fun <D> forceCollision(init: ForceCollision<D>.() -> Unit) = ForceCollision<D>()
  * radius(a) + radius(b).
  * To reduce jitter, this is by default a “soft” constraint with a configurable strength and iteration count.
  */
-class ForceCollision<D> internal constructor(): Force<D> {
+public class ForceCollision<D> internal constructor(): Force<D> {
 
     private val x = { node: ForceNode<D> -> node.x }
     private val y = { node: ForceNode<D> -> node.y }
@@ -47,7 +48,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
      * Increasing the number of iterations greatly increases the rigidity of the constraint and avoids partial overlap
      * of _nodes, but also increases the runtime cost to evaluate the force.
      */
-    var iterations = 1
+    public var iterations: Int = 1
         set(value) {
             field = max(1, value)
         }
@@ -60,7 +61,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
      * is then modified to push the node out of each overlapping node. The change in velocity is dampened by the force’s
      * strength such that the resolution of simultaneous overlaps can be blended together to find a stable solution.
      */
-    var strength = 70.pct
+    public var strength: Percent = 70.pct
         set(value) {
             field = value.coerceToDefault()
         }
@@ -74,7 +75,7 @@ class ForceCollision<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the radius of each node is only recomputed when the
      * force is initialized or when this method is called with a new radius, and not on every application of the force.
      */
-    var radiusGet: ForceNode<D>.() -> Double = { 100.0 }
+    public var radiusGet: ForceNode<D>.() -> Double = { 100.0 }
         set(value) {
             field = value
             assignNodes(_nodes)

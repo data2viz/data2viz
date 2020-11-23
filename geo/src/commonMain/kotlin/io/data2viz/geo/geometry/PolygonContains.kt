@@ -26,7 +26,7 @@ import kotlin.math.*
 /**
  * @return whether [polygon] contains given [point]
  */
-fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
+public fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray): Boolean {
     val lambda = point[0]
     var phi = point[1]
     val normal0 = sin(lambda)

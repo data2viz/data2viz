@@ -17,7 +17,7 @@
 
 package io.data2viz.shape.stack
 
-enum class StackOrder {
+public enum class StackOrder {
 
     /**
      * Returns the given series order [0, 1, … n - 1] where n is the number of elements in series.

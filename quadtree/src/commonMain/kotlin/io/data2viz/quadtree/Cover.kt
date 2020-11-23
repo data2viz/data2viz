@@ -27,7 +27,7 @@ import kotlin.math.floor
  * (Rounding is necessary such that if the extent is later doubled, the boundaries of existing quadrants do
  * not change due to floating point error.)
  */
-fun <D> Quadtree<D>.cover(x: Double, y: Double) {
+public fun <D> Quadtree<D>.cover(x: Double, y: Double) {
     if (x.isNaN() || y.isNaN()) return                 // ignore invalid points
 
     var x0 = extent.x0

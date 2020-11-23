@@ -20,12 +20,12 @@ package io.data2viz.hierarchy
 import io.data2viz.hierarchy.treemap.treemapDice
 
 
-class PartitionLayout {
+public class PartitionLayout {
 
-    var round = false
+    public var round: Boolean = false
     private var dx = 1.0
     private var dy = 1.0
-    var padding = .0
+    public var padding: Double = .0
 
     /**
      * The partition layout produces adjacency diagrams: a space-filling variant of a node-link tree diagram.
@@ -42,7 +42,7 @@ class PartitionLayout {
      *  You must call root.sum before passing the hierarchy to the partition layout.
      *  You probably also want to call root.sort to order the hierarchy before computing the layout.
      */
-    fun <D> partition(root: Node<D>): TreemapNode<D> {
+    public fun <D> partition(root: Node<D>): TreemapNode<D> {
 
         // TODO check for sum called
 
@@ -84,7 +84,7 @@ class PartitionLayout {
         }
     }
 
-    fun size(width: Double, height: Double) {
+    public fun size(width: Double, height: Double) {
         dx = width
         dy = height
     }

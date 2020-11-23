@@ -27,12 +27,12 @@ import kotlin.math.*
 /**
  * maximum depth of subdivision
  */
-const val MAX_DEPTH = 16
+public const val MAX_DEPTH: Int = 16
 
 /**
  * cos(minimum angular distance)
  */
-val COS_MIN_DISTANCE = 30.deg.cos
+public val COS_MIN_DISTANCE: Double = 30.deg.cos
 
 /**
  * if deltaPrecision > .0
@@ -41,7 +41,7 @@ val COS_MIN_DISTANCE = 30.deg.cos
  * else
  *    just perform the projection of points, transforming spheric coordinates into cartesian ones.
  */
-fun resample(projector: Projector, delta2Precision: Double): (Stream) -> Stream =
+public fun resample(projector: Projector, delta2Precision: Double): (Stream) -> Stream =
     if (delta2Precision != .0) //todo > .0 ?
         { stream: Stream -> ResampleStream(stream, projector, delta2Precision) }
     else

@@ -21,11 +21,12 @@ package io.data2viz.geo.projection.common
  * Scale & translate projector based on values from [projector]
  *
  */
-class TranslateAndScaleProjector(
-    val projector: Projector,
-    var scale: Double,
-    var recenterDx: Double,
-    var recenterDy: Double
+public class TranslateAndScaleProjector(
+    public val projector: Projector,
+
+    public var scale: Double,
+    public var recenterDx: Double,
+    public var recenterDy: Double
 ) : Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {

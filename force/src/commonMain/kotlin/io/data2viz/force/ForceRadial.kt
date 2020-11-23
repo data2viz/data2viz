@@ -22,12 +22,12 @@ import io.data2viz.math.*
 import kotlin.math.sqrt
 
 @Deprecated("Deprecated", ReplaceWith("forceSimulation { forceRadial { } }", " io.data2viz.force.ForceSimulation"))
-fun <D> forceRadial(init: ForceRadial<D>.() -> Unit) = ForceRadial<D>().apply(init)
+public fun <D> forceRadial(init: ForceRadial<D>.() -> Unit): ForceRadial<D> = ForceRadial<D>().apply(init)
 
 /**
  * Creates a new positioning force towards a circle of the specified radius centered at "center" Point.
  */
-class ForceRadial<D> internal constructor(): Force<D> {
+public class ForceRadial<D> internal constructor(): Force<D> {
 
     /**
      * Sets the circle radius to the specified function, re-evaluates the radius accessor for each node.
@@ -35,7 +35,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the radius of each node is only recomputed when the
      * force is initialized or when this method is called with a new radius, and not on every application of the force.
      */
-    var radiusGet: ForceNode<D>.() -> Double = { 100.0 }
+    public var radiusGet: ForceNode<D>.() -> Double = { 100.0 }
         set(value) {
             field = value
             assignNodes(_nodes)
@@ -53,7 +53,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
+    public var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
         set(value) {
             field = value
             assignNodes(_nodes)
@@ -62,7 +62,7 @@ class ForceRadial<D> internal constructor(): Force<D> {
     /**
      * Sets the coordinate of the circle center which defaults to (0, 0).
      */
-    var centerGet: ForceNode<D>.() -> Point = { defaultCenter }
+    public var centerGet: ForceNode<D>.() -> Point = { defaultCenter }
         set(value) {
             field = value
             assignNodes(_nodes)

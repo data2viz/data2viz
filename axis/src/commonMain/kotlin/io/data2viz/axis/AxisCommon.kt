@@ -30,7 +30,7 @@ import kotlin.math.round
 /**
  * Create an Axis
  */
-fun <D> GroupNode.axis(
+public fun <D> GroupNode.axis(
     orient: Orient,
     scale: FirstLastRange<D, Double>,
     init: AxisElement<D>.() -> Unit = {}
@@ -41,23 +41,24 @@ fun <D> GroupNode.axis(
         build(this@axis)
     }
 
-class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D, Double>) {
+public class AxisElement<D>(
+    public val orient: Orient,
+    public val scale: FirstLastRange<D, Double>) {
 
-    var tickValues: List<D> = listOf()
-    var tickSizeInner = 6.0
-    var tickSizeOuter = 6.0
-    var tickPadding = 3.0
-    var axisStroke: ColorOrGradient? = Colors.Web.black
-    var axisStrokeWidth: Double? = 1.0
-    var tickStroke: ColorOrGradient? = Colors.Web.black
-    var tickStrokeWidth: Double? = 1.0
-    var fontSize: Double = 12.0
-    var fontColor: ColorOrGradient? = Colors.Web.black
-    var fontFamily: FontFamily = FontFamily.SANS_SERIF
-    var fontWeight: FontWeight = FontWeight.NORMAL
-    var fontStyle: FontPosture = FontPosture.NORMAL
-
-    var tickFormat = { n: D -> n.toString() }
+    public var tickValues: List<D> = listOf()
+    public var tickSizeInner: Double = 6.0
+    public var tickSizeOuter: Double = 6.0
+    public var tickPadding: Double = 3.0
+    public var axisStroke: ColorOrGradient? = Colors.Web.black
+    public var axisStrokeWidth: Double? = 1.0
+    public var tickStroke: ColorOrGradient? = Colors.Web.black
+    public var tickStrokeWidth: Double? = 1.0
+    public var fontSize: Double = 12.0
+    public var fontColor: ColorOrGradient? = Colors.Web.black
+    public var fontFamily: FontFamily = FontFamily.SANS_SERIF
+    public var fontWeight: FontWeight = FontWeight.NORMAL
+    public var fontStyle: FontPosture = FontPosture.NORMAL
+    public var tickFormat: (D) -> String = { n: D -> n.toString() }
 
     private val k = if (orient == Orient.TOP || orient == Orient.LEFT) -1 else 1
 
@@ -69,8 +70,8 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D, Double>) {
 
     private fun number(scale: Scale<D, Double>): (D) -> Double = { scale(it) }
 
-    fun build(content: GroupNode) {
-
+    @Suppress("UNCHECKED_CAST")
+    internal fun build(content: GroupNode) {
         val values: List<D> = if (tickValues.isEmpty() && scale is Tickable<*>) scale.ticks() as List<D> else tickValues
         val spacing = tickSizeInner.coerceAtLeast(0.0) + tickPadding
         val start = scale.start()
@@ -104,7 +105,10 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D, Double>) {
             values.forEach {
                 group {
                     transform {
-                        if (orient.isHorizontal()) translate(x = position(it)) else translate(y = position(it))
+                        if (orient.isHorizontal())
+                            translate(x = position(it))
+                        else
+                            translate(y = position(it))
                     }
                     if (tickStroke != null && tickStrokeWidth != null) {
                         if (orient.isHorizontal())
@@ -151,9 +155,9 @@ class AxisElement<D>(val orient: Orient, val scale: FirstLastRange<D, Double>) {
     }
 }
 
-enum class Orient {
+public enum class Orient {
     TOP, BOTTOM, LEFT, RIGHT;
 
-    fun isVertical() = (this == LEFT || this == RIGHT)
-    fun isHorizontal() = (this == TOP || this == BOTTOM)
+    public fun isVertical(): Boolean = (this == LEFT || this == RIGHT)
+    public fun isHorizontal(): Boolean = (this == TOP || this == BOTTOM)
 }

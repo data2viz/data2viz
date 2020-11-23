@@ -32,9 +32,9 @@ import kotlin.math.*
  */
 
 @Deprecated("Deprecated", ReplaceWith("forceSimulation { forceNBody { } }", " io.data2viz.force.ForceSimulation"))
-fun <D> forceNBody(init: ForceNBody<D>.() -> Unit) = ForceNBody<D>().apply(init)
+public fun <D> forceNBody(init: ForceNBody<D>.() -> Unit) = ForceNBody<D>().apply(init)
 
-class ForceNBody<D> internal constructor(): Force<D> {
+public class ForceNBody<D> internal constructor(): Force<D> {
 
     private var theta2 = .81
     private var distanceMin2 = 1.0
@@ -76,7 +76,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
      * cell’s center of mass is less than theta, all nodes in the given cell are treated as a single node rather
      * than individually.
      */
-    var theta: Double
+    public var theta: Double
         get() = sqrt(theta2)
         set(value) {
             theta2 = value * value
@@ -89,7 +89,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
      * case, the direction of the force is random.
      * Defaults to 1.0
      */
-    var distanceMin: Double
+    public var distanceMin: Double
         get() = sqrt(distanceMin2)
         set(value) {
             distanceMin2 = value * value
@@ -100,7 +100,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
      * Specifying a finite maximum distance improves performance and produces a more localized layout.
      * Defaults to 100.0
      */
-    var distanceMax: Double
+    public var distanceMax: Double
         get() = sqrt(distanceMax2)
         set(value) {
             distanceMax2 = value * value
@@ -117,7 +117,7 @@ class ForceNBody<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strengthGet: ForceNode<D>.() -> Double = { -30.0 }
+    public var strengthGet: ForceNode<D>.() -> Double = { -30.0 }
         set(value) {
             field = value
             assignNodes(_nodes)

@@ -22,12 +22,12 @@ import kotlin.math.*
 private val prefixes = listOf("y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y")
 private var prefixExponent = 0
 
-data class CoefficientExponent(val coefficient: String, val exponent: Int)
+public data class CoefficientExponent(val coefficient: String, val exponent: Int)
 
-fun formatter(specify: String): (Double) -> String = Locale().formatter(specify)
-fun Locale.formatter( specifier: String): (Double) -> String = formatter(specify(specifier))
+public fun formatter(specify: String): (Double) -> String = Locale().formatter(specify)
+public fun Locale.formatter(specifier: String): (Double) -> String = formatter(specify(specifier))
 
-fun formatter(
+public fun formatter(
     type: Type = Type.NONE,
     fill: Char = ' ',
     align: Align = Align.RIGHT,
@@ -37,9 +37,9 @@ fun formatter(
     width: Int? = null,
     group: Boolean = false,
     precision: Int? = null
-) = Locale().formatter(specify(type, fill, align, sign, symbol, zero, width, group, precision))
+): (Double) -> String = Locale().formatter(specify(type, fill, align, sign, symbol, zero, width, group, precision))
 
-fun Locale.formatter(
+public fun Locale.formatter(
     type: Type = Type.NONE,
     fill: Char = ' ',
     align: Align = Align.RIGHT,
@@ -49,7 +49,7 @@ fun Locale.formatter(
     width: Int? = null,
     groupSeparation: Boolean = false,
     precision: Int? = null
-) = formatter(specify(type, fill, align, sign, symbol, zero, width, groupSeparation, precision))
+): (Double) -> String = formatter(specify(type, fill, align, sign, symbol, zero, width, groupSeparation, precision))
 
 private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
 
@@ -150,7 +150,7 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
     return ::format
 }
 
-fun Locale.numerals(valueAsString: String): String =
+public fun Locale.numerals(valueAsString: String): String =
         if (numerals == null)
             valueAsString
         else valueAsString
@@ -164,7 +164,7 @@ fun Locale.numerals(valueAsString: String): String =
                 .toString()
 
 
-fun formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String = Locale().formatPrefix(specifier, fixedPrefix)
+public fun formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String = Locale().formatPrefix(specifier, fixedPrefix)
 
 
 /**
@@ -191,7 +191,7 @@ fun formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String = L
  * - Z - zetta, 10²¹
  * - Y - yotta, 10²⁴
  */
-fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String {
+public fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String {
     val formatSpecifier = specify(specifier).copy(type = Type.FIXED_POINT)
     val f = formatter(formatSpecifier)
     val e = floor(exponent(fixedPrefix).toDouble() / 3.0).coerceIn(-8.0, 8.0) * 3
@@ -271,7 +271,7 @@ private fun formatDefault(x: Double, p: Int): String {
     return if (i0 > 0) newX.slice(0 until i0) + newX.slice(i1 + 1 until newX.length) else newX
 }
 
-fun formatRounded(x: Double, p: Int): String {
+public fun formatRounded(x: Double, p: Int): String {
     val ce = formatDecimal(x, p) ?: return "$x"
 
     return if (ce.exponent < 0) {
@@ -291,7 +291,7 @@ fun formatRounded(x: Double, p: Int): String {
  * significant digits p, where x is positive and p is in [1, 21] or undefined.
  * For example, formatDecimal(1.23) returns ["123", 0].
  */
-fun formatDecimal(x: Double, p: Int = 0): CoefficientExponent? {
+public fun formatDecimal(x: Double, p: Int = 0): CoefficientExponent? {
     var newX: String = x.toExponential()
     if (p != 0) {
         newX = x.toExponential(p - 1)
@@ -327,11 +327,11 @@ private fun formatPrefixAuto(x: Double, p: Int = 0): String {
     } // less than 1y!
 }
 
-fun precisionFixed(step: Double): Int = max(0, -exponent(abs(step)))
+public fun precisionFixed(step: Double): Int = max(0, -exponent(abs(step)))
 
-fun precisionPrefix(step: Double, value: Double): Int = (floor(exponent(value) / 3.0).toInt().coerceIn(-8, 8) * 3 - exponent(abs(step))).coerceAtLeast(0)
+public fun precisionPrefix(step: Double, value: Double): Int = (floor(exponent(value) / 3.0).toInt().coerceIn(-8, 8) * 3 - exponent(abs(step))).coerceAtLeast(0)
 
-fun precisionRound(step: Double, max: Double): Int {
+public fun precisionRound(step: Double, max: Double): Int {
     val newStep = abs(step)
     val newMax = abs(max) - step
     return max(0, exponent(newMax) - exponent(newStep)) + 1

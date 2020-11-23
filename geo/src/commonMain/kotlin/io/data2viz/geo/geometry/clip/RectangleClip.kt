@@ -25,8 +25,8 @@ import kotlin.math.abs
 private const val CLIPMAX = 1e9
 private const val CLIPMIN = -CLIPMAX
 
-class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStreamBuilder {
-    val clipRectangle = RectangleClipper(Extent(x0, y0, x1, y1))
+public class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStreamBuilder {
+    public val clipRectangle: RectangleClipper = RectangleClipper(Extent(x0, y0, x1, y1))
 
     override fun bindTo(downstream: Stream): Stream {
         return clipRectangle.clipLine(downstream)
@@ -37,7 +37,8 @@ class RectangleClip(x0: Double, y0: Double, x1: Double, y1: Double) : ClipStream
  * Generates a clipping function which transforms a stream such that geometries are bounded by the given Extent.
  * Typically used for post-clipping.
  */
-class RectangleClipper(val extent: Extent) : Clipper {
+public class RectangleClipper(
+    public val extent: Extent) : Clipper {
     // TODO refactor function references :: to objects like in CircleClip
 //  Function references have poor performance due to GC & memory allocation
 
@@ -46,7 +47,7 @@ class RectangleClipper(val extent: Extent) : Clipper {
                 y in extent.y0..extent.y1
     }
 
-    enum class PointContext {DEFAULT, LINE}
+    public enum class PointContext {DEFAULT, LINE}
 
     override fun clipLine(downstream: Stream): ClipStream {
 

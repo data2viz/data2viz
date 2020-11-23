@@ -25,14 +25,14 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-fun gnomonicProjection(init: Projection.() -> Unit = {}) =
+public fun gnomonicProjection(init: Projection.() -> Unit = {}): Projection =
     projection(GnomonicProjector()) {
         anglePreClip = 60.0.deg
         scale = 144.049
         init()
     }
 
-class GnomonicProjector : Projector {
+public class GnomonicProjector : Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cy = cos(phi)

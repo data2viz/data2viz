@@ -22,13 +22,13 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
-interface CircleValues{
-    var x: Double
-    var y: Double
-    var r: Double
+public interface CircleValues{
+    public var x: Double
+    public var y: Double
+    public var r: Double
 }
 
-data class PackNode<D>(
+public data class PackNode<D>(
     val data: D,
     var depth: Int,
     var height: Int,
@@ -42,7 +42,7 @@ data class PackNode<D>(
     var next: PackNode<D>? = null
 ) : ParentValued<PackNode<D>>, Children<PackNode<D>>, CircleValues
 
-fun <D> packNode(node: PackNode<D>): PackNode<D> = PackNode(
+public fun <D> packNode(node: PackNode<D>): PackNode<D> = PackNode(
     node.data, node.depth, node.height, node.value, node.children, node.parent, node.x, node.y, node.r, node.previous, node.next
 )
 
@@ -53,7 +53,7 @@ fun <D> packNode(node: PackNode<D>): PackNode<D> = PackNode(
  * some distortion; only the leaf nodes can be compared accurately. Although circle packing does not use space
  * as efficiently as a treemap, the “wasted” space more prominently reveals the hierarchical structure.
  */
-class PackLayout<D> {
+public class PackLayout<D> {
 
     private val constantZero: (PackNode<D>) -> Double = { .0 }
     private val defaultRadius: (PackNode<D>) -> Double = { sqrt(it.value!!) }
@@ -67,7 +67,7 @@ class PackLayout<D> {
      * (computed by node.sum); the radii are then scaled proportionally to fit the layout size.
      * If the radius accessor is not null, the radius of each leaf circle is specified exactly by the function.
      */
-    var radius: ((PackNode<D>) -> Double)? = null
+    public var radius: ((PackNode<D>) -> Double)? = null
 
     /**
      * If padding is specified, sets this pack layout’s padding accessor to the specified function.
@@ -78,7 +78,7 @@ class PackLayout<D> {
      * needed to fit within the layout size: the circles are first packed without padding; a scaling factor is computed
      * and applied to the specified padding; and lastly the circles are re-packed with padding.
      */
-    var padding: (PackNode<D>) -> Double = constantZero
+    public var padding: (PackNode<D>) -> Double = constantZero
 
     /**
      * Lays out the specified root hierarchy, assigning the following properties on root and its descendants:
@@ -89,7 +89,7 @@ class PackLayout<D> {
      * You must call root.sum before passing the hierarchy to the pack layout.
      * You probably also want to call root.sort to order the hierarchy before computing the layout.
      */
-    fun pack(root: Node<D>): PackNode<D> {
+    public fun pack(root: Node<D>): PackNode<D> {
 
         val rootPack = makePack(root)
 
@@ -108,7 +108,7 @@ class PackLayout<D> {
         return rootPack
     }
 
-    fun size(width: Double, height: Double) {
+    public fun size(width: Double, height: Double) {
         dx = width
         dy = height
     }
@@ -121,7 +121,7 @@ class PackLayout<D> {
      * from the leaf node.value (computed by node.sum); the radii are then scaled proportionally to fit the layout size.
      * If the radius accessor is not null, the radius of each leaf circle is specified exactly by the function.
      */
-    fun radius(radius: ((PackNode<D>) -> Double)?) {
+    public fun radius(radius: ((PackNode<D>) -> Double)?) {
         this.radius = radius
     }
 
@@ -135,7 +135,7 @@ class PackLayout<D> {
      * to fit within the layout size: the circles are first packed without padding; a scaling factor is computed
      * and applied to the specified padding; and lastly the circles are re-packed with padding.
      */
-    fun padding(padding: (PackNode<D>) -> Double) {
+    public fun padding(padding: (PackNode<D>) -> Double) {
         this.padding = padding
     }
 

@@ -28,7 +28,7 @@ import kotlin.math.*
  */
 public class PathGeom : Path {
 
-    val commands = mutableListOf<PathCommand>()
+    public val commands: MutableList<PathCommand> = mutableListOf<PathCommand>()
 
     public fun clearPath() {
         commands.clear()
@@ -84,13 +84,13 @@ public interface PathCommand {
     public val y: Double
 }
 
-data class MoveTo(override val x: Double, override val y: Double) : PathCommand
-data class LineTo(override val x: Double, override val y: Double) : PathCommand
-data class RectCmd(override val x: Double, override val y: Double, val w: Double, val h: Double) : PathCommand
-data class QuadraticCurveTo(val cpx: Double, val cpy: Double, override val x: Double, override val y: Double) :
+public data class MoveTo(override val x: Double, override val y: Double) : PathCommand
+public data class LineTo(override val x: Double, override val y: Double) : PathCommand
+public data class RectCmd(override val x: Double, override val y: Double, val w: Double, val h: Double) : PathCommand
+public data class QuadraticCurveTo(val cpx: Double, val cpy: Double, override val x: Double, override val y: Double) :
     PathCommand
 
-data class BezierCurveTo(
+public data class BezierCurveTo(
     val cpx1: Double,
     val cpy1: Double,
     val cpx2: Double,
@@ -100,7 +100,7 @@ data class BezierCurveTo(
 ) :
     PathCommand
 
-data class Arc(
+public data class Arc(
     val centerX: Double,
     val centerY: Double,
     val radius: Double,
@@ -114,7 +114,7 @@ data class Arc(
         get() = TODO("not implemented")
 }
 
-data class ArcTo(
+public data class ArcTo(
     val fromX: Double,
     val fromY: Double,
     override val x: Double,
@@ -123,7 +123,7 @@ data class ArcTo(
 ) :
     PathCommand
 
-class ClosePath : PathCommand {
+public class ClosePath : PathCommand {
     override val x: Double
         get() = .0
     override val y: Double
@@ -135,7 +135,7 @@ class ClosePath : PathCommand {
  * Transform a Path into a SVG Path by creating the SVG String that represents
  * this path.
  */
-val PathGeom.svgPath: String
+public val PathGeom.svgPath: String
     get() {
         var tempX0 = 0.0
         var tempY0 = 0.0

@@ -26,13 +26,13 @@ internal data class NodePair<D>(
     val target: QuadtreeNode<D>
 )
 
-interface QuadtreeNode<D> {
-    var value:Double?
-    var x: Double
-    var y: Double
+public interface QuadtreeNode<D> {
+    public var value:Double?
+    public var x: Double
+    public var y: Double
 }
 
-data class InternalNode<D>(
+public data class InternalNode<D>(
     var NE_0: QuadtreeNode<D>? = null,
     var NW_1: QuadtreeNode<D>? = null,
     var SE_2: QuadtreeNode<D>? = null,
@@ -42,9 +42,9 @@ data class InternalNode<D>(
     override var y: Double = Double.NaN
     ) : QuadtreeNode<D>
 
-fun <D> InternalNode<D>.toList() = listOf(this.NE_0, this.NW_1, this.SE_2, this.SW_3)
+public fun <D> InternalNode<D>.toList(): List<QuadtreeNode<D>?> = listOf(this.NE_0, this.NW_1, this.SE_2, this.SW_3)
 
-data class LeafNode<D>(
+public data class LeafNode<D>(
         val data: D,
         var next: LeafNode<D>?,
         override var value:Double? = null,
@@ -79,12 +79,12 @@ internal fun <D> setNodeFromIndex(node: InternalNode<D>, index: Int, value: Quad
     }
 }
 
-fun <D> quadtree(x: (D) -> Double, y: (D) -> Double) = Quadtree(x, y)
+public fun <D> quadtree(x: (D) -> Double, y: (D) -> Double): Quadtree<D> = Quadtree(x, y)
 
 /**
  * Create quadtree and add all nodes.
  */
-fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>): Quadtree<D> = Quadtree(x,y).apply { addAll(nodes)}
+public fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>): Quadtree<D> = Quadtree(x,y).apply { addAll(nodes)}
 
 
 // TODO : remove x and y from class constructor ?
@@ -98,19 +98,21 @@ fun <D> quadtree(x: (D) -> Double, y: (D) -> Double, nodes: List<D>): Quadtree<D
  * It is also used when finding to re-access the coordinates of data previously added to the tree;
  * therefore, the x- and y-accessors must be consistent, returning the same value given the same input.
 */
-class Quadtree<D>(val x: (D) -> Double, val y: (D) -> Double) {
+public class Quadtree<D>(
+    public val x: (D) -> Double,
+    public val y: (D) -> Double) {
 
     /**
      * The root node of the quadtree.
      */
-    var root: QuadtreeNode<D>? = null
+    public var root: QuadtreeNode<D>? = null
 
     /**
      * Expands the quadtree to cover the specified points [x0, y0] / [x1, y1].
      * The extent may also be expanded by calling quadtree.cover or quadtree.add.
      */
     // TODO double.NaN ou null extent ?
-    var extent: Extent = Extent(Double.NaN, Double.NaN, Double.NaN, Double.NaN)
+    public var extent: Extent = Extent(Double.NaN, Double.NaN, Double.NaN, Double.NaN)
         set(value) {
             cover(value.x0, value.y0)
             cover(value.x1, value.y1)

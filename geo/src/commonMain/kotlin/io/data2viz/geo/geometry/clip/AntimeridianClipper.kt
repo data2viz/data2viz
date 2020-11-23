@@ -31,9 +31,8 @@ import kotlin.math.sin
 /**
  * A clipping function which transforms a stream such that geometries (lines or polygons)
  * that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.
- *
  */
-val antimeridianPreClip = object : ClipStreamBuilder {
+public val antimeridianPreClip = object : ClipStreamBuilder {
     val antimeridianClip = AntimeridianClipper()
 
     override fun bindTo(downstream: Stream): Stream {

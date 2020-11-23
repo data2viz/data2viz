@@ -24,8 +24,8 @@ import kotlin.math.*
 /**
  * @see [geoInterpolate]
  */
-class GeoInterpolate(
-    val distance: Double,
+public class GeoInterpolate(
+    public val distance: Double,
     private val k: Double,
     private val kx0: Double,
     private val kx1: Double,
@@ -36,7 +36,7 @@ class GeoInterpolate(
     private val x0: Double,
     private val y0: Double
 ) {
-    val interpolate = if (distance != .0) fun(t: Double): DoubleArray {
+    public val interpolate: (Double) -> DoubleArray = if (distance != .0) fun(t: Double): DoubleArray {
         val td = t * distance
         val B = sin(td) / k
         val A = sin(distance - td) / k
@@ -48,7 +48,7 @@ class GeoInterpolate(
         return doubleArrayOf(x0.toDegrees(), y0.toDegrees())
     }
 
-    operator fun invoke(t: Double): DoubleArray {
+    public operator fun invoke(t: Double): DoubleArray {
         return interpolate(t)
     }
 }
@@ -66,7 +66,7 @@ private fun haversin(x: Double): Double {
  * Intermediate values interpolate from a to b along the great arc that passes through both a and b.
  * If a and b are antipodes, an arbitrary great arc is chosen.
  */
-fun geoInterpolate(a: DoubleArray, b: DoubleArray): GeoInterpolate {
+public fun geoInterpolate(a: DoubleArray, b: DoubleArray): GeoInterpolate {
     val x0 = a[0].toRadians()
     val y0 = a[1].toRadians()
     val x1 = b[0].toRadians()

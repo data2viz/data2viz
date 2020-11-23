@@ -25,21 +25,21 @@ import io.data2viz.color.ColorOrGradient
 /**
  * Holds the styling property.
  */
-interface Style {
-    var fill: ColorOrGradient?
-    var stroke: ColorOrGradient?
-    var strokeWidth: Double?
-    var textColor: ColorOrGradient?
-    var dashedLine: DoubleArray?
+public interface Style {
+    public var fill: ColorOrGradient?
+    public var stroke: ColorOrGradient?
+    public var strokeWidth: Double?
+    public var textColor: ColorOrGradient?
+    public var dashedLine: DoubleArray?
 
 
     @Deprecated("Use hAlign", ReplaceWith("hAlign"))
-    var anchor: TextHAlign
-    var hAlign: TextHAlign
+    public var anchor: TextHAlign
+    public var hAlign: TextHAlign
 
     @Deprecated("Use vAlign", ReplaceWith("vAlign"))
-    var baseline: TextVAlign
-    var vAlign: TextVAlign
+    public var baseline: TextVAlign
+    public var vAlign: TextVAlign
 }
 
 internal class StyleImpl: Style {
@@ -54,7 +54,8 @@ internal class StyleImpl: Style {
     override var baseline: TextVAlign = vAlign
 }
 
-class HierarchicalStyle(var parent:Style?): Style {
+public class HierarchicalStyle(
+    public var parent:Style?): Style {
     private var style:Style? = null
 
     private var fillSet = false
@@ -152,7 +153,7 @@ class HierarchicalStyle(var parent:Style?): Style {
  * text relative to a given point.
  * See [CSS text-anchor][https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor]
  */
-enum class TextHAlign {
+public enum class TextHAlign {
     LEFT,
     @Deprecated("Use LEFT", ReplaceWith("LEFT"))
     START,
@@ -163,17 +164,17 @@ enum class TextHAlign {
 }
 
 @Deprecated("Use TextHAlign", ReplaceWith("TextHAlign"))
-typealias TextAnchor = TextHAlign
+public typealias TextAnchor = TextHAlign
 
 /**
  * Vertical alignment of a text
  */
-enum class TextVAlign {
+public enum class TextVAlign {
     HANGING,
     MIDDLE,
     BASELINE
 }
 
 @Deprecated("Use TextVAlign", ReplaceWith("TextVAlign"))
-typealias TextAlignmentBaseline = TextVAlign
+public typealias TextAlignmentBaseline = TextVAlign
 

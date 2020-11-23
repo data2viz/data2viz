@@ -22,30 +22,30 @@ import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.sqrt
 
-data class Point(val x: Double, val y: Double)
+public data class Point(val x: Double, val y: Double)
 
-interface TypedUIntArray {
-    operator fun set(i: Int, value: Int)
-    fun subarray(start: Int, end: Int): TypedUIntArray
-    operator fun get(ar: Int): Int
-    val length: Int
+public interface TypedUIntArray {
+    public operator fun set(i: Int, value: Int)
+    public fun subarray(start: Int, end: Int): TypedUIntArray
+    public operator fun get(ar: Int): Int
+    public val length: Int
 }
 
-interface TypedIntArray {
-    operator fun set(i: Int, value: Int)
-    fun subarray(start: Int, end: Int): TypedIntArray
-    operator fun get(ar: Int): Int
-    val length: Int
+public interface TypedIntArray {
+    public operator fun set(i: Int, value: Int)
+    public fun subarray(start: Int, end: Int): TypedIntArray
+    public operator fun get(ar: Int): Int
+    public val length: Int
 }
 
 //expect fun typedUIntArray(size:Int):TypedUIntArray
-expect fun typedIntArray(size:Int): TypedIntArray
+public expect fun typedIntArray(size:Int): TypedIntArray
 
 
-class Delaunator(points: Array<Array<Double>>) {
+public class Delaunator(points: Array<Array<Double>>) {
 
-    val getX = { point: Array<Double> -> point[0] }
-    val getY = { point: Array<Double> -> point[1] }
+    public val getX: (Array<Double>) -> Double = { point: Array<Double> -> point[0] }
+    public val getY: (Array<Double>) -> Double = { point: Array<Double> -> point[1] }
 
     private val coords:Array<Double> =Array(points.size*2){.0}
 
@@ -57,11 +57,11 @@ class Delaunator(points: Array<Array<Double>>) {
      */
     private val _hashSize: Int
 
-    var hull: Node
+    internal var hull: Node
 
     private val _hash: Array<Node?>
 
-    var triangles: TypedIntArray
+    public var triangles: TypedIntArray
 
     private var halfedges: TypedIntArray
 
@@ -357,7 +357,7 @@ class Delaunator(points: Array<Array<Double>>) {
 /**
  * Circular Double Linked List
  */
-class Node(
+internal class Node(
     val i: Int,
     val x: Double,
     val y: Double,
@@ -395,14 +395,14 @@ internal fun insertNode(coords: Array<Double>, i: Int, prev: Node? = null): Node
 }
 
 
-fun area(ax: Double, ay: Double, bx: Double, by: Double, cx: Double, cy: Double) =
+public fun area(ax: Double, ay: Double, bx: Double, by: Double, cx: Double, cy: Double): Double =
     (by - ay) * (cx - bx) - (bx - ax) * (cy - by)
 
 
-fun inCircle(ax: Double, ay: Double,
-             bx: Double, by: Double,
-             cx: Double, cy: Double,
-             px: Double, py: Double): Boolean {
+public fun inCircle(ax: Double, ay: Double,
+                    bx: Double, by: Double,
+                    cx: Double, cy: Double,
+                    px: Double, py: Double): Boolean {
     val pax = ax - px
     val pay = ay - py
     val pbx = bx - px
@@ -419,7 +419,7 @@ fun inCircle(ax: Double, ay: Double,
             ap * (pbx * pcy - pby * pcx) < 0
 }
 
-fun circumradius(
+public fun circumradius(
     ax: Double, ay: Double,
     bx: Double, by: Double,
     cx: Double, cy: Double): Double {
@@ -443,7 +443,7 @@ fun circumradius(
     return x * x + y * y
 }
 
-fun circumcenter(ax: Double, ay: Double, bx: Double, by: Double, cx: Double, cy: Double): Point {
+public fun circumcenter(ax: Double, ay: Double, bx: Double, by: Double, cx: Double, cy: Double): Point {
     val abx = bx - ax
     val aby = by - ay
     val acx = cx - ax
@@ -463,8 +463,8 @@ fun circumcenter(ax: Double, ay: Double, bx: Double, by: Double, cx: Double, cy:
     )
 }
 
-inline fun Double?.isFalsy() = this == null || this == -0.0 || this == 0.0 || isNaN()
-inline fun Double?.orNull(): Double? = if (this.isFalsy()) null else this
+private inline fun Double?.isFalsy() = this == null || this == -0.0 || this == 0.0 || isNaN()
+private inline fun Double?.orNull(): Double? = if (this.isFalsy()) null else this
 
 
 private inline fun compare(coords: Array<Double>, i: Int, j: Int, cx: Double, cy: Double): Double {
@@ -473,7 +473,7 @@ private inline fun compare(coords: Array<Double>, i: Int, j: Int, cx: Double, cy
     return (d1 - d2).orNull() ?: (coords[2 * i] - coords[2 * j]) ?: (coords[2 * i + 1] - coords[2 * j + 1])
 }
 
-fun quicksort(ids: TypedIntArray, coords: Array<Double>, left: Int, right: Int, cx: Double, cy: Double) {
+private fun quicksort(ids: TypedIntArray, coords: Array<Double>, left: Int, right: Int, cx: Double, cy: Double) {
 
     var j: Int
     var temp: Int
@@ -521,7 +521,7 @@ fun quicksort(ids: TypedIntArray, coords: Array<Double>, left: Int, right: Int, 
     }
 }
 
-fun dist(ax: Double, ay: Double, bx: Double, by: Double): Double {
+private fun dist(ax: Double, ay: Double, bx: Double, by: Double): Double {
     val dx = ax - bx
     val dy = ay - by
     return dx * dx + dy * dy

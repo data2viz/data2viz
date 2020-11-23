@@ -20,7 +20,7 @@ package io.data2viz.viz
 import io.data2viz.geom.*
 import org.w3c.dom.CanvasRenderingContext2D
 
-fun PathNode.render(context: CanvasRenderingContext2D) {
+public fun PathNode.render(context: CanvasRenderingContext2D) {
     context.beginPath()
     path.commands.forEach { cmd ->
         when (cmd) {

@@ -41,7 +41,7 @@ import io.data2viz.geom.point
  * forces of the change; the simulation does not make a defensive copy of the specified array.
  */
 
-data class ForceNode<D> (
+public data class ForceNode<D> (
     val index: Int,
     val domain: D,
     var x: Double = Double.NaN,

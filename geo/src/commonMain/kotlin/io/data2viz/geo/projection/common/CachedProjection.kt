@@ -28,15 +28,15 @@ import io.data2viz.geo.stream.StreamCache
  * @see StreamCache
  * @see ProjectorProjection
  */
-abstract class CachedProjection : Projection {
+public abstract class CachedProjection : Projection {
 
-    val streamCache = StreamCache()
+    public val streamCache: StreamCache = StreamCache()
 
 
     /**
      * Reset cache
      */
-    fun reset() {
+    public fun reset() {
         streamCache.reset()
     }
 

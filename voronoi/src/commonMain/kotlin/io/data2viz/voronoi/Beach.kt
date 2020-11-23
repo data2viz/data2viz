@@ -22,8 +22,8 @@ import kotlin.math.abs
 import kotlin.math.sqrt
 
 
-val epsilon = 1e-6
-val epsilon2 = 1e-12
+internal val epsilon = 1e-6
+internal val epsilon2 = 1e-12
 
 //todo don't use global val. Could be a
 internal val beaches = RedBlackTree<Beach>()
@@ -31,31 +31,31 @@ internal val beachPool = mutableListOf<RedBlackNode<Beach>>()
 
 internal fun <T> T.redBlackNode(): RedBlackNode<T> = RedBlackNode(this)
 
-class Beach {
-    lateinit var site: Site
+public class Beach {
+    public lateinit var site: Site
 
-    var circleNode: RedBlackNode<Circle>? = null
+    public var circleNode: RedBlackNode<Circle>? = null
 
-    val circle: Circle?
+    public val circle: Circle?
         get() = circleNode?.node
 
-    var edge: Edge? = null
+    public var edge: Edge? = null
 }
 
-val RedBlackNode<Beach>.site : Site
+public val RedBlackNode<Beach>.site : Site
     get() = this.node.site
 
-val RedBlackNode<Beach>.circle : Circle?
+public val RedBlackNode<Beach>.circle : Circle?
     get() = this.node.circle
 
 
-fun createBeach(site: Site): RedBlackNode<Beach> {
+public fun createBeach(site: Site): RedBlackNode<Beach> {
     val beach = if( beachPool.isEmpty()) Beach().redBlackNode() else beachPool.pop()!!
     beach.node.site = site
     return beach
 }
 
-fun detachBeach(beach: RedBlackNode<Beach>) {
+public fun detachBeach(beach: RedBlackNode<Beach>) {
     detachCircle(beach)
     beaches.remove(beach)
     beachPool.add(beach)
@@ -63,7 +63,7 @@ fun detachBeach(beach: RedBlackNode<Beach>) {
 }
 
 
-fun addBeach(site: Site) {
+public fun addBeach(site: Site) {
 
     val x = site.x
     val directrix = site.y
@@ -147,7 +147,7 @@ fun addBeach(site: Site) {
 }
 
 
-fun removeBeach(circle: RedBlackNode<Circle>) {
+public fun removeBeach(circle: RedBlackNode<Circle>) {
     val beach = circle.node.arcNode!!
 
     val x = circle.x            //centre du cercle x
@@ -203,7 +203,7 @@ fun removeBeach(circle: RedBlackNode<Circle>) {
 }
 
 
-fun leftBreakPoint(arc: RedBlackNode<Beach>, directrix: Double): Double {
+public fun leftBreakPoint(arc: RedBlackNode<Beach>, directrix: Double): Double {
     var site = arc.node.site
     val rfocx = site.x  //foyer x ?
     val rfocy = site.y  //foyer y ?
@@ -230,7 +230,7 @@ fun leftBreakPoint(arc: RedBlackNode<Beach>, directrix: Double): Double {
         (rfocx + lfocx) / 2
 }
 
-fun rightBreakPoint(arc: RedBlackNode<Beach>, directrix: Double): Double {
+public fun rightBreakPoint(arc: RedBlackNode<Beach>, directrix: Double): Double {
     val rArc = arc.N
     if (rArc != null) return leftBreakPoint(rArc, directrix)
     val site = arc.node.site

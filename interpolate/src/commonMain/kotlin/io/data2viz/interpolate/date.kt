@@ -23,14 +23,14 @@ import io.data2viz.time.plus
 import kotlinx.datetime.*
 
 // TODO optimize using DateTimePeriod ?
-fun interpolateDate(start: LocalDateTime, end: LocalDateTime): Interpolator<LocalDateTime>{
+public fun interpolateDate(start: LocalDateTime, end: LocalDateTime): Interpolator<LocalDateTime>{
     val fromInstant = start.toInstant(defaultTZ)
     val range = fromInstant.until(end.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
     return { percent -> start + DateTimePeriod(0, 0, 0, 0, 0, 0, (range * percent.value * 1_000_000).toLong()) }
 }
 
 // TODO optimize using DateTimePeriod ?
-fun uninterpolateDate(start: LocalDateTime, end: LocalDateTime): UnInterpolator<LocalDateTime> {
+public fun uninterpolateDate(start: LocalDateTime, end: LocalDateTime): UnInterpolator<LocalDateTime> {
     val fromInstant = start.toInstant(defaultTZ)
     val range = fromInstant.until(end.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ).toDouble()
     val nullRange = (start == end)

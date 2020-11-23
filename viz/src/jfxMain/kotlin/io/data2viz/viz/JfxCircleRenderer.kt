@@ -20,7 +20,7 @@ package io.data2viz.viz
 import javafx.scene.canvas.*
 
 
-fun CircleNode.render(gc: GraphicsContext) {
+public fun CircleNode.render(gc: GraphicsContext) {
 
     fill?.let {
         gc.fillOval(x - radius, y - radius, radius * 2, radius * 2)

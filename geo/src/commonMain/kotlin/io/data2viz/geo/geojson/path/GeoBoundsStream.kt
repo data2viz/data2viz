@@ -32,7 +32,7 @@ import io.data2viz.math.toRadians
 import kotlin.math.abs
 import io.data2viz.geo.geometry.path.BoundsStream
 
-fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
+public fun geoBounds(geo: GeoJsonObject): Extent = GeoBoundsStream().result(geo)
 
 
 
@@ -50,7 +50,7 @@ fun geoBounds(geo: GeoJsonObject) = GeoBoundsStream().result(geo)
  * maximum latitude is typically the minimum translateY-value.)
  * This is the spherical equivalent of [BoundsStream]
  */
-class GeoBoundsStream : Stream {
+public class GeoBoundsStream : Stream {
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
 //  Function references have poor performance due to GC & memory allocation
 
@@ -81,7 +81,7 @@ class GeoBoundsStream : Stream {
     private var currentLineStart: () -> Unit = ::boundsLineStart
     private var currentLineEnd: () -> Unit = ::boundsLineEnd
 
-    fun result(geo: GeoJsonObject): Extent {
+    public fun result(geo: GeoJsonObject): Extent {
         phi0 = Double.POSITIVE_INFINITY
         lambda0 = phi0
         phi1 = -lambda0
@@ -130,9 +130,9 @@ class GeoBoundsStream : Stream {
         else Extent(lambda0, phi0,lambda1, phi1)
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
-    override fun lineStart() = currentLineStart()
-    override fun lineEnd() = currentLineEnd()
+    override fun point(x: Double, y: Double, z: Double): Unit = currentPoint(x, y)
+    override fun lineStart(): Unit = currentLineStart()
+    override fun lineEnd(): Unit = currentLineEnd()
     override fun polygonStart() {
         currentPoint = ::boundsRingPoint
         currentLineStart = ::boundsRingStart

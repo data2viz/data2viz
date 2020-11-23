@@ -20,11 +20,11 @@ package io.data2viz.time
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 
-class Month : Interval(
+public class Month : Interval(
         floor = fun (date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, 1, 0, 0, 0, 0),
         offset = fun (date:LocalDateTime, step:Int): LocalDateTime = date + DateTimePeriod(0, step),
         count = fun (start:LocalDateTime, end:LocalDateTime): Int = (end - start).months,
         field = fun (date:LocalDateTime): Int = date.monthNumber - 1
 )
 
-val timeMonth = Month()
+public val timeMonth = Month()

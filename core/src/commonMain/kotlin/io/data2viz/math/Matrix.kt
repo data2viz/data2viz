@@ -45,7 +45,7 @@ import io.data2viz.geom.*
  *
  * todo make it immutable?
  */
-data class Matrix(
+public data class Matrix(
     internal var a: Double = 1.0,
     internal var b: Double = 0.0,
     internal var c: Double = 0.0,
@@ -57,7 +57,7 @@ data class Matrix(
     /**
      * Change transformation parameters to make the transformation an identity.
      */
-    fun reset(): Matrix {
+    public fun reset(): Matrix {
         a = 1.0
         d = 1.0
         b = .0
@@ -67,7 +67,7 @@ data class Matrix(
         return this
     }
 
-    fun isIdentity() = (a == 1.0
+    public fun isIdentity(): Boolean = (a == 1.0
                     && b == .0
                     && c == .0
                     && d == 1.0
@@ -82,7 +82,7 @@ data class Matrix(
      * @param {Matrix} matrix the matrix to append
      * @return {Matrix} this matrix, modified
      */
-    fun append (other: Matrix): Matrix {
+    public fun append (other: Matrix): Matrix {
         val a1 = a
         val b1 = b
         val c1 = c
@@ -110,7 +110,7 @@ data class Matrix(
      * @param {Matrix} matrix the matrix to prepend
      * @return {Matrix} this matrix, modified
      */
-    fun prepend(mx: Matrix): Matrix {
+    public fun prepend(mx: Matrix): Matrix {
             val a1 = a
             val b1 = b
             val c1 = c
@@ -135,12 +135,12 @@ data class Matrix(
     /**
      * Add a translation to the current transformation.
      */
-    fun translate(pt: Point) = translate(pt.x, pt.y)
+    public fun translate(pt: Point): Matrix = translate(pt.x, pt.y)
 
     /**
      * Add a translation to the current transformation.
      */
-    fun translate(x: Double, y: Double): Matrix {
+    public fun translate(x: Double, y: Double): Matrix {
         tx += x * a + y * c
         ty += x * b + y * d
         return this
@@ -150,13 +150,13 @@ data class Matrix(
      * Add a scale transformation to the current one, using the same scale
      * factor for X and Y and an optional point f
      */
-    fun scale(scaleXY: Double, center: Point? = null) = scale(scaleXY, scaleXY, center)
+    public fun scale(scaleXY: Double, center: Point? = null): Matrix = scale(scaleXY, scaleXY, center)
 
     /**
      * Add a scale transformation to the current one, using the same scale
      * factor for X and Y
      */
-    fun scale(scaleX: Double, scaleY: Double, center: Point? = null): Matrix {
+    public fun scale(scaleX: Double, scaleY: Double, center: Point? = null): Matrix {
 
         require(scaleX != .0) { "$scaleX should be different than 0.0 to ensure the matrix is invertible "}
         require(scaleY != .0) { "$scaleY should be different than 0.0 to ensure the matrix is invertible "}
@@ -179,7 +179,7 @@ data class Matrix(
      * using the optional center point as pivot. Without a center parameter,
      * the rotation uses the
      */
-    fun rotate(angle: Angle, center: Point? = null): Matrix {
+    public fun rotate(angle: Angle, center: Point? = null): Matrix {
         val cos = angle.cos
         val sin = angle.sin
         val tempA = a
@@ -207,7 +207,7 @@ data class Matrix(
      * Apply the current transformation matrix to a point.
      * @return the point coordinates after apply the transformation.
      */
-    fun transform(point: Point) = point(
+    public fun transform(point: Point): Point = point(
         point.x * a + point.y * c + tx,
         point.x * b + point.y * d + ty
     )
@@ -216,7 +216,8 @@ data class Matrix(
      * Apply the inverse transformations
      * @return the point coordinates after apply the inverse transformation.
      */
-    fun inverseTransform(point: Point):Point {
+
+    public fun inverseTransform(point: Point):Point {
         //matrix should always be invertible
         val x = point.x - tx
         val y = point.y - ty
@@ -232,7 +233,7 @@ data class Matrix(
      *
      * @return {Boolean} whether the matrix is invertible
      */
-    inline internal fun isInvertible(): Boolean{
+    internal fun isInvertible(): Boolean {
         val det = a * d - c * b
         return det != .0
                 && !det.isNaN()

@@ -48,7 +48,7 @@ private fun fit(projection: Projection, fitBounds: (Extent) -> Unit, geo: GeoJso
  * Any postClip extent is ignored when determining the new scale and translate.
  * The precision used to compute the bounding box of the given object is computed at an effective scale of 150.
  */
-fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
+public fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
     val fitBounds = { size: Extent ->
         val w = extent.width
         val h = extent.height
@@ -66,7 +66,7 @@ fun Projection.fitExtent(extent: Extent, geo: GeoJsonObject): Projection {
  * A convenience method for projection.fitSize where the height is automatically chosen
  * from the aspect ratio of object and the given constraint on width.
  */
-fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection {
+public fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection {
     val fitBounds = { size: Extent ->
         val k = width / size.width
         val x = (width - (k * (size.x1 + size.x0))) / 2
@@ -81,7 +81,7 @@ fun Projection.fitWidth(width: Double, geo: GeoJsonObject): Projection {
  * A convenience method for projection.fitSize where the width is automatically chosen
  * from the aspect ratio of object and the given contraint on height.
  */
-fun Projection.fitHeight(height: Double, geo: GeoJsonObject): Projection {
+public fun Projection.fitHeight(height: Double, geo: GeoJsonObject): Projection {
     val fitBounds = { size: Extent ->
         val k = height / size.height
         val x = -k * size.x0
@@ -99,7 +99,7 @@ fun Projection.fitHeight(height: Double, geo: GeoJsonObject): Projection {
  * fitExtent([[0, 0], [width, height]], object)
  * fitSize([width, height], object);
  */
-fun Projection.fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
+public fun Projection.fitSize(width: Double, height: Double, geo: GeoJsonObject): Projection {
     return this.fitExtent(Extent(.0, .0, width, height), geo)
 }
 

@@ -23,13 +23,13 @@ package io.data2viz.geo.stream
  * This stream delegates all calls to the delegate, allowing to override only what should
  * be treated another way.
  */
-open class DelegateStreamAdapter(val delegate: Stream) : Stream {
-    override fun point(x: Double, y: Double, z: Double)     = delegate.point(x, y, z)
-    override fun lineStart()                                = delegate.lineStart()
-    override fun lineEnd()                                  = delegate.lineEnd()
-    override fun polygonStart()                             = delegate.polygonStart()
-    override fun polygonEnd()                               = delegate.polygonEnd()
-    override fun sphere()                                   = delegate.sphere()
+public open class DelegateStreamAdapter(val delegate: Stream) : Stream {
+    override fun point(x: Double, y: Double, z: Double)   :Unit  = delegate.point(x, y, z)
+    override fun lineStart()                              :Unit  = delegate.lineStart()
+    override fun lineEnd()                                :Unit  = delegate.lineEnd()
+    override fun polygonStart()                           :Unit  = delegate.polygonStart()
+    override fun polygonEnd()                             :Unit  = delegate.polygonEnd()
+    override fun sphere()                                 :Unit  = delegate.sphere()
 }
 
 

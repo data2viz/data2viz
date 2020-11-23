@@ -23,18 +23,19 @@ import kotlin.math.min
 
 
 // TODO rename PieLayout ?
-fun <D> pie(init: PieGenerator<D>.() -> Unit) = PieGenerator<D>().apply(init)
-class PieGenerator<D> {
+public fun <D> pie(init: PieGenerator<D>.() -> Unit): PieGenerator<D> = PieGenerator<D>().apply(init)
 
-    var value: (D) -> Double = const(.0)
-    var startAngle: (Array<D>) -> Double = const(.0)
-    var endAngle: (Array<D>) -> Double = const(tau)
-    var padAngle: (Array<D>) -> Double = const(.0)
+public class PieGenerator<D> {
+
+    public var value: (D) -> Double = const(.0)
+    public var startAngle: (Array<D>) -> Double = const(.0)
+    public var endAngle: (Array<D>) -> Double = const(tau)
+    public var padAngle: (Array<D>) -> Double = const(.0)
 
     /**
      * Use the data to generate a line on the path
      */
-    fun render(data: Array<D>): Array<ArcParams<D>> {
+    public fun render(data: Array<D>): Array<ArcParams<D>> {
         val n = data.size
         var sum = .0
         val index: Array<Int> = Array(n, { 0 })

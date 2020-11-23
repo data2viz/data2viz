@@ -31,8 +31,7 @@ import kotlin.math.*
  *
  * @see BaseConditionalProjector
  */
-
-fun conicConformalProjection(init: ConicProjection.() -> Unit = {}) =
+public fun conicConformalProjection(init: ConicProjection.() -> Unit = {}): ConicProjection =
     conicProjection(ConicConformalBaseConditionalProjector()) {
         scale = 109.5
         parallels(30.0.deg, 30.0.deg)
@@ -70,7 +69,7 @@ internal class ConicConformalBaseConditionalProjector(
         get() = conicConformalProjector.isPossibleToUseProjector
 }
 
-class ConicConformalProjector : ConicProjector, Projector {
+public class ConicConformalProjector : ConicProjector, Projector {
 
 
     override var phi0: Double = 0.0
@@ -87,7 +86,7 @@ class ConicConformalProjector : ConicProjector, Projector {
     private var cy0 = cy0()
     private var n = n()
     private var f = f()
-    var isPossibleToUseProjector = isPossibleToUse()
+    public var isPossibleToUseProjector: Boolean = isPossibleToUse()
         private set
 
 

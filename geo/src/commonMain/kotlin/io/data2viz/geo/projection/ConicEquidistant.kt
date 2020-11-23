@@ -23,7 +23,7 @@ import io.data2viz.math.EPSILON
 import io.data2viz.math.deg
 import kotlin.math.*
 
-fun conicEquidistantProjection(init: ConicProjection.() -> Unit = {}) =
+public fun conicEquidistantProjection(init: ConicProjection.() -> Unit = {}): ConicProjection =
     conicProjection(ConicEquidistantBaseConditionalProjector()) {
         scale = 131.154
         center(0.0.deg, 13.9389.deg)
@@ -59,7 +59,7 @@ internal class ConicEquidistantBaseConditionalProjector(
 
 }
 
-class ConicEquidistantProjector : ConicProjector, Projector {
+public class ConicEquidistantProjector : ConicProjector, Projector {
 
     override var phi0: Double = 0.0
         set(value) {
@@ -75,7 +75,7 @@ class ConicEquidistantProjector : ConicProjector, Projector {
     private var cy0 = cy0()
     private var n = n()
     private var g = g()
-    var isPossibleToUseProjector = isPossibleToUse()
+    public var isPossibleToUseProjector: Boolean = isPossibleToUse()
         private set
 
     private fun recalculate() {

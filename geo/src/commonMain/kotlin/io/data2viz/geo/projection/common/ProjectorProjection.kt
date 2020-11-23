@@ -32,7 +32,7 @@ import kotlin.math.sqrt
 /**
  * Create [Projection] for give [Projector]
  */
-fun projection(projector: Projector, init: ProjectorProjection.() -> Unit): Projection =
+public fun projection(projector: Projector, init: ProjectorProjection.() -> Unit): Projection =
     ProjectorProjection(projector)
         .apply(init)
 
@@ -60,7 +60,8 @@ private fun transformRotate(rotateProjector: Projector): (stream: Stream) -> Del
  * @see Projection
  * @see ComposedProjection
  */
-open class ProjectorProjection(val projector: Projector) : Projection {
+public open class ProjectorProjection(
+    public val projector: Projector) : Projection {
 
     private var _translateX = 480.0
     private var _translateY = 250.0
@@ -82,15 +83,15 @@ open class ProjectorProjection(val projector: Projector) : Projection {
      */
     protected lateinit var composedTransformationsProjector: Projector
 
-    protected val translateAndScaleProjector = TranslateAndScaleProjector(projector, _scale, _recenterDx, _recenterDy)
+    protected val translateAndScaleProjector: TranslateAndScaleProjector = TranslateAndScaleProjector(projector, _scale, _recenterDx, _recenterDy)
 
     // Precision
     private var _precisionDelta2 = 0.5
 
     // Rotate
-    protected var _rotationLambda = 0.0
-    protected var _rotationPhi = 0.0
-    protected var _rotationGamma = 0.0
+    protected var _rotationLambda: Double = 0.0
+    protected var _rotationPhi: Double = 0.0
+    protected var _rotationGamma: Double = 0.0
     protected lateinit var rotator: Projector
 
     override var preClip: ClipStreamBuilder = antimeridianPreClip
@@ -108,13 +109,13 @@ open class ProjectorProjection(val projector: Projector) : Projection {
 
 
     // Translate
-    override var translateX
+    override var translateX: Double
         get () = _translateX
         set(value) {
             _translateX = value
             recenter()
         }
-    override var translateY
+    override var translateY: Double
         get () = _translateY
         set(value) {
             _translateY = value
@@ -129,13 +130,13 @@ open class ProjectorProjection(val projector: Projector) : Projection {
     }
 
 
-    override var centerLat
+    override var centerLat: Angle
         get() = _centerLat.rad
         set(value) {
             _centerLat = value.rad
             recenter()
         }
-    override var centerLon
+    override var centerLon: Angle
         get() = _centerLon.rad
         set(value) {
             _centerLon = value.rad
@@ -149,14 +150,14 @@ open class ProjectorProjection(val projector: Projector) : Projection {
         recenter()
     }
 
-    override var rotateLambda
+    override var rotateLambda: Angle
         get() = _rotationLambda.rad
         set(value) {
             _rotationLambda = value.rad
             recenter()
         }
 
-    override var rotatePhi
+    override var rotatePhi: Angle
         get() = _rotationPhi.rad
         set(value) {
             _rotationPhi = value.rad
@@ -164,7 +165,7 @@ open class ProjectorProjection(val projector: Projector) : Projection {
         }
 
 
-    override var rotateGamma
+    override var rotateGamma: Angle
         get() = _rotationGamma.rad
         set(value) {
             _rotationGamma = value.rad

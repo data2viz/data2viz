@@ -24,22 +24,24 @@ import kotlin.math.tan
 /**
  * Abstraction of an angle to have some more typesafe angle manipulations.
  */
-inline class Angle(val rad: Double){
-    val cos:Double get() = cos(rad)
-    val sin:Double get() = sin(rad)
-    val tan:Double get() = tan(rad)
-    val deg:Double get() = rad * RAD_TO_DEG
+public inline class Angle(
+    public val rad: Double
+){
+    public val cos:Double get() = cos(rad)
+    public val sin:Double get() = sin(rad)
+    public val tan:Double get() = tan(rad)
+    public val deg:Double get() = rad * RAD_TO_DEG
 
-    fun normalize():Angle =
+    public fun normalize():Angle =
             if (rad >= 0) Angle(rad % TAU_ANGLE.rad)
             else Angle((rad % TAU_ANGLE.rad) + TAU_ANGLE.rad)
 
-    operator fun plus(angle: Angle)     = Angle(rad + angle.rad)
-    operator fun minus(angle: Angle)    = Angle(rad - angle.rad)
-    operator fun times(d: Number)       = Angle(rad * d.toDouble())
-    operator fun div(d: Number)         = Angle(rad / d.toDouble())
-    operator fun div(other: Angle)      = rad / other.rad
-    operator fun unaryMinus() = Angle(-rad)
+    public operator fun plus(angle: Angle)     : Angle = Angle(rad + angle.rad)
+    public operator fun minus(angle: Angle)    : Angle = Angle(rad - angle.rad)
+    public operator fun times(d: Number)       : Angle = Angle(rad * d.toDouble())
+    public operator fun div(d: Number)         : Angle = Angle(rad / d.toDouble())
+    public operator fun unaryMinus()           : Angle = Angle(-rad)
+    public operator fun div(other: Angle)      : Double = rad / other.rad
 
 }
 
@@ -47,27 +49,27 @@ inline class Angle(val rad: Double){
 /**
  * Assuming this represents a value in degrees, converts the value to radians.
  */
-fun Double.toRadians() = this * DEG_TO_RAD
+public fun Double.toRadians(): Double = this * DEG_TO_RAD
 
 /**
  * Assuming this represents a value in radians, converts the value to degrees.
  */
-fun Double.toDegrees() = this * RAD_TO_DEG
+public fun Double.toDegrees(): Double = this * RAD_TO_DEG
 
 /**
  * Extension property to create easily an angle from a number representing degrees
  */
-val Number.deg:Angle
+public val Number.deg:Angle
     get() = Angle(toDouble() * DEG_TO_RAD)
 
 /**
  * Extension property to create easily an angle from a number representing radians
  */
-val Number.rad:Angle
+public val Number.rad:Angle
     get() = Angle(toDouble())
 
 
 /**
  * Extension function operator on Number to allow 2 * PI.rad
  */
-operator fun Number.times(angle: Angle) = Angle(angle.rad * this.toDouble())
+public operator fun Number.times(angle: Angle): Angle = Angle(angle.rad * this.toDouble())

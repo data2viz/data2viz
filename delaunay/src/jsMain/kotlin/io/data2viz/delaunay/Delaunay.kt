@@ -31,7 +31,7 @@ fun delaunautor(points: Array<Array<Double>>) = Delaunator(points)
 
 
 //actual fun typedUIntArray(size:Int):TypedUIntArray = TypedUIntArrayDelegate(Uint32Array(size))
-actual fun typedIntArray(size:Int): TypedIntArray = TypedIntArrayDelegate(Int32Array(size))
+public actual fun typedIntArray(size:Int): TypedIntArray = TypedIntArrayDelegate(Int32Array(size))
 
 class TypedUIntArrayDelegate(val delegate: Uint32Array):TypedUIntArray {
     override val length: Int

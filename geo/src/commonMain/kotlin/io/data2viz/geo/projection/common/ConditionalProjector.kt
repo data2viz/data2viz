@@ -22,13 +22,13 @@ import io.data2viz.geo.projection.*
  * Abstract Projector which delegate projector & invert to another projection depending current settings
  * @see BaseConditionalProjector
  */
-abstract class ConditionalProjector : Projector {
+public abstract class ConditionalProjector : Projector {
 
     override fun invert(x: Double, y: Double): DoubleArray = activeProjector.invert(x, y)
 
     override fun project(lambda: Double, phi: Double): DoubleArray = activeProjector.project(lambda, phi)
 
-    abstract val activeProjector: Projector
+    public abstract val activeProjector: Projector
 }
 
 /**
@@ -39,11 +39,11 @@ abstract class ConditionalProjector : Projector {
  * @see ConicConformalBaseConditionalProjector
  * @see ConicEquidistantBaseConditionalProjector
  */
-abstract class BaseConditionalProjector : ConditionalProjector() {
+public abstract class BaseConditionalProjector : ConditionalProjector() {
 
-    abstract val baseProjector: Projector
-    abstract val nestedProjector: Projector
-    abstract val isNeedUseBaseProjector: Boolean
+    public abstract val baseProjector: Projector
+    public abstract val nestedProjector: Projector
+    public abstract val isNeedUseBaseProjector: Boolean
 
 
     override val activeProjector: Projector

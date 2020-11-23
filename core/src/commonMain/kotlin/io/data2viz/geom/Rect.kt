@@ -17,39 +17,41 @@
 
 package io.data2viz.geom
 
-interface Rect: HasSize {
+public interface Rect: HasSize {
 
-    var x: Double
-    var y: Double
+    public var x: Double
+    public var y: Double
 
-    val top
+    public val top: Double
         get() = y
 
-    val bottom
+    public val bottom: Double
         get() = y + height
 
-    val left
+
+    public val left: Double
         get() = x
 
-    val right
+    public val right: Double
         get() = x + width
 
-    val topLeft: Point
+
+    public val topLeft: Point
         get() = Point(x, y)
 
-    val topRight: Point
+    public val topRight: Point
         get() = Point(x + width, y)
 
-    val bottomLeft: Point
+    public val bottomLeft: Point
         get() = Point(x, y + height)
 
-    val bottomRight: Point
+    public val bottomRight: Point
         get() = Point(x + width, y + height)
 
-    val center: Point
+    public val center: Point
         get() = Point(x + .5 * width, y + .5 * height)
 
-    operator fun contains(point: Point): Boolean {
+    public operator fun contains(point: Point): Boolean {
         val x = point.x
         val y = point.y
         return x >= this.x && y >= this.y
@@ -57,7 +59,7 @@ interface Rect: HasSize {
                 && y <= this.y + this.height
     }
 
-    operator fun contains(rect: Rect): Boolean {
+    public operator fun contains(rect: Rect): Boolean {
         val x = rect.x
         val y = rect.y
         return x >= this.x && y >= this.y

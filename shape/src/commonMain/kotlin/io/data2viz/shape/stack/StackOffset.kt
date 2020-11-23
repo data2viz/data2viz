@@ -17,7 +17,7 @@
 
 package io.data2viz.shape.stack
 
-enum class StackOffset {
+public enum class StackOffset {
 
     /**
      * Applies a zero baseline.

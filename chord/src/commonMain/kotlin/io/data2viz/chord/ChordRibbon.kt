@@ -29,7 +29,7 @@ private val halfPi = PI / 2
 /**
  * Generates a ribbon for a Chord Diagram with the given radius.
  */
-fun ribbon(radius: Double): (Chord, Path) -> Unit = { chord, path ->
+public fun ribbon(radius: Double): (Chord, Path) -> Unit = { chord, path ->
     val s = chord.source
     val t = chord.target
     val sa0 = s.startAngle - halfPi

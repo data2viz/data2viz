@@ -49,12 +49,12 @@ public abstract class Node : Style {
      *
      * default to true.
      */
-    var visible: Boolean = true
+    public var visible: Boolean = true
 
     /**
      * Removes the node from the hierarchy.
      */
-    fun remove(){
+    public fun remove(){
         parent?.remove(this)
     }
 

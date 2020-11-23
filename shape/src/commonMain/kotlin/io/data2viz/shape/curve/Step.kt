@@ -21,7 +21,11 @@ import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
 // TODO : StepBefore, StepAfter, Step
-abstract class AbstractStep(override val path: Path, changePoint: Double = 0.5) : Curve {
+public abstract class AbstractStep(
+
+    override val path: Path,
+
+    changePoint: Double = 0.5) : Curve {
 
     private var x = -1.0
     private var y = -1.0

@@ -19,24 +19,24 @@ package io.data2viz.viz
 
 import io.data2viz.color.*
 
-class TextNode : Node(),
+public class TextNode : Node(),
         HasFill,
         HasStroke,
         HasTransform {
 
     override var transform: Transform? = null
 
-    var x: Double = .0
-    var y: Double = .0
-    var textContent: String = "Type something"
+    public var x: Double = .0
+    public var y: Double = .0
+    public var textContent: String = "Type something"
     set(value) {
         field = value.makeVizFriendlyText()
     }
 
-    var fontSize: Double = 12.0
-    var fontFamily: FontFamily          = FontFamily.SANS_SERIF
-    var fontWeight: FontWeight          = FontWeight.NORMAL
-    var fontStyle: FontPosture          = FontPosture.NORMAL
+    public var fontSize: Double = 12.0
+    public var fontFamily: FontFamily          = FontFamily.SANS_SERIF
+    public var fontWeight: FontWeight          = FontWeight.NORMAL
+    public var fontStyle: FontPosture          = FontPosture.NORMAL
 
 }
 
@@ -45,14 +45,15 @@ private fun String.makeVizFriendlyText(): String = replaceNewLineWithSpace()
 private fun String.replaceNewLineWithSpace(): String  = replace('\n', ' ')
 
 
-class FontFamily private constructor(val name: String) {
+public class FontFamily private constructor(
+    public val name: String) {
 
-    companion object {
-        val MONOSPACE  = FontFamily("monospace")
-        val SANS_SERIF = FontFamily("sans-serif")
-        val SERIF 	   = FontFamily("serif")
+    public companion object {
+        public val MONOSPACE    : FontFamily = FontFamily("monospace")
+        public val SANS_SERIF   : FontFamily = FontFamily("sans-serif")
+        public val SERIF        : FontFamily = FontFamily("serif")
 
-        fun specifiedFont(name: String) = FontFamily(name)
+        public fun specifiedFont(name: String): FontFamily = FontFamily(name)
     }
 
     override fun toString(): String {
@@ -62,12 +63,12 @@ class FontFamily private constructor(val name: String) {
 
 }
 
-enum class FontWeight {
+public enum class FontWeight {
     BOLD,
     NORMAL,
 }
 
-enum class FontPosture {
+public enum class FontPosture {
     ITALIC,
     NORMAL,
 }

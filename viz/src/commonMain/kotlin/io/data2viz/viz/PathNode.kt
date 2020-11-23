@@ -20,7 +20,9 @@ package io.data2viz.viz
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.Path
 
-open class PathNode(val path: PathGeom = PathGeom()): Node(),
+public open class PathNode(
+
+    public val path: PathGeom = PathGeom()): Node(),
         HasStroke,
         HasFill,
         HasTransform,
@@ -32,7 +34,7 @@ open class PathNode(val path: PathGeom = PathGeom()): Node(),
      * Remove all segments of the path.
      * Todo should it be defined as a function of Path.
      */
-    fun clearPath() {
+    public fun clearPath() {
         path.clearPath()
     }
 

@@ -29,18 +29,18 @@ annotation class ExperimentalKEvent
 /**
  * Marker interface on events.
  */
-interface KEvent
+public interface KEvent
 
 /**
  * TODO: rename with a more explicit name.
  */
-interface Disposable {
+public interface Disposable {
 
     /**
      * Remove the event listener from the Viz.
      * TODO: rename with a more explicit name.
      */
-    fun dispose()
+    public fun dispose()
 }
 
 
@@ -48,8 +48,8 @@ interface Disposable {
  * Common Pointer event. Can be subclassed into more specific events.
  * Gives access to the position of the event.
  */
-open class KPointerEvent(
-    val pos: Point
+public open class KPointerEvent(
+    public val pos: Point
 ) : KEvent {
     override fun toString(): String = "KPointerEvent(pos=$pos)"
 }
@@ -59,106 +59,108 @@ open class KPointerEvent(
  * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
  * Used in JFX & JS implementations. Android implementation use common KPointerEvent
  */
-class KMouseEvent(
+public class KMouseEvent(
     pos: Point,
-    val altKey: Boolean,
-    val ctrlKey: Boolean,
-    val shiftKey: Boolean,
-    val metaKey: Boolean
+    public val altKey: Boolean,
+    public val ctrlKey: Boolean,
+    public val shiftKey: Boolean,
+    public val metaKey: Boolean
 ) : KPointerEvent(pos) {
     override fun toString(): String = "KMouseEvent(pos=$pos)"
 }
 
 
-interface KEventListener<T> where  T : KEvent {
-    fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
+public interface KEventListener<T> where  T : KEvent {
+    public fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
 }
 
-expect class KMouseMove {
-    companion object PointerMoveEventListener : KEventListener<KMouseEvent>
+public expect class KMouseMove {
+    public companion object PointerMoveEventListener : KEventListener<KMouseEvent>
 }
 
-expect class KMouseDown {
-    companion object PointerDownEventListener : KEventListener<KMouseEvent>
+public expect class KMouseDown {
+    public companion object PointerDownEventListener : KEventListener<KMouseEvent>
 }
 
-expect class KMouseUp {
-    companion object PointerUpEventListener : KEventListener<KMouseEvent>
+public expect class KMouseUp {
+    public companion object PointerUpEventListener : KEventListener<KMouseEvent>
 }
 
-expect class KTouchStart {
-    companion object TouchStartEventListener : KEventListener<KPointerEvent>
+public expect class KTouchStart {
+    public companion object TouchStartEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KTouchEnd {
-    companion object TouchEndEventListener : KEventListener<KPointerEvent>
+public expect class KTouchEnd {
+    public companion object TouchEndEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KTouchMove {
-    companion object TouchMoveEventListener : KEventListener<KPointerEvent>
+public expect class KTouchMove {
+    public companion object TouchMoveEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KPointerEnter {
-    companion object PointerEnterEventListener : KEventListener<KPointerEvent>
+public expect class KPointerEnter {
+    public companion object PointerEnterEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KPointerLeave {
-    companion object PointerLeaveEventListener : KEventListener<KPointerEvent>
+public expect class KPointerLeave {
+    public companion object PointerLeaveEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KPointerClick {
-    companion object PointerClickEventListener : KEventListener<KPointerEvent>
+public expect class KPointerClick {
+    public companion object PointerClickEventListener : KEventListener<KPointerEvent>
 }
 
-expect class KPointerDoubleClick {
-    companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
+public expect class KPointerDoubleClick {
+    public companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
 }
 
-class KDragEvent(
-    val action: KDragAction,
-    val pointerEvent: KPointerEvent
+public class KDragEvent(
+    public val action: KDragAction,
+    public val pointerEvent: KPointerEvent
 ) : KEvent {
-    val pos get() = pointerEvent.pos
+    public val pos: Point get() = pointerEvent.pos
     override fun toString(): String = "KDragEvent(action=$action, pos=$pos)"
 
-    enum class KDragAction {
+    public enum class KDragAction {
         Start, Dragging, Finish
     }
 }
 
 
 @ExperimentalKEvent
-expect class KZoom {
-    companion object ZoomEventListener : KEventListener<KZoomEvent>
+public expect class KZoom {
+    public companion object ZoomEventListener : KEventListener<KZoomEvent>
 }
 
 
 @ExperimentalKEvent
-class KZoomEvent(
-    val startZoomPos: Point,
-    val delta: Double
+public class KZoomEvent(
+    public val startZoomPos: Point,
+    public val delta: Double
 ) : KEvent {
-    companion object {
 
-        const val diffTimeBetweenZoomEventsToDetectRestart = 500
-        fun isNewZoom(currentTime: Double, lastTime: Double?) =
+    public companion object {
+
+        public const val diffTimeBetweenZoomEventsToDetectRestart: Int = 500
+
+        public fun isNewZoom(currentTime: Double, lastTime: Double?): Boolean =
             if (lastTime == null) {
                 true
             } else {
                 currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
             }
 
-        fun isNewZoom(currentTime: Long, lastTime: Long?) =
+        public fun isNewZoom(currentTime: Long, lastTime: Long?) =
             if (lastTime == null) {
                 true
             } else {
                 currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
             }
 
-        const val minDelta = -100.0
-        const val maxDelta = 100.0
+        public const val minDelta: Double = -100.0
+        public const val maxDelta: Double = 100.0
 
-        fun scaleDelta(
+        public fun scaleDelta(
             currentDelta: Double,
             originMinDelta: Double,
             originMaxDelta: Double,
@@ -189,9 +191,9 @@ class KZoomEvent(
 
 }
 
-class KPointerDrag {
+public class KPointerDrag {
 
-    companion object PointerDragEventListener : KEventListener<KDragEvent> {
+    public companion object PointerDragEventListener : KEventListener<KDragEvent> {
 
         private var downActionPos: Point? = null
         private var dragInProgress: Boolean = false

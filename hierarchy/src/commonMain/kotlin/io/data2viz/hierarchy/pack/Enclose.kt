@@ -32,7 +32,7 @@ private data class Circle(
  * property specifying the circle’s radius, and circle.x and circle.y properties specifying the circle’s center.
  * The enclosing circle is computed using the Matoušek-Sharir-Welzl algorithm.
  */
-fun enclose(circles: List<CircleValues>): CircleValues? {
+public fun enclose(circles: List<CircleValues>): CircleValues? {
     var i = 0
     val shuffledCircles = circles.shuffled()
     val n = shuffledCircles.size

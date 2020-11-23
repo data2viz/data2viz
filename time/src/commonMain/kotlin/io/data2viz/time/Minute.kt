@@ -20,7 +20,7 @@ package io.data2viz.time
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 
-class Minute : Interval(
+public class Minute : Interval(
     floor = fun(date: LocalDateTime): LocalDateTime =
         LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, 0, 0),
     offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, 0, step),
@@ -28,4 +28,4 @@ class Minute : Interval(
     field = fun(date: LocalDateTime): Int = date.minute
 )
 
-val timeMinute = Minute()
+public val timeMinute = Minute()

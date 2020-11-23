@@ -19,10 +19,10 @@ package io.data2viz.time
 
 import kotlinx.datetime.*
 
-val defaultTZ: TimeZone = TimeZone.UTC
+public val defaultTZ: TimeZone = TimeZone.UTC
 
-operator fun LocalDateTime.minus(other: LocalDateTime): DateTimePeriod = this.toInstant(defaultTZ).periodUntil(other.toInstant(defaultTZ), defaultTZ)
-operator fun LocalDateTime.plus(period: DateTimePeriod): LocalDateTime = this.toInstant(defaultTZ).plus(period, defaultTZ).toLocalDateTime(defaultTZ)
+public operator fun LocalDateTime.minus(other: LocalDateTime): DateTimePeriod = this.toInstant(defaultTZ).periodUntil(other.toInstant(defaultTZ), defaultTZ)
+public operator fun LocalDateTime.plus(period: DateTimePeriod): LocalDateTime = this.toInstant(defaultTZ).plus(period, defaultTZ).toLocalDateTime(defaultTZ)
 
 /**
  * Constructs a new custom interval given the specified floor and offset functions and an optional count function.
@@ -60,10 +60,11 @@ operator fun LocalDateTime.plus(period: DateTimePeriod): LocalDateTime = this.to
  * (even if daylight saving changes!).
  *
  */
-open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
-                    val offset: (LocalDateTime, Int) -> LocalDateTime,
-                    val count: ((LocalDateTime, LocalDateTime) -> Int)? = null,
-                    private val field: ((LocalDateTime) -> Int)? = null) {
+public open class Interval(
+    public val floor: (LocalDateTime) -> LocalDateTime,
+    public val offset: (LocalDateTime, Int) -> LocalDateTime,
+    public val count: ((LocalDateTime, LocalDateTime) -> Int)? = null,
+    private val field: ((LocalDateTime) -> Int)? = null) {
 
     /**
      * Returns a new date representing the earliest interval boundary date after or equal to date.
@@ -73,7 +74,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * Furthermore, the returned date is the maximum expressible value of the associated interval,
      * such that interval.ceil(interval.ceil(date) + 1) returns the following interval boundary date.
      */
-    fun ceil(date: LocalDateTime): LocalDateTime {
+    public fun ceil(date: LocalDateTime): LocalDateTime {
         var newDate = date + DateTimePeriod(0, 0, 0, 0, 0, 0, -1_000_000)
         newDate = floor(newDate)
         newDate = offset(newDate, 1)
@@ -88,7 +89,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * This method is idempotent: if the specified date is already rounded to the current interval,
      * a new date with an identical time is returned.
      */
-    fun round(date: LocalDateTime): LocalDateTime {
+    public fun round(date: LocalDateTime): LocalDateTime {
         val d0 = floor(date)
         val d1 = ceil(date)
         val dateInstant = date.toInstant(defaultTZ)
@@ -106,7 +107,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * offset by step intervals and floored.
      * Thus, two overlapping ranges may be consistent.
      */
-    fun range(start: LocalDateTime, stop: LocalDateTime, step: Int = 1): List<LocalDateTime> {
+    public fun range(start: LocalDateTime, stop: LocalDateTime, step: Int = 1): List<LocalDateTime> {
         val range = mutableListOf<LocalDateTime>()
         var current = ceil(start)
         if (step > 0) {
@@ -125,7 +126,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * The returned filtered interval does not support interval.count.
      * See also interval.every.
      */
-    fun filter(test: (LocalDateTime) -> Boolean): Interval {
+    public fun filter(test: (LocalDateTime) -> Boolean): Interval {
         return Interval(
                 fun(date: LocalDateTime): LocalDateTime {
                     var newDate = floor(date)
@@ -158,7 +159,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * timeMonth, and thus the interval number resets at the start of each month.
      * If step is not valid, raise exception. If step is one, returns this interval.
      */
-    fun every(step: Int): Interval {
+    public fun every(step: Int): Interval {
         checkNotNull(count, { "The given Count function must not be null." })
         require(step > 0, { " The given Step parameter must be greater than zero." })
         if (step == 1) return this
@@ -174,7 +175,7 @@ open class Interval(val floor: (LocalDateTime) -> LocalDateTime,
      * Note that this behavior is slightly different than interval.range because its purpose is to return the
      * zero-based number of the specified end date relative to the specified start date.
      */
-    fun count(start: LocalDateTime, stop: LocalDateTime): Int {
+    public fun count(start: LocalDateTime, stop: LocalDateTime): Int {
         checkNotNull(count, { "The given Count function must not be null." })
         val from = floor(start)
         val to = floor(stop)

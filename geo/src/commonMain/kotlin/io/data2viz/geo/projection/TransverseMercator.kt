@@ -28,7 +28,7 @@ import kotlin.math.ln
 import kotlin.math.tan
 
 
-fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit = {}) =
+public fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit = {}): TransverseMercatorProjection =
     TransverseMercatorProjection().also {
 
     it.rotate(0.deg, 0.deg, 90.deg)
@@ -41,10 +41,10 @@ fun transverseMercatorProjection(init: TransverseMercatorProjection.() -> Unit =
  * @see TransverseMercatorProjector
  * @see TransverseMercatorProjection
  */
-class TransverseMercatorProjector : Projector {
+public class TransverseMercatorProjector : Projector {
 
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
-    override fun invert(x: Double, y: Double) = doubleArrayOf(-y, 2 * atan(exp(x)) - HALFPI)
+    override fun project(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(ln(tan((HALFPI + phi) / 2)), -lambda)
+    override fun invert(x: Double, y: Double): DoubleArray = doubleArrayOf(-y, 2 * atan(exp(x)) - HALFPI)
 
 }
 
@@ -54,7 +54,7 @@ class TransverseMercatorProjector : Projector {
  *
  * @see TransverseMercatorProjector
  */
-class TransverseMercatorProjection : MercatorProjection(TransverseMercatorProjector()) {
+public class TransverseMercatorProjection : MercatorProjection(TransverseMercatorProjector()) {
 
     override var centerLat: Angle
         get() = super.centerLon

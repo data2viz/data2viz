@@ -24,7 +24,9 @@ package io.data2viz.geo.projection.common
  *
  * @see ProjectorProjection
  */
-class ComposedProjector(val a: Projector, val b:Projector): Projector  {
+public class ComposedProjector(
+    public val a: Projector,
+    public val b:Projector): Projector  {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val p = a.project(lambda, phi)

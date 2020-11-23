@@ -21,7 +21,9 @@ import io.data2viz.geom.Path
 import io.data2viz.shape.Curve
 
 
-class Linear(override val path: Path) : Curve {
+public class Linear(
+
+    override val path: Path) : Curve {
 
     private var pointStatus = -1
     private var lineStatus: Int = -1

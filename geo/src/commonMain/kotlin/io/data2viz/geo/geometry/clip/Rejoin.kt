@@ -21,7 +21,7 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
 
-data class Intersection(
+public data class Intersection(
     val point: DoubleArray,
     val points: List<DoubleArray>?,
     var other: Intersection?,
@@ -35,7 +35,7 @@ data class Intersection(
  * A generalized polygon clipping algorithm: given a polygon that has been cut into its visible line segments,
  * and rejoins the segments by interpolating along the postClip edge.
  */
-fun rejoin(
+public fun rejoin(
     segments: List<List<DoubleArray>>,
     compareIntersection: Comparator<Intersection>,
     startInside: Boolean,
@@ -137,7 +137,7 @@ fun rejoin(
     }
 }
 
-fun link(list: List<Intersection>) {
+public fun link(list: List<Intersection>) {
     if (list.isEmpty()) return
 
     var a = list.first()

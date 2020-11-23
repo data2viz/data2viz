@@ -17,15 +17,15 @@
 
 package io.data2viz.viz
 
-class LineNode : Node(),
+public class LineNode : Node(),
         HasStroke,
         HasTransform {
 
     override var transform: Transform? = null
 
-    var x1: Double = .0
-    var y1: Double = .0
-    var x2: Double = .0
-    var y2: Double = .0
+    public var x1: Double = .0
+    public var y1: Double = .0
+    public var x2: Double = .0
+    public var y2: Double = .0
 
 }

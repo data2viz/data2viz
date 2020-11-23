@@ -24,7 +24,7 @@ import kotlin.math.sqrt
  * it defaults to infinity. If there is no datum within the search area, returns null.
  * TODO : check tests value must be === searched value
  */
-fun <D> Quadtree<D>.find(x: Double, y: Double, radius: Double = Double.POSITIVE_INFINITY): D? {
+public fun <D> Quadtree<D>.find(x: Double, y: Double, radius: Double = Double.POSITIVE_INFINITY): D? {
 
     var data: D? = null
     var newRadius = radius

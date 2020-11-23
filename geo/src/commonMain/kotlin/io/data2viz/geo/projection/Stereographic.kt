@@ -30,7 +30,7 @@ import kotlin.math.sin
 /**
  * @see StereographicProjector
  */
-fun stereographicProjection(init: Projection.() -> Unit = {}) =
+public fun stereographicProjection(init: Projection.() -> Unit = {}): Projection =
     projection(StereographicProjector()) {
         scale = 250.0
         anglePreClip = (142.0).deg
@@ -43,7 +43,7 @@ private fun doubleAtan(d: Double) = 2 * atan(d)
 /**
  * The stereographic projection.
  */
-class StereographicProjector : Projector {
+public class StereographicProjector : Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cosPhi = cos(phi)

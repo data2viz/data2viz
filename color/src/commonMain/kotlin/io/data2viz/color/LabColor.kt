@@ -27,25 +27,29 @@ import io.data2viz.math.*
  * @param bComponent "b"-component: Double for blue-yellow between -128 and +128
  * @param alpha: Opacity, value between 0% and 100%
  */
-class LabColor
+public class LabColor
+
+
 @Deprecated("Deprecated", ReplaceWith("Colors.lab(labL,labA,labB,alpha)", "io.data2viz.colors.Colors"))
 internal constructor(lightness: Percent, aComponent: Double, bComponent: Double, a: Percent = 100.pct) : Color {
 
     // TODO : need to choose behavior: if values are coerced the results are not what expected when referring to test values from chroma.js
-    val labL = lightness//.coerceIn(.0, 100.0)
-    val labA = aComponent//.coerceIn(-128.0, 128.0)
-    val labB = bComponent//.coerceIn(-128.0, 128.0)
-    override val alpha = a.coerceToDefault()
+    public val labL: Percent = lightness//.coerceIn(.0, 100.0)
 
-    override val rgb = toRgb().rgb
-    override val rgba = toRgb().rgba
-    override val r = toRgb().r
-    override val g = toRgb().g
-    override val b = toRgb().b
+    public val labA: Double = aComponent//.coerceIn(-128.0, 128.0)
+
+    public val labB: Double = bComponent//.coerceIn(-128.0, 128.0)
+    override val alpha: Percent = a.coerceToDefault()
+
+    override val rgb: Int = toRgb().rgb
+    override val rgba: String = toRgb().rgba
+    override val r: Int = toRgb().r
+    override val g: Int = toRgb().g
+    override val b: Int = toRgb().b
     override val rgbHex: String = toRgb().rgbHex
 
-    override fun luminance() = toRgb().luminance()
-    override fun contrast(other:Color) = toRgb().contrast(other)
+    override fun luminance(): Percent = toRgb().luminance()
+    override fun contrast(other:Color): Double = toRgb().contrast(other)
 
     override fun toRgb(): RgbColor = toRgba()
     override fun toLab(): LabColor = this
@@ -57,8 +61,8 @@ internal constructor(lightness: Percent, aComponent: Double, bComponent: Double,
     override fun saturate(strength: Double): Color = toHcl().saturate(strength)
     override fun desaturate(strength: Double): Color = toHcl().desaturate(strength)
     override fun opacify(strength: Double): Color = withAlpha(Percent(alpha * strength))
-    override fun withAlpha(alpha: Percent) = Colors.lab(labL, labA, labB, alpha)
-    override fun withHue(hue: Angle) = toHcl().withHue(hue)
+    override fun withAlpha(alpha: Percent): LabColor = Colors.lab(labL, labA, labB, alpha)
+    override fun withHue(hue: Angle): HclColor = toHcl().withHue(hue)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -76,5 +80,5 @@ internal constructor(lightness: Percent, aComponent: Double, bComponent: Double,
         return result
     }
 
-    override fun toString() = "LAB($labL%, $labA, $labB, alpha=$alpha)"
+    override fun toString(): String = "LAB($labL%, $labA, $labB, alpha=$alpha)"
 }

@@ -31,7 +31,7 @@ import kotlin.math.max
 }**/
 
 // TODO : use Angle
-data class ChordSubgroup(
+public data class ChordSubgroup(
         val index: Int = 0,
         val subIndex: Int = 0,
         val startAngle: Double = .0,
@@ -40,25 +40,25 @@ data class ChordSubgroup(
 )
 
 // TODO : use Angle
-data class ChordGroup(
+public data class ChordGroup(
     val index: Int = 0,
     val startAngle: Double = .0,
     val endAngle: Double = .0,
     val value: Double = .0
 )
 
-data class Chord(
+public data class Chord(
     val source:ChordSubgroup,
     val target:ChordSubgroup
 )
 
-data class Chords(
+public data class Chords(
     val chords: List<Chord>,
     val groups: List<ChordGroup>
 )
 
-val emptyGroup = ChordGroup()
-val emptySubgroup = ChordSubgroup()
+public val emptyGroup: ChordGroup = ChordGroup()
+public val emptySubgroup: ChordSubgroup = ChordSubgroup()
 
 // TODO add kind of "magic-sort" to reduce overlap see https://gist.github.com/nbremer/864b11eb83aac3a1f6a2#file-d3-layout-chord-sort-js
 
@@ -96,33 +96,33 @@ val emptySubgroup = ChordSubgroup()
  *
  * The groups are typically passed to an Arc to produce a donut chart around the circumference of the chord layout.
  */
-class ChordLayout<D> {
+public class ChordLayout<D> {
 
     /**
      * Sets the pad angle between adjacent groups to the specified number in radians.
      */
-    var padAngle = .0
+    public var padAngle: Double = .0
 
     /**
      * Sets the group comparator to the specified function or null.
      * If the group comparator is non-null, it is used to sort the groups.
      */
     // TODO : change to Comparator<ChordGroup>? (note that that also need to alorithm sorting order on main method
-    var sortGroups:Comparator<Double>? = null
+    public var sortGroups:Comparator<Double>? = null
 
     /**
      * Sets the subgroup comparator to the specified function or null.
      * If the subgroup comparator is non-null, it is used to sort the subgroups for a given group.
      */
-    var sortSubgroups:Comparator<Double>? = null
+    public var sortSubgroups:Comparator<Double>? = null
 
     /**
      * Sets the chord comparator to the specified function or null.
      * If the chord comparator is non-null, it is used to sort the chords; this only affects the z-order of the chords.
      */
-    var sortChords:Comparator<Double>? = null
+    public var sortChords:Comparator<Double>? = null
 
-    fun chord(data: List<D>, flow: (from: D, to: D) -> Double): Chords {
+    public fun chord(data: List<D>, flow: (from: D, to: D) -> Double): Chords {
 
         val n = data.size
         val sizeRange = 0 until n

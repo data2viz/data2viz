@@ -28,7 +28,7 @@ import io.data2viz.hierarchy.TreemapNode
  * has a non-zero internal value), the remaining empty space will be positioned
  * on the bottom edge (y1) of the given rectangle.
  */
-fun <D> treemapSlice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
+public fun <D> treemapSlice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
     var newY = y0
     val nodes = parent.children
     var i = 0
@@ -55,7 +55,7 @@ fun <D> treemapSlice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Doubl
  * has a non-zero internal value), the remaining empty space will be positioned
  * on the right edge (x1) of the given rectangle.
  */
-fun <D> treemapDice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
+public fun <D> treemapDice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
     var newX = x0
     val nodes = parent.children
     var i = 0
@@ -77,6 +77,6 @@ fun <D> treemapDice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double
 /**
  * If the specified node has odd depth, delegates to treemapSlice; otherwise delegates to treemapDice.
  */
-fun <D> treemapSliceDice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
+public fun <D> treemapSliceDice(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
     if ((parent as TreemapNode<D>).depth % 2 == 1) treemapSlice(parent, x0, y0, x1, y1) else treemapDice(parent, x0, y0, x1, y1)
 }

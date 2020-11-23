@@ -74,15 +74,9 @@ public final class io/data2viz/timeFormat/Locale {
 public final class io/data2viz/timeFormat/LocaleKt {
 	public static final fun autoFormat ()Lkotlin/jvm/functions/Function1;
 	public static final fun format (Ljava/lang/String;)Lkotlin/jvm/functions/Function1;
-	public static final fun formatLookup (Ljava/util/List;)Ljava/util/Map;
-	public static final fun formatRe (Ljava/util/List;)Lkotlin/text/Regex;
 	public static final fun getDefaultLocale ()Lio/data2viz/timeFormat/Locale;
-	public static final fun getNumberRe ()Lkotlin/text/Regex;
-	public static final fun getPads ()Ljava/util/Map;
 	public static final fun newYear (Ljava/lang/Integer;)Lio/data2viz/timeFormat/ParseDate;
-	public static final fun pad (ILjava/lang/String;I)Ljava/lang/String;
 	public static final fun parse (Ljava/lang/String;)Lkotlin/jvm/functions/Function1;
-	public static final fun requote (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class io/data2viz/timeFormat/Locales {

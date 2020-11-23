@@ -28,10 +28,10 @@ import io.data2viz.geo.projection.AlbersUSAProjection
  * For base projection see [ProjectorProjection]
  * @see AlbersUSAProjection
  */
-abstract class ComposedProjection : Projection {
+public abstract class ComposedProjection : Projection {
 
-    abstract val mainProjection: Projection
-    abstract val allProjections: Collection<Projection>
+    public abstract val mainProjection: Projection
+    public abstract val allProjections: Collection<Projection>
 
     override var centerLat: Angle
         get() = mainProjection.centerLat

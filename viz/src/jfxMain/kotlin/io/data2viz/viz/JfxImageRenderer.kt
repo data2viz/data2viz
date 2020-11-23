@@ -20,7 +20,7 @@ package io.data2viz.viz
 import javafx.scene.canvas.*
 import javafx.scene.image.Image
 
-fun ImageNode.render(gc: GraphicsContext) {
+public fun ImageNode.render(gc: GraphicsContext) {
 
     image?.let { img ->
         val canvasImageSource = when (img){
@@ -39,8 +39,9 @@ fun ImageNode.render(gc: GraphicsContext) {
 }
 
 
-fun Image.toLocalImage() = LocalImage(this)
+public fun Image.toLocalImage(): LocalImage = LocalImage(this)
 
 
-public class LocalImage(val image: Image): ImageHandler
+public class LocalImage(
+    public val image: Image): ImageHandler
 

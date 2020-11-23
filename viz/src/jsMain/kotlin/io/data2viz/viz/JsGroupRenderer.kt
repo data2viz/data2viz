@@ -21,7 +21,7 @@ import org.w3c.dom.*
 
 private val emptySegments = emptyArray<Double>()
 
-fun GroupNode.render(context: CanvasRenderingContext2D) {
+public fun GroupNode.render(context: CanvasRenderingContext2D) {
 
 
     children.forEach { node ->

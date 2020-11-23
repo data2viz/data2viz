@@ -24,7 +24,7 @@ import io.data2viz.math.*
  * Creates a new positioning force towards the given position .
  * If point is not specified, it defaults to (0, 0).
  */
-class ForcePoint<D> internal constructor(): Force<D> {
+public class ForcePoint<D> internal constructor(): Force<D> {
 
     private val defaultPoint = point(0, 0)
 
@@ -36,7 +36,7 @@ class ForcePoint<D> internal constructor(): Force<D> {
      * when the force is initialized or when this method is called with a new point, and not on every
      * application of the force.
      */
-    var pointGet: ForceNode<D>.() -> Point = { defaultPoint }
+    public var pointGet: ForceNode<D>.() -> Point = { defaultPoint }
         set(value) {
             field = value
             assignNodes(_nodes)
@@ -55,7 +55,7 @@ class ForcePoint<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
+    public var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
         set(value) {
             field = value
             assignNodes(_nodes)

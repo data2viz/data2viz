@@ -23,7 +23,7 @@ import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.EPSILON
 import kotlin.math.abs
 
-fun naturalEarthProjection(init: Projection.() -> Unit = {}) =
+public fun naturalEarthProjection(init: Projection.() -> Unit = {}): Projection =
     projection(NaturalEarthProjection()) {
         scale = 175.295
         init()
@@ -35,7 +35,7 @@ fun naturalEarthProjection(init: Projection.() -> Unit = {}) =
  * It is neither conformal nor equal-area,
  * but appealing to the eye for small-scale maps of the whole world.
  */
-class NaturalEarthProjection : Projector {
+public class NaturalEarthProjection : Projector {
 
     override fun invert(x: Double, y: Double): DoubleArray {
         var newPhi = y

@@ -29,7 +29,7 @@ import kotlin.math.*
  *
  * @see BaseConditionalProjector
  */
-fun conicEqualAreaProjection(init: ConicProjection.() -> Unit = {}) =
+public fun conicEqualAreaProjection(init: ConicProjection.() -> Unit = {}): ConicProjection =
     conicProjection(ConicEqualAreaBaseConditionalProjector()) {
         scale = 155.424
         center(0.0.deg, 33.6442.deg)
@@ -63,7 +63,7 @@ internal class ConicEqualAreaBaseConditionalProjector(
 }
 
 
-class ConicEqualAreaProjector : ConicProjector, Projector {
+public class ConicEqualAreaProjector : ConicProjector, Projector {
 
     override var phi0: Double = 0.0
         set(value) {
@@ -80,7 +80,7 @@ class ConicEqualAreaProjector : ConicProjector, Projector {
     private var n = n()
     private var c = c()
     private var r0 = r0()
-    var isPossibleToUseProjector = isPossibleToUse()
+    public var isPossibleToUseProjector: Boolean = isPossibleToUse()
         private set
 
     private fun recalculate() {

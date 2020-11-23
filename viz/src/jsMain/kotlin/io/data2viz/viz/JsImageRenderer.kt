@@ -21,7 +21,7 @@ import org.w3c.dom.CanvasImageSource
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLImageElement
 
-fun ImageNode.render(context: CanvasRenderingContext2D) {
+public fun ImageNode.render(context: CanvasRenderingContext2D) {
 
     image?.let { img ->
         val canvasImageSource = when (img){
@@ -44,7 +44,8 @@ fun ImageNode.render(context: CanvasRenderingContext2D) {
  */
 public fun HTMLImageElement.toLocalImage(): LocalImage = LocalImage(this)
 
-public class LocalImage(val image: HTMLImageElement): ImageHandler {
+public class LocalImage(
+    public val image: HTMLImageElement): ImageHandler {
     public fun toCanvasImageSource(): CanvasImageSource = image
 
 }

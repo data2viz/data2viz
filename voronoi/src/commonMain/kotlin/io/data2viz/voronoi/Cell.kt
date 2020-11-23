@@ -17,26 +17,29 @@
 
 package io.data2viz.voronoi
 
+import io.data2viz.geom.Point
 import kotlin.math.atan2
 
 
 internal var wCells: Array<Cell?>? = null
 
-class Cell(val site: Site) {
+public class Cell(
+    public val site: Site) {
 
     /**
      * List of index of edges of the current Cell.
      */
-    val halfedges = mutableListOf<Int>()
+    public val halfedges: MutableList<Int> = mutableListOf<Int>()
 
 
-    companion object {
-        fun createCell(site: Site) {
+
+    public companion object {
+        public fun createCell(site: Site) {
             wCells!![site.index] = Cell(site)
         }
     }
 
-    fun halfedgeAngle(edge: Edge): Double {
+    public fun halfedgeAngle(edge: Edge): Double {
         var va = edge.left.pos
         var vb = edge.right?.pos
 
@@ -58,18 +61,19 @@ class Cell(val site: Site) {
         return atan2(va.x - vb!!.x, vb.y - va.y)
     }
 
-    fun halfedgeStart(edge: Edge) = if (edge.left !== site) edge.end else edge.start
-    fun halfedgeEnd(edge: Edge) = if (edge.left === site) edge.end else edge.start
+    public fun halfedgeStart(edge: Edge): Point? = if (edge.left !== site) edge.end else edge.start
+    public fun halfedgeEnd(edge: Edge): Point? = if (edge.left === site) edge.end else edge.start
 
-    fun cellHalfedgeStart(edge:Edge) = if (edge.left !== site) edge.end else edge.start
-    fun cellHalfedgeEnd  (edge:Edge) = if (edge.left === site) edge.end else edge.start
+
+    public fun cellHalfedgeStart(edge:Edge): Point? = if (edge.left !== site) edge.end else edge.start
+    public fun cellHalfedgeEnd  (edge:Edge): Point? = if (edge.left === site) edge.end else edge.start
 
 }
 
 /**
  * Sort all cells halfedges, necessary for polygons.
  */
-fun sortCellHalfedges() {
+public fun sortCellHalfedges() {
 
     var edgeCount:Int
     var halfedges: MutableList<Int>

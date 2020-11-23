@@ -98,8 +98,8 @@ private fun percentToSinebow(percent: Percent) : RgbColor {
     return Colors.rgb(r,g,b)
 }
 
-fun rgbBasisInterpolator(colors: List<Color>) = interpolateRgbBasis(colors, false)
-fun rgbBasisClosedInterpolator(colors: List<Color>) = interpolateRgbBasis(colors, true)
-fun rgbDefaultInterpolator(start: Color, end: Color) = interpolateRgb(start, end)
-fun rgbLinearInterpolator(start: Color, end: Color) = interpolateLRgb(start, end)
-fun rgbSineBowInterpolator(): Interpolator<Color> = ::percentToSinebow
+public fun rgbBasisInterpolator(colors: List<Color>): (Percent) -> Color = interpolateRgbBasis(colors, false)
+public fun rgbBasisClosedInterpolator(colors: List<Color>): (Percent) -> Color = interpolateRgbBasis(colors, true)
+public fun rgbDefaultInterpolator(start: Color, end: Color): (Percent) -> Color = interpolateRgb(start, end)
+public fun rgbLinearInterpolator(start: Color, end: Color): (Percent) -> Color = interpolateLRgb(start, end)
+public fun rgbSineBowInterpolator(): Interpolator<Color> = ::percentToSinebow

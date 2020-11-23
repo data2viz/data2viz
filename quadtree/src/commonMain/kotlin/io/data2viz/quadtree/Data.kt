@@ -17,7 +17,7 @@
 
 package io.data2viz.quadtree
 
-fun <D> Quadtree<D>.data(): List<D> {
+public fun <D> Quadtree<D>.data(): List<D> {
     val data = mutableListOf<D>()
     visit { node, _, _, _, _ ->
         var newNode:QuadtreeNode<D>? = node

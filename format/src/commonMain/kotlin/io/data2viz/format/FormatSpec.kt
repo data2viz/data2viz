@@ -48,7 +48,7 @@ import kotlin.math.max
  *
  * @property type The type of number representation.
  */
-data class FormatSpec(
+public data class FormatSpec(
     val fill: Char = ' ',
     val align: Align = Align.RIGHT,
     val sign: Sign = Sign.MINUS,
@@ -132,7 +132,7 @@ data class FormatSpec(
  * formatter(".1")(4.2); // "4"
  * ```
  */
-fun specify(specifier: String): FormatSpec {
+public fun specify(specifier: String): FormatSpec {
     var fill = ' '
     var align = Align.RIGHT
     var sign = Sign.MINUS
@@ -186,7 +186,7 @@ private val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-( ])?([$#])?(0)?(\\
  * Instanciate a [FormatSpec].
  * @see FormatSpec for a complete description of parameters.
  */
-fun specify(
+public fun specify(
     type: Type = Type.NONE,
     fill: Char = ' ',
     align: Align = Align.RIGHT,
@@ -196,15 +196,14 @@ fun specify(
     width: Int? = null,
     groupSeparation: Boolean = false,
     precision: Int? = null
-)
-        = FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
+): FormatSpec = FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
 
 /**
  * Indicates the type of symbol that should be displayed. It can be a currency
  * (depending of current locale) or an Number Base indication for binary, octal, or
  * hexadecimal notation (prefix by 0b, 0o, or 0x, respectively).
  */
-enum class Symbol(internal val c: String) {
+public enum class Symbol(internal val c: String) {
     /**
      * The local currency symbol should be displayed. Depending of the locale, the
      * symbol can be placed before of after the number.
@@ -219,7 +218,7 @@ enum class Symbol(internal val c: String) {
     /**
      * @suppress
      */
-    override fun toString() = c
+    override fun toString(): String = c
 }
 
 
@@ -232,7 +231,7 @@ enum class Symbol(internal val c: String) {
  * [CHAR].
  * Defaults to [NONE]
  */
-enum class Type(internal val c: String) {
+public enum class Type(internal val c: String) {
 
     /**
      * like [DECIMAL_OR_EXPONENT], but trim insignificant trailing zeros.
@@ -307,7 +306,7 @@ enum class Type(internal val c: String) {
     /**
      * @suppress
      */
-    override fun toString() = if (this == NONE) "" else c
+    override fun toString(): String = if (this == NONE) "" else c
 }
 
 
@@ -355,7 +354,7 @@ internal val gprs = listOf(
 /**
  * Define how positive and negative number should be rendered. [MINUS] by default.
  */
-enum class Sign(internal val c: String) {
+public enum class Sign(internal val c: String) {
     /**
      * nothing for zero or positive and a minus sign for negative. (Default behavior.)
      */
@@ -376,7 +375,7 @@ enum class Sign(internal val c: String) {
     /**
      * @suppress
      */
-    override fun toString() = c
+    override fun toString(): String = c
 }
 
 /**
@@ -384,7 +383,7 @@ enum class Sign(internal val c: String) {
  * [LEFT], [CENTER] or [RIGHT_WITHOUT_SIGN]. The padding is filled by [FormatSpec.fill]
  * property.
  */
-enum class Align(internal val c: String) {
+public enum class Align(internal val c: String) {
     /**
      * Forces the field to be right-aligned within the available space. (Default behavior).
      */
@@ -411,5 +410,5 @@ enum class Align(internal val c: String) {
     /**
      * @suppress
      */
-    override fun toString() = c
+    override fun toString(): String = c
 }

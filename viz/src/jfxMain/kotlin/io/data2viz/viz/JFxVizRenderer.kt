@@ -26,8 +26,8 @@ import kotlin.math.PI
 /**
  * JFx Canvas version. See https://docs.oracle.com/javafx/2/canvas/jfxpub-canvas.htm
  */
-class JFxVizRenderer(
-    val canvas: Canvas,
+public class JFxVizRenderer(
+    public val canvas: Canvas,
     override val viz: Viz) : VizRenderer {
 
     private val animationTimers = mutableListOf<Timer>()

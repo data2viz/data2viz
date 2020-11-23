@@ -20,15 +20,15 @@ package io.data2viz.shape
 import io.data2viz.geom.Path
 import io.data2viz.shape.symbol.*
 
-interface Symbol {
-    fun <C : Path> render(path: C, size: Double): C
+public interface Symbol {
+    public fun <C : Path> render(path: C, size: Double): C
 }
 
-enum class Symbols {
+public enum class Symbols {
     Circle, Cross, Diamond, Square, Star, Triangle, Wye
 }
 
-val Symbols.symbol: Symbol
+public val Symbols.symbol: Symbol
     get() = when (this) {
         Symbols.Cross -> Cross()
         Symbols.Diamond -> Diamond()
@@ -39,13 +39,15 @@ val Symbols.symbol: Symbol
         else -> Circle()
     }
 
-fun <T> render(init: SymbolGenerator<T>.() -> Unit) = SymbolGenerator<T>().apply(init)
-class SymbolGenerator<T> {
+public fun <T> render(init: SymbolGenerator<T>.() -> Unit): SymbolGenerator<T> = SymbolGenerator<T>().apply(init)
 
-    var size: (T) -> Double = const(64.0)
-    var type: (T) -> Symbol = { Circle() }
 
-    fun <C : Path> render(args: T, path: C): C {
+public class SymbolGenerator<T> {
+
+    public var size: (T) -> Double = const(64.0)
+    public var type: (T) -> Symbol = { Circle() }
+
+    public fun <C : Path> render(args: T, path: C): C {
         type(args).render(path, size(args))
         return path
     }

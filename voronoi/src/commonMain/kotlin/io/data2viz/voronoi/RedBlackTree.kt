@@ -19,11 +19,11 @@ package io.data2viz.voronoi
 
 import io.data2viz.voronoi.RedBlackColor.*
 
-class RedBlackTree<T> {
+public class RedBlackTree<T> {
 
-    var root: RedBlackNode<T>? = null
+    public var root: RedBlackNode<T>? = null
 
-    fun insert(node: RedBlackNode<T>, afterNode: RedBlackNode<T>? = null): RedBlackNode<T> {
+    public fun insert(node: RedBlackNode<T>, afterNode: RedBlackNode<T>? = null): RedBlackNode<T> {
 
         var parent: RedBlackNode<T>?
         var grandpa: RedBlackNode<T>?
@@ -106,7 +106,7 @@ class RedBlackTree<T> {
         return node
     }
 
-    fun remove(toRemove: RedBlackNode<T>){
+    public fun remove(toRemove: RedBlackNode<T>){
         var node: RedBlackNode<T>? = toRemove
         node!!.N?.P = node.P
         node.P?.N = node.N
@@ -218,7 +218,7 @@ class RedBlackTree<T> {
         }
     }
 
-    fun rotateLeft(node: RedBlackNode<T>) {
+    public fun rotateLeft(node: RedBlackNode<T>) {
         val p = node
         val q = node.R
         val parent = p.U
@@ -241,7 +241,7 @@ class RedBlackTree<T> {
         q.L = p
     }
 
-    fun rotateRight(node: RedBlackNode<T>) {
+    public fun rotateRight(node: RedBlackNode<T>) {
         val p = node           //le
         val q = node.L         //le nœud qui remplace la cible
         val parent = p.U       //le parent de la cible
@@ -263,26 +263,28 @@ class RedBlackTree<T> {
     }
 }
 
-fun <T> RedBlackNode<T>.first(): RedBlackNode<T> {
+public fun <T> RedBlackNode<T>.first(): RedBlackNode<T> {
     var node = this
     while (node.L != null) node = node.L!!
     return node
 }
 
-enum class RedBlackColor {
+public enum class RedBlackColor {
     RED, BLACK
 }
 
 
-class RedBlackNode<T>(val node: T) {
-    var U: RedBlackNode<T>? = null //parent
-    var L: RedBlackNode<T>? = null //left
-    var R: RedBlackNode<T>? = null //right
-    var P: RedBlackNode<T>? = null //previous
-    var N: RedBlackNode<T>? = null //next
-    var C: RedBlackColor = RED     //color - true for red, false for black
+public class RedBlackNode<T>(
+    public val node: T) {
 
-    fun clean() {
+    public var U: RedBlackNode<T>? = null //parent
+    public var L: RedBlackNode<T>? = null //left
+    public var R: RedBlackNode<T>? = null //right
+    public var P: RedBlackNode<T>? = null //previous
+    public var N: RedBlackNode<T>? = null //next
+    public var C: RedBlackColor = RED     //color - true for red, false for black
+
+    public fun clean() {
         U = null
         L = null
         R = null

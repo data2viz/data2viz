@@ -27,13 +27,13 @@ import io.data2viz.math.toRadians
 import io.data2viz.geo.geometry.path.CentroidStream
 import kotlin.math.*
 
-fun geoCentroid(geo: GeoJsonObject) = GeoCentroidStream().result(geo)
+public fun geoCentroid(geo: GeoJsonObject): DoubleArray = GeoCentroidStream().result(geo)
 
 /**
  * Returns the spherical centroid of the specified GeoJSON object.
  * This is the spherical equivalent of [CentroidStream]
  */
-class GeoCentroidStream : Stream {
+public class GeoCentroidStream : Stream {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
     //  Function references have poor performance due to GC & memory allocation
@@ -60,7 +60,7 @@ class GeoCentroidStream : Stream {
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
     
-    fun result(geo: GeoJsonObject): DoubleArray {
+    public fun result(geo: GeoJsonObject): DoubleArray {
         _W0 = .0
         _W1 = .0
         _X0 = .0
@@ -100,9 +100,9 @@ class GeoCentroidStream : Stream {
         return doubleArrayOf(atan2(y, x).toDegrees(), asin(z / sqrt(m)).toDegrees())
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
-    override fun lineStart() = currentLineStart()
-    override fun lineEnd() = currentLineEnd()
+    override fun point(x: Double, y: Double, z: Double): Unit = currentPoint(x, y)
+    override fun lineStart(): Unit = currentLineStart()
+    override fun lineEnd(): Unit = currentLineEnd()
     override fun polygonStart() {
         currentLineStart = ::centroidRingStart
         currentLineEnd = ::centroidRingEnd

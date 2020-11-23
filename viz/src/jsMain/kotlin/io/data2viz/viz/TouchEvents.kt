@@ -3,58 +3,57 @@ package io.data2viz.viz
 import org.w3c.dom.events.*
 
 
-external interface SyntheticEvent {
-    var bubbles: Boolean
-    var currentTarget: EventTarget /* EventTarget & T */
-    var cancelable: Boolean
-    var defaultPrevented: Boolean
-    var eventPhase: Number
-    var isTrusted: Boolean
-    val nativeEvent: Event
-    fun preventDefault()
-    fun isDefaultPrevented(): Boolean
-    fun stopPropagation()
-    fun isPropagationStopped(): Boolean
-    fun persist()
-    var target: EventTarget
-    var timeStamp: Number
-    var type: String
+public external interface SyntheticEvent {
+    public var bubbles: Boolean
+    public var currentTarget: EventTarget /* EventTarget & T */
+    public var cancelable: Boolean
+    public var defaultPrevented: Boolean
+    public var eventPhase: Number
+    public var isTrusted: Boolean
+    public val nativeEvent: Event
+    public fun preventDefault()
+    public fun isDefaultPrevented(): Boolean
+    public fun stopPropagation()
+    public fun isPropagationStopped(): Boolean
+    public fun persist()
+    public var target: EventTarget
+    public var timeStamp: Number
+    public var type: String
 }
 
-external interface TouchEvent : SyntheticEvent {
-    var altKey: Boolean
-    var changedTouches: TouchList
-    var ctrlKey: Boolean
-    fun getModifierState(key: String): Boolean
-    var metaKey: Boolean
-    //    override val nativeEvent: TouchEvent
-    override val nativeEvent: Event
-    var shiftKey: Boolean
-    var targetTouches: TouchList
-    var touches: TouchList
+public external interface TouchEvent : SyntheticEvent {
+    public var altKey: Boolean
+    public var changedTouches: TouchList
+    public var ctrlKey: Boolean
+    public fun getModifierState(key: String): Boolean
+    public var metaKey: Boolean
+    public override val nativeEvent: Event
+    public var shiftKey: Boolean
+    public var targetTouches: TouchList
+    public var touches: TouchList
 }
 
-external interface TouchList {
+public external interface TouchList {
     @nativeGetter
-    operator fun get(index: Number): Touch?
+    public operator fun get(index: Number): Touch?
 
     @nativeSetter
-    operator fun set(index: Number, value: Touch)
+    public operator fun set(index: Number, value: Touch)
 
-    var length: Int
-    fun item(index: Int): Touch
-    fun identifiedTouch(identifier: Number): Touch
+    public var length: Int
+    public fun item(index: Int): Touch
+    public fun identifiedTouch(identifier: Number): Touch
 }
 
 
-external interface Touch {
-    var identifier: Number
-    var target: EventTarget
-    var screenX: Number
-    var screenY: Number
-    var clientX: Number
-    var clientY: Number
-    var pageX: Number
-    var pageY: Number
+public external interface Touch {
+    public var identifier: Number
+    public var target: EventTarget
+    public var screenX: Number
+    public var screenY: Number
+    public var clientX: Number
+    public var clientY: Number
+    public var pageX: Number
+    public var pageY: Number
 }
 

@@ -22,7 +22,7 @@ package io.data2viz.quadtree
  * If the specified datum does not exist in this quadtree, this method does nothing.
  * TODO : check tests value must be === removed value
  */
-fun <D> Quadtree<D>.remove(datum: D) {
+public fun <D> Quadtree<D>.remove(datum: D) {
     val x = x(datum)
     val y = y(datum)
 
@@ -123,4 +123,4 @@ fun <D> Quadtree<D>.remove(datum: D) {
  * Removes the specified data from the quadtree.
  * @see Quadtree.remove(datum)
  */
-fun <D> Quadtree<D>.removeAll(data: List<D>) = data.forEach { datum -> remove(datum) }
+public fun <D> Quadtree<D>.removeAll(data: List<D>): Unit = data.forEach { datum -> remove(datum) }

@@ -29,40 +29,40 @@ import javafx.scene.input.ZoomEvent
 
 private val emptyDisposable = object : Disposable { override fun dispose() {} }
 
-actual class KTouchStart {
-    actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
+public actual class KTouchStart {
+    public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) = emptyDisposable
     }
 }
 
-actual class KTouchEnd {
-    actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
+public actual class KTouchEnd {
+    public actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) = emptyDisposable
     }
 }
 
-actual class KTouchMove {
-    actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
+public actual class KTouchMove {
+    public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) = emptyDisposable
     }
 }
 
-actual class KMouseDown {
-    actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
+public actual class KMouseDown {
+    public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_PRESSED)
     }
 }
 
-actual class KMouseUp {
-    actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
+public actual class KMouseUp {
+    public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_RELEASED)
     }
 }
 
-actual class KMouseMove {
-    actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
+public actual class KMouseMove {
+    public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
 
             // Add listeners for both events MOVED & DRAGGED, because MOVED not fires when any button pressed
@@ -73,38 +73,38 @@ actual class KMouseMove {
     }
 }
 
-actual class KPointerEnter {
-    actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
+public actual class KPointerEnter {
+    public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_ENTERED)
     }
 }
 
-actual class KPointerLeave {
-    actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
+public actual class KPointerLeave {
+    public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_EXITED)
     }
 }
 
 
-actual class KPointerDoubleClick {
-    actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
+public actual class KPointerDoubleClick {
+    public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJvmClickEventHandle(target, listener, eventClickCount = 2)
     }
 }
 
-actual class KPointerClick {
-    actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
+public actual class KPointerClick {
+    public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_CLICKED)
     }
 }
 
 @ExperimentalKEvent
-actual class KZoom {
-    actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
+public actual class KZoom {
+    public actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
         const val minGestureZoomDeltaValue = 0.8
         const val maxGestureZoomDeltaValue = 1.2
 

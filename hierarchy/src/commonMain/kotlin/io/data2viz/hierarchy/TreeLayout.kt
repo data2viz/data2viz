@@ -17,7 +17,7 @@
 
 package io.data2viz.hierarchy
 
-data class TreeNode<D>(
+public data class TreeNode<D>(
     val data: D?,
     var depth: Int,
     var height: Int,
@@ -36,7 +36,7 @@ data class TreeNode<D>(
     override var parent: TreeNode<D>? = null
 ): ParentValued<TreeNode<D>>, Children<TreeNode<D>>
 
-class TreeLayout<D> {
+public class TreeLayout<D> {
 
     private var nodeSize = false
     private var dx = 1.0
@@ -54,7 +54,7 @@ class TreeLayout<D> {
      * The tree layout produces tidy node-link diagrams of trees using the Reingold–Tilford “tidy” algorithm,
      * improved to run in linear time by Buchheim et al. Tidy trees are typically more compact than dendograms.
      */
-    fun <D> tree(root: Node<D>): TreeNode<D> {
+    public fun <D> tree(root: Node<D>): TreeNode<D> {
         val rootChild = makeTree(root)
 
         // Compute the layout using Buchheim et al.’s algorithm.
@@ -89,13 +89,13 @@ class TreeLayout<D> {
         return rootChild
     }
 
-    fun size(width: Double, height: Double) {
+    public fun size(width: Double, height: Double) {
         nodeSize = false
         dx = width
         dy = height
     }
 
-    fun nodeSize(width: Double, height: Double) {
+    public fun nodeSize(width: Double, height: Double) {
         nodeSize = true
         dx = width
         dy = height

@@ -23,33 +23,33 @@ package io.data2viz.geo
  * The Array must have a size of 2 of 3. The first two elements are the longitude (phi)
  * and latitude (lambda). The last, if it exists, represents the altitude.
  */
-typealias GeoPoint = DoubleArray
+public typealias GeoPoint = DoubleArray
 
 /**
  * The longitude in degrees
  */
-val GeoPoint.lambda: Double
+public val GeoPoint.lambda: Double
         get() = this[0]
 
 /**
  * The latitude in degrees
  */
-val GeoPoint.phi: Double
+public val GeoPoint.phi: Double
         get() = this[1]
 
 /**
  * The altitude if specified
  */
-val GeoPoint.alt: Double?
+public val GeoPoint.alt: Double?
         get() = if (size > 2) this[2] else null
 
 
-fun GeoPoint.component1() = this.lambda
-fun GeoPoint.component2() = this.phi
-fun GeoPoint.component3() = this.alt
+public fun GeoPoint.component1(): Double = this.lambda
+public fun GeoPoint.component2(): Double = this.phi
+public fun GeoPoint.component3(): Double? = this.alt
 
 
-fun GeoPoint(lambda:Double, phi:Double, alt: Double? = null): GeoPoint =
+public fun GeoPoint(lambda:Double, phi:Double, alt: Double? = null): GeoPoint =
         if (alt == null)
                 doubleArrayOf(lambda, phi)
         else

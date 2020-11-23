@@ -21,20 +21,20 @@ package io.data2viz.viz
 /**
  * Common interface for all platform renderers.
  */
-interface VizRenderer {
+public interface VizRenderer {
 
-    val viz:Viz
+    public val viz:Viz
 
-    fun render()
+    public fun render()
 
     /**
      * Starts all animations
      */
-    fun startAnimations()
+    public fun startAnimations()
 
     /**
      * Stops all animations.
      */
-    fun stopAnimations()
+    public fun stopAnimations()
 
 }

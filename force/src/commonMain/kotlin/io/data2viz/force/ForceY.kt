@@ -20,13 +20,13 @@ package io.data2viz.force
 import io.data2viz.math.*
 
 @Deprecated("Deprecated", ReplaceWith("forceSimulation { forceY { } }", " io.data2viz.force.ForceSimulation"))
-fun <D> forceY(init: ForceY<D>.() -> Unit) = ForceY<D>().apply(init)
+public fun <D> forceY(init: ForceY<D>.() -> Unit): ForceY<D> = ForceY<D>().apply(init)
 
 /**
  * Creates a new positioning force along the y-axis towards the given position y.
  * If y is not specified, it defaults to 0.
  */
-class ForceY<D> internal constructor(): Force<D> {
+public class ForceY<D> internal constructor(): Force<D> {
 
     /**
      * Sets the y-coordinate accessor to the specified function, re-evaluates the y-accessor for each node.
@@ -35,7 +35,7 @@ class ForceY<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the target y-coordinate of each node is only recomputed
      * when the force is initialized or when this method is called with a new y, and not on every application of the force.
      */
-    var yGet: ForceNode<D>.() -> Double = { .0 }
+    public var yGet: ForceNode<D>.() -> Double = { .0 }
         set(value) {
             field = value
             assignNodes(_nodes)
@@ -54,7 +54,7 @@ class ForceY<D> internal constructor(): Force<D> {
      * The resulting number is then stored internally, such that the strength of each node is only recomputed when the
      * force is initialized or when this method is called with a new strength, and not on every application of the force.
      */
-    var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
+    public var strengthGet: ForceNode<D>.() -> Percent = { 10.pct }
         set(value) {
             field = value
             assignNodes(_nodes)

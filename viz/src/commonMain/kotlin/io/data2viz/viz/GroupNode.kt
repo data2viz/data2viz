@@ -17,18 +17,18 @@
 
 package io.data2viz.viz
 
-open class GroupNode : Node(),
+public open class GroupNode : Node(),
         HasChildren,
         HasTransform {
 
 
     override var transform: Transform? = null
 
-    fun transform(init: Transform.() -> Unit){
+    public fun transform(init: Transform.() -> Unit){
         transform = Transform().apply(init)
     }
 
-    val children = mutableListOf<Node>()
+    public val children = mutableListOf<Node>()
 
     override fun add(node: Node) {
         children.add(node)

@@ -25,20 +25,20 @@ import io.data2viz.math.pct
 
 // TODO : move to "core.geom" ?
 // TODO : remove access to x1, y1, x2, y2
-interface HasStartAndEnd {
-    var x1: Double
-    var y1: Double
-    var x2: Double
-    var y2: Double
+public interface HasStartAndEnd {
+    public var x1: Double
+    public var y1: Double
+    public var x2: Double
+    public var y2: Double
 
-    var start: Point
+    public var start: Point
         get() = Point(x1, y1)
         set(value) {
             x1 = value.x
             y1 = value.y
         }
 
-    var end: Point
+    public var end: Point
         get() = Point(x2, y2)
         set(value) {
             x2 = value.x
@@ -46,15 +46,15 @@ interface HasStartAndEnd {
         }
 }
 
-data class LinearGradientFirstColorBuilder
+public data class LinearGradientFirstColorBuilder
 internal constructor(val start: Point, val end: Point) {
-    fun withColor(startColor: Color, percent: Percent = 0.pct): LinearGradientSecondColorBuilder =
+    public fun withColor(startColor: Color, percent: Percent = 0.pct): LinearGradientSecondColorBuilder =
         LinearGradientSecondColorBuilder(this, ColorStop(percent, startColor))
 }
 
-data class LinearGradientSecondColorBuilder
+public data class LinearGradientSecondColorBuilder
 internal constructor(val builder: LinearGradientFirstColorBuilder, val firstColor: ColorStop) {
-    fun andColor(color: Color, percent: Percent = 100.pct): LinearGradient = LinearGradient()
+    public fun andColor(color: Color, percent: Percent = 100.pct): LinearGradient = LinearGradient()
         .apply {
             x1 = builder.start.x
             y1 = builder.start.y
@@ -65,7 +65,7 @@ internal constructor(val builder: LinearGradientFirstColorBuilder, val firstColo
         }
 }
 
-class LinearGradient
+public class LinearGradient
 @Deprecated("Deprecated", ReplaceWith("Colors.Gradient.linear()", "io.data2viz.colors.Colors"))
 internal constructor() : Gradient, HasStartAndEnd {
 
@@ -78,7 +78,7 @@ internal constructor() : Gradient, HasStartAndEnd {
     override val colorStops: List<ColorStop>
         get() = colors.toList()
 
-    fun andColor(color: Color, percent: Percent): LinearGradient {
+    public fun andColor(color: Color, percent: Percent): LinearGradient {
         colors.add(ColorStop(percent.coerceToDefault(), color))
         return this
     }

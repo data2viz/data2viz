@@ -36,7 +36,7 @@ import kotlin.math.PI
  * The viz is immediately rendered if the autoUpdate property of the viz configuration
  * is set to true.
  */
-fun Viz.bindRendererOn(canvasId: String) {
+public fun Viz.bindRendererOn(canvasId: String) {
     val canvas = requireNotNull(document.getElementById(canvasId) as HTMLCanvasElement?)
         {"No canvas in the document corresponding to $canvasId"}
     bindRendererOn(canvas)
@@ -46,7 +46,7 @@ fun Viz.bindRendererOn(canvasId: String) {
  * Add a new canvas directly as a body child and render the viz on it.
  * It can be interesting for the playground where the code is executed in an iframe.
  */
-fun Viz.bindRendererOnNewCanvas() {
+public fun Viz.bindRendererOnNewCanvas() {
     val canvas = document.createElement("canvas") as HTMLCanvasElement
     val body = requireNotNull(document.querySelector("body"))
     body.appendChild(canvas)
@@ -61,7 +61,7 @@ fun Viz.bindRendererOnNewCanvas() {
  * If the pixel ratio of the screen differs from 1.0 (HPDi screen for example) a bigger
  * canvas is used with a scale.
  */
-fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
+public fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
     val context = canvas.getContext("2d") as CanvasRenderingContext2D
     context.canvas.width = width.toInt()
     context.canvas.height = height.toInt()
@@ -97,8 +97,8 @@ internal fun getPixelRatio(): Double{
 }
 
 
-class JsCanvasRenderer(
-    val context: CanvasRenderingContext2D,
+public class JsCanvasRenderer(
+    public val context: CanvasRenderingContext2D,
     override val viz: Viz
 ) : VizRenderer {
 

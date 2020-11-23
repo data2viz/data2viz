@@ -44,7 +44,7 @@ import io.data2viz.geojson.*
  * a sphere has no coordinates. Any additional arguments are passed along to the pointRadius accessor.
  *
  */
-fun geoPath(projection: Projection = identityProjection(), path: Path? = null) = GeoPath(projection, path)
+public fun geoPath(projection: Projection = identityProjection(), path: Path? = null): GeoPath = GeoPath(projection, path)
 
 /**
  * If a projection is specified, sets the current projection to the specified projection.
@@ -58,14 +58,16 @@ fun geoPath(projection: Projection = identityProjection(), path: Path? = null) =
  *
  * @see PathStream
  */
-class GeoPath(val projection: Projection = identityProjection(), val path: Path?) {
+public class GeoPath(
+    public val projection: Projection = identityProjection(),
+    public val path: Path?) {
 
     /**
      * Radius of the circle used to display Point and MultiPoint geometries to the specified number.
      * Defaults to 4.5.
      * @see PathStream.pointRadius
      */
-    var pointRadius
+    public var pointRadius: Double
         get() = pathStream!!.pointRadius
     set(value) {
         pathStream!!.pointRadius = value
@@ -96,7 +98,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path?
      * Separate path elements are typically slower than a single path element.
      * However, distinct path elements are useful for styling and interaction (e.g., click or mouseover).
      */
-    fun project(geo: GeoJsonObject) {
+    public fun project(geo: GeoJsonObject) {
         requireNotNull(path) { "Cannot use GeoPath.svgPath() without a valid path." }
         requireNotNull(pathStream) { "Cannot use GeoPath.svgPath() without a valid path." }
         geo.stream(projection.bindTo(pathStream))
@@ -109,7 +111,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path?
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoCentroidStream.
      */
-    fun centroid(geo: GeoJsonObject): DoubleArray {
+    public fun centroid(geo: GeoJsonObject): DoubleArray {
         geo.stream(projection.bindTo(centroidStream))
         return centroidStream.result()
     }
@@ -122,7 +124,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path?
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoAreaStream.
      */
-    fun area(geo: GeoJsonObject): Double {
+    public fun area(geo: GeoJsonObject): Double {
         geo.stream(projection.bindTo(areaStream))
         return areaStream.result()
     }
@@ -140,7 +142,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path?
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoBoundsStream.
      */
-    fun bounds(geo: GeoJsonObject): Extent {
+    public fun bounds(geo: GeoJsonObject): Extent {
         geo.stream(projection.bindTo(boundsStream))
         return boundsStream.result()
     }
@@ -152,7 +154,7 @@ class GeoPath(val projection: Projection = identityProjection(), val path: Path?
      * This method observes any clipping performed by the projection; see projection.anglePreClip and projection.extentPostClip.
      * This is the planar equivalent of GeoLengthStream.
      */
-    fun measure(geo: GeoJsonObject): Double {
+    public fun measure(geo: GeoJsonObject): Double {
         geo.stream(projection.bindTo(measureStream))
         return measureStream.result()
     }

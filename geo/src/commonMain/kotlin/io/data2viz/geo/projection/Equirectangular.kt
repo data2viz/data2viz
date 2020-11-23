@@ -21,7 +21,7 @@ import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.geo.projection.common.projection
 
-fun equirectangularProjection(init: Projection.() -> Unit = {}) =
+public fun equirectangularProjection(init: Projection.() -> Unit = {}): Projection =
     projection(EquirectangularProjector()) {
         scale = 152.63
         init()

@@ -31,7 +31,7 @@ package io.data2viz.quadtree
  * Note, however, that child quadrants are always visited in sibling order: top-left, top-right, bottom-left,
  * bottom-right. In cases such as search, visiting siblings in a specific order may be faster.
  */
-fun <D> Quadtree<D>.visit(callback: (QuadtreeNode<D>, Double, Double, Double, Double) -> Boolean) {
+public fun <D> Quadtree<D>.visit(callback: (QuadtreeNode<D>, Double, Double, Double, Double) -> Boolean) {
     val quads = mutableListOf<Quad<D>>()
     var node = root
     if (node != null) quads.add(Quad(node, extent.x0, extent.y0, extent.x1, extent.y1))

@@ -42,7 +42,7 @@ private class AnglePreClip(val angle: Angle) : ClipStreamBuilder {
  *
  * Small-circle clipping is independent of viewport clipping via projection.clipExtent.
  */
-var Projection.anglePreClip: Angle?
+public var Projection.anglePreClip: Angle?
     get() = (preClip as? AnglePreClip)?.angle
 
     set(value) {

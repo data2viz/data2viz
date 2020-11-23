@@ -23,7 +23,7 @@ import kotlin.math.floor
 /**
  * http://alvyray.com/Memos/CG/Pixar/spline77.pdf
  */
-fun computeSpline(t1: Double, v0: Int, v1: Int, v2: Int, v3: Int): Double {
+public fun computeSpline(t1: Double, v0: Int, v1: Int, v2: Int, v3: Int): Double {
     val t2 = t1 * t1
     val t3 = t2 * t1
     return ((1 - 3 * t1 + 3 * t2 - t3) * v0
@@ -35,7 +35,7 @@ fun computeSpline(t1: Double, v0: Int, v1: Int, v2: Int, v3: Int): Double {
 /**
  * uniform nonrational B-spline interpolation
  */
-fun basis(values: List<Int>): Interpolator<Double> {
+public fun basis(values: List<Int>): Interpolator<Double> {
     val n = values.size - 1
     return fun(percent: Percent): Double {
 
@@ -53,7 +53,7 @@ fun basis(values: List<Int>): Interpolator<Double> {
 /**
  * uniform nonrational cyclical B-spline interpolation
  */
-fun basisClosed(values: List<Int>): Interpolator<Double> {
+public fun basisClosed(values: List<Int>): Interpolator<Double> {
     val n = values.size
     return fun(percent: Percent): Double {
 

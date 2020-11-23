@@ -22,11 +22,11 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.toInstant
 
-class Day : Interval(
+public class Day : Interval(
     floor = fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, 0, 0, 0, 0),
     offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, step),
     count = fun(start: LocalDateTime, end: LocalDateTime): Int = start.toInstant(defaultTZ).daysUntil(end.toInstant(defaultTZ), defaultTZ),
     field = fun(date: LocalDateTime): Int = date.dayOfMonth - 1
 )
 
-val timeDay = Day()
+public val timeDay = Day()

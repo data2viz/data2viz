@@ -32,23 +32,25 @@ import kotlin.math.max
  * @param lightness: Percent, value between 0% and 100%
  * @param alpha: Opacity, value between 0% and 100%
  */
-class HclColor
+public class HclColor
 
 @Deprecated("Deprecated", ReplaceWith("Colors.hcl(h,c,l,alpha)", "io.data2viz.colors.Colors"))
-internal constructor(val h: Angle, val c: Double, lightness: Percent, a: Percent = 100.pct) : Color {
+internal constructor(
+    public val h: Angle,
+    public val c: Double, lightness: Percent, a: Percent = 100.pct) : Color {
 
-    val l = lightness//.coerceIn(.0, 100.0)
-    override val alpha = a.coerceToDefault()
+    public val l: Percent = lightness//.coerceIn(.0, 100.0)
+    override val alpha: Percent = a.coerceToDefault()
 
-    override val rgb = toRgb().rgb
-    override val rgba = toRgb().rgba
-    override val r = toRgb().r
-    override val g = toRgb().g
-    override val b = toRgb().b
+    override val rgb: Int = toRgb().rgb
+    override val rgba: String = toRgb().rgba
+    override val r: Int = toRgb().r
+    override val g: Int = toRgb().g
+    override val b: Int = toRgb().b
     override val rgbHex: String = toRgb().rgbHex
 
-    override fun luminance() = toRgb().luminance()
-    override fun contrast(other:Color) = toRgb().contrast(other)
+    override fun luminance(): Percent = toRgb().luminance()
+    override fun contrast(other:Color): Double = toRgb().contrast(other)
 
     override fun toRgb():RgbColor = toLab().toRgb()
     override fun toLab(): LabColor = toLaba()
@@ -60,10 +62,10 @@ internal constructor(val h: Angle, val c: Double, lightness: Percent, a: Percent
     override fun saturate(strength: Double): Color = Colors.hcl(h, max(.0, (c + (Kn * strength))), l, alpha)
     override fun desaturate(strength: Double): Color = Colors.hcl(h, max(.0, (c - (Kn * strength))), l, alpha)
     override fun opacify(strength: Double): Color = withAlpha(Percent(alpha * strength))
-    override fun withAlpha(alpha: Percent) = Colors.hcl(h, c, l, alpha)
-    override fun withHue(hue: Angle) = Colors.hcl(hue, c, l, alpha)
+    override fun withAlpha(alpha: Percent): HclColor = Colors.hcl(h, c, l, alpha)
+    override fun withHue(hue: Angle): HclColor = Colors.hcl(hue, c, l, alpha)
 
-    fun isAchromatic() = (c == .0) || (l.value <= .0) || (l.value >= 1.0)
+    public fun isAchromatic(): Boolean = (c == .0) || (l.value <= .0) || (l.value >= 1.0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -81,5 +83,5 @@ internal constructor(val h: Angle, val c: Double, lightness: Percent, a: Percent
         return result
     }
 
-    override fun toString() = "HCL(${h.deg}°, $c, $l%, alpha=$alpha)"
+    override fun toString(): String = "HCL(${h.deg}°, $c, $l%, alpha=$alpha)"
 }

@@ -19,13 +19,14 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.geometry.limitedAcos
 import io.data2viz.geo.geometry.clip.anglePreClip
+import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.ProjectorProjection
 import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.deg
 import kotlin.math.sin
 
 
-fun azimuthalEquidistant(init: ProjectorProjection.() -> Unit = {}) =
+public fun azimuthalEquidistant(init: ProjectorProjection.() -> Unit = {}): Projection =
     projection(AzimuthalEquidistantProjection()) {
         scale = 79.4188
         anglePreClip = (180 - 1e-3).deg

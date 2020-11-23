@@ -28,7 +28,7 @@ import io.data2viz.math.deg
 /**
  * @see AlbersUSAProjection
  */
-fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit = {}) = AlbersUSAProjection().also {
+public fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit = {}): AlbersUSAProjection = AlbersUSAProjection().also {
     it.scale = 1070.0
 }.also(init)
 
@@ -46,16 +46,16 @@ fun albersUSAProjection(init: AlbersUSAProjection.() -> Unit = {}) = AlbersUSAPr
  *
  * @see ConicEqualAreaProjector
  */
-class AlbersUSAProjection : ComposedProjection() {
+public class AlbersUSAProjection : ComposedProjection() {
 
 
-    var point: DoubleArray = doubleArrayOf()
+    public var point: DoubleArray = doubleArrayOf()
     // Strange logic from d3 need refactor. Look at project implementation
-    lateinit var lower48Point: Stream
-    lateinit var alaskaPoint: Stream
-    lateinit var hawaiiPoint: Stream
+    public lateinit var lower48Point: Stream
+    public lateinit var alaskaPoint: Stream
+    public lateinit var hawaiiPoint: Stream
 
-    val pointStream = object : Stream {
+    public val pointStream: Stream = object : Stream {
         override fun point(x: Double, y: Double, z: Double) {
             point = doubleArrayOf(x, y)
         }

@@ -33,7 +33,7 @@ import kotlin.math.*
  * Each point must be specified as a two-element array [longitude, latitude] in degrees.
  * This is the spherical equivalent of [MeasureStream] given a LineString of two points.
  */
-fun geoDistance(from: Position, to: Position): Double {
+public fun geoDistance(from: Position, to: Position): Double {
     val line = LineString(arrayOf(from, to))
     return GeoLengthStream().result(line)
 }
@@ -45,7 +45,7 @@ fun geoDistance(from: Position, to: Position): Double {
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
  * This is the spherical equivalent of path.measure.
  */
-fun geoLength(geo: GeoJsonObject): Double
+public fun geoLength(geo: GeoJsonObject): Double
         = GeoLengthStream().result(geo)
 
 /**
@@ -53,7 +53,7 @@ fun geoLength(geo: GeoJsonObject): Double
  * For polygons, returns the perimeter of the exterior ring plus that of any interior rings.
  * This is the spherical equivalent of [MeasureStream]
  */
-class GeoLengthStream : Stream {
+public class GeoLengthStream : Stream {
 
     // TODO refactor function references :: to objects like in ProjectorResambleStream.
 //  Function references have poor performance due to GC & memory allocation
@@ -67,19 +67,19 @@ class GeoLengthStream : Stream {
     private var currentPoint: (Double, Double) -> Unit = noop2
     private var currentLineEnd: () -> Unit = noop
 
-    fun result(geo: GeoJsonObject): Double {
+    public fun result(geo: GeoJsonObject): Double {
         lengthSum = .0
         geo.stream(this)
         return lengthSum
     }
 
-    override fun point(x: Double, y: Double, z: Double) = currentPoint(x, y)
+    override fun point(x: Double, y: Double, z: Double): Unit = currentPoint(x, y)
     override fun lineStart() {
         currentPoint = ::lengthPointFirst
         currentLineEnd = ::lengthLineEnd
     }
 
-    override fun lineEnd() = currentLineEnd()
+    override fun lineEnd(): Unit = currentLineEnd()
 
     private fun lengthPointFirst(x: Double, y: Double) {
         val lambda = x.toRadians()

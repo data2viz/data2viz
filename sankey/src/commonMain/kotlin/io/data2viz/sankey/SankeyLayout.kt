@@ -17,24 +17,25 @@
 
 package io.data2viz.sankey
 
+import io.data2viz.shape.link.LinkBuilder
 import io.data2viz.shape.link.linkBuilderH
 import io.data2viz.shape.link.linkBuilderV
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
-enum class SankeyAlignment { CENTER, JUSTIFY, RIGHT, LEFT }
+public enum class SankeyAlignment { CENTER, JUSTIFY, RIGHT, LEFT }
 
 ///// LINKS VISUALIZATIONS
 
-val sankeyLinkHorizontal = linkBuilderH<SankeyLink<*>> {
+public val sankeyLinkHorizontal = linkBuilderH<SankeyLink<*>> {
     x0 = { it.source.x1 }
     y0 = { it.y0 }
     x1 = { it.target.x0 }
     y1 = { it.y1 }
 }
 
-val sankeyLinkVertical = linkBuilderV<SankeyLink<*>> {
+public val sankeyLinkVertical: LinkBuilder<SankeyLink<*>> = linkBuilderV<SankeyLink<*>> {
     x0 = { it.y0 }
     y0 = { it.source.x0 }
     x1 = { it.y1 }
@@ -50,7 +51,7 @@ val sankeyLinkVertical = linkBuilderV<SankeyLink<*>> {
  * width - the link’s width (proportional to link.value)
  * index - the zero-based index of link within the array of links
  */
-data class SankeyLink<D>(
+public data class SankeyLink<D>(
     val source: SankeyNode<D>,
     val target: SankeyNode<D>,
     var index: Int,

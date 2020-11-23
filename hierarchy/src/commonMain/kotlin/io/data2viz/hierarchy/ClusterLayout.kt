@@ -17,7 +17,7 @@
 
 package io.data2viz.hierarchy
 
-data class ClusterNode<D>(
+public data class ClusterNode<D>(
     val data: D,
     var depth: Int,
     var height: Int,
@@ -28,9 +28,9 @@ data class ClusterNode<D>(
     var y: Double = .0
 ): ParentValued<ClusterNode<D>>, Children<ClusterNode<D>>
 
-class ClusterLayout {
+public class ClusterLayout {
 
-    var nodeSize = false
+    public var nodeSize: Boolean = false
     private var dx = 1.0
     private var dy = 1.0
 
@@ -47,7 +47,7 @@ class ClusterLayout {
      * Dendograms are typically less compact than tidy trees, but are useful when all the leaves should be at
      * the same level, such as for hierarchical clustering or phylogenetic tree diagrams.
      */
-    fun <D> cluster(root: Node<D>): ClusterNode<D> {
+    public fun <D> cluster(root: Node<D>): ClusterNode<D> {
 
         val rootCluster = makeCluster(root)
 
@@ -59,7 +59,7 @@ class ClusterLayout {
             val children = node.children
             if (children.isNotEmpty()) {
                 node.x = children.sumByDouble { it.x } / children.size
-                node.y = children.maxBy { it.y }!!.y + 1
+                node.y = children.maxByOrNull { it.y }!!.y + 1
             } else {
                 if (previousNode != null) {
                     x += separation(node, previousNode!!)
@@ -89,13 +89,13 @@ class ClusterLayout {
         }
     }
 
-    fun size(width: Double, height: Double) {
+    public fun size(width: Double, height: Double) {
         nodeSize = false
         dx = width
         dy = height
     }
 
-    fun nodeSize(width: Double, height: Double) {
+    public fun nodeSize(width: Double, height: Double) {
         nodeSize = true
         dx = width
         dy = height

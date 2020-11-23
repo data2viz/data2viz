@@ -21,9 +21,9 @@ import io.data2viz.geom.Point
 import kotlin.math.abs
 
 
-fun <T> MutableList<T>.pop(): T? = if(isEmpty()) null else removeAt(lastIndex)
+public fun <T> MutableList<T>.pop(): T? = if(isEmpty()) null else removeAt(lastIndex)
 
-class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipEnd: Point? = null) {
+public class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipEnd: Point? = null) {
 
     private var x: Double? = null
     private var y: Double? = null
@@ -31,8 +31,8 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
     private var circle: RedBlackNode<Circle>? = null
     private val sites: MutableList<Site> = with(initialSites) { sort(); toMutableList() }
 
-    var edges: MutableList<Edge?>
-    var cells: Array<Cell?>?
+    public var edges: MutableList<Edge?>
+    public var cells: Array<Cell?>?
 
     init {
         wCells = arrayOfNulls(initialSites.size)
@@ -198,14 +198,14 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
 
     private var _found:Int? = null
 
-    fun Point.squareDistance(point: Point): Double {
+    public fun Point.squareDistance(point: Point): Double {
         val vx = x - point.x
         val vy = y - point.y
         return vx * vx + vy * vy
     }
 
 
-    fun find(point: Point, radius: Double? = null): Site? {
+    public fun find(point: Point, radius: Double? = null): Site? {
         val that = this
         var i0:Int
         var i1:Int? = _found ?: 0
@@ -245,20 +245,20 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
         return if (radius == null || d2 <= radius * radius) cell?.site else null
     }
 
-    fun polygons()  = cells?.asSequence()
+    public fun polygons(): List<List<Point>> = cells?.asSequence()
             ?.filterNotNull()
             ?.map { cell ->
             cell.halfedges.map { edges[it]?.let { e -> cell.halfedgeStart(e) } }.filterNotNull()
         }?.toList() ?: emptyList()
 
-    data class Link(val source: Point, val target: Point)
+    public data class Link(val source: Point, val target: Point)
 
-    fun links() =
+    public fun links(): List<Link> =
         edges.filter { it?.right != null}
                 .map { Link(it!!.left.pos, it.right!!.pos)}
 
 
-    fun triangles(): MutableList<Triangle> {
+    public fun triangles(): MutableList<Triangle> {
         val triangles = mutableListOf<Triangle>()
         cells!!.filterNotNull()
                 .forEachIndexed { i, cell ->
@@ -285,8 +285,8 @@ class Diagram(initialSites: Array<Site>, clipStart: Point = Point(.0, .0), clipE
     }
 
 
-    fun triangleArea(a: Point, b: Point, c: Point) = (a.x - c.x) * (b.y - a.y) - (a.x - b.x) * (c.y - a.y)
+    public fun triangleArea(a: Point, b: Point, c: Point): Double = (a.x - c.x) * (b.y - a.y) - (a.x - b.x) * (c.y - a.y)
 
 }
 
-data class Triangle(val a:Site, val b: Site, val c: Site)
+public data class Triangle(val a:Site, val b: Site, val c: Site)

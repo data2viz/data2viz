@@ -19,7 +19,7 @@ package io.data2viz.viz
 
 import javafx.scene.canvas.*
 
-fun RectNode.render(gc: GraphicsContext) {
+public fun RectNode.render(gc: GraphicsContext) {
 
     fill?.let {
         gc.fillRect(x, y, width, height)

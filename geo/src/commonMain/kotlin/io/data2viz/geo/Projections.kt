@@ -21,21 +21,21 @@ import io.data2viz.geo.projection.*
 import io.data2viz.geo.projection.common.Projection
 
 
-object Geo {
-    object Projections {
-        fun Albers(init: Projection.() -> Unit = {})            = albersProjection(init)
-        fun AlbersUSA(init: Projection.() -> Unit = {})         = albersUSAProjection(init)
-        fun AzimuthalEqualArea(init: Projection.() -> Unit = {})         = azimuthalEqualAreaProjection(init)
-        fun AzimuthalEquidistant(init: Projection.() -> Unit = {})         = azimuthalEquidistant(init)
-//        fun Conic(init: ConicProjection.() -> Unit = {})         = conicProjection(init)
-        fun EqualEarth(init: Projection.() -> Unit = {})        = equalEarthProjection(init)
-        fun Equirectangular(init: Projection.() -> Unit = {})   = equirectangularProjection(init)
-        fun Identity(init: Projection.() -> Unit = {})          = identityProjection(init)
-        fun Mercator(init: Projection.() -> Unit = {})          = mercatorProjection(init)
-        fun NaturalEarth(init: Projection.() -> Unit = {})      = naturalEarthProjection(init)
-        fun Orthographic(init: Projection.() -> Unit = {})      = orthographicProjection(init)
-        fun Stereographic(init: Projection.() -> Unit = {})     = stereographicProjection(init)
-        fun TransverseMercator(init: Projection.() -> Unit = {})     = transverseMercatorProjection(init)
+public object Geo {
+    public object Projections {
+        public fun Albers(init: Projection.() -> Unit = {})                 : ConicProjection = albersProjection(init)
+        public fun AlbersUSA(init: Projection.() -> Unit = {})              : AlbersUSAProjection = albersUSAProjection(init)
+        public fun AzimuthalEqualArea(init: Projection.() -> Unit = {})     : Projection = azimuthalEqualAreaProjection(init)
+        public fun AzimuthalEquidistant(init: Projection.() -> Unit = {})   : Projection = azimuthalEquidistant(init)
+//      public   fun Conic(init: ConicProjection.() -> Unit = {})         = :Unit conicProjection(init)
+        public fun EqualEarth(init: Projection.() -> Unit = {})             : Projection = equalEarthProjection(init)
+        public fun Equirectangular(init: Projection.() -> Unit = {})        : Projection = equirectangularProjection(init)
+        public fun Identity(init: Projection.() -> Unit = {})               : Projection = identityProjection(init)
+        public fun Mercator(init: Projection.() -> Unit = {})               : MercatorProjection = mercatorProjection(init)
+        public fun NaturalEarth(init: Projection.() -> Unit = {})           : Projection = naturalEarthProjection(init)
+        public fun Orthographic(init: Projection.() -> Unit = {})           : Projection = orthographicProjection(init)
+        public fun Stereographic(init: Projection.() -> Unit = {})          : Projection = stereographicProjection(init)
+        public fun TransverseMercator(init: Projection.() -> Unit = {})     : TransverseMercatorProjection = transverseMercatorProjection(init)
     }
 }
 

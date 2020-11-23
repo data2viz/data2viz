@@ -22,7 +22,7 @@ package io.data2viz.quadtree
  * If the new point is outside the current extent of the quadtree, the quadtree is automatically expanded to
  * cover the new point.
  */
-fun <D> Quadtree<D>.add(datum: D) {
+public fun <D> Quadtree<D>.add(datum: D) {
     val x = x(datum)
     val y = y(datum)
     cover(x, y)
@@ -107,7 +107,7 @@ private fun <D> Quadtree<D>._add(x: Double, y: Double, datum: D) {
     setNodeFromIndex(parent, index, leaf)
 }
 
-fun <D> Quadtree<D>.addAll(data: List<D>) {
+public fun <D> Quadtree<D>.addAll(data: List<D>) {
     val xz: Array<Double> = Array(data.size) { x(data[it]) }
     val yz: Array<Double> = Array(data.size) { y(data[it]) }
     var x0 = Double.POSITIVE_INFINITY

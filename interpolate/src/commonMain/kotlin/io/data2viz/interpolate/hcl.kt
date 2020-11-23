@@ -37,6 +37,6 @@ private fun interpolateHcl(start: Color, end:Color, long:Boolean): Interpolator<
     return fun(percent:Percent) = Colors.hcl(Angle(h(percent)), c(percent), Percent(l(percent)))
 }
 
-fun hclLongInterpolator(start:Color, end: Color) = interpolateHcl(start, end, long = true)
-fun hclInterpolator(start:Color, end:Color) = interpolateHcl(start, end, long = false)
+public fun hclLongInterpolator(start:Color, end: Color): (Percent) -> Color = interpolateHcl(start, end, long = true)
+public fun hclInterpolator(start:Color, end:Color): (Percent) -> Color = interpolateHcl(start, end, long = false)
 

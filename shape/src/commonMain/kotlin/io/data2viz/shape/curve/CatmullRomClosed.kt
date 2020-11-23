@@ -23,7 +23,11 @@ import io.data2viz.shape.epsilon
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class CatmullRomClosed(override val path: Path, val alpha: Double = 0.5) : Curve {
+public class CatmullRomClosed(
+
+    override val path: Path,
+
+    public val alpha: Double = 0.5) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0

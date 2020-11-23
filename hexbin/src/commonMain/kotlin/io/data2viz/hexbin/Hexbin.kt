@@ -28,14 +28,14 @@ import kotlin.math.sin
 
 private val hexagon = (0..5).map { THIRDPI * it }.map { angle -> Point(sin(angle), -cos(angle)) }
 
-data class Bin(
+public data class Bin(
         val points: MutableList<Point> = mutableListOf(),
         val x: Double,
         val y: Double
 )
 
-fun hexbinGenerator(init: HexbinGenerator.()->Unit) = HexbinGenerator().apply(init)
-fun hexbinGenerator() = HexbinGenerator()
+public fun hexbinGenerator(init: HexbinGenerator.()->Unit): HexbinGenerator = HexbinGenerator().apply(init)
+public fun hexbinGenerator(): HexbinGenerator = HexbinGenerator()
 
 /**
  * Hexagonal binning is useful for aggregating data into a coarser representation for display.
@@ -43,32 +43,32 @@ fun hexbinGenerator() = HexbinGenerator()
  * hexagons to show the distribution. Hexbins can support a color encoding, area encoding, or both.
  * HexbinGenerator constructs a new default hexbin generator.
  */
-class HexbinGenerator {
+public class HexbinGenerator {
 
     /**
      * Sets the x-coordinate accessor to the specified function which defaults to { point, _, _ -> point.x }.
      * The x-coordinate accessor is used by hexbin to compute the x-coordinate of each point.
      */
-    var x: (point: Point, index: Int, points: List<Point>) -> Double = { point, _, _ -> point.x }
+    public var x: (point: Point, index: Int, points: List<Point>) -> Double = { point, _, _ -> point.x }
 
     /**
      * Sets the y-coordinate accessor to the specified function which defaults to { point, _, _ -> point.y }.
      * The y-coordinate accessor is used by hexbin to compute the y-coordinate of each point.
      */
-    var y: (point: Point, index: Int, points: List<Point>) -> Double = { point, _, _ -> point.y }
+    public var y: (point: Point, index: Int, points: List<Point>) -> Double = { point, _, _ -> point.y }
 
     /**
      * Sets the hexbin generator’s extent to the specified bounds [x0, y0, x1, y1] where x0 and y0 are the lower bounds
      * and x1 and y1 are the upper bounds.
      * The extent defaults to [0, 0, 1, 1].
      */
-    var extent = Extent(.0, .0, 1.0, 1.0)
+    public var extent: Extent = Extent(.0, .0, 1.0, 1.0)
 
     /**
      * Sets the extent to the specified width [0, ?, width, ?].
      * This is a convenience method for setting the extent.
      */
-    var width: Double
+    public var width: Double
         get() = extent.x1 - extent.x0
         set(value) {
             extent.x0 = .0
@@ -79,7 +79,7 @@ class HexbinGenerator {
      * Sets the extent to the specified height [?, 0, ?, height].
      * This is a convenience method for setting the extent.
      */
-    var height: Double
+    public var height: Double
         get() = extent.y1 - extent.y0
         set(value) {
             extent.y0 = .0
@@ -95,7 +95,7 @@ class HexbinGenerator {
      * The hexagons are pointy-topped (rather than flat-topped);
      * the width of each hexagon is radius × 2 × sin(π / 3) and the height of each hexagon is radius × 3 / 2.
      */
-    var radius: Double
+    public var radius: Double
         get() = _radius
         set(value) {
             _radius = value
@@ -119,7 +119,7 @@ class HexbinGenerator {
      *  This method ignores the hexbin’s extent; it may return bins outside the extent if necessary to contain the
      *  specified points.
      */
-    operator fun invoke(points: List<Point>): MutableList<Bin> {
+    public operator fun invoke(points: List<Point>): MutableList<Bin> {
 
         val binsById = mutableMapOf<String, Bin>()
         val bins = mutableListOf<Bin>()
@@ -166,7 +166,7 @@ class HexbinGenerator {
      * If radius is specified, a hexagon with the specified radius is returned; this is useful for area-encoded bivariate
      * hexbins.
      */
-    fun hexagon(path: Path, origin: Point, radius: Double? = null) {
+    public fun hexagon(path: Path, origin: Point, radius: Double? = null) {
         val hex = hexagon(radius ?: _radius)
         path.moveTo(origin.x + hex[0].x, origin.y + hex[0].y)
         (1 until hex.size).forEach { index ->
@@ -178,7 +178,7 @@ class HexbinGenerator {
     /**
      * Returns an array of points representing the centers of every hexagon in the extent.
      */
-    fun centers(): MutableList<Point> {
+    public fun centers(): MutableList<Point> {
         val centers = mutableListOf<Point>()
         var j = round(extent.y0 / dy).toInt()
         val i = round(extent.x0 / dx).toInt()
@@ -203,7 +203,7 @@ class HexbinGenerator {
      * Returns an path representing the hexagonal mesh that covers the extent; the returned path is intended to be stroked.
      * The mesh may extend slightly beyond the extent and may need to be clipped.
      */
-    fun mesh(path: Path) {
+    public fun mesh(path: Path) {
         val fragment = hexagon(_radius).subList(0, 4)
         val centers = centers()
         return centers.forEach { center ->

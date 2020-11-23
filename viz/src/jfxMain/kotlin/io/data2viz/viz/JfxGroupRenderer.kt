@@ -23,7 +23,7 @@ import javafx.scene.canvas.GraphicsContext
 private val emptySegments = doubleArrayOf()
 
 
-fun GroupNode.render(gc: GraphicsContext) {
+public fun GroupNode.render(gc: GraphicsContext) {
 
     children.forEach { node ->
 

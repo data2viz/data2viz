@@ -19,22 +19,19 @@ package io.data2viz.math
 
 
 
-const val EPSILON = 1e-6
-const val EPSILON2 = EPSILON * EPSILON
-
-const val PI = kotlin.math.PI
-const val HALFPI = PI / 2.0
-const val THIRDPI = PI / 3.0
-const val QUARTERPI = PI / 4.0
-
-const val TAU = PI * 2.0
-const val TAU_EPSILON = TAU - EPSILON
-
-const val DEG_TO_RAD = kotlin.math.PI / 180
-const val RAD_TO_DEG = 180 / kotlin.math.PI
+public const val EPSILON        :Double = 1e-6
+public const val EPSILON2       :Double = EPSILON * EPSILON
+public const val PI             :Double = kotlin.math.PI
+public const val HALFPI         :Double = PI / 2.0
+public const val THIRDPI        :Double = PI / 3.0
+public const val QUARTERPI      :Double = PI / 4.0
+public const val TAU            :Double = PI * 2.0
+public const val TAU_EPSILON    :Double = TAU - EPSILON
+public const val DEG_TO_RAD     :Double = kotlin.math.PI / 180
+public const val RAD_TO_DEG     :Double = 180 / kotlin.math.PI
 
 
-val PI_ANGLE = Angle(kotlin.math.PI)
-val HALFPI_ANGLE = PI_ANGLE / 2
-val TAU_ANGLE = PI_ANGLE * 2
+public val PI_ANGLE             :Angle = Angle(kotlin.math.PI)
+public val HALFPI_ANGLE         :Angle = PI_ANGLE / 2
+public val TAU_ANGLE            :Angle = PI_ANGLE * 2
 

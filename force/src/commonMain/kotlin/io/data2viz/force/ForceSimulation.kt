@@ -32,26 +32,26 @@ private val initialAngle = PI * (3.0 - sqrt(5.0))
  * The simulator starts automatically; use simulation.on to listen for tick events as the simulation runs.
  * If you wish to run the simulation manually instead, call simulation.stop, and then call simulation.tick as desired.
  */
-class ForceSimulation<D> internal constructor() {
+public class ForceSimulation<D> internal constructor() {
 
     private var started = false
 
     // AVAILABLE FORCES
-    fun forceX(init: ForceX<D>.() -> Unit = {}) = addForce(ForceX<D>().apply(init)) as ForceX
-    fun forceY(init: ForceY<D>.() -> Unit = {}) = addForce(ForceY<D>().apply(init)) as ForceY
-    fun forcePoint(init: ForcePoint<D>.() -> Unit = {}) = addForce(ForcePoint<D>().apply(init)) as ForcePoint
-    fun forceRadial(init: ForceRadial<D>.() -> Unit) = addForce(ForceRadial<D>().apply(init)) as ForceRadial
-    fun forceNBody(init: ForceNBody<D>.() -> Unit = {}) = addForce(ForceNBody<D>().apply(init)) as ForceNBody
-    fun forceCollision(init: ForceCollision<D>.() -> Unit) = addForce(ForceCollision<D>().apply(init)) as ForceCollision
-    fun forceCenter(init: ForceCenter<D>.() -> Unit) = addForce(ForceCenter<D>().apply(init)) as ForceCenter
-    fun forceLink(init: ForceLink<D>.() -> Unit = {}) = addForce(ForceLink<D>().apply(init)) as ForceLink
+    public fun forceX(init: ForceX<D>.() -> Unit = {}): ForceX<D> = addForce(ForceX<D>().apply(init)) as ForceX
+    public fun forceY(init: ForceY<D>.() -> Unit = {}): ForceY<D> = addForce(ForceY<D>().apply(init)) as ForceY
+    public fun forcePoint(init: ForcePoint<D>.() -> Unit = {}): ForcePoint<D> = addForce(ForcePoint<D>().apply(init)) as ForcePoint
+    public fun forceRadial(init: ForceRadial<D>.() -> Unit): ForceRadial<D> = addForce(ForceRadial<D>().apply(init)) as ForceRadial
+    public fun forceNBody(init: ForceNBody<D>.() -> Unit = {}): ForceNBody<D> = addForce(ForceNBody<D>().apply(init)) as ForceNBody
+    public fun forceCollision(init: ForceCollision<D>.() -> Unit): ForceCollision<D> = addForce(ForceCollision<D>().apply(init)) as ForceCollision
+    public fun forceCenter(init: ForceCenter<D>.() -> Unit): ForceCenter<D> = addForce(ForceCenter<D>().apply(init)) as ForceCenter
+    public fun forceLink(init: ForceLink<D>.() -> Unit = {}): ForceLink<D> = addForce(ForceLink<D>().apply(init)) as ForceLink
 
     /**
      * The initForceNode lambda applies to each ForceNode.
      * A ForceNode is created for each domain objects passed to the simulation.
      * ForceNode already have an index, and a domain object, so you can use these 2 properties to initialize your nodes.
      */
-    var initForceNode: ForceNode<D>.() -> Unit = { }
+    public var initForceNode: ForceNode<D>.() -> Unit = { }
         set(value) {
             field = value
             initSimulation(true)
@@ -67,18 +67,18 @@ class ForceSimulation<D> internal constructor() {
      * Just be careful, your domain objects must keep the same index, so new objects must be added at the end
      * of the list.
      */
-    var domainObjects: List<D> = listOf()
+    public var domainObjects: List<D> = listOf()
         set(value) {
             field = value
             initSimulation(true)
         }
 
     private var _nodes = listOf<ForceNode<D>>()
-    val nodes: List<ForceNode<D>>
+    public val nodes: List<ForceNode<D>>
         get() = _nodes
 
     private var _forces = listOf<Force<D>>()
-    val forces: List<Force<D>>
+    public val forces: List<Force<D>>
         get() = _forces
 
 
@@ -89,14 +89,14 @@ class ForceSimulation<D> internal constructor() {
     /**
      * Restarts current simulation
      */
-    fun play() {
+    public fun play() {
         stepper.restart { step() }
     }
 
     /**
      * stops the current simulation
      */
-    fun stop() {
+    public fun stop() {
         stepper.stop()
     }
 
@@ -117,7 +117,7 @@ class ForceSimulation<D> internal constructor() {
     /**
      * Sets the current intensity to the specified positive percentage in the range which defaults to 100%.
      */
-    var intensity = 100.pct
+    public var intensity: Percent = 100.pct
         set(value) {
             field = value.coerceAtLeast(0.pct)
         }
@@ -127,7 +127,7 @@ class ForceSimulation<D> internal constructor() {
      * The simulation’s internal timer stops when the current intensity is less than the minimum intensity.
      * The default intensity decay rate of ~2.28% corresponds to 300 iterations.
      */
-    var intensityMin = 0.1.pct
+    public var intensityMin: Percent = 0.1.pct
         set(value) {
             field = value.coerceAtLeast(0.pct)
         }
@@ -144,7 +144,7 @@ class ForceSimulation<D> internal constructor() {
      * To have the simulation run forever at the current intensity, set the decay rate to zero; alternatively, set a
      * target intensity greater than the minimum intensity.
      */
-    var intensityDecay = Percent(1.0 - intensityMin.value.pow(1.0 / 300.0))
+    public var intensityDecay: Percent = Percent(1.0 - intensityMin.value.pow(1.0 / 300.0))
         set(value) {
             field = value.coerceAtLeast(0.pct)
         }
@@ -152,7 +152,7 @@ class ForceSimulation<D> internal constructor() {
     /**
      * Sets the current target intensity to the specified positive percentage (defaults to 0%).
      */
-    var intensityTarget = 0.pct
+    public var intensityTarget: Percent = 0.pct
         set(value) {
             field = value.coerceAtLeast(0.pct)
         }
@@ -164,7 +164,7 @@ class ForceSimulation<D> internal constructor() {
      * As with lowering the intensity decay rate, less friction may converge on a better solution, but risks
      * numerical instabilities and oscillation.
      */
-    var friction
+    public var friction: Percent
         get() = Percent(1 - _friction)
         set(value) {
             _friction = 1 - value.coerceToDefault().value
@@ -193,7 +193,7 @@ class ForceSimulation<D> internal constructor() {
     /**
      * Removes the force in this simulation.
      */
-    fun removeForce(force: Force<D>) {
+    public fun removeForce(force: Force<D>) {
         _forces -= force
     }
 
@@ -217,7 +217,7 @@ class ForceSimulation<D> internal constructor() {
      */
     // TODO For large graphs, static layouts should be computed in a web worker to avoid freezing the user interface.
     // TODO private ?
-    fun tick() {
+    public fun tick() {
         if (!started) {
             started = true
             initSimulation(false)
@@ -280,7 +280,7 @@ class ForceSimulation<D> internal constructor() {
      * If radius is not specified, it defaults to infinity.
      * If there is no node within the search area, returns null.
      */
-    fun find(point: Point, radius: Double = Double.POSITIVE_INFINITY): ForceNode<D>? {
+    public fun find(point: Point, radius: Double = Double.POSITIVE_INFINITY): ForceNode<D>? {
         var newRadius = if (radius < Double.POSITIVE_INFINITY) radius * radius else radius
         var closest: ForceNode<D>? = null
 
@@ -319,7 +319,7 @@ class ForceSimulation<D> internal constructor() {
      * event listener.
      */
     // TODO : change doc and plug to dispatch (?)
-    fun on(type: SimulationEvent, name: String, callback: (ForceSimulation<D>) -> Unit) {
+    public fun on(type: SimulationEvent, name: String, callback: (ForceSimulation<D>) -> Unit) {
         when (type) {
             SimulationEvent.TICK -> tickEvents[name] = callback
             SimulationEvent.END -> endEvents[name] = callback
@@ -328,7 +328,7 @@ class ForceSimulation<D> internal constructor() {
 
 }
 
-enum class SimulationEvent {
+public enum class SimulationEvent {
     TICK, END
 }
 

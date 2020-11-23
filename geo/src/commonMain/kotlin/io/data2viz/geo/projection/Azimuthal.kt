@@ -25,14 +25,16 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-fun azimuthalInvert(angle: (Double) -> Double) = { x: Double, y: Double ->
+public fun azimuthalInvert(angle: (Double) -> Double): (Double, Double) -> DoubleArray = { x: Double, y: Double ->
     val z = sqrt(x * x + y * y)
     val c = angle(z)
     val sc = sin(c)
     doubleArrayOf(atan2(x * sc, z * cos(c)), (if (z == 0.0) z else y * sc / z).limitedAsin)
 }
 
-open class Azimuthal(val scale: (Double) -> Double, val angle: (Double) -> Double) : Projector {
+public open class Azimuthal(
+    public val scale: (Double) -> Double,
+    public val angle: (Double) -> Double) : Projector {
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val cx = cos(lambda)
         val cy = cos(phi)

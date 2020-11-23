@@ -19,12 +19,12 @@ package io.data2viz.math
 
 import kotlin.math.*
 
-val e10: Double by lazy { sqrt(50.0) }
-val e5: Double by lazy { sqrt(10.0) }
-val e2: Double by lazy { sqrt(2.0) }
-val ln10: Double by lazy { ln(10.0) }
+public val e10: Double by lazy { sqrt(50.0) }
+public val e5: Double by lazy { sqrt(10.0) }
+public val e2: Double by lazy { sqrt(2.0) }
+public val ln10: Double by lazy { ln(10.0) }
 
-fun ticks(start: Double, stop: Double, count: Int): List<Double> {
+public fun ticks(start: Double, stop: Double, count: Int): List<Double> {
     if (count <= 0) return listOf()
     if (start.isNaN() || stop.isNaN()) return listOf()
     if (start == stop) return listOf(start)
@@ -57,7 +57,7 @@ fun ticks(start: Double, stop: Double, count: Int): List<Double> {
     return if (reverse) ticks.reversed() else ticks
 }
 
-fun tickIncrement(start: Double, stop: Double, count: Int): Double {
+public fun tickIncrement(start: Double, stop: Double, count: Int): Double {
     val step = (stop - start) / count
     val power = floor(ln(step) / ln10)
     val error = step / 10.0.pow(power)
@@ -68,7 +68,7 @@ fun tickIncrement(start: Double, stop: Double, count: Int): Double {
     }
 }
 
-fun tickStep(start: Double, stop: Double, count: Int): Double {
+public fun tickStep(start: Double, stop: Double, count: Int): Double {
     val step0 = abs(stop - start) / count
     var step1 = 10.0.pow(floor(ln(step0) / ln10))
     val error = step0 / step1
@@ -76,7 +76,7 @@ fun tickStep(start: Double, stop: Double, count: Int): Double {
     return if (stop < start) -step1 else step1
 }
 
-fun range(start: Double, stop: Double, step: Double = 1.0): List<Double> {
+public fun range(start: Double, stop: Double, step: Double = 1.0): List<Double> {
     val n = if (step == .0) 0 else maxOf(0, ceil((stop - start) / step).toInt())
     return (0 until n).map { start + it * step }
 }

@@ -30,11 +30,11 @@ fun <D> forceCenter(center: Point) = ForceCenter<D>().apply { this.center = cent
  * This force helps keeps nodes in the center of the viewport, and unlike the positioning force,
  * it does not distort their relative positions.
  */
-class ForceCenter<D> internal constructor() : Force<D> {
+public class ForceCenter<D> internal constructor() : Force<D> {
 
     private var _nodes = listOf<ForceNode<D>>()
 
-    var center: Point = Point(.0, .0)
+    public var center: Point = Point(.0, .0)
 
     override fun assignNodes(nodes: List<ForceNode<D>>) {
         _nodes = nodes

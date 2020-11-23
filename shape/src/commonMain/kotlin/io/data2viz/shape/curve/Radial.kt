@@ -22,7 +22,12 @@ import io.data2viz.shape.Curve
 import kotlin.math.cos
 import kotlin.math.sin
 
-abstract class AbstractRadial(override val path: Path, val curve: Curve) : Curve {
+public abstract class AbstractRadial(
+
+
+    override val path: Path,
+
+    public val curve: Curve) : Curve {
 
     override fun areaEnd() {
         curve.areaEnd()

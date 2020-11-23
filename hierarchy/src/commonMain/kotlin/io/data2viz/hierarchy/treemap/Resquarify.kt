@@ -28,7 +28,7 @@ import io.data2viz.hierarchy.TreemapNode
  * uses the Bruls et al. squarified algorithm.
  */
 // TODO
-fun treemapResquarify(parent: TreemapNode<*>, x0:Double, y0:Double, x1:Double, y1:Double) {
+public fun treemapResquarify(parent: TreemapNode<*>, x0:Double, y0:Double, x1:Double, y1:Double) {
     /*if ((rows = parent._squarify) && (rows.ratio === ratio)) {
         var rows,
         row,

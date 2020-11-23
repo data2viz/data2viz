@@ -19,6 +19,7 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.geometry.limitedAsin
 import io.data2viz.geo.geometry.clip.anglePreClip
+import io.data2viz.geo.projection.common.Projection
 import io.data2viz.geo.projection.common.ProjectorProjection
 import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.deg
@@ -28,7 +29,7 @@ private val scale: (Double) -> Double = { cxcy -> sqrt(2 / (1 + cxcy)) }
 private val angle: (Double) -> Double = { z -> 2 * (z / 2).limitedAsin }
 
 
-fun azimuthalEqualAreaProjection(init: ProjectorProjection.() -> Unit = {}) =
+public fun azimuthalEqualAreaProjection(init: ProjectorProjection.() -> Unit = {}): Projection =
     projection(Azimuthal(scale, angle)) {
         scale = 124.75
         anglePreClip = (180 - 1e-3).deg

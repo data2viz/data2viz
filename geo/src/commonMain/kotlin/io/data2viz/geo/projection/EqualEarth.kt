@@ -23,14 +23,14 @@ import io.data2viz.geo.projection.common.projection
 import io.data2viz.math.EPSILON2
 import kotlin.math.*
 
-const val A1 = 1.340264
-const val A2 = -0.081106
-const val A3 = 0.000893
-const val A4 = 0.003796
-val M = sqrt(3.0) / 2
-const val iterations = 12
+internal const val A1 = 1.340264
+internal const val A2 = -0.081106
+internal const val A3 = 0.000893
+internal const val A4 = 0.003796
+internal val M = sqrt(3.0) / 2
+internal const val iterations = 12
 
-fun equalEarthProjection(init: Projection.() -> Unit = {}) =
+public fun equalEarthProjection(init: Projection.() -> Unit = {}): Projection =
     projection(EqualEarthProjector()) {
         scale = 177.158
         init()
@@ -39,7 +39,7 @@ fun equalEarthProjection(init: Projection.() -> Unit = {}) =
 /**
  * The Equal Earth projection, by Bojan Šavrič et al., 2018.
  */
-class EqualEarthProjector : Projector {
+public class EqualEarthProjector : Projector {
 
     override fun project(lambda: Double, phi: Double): DoubleArray {
         val l = asin(M * sin(phi))

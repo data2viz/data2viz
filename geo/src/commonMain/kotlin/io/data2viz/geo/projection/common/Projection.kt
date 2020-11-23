@@ -32,62 +32,62 @@ import io.data2viz.math.Angle
  *
  * @see Stream
  */
-interface Projection : Projector {
+public interface Projection : Projector {
     /**
      * The scale factor corresponds linearly to the distance between projected points;
      * however, absolute scale factors are not equivalent across projections.
      */
-    var scale: Double
+    public var scale: Double
 
     /**
      * Determines the pixel coordinates of the projection’s center by X axys
      * @see translate
      */
-    var translateX: Double
+    public var translateX: Double
     /**
      * Determines the pixel coordinates of the projection’s center by Y axys
      * @see translate
      */
-    var translateY: Double
+    public var translateY: Double
 
     /**
      * Determines latitude coordinate of projection geo center
      * @see center
      */
-    var centerLat: Angle
+    public var centerLat: Angle
     /**
      * Determines longtitude coordinate of projection geo center
      * @see center
      */
-    var centerLon: Angle
+    public var centerLon: Angle
 
     /**
      * The threshold for the projection’s adaptive resampling pixels.
      * This value corresponds to the Douglas–Peucker distance.
      * Defaults to √0.5 ≅ 0.70710…
      */
-    var precision: Double
+    public var precision: Double
 
     /**
      * Rotate projection by X axys
      * Correspond to yaw
      * @see rotate
      */
-    var rotateLambda: Angle
+    public var rotateLambda: Angle
 
     /**
      * Rotate projection by Y axys
      * Correspond to pitch
      * @see rotate
      */
-    var rotatePhi: Angle
+    public var rotatePhi: Angle
 
     /**
      * Rotate projection by Z axys
      * Correspond to roll
      * @see rotate
      */
-    var rotateGamma: Angle
+    public var rotateGamma: Angle
 
 
     /**
@@ -97,7 +97,7 @@ interface Projection : Projector {
      * @see translateX
      * @see translateY
      */
-    fun translate(x: Double, y: Double)
+    public fun translate(x: Double, y: Double)
 
 
     /**
@@ -108,7 +108,7 @@ interface Projection : Projector {
      * @see centerLat
      * @see centerLon
      */
-    fun center(lat: Angle, lon: Angle)
+    public fun center(lat: Angle, lon: Angle)
 
     /**
      * The projection’s three-axis spherical rotation to the specified angles
@@ -121,7 +121,7 @@ interface Projection : Projector {
      * @see rotatePhi
      * @see rotateGamma
      */
-    fun rotate(lambda: Angle, phi: Angle, gamma: Angle? = null)
+    public fun rotate(lambda: Angle, phi: Angle, gamma: Angle? = null)
 
 
     /**
@@ -135,7 +135,7 @@ interface Projection : Projector {
      * @see anglePreClip
      * @see antimeridianPreClip
      */
-    var preClip: ClipStreamBuilder
+    public var preClip: ClipStreamBuilder
 
     /**
      * If postclip is specified, sets the projection’s cartesian clipping
@@ -147,7 +147,7 @@ interface Projection : Projector {
      *
      * @see extentPostClip
      */
-    var postClip: ClipStreamBuilder
+    public var postClip: ClipStreamBuilder
 
 
     /**
@@ -160,7 +160,7 @@ interface Projection : Projector {
      * with adaptive resampling, scale and translation.
      *
      */
-    fun bindTo(downstream: Stream): Stream
+    public fun bindTo(downstream: Stream): Stream
 
 
 }

@@ -26,7 +26,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-fun orthographicProjection(init: Projection.() -> Unit = {}) =
+public fun orthographicProjection(init: Projection.() -> Unit = {}): Projection =
     projection(OrthographicProjector()) {
         scale = 249.5
         anglePreClip = (90 + EPSILON).deg

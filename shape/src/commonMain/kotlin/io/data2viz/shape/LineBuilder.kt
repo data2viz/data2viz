@@ -19,21 +19,21 @@ package io.data2viz.shape
 
 import io.data2viz.geom.Path
 
-fun <T> line(init: LineBuilder<T>.() -> Unit) = LineBuilder<T>().apply(init)
+public fun <T> line(init: LineBuilder<T>.() -> Unit): LineBuilder<T> = LineBuilder<T>().apply(init)
 
-fun <T, D> const(constantValue: T): (D) -> T = { constantValue }
+public fun <T, D> const(constantValue: T): (D) -> T = { constantValue }
 
-class LineBuilder<T> {
+public class LineBuilder<T> {
 
-    var curve: (Path) -> Curve = curves.linear
-    var x: (T) -> Double = const(.0)
-    var y: (T) -> Double = const(.0)
-    var defined: (T) -> Boolean = const(true)
+    public var curve: (Path) -> Curve = curves.linear
+    public var x: (T) -> Double = const(.0)
+    public var y: (T) -> Double = const(.0)
+    public var defined: (T) -> Boolean = const(true)
 
     /**
      * Use the data to generate a line on the path
      */
-    fun <C : Path> buildLine(data: List<T>, path: C): C {
+    public fun <C : Path> buildLine(data: List<T>, path: C): C {
         val dataSize = data.size
 
         var defined0 = false

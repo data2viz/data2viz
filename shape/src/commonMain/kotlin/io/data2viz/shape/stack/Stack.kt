@@ -19,14 +19,14 @@ package io.data2viz.shape.stack
 
 import io.data2viz.shape.const
 
-data class StackSpace<T>(
+public data class StackSpace<T>(
         var from: Double,
         var to: Double,
         val paramIndex: Int,
         val data: T
 )
 
-data class StackParam<T>(
+public data class StackParam<T>(
         val stackedValues: MutableList<StackSpace<T>>,
 //        val data: T,
         var index: Int
@@ -34,14 +34,18 @@ data class StackParam<T>(
 
 // TODO : use "serieIndex" and "dataIndex" to help understand the algorithm
 
-fun <T> stack(init: StackGenerator<T>.() -> Unit) = StackGenerator<T>().apply(init)
-class StackGenerator<T> {
+public fun <T> stack(init: StackGenerator<T>.() -> Unit): StackGenerator<T> = StackGenerator<T>().apply(init)
 
-    var series: (T) -> Array<Double> = const(arrayOf(.0))
-    var order: StackOrder = StackOrder.NONE
-    var offset: StackOffset = StackOffset.NONE
 
-    fun stack(data: List<T>): Array<StackParam<T>> {
+public class StackGenerator<T> {
+
+    public var series: (T) -> Array<Double> = const(arrayOf(.0))
+
+    public var order: StackOrder = StackOrder.NONE
+
+    public var offset: StackOffset = StackOffset.NONE
+
+    public fun stack(data: List<T>): Array<StackParam<T>> {
         val ret = mutableListOf<StackParam<T>>()
 
         // BUILDING : build the StackParam and StackSpace that function will return
@@ -49,7 +53,7 @@ class StackGenerator<T> {
         // TODO : maybe it is better to set the number of stackes needed if there is not always all values for each series
 
         // fix #202 : take the series with most elements (so series did not need to have a value for each category)
-        val totalSeriesNum: Int = data.map { series(it).size }.max()!!
+        val totalSeriesNum: Int = data.map { series(it).size }.maxOrNull()!!
         (0 until totalSeriesNum).map { ret.add(StackParam(mutableListOf(), it)) }
 
         data.forEachIndexed { index1, element ->

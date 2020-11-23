@@ -20,11 +20,11 @@ package io.data2viz.time
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDateTime
 
-class Year : Interval(
+public class Year : Interval(
         floor = fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, 1, 1, 0, 0, 0, 0),
         offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(step),
         count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).years,
         field = fun(date: LocalDateTime): Int = date.year
 )
 
-val timeYear = Year()
+public val timeYear: Year = Year()

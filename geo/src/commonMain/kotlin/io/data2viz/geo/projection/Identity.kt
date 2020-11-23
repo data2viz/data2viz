@@ -25,7 +25,7 @@ import io.data2viz.math.PI
 /**
  * Projections without any transformations and clipping
  */
-fun identityProjection(init: Projection.() -> Unit = {}) =
+public fun identityProjection(init: Projection.() -> Unit = {}): Projection =
     projection(IdentityProjection()) {
         preClip = NoClip
         postClip = NoClip

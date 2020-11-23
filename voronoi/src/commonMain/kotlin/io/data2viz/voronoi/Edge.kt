@@ -22,7 +22,7 @@ import io.data2viz.geom.Point
 
 internal var wEdges = mutableListOf<Edge?>()
 
-fun createBorderEdge(left:Site, v0: Point, v1: Point?): Edge {
+public fun createBorderEdge(left:Site, v0: Point, v1: Point?): Edge {
     val ret = Edge (left)
     ret.start = v0
     ret.end = v1
@@ -34,16 +34,16 @@ fun createBorderEdge(left:Site, v0: Point, v1: Point?): Edge {
  * left: the site on the left side of the edge
  * right: the site on the right side of the edge; null for a clipped border edge
  */
-class Edge(
-        var left: Site,
-        var right: Site? =  null) {
+public class Edge(
+    public var left: Site,
+    public var right: Site? =  null) {
 
-    var start: Point? = null
-    var end: Point? = null
+    public var start: Point? = null
+    public var end: Point? = null
 
-    companion object {
+    public companion object {
 
-        fun createEdge(left: Site, right: Site, v0: Point? = null, v1: Point? = null): Edge {
+        public fun createEdge(left: Site, right: Site, v0: Point? = null, v1: Point? = null): Edge {
             val edge = Edge(left, right)
             wEdges.add(edge)
             val index = wEdges.size -1
@@ -55,7 +55,7 @@ class Edge(
             return edge
         }
 
-        fun setEdgeEnd(edge: Edge, left: Site, right: Site, vertex: Point) {
+        public fun setEdgeEnd(edge: Edge, left: Site, right: Site, vertex: Point) {
             if (edge.start == null && edge.end == null) {
                 edge.start = vertex
                 edge.left = left
@@ -69,7 +69,7 @@ class Edge(
 
     }
 
-    fun clip(clipStart: Point, clipEnd: Point):Boolean {
+    public fun clip(clipStart: Point, clipEnd: Point):Boolean {
         val a = start
         val b = end
         val ax = a!!.x
@@ -134,7 +134,7 @@ class Edge(
     }
 
 
-    fun connect(clipStart: Point, clipEnd: Point):Boolean {
+    public fun connect(clipStart: Point, clipEnd: Point):Boolean {
         var v1 = end
         if (v1 != null) return true
 

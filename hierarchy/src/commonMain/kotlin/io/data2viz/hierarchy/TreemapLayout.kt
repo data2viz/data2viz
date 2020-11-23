@@ -20,23 +20,23 @@ package io.data2viz.hierarchy
 import io.data2viz.hierarchy.treemap.treemapSquarify
 import kotlin.math.roundToInt
 
-data class Row<D>(
+public data class Row<D>(
     override var value: Double?,
     val dice:Boolean,
     override val children:List<TreemapNode<D>>
 ) : ParentValued<TreemapNode<D>>
 
-class TreemapNode<D>(
-    val data: D,
-    var depth: Int,
-    var height: Int,
+public class TreemapNode<D>(
+    public val data: D,
+    public var depth: Int,
+    public var height: Int,
     override var value: Double?,                 // TODO differentiate value and SUM
     override val children: MutableList<TreemapNode<D>> = mutableListOf(),
     override var parent: TreemapNode<D>? = null,
-    var x0: Double = .0,
-    var y0: Double = .0,
-    var x1: Double = .0,
-    var y1: Double = .0
+    public var x0: Double = .0,
+    public var y0: Double = .0,
+    public var x1: Double = .0,
+    public var y1: Double = .0
 ): ParentValued<TreemapNode<D>>, Children<TreemapNode<D>>
 
 internal fun roundNode(node: TreemapNode<*>) {
@@ -64,24 +64,24 @@ internal fun <D> makeTreemap(root: Node<D>): TreemapNode<D> {
     return rootTreemap
 }
 
-class TreemapLayout<D> {
+public class TreemapLayout<D> {
 
     private val constantZero: (TreemapNode<D>) -> Double = { .0 }
 
-    var tilingMethod: (ParentValued<TreemapNode<D>>, Double, Double, Double, Double) -> Any = {
+    public var tilingMethod: (ParentValued<TreemapNode<D>>, Double, Double, Double, Double) -> Any = {
             parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double -> treemapSquarify(parent, x0, y0, x1, y1)
     }
-    var round = false
-    var width = 1.0
-    var height = 1.0
+    public var round: Boolean = false
+    public var width: Double = 1.0
+    public var height: Double = 1.0
 
     private var paddingStack = mutableListOf(.0)
-    var paddingInner: (TreemapNode<D>) -> Double = constantZero
-    var paddingTop: (TreemapNode<D>) -> Double = constantZero
-    var paddingRight: (TreemapNode<D>) -> Double = constantZero
-    var paddingBottom: (TreemapNode<D>) -> Double = constantZero
-    var paddingLeft: (TreemapNode<D>) -> Double = constantZero
-    var paddingOuter: (TreemapNode<D>) -> Double = constantZero
+    public var paddingInner: (TreemapNode<D>) -> Double = constantZero
+    public var paddingTop: (TreemapNode<D>) -> Double = constantZero
+    public var paddingRight: (TreemapNode<D>) -> Double = constantZero
+    public var paddingBottom: (TreemapNode<D>) -> Double = constantZero
+    public var paddingLeft: (TreemapNode<D>) -> Double = constantZero
+    public var paddingOuter: (TreemapNode<D>) -> Double = constantZero
         set(value) {
             paddingTop = value
             paddingRight = value
@@ -107,7 +107,7 @@ class TreemapLayout<D> {
      * // TODO force a call on root.sum ?
      * You probably also want to call root.sort to order the hierarchy before computing the layout.
      */
-    fun treemap(root: Node<D>): TreemapNode<D> {
+    public fun treemap(root: Node<D>): TreemapNode<D> {
 
         // TODO : require a check on each node to verify that value != null and >0 ? (root.sum has been passed) ?
 

@@ -41,7 +41,8 @@ import io.data2viz.timer.Timer
  * rendering process on each platform to adapt the visualisation to the target device, taking
  * in account the resolution of the screen, and the configuration of the viz.
  */
-class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSize {
+public class Viz(
+    public var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSize {
 
     private val style: Style = StyleImpl()
 
@@ -94,18 +95,18 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
         textColor = Colors.Web.black
     }
 
-    val config = VizConfig()
+    public val config: VizConfig = VizConfig()
 
     override var width: Double = 100.0
     override var height: Double = 100.0
 
-    val layers = mutableListOf(activeLayer)
+    public val layers: MutableList<Layer> = mutableListOf(activeLayer)
 
     private var resizeBehavior: ((Double, Double) -> Unit)? = null
 
     private val eventListeners = mutableListOf<KEventHandle<*>>()
 
-    var renderer: VizRenderer? = null
+    public var renderer: VizRenderer? = null
     set(newValue) {
         val oldValue = field
         field = newValue
@@ -123,7 +124,7 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
      *
      * 	A disposable handle is returned, allowing the caller to remove the listener.
      */
-    fun <T : KEvent> on(eventListener: KEventListener<T>, listener: (T) -> Unit): Disposable {
+    public fun <T : KEvent> on(eventListener: KEventListener<T>, listener: (T) -> Unit): Disposable {
         val eventHandle = KEventHandle(eventListener, listener) {
             eventListeners.remove(it) //todo why?
 
@@ -138,15 +139,15 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
     }
 
 
-    fun render() {
+    public fun render() {
         renderer!!.render()
     }
 
-    fun startAnimations() {
+    public fun startAnimations() {
         renderer!!.startAnimations()
     }
 
-    fun stopAnimations() {
+    public fun stopAnimations() {
         renderer!!.stopAnimations()
     }
 
@@ -158,24 +159,24 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
      * It is possible to stop the timer from the block by calling `stop()` function
      * from the block.
      */
-    fun animation(block: Timer.(Double) -> Unit) {
+    public fun animation(block: Timer.(Double) -> Unit) {
         animationTimers.add(block)
     }
 
     @Deprecated("Should use an animation timer", ReplaceWith("animation(block)"))
-    fun onFrame(block: (Double) -> Unit) {
+    public fun onFrame(block: (Double) -> Unit) {
         animation { block(it) }
     }
 
-    fun onResize(block: (newWidth: Double, newHeight: Double) -> Unit) {
+    public fun onResize(block: (newWidth: Double, newHeight: Double) -> Unit) {
         resizeBehavior = block
     }
 
-    fun resize(newWidth: Double, newHeight: Double) {
+    public fun resize(newWidth: Double, newHeight: Double) {
         resizeBehavior?.invoke(newWidth, newHeight)
     }
 
-    fun layer(): Layer {
+    public fun layer(): Layer {
         val layer = Layer().also { it.parent = this }
         layers.add(layer)
         activeLayer = layer
@@ -185,11 +186,11 @@ class Viz(var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSiz
 }
 
 
-fun viz(init: Viz.() -> Unit): Viz = Viz().apply(init)
+public fun viz(init: Viz.() -> Unit): Viz = Viz().apply(init)
 
 
-interface StateableElement {
-    var stateManager: StateManager?
+public interface StateableElement {
+    public var stateManager: StateManager?
 }
 
 
@@ -197,47 +198,50 @@ interface StateableElement {
  * Indicate an element on which we can apply a Transformation.
  * todo implement other transformation (rotate, ...)
  */
-class Transform {
+public class Transform {
 
     internal val transformations = mutableListOf<AtomicTransformation>()
 
-    fun translate(x: Double = 0.0, y: Double = 0.0) {
+    public fun translate(x: Double = 0.0, y: Double = 0.0) {
         transformations.add(Translation(x, y))
     }
 
-    fun rotate(delta: Double) {
+    public fun rotate(delta: Double) {
         transformations.add(Rotation(delta))
     }
 
 }
 
-interface AtomicTransformation
+public interface AtomicTransformation
 
-data class Translation(var x: Double = 0.0, var y: Double = 0.0): AtomicTransformation
-data class Rotation(var delta: Double = 0.0): AtomicTransformation
+public data class Translation(var x: Double = 0.0, var y: Double = 0.0): AtomicTransformation
+
+
+public data class Rotation(var delta: Double = 0.0): AtomicTransformation
 
 
 /**
  * All properties of stroke
  * Todo add remaining common properties
  */
-interface HasStroke {
+public interface HasStroke {
 
-    var stroke: ColorOrGradient?
-    var strokeWidth: Double?
-    var dashedLine: DoubleArray?
+    public var stroke: ColorOrGradient?
+    public var strokeWidth: Double?
+    public var dashedLine: DoubleArray?
 }
 
-interface HasFill {
-    var fill: ColorOrGradient?
+public interface HasFill {
+    public var fill: ColorOrGradient?
 }
 
 
-data class Margins(val top: Double, val right: Double = top, val bottom: Double = top, val left: Double = right) {
-    val hMargins = right + left
-    val vMargins = top + bottom
+public data class Margins(val top: Double, val right: Double = top, val bottom: Double = top, val left: Double = right) {
+    val hMargins: Double = right + left
+    val vMargins: Double = top + bottom
 }
 
-interface HasTransform {
-    val transform: Transform?
+public interface HasTransform {
+
+    public val transform: Transform?
 }

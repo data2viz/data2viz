@@ -45,7 +45,9 @@ private class ReflectContext(val path: Path) : Path {
     override fun rect(x: Double, y: Double, w: Double, h: Double) {}
 }
 
-open class AbstractMonotone(override val path: Path) : Curve {
+public open class AbstractMonotone(
+
+    override val path: Path) : Curve {
 
     private var x0 = -1.0
     private var y0 = -1.0

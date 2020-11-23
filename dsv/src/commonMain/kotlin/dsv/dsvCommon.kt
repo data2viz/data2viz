@@ -19,16 +19,17 @@ package io.data2viz.dsv
 
 import io.data2viz.dsv.Dsv.Token.*
 
-class Dsv(val delimiterCode: Char = ',') {
+public class Dsv(
 
-    sealed class Token {
+    private val delimiterCode: Char = ',') {
+
+    internal sealed class Token {
         class EOF : Token()
         class EOL : Token()
         class TextToken(val content: String) : Token()
     }
 
-    fun parse() {}
-    fun parseRows(text: String): List<List<String>> {
+    public fun parseRows(text: String): List<List<String>> {
 
         val rows = mutableListOf<List<String>>()
         val N = text.length
@@ -107,8 +108,5 @@ class Dsv(val delimiterCode: Char = ',') {
         }
         return rows.toList()
     }
-
-    fun format() {}
-    fun formatRows() {}
 
 }

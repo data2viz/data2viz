@@ -27,7 +27,7 @@ import io.data2viz.math.TAU
 import kotlin.math.*
 
 
-fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(MercatorProjector()).apply {
+public fun mercatorProjection(init: Projection.() -> Unit = {}): MercatorProjection = MercatorProjection(MercatorProjector()).apply {
     scale = 961 / TAU
 }.apply(init)
 
@@ -36,9 +36,9 @@ fun mercatorProjection(init: Projection.() -> Unit = {}) = MercatorProjection(Me
  *
  * @see MercatorProjection
  */
-class MercatorProjector : Projector {
-    override fun project(lambda: Double, phi: Double) = doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
-    override fun invert(x: Double, y: Double) = doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
+public class MercatorProjector : Projector {
+    override fun project(lambda: Double, phi: Double): DoubleArray = doubleArrayOf(lambda, ln(tan((HALFPI + phi) / 2)))
+    override fun invert(x: Double, y: Double): DoubleArray = doubleArrayOf(x, 2 * atan(exp(y)) - HALFPI)
 }
 
 /**
@@ -48,7 +48,7 @@ class MercatorProjector : Projector {
  *
  * @see MercatorProjector
  */
-open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectorProjection(projector) {
+public open class MercatorProjection(projector: Projector = MercatorProjector()) : ProjectorProjection(projector) {
 
     override var scale: Double
         get() = super.scale

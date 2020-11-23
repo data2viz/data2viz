@@ -31,7 +31,7 @@ import kotlin.math.*
 /**
  * Circle Generator
  */
-class GeoCircle<D> {
+public class GeoCircle<D> {
     // TODO: remove D?
 
     private var ring: MutableList<DoubleArray> = mutableListOf()
@@ -50,13 +50,13 @@ class GeoCircle<D> {
      * this function will be invoked whenever a circle is generated, being passed any arguments passed to the circle
      * generator.
      */
-    var center: (D?) -> DoubleArray = { doubleArrayOf(.0, .0) }
+    public var center: (D?) -> DoubleArray = { doubleArrayOf(.0, .0) }
 
     /**
      * Sets the circle radius as specified; this function will be invoked whenever a circle is generated,
      * being passed any arguments passed to the circle generator.
      */
-    var radius: (D?) -> Double = { 90.0 }
+    public var radius: (D?) -> Double = { 90.0 }
 
     /**
      * Sets the circle precision as specified; this function will be invoked whenever a circle is generated,
@@ -65,13 +65,13 @@ class GeoCircle<D> {
      * Specifying a smaller precision angle improves the accuracy of the approximate polygon, but also increase the
      * cost to generate and render it.
      */
-    var precision: (D?) -> Double = { 6.0 }
+    public var precision: (D?) -> Double = { 6.0 }
 
     /**
      * Returns a new GeoJSON geometry object of type “Polygon” approximating a circle on the surface of a sphere,
      * with the current center, radius and precision.
      */
-    fun circle(data: D? = null): Polygon {
+    public fun circle(data: D? = null): Polygon {
         // TODO: remove data?
 
         val c = center(data).map { -it.toRadians() }.toDoubleArray()
@@ -93,7 +93,7 @@ class GeoCircle<D> {
  * TODO: make similar to geoCentroid API
  * Generates a circle centered at [0°, 0°], with a given radius and precision.
  */
-fun geoCircle(
+public fun geoCircle(
     stream: Stream,
     radius: Double,
     delta: Double,

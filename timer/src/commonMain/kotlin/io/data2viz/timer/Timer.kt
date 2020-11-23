@@ -107,7 +107,7 @@ internal var clockSkew = 0.0
  * rather than waiting until the next frame. Within a frame, timer callbacks are guaranteed
  * to be invoked in the order they were scheduled, regardless of their start time.
  */
-fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
+public fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
     return Timer().apply {
         restart(delay, startTime, callback)
     }
@@ -119,7 +119,7 @@ fun timer(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Doubl
  * replacement for setTimeout that is guaranteed to not run in the background.
  * The callback is passed the elapsed time.
  */
-fun timeout(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
+public fun timeout(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
     return Timer().apply {
         restart(delay, startTime) { time ->
             stop()
@@ -128,7 +128,7 @@ fun timeout(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Dou
     }
 }
 
-fun interval(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
+public fun interval(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Double) -> Unit): Timer {
 
 //
 //    export default function(callback, delay, time) {
@@ -161,7 +161,7 @@ fun interval(delay: Double = 0.0, startTime: Double = now(), callback: Timer.(Do
     }
 }
 
-class Timer {
+public class Timer {
 
 
     internal var _time: Double = 0.0
@@ -187,7 +187,7 @@ class Timer {
      *
      * todo rename `restartWith`
      */
-    fun restart(
+    public fun restart(
         delay: Double = .0,
         startTime: Double = now(),
         callback: Timer.(Double) -> Unit
@@ -210,7 +210,7 @@ class Timer {
      * Stops this timer, preventing subsequent callbacks.
      * This method has no effect if the timer has already stopped.
      */
-    fun stop() {
+    public fun stop() {
         if (_call != null) {
             _call = null
             _time = Double.POSITIVE_INFINITY
@@ -235,7 +235,7 @@ class Timer {
  * If this method is called outside of a frame, such as in response to a user event, the current
  * time is calculated and then fixed until the next frame, again ensuring consistent timing during event handling.
  */
-fun now(): Double {
+public fun now(): Double {
     if (clockNow == 0.0) {
         callInNextFrame(::clearNow)
         clockNow = delegateNow() + clockSkew
@@ -255,7 +255,7 @@ private fun clearNow() {
  * the first timer callback. By flushing the timer queue at the end of the first event loop,
  * you can run any zero-delay timers immediately and avoid the flicker.
  */
-fun timerFlush() {
+public fun timerFlush() {
     log("timerFlush")
     now()                       // Get the current time, if not already set.
     ++frame                     // Pretend we’ve set an alarm, if we haven’t already.

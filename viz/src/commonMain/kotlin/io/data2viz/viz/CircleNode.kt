@@ -21,7 +21,8 @@ import io.data2viz.geom.Circle
 import io.data2viz.geom.CircleGeom
 
 
-class CircleNode(val circle: Circle = CircleGeom()) : Node(),
+public class CircleNode(
+    public val circle: Circle = CircleGeom()) : Node(),
         Circle by circle,
         HasStroke,
         HasTransform,

@@ -24,7 +24,7 @@ import javafx.scene.canvas.*
 import javafx.scene.shape.StrokeLineCap
 
 
-fun PathNode.render(gc: GraphicsContext) {
+public fun PathNode.render(gc: GraphicsContext) {
     gc.beginPath()
     path.commands.forEach { cmd ->
         when (cmd) {
@@ -51,10 +51,11 @@ fun PathNode.render(gc: GraphicsContext) {
 
 }
 
-val Arc.start: Double
+
+public val Arc.start: Double
     get() = -startAngle.toDegrees()
 
-val Arc.length: Double
+public val Arc.length: Double
     get() {
         var length = Angle(endAngle - startAngle)
 

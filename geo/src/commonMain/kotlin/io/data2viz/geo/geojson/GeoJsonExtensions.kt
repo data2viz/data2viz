@@ -26,7 +26,7 @@ import io.data2viz.math.toRadians
 
 
 
-class Sphere : Geometry
+public class Sphere : Geometry
 
 
 /**
@@ -35,7 +35,7 @@ class Sphere : Geometry
  * @param point must be specified as a two-element array [longitude, latitude] in degrees.
  * @return true if and only if the specified GeoJSON object contains the specified point, or false if the object does not contain the point.
  */
-fun GeoJsonObject.contains(point: Position): Boolean =
+public fun GeoJsonObject.contains(point: Position): Boolean =
     when (this) {
         is Point                -> pos.contains(point)
         is MultiPoint           -> positions.any { it.contains(point) }
@@ -66,23 +66,23 @@ private fun Positions.contains(point: Position): Boolean {
 private fun Position.contains(point: Position): Boolean = geoDistance(this, point) == .0
 
 
-val Point.pos: Position
+public val Point.pos: Position
     get() = coordinates
 
-val MultiPoint.positions: Positions
+public val MultiPoint.positions: Positions
     get() = coordinates
 
-val LineString.positions: Positions
+public val LineString.positions: Positions
     get() = coordinates
 
-val Polygon.lines: Lines
+public val Polygon.lines: Lines
     get() = coordinates
 
-val MultiLineString.lines: Lines
+public val MultiLineString.lines: Lines
     get() = coordinates
 
 
-val MultiPolygon.surface: Surface
+public val MultiPolygon.surface: Surface
     get() = coordinates
 
 
@@ -93,7 +93,7 @@ internal val noop3: (Double, Double, Double) -> Unit = { _, _, _ -> }
 /**
  * Stream all children to [stream]
  */
-fun GeoJsonObject.stream(stream: Stream) {
+public fun GeoJsonObject.stream(stream: Stream) {
     when (this) {
         is FeatureCollection    -> features.forEach { it.stream(stream) }
         is Feature              -> geometry.stream(stream)
@@ -145,6 +145,6 @@ private fun streamLine(coords: Positions, stream: Stream, closed: Boolean) {
 /**
  * Convert spherical [position] to cartesian doubleArray
  */
-fun toRadians(position: Position): DoubleArray {
+public fun toRadians(position: Position): DoubleArray {
     return position.map { it.toRadians() }.toDoubleArray()
 }

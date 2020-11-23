@@ -19,16 +19,16 @@ package io.data2viz.color
 
 import io.data2viz.math.*
 
-data class ColorStop(val percent:Percent, val color: Color)
+public data class ColorStop(val percent:Percent, val color: Color)
 
-interface ColorOrGradient
+public interface ColorOrGradient
 
-interface Gradient : ColorOrGradient {
-    val colorStops:List<ColorStop>
+public interface Gradient : ColorOrGradient {
+    public val colorStops:List<ColorStop>
 }
 
-interface Color : ColorOrGradient {
-    val rgb:Int
+public interface Color : ColorOrGradient {
+    public val rgb:Int
 
     /**
      * rgba string conforming to CSS specification `rgba(R, G, B, A)`
@@ -37,26 +37,26 @@ interface Color : ColorOrGradient {
      * A (alpha) can be a <number> between 0 and 1, or a <percentage>,
      * where the number 1 corresponds to 100% (full opacity).
      */
-    val rgba:String
+    public val rgba:String
 
-    val r:Int
-    val g:Int
-    val b:Int
-    val alpha:Percent
-    val rgbHex:String
+    public val r:Int
+    public val g:Int
+    public val b:Int
+    public val alpha:Percent
+    public val rgbHex:String
 
     /**
      * The relative brightness normalized to 0% for darkest black and 100% for lightest white.
      * According to the WCAG definition: https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
      */
-    fun luminance():Percent
+    public fun luminance():Percent
 
     /**
      * The contrast ratio between 2 colors.
      * A minimum contrast of 4.5:1 is recommended to ensure that text is still readable against a background color.
      * According to the WCAG definition: https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
      */
-    fun contrast(other:Color):Double
+    public fun contrast(other:Color):Double
 
     /**
      * The value of the hue in the HCL colorspace (red = 40.deg, green = 136.deg, blue = 306.deg)
@@ -65,22 +65,22 @@ interface Color : ColorOrGradient {
      */
     //val hue: Angle
 
-    fun toRgb():RgbColor
-    fun toLab():LabColor
-    fun toHcl():HclColor
-    fun toHsl():HslColor
+    public fun toRgb():RgbColor
+    public fun toLab():LabColor
+    public fun toHcl():HclColor
+    public fun toHsl():HslColor
 
-    fun brighten(strength: Double = 1.0):Color
-    fun darken(strength: Double = 1.0):Color
-    fun saturate(strength: Double = 1.0):Color
-    fun desaturate(strength: Double = 1.0):Color
+    public fun brighten(strength: Double = 1.0):Color
+    public fun darken(strength: Double = 1.0):Color
+    public fun saturate(strength: Double = 1.0):Color
+    public fun desaturate(strength: Double = 1.0):Color
 
     /**
      * Make a color more (strength > 1.0) or more (strength < 1.0) transparent.
      * Note that a fully transparent color (alpha = 0%) will remain transparent.
      */
-    fun opacify(strength: Double = 1.0):Color
-    fun withAlpha(alpha: Percent):Color
+    public fun opacify(strength: Double = 1.0):Color
+    public fun withAlpha(alpha: Percent):Color
 
     /**
      * Change the perceived lightness of the color and return a new Color.
@@ -92,5 +92,5 @@ interface Color : ColorOrGradient {
      * Change the perceived hue of the color and return a new Color.
      * Based on the value of the hue in the HCL colorspace (red = 40.deg, green = 136.deg, blue = 306.deg)
      */
-    fun withHue(hue: Angle):Color
+    public fun withHue(hue: Angle):Color
 }

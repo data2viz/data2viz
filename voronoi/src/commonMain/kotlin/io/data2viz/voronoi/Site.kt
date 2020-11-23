@@ -19,15 +19,17 @@ package io.data2viz.voronoi
 
 import io.data2viz.geom.Point
 
-class Site(val pos: Point, val index: Int) : Comparable<Site> {
+public class Site(
+    public val pos: Point,
+    public val index: Int) : Comparable<Site> {
 
-    val x: Double
+    public val x: Double
         get() = pos.x
 
-    val y: Double
+    public val y: Double
         get() = pos.y
 
-    override fun compareTo(other: Site) = when {
+    override fun compareTo(other: Site): Int = when {
         other.pos.y < pos.y -> -1
         other.pos.y > pos.y -> 1
         other.pos.x < pos.x -> -1

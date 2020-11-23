@@ -20,18 +20,18 @@ package io.data2viz.hierarchy.treemap
 import io.data2viz.hierarchy.ParentValued
 import io.data2viz.hierarchy.TreemapNode
 
-fun <D> treemapBinary(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) = TreemapBinary<D>().binary(parent, x0, y0, x1, y1)
+public fun <D> treemapBinary(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double): Unit = TreemapBinary<D>().binary(parent, x0, y0, x1, y1)
 
 /**
  * Recursively partitions the specified nodes into an approximately-balanced binary tree, choosing horizontal
  * partitioning for wide rectangles and vertical partitioning for tall rectangles.
  */
-class TreemapBinary<D> {
+public class TreemapBinary<D> {
 
-    var nodes: MutableList<ParentValued<TreemapNode<D>>> = mutableListOf()
-    var sums: MutableList<Double> = mutableListOf()
+    public var nodes: MutableList<ParentValued<TreemapNode<D>>> = mutableListOf()
+    public var sums: MutableList<Double> = mutableListOf()
 
-    fun binary(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
+    public fun binary(parent: ParentValued<TreemapNode<D>>, x0: Double, y0: Double, x1: Double, y1: Double) {
 
         nodes = parent.children.toMutableList()
         val size = nodes.size

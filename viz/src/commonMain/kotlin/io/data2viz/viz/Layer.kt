@@ -21,7 +21,7 @@ package io.data2viz.viz
 /**
  *
  */
-class Layer: GroupNode() {
+public class Layer: GroupNode() {
 
 
 }
