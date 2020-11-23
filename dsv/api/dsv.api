@@ -2,26 +2,6 @@ public final class io/data2viz/dsv/Dsv {
 	public fun <init> ()V
 	public fun <init> (C)V
 	public synthetic fun <init> (CILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun format ()V
-	public final fun formatRows ()V
-	public final fun getDelimiterCode ()C
-	public final fun parse ()V
 	public final fun parseRows (Ljava/lang/String;)Ljava/util/List;
-}
-
-public abstract class io/data2viz/dsv/Dsv$Token {
-}
-
-public final class io/data2viz/dsv/Dsv$Token$EOF : io/data2viz/dsv/Dsv$Token {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/dsv/Dsv$Token$EOL : io/data2viz/dsv/Dsv$Token {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/dsv/Dsv$Token$TextToken : io/data2viz/dsv/Dsv$Token {
-	public fun <init> (Ljava/lang/String;)V
-	public final fun getContent ()Ljava/lang/String;
 }
 

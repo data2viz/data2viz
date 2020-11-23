@@ -482,14 +482,8 @@ public final class io/data2viz/geo/projection/CylindricalEqualAreaProjector : io
 }
 
 public final class io/data2viz/geo/projection/EqualEarthKt {
-	public static final field A1 D
-	public static final field A2 D
-	public static final field A3 D
-	public static final field A4 D
-	public static final field iterations I
 	public static final fun equalEarthProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
 	public static synthetic fun equalEarthProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
-	public static final fun getM ()D
 }
 
 public final class io/data2viz/geo/projection/EqualEarthProjector : io/data2viz/geo/projection/common/Projector {
@@ -823,9 +817,6 @@ public final class io/data2viz/geo/stream/Stream$DefaultImpls {
 
 public final class io/data2viz/geo/stream/StreamCache {
 	public fun <init> ()V
-	public final fun cache (Lio/data2viz/geo/stream/Stream;Lio/data2viz/geo/stream/Stream;)V
-	public final fun getCachedResultStream ()Lio/data2viz/geo/stream/Stream;
-	public final fun getOriginalSourceStream ()Lio/data2viz/geo/stream/Stream;
 	public final fun isCacheValidFor (Lio/data2viz/geo/stream/Stream;)Z
 	public final fun reset ()V
 }

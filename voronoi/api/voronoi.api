@@ -15,8 +15,6 @@ public final class io/data2viz/voronoi/BeachKt {
 	public static final fun createBeach (Lio/data2viz/voronoi/Site;)Lio/data2viz/voronoi/RedBlackNode;
 	public static final fun detachBeach (Lio/data2viz/voronoi/RedBlackNode;)V
 	public static final fun getCircle (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/Circle;
-	public static final fun getEpsilon ()D
-	public static final fun getEpsilon2 ()D
 	public static final fun getSite (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/Site;
 	public static final fun leftBreakPoint (Lio/data2viz/voronoi/RedBlackNode;D)D
 	public static final fun removeBeach (Lio/data2viz/voronoi/RedBlackNode;)V

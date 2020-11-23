@@ -292,11 +292,6 @@ public final class io/data2viz/hierarchy/pack/EncloseKt {
 	public static final fun enclose (Ljava/util/List;)Lio/data2viz/hierarchy/CircleValues;
 }
 
-public final class io/data2viz/hierarchy/pack/SiblingsKt {
-	public static final fun getEpsilon ()D
-	public static final fun packEnclose (Ljava/util/List;)D
-}
-
 public final class io/data2viz/hierarchy/treemap/BinaryKt {
 	public static final fun treemapBinary (Lio/data2viz/hierarchy/ParentValued;DDDD)V
 }
@@ -312,7 +307,6 @@ public final class io/data2viz/hierarchy/treemap/SliceDiceKt {
 }
 
 public final class io/data2viz/hierarchy/treemap/SquarifyKt {
-	public static final fun getPhi ()D
 	public static final fun treemapSquarify (Lio/data2viz/hierarchy/ParentValued;DDDD)Ljava/util/List;
 }
 

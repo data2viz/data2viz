@@ -91,15 +91,6 @@ public final class io/data2viz/shape/LineBuilderKt {
 	public static final fun line (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/LineBuilder;
 }
 
-public final class io/data2viz/shape/MathKt {
-	public static final fun acos (D)D
-	public static final fun asin (D)D
-	public static final fun getEpsilon ()D
-	public static final fun getHalfPi ()D
-	public static final fun getPi ()D
-	public static final fun getTau ()D
-}
-
 public final class io/data2viz/shape/PieGenerator {
 	public fun <init> ()V
 	public final fun getEndAngle ()Lkotlin/jvm/functions/Function1;
