@@ -2,7 +2,6 @@
 if (include_jfx.toBoolean()) {
     kotlin {
 
-        explicitApiWarning()
 
         jvm("jfx") {}
         sourceSets {

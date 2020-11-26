@@ -7,32 +7,10 @@ public abstract interface annotation class io/data2viz/test/JsName : java/lang/a
 
 public abstract class io/data2viz/test/TestBase : io/data2viz/test/matchers/Matchers {
 	public fun <init> ()V
-	public fun a (Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V
-	public fun an (Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V
-	public fun beEmpty ()Lkotlin/jvm/functions/Function1;
-	public fun beTheSameInstanceAs (Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public fun contain (Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public fun contain (Ljava/lang/Object;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public fun containInAnyOrder ([Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public fun element (Lio/data2viz/test/matchers/ContainWrapper;Ljava/lang/Object;)V
-	public fun endWith (Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
 	public fun exactly (D)Lio/data2viz/test/matchers/Matcher;
 	public fun fail (Ljava/lang/String;)Ljava/lang/Void;
 	public final fun getRegex ()Lkotlin/text/Regex;
 	public final fun getTests ()Ljava/util/List;
-	public fun gt (Lio/data2viz/test/matchers/BeWrapper;I)V
-	public fun gt (Lio/data2viz/test/matchers/BeWrapper;J)V
-	public fun gte (Lio/data2viz/test/matchers/BeWrapper;I)V
-	public fun gte (Lio/data2viz/test/matchers/BeWrapper;J)V
-	public fun haveKey (Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public fun haveLength (I)Lio/data2viz/test/matchers/Matcher;
-	public fun haveSize (I)Lio/data2viz/test/matchers/Matcher;
-	public fun haveValue (Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public fun lt (Lio/data2viz/test/matchers/BeWrapper;I)V
-	public fun lt (Lio/data2viz/test/matchers/BeWrapper;J)V
-	public fun lte (Lio/data2viz/test/matchers/BeWrapper;I)V
-	public fun lte (Lio/data2viz/test/matchers/BeWrapper;J)V
-	public fun match (Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
 	public fun plusOrMinus (DD)Lio/data2viz/test/matchers/ToleranceMatcher;
 	public final fun round (Ljava/lang/String;)Ljava/lang/String;
 	public fun should (Ljava/lang/Object;Lio/data2viz/test/matchers/Matcher;)V
@@ -54,12 +32,6 @@ public abstract class io/data2viz/test/TestBase : io/data2viz/test/matchers/Matc
 	public fun shouldBeClose ([D[D)V
 	public fun shouldBeClose ([Ljava/lang/Double;[Ljava/lang/Double;)V
 	public fun shouldEqual (Ljava/lang/Object;Ljava/lang/Object;)V
-	public fun size (Lio/data2viz/test/matchers/HaveWrapper;I)V
-	public fun startWith (Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
-	public fun substring (Lio/data2viz/test/matchers/HaveWrapper;Ljava/lang/String;)V
-	public fun theSameInstanceAs (Lio/data2viz/test/matchers/BeWrapper;Ljava/lang/Object;)V
-	public fun with (Lio/data2viz/test/matchers/EndWrapper;Ljava/lang/String;)V
-	public fun with (Lio/data2viz/test/matchers/StartWrapper;Ljava/lang/String;)V
 }
 
 public final class io/data2viz/test/TestCase {
@@ -93,24 +65,6 @@ public final class io/data2viz/test/matchers/BeWrapper {
 	public final fun getValue ()Ljava/lang/Object;
 }
 
-public abstract interface class io/data2viz/test/matchers/CollectionMatchers {
-	public abstract fun beEmpty ()Lkotlin/jvm/functions/Function1;
-	public abstract fun contain (Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun containInAnyOrder ([Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun element (Lio/data2viz/test/matchers/ContainWrapper;Ljava/lang/Object;)V
-	public abstract fun haveSize (I)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun size (Lio/data2viz/test/matchers/HaveWrapper;I)V
-}
-
-public final class io/data2viz/test/matchers/CollectionMatchers$DefaultImpls {
-	public static fun beEmpty (Lio/data2viz/test/matchers/CollectionMatchers;)Lkotlin/jvm/functions/Function1;
-	public static fun contain (Lio/data2viz/test/matchers/CollectionMatchers;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun containInAnyOrder (Lio/data2viz/test/matchers/CollectionMatchers;[Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun element (Lio/data2viz/test/matchers/CollectionMatchers;Lio/data2viz/test/matchers/ContainWrapper;Ljava/lang/Object;)V
-	public static fun haveSize (Lio/data2viz/test/matchers/CollectionMatchers;I)Lio/data2viz/test/matchers/Matcher;
-	public static fun size (Lio/data2viz/test/matchers/CollectionMatchers;Lio/data2viz/test/matchers/HaveWrapper;I)V
-}
-
 public final class io/data2viz/test/matchers/ContainWrapper {
 	public fun <init> (Ljava/lang/Object;)V
 	public final fun getValue ()Ljava/lang/Object;
@@ -141,54 +95,14 @@ public final class io/data2viz/test/matchers/IncludeWrapper {
 	public final fun getValue ()Ljava/lang/Object;
 }
 
-public abstract interface class io/data2viz/test/matchers/IntMatchers {
-	public abstract fun gt (Lio/data2viz/test/matchers/BeWrapper;I)V
-	public abstract fun gte (Lio/data2viz/test/matchers/BeWrapper;I)V
-	public abstract fun lt (Lio/data2viz/test/matchers/BeWrapper;I)V
-	public abstract fun lte (Lio/data2viz/test/matchers/BeWrapper;I)V
-}
-
-public final class io/data2viz/test/matchers/IntMatchers$DefaultImpls {
-	public static fun gt (Lio/data2viz/test/matchers/IntMatchers;Lio/data2viz/test/matchers/BeWrapper;I)V
-	public static fun gte (Lio/data2viz/test/matchers/IntMatchers;Lio/data2viz/test/matchers/BeWrapper;I)V
-	public static fun lt (Lio/data2viz/test/matchers/IntMatchers;Lio/data2viz/test/matchers/BeWrapper;I)V
-	public static fun lte (Lio/data2viz/test/matchers/IntMatchers;Lio/data2viz/test/matchers/BeWrapper;I)V
-}
-
 public abstract interface class io/data2viz/test/matchers/Keyword {
-}
-
-public abstract interface class io/data2viz/test/matchers/LongMatchers {
-	public abstract fun gt (Lio/data2viz/test/matchers/BeWrapper;J)V
-	public abstract fun gte (Lio/data2viz/test/matchers/BeWrapper;J)V
-	public abstract fun lt (Lio/data2viz/test/matchers/BeWrapper;J)V
-	public abstract fun lte (Lio/data2viz/test/matchers/BeWrapper;J)V
-}
-
-public final class io/data2viz/test/matchers/LongMatchers$DefaultImpls {
-	public static fun gt (Lio/data2viz/test/matchers/LongMatchers;Lio/data2viz/test/matchers/BeWrapper;J)V
-	public static fun gte (Lio/data2viz/test/matchers/LongMatchers;Lio/data2viz/test/matchers/BeWrapper;J)V
-	public static fun lt (Lio/data2viz/test/matchers/LongMatchers;Lio/data2viz/test/matchers/BeWrapper;J)V
-	public static fun lte (Lio/data2viz/test/matchers/LongMatchers;Lio/data2viz/test/matchers/BeWrapper;J)V
-}
-
-public abstract interface class io/data2viz/test/matchers/MapMatchers {
-	public abstract fun contain (Ljava/lang/Object;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun haveKey (Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun haveValue (Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-}
-
-public final class io/data2viz/test/matchers/MapMatchers$DefaultImpls {
-	public static fun contain (Lio/data2viz/test/matchers/MapMatchers;Ljava/lang/Object;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun haveKey (Lio/data2viz/test/matchers/MapMatchers;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun haveValue (Lio/data2viz/test/matchers/MapMatchers;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
 }
 
 public abstract interface class io/data2viz/test/matchers/Matcher {
 	public abstract fun test (Ljava/lang/Object;)V
 }
 
-public abstract interface class io/data2viz/test/matchers/Matchers : io/data2viz/test/matchers/CollectionMatchers, io/data2viz/test/matchers/DoubleMatchers, io/data2viz/test/matchers/IntMatchers, io/data2viz/test/matchers/LongMatchers, io/data2viz/test/matchers/MapMatchers, io/data2viz/test/matchers/StringMatchers, io/data2viz/test/matchers/TypeMatchers {
+public abstract interface class io/data2viz/test/matchers/Matchers : io/data2viz/test/matchers/DoubleMatchers {
 	public abstract fun fail (Ljava/lang/String;)Ljava/lang/Void;
 	public abstract fun should (Ljava/lang/Object;Lio/data2viz/test/matchers/Matcher;)V
 	public abstract fun should (Ljava/lang/Object;Lio/data2viz/test/matchers/be;)Lio/data2viz/test/matchers/BeWrapper;
@@ -212,30 +126,8 @@ public abstract interface class io/data2viz/test/matchers/Matchers : io/data2viz
 }
 
 public final class io/data2viz/test/matchers/Matchers$DefaultImpls {
-	public static fun a (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V
-	public static fun an (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V
-	public static fun beEmpty (Lio/data2viz/test/matchers/Matchers;)Lkotlin/jvm/functions/Function1;
-	public static fun beTheSameInstanceAs (Lio/data2viz/test/matchers/Matchers;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun contain (Lio/data2viz/test/matchers/Matchers;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun contain (Lio/data2viz/test/matchers/Matchers;Ljava/lang/Object;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun containInAnyOrder (Lio/data2viz/test/matchers/Matchers;[Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun element (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/ContainWrapper;Ljava/lang/Object;)V
-	public static fun endWith (Lio/data2viz/test/matchers/Matchers;Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
 	public static fun exactly (Lio/data2viz/test/matchers/Matchers;D)Lio/data2viz/test/matchers/Matcher;
 	public static fun fail (Lio/data2viz/test/matchers/Matchers;Ljava/lang/String;)Ljava/lang/Void;
-	public static fun gt (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;I)V
-	public static fun gt (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;J)V
-	public static fun gte (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;I)V
-	public static fun gte (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;J)V
-	public static fun haveKey (Lio/data2viz/test/matchers/Matchers;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun haveLength (Lio/data2viz/test/matchers/Matchers;I)Lio/data2viz/test/matchers/Matcher;
-	public static fun haveSize (Lio/data2viz/test/matchers/Matchers;I)Lio/data2viz/test/matchers/Matcher;
-	public static fun haveValue (Lio/data2viz/test/matchers/Matchers;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun lt (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;I)V
-	public static fun lt (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;J)V
-	public static fun lte (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;I)V
-	public static fun lte (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;J)V
-	public static fun match (Lio/data2viz/test/matchers/Matchers;Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
 	public static fun plusOrMinus (Lio/data2viz/test/matchers/Matchers;DD)Lio/data2viz/test/matchers/ToleranceMatcher;
 	public static fun should (Lio/data2viz/test/matchers/Matchers;Ljava/lang/Object;Lio/data2viz/test/matchers/Matcher;)V
 	public static fun should (Lio/data2viz/test/matchers/Matchers;Ljava/lang/Object;Lio/data2viz/test/matchers/be;)Lio/data2viz/test/matchers/BeWrapper;
@@ -256,41 +148,11 @@ public final class io/data2viz/test/matchers/Matchers$DefaultImpls {
 	public static fun shouldBeClose (Lio/data2viz/test/matchers/Matchers;[D[D)V
 	public static fun shouldBeClose (Lio/data2viz/test/matchers/Matchers;[Ljava/lang/Double;[Ljava/lang/Double;)V
 	public static fun shouldEqual (Lio/data2viz/test/matchers/Matchers;Ljava/lang/Object;Ljava/lang/Object;)V
-	public static fun size (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/HaveWrapper;I)V
-	public static fun startWith (Lio/data2viz/test/matchers/Matchers;Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
-	public static fun substring (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/HaveWrapper;Ljava/lang/String;)V
-	public static fun theSameInstanceAs (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/BeWrapper;Ljava/lang/Object;)V
-	public static fun with (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/EndWrapper;Ljava/lang/String;)V
-	public static fun with (Lio/data2viz/test/matchers/Matchers;Lio/data2viz/test/matchers/StartWrapper;Ljava/lang/String;)V
-}
-
-public final class io/data2viz/test/matchers/MatchersKt {
-	public static final fun getEpsilon ()D
 }
 
 public final class io/data2viz/test/matchers/StartWrapper {
 	public fun <init> (Ljava/lang/Object;)V
 	public final fun getValue ()Ljava/lang/Object;
-}
-
-public abstract interface class io/data2viz/test/matchers/StringMatchers {
-	public abstract fun endWith (Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun haveLength (I)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun match (Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun startWith (Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun substring (Lio/data2viz/test/matchers/HaveWrapper;Ljava/lang/String;)V
-	public abstract fun with (Lio/data2viz/test/matchers/EndWrapper;Ljava/lang/String;)V
-	public abstract fun with (Lio/data2viz/test/matchers/StartWrapper;Ljava/lang/String;)V
-}
-
-public final class io/data2viz/test/matchers/StringMatchers$DefaultImpls {
-	public static fun endWith (Lio/data2viz/test/matchers/StringMatchers;Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
-	public static fun haveLength (Lio/data2viz/test/matchers/StringMatchers;I)Lio/data2viz/test/matchers/Matcher;
-	public static fun match (Lio/data2viz/test/matchers/StringMatchers;Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
-	public static fun startWith (Lio/data2viz/test/matchers/StringMatchers;Ljava/lang/String;)Lio/data2viz/test/matchers/Matcher;
-	public static fun substring (Lio/data2viz/test/matchers/StringMatchers;Lio/data2viz/test/matchers/HaveWrapper;Ljava/lang/String;)V
-	public static fun with (Lio/data2viz/test/matchers/StringMatchers;Lio/data2viz/test/matchers/EndWrapper;Ljava/lang/String;)V
-	public static fun with (Lio/data2viz/test/matchers/StringMatchers;Lio/data2viz/test/matchers/StartWrapper;Ljava/lang/String;)V
 }
 
 public final class io/data2viz/test/matchers/ToleranceMatcher : io/data2viz/test/matchers/Matcher {
@@ -300,20 +162,6 @@ public final class io/data2viz/test/matchers/ToleranceMatcher : io/data2viz/test
 	public final fun plusOrMinus (D)Lio/data2viz/test/matchers/ToleranceMatcher;
 	public fun test (D)V
 	public synthetic fun test (Ljava/lang/Object;)V
-}
-
-public abstract interface class io/data2viz/test/matchers/TypeMatchers {
-	public abstract fun a (Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V
-	public abstract fun an (Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V
-	public abstract fun beTheSameInstanceAs (Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public abstract fun theSameInstanceAs (Lio/data2viz/test/matchers/BeWrapper;Ljava/lang/Object;)V
-}
-
-public final class io/data2viz/test/matchers/TypeMatchers$DefaultImpls {
-	public static fun a (Lio/data2viz/test/matchers/TypeMatchers;Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V
-	public static fun an (Lio/data2viz/test/matchers/TypeMatchers;Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V
-	public static fun beTheSameInstanceAs (Lio/data2viz/test/matchers/TypeMatchers;Ljava/lang/Object;)Lio/data2viz/test/matchers/Matcher;
-	public static fun theSameInstanceAs (Lio/data2viz/test/matchers/TypeMatchers;Lio/data2viz/test/matchers/BeWrapper;Ljava/lang/Object;)V
 }
 
 public final class io/data2viz/test/matchers/be : io/data2viz/test/matchers/Keyword {

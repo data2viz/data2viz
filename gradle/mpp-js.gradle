@@ -11,9 +11,6 @@ if (include_js.toBoolean()) {
 
         sourceSets {
             jsMain {
-                dependencies {
-                    implementation kotlin('stdlib-js')
-                }
             }
             jsTest {
                 dependencies {

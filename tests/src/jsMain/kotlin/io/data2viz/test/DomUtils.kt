@@ -21,7 +21,7 @@ import org.w3c.dom.Element
 import kotlinx.browser.document
 
 
-actual typealias JsName = kotlin.js.JsName
+public actual typealias JsName = kotlin.js.JsName
 
 class DomUtils {
     companion object {

@@ -20,24 +20,25 @@ package io.data2viz.test
 import io.data2viz.test.matchers.Matchers
 
 
-expect fun Double.toFixed(): String
+public expect fun Double.toFixed(): String
 
-abstract class TestBase : Matchers {
+public abstract class TestBase : Matchers {
 
 
-    val regex = Regex("[-+]?(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+|\\d+)(?:[eE][-]?\\d+)?")
+    public val regex: Regex = Regex("[-+]?(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+|\\d+)(?:[eE][-]?\\d+)?")
 
     /**
      * Look for all doubles in the string to replace it by a rounded version
      */
-    fun String.round() = replace(regex = regex, transform = { it.value.toDouble().toFixed() })
+    public fun String.round(): String = replace(regex = regex, transform = { it.value.toDouble().toFixed() })
 
-    val tests = mutableListOf<TestCase>()
+
+    public val tests: MutableList<TestCase> = mutableListOf<TestCase>()
 
 }
 
 // this should live in some matchers class, but can't inline in an interface :(
-inline fun <reified T> shouldThrow(thunk: () -> Any?): T {
+public inline fun <reified T> shouldThrow(thunk: () -> Any?): T {
     val e = try {
         thunk()
         null
@@ -56,10 +57,14 @@ inline fun <reified T> shouldThrow(thunk: () -> Any?): T {
 }
 
 
-interface ExecutionContext
+public interface ExecutionContext
 
-class TestCase(var name: String, val test: (ExecutionContext) -> Unit) {
-    fun execute(executionContext: ExecutionContext) =
+public class TestCase(
+    public var name: String,
+    public val test: (ExecutionContext) -> Unit) {
+
+
+    public fun execute(executionContext: ExecutionContext): TestResult =
             try {
                 test(executionContext)
                 TestResult.OK(name)
@@ -68,10 +73,13 @@ class TestCase(var name: String, val test: (ExecutionContext) -> Unit) {
             }
 }
 
-sealed class TestResult(val name: String) {
-    class OK(name: String) : TestResult(name)
-    class KO(name: String, val message: String?) : TestResult(name)
+public sealed class TestResult(
+    public val name: String) {
+
+    public class OK(name: String) : TestResult(name)
+    public class KO(name: String,
+                    public val message: String?) : TestResult(name)
 }
 
 
-expect annotation class JsName(val name:String)
+public expect annotation class JsName(val name:String)
