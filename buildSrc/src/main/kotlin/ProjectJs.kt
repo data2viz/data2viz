@@ -28,22 +28,6 @@ fun KotlinMultiplatformExtension.d2vCommon(project: Project) {
 
 }
 
-fun KotlinMultiplatformExtension.d2vJs(project: Project) {
-    if (project.hasJs) {
-        js(KotlinJsCompilerType.BOTH) {
-            browser {
-            }
-        }
-        sourceSets {
-            val jsTest by getting {
-                dependencies {
-                    implementation(kotlin("test-js"))
-                }
-            }
-        }
-    }
-}
-
 fun KotlinMultiplatformExtension.d2vJvm(project: Project) {
     if (project.hasJfx || project.hasAndroid) {
         jvm()
