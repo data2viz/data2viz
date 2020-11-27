@@ -119,10 +119,12 @@ private fun Project.addTaskPublishNpm() {
     tasks.create<Exec>("publishNpm") {
         dependsOn(preparePublishNpm)
 
-        check(project.hasProperty("npmToken")) { "To publish on npm the build needs a npmToken property." }
+        if (project.hasProperty("npmToken").not()) {
+            logger.warn("To publish on npm the build needs a npmToken property.")
+            return@create
+        }
 
         val npmToken = project.property("npmToken").toString()
-
         workingDir = file("build/npm")
 //        commandLine = listOf("npm", "publish", "--dry-run", "--//registry.npmjs.org/:_authToken=$npmToken")
         commandLine = listOf("npm", "publish", "--access=public", "--//registry.npmjs.org/:_authToken=$npmToken")
