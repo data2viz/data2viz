@@ -29,7 +29,7 @@ import io.data2viz.math.pct
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/color_value and
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
  */
-class RgbColor
+public class RgbColor
 @Deprecated("Use factory function or Int.col extension.", ReplaceWith("Colors.rgb(rgb,a)", "io.data2viz.colors.Colors"))
 constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
 
