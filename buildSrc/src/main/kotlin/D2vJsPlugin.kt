@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST")
+
 package io.data2viz.d2v
 
 import org.gradle.api.Plugin
@@ -19,11 +21,9 @@ open class D2vJsPlugin : Plugin<Project> {
         println("Using D2vJsPlugin on project $project, is Js activated? ${if (project.hasJs) "yes" else "no"}")
         if (project.hasJs.not())
             return
-
         project.configureKotlinJs()
         project.addTaskPrepareNpm()
         project.addTaskPublishNpm()
-
     }
 }
 
@@ -31,14 +31,10 @@ open class D2vJsPlugin : Plugin<Project> {
 lateinit var jsOutputs: FileCollection
 
 private fun Project.configureKotlinJs() = this.extensions.getByType<KotlinMultiplatformExtension>().run {
-//    targets.jvm.compilations.all
-
     js {
         browser {
         }
         jsOutputs = compilations["main"].output.allOutputs
-
-        //    from(kotlin.targets.js.compilations.main.output.allOutputs)
     }
     sourceSets {
         val jsTest by getting {
@@ -47,21 +43,15 @@ private fun Project.configureKotlinJs() = this.extensions.getByType<KotlinMultip
             }
         }
     }
-
-
 }
-
 
 private fun Project.addTaskPrepareNpm() {
     val compileJs = tasks.named<Kotlin2JsCompile>("compileKotlinJs")
-    println("compileJs:: $compileJs")
     tasks.create<Copy>("preparePublishNpm") {
         dependsOn(compileJs)
-        println("preparePublishNpm")
         from(jsOutputs)
         from("../build/js/packages/d2v-${project.name}/package.json")
         into("build/npm")
-
         doLast {
             //Replace package json by a brand new one, just keeping d2v dependencies
             val jsonFile = file("$buildDir/npm/package.json")
@@ -70,8 +60,6 @@ private fun Project.addTaskPrepareNpm() {
             val deps = gDeps.entries.map {
                 Pair(it.key, it.toString())
             }.toMap()
-
-            println(deps)
             jsonFile.writeText(
                 generatePackageJson(project.version.toString(), project.name, deps)
             )
@@ -131,4 +119,3 @@ private fun Project.addTaskPublishNpm() {
     }
 
 }
-

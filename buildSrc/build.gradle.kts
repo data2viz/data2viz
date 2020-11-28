@@ -12,9 +12,7 @@ repositories {
 
 dependencies {
     implementation("com.android.tools.build:gradle:3.5.0")
-
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.20")
-
 
 //    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.4.20")
 

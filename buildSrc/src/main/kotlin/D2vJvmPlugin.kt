@@ -8,44 +8,28 @@ import org.gradle.kotlin.dsl.getting
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-
-
-
 open class D2vJvmPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        println("Using D2vJvmPlugin on project $project, is Jvm activated? ${ if (project.hasJs) "yes" else "no"}")
-        if (project.hasJs.not())
-            return
-        project.configurePlugins()
-        project.configureKotlinJs()
+        project.configureKotlinJvm()
     }
 }
 
-private fun Project.configurePlugins() {
-//    plugins.apply("org.jetbrains.multiplatform")
-}
+private fun Project.configureKotlinJvm() = this.extensions.getByType<KotlinMultiplatformExtension>().run {
+    if (project.hasJfx || project.hasAndroid) {
+        jvm()
+        this.sourceSets {
 
-
-private fun Project.configureKotlinJs() = this.extensions.getByType<KotlinMultiplatformExtension>().run {
-    js {
-        browser {
-        }
-    }
-    sourceSets {
-        val jsTest by getting {
-            dependencies {
-                implementation(kotlin("test-js"))
+            val jvmMain by getting {
             }
+            val jvmTest by getting {
+                dependencies {
+                    implementation(kotlin("test-junit"))
+                }
+            }
+
         }
     }
 }
 
 
-
-//private fun Project.publications() {
-//    extensions
-//        .getByType<PublishingExtension>()
-//        .setupPublishRepo(this)
-//
-//}

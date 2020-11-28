@@ -5,7 +5,8 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.*
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 val Project.hasAndroid: Boolean
     get() = properties["include_android"] == "true"
@@ -19,35 +20,37 @@ open class D2vAndroidPlugin : Plugin<Project> {
         println("Using D2vAndroidPlugin on project $project, is android activated? ${ if (project.hasAndroid) "yes" else "no"}")
         if (project.hasAndroid.not())
             return
-        project.configurePlugins()
+
+        project.plugins.apply("com.android.library")
+        project.plugins.apply("org.jetbrains.kotlin.multiplatform")
+
         project.configureAndroid()
+        project.configureKotlin()
     }
 }
-
-private fun Project.configurePlugins() {
-    plugins.apply("com.android.library")
-}
-
 
 private fun Project.configureAndroid() = this.extensions.getByType<AndroidBaseExtension>().run {
     compileSdkVersion(28)
     defaultConfig {
-        minSdkVersion(21)
+        minSdkVersion(17)
         targetSdkVersion(28)
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 1
+        versionName = "1"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
-
         getByName("debug") {
             isTestCoverageEnabled = true
         }
+    }
+
+    sourceSets.getByName("main") {
+        manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        res.srcDir("src/androidMain/res")
     }
 
     packagingOptions {
@@ -58,5 +61,26 @@ private fun Project.configureAndroid() = this.extensions.getByType<AndroidBaseEx
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+
+private fun Project.configureKotlin() = this.extensions.getByType<KotlinMultiplatformExtension>().run {
+    android {
+        publishLibraryVariants("debug", "release")
+    }
+    sourceSets {
+        getByName("androidMain") {
+            dependencies {
+            }
+        }
+
+        getByName("androidTest") {
+            dependencies {
+                implementation(project(":tests"))
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
+            }
+        }
     }
 }
