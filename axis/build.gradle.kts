@@ -1,17 +1,13 @@
 import com.android.build.gradle.LibraryExtension
 
 plugins {
-    kotlin("multiplatform")
+    id("io.data2viz.d2v.d2v-android")
+    id("io.data2viz.d2v.d2v-common")
+    id("io.data2viz.d2v.d2v-jfx")
     id("io.data2viz.d2v.d2v-js")
-
 }
 
-
-
 kotlin {
-    d2vCommon(project)
-    d2vJvm(project)
-
     sourceSets {
         commonMain {
             dependencies {
