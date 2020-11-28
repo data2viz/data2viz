@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package io.data2viz.time
 
 import kotlinx.datetime.Clock

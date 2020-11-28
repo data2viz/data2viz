@@ -29,4 +29,4 @@ public class Day : Interval(
     field = fun(date: LocalDateTime): Int = date.dayOfMonth - 1
 )
 
-public val timeDay = Day()
+public val timeDay: Day = Day()

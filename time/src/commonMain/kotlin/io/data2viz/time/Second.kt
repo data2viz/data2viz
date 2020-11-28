@@ -28,4 +28,4 @@ public class Second : Interval(
     field = fun(date: LocalDateTime): Int = date.second
 )
 
-public val timeSecond = Second()
+public val timeSecond: Second = Second()

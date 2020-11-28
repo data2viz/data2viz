@@ -27,4 +27,4 @@ public class Millisecond : Interval(
         field = fun(date: LocalDateTime): Int = date.nanosecond / 1_000_000
 )
 
-public val timeMillisecond = Millisecond()
+public val timeMillisecond: Millisecond = Millisecond()

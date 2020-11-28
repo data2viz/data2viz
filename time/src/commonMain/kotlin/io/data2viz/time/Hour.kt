@@ -28,4 +28,4 @@ public class Hour : Interval(
     field = fun(date: LocalDateTime): Int = date.hour
 )
 
-public val timeHour = Hour()
+public val timeHour: Hour = Hour()

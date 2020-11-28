@@ -28,4 +28,4 @@ public class Minute : Interval(
     field = fun(date: LocalDateTime): Int = date.minute
 )
 
-public val timeMinute = Minute()
+public val timeMinute: Minute = Minute()

@@ -27,4 +27,4 @@ public class Month : Interval(
         field = fun (date:LocalDateTime): Int = date.monthNumber - 1
 )
 
-public val timeMonth = Month()
+public val timeMonth: Month = Month()
