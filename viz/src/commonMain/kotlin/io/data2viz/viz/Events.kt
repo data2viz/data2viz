@@ -150,7 +150,7 @@ public class KZoomEvent(
                 currentTime - lastTime > diffTimeBetweenZoomEventsToDetectRestart
             }
 
-        public fun isNewZoom(currentTime: Long, lastTime: Long?) =
+        public fun isNewZoom(currentTime: Long, lastTime: Long?): Boolean =
             if (lastTime == null) {
                 true
             } else {

@@ -82,6 +82,7 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
             spec.precision.coerceIn(1, 21) else spec.precision.coerceIn(0, 20)
     }
 
+    @Suppress("DEPRECATION")
     fun format(value: Double): String {
 
         var returnValue: String

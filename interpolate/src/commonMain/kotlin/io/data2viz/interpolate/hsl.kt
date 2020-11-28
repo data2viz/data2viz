@@ -51,6 +51,6 @@ private fun interpolateHsl(start: Color, end:Color, long:Boolean): Interpolator<
     return { .0 }
 }*/
 
-fun hslLongInterpolator(start:Color, end: Color) = interpolateHsl(start, end, long = true)
-fun hslInterpolator(start:Color, end:Color) = interpolateHsl(start, end, long = false)
+public fun hslLongInterpolator(start:Color, end: Color): (Percent) -> Color = interpolateHsl(start, end, long = true)
+public fun hslInterpolator(start:Color, end:Color): (Percent) -> Color = interpolateHsl(start, end, long = false)
 

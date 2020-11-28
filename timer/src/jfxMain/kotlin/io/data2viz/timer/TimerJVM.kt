@@ -60,7 +60,7 @@ internal actual fun callInNextFrame(block: () -> Unit) {
 internal actual fun delegateNow(): Double = TimeUnit.NANOSECONDS.toMillis(System.nanoTime()).toDouble()
 
 
-class JavaFxTimer : AnimationTimer() {
+internal class JavaFxTimer : AnimationTimer() {
 
     init {
         PlatformImpl.startup {}
@@ -77,7 +77,7 @@ class JavaFxTimer : AnimationTimer() {
         }
     }
 
-    fun callInNextFrame(block: () -> Unit) {
+    internal fun callInNextFrame(block: () -> Unit) {
         blocks += block
     }
 

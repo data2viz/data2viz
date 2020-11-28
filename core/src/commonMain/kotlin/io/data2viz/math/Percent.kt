@@ -83,4 +83,4 @@ public val Number.pct:Percent
 /**
  * Extension operator to allow to write `3 * 20.pct` (= 0.6)
  */
-public operator fun Number.times(percent:Percent) = percent.value * toDouble()
+public operator fun Number.times(percent:Percent): Double = percent.value * toDouble()

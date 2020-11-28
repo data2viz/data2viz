@@ -15,7 +15,7 @@
  *
  */
 
-@file:Suppress("unused")
+@file:Suppress("unused", "DEPRECATION")
 
 package io.data2viz.geom
 

@@ -99,8 +99,8 @@ public abstract class ContinuousScale<D, R>(
             check(_domain.size == _range.size) { "Domains (in) and Ranges (out) must have the same size." }
             val interpolateFunc = if (clamp) interpolateClamp(::interpolateDomain) else ::interpolateDomain
             rangeToDomain =
-                    if (_domain.size > 2 || _range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange!!)
-                    else bimapInvert(interpolateFunc, uninterpolateRange!!)
+                    if (_domain.size > 2 || _range.size > 2) polymapInvert(interpolateFunc, uninterpolateRange)
+                    else bimapInvert(interpolateFunc, uninterpolateRange)
         }
 
         return rangeToDomain?.invoke(rangeValue) ?: throw IllegalStateException()

@@ -65,7 +65,7 @@ public class JFxVizRenderer(
 
 }
 
-fun GraphicsContext.addTransform(transform: Transform) {
+internal fun GraphicsContext.addTransform(transform: Transform) {
     transform.transformations.forEach {
         when(it) {
             is Translation -> translate(it.x, it.y)
@@ -74,7 +74,7 @@ fun GraphicsContext.addTransform(transform: Transform) {
     }
 }
 
-fun GraphicsContext.removeTransform(transform: Transform) {
+internal fun GraphicsContext.removeTransform(transform: Transform) {
     transform.transformations.reversed().forEach {
         when(it) {
             is Translation -> translate(-it.x, -it.y)
