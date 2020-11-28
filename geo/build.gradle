@@ -1,16 +1,16 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform'
+    id "org.jetbrains.kotlin.multiplatform"
 }
 
-apply from: rootProject.file('gradle/mpp-common.gradle')
-apply from: rootProject.file('gradle/mpp-jvm.gradle')
-apply from: rootProject.file('gradle/mpp-js.gradle')
+apply from: rootProject.file("gradle/mpp-common.gradle")
+apply from: rootProject.file("gradle/mpp-jvm.gradle")
+apply from: rootProject.file("gradle/mpp-js.gradle")
 
 kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api project(':core')
+                api project(":core")
                 api "io.data2viz.geojson:core:$geojson_version"
             }
         }
@@ -26,7 +26,7 @@ kotlin {
             jsMain {
                 dependencies {
                     api "io.data2viz.geojson:core:$geojson_version"
-                    implementation kotlin('stdlib-js')
+                    implementation kotlin("stdlib-js")
                 }
             }
         }

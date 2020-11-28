@@ -1,9 +1,9 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform'
+    id "org.jetbrains.kotlin.multiplatform"
 }
 
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
+apply plugin: "maven"
+apply plugin: "maven-publish"
 
 
 kotlin {
@@ -17,36 +17,36 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation kotlin('stdlib-common')
+                implementation kotlin("stdlib-common")
             }
         }
         commonTest {
             dependencies {
-                implementation kotlin('test-common')
-                implementation kotlin('test-annotations-common')
+                implementation kotlin("test-common")
+                implementation kotlin("test-annotations-common")
             }
         }
         jvmMain {
             dependencies {
-                implementation kotlin('reflect')
-                implementation kotlin('stdlib')
+                implementation kotlin("reflect")
+                implementation kotlin("stdlib")
             }
         }
         jvmTest {
             dependencies {
-                implementation kotlin('test')
-                implementation kotlin('test-junit')
+                implementation kotlin("test")
+                implementation kotlin("test-junit")
             }
         }
         if (include_js.toBoolean()) {
             jsMain {
                 dependencies {
-                    implementation kotlin('stdlib-js')
+                    implementation kotlin("stdlib-js")
                 }
             }
             jsTest {
                 dependencies {
-                    implementation kotlin('test-js')
+                    implementation kotlin("test-js")
                 }
             }
         }

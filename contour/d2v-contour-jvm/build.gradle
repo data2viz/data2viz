@@ -2,5 +2,5 @@ dependencies {
     expectedBy project(":contour:contour-common")
     testCompile project(":tests:tests-common")
     testCompile project(":tests:tests-jvm")
-    testCompile 'no.tornado:tornadofx:1.7.11'
+    testCompile "no.tornado:tornadofx:1.7.11"
 }

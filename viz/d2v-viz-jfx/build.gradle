@@ -10,7 +10,7 @@ dependencies {
 }
 
 
-apply plugin: 'com.moowork.node'
+apply plugin: "com.moowork.node"
 
 node {
     version = "$node_version"
@@ -19,12 +19,12 @@ node {
 }
 
 task installDependencies(type: YarnTask) {
-    args = ['install']
+    args = ["install"]
 }
 
 
 task diffs(type: YarnTask, dependsOn: installDependencies) {
-    args = ['diffs']
+    args = ["diffs"]
 }
 
 

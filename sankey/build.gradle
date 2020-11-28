@@ -1,9 +1,9 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform'
+    id "org.jetbrains.kotlin.multiplatform"
 }
-apply from: rootProject.file('gradle/mpp-common.gradle')
-apply from: rootProject.file('gradle/mpp-jvm.gradle')
-apply from: rootProject.file('gradle/mpp-js.gradle')
+apply from: rootProject.file("gradle/mpp-common.gradle")
+apply from: rootProject.file("gradle/mpp-jvm.gradle")
+apply from: rootProject.file("gradle/mpp-js.gradle")
 
 
 
@@ -11,8 +11,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api project(':core')
-                api project(':shape')
+                api project(":core")
+                api project(":shape")
             }
         }
     }

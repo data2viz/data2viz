@@ -11,7 +11,7 @@ dependencies {
 }
 
 
-apply plugin: 'com.moowork.node'
+apply plugin: "com.moowork.node"
 
 node {
     version = "$node_version"
@@ -20,15 +20,15 @@ node {
 }
 
 task installDependencies(type: YarnTask) {
-    args = ['install']
+    args = ["install"]
 }
 
 task generateRenderingTestImages(type: YarnTask, dependsOn: [compileTestKotlin2Js, installDependencies, runDceKotlinJs, runDceTestKotlinJs]) {
-    args = ['render']
+    args = ["render"]
 }
 
 task diffs(type: YarnTask, dependsOn: generateRenderingTestImages) {
-    args = ['diffs']
+    args = ["diffs"]
 }
 
 test.dependsOn diffs
