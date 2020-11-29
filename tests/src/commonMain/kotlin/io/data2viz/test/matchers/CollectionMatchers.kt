@@ -26,13 +26,13 @@ interface CollectionMatchers {
     }
   }
 
-  infix fun HaveWrapper<out Collection<*>>.size(expected: Int): Unit {
+  infix fun HaveWrapper<Collection<*>>.size(expected: Int): Unit {
     val size = value.size
     if (size != expected)
       throw AssertionError("Collection was expected to have size $expected but had size $size")
   }
 
-  infix fun <T> ContainWrapper<out Collection<T>>.element(expected: T): Unit {
+  infix fun <T> ContainWrapper<Collection<T>>.element(expected: T): Unit {
     if (!value.contains(expected))
       throw AssertionError("Collection did not have expected element $expected")
   }
