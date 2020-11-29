@@ -33,7 +33,7 @@ public class RgbColor
 @Deprecated("Use factory function or Int.col extension.", ReplaceWith("Colors.rgb(rgb,a)", "io.data2viz.colors.Colors"))
 constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
 
-    override val alpha = a.coerceToDefault()
+    override val alpha: Percent = a.coerceToDefault()
 
     override val r: Int
         get() = (rgb shr 16) and 0xff
@@ -44,7 +44,7 @@ constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
     override val b: Int
         get() = rgb and 0xff
 
-    override fun luminance() = toLuminance()
+    override fun luminance(): Percent = toLuminance()
     override fun contrast(other: Color): Double {
         val lumA = luminance()
         val lumB = other.luminance()
@@ -61,19 +61,19 @@ constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
     override fun saturate(strength: Double): Color = toLab().saturate(strength)
     override fun desaturate(strength: Double): Color = toLab().desaturate(strength)
     override fun opacify(strength: Double): Color = withAlpha(Percent(alpha * strength))
-    override fun withHue(hue: Angle) = toHcl().withHue(hue)
+    override fun withHue(hue: Angle): HclColor = toHcl().withHue(hue)
 
-    fun withRed(red: Int): RgbColor {
+    public fun withRed(red: Int): RgbColor {
         val rgb = (rgb and 0x00ffff) + (red.coerceIn(0, 255) shl 16)
         return Colors.rgb(rgb, alpha)
     }
 
-    fun withGreen(green: Int): RgbColor {
+    public fun withGreen(green: Int): RgbColor {
         val rgb = (rgb and 0xff00ff) + (green.coerceIn(0, 255) shl 8)
         return Colors.rgb(rgb, alpha)
     }
 
-    fun withBlue(blue: Int): RgbColor {
+    public fun withBlue(blue: Int): RgbColor {
         val rgb = (rgb and 0xffff00) + blue.coerceIn(0, 255)
         return Colors.rgb(rgb, alpha)
     }
@@ -90,7 +90,7 @@ constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
     override val rgba: String
         get() = "rgba($r, $g, $b, ${alpha.value})"
 
-    override fun withAlpha(alpha: Percent) = Colors.rgb(rgb, alpha)
+    override fun withAlpha(alpha: Percent): RgbColor = Colors.rgb(rgb, alpha)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -108,7 +108,7 @@ constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
         return result
     }
 
-    override fun toString() = "RGB($r, $g, $b, alpha=$alpha) - $rgbHex"
+    override fun toString(): String = "RGB($r, $g, $b, alpha=$alpha) - $rgbHex"
 }
 
 
@@ -116,11 +116,11 @@ constructor(override val rgb: Int, a: Percent = 100.pct) : Color {
  * Instantiate a color from an Int. It should be used
  * using the HEX code like this : `0x0b0b0b.col`
  */
-val Int.col: RgbColor
+public val Int.col: RgbColor
     get() = Colors.rgb(this)
 
 @Deprecated("Use the 3 characters version of it.", ReplaceWith("this.col"))
-val Int.color: RgbColor
+public val Int.color: RgbColor
     get() = this.col
 
 
@@ -130,7 +130,7 @@ private val regex: Regex by lazy { """^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$""".toRe
  * Instantiate a color from an String representing its hexadecimal value.
  * Ex: "#12abCD".col
  */
-val String.col: RgbColor
+public val String.col: RgbColor
     get():RgbColor {
         require(this.matches(regex)) {
             "Conversion of string to io.data2viz.col.RgbColor works for encoded colors like #12abCD"
@@ -139,5 +139,5 @@ val String.col: RgbColor
     }
 
 @Deprecated("Use the 3 characters version of it.", ReplaceWith("this.col"))
-val String.color: RgbColor
+public val String.color: RgbColor
     get() = this.col

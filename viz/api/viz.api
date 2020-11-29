@@ -155,11 +155,6 @@ public final class io/data2viz/viz/JFxVizRenderer : io/data2viz/viz/VizRenderer 
 	public fun stopAnimations ()V
 }
 
-public final class io/data2viz/viz/JFxVizRendererKt {
-	public static final fun addTransform (Ljavafx/scene/canvas/GraphicsContext;Lio/data2viz/viz/Transform;)V
-	public static final fun removeTransform (Ljavafx/scene/canvas/GraphicsContext;Lio/data2viz/viz/Transform;)V
-}
-
 public final class io/data2viz/viz/JfxCircleRendererKt {
 	public static final fun render (Lio/data2viz/viz/CircleNode;Ljavafx/scene/canvas/GraphicsContext;)V
 }
