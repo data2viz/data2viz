@@ -6,6 +6,7 @@ if (include_js.toBoolean()) {
         explicitApiWarning()
 
         js {
+            moduleName = "d2v-$project.name"
             browser {}
         }
 
@@ -29,9 +30,9 @@ if (include_js.toBoolean()) {
 
     def npmDeployDir = file("$buildDir/npm")
 
-    task preparePublishNpm(type: Copy, dependsOn: compileKotlinJs) {
+    task preparePublishNpm(type: Copy, dependsOn: compileKotlinJsLegacy) {
         npmDeployDir.mkdirs()
-        from(kotlin.targets.js.compilations.main.output.allOutputs)
+        from(kotlin.targets.jsLegacy.compilations.main.output.allOutputs)
         from("../build/js/packages/d2v-$project.name/package.json")
         into npmDeployDir
 
