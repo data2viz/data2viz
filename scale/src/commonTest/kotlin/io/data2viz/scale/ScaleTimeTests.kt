@@ -19,10 +19,15 @@ package io.data2viz.scale
 
 import io.data2viz.test.TestBase
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlin.math.roundToInt
 import kotlin.test.Test
 
 class ScaleTimeTests : TestBase() {
+
+    private fun date(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
+        LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(TimeZone.UTC)
 
     infix fun LocalDateTime?.shouldBe(date: LocalDateTime?) {
         if (this == null && date != null || this != null && date == null) throw AssertionError("$this did not equal $date")
@@ -41,16 +46,16 @@ class ScaleTimeTests : TestBase() {
     fun copy(){
         val scale = Scales.Continuous.time {
             domain = listOf(
-                LocalDateTime(2020, 2 ,2,0,0,0),
-                LocalDateTime(2020, 3 ,2,0,0,0)
+                date(2020, 2 ,2,0,0,0),
+                date(2020, 3 ,2,0,0,0)
             )
             range = listOf(.0, 100.0)
         }
 
         val copy = scale.copy()
         copy.domain shouldBe listOf(
-            LocalDateTime(2020, 2 ,2,0,0,0),
-            LocalDateTime(2020, 3 ,2,0,0,0)
+            date(2020, 2 ,2,0,0,0),
+            date(2020, 3 ,2,0,0,0)
         )
         copy.range shouldBe listOf(.0, 100.0)
     }
@@ -60,57 +65,57 @@ class ScaleTimeTests : TestBase() {
     fun time_scale_returns_limit_values() {
         val scale = Scales.Continuous.time()
 
-        scale.domain = listOf(LocalDateTime(2000, 1, 1, 0, 0), LocalDateTime(2010, 1, 1, 0, 0))
+        scale.domain = listOf(date(2000, 1, 1, 0, 0), date(2010, 1, 1, 0, 0))
         scale.range = listOf(.0, 100.0)
 
         scale.clamp shouldBe false
 
-        scale(LocalDateTime(2001, 1, 1, 0, 0)).roundToInt() shouldBe 10
-        scale(LocalDateTime(2002, 1, 1, 0, 0)).roundToInt() shouldBe 20
-        scale(LocalDateTime(2003, 1, 1, 0, 0)).roundToInt() shouldBe 30
-        scale(LocalDateTime(2004, 1, 1, 0, 0)).roundToInt() shouldBe 40
-        scale(LocalDateTime(2005, 1, 1, 0, 0)).roundToInt() shouldBe 50
-        scale(LocalDateTime(2006, 1, 1, 0, 0)).roundToInt() shouldBe 60
-        scale(LocalDateTime(2007, 1, 1, 0, 0)).roundToInt() shouldBe 70
-        scale(LocalDateTime(2008, 1, 1, 0, 0)).roundToInt() shouldBe 80
-        scale(LocalDateTime(2009, 1, 1, 0, 0)).roundToInt() shouldBe 90
+        scale(date(2001, 1, 1, 0, 0)).roundToInt() shouldBe 10
+        scale(date(2002, 1, 1, 0, 0)).roundToInt() shouldBe 20
+        scale(date(2003, 1, 1, 0, 0)).roundToInt() shouldBe 30
+        scale(date(2004, 1, 1, 0, 0)).roundToInt() shouldBe 40
+        scale(date(2005, 1, 1, 0, 0)).roundToInt() shouldBe 50
+        scale(date(2006, 1, 1, 0, 0)).roundToInt() shouldBe 60
+        scale(date(2007, 1, 1, 0, 0)).roundToInt() shouldBe 70
+        scale(date(2008, 1, 1, 0, 0)).roundToInt() shouldBe 80
+        scale(date(2009, 1, 1, 0, 0)).roundToInt() shouldBe 90
     }
 
     @Test
     fun time_clamp_returns_limit_values() {
         val scale = Scales.Continuous.time()
 
-        scale.domain = listOf(LocalDateTime(2009, 1, 1, 0, 0), LocalDateTime(2010, 1, 1, 0, 0))
+        scale.domain = listOf(date(2009, 1, 1, 0, 0), date(2010, 1, 1, 0, 0))
         scale.range = listOf(.0, 100.0)
 
         scale.clamp shouldBe false
-        scale(LocalDateTime(2015, 1, 1, 0, 0)).roundToInt() shouldBe 600
-        scale(LocalDateTime(1998, 1, 1, 0, 0)).roundToInt() shouldBe -1101
+        scale(date(2015, 1, 1, 0, 0)).roundToInt() shouldBe 600
+        scale(date(1998, 1, 1, 0, 0)).roundToInt() shouldBe -1101
 
         scale.clamp = true
-        scale(LocalDateTime(2015, 1, 1, 0, 0)).roundToInt() shouldBe 100
-        scale(LocalDateTime(9999, 1, 1, 0, 0)).roundToInt() shouldBe 100
-        scale(LocalDateTime(1998, 1, 1, 0, 0)).roundToInt() shouldBe 0
-        scale(LocalDateTime(2, 1, 1, 0, 0)).roundToInt() shouldBe 0
+        scale(date(2015, 1, 1, 0, 0)).roundToInt() shouldBe 100
+        scale(date(9999, 1, 1, 0, 0)).roundToInt() shouldBe 100
+        scale(date(1998, 1, 1, 0, 0)).roundToInt() shouldBe 0
+        scale(date(2, 1, 1, 0, 0)).roundToInt() shouldBe 0
     }
 
     @Test
     fun time_clamp_invert_returns_limit_values() {
         val scale = Scales.Continuous.time()
 
-        scale.domain = listOf(LocalDateTime(2009, 1, 1, 0, 0), LocalDateTime(2010, 1, 1, 0, 0))
+        scale.domain = listOf(date(2009, 1, 1, 0, 0), date(2010, 1, 1, 0, 0))
         scale.range = listOf(.0, 100.0)
 
         scale.clamp shouldBe false
-        scale.invert(200.0) shouldBe LocalDateTime(2011, 1, 1, 0, 0)
-        scale.invert(600.0) shouldBe LocalDateTime(2014, 12, 31, 0, 0)     // 2012 is 366 days long
-        scale.invert(-1100.0) shouldBe LocalDateTime(1998, 1, 4, 0, 0)     // 2000, 2004, 2008 are 364 days long
+        scale.invert(200.0) shouldBe date(2011, 1, 1, 0, 0)
+        scale.invert(600.0) shouldBe date(2014, 12, 31, 0, 0)     // 2012 is 366 days long
+        scale.invert(-1100.0) shouldBe date(1998, 1, 4, 0, 0)     // 2000, 2004, 2008 are 364 days long
 
         scale.clamp = true
-        scale.invert(.0) shouldBe LocalDateTime(2009, 1, 1, 0, 0)
-        scale.invert(100.0) shouldBe LocalDateTime(2010, 1, 1, 0, 0)
-        scale.invert(-200.0) shouldBe LocalDateTime(2009, 1, 1, 0, 0)
-        scale.invert(1100.0) shouldBe LocalDateTime(2010, 1, 1, 0, 0)
+        scale.invert(.0) shouldBe date(2009, 1, 1, 0, 0)
+        scale.invert(100.0) shouldBe date(2010, 1, 1, 0, 0)
+        scale.invert(-200.0) shouldBe date(2009, 1, 1, 0, 0)
+        scale.invert(1100.0) shouldBe date(2010, 1, 1, 0, 0)
     }
 
     @Test
@@ -118,16 +123,16 @@ class ScaleTimeTests : TestBase() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
 
-        scale.domain = listOf(LocalDateTime(2011, 3, 1, 0, 0), LocalDateTime(2020, 10, 1, 0, 0))
+        scale.domain = listOf(date(2011, 3, 1, 0, 0), date(2020, 10, 1, 0, 0))
         scale.nice()
-        scale.domain.first() shouldBe LocalDateTime(2011, 1, 1, 0, 0)
-        scale.domain.last() shouldBe LocalDateTime(2021, 1, 1, 0, 0)
+        scale.domain.first() shouldBe date(2011, 1, 1, 0, 0)
+        scale.domain.last() shouldBe date(2021, 1, 1, 0, 0)
 
-        scale.domain = listOf(LocalDateTime(2001, 1, 1, 0, 0), LocalDateTime(2138, 1, 1, 0, 0))
+        scale.domain = listOf(date(2001, 1, 1, 0, 0), date(2138, 1, 1, 0, 0))
         scale.nice()
 
-        scale.domain.first() shouldBe LocalDateTime(2000, 1, 1, 0, 0)
-        scale.domain.last() shouldBe LocalDateTime(2140, 1, 1, 0, 0)
+        scale.domain.first() shouldBe date(2000, 1, 1, 0, 0)
+        scale.domain.last() shouldBe date(2140, 1, 1, 0, 0)
     }
 
     @Test
@@ -135,10 +140,10 @@ class ScaleTimeTests : TestBase() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
 
-        scale.domain = listOf(LocalDateTime(2009, 1, 1, 0, 17), LocalDateTime(2009, 1, 1, 23, 42))
+        scale.domain = listOf(date(2009, 1, 1, 0, 17), date(2009, 1, 1, 23, 42))
         scale.nice()
-        scale.domain.first() shouldBe LocalDateTime(2009, 1, 1, 0, 0)
-        scale.domain.last() shouldBe LocalDateTime(2009, 1, 2, 0, 0)
+        scale.domain.first() shouldBe date(2009, 1, 1, 0, 0)
+        scale.domain.last() shouldBe date(2009, 1, 2, 0, 0)
     }
 
     @Test
@@ -146,10 +151,10 @@ class ScaleTimeTests : TestBase() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
 
-        scale.domain = listOf(LocalDateTime(2013, 5, 6, 12, 44, 20, 0), LocalDateTime(2013, 5, 6, 12, 44, 20, 128000000))
+        scale.domain = listOf(date(2013, 5, 6, 12, 44, 20, 0), date(2013, 5, 6, 12, 44, 20, 128000000))
         scale.nice()
-        scale.domain.first() shouldBe LocalDateTime(2013, 5, 6, 12, 44, 20, 0)
-        scale.domain.last() shouldBe LocalDateTime(2013, 5, 6, 12, 44, 20, 130000000)
+        scale.domain.first() shouldBe date(2013, 5, 6, 12, 44, 20, 0)
+        scale.domain.last() shouldBe date(2013, 5, 6, 12, 44, 20, 130000000)
     }
 
     @Test
@@ -157,40 +162,40 @@ class ScaleTimeTests : TestBase() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
 
-        scale.domain = listOf(LocalDateTime(2013, 5, 6, 12, 44), LocalDateTime(2013, 5, 6, 12, 44))
+        scale.domain = listOf(date(2013, 5, 6, 12, 44), date(2013, 5, 6, 12, 44))
         scale.nice()
-        scale.domain.first() shouldBe LocalDateTime(2013, 5, 6, 12, 44)
-        scale.domain.last() shouldBe LocalDateTime(2013, 5, 6, 12, 44)
+        scale.domain.first() shouldBe date(2013, 5, 6, 12, 44)
+        scale.domain.last() shouldBe date(2013, 5, 6, 12, 44)
     }
 
     @Test
     fun time_nice_count_use_the_specified_tick_count() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2009, 1, 1, 0, 17), LocalDateTime(2009, 1, 1, 23, 42))
+        scale.domain = listOf(date(2009, 1, 1, 0, 17), date(2009, 1, 1, 23, 42))
 
         scale.nice(100)
-        scale.domain.first() shouldBe LocalDateTime(2009, 1, 1, 0, 15)
-        scale.domain.last() shouldBe LocalDateTime(2009, 1, 1, 23, 45)
+        scale.domain.first() shouldBe date(2009, 1, 1, 0, 15)
+        scale.domain.last() shouldBe date(2009, 1, 1, 23, 45)
 
         scale.nice(10)
-        scale.domain.first() shouldBe LocalDateTime(2009, 1, 1, 0, 0)
-        scale.domain.last() shouldBe LocalDateTime(2009, 1, 2, 0, 0)
+        scale.domain.first() shouldBe date(2009, 1, 1, 0, 0)
+        scale.domain.last() shouldBe date(2009, 1, 2, 0, 0)
     }
 
     @Test
     fun time_ticks_count_can_generate_subsecond_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 0, 0), LocalDateTime(2011, 1, 1, 12, 0, 1))
+        scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 0, 1))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 0, 0, 0),
-                LocalDateTime(2011, 1, 1, 12, 0, 0, 200000000),
-                LocalDateTime(2011, 1, 1, 12, 0, 0, 400000000),
-                LocalDateTime(2011, 1, 1, 12, 0, 0, 600000000),
-                LocalDateTime(2011, 1, 1, 12, 0, 0, 800000000),
-                LocalDateTime(2011, 1, 1, 12, 0, 1, 0)
+                date(2011, 1, 1, 12, 0, 0, 0),
+                date(2011, 1, 1, 12, 0, 0, 200000000),
+                date(2011, 1, 1, 12, 0, 0, 400000000),
+                date(2011, 1, 1, 12, 0, 0, 600000000),
+                date(2011, 1, 1, 12, 0, 0, 800000000),
+                date(2011, 1, 1, 12, 0, 1, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -204,14 +209,14 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_1_second_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 0, 0), LocalDateTime(2011, 1, 1, 12, 0, 4))
+        scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 0, 4))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 0, 0),
-                LocalDateTime(2011, 1, 1, 12, 0, 1),
-                LocalDateTime(2011, 1, 1, 12, 0, 2),
-                LocalDateTime(2011, 1, 1, 12, 0, 3),
-                LocalDateTime(2011, 1, 1, 12, 0, 4)
+                date(2011, 1, 1, 12, 0, 0),
+                date(2011, 1, 1, 12, 0, 1),
+                date(2011, 1, 1, 12, 0, 2),
+                date(2011, 1, 1, 12, 0, 3),
+                date(2011, 1, 1, 12, 0, 4)
         )
 
         val ticks = scale.ticks(4)
@@ -225,14 +230,14 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_5_seconds_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 0, 0), LocalDateTime(2011, 1, 1, 12, 0, 20))
+        scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 0, 20))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 0, 0),
-                LocalDateTime(2011, 1, 1, 12, 0, 5),
-                LocalDateTime(2011, 1, 1, 12, 0, 10),
-                LocalDateTime(2011, 1, 1, 12, 0, 15),
-                LocalDateTime(2011, 1, 1, 12, 0, 20)
+                date(2011, 1, 1, 12, 0, 0),
+                date(2011, 1, 1, 12, 0, 5),
+                date(2011, 1, 1, 12, 0, 10),
+                date(2011, 1, 1, 12, 0, 15),
+                date(2011, 1, 1, 12, 0, 20)
         )
 
         val ticks = scale.ticks(4)
@@ -246,13 +251,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_15_seconds_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 0, 0), LocalDateTime(2011, 1, 1, 12, 0, 50))
+        scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 0, 50))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 0, 0),
-                LocalDateTime(2011, 1, 1, 12, 0, 15),
-                LocalDateTime(2011, 1, 1, 12, 0, 30),
-                LocalDateTime(2011, 1, 1, 12, 0, 45)
+                date(2011, 1, 1, 12, 0, 0),
+                date(2011, 1, 1, 12, 0, 15),
+                date(2011, 1, 1, 12, 0, 30),
+                date(2011, 1, 1, 12, 0, 45)
         )
 
         val ticks = scale.ticks(4)
@@ -266,13 +271,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_30_seconds_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 0, 0), LocalDateTime(2011, 1, 1, 12, 1, 50))
+        scale.domain = listOf(date(2011, 1, 1, 12, 0, 0), date(2011, 1, 1, 12, 1, 50))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 0, 0),
-                LocalDateTime(2011, 1, 1, 12, 0, 30),
-                LocalDateTime(2011, 1, 1, 12, 1, 0),
-                LocalDateTime(2011, 1, 1, 12, 1, 30)
+                date(2011, 1, 1, 12, 0, 0),
+                date(2011, 1, 1, 12, 0, 30),
+                date(2011, 1, 1, 12, 1, 0),
+                date(2011, 1, 1, 12, 1, 30)
         )
 
         val ticks = scale.ticks(4)
@@ -286,13 +291,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_1_minute_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 0, 27), LocalDateTime(2011, 1, 1, 12, 4, 12))
+        scale.domain = listOf(date(2011, 1, 1, 12, 0, 27), date(2011, 1, 1, 12, 4, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 1),
-                LocalDateTime(2011, 1, 1, 12, 2),
-                LocalDateTime(2011, 1, 1, 12, 3),
-                LocalDateTime(2011, 1, 1, 12, 4)
+                date(2011, 1, 1, 12, 1),
+                date(2011, 1, 1, 12, 2),
+                date(2011, 1, 1, 12, 3),
+                date(2011, 1, 1, 12, 4)
         )
 
         val ticks = scale.ticks(4)
@@ -306,13 +311,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_5_minutes_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 3, 27), LocalDateTime(2011, 1, 1, 12, 21, 12))
+        scale.domain = listOf(date(2011, 1, 1, 12, 3, 27), date(2011, 1, 1, 12, 21, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 5),
-                LocalDateTime(2011, 1, 1, 12, 10),
-                LocalDateTime(2011, 1, 1, 12, 15),
-                LocalDateTime(2011, 1, 1, 12, 20)
+                date(2011, 1, 1, 12, 5),
+                date(2011, 1, 1, 12, 10),
+                date(2011, 1, 1, 12, 15),
+                date(2011, 1, 1, 12, 20)
         )
 
         val ticks = scale.ticks(4)
@@ -326,13 +331,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_15_minutes_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 8, 27), LocalDateTime(2011, 1, 1, 13, 4, 12))
+        scale.domain = listOf(date(2011, 1, 1, 12, 8, 27), date(2011, 1, 1, 13, 4, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 15),
-                LocalDateTime(2011, 1, 1, 12, 30),
-                LocalDateTime(2011, 1, 1, 12, 45),
-                LocalDateTime(2011, 1, 1, 13, 0)
+                date(2011, 1, 1, 12, 15),
+                date(2011, 1, 1, 12, 30),
+                date(2011, 1, 1, 12, 45),
+                date(2011, 1, 1, 13, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -346,13 +351,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_30_minutes_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 28, 27), LocalDateTime(2011, 1, 1, 14, 4, 12))
+        scale.domain = listOf(date(2011, 1, 1, 12, 28, 27), date(2011, 1, 1, 14, 4, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 12, 30),
-                LocalDateTime(2011, 1, 1, 13, 0),
-                LocalDateTime(2011, 1, 1, 13, 30),
-                LocalDateTime(2011, 1, 1, 14, 0)
+                date(2011, 1, 1, 12, 30),
+                date(2011, 1, 1, 13, 0),
+                date(2011, 1, 1, 13, 30),
+                date(2011, 1, 1, 14, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -366,13 +371,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_1_hour_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 12, 28, 27), LocalDateTime(2011, 1, 1, 16, 34, 12))
+        scale.domain = listOf(date(2011, 1, 1, 12, 28, 27), date(2011, 1, 1, 16, 34, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 13, 0),
-                LocalDateTime(2011, 1, 1, 14, 0),
-                LocalDateTime(2011, 1, 1, 15, 0),
-                LocalDateTime(2011, 1, 1, 16, 0)
+                date(2011, 1, 1, 13, 0),
+                date(2011, 1, 1, 14, 0),
+                date(2011, 1, 1, 15, 0),
+                date(2011, 1, 1, 16, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -387,14 +392,14 @@ class ScaleTimeTests : TestBase() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
         scale.domain = listOf(
-                LocalDateTime(2011, 1, 1, 14, 28, 27),
-                LocalDateTime(2011, 1, 2, 1, 34, 12))
+                date(2011, 1, 1, 14, 28, 27),
+                date(2011, 1, 2, 1, 34, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 15, 0),
-                LocalDateTime(2011, 1, 1, 18, 0),
-                LocalDateTime(2011, 1, 1, 21, 0),
-                LocalDateTime(2011, 1, 2, 0, 0)
+                date(2011, 1, 1, 15, 0),
+                date(2011, 1, 1, 18, 0),
+                date(2011, 1, 1, 21, 0),
+                date(2011, 1, 2, 0, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -408,13 +413,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_6_hours_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 16, 28, 27), LocalDateTime(2011, 1, 2, 14, 34, 12))
+        scale.domain = listOf(date(2011, 1, 1, 16, 28, 27), date(2011, 1, 2, 14, 34, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 18, 0),
-                LocalDateTime(2011, 1, 2, 0, 0),
-                LocalDateTime(2011, 1, 2, 6, 0),
-                LocalDateTime(2011, 1, 2, 12, 0)
+                date(2011, 1, 1, 18, 0),
+                date(2011, 1, 2, 0, 0),
+                date(2011, 1, 2, 6, 0),
+                date(2011, 1, 2, 12, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -428,13 +433,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_12_hours_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 16, 28, 27), LocalDateTime(2011, 1, 3, 21, 34, 12))
+        scale.domain = listOf(date(2011, 1, 1, 16, 28, 27), date(2011, 1, 3, 21, 34, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 2, 0, 0),
-                LocalDateTime(2011, 1, 2, 12, 0),
-                LocalDateTime(2011, 1, 3, 0, 0),
-                LocalDateTime(2011, 1, 3, 12, 0)
+                date(2011, 1, 2, 0, 0),
+                date(2011, 1, 2, 12, 0),
+                date(2011, 1, 3, 0, 0),
+                date(2011, 1, 3, 12, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -448,13 +453,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_1_day_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 1, 16, 28, 27), LocalDateTime(2011, 1, 5, 21, 34, 12))
+        scale.domain = listOf(date(2011, 1, 1, 16, 28, 27), date(2011, 1, 5, 21, 34, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 2, 0, 0),
-                LocalDateTime(2011, 1, 3, 0, 0),
-                LocalDateTime(2011, 1, 4, 0, 0),
-                LocalDateTime(2011, 1, 5, 0, 0)
+                date(2011, 1, 2, 0, 0),
+                date(2011, 1, 3, 0, 0),
+                date(2011, 1, 4, 0, 0),
+                date(2011, 1, 5, 0, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -468,13 +473,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_2_days_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 2, 16, 28, 27), LocalDateTime(2011, 1, 9, 21, 34, 12))
+        scale.domain = listOf(date(2011, 1, 2, 16, 28, 27), date(2011, 1, 9, 21, 34, 12))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 3, 0, 0),
-                LocalDateTime(2011, 1, 5, 0, 0),
-                LocalDateTime(2011, 1, 7, 0, 0),
-                LocalDateTime(2011, 1, 9, 0, 0)
+                date(2011, 1, 3, 0, 0),
+                date(2011, 1, 5, 0, 0),
+                date(2011, 1, 7, 0, 0),
+                date(2011, 1, 9, 0, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -510,13 +515,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_1_month_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2011, 1, 18, 0, 0), LocalDateTime(2011, 5, 2, 0, 0))
+        scale.domain = listOf(date(2011, 1, 18, 0, 0), date(2011, 5, 2, 0, 0))
 
         val tickList = listOf(
-                LocalDateTime(2011, 2, 1, 0, 0),
-                LocalDateTime(2011, 3, 1, 0, 0),
-                LocalDateTime(2011, 4, 1, 0, 0),
-                LocalDateTime(2011, 5, 1, 0, 0)
+                date(2011, 2, 1, 0, 0),
+                date(2011, 3, 1, 0, 0),
+                date(2011, 4, 1, 0, 0),
+                date(2011, 5, 1, 0, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -530,13 +535,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_3_months_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2010, 11, 18, 0, 0), LocalDateTime(2011, 10, 2, 0, 0))
+        scale.domain = listOf(date(2010, 11, 18, 0, 0), date(2011, 10, 2, 0, 0))
 
         val tickList = listOf(
-                LocalDateTime(2011, 1, 1, 0, 0),
-                LocalDateTime(2011, 4, 1, 0, 0),
-                LocalDateTime(2011, 7, 1, 0, 0),
-                LocalDateTime(2011, 10, 1, 0, 0)
+                date(2011, 1, 1, 0, 0),
+                date(2011, 4, 1, 0, 0),
+                date(2011, 7, 1, 0, 0),
+                date(2011, 10, 1, 0, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -550,13 +555,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_1_year_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2010, 12, 18, 0, 0), LocalDateTime(2014, 3, 2, 0, 0))
+        scale.domain = listOf(date(2010, 12, 18, 0, 0), date(2014, 3, 2, 0, 0))
 
         var tickList = listOf(
-                LocalDateTime(2011, 1, 1, 0, 0),
-                LocalDateTime(2012, 1, 1, 0, 0),
-                LocalDateTime(2013, 1, 1, 0, 0),
-                LocalDateTime(2014, 1, 1, 0, 0)
+                date(2011, 1, 1, 0, 0),
+                date(2012, 1, 1, 0, 0),
+                date(2013, 1, 1, 0, 0),
+                date(2014, 1, 1, 0, 0)
         )
 
         var ticks = scale.ticks(4)
@@ -565,15 +570,15 @@ class ScaleTimeTests : TestBase() {
             tick shouldBe ticks[index]
         }
 
-        scale.domain = listOf(LocalDateTime(2010, 12, 18, 0, 0), LocalDateTime(2022, 3, 2, 0, 0))
+        scale.domain = listOf(date(2010, 12, 18, 0, 0), date(2022, 3, 2, 0, 0))
 
         tickList = listOf(
-                LocalDateTime(2012, 1, 1, 0, 0),
-                LocalDateTime(2014, 1, 1, 0, 0),
-                LocalDateTime(2016, 1, 1, 0, 0),
-                LocalDateTime(2018, 1, 1, 0, 0),
-                LocalDateTime(2020, 1, 1, 0, 0),
-                LocalDateTime(2022, 1, 1, 0, 0)
+                date(2012, 1, 1, 0, 0),
+                date(2014, 1, 1, 0, 0),
+                date(2016, 1, 1, 0, 0),
+                date(2018, 1, 1, 0, 0),
+                date(2020, 1, 1, 0, 0),
+                date(2022, 1, 1, 0, 0)
         )
 
         ticks = scale.ticks(4)
@@ -587,13 +592,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_can_generate_multi_years_ticks() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(0, 12, 18, 0, 0), LocalDateTime(2014, 3, 2, 0, 0))
+        scale.domain = listOf(date(0, 12, 18, 0, 0), date(2014, 3, 2, 0, 0))
 
         val tickList = listOf(
-                LocalDateTime(500,  1, 1, 0, 0),
-                LocalDateTime(1000, 1, 1, 0, 0),
-                LocalDateTime(1500, 1, 1, 0, 0),
-                LocalDateTime(2000, 1, 1, 0, 0)
+                date(500,  1, 1, 0, 0),
+                date(1000, 1, 1, 0, 0),
+                date(1500, 1, 1, 0, 0),
+                date(2000, 1, 1, 0, 0)
         )
 
         val ticks = scale.ticks(4)
@@ -607,7 +612,7 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_returns_no_ticks_for_empty_domain() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2014, 3, 2, 0, 0), LocalDateTime(2014, 3, 2, 0, 0))
+        scale.domain = listOf(date(2014, 3, 2, 0, 0), date(2014, 3, 2, 0, 0))
 
         val ticks = scale.ticks(6)
         ticks.size shouldBe 0
@@ -619,13 +624,13 @@ class ScaleTimeTests : TestBase() {
     fun time_ticks_count_returns_descending_ticks_for_descending_domain() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2014, 3, 2, 0, 0), LocalDateTime(2010, 12, 18, 0, 0))
+        scale.domain = listOf(date(2014, 3, 2, 0, 0), date(2010, 12, 18, 0, 0))
 
         var tickList = listOf(
-                LocalDateTime(2014, 1, 1, 0, 0),
-                LocalDateTime(2013, 1, 1, 0, 0),
-                LocalDateTime(2012, 1, 1, 0, 0),
-                LocalDateTime(2011, 1, 1, 0, 0)
+                date(2014, 1, 1, 0, 0),
+                date(2013, 1, 1, 0, 0),
+                date(2012, 1, 1, 0, 0),
+                date(2011, 1, 1, 0, 0)
         )
 
         var ticks = scale.ticks(4)
@@ -634,12 +639,12 @@ class ScaleTimeTests : TestBase() {
             tick shouldBe ticks[index]
         }
 
-        scale.domain = listOf(LocalDateTime(2010, 12, 18, 0, 0), LocalDateTime(2011, 11, 2, 0, 0))
+        scale.domain = listOf(date(2010, 12, 18, 0, 0), date(2011, 11, 2, 0, 0))
         tickList = listOf(
-                LocalDateTime(2011, 1, 1, 0, 0),
-                LocalDateTime(2011, 4, 1, 0, 0),
-                LocalDateTime(2011, 7, 1, 0, 0),
-                LocalDateTime(2011, 10, 1, 0, 0)
+                date(2011, 1, 1, 0, 0),
+                date(2011, 4, 1, 0, 0),
+                date(2011, 7, 1, 0, 0),
+                date(2011, 10, 1, 0, 0)
         )
 
         ticks = scale.ticks(4)
@@ -648,12 +653,12 @@ class ScaleTimeTests : TestBase() {
             tick shouldBe ticks[index]
         }
 
-        scale.domain = listOf(LocalDateTime(2011, 11, 2, 0, 0), LocalDateTime(2010, 12, 18, 0, 0))
+        scale.domain = listOf(date(2011, 11, 2, 0, 0), date(2010, 12, 18, 0, 0))
         tickList = listOf(
-                LocalDateTime(2011, 10, 1, 0, 0),
-                LocalDateTime(2011, 7, 1, 0, 0),
-                LocalDateTime(2011, 4, 1, 0, 0),
-                LocalDateTime(2011, 1, 1, 0, 0)
+                date(2011, 10, 1, 0, 0),
+                date(2011, 7, 1, 0, 0),
+                date(2011, 4, 1, 0, 0),
+                date(2011, 1, 1, 0, 0)
         )
 
         ticks = scale.ticks(4)
@@ -666,8 +671,8 @@ class ScaleTimeTests : TestBase() {
     @Test
     fun tick_values_does_not_contains_values_outside_of_domain() {
         val scale = Scales.Continuous.time()
-        var start = LocalDateTime(2018, 2, 13, 5, 22)
-        var end = LocalDateTime(2020, 5, 8, 16, 44)
+        var start = date(2018, 2, 13, 5, 22)
+        var end = date(2020, 5, 8, 16, 44)
 
         scale.domain = listOf(start, end)
         scale.ticks(10).forEach {
@@ -685,8 +690,8 @@ class ScaleTimeTests : TestBase() {
             (it <= end) shouldBe true
         }
 
-        start = LocalDateTime(1955, 12, 20, 22, 54)
-        end = LocalDateTime(2035, 4, 16, 2, 7)
+        start = date(1955, 12, 20, 22, 54)
+        end = date(2035, 4, 16, 2, 7)
 
         scale.domain = listOf(start, end)
         scale.ticks(10).forEach {
@@ -709,7 +714,7 @@ class ScaleTimeTests : TestBase() {
     fun additionnal_weekdays_tests() {
         val scale = Scales.Continuous.time()
         scale.range = listOf(.0, 1.0)
-        scale.domain = listOf(LocalDateTime(2020, 1, 1, 0, 0), LocalDateTime(2020, 2, 11, 15, 0))
+        scale.domain = listOf(date(2020, 1, 1, 0, 0), date(2020, 2, 11, 15, 0))
 
         val ticks = scale.ticks()
         ticks.size shouldBe 6

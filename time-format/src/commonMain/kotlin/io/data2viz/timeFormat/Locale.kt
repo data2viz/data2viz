@@ -18,12 +18,9 @@
 package io.data2viz.timeFormat
 
 import io.data2viz.time.*
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.*
 import kotlin.math.abs
-import kotlin.time.DurationUnit
-import kotlin.time.ExperimentalTime
+import kotlin.time.days
 
 // return {y: y, m: 0, d: 1, H: 0, M: 0, S: 0, L: 0};
 public data class ParseDate(
@@ -41,8 +38,8 @@ public data class ParseDate(
         var zone: Int? = null
 )
 
-private fun date(d: ParseDate): LocalDateTime {
-    var date = LocalDateTime(d.year ?: 0, d.month ?: 1, 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0)
+private fun date(d: ParseDate): Instant {
+    var date = LocalDateTime(d.year ?: 0, d.month ?: 1, 1, d.hour ?: 0, d.minute ?: 0, d.second ?: 0, d.millisecond ?: 0).toInstant(TimeZone.UTC)
 
     // add days (cause day value may be a number of days <= 0 or > 31)
 //    if (d.day != null) {
@@ -51,7 +48,7 @@ private fun date(d: ParseDate): LocalDateTime {
 //        else date
 //    }
     if (d.day != null) {
-        date = date + DateTimePeriod(0, 0, d.day!! - 1)
+        date = date + (d.day!! - 1).days
     }
 
     return date
@@ -86,11 +83,11 @@ private fun date(d: ParseDate): LocalDateTime {
 
 public val defaultLocale: Locale = Locale()
 
-public fun autoFormat(): (LocalDateTime) -> String = defaultLocale.autoFormat()
+public fun autoFormat(): TimeZone.(Instant) -> String = defaultLocale.autoFormat()
 
-public fun format(specifier: String): (LocalDateTime) -> String = defaultLocale.format(specifier)
+public fun format(specifier: String): (Instant) -> String = defaultLocale.format(specifier)
 
-public fun parse(specifier: String): (String) -> LocalDateTime? = defaultLocale.parse(specifier)
+public fun parse(specifier: String): (String) -> Instant? = defaultLocale.parse(specifier)
 
 public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     public val locale_dateTime: String = timeLocale.dateTime
@@ -111,7 +108,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     public val monthLookup: Map<String, Int> = formatLookup(locale_months)
     public val shortMonthRe: Regex = formatRe(locale_shortMonths)
     public val shortMonthLookup: Map<String, Int> = formatLookup(locale_shortMonths)
-    public val formats: MutableMap<Char, ((LocalDateTime, String) -> String)?> = mutableMapOf<Char, ((LocalDateTime, String) -> String)?>(
+    public val formats: MutableMap<Char, ((Instant, String) -> String)?> = mutableMapOf<Char, ((Instant, String) -> String)?>(
             Pair('a', ::formatShortWeekday),
             Pair('A', ::formatWeekday),
             Pair('b', ::formatShortMonth),
@@ -165,17 +162,17 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
             Pair('%', ::parseLiteralPercent)
     )
 
-    public val dateTimeFormat: (LocalDateTime) -> String = format(locale_dateTime)
-    public val dateFormat: (LocalDateTime) -> String = format(locale_date)
-    public val timeFormat: (LocalDateTime) -> String = format(locale_time)
+    public val dateTimeFormat: (Instant) -> String = format(locale_dateTime)
+    public val dateFormat: (Instant) -> String = format(locale_date)
+    public val timeFormat: (Instant) -> String = format(locale_time)
 
     init {
-        formats['c'] = fun(date: LocalDateTime, _: String): String { return dateTimeFormat(date) }
-        formats['x'] = fun(date: LocalDateTime, _: String): String { return dateFormat(date) }
-        formats['X'] = fun(date: LocalDateTime, _: String): String { return timeFormat(date) }
+        formats['c'] = fun(date: Instant, _: String): String { return dateTimeFormat(date) }
+        formats['x'] = fun(date: Instant, _: String): String { return dateFormat(date) }
+        formats['X'] = fun(date: Instant, _: String): String { return timeFormat(date) }
     }
 
-    public fun autoFormat(): (LocalDateTime) -> String {
+    public fun autoFormat(): TimeZone.(Instant) -> String {
         val formatMillisecond = format(".%L")
         val formatSecond = format(":%S")
         val formatMinute = format("%I:%M")
@@ -185,15 +182,15 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         val formatMonth = format("%B")
         val formatYear = format("%Y")
 
-        return fun(date: LocalDateTime): String {
+        return fun TimeZone.(date: Instant): String {
             val formatter =
-                if (timeYear.floor(date).month < date.month) formatMonth else {
-                    if (timeMonth.floor(date).dayOfYear < date.dayOfMonth) formatWeek else {
+                if (timeYear.floor(this, date).monthsUntil(date, TimeZone.UTC) > 0) formatMonth else {
+                    if (timeMonth.floor(this, date).daysUntil(date, TimeZone.UTC) > 0) formatWeek else {
 //                        if (timeSunday.floor(date).dayOfWeek < date.dayOfWeek) formatDay else {
-                            if (timeDay.floor(date).hour < date.hour) formatHour else {
-                                if (timeHour.floor(date).minute < date.minute) formatMinute else {
-                                    if (timeMinute.floor(date).second < date.second) formatSecond else {
-                                        if (timeSecond.floor(date).nanosecond < date.nanosecond) formatMillisecond else
+                            if (timeDay.floor(this, date).until(date, DateTimeUnit.HOUR, TimeZone.UTC) > 0) formatHour else {
+                                if (timeHour.floor(this, date).until(date, DateTimeUnit.MINUTE, TimeZone.UTC) > 0) formatMinute else {
+                                    if (timeMinute.floor(this, date).until(date, DateTimeUnit.SECOND, TimeZone.UTC) > 0) formatSecond else {
+                                        if (timeSecond.floor(this, date).until(date, DateTimeUnit.MILLISECOND, TimeZone.UTC) > 0) formatMillisecond else
                                             formatYear
                                     }
                                 }
@@ -205,8 +202,8 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         }
     }
 
-    public fun format(specifier: String): (LocalDateTime) -> String {
-        return fun(date: LocalDateTime): String {
+    public fun format(specifier: String): (Instant) -> String {
+        return fun(date: Instant): String {
             val string = mutableListOf<String>()
             var i = 0
             var j = 0
@@ -239,8 +236,8 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         }
     }
 
-    public fun parse(specifier: String): (String) -> LocalDateTime? {
-        return fun(dateString: String): LocalDateTime? {
+    public fun parse(specifier: String): (String) -> Instant? {
+        return fun(dateString: String): Instant? {
             val d = newYear(1900)
             val i = parseSpecifier(d, specifier, dateString, 0)
             if (i != dateString.length) return null
@@ -259,7 +256,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
                 val day = if (d.zone != null) {
                     0
                 } else {
-                    date(newYear(d.year)).dayOfWeek.ordinal + 1
+                    date(newYear(d.year)).toLocalDateTime(TimeZone.UTC).dayOfWeek.ordinal + 1
                 }
                 d.month = 1
                 d.day = if (d.weekNumberMonday != null) {
@@ -505,83 +502,81 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return if (n != null) i + n.groupValues[0].length else -1
     }
 
-    public fun formatShortWeekday(d: LocalDateTime, p: String): String {
-        return locale_shortWeekdays[(d.dayOfWeek.ordinal + 1) % 7]
+    public fun formatShortWeekday(d: Instant, p: String): String {
+        return locale_shortWeekdays[(d.toLocalDateTime(TimeZone.UTC).dayOfWeek.ordinal + 1) % 7]
     }
 
-    public fun formatWeekday(d: LocalDateTime, p: String): String {
-        return locale_weekdays[(d.dayOfWeek.ordinal + 1) % 7]
+    public fun formatWeekday(d: Instant, p: String): String {
+        return locale_weekdays[(d.toLocalDateTime(TimeZone.UTC).dayOfWeek.ordinal + 1) % 7]
     }
 
-    public fun formatShortMonth(d: LocalDateTime, p: String): String {
-        return locale_shortMonths[d.monthNumber - 1]
+    public fun formatShortMonth(d: Instant, p: String): String {
+        return locale_shortMonths[d.toLocalDateTime(TimeZone.UTC).monthNumber - 1]
     }
 
-    public fun formatMonth(d: LocalDateTime, p: String): String {
-        return locale_months[d.monthNumber - 1]
+    public fun formatMonth(d: Instant, p: String): String {
+        return locale_months[d.toLocalDateTime(TimeZone.UTC).monthNumber - 1]
     }
 
-    public fun formatPeriod(d: LocalDateTime, p: String): String {
-        return locale_periods[if (d.hour >= 12) 1 else 0]
+    public fun formatPeriod(d: Instant, p: String): String {
+        return locale_periods[if (d.toLocalDateTime(TimeZone.UTC).hour >= 12) 1 else 0]
     }
 
-    public fun formatDayOfMonth(d: LocalDateTime, p: String): String {
-        return pad(d.dayOfMonth, p, 2)
+    public fun formatDayOfMonth(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).dayOfMonth, p, 2)
     }
 
-    public fun formatHour24(d: LocalDateTime, p: String): String {
-        return pad(d.hour, p, 2)
+    public fun formatHour24(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).hour, p, 2)
     }
 
-    public fun formatHour12(d: LocalDateTime, p: String): String {
-        val hour = d.hour % 12
+    public fun formatHour12(d: Instant, p: String): String {
+        val hour = d.toLocalDateTime(TimeZone.UTC).hour % 12
         return pad(if (hour == 0) 12 else hour, p, 2)
     }
 
     // TODO JS version moved to LocalDateTime? (see comment)
-    public fun formatDayOfYear(d: LocalDateTime, p: String): String {
-        return pad(d.dayOfYear, p, 3)
+    public fun formatDayOfYear(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).dayOfYear, p, 3)
     }
 
-    public fun formatMilliseconds(d: LocalDateTime, p: String): String {
-        return pad(d.nanosecond / 1_000_000, p, 3)
+    public fun formatMilliseconds(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).nanosecond / 1_000_000, p, 3)
     }
 
-    public fun formatMonthNumber(d: LocalDateTime, p: String): String {
-        return pad(d.monthNumber, p, 2)
+    public fun formatMonthNumber(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).monthNumber, p, 2)
     }
 
-    public fun formatMinutes(d: LocalDateTime, p: String): String {
-        return pad(d.minute, p, 2)
+    public fun formatMinutes(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).minute, p, 2)
     }
 
-    public fun formatSeconds(d: LocalDateTime, p: String): String {
-        return pad(d.second, p, 2)
+    public fun formatSeconds(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).second, p, 2)
     }
 
-    public fun formatWeekNumberSunday(d: LocalDateTime, p: String): String {
-        val start = timeYear.floor(d)
-        val value = timeSunday.count(start, d)
-        return pad(value, p, 2)
+    public fun formatWeekNumberSunday(d: Instant, p: String): String {
+        return pad(timeSunday.count(TimeZone.UTC, timeYear.floor(TimeZone.UTC, d), d).toInt(), p, 2)
     }
 
-    public fun formatWeekdayNumber(d: LocalDateTime, p: String): String {
-        return d.dayOfWeek.toString()
+    public fun formatWeekdayNumber(d: Instant, p: String): String {
+        return d.toLocalDateTime(TimeZone.UTC).dayOfWeek.toString()
     }
 
-    public fun formatWeekNumberMonday(d: LocalDateTime, p: String): String {
-        return pad(timeMonday.count(timeYear.floor(d), d), p, 2)
+    public fun formatWeekNumberMonday(d: Instant, p: String): String {
+        return pad(timeMonday.count(TimeZone.UTC, timeYear.floor(TimeZone.UTC, d), d).toInt(), p, 2)
     }
 
-    public fun formatYear(d: LocalDateTime, p: String): String {
-        return pad(d.year % 100, p, 2)
+    public fun formatYear(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).year % 100, p, 2)
     }
 
-    public fun formatFullYear(d: LocalDateTime, p: String): String {
-        return pad(d.year % 10000, p, 4)
+    public fun formatFullYear(d: Instant, p: String): String {
+        return pad(d.toLocalDateTime(TimeZone.UTC).year % 10000, p, 4)
     }
 
-    public fun formatZone(d: LocalDateTime, p: String): String {
+    public fun formatZone(d: Instant, p: String): String {
 //        var z = d.getTimezoneOffset()
         var z = 0
         val sign = if (z > 0) "-" else "+"
@@ -589,7 +584,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return sign + pad(z / 60, "0", 2) + pad(z % 60, "0", 2)
     }
 
-    public fun formatLiteralPercent(d: LocalDateTime, p: String): String {
+    public fun formatLiteralPercent(d: Instant, p: String): String {
         return "%"
     }
 

@@ -23,9 +23,11 @@ import io.data2viz.interpolate.interpolateDate
 import io.data2viz.interpolate.uninterpolateDate
 import io.data2viz.math.tickStep
 import io.data2viz.time.*
-import kotlinx.datetime.*
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlin.time.milliseconds
 
-private val dateComparator = Comparator<LocalDateTime> { a, b -> a.compareTo(b) }
+private val dateComparator = Comparator<Instant> { a, b -> a.compareTo(b) }
 
 private data class TickInterval(
     val interval: Interval,
@@ -42,24 +44,24 @@ private val durationMonth = 2592000000L      // (day * 30)
 private val durationYear = 31536000000L      // (day * 365)
 
 private val tickIntervals = listOf(
-        TickInterval(timeSecond, 1, durationSecond),
-        TickInterval(timeSecond, 5, 5 * durationSecond),
-        TickInterval(timeSecond, 15, 15 * durationSecond),
-        TickInterval(timeSecond, 30, 30 * durationSecond),
-        TickInterval(timeMinute, 1, durationMinute),
-        TickInterval(timeMinute, 5, 5 * durationMinute),
-        TickInterval(timeMinute, 15, 15 * durationMinute),
-        TickInterval(timeMinute, 30, 30 * durationMinute),
-        TickInterval(timeHour, 1, durationHour),
-        TickInterval(timeHour, 3, 3 * durationHour),
-        TickInterval(timeHour, 6, 6 * durationHour),
-        TickInterval(timeHour, 12, 12 * durationHour),
-        TickInterval(timeDay, 1, durationDay),
-        TickInterval(timeDay, 2, 2 * durationDay),
-        TickInterval(timeSunday, 1, durationWeek),
-        TickInterval(timeMonth, 1, durationMonth),
-        TickInterval(timeMonth, 3, 3 * durationMonth),
-        TickInterval(timeYear, 1, durationYear)
+    TickInterval(timeSecond, 1, durationSecond),
+    TickInterval(timeSecond, 5, 5 * durationSecond),
+    TickInterval(timeSecond, 15, 15 * durationSecond),
+    TickInterval(timeSecond, 30, 30 * durationSecond),
+    TickInterval(timeMinute, 1, durationMinute),
+    TickInterval(timeMinute, 5, 5 * durationMinute),
+    TickInterval(timeMinute, 15, 15 * durationMinute),
+    TickInterval(timeMinute, 30, 30 * durationMinute),
+    TickInterval(timeHour, 1, durationHour),
+    TickInterval(timeHour, 3, 3 * durationHour),
+    TickInterval(timeHour, 6, 6 * durationHour),
+    TickInterval(timeHour, 12, 12 * durationHour),
+    TickInterval(timeDay, 1, durationDay),
+    TickInterval(timeDay, 2, 2 * durationDay),
+    TickInterval(timeSunday, 1, durationWeek),
+    TickInterval(timeMonth, 1, durationMonth),
+    TickInterval(timeMonth, 3, 3 * durationMonth),
+    TickInterval(timeYear, 1, durationYear)
 )
 
 /**
@@ -71,21 +73,24 @@ public class TimeScale<R> internal constructor(
     interpolateRange: (R, R) -> Interpolator<R>,
     uninterpolateRange: ((R, R) -> UnInterpolator<R>)? = null,
     rangeComparator: Comparator<R>? = null
-) : ContinuousScale<LocalDateTime, R>(interpolateRange, uninterpolateRange, rangeComparator),
-    NiceableScale<LocalDateTime>,
-    Tickable<LocalDateTime> {
+) : ContinuousScale<Instant, R>(interpolateRange, uninterpolateRange, rangeComparator),
+    NiceableScale<Instant>,
+    Tickable<Instant> {
 
     init {
         _domain.clear()
-        _domain.addAll(listOf(LocalDateTime(2000, 1, 1, 0, 0, 0, 0), LocalDateTime(2000, 1, 2, 0, 0, 0, 0)))
+        _domain.addAll(listOf(
+            Instant.parse("2000-01-01T00:00:00.000Z"),
+            Instant.parse("2000-01-02T00:00:00.000Z"),
+        ))
     }
 
-    override fun interpolateDomain(from: LocalDateTime, to: LocalDateTime): Interpolator<LocalDateTime> = interpolateDate(from, to)
-    override fun uninterpolateDomain(from: LocalDateTime, to: LocalDateTime): UnInterpolator<LocalDateTime> = uninterpolateDate(from, to)
+    override fun interpolateDomain(from: Instant, to: Instant): Interpolator<Instant> = interpolateDate(from, to)
+    override fun uninterpolateDomain(from: Instant, to: Instant): UnInterpolator<Instant> = uninterpolateDate(from, to)
 
-    override fun domainComparator(): Comparator<LocalDateTime> = dateComparator
+    override fun domainComparator(): Comparator<Instant> = dateComparator
 
-    override fun copy(): ContinuousScale<LocalDateTime, R>  =
+    override fun copy(): ContinuousScale<Instant, R>  =
         TimeScale(interpolateRange, uninterpolateRange, rangeComparator).also {
             it.domain = domain
             it.range = range
@@ -117,14 +122,14 @@ public class TimeScale<R> internal constructor(
         rescale()
     }
 
-    private fun tickInterval(count: Int, start: LocalDateTime, end: LocalDateTime): Interval {
-        val diff = start.toInstant(defaultTZ).until(end.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ)
+    private fun tickInterval(count: Int, start: Instant, end: Instant): Interval {
+        val diff = (end - start).inMilliseconds
         val targetDuration = diff / count.toDouble()
         val intervalIndex = bisectRight(tickIntervals.map { it.duration }, targetDuration.toLong(), naturalOrder())
         val step: Int?
         var interval: Interval = timeYear
         if (intervalIndex == tickIntervals.size) {
-            step = tickStep(start.toInstant(defaultTZ).toEpochMilliseconds().toDouble() / durationYear, end.toInstant(defaultTZ).toEpochMilliseconds().toDouble() / durationYear, count).toInt()
+            step = tickStep(start.toEpochMilliseconds().toDouble() / durationYear, end.toEpochMilliseconds().toDouble() / durationYear, count).toInt()
         } else if (intervalIndex > 0) {
             val l = targetDuration / tickIntervals[intervalIndex - 1].duration
             val l1 = tickIntervals[intervalIndex].duration / targetDuration
@@ -132,14 +137,14 @@ public class TimeScale<R> internal constructor(
             step = tickInterval.step
             interval = tickInterval.interval
         } else {
-            step = tickStep(start.toInstant(defaultTZ).toEpochMilliseconds().toDouble(), end.toInstant(defaultTZ).toEpochMilliseconds().toDouble(), count).toInt()
+            step = tickStep(start.toEpochMilliseconds().toDouble(), end.toEpochMilliseconds().toDouble(), count).toInt()
             interval = timeMillisecond
         }
-        if (step > 0) interval = interval.every(step)
+        if (step > 0) interval = with(interval) { TimeZone.UTC.every(step) }
         return interval
     }
 
-    private fun niceDomain(end: LocalDateTime, start: LocalDateTime, interval: Interval) {
+    private fun niceDomain(end: Instant, start: Instant, interval: Interval) {
         var first = 0
         var last = _domain.size - 1
 
@@ -151,8 +156,8 @@ public class TimeScale<R> internal constructor(
         val x0 = _domain[first]
         val x1 = _domain[last]
 
-        _domain[first] = interval.floor(x0)
-        _domain[last] = interval.ceil(x1)
+        _domain[first] = with(interval) { TimeZone.UTC.floor(x0) }
+        _domain[last] = with(interval) { TimeZone.UTC.ceil(x1) }
     }
 
     /**
@@ -174,7 +179,7 @@ public class TimeScale<R> internal constructor(
      * 1- and 3-month.
      * 1-year.
      */
-    override fun ticks(count: Int): List<LocalDateTime> {
+    override fun ticks(count: Int): List<Instant> {
         var first = 0
         var last = _domain.size - 1
 
@@ -191,10 +196,10 @@ public class TimeScale<R> internal constructor(
             end = _domain[last]
         }
 
-        val endPlus = end + DateTimePeriod(0, 0, 0, 0, 0, 0, 1_000_000)
+        val endPlus = end + 1.milliseconds
 
         val tickInterval = tickInterval(count, start, end)
-        val ticks = tickInterval.range(start, endPlus)
+        val ticks = with (tickInterval) { TimeZone.UTC.range(start, endPlus) }
 
         return if (reversed) ticks.reversed() else ticks
     }

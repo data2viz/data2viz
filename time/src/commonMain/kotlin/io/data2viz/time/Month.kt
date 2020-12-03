@@ -17,14 +17,17 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.*
 
 public class Month : Interval(
-        floor = fun (date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, 1, 0, 0, 0, 0),
-        offset = fun (date:LocalDateTime, step:Int): LocalDateTime = date + DateTimePeriod(0, step),
-        count = fun (start:LocalDateTime, end:LocalDateTime): Int = (end - start).months,
-        field = fun (date:LocalDateTime): Int = date.monthNumber - 1
+        floor = fun TimeZone.(date: Instant): Instant {
+                val d = date.toLocalDateTime(this)
+                return LocalDateTime(d.year, d.monthNumber, 1, 0, 0, 0, 0).toInstant(this)
+        },
+        offset = fun TimeZone.(date: Instant, step: Int): Instant =
+                (date.toLocalDateTime(this) + DateTimePeriod(0, step)).toInstant(this),
+        count = fun TimeZone.(start: Instant, end: Instant): Long = start.monthsUntil(end, this).toLong(),
+        field = fun TimeZone.(date: Instant): Int = date.toLocalDateTime(this).monthNumber - 1
 )
 
 public val timeMonth: Month = Month()

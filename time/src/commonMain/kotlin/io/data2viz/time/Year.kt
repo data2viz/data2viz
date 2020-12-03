@@ -17,14 +17,17 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.*
 
 public class Year : Interval(
-        floor = fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, 1, 1, 0, 0, 0, 0),
-        offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(step),
-        count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).years,
-        field = fun(date: LocalDateTime): Int = date.year
+        floor = fun TimeZone.(date: Instant): Instant {
+                val d = date.toLocalDateTime(this)
+                return LocalDateTime(d.year, 1, 1, 0, 0, 0, 0).toInstant(this)
+        },
+        offset = fun TimeZone.(date: Instant, step: Int): Instant =
+                (date.toLocalDateTime(this) + DateTimePeriod(step)).toInstant(this),
+        count = fun TimeZone.(start: Instant, end: Instant): Long = start.yearsUntil(end, this).toLong(),
+        field = fun TimeZone.(date: Instant): Int = date.toLocalDateTime(this).year
 )
 
 public val timeYear: Year = Year()

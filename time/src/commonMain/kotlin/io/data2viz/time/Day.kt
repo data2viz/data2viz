@@ -17,16 +17,17 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.daysUntil
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.*
+import kotlin.time.days
 
 public class Day : Interval(
-    floor = fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, 0, 0, 0, 0),
-    offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, step),
-    count = fun(start: LocalDateTime, end: LocalDateTime): Int = start.toInstant(defaultTZ).daysUntil(end.toInstant(defaultTZ), defaultTZ),
-    field = fun(date: LocalDateTime): Int = date.dayOfMonth - 1
+    floor = fun TimeZone.(date: Instant): Instant {
+        val d = date.toLocalDateTime(this)
+        return LocalDateTime(d.year, d.monthNumber, d.dayOfMonth, 0, 0, 0, 0).toInstant(this)
+    },
+    offset = fun TimeZone.(date: Instant, step: Int): Instant = date + step.days,
+    count = fun TimeZone.(start: Instant, end: Instant): Long = start.until(end, DateTimeUnit.DAY, this),
+    field = fun TimeZone.(date: Instant): Int = date.toLocalDateTime(this).dayOfMonth - 1
 )
 
 public val timeDay: Day = Day()

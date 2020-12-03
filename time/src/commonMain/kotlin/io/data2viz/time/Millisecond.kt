@@ -17,14 +17,15 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlin.time.milliseconds
 
 public class Millisecond : Interval(
-        floor = fun(date: LocalDateTime): LocalDateTime = LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, date.second, date.nanosecond),
-        offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, 0, 0, 0, step * 1_000_000L),
-        count = fun(start: LocalDateTime, end: LocalDateTime): Int = ((end - start).nanoseconds / 1_000_000).toInt(),
-        field = fun(date: LocalDateTime): Int = date.nanosecond / 1_000_000
+        floor = fun TimeZone.(date: Instant): Instant = date,
+        offset = fun TimeZone.(date: Instant, step: Int): Instant = date + step.milliseconds,
+        count = fun TimeZone.(start: Instant, end: Instant): Long = (end - start).toLongMilliseconds(),
+        field = fun TimeZone.(date: Instant): Int = date.nanosecondsOfSecond / 1_000_000
 )
 
 public val timeMillisecond: Millisecond = Millisecond()

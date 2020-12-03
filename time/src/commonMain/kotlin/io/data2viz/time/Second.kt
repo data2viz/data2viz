@@ -17,15 +17,17 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.*
+import kotlin.time.seconds
 
 public class Second : Interval(
-    floor = fun(date: LocalDateTime): LocalDateTime =
-        LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, date.second, 0),
-    offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, 0, 0, step.toLong()),
-    count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).seconds.toInt(),
-    field = fun(date: LocalDateTime): Int = date.second
+    floor = fun TimeZone.(date: Instant): Instant {
+        val d = date.toLocalDateTime(this)
+        return LocalDateTime(d.year, d.monthNumber, d.dayOfMonth, d.hour, d.minute, d.second, 0).toInstant(this)
+    },
+    offset = fun TimeZone.(date: Instant, step: Int): Instant = date + step.seconds,
+    count = fun TimeZone.(start: Instant, end: Instant): Long = start.until(end, DateTimeUnit.SECOND, this),
+    field = fun TimeZone.(date: Instant): Int = date.toLocalDateTime(this).second
 )
 
 public val timeSecond: Second = Second()

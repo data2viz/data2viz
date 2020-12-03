@@ -18,21 +18,24 @@
 package io.data2viz.timeFormat
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlin.test.Test
-import kotlin.time.ExperimentalTime
 
 class ParseTest : TestDate() {
 
+    private fun date(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
+        LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(TimeZone.UTC)
     
     @Test
     fun parse_string() {
         val parser = parse("%c")
 
-        parser("1/1/1990, 12:00:00 AM") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("1/2/1990, 12:00:00 AM") shouldBe LocalDateTime(1990, 1, 2, 0, 0)
-        parser("1/3/1990, 12:00:00 AM") shouldBe LocalDateTime(1990, 1, 3, 0, 0)
-        parser("1/4/1990, 12:00:00 AM") shouldBe LocalDateTime(1990, 1, 4, 0, 0)
-        parser("1/5/1990, 12:00:00 AM") shouldBe LocalDateTime(1990, 1, 5, 0, 0)
+        parser("1/1/1990, 12:00:00 AM") shouldBe date(1990, 1, 1, 0, 0)
+        parser("1/2/1990, 12:00:00 AM") shouldBe date(1990, 1, 2, 0, 0)
+        parser("1/3/1990, 12:00:00 AM") shouldBe date(1990, 1, 3, 0, 0)
+        parser("1/4/1990, 12:00:00 AM") shouldBe date(1990, 1, 4, 0, 0)
+        parser("1/5/1990, 12:00:00 AM") shouldBe date(1990, 1, 5, 0, 0)
     }
 
     
@@ -40,8 +43,8 @@ class ParseTest : TestDate() {
     fun parse_amdY_parses_abbreviated_weekday_and_date() {
         val parser = parse("%a %m/%d/%Y")
 
-        parser("Sun 01/01/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("Wed 02/03/1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
+        parser("Sun 01/01/1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("Wed 02/03/1991") shouldBe date(1991, 2, 3, 0, 0)
         parser("XXX 03/10/2010") shouldBe null
     }
 
@@ -51,12 +54,12 @@ class ParseTest : TestDate() {
         val parser = parse("%A %m/%d/%Y")
 
         // note : ignores the day name
-        parser("Sunday 01/01/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("Monday 01/01/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("Tuesday 01/01/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("Wednesday 01/01/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
+        parser("Sunday 01/01/1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("Monday 01/01/1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("Tuesday 01/01/1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("Wednesday 01/01/1990") shouldBe date(1990, 1, 1, 0, 0)
 
-        parser("Wednesday 02/03/1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
+        parser("Wednesday 02/03/1991") shouldBe date(1991, 2, 3, 0, 0)
         parser("Caturday 03/10/2010") shouldBe null
     }
 
@@ -65,9 +68,9 @@ class ParseTest : TestDate() {
     fun parse_UY_parses_week_number_sunday_and_year() {
         val parser = parse("%U %Y")
 
-        parser("00 1990") shouldBe LocalDateTime(1989, 12, 31, 0, 0)
-        parser("05 1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("01 1995") shouldBe LocalDateTime(1995, 1, 1, 0, 0)
+        parser("00 1990") shouldBe date(1989, 12, 31, 0, 0)
+        parser("05 1991") shouldBe date(1991, 2, 3, 0, 0)
+        parser("01 1995") shouldBe date(1995, 1, 1, 0, 0)
     }
 
     
@@ -75,9 +78,9 @@ class ParseTest : TestDate() {
     fun parse_aUY_parses_abbreviated_weekday_week_number_sunday_and_year() {
         val parser = parse("%a %U %Y")
 
-        parser("Mon 00 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("Sun 05 1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("Sun 01 1995") shouldBe LocalDateTime(1995, 1, 1, 0, 0)
+        parser("Mon 00 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("Sun 05 1991") shouldBe date(1991, 2, 3, 0, 0)
+        parser("Sun 01 1995") shouldBe date(1995, 1, 1, 0, 0)
         parser("XXX 01 1995") shouldBe null
     }
 
@@ -86,9 +89,9 @@ class ParseTest : TestDate() {
     fun parse_AUY_parses_weekday_week_number_sunday_and_year() {
         val parser = parse("%A %U %Y")
 
-        parser("Monday 00 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("Sunday 05 1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("Sunday 01 1995") shouldBe LocalDateTime(1995, 1, 1, 0, 0)
+        parser("Monday 00 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("Sunday 05 1991") shouldBe date(1991, 2, 3, 0, 0)
+        parser("Sunday 01 1995") shouldBe date(1995, 1, 1, 0, 0)
         parser("Plop 01 1995") shouldBe null
     }
 
@@ -97,9 +100,9 @@ class ParseTest : TestDate() {
     fun parse_wUY_parses_numeric_weekday_week_number_sunday_and_year() {
         val parser = parse("%w %U %Y")
 
-        parser("1 00 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("0 05 1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("0 01 1995") shouldBe LocalDateTime(1995, 1, 1, 0, 0)
+        parser("1 00 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("0 05 1991") shouldBe date(1991, 2, 3, 0, 0)
+        parser("0 01 1995") shouldBe date(1995, 1, 1, 0, 0)
         parser("X 01 1995") shouldBe null
     }
 
@@ -108,9 +111,9 @@ class ParseTest : TestDate() {
     fun parse_WY_parses_week_number_monday_and_year() {
         val parser = parse("%W %Y")
 
-        parser("01 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("04 1991") shouldBe LocalDateTime(1991, 1, 28, 0, 0)
-        parser("00 1995") shouldBe LocalDateTime(1994, 12, 26, 0, 0)
+        parser("01 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("04 1991") shouldBe date(1991, 1, 28, 0, 0)
+        parser("00 1995") shouldBe date(1994, 12, 26, 0, 0)
     }
 
     
@@ -118,9 +121,9 @@ class ParseTest : TestDate() {
     fun parse_aWY_parses_abbreviated_weekday_week_number_monday_and_year() {
         val parser = parse("%a %W %Y")
 
-        parser("Mon 01 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("Sun 04 1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("Sun 00 1995") shouldBe LocalDateTime(1995, 1, 1, 0, 0)
+        parser("Mon 01 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("Sun 04 1991") shouldBe date(1991, 2, 3, 0, 0)
+        parser("Sun 00 1995") shouldBe date(1995, 1, 1, 0, 0)
         parser("XXX 00 1995") shouldBe null
     }
 
@@ -129,9 +132,9 @@ class ParseTest : TestDate() {
     fun parse_AWY_parses_weekday_week_number_monday_and_year() {
         val parser = parse("%A %W %Y")
 
-        parser("Monday 01 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("Sunday 04 1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("Sunday 00 1995") shouldBe LocalDateTime(1995, 1, 1, 0, 0)
+        parser("Monday 01 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("Sunday 04 1991") shouldBe date(1991, 2, 3, 0, 0)
+        parser("Sunday 00 1995") shouldBe date(1995, 1, 1, 0, 0)
         parser("Caturday 00 1995") shouldBe null
     }
 
@@ -140,9 +143,9 @@ class ParseTest : TestDate() {
     fun parse_AWY_parses_numeric_weekday_week_number_monday_and_year() {
         val parser = parse("%w %W %Y")
 
-        parser("1 01 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("0 04 1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("0 00 1995") shouldBe LocalDateTime(1995, 1, 1, 0, 0)
+        parser("1 01 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("0 04 1991") shouldBe date(1991, 2, 3, 0, 0)
+        parser("0 00 1995") shouldBe date(1995, 1, 1, 0, 0)
         parser("X 03 2010") shouldBe null
     }
 
@@ -151,10 +154,10 @@ class ParseTest : TestDate() {
     fun parse_mdy_parses_month_date_and_2_digits_year() {
         val parser = parse("%m/%d/%y")
 
-        parser("02/03/69") shouldBe LocalDateTime(1969, 2, 3, 0, 0)
-        parser("01/01/90") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("02/03/91") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("02/03/68") shouldBe LocalDateTime(2068, 2, 3, 0, 0)
+        parser("02/03/69") shouldBe date(1969, 2, 3, 0, 0)
+        parser("01/01/90") shouldBe date(1990, 1, 1, 0, 0)
+        parser("02/03/91") shouldBe date(1991, 2, 3, 0, 0)
+        parser("02/03/68") shouldBe date(2068, 2, 3, 0, 0)
         parser("03/10/2010") shouldBe null
     }
 
@@ -163,9 +166,9 @@ class ParseTest : TestDate() {
     fun parse_x_parses_local_date() {
         val parser = parse("%x")
 
-        parser("1/1/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("2/3/1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
-        parser("3/10/2010") shouldBe LocalDateTime(2010, 3, 10, 0, 0)
+        parser("1/1/1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("2/3/1991") shouldBe date(1991, 2, 3, 0, 0)
+        parser("3/10/2010") shouldBe date(2010, 3, 10, 0, 0)
     }
 
     
@@ -173,8 +176,8 @@ class ParseTest : TestDate() {
     fun parse_bdY_parses_abbreviated_month_date_and_year() {
         val parser = parse("%b %d, %Y")
 
-        parser("jan 01, 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("feb  2, 2010") shouldBe LocalDateTime(2010, 2, 2, 0, 0)
+        parser("jan 01, 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("feb  2, 2010") shouldBe date(2010, 2, 2, 0, 0)
         parser("jan. 1, 1990") shouldBe null
     }
 
@@ -183,8 +186,8 @@ class ParseTest : TestDate() {
     fun parse_bdY_parses_month_date_and_year() {
         val parser = parse("%B %d, %Y")
 
-        parser("January 01, 1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("February  2, 2010") shouldBe LocalDateTime(2010, 2, 2, 0, 0)
+        parser("January 01, 1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("February  2, 2010") shouldBe date(2010, 2, 2, 0, 0)
         parser("jan 1, 1990") shouldBe null
     }
 
@@ -193,8 +196,8 @@ class ParseTest : TestDate() {
     fun parse_jmdY_parses_day_of_year_and_date() {
         val parser = parse("%j %m/%d/%Y")
 
-        parser("001 01/01/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("034 02/03/1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
+        parser("001 01/01/1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("034 02/03/1991") shouldBe date(1991, 2, 3, 0, 0)
         parser("2012 03/10/2010") shouldBe null
     }
 
@@ -203,7 +206,7 @@ class ParseTest : TestDate() {
     fun parse_c_parses_localdate_and_time() {
         val parser = parse("%c")
 
-        parser("1/1/1990, 12:00:00 AM") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
+        parser("1/1/1990, 12:00:00 AM") shouldBe date(1990, 1, 1, 0, 0)
     }
 
     
@@ -211,11 +214,11 @@ class ParseTest : TestDate() {
     fun parse_HMS_parses_24_hour_minute_second() {
         val parser = parse("%H:%M:%S")
 
-        parser("00:00:00") shouldBe LocalDateTime(1900, 1, 1, 0, 0, 0)
-        parser("11:59:59") shouldBe LocalDateTime(1900, 1, 1, 11, 59, 59)
-        parser("12:00:00") shouldBe LocalDateTime(1900, 1, 1, 12, 0, 0)
-        parser("12:00:01") shouldBe LocalDateTime(1900, 1, 1, 12, 0, 1)
-        parser("23:59:59") shouldBe LocalDateTime(1900, 1, 1, 23, 59, 59)
+        parser("00:00:00") shouldBe date(1900, 1, 1, 0, 0, 0)
+        parser("11:59:59") shouldBe date(1900, 1, 1, 11, 59, 59)
+        parser("12:00:00") shouldBe date(1900, 1, 1, 12, 0, 0)
+        parser("12:00:01") shouldBe date(1900, 1, 1, 12, 0, 1)
+        parser("23:59:59") shouldBe date(1900, 1, 1, 23, 59, 59)
     }
 
     
@@ -223,11 +226,11 @@ class ParseTest : TestDate() {
     fun parse_X_parses_locale_date_time() {
         val parser = parse("%X")
 
-        parser("12:00:00 AM") shouldBe LocalDateTime(1900, 1, 1, 0, 0, 0)
-        parser("11:59:59 AM") shouldBe LocalDateTime(1900, 1, 1, 11, 59, 59)
-        parser("12:00:00 PM") shouldBe LocalDateTime(1900, 1, 1, 12, 0, 0)
-        parser("12:00:01 PM") shouldBe LocalDateTime(1900, 1, 1, 12, 0, 1)
-        parser("11:59:59 PM") shouldBe LocalDateTime(1900, 1, 1, 23, 59, 59)
+        parser("12:00:00 AM") shouldBe date(1900, 1, 1, 0, 0, 0)
+        parser("11:59:59 AM") shouldBe date(1900, 1, 1, 11, 59, 59)
+        parser("12:00:00 PM") shouldBe date(1900, 1, 1, 12, 0, 0)
+        parser("12:00:01 PM") shouldBe date(1900, 1, 1, 12, 0, 1)
+        parser("11:59:59 PM") shouldBe date(1900, 1, 1, 23, 59, 59)
     }
 
     
@@ -235,11 +238,11 @@ class ParseTest : TestDate() {
     fun parse_IMSp_parses_12_hour_minute_second() {
         val parser = parse("%I:%M:%S %p")
 
-        parser("12:00:00 am") shouldBe LocalDateTime(1900, 1, 1, 0, 0, 0)
-        parser("11:59:59 AM") shouldBe LocalDateTime(1900, 1, 1, 11, 59, 59)
-        parser("12:00:00 pm") shouldBe LocalDateTime(1900, 1, 1, 12, 0, 0)
-        parser("12:00:01 pm") shouldBe LocalDateTime(1900, 1, 1, 12, 0, 1)
-        parser("11:59:59 PM") shouldBe LocalDateTime(1900, 1, 1, 23, 59, 59)
+        parser("12:00:00 am") shouldBe date(1900, 1, 1, 0, 0, 0)
+        parser("11:59:59 AM") shouldBe date(1900, 1, 1, 11, 59, 59)
+        parser("12:00:00 pm") shouldBe date(1900, 1, 1, 12, 0, 0)
+        parser("12:00:01 pm") shouldBe date(1900, 1, 1, 12, 0, 1)
+        parser("11:59:59 PM") shouldBe date(1900, 1, 1, 23, 59, 59)
     }
 
     
@@ -247,11 +250,11 @@ class ParseTest : TestDate() {
     fun parse_IMSp_parses_period_in_non_english_locale() {
         val parser = Locale(Locales.fi_FI()).parse("%I:%M:%S %p")
 
-        parser("12:00:00 a.m.") shouldBe LocalDateTime(1900, 1, 1, 0, 0, 0)
-        parser("11:59:59 A.M.") shouldBe LocalDateTime(1900, 1, 1, 11, 59, 59)
-        parser("12:00:00 p.m.") shouldBe LocalDateTime(1900, 1, 1, 12, 0, 0)
-        parser("12:00:01 p.m.") shouldBe LocalDateTime(1900, 1, 1, 12, 0, 1)
-        parser("11:59:59 P.M.") shouldBe LocalDateTime(1900, 1, 1, 23, 59, 59)
+        parser("12:00:00 a.m.") shouldBe date(1900, 1, 1, 0, 0, 0)
+        parser("11:59:59 A.M.") shouldBe date(1900, 1, 1, 11, 59, 59)
+        parser("12:00:00 p.m.") shouldBe date(1900, 1, 1, 12, 0, 0)
+        parser("12:00:01 p.m.") shouldBe date(1900, 1, 1, 12, 0, 1)
+        parser("11:59:59 P.M.") shouldBe date(1900, 1, 1, 23, 59, 59)
     }
 
     
@@ -259,8 +262,8 @@ class ParseTest : TestDate() {
     fun parse_percentSign_mdY_parses_literal_percent() {
         val parser = parse("%% %m/%d/%Y")
 
-        parser("% 01/01/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
-        parser("% 02/03/1991") shouldBe LocalDateTime(1991, 2, 3, 0, 0)
+        parser("% 01/01/1990") shouldBe date(1990, 1, 1, 0, 0)
+        parser("% 02/03/1991") shouldBe date(1991, 2, 3, 0, 0)
         parser("%% 03/10/2010") shouldBe null
     }
 
@@ -269,7 +272,7 @@ class ParseTest : TestDate() {
     fun parse_minus_m_0d_underscoreY_ignores_optional_padding_modifier_skipping_zero_and_spaces() {
         val parser = parse("%-m/%0d/%_Y")
 
-        parser("01/ 1/1990") shouldBe LocalDateTime(1990, 1, 1, 0, 0)
+        parser("01/ 1/1990") shouldBe date(1990, 1, 1, 0, 0)
     }
 
     

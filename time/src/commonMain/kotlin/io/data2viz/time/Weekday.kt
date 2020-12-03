@@ -17,19 +17,20 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.*
+import kotlin.time.days
 
 public class Weekday(day: Int) : Interval(
-    floor = fun(date: LocalDateTime): LocalDateTime {
-        val weekFlooredDay = date.dayOfMonth - (date.dayOfWeek.ordinal + 7 - day) % 7
+    floor = fun TimeZone.(date: Instant): Instant {
+        val d = date.toLocalDateTime(this)
+        val weekFlooredDay = d.dayOfMonth - (d.dayOfWeek.ordinal + 7 - day) % 7
         return if (weekFlooredDay < 1)
-            LocalDateTime(date.year, date.month, 1, 0, 0) + DateTimePeriod(0, 0, weekFlooredDay - 1)
+            (LocalDateTime(d.year, d.month, 1, 0, 0) + DateTimePeriod(0, 0, weekFlooredDay - 1)).toInstant(this)
         else
-            LocalDateTime(date.year, date.month, weekFlooredDay, 0, 0)
+            LocalDateTime(d.year, d.month, weekFlooredDay, 0, 0).toInstant(this)
     },
-    offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, step * 7),
-    count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).days
+    offset = fun TimeZone.(date: Instant, step: Int): Instant = date + (step*7).days,
+    count = fun TimeZone.(start: Instant, end: Instant): Long = (end - start).inDays.toLong() / 7
 )
 
 /**

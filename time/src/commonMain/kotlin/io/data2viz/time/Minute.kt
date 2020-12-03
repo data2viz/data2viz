@@ -17,15 +17,17 @@
 
 package io.data2viz.time
 
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.*
+import kotlin.time.minutes
 
 public class Minute : Interval(
-    floor = fun(date: LocalDateTime): LocalDateTime =
-        LocalDateTime(date.year, date.monthNumber, date.dayOfMonth, date.hour, date.minute, 0, 0),
-    offset = fun(date: LocalDateTime, step: Int): LocalDateTime = date + DateTimePeriod(0, 0, 0, 0, step),
-    count = fun(start: LocalDateTime, end: LocalDateTime): Int = (end - start).minutes,
-    field = fun(date: LocalDateTime): Int = date.minute
+    floor = fun TimeZone.(date: Instant): Instant {
+        val d = date.toLocalDateTime(this)
+        return LocalDateTime(d.year, d.monthNumber, d.dayOfMonth, d.hour, d.minute, 0, 0).toInstant(this)
+    },
+    offset = fun TimeZone.(date: Instant, step: Int): Instant = date + step.minutes,
+    count = fun TimeZone.(start: Instant, end: Instant): Long = start.until(end, DateTimeUnit.MINUTE, this),
+    field = fun TimeZone.(date: Instant): Int = date.toLocalDateTime(this).minute
 )
 
 public val timeMinute: Minute = Minute()

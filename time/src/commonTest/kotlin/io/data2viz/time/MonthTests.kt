@@ -17,233 +17,200 @@
 
 package io.data2viz.time
 
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlin.test.Test
 
-// TODO change date() to LocalDateTime when version > 8.3
 @Suppress("DEPRECATION")
 class MonthTests : TestDate() {
+
+    private val localTZ = TimeZone.of("America/Los_Angeles")
+
+    private fun dateUtc(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
+        LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(TimeZone.UTC)
+
+    private fun dateLocal(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
+        LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(localTZ)
 
     @Test
     fun month_floor_date_returns_months() {
         val time = timeMonth
 
-        time.floor(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2010, 12, 1, 0, 0)
-        time.floor(date(2011, 1, 1, 0, 0, 0)) shouldBe date(2011, 1, 1, 0, 0)
-        time.floor(date(2011, 1, 1, 0, 0, 1)) shouldBe date(2011, 1, 1, 0, 0)
+        time.floor(TimeZone.UTC, dateUtc(2010, 12, 31, 23, 59, 59)) shouldBe dateUtc(2010, 12, 1, 0, 0)
+        time.floor(TimeZone.UTC, dateUtc(2011, 1, 1, 0, 0, 0)) shouldBe dateUtc(2011, 1, 1, 0, 0)
+        time.floor(TimeZone.UTC, dateUtc(2011, 1, 1, 0, 0, 1)) shouldBe dateUtc(2011, 1, 1, 0, 0)
     }
 
     @Test
     fun month_floor_observes_start_of_DST() {
         val time = timeMonth
 
-        time.floor(date(2011, 3, 13, 1, 0)) shouldBe date(2011, 3, 1, 0, 0)
+        time.floor(TimeZone.UTC, dateUtc(2011, 3, 13, 1, 0)) shouldBe dateUtc(2011, 3, 1, 0, 0)
     }
 
     @Test
     fun month_floor_observes_end_of_DST() {
         val time = timeMonth
 
-        time.floor(date(2011, 11, 6, 1, 0)) shouldBe date(2011, 11, 1, 0, 0)
+        time.floor(TimeZone.UTC, dateUtc(2011, 11, 6, 1, 0)) shouldBe dateUtc(2011, 11, 1, 0, 0)
     }
 
     @Test
     fun month_floor_handles_years_in_first_century() {
         val time = timeMonth
 
-        time.floor(date(11, 11, 6, 7, 0)) shouldBe date(11, 11, 1, 0, 0)
+        time.floor(TimeZone.UTC, dateUtc(11, 11, 6, 7, 0)) shouldBe dateUtc(11, 11, 1, 0, 0)
     }
 
     @Test
     fun month_ceil_returns_months() {
-        val time = timeMonth
-
-        time.ceil(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2011, 1, 1, 0, 0)
-        time.ceil(date(2011, 1, 1, 0, 0, 0)) shouldBe date(2011, 1, 1, 0, 0)
-        time.ceil(date(2011, 1, 1, 0, 0, 1)) shouldBe date(2011, 2, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2010, 12, 31, 23, 59, 59)) } shouldBe dateUtc(2011, 1, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 1, 1, 0, 0, 0)) } shouldBe dateUtc(2011, 1, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 1, 1, 0, 0, 1)) } shouldBe dateUtc(2011, 2, 1, 0, 0)
     }
 
     @Test
     fun month_ceil_observes_start_of_DST() {
-        val time = timeMonth
-
-        time.ceil(date(2011, 3, 13, 1, 0)) shouldBe date(2011, 4, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 3, 13, 1, 0)) } shouldBe dateUtc(2011, 4, 1, 0, 0)
     }
 
     @Test
     fun month_ceil_observes_end_of_DST() {
-        val time = timeMonth
-
-        time.ceil(date(2011, 11, 6, 1, 0)) shouldBe date(2011, 12, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 11, 6, 1, 0)) } shouldBe dateUtc(2011, 12, 1, 0, 0)
     }
 
     @Test
     fun month_offset_does_not_modify_passed_in_date() {
         val time = timeMonth
-        val date = date(2010, 12, 31, 23, 59, 59, 999)
+        val date = dateUtc(2010, 12, 31, 23, 59, 59, 999)
 
-        time.offset(date, 1) shouldBe date(2011, 1, 31, 23, 59, 59, 999)
-        date shouldBe date(2010, 12, 31, 23, 59, 59, 999)
+        time.offset(TimeZone.UTC, date, 1) shouldBe dateUtc(2011, 1, 31, 23, 59, 59, 999)
+        date shouldBe dateUtc(2010, 12, 31, 23, 59, 59, 999)
     }
 
     @Test
     fun month_offset_does_not_round_passed_in_date() {
-        val time = timeMonth
-
-        time.offset(date(2010, 12, 31, 23, 59, 59, 999), 1) shouldBe date(2011, 1, 31, 23, 59, 59, 999)
-        time.offset(date(2010, 12, 31, 23, 59, 59, 456), -2) shouldBe date(2010, 10, 31, 23, 59, 59, 456)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2010, 12, 31, 23, 59, 59, 999), 1) shouldBe dateUtc(2011, 1, 31, 23, 59, 59, 999)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2010, 12, 31, 23, 59, 59, 456), -2) shouldBe dateUtc(2010, 10, 31, 23, 59, 59, 456)
     }
 
     @Test
     fun month_offset_allows_negative_offsets() {
-        val time = timeMonth
-
-        time.offset(date(2010, 12, 1, 0, 0), -1) shouldBe date(2010, 11, 1, 0, 0)
-        time.offset(date(2011, 1, 1, 0, 0), -2) shouldBe date(2010, 11, 1, 0, 0)
-        time.offset(date(2011, 1, 1, 0, 0), -1) shouldBe date(2010, 12, 1, 0, 0)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2010, 12, 1, 0, 0), -1) shouldBe dateUtc(2010, 11, 1, 0, 0)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2011, 1, 1, 0, 0), -2) shouldBe dateUtc(2010, 11, 1, 0, 0)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2011, 1, 1, 0, 0), -1) shouldBe dateUtc(2010, 12, 1, 0, 0)
     }
 
     @Test
     fun month_offset_allows_positive_offsets() {
-        val time = timeMonth
-
-        time.offset(date(2010, 11, 1, 0, 0), 1) shouldBe date(2010, 12, 1, 0, 0)
-        time.offset(date(2010, 11, 1, 0, 0), 2) shouldBe date(2011, 1, 1, 0, 0)
-        time.offset(date(2010, 12, 1, 0, 0), 1) shouldBe date(2011, 1, 1, 0, 0)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2010, 11, 1, 0, 0), 1) shouldBe dateUtc(2010, 12, 1, 0, 0)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2010, 11, 1, 0, 0), 2) shouldBe dateUtc(2011, 1, 1, 0, 0)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2010, 12, 1, 0, 0), 1) shouldBe dateUtc(2011, 1, 1, 0, 0)
     }
 
     @Test
     fun month_offset_allows_zero_offsets() {
-        val time = timeMonth
-
-        time.offset(date(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe date(2010, 12, 31, 23, 59, 59, 999)
-        time.offset(date(2010, 12, 31, 23, 59, 58, 0), 0) shouldBe date(2010, 12, 31, 23, 59, 58, 0)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe dateUtc(2010, 12, 31, 23, 59, 59, 999)
+        timeMonth.offset(TimeZone.UTC, dateUtc(2010, 12, 31, 23, 59, 58, 0), 0) shouldBe dateUtc(2010, 12, 31, 23, 59, 58, 0)
     }
 
     @Test
     fun timeMonth_floor_returns_months() {
-        val time = timeMonth
-
-        time.floor(date(2010, 11, 30, 23, 0)) shouldBe date(2010, 11, 1, 0, 0)
-        time.floor(date(2010, 1, 1, 0, 0)) shouldBe date(2010, 1, 1, 0, 0)
-        time.floor(date(2010, 1, 1, 1, 0)) shouldBe date(2010, 1, 1, 0, 0)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2010, 11, 30, 23, 0)) shouldBe dateUtc(2010, 11, 1, 0, 0)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2010, 1, 1, 0, 0)) shouldBe dateUtc(2010, 1, 1, 0, 0)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2010, 1, 1, 1, 0)) shouldBe dateUtc(2010, 1, 1, 0, 0)
     }
 
     @Test
     fun timeMonth_floor_handles_months_in_the_first_century() {
-        val time = timeMonth
-
-        time.floor(date(11, 11, 6, 7, 0)) shouldBe date(11, 11, 1, 0, 0)
+        timeMonth.floor(TimeZone.UTC, dateUtc(11, 11, 6, 7, 0)) shouldBe dateUtc(11, 11, 1, 0, 0)
     }
 
     @Test
     fun timeMonth_round_returns_months() {
-        val time = timeMonth
-
-        time.round(date(2010, 12, 16, 12, 0)) shouldBe date(2011, 1, 1, 0, 0)
-        time.round(date(2010, 12, 16, 11, 0)) shouldBe date(2010, 12, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2010, 12, 16, 12, 0)) } shouldBe dateUtc(2011, 1, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2010, 12, 16, 11, 0)) } shouldBe dateUtc(2010, 12, 1, 0, 0)
     }
 
     @Test
     fun timeMonth_ceil_returns_months() {
-        val time = timeMonth
-
-        time.ceil(date(2010, 11, 30, 23, 0)) shouldBe date(2010, 12, 1, 0, 0)
-        time.ceil(date(2010, 12, 1, 1, 0)) shouldBe date(2011, 1, 1, 0, 0)
-        time.ceil(date(2011, 2, 1, 0, 0)) shouldBe date(2011, 2, 1, 0, 0)
-        time.ceil(date(2011, 3, 1, 0, 0)) shouldBe date(2011, 3, 1, 0, 0)
-        time.ceil(date(2011, 4, 1, 0, 0)) shouldBe date(2011, 4, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2010, 11, 30, 23, 0)) } shouldBe dateUtc(2010, 12, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2010, 12, 1, 1, 0)) } shouldBe dateUtc(2011, 1, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 2, 1, 0, 0)) } shouldBe dateUtc(2011, 2, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 3, 1, 0, 0)) } shouldBe dateUtc(2011, 3, 1, 0, 0)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 4, 1, 0, 0)) } shouldBe dateUtc(2011, 4, 1, 0, 0)
     }
 
     @Test
     fun month_offset_does_not_modify_the_passed_in_date() {
         val time = timeMonth
-        val d = date(2010, 12, 31, 23, 59, 59, 999)
+        val d = dateUtc(2010, 12, 31, 23, 59, 59, 999)
 
-        time.offset(d, 1)
-        d shouldBe date(2010, 12, 31, 23, 59, 59, 999)
+        time.offset(TimeZone.UTC, d, 1)
+        d shouldBe dateUtc(2010, 12, 31, 23, 59, 59, 999)
+    }
+
+    @Test
+    fun timeMonth_floor_observes_DST() {
+        timeMonth.floor(TimeZone.UTC, dateUtc(2011, 3, 13,  13, 7)) shouldBe dateUtc(2011, 3, 1)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2011, 3, 13,  13, 8)) shouldBe dateUtc(2011, 3, 1)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2011, 3, 13,  13, 9)) shouldBe dateUtc(2011, 3, 1)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2011, 3, 13,  13, 10)) shouldBe dateUtc(2011, 3, 1)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2011, 11, 6, 6, 7)) shouldBe dateUtc(2011, 11, 1)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2011, 11, 6, 6, 8)) shouldBe dateUtc(2011, 11, 1)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2011, 11, 6, 6, 9)) shouldBe dateUtc(2011, 11, 1)
+        timeMonth.floor(TimeZone.UTC, dateUtc(2011, 11, 6, 6, 10)) shouldBe dateUtc(2011, 11, 1)
+    }
+
+    @Test
+    fun timeMonth_round_observes_DST() {
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2011, 3, 13,  13, 7)) } shouldBe dateUtc(2011, 3, 1)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2011, 3, 13,  13, 8)) } shouldBe dateUtc(2011, 3, 1)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2011, 3, 13,  13, 9)) } shouldBe dateUtc(2011, 3, 1)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2011, 3, 13,  13, 10)) } shouldBe dateUtc(2011, 3, 1)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2011, 11, 6, 6, 7)) } shouldBe dateUtc(2011, 11, 1)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2011, 11, 6, 6, 8)) } shouldBe dateUtc(2011, 11, 1)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2011, 11, 6, 6, 9)) } shouldBe dateUtc(2011, 11, 1)
+        with (timeMonth) { TimeZone.UTC.round(dateUtc(2011, 11, 6, 6, 10)) } shouldBe dateUtc(2011, 11, 1)
+    }
+
+    @Test
+    fun timeMonth_ceil_observes_DST() {
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 3, 13,  13, 7)) } shouldBe dateUtc(2011, 4, 1)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 3, 13,  13, 8)) } shouldBe dateUtc(2011, 4, 1)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 3, 13,  13, 9)) } shouldBe dateUtc(2011, 4, 1)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 3, 13,  13, 10)) } shouldBe dateUtc(2011, 4, 1)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 11, 6, 6, 7)) } shouldBe dateUtc(2011, 12, 1)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 11, 6, 6, 8)) } shouldBe dateUtc(2011, 12, 1)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 11, 6, 6, 9)) } shouldBe dateUtc(2011, 12, 1)
+        with (timeMonth) { TimeZone.UTC.ceil(dateUtc(2011, 11, 6, 6, 10)) } shouldBe dateUtc(2011, 12, 1)
+    }
+
+    @Test
+    fun timeMonth_range_returns_expected() {
+        with (timeMonth) { TimeZone.UTC.range(dateUtc(2011, 12, 1), dateUtc(2012, 6, 1)) } shouldBe
+                listOf(
+                    dateUtc(2011, 12, 1),
+                    dateUtc(2012, 1, 1),
+                    dateUtc(2012, 2, 1),
+                    dateUtc(2012, 3, 1),
+                    dateUtc(2012, 4, 1),
+                    dateUtc(2012, 5, 1)
+                )
+
+        with (timeMonth) { localTZ.range(dateLocal(2011, 12, 1), dateLocal(2012, 6, 1)) } shouldBe
+                listOf(
+                    dateLocal(2011, 12, 1),
+                    dateLocal(2012, 1, 1),
+                    dateLocal(2012, 2, 1),
+                    dateLocal(2012, 3, 1),
+                    dateLocal(2012, 4, 1),
+                    dateLocal(2012, 5, 1)
+                )
     }
 
     /*
-
-tape("timeMonth.floor(date) observes daylight saving", function(test) {
-  test.deepEqual(time.timeMonth.floor(date.utc(2011, 02, 13, 07)), date.local(2011, 02, 01));
-  test.deepEqual(time.timeMonth.floor(date.utc(2011, 02, 13, 08)), date.local(2011, 02, 01));
-  test.deepEqual(time.timeMonth.floor(date.utc(2011, 02, 13, 09)), date.local(2011, 02, 01));
-  test.deepEqual(time.timeMonth.floor(date.utc(2011, 02, 13, 10)), date.local(2011, 02, 01));
-  test.deepEqual(time.timeMonth.floor(date.utc(2011, 10, 06, 07)), date.local(2011, 10, 01));
-  test.deepEqual(time.timeMonth.floor(date.utc(2011, 10, 06, 08)), date.local(2011, 10, 01));
-  test.deepEqual(time.timeMonth.floor(date.utc(2011, 10, 06, 09)), date.local(2011, 10, 01));
-  test.deepEqual(time.timeMonth.floor(date.utc(2011, 10, 06, 10)), date.local(2011, 10, 01));
-  test.end();
-});
-
-tape("timeMonth.round(date) observes daylight saving", function(test) {
-  test.deepEqual(time.timeMonth.round(date.utc(2011, 02, 13, 07)), date.local(2011, 02, 01));
-  test.deepEqual(time.timeMonth.round(date.utc(2011, 02, 13, 08)), date.local(2011, 02, 01));
-  test.deepEqual(time.timeMonth.round(date.utc(2011, 02, 13, 09)), date.local(2011, 02, 01));
-  test.deepEqual(time.timeMonth.round(date.utc(2011, 02, 13, 20)), date.local(2011, 02, 01));
-  test.deepEqual(time.timeMonth.round(date.utc(2011, 10, 06, 07)), date.local(2011, 10, 01));
-  test.deepEqual(time.timeMonth.round(date.utc(2011, 10, 06, 08)), date.local(2011, 10, 01));
-  test.deepEqual(time.timeMonth.round(date.utc(2011, 10, 06, 09)), date.local(2011, 10, 01));
-  test.deepEqual(time.timeMonth.round(date.utc(2011, 10, 06, 20)), date.local(2011, 10, 01));
-  test.end();
-});
-
-tape("timeMonth.round(date) handles midnight for leap years", function(test) {
-  test.deepEqual(time.timeMonth.round(date.utc(2012, 02, 01, 00)), date.local(2012, 02, 01));
-  test.deepEqual(time.timeMonth.round(date.utc(2012, 02, 01, 00)), date.local(2012, 02, 01));
-  test.end();
-});
-
-
-
-tape("timeMonth.ceil(date) observes daylight saving", function(test) {
-  test.deepEqual(time.timeMonth.ceil(date.utc(2011, 02, 13, 07)), date.local(2011, 03, 01));
-  test.deepEqual(time.timeMonth.ceil(date.utc(2011, 02, 13, 08)), date.local(2011, 03, 01));
-  test.deepEqual(time.timeMonth.ceil(date.utc(2011, 02, 13, 09)), date.local(2011, 03, 01));
-  test.deepEqual(time.timeMonth.ceil(date.utc(2011, 02, 13, 10)), date.local(2011, 03, 01));
-  test.deepEqual(time.timeMonth.ceil(date.utc(2011, 10, 06, 07)), date.local(2011, 11, 01));
-  test.deepEqual(time.timeMonth.ceil(date.utc(2011, 10, 06, 08)), date.local(2011, 11, 01));
-  test.deepEqual(time.timeMonth.ceil(date.utc(2011, 10, 06, 09)), date.local(2011, 11, 01));
-  test.deepEqual(time.timeMonth.ceil(date.utc(2011, 10, 06, 10)), date.local(2011, 11, 01));
-  test.end();
-});
-
-tape("timeMonth.ceil(date) handles midnight for leap years", function(test) {
-  test.deepEqual(time.timeMonth.ceil(date.utc(2012, 02, 01, 00)), date.local(2012, 02, 01));
-  test.deepEqual(time.timeMonth.ceil(date.utc(2012, 02, 01, 00)), date.local(2012, 02, 01));
-  test.end();
-});
-
-tape("timeMonth.offset(date) is an alias for timeMonth.offset(date, 1)", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 999)), date.local(2011, 00, 31, 23, 59, 59, 999));
-  test.end();
-});
-
-tape("timeMonth.offset(date, step) does not modify the passed-in date", function(test) {
-  var d = date.local(2010, 11, 31, 23, 59, 59, 999);
-  time.timeMonth.offset(date, +1);
-  test.deepEqual(d, date.local(2010, 11, 31, 23, 59, 59, 999));
-  test.end();
-});
-
-tape("timeMonth.offset(date, step) does not round the passed-in date", function(test) {
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 999), +1), date.local(2011, 00, 31, 23, 59, 59, 999));
-  test.deepEqual(time.timeMonth.offset(date.local(2010, 11, 31, 23, 59, 59, 456), -2), date.local(2010, 09, 31, 23, 59, 59, 456));
-  test.end();
-});
-
-tape("timeMonth.range(start, stop) returns months between start (inclusive) and stop (exclusive)", function(test) {
-  test.deepEqual(time.timeMonth.range(date.local(2011, 11, 01), date.local(2012, 05, 01)), [
-    date.local(2011, 11, 01),
-    date.local(2012, 00, 01),
-    date.local(2012, 01, 01),
-    date.local(2012, 02, 01),
-    date.local(2012, 03, 01),
-    date.local(2012, 04, 01)
-  ]);
-  test.end();
-});
 
 tape("timeMonth.range(start, stop) returns months", function(test) {
   test.deepEqual(time.timeMonth.range(date.local(2011, 10, 04, 02), date.local(2012, 04, 10, 13)), [

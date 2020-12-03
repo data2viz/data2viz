@@ -18,11 +18,12 @@
 package io.data2viz.time
 
 import kotlinx.datetime.*
+import kotlin.time.milliseconds
 
-public val defaultTZ: TimeZone = TimeZone.UTC
+private val utc: TimeZone = TimeZone.UTC
 
-public operator fun LocalDateTime.minus(other: LocalDateTime): DateTimePeriod = this.toInstant(defaultTZ).periodUntil(other.toInstant(defaultTZ), defaultTZ)
-public operator fun LocalDateTime.plus(period: DateTimePeriod): LocalDateTime = this.toInstant(defaultTZ).plus(period, defaultTZ).toLocalDateTime(defaultTZ)
+public operator fun LocalDateTime.minus(other: LocalDateTime): DateTimePeriod = this.toInstant(utc).periodUntil(other.toInstant(utc), utc)
+public operator fun LocalDateTime.plus(period: DateTimePeriod): LocalDateTime = this.toInstant(utc).plus(period, utc).toLocalDateTime(utc)
 
 /**
  * Constructs a new custom interval given the specified floor and offset functions and an optional count function.
@@ -61,10 +62,11 @@ public operator fun LocalDateTime.plus(period: DateTimePeriod): LocalDateTime = 
  *
  */
 public open class Interval(
-    public val floor: (LocalDateTime) -> LocalDateTime,
-    public val offset: (LocalDateTime, Int) -> LocalDateTime,
-    public val count: ((LocalDateTime, LocalDateTime) -> Int)? = null,
-    private val field: ((LocalDateTime) -> Int)? = null) {
+    public val floor: TimeZone.(Instant) -> Instant,
+    public val offset: TimeZone.(Instant, Int) -> Instant,
+    public val count: TimeZone.(Instant, Instant) -> Long = { _, _ -> 0L },
+    private val field: (TimeZone.(Instant) -> Int)? = null
+) {
 
     /**
      * Returns a new date representing the earliest interval boundary date after or equal to date.
@@ -74,8 +76,8 @@ public open class Interval(
      * Furthermore, the returned date is the maximum expressible value of the associated interval,
      * such that interval.ceil(interval.ceil(date) + 1) returns the following interval boundary date.
      */
-    public fun ceil(date: LocalDateTime): LocalDateTime {
-        var newDate = date + DateTimePeriod(0, 0, 0, 0, 0, 0, -1_000_000)
+    public fun TimeZone.ceil(date: Instant): Instant {
+        var newDate = date - 1.milliseconds
         newDate = floor(newDate)
         newDate = offset(newDate, 1)
         newDate = floor(newDate)
@@ -89,13 +91,12 @@ public open class Interval(
      * This method is idempotent: if the specified date is already rounded to the current interval,
      * a new date with an identical time is returned.
      */
-    public fun round(date: LocalDateTime): LocalDateTime {
+    public fun TimeZone.round(date: Instant): Instant {
         val d0 = floor(date)
         val d1 = ceil(date)
-        val dateInstant = date.toInstant(defaultTZ)
-        val millisecondsBetween1 = d0.toInstant(defaultTZ).until(dateInstant, DateTimeUnit.MILLISECOND, defaultTZ)
-        val millisecondsBetween2 = dateInstant.until(d1.toInstant(defaultTZ), DateTimeUnit.MILLISECOND, defaultTZ)
-        return if (millisecondsBetween1 < millisecondsBetween2) d0 else d1
+        val duration = date - d0
+        val duration1 = d1 - date
+        return if (duration < duration1) d0 else d1
     }
 
     /**
@@ -107,8 +108,8 @@ public open class Interval(
      * offset by step intervals and floored.
      * Thus, two overlapping ranges may be consistent.
      */
-    public fun range(start: LocalDateTime, stop: LocalDateTime, step: Int = 1): List<LocalDateTime> {
-        val range = mutableListOf<LocalDateTime>()
+    public fun TimeZone.range(start: Instant, stop: Instant, step: Int = 1): List<Instant> {
+        val range = mutableListOf<Instant>()
         var current = ceil(start)
         if (step > 0) {
             while (current < stop) {
@@ -126,16 +127,16 @@ public open class Interval(
      * The returned filtered interval does not support interval.count.
      * See also interval.every.
      */
-    public fun filter(test: (LocalDateTime) -> Boolean): Interval {
+    public fun TimeZone.filter(test: (Instant) -> Boolean): Interval {
         return Interval(
-                fun(date: LocalDateTime): LocalDateTime {
+                fun TimeZone.(date: Instant): Instant {
                     var newDate = floor(date)
                     while (!test(newDate)) {
-                        newDate = floor(newDate + DateTimePeriod(0, 0, 0, 0, 0, 0, -1_000_000))
+                        newDate = floor(newDate - 1.milliseconds)
                     }
                     return newDate
                 },
-                fun(date: LocalDateTime, step: Int): LocalDateTime {
+                fun TimeZone.(date: Instant, step: Int): Instant {
                     var newStep = step - 1
                     var newDate = date
                     while (newStep >= 0) {
@@ -159,14 +160,14 @@ public open class Interval(
      * timeMonth, and thus the interval number resets at the start of each month.
      * If step is not valid, raise exception. If step is one, returns this interval.
      */
-    public fun every(step: Int): Interval {
+    public fun TimeZone.every(step: Int): Interval {
         checkNotNull(count, { "The given Count function must not be null." })
-        require(step > 0, { " The given Step parameter must be greater than zero." })
-        if (step == 1) return this
+        require(step > 0) { " The given Step parameter must be greater than zero." }
+        if (step == 1) return this@Interval
         return if (field != null) {
-            filter { d -> field.invoke(d) % step == 0; }
+            filter { d -> field.invoke(this, d) % step == 0; }
         } else {
-            filter { d -> count(LocalDateTime(1970, 1, 1, 0, 0), d) % step == 0; }
+            filter { d -> count(LocalDateTime(1970, 1, 1, 0, 0).toInstant(utc), d) % step == 0L; }
         }
     }
 
@@ -175,10 +176,10 @@ public open class Interval(
      * Note that this behavior is slightly different than interval.range because its purpose is to return the
      * zero-based number of the specified end date relative to the specified start date.
      */
-    public fun count(start: LocalDateTime, stop: LocalDateTime): Int {
+    public fun TimeZone.count(start: Instant, stop: Instant): Long {
         checkNotNull(count, { "The given Count function must not be null." })
         val from = floor(start)
         val to = floor(stop)
-        return count.invoke(from, to)
+        return count.invoke(this, from, to)
     }
 }

@@ -17,98 +17,92 @@
 
 package io.data2viz.time
 
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlin.test.Test
 
-// TODO change date() to LocalDateTime when version > 8.3
 @Suppress("DEPRECATION")
 class SundayTests : TestDate() {
 
+    private val zoneUTC = TimeZone.UTC
+    private fun dateUTC(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
+        LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(zoneUTC)
+
+    private val zoneLocal = TimeZone.of("America/Los_Angeles")
+    private fun dateLocal(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
+        LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(zoneLocal)
+
     @Test
     fun timeSunday_floor_returns_Sundays() {
-        val sunday = timeSunday
-
-        sunday.floor(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2010, 12, 26)
-        sunday.floor(date(2011,  1,  1,  0,  0,  0)) shouldBe date(2010, 12, 26)
-        sunday.floor(date(2011,  1,  1,  0,  0,  1)) shouldBe date(2010, 12, 26)
-        sunday.floor(date(2011,  1,  1, 23, 59, 59)) shouldBe date(2010, 12, 26)
-        sunday.floor(date(2011,  1,  2,  0,  0,  0)) shouldBe date(2011,  1,  2)
-        sunday.floor(date(2011,  1,  2,  0,  0,  1)) shouldBe date(2011,  1,  2)
+        timeSunday.floor(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 59)) shouldBe dateUTC(2010, 12, 26)
+        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1,  0,  0,  0)) shouldBe dateUTC(2010, 12, 26)
+        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1,  0,  0,  1)) shouldBe dateUTC(2010, 12, 26)
+        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1, 23, 59, 59)) shouldBe dateUTC(2010, 12, 26)
+        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  2,  0,  0,  0)) shouldBe dateUTC(2011,  1,  2)
+        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  2,  0,  0,  1)) shouldBe dateUTC(2011,  1,  2)
     }
 
     // TODO not working
 //    @Test
-//    fun timeSunday_floor_handles_years_in_the_first_century() {
-//        val time = timeSunday
-//
-//        val date = LocalDateTime(11, 11, 6, 7, 0)
-//        date.dayOfWeek shouldBe DayOfWeek.WEDNESDAY
-//
-//        time.floor(date(11, 11, 6, 7)) shouldBe date(11, 11, 1)
+//    fun timeSunday_floor_handles_years_first_century() {
+//        timeSunday.floor(zoneLocal, dateLocal(11, 11, 6, 7, 0)) shouldBe dateLocal(11, 11, 1)
 //    }
 
     @Test
     fun timeSunday_ceil_returns_Sundays() {
-        val sunday = timeSunday
-
-        sunday.ceil(date(2010, 12, 31, 23, 59, 59)) shouldBe date(2011, 1, 2)
-        sunday.ceil(date(2011,  1,  1,  0,  0,  0)) shouldBe date(2011, 1, 2)
-        sunday.ceil(date(2011,  1,  1,  0,  0,  1)) shouldBe date(2011, 1, 2)
-        sunday.ceil(date(2011,  1,  1, 23, 59, 59)) shouldBe date(2011, 1, 2)
-        sunday.ceil(date(2011,  1,  2,  0,  0,  0)) shouldBe date(2011, 1, 2)
-        sunday.ceil(date(2011,  1,  2,  0,  0,  1)) shouldBe date(2011, 1, 9)
+        with(timeSunday) {
+            zoneUTC.ceil(dateUTC(2010, 12, 31, 23, 59, 59)) shouldBe dateUTC(2011, 1, 2)
+            zoneUTC.ceil(dateUTC(2011, 1, 1, 0, 0, 0)) shouldBe dateUTC(2011, 1, 2)
+            zoneUTC.ceil(dateUTC(2011, 1, 1, 0, 0, 1)) shouldBe dateUTC(2011, 1, 2)
+            zoneUTC.ceil(dateUTC(2011, 1, 1, 23, 59, 59)) shouldBe dateUTC(2011, 1, 2)
+            zoneUTC.ceil(dateUTC(2011, 1, 2, 0, 0, 0)) shouldBe dateUTC(2011, 1, 2)
+            zoneUTC.ceil(dateUTC(2011, 1, 2, 0, 0, 1)) shouldBe dateUTC(2011, 1, 9)
+        }
     }
 
     @Test
     fun timeSunday_offset_allows_negative_step() {
-        val sunday = timeSunday
-
-        sunday.offset(date(2010, 12, 1), -1) shouldBe date(2010, 11, 24)
-        sunday.offset(date(2011,  1,  1), -2) shouldBe date(2010, 12, 18)
-        sunday.offset(date(2011,  1,  1), -1) shouldBe date(2010, 12, 25)
+        timeSunday.offset(zoneUTC, dateUTC(2010, 12, 1), -1) shouldBe dateUTC(2010, 11, 24)
+        timeSunday.offset(zoneUTC, dateUTC(2011,  1,  1), -2) shouldBe dateUTC(2010, 12, 18)
+        timeSunday.offset(zoneUTC, dateUTC(2011,  1,  1), -1) shouldBe dateUTC(2010, 12, 25)
     }
 
     @Test
     fun timeSunday_offset_allows_positive_step() {
-        val sunday = timeSunday
-
-        sunday.offset(date(2010, 11, 24), 1) shouldBe date(2010, 12, 1)
-        sunday.offset(date(2010,  12,  18), 2) shouldBe date(2011, 1, 1)
-        sunday.offset(date(2010,  12,  25), 1) shouldBe date(2011, 1, 1)
+        timeSunday.offset(zoneUTC, dateUTC(2010, 11, 24), 1) shouldBe dateUTC(2010, 12, 1)
+        timeSunday.offset(zoneUTC, dateUTC(2010,  12,  18), 2) shouldBe dateUTC(2011, 1, 1)
+        timeSunday.offset(zoneUTC, dateUTC(2010,  12,  25), 1) shouldBe dateUTC(2011, 1, 1)
     }
 
     @Test
     fun timeSunday_offset_allows_zero_step() {
-        val sunday = timeSunday
-
-        sunday.offset(date(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe date(2010, 12, 31, 23, 59, 59, 999)
-        sunday.offset(date(2010, 12, 31, 23, 59, 58,   0), 0) shouldBe date(2010, 12, 31, 23, 59, 58,   0)
+        timeSunday.offset(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe dateUTC(2010, 12, 31, 23, 59, 59, 999)
+        timeSunday.offset(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 58,   0), 0) shouldBe dateUTC(2010, 12, 31, 23, 59, 58,   0)
     }
 
     @Test
     fun timeSunday_range_start_stop_returns_Sundays_between_start_inclusive_and_stop_exclusive() {
-        val sunday = timeSunday
 
-        sunday.range(date(2011, 12, 1), date(2012, 1, 15)) shouldBe listOf(
-            date(2011, 12,  4),
-            date(2011, 12, 11),
-            date(2011, 12, 18),
-            date(2011, 12, 25),
-            date(2012,  1,  1),
-            date(2012,  1,  8)
+        with(timeSunday) { zoneUTC.range(dateUTC(2011, 12, 1), dateUTC(2012, 1, 15)) } shouldBe listOf(
+            dateUTC(2011, 12,  4),
+            dateUTC(2011, 12, 11),
+            dateUTC(2011, 12, 18),
+            dateUTC(2011, 12, 25),
+            dateUTC(2012,  1,  1),
+            dateUTC(2012,  1,  8)
         )
     }
 
     @Test
     fun timeSunday_range_start_stop_returns_Sundays() {
-        val sunday = timeSunday
-
-        sunday.range(date(2011, 12, 1, 12, 23), date(2012, 1, 14, 12, 23)) shouldBe listOf(
-            date(2011, 12,  4),
-            date(2011, 12, 11),
-            date(2011, 12, 18),
-            date(2011, 12, 25),
-            date(2012,  1,  1),
-            date(2012,  1,  8)
+         with(timeSunday) { zoneUTC.range(dateUTC(2011, 12, 1, 12, 23), dateUTC(2012, 1, 14, 12, 23)) } shouldBe listOf(
+            dateUTC(2011, 12,  4),
+            dateUTC(2011, 12, 11),
+            dateUTC(2011, 12, 18),
+            dateUTC(2011, 12, 25),
+            dateUTC(2012,  1,  1),
+            dateUTC(2012,  1,  8)
         )
     }
 
@@ -117,102 +111,80 @@ class SundayTests : TestDate() {
      */
     @Test
     fun issue_fix_specific_sunday_over_several_months() {
-        val sunday = timeSunday
-        sunday.range(date(2019,7,6,8,53,42,715), date(2019,9,25,22,0,48,33)).size shouldBe 12
+         with(timeSunday) { zoneUTC.range(dateUTC(2019,7,6,8,53,42,715), dateUTC(2019,9,25,22,0,48,33)) }.size shouldBe 12
     }
 
-    /**
+    @Test
+    fun timeSunday_floor_observes_DST() {
+        with(timeSunday) { zoneLocal.floor(dateLocal(2011, 3, 13, 1)) } shouldBe dateLocal(2011, 3, 13)
+        with(timeSunday) { zoneLocal.floor(dateLocal(2011, 11, 6, 1)) } shouldBe dateLocal(2011, 11, 6)
+    }
 
-    tape("timeSunday.floor(date) handles years in the first century", function(test) {
-    test.deepEqual(time.timeSunday.floor(date.local(0011, 10, 06, 07)), date.local(0011, 10, 01));
-    test.end();
-    });
+    @Test
+    fun timeSunday_ceil_observes_DST() {
+        with(timeSunday) { zoneLocal.ceil(dateLocal(2011, 3, 13, 1)) } shouldBe dateLocal(2011, 3, 20)
 
-    tape("timeSunday.floor(date) observes daylight saving", function(test) {
-    test.deepEqual(time.timeSunday.floor(date.local(2011, 02, 13, 01)), date.local(2011, 02, 13));
-    test.deepEqual(time.timeSunday.floor(date.local(2011, 10, 06, 01)), date.local(2011, 10, 06));
-    test.end();
-    });
+        // TODO fix test
+//        with(timeSunday) { zoneLocal.ceil(dateLocal(2011, 11, 6, 1)) } shouldBe dateLocal(2011, 11, 13)
+    }
 
-    tape("timeSunday.ceil(date) observes daylight saving", function(test) {
-    test.deepEqual(time.timeSunday.ceil(date.local(2011, 02, 13, 01)), date.local(2011, 02, 20));
-    test.deepEqual(time.timeSunday.ceil(date.local(2011, 10, 06, 01)), date.local(2011, 10, 13));
-    test.end();
-    });
+    @Test
+    fun timeSunday_offset_does_not_round_the_date() {
+        with(timeSunday) { zoneLocal.offset(dateLocal(2010, 12, 31, 23, 59, 59, 999), 1) } shouldBe dateLocal(2011, 1, 7, 23, 59, 59, 999)
+        with(timeSunday) { zoneLocal.offset(dateLocal(2010, 12, 31, 23, 59, 59, 456), -2) } shouldBe dateLocal(2010, 12, 17, 23, 59, 59, 456)
+    }
 
-    tape("timeSunday.offset(date) is an alias for timeSunday.offset(date, 1)", function(test) {
-    test.deepEqual(time.timeSunday.offset(date.local(2010, 11, 31, 23, 59, 59, 999)), date.local(2011, 00, 07, 23, 59, 59, 999));
-    test.end();
-    });
+    @Test
+    fun timeSunday_range_returns_empty_array_if_start_after_stop() {
+        with(timeSunday) { zoneLocal.range(dateLocal(2011, 12, 10), dateLocal(2011, 11, 4)) } shouldBe listOf()
+        with(timeSunday) { zoneLocal.range(dateLocal(2011, 11, 1), dateLocal(2011, 11, 1)) } shouldBe listOf()
+    }
 
-    tape("timeSunday.offset(date, step) does not modify the passed-in date", function(test) {
-    var d = date.local(2010, 11, 31, 23, 59, 59, 999);
-    time.timeSunday.offset(d, +1);
-    test.deepEqual(d, date.local(2010, 11, 31, 23, 59, 59, 999));
-    test.end();
-    });
+    @Test
+    fun timeSunday_range_returns_every_step_sunday() {
+        with(timeSunday) { zoneLocal.range(dateLocal(2011, 12, 1), dateLocal(2012, 1, 15), 2) } shouldBe listOf(
+            dateLocal(2011, 12, 4),
+            dateLocal(2011, 12, 18),
+            dateLocal(2012, 1, 1)
+        )
+    }
 
-    tape("timeSunday.offset(date, step) does not round the passed-in date", function(test) {
-    test.deepEqual(time.timeSunday.offset(date.local(2010, 11, 31, 23, 59, 59, 999), +1), date.local(2011, 00, 07, 23, 59, 59, 999));
-    test.deepEqual(time.timeSunday.offset(date.local(2010, 11, 31, 23, 59, 59, 456), -2), date.local(2010, 11, 17, 23, 59, 59, 456));
-    test.end();
-    });
+    @Test
+    fun timeSunday_count_returns_every_sunday_adter_start_excluse_and_before_end_inclusive() {
 
-    tape("timeSunday.range(start, stop) returns the empty array for invalid dates", function(test) {
-    test.deepEqual(time.timeSunday.range(new Date(NaN), Infinity), []);
-    test.end();
-    });
+        //     January 2014
+        // Su Mo Tu We Th Fr Sa
+        //           1  2  3  4
+        //  5  6  7  8  9 10 11
+        // 12 13 14 15 16 17 18
+        // 19 20 21 22 23 24 25
+        // 26 27 28 29 30 31
+        with(timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 4)) } shouldBe 0
+        with(timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 5)) } shouldBe 1
+        with(timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 6)) } shouldBe 1
+        with(timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 12)) } shouldBe 2
 
-    tape("timeSunday.range(start, stop) returns the empty array if start >= stop", function(test) {
-    test.deepEqual(time.timeSunday.range(date.local(2011, 11, 10), date.local(2011, 10, 04)), []);
-    test.deepEqual(time.timeSunday.range(date.local(2011, 10, 01), date.local(2011, 10, 01)), []);
-    test.end();
-    });
+        //       January 2012
+        // Su Mo Tu We Th Fr Sa
+        //  1  2  3  4  5  6  7
+        //  8  9 10 11 12 13 14
+        // 15 16 17 18 19 20 21
+        // 22 23 24 25 26 27 28
+        // 29 30 31
+        with(timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 7)) } shouldBe 0
+        with(timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 8)) } shouldBe 1
+        with(timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 9)) } shouldBe 1
+    }
 
-    tape("timeSunday.range(start, stop, step) returns every step Sunday", function(test) {
-    test.deepEqual(time.timeSunday.range(date.local(2011, 11, 01), date.local(2012, 00, 15), 2), [
-    date.local(2011, 11, 04),
-    date.local(2011, 11, 18),
-    date.local(2012, 00, 01)
-    ]);
-    test.end();
-    });
+    @Test
+    fun timeSunday_count_observes_DST() {
+        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 1)) } shouldBe 11
+        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 3)) } shouldBe 11
+        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 4)) } shouldBe 11
 
-    tape("timeSunday.count(start, end) counts Sundays after start (exclusive) and before end (inclusive)", function(test) {
-    //     January 2014
-    // Su Mo Tu We Th Fr Sa
-    //           1  2  3  4
-    //  5  6  7  8  9 10 11
-    // 12 13 14 15 16 17 18
-    // 19 20 21 22 23 24 25
-    // 26 27 28 29 30 31
-    test.equal(time.timeSunday.count(date.local(2014, 00, 01), date.local(2014, 00, 04)), 0);
-    test.equal(time.timeSunday.count(date.local(2014, 00, 01), date.local(2014, 00, 05)), 1);
-    test.equal(time.timeSunday.count(date.local(2014, 00, 01), date.local(2014, 00, 06)), 1);
-    test.equal(time.timeSunday.count(date.local(2014, 00, 01), date.local(2014, 00, 12)), 2);
-
-    //       January 2012
-    // Su Mo Tu We Th Fr Sa
-    //  1  2  3  4  5  6  7
-    //  8  9 10 11 12 13 14
-    // 15 16 17 18 19 20 21
-    // 22 23 24 25 26 27 28
-    // 29 30 31
-    test.equal(time.timeSunday.count(date.local(2012, 00, 01), date.local(2012, 00, 07)), 0);
-    test.equal(time.timeSunday.count(date.local(2012, 00, 01), date.local(2012, 00, 08)), 1);
-    test.equal(time.timeSunday.count(date.local(2012, 00, 01), date.local(2012, 00, 09)), 1);
-    test.end();
-    });
-
-    tape("timeSunday.count(start, end) observes daylight saving", function(test) {
-    test.equal(time.timeSunday.count(date.local(2011, 00, 01), date.local(2011, 02, 13, 01)), 11);
-    test.equal(time.timeSunday.count(date.local(2011, 00, 01), date.local(2011, 02, 13, 03)), 11);
-    test.equal(time.timeSunday.count(date.local(2011, 00, 01), date.local(2011, 02, 13, 04)), 11);
-    test.equal(time.timeSunday.count(date.local(2011, 00, 01), date.local(2011, 10, 06, 00)), 45);
-    test.equal(time.timeSunday.count(date.local(2011, 00, 01), date.local(2011, 10, 06, 01)), 45);
-    test.equal(time.timeSunday.count(date.local(2011, 00, 01), date.local(2011, 10, 06, 02)), 45);
-    test.end();
-    });
-     */
-
+        // TODO fix test
+//        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 0)) } shouldBe 45
+//        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 1)) } shouldBe 45
+//        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 2)) } shouldBe 45
+    }
 }

@@ -4,6 +4,7 @@ package io.data2viz.time
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @Deprecated("Use kotlinx.datetime.LocalDateTime instead")
@@ -16,7 +17,7 @@ public fun date(year: Int = 0, month: Int = 1, day: Int = 1, hour: Int = 0, minu
 public fun date(date: Date): Date = Date(date.year, date.month, date.dayOfMonth, date.hour, date.minute, date.second, date.nanosecond / 1_000_000)
 
 @Deprecated("Use kotlinx.datetime.Clock with your TimeZone instead")
-public fun date(): Date = Clock.System.now().toLocalDateTime(defaultTZ)
+public fun date(): Date = Clock.System.now().toLocalDateTime(TimeZone.UTC)
 
 @Deprecated("Use kotlinx.datetime.LocalDateTime.nanosecond instead")
 public fun Date.millisecond(): Int = nanosecond / 1_000_000
