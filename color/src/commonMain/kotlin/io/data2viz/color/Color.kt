@@ -17,7 +17,8 @@
 
 package io.data2viz.color
 
-import io.data2viz.math.*
+import io.data2viz.math.Angle
+import io.data2viz.math.Percent
 
 public data class ColorStop(val percent:Percent, val color: Color)
 
@@ -76,7 +77,7 @@ public interface Color : ColorOrGradient {
     public fun desaturate(strength: Double = 1.0):Color
 
     /**
-     * Make a color more (strength > 1.0) or more (strength < 1.0) transparent.
+     * Make a color more (strength > 1.0) or less (strength < 1.0) transparent.
      * Note that a fully transparent color (alpha = 0%) will remain transparent.
      */
     public fun opacify(strength: Double = 1.0):Color
