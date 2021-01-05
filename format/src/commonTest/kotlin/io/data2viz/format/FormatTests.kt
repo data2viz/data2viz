@@ -32,6 +32,7 @@ class FormatTests : TestBase() {
         formatter(Type.DECIMAL)             (PI) shouldBe "3.14159"           // <- 
         formatter(Type.DECIMAL_OR_EXPONENT) (PI) shouldBe "3.14159"           // <- 
         formatter(Type.DECIMAL_ROUNDED)     (PI) shouldBe "3"                 // <- rounded to integer
+        formatter(Type.DECIMAL_WITH_SI)     (PI) shouldBe "3.14159"           // <-
         formatter(Type.EXPONENT)            (PI) shouldBe "3.141593e+0"       // <-
         formatter(Type.FIXED_POINT)         (PI) shouldBe "3.141593"          // <-
         formatter(Type.BINARY)              (PI) shouldBe "11"                // <-
