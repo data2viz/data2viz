@@ -17,12 +17,10 @@
 
 package io.data2viz.timeFormat
 
-import io.data2viz.time.*
 import kotlinx.datetime.*
 import kotlin.math.abs
 import kotlin.time.days
 
-// return {y: y, m: 0, d: 1, H: 0, M: 0, S: 0, L: 0};
 public data class ParseDate(
         var year: Int? = null,
         var month: Int? = null,
@@ -124,9 +122,9 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
             Pair('M', ::formatMinutes),
             Pair('p', ::formatPeriod),
             Pair('S', ::formatSeconds),
-            Pair('U', ::formatWeekNumberSunday),
+//            Pair('U', ::formatWeekNumberSunday),
             Pair('w', ::formatWeekdayNumber),
-            Pair('W', ::formatWeekNumberMonday),
+//            Pair('W', ::formatWeekNumberMonday),
             Pair('x', null),
             Pair('X', null),
             Pair('y', ::formatYear),
@@ -175,7 +173,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     public fun autoFormat(): TimeZone.(Instant) -> String {
         val formatMillisecond = format(".%L")
         val formatSecond = format(":%S")
-        val formatMinute = format("%I:%M")
+        val formatMinute = format("%H:%M")
         val formatHour = format("%I %p")
         val formatDay = format("%a %d")
         val formatWeek = format("%b %d")
@@ -183,22 +181,14 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         val formatYear = format("%Y")
 
         return fun TimeZone.(date: Instant): String {
-            val formatter =
-                if (timeYear.floor(this, date).monthsUntil(date, TimeZone.UTC) > 0) formatMonth else {
-                    if (timeMonth.floor(this, date).daysUntil(date, TimeZone.UTC) > 0) formatWeek else {
-//                        if (timeSunday.floor(date).dayOfWeek < date.dayOfWeek) formatDay else {
-                            if (timeDay.floor(this, date).until(date, DateTimeUnit.HOUR, TimeZone.UTC) > 0) formatHour else {
-                                if (timeHour.floor(this, date).until(date, DateTimeUnit.MINUTE, TimeZone.UTC) > 0) formatMinute else {
-                                    if (timeMinute.floor(this, date).until(date, DateTimeUnit.SECOND, TimeZone.UTC) > 0) formatSecond else {
-                                        if (timeSecond.floor(this, date).until(date, DateTimeUnit.MILLISECOND, TimeZone.UTC) > 0) formatMillisecond else
-                                            formatYear
-                                    }
-                                }
-//                            }
-                        }
-                    }
-                }
-            return formatter(date)
+            val ldt = date.toLocalDateTime()
+            return if (ldt.nanosecond > 1_000_000) formatMillisecond(date)
+            else if (ldt.second > 0) formatSecond(date)
+            else if (ldt.minute > 0) formatMinute(date)
+            else if (ldt.hour > 0) formatHour(date)
+            else if (ldt.dayOfMonth > 1) formatWeek(date)
+            else if (ldt.monthNumber > 1) formatMonth(date)
+            else formatYear(date)
         }
     }
 
@@ -556,17 +546,17 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
         return pad(d.toLocalDateTime(TimeZone.UTC).second, p, 2)
     }
 
-    public fun formatWeekNumberSunday(d: Instant, p: String): String {
-        return pad(timeSunday.count(TimeZone.UTC, timeYear.floor(TimeZone.UTC, d), d).toInt(), p, 2)
-    }
+//    public fun formatWeekNumberSunday(d: Instant, p: String): String {
+//        return pad(timeSunday.count(TimeZone.UTC, timeYear.floor(TimeZone.UTC, d), d).toInt(), p, 2)
+//    }
 
     public fun formatWeekdayNumber(d: Instant, p: String): String {
         return d.toLocalDateTime(TimeZone.UTC).dayOfWeek.toString()
     }
 
-    public fun formatWeekNumberMonday(d: Instant, p: String): String {
-        return pad(timeMonday.count(TimeZone.UTC, timeYear.floor(TimeZone.UTC, d), d).toInt(), p, 2)
-    }
+//    public fun formatWeekNumberMonday(d: Instant, p: String): String {
+//        return pad(timeMonday.count(TimeZone.UTC, timeYear.floor(TimeZone.UTC, d), d).toInt(), p, 2)
+//    }
 
     public fun formatYear(d: Instant, p: String): String {
         return pad(d.toLocalDateTime(TimeZone.UTC).year % 100, p, 2)

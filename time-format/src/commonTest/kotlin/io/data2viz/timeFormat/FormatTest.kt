@@ -27,20 +27,17 @@ class FormatTest : TestDate() {
     private fun date(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
         LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(TimeZone.UTC)
 
-
     @Test
     fun format_auto() {
         val formatter = autoFormat()
-
-        formatter(TimeZone.UTC, date(0, 1, 1, 0, 0, 0, 230000000)) shouldBe ".230"
-        formatter(TimeZone.UTC, date(0, 1, 1, 0, 0, 16, 230000000)) shouldBe ":16"
-        formatter(TimeZone.UTC, date(0, 1, 1, 0, 28, 16, 230000000)) shouldBe "12:28"
-        formatter(TimeZone.UTC, date(0, 1, 1, 20, 28, 16, 230000000)) shouldBe "08 PM"
-        formatter(TimeZone.UTC, date(0, 1, 16, 20, 28, 16, 230000000)) shouldBe "Jan 16"
-        formatter(TimeZone.UTC, date(0, 6, 16, 20, 28, 16, 230000000)) shouldBe "June"
+        formatter(TimeZone.UTC, date(1860, 6, 16, 20, 28, 16, 230000000)) shouldBe ".230"
+        formatter(TimeZone.UTC, date(1860, 6, 16, 20, 28, 16, 0)) shouldBe ":16"
+        formatter(TimeZone.UTC, date(1860, 6, 16, 20, 28, 0, 0)) shouldBe "20:28"
+        formatter(TimeZone.UTC, date(1860, 6, 16, 20, 0, 0, 0)) shouldBe "08 PM"
+        formatter(TimeZone.UTC, date(1860, 6, 16, 0, 0, 0, 0)) shouldBe "Jun 16"
+        formatter(TimeZone.UTC, date(1860, 6, 1, 0, 0, 0, 0)) shouldBe "June"
         formatter(TimeZone.UTC, date(1860, 1, 1, 0, 0)) shouldBe "1860"
     }
-
     
     @Test
     fun format_date() {
@@ -251,14 +248,14 @@ class FormatTest : TestDate() {
     fun format_date_U_returns_zero_padded_week_numbers() {
         val formatter = format("%U")
 
-        formatter(LocalDateTime(1990, 1, 1, 0)) shouldBe "00"
-        formatter(LocalDateTime(1990, 6, 1, 0)) shouldBe "21"        // TEST : 21 !!
-        formatter(LocalDateTime(2010, 3, 13, 23)) shouldBe "10"
-        formatter(LocalDateTime(2010, 3, 14, 0)) shouldBe "11"
-        formatter(LocalDateTime(2010, 3, 15, 0)) shouldBe "11"
-        formatter(LocalDateTime(2010, 11, 6, 23)) shouldBe "44"
-        formatter(LocalDateTime(2010, 11, 7, 0)) shouldBe "45"
-        formatter(LocalDateTime(2010, 11, 8, 0)) shouldBe "45"
+        formatter(date(1990, 1, 1, 0)) shouldBe "00"
+        formatter(date(1990, 6, 1, 0)) shouldBe "21"        // TEST : 21 !!
+        formatter(date(2010, 3, 13, 23)) shouldBe "10"
+        formatter(date(2010, 3, 14, 0)) shouldBe "11"
+        formatter(date(2010, 3, 15, 0)) shouldBe "11"
+        formatter(date(2010, 11, 6, 23)) shouldBe "44"
+        formatter(date(2010, 11, 7, 0)) shouldBe "45"
+        formatter(date(2010, 11, 8, 0)) shouldBe "45"
     }*/
 
     
