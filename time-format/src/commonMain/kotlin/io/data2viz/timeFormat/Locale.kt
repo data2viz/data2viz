@@ -87,7 +87,7 @@ public fun format(specifier: String): (Instant) -> String = defaultLocale.format
 
 public fun parse(specifier: String): (String) -> Instant? = defaultLocale.parse(specifier)
 
-public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
+public class Locale(timeLocale: TimeLocale = Locales.defaultTimeLocale()) {
     public val locale_dateTime: String = timeLocale.dateTime
     public val locale_date: String = timeLocale.date
     public val locale_time: String = timeLocale.time

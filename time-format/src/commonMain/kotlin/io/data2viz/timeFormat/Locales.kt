@@ -30,7 +30,42 @@ public data class TimeLocale(
 
 public class Locales {
     public companion object {
-        public fun locale(
+
+        public val default: Locale  by lazy { Locale(defaultTimeLocale()) }
+
+        public val ar_EG: Locale    by lazy { Locale(ar_EG()) }
+        public val ca_ES: Locale    by lazy { Locale(ca_ES()) }
+        public val cs_CZ: Locale    by lazy { Locale(cs_CZ()) }
+        public val da_DK: Locale    by lazy { Locale(da_DK()) }
+        public val de_CH: Locale    by lazy { Locale(de_CH()) }
+        public val de_DE: Locale    by lazy { Locale(de_DE()) }
+        public val en_CA: Locale    by lazy { Locale(en_CA()) }
+        public val en_GB: Locale    by lazy { Locale(en_GB()) }
+        public val en_US: Locale    by lazy { Locale(en_US()) }
+        public val es_ES: Locale    by lazy { Locale(es_ES()) }
+        public val es_MX: Locale    by lazy { Locale(es_MX()) }
+        public val fa_IR: Locale    by lazy { Locale(fa_IR()) }
+        public val fi_FI: Locale    by lazy { Locale(fi_FI()) }
+        public val fr_CA: Locale    by lazy { Locale(fr_CA()) }
+        public val fr_FR: Locale    by lazy { Locale(fr_FR()) }
+        public val he_IL: Locale    by lazy { Locale(he_IL()) }
+        public val hu_HU: Locale    by lazy { Locale(hu_HU()) }
+        public val it_IT: Locale    by lazy { Locale(it_IT()) }
+        public val ja_JP: Locale    by lazy { Locale(ja_JP()) }
+        public val ko_KR: Locale    by lazy { Locale(ko_KR()) }
+        public val mk_MK: Locale    by lazy { Locale(mk_MK()) }
+        public val nb_NO: Locale    by lazy { Locale(nb_NO()) }
+        public val nl_NL: Locale    by lazy { Locale(nl_NL()) }
+        public val pl_PL: Locale    by lazy { Locale(pl_PL()) }
+        public val pt_BR: Locale    by lazy { Locale(pt_BR()) }
+        public val ru_RU: Locale    by lazy { Locale(ru_RU()) }
+        public val sv_SE: Locale    by lazy { Locale(sv_SE()) }
+        public val tr_TR: Locale    by lazy { Locale(tr_TR()) }
+        public val uk_UA: Locale    by lazy { Locale(uk_UA()) }
+        public val zh_CN: Locale    by lazy { Locale(zh_CN()) }
+        public val zh_TW: Locale    by lazy { Locale(zh_TW()) }
+
+        private fun timeLocale(
             dateTime: String = "%x, %X",
             date: String = "%-m/%-d/%Y",
             time: String = "%-I:%M:%S %p",
@@ -41,9 +76,9 @@ public class Locales {
             shortMonths: List<String> = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
         ): TimeLocale = TimeLocale(dateTime, date, time, periods, days, shortDays, months, shortMonths)
 
-        public fun defaultLocale(): TimeLocale = locale()
+        internal fun defaultTimeLocale(): TimeLocale = timeLocale()
 
-        public fun ar_EG(): TimeLocale = locale(
+        private fun ar_EG(): TimeLocale = timeLocale(
             "%x, %X",
             "%-d/%-m/%Y",
             "%-I:%M:%S %p",
@@ -54,7 +89,7 @@ public class Locales {
             listOf("يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر")
         )
 
-        public fun ca_ES(): TimeLocale = locale(
+        private fun ca_ES(): TimeLocale = timeLocale(
             "%A, %e de %B de %Y, %X",
             "%d/%m/%Y",
             "%H:%M:%S",
@@ -65,7 +100,7 @@ public class Locales {
             listOf("gen.", "febr.", "març", "abr.", "maig", "juny", "jul.", "ag.", "set.", "oct.", "nov.", "des.")
         )
 
-        public fun cs_CZ(): TimeLocale = locale(
+        private fun cs_CZ(): TimeLocale = timeLocale(
             "%A,%e.%B %Y, %X",
             "%-d.%-m.%Y",
             "%H:%M:%S",
@@ -76,8 +111,18 @@ public class Locales {
             listOf("led", "úno", "břez", "dub", "kvě", "čer", "červ", "srp", "zář", "říj", "list", "pros")
         )
 
+        private fun da_DK(): TimeLocale = timeLocale(
+            "%A den %d %B %Y %X",
+            "%d-%m-%Y",
+            "%H:%M:%S",
+            listOf("AM", "PM"),
+            listOf("søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"),
+            listOf("søn", "man", "tir", "ons", "tor", "fre", "lør"),
+            listOf("januar", "februar", "marts", "april", "maj", "juni", "juli", "august", "september", "oktober", "november", "december"),
+            listOf("jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec")
+        )
 
-        public fun de_CH(): TimeLocale = locale(
+        private fun de_CH(): TimeLocale = timeLocale(
             "%A, der %e. %B %Y, %X",
             "%d.%m.%Y",
             "%H:%M:%S",
@@ -88,7 +133,7 @@ public class Locales {
             listOf("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")
         )
 
-        public fun de_DE(): TimeLocale = locale(
+        private fun de_DE(): TimeLocale = timeLocale(
             "%A, der %e. %B %Y, %X",
             "%d.%m.%Y",
             "%H:%M:%S",
@@ -99,18 +144,18 @@ public class Locales {
             listOf("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")
         )
 
-        public fun en_CA(): TimeLocale = locale(
+        private fun en_CA(): TimeLocale = timeLocale(
             "%a %b %e %X %Y",
-                    "%Y-%m-%d",
-                    "%H:%M:%S",
-                    listOf("AM", "PM"),
-                    listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"),
-                    listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
-                    listOf("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
-                    listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+            "%Y-%m-%d",
+            "%H:%M:%S",
+            listOf("AM", "PM"),
+            listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"),
+            listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
+            listOf("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
+            listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
         )
 
-        public fun en_GB(): TimeLocale = locale(
+        private fun en_GB(): TimeLocale = timeLocale(
             "%a %e %b %X %Y",
             "%d/%m/%Y",
             "%H:%M:%S",
@@ -121,7 +166,7 @@ public class Locales {
             listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
         )
 
-        public fun en_US(): TimeLocale = locale(
+        private fun en_US(): TimeLocale = timeLocale(
             "%x, %X",
             "%-m/%-d/%Y",
             "%-I:%M:%S %p",
@@ -132,7 +177,7 @@ public class Locales {
             listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
         )
 
-        public fun es_ES(): TimeLocale = locale(
+        private fun es_ES(): TimeLocale = timeLocale(
             "%A, %e de %B de %Y, %X",
             "%d/%m/%Y",
             "%H:%M:%S",
@@ -143,7 +188,7 @@ public class Locales {
             listOf("ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic")
         )
 
-        public fun es_MX(): TimeLocale = locale(
+        private fun es_MX(): TimeLocale = timeLocale(
             "%x, %X",
             "%d/%m/%Y",
             "%-I:%M:%S %p",
@@ -154,7 +199,18 @@ public class Locales {
             listOf("ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic")
         )
 
-        public fun fi_FI(): TimeLocale = locale(
+        private fun fa_IR(): TimeLocale = timeLocale(
+            "%x, %X",
+            "%-d/%-m/%Y",
+            "%-I:%M:%S %p",
+            listOf("صبح", "عصر"),
+            listOf("یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"),
+            listOf("یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"),
+            listOf("ژانویه", "فوریه", "مارس", "آوریل", "مه", "ژوئن", "ژوئیه", "اوت", "سپتامبر", "اکتبر", "نوامبر", "دسامبر"),
+            listOf("ژانویه", "فوریه", "مارس", "آوریل", "مه", "ژوئن", "ژوئیه", "اوت", "سپتامبر", "اکتبر", "نوامبر", "دسامبر")
+        )
+
+        private fun fi_FI(): TimeLocale = timeLocale(
             "%A, %-d. %Bta %Y klo %X",
             "%-d.%-m.%Y",
             "%H:%M:%S",
@@ -165,7 +221,7 @@ public class Locales {
             listOf("Tammi", "Helmi", "Maalis", "Huhti", "Touko", "Kesä", "Heinä", "Elo", "Syys", "Loka", "Marras", "Joulu")
         )
 
-        public fun fr_CA(): TimeLocale = locale(
+        private fun fr_CA(): TimeLocale = timeLocale(
             "%a %e %b %Y %X",
             "%Y-%m-%d",
             "%H:%M:%S",
@@ -176,7 +232,7 @@ public class Locales {
             listOf("jan", "fév", "mar", "avr", "mai", "jui", "jul", "aoû", "sep", "oct", "nov", "déc")
         )
 
-        public fun fr_FR(): TimeLocale = locale(
+        private fun fr_FR(): TimeLocale = timeLocale(
             "%A, le %e %B %Y, %X",
             "%d/%m/%Y",
             "%H:%M:%S",
@@ -187,7 +243,7 @@ public class Locales {
             listOf("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
         )
 
-        public fun he_IL(): TimeLocale = locale(
+        private fun he_IL(): TimeLocale = timeLocale(
             "%A, %e ב%B %Y %X",
             "%d.%m.%Y",
             "%H:%M:%S",
@@ -198,7 +254,7 @@ public class Locales {
             listOf("ינו׳", "פבר׳", "מרץ", "אפר׳", "מאי", "יוני", "יולי", "אוג׳", "ספט׳", "אוק׳", "נוב׳", "דצמ׳")
         )
 
-        public fun hu_HU(): TimeLocale = locale(
+        private fun hu_HU(): TimeLocale = timeLocale(
             "%Y. %B %-e., %A %X",
             "%Y. %m. %d.",
             "%H:%M:%S",
@@ -209,7 +265,7 @@ public class Locales {
             listOf("jan.", "feb.", "már.", "ápr.", "máj.", "jún.", "júl.", "aug.", "szept.", "okt.", "nov.", "dec.")
         )
 
-        public fun it_IT(): TimeLocale = locale(
+        private fun it_IT(): TimeLocale = timeLocale(
             "%A %e %B %Y, %X",
             "%d/%m/%Y",
             "%H:%M:%S",
@@ -220,8 +276,8 @@ public class Locales {
             listOf("Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic")
         )
 
-        public fun ja_JP(): TimeLocale = locale(
-            "%Y %b %e %a %X",
+        private fun ja_JP(): TimeLocale = timeLocale(
+            "%x %a %X",
             "%Y/%m/%d",
             "%H:%M:%S",
             listOf("AM", "PM"),
@@ -231,7 +287,7 @@ public class Locales {
             listOf("1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月")
         )
 
-        public fun ko_KR(): TimeLocale = locale(
+        private fun ko_KR(): TimeLocale = timeLocale(
             "%Y/%m/%d %a %X",
             "%Y/%m/%d",
             "%H:%M:%S",
@@ -242,7 +298,7 @@ public class Locales {
             listOf("1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월")
         )
 
-        public fun mk_MK(): TimeLocale = locale(
+        private fun mk_MK(): TimeLocale = timeLocale(
             "%A, %e %B %Y г. %X",
             "%d.%m.%Y",
             "%H:%M:%S",
@@ -253,8 +309,19 @@ public class Locales {
             listOf("јан", "фев", "мар", "апр", "мај", "јун", "јул", "авг", "сеп", "окт", "ное", "дек")
         )
 
-        public fun nl_NL(): TimeLocale = locale(
-            "%a %e %B %Y %T",
+        private fun nb_NO(): TimeLocale = timeLocale(
+            "%A den %d. %B %Y %X",
+            "%d.%m.%Y",
+            "%H:%M:%S",
+            listOf("AM", "PM"),
+            listOf("søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"),
+            listOf("søn", "man", "tir", "ons", "tor", "fre", "lør"),
+            listOf("januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"),
+            listOf("jan", "feb", "mars", "apr", "mai", "juni", "juli", "aug", "sep", "okt", "nov", "des")
+        )
+
+        private fun nl_NL(): TimeLocale = timeLocale(
+            "%a %e %B %Y %X",
             "%d-%m-%Y",
             "%H:%M:%S",
             listOf("AM", "PM"),
@@ -264,7 +331,7 @@ public class Locales {
             listOf("jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec")
         )
 
-        public fun pl_PL(): TimeLocale = locale(
+        private fun pl_PL(): TimeLocale = timeLocale(
             "%A, %e %B %Y, %X",
             "%d/%m/%Y",
             "%H:%M:%S",
@@ -275,7 +342,7 @@ public class Locales {
             listOf("Stycz.", "Luty", "Marz.", "Kwie.", "Maj", "Czerw.", "Lipc.", "Sierp.", "Wrz.", "Paźdz.", "Listop.", "Grudz.")
         )
 
-        public fun pt_BR(): TimeLocale = locale(
+        private fun pt_BR(): TimeLocale = timeLocale(
             "%A, %e de %B de %Y. %X",
             "%d/%m/%Y",
             "%H:%M:%S",
@@ -286,7 +353,7 @@ public class Locales {
             listOf("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez")
         )
 
-        public fun ru_RU(): TimeLocale = locale(
+        private fun ru_RU(): TimeLocale = timeLocale(
             "%A, %e %B %Y г. %X",
             "%d.%m.%Y",
             "%H:%M:%S",
@@ -297,7 +364,7 @@ public class Locales {
             listOf("янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек")
         )
 
-        public fun sv_SE(): TimeLocale = locale(
+        private fun sv_SE(): TimeLocale = timeLocale(
             "%A den %d %B %Y %X",
             "%Y-%m-%d",
             "%H:%M:%S",
@@ -308,7 +375,18 @@ public class Locales {
             listOf("Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec")
         )
 
-        public fun uk_UA(): TimeLocale = locale(
+        private fun tr_TR(): TimeLocale = timeLocale(
+            "%a %e %b %X %Y",
+            "%d/%m/%Y",
+            "%H:%M:%S",
+            listOf("AM", "PM"),
+            listOf("Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"),
+            listOf("Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"),
+            listOf("Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"),
+            listOf("Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara")
+        )
+
+        private fun uk_UA(): TimeLocale = timeLocale(
             "%A, %e %B %Y р. %X",
             "%d.%m.%Y",
             "%H:%M:%S",
@@ -319,7 +397,7 @@ public class Locales {
             listOf("січ.", "лют.", "бер.", "квіт.", "трав.", "черв.", "лип.", "серп.", "вер.", "жовт.", "лист.", "груд.")
         )
 
-        public fun zh_CN(): TimeLocale = locale(
+        private fun zh_CN(): TimeLocale = timeLocale(
             "%x %A %X",
             "%Y年%-m月%-d日",
             "%H:%M:%S",
@@ -328,6 +406,17 @@ public class Locales {
             listOf("周日", "周一", "周二", "周三", "周四", "周五", "周六"),
             listOf("一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"),
             listOf("一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月")
+        )
+
+        private fun zh_TW(): TimeLocale = timeLocale(
+            "%x %A %X",
+            "%Y年%-m月%-d日",
+            "%H:%M:%S",
+            listOf("上午", "下午"),
+            listOf("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"),
+            listOf("日", "一", "二", "三", "四", "五", "六"),
+            listOf("一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"),
+            listOf("1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月")
         )
     }
 }

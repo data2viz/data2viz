@@ -248,7 +248,7 @@ class ParseTest : TestDate() {
     
     @Test
     fun parse_IMSp_parses_period_in_non_english_locale() {
-        val parser = Locale(Locales.fi_FI()).parse("%I:%M:%S %p")
+        val parser = Locales.fi_FI.parse("%I:%M:%S %p")
 
         parser("12:00:00 a.m.") shouldBe date(1900, 1, 1, 0, 0, 0)
         parser("11:59:59 A.M.") shouldBe date(1900, 1, 1, 11, 59, 59)

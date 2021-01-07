@@ -33,12 +33,14 @@ class LocaleTest : TestDate() {
     fun timeFormat_specifier_defaults_to_en_US() {
         format("%c")(date(2000, 4, 1, 0, 0)) shouldBe "4/1/2000, 12:00:00 AM"
         format("%c")(date(2000, 4, 1, 23, 16, 4)) shouldBe "4/1/2000, 11:16:04 PM"
+
+        format("%c")(date(2000, 1, 1)) shouldBe "1/1/2000, 12:00:00 AM"
     }
 
     
     @Test
     fun timeFormat_specifier_for_locale_frFr() {
-        val localeFr = Locale(Locales.fr_FR())
+        val localeFr = Locales.fr_FR
         localeFr.format("%c")(date(2000, 1, 1, 0, 0)) shouldBe "samedi, le  1 janvier 2000, 00:00:00"
     }
 
@@ -52,7 +54,7 @@ class LocaleTest : TestDate() {
     
     @Test
     fun timeParse_specifier_for_locale_frFr() {
-        val localeFr = Locale(Locales.fr_FR())
+        val localeFr = Locales.fr_FR
         localeFr.parse("%c")("samedi, le  1 janvier 2000, 00:00:00") shouldBe date(2000, 1, 1, 0, 0)
         localeFr.parse("%c")("dimanche, le  9 janvier 2000, 20:4:12") shouldBe date(2000, 1, 9, 20, 4, 12)
         localeFr.parse("%c")("dimanche, le  9 janvier 2000, 20:04:12") shouldBe date(2000, 1, 9, 20, 4, 12)
@@ -60,7 +62,7 @@ class LocaleTest : TestDate() {
 
     @Test
     fun locale_formats() {
-        val localeFr = Locale(Locales.fr_FR())
+        val localeFr = Locales.fr_FR
         val date = Instant.parse("2011-10-05T14:48:20.300Z")
 
         localeFr.format(localeFr.locale_dateTime)(date) shouldBe "mercredi, le  5 octobre 2011, 14:48:20"
