@@ -22,7 +22,7 @@ import io.data2viz.interpolate.UnInterpolator
 import io.data2viz.interpolate.interpolateDate
 import io.data2viz.interpolate.uninterpolateDate
 import io.data2viz.math.tickStep
-import io.data2viz.time.*
+import io.data2viz.scale.intervals.*
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlin.time.milliseconds

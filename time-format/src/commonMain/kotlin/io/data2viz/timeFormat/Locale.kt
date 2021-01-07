@@ -106,7 +106,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultLocale()) {
     public val monthLookup: Map<String, Int> = formatLookup(locale_months)
     public val shortMonthRe: Regex = formatRe(locale_shortMonths)
     public val shortMonthLookup: Map<String, Int> = formatLookup(locale_shortMonths)
-    public val formats: MutableMap<Char, ((Instant, String) -> String)?> = mutableMapOf<Char, ((Instant, String) -> String)?>(
+    public val formats: MutableMap<Char, ((Instant, String) -> String)?> = mutableMapOf(
             Pair('a', ::formatShortWeekday),
             Pair('A', ::formatWeekday),
             Pair('b', ::formatShortMonth),

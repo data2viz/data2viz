@@ -15,7 +15,7 @@
  *
  */
 
-package io.data2viz.time
+package io.data2viz.scale.intervals
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime

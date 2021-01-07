@@ -17,6 +17,7 @@
 
 package io.data2viz.timeFormat
 
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -55,5 +56,19 @@ class LocaleTest : TestDate() {
         localeFr.parse("%c")("samedi, le  1 janvier 2000, 00:00:00") shouldBe date(2000, 1, 1, 0, 0)
         localeFr.parse("%c")("dimanche, le  9 janvier 2000, 20:4:12") shouldBe date(2000, 1, 9, 20, 4, 12)
         localeFr.parse("%c")("dimanche, le  9 janvier 2000, 20:04:12") shouldBe date(2000, 1, 9, 20, 4, 12)
+    }
+
+    @Test
+    fun locale_formats() {
+        val localeFr = Locale(Locales.fr_FR())
+        val date = Instant.parse("2011-10-05T14:48:20.300Z")
+
+        localeFr.format(localeFr.locale_dateTime)(date) shouldBe "mercredi, le  5 octobre 2011, 14:48:20"
+        localeFr.format(localeFr.locale_date)(date) shouldBe "05/10/2011"
+        localeFr.format(localeFr.locale_time)(date) shouldBe "14:48:20"
+
+        defaultLocale.format(defaultLocale.locale_dateTime)(date) shouldBe "10/5/2011, 2:48:20 PM"
+        defaultLocale.format(defaultLocale.locale_date)(date) shouldBe "10/5/2011"
+        defaultLocale.format(defaultLocale.locale_time)(date) shouldBe "2:48:20 PM"
     }
 }
