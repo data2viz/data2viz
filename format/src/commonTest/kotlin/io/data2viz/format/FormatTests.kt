@@ -101,7 +101,7 @@ class FormatTests : TestBase() {
         formatter(".2s")(42e6)                          shouldBe "42M"                      // SI-prefix with two significant digits, "42M"
         formatter("#x")(48879.0)                        shouldBe "0xbeef"                   // prefixed lowercase hexadecimal, "0xbeef"
         formatter(",.2r")(4223.0)                       shouldBe "4,200"                    // grouped thousands with two significant digits, "4,200"
-        Locales.en_GB().formatter("($.2f")(-3.5)       shouldBe "(£3.50)" // localized fixed-point currency, "(£3.50)"
+        Locales.en_GB.formatter("($.2f")(-3.5)       shouldBe "(£3.50)" // localized fixed-point currency, "(£3.50)"
     }
 
     @Test fun demo_API(){
@@ -124,7 +124,7 @@ class FormatTests : TestBase() {
                 group = true,
                 precision = 2
         )(4223.0)                                                        shouldBe "4,200"                // grouped thousands with two significant digits, "4,200"
-        Locales.en_GB()
+        Locales.en_GB
                 .formatter(
                         Type.FIXED_POINT,
                         symbol = Symbol.CURRENCY,

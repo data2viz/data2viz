@@ -34,7 +34,7 @@ public data class Locale(
 public class Locales {
 
     public companion object {
-        public fun locale(
+        private fun locale(
                 decimalSeparator: String = ".",
                 groupSeparator: String = ",",
                 currency: List<String> = listOf("$", ""),
@@ -43,59 +43,61 @@ public class Locales {
                 percent: String = "%"
         ): Locale = Locale(decimalSeparator, grouping, groupSeparator, currency, numerals, percent)
 
-        public fun ar_001():Locale = locale("\u066b", "\u066c", currency = listOf("", ""), numerals = arabicNumerals)
-        public fun ar_AE(): Locale = ar_001().copy(currency = listOf("", " \u062f\u002e\u0625\u002e"))
-        public fun ar_BH(): Locale = ar_001().copy(currency = listOf("", " \u062f\u002e\u0628\u002e"))
-        public fun ar_DJ(): Locale = ar_001().copy(currency = listOf("\u200f\u0046\u0064\u006a ", ""))
-        public fun ar_DZ(): Locale = locale("\u002c", "\u002e", currency = listOf("\u062f\u002e\u062c\u002e ", ""))
-        public fun ar_EG(): Locale = ar_001().copy(currency = listOf("", " \u062c\u002e\u0645\u002e"))
-        public fun ar_EH(): Locale = locale("\u002e", "\u002c", currency = listOf("\u062f\u002e\u0645\u002e ", ""))
-        public fun ar_ER(): Locale = ar_001().copy(currency = listOf("\u004e\u0066\u006b ", ""))
-        public fun ar_IL(): Locale = ar_001().copy(currency = listOf("\u20aa ", ""))
-        public fun ar_IQ(): Locale = ar_001().copy(currency = listOf("", " \u062f\u002e\u0639\u002e"))
-        public fun ar_JO(): Locale = ar_001().copy(currency = listOf("", " \u062f\u002e\u0623\u002e"))
-        public fun ar_KM(): Locale = ar_001().copy(currency = listOf("", " \u0641\u002e\u062c\u002e\u0642\u002e"))
-        public fun ar_KW(): Locale = ar_001().copy(currency = listOf("", " \u062f\u002e\u0643\u002e"))
-        public fun ar_LB(): Locale = ar_001().copy(currency = listOf("", " \u0644\u002e\u0644\u002e"))
-        public fun ar_LY(): Locale = ar_001().copy(decimalSeparator = "\u002c", groupSeparator = "\u002e", currency = listOf("\u062f\u002e\u0644\u002e ", ""))
-        public fun ar_MA(): Locale = locale("\u002c", groupSeparator = "\u002e", currency = listOf("\u062f\u002e\u0645\u002e ", ""))
-        public fun ar_MR(): Locale = ar_001().copy(currency = listOf("",  " \u0623\u002e\u0645\u002e" ))
-        public fun ar_OM(): Locale = ar_001().copy(currency = listOf("", " \u0631\u002e\u0639\u002e"))
-        public fun ar_PS(): Locale = ar_001().copy(currency = listOf("\u20aa ", ""))
-        public fun ar_QA(): Locale = ar_001().copy(currency = listOf("", " \u0631\u002e\u0642\u002e"))
-        public fun ar_SA(): Locale = ar_001().copy(currency = listOf("", " \u0631\u002e\u0633\u002e"))
-        public fun ar_SD(): Locale = ar_001().copy(currency = listOf("", " \u062c\u002e\u0633\u002e"))
-        public fun ar_SO(): Locale = ar_001().copy(currency = listOf("\u200f\u0053 ", ""))
-        public fun ar_SS(): Locale = ar_001().copy(currency = listOf("\u00a3 ", ""))
-        public fun ar_SY(): Locale = ar_001().copy(currency = listOf("", " \u0644\u002e\u0633\u002e"))
-        public fun ar_TD(): Locale = ar_001().copy(currency = listOf("\u200f\u0046\u0043\u0046\u0041 ", ""))
-        public fun ar_TN(): Locale = locale("\u002c", "\u002e", currency = listOf("\u062f\u002e\u062a\u002e ", ""))
-        public fun ar_YE(): Locale = ar_001().copy(currency = listOf("", " \u0631\u002e\u0649\u002e"))
-        public fun ca_ES(): Locale = locale(".", ".", listOf("", "\u00a0€"))
-        public fun cs_CZ(): Locale = locale(",", "\u00a0", listOf("", "\u00a0Kč"))
-        public fun de_CH(): Locale = locale(",", "'", listOf("", "\u00a0CHF"))
-        public fun de_DE(): Locale = locale(",", ".", listOf("", "\u00a0€"))
-        public fun en_CA(): Locale = locale(".", ",", listOf("$", ""))
-        public fun en_GB(): Locale = locale(".", ",", listOf("£", ""))
-        public fun en_IN(): Locale = locale(".", ",", listOf("₹", ""), grouping = listOf(3, 2, 2, 2, 2, 2, 2, 2, 2, 2))
-        public fun en_US(): Locale = locale(".", ",", listOf("$", ""))
-        public fun es_ES(): Locale = locale(",", ".", listOf("", "\u00a0€"))
-        public fun es_MX(): Locale = locale(".", ",", listOf("$", ""))
-        public fun fi_FI(): Locale = locale(",", "\u00a0", listOf("", "\u00a0€"))
-        public fun fr_CA(): Locale = locale(",", "\u00a0", listOf("", "$"))
-        public fun fr_FR(): Locale = locale(",", "\u00a0", listOf("", "\u00a0€"))
-        public fun he_IL(): Locale = locale(".", ",", listOf("₪", ""))
-        public fun hu_HU(): Locale = locale(",", "\u00a0", listOf("", "\u00a0Ft"))
-        public fun it_IT(): Locale = locale(",", ".", listOf("€", ""))
-        public fun ja_JP(): Locale = locale(".", ",", listOf("", "円"))
-        public fun ko_KR(): Locale = locale(",", "", listOf("₩", ""))
-        public fun mk_MK(): Locale = locale(",", ".", listOf("", "\u00a0ден."))
-        public fun nl_NL(): Locale = locale(",", ".", listOf("€\u00a0", ""))
-        public fun pl_PL(): Locale = locale(",", ".", listOf("", "zł"))
-        public fun pt_BR(): Locale = locale(",", ".", listOf("R$", ""))
-        public fun ru_RU(): Locale = locale(",", "\u00a0", listOf("", "\u00a0руб."))
-        public fun sv_SE(): Locale = locale(",", "\u00a0", listOf("", "SEK"))
-        public fun uk_UA(): Locale = locale(",", "\u00a0", listOf("", "\u00a0₴."))
-        public fun zh_CN(): Locale = locale(".", ",", listOf("¥", ""))
+        public val ar_001:Locale by lazy { locale("\u066b", "\u066c", currency = listOf("", ""), numerals = arabicNumerals) }
+        public val ar_AE: Locale by lazy { ar_001.copy(currency = listOf("", " \u062f\u002e\u0625\u002e")) }
+        public val ar_BH: Locale by lazy { ar_001.copy(currency = listOf("", " \u062f\u002e\u0628\u002e")) }
+        public val ar_DJ: Locale by lazy { ar_001.copy(currency = listOf("\u200f\u0046\u0064\u006a ", "")) }
+        public val ar_DZ: Locale by lazy { locale("\u002c", "\u002e", currency = listOf("\u062f\u002e\u062c\u002e ", "")) }
+        public val ar_EG: Locale by lazy { ar_001.copy(currency = listOf("", " \u062c\u002e\u0645\u002e")) }
+        public val ar_EH: Locale by lazy { locale("\u002e", "\u002c", currency = listOf("\u062f\u002e\u0645\u002e ", "")) }
+        public val ar_ER: Locale by lazy { ar_001.copy(currency = listOf("\u004e\u0066\u006b ", "")) }
+        public val ar_IL: Locale by lazy { ar_001.copy(currency = listOf("\u20aa ", "")) }
+        public val ar_IQ: Locale by lazy { ar_001.copy(currency = listOf("", " \u062f\u002e\u0639\u002e")) }
+        public val ar_JO: Locale by lazy { ar_001.copy(currency = listOf("", " \u062f\u002e\u0623\u002e")) }
+        public val ar_KM: Locale by lazy { ar_001.copy(currency = listOf("", " \u0641\u002e\u062c\u002e\u0642\u002e")) }
+        public val ar_KW: Locale by lazy { ar_001.copy(currency = listOf("", " \u062f\u002e\u0643\u002e")) }
+        public val ar_LB: Locale by lazy { ar_001.copy(currency = listOf("", " \u0644\u002e\u0644\u002e")) }
+        public val ar_LY: Locale by lazy { ar_001.copy(decimalSeparator = "\u002c", groupSeparator = "\u002e", currency = listOf("\u062f\u002e\u0644\u002e ", "")) }
+        public val ar_MA: Locale by lazy { locale("\u002c", groupSeparator = "\u002e", currency = listOf("\u062f\u002e\u0645\u002e ", "")) }
+        public val ar_MR: Locale by lazy { ar_001.copy(currency = listOf("",  " \u0623\u002e\u0645\u002e" )) }
+        public val ar_OM: Locale by lazy { ar_001.copy(currency = listOf("", " \u0631\u002e\u0639\u002e")) }
+        public val ar_PS: Locale by lazy { ar_001.copy(currency = listOf("\u20aa ", "")) }
+        public val ar_QA: Locale by lazy { ar_001.copy(currency = listOf("", " \u0631\u002e\u0642\u002e")) }
+        public val ar_SA: Locale by lazy { ar_001.copy(currency = listOf("", " \u0631\u002e\u0633\u002e")) }
+        public val ar_SD: Locale by lazy { ar_001.copy(currency = listOf("", " \u062c\u002e\u0633\u002e")) }
+        public val ar_SO: Locale by lazy { ar_001.copy(currency = listOf("\u200f\u0053 ", "")) }
+        public val ar_SS: Locale by lazy { ar_001.copy(currency = listOf("\u00a3 ", "")) }
+        public val ar_SY: Locale by lazy { ar_001.copy(currency = listOf("", " \u0644\u002e\u0633\u002e")) }
+        public val ar_TD: Locale by lazy { ar_001.copy(currency = listOf("\u200f\u0046\u0043\u0046\u0041 ", "")) }
+        public val ar_TN: Locale by lazy { locale("\u002c", "\u002e", currency = listOf("\u062f\u002e\u062a\u002e ", "")) }
+        public val ar_YE: Locale by lazy { ar_001.copy(currency = listOf("", " \u0631\u002e\u0649\u002e")) }
+        public val ca_ES: Locale by lazy { locale(".", ".", listOf("", "\u00a0€")) }
+        public val cs_CZ: Locale by lazy { locale(",", "\u00a0", listOf("", "\u00a0Kč")) }
+        public val de_CH: Locale by lazy { locale(",", "'", listOf("", "\u00a0CHF")) }
+        public val de_DE: Locale by lazy { locale(",", ".", listOf("", "\u00a0€")) }
+        public val en_CA: Locale by lazy { locale(".", ",", listOf("$", "")) }
+        public val en_GB: Locale by lazy { locale(".", ",", listOf("£", "")) }
+        public val en_IE: Locale by lazy { locale(".", ",", listOf("€", "")) }
+        public val en_IN: Locale by lazy { locale(".", ",", listOf("₹", ""), grouping = listOf(3, 2, 2, 2, 2, 2, 2, 2, 2, 2)) }
+        public val en_US: Locale by lazy { locale(".", ",", listOf("$", "")) }
+        public val es_BO: Locale by lazy { locale(",", ".", listOf("Bs\u00a0", ""), grouping = listOf(3), percent = "\u202f%") }
+        public val es_ES: Locale by lazy { locale(",", ".", listOf("", "\u00a0€")) }
+        public val es_MX: Locale by lazy { locale(".", ",", listOf("$", "")) }
+        public val fi_FI: Locale by lazy { locale(",", "\u00a0", listOf("", "\u00a0€")) }
+        public val fr_CA: Locale by lazy { locale(",", "\u00a0", listOf("", "$")) }
+        public val fr_FR: Locale by lazy { locale(",", "\u00a0", listOf("", "\u00a0€")) }
+        public val he_IL: Locale by lazy { locale(".", ",", listOf("₪", "")) }
+        public val hu_HU: Locale by lazy { locale(",", "\u00a0", listOf("", "\u00a0Ft")) }
+        public val it_IT: Locale by lazy { locale(",", ".", listOf("€", "")) }
+        public val ja_JP: Locale by lazy { locale(".", ",", listOf("", "円")) }
+        public val ko_KR: Locale by lazy { locale(",", "", listOf("₩", "")) }
+        public val mk_MK: Locale by lazy { locale(",", ".", listOf("", "\u00a0ден.")) }
+        public val nl_NL: Locale by lazy { locale(",", ".", listOf("€\u00a0", "")) }
+        public val pl_PL: Locale by lazy { locale(",", ".", listOf("", "zł")) }
+        public val pt_BR: Locale by lazy { locale(",", ".", listOf("R$", "")) }
+        public val ru_RU: Locale by lazy { locale(",", "\u00a0", listOf("", "\u00a0руб.")) }
+        public val sv_SE: Locale by lazy { locale(",", "\u00a0", listOf("", " kr")) }
+        public val uk_UA: Locale by lazy { locale(",", "\u00a0", listOf("", "\u00a0₴.")) }
+        public val zh_CN: Locale by lazy { locale(".", ",", listOf("¥", "")) }
     }
 }
