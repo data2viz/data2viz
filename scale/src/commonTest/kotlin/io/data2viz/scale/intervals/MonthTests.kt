@@ -25,7 +25,7 @@ import kotlin.test.Test
 @Suppress("DEPRECATION")
 class MonthTests : TestDate() {
 
-    private val localTZ = TimeZone.of("UTC-8")
+    private val localTZ = TimeZone.of("America/Los_Angeles")
 
     private fun dateUtc(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
         LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(TimeZone.UTC)
