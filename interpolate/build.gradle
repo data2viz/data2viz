@@ -12,7 +12,7 @@ kotlin {
         commonMain {
             dependencies {
                 api project(":color")
-                api ("org.jetbrains.kotlinx:kotlinx-datetime:0.1.0")
+                api ("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
             }
         }
     }

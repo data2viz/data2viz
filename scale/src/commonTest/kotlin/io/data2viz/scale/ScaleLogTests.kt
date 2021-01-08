@@ -45,7 +45,7 @@ class ScaleLogTests : TestBase() {
         scale(100.0) shouldBeClose 1.0
     }
 
-    private fun scaleLog(): LogScale  = Scales.Continuous.log() as LogScale
+    private fun scaleLog(): LogScale  = Scales.Continuous.log()
 
     @Test
     fun log_x_maps_a_number_x_to_a_number_y() {

@@ -11,7 +11,7 @@ kotlin {
         commonMain {
             dependencies {
                 api project(":core")
-                api ("org.jetbrains.kotlinx:kotlinx-datetime:0.1.0")
+                api ("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
             }
         }
     }

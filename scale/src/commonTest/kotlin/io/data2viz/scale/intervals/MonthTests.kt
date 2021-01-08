@@ -25,13 +25,13 @@ import kotlin.test.Test
 @Suppress("DEPRECATION")
 class MonthTests : TestDate() {
 
-    private val localTZ = TimeZone.of("America/Los_Angeles")
+    private val zoneLocal = zoneLocal()
 
     private fun dateUtc(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
         LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(TimeZone.UTC)
 
     private fun dateLocal(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
-        LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(localTZ)
+        LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(zoneLocal)
 
     @Test
     fun month_floor_date_returns_months() {
@@ -199,7 +199,7 @@ class MonthTests : TestDate() {
                     dateUtc(2012, 5, 1)
                 )
 
-        with (timeMonth) { localTZ.range(dateLocal(2011, 12, 1), dateLocal(2012, 6, 1)) } shouldBe
+        with (timeMonth) { zoneLocal.range(dateLocal(2011, 12, 1), dateLocal(2012, 6, 1)) } shouldBe
                 listOf(
                     dateLocal(2011, 12, 1),
                     dateLocal(2012, 1, 1),

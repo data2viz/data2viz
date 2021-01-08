@@ -162,7 +162,7 @@ internal open class Interval(
      */
     fun TimeZone.every(step: Int): Interval {
         checkNotNull(count, { "The given Count function must not be null." })
-        require(step > 0) { " The given Step parameter must be greater than zero." }
+        require(step > 0) { "The given Step parameter must be greater than zero." }
         if (step == 1) return this@Interval
         return if (field != null) {
             filter { d -> field.invoke(this, d) % step == 0; }

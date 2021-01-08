@@ -26,6 +26,8 @@ import kotlin.test.Test
 @Suppress("DEPRECATION")
 class HourTests : TestDate() {
 
+    private val zoneLocal = zoneLocal()
+
     private fun dateUTC(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
         LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(TimeZone.UTC)
 
@@ -172,8 +174,8 @@ class HourTests : TestDate() {
 
     @Test
     fun timeHour_range_observes_start_of_DST() {
-        val start = LocalDateTime(2011, 3, 13, 1, 0).toInstant(TimeZone.of("America/Los_Angeles"))
-        val end = LocalDateTime(2011, 3, 13, 5, 0).toInstant(TimeZone.of("America/Los_Angeles"))
+        val start = LocalDateTime(2011, 3, 13, 1, 0).toInstant(zoneLocal)
+        val end = LocalDateTime(2011, 3, 13, 5, 0).toInstant(zoneLocal)
         with(timeHour) { TimeZone.UTC.range(start, end) } shouldBe
                 listOf(
                     dateUTC(2011, 3, 13, 9),

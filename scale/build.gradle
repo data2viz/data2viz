@@ -15,5 +15,17 @@ kotlin {
                 api project(":interpolate")
             }
         }
+        jsMain {
+            dependencies {
+                implementation(npm("@js-joda/core", "1.11.0"))
+                implementation(npm("@js-joda/timezone", "2.3.0"))
+            }
+        }
+        jsTest {
+            dependencies {
+                implementation(npm("@js-joda/core", "1.11.0"))
+                implementation(npm("@js-joda/timezone", "2.3.0"))
+            }
+        }
     }
 }
