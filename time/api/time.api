@@ -1,4 +1,4 @@
-public final class io/data2viz/time/DateKt {
+public final class io/data2viz/time/DateDeprecateKt {
 	public static final fun currentDay ()I
 	public static final fun currentHour ()I
 	public static final fun currentMinute ()I
@@ -19,96 +19,5 @@ public final class io/data2viz/time/DateKt {
 	public static final fun month (Lkotlinx/datetime/LocalDateTime;)I
 	public static final fun second (Lkotlinx/datetime/LocalDateTime;)I
 	public static final fun year (Lkotlinx/datetime/LocalDateTime;)I
-}
-
-public final class io/data2viz/time/Day : io/data2viz/time/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/time/DayKt {
-	public static final fun getTimeDay ()Lio/data2viz/time/Day;
-}
-
-public final class io/data2viz/time/Hour : io/data2viz/time/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/time/HourKt {
-	public static final fun getTimeHour ()Lio/data2viz/time/Hour;
-}
-
-public class io/data2viz/time/Interval {
-	public fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun ceil (Lkotlinx/datetime/LocalDateTime;)Lkotlinx/datetime/LocalDateTime;
-	public final fun count (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)I
-	public final fun every (I)Lio/data2viz/time/Interval;
-	public final fun filter (Lkotlin/jvm/functions/Function1;)Lio/data2viz/time/Interval;
-	public final fun getCount ()Lkotlin/jvm/functions/Function2;
-	public final fun getFloor ()Lkotlin/jvm/functions/Function1;
-	public final fun getOffset ()Lkotlin/jvm/functions/Function2;
-	public final fun range (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;I)Ljava/util/List;
-	public static synthetic fun range$default (Lio/data2viz/time/Interval;Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;IILjava/lang/Object;)Ljava/util/List;
-	public final fun round (Lkotlinx/datetime/LocalDateTime;)Lkotlinx/datetime/LocalDateTime;
-}
-
-public final class io/data2viz/time/IntervalKt {
-	public static final fun getDefaultTZ ()Lkotlinx/datetime/TimeZone;
-	public static final fun minus (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlinx/datetime/DateTimePeriod;
-	public static final fun plus (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/DateTimePeriod;)Lkotlinx/datetime/LocalDateTime;
-}
-
-public final class io/data2viz/time/Millisecond : io/data2viz/time/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/time/MillisecondKt {
-	public static final fun getTimeMillisecond ()Lio/data2viz/time/Millisecond;
-}
-
-public final class io/data2viz/time/Minute : io/data2viz/time/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/time/MinuteKt {
-	public static final fun getTimeMinute ()Lio/data2viz/time/Minute;
-}
-
-public final class io/data2viz/time/Month : io/data2viz/time/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/time/MonthKt {
-	public static final fun getTimeMonth ()Lio/data2viz/time/Month;
-}
-
-public final class io/data2viz/time/Second : io/data2viz/time/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/time/SecondKt {
-	public static final fun getTimeSecond ()Lio/data2viz/time/Second;
-}
-
-public final class io/data2viz/time/Weekday : io/data2viz/time/Interval {
-	public fun <init> (I)V
-}
-
-public final class io/data2viz/time/WeekdayKt {
-	public static final fun getTimeFriday ()Lio/data2viz/time/Weekday;
-	public static final fun getTimeMonday ()Lio/data2viz/time/Weekday;
-	public static final fun getTimeSaturday ()Lio/data2viz/time/Weekday;
-	public static final fun getTimeSunday ()Lio/data2viz/time/Weekday;
-	public static final fun getTimeThursday ()Lio/data2viz/time/Weekday;
-	public static final fun getTimeTuesday ()Lio/data2viz/time/Weekday;
-	public static final fun getTimeWednesday ()Lio/data2viz/time/Weekday;
-}
-
-public final class io/data2viz/time/Year : io/data2viz/time/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/time/YearKt {
-	public static final fun getTimeYear ()Lio/data2viz/time/Year;
 }
 

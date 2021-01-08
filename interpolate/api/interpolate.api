@@ -5,8 +5,8 @@ public final class io/data2viz/interpolate/BasisKt {
 }
 
 public final class io/data2viz/interpolate/DateKt {
-	public static final fun interpolateDate (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlin/jvm/functions/Function1;
-	public static final fun uninterpolateDate (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlin/jvm/functions/Function1;
+	public static final fun interpolateDate (Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;)Lkotlin/jvm/functions/Function1;
+	public static final fun uninterpolateDate (Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;)Lkotlin/jvm/functions/Function1;
 }
 
 public final class io/data2viz/interpolate/EaseKt {

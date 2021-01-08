@@ -29,7 +29,7 @@ class SundayTests : TestDate() {
     private fun dateUTC(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
         LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(zoneUTC)
 
-    private val zoneLocal = TimeZone.of("America/Los_Angeles")
+    private val zoneLocal = TimeZone.of("UTC-8")
     private fun dateLocal(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
         LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(zoneLocal)
 

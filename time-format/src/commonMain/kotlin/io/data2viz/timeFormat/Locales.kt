@@ -15,6 +15,8 @@
  *
  */
 
+@file:Suppress("unused")
+
 package io.data2viz.timeFormat
 
 public data class TimeLocale(
@@ -30,9 +32,7 @@ public data class TimeLocale(
 
 public class Locales {
     public companion object {
-
         public val default: Locale  by lazy { Locale(defaultTimeLocale()) }
-
         public val ar_EG: Locale    by lazy { Locale(ar_EG()) }
         public val ca_ES: Locale    by lazy { Locale(ca_ES()) }
         public val cs_CZ: Locale    by lazy { Locale(cs_CZ()) }

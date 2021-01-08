@@ -77,16 +77,16 @@ public final class io/data2viz/format/FormatSpecKt {
 
 public final class io/data2viz/format/Locale {
 	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/util/List;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun component4 ()Ljava/util/List;
-	public final fun component5 ()[Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()[Ljava/lang/String;
+	public final fun component5 ()Ljava/util/List;
 	public final fun component6 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;)Lio/data2viz/format/Locale;
-	public static synthetic fun copy$default (Lio/data2viz/format/Locale;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/data2viz/format/Locale;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Lio/data2viz/format/Locale;
+	public static synthetic fun copy$default (Lio/data2viz/format/Locale;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/data2viz/format/Locale;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCurrency ()Ljava/util/List;
 	public final fun getDecimalSeparator ()Ljava/lang/String;
@@ -110,62 +110,62 @@ public final class io/data2viz/format/Locales {
 }
 
 public final class io/data2viz/format/Locales$Companion {
-	public final fun ar_001 ()Lio/data2viz/format/Locale;
-	public final fun ar_AE ()Lio/data2viz/format/Locale;
-	public final fun ar_BH ()Lio/data2viz/format/Locale;
-	public final fun ar_DJ ()Lio/data2viz/format/Locale;
-	public final fun ar_DZ ()Lio/data2viz/format/Locale;
-	public final fun ar_EG ()Lio/data2viz/format/Locale;
-	public final fun ar_EH ()Lio/data2viz/format/Locale;
-	public final fun ar_ER ()Lio/data2viz/format/Locale;
-	public final fun ar_IL ()Lio/data2viz/format/Locale;
-	public final fun ar_IQ ()Lio/data2viz/format/Locale;
-	public final fun ar_JO ()Lio/data2viz/format/Locale;
-	public final fun ar_KM ()Lio/data2viz/format/Locale;
-	public final fun ar_KW ()Lio/data2viz/format/Locale;
-	public final fun ar_LB ()Lio/data2viz/format/Locale;
-	public final fun ar_LY ()Lio/data2viz/format/Locale;
-	public final fun ar_MA ()Lio/data2viz/format/Locale;
-	public final fun ar_MR ()Lio/data2viz/format/Locale;
-	public final fun ar_OM ()Lio/data2viz/format/Locale;
-	public final fun ar_PS ()Lio/data2viz/format/Locale;
-	public final fun ar_QA ()Lio/data2viz/format/Locale;
-	public final fun ar_SA ()Lio/data2viz/format/Locale;
-	public final fun ar_SD ()Lio/data2viz/format/Locale;
-	public final fun ar_SO ()Lio/data2viz/format/Locale;
-	public final fun ar_SS ()Lio/data2viz/format/Locale;
-	public final fun ar_SY ()Lio/data2viz/format/Locale;
-	public final fun ar_TD ()Lio/data2viz/format/Locale;
-	public final fun ar_TN ()Lio/data2viz/format/Locale;
-	public final fun ar_YE ()Lio/data2viz/format/Locale;
-	public final fun ca_ES ()Lio/data2viz/format/Locale;
-	public final fun cs_CZ ()Lio/data2viz/format/Locale;
-	public final fun de_CH ()Lio/data2viz/format/Locale;
-	public final fun de_DE ()Lio/data2viz/format/Locale;
-	public final fun en_CA ()Lio/data2viz/format/Locale;
-	public final fun en_GB ()Lio/data2viz/format/Locale;
-	public final fun en_IN ()Lio/data2viz/format/Locale;
-	public final fun en_US ()Lio/data2viz/format/Locale;
-	public final fun es_ES ()Lio/data2viz/format/Locale;
-	public final fun es_MX ()Lio/data2viz/format/Locale;
-	public final fun fi_FI ()Lio/data2viz/format/Locale;
-	public final fun fr_CA ()Lio/data2viz/format/Locale;
-	public final fun fr_FR ()Lio/data2viz/format/Locale;
-	public final fun he_IL ()Lio/data2viz/format/Locale;
-	public final fun hu_HU ()Lio/data2viz/format/Locale;
-	public final fun it_IT ()Lio/data2viz/format/Locale;
-	public final fun ja_JP ()Lio/data2viz/format/Locale;
-	public final fun ko_KR ()Lio/data2viz/format/Locale;
-	public final fun locale (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Lio/data2viz/format/Locale;
-	public static synthetic fun locale$default (Lio/data2viz/format/Locales$Companion;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;[Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/data2viz/format/Locale;
-	public final fun mk_MK ()Lio/data2viz/format/Locale;
-	public final fun nl_NL ()Lio/data2viz/format/Locale;
-	public final fun pl_PL ()Lio/data2viz/format/Locale;
-	public final fun pt_BR ()Lio/data2viz/format/Locale;
-	public final fun ru_RU ()Lio/data2viz/format/Locale;
-	public final fun sv_SE ()Lio/data2viz/format/Locale;
-	public final fun uk_UA ()Lio/data2viz/format/Locale;
-	public final fun zh_CN ()Lio/data2viz/format/Locale;
+	public final fun getAr_001 ()Lio/data2viz/format/Locale;
+	public final fun getAr_AE ()Lio/data2viz/format/Locale;
+	public final fun getAr_BH ()Lio/data2viz/format/Locale;
+	public final fun getAr_DJ ()Lio/data2viz/format/Locale;
+	public final fun getAr_DZ ()Lio/data2viz/format/Locale;
+	public final fun getAr_EG ()Lio/data2viz/format/Locale;
+	public final fun getAr_EH ()Lio/data2viz/format/Locale;
+	public final fun getAr_ER ()Lio/data2viz/format/Locale;
+	public final fun getAr_IL ()Lio/data2viz/format/Locale;
+	public final fun getAr_IQ ()Lio/data2viz/format/Locale;
+	public final fun getAr_JO ()Lio/data2viz/format/Locale;
+	public final fun getAr_KM ()Lio/data2viz/format/Locale;
+	public final fun getAr_KW ()Lio/data2viz/format/Locale;
+	public final fun getAr_LB ()Lio/data2viz/format/Locale;
+	public final fun getAr_LY ()Lio/data2viz/format/Locale;
+	public final fun getAr_MA ()Lio/data2viz/format/Locale;
+	public final fun getAr_MR ()Lio/data2viz/format/Locale;
+	public final fun getAr_OM ()Lio/data2viz/format/Locale;
+	public final fun getAr_PS ()Lio/data2viz/format/Locale;
+	public final fun getAr_QA ()Lio/data2viz/format/Locale;
+	public final fun getAr_SA ()Lio/data2viz/format/Locale;
+	public final fun getAr_SD ()Lio/data2viz/format/Locale;
+	public final fun getAr_SO ()Lio/data2viz/format/Locale;
+	public final fun getAr_SS ()Lio/data2viz/format/Locale;
+	public final fun getAr_SY ()Lio/data2viz/format/Locale;
+	public final fun getAr_TD ()Lio/data2viz/format/Locale;
+	public final fun getAr_TN ()Lio/data2viz/format/Locale;
+	public final fun getAr_YE ()Lio/data2viz/format/Locale;
+	public final fun getCa_ES ()Lio/data2viz/format/Locale;
+	public final fun getCs_CZ ()Lio/data2viz/format/Locale;
+	public final fun getDe_CH ()Lio/data2viz/format/Locale;
+	public final fun getDe_DE ()Lio/data2viz/format/Locale;
+	public final fun getEn_CA ()Lio/data2viz/format/Locale;
+	public final fun getEn_GB ()Lio/data2viz/format/Locale;
+	public final fun getEn_IE ()Lio/data2viz/format/Locale;
+	public final fun getEn_IN ()Lio/data2viz/format/Locale;
+	public final fun getEn_US ()Lio/data2viz/format/Locale;
+	public final fun getEs_BO ()Lio/data2viz/format/Locale;
+	public final fun getEs_ES ()Lio/data2viz/format/Locale;
+	public final fun getEs_MX ()Lio/data2viz/format/Locale;
+	public final fun getFi_FI ()Lio/data2viz/format/Locale;
+	public final fun getFr_CA ()Lio/data2viz/format/Locale;
+	public final fun getFr_FR ()Lio/data2viz/format/Locale;
+	public final fun getHe_IL ()Lio/data2viz/format/Locale;
+	public final fun getHu_HU ()Lio/data2viz/format/Locale;
+	public final fun getIt_IT ()Lio/data2viz/format/Locale;
+	public final fun getJa_JP ()Lio/data2viz/format/Locale;
+	public final fun getKo_KR ()Lio/data2viz/format/Locale;
+	public final fun getMk_MK ()Lio/data2viz/format/Locale;
+	public final fun getNl_NL ()Lio/data2viz/format/Locale;
+	public final fun getPl_PL ()Lio/data2viz/format/Locale;
+	public final fun getPt_BR ()Lio/data2viz/format/Locale;
+	public final fun getRu_RU ()Lio/data2viz/format/Locale;
+	public final fun getSv_SE ()Lio/data2viz/format/Locale;
+	public final fun getUk_UA ()Lio/data2viz/format/Locale;
+	public final fun getZh_CN ()Lio/data2viz/format/Locale;
 }
 
 public final class io/data2viz/format/Sign : java/lang/Enum {

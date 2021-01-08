@@ -2,28 +2,42 @@ public final class io/data2viz/timeFormat/Locale {
 	public fun <init> ()V
 	public fun <init> (Lio/data2viz/timeFormat/TimeLocale;)V
 	public synthetic fun <init> (Lio/data2viz/timeFormat/TimeLocale;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun autoFormat ()Lkotlin/jvm/functions/Function1;
+	public final fun autoFormat ()Lkotlin/jvm/functions/Function2;
 	public final fun format (Ljava/lang/String;)Lkotlin/jvm/functions/Function1;
+	public final fun formatDayOfMonth (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatDayOfMonth (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatDayOfYear (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatDayOfYear (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatFullYear (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatFullYear (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatHour12 (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatHour12 (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatHour24 (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatHour24 (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
-	public final fun formatLiteralPercent (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatLiteralPercent (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatMilliseconds (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatMilliseconds (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatMinutes (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatMinutes (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatMonth (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatMonth (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatMonthNumber (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatMonthNumber (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatPeriod (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatPeriod (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatSeconds (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatSeconds (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatShortMonth (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatShortMonth (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatShortWeekday (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatShortWeekday (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
-	public final fun formatWeekNumberMonday (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
-	public final fun formatWeekNumberSunday (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatWeekday (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatWeekday (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatWeekdayNumber (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatWeekdayNumber (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatYear (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun formatYear (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
-	public final fun formatZone (Lkotlinx/datetime/LocalDateTime;Ljava/lang/String;)Ljava/lang/String;
+	public final fun formatZone (Lkotlinx/datetime/Instant;Ljava/lang/String;)Ljava/lang/String;
 	public final fun getDateFormat ()Lkotlin/jvm/functions/Function1;
 	public final fun getDateTimeFormat ()Lkotlin/jvm/functions/Function1;
 	public final fun getFormats ()Ljava/util/Map;
@@ -72,7 +86,7 @@ public final class io/data2viz/timeFormat/Locale {
 }
 
 public final class io/data2viz/timeFormat/LocaleKt {
-	public static final fun autoFormat ()Lkotlin/jvm/functions/Function1;
+	public static final fun autoFormat ()Lkotlin/jvm/functions/Function2;
 	public static final fun format (Ljava/lang/String;)Lkotlin/jvm/functions/Function1;
 	public static final fun getDefaultLocale ()Lio/data2viz/timeFormat/Locale;
 	public static final fun newYear (Ljava/lang/Integer;)Lio/data2viz/timeFormat/ParseDate;
@@ -85,34 +99,38 @@ public final class io/data2viz/timeFormat/Locales {
 }
 
 public final class io/data2viz/timeFormat/Locales$Companion {
-	public final fun ca_ES ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun cs_CZ ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun de_CH ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun de_DE ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun defaultLocale ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun en_CA ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun en_GB ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun en_US ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun es_ES ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun es_MX ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun fi_FI ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun fr_CA ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun fr_FR ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun he_IL ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun hu_HU ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun it_IT ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun ja_JP ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun ko_KR ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun locale (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)Lio/data2viz/timeFormat/TimeLocale;
-	public static synthetic fun locale$default (Lio/data2viz/timeFormat/Locales$Companion;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lio/data2viz/timeFormat/TimeLocale;
-	public final fun mk_MK ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun nl_NL ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun pl_PL ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun pt_BR ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun ru_RU ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun sv_SE ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun uk_UA ()Lio/data2viz/timeFormat/TimeLocale;
-	public final fun zh_CN ()Lio/data2viz/timeFormat/TimeLocale;
+	public final fun getAr_EG ()Lio/data2viz/timeFormat/Locale;
+	public final fun getCa_ES ()Lio/data2viz/timeFormat/Locale;
+	public final fun getCs_CZ ()Lio/data2viz/timeFormat/Locale;
+	public final fun getDa_DK ()Lio/data2viz/timeFormat/Locale;
+	public final fun getDe_CH ()Lio/data2viz/timeFormat/Locale;
+	public final fun getDe_DE ()Lio/data2viz/timeFormat/Locale;
+	public final fun getDefault ()Lio/data2viz/timeFormat/Locale;
+	public final fun getEn_CA ()Lio/data2viz/timeFormat/Locale;
+	public final fun getEn_GB ()Lio/data2viz/timeFormat/Locale;
+	public final fun getEn_US ()Lio/data2viz/timeFormat/Locale;
+	public final fun getEs_ES ()Lio/data2viz/timeFormat/Locale;
+	public final fun getEs_MX ()Lio/data2viz/timeFormat/Locale;
+	public final fun getFa_IR ()Lio/data2viz/timeFormat/Locale;
+	public final fun getFi_FI ()Lio/data2viz/timeFormat/Locale;
+	public final fun getFr_CA ()Lio/data2viz/timeFormat/Locale;
+	public final fun getFr_FR ()Lio/data2viz/timeFormat/Locale;
+	public final fun getHe_IL ()Lio/data2viz/timeFormat/Locale;
+	public final fun getHu_HU ()Lio/data2viz/timeFormat/Locale;
+	public final fun getIt_IT ()Lio/data2viz/timeFormat/Locale;
+	public final fun getJa_JP ()Lio/data2viz/timeFormat/Locale;
+	public final fun getKo_KR ()Lio/data2viz/timeFormat/Locale;
+	public final fun getMk_MK ()Lio/data2viz/timeFormat/Locale;
+	public final fun getNb_NO ()Lio/data2viz/timeFormat/Locale;
+	public final fun getNl_NL ()Lio/data2viz/timeFormat/Locale;
+	public final fun getPl_PL ()Lio/data2viz/timeFormat/Locale;
+	public final fun getPt_BR ()Lio/data2viz/timeFormat/Locale;
+	public final fun getRu_RU ()Lio/data2viz/timeFormat/Locale;
+	public final fun getSv_SE ()Lio/data2viz/timeFormat/Locale;
+	public final fun getTr_TR ()Lio/data2viz/timeFormat/Locale;
+	public final fun getUk_UA ()Lio/data2viz/timeFormat/Locale;
+	public final fun getZh_CN ()Lio/data2viz/timeFormat/Locale;
+	public final fun getZh_TW ()Lio/data2viz/timeFormat/Locale;
 }
 
 public final class io/data2viz/timeFormat/ParseDate {

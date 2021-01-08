@@ -13,7 +13,6 @@ kotlin {
             dependencies {
                 api project(":core")
                 api project(":interpolate")
-                api project(":time")
             }
         }
     }

@@ -172,8 +172,8 @@ class HourTests : TestDate() {
 
     @Test
     fun timeHour_range_observes_start_of_DST() {
-        val start = LocalDateTime(2011, 3, 13, 1, 0).toInstant(TimeZone.of("America/Los_Angeles"))
-        val end = LocalDateTime(2011, 3, 13, 5, 0).toInstant(TimeZone.of("America/Los_Angeles"))
+        val start = LocalDateTime(2011, 3, 13, 1, 0).toInstant(TimeZone.of("UTC-8"))
+        val end = LocalDateTime(2011, 3, 13, 5, 0).toInstant(TimeZone.of("UTC-8"))
         with(timeHour) { TimeZone.UTC.range(start, end) } shouldBe
                 listOf(
                     dateUTC(2011, 3, 13, 9),
@@ -184,8 +184,8 @@ class HourTests : TestDate() {
 
     @Test
     fun timeHour_range_observes_end_of_DST() {
-        val start = LocalDateTime(2011, 11, 6, 0, 0).toInstant(TimeZone.of("America/Los_Angeles"))
-        val end = LocalDateTime(2011, 11, 6, 2, 0).toInstant(TimeZone.of("America/Los_Angeles"))
+        val start = LocalDateTime(2011, 11, 6, 0, 0).toInstant(TimeZone.of("UTC-8"))
+        val end = LocalDateTime(2011, 11, 6, 2, 0).toInstant(TimeZone.of("UTC-8"))
         with(timeHour) { TimeZone.UTC.range(start, end) } shouldBe
                 listOf(
                     dateUTC(2011, 11, 6, 7),

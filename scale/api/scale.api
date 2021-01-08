@@ -491,10 +491,10 @@ public final class io/data2viz/scale/TimeScale : io/data2viz/scale/ContinuousSca
 	public synthetic fun copy ()Lio/data2viz/scale/Scale;
 	public fun domainComparator ()Ljava/util/Comparator;
 	public synthetic fun interpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
-	public fun interpolateDomain (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlin/jvm/functions/Function1;
+	public fun interpolateDomain (Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;)Lkotlin/jvm/functions/Function1;
 	public fun nice (I)V
 	public fun ticks (I)Ljava/util/List;
 	public synthetic fun uninterpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
-	public fun uninterpolateDomain (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlin/jvm/functions/Function1;
+	public fun uninterpolateDomain (Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;)Lkotlin/jvm/functions/Function1;
 }
 
