@@ -78,47 +78,52 @@ internal class Year : Interval(
     field = fun TimeZone.(date: Instant): Int = date.toLocalDateTime(this).year
 )
 
-internal val timeYear: Year = Year()
+internal object Intervals {
 
-/**
- * Monday-based weeks (e.g., February 6, 2012 at 12:00 AM).
- */
-internal val timeMonday: Weekday = Weekday(0)
+    internal val timeYear: Year = Year()
 
-/**
- * Tuesday-based weeks (e.g., February 7, 2012 at 12:00 AM).
- */
+    /**
+     * Monday-based weeks (e.g., February 6, 2012 at 12:00 AM).
+     */
+    internal val timeMonday: Weekday = Weekday(0)
 
-internal val timeTuesday: Weekday = Weekday(1)
+    /**
+     * Tuesday-based weeks (e.g., February 7, 2012 at 12:00 AM).
+     */
 
-/**
- * Wednesday-based weeks (e.g., February 8, 2012 at 12:00 AM).
- */
-internal val timeWednesday: Weekday = Weekday(2)
+    internal val timeTuesday: Weekday = Weekday(1)
 
-/**
- * Thursday-based weeks (e.g., February 9, 2012 at 12:00 AM).
- */
-internal val timeThursday: Weekday = Weekday(3)
+    /**
+     * Wednesday-based weeks (e.g., February 8, 2012 at 12:00 AM).
+     */
+    internal val timeWednesday: Weekday = Weekday(2)
 
-/**
- * Friday-based weeks (e.g., February 10, 2012 at 12:00 AM).
- */
-internal val timeFriday: Weekday = Weekday(4)
+    /**
+     * Thursday-based weeks (e.g., February 9, 2012 at 12:00 AM).
+     */
+    internal val timeThursday: Weekday = Weekday(3)
 
-/**
- * Saturday-based weeks (e.g., February 11, 2012 at 12:00 AM).
- */
-internal val timeSaturday: Weekday = Weekday(5)
+    /**
+     * Friday-based weeks (e.g., February 10, 2012 at 12:00 AM).
+     */
+    internal val timeFriday: Weekday = Weekday(4)
+
+    /**
+     * Saturday-based weeks (e.g., February 11, 2012 at 12:00 AM).
+     */
+    internal val timeSaturday: Weekday = Weekday(5)
 
 
-/**
- * Sunday-based weeks (e.g., February 5, 2012 at 12:00 AM).
- */
-internal val timeSunday: Weekday = Weekday(6)
-internal val timeSecond: Second = Second()
-internal val timeMonth: Month = Month()
-internal val timeMinute: Minute = Minute()
-internal val timeMillisecond: Millisecond = Millisecond()
-internal val timeHour: Hour = Hour()
-internal val timeDay: Day = Day()
+    /**
+     * Sunday-based weeks (e.g., February 5, 2012 at 12:00 AM).
+     */
+    internal val timeSunday: Weekday = Weekday(6)
+    internal val timeSecond: Second = Second()
+    internal val timeMonth: Month = Month()
+    internal val timeMinute: Minute = Minute()
+    internal val timeMillisecond: Millisecond = Millisecond()
+    internal val timeHour: Hour = Hour()
+    internal val timeDay: Day = Day()
+}
+
+

@@ -37,23 +37,23 @@ class SundayTests : TestDate() {
 
     @Test
     fun timeSunday_floor_returns_Sundays() {
-        timeSunday.floor(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 59)) shouldBe dateUTC(2010, 12, 26)
-        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1,  0,  0,  0)) shouldBe dateUTC(2010, 12, 26)
-        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1,  0,  0,  1)) shouldBe dateUTC(2010, 12, 26)
-        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1, 23, 59, 59)) shouldBe dateUTC(2010, 12, 26)
-        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  2,  0,  0,  0)) shouldBe dateUTC(2011,  1,  2)
-        timeSunday.floor(zoneUTC, dateUTC(2011,  1,  2,  0,  0,  1)) shouldBe dateUTC(2011,  1,  2)
+        Intervals.timeSunday.floor(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 59)) shouldBe dateUTC(2010, 12, 26)
+        Intervals.timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1,  0,  0,  0)) shouldBe dateUTC(2010, 12, 26)
+        Intervals.timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1,  0,  0,  1)) shouldBe dateUTC(2010, 12, 26)
+        Intervals.timeSunday.floor(zoneUTC, dateUTC(2011,  1,  1, 23, 59, 59)) shouldBe dateUTC(2010, 12, 26)
+        Intervals.timeSunday.floor(zoneUTC, dateUTC(2011,  1,  2,  0,  0,  0)) shouldBe dateUTC(2011,  1,  2)
+        Intervals.timeSunday.floor(zoneUTC, dateUTC(2011,  1,  2,  0,  0,  1)) shouldBe dateUTC(2011,  1,  2)
     }
 
     // TODO not working
 //    @Test
-//    fun timeSunday_floor_handles_years_first_century() {
-//        timeSunday.floor(zoneLocal, dateLocal(11, 11, 6, 7, 0)) shouldBe dateLocal(11, 11, 1)
+//    fun Intervals.timeSunday_floor_handles_years_first_century() {
+//        Intervals.timeSunday.floor(zoneLocal, dateLocal(11, 11, 6, 7, 0)) shouldBe dateLocal(11, 11, 1)
 //    }
 
     @Test
     fun timeSunday_ceil_returns_Sundays() {
-        with(timeSunday) {
+        with(Intervals.timeSunday) {
             zoneUTC.ceil(dateUTC(2010, 12, 31, 23, 59, 59)) shouldBe dateUTC(2011, 1, 2)
             zoneUTC.ceil(dateUTC(2011, 1, 1, 0, 0, 0)) shouldBe dateUTC(2011, 1, 2)
             zoneUTC.ceil(dateUTC(2011, 1, 1, 0, 0, 1)) shouldBe dateUTC(2011, 1, 2)
@@ -65,28 +65,28 @@ class SundayTests : TestDate() {
 
     @Test
     fun timeSunday_offset_allows_negative_step() {
-        timeSunday.offset(zoneUTC, dateUTC(2010, 12, 1), -1) shouldBe dateUTC(2010, 11, 24)
-        timeSunday.offset(zoneUTC, dateUTC(2011,  1,  1), -2) shouldBe dateUTC(2010, 12, 18)
-        timeSunday.offset(zoneUTC, dateUTC(2011,  1,  1), -1) shouldBe dateUTC(2010, 12, 25)
+        Intervals.timeSunday.offset(zoneUTC, dateUTC(2010, 12, 1), -1) shouldBe dateUTC(2010, 11, 24)
+        Intervals.timeSunday.offset(zoneUTC, dateUTC(2011,  1,  1), -2) shouldBe dateUTC(2010, 12, 18)
+        Intervals.timeSunday.offset(zoneUTC, dateUTC(2011,  1,  1), -1) shouldBe dateUTC(2010, 12, 25)
     }
 
     @Test
     fun timeSunday_offset_allows_positive_step() {
-        timeSunday.offset(zoneUTC, dateUTC(2010, 11, 24), 1) shouldBe dateUTC(2010, 12, 1)
-        timeSunday.offset(zoneUTC, dateUTC(2010,  12,  18), 2) shouldBe dateUTC(2011, 1, 1)
-        timeSunday.offset(zoneUTC, dateUTC(2010,  12,  25), 1) shouldBe dateUTC(2011, 1, 1)
+        Intervals.timeSunday.offset(zoneUTC, dateUTC(2010, 11, 24), 1) shouldBe dateUTC(2010, 12, 1)
+        Intervals.timeSunday.offset(zoneUTC, dateUTC(2010,  12,  18), 2) shouldBe dateUTC(2011, 1, 1)
+        Intervals.timeSunday.offset(zoneUTC, dateUTC(2010,  12,  25), 1) shouldBe dateUTC(2011, 1, 1)
     }
 
     @Test
     fun timeSunday_offset_allows_zero_step() {
-        timeSunday.offset(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe dateUTC(2010, 12, 31, 23, 59, 59, 999)
-        timeSunday.offset(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 58,   0), 0) shouldBe dateUTC(2010, 12, 31, 23, 59, 58,   0)
+        Intervals.timeSunday.offset(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 59, 999), 0) shouldBe dateUTC(2010, 12, 31, 23, 59, 59, 999)
+        Intervals.timeSunday.offset(zoneUTC, dateUTC(2010, 12, 31, 23, 59, 58,   0), 0) shouldBe dateUTC(2010, 12, 31, 23, 59, 58,   0)
     }
 
     @Test
     fun timeSunday_range_start_stop_returns_Sundays_between_start_inclusive_and_stop_exclusive() {
 
-        with(timeSunday) { zoneUTC.range(dateUTC(2011, 12, 1), dateUTC(2012, 1, 15)) } shouldBe listOf(
+        with(Intervals.timeSunday) { zoneUTC.range(dateUTC(2011, 12, 1), dateUTC(2012, 1, 15)) } shouldBe listOf(
             dateUTC(2011, 12,  4),
             dateUTC(2011, 12, 11),
             dateUTC(2011, 12, 18),
@@ -98,7 +98,7 @@ class SundayTests : TestDate() {
 
     @Test
     fun timeSunday_range_start_stop_returns_Sundays() {
-         with(timeSunday) { zoneUTC.range(dateUTC(2011, 12, 1, 12, 23), dateUTC(2012, 1, 14, 12, 23)) } shouldBe listOf(
+         with(Intervals.timeSunday) { zoneUTC.range(dateUTC(2011, 12, 1, 12, 23), dateUTC(2012, 1, 14, 12, 23)) } shouldBe listOf(
             dateUTC(2011, 12,  4),
             dateUTC(2011, 12, 11),
             dateUTC(2011, 12, 18),
@@ -113,38 +113,38 @@ class SundayTests : TestDate() {
      */
     @Test
     fun issue_fix_specific_sunday_over_several_months() {
-         with(timeSunday) { zoneUTC.range(dateUTC(2019,7,6,8,53,42,715), dateUTC(2019,9,25,22,0,48,33)) }.size shouldBe 12
+         with(Intervals.timeSunday) { zoneUTC.range(dateUTC(2019,7,6,8,53,42,715), dateUTC(2019,9,25,22,0,48,33)) }.size shouldBe 12
     }
 
     @Test
     fun timeSunday_floor_observes_DST() {
-        with(timeSunday) { zoneLocal.floor(dateLocal(2011, 3, 13, 1)) } shouldBe dateLocal(2011, 3, 13)
-        with(timeSunday) { zoneLocal.floor(dateLocal(2011, 11, 6, 1)) } shouldBe dateLocal(2011, 11, 6)
+        with(Intervals.timeSunday) { zoneLocal.floor(dateLocal(2011, 3, 13, 1)) } shouldBe dateLocal(2011, 3, 13)
+        with(Intervals.timeSunday) { zoneLocal.floor(dateLocal(2011, 11, 6, 1)) } shouldBe dateLocal(2011, 11, 6)
     }
 
     @Test
     fun timeSunday_ceil_observes_DST() {
-        with(timeSunday) { zoneLocal.ceil(dateLocal(2011, 3, 13, 1)) } shouldBe dateLocal(2011, 3, 20)
+        with(Intervals.timeSunday) { zoneLocal.ceil(dateLocal(2011, 3, 13, 1)) } shouldBe dateLocal(2011, 3, 20)
 
         // TODO fix test
-//        with(timeSunday) { zoneLocal.ceil(dateLocal(2011, 11, 6, 1)) } shouldBe dateLocal(2011, 11, 13)
+//        with(Intervals.timeSunday) { zoneLocal.ceil(dateLocal(2011, 11, 6, 1)) } shouldBe dateLocal(2011, 11, 13)
     }
 
     @Test
     fun timeSunday_offset_does_not_round_the_date() {
-        with(timeSunday) { zoneLocal.offset(dateLocal(2010, 12, 31, 23, 59, 59, 999), 1) } shouldBe dateLocal(2011, 1, 7, 23, 59, 59, 999)
-        with(timeSunday) { zoneLocal.offset(dateLocal(2010, 12, 31, 23, 59, 59, 456), -2) } shouldBe dateLocal(2010, 12, 17, 23, 59, 59, 456)
+        with(Intervals.timeSunday) { zoneLocal.offset(dateLocal(2010, 12, 31, 23, 59, 59, 999), 1) } shouldBe dateLocal(2011, 1, 7, 23, 59, 59, 999)
+        with(Intervals.timeSunday) { zoneLocal.offset(dateLocal(2010, 12, 31, 23, 59, 59, 456), -2) } shouldBe dateLocal(2010, 12, 17, 23, 59, 59, 456)
     }
 
     @Test
     fun timeSunday_range_returns_empty_array_if_start_after_stop() {
-        with(timeSunday) { zoneLocal.range(dateLocal(2011, 12, 10), dateLocal(2011, 11, 4)) } shouldBe listOf()
-        with(timeSunday) { zoneLocal.range(dateLocal(2011, 11, 1), dateLocal(2011, 11, 1)) } shouldBe listOf()
+        with(Intervals.timeSunday) { zoneLocal.range(dateLocal(2011, 12, 10), dateLocal(2011, 11, 4)) } shouldBe listOf()
+        with(Intervals.timeSunday) { zoneLocal.range(dateLocal(2011, 11, 1), dateLocal(2011, 11, 1)) } shouldBe listOf()
     }
 
     @Test
     fun timeSunday_range_returns_every_step_sunday() {
-        with(timeSunday) { zoneLocal.range(dateLocal(2011, 12, 1), dateLocal(2012, 1, 15), 2) } shouldBe listOf(
+        with(Intervals.timeSunday) { zoneLocal.range(dateLocal(2011, 12, 1), dateLocal(2012, 1, 15), 2) } shouldBe listOf(
             dateLocal(2011, 12, 4),
             dateLocal(2011, 12, 18),
             dateLocal(2012, 1, 1)
@@ -161,10 +161,10 @@ class SundayTests : TestDate() {
         // 12 13 14 15 16 17 18
         // 19 20 21 22 23 24 25
         // 26 27 28 29 30 31
-        with(timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 4)) } shouldBe 0
-        with(timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 5)) } shouldBe 1
-        with(timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 6)) } shouldBe 1
-        with(timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 12)) } shouldBe 2
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 4)) } shouldBe 0
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 5)) } shouldBe 1
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 6)) } shouldBe 1
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2014, 1, 1), dateLocal(2014, 1, 12)) } shouldBe 2
 
         //       January 2012
         // Su Mo Tu We Th Fr Sa
@@ -173,20 +173,20 @@ class SundayTests : TestDate() {
         // 15 16 17 18 19 20 21
         // 22 23 24 25 26 27 28
         // 29 30 31
-        with(timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 7)) } shouldBe 0
-        with(timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 8)) } shouldBe 1
-        with(timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 9)) } shouldBe 1
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 7)) } shouldBe 0
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 8)) } shouldBe 1
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2012, 1, 1), dateLocal(2012, 1, 9)) } shouldBe 1
     }
 
     @Test
     fun timeSunday_count_observes_DST() {
-        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 1)) } shouldBe 11
-        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 3)) } shouldBe 11
-        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 4)) } shouldBe 11
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 1)) } shouldBe 11
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 3)) } shouldBe 11
+        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 3, 13, 4)) } shouldBe 11
 
         // TODO fix test
-//        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 0)) } shouldBe 45
-//        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 1)) } shouldBe 45
-//        with(timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 2)) } shouldBe 45
+//        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 0)) } shouldBe 45
+//        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 1)) } shouldBe 45
+//        with(Intervals.timeSunday) { zoneLocal.count(dateLocal(2011, 1, 1), dateLocal(2011, 11, 6, 2)) } shouldBe 45
     }
 }

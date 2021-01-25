@@ -33,7 +33,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_floor_date_returns_hours() {
-        val time = timeHour
+        val time = Intervals.timeHour
 
         time.floor(TimeZone.UTC, dateUTC(2010, 12, 31, 23, 59)) shouldBe dateUTC(2010, 12, 31, 23, 0)
         time.floor(TimeZone.UTC, dateUTC(2011, 1, 1, 0, 0)) shouldBe dateUTC(2011, 1, 1, 0, 0)
@@ -42,14 +42,14 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_ceil_returns_hours() {
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2010, 12, 31, 23, 59)) } shouldBe dateUTC(2011, 1, 1, 0, 0)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 1, 1, 0, 0)) } shouldBe dateUTC(2011, 1, 1, 0, 0)
-            with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 1, 1, 0, 1)) } shouldBe dateUTC(2011, 1, 1, 1, 0)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2010, 12, 31, 23, 59)) } shouldBe dateUTC(2011, 1, 1, 0, 0)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 1, 1, 0, 0)) } shouldBe dateUTC(2011, 1, 1, 0, 0)
+            with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 1, 1, 0, 1)) } shouldBe dateUTC(2011, 1, 1, 1, 0)
     }
 
     @Test
     fun hour_offset_date_step_does_not_modify_the_passed_date() {
-        val time = timeHour
+        val time = Intervals.timeHour
         val date = dateUTC(2010, 12, 31, 23, 59, 59, 999)
 
         time.offset(TimeZone.UTC, date, 1)
@@ -58,7 +58,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_offset_date_step_does_not_round_the_passed_date() {
-        val time = timeHour
+        val time = Intervals.timeHour
         val date1 = dateUTC(2010, 12, 31, 23, 59, 59, 456)
 
         val date2 = dateUTC(2011, 1, 1, 0, 59, 59, 456)
@@ -70,7 +70,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_offset_allows_negative_positive_zero_step() {
-        val time = timeHour
+        val time = Intervals.timeHour
 
         time.offset(TimeZone.UTC, dateUTC(2010, 12, 31, 12, 0), -1) shouldBe dateUTC(2010, 12, 31, 11, 0)
         time.offset(TimeZone.UTC, dateUTC(2011, 1, 1, 1, 0), -2) shouldBe dateUTC(2010, 12, 31, 23, 0)
@@ -88,7 +88,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_range_start_stop_cans_kip_hours() {
-        val time = timeHour
+        val time = Intervals.timeHour
         val result = listOf(
                 dateUTC(2011, 2, 1, 1, 0),
                 dateUTC(2011, 2, 1, 4, 0),
@@ -104,7 +104,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_range_start_stop_returns_hours_between_start_inclusive_and_stop_exclusive() {
-        val time = timeHour
+        val time = Intervals.timeHour
         val result = listOf(
                 dateUTC(2010, 12, 31, 23, 0),
                 dateUTC(2011, 1, 1, 0, 0),
@@ -119,7 +119,7 @@ class HourTests : TestDate() {
 
     @Test
     fun hour_range_start_stop_returns_hours() {
-        val time = timeHour
+        val time = Intervals.timeHour
         val result = listOf(
                 dateUTC(2010, 12, 31, 23, 0),
                 dateUTC(2011, 1, 1, 0, 0),
@@ -134,49 +134,49 @@ class HourTests : TestDate() {
 
     @Test
     fun timeHour_floor_observes_start_of_DST() {
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13,  8, 59)) shouldBe dateUTC(2011, 3, 13, 8)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13,  9, 0)) shouldBe dateUTC(2011, 3, 13, 9)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13,  9, 1)) shouldBe dateUTC(2011, 3, 13, 9)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13,  9, 59)) shouldBe dateUTC(2011, 3, 13, 9)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13, 10, 0)) shouldBe dateUTC(2011, 3, 13, 10)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13, 10, 1)) shouldBe dateUTC(2011, 3, 13, 10)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13,  8, 59)) shouldBe dateUTC(2011, 3, 13, 8)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13,  9, 0)) shouldBe dateUTC(2011, 3, 13, 9)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13,  9, 1)) shouldBe dateUTC(2011, 3, 13, 9)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13,  9, 59)) shouldBe dateUTC(2011, 3, 13, 9)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13, 10, 0)) shouldBe dateUTC(2011, 3, 13, 10)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 3, 13, 10, 1)) shouldBe dateUTC(2011, 3, 13, 10)
     }
 
     @Test
     fun timeHour_floor_observes_end_of_DST() {
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 7, 59)) shouldBe dateUTC(2011, 11, 6, 7)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 8, 0)) shouldBe dateUTC(2011,  11, 6, 8)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 8, 1)) shouldBe dateUTC(2011,  11, 6, 8)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 8, 59)) shouldBe dateUTC(2011, 11, 6, 8)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 9, 0)) shouldBe dateUTC(2011,  11, 6, 9)
-        timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 9, 1)) shouldBe dateUTC(2011,  11, 6, 9)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 7, 59)) shouldBe dateUTC(2011, 11, 6, 7)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 8, 0)) shouldBe dateUTC(2011,  11, 6, 8)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 8, 1)) shouldBe dateUTC(2011,  11, 6, 8)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 8, 59)) shouldBe dateUTC(2011, 11, 6, 8)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 9, 0)) shouldBe dateUTC(2011,  11, 6, 9)
+        Intervals.timeHour.floor(TimeZone.UTC, dateUTC(2011, 11, 6, 9, 1)) shouldBe dateUTC(2011,  11, 6, 9)
     }
 
     @Test
     fun timeHour_ceil_observes_start_of_DST() {
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13,  8, 59)) } shouldBe dateUTC(2011, 3, 13, 9)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13,  9, 0)) } shouldBe dateUTC(2011, 3, 13, 9)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13,  9, 1)) } shouldBe dateUTC(2011, 3, 13, 10)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13,  9, 59)) } shouldBe dateUTC(2011, 3, 13, 10)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13, 10, 0)) } shouldBe dateUTC(2011, 3, 13, 10)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13, 10, 1)) } shouldBe dateUTC(2011, 3, 13, 11)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13,  8, 59)) } shouldBe dateUTC(2011, 3, 13, 9)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13,  9, 0)) } shouldBe dateUTC(2011, 3, 13, 9)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13,  9, 1)) } shouldBe dateUTC(2011, 3, 13, 10)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13,  9, 59)) } shouldBe dateUTC(2011, 3, 13, 10)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13, 10, 0)) } shouldBe dateUTC(2011, 3, 13, 10)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 3, 13, 10, 1)) } shouldBe dateUTC(2011, 3, 13, 11)
     }
 
     @Test
     fun timeHour_ceil_observes_end_of_DST() {
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 7, 59)) } shouldBe dateUTC(2011, 11, 6, 8)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 8, 0)) } shouldBe dateUTC(2011,  11, 6, 8)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 8, 1)) } shouldBe dateUTC(2011,  11, 6, 9)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 8, 59)) } shouldBe dateUTC(2011, 11, 6, 9)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 9, 0)) } shouldBe dateUTC(2011,  11, 6, 9)
-        with (timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 9, 1)) } shouldBe dateUTC(2011,  11, 6, 10)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 7, 59)) } shouldBe dateUTC(2011, 11, 6, 8)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 8, 0)) } shouldBe dateUTC(2011,  11, 6, 8)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 8, 1)) } shouldBe dateUTC(2011,  11, 6, 9)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 8, 59)) } shouldBe dateUTC(2011, 11, 6, 9)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 9, 0)) } shouldBe dateUTC(2011,  11, 6, 9)
+        with (Intervals.timeHour) { TimeZone.UTC.ceil(dateUTC(2011, 11, 6, 9, 1)) } shouldBe dateUTC(2011,  11, 6, 10)
     }
 
     @Test
     fun timeHour_range_observes_start_of_DST() {
         val start = LocalDateTime(2011, 3, 13, 1, 0).toInstant(zoneLocal)
         val end = LocalDateTime(2011, 3, 13, 5, 0).toInstant(zoneLocal)
-        with(timeHour) { TimeZone.UTC.range(start, end) } shouldBe
+        with(Intervals.timeHour) { TimeZone.UTC.range(start, end) } shouldBe
                 listOf(
                     dateUTC(2011, 3, 13, 9),
                     dateUTC(2011, 3, 13, 10),
@@ -188,7 +188,7 @@ class HourTests : TestDate() {
     fun timeHour_range_observes_end_of_DST() {
         val start = LocalDateTime(2011, 11, 6, 0, 0).toInstant(TimeZone.of("America/Los_Angeles"))
         val end = LocalDateTime(2011, 11, 6, 2, 0).toInstant(TimeZone.of("America/Los_Angeles"))
-        with(timeHour) { TimeZone.UTC.range(start, end) } shouldBe
+        with(Intervals.timeHour) { TimeZone.UTC.range(start, end) } shouldBe
                 listOf(
                     dateUTC(2011, 11, 6, 7),
                     dateUTC(2011, 11, 6, 8),
@@ -200,7 +200,7 @@ class HourTests : TestDate() {
     fun timeHour_step_returns_expected_result() {
         val start = dateUTC(2008, 12, 30, 12, 47)
         val end = dateUTC(2008, 12, 31, 13, 57)
-        var every = with(timeHour) { TimeZone.UTC.every(4) }
+        var every = with(Intervals.timeHour) { TimeZone.UTC.every(4) }
         with(every) { TimeZone.UTC.range(start, end) } shouldBe
                 listOf(
                     dateUTC(2008, 12, 30, 16),
@@ -211,7 +211,7 @@ class HourTests : TestDate() {
                     dateUTC(2008, 12, 31, 12)
                 )
 
-        every = with(timeHour) { TimeZone.UTC.every(12) }
+        every = with(Intervals.timeHour) { TimeZone.UTC.every(12) }
         with(every) { TimeZone.UTC.range(start, end) } shouldBe
                 listOf(
                     dateUTC(2008, 12, 31, 0),
@@ -223,7 +223,7 @@ class HourTests : TestDate() {
     fun timeHour_returns_hours_across_the_DST() {
         val start = Instant.fromEpochMilliseconds(1478422800000 - 2 * 3600000)
         val end = Instant.fromEpochMilliseconds(1478422800000 + 2 * 3600000)
-        with (timeHour) { TimeZone.UTC.range(start, end) }.map { it.toEpochMilliseconds() } shouldBe
+        with (Intervals.timeHour) { TimeZone.UTC.range(start, end) }.map { it.toEpochMilliseconds() } shouldBe
                 listOf(
                     1478415600000L,     // Sun Nov 06 2016 00:00:00 GMT-0700 (PDT)
                     1478419200000L,     // Sun Nov 06 2016 01:00:00 GMT-0700 (PDT)

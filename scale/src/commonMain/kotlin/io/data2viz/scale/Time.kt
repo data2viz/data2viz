@@ -44,24 +44,24 @@ private val durationMonth = 2592000000L      // (day * 30)
 private val durationYear = 31536000000L      // (day * 365)
 
 private val tickIntervals = listOf(
-    TickInterval(timeSecond, 1, durationSecond),
-    TickInterval(timeSecond, 5, 5 * durationSecond),
-    TickInterval(timeSecond, 15, 15 * durationSecond),
-    TickInterval(timeSecond, 30, 30 * durationSecond),
-    TickInterval(timeMinute, 1, durationMinute),
-    TickInterval(timeMinute, 5, 5 * durationMinute),
-    TickInterval(timeMinute, 15, 15 * durationMinute),
-    TickInterval(timeMinute, 30, 30 * durationMinute),
-    TickInterval(timeHour, 1, durationHour),
-    TickInterval(timeHour, 3, 3 * durationHour),
-    TickInterval(timeHour, 6, 6 * durationHour),
-    TickInterval(timeHour, 12, 12 * durationHour),
-    TickInterval(timeDay, 1, durationDay),
-    TickInterval(timeDay, 2, 2 * durationDay),
-    TickInterval(timeSunday, 1, durationWeek),
-    TickInterval(timeMonth, 1, durationMonth),
-    TickInterval(timeMonth, 3, 3 * durationMonth),
-    TickInterval(timeYear, 1, durationYear)
+    TickInterval(Intervals.timeSecond, 1, durationSecond),
+    TickInterval(Intervals.timeSecond, 5, 5 * durationSecond),
+    TickInterval(Intervals.timeSecond, 15, 15 * durationSecond),
+    TickInterval(Intervals.timeSecond, 30, 30 * durationSecond),
+    TickInterval(Intervals.timeMinute, 1, durationMinute),
+    TickInterval(Intervals.timeMinute, 5, 5 * durationMinute),
+    TickInterval(Intervals.timeMinute, 15, 15 * durationMinute),
+    TickInterval(Intervals.timeMinute, 30, 30 * durationMinute),
+    TickInterval(Intervals.timeHour, 1, durationHour),
+    TickInterval(Intervals.timeHour, 3, 3 * durationHour),
+    TickInterval(Intervals.timeHour, 6, 6 * durationHour),
+    TickInterval(Intervals.timeHour, 12, 12 * durationHour),
+    TickInterval(Intervals.timeDay, 1, durationDay),
+    TickInterval(Intervals.timeDay, 2, 2 * durationDay),
+    TickInterval(Intervals.timeSunday, 1, durationWeek),
+    TickInterval(Intervals.timeMonth, 1, durationMonth),
+    TickInterval(Intervals.timeMonth, 3, 3 * durationMonth),
+    TickInterval(Intervals.timeYear, 1, durationYear)
 )
 
 /**
@@ -127,7 +127,7 @@ public class TimeScale<R> internal constructor(
         val targetDuration = diff / count.toDouble()
         val intervalIndex = bisectRight(tickIntervals.map { it.duration }, targetDuration.toLong(), naturalOrder())
         val step: Int?
-        var interval: Interval = timeYear
+        var interval: Interval = Intervals.timeYear
         if (intervalIndex == tickIntervals.size) {
             step = tickStep(start.toEpochMilliseconds().toDouble() / durationYear, end.toEpochMilliseconds().toDouble() / durationYear, count).toInt()
         } else if (intervalIndex > 0) {
@@ -138,7 +138,7 @@ public class TimeScale<R> internal constructor(
             interval = tickInterval.interval
         } else {
             step = tickStep(start.toEpochMilliseconds().toDouble(), end.toEpochMilliseconds().toDouble(), count).toInt()
-            interval = timeMillisecond
+            interval = Intervals.timeMillisecond
         }
         if (step > 0) interval = with(interval) { TimeZone.UTC.every(step) }
         return interval
