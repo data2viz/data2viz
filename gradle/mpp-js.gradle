@@ -7,7 +7,16 @@ if (include_js.toBoolean()) {
 
         js {
             moduleName = "d2v-$project.name"
-            browser {}
+            browser {
+//                testTask {
+//                    useKarma {
+//                        useChromeHeadless()
+//                        useChrome()
+//                        useDebuggableChrome()
+//                    }
+//                }
+
+            }
         }
 
         sourceSets {
