@@ -1,4 +1,0 @@
-dependencies {
-    expectedBy project(":contour:contour-common")
-}
-apply from: rootProject.file("gradle/test-js.gradle")
