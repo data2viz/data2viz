@@ -3,7 +3,7 @@ def d2v = [
         ":axis",
         ":chord",
         ":color",
-        ":contour",
+//        ":contour",
         ":core",
         ":delaunay",
         ":dsv",
