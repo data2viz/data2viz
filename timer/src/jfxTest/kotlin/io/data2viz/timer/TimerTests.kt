@@ -22,9 +22,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.javafx.JavaFx
 import kotlinx.coroutines.runBlocking
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 @Suppress("unused")
+@Ignore("Github actions")
 class TimerTests : TestBase() {
 
     @Test

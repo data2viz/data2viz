@@ -27,9 +27,10 @@ import javafx.scene.paint.Color
 import javafx.scene.transform.Affine
 import javafx.stage.Stage
 import org.testfx.framework.junit.ApplicationTest
+import kotlin.test.Ignore
 import kotlin.test.Test
 
-
+@Ignore("github actions")
 class TestTransformJFX : ApplicationTest(), Matchers {
 
 

@@ -25,6 +25,7 @@ import javafx.scene.canvas.Canvas
 import javafx.scene.image.WritableImage
 import javafx.scene.paint.Color
 import javafx.stage.Stage
+import org.junit.Ignore
 import org.junit.Test
 import org.testfx.framework.junit.ApplicationTest
 import java.io.File
@@ -33,6 +34,7 @@ import javax.imageio.ImageIO
 
 const val size = 400
 
+@Ignore("github actions")
 class RenderingJfxTest : ApplicationTest() {
 
 
