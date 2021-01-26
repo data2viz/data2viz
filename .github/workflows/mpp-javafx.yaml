@@ -1,4 +1,4 @@
-name: JavaFx build
+name: MPP JavaFx build
 
 on: [push]
 

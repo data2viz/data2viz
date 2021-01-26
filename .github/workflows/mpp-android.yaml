@@ -1,4 +1,4 @@
-name: MPP-android build
+name: MPP Android build
 
 on: [push]
 
