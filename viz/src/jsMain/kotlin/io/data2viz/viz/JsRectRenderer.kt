@@ -26,7 +26,7 @@ public fun RectNode.render(context: CanvasRenderingContext2D) {
         context.fillRect(x, y, width, height)
     }
 
-    stroke?.let {
+    strokeColor?.let {
         context.strokeStyle = it.toCanvasPaint(context)
         context.strokeRect(x, y, width, height)
     }

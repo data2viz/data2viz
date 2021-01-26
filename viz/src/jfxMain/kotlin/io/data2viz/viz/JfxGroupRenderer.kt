@@ -40,7 +40,7 @@ public fun GroupNode.render(gc: GraphicsContext) {
         var dashedSet = false
 
         if (node is HasStroke) {
-            gc.stroke = node.stroke?.toPaint()
+            gc.stroke = node.strokeColor?.toPaint()
             gc.lineWidth = node.strokeWidth ?: 1.0
             node.dashedLine?.let {
                 gc.setLineDashes(*it)

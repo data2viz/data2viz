@@ -17,18 +17,17 @@
 
 package io.data2viz.viz
 
-import javafx.geometry.*
-import javafx.scene.canvas.*
-import javafx.scene.text.*
+import javafx.geometry.VPos
+import javafx.scene.canvas.GraphicsContext
+import javafx.scene.text.TextAlignment
+import javafx.scene.text.Font as JfxFont
+import javafx.scene.text.FontPosture as JfxFontPosture
+import javafx.scene.text.FontWeight as JfxFontWeight
 
-import javafx.scene.text.Font 			as JfxFont
-import javafx.scene.text.FontPosture 	as JfxFontPosture
-import javafx.scene.text.FontWeight 	as JfxFontWeight
 
+internal fun TextNode.render(gc: GraphicsContext) {
 
-internal fun TextNode.render(gc: GraphicsContext){
-
-    gc.textAlign    = hAlign.jfx
+    gc.textAlign = hAlign.jfx
     gc.textBaseline = vAlign.jfx
 
     gc.font = JfxFont.font(fontFamily.name, fontWeight.jfx, fontStyle.jfx, fontSize)
@@ -38,7 +37,7 @@ internal fun TextNode.render(gc: GraphicsContext){
         gc.fillText(textContent, x, y)
     }
 
-    stroke?.let {
+    strokeColor?.let {
         gc.strokeText(textContent, x, y)
     }
 }

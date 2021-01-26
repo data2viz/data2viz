@@ -10,6 +10,7 @@ This version also includes some major internal modifications on the Geo module.
 * Time module is deprecated.
 * Added new number locales (es_BO, en_IE, en_IN, ...) and fix some issues with old ones
 * Added new time locales (fa_IR, nb_NO, zh_TW, ...) and fix some issues with old ones
+* fix #231 deprecate stroke and replace with strokeColor
 
 ## 0.8.9
 > Published 20 Nov 2020

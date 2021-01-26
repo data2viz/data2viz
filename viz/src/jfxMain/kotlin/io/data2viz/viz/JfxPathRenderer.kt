@@ -20,7 +20,7 @@ package io.data2viz.viz
 import io.data2viz.geom.*
 import io.data2viz.math.Angle
 import io.data2viz.math.toDegrees
-import javafx.scene.canvas.*
+import javafx.scene.canvas.GraphicsContext
 import javafx.scene.shape.StrokeLineCap
 
 
@@ -44,7 +44,7 @@ public fun PathNode.render(gc: GraphicsContext) {
         gc.fill()
     }
 
-    stroke?.let {
+    strokeColor?.let {
         gc.lineCap = StrokeLineCap.BUTT
         gc.stroke()
     }

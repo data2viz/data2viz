@@ -43,7 +43,7 @@ public fun GroupNode.render(context: CanvasRenderingContext2D) {
         var dashedSet = false
 
         if (node is HasStroke) {
-            context.strokeStyle = node.stroke?.toCanvasPaint(context)
+            context.strokeStyle = node.strokeColor?.toCanvasPaint(context)
             context.lineWidth = node.strokeWidth ?: 1.0
             node.dashedLine?.let {
                 context.setLineDash(it.toTypedArray())

@@ -30,7 +30,7 @@ internal fun TextNode.render(context: CanvasRenderingContext2D) {
         context.fillText(textContent, x, y)
     }
 
-    stroke?.let {
+    strokeColor?.let {
         context.strokeText(textContent, x, y)
     }
 }

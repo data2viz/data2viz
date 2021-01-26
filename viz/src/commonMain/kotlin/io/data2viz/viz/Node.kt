@@ -18,7 +18,7 @@
 package io.data2viz.viz
 
 import io.data2viz.ExperimentalD2V
-import io.data2viz.color.*
+import io.data2viz.color.ColorOrGradient
 
 
 /**
@@ -54,7 +54,7 @@ public abstract class Node : Style {
     /**
      * Removes the node from the hierarchy.
      */
-    public fun remove(){
+    public fun remove() {
         parent?.remove(this)
     }
 
@@ -62,42 +62,45 @@ public abstract class Node : Style {
 
     override var fill: ColorOrGradient?
         get() = style.fill
-        set(value) {style.fill = value}
+        set(value) { style.fill = value }
 
+    @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
     override var stroke: ColorOrGradient?
-        get() = style.stroke
-        set(value) {style.stroke = value}
+        get() = style.strokeColor
+        set(value) { style.strokeColor = value }
+
+    override var strokeColor: ColorOrGradient?
+        get() = style.strokeColor
+        set(value) { style.strokeColor = value }
 
     override var dashedLine: DoubleArray?
         get() = style.dashedLine
-        set(value) {style.dashedLine = value}
+        set(value) { style.dashedLine = value }
 
     override var strokeWidth: Double?
         get() = style.strokeWidth
-        set(value) {style.strokeWidth = value}
+        set(value) { style.strokeWidth = value }
 
     override var textColor: ColorOrGradient?
         get() = style.textColor
-        set(value) {style.textColor = value}
+        set(value) { style.textColor = value }
 
     override var hAlign: TextHAlign
         get() = style.hAlign
-        set(value) {style.hAlign = value}
+        set(value) { style.hAlign = value }
 
     @Deprecated("Use hAlign", ReplaceWith("hAlign"))
     override var anchor: TextHAlign
         get() = hAlign
-        set(value) {hAlign = value}
+        set(value) { hAlign = value }
 
     override var vAlign: TextVAlign
         get() = style.vAlign
-        set(value) {
-            style.vAlign = value}
+        set(value) { style.vAlign = value }
 
     @Deprecated("Use vAlign", ReplaceWith("vAlign"))
     override var baseline: TextVAlign
         get() = vAlign
-        set(value) {
-            vAlign = value}
+        set(value) { vAlign = value }
 
 }

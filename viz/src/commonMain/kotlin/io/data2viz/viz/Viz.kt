@@ -54,10 +54,11 @@ public class Viz(
             style.fill = value
         }
 
+    @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
     override var stroke: ColorOrGradient?
-        get() = style.stroke
+        get() = style.strokeColor
         set(value) {
-            style.stroke = value
+            style.strokeColor = value
         }
 
     override var dashedLine: DoubleArray?
@@ -107,15 +108,15 @@ public class Viz(
     private val eventListeners = mutableListOf<KEventHandle<*>>()
 
     public var renderer: VizRenderer? = null
-    set(newValue) {
-        val oldValue = field
-        field = newValue
-        eventListeners.forEach {
-            oldValue?.removeEventHandle(it)
-            newValue?.addEventHandle(it)
-        }
+        set(newValue) {
+            val oldValue = field
+            field = newValue
+            eventListeners.forEach {
+                oldValue?.removeEventHandle(it)
+                newValue?.addEventHandle(it)
+            }
 
-    }
+        }
 
     /**
      * This is the common function call to add all type of events listener to a Viz.
@@ -226,7 +227,10 @@ public data class Rotation(var delta: Double = 0.0): AtomicTransformation
  */
 public interface HasStroke {
 
+    @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
     public var stroke: ColorOrGradient?
+
+    public var strokeColor: ColorOrGradient?
     public var strokeWidth: Double?
     public var dashedLine: DoubleArray?
 }

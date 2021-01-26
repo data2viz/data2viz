@@ -17,7 +17,7 @@
 
 package io.data2viz.viz
 
-import javafx.scene.canvas.*
+import javafx.scene.canvas.GraphicsContext
 
 
 public fun CircleNode.render(gc: GraphicsContext) {
@@ -26,7 +26,7 @@ public fun CircleNode.render(gc: GraphicsContext) {
         gc.fillOval(x - radius, y - radius, radius * 2, radius * 2)
     }
 
-    stroke?.let {
+    strokeColor?.let {
         gc.strokeOval(x - radius, y - radius, radius * 2, radius * 2)
     }
 }

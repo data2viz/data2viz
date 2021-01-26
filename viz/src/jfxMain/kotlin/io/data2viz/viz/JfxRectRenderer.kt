@@ -17,7 +17,7 @@
 
 package io.data2viz.viz
 
-import javafx.scene.canvas.*
+import javafx.scene.canvas.GraphicsContext
 
 public fun RectNode.render(gc: GraphicsContext) {
 
@@ -25,7 +25,7 @@ public fun RectNode.render(gc: GraphicsContext) {
         gc.fillRect(x, y, width, height)
     }
 
-    stroke?.let {
+    strokeColor?.let {
         gc.strokeRect(x, y, width, height)
     }
 }

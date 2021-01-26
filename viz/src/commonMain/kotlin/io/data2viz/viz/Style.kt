@@ -20,6 +20,7 @@
 package io.data2viz.viz
 
 import io.data2viz.color.ColorOrGradient
+import io.data2viz.viz.TextHAlign.*
 
 
 /**
@@ -27,11 +28,14 @@ import io.data2viz.color.ColorOrGradient
  */
 public interface Style {
     public var fill: ColorOrGradient?
+
+    @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
     public var stroke: ColorOrGradient?
+
+    public var strokeColor: ColorOrGradient?
     public var strokeWidth: Double?
     public var textColor: ColorOrGradient?
     public var dashedLine: DoubleArray?
-
 
     @Deprecated("Use hAlign", ReplaceWith("hAlign"))
     public var anchor: TextHAlign
@@ -44,7 +48,12 @@ public interface Style {
 
 internal class StyleImpl: Style {
     override var fill: ColorOrGradient? = null
-    override var stroke: ColorOrGradient? = null
+
+    override var strokeColor: ColorOrGradient? = null
+
+    @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
+    override var stroke: ColorOrGradient? = strokeColor
+
     override var dashedLine: DoubleArray? = doubleArrayOf()
     override var textColor: ColorOrGradient? = null
     override var strokeWidth: Double? = 1.0
@@ -85,13 +94,23 @@ public class HierarchicalStyle(
 
     private var strokeSet = false
 
+    @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
     override var stroke: ColorOrGradient?
-        get() = if (strokeSet) style!!.stroke else parent?.stroke
+        get() = if (strokeSet) style!!.strokeColor else parent?.strokeColor
         set(value) {
             if (style == null)
                 style = StyleImpl()
             strokeSet = true
-            style?.stroke = value
+            style?.strokeColor = value
+        }
+
+    override var strokeColor: ColorOrGradient?
+        get() = if (strokeSet) style!!.strokeColor else parent?.strokeColor
+        set(value) {
+            if (style == null)
+                style = StyleImpl()
+            strokeSet = true
+            style?.strokeColor = value
         }
 
     private var strokeWidthSet = false

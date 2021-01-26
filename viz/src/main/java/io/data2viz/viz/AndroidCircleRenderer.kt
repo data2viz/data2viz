@@ -32,7 +32,7 @@ fun CircleNode.render(renderer: AndroidCanvasRenderer) {
 				radius.dp,
 				paint)
 		}
-		stroke?.let {
+		strokeColor?.let {
 			paint.style = Paint.Style.STROKE
 			it.updatePaint(paint, renderer)
 			canvas.drawCircle(

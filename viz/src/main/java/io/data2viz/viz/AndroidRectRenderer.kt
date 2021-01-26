@@ -32,7 +32,7 @@ fun RectNode.render(renderer: AndroidCanvasRenderer) {
 				(y + height).dp,
 				paint)
 		}
-		stroke?.let {
+		strokeColor?.let {
 			paint.style = Paint.Style.STROKE
 			it.updatePaint(paint, renderer)
 			canvas.drawRect(

@@ -17,7 +17,8 @@
 
 package io.data2viz.viz
 
-import io.data2viz.color.*
+import io.data2viz.color.Colors
+import io.data2viz.color.col
 import io.data2viz.math.PI
 import io.data2viz.math.pct
 
@@ -345,7 +346,7 @@ val allRenderingTests = listOf(
                 y = 200.0
                 radius = 100.0
                 fill = null
-                stroke = Colors.Web.red
+                strokeColor = Colors.Web.red
                 strokeWidth = 20.0
             }
         },
@@ -355,7 +356,7 @@ val allRenderingTests = listOf(
                 y = 200.0
                 radius = 100.0
                 fill = null
-                stroke = Colors.Web.red
+                strokeColor = Colors.Web.red
             }
         },
         renderingTest("circle4") {
@@ -364,8 +365,8 @@ val allRenderingTests = listOf(
                 y = 200.0
                 radius = 100.0
                 fill = 0xfdc658.col
-                stroke = 0x0c0887.col
-                        .withAlpha(50.pct)
+                strokeColor = 0x0c0887.col
+                    .withAlpha(50.pct)
                 strokeWidth = 40.0
             }
         },
@@ -383,7 +384,7 @@ val allRenderingTests = listOf(
                 arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), false)
                 closePath()
                 fill = Colors.Web.grey
-                stroke = null
+                strokeColor = null
             }
         }
     },
@@ -398,7 +399,7 @@ val allRenderingTests = listOf(
                 arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), false)
                 closePath()
                 fill = Colors.Web.grey
-                stroke = null
+                strokeColor = null
             }
         }
     },
@@ -413,7 +414,7 @@ val allRenderingTests = listOf(
                 arc(pos.first, pos.second, 25.0, .0, it * (2 * PI / 8.0), true)
                 closePath()
                 fill = Colors.Web.grey
-                stroke = null
+                strokeColor = null
             }
         }
     },
@@ -428,7 +429,7 @@ val allRenderingTests = listOf(
                 arc(pos.first, pos.second, 25.0, .0, -it * (2 * PI / 8.0), true)
                 closePath()
                 fill = Colors.Web.grey
-                stroke = null
+                strokeColor = null
             }
         }
     },
@@ -445,7 +446,7 @@ val allRenderingTests = listOf(
                 arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), false)
                 closePath()
                 fill = Colors.Web.grey
-                stroke = null
+                strokeColor = null
             }
         }
     },
@@ -462,7 +463,7 @@ val allRenderingTests = listOf(
                 arc(pos.first, pos.second, 25.0, it * posNeg / 10.0, -posNeg * it * (2 * PI / 8.0), true)
                 closePath()
                 fill = Colors.Web.grey
-                stroke = null
+                strokeColor = null
             }
         }
     },
@@ -481,7 +482,7 @@ val allRenderingTests = listOf(
                 lineTo(pos.first + 15.0, pos.second + 15.0)
                 closePath()
                 fill = Colors.Web.grey
-                stroke = Colors.Web.blue
+                strokeColor = Colors.Web.blue
             }
         }
     },
@@ -500,7 +501,7 @@ val allRenderingTests = listOf(
                 lineTo(pos.first + 15.0, pos.second + 15.0)
                 closePath()
                 fill = Colors.Web.grey
-                stroke = Colors.Web.blue
+                strokeColor = Colors.Web.blue
             }
         }
     },
@@ -527,7 +528,7 @@ val allRenderingTests = listOf(
             lineTo(300.0, 312.0)
             closePath()
             fill = Colors.Web.grey
-            stroke = Colors.Web.blue
+            strokeColor = Colors.Web.blue
         }
     },
 
@@ -554,7 +555,7 @@ val allRenderingTests = listOf(
             lineTo(300.0, 312.0)
             closePath()
             fill = colors.grey
-            stroke = colors.blue
+            strokeColor = colors.blue
         }
     },*/
 
@@ -565,7 +566,7 @@ val allRenderingTests = listOf(
                 lineTo(60.0, 20.0)
                 moveTo(80.0, 40.0)
                 lineTo(100.0, 20.0)
-                stroke = Colors.Web.red
+                strokeColor = Colors.Web.red
             }
         },
         renderingTest("path.rect") {

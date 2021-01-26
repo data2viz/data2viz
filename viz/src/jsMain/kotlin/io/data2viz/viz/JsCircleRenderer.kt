@@ -29,7 +29,7 @@ public fun CircleNode.render(context: CanvasRenderingContext2D) {
         context.fill()
     }
 
-    stroke?.let {
+    strokeColor?.let {
         context.stroke()
     }
 

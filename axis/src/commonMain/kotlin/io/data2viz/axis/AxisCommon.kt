@@ -83,7 +83,7 @@ public class AxisElement<D>(
             // the main axis line
             if (axisStroke != null && axisStrokeWidth != null) {
                 path {
-                    stroke = axisStroke
+                    strokeColor = axisStroke
                     strokeWidth = axisStrokeWidth
                     fill = null
 
@@ -114,13 +114,13 @@ public class AxisElement<D>(
                         if (orient.isHorizontal())
                             line {
                                 y2 = k * tickSizeInner
-                                stroke = tickStroke
+                                strokeColor = tickStroke
                                 strokeWidth = tickStrokeWidth
                             }
                         else
                             line {
                                 x2 = k * tickSizeInner
-                                stroke = tickStroke
+                                strokeColor = tickStroke
                                 strokeWidth = tickStrokeWidth
                             }
                     }
