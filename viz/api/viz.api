@@ -97,9 +97,11 @@ public abstract interface class io/data2viz/viz/HasFill {
 public abstract interface class io/data2viz/viz/HasStroke {
 	public abstract fun getDashedLine ()[D
 	public abstract fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
 	public abstract fun getStrokeWidth ()Ljava/lang/Double;
 	public abstract fun setDashedLine ([D)V
 	public abstract fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public abstract fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
 	public abstract fun setStrokeWidth (Ljava/lang/Double;)V
 }
 
@@ -116,6 +118,7 @@ public final class io/data2viz/viz/HierarchicalStyle : io/data2viz/viz/Style {
 	public fun getHAlign ()Lio/data2viz/viz/TextHAlign;
 	public final fun getParent ()Lio/data2viz/viz/Style;
 	public fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
 	public fun getStrokeWidth ()Ljava/lang/Double;
 	public fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
 	public fun getVAlign ()Lio/data2viz/viz/TextVAlign;
@@ -126,6 +129,7 @@ public final class io/data2viz/viz/HierarchicalStyle : io/data2viz/viz/Style {
 	public fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
 	public final fun setParent (Lio/data2viz/viz/Style;)V
 	public fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
 	public fun setStrokeWidth (Ljava/lang/Double;)V
 	public fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
 	public fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
@@ -450,6 +454,7 @@ public abstract class io/data2viz/viz/Node : io/data2viz/viz/Style {
 	public fun getHAlign ()Lio/data2viz/viz/TextHAlign;
 	public final fun getParent ()Lio/data2viz/viz/HasChildren;
 	public fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
 	public fun getStrokeWidth ()Ljava/lang/Double;
 	public fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
 	public fun getVAlign ()Lio/data2viz/viz/TextVAlign;
@@ -463,6 +468,7 @@ public abstract class io/data2viz/viz/Node : io/data2viz/viz/Style {
 	public fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
 	public final fun setParent (Lio/data2viz/viz/HasChildren;)V
 	public fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
 	public fun setStrokeWidth (Ljava/lang/Double;)V
 	public fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
 	public fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
@@ -561,6 +567,7 @@ public abstract interface class io/data2viz/viz/Style {
 	public abstract fun getFill ()Lio/data2viz/color/ColorOrGradient;
 	public abstract fun getHAlign ()Lio/data2viz/viz/TextHAlign;
 	public abstract fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
 	public abstract fun getStrokeWidth ()Ljava/lang/Double;
 	public abstract fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
 	public abstract fun getVAlign ()Lio/data2viz/viz/TextVAlign;
@@ -570,6 +577,7 @@ public abstract interface class io/data2viz/viz/Style {
 	public abstract fun setFill (Lio/data2viz/color/ColorOrGradient;)V
 	public abstract fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
 	public abstract fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public abstract fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
 	public abstract fun setStrokeWidth (Ljava/lang/Double;)V
 	public abstract fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
 	public abstract fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
@@ -669,6 +677,7 @@ public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/v
 	public final fun getRenderer ()Lio/data2viz/viz/VizRenderer;
 	public fun getSize ()Lio/data2viz/geom/Size;
 	public fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
 	public fun getStrokeWidth ()Ljava/lang/Double;
 	public fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
 	public fun getVAlign ()Lio/data2viz/viz/TextVAlign;
@@ -695,6 +704,7 @@ public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/v
 	public final fun setRenderer (Lio/data2viz/viz/VizRenderer;)V
 	public fun setSize (Lio/data2viz/geom/Size;)V
 	public fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
 	public fun setStrokeWidth (Ljava/lang/Double;)V
 	public fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
 	public fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
