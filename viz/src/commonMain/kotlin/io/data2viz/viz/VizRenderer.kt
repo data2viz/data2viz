@@ -25,6 +25,9 @@ public interface VizRenderer {
 
     public val viz:Viz
 
+    /**
+     * Renders the [viz]
+     */
     public fun render()
 
     /**

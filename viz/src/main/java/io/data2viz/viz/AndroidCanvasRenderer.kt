@@ -17,7 +17,6 @@
 
 package io.data2viz.viz
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -36,81 +35,6 @@ fun Viz.toView(context: Context): VizView = VizView(this, context)
 
 interface VizTouchListener {
     fun onTouchEvent(view: View, event: MotionEvent?): Boolean
-
-}
-
-@SuppressLint("ViewConstructor")
-class VizView(val viz: Viz, context: Context) : View(context) {
-
-    private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz) {
-        invalidate()
-    }
-    private val timers = mutableListOf<Timer>()
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        Log.d(AndroidCanvasRenderer::class.java.simpleName, "onTouchEvent $event")
-
-        var handled = super.onTouchEvent(event)
-        if (!handled) {
-            renderer.onTouchListeners.forEach {
-                it.onTouchEvent(this, event)
-            }
-        }
-
-        handled = true
-        return handled
-
-    }
-
-    fun startAnimations() {
-        if (viz.animationTimers.isNotEmpty()) {
-            viz.animationTimers.forEach { anim ->
-                timers += timer { time ->
-                    anim(time)
-                }
-            }
-            timers += timer {
-                invalidate()
-            }
-        }
-    }
-
-    fun stopAnimations() {
-        for (timer in timers) {
-            timer.stop()
-        }
-        timers.clear()
-    }
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        viz.resize(w.toDouble(), h.toDouble())
-        updateScale()
-    }
-
-    fun updateScale() {
-        renderer.scale = (width / viz.width).toFloat()
-    }
-
-    var drawCount = -1
-    private var startTime = System.currentTimeMillis()
-
-    var fps = 0.0
-
-    override fun onDraw(canvas: Canvas) {
-        drawCount++
-        if (drawCount == 100) {
-            val delta = System.currentTimeMillis() - startTime
-            fps = 100_000.0 / delta
-            startTime = System.currentTimeMillis()
-            drawCount = -1
-        }
-
-        renderer.canvas = canvas
-        renderer.render()
-    }
-
-
 }
 
 fun Paint.getNumberHeight(): Int {
@@ -119,17 +43,29 @@ fun Paint.getNumberHeight(): Int {
     return rect.height()
 }
 
-class AndroidCanvasRenderer(
-    val context: Context,
+public class AndroidCanvasRenderer(
+
+    public val context: Context,
+
     override val viz: Viz,
-    var canvas: Canvas = Canvas(),
-    val renderCallback: () -> Unit
+
+    /**
+     *
+     */
+    public var canvas: Canvas = Canvas(),
+
+    /**
+     * Invalidate callback. The renderer use it to invalidate the view.
+     * TODO : we may be more explicit and pass the View to call directly the invalidate function
+     */
+    internal val renderCallback: () -> Unit
+
 ) : VizRenderer {
 
 
-    val onTouchListeners = mutableListOf<VizTouchListener>()
+    public val onTouchListeners = mutableListOf<VizTouchListener>()
 
-    var scale = 1F
+    public var scale = 1F
 
     private val animationTimers = mutableListOf<Timer>()
 
@@ -138,6 +74,9 @@ class AndroidCanvasRenderer(
         viz.renderer = this
     }
 
+    /**
+     *
+     */
     override fun render() {
         viz.layers.forEach { layer ->
             if (layer.visible)
@@ -164,7 +103,7 @@ class AndroidCanvasRenderer(
     }
 
 
-    val Double.dp: Float
+    public val Double.dp: Float
         get() = (this * scale).toFloat()
 
 }
