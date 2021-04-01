@@ -27,12 +27,39 @@ import io.data2viz.timer.timer
 
 @SuppressLint("ViewConstructor")
 public class VizView(
-    public val viz: Viz, context: Context) : View(context) {
+    public val viz: Viz, context: Context
+)
+    : View(context) {
 
     private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz) {
         invalidate()
     }
+
+
     private val timers = mutableListOf<Timer>()
+
+    override fun onDraw(canvas: Canvas) {
+        drawCount++
+        if (drawCount == 100) {
+            val delta = System.currentTimeMillis() - startTime
+            fps = 100_000.0 / delta
+            startTime = System.currentTimeMillis()
+            drawCount = -1
+        }
+
+        renderer.canvas = canvas
+        renderer.render()
+    }
+
+
+    /**
+     * Resize viz,
+     * Update the Scale
+     */
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        viz.resize(w.toDouble(), h.toDouble())
+        updateScale()
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -73,11 +100,6 @@ public class VizView(
         timers.clear()
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        viz.resize(w.toDouble(), h.toDouble())
-        updateScale()
-    }
-
     public fun updateScale() {
         renderer.scale = (width / viz.width).toFloat()
     }
@@ -86,19 +108,5 @@ public class VizView(
     private var startTime = System.currentTimeMillis()
 
     public var fps: Double = 0.0
-
-    override fun onDraw(canvas: Canvas) {
-        drawCount++
-        if (drawCount == 100) {
-            val delta = System.currentTimeMillis() - startTime
-            fps = 100_000.0 / delta
-            startTime = System.currentTimeMillis()
-            drawCount = -1
-        }
-
-        renderer.canvas = canvas
-        renderer.render()
-    }
-
 
 }
