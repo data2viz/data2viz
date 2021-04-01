@@ -20,7 +20,7 @@ package io.data2viz.viz
 import android.graphics.*
 
 
-fun ImageNode.render(renderer: AndroidCanvasRenderer) {
+public fun ImageNode.render(renderer: AndroidCanvasRenderer) {
 
     image?.let { img ->
 
@@ -42,7 +42,7 @@ fun ImageNode.render(renderer: AndroidCanvasRenderer) {
 }
 
 
-fun Bitmap.toLocalImage() = LocalImage(this)
+public fun Bitmap.toLocalImage(): LocalImage = LocalImage(this)
 
 
-public class LocalImage(val image: Bitmap): ImageHandler
+public class LocalImage(public val image: Bitmap): ImageHandler

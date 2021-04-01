@@ -26,7 +26,8 @@ import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 
 @SuppressLint("ViewConstructor")
-class VizView(val viz: Viz, context: Context) : View(context) {
+public class VizView(
+    public val viz: Viz, context: Context) : View(context) {
 
     private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz) {
         invalidate()
@@ -52,7 +53,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
     /**
      *
      */
-    fun startAnimations() {
+    public fun startAnimations() {
         if (viz.animationTimers.isNotEmpty()) {
             viz.animationTimers.forEach { anim ->
                 timers += timer { time ->
@@ -65,7 +66,7 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         }
     }
 
-    fun stopAnimations() {
+    public fun stopAnimations() {
         for (timer in timers) {
             timer.stop()
         }
@@ -77,14 +78,14 @@ class VizView(val viz: Viz, context: Context) : View(context) {
         updateScale()
     }
 
-    fun updateScale() {
+    public fun updateScale() {
         renderer.scale = (width / viz.width).toFloat()
     }
 
-    var drawCount = -1
+    public var drawCount: Int = -1
     private var startTime = System.currentTimeMillis()
 
-    var fps = 0.0
+    public var fps: Double = 0.0
 
     override fun onDraw(canvas: Canvas) {
         drawCount++

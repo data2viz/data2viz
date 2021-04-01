@@ -26,18 +26,18 @@ import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 
 
-val paint = Paint().apply {
+internal val paint = Paint().apply {
     isAntiAlias = true
 }
 
 
-fun Viz.toView(context: Context): VizView = VizView(this, context)
+public fun Viz.toView(context: Context): VizView = VizView(this, context)
 
-interface VizTouchListener {
-    fun onTouchEvent(view: View, event: MotionEvent?): Boolean
+public interface VizTouchListener {
+    public fun onTouchEvent(view: View, event: MotionEvent?): Boolean
 }
 
-fun Paint.getNumberHeight(): Int {
+internal fun Paint.getNumberHeight(): Int {
     val rect = android.graphics.Rect()
     getTextBounds("a", 0, 1, rect)
     return rect.height()
@@ -63,9 +63,9 @@ public class AndroidCanvasRenderer(
 ) : VizRenderer {
 
 
-    public val onTouchListeners = mutableListOf<VizTouchListener>()
+    public val onTouchListeners: MutableList<VizTouchListener> = mutableListOf<VizTouchListener>()
 
-    public var scale = 1F
+    public var scale: Float = 1F
 
     private val animationTimers = mutableListOf<Timer>()
 
