@@ -16,7 +16,10 @@ if (include_jfx.toBoolean()) {
                     implementation project(":tests")
                     implementation kotlin('test')
                     implementation kotlin('test-junit')
-
+                    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+                    api "org.jetbrains.kotlinx:kotlinx-coroutines-javafx:$coroutines_version"
+                    api "org.testfx:testfx-core:$textfx_version"
+                    api "org.testfx:testfx-junit:$textfx_version"
                 }
             }
         }

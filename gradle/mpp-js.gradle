@@ -30,6 +30,7 @@ if (include_js.toBoolean()) {
                     if (project.name != "tests") {
                         implementation project(":tests")
                         implementation kotlin('test-js')
+                        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
                     }
                 }
             }

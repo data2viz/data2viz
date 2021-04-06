@@ -1,4 +1,5 @@
 plugins {
+    id 'com.android.library'
     id "org.jetbrains.kotlin.multiplatform"
 }
 
@@ -7,8 +8,8 @@ apply from: rootProject.file("gradle/mpp-android.gradle")
 apply from: rootProject.file("gradle/mpp-jfx.gradle")
 apply from: rootProject.file("gradle/mpp-js.gradle")
 
-
 kotlin {
+    android()
     sourceSets {
         commonMain {
             dependencies {
@@ -18,13 +19,5 @@ kotlin {
             }
         }
 
-        jfxTest {
-            dependencies {
-                api "org.testfx:testfx-core:$textfx_version"
-                api "org.testfx:testfx-junit:$textfx_version"
-            }
-        }
     }
 }
-
-
