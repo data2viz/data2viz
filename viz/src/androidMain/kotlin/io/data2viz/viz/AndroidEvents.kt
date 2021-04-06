@@ -27,48 +27,48 @@ import io.data2viz.geom.Point
 private val emptyDisposable = object : Disposable { override fun dispose() {} }
 
 
-actual class KTouchStart {
-    actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+public actual class KTouchStart {
+    public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             addSingleTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_DOWN)
     }
 }
 
-actual class KTouchEnd {
-    actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+public actual class KTouchEnd {
+    public actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             addSingleTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_UP)
     }
 }
 
-actual class KTouchMove {
-    actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+public actual class KTouchMove {
+    public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             addSingleTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
     }
 }
 
-actual class KMouseMove {
-    actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit) = emptyDisposable
+public actual class KMouseMove {
+    public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
-actual class KMouseDown {
-    actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit) = emptyDisposable
+public actual class KMouseDown {
+    public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
-actual class KMouseUp {
-    actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
+public actual class KMouseUp {
+    public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
 
-actual class KPointerEnter {
-    actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
+public actual class KPointerEnter {
+    public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
 
             val renderer = target as AndroidCanvasRenderer
@@ -85,8 +85,8 @@ actual class KPointerEnter {
     }
 }
 
-actual class KPointerLeave {
-    actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
+public actual class KPointerLeave {
+    public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
 
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
 
@@ -104,8 +104,8 @@ actual class KPointerLeave {
     }
 }
 
-actual class KPointerClick {
-    actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
+public actual class KPointerClick {
+    public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             AndroidActionEventHandle(
                 target as AndroidCanvasRenderer,
@@ -122,8 +122,8 @@ actual class KPointerClick {
 }
 
 
-actual class KPointerDoubleClick {
-    actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
+public actual class KPointerDoubleClick {
+    public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
 
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             AndroidActionEventHandle(
@@ -140,14 +140,15 @@ actual class KPointerDoubleClick {
 }
 
 @ExperimentalKEvent
-actual class KZoom {
-    actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
-        const val minZoomDeltaValue = -100.0
-        const val maxZoomDeltaValue = 100.0
+public actual class KZoom {
+    public actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
+        public const val minZoomDeltaValue: Double = -100.0
+        public const val maxZoomDeltaValue: Double = 100.0
 
 
-        var lastZoomTime: Long? = null
-        lateinit var zoomStartPoint: Point
+        public var lastZoomTime: Long? = null
+
+        public lateinit var zoomStartPoint: Point
 
         override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
 
@@ -237,13 +238,20 @@ private fun addSingleTouchAndroidEventHandle(
 }
 
 
-class AndroidActionEventHandle(renderer: AndroidCanvasRenderer, val type: Int, handler: VizTouchListener) :
+public class AndroidActionEventHandle(
+    renderer: AndroidCanvasRenderer,
+    public val type: Int,
+    handler: VizTouchListener) :
+
     AndroidEventHandle(renderer, handler)
 
-open class AndroidEventHandle(val renderer: AndroidCanvasRenderer, val handler: VizTouchListener) :
+public open class AndroidEventHandle(
+    public val renderer: AndroidCanvasRenderer,
+    public val handler: VizTouchListener) :
+
     Disposable {
 
-    fun init() {
+    public fun init() {
         renderer.onTouchListeners.add(handler)
     }
 
@@ -253,10 +261,10 @@ open class AndroidEventHandle(val renderer: AndroidCanvasRenderer, val handler: 
     }
 }
 
-abstract class DetectInBoundsVizTouchListener : VizTouchListener {
+public abstract class DetectInBoundsVizTouchListener : VizTouchListener {
 
 
-    var isLastMoveInBounds = false
+    public var isLastMoveInBounds: Boolean = false
 
     override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
 
@@ -275,15 +283,15 @@ abstract class DetectInBoundsVizTouchListener : VizTouchListener {
         return false
     }
 
-    abstract fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean)
+    public abstract fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean)
 }
 
-abstract class DetectClickVizTouchListener : VizTouchListener {
-    companion object {
-        const val maxTimeDiffForDetectClick = 500
+public abstract class DetectClickVizTouchListener : VizTouchListener {
+    public companion object {
+        public const val maxTimeDiffForDetectClick: Int = 500
     }
 
-    var lastTimeActionDown: Long? = null
+    public var lastTimeActionDown: Long? = null
     override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> lastTimeActionDown = System.currentTimeMillis()
@@ -301,19 +309,19 @@ abstract class DetectClickVizTouchListener : VizTouchListener {
         return false
     }
 
-    abstract fun onClick(event: MotionEvent)
+    public abstract fun onClick(event: MotionEvent)
 }
 
-abstract class DetectDoubleClickVizTouchListener :
+public abstract class DetectDoubleClickVizTouchListener :
     DetectClickVizTouchListener() {
 
-    companion object {
-        const val maxTimeDiffForDetectDoubleClick = 500
+    public companion object {
+        public const val maxTimeDiffForDetectDoubleClick: Int = 500
     }
 
-    var lastTimeClick: Long? = null
+    public var lastTimeClick: Long? = null
 
-    abstract fun onDoubleClick(event: MotionEvent)
+    public abstract fun onDoubleClick(event: MotionEvent)
 
     override fun onClick(event: MotionEvent) {
         val now = System.currentTimeMillis()

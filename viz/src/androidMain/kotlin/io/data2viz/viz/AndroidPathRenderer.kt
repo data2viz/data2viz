@@ -26,7 +26,7 @@ import kotlin.math.*
 private const val EPSILON_FLOAT = 0.0001f
 private const val EPSILON_CIRCLE = 360 - EPSILON_FLOAT
 
-fun PathNode.render(renderer: AndroidCanvasRenderer) {
+public fun PathNode.render(renderer: AndroidCanvasRenderer) {
 
     val canvas = renderer.canvas
 
@@ -125,16 +125,16 @@ fun PathNode.render(renderer: AndroidCanvasRenderer) {
     }
 }
 
-val Number.radToDeg: Double
+public val Number.radToDeg: Double
     get() = this.toDouble() * 180 / PI
 
-fun angle(alpha: Double): Double = when {
+public fun angle(alpha: Double): Double = when {
     alpha > PI -> (alpha - 2 * PI)
     alpha < -PI -> (2 * PI + alpha)
     else -> alpha
 }
 
-fun Boolean.toSign() = if (this) 1 else -1
+private fun Boolean.toSign(): Int = if (this) 1 else -1
 
-fun Double.radToDegrees() = Math.toDegrees(this).toFloat()
+private fun Double.radToDegrees(): Float = Math.toDegrees(this).toFloat()
 

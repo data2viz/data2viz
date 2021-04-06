@@ -20,29 +20,28 @@ package io.data2viz.viz
 import android.graphics.*
 
 
-fun ImageNode.render(renderer: AndroidCanvasRenderer) {
-
-    image?.let { img ->
-
-        val bitmap = when (img){
-            is LocalImage -> img.image
-            else -> error("Unknown image type:: $img")
+public fun CircleNode.render(renderer: AndroidCanvasRenderer) {
+    val canvas = renderer.canvas
+    with(renderer) {
+        fill?.let {
+            paint.style = Paint.Style.FILL
+            it.updatePaint(paint, renderer)
+            canvas.drawCircle(
+                x.dp,
+                y.dp,
+                radius.dp,
+                paint
+            )
         }
-
-        with(renderer) {
-
-            var rect = size?.let { RectF(x.dp, y.dp, it.width.dp, it.height.dp) }
-                ?: RectF(x.dp, y.dp, bitmap.width.toFloat(), bitmap.height.toFloat())
-
-            canvas.drawBitmap(bitmap, null, rect  ,null)
+        strokeColor?.let {
+            paint.style = Paint.Style.STROKE
+            it.updatePaint(paint, renderer)
+            canvas.drawCircle(
+                x.dp,
+                y.dp,
+                radius.dp,
+                paint
+            )
         }
-
     }
-
 }
-
-
-fun Bitmap.toLocalImage() = LocalImage(this)
-
-
-public class LocalImage(val image: Bitmap): ImageHandler

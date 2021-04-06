@@ -164,6 +164,7 @@ public fun interval(delay: Double = 0.0, startTime: Double = now(), callback: Ti
 public class Timer {
 
 
+
     internal var _time: Double = 0.0
 
     /**

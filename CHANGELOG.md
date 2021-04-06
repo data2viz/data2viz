@@ -5,7 +5,7 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
-## 0.8.9-instant
+## 0.8.10
 * Time is now based on Instant rather than LocalDateTime, TimeZone is managed.
 * Time module is deprecated.
 * Added new number locales (es_BO, en_IE, en_IN, ...) and fix some issues with old ones

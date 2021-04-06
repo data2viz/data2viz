@@ -1,12 +1,8 @@
-plugins {
-    id "org.jetbrains.kotlin.multiplatform"
-}
 
-apply from: rootProject.file("gradle/mpp-common.gradle")
 apply from: rootProject.file("gradle/mpp-android.gradle")
-apply from: rootProject.file("gradle/mpp-jfx.gradle")
+apply from: rootProject.file("gradle/mpp-common.gradle")
 apply from: rootProject.file("gradle/mpp-js.gradle")
-
+apply from: rootProject.file("gradle/mpp-jfx.gradle")
 
 kotlin {
     sourceSets {

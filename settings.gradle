@@ -1,3 +1,19 @@
+pluginManagement {
+    repositories {
+        google()
+        jcenter()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.namespace == 'com.android' || requested.id.name == 'kotlin-android-extensions') {
+                useModule('com.android.tools.build:gradle:4.1.0')
+            }
+        }
+    }
+}
+
 def d2v = [
 
         ":axis",
@@ -50,7 +66,7 @@ d2v.forEach {
 //    include ":site"
 //}
 
-def examples = [ 
+def examples = [
 //        ":app",
 //
 //        ":ex-chord",
