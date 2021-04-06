@@ -2,6 +2,7 @@
 
 if (include_android.toBoolean()) {
     apply plugin: 'com.android.library'
+    apply plugin: 'org.jetbrains.kotlin.multiplatform'
     android {
         compileSdkVersion 30
         defaultConfig {
