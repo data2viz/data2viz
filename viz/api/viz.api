@@ -194,7 +194,6 @@ public final class io/data2viz/viz/JfxRectRendererKt {
 }
 
 public final class io/data2viz/viz/JfxVizContainerKt {
-	public static final fun newVizContainer (Ljavafx/scene/layout/Pane;)Lio/data2viz/viz/VizContainer;
 }
 
 public final class io/data2viz/viz/JvmEventHandle : io/data2viz/viz/Disposable {
@@ -722,12 +721,6 @@ public final class io/data2viz/viz/VizConfig {
 	public fun <init> ()V
 	public final fun getAutoUpdate ()Z
 	public final fun setAutoUpdate (Z)V
-}
-
-public abstract interface class io/data2viz/viz/VizContainer {
-	public abstract fun getSize ()Lio/data2viz/geom/Size;
-	public abstract fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
-	public abstract fun setSize (Lio/data2viz/geom/Size;)V
 }
 
 public final class io/data2viz/viz/VizContainer$DefaultImpls {

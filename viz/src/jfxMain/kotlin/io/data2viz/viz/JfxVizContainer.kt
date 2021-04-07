@@ -17,10 +17,19 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
 import io.data2viz.geom.Size
 
 import javafx.scene.canvas.Canvas
 import javafx.scene.layout.Pane
+
+/**
+ * Attach a new [VizContainer] to a [Pane].
+ */
+@ExperimentalD2V
+public fun Pane.newVizContainer(): VizContainer = JfxVizContainer(this)
+
+
 
 internal class JfxVizContainer(private val pane: Pane) : VizContainer {
 
@@ -51,16 +60,8 @@ internal class JfxVizContainer(private val pane: Pane) : VizContainer {
         }
 }
 
-/**
- * Attach a new [VizContainer] to a [Pane].
- */
-public fun Pane.newVizContainer(): VizContainer = JfxVizContainer(this)
-
-
-
 
 private fun Viz.updatePlatformSize() {
-
     (renderer as? JFxVizRenderer)?.run {
         canvas.height = this@updatePlatformSize.height
         canvas.width = this@updatePlatformSize.width

@@ -17,6 +17,7 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
 import io.data2viz.geom.Size
 import kotlinx.browser.document
 import kotlinx.dom.appendElement
@@ -26,11 +27,13 @@ import org.w3c.dom.HTMLDivElement
 /**
  * Attach a new [VizContainer] to a [HTMLDivElement].
  */
+@ExperimentalD2V
 public fun HTMLDivElement.newVizContainer(): VizContainer = JsVizContainer(this)
 
 /**
  * Create a new VizContainer and append it to the document body.
  */
+@ExperimentalD2V
 public fun newVizContainer(): VizContainer {
     val div = document.createElement("div") as HTMLDivElement
     document.body?.appendChild(div)
