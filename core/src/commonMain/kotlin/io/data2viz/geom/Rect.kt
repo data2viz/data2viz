@@ -17,6 +17,12 @@
 
 package io.data2viz.geom
 
+import io.data2viz.ExperimentalD2V
+import io.data2viz.math.Angle
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
+
 public interface Rect: HasSize {
 
     public var x: Double
@@ -68,3 +74,41 @@ public interface Rect: HasSize {
     }
 
 }
+
+/**
+ * Return the "bounding box" of a Rect that has a rotation of rotation radians at the (0,0) coordinates.
+ */
+public fun Rect.boundsWith(rotation: Angle): Rect {
+    if (abs(rotation.normalize().rad) < 1e-3) return RectGeom(x, y, width, height)
+
+    val cos = rotation.cos
+    val sin = rotation.sin
+
+    val rxcos = x * cos
+    val rxsin = x * sin
+    val rwcos = width * cos
+    val rwsin = width * sin
+    val rysin = y * sin
+    val rycos = y * cos
+    val rhcos = height * cos
+    val rhsin = height * sin
+
+    // compute point ABCD of the rotated rectangle
+    val a = Point(rxcos - rysin, rxsin + rycos)
+    val b = Point(a.x + rwcos, a.y + rwsin)
+    val c = Point(b.x - rhsin, b.y + rhcos)
+    val d = Point(a.x - rhsin, a.y + rhcos)
+
+    val minX = min(a.x, min(b.x, min(c.x, d.x)))
+    val minY = min(a.y, min(b.y, min(c.y, d.y)))
+    val maxX = max(a.x, max(b.x, max(c.x, d.x)))
+    val maxY = max(a.y, max(b.y, max(c.y, d.y)))
+
+    return RectGeom(minX, minY, maxX - minX, maxY - minY)
+}
+
+
+/**
+ * Return true if a rect overlap another rect.
+ */
+public fun Rect.overlap(r: Rect):Boolean = left < r.right && right > r.left && top < r.bottom && bottom > r.top
