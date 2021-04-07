@@ -17,6 +17,10 @@ repositories {
     jcenter()
 }
 
+apiValidation {
+    nonPublicMarkers += ["io.data2viz.ExperimentalD2V"]
+}
+
 allprojects {
 
     group = "io.data2viz.d2v"
