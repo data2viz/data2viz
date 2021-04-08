@@ -22,31 +22,52 @@ import android.content.Context
 import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.View
+import io.data2viz.ExperimentalD2V
 import io.data2viz.geom.Size
+import io.data2viz.geom.size
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 
+
+/**
+ *
+ */
 @SuppressLint("ViewConstructor")
+@ExperimentalD2V
 public class VizContainerView(
-    public val viz: Viz, context: Context
+    context: Context
 )
     : View(context), VizContainer {
 
+
+    private val vizs = mutableListOf<Viz>()
+    private val renderers = mutableListOf<AndroidCanvasRenderer>()
+
     override fun newViz(init: Viz.() -> Unit): Viz {
-        TODO("Not yet implemented")
+        val viz = Viz().apply(init)
+        vizs += viz
+
+        val renderer = AndroidCanvasRenderer(context, viz) {
+            //todo stocker la viz à render.
+            invalidate()
+        }
+        renderers += renderer
+        return viz
     }
 
-    override var size: Size
-        get() = TODO("Not yet implemented")
-        set(value) {}
 
-
-    private val renderer: AndroidCanvasRenderer = AndroidCanvasRenderer(context, viz) {
-        invalidate()
-    }
+    override var size: Size = size(100.0, 100.0)
+        get() = field
+        set(value) {
+            field = value
+            vizs.forEach { viz: Viz ->
+                viz.size = value
+            }
+        }
 
 
     private val timers = mutableListOf<Timer>()
+
 
     override fun onDraw(canvas: Canvas) {
         drawCount++
@@ -57,19 +78,18 @@ public class VizContainerView(
             drawCount = -1
         }
 
-        renderer.canvas = canvas
-        renderer.render()
-    }
+        val scale = (width / size.width).toFloat()
+        println("width[${size.width}] ")
 
 
-    /**
-     * Resize viz,
-     * Update the Scale
-     */
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        viz.resize(w.toDouble(), h.toDouble())
-        updateScale()
+        for (i in vizs.indices) {
+            val renderer = renderers[i]
+            renderer.scale = scale
+            renderer.canvas = canvas
+            renderer.render()
+        }
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -77,8 +97,10 @@ public class VizContainerView(
 
         var handled = super.onTouchEvent(event)
         if (!handled) {
-            renderer.onTouchListeners.forEach {
-                it.onTouchEvent(this, event)
+            renderers.forEach{ renderer ->
+                renderer.onTouchListeners.forEach {
+                    it.onTouchEvent(this, event)
+                }
             }
         }
 
@@ -90,29 +112,26 @@ public class VizContainerView(
     /**
      *
      */
-    public fun startAnimations() {
-        if (viz.animationTimers.isNotEmpty()) {
-            viz.animationTimers.forEach { anim ->
-                timers += timer { time ->
-                    anim(time)
-                }
-            }
-            timers += timer {
-                invalidate()
-            }
-        }
-    }
-
-    public fun stopAnimations() {
-        for (timer in timers) {
-            timer.stop()
-        }
-        timers.clear()
-    }
-
-    public fun updateScale() {
-        renderer.scale = (width / viz.width).toFloat()
-    }
+//    public fun startAnimations() {
+//        if (viz.animationTimers.isNotEmpty()) {
+//            viz.animationTimers.forEach { anim ->
+//                timers += timer { time ->
+//                    anim(time)
+//                }
+//            }
+//            timers += timer {
+//                invalidate()
+//            }
+//        }
+//    }
+//
+//    public fun stopAnimations() {
+//        for (timer in timers) {
+//            timer.stop()
+//        }
+//        timers.clear()
+//    }
+//
 
     public var drawCount: Int = -1
     private var startTime = System.currentTimeMillis()
