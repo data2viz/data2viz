@@ -31,7 +31,7 @@ public abstract class Node : Style {
         get() = field
         set(value) {
             field = value
-            style.parent = value
+            (parent as? Style).let { style.parent = it  }
         }
 
     /**
@@ -58,7 +58,7 @@ public abstract class Node : Style {
         parent?.remove(this)
     }
 
-    private val style: HierarchicalStyle = HierarchicalStyle(parent)
+    private val style: HierarchicalStyle = HierarchicalStyle(parent as? Style)
 
     override var fill: ColorOrGradient?
         get() = style.fill

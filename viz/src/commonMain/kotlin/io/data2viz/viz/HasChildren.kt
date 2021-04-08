@@ -25,7 +25,7 @@ package io.data2viz.viz
  *
  * Viz, Group and Layer are parent nodes.
  */
-public interface HasChildren: Style {
+public interface HasChildren {
 
     /**
      * Add a child node

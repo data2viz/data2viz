@@ -42,9 +42,12 @@ import io.data2viz.timer.Timer
  * in account the resolution of the screen, and the configuration of the viz.
  */
 public class Viz(
-    public var activeLayer: Layer = Layer()) : HasChildren by activeLayer, HasSize {
-
+    public var activeLayer: Layer = Layer(),
     private val style: Style = StyleImpl()
+) :
+    Style by style,
+    HasChildren by activeLayer,
+    HasSize {
 
 
     //Style delegation
