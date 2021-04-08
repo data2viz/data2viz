@@ -6,12 +6,12 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 ## 0.8.11
-> Published x Apr 2021
+> Published 9 Apr 2021
 * core: add Rect.boundsWith(rotation) and Rect.overlap(rectangle) functions.
-
+* viz: introduce TextNode.measureText
 
 ## 0.8.10
-> Published 20 Nov 2020
+> Published 27 Jan 2021
 * Time is now based on Instant rather than LocalDateTime, TimeZone is managed.
 * Time module is deprecated.
 * Added new number locales (es_BO, en_IE, en_IN, ...) and fix some issues with old ones

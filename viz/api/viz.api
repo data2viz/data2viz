@@ -76,7 +76,7 @@ public class io/data2viz/viz/GroupNode : io/data2viz/viz/Node, io/data2viz/viz/H
 	public final fun transform (Lkotlin/jvm/functions/Function1;)V
 }
 
-public abstract interface class io/data2viz/viz/HasChildren : io/data2viz/viz/Style {
+public abstract interface class io/data2viz/viz/HasChildren {
 	public abstract fun add (Lio/data2viz/viz/Node;)V
 	public abstract fun circle (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/CircleNode;
 	public abstract fun clear ()V
@@ -628,6 +628,12 @@ public final class io/data2viz/viz/TextNode : io/data2viz/viz/Node, io/data2viz/
 	public final fun setY (D)V
 }
 
+public final class io/data2viz/viz/TextUtilsKt {
+	public static final fun measureText (Lio/data2viz/viz/TextNode;)Lio/data2viz/geom/Rect;
+	public static final fun measureText (Ljava/lang/String;DLio/data2viz/viz/FontFamily;Lio/data2viz/viz/FontWeight;Lio/data2viz/viz/FontPosture;DDLio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;)Lio/data2viz/geom/Rect;
+	public static synthetic fun measureText$default (Ljava/lang/String;DLio/data2viz/viz/FontFamily;Lio/data2viz/viz/FontWeight;Lio/data2viz/viz/FontPosture;DDLio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;ILjava/lang/Object;)Lio/data2viz/geom/Rect;
+}
+
 public final class io/data2viz/viz/TextVAlign : java/lang/Enum {
 	public static final field BASELINE Lio/data2viz/viz/TextVAlign;
 	public static final field HANGING Lio/data2viz/viz/TextVAlign;
@@ -660,10 +666,10 @@ public final class io/data2viz/viz/Translation : io/data2viz/viz/AtomicTransform
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/viz/HasChildren {
+public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/viz/HasChildren, io/data2viz/viz/Style {
 	public fun <init> ()V
-	public fun <init> (Lio/data2viz/viz/Layer;)V
-	public synthetic fun <init> (Lio/data2viz/viz/Layer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lio/data2viz/viz/Layer;Lio/data2viz/viz/Style;)V
+	public synthetic fun <init> (Lio/data2viz/viz/Layer;Lio/data2viz/viz/Style;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun add (Lio/data2viz/viz/Node;)V
 	public final fun animation (Lkotlin/jvm/functions/Function2;)V
 	public fun circle (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/CircleNode;

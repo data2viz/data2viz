@@ -39,7 +39,7 @@ internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
                 paint
             )
         }
-        stroke?.let {
+        strokeColor?.let {
             paint.style = Paint.Style.STROKE
             it.updatePaint(paint, renderer)
             canvas.drawText(
