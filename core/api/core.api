@@ -350,6 +350,11 @@ public final class io/data2viz/geom/RectGeom : io/data2viz/geom/Rect {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/data2viz/geom/RectKt {
+	public static final fun boundsWith-iON_3Lo (Lio/data2viz/geom/Rect;D)Lio/data2viz/geom/Rect;
+	public static final fun overlap (Lio/data2viz/geom/Rect;Lio/data2viz/geom/Rect;)Z
+}
+
 public final class io/data2viz/geom/Size {
 	public fun <init> (DD)V
 	public synthetic fun <init> (DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
