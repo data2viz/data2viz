@@ -5,6 +5,28 @@ apply plugin: 'com.jfrog.bintray'
 
 afterEvaluate {
     publishing {
+
+        repositories {
+            maven {
+                name = "data2viz-public"
+                url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public")
+                credentials {
+                    username = d2v_service_app_id
+                    password = d2v_service_app_secret
+                }
+            }
+        }
+        repositories {
+            maven {
+                name = "data2viz-dev"
+                url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/dev")
+                credentials {
+                    username = d2v_service_app_id
+                    password = d2v_service_app_secret
+                }
+            }
+        }
+
         publications {
             all { publication ->
                 pom.withXml(configureMavenCentralMetadata)
