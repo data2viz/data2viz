@@ -5,6 +5,11 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.12
+> Published 14 Apr 2021
+* fix publication script (missing artifact when using enableGranularSourceSetsMetadata)
+
+
 ## 0.8.11
 > Published 13 Apr 2021
 * core: add Rect.boundsWith(rotation) and Rect.overlap(rectangle) functions.
