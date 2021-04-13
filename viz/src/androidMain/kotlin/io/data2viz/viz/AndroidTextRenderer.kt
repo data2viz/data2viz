@@ -24,7 +24,6 @@ internal fun TextNode.render(renderer: AndroidCanvasRenderer) {
     with(renderer) {
         paint.textAlign = hAlign.android
         paint.textSize = fontSize.dp
-
         paint.typeface = Typeface.create(fontFamily.name, getAndroidStyle(fontWeight, fontStyle))
 
         val dy = vAlign.dy(renderer, paint.fontMetrics)

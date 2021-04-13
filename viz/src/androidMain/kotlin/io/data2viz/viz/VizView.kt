@@ -101,7 +101,7 @@ public class VizView(
     }
 
     public fun updateScale() {
-        renderer.scale = (width / viz.width).toFloat()
+        scale = (width / viz.width).toFloat()
     }
 
     public var drawCount: Int = -1

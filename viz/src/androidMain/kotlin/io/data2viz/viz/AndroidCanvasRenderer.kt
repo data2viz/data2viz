@@ -20,14 +20,45 @@ package io.data2viz.viz
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.view.MotionEvent
 import android.view.View
+import io.data2viz.geom.Rect
+import io.data2viz.geom.RectGeom
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 
 
+private typealias AndroidRect = android.graphics.Rect
+
+
 internal val paint = Paint().apply {
     isAntiAlias = true
+}
+
+internal var scale = 1f
+
+public val Double.dp: Float
+    get() = (this * scale).toFloat()
+
+
+internal actual fun textMeasure(
+    text: String,
+    fontSize: Double,
+    fontFamily: FontFamily,
+    fontWeight: FontWeight,
+    fontStyle: FontPosture
+): Rect {
+
+    val bounds = AndroidRect()
+    paint.textSize = fontSize.toFloat()
+    paint.typeface = Typeface.create(fontFamily.name, getAndroidStyle(fontWeight, fontStyle))
+    paint.getTextBounds(text, 0, text.length, bounds)
+    //todo implementation
+    return RectGeom(
+        width = bounds.width().toDouble(),
+        height = bounds.height().toDouble()
+    )
 }
 
 
@@ -49,9 +80,6 @@ public class AndroidCanvasRenderer(
 
     override val viz: Viz,
 
-    /**
-     *
-     */
     public var canvas: Canvas = Canvas(),
 
     /**
@@ -65,7 +93,6 @@ public class AndroidCanvasRenderer(
 
     public val onTouchListeners: MutableList<VizTouchListener> = mutableListOf<VizTouchListener>()
 
-    public var scale: Float = 1F
 
     private val animationTimers = mutableListOf<Timer>()
 
@@ -75,14 +102,22 @@ public class AndroidCanvasRenderer(
     }
 
     /**
-     *
+     * On the Android platform the rendering is not done directly.
+     * Instead we call, through the callback, an invalidate of the view
+     * that launch the onDraw
      */
     override fun render() {
+        renderCallback()
+    }
+
+    /**
+     * The real rendering
+     */
+    internal fun draw() {
         viz.layers.forEach { layer ->
             if (layer.visible)
                 layer.render(this)
         }
-        renderCallback()
     }
 
     override fun startAnimations() {
@@ -101,9 +136,5 @@ public class AndroidCanvasRenderer(
     override fun stopAnimations() {
         animationTimers.forEach { it.stop() }
     }
-
-
-    public val Double.dp: Float
-        get() = (this * scale).toFloat()
 
 }

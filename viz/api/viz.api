@@ -729,6 +729,12 @@ public final class io/data2viz/viz/VizConfig {
 	public final fun setAutoUpdate (Z)V
 }
 
+public abstract interface class io/data2viz/viz/VizContainer {
+	public abstract fun getSize ()Lio/data2viz/geom/Size;
+	public abstract fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
+	public abstract fun setSize (Lio/data2viz/geom/Size;)V
+}
+
 public final class io/data2viz/viz/VizContainer$DefaultImpls {
 	public static synthetic fun newViz$default (Lio/data2viz/viz/VizContainer;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/viz/Viz;
 }

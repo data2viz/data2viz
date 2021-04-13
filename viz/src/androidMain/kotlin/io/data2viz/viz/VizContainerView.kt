@@ -33,8 +33,7 @@ import io.data2viz.timer.timer
  *
  */
 @SuppressLint("ViewConstructor")
-@ExperimentalD2V
-public class VizContainerView(
+public open class VizContainerView(
     context: Context
 )
     : View(context), VizContainer {
@@ -60,14 +59,30 @@ public class VizContainerView(
         get() = field
         set(value) {
             field = value
+            updateScale()
             vizs.forEach { viz: Viz ->
                 viz.size = value
             }
         }
 
-
+//    private var _scale: Float = 1f
+//
+//    internal val scale: Float
+//        get() = _scale
+//
     private val timers = mutableListOf<Timer>()
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        updateScale()
+    }
+
+    /**
+     * Update the scale
+     */
+    private fun updateScale() {
+        scale = (width / size.width).toFloat()
+    }
 
     override fun onDraw(canvas: Canvas) {
         drawCount++
@@ -78,15 +93,14 @@ public class VizContainerView(
             drawCount = -1
         }
 
-        val scale = (width / size.width).toFloat()
+
         println("width[${size.width}] ")
 
 
         for (i in vizs.indices) {
             val renderer = renderers[i]
-            renderer.scale = scale
             renderer.canvas = canvas
-            renderer.render()
+            renderer.draw()
         }
     }
 
