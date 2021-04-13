@@ -6,9 +6,11 @@ a visualization and retrieve position during different events: move, click, doub
 This version also includes some major internal modifications on the Geo module.
 
 ## 0.8.11
-> Published 9 Apr 2021
+> Published 13 Apr 2021
 * core: add Rect.boundsWith(rotation) and Rect.overlap(rectangle) functions.
 * viz: introduce TextNode.measureText
+* viz: introduce VizContainer (#215)
+* deploy on Space instead of JCenter.
 
 ## 0.8.10
 > Published 27 Jan 2021
