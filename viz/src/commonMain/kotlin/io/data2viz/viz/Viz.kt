@@ -49,51 +49,6 @@ public class Viz(
     HasChildren by activeLayer,
     HasSize {
 
-
-    //Style delegation
-    override var fill: ColorOrGradient?
-        get() = style.fill
-        set(value) {
-            style.fill = value
-        }
-
-    @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
-    override var stroke: ColorOrGradient?
-        get() = style.strokeColor
-        set(value) {
-            style.strokeColor = value
-        }
-
-    override var dashedLine: DoubleArray?
-        get() = style.dashedLine
-        set(value) {
-            style.dashedLine = value
-        }
-
-    override var strokeWidth: Double?
-        get() = style.strokeWidth
-        set(value) {
-            style.strokeWidth = value
-        }
-
-    override var textColor: ColorOrGradient?
-        get() = style.textColor
-        set(value) {
-            style.textColor = value
-        }
-
-    override var hAlign: TextHAlign
-        get() = style.hAlign
-        set(value) {
-            style.hAlign = value
-        }
-
-    override var vAlign: TextVAlign
-        get() = style.vAlign
-        set(value) {
-            style.vAlign = value
-        }
-
     init {
         activeLayer.parent = this
         textColor = Colors.Web.black

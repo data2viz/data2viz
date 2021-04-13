@@ -23,7 +23,7 @@ import io.data2viz.ExperimentalD2V
 /**
  * A VizContainer allows to create superposed Viz with the sames size through the [newViz] function.
  *
- * The VizContainer is bound to a platform element (Pane for JFX, Div for JS).
+ * The VizContainer is bound to a platform element (View for Android, Pane for JFX, Div for JS).
  *
  * The [size] of the VizContainer is synchronized with the size of its underlying platform element.
  * The VizContainer takes the size of the platform element when it's created. Later modification of size
@@ -39,7 +39,6 @@ import io.data2viz.ExperimentalD2V
  *
  * Linked to a platform element that can hold multiple canvas.
  */
-@ExperimentalD2V
 public interface VizContainer {
 
     /**
