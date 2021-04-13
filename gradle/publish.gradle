@@ -1,28 +1,28 @@
 apply plugin: 'base'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 
 afterEvaluate {
     publishing {
-
-        repositories {
-            maven {
-                name = "data2viz-public"
-                url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public")
-                credentials {
-                    username = d2v_service_app_id
-                    password = d2v_service_app_secret
+        if (project.hasProperty("d2v_service_app_id")) {
+            repositories {
+                maven {
+                    name = "data2viz-public"
+                    url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public")
+                    credentials {
+                        username = d2v_service_app_id
+                        password = d2v_service_app_secret
+                    }
                 }
             }
-        }
-        repositories {
-            maven {
-                name = "data2viz-dev"
-                url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/dev")
-                credentials {
-                    username = d2v_service_app_id
-                    password = d2v_service_app_secret
+            repositories {
+                maven {
+                    name = "data2viz-dev"
+                    url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/dev")
+                    credentials {
+                        username = d2v_service_app_id
+                        password = d2v_service_app_secret
+                    }
                 }
             }
         }
@@ -49,40 +49,6 @@ afterEvaluate {
                         publication.artifactId = "$project.name-$type"
                         break
                 }
-            }
-        }
-    }
-}
-
-// Workaround for upload of module.json file, remove when issue fixed https://github.com/bintray/gradle-bintray-plugin/issues/229
-bintrayUpload.doFirst {
-    publishing.publications.all { publication ->
-        def moduleFile = file("$buildDir/publications/$publication.name/module.json")
-        if (moduleFile.exists()) {
-            artifact(moduleFile) {
-                extension = "module"
-            }
-        }
-    }
-}
-
-bintrayUpload.dependsOn publishToMavenLocal
-
-if (project.hasProperty("bintray.user")) {
-    bintray {
-        user = project.property('bintray.user')
-        key = project.property('bintray.key')
-        publications = ['kotlinMultiplatform', 'js', 'jfx', 'jvm', 'androidDebug', 'androidRelease', 'metadata']
-        dryRun = false
-        pkg {
-            repo = 'data2viz'
-            name = 'data2viz'
-            userOrg = 'data2viz'
-            licenses = ['Apache-2.0']
-            vcsUrl = 'https://github.com/data2viz/data2viz.git'
-            version {
-                name = project.version
-                vcsTag = "v${project.version}"
             }
         }
     }

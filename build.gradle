@@ -1,6 +1,5 @@
 buildscript {
     dependencies {
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
         classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.2.4"
     }
 }
@@ -41,5 +40,5 @@ allprojects {
 // --------------- Configure sub-projects that are published ---------------
 
 subprojects {
-    apply from: rootProject.file("gradle/publish-bintray.gradle")
+    apply from: rootProject.file("gradle/publish.gradle")
 }
