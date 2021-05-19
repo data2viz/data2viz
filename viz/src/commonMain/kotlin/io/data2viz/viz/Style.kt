@@ -35,6 +35,10 @@ public interface Style {
     public var strokeColor: ColorOrGradient?
     public var strokeWidth: Double?
     public var textColor: ColorOrGradient?
+
+    /**
+     * The dashedLine can be set to null or to an array of a minimal size of 2.
+     */
     public var dashedLine: DoubleArray?
 
     @Deprecated("Use hAlign", ReplaceWith("hAlign"))
@@ -54,7 +58,14 @@ internal class StyleImpl: Style {
     @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
     override var stroke: ColorOrGradient? = strokeColor
 
-    override var dashedLine: DoubleArray? = doubleArrayOf()
+    override var dashedLine: DoubleArray? = null
+        get() = field
+        set(value) {
+            require( value == null || (value.size > 1) )
+                { "The dashedLine can be set to null or to an array of a minimal size of 2." }
+            field = value
+        }
+
     override var textColor: ColorOrGradient? = null
     override var strokeWidth: Double? = 1.0
     override var hAlign: TextHAlign = TextHAlign.LEFT

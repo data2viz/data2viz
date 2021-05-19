@@ -17,7 +17,11 @@
 
 package io.data2viz.viz
 
+import android.graphics.DashPathEffect
 import kotlin.math.*
+
+
+private fun DoubleArray.toFloat(): FloatArray = FloatArray(size) { this[it].toFloat()}
 
 public fun GroupNode.render(renderer: AndroidCanvasRenderer) {
 
@@ -35,9 +39,15 @@ public fun GroupNode.render(renderer: AndroidCanvasRenderer) {
                 }
             }
 
+            var dashedSet = false
 
             if (node is HasStroke) {
                 paint.strokeWidth = (node.strokeWidth ?: 1.0).toFloat()
+                node.dashedLine?.let {
+                    paint.pathEffect = DashPathEffect(it.toFloat(), 0f)
+                    dashedSet = true
+                }
+
             }
 
             if (node.visible)
@@ -51,6 +61,10 @@ public fun GroupNode.render(renderer: AndroidCanvasRenderer) {
                     is ImageNode -> node.render(renderer)
                     else -> error("Unknow type ${node::class}")
                 }
+
+            if (dashedSet) {
+                paint.pathEffect = null
+            }
 
             if (node is HasTransform && node.transform != null) {
                 node.transform!!.transformations.reversed().forEach {
