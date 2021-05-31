@@ -55,6 +55,17 @@ public open class KPointerEvent(
 }
 
 /**
+ * Common Dual Pointer event. Can be subclassed into more specific events.
+ * Gives access to the position of the event.
+ */
+public open class KDualPointerEvent(
+    public val pos0: Point,
+    public val pos1: Point
+) : KEvent {
+    override fun toString(): String = "KDualPointerEvent(pos0=$pos0, pos1=$pos1)"
+}
+
+/**
  * Pointer events for platform with Mouse input device.
  * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
  * Used in JFX & JS implementations. Android implementation use common KPointerEvent
@@ -69,6 +80,8 @@ public class KMouseEvent(
     override fun toString(): String = "KMouseEvent(pos=$pos)"
 }
 
+
+// TODO : manage "velocity" and "drag event"
 
 public interface KEventListener<T> where  T : KEvent {
     public fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
@@ -96,6 +109,18 @@ public expect class KTouchEnd {
 
 public expect class KTouchMove {
     public companion object TouchMoveEventListener : KEventListener<KPointerEvent>
+}
+
+public expect class KDualTouchStart {
+    public companion object TouchStartEventListener : KEventListener<KDualPointerEvent>
+}
+
+public expect class KDualTouchEnd {
+    public companion object TouchEndEventListener : KEventListener<KDualPointerEvent>
+}
+
+public expect class KDualTouchMove {
+    public companion object TouchMoveEventListener : KEventListener<KDualPointerEvent>
 }
 
 public expect class KPointerEnter {
@@ -132,12 +157,14 @@ public expect class KZoom {
     public companion object ZoomEventListener : KEventListener<KZoomEvent>
 }
 
-
 @ExperimentalKEvent
 public class KZoomEvent(
     public val startZoomPos: Point,
-    public val delta: Double
+    public val deltaX: Double,
+    public val deltaY: Double
 ) : KEvent {
+
+    public constructor(startZoomPos: Point, delta: Double) : this(startZoomPos, delta, delta)
 
     public companion object {
 
@@ -186,7 +213,7 @@ public class KZoomEvent(
     }
 
     override fun toString(): String {
-        return "KZoomEvent(startZoomPos=$startZoomPos, delta=$delta)"
+        return "KZoomEvent(startZoomPos=$startZoomPos, deltaX=$deltaX, deltaY=$deltaY)"
     }
 
 }

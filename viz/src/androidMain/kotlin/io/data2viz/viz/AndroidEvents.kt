@@ -22,10 +22,13 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import io.data2viz.geom.Point
+import kotlin.math.abs
 
 
 private val emptyDisposable = object : Disposable { override fun dispose() {} }
+private val epsilon = 1.0e-3
 
+private val vt = android.view.VelocityTracker.obtain()
 
 public actual class KTouchStart {
     public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
@@ -45,6 +48,27 @@ public actual class KTouchMove {
     public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             addSingleTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
+    }
+}
+
+public actual class KDualTouchStart {
+    public actual companion object TouchStartEventListener : KEventListener<KDualPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit): Disposable =
+            addDualTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_DOWN)
+    }
+}
+
+public actual class KDualTouchEnd {
+    public actual companion object TouchEndEventListener : KEventListener<KDualPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit): Disposable =
+            addDualTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_UP)
+    }
+}
+
+public actual class KDualTouchMove {
+    public actual companion object TouchMoveEventListener : KEventListener<KDualPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit): Disposable =
+            addDualTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
     }
 }
 
@@ -142,16 +166,8 @@ public actual class KPointerDoubleClick {
 @ExperimentalKEvent
 public actual class KZoom {
     public actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
-        public const val minZoomDeltaValue: Double = -100.0
-        public const val maxZoomDeltaValue: Double = 100.0
-
-
-        public var lastZoomTime: Long? = null
-
-        public lateinit var zoomStartPoint: Point
 
         override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
-
 
             val androidCanvasRenderer = target as AndroidCanvasRenderer
             val gestureDetector = ScaleGestureDetector(
@@ -166,30 +182,34 @@ public actual class KZoom {
                     }
 
                     override fun onScale(detector: ScaleGestureDetector): Boolean {
-                        val diffSpan = (detector.currentSpan - detector.previousSpan).toDouble()
+                        var scaleFactorX = .0
+                        var scaleFactorY = .0
+                        val minSpanX = 50.0
+                        val minSpanY = 50.0
 
-                        val currentTime = System.currentTimeMillis()
-                        if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
-                            zoomStartPoint = Point(detector.focusX.toDouble(), detector.focusY.toDouble())
+                        val zoomStartPoint = Point(detector.focusX.toDouble(), detector.focusY.toDouble())
+
+                        if (abs(detector.currentSpanX) > minSpanX) {
+                            scaleFactorX = (detector.currentSpanX / detector.previousSpanX) - 1.0
                         }
-                        lastZoomTime = currentTime
+                        if (abs(detector.currentSpanY) > minSpanY) {
+                            scaleFactorY = (detector.currentSpanY / detector.previousSpanY) - 1.0
+                        }
 
-                        listener(
-                            KZoomEvent(
-                                zoomStartPoint,
-                                KZoomEvent.scaleDelta(diffSpan, minZoomDeltaValue, maxZoomDeltaValue)
-                            )
-                        )
-
+                        if (abs(scaleFactorX) > epsilon && abs(scaleFactorY) > epsilon) {
+                            listener(KZoomEvent(zoomStartPoint, scaleFactorX, scaleFactorY))
+                        }
                         return true
                     }
-
                 })
+
+
             val gestureDetectorVizTouchListener = object : VizTouchListener {
                 override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
                     return gestureDetector.onTouchEvent(event)
                 }
             }
+
             return AndroidEventHandle(androidCanvasRenderer, gestureDetectorVizTouchListener).also { it.init() }
         }
     }
@@ -212,11 +232,9 @@ private fun checkIsViewInBounds(
     return isInBounds
 }
 
-private fun addSingleTouchAndroidEventHandle(
-    target: Any,
-    listener: (KPointerEvent) -> Unit,
-    action: Int
-): AndroidActionEventHandle {
+private fun addSingleTouchAndroidEventHandle(target: Any, listener: (KPointerEvent) -> Unit, action: Int):
+    AndroidActionEventHandle {
+
     val renderer = target as AndroidCanvasRenderer
 
     val handler = object : VizTouchListener {
@@ -226,6 +244,29 @@ private fun addSingleTouchAndroidEventHandle(
             if (event?.pointerCount == 1) {
                 if (event.action == action) {
                     val kevent = event.toKMouseEvent()
+                    listener(kevent)
+                }
+            }
+
+            return true
+        }
+    }
+
+    return AndroidActionEventHandle(renderer, action, handler).also { it.init() }
+}
+
+private fun addDualTouchAndroidEventHandle(target: Any, listener: (KDualPointerEvent) -> Unit, action: Int):
+    AndroidActionEventHandle {
+
+    val renderer = target as AndroidCanvasRenderer
+
+    val handler = object : VizTouchListener {
+        override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
+
+            // Simple events only for dual touch
+            if (event?.pointerCount == 2) {
+                if (event.action == action) {
+                    val kevent = event.toDualPointerEvent()
                     listener(kevent)
                 }
             }
@@ -300,7 +341,6 @@ public abstract class DetectClickVizTouchListener : VizTouchListener {
                 if (timeActionDown != null) {
                     val diff = System.currentTimeMillis() - timeActionDown
                     if (diff < maxTimeDiffForDetectClick) {
-
                         onClick(event)
                     }
                 }
@@ -330,7 +370,6 @@ public abstract class DetectDoubleClickVizTouchListener :
             val diffClicks = now - timeClick
             if (diffClicks < maxTimeDiffForDetectDoubleClick) {
                 onDoubleClick(event)
-
             }
         }
         lastTimeClick = now
@@ -338,15 +377,13 @@ public abstract class DetectDoubleClickVizTouchListener :
 
 }
 
-
 internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
-
     val androidCanvasRenderer = this as AndroidCanvasRenderer
     return handle.eventListener.addNativeListener(androidCanvasRenderer, handle.listener)
 }
 
-
-private fun MotionEvent.toKMouseEvent(): KPointerEvent =
-    KPointerEvent(
-        Point(x.toDouble(), y.toDouble())
-    )
+private fun MotionEvent.toKMouseEvent(): KPointerEvent = KPointerEvent(Point(x.toDouble(), y.toDouble()))
+private fun MotionEvent.toDualPointerEvent(): KDualPointerEvent = KDualPointerEvent(
+    Point(getX(0).toDouble(), getY(0).toDouble()),
+    Point(getX(1).toDouble(), getY(1).toDouble())
+)

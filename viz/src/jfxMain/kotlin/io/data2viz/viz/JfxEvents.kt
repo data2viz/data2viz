@@ -47,6 +47,24 @@ public actual class KTouchMove {
     }
 }
 
+public actual class KDualTouchStart {
+    public actual companion object TouchStartEventListener : KEventListener<KDualPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit) = emptyDisposable
+    }
+}
+
+public actual class KDualTouchEnd {
+    public actual companion object TouchEndEventListener : KEventListener<KDualPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit) = emptyDisposable
+    }
+}
+
+public actual class KDualTouchMove {
+    public actual companion object TouchMoveEventListener : KEventListener<KDualPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit) = emptyDisposable
+    }
+}
+
 public actual class KMouseDown {
     public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
