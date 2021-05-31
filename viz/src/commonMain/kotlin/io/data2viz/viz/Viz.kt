@@ -159,14 +159,17 @@ public interface StateableElement {
  */
 public class Transform {
 
-    internal val transformations = mutableListOf<AtomicTransformation>()
+    public val transformations: List<AtomicTransformation>
+        get() = _transformations
+
+    private val _transformations = mutableListOf<AtomicTransformation>()
 
     public fun translate(x: Double = 0.0, y: Double = 0.0) {
-        transformations.add(Translation(x, y))
+        _transformations.add(Translation(x, y))
     }
 
     public fun rotate(delta: Double) {
-        transformations.add(Rotation(delta))
+        _transformations.add(Rotation(delta))
     }
 
 }

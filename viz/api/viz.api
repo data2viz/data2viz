@@ -247,6 +247,40 @@ public final class io/data2viz/viz/KDragEvent$KDragAction : java/lang/Enum {
 	public static fun values ()[Lio/data2viz/viz/KDragEvent$KDragAction;
 }
 
+public class io/data2viz/viz/KDualPointerEvent : io/data2viz/viz/KEvent {
+	public fun <init> (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)V
+	public final fun getPos0 ()Lio/data2viz/geom/Point;
+	public final fun getPos1 ()Lio/data2viz/geom/Point;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/KDualTouchEnd {
+	public static final field TouchEndEventListener Lio/data2viz/viz/KDualTouchEnd$TouchEndEventListener;
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KDualTouchEnd$TouchEndEventListener : io/data2viz/viz/KEventListener {
+	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
+}
+
+public final class io/data2viz/viz/KDualTouchMove {
+	public static final field TouchMoveEventListener Lio/data2viz/viz/KDualTouchMove$TouchMoveEventListener;
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KDualTouchMove$TouchMoveEventListener : io/data2viz/viz/KEventListener {
+	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
+}
+
+public final class io/data2viz/viz/KDualTouchStart {
+	public static final field TouchStartEventListener Lio/data2viz/viz/KDualTouchStart$TouchStartEventListener;
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KDualTouchStart$TouchStartEventListener : io/data2viz/viz/KEventListener {
+	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
+}
+
 public abstract interface class io/data2viz/viz/KEvent {
 }
 
@@ -392,7 +426,9 @@ public final class io/data2viz/viz/KZoomEvent : io/data2viz/viz/KEvent {
 	public static final field maxDelta D
 	public static final field minDelta D
 	public fun <init> (Lio/data2viz/geom/Point;D)V
-	public final fun getDelta ()D
+	public fun <init> (Lio/data2viz/geom/Point;DD)V
+	public final fun getDeltaX ()D
+	public final fun getDeltaY ()D
 	public final fun getStartZoomPos ()Lio/data2viz/geom/Point;
 	public fun toString ()Ljava/lang/String;
 }
@@ -644,6 +680,7 @@ public final class io/data2viz/viz/TextVAlign : java/lang/Enum {
 
 public final class io/data2viz/viz/Transform {
 	public fun <init> ()V
+	public final fun getTransformations ()Ljava/util/List;
 	public final fun rotate (D)V
 	public final fun translate (DD)V
 	public static synthetic fun translate$default (Lio/data2viz/viz/Transform;DDILjava/lang/Object;)V
