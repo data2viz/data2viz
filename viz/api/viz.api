@@ -767,6 +767,7 @@ public final class io/data2viz/viz/VizConfig {
 }
 
 public abstract interface class io/data2viz/viz/VizContainer {
+	public abstract fun getDensity ()D
 	public abstract fun getSize ()Lio/data2viz/geom/Size;
 	public abstract fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
 	public abstract fun setSize (Lio/data2viz/geom/Size;)V

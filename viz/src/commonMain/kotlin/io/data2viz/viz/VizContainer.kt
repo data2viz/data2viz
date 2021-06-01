@@ -50,4 +50,6 @@ public interface VizContainer {
      * The size of this [VizContainer], on change updates the underlying platform element and the existing canvas.
      */
     public var size: Size
+
+    public val density: Double
 }

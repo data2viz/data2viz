@@ -45,6 +45,7 @@ internal class JsVizContainer(private val div: HTMLDivElement) : VizContainer {
 
     private val allViz = mutableListOf<Viz>()
 
+    public override val density: Double = 1.0
 
     override var size: Size = Size(100.0, 100.0)
         set(value) {
