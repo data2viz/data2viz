@@ -18,10 +18,11 @@
 package io.data2viz.shape
 
 import io.data2viz.geom.Path
+import io.data2viz.geom.Point
 import io.data2viz.shape.symbol.*
 
 public interface Symbol {
-    public fun <C : Path> render(path: C, size: Double): C
+    public fun <C : Path> render(path: C, size: Double, position: Point = Point.origin): C
 }
 
 public enum class Symbols {
