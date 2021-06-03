@@ -97,10 +97,6 @@ public open class VizContainerView(
             drawCount = -1
         }
 
-
-        println("width[${size.width}] ")
-
-
         for (i in vizs.indices) {
             val renderer = renderers[i]
             renderer.canvas = canvas
