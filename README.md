@@ -103,6 +103,83 @@ you can browse existing sample, modify them online and immediately
 see the result. 
 
 
+## Using in your projects
+
+> Note that the library is experimental, and the API is subject to change.
+
+The library is published to data2viz space repository.
+
+
+
+### Gradle
+
+- Add the data2viz maven repository:
+
+```kotlin
+repositories {
+    maven { url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public") }
+}
+```
+
+- In multiplatform projects, add a dependency to the commonMain source set dependencies
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain {
+             dependencies {
+                 implementation("io.data2viz.d2v:axis:0.8.12")
+                 implementation("io.data2viz.d2v:chord:0.8.12")
+                 implementation("io.data2viz.d2v:color:0.8.12")
+                 implementation("io.data2viz.d2v:contour:0.8.12")
+                 implementation("io.data2viz.d2v:delaunay:0.8.12")
+                 implementation("io.data2viz.d2v:dsv:0.8.12")
+                 implementation("io.data2viz.d2v:ease:0.8.12")
+                 implementation("io.data2viz.d2v:force:0.8.12")
+                 implementation("io.data2viz.d2v:format:0.8.12")
+                 implementation("io.data2viz.d2v:geo:0.8.12")
+                 implementation("io.data2viz.d2v:hexbin:0.8.12")
+                 implementation("io.data2viz.d2v:hierarchy:0.8.12")
+                 implementation("io.data2viz.d2v:quadtree:0.8.12")
+                 implementation("io.data2viz.d2v:random:0.8.12")
+                 implementation("io.data2viz.d2v:scale:0.8.12")
+                 implementation("io.data2viz.d2v:shape:0.8.12")
+                 implementation("io.data2viz.d2v:tile:0.8.12")
+                 implementation("io.data2viz.d2v:time:0.8.12")
+                 implementation("io.data2viz.d2v:timer:0.8.12")
+                 implementation("io.data2viz.d2v:viz:0.8.12")
+             }
+        }
+    }
+}
+```
+
+- To use the library in a single-platform project, add a dependency to the dependencies block.
+
+```groovy
+dependencies {
+    implementation("io.data2viz.d2v:axis:0.8.12")
+    implementation("io.data2viz.d2v:chord:0.8.12")
+    implementation("io.data2viz.d2v:color:0.8.12")
+    implementation("io.data2viz.d2v:contour:0.8.12")
+    implementation("io.data2viz.d2v:delaunay:0.8.12")
+    implementation("io.data2viz.d2v:dsv:0.8.12")
+    implementation("io.data2viz.d2v:ease:0.8.12")
+    implementation("io.data2viz.d2v:force:0.8.12")
+    implementation("io.data2viz.d2v:format:0.8.12")
+    implementation("io.data2viz.d2v:geo:0.8.12")
+    implementation("io.data2viz.d2v:hexbin:0.8.12")
+    implementation("io.data2viz.d2v:hierarchy:0.8.12")
+    implementation("io.data2viz.d2v:quadtree:0.8.12")
+    implementation("io.data2viz.d2v:random:0.8.12")
+    implementation("io.data2viz.d2v:scale:0.8.12")
+    implementation("io.data2viz.d2v:shape:0.8.12")
+    implementation("io.data2viz.d2v:tile:0.8.12")
+    implementation("io.data2viz.d2v:time:0.8.12")
+    implementation("io.data2viz.d2v:timer:0.8.12")
+    implementation("io.data2viz.d2v:viz:0.8.12")
+}
+```
+
 ## Current status and roadmap
 
 APIs are mostly stabilized now, but there may still be some breaking changes before v1.0.
