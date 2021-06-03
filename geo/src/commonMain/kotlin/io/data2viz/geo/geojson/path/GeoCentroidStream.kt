@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -59,7 +59,7 @@ public class GeoCentroidStream : Stream {
     private var currentLineStart: () -> Unit = ::centroidLineStart
     private var currentLineEnd: () -> Unit = ::centroidLineEnd
 
-    
+
     public fun result(geo: GeoJsonObject): DoubleArray {
         _W0 = .0
         _W1 = .0

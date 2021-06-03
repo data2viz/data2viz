@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -83,9 +83,9 @@ class ScaleQuantizeTests : TestBase() {
     fun quantize_range_cardinality_determines_degre_of_quantization() {
         val scale = Scales.Quantized.quantize<Double>()
         val aThird = 1.0 / 3.0
-        
-        
-        fun doubleRange(to:Double, step: Double):List<Double>  = 
+
+
+        fun doubleRange(to:Double, step: Double):List<Double>  =
             (0..(to/step).toInt()).fold(mutableListOf<Double>()) { r,t-> r.apply { add(step*t) }}
 
         scale.range = doubleRange(1.000, 0.001); scale(aThird) shouldBeClose .333

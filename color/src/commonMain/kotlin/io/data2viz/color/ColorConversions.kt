@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,7 +17,10 @@
 
 package io.data2viz.color
 
-import io.data2viz.math.*
+import io.data2viz.math.Angle
+import io.data2viz.math.Percent
+import io.data2viz.math.deg
+import io.data2viz.math.pct
 import kotlin.math.*
 
 /**

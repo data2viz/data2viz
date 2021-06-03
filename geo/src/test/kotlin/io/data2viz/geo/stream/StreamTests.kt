@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -324,7 +324,7 @@ class StreamTests : TestBase() {
         ).stream(object : Stream {
 
             override fun point(x: Double, y: Double, z: Double) {
-                x shouldBeClose 1.0 
+                x shouldBeClose 1.0
                 y shouldBeClose 2.0
                 z shouldBeClose 3.0
                 calls++
@@ -343,7 +343,7 @@ class StreamTests : TestBase() {
         ).stream(object : Stream {
 
             override fun point(x: Double, y: Double, z: Double) {
-                x shouldBeClose 1.0 
+                x shouldBeClose 1.0
                 y shouldBeClose 2.0
                 z shouldBeClose 3.0
                 calls++

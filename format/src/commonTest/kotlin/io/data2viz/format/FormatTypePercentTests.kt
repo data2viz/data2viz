@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 
 class FormatTypePercentTests : TestBase() {
-  
+
     @Test
     fun format_percent_can_output_a_whole_percentage() {
         val f = formatter(".0%")

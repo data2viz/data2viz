@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ class FormatTest : TestDate() {
         formatter(TimeZone.UTC, date(1860, 6, 1, 0, 0, 0, 0)) shouldBe "June"
         formatter(TimeZone.UTC, date(1860, 1, 1, 0, 0)) shouldBe "1860"
     }
-    
+
     @Test
     fun format_date() {
         val formatter = format("%c")
@@ -50,7 +50,7 @@ class FormatTest : TestDate() {
         formatter(date(1995, 1, 5, 0, 0)) shouldBe "1/5/1995, 12:00:00 AM"
     }
 
-    
+
     @Test
     fun format_date_a_returns_abbreviated_weekdays() {
         val formatter = format("%a")
@@ -64,7 +64,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 1, 7, 0, 0)) shouldBe "Sun"
     }
 
-    
+
     @Test
     fun format_date_A_returns_weekdays() {
         val formatter = format("%A")
@@ -78,7 +78,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 1, 7, 0, 0)) shouldBe "Sunday"
     }
 
-    
+
     @Test
     fun format_date_b_returns_abbreviated_months() {
         val formatter = format("%b")
@@ -97,7 +97,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 12, 1, 0, 0)) shouldBe "Dec"
     }
 
-    
+
     @Test
     fun format_date_B_returns_months() {
         val formatter = format("%B")
@@ -116,7 +116,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 12, 1, 0, 0)) shouldBe "December"
     }
 
-    
+
     @Test
     fun format_date_c_returns_format_localized_date_and_time() {
         val formatter = format("%c")
@@ -124,7 +124,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 1, 1, 0, 0)) shouldBe "1/1/1990, 12:00:00 AM"
     }
 
-    
+
     @Test
     fun format_date_d_returns_zero_padded_dates() {
         val formatter = format("%d")
@@ -132,7 +132,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 1, 1, 0, 0)) shouldBe "01"
     }
 
-    
+
     @Test
     fun format_date_e_returns_space_padded_dates() {
         val formatter = format("%e")
@@ -140,7 +140,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 1, 1, 0, 0)) shouldBe " 1"
     }
 
-    
+
     @Test
     fun format_date_H_returns_zero_padded_24_hours() {
         val formatter = format("%H")
@@ -149,7 +149,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 1, 1, 13, 0, 0)) shouldBe "13"
     }
 
-    
+
     @Test
     fun format_date_I_returns_zero_padded_12_hours() {
         val formatter = format("%I")
@@ -158,7 +158,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 1, 1, 13, 0, 0)) shouldBe "01"
     }
 
-    
+
     @Test
     fun format_date_j_returns_zero_padded_day_of_year_numbers() {
         val formatter = format("%j")
@@ -173,7 +173,7 @@ class FormatTest : TestDate() {
         formatter(date(2010, 11, 8, 0, 0)) shouldBe "312"
     }
 
-    
+
     @Test
     fun format_date_m_returns_zero_padded_months() {
         val formatter = format("%m")
@@ -182,7 +182,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 10, 1, 0, 0)) shouldBe "10"
     }
 
-    
+
     @Test
     fun format_date_M_returns_zero_padded_minutes() {
         val formatter = format("%M")
@@ -191,7 +191,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 10, 1, 0, 32)) shouldBe "32"
     }
 
-    
+
     @Test
     fun format_date_p_returns_AM_or_PM() {
         val formatter = format("%p")
@@ -200,7 +200,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 10, 1, 13, 0, 0)) shouldBe "PM"
     }
 
-    
+
     @Test
     fun format_date_S_returns_zero_padded_seconds() {
         val formatter = format("%S")
@@ -212,7 +212,7 @@ class FormatTest : TestDate() {
         formatter2(date(1990, 10, 1, 0, 0, 32)) shouldBe "32"
     }
 
-    
+
     @Test
     fun format_date_undescore_S_returns_space_padded_seconds() {
         val formatter = format("%_S")
@@ -222,7 +222,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 10, 1, 0, 0, 32)) shouldBe "32"
     }
 
-    
+
     @Test
     fun format_date_minus_S_returns_no_padded_seconds() {
         val formatter = format("%-S")
@@ -232,7 +232,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 10, 1, 0, 0, 32)) shouldBe "32"
     }
 
-    
+
     @Test
     fun format_date_L_returns_zero_padded_milliseconds() {
         val formatter = format("%L")
@@ -258,7 +258,7 @@ class FormatTest : TestDate() {
         formatter(date(2010, 11, 8, 0)) shouldBe "45"
     }*/
 
-    
+
     @Test
     fun format_date_x_returns_format_localized_date() {
         val formatter = format("%x")
@@ -267,7 +267,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 6, 1, 0, 0)) shouldBe "6/1/1990"
     }
 
-    
+
     @Test
     fun format_date_X_returns_format_localized_time() {
         val formatter = format("%X")
@@ -276,7 +276,7 @@ class FormatTest : TestDate() {
         formatter(date(1990, 1, 1, 13, 34, 59)) shouldBe "1:34:59 PM"
     }
 
-    
+
     @Test
     fun format_date_y_returns_format_zero_padded_2_digits_years() {
         val formatter = format("%y")
@@ -286,7 +286,7 @@ class FormatTest : TestDate() {
         formatter(date(-2, 1, 1, 0, 0)) shouldBe "-02"
     }
 
-    
+
     @Test
     fun format_date_Y_returns_format_zero_padded_4_digits_years() {
         val formatter = format("%Y")
@@ -298,7 +298,7 @@ class FormatTest : TestDate() {
         formatter(date(-2, 1, 1, 0, 0)) shouldBe "-0002"
     }
 
-    
+
     @Test
     fun format_date_percent_format_literal_percent_signs() {
         val formatter = format("%%")

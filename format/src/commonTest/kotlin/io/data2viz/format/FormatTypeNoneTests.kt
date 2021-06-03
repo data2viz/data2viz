@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 
 class FormatTypeNoneTests : TestBase() {
-  
+
     @Test fun format_uses_significant_exponent_and_trims_insignificant_zeros () {
         formatter(".1")(4.9) shouldBe "5"
         formatter(".1")(0.49) shouldBe "0.5"

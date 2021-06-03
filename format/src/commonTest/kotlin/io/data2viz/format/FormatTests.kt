@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 
 class FormatTests : TestBase() {
-    
-    @Test 
+
+    @Test
     fun format_types() {
         formatter()                         (PI) shouldBe "3.14159265359"     // <-
-        formatter(Type.DECIMAL)             (PI) shouldBe "3.14159"           // <- 
-        formatter(Type.DECIMAL_OR_EXPONENT) (PI) shouldBe "3.14159"           // <- 
+        formatter(Type.DECIMAL)             (PI) shouldBe "3.14159"           // <-
+        formatter(Type.DECIMAL_OR_EXPONENT) (PI) shouldBe "3.14159"           // <-
         formatter(Type.DECIMAL_ROUNDED)     (PI) shouldBe "3"                 // <- rounded to integer
         formatter(Type.DECIMAL_WITH_SI)     (PI) shouldBe "3.14159"           // <-
         formatter(Type.EXPONENT)            (PI) shouldBe "3.141593e+0"       // <-
@@ -49,7 +49,7 @@ class FormatTests : TestBase() {
     /**
      * TYPE C
      */
-    
+
     @Test @Ignore
     fun format_c_unicode_character(){
         formatter("c")('☃'.toDouble()) shouldBe "☃"
@@ -62,7 +62,7 @@ class FormatTests : TestBase() {
 //
 //    }*/
 
- 
+
 
 
 

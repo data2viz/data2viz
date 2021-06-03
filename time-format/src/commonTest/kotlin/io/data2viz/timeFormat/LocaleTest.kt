@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class LocaleTest : TestDate() {
     private fun date(y: Int, mo: Int, d: Int, h: Int = 0, mi:Int = 0, s:Int = 0, ms: Int = 0) =
         LocalDateTime(y, mo, d, h, mi, s, ms).toInstant(TimeZone.UTC)
 
-    
+
     @Test
     fun timeFormat_specifier_defaults_to_en_US() {
         format("%c")(date(2000, 4, 1, 0, 0)) shouldBe "4/1/2000, 12:00:00 AM"
@@ -37,21 +37,21 @@ class LocaleTest : TestDate() {
         format("%c")(date(2000, 1, 1)) shouldBe "1/1/2000, 12:00:00 AM"
     }
 
-    
+
     @Test
     fun timeFormat_specifier_for_locale_frFr() {
         val localeFr = Locales.fr_FR
         localeFr.format("%c")(date(2000, 1, 1, 0, 0)) shouldBe "samedi, le  1 janvier 2000, 00:00:00"
     }
 
-    
+
     @Test
     fun timeParse_specifier_defaults_to_en_US() {
         parse("%c")("4/1/2000, 12:00:00 AM") shouldBe date(2000, 4, 1, 0, 0)
         parse("%c")("4/1/2000, 11:16:04 PM") shouldBe date(2000, 4, 1, 23, 16, 4)
     }
 
-    
+
     @Test
     fun timeParse_specifier_for_locale_frFr() {
         val localeFr = Locales.fr_FR

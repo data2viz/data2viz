@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ class ScaleLogTests : TestBase() {
         scale.base shouldBeClose 10.0
     }
 
-    
+
     @Test
     fun log_invert_x_maps_a_number_x_to_a_number_y() {
         val scale =  scaleLog()
@@ -102,7 +102,7 @@ class ScaleLogTests : TestBase() {
 
     @Test
     fun log_nice_nices_domain_extending_it_to_powers_of_ten() {
-        val scale =  scaleLog() 
+        val scale =  scaleLog()
 
         scale.domain = listOf(1.1, 10.9)
         scale.nice()

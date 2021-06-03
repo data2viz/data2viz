@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019. data2viz sàrl.
+ * Copyright (c) 2018-2021. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 
 class FormatTypeDecimalWithSITests : TestBase() {
-    
- 
+
+
     @Test fun format_s_outputs_SI_prefix_notation_with_default_exponent_6 () {
         val f = formatter("s")
         f(0.0)      shouldBe "0.00000"
