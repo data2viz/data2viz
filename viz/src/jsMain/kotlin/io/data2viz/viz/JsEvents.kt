@@ -59,6 +59,13 @@ public actual class KMouseMove {
 
 private val emptyDisposable = object : Disposable { override fun dispose() {} }
 
+
+public actual class KTouch {
+    public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
+        override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable = emptyDisposable
+    }
+}
+
 public actual class KTouchStart {
     public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
@@ -80,23 +87,6 @@ public actual class KTouchMove {
     }
 }
 
-public actual class KDualTouchStart {
-    public actual companion object TouchStartEventListener : KEventListener<KDualPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit) = emptyDisposable
-    }
-}
-
-public actual class KDualTouchEnd {
-    public actual companion object TouchEndEventListener : KEventListener<KDualPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit) = emptyDisposable
-    }
-}
-
-public actual class KDualTouchMove {
-    public actual companion object TouchMoveEventListener : KEventListener<KDualPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit) = emptyDisposable
-    }
-}
 
 public actual class KPointerLeave {
     public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {

@@ -22,6 +22,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import io.data2viz.geom.Point
+import io.data2viz.geom.point
 import kotlin.math.abs
 
 
@@ -29,6 +30,13 @@ private val emptyDisposable = object : Disposable { override fun dispose() {} }
 private val epsilon = 1.0e-3
 
 private val vt = android.view.VelocityTracker.obtain()
+
+public actual class KTouch {
+    public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
+        override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable  =
+             addTouchAndroidEventHandle(target, listener)
+    }
+}
 
 public actual class KTouchStart {
     public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
@@ -51,27 +59,6 @@ public actual class KTouchMove {
     }
 }
 
-public actual class KDualTouchStart {
-    public actual companion object TouchStartEventListener : KEventListener<KDualPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit): Disposable =
-            addDualTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_DOWN)
-    }
-}
-
-public actual class KDualTouchEnd {
-    public actual companion object TouchEndEventListener : KEventListener<KDualPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit): Disposable =
-            addDualTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_UP)
-    }
-}
-
-public actual class KDualTouchMove {
-    public actual companion object TouchMoveEventListener : KEventListener<KDualPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KDualPointerEvent) -> Unit): Disposable =
-            addDualTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_MOVE)
-    }
-}
-
 public actual class KMouseMove {
     public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
@@ -89,7 +76,6 @@ public actual class KMouseUp {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
-
 
 public actual class KPointerEnter {
     public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
@@ -251,33 +237,25 @@ private fun addSingleTouchAndroidEventHandle(target: Any, listener: (KPointerEve
             return true
         }
     }
-
     return AndroidActionEventHandle(renderer, action, handler).also { it.init() }
 }
 
-private fun addDualTouchAndroidEventHandle(target: Any, listener: (KDualPointerEvent) -> Unit, action: Int):
-    AndroidActionEventHandle {
+private fun addTouchAndroidEventHandle(target: Any, listener: (KTouchEvent) -> Unit):
+    AndroidEventHandle {
 
     val renderer = target as AndroidCanvasRenderer
 
     val handler = object : VizTouchListener {
         override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
-
-            // Simple events only for dual touch
-            if (event?.pointerCount == 2) {
-                if (event.action == action) {
-                    val kevent = event.toDualPointerEvent()
-                    listener(kevent)
-                }
+            if (event != null) {
+                listener(event.toKTouchEvent())
             }
-
             return true
         }
     }
 
-    return AndroidActionEventHandle(renderer, action, handler).also { it.init() }
+    return AndroidEventHandle(renderer, handler).also { it.init() }
 }
-
 
 public class AndroidActionEventHandle(
     renderer: AndroidCanvasRenderer,
@@ -303,7 +281,6 @@ public open class AndroidEventHandle(
 }
 
 public abstract class DetectInBoundsVizTouchListener : VizTouchListener {
-
 
     public var isLastMoveInBounds: Boolean = false
 
@@ -383,7 +360,19 @@ internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
 }
 
 private fun MotionEvent.toKMouseEvent(): KPointerEvent = KPointerEvent(Point(x.toDouble(), y.toDouble()))
-private fun MotionEvent.toDualPointerEvent(): KDualPointerEvent = KDualPointerEvent(
-    Point(getX(0).toDouble(), getY(0).toDouble()),
-    Point(getX(1).toDouble(), getY(1).toDouble())
-)
+
+private fun MotionEvent.toKTouchEvent(): KTouchEvent {
+    val type  = actionMasked.actionMaskToType()
+    val pointers = (0 until pointerCount).map { index ->
+        KPointer(getPointerId(index), Point(getX(index).toDouble(), getY(index).toDouble()))
+    }
+    return  KTouchEvent(type, pointers, pointers[actionIndex])
+}
+
+private fun Int.actionMaskToType() = when(this) {
+    MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN    -> KTouchEventType.DOWN
+    MotionEvent.ACTION_MOVE                                     -> KTouchEventType.MOVE
+    MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP        -> KTouchEventType.UP
+    else                                                        -> KTouchEventType.CANCEL
+}
+

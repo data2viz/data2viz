@@ -55,15 +55,22 @@ public open class KPointerEvent(
 }
 
 /**
- * Common Dual Pointer event. Can be subclassed into more specific events.
- * Gives access to the position of the event.
+ *
  */
-public open class KDualPointerEvent(
-    public val pos0: Point,
-    public val pos1: Point
-) : KEvent {
-    override fun toString(): String = "KDualPointerEvent(pos0=$pos0, pos1=$pos1)"
+public data class KTouchEvent(
+    public val type: KTouchEventType,
+    public val pointers: List<KPointer>,
+    public val actionPointer: KPointer
+) : KEvent
+
+public enum class KTouchEventType {
+    DOWN, UP, MOVE, CANCEL
 }
+
+public class KPointer(
+    public val id: Int,
+    public val pos: Point
+)
 
 /**
  * Pointer events for platform with Mouse input device.
@@ -99,6 +106,10 @@ public expect class KMouseUp {
     public companion object PointerUpEventListener : KEventListener<KMouseEvent>
 }
 
+public expect class KTouch {
+    public companion object TouchEventListener : KEventListener<KTouchEvent>
+}
+
 public expect class KTouchStart {
     public companion object TouchStartEventListener : KEventListener<KPointerEvent>
 }
@@ -109,18 +120,6 @@ public expect class KTouchEnd {
 
 public expect class KTouchMove {
     public companion object TouchMoveEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KDualTouchStart {
-    public companion object TouchStartEventListener : KEventListener<KDualPointerEvent>
-}
-
-public expect class KDualTouchEnd {
-    public companion object TouchEndEventListener : KEventListener<KDualPointerEvent>
-}
-
-public expect class KDualTouchMove {
-    public companion object TouchMoveEventListener : KEventListener<KDualPointerEvent>
 }
 
 public expect class KPointerEnter {
