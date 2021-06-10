@@ -40,7 +40,7 @@ public open class VizContainerView(
     private val vizs = mutableListOf<Viz>()
     private val renderers = mutableListOf<AndroidCanvasRenderer>()
 
-    public override val density
+    public override val density: Double
         get() = context.resources.displayMetrics.density.toDouble()
 
     override fun newViz(init: Viz.() -> Unit): Viz {
@@ -69,6 +69,11 @@ public open class VizContainerView(
             }
         }
 
+    //    private var _scale: Float = 1f
+//
+//    internal val scale: Float
+//        get() = _scale
+//
     private val timers = mutableListOf<Timer>()
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
