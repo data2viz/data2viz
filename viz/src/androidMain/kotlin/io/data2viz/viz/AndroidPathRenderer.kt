@@ -88,7 +88,6 @@ public fun PathNode.render(renderer: AndroidCanvasRenderer) {
                 is ClosePath -> path.close()
                 is Arc -> {
                     val r = cmd.radius
-//                    val rect = RectF((cmd.centerX - r).dp, (cmd.centerY - r).dp, (cmd.centerX + r).dp, (cmd.centerY + r).dp)
 
                     rect.left = (cmd.centerX - r).dp
                     rect.top = (cmd.centerY - r).dp
@@ -98,12 +97,16 @@ public fun PathNode.render(renderer: AndroidCanvasRenderer) {
                     val startAngle = cmd.startAngle.radToDegrees()
                     var sweepAngle = cmd.endAngle.radToDegrees() - startAngle
 
+                    // translating the rotation to an angle value
                     if (!cmd.counterClockWise && sweepAngle < -EPSILON_FLOAT) sweepAngle = (sweepAngle % 360) + 360
                     if (cmd.counterClockWise && sweepAngle > EPSILON_FLOAT) sweepAngle = (sweepAngle % 360) - 360
 
                     // on Android an arc with an angle of 360 is not drawn !
-                    if (sweepAngle.absoluteValue > 360) sweepAngle = EPSILON_CIRCLE
-                    else if (sweepAngle.absoluteValue < -360) sweepAngle = -EPSILON_CIRCLE
+                    // Android doc:
+                    // sweepAngle	float: Sweep angle (in degrees) measured clockwise, treated mod 360.
+                    if (abs(sweepAngle) >= EPSILON_CIRCLE && abs(sweepAngle % 360) <= EPSILON_FLOAT) {
+                        sweepAngle = EPSILON_CIRCLE * sweepAngle.sign
+                    }
 
                     path.arcTo(rect, startAngle, sweepAngle)
                 }
