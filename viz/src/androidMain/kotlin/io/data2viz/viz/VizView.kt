@@ -48,7 +48,7 @@ public class VizView(
         }
 
         renderer.canvas = canvas
-        renderer.render()
+        renderer.draw()
     }
 
 
