@@ -23,23 +23,24 @@ import io.data2viz.geom.Size
 /**
  * Links an image that needs to be rendered in the viz.
  */
-class ImageNode() : Node() {
-    var image: ImageHandler? = null
+public class ImageNode() : Node() {
+
+    public var image: ImageHandler? = null
 
     /**
      * x position of the top left point
      */
-    var x: Double = .0
+    public var x: Double = .0
 
     /**
      * y position of the top left point
      */
-    var y: Double = .0
+    public var y: Double = .0
 
     /**
      * The targe size of the image
      */
-    var size: Size? = null
+    public var size: Size? = null
 }
 
 
@@ -50,4 +51,4 @@ class ImageNode() : Node() {
  * Depending on the platform, it can rely on Image Element (like HTMLImageElement) or
  * on class loading mechanisms
  */
-interface ImageHandler
+public interface ImageHandler
