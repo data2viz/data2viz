@@ -28,7 +28,7 @@ public enum class SankeyAlignment { CENTER, JUSTIFY, RIGHT, LEFT }
 
 ///// LINKS VISUALIZATIONS
 
-public val sankeyLinkHorizontal = linkBuilderH<SankeyLink<*>> {
+public val sankeyLinkHorizontal: LinkBuilder<SankeyLink<*>> = linkBuilderH<SankeyLink<*>> {
     x0 = { it.source.x1 }
     y0 = { it.y0 }
     x1 = { it.target.x0 }
@@ -348,8 +348,8 @@ class SankeyLayout<D> {
 
     private fun initializeNodeBreadth(columns: Map<Double, List<SankeyNode<D>>>) {
         val ky = columns.map { nodes ->
-            (height - (nodes.value.size - 1) * nodePadding) / nodes.value.sumByDouble { it.value }
-        }.min()!!
+                (height - (nodes.value.size - 1) * nodePadding) / nodes.value.sumByDouble { it.value }
+            }.minOrNull()!!
 
         columns.forEach { nodes ->
             nodes.value.forEachIndexed { i, node ->
@@ -410,7 +410,7 @@ class SankeyLayout<D> {
 
     private fun center(node: SankeyNode<*>, size: Int): Int {
         return if (node.targetLinks.isEmpty()) {
-            if (node.sourceLinks.isEmpty()) 0 else node.sourceLinks.minBy { it.target.depth }!!.target.depth - 1
+            if (node.sourceLinks.isEmpty()) 0 else node.sourceLinks.minByOrNull { it.target.depth }!!.target.depth - 1
         } else node.depth
     }
 

@@ -14,7 +14,7 @@ class jsTests : TestDate() {
 
     @Test
     fun load_timeZone() {
-        console.log(jsJodaTz)
-        console.log(TimeZone.of("America/Los_Angeles"))
+        println(jsJodaTz)
+        println(TimeZone.of("America/Los_Angeles"))
     }
 }

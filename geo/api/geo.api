@@ -221,7 +221,7 @@ public final class io/data2viz/geo/geometry/PolygonContainsKt {
 
 public final class io/data2viz/geo/geometry/clip/AnglePreClipKt {
 	public static final fun getAnglePreClip (Lio/data2viz/geo/projection/common/Projection;)Lio/data2viz/math/Angle;
-	public static final fun setAnglePreClip-gU-OBAA (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/math/Angle;)V
+	public static final fun setAnglePreClip-m6z56dk (Lio/data2viz/geo/projection/common/Projection;Lio/data2viz/math/Angle;)V
 }
 
 public final class io/data2viz/geo/geometry/clip/AntimeridianClipperKt {
@@ -458,7 +458,7 @@ public final class io/data2viz/geo/projection/ConicProjection : io/data2viz/geo/
 	public final fun getConicProjector ()Lio/data2viz/geo/projection/ConicProjector;
 	public final fun getParallelsMax-FjFK4Cw ()D
 	public final fun getParallelsMin-FjFK4Cw ()D
-	public final fun parallels-CDpwy5s (DD)V
+	public final fun parallels-jtxiRS0 (DD)V
 	public final fun setParallelsMax-I1OF4x4 (D)V
 	public final fun setParallelsMin-I1OF4x4 (D)V
 }
@@ -522,7 +522,7 @@ public class io/data2viz/geo/projection/MercatorProjection : io/data2viz/geo/pro
 	public fun <init> ()V
 	public fun <init> (Lio/data2viz/geo/projection/common/Projector;)V
 	public synthetic fun <init> (Lio/data2viz/geo/projection/common/Projector;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun center-CDpwy5s (DD)V
+	public fun center-jtxiRS0 (DD)V
 	public fun getCenterLat-FjFK4Cw ()D
 	public fun getCenterLon-FjFK4Cw ()D
 	public fun getScale ()D
@@ -576,11 +576,11 @@ public final class io/data2viz/geo/projection/TransverseMercatorKt {
 
 public final class io/data2viz/geo/projection/TransverseMercatorProjection : io/data2viz/geo/projection/MercatorProjection {
 	public fun <init> ()V
-	public fun center-CDpwy5s (DD)V
+	public fun center-jtxiRS0 (DD)V
 	public fun getCenterLat-FjFK4Cw ()D
 	public fun getCenterLon-FjFK4Cw ()D
 	public fun getRotateGamma-FjFK4Cw ()D
-	public fun rotate-EB13cHk (DDLio/data2viz/math/Angle;)V
+	public fun rotate-s0tUE2c (DDLio/data2viz/math/Angle;)V
 	public fun setCenterLat-I1OF4x4 (D)V
 	public fun setCenterLon-I1OF4x4 (D)V
 	public fun setRotateGamma-I1OF4x4 (D)V
@@ -611,7 +611,7 @@ public abstract class io/data2viz/geo/projection/common/CachedProjection : io/da
 public abstract class io/data2viz/geo/projection/common/ComposedProjection : io/data2viz/geo/projection/common/Projection {
 	public fun <init> ()V
 	public fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
-	public fun center-CDpwy5s (DD)V
+	public fun center-jtxiRS0 (DD)V
 	public abstract fun getAllProjections ()Ljava/util/Collection;
 	public fun getCenterLat-FjFK4Cw ()D
 	public fun getCenterLon-FjFK4Cw ()D
@@ -625,7 +625,7 @@ public abstract class io/data2viz/geo/projection/common/ComposedProjection : io/
 	public fun getScale ()D
 	public fun getTranslateX ()D
 	public fun getTranslateY ()D
-	public fun rotate-EB13cHk (DDLio/data2viz/math/Angle;)V
+	public fun rotate-s0tUE2c (DDLio/data2viz/math/Angle;)V
 	public fun setCenterLat-I1OF4x4 (D)V
 	public fun setCenterLon-I1OF4x4 (D)V
 	public fun setPostClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
@@ -665,7 +665,7 @@ public abstract interface class io/data2viz/geo/projection/common/Projectable {
 
 public abstract interface class io/data2viz/geo/projection/common/Projection : io/data2viz/geo/projection/common/Projector {
 	public abstract fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
-	public abstract fun center-CDpwy5s (DD)V
+	public abstract fun center-jtxiRS0 (DD)V
 	public abstract fun getCenterLat-FjFK4Cw ()D
 	public abstract fun getCenterLon-FjFK4Cw ()D
 	public abstract fun getPostClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
@@ -677,7 +677,7 @@ public abstract interface class io/data2viz/geo/projection/common/Projection : i
 	public abstract fun getScale ()D
 	public abstract fun getTranslateX ()D
 	public abstract fun getTranslateY ()D
-	public abstract fun rotate-EB13cHk (DDLio/data2viz/math/Angle;)V
+	public abstract fun rotate-s0tUE2c (DDLio/data2viz/math/Angle;)V
 	public abstract fun setCenterLat-I1OF4x4 (D)V
 	public abstract fun setCenterLon-I1OF4x4 (D)V
 	public abstract fun setPostClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
@@ -693,7 +693,7 @@ public abstract interface class io/data2viz/geo/projection/common/Projection : i
 }
 
 public final class io/data2viz/geo/projection/common/Projection$DefaultImpls {
-	public static synthetic fun rotate-EB13cHk$default (Lio/data2viz/geo/projection/common/Projection;DDLio/data2viz/math/Angle;ILjava/lang/Object;)V
+	public static synthetic fun rotate-s0tUE2c$default (Lio/data2viz/geo/projection/common/Projection;DDLio/data2viz/math/Angle;ILjava/lang/Object;)V
 }
 
 public abstract interface class io/data2viz/geo/projection/common/Projector : io/data2viz/geo/projection/common/Invertable, io/data2viz/geo/projection/common/Projectable {
@@ -704,7 +704,7 @@ public class io/data2viz/geo/projection/common/ProjectorProjection : io/data2viz
 	protected field rotator Lio/data2viz/geo/projection/common/Projector;
 	public fun <init> (Lio/data2viz/geo/projection/common/Projector;)V
 	public fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
-	public fun center-CDpwy5s (DD)V
+	public fun center-jtxiRS0 (DD)V
 	public fun getCenterLat-FjFK4Cw ()D
 	public fun getCenterLon-FjFK4Cw ()D
 	protected final fun getComposedTransformationsProjector ()Lio/data2viz/geo/projection/common/Projector;
@@ -725,7 +725,7 @@ public class io/data2viz/geo/projection/common/ProjectorProjection : io/data2viz
 	protected final fun get_rotationPhi ()D
 	public fun invert (DD)[D
 	public fun project (DD)[D
-	public fun rotate-EB13cHk (DDLio/data2viz/math/Angle;)V
+	public fun rotate-s0tUE2c (DDLio/data2viz/math/Angle;)V
 	public fun setCenterLat-I1OF4x4 (D)V
 	public fun setCenterLon-I1OF4x4 (D)V
 	protected final fun setComposedTransformationsProjector (Lio/data2viz/geo/projection/common/Projector;)V

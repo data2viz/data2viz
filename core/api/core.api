@@ -351,7 +351,7 @@ public final class io/data2viz/geom/RectGeom : io/data2viz/geom/Rect {
 }
 
 public final class io/data2viz/geom/RectKt {
-	public static final fun boundsWith-iON_3Lo (Lio/data2viz/geom/Rect;D)Lio/data2viz/geom/Rect;
+	public static final fun boundsWith-0njBRJo (Lio/data2viz/geom/Rect;D)Lio/data2viz/geom/Rect;
 	public static final fun overlap (Lio/data2viz/geom/Rect;Lio/data2viz/geom/Rect;)Z
 }
 
@@ -404,8 +404,8 @@ public final class io/data2viz/geom/Vector {
 public final class io/data2viz/math/Angle {
 	public static final synthetic fun box-impl (D)Lio/data2viz/math/Angle;
 	public static fun constructor-impl (D)D
-	public static final fun div-FjFK4Cw (DLjava/lang/Number;)D
 	public static final fun div-I1OF4x4 (DD)D
+	public static final fun div-ejbBkJU (DLjava/lang/Number;)D
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (DLjava/lang/Object;)Z
 	public static final fun equals-impl0 (DD)Z
@@ -416,10 +416,10 @@ public final class io/data2viz/math/Angle {
 	public static final fun getTan-impl (D)D
 	public fun hashCode ()I
 	public static fun hashCode-impl (D)I
-	public static final fun minus-I1OF4x4 (DD)D
+	public static final fun minus-v0B7QY4 (DD)D
 	public static final fun normalize-FjFK4Cw (D)D
-	public static final fun plus-I1OF4x4 (DD)D
-	public static final fun times-FjFK4Cw (DLjava/lang/Number;)D
+	public static final fun plus-v0B7QY4 (DD)D
+	public static final fun times-ejbBkJU (DLjava/lang/Number;)D
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (D)Ljava/lang/String;
 	public static final fun unaryMinus-FjFK4Cw (D)D
@@ -429,7 +429,7 @@ public final class io/data2viz/math/Angle {
 public final class io/data2viz/math/AngleKt {
 	public static final fun getDeg (Ljava/lang/Number;)D
 	public static final fun getRad (Ljava/lang/Number;)D
-	public static final fun times-xchvrRM (Ljava/lang/Number;D)D
+	public static final fun times-0njBRJo (Ljava/lang/Number;D)D
 	public static final fun toDegrees (D)D
 	public static final fun toRadians (D)D
 }
@@ -463,8 +463,8 @@ public final class io/data2viz/math/Matrix {
 	public final fun isIdentity ()Z
 	public final fun prepend (Lio/data2viz/math/Matrix;)Lio/data2viz/math/Matrix;
 	public final fun reset ()Lio/data2viz/math/Matrix;
-	public final fun rotate-_eGRdIQ (DLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
-	public static synthetic fun rotate-_eGRdIQ$default (Lio/data2viz/math/Matrix;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/math/Matrix;
+	public final fun rotate-WIjCnew (DLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
+	public static synthetic fun rotate-WIjCnew$default (Lio/data2viz/math/Matrix;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/math/Matrix;
 	public final fun scale (DDLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
 	public final fun scale (DLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
 	public static synthetic fun scale$default (Lio/data2viz/math/Matrix;DDLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/math/Matrix;
@@ -477,23 +477,23 @@ public final class io/data2viz/math/Matrix {
 
 public final class io/data2viz/math/Percent {
 	public static final synthetic fun box-impl (D)Lio/data2viz/math/Percent;
-	public static final fun coerceAtLeast-wJQ8TTM (DD)D
-	public static final fun coerceAtMost-wJQ8TTM (DD)D
-	public static final fun coerceIn-B_mgqyo (DDD)D
+	public static final fun coerceAtLeast-5cYkgbI (DD)D
+	public static final fun coerceAtMost-5cYkgbI (DD)D
+	public static final fun coerceIn-NlZwYjs (DDD)D
 	public static final fun coerceToDefault-P6MNtoY (D)D
 	public static final fun compareTo-wJQ8TTM (DD)I
 	public static fun constructor-impl (D)D
-	public static final fun div-P6MNtoY (DLjava/lang/Number;)D
+	public static final fun div-HOOTbXM (DLjava/lang/Number;)D
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (DLjava/lang/Object;)Z
 	public static final fun equals-impl0 (DD)Z
 	public final fun getValue ()D
 	public fun hashCode ()I
 	public static fun hashCode-impl (D)I
-	public static final fun minus-wJQ8TTM (DD)D
-	public static final fun plus-wJQ8TTM (DD)D
+	public static final fun minus-5cYkgbI (DD)D
+	public static final fun plus-5cYkgbI (DD)D
+	public static final fun times-5cYkgbI (DD)D
 	public static final fun times-impl (DLjava/lang/Number;)D
-	public static final fun times-wJQ8TTM (DD)D
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (D)Ljava/lang/String;
 	public static final fun unaryMinus-P6MNtoY (D)D
@@ -503,7 +503,7 @@ public final class io/data2viz/math/Percent {
 
 public final class io/data2viz/math/PercentKt {
 	public static final fun getPct (Ljava/lang/Number;)D
-	public static final fun times-8FJQ5fg (Ljava/lang/Number;D)D
+	public static final fun times-2gujUFI (Ljava/lang/Number;D)D
 }
 
 public final class io/data2viz/math/TicksKt {

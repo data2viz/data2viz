@@ -13,7 +13,7 @@ kotlin {
             dependencies {
                 api project(":core")
                 api project(":interpolate")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinx_datetime_version")
 
             }
         }
