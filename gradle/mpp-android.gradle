@@ -32,14 +32,11 @@ if (include_android.toBoolean()) {
         sourceSets {
             main {
                 dependencies {
-                    implementation kotlin('stdlib')
                 }
             }
             test {
                 dependencies {
-                    implementation kotlin('stdlib')
                     implementation project(":tests")
-                    implementation kotlin('test')
                     implementation kotlin('test-junit')
                 }
             }
