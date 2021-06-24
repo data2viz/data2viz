@@ -17,6 +17,8 @@ public final class io/data2viz/tile/Tile {
 }
 
 public final class io/data2viz/tile/TileKt {
+	public static final fun getINFINITY ()I
+	public static final fun getLN2 ()D
 	public static final fun tilesLayout (Lkotlin/jvm/functions/Function1;)Lio/data2viz/tile/TilesLayout;
 }
 

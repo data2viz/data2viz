@@ -4,6 +4,14 @@ public final class io/data2viz/interpolate/BasisKt {
 	public static final fun computeSpline (DIIII)D
 }
 
+public final class io/data2viz/interpolate/ColorKt {
+	public static final fun gamma (D)Lkotlin/jvm/functions/Function2;
+	public static synthetic fun gamma$default (DILjava/lang/Object;)Lkotlin/jvm/functions/Function2;
+	public static final fun getSplineInterpolator (Z)Lkotlin/jvm/functions/Function1;
+	public static final fun interpolateHue-hhpRr2M (DDZ)Lkotlin/jvm/functions/Function1;
+	public static synthetic fun interpolateHue-hhpRr2M$default (DDZILjava/lang/Object;)Lkotlin/jvm/functions/Function1;
+}
+
 public final class io/data2viz/interpolate/DateKt {
 	public static final fun interpolateDate (Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;)Lkotlin/jvm/functions/Function1;
 	public static final fun uninterpolateDate (Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;)Lkotlin/jvm/functions/Function1;

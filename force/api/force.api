@@ -4,6 +4,7 @@ public abstract interface class io/data2viz/force/Force {
 }
 
 public final class io/data2viz/force/ForceCenter : io/data2viz/force/Force {
+	public fun <init> ()V
 	public fun applyForceToNodes (D)V
 	public fun assignNodes (Ljava/util/List;)V
 	public final fun getCenter ()Lio/data2viz/geom/Point;
@@ -15,6 +16,7 @@ public final class io/data2viz/force/ForceCenterKt {
 }
 
 public final class io/data2viz/force/ForceCollision : io/data2viz/force/Force {
+	public fun <init> ()V
 	public fun applyForceToNodes (D)V
 	public fun assignNodes (Ljava/util/List;)V
 	public final fun getIterations ()I
@@ -31,9 +33,11 @@ public final class io/data2viz/force/ForceCollisionKt {
 
 public final class io/data2viz/force/ForceKt {
 	public static final fun forceSimulation (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceSimulation;
+	public static final fun jiggle ()D
 }
 
 public final class io/data2viz/force/ForceLink : io/data2viz/force/Force {
+	public fun <init> ()V
 	public fun applyForceToNodes (D)V
 	public fun assignNodes (Ljava/util/List;)V
 	public final fun getIterations ()I
@@ -48,6 +52,7 @@ public final class io/data2viz/force/ForceLinkKt {
 }
 
 public final class io/data2viz/force/ForceNBody : io/data2viz/force/Force {
+	public fun <init> ()V
 	public fun applyForceToNodes (D)V
 	public fun assignNodes (Ljava/util/List;)V
 	public final fun getDistanceMax ()D
@@ -101,6 +106,7 @@ public final class io/data2viz/force/ForceNode {
 }
 
 public final class io/data2viz/force/ForcePoint : io/data2viz/force/Force {
+	public fun <init> ()V
 	public fun applyForceToNodes (D)V
 	public fun assignNodes (Ljava/util/List;)V
 	public final fun getPointGet ()Lkotlin/jvm/functions/Function1;
@@ -110,6 +116,7 @@ public final class io/data2viz/force/ForcePoint : io/data2viz/force/Force {
 }
 
 public final class io/data2viz/force/ForceRadial : io/data2viz/force/Force {
+	public fun <init> ()V
 	public fun applyForceToNodes (D)V
 	public fun assignNodes (Ljava/util/List;)V
 	public final fun getCenterGet ()Lkotlin/jvm/functions/Function1;
@@ -125,6 +132,7 @@ public final class io/data2viz/force/ForceRadialKt {
 }
 
 public final class io/data2viz/force/ForceSimulation {
+	public fun <init> ()V
 	public final fun find (Lio/data2viz/geom/Point;D)Lio/data2viz/force/ForceNode;
 	public static synthetic fun find$default (Lio/data2viz/force/ForceSimulation;Lio/data2viz/geom/Point;DILjava/lang/Object;)Lio/data2viz/force/ForceNode;
 	public final fun forceCenter (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceCenter;
@@ -163,7 +171,11 @@ public final class io/data2viz/force/ForceSimulation {
 	public final fun tick ()V
 }
 
+public final class io/data2viz/force/ForceSimulationKt {
+}
+
 public final class io/data2viz/force/ForceX : io/data2viz/force/Force {
+	public fun <init> ()V
 	public fun applyForceToNodes (D)V
 	public fun assignNodes (Ljava/util/List;)V
 	public final fun getStrengthGet ()Lkotlin/jvm/functions/Function1;
@@ -177,6 +189,7 @@ public final class io/data2viz/force/ForceXKt {
 }
 
 public final class io/data2viz/force/ForceY : io/data2viz/force/Force {
+	public fun <init> ()V
 	public fun applyForceToNodes (D)V
 	public fun assignNodes (Ljava/util/List;)V
 	public final fun getStrengthGet ()Lkotlin/jvm/functions/Function1;

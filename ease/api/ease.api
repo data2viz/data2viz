@@ -22,6 +22,9 @@ public final class io/data2viz/ease/BackOut {
 	public final fun overshoot (D)Lio/data2viz/ease/BackOut;
 }
 
+public final class io/data2viz/ease/EaseCommonKt {
+}
+
 public final class io/data2viz/ease/ElasticIn {
 	public fun <init> ()V
 	public fun <init> (DD)V

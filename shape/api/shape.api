@@ -91,6 +91,15 @@ public final class io/data2viz/shape/LineBuilderKt {
 	public static final fun line (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/LineBuilder;
 }
 
+public final class io/data2viz/shape/MathKt {
+	public static final fun acos (D)D
+	public static final fun asin (D)D
+	public static final fun getEpsilon ()D
+	public static final fun getHalfPi ()D
+	public static final fun getPi ()D
+	public static final fun getTau ()D
+}
+
 public final class io/data2viz/shape/PieGenerator {
 	public fun <init> ()V
 	public final fun getEndAngle ()Lkotlin/jvm/functions/Function1;
@@ -379,6 +388,8 @@ public final class io/data2viz/shape/curves {
 
 public final class io/data2viz/shape/link/LinkBuilder {
 	public fun <init> ()V
+	public final fun curveHorizontal$shape (Lio/data2viz/geom/Path;DDDD)V
+	public final fun curveVertical$shape (Lio/data2viz/geom/Path;DDDD)V
 	public final fun getCurve ()Lkotlin/jvm/functions/Function5;
 	public final fun getX0 ()Lkotlin/jvm/functions/Function1;
 	public final fun getX1 ()Lkotlin/jvm/functions/Function1;
@@ -395,6 +406,19 @@ public final class io/data2viz/shape/link/LinkBuilder {
 public final class io/data2viz/shape/link/LinkKt {
 	public static final fun linkBuilderH (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/link/LinkBuilder;
 	public static final fun linkBuilderV (Lkotlin/jvm/functions/Function1;)Lio/data2viz/shape/link/LinkBuilder;
+}
+
+public final class io/data2viz/shape/stack/SeriesSum {
+	public fun <init> (ID)V
+	public final fun component1 ()I
+	public final fun component2 ()D
+	public final fun copy (ID)Lio/data2viz/shape/stack/SeriesSum;
+	public static synthetic fun copy$default (Lio/data2viz/shape/stack/SeriesSum;IDILjava/lang/Object;)Lio/data2viz/shape/stack/SeriesSum;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIndex ()I
+	public final fun getSum ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/data2viz/shape/stack/StackGenerator {
@@ -418,8 +442,12 @@ public final class io/data2viz/shape/stack/StackOffset : java/lang/Enum {
 	public static final field NONE Lio/data2viz/shape/stack/StackOffset;
 	public static final field SILHOUETTE Lio/data2viz/shape/stack/StackOffset;
 	public static final field WIGGLE Lio/data2viz/shape/stack/StackOffset;
+	public final fun offset$shape (Ljava/util/List;)V
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/stack/StackOffset;
 	public static fun values ()[Lio/data2viz/shape/stack/StackOffset;
+}
+
+public final class io/data2viz/shape/stack/StackOffsetKt {
 }
 
 public final class io/data2viz/shape/stack/StackOrder : java/lang/Enum {
@@ -428,8 +456,13 @@ public final class io/data2viz/shape/stack/StackOrder : java/lang/Enum {
 	public static final field INSIDEOUT Lio/data2viz/shape/stack/StackOrder;
 	public static final field NONE Lio/data2viz/shape/stack/StackOrder;
 	public static final field REVERSE Lio/data2viz/shape/stack/StackOrder;
+	public final fun sort$shape (Ljava/util/List;)Ljava/util/List;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/stack/StackOrder;
 	public static fun values ()[Lio/data2viz/shape/stack/StackOrder;
+}
+
+public final class io/data2viz/shape/stack/StackOrderKt {
+	public static final fun sumSeries (Ljava/util/List;)Ljava/util/List;
 }
 
 public final class io/data2viz/shape/stack/StackParam {
