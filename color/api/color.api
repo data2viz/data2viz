@@ -29,6 +29,27 @@ public final class io/data2viz/color/Color$DefaultImpls {
 	public static synthetic fun saturate$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
 }
 
+public final class io/data2viz/color/ColorConversionsKt {
+	public static final field Kn F
+	public static final field Xn F
+	public static final field Yn F
+	public static final field Zn F
+	public static final field deg240toRad D
+	public static final field deg60toRad D
+	public static final field t0 F
+	public static final field t1 F
+	public static final field t2 F
+	public static final field t3 F
+	public static final fun getAngle120deg ()D
+	public static final fun toHcla (Lio/data2viz/color/LabColor;)Lio/data2viz/color/HclColor;
+	public static final fun toHsla (Lio/data2viz/color/RgbColor;)Lio/data2viz/color/HslColor;
+	public static final fun toLaba (Lio/data2viz/color/HclColor;)Lio/data2viz/color/LabColor;
+	public static final fun toLaba (Lio/data2viz/color/RgbColor;)Lio/data2viz/color/LabColor;
+	public static final fun toLuminance (Lio/data2viz/color/RgbColor;)D
+	public static final fun toRgba (Lio/data2viz/color/HslColor;)Lio/data2viz/color/RgbColor;
+	public static final fun toRgba (Lio/data2viz/color/LabColor;)Lio/data2viz/color/RgbColor;
+}
+
 public abstract interface class io/data2viz/color/ColorOrGradient {
 }
 
@@ -36,8 +57,8 @@ public final class io/data2viz/color/ColorStop {
 	public synthetic fun <init> (DLio/data2viz/color/Color;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-P6MNtoY ()D
 	public final fun component2 ()Lio/data2viz/color/Color;
-	public final fun copy-Nm6MGwg (DLio/data2viz/color/Color;)Lio/data2viz/color/ColorStop;
-	public static synthetic fun copy-Nm6MGwg$default (Lio/data2viz/color/ColorStop;DLio/data2viz/color/Color;ILjava/lang/Object;)Lio/data2viz/color/ColorStop;
+	public final fun copy-P9C-94s (DLio/data2viz/color/Color;)Lio/data2viz/color/ColorStop;
+	public static synthetic fun copy-P9C-94s$default (Lio/data2viz/color/ColorStop;DLio/data2viz/color/Color;ILjava/lang/Object;)Lio/data2viz/color/ColorStop;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getColor ()Lio/data2viz/color/Color;
 	public final fun getPercent-P6MNtoY ()D
@@ -47,24 +68,24 @@ public final class io/data2viz/color/ColorStop {
 
 public final class io/data2viz/color/Colors {
 	public static final field INSTANCE Lio/data2viz/color/Colors;
-	public final fun hcl-OOUne5c (DIDD)Lio/data2viz/color/HclColor;
-	public static synthetic fun hcl-OOUne5c$default (Lio/data2viz/color/Colors;DIDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
-	public final fun hcl-Ylfk17w (DDDD)Lio/data2viz/color/HclColor;
-	public static synthetic fun hcl-Ylfk17w$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
-	public final fun hsl-fcr2UD8 (DDDD)Lio/data2viz/color/HslColor;
-	public static synthetic fun hsl-fcr2UD8$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HslColor;
-	public final fun lab-ZelYf08 (DDDD)Lio/data2viz/color/LabColor;
-	public static synthetic fun lab-ZelYf08$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/LabColor;
-	public final fun lab-wFofRLk (DIID)Lio/data2viz/color/LabColor;
-	public static synthetic fun lab-wFofRLk$default (Lio/data2viz/color/Colors;DIIDILjava/lang/Object;)Lio/data2viz/color/LabColor;
-	public final fun lch-4UhK_vw (DIDD)Lio/data2viz/color/HclColor;
-	public static synthetic fun lch-4UhK_vw$default (Lio/data2viz/color/Colors;DIDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
-	public final fun lch-A4Q7TpA (DDDD)Lio/data2viz/color/HclColor;
-	public static synthetic fun lch-A4Q7TpA$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
-	public final fun rgb-3MkuwIQ (ID)Lio/data2viz/color/RgbColor;
-	public static synthetic fun rgb-3MkuwIQ$default (Lio/data2viz/color/Colors;IDILjava/lang/Object;)Lio/data2viz/color/RgbColor;
-	public final fun rgb-y1dt5aI (IIID)Lio/data2viz/color/RgbColor;
-	public static synthetic fun rgb-y1dt5aI$default (Lio/data2viz/color/Colors;IIIDILjava/lang/Object;)Lio/data2viz/color/RgbColor;
+	public final fun hcl-dzRypEc (DDDD)Lio/data2viz/color/HclColor;
+	public final fun hcl-dzRypEc (DIDD)Lio/data2viz/color/HclColor;
+	public static synthetic fun hcl-dzRypEc$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
+	public static synthetic fun hcl-dzRypEc$default (Lio/data2viz/color/Colors;DIDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
+	public final fun hsl-kNgRrso (DDDD)Lio/data2viz/color/HslColor;
+	public static synthetic fun hsl-kNgRrso$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HslColor;
+	public final fun lab-Y8mfecI (DDDD)Lio/data2viz/color/LabColor;
+	public final fun lab-Y8mfecI (DIID)Lio/data2viz/color/LabColor;
+	public static synthetic fun lab-Y8mfecI$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/LabColor;
+	public static synthetic fun lab-Y8mfecI$default (Lio/data2viz/color/Colors;DIIDILjava/lang/Object;)Lio/data2viz/color/LabColor;
+	public final fun lch-g242Ohc (DDDD)Lio/data2viz/color/HclColor;
+	public final fun lch-g242Ohc (DIDD)Lio/data2viz/color/HclColor;
+	public static synthetic fun lch-g242Ohc$default (Lio/data2viz/color/Colors;DDDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
+	public static synthetic fun lch-g242Ohc$default (Lio/data2viz/color/Colors;DIDDILjava/lang/Object;)Lio/data2viz/color/HclColor;
+	public final fun rgb-2gujUFI (ID)Lio/data2viz/color/RgbColor;
+	public static synthetic fun rgb-2gujUFI$default (Lio/data2viz/color/Colors;IDILjava/lang/Object;)Lio/data2viz/color/RgbColor;
+	public final fun rgb-HDxGe28 (IIID)Lio/data2viz/color/RgbColor;
+	public static synthetic fun rgb-HDxGe28$default (Lio/data2viz/color/Colors;IIIDILjava/lang/Object;)Lio/data2viz/color/RgbColor;
 }
 
 public final class io/data2viz/color/Colors$Gradient {
@@ -515,6 +536,7 @@ public final class io/data2viz/color/HasStartAndEnd$DefaultImpls {
 
 public final class io/data2viz/color/HclColor : io/data2viz/color/Color {
 	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (DDDDLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun brighten (D)Lio/data2viz/color/Color;
 	public fun contrast (Lio/data2viz/color/Color;)D
 	public fun darken (D)Lio/data2viz/color/Color;
@@ -548,6 +570,7 @@ public final class io/data2viz/color/HclColor : io/data2viz/color/Color {
 
 public final class io/data2viz/color/HslColor : io/data2viz/color/Color {
 	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (DDDDLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun brighten (D)Lio/data2viz/color/Color;
 	public fun contrast (Lio/data2viz/color/Color;)D
 	public fun darken (D)Lio/data2viz/color/Color;
@@ -581,6 +604,7 @@ public final class io/data2viz/color/HslColor : io/data2viz/color/Color {
 
 public final class io/data2viz/color/LabColor : io/data2viz/color/Color {
 	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (DDDDLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun brighten (D)Lio/data2viz/color/Color;
 	public fun contrast (Lio/data2viz/color/Color;)D
 	public fun darken (D)Lio/data2viz/color/Color;
@@ -612,7 +636,8 @@ public final class io/data2viz/color/LabColor : io/data2viz/color/Color {
 }
 
 public final class io/data2viz/color/LinearGradient : io/data2viz/color/Gradient, io/data2viz/color/HasStartAndEnd {
-	public final fun andColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradient;
+	public fun <init> ()V
+	public final fun andColor-2gujUFI (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradient;
 	public fun getColorStops ()Ljava/util/List;
 	public fun getEnd ()Lio/data2viz/geom/Point;
 	public fun getStart ()Lio/data2viz/geom/Point;
@@ -629,6 +654,7 @@ public final class io/data2viz/color/LinearGradient : io/data2viz/color/Gradient
 }
 
 public final class io/data2viz/color/LinearGradientFirstColorBuilder {
+	public fun <init> (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)V
 	public final fun component1 ()Lio/data2viz/geom/Point;
 	public final fun component2 ()Lio/data2viz/geom/Point;
 	public final fun copy (Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lio/data2viz/color/LinearGradientFirstColorBuilder;
@@ -638,13 +664,14 @@ public final class io/data2viz/color/LinearGradientFirstColorBuilder {
 	public final fun getStart ()Lio/data2viz/geom/Point;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public final fun withColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradientSecondColorBuilder;
-	public static synthetic fun withColor-Mu7ybNA$default (Lio/data2viz/color/LinearGradientFirstColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/LinearGradientSecondColorBuilder;
+	public final fun withColor-2gujUFI (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradientSecondColorBuilder;
+	public static synthetic fun withColor-2gujUFI$default (Lio/data2viz/color/LinearGradientFirstColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/LinearGradientSecondColorBuilder;
 }
 
 public final class io/data2viz/color/LinearGradientSecondColorBuilder {
-	public final fun andColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradient;
-	public static synthetic fun andColor-Mu7ybNA$default (Lio/data2viz/color/LinearGradientSecondColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/LinearGradient;
+	public fun <init> (Lio/data2viz/color/LinearGradientFirstColorBuilder;Lio/data2viz/color/ColorStop;)V
+	public final fun andColor-2gujUFI (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradient;
+	public static synthetic fun andColor-2gujUFI$default (Lio/data2viz/color/LinearGradientSecondColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/LinearGradient;
 	public final fun component1 ()Lio/data2viz/color/LinearGradientFirstColorBuilder;
 	public final fun component2 ()Lio/data2viz/color/ColorStop;
 	public final fun copy (Lio/data2viz/color/LinearGradientFirstColorBuilder;Lio/data2viz/color/ColorStop;)Lio/data2viz/color/LinearGradientSecondColorBuilder;
@@ -658,7 +685,7 @@ public final class io/data2viz/color/LinearGradientSecondColorBuilder {
 
 public final class io/data2viz/color/RadialGradient : io/data2viz/color/Gradient, io/data2viz/color/HasCenter {
 	public fun <init> ()V
-	public final fun andColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradient;
+	public final fun andColor-2gujUFI (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradient;
 	public fun getCenter ()Lio/data2viz/geom/Point;
 	public fun getColorStops ()Ljava/util/List;
 	public fun getCx ()D
@@ -671,6 +698,7 @@ public final class io/data2viz/color/RadialGradient : io/data2viz/color/Gradient
 }
 
 public final class io/data2viz/color/RadialGradientFirstColorBuilder {
+	public fun <init> (Lio/data2viz/geom/Point;D)V
 	public final fun component1 ()Lio/data2viz/geom/Point;
 	public final fun component2 ()D
 	public final fun copy (Lio/data2viz/geom/Point;D)Lio/data2viz/color/RadialGradientFirstColorBuilder;
@@ -680,13 +708,14 @@ public final class io/data2viz/color/RadialGradientFirstColorBuilder {
 	public final fun getRadius ()D
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public final fun withColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradientSecondColorBuilder;
-	public static synthetic fun withColor-Mu7ybNA$default (Lio/data2viz/color/RadialGradientFirstColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/RadialGradientSecondColorBuilder;
+	public final fun withColor-2gujUFI (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradientSecondColorBuilder;
+	public static synthetic fun withColor-2gujUFI$default (Lio/data2viz/color/RadialGradientFirstColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/RadialGradientSecondColorBuilder;
 }
 
 public final class io/data2viz/color/RadialGradientSecondColorBuilder {
-	public final fun andColor-Mu7ybNA (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradient;
-	public static synthetic fun andColor-Mu7ybNA$default (Lio/data2viz/color/RadialGradientSecondColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/RadialGradient;
+	public fun <init> (Lio/data2viz/color/RadialGradientFirstColorBuilder;Lio/data2viz/color/ColorStop;)V
+	public final fun andColor-2gujUFI (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradient;
+	public static synthetic fun andColor-2gujUFI$default (Lio/data2viz/color/RadialGradientSecondColorBuilder;Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/RadialGradient;
 	public final fun component1 ()Lio/data2viz/color/RadialGradientFirstColorBuilder;
 	public final fun component2 ()Lio/data2viz/color/ColorStop;
 	public final fun copy (Lio/data2viz/color/RadialGradientFirstColorBuilder;Lio/data2viz/color/ColorStop;)Lio/data2viz/color/RadialGradientSecondColorBuilder;

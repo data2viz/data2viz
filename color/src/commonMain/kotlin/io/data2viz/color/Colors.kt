@@ -25,10 +25,6 @@ import io.data2viz.math.Percent
 import io.data2viz.math.pct
 
 
-// TODO : move to common and remove expect when available
-internal expect fun Int.toString(radix: Int): String
-
-
 public object Colors {
 
     /***************************** COLORSPACE CONSTRUCTORS *******************************************/
