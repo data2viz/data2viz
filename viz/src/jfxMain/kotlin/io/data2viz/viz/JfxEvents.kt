@@ -26,6 +26,7 @@ import javafx.scene.canvas.Canvas
 import javafx.scene.input.MouseEvent
 import javafx.scene.input.ScrollEvent
 import javafx.scene.input.ZoomEvent
+import kotlin.math.abs
 
 private val emptyDisposable = object : Disposable { override fun dispose() {} }
 
@@ -127,39 +128,48 @@ public actual class KZoom {
             val canvas = target as Canvas
 
             val zoomHandler = EventHandler<ZoomEvent> { event ->
+                // GESTURE
                 val currentDelta = event.zoomFactor
                 listener(
                     onZoom(
                         event.x, event.y,
                         currentDelta,
                         minGestureZoomDeltaValue,
-                        maxGestureZoomDeltaValue
+                        maxGestureZoomDeltaValue,
+                        HasMetaKeysImpl(event.isAltDown, event.isControlDown, event.isShiftDown, event.isMetaDown)
                     )
                 )
             }
 
 
             val scrollHandler = EventHandler<ScrollEvent> { event ->
-                if (event.isControlDown) {
-                    val currentDelta = event.deltaY
-                    listener(
-                        onZoom(
-                            event.x, event.y,
-                            currentDelta,
-                            minWheelZoomDeltaValue,
-                            maxWheelZoomDeltaValue
-                        )
+                // WHEEL
+                var currentDelta = event.deltaY
+
+                // BUG if shift key is down, on windows, then the "scroll" switch from vertical to horizontal
+                // https://bugs.openjdk.java.net/browse/JDK-8097935
+                // to avoid this, check the deltaX value and switch to if needed
+                if (event.isShiftDown && abs(currentDelta) < 1e-3) currentDelta = event.deltaX
+
+                listener(
+                    onZoom(
+                        event.x, event.y,
+                        currentDelta,
+                        minWheelZoomDeltaValue,
+                        maxWheelZoomDeltaValue,
+                        HasMetaKeysImpl(event.isAltDown, event.isControlDown, event.isShiftDown, event.isMetaDown)
                     )
-                }
+                )
             }
 
             return JvmZoomHandle(canvas, scrollHandler, zoomHandler).also { it.init() }
         }
 
         private fun onZoom(
-            x:Double, y:Double,
-            currentDelta: Double, minDelta: Double,
-            maxDelta: Double
+            x: Double, y: Double, currentDelta: Double,
+            minDelta: Double,
+            maxDelta: Double,
+            hasMetaKeys: HasMetaKeys,
         ): KZoomEvent {
 
             val currentTime = System.currentTimeMillis()
@@ -173,7 +183,8 @@ public actual class KZoom {
                     currentDelta,
                     minDelta,
                     maxDelta
-                )
+                ),
+                hasMetaKeys
             )
         }
     }

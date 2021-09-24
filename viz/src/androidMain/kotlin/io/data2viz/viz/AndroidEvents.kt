@@ -359,10 +359,11 @@ internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
     return handle.eventListener.addNativeListener(androidCanvasRenderer, handle.listener)
 }
 
-private fun MotionEvent.toKMouseEvent(): KPointerEvent = KPointerEvent(Point(x.toDouble(), y.toDouble()))
+private fun MotionEvent.toKMouseEvent(): KPointerEvent = KPointerEventImpl(Point(x.toDouble(), y.toDouble()))
 
 private fun MotionEvent.toKTouchEvent(): KTouchEvent {
     val type  = actionMasked.actionMaskToType()
+    //todo get meta state
     val pointers = (0 until pointerCount).map { index ->
         KPointer(getPointerId(index), Point(getX(index).toDouble(), getY(index).toDouble()))
     }

@@ -143,7 +143,8 @@ public actual class KZoom {
                             listener(
                                 KZoomEvent(
                                     zoomStartPoint,
-                                    KZoomEvent.scaleDelta(invertedDelta, minWheelZoomDeltaValue, maxWheelZoomDeltaValue)
+                                    KZoomEvent.scaleDelta(invertedDelta, minWheelZoomDeltaValue, maxWheelZoomDeltaValue),
+                                    hasMetaKeys = HasMetaKeysImpl(event.altKey, event.ctrlKey, event.shiftKey, event.metaKey)
                                 )
                             )
                         } else {
@@ -151,11 +152,8 @@ public actual class KZoom {
                             listener(
                                 KZoomEvent(
                                     zoomStartPoint,
-                                    KZoomEvent.scaleDelta(
-                                        invertedDelta,
-                                        minGestureZoomDeltaValue,
-                                        maxGestureZoomDeltaValue
-                                    )
+                                    KZoomEvent.scaleDelta(invertedDelta, minGestureZoomDeltaValue, maxGestureZoomDeltaValue),
+                                    hasMetaKeys = HasMetaKeysImpl(event.altKey, event.ctrlKey, event.shiftKey, event.metaKey)
                                 )
                             )
                         }
@@ -274,7 +272,7 @@ fun Event.toKTouchEvent(canvas: HTMLCanvasElement): KPointerEvent? = unsafeCast<
     if (touches.length > 1)
         return@run null
 
-    val touch = touches[0] ?: return@run KPointerEvent(Point(mouse.x, mouse.y))
+    val touch = touches[0] ?: return@run KPointerEventImpl(Point(mouse.x, mouse.y))
 
     mouse.x = touch.pageX.toDouble() - bounds.left - window.scrollX
     mouse.y = touch.pageY.toDouble() - bounds.top  - window.scrollY
@@ -289,7 +287,7 @@ fun Event.toKTouchEvent(canvas: HTMLCanvasElement): KPointerEvent? = unsafeCast<
     mouse.y /= pixelRatio
 
 
-    KPointerEvent(
+    KPointerEventImpl(
         Point(mouse.x, mouse.y)
     )
 }

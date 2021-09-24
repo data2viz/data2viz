@@ -17,6 +17,7 @@
 
 package io.data2viz.viz
 
+import io.data2viz.InternalAPI
 import io.data2viz.geom.Point
 
 
@@ -30,6 +31,31 @@ annotation class ExperimentalKEvent
  * Marker interface on events.
  */
 public interface KEvent
+
+
+/**
+ * A KPointerEvent has a position.
+ */
+public interface KPointerEvent: KEvent {
+    public val pos: Point
+}
+
+/**
+ * Pointer events for platform with Mouse input device.
+ * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
+ * Used in JFX & JS implementations. Android implementation use common KPointerEvent
+ */
+public interface KMouseEvent: KPointerEvent, HasMetaKeys
+
+/**
+ * Allow the access to the ALT, CTRL, META, SHIFT key during an event
+ */
+public interface HasMetaKeys{
+    public val altKey: Boolean
+    public val ctrlKey: Boolean
+    public val shiftKey: Boolean
+    public val metaKey: Boolean
+}
 
 /**
  * TODO: rename with a more explicit name.
@@ -48,9 +74,10 @@ public interface Disposable {
  * Common Pointer event. Can be subclassed into more specific events.
  * Gives access to the position of the event.
  */
-public open class KPointerEvent(
-    public val pos: Point
-) : KEvent {
+@InternalAPI
+internal open class KPointerEventImpl(
+    public override val pos: Point
+) : KPointerEvent {
     override fun toString(): String = "KPointerEvent(pos=$pos)"
 }
 
@@ -72,21 +99,33 @@ public class KPointer(
     public val pos: Point
 )
 
-/**
- * Pointer events for platform with Mouse input device.
- * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
- * Used in JFX & JS implementations. Android implementation use common KPointerEvent
- */
-public class KMouseEvent(
+
+public fun KMouseEvent(    pos: Point,
+                           altKey: Boolean,
+                           ctrlKey: Boolean,
+                           shiftKey: Boolean,
+                           metaKey: Boolean): KMouseEvent = KMouseEventImpl(pos, altKey, ctrlKey, shiftKey, metaKey)
+
+
+@InternalAPI
+internal class KMouseEventImpl(
     pos: Point,
-    public val altKey: Boolean,
-    public val ctrlKey: Boolean,
-    public val shiftKey: Boolean,
-    public val metaKey: Boolean
-) : KPointerEvent(pos) {
+    public override val altKey: Boolean,
+    public override val ctrlKey: Boolean,
+    public override val shiftKey: Boolean,
+    public override val metaKey: Boolean
+) : KPointerEventImpl(pos), KMouseEvent {
     override fun toString(): String = "KMouseEvent(pos=$pos)"
 }
 
+
+@InternalAPI
+internal data class HasMetaKeysImpl (
+    public override val altKey: Boolean = false,
+    public override val ctrlKey: Boolean = false,
+    public override val shiftKey: Boolean = false,
+    public override val metaKey: Boolean = false
+        ): HasMetaKeys
 
 // TODO : manage "velocity" and "drag event"
 
@@ -160,10 +199,11 @@ public expect class KZoom {
 public class KZoomEvent(
     public val startZoomPos: Point,
     public val deltaX: Double,
-    public val deltaY: Double
-) : KEvent {
+    public val deltaY: Double,
+    internal val hasMetaKeys: HasMetaKeys = HasMetaKeysImpl()
+) : KEvent, HasMetaKeys by hasMetaKeys {
 
-    public constructor(startZoomPos: Point, delta: Double) : this(startZoomPos, delta, delta)
+    public constructor(startZoomPos: Point, delta: Double, hasMetaKeys: HasMetaKeys = HasMetaKeysImpl()) : this(startZoomPos, delta, delta, hasMetaKeys)
 
     public companion object {
 
