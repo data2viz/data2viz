@@ -5,6 +5,10 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.14
+> Published 28 Sep 2021
+* Share the keys pressed during a KZoomEvent ([#238](https://github.com/data2viz/data2viz/issues/238))
+
 ## 0.8.13
 > Published 23 Jun 2021
 * Introduction of TouchEvent (currently only available on Android)
