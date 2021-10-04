@@ -5,6 +5,11 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.15
+> Published 4 Oct 2021
+* Upgrade to Kotlin 1.5.31 and Kotlinx.datetime 0.3.0
+
+
 ## 0.8.14
 > Published 28 Sep 2021
 * Share the keys pressed during a KZoomEvent ([#238](https://github.com/data2viz/data2viz/issues/238))
