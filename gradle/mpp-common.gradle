@@ -15,6 +15,10 @@ kotlin {
                         "-Xuse-experimental=kotlin.time.ExperimentalTime",
                         "-Xopt-in=kotlin.time.ExperimentalTime"
                 ]
+
+                apiVersion = "1.4"
+                languageVersion = "1.4"  // change
+
             }
         }
     }
