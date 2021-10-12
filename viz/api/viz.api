@@ -802,3 +802,7 @@ public abstract interface class io/data2viz/viz/VizRenderer {
 	public abstract fun stopAnimations ()V
 }
 
+public final class io/data2viz/viz/VizToSVGKt {
+	public static final fun toSVG (Lio/data2viz/viz/Viz;)Ljava/lang/String;
+}
+
