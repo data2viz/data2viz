@@ -49,7 +49,7 @@ class TestVizToSVG: TestBase(){
             <?xml version="1.0"?>
             <svg xmlns="http://www.w3.org/2000/svg" width="100.0" height="100.0">
             <g>
-            <rect x="10.0" y="10.0" width="100.0" height="100.0">
+            <rect x="10.0" y="10.0" width="100.0" height="100.0" style="stroke-width:1.0">
             </rect>
             </g>
             </svg>"""
