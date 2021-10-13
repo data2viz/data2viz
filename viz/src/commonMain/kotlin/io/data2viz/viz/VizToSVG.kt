@@ -33,8 +33,8 @@ public fun Viz.toSVG(): String = buildSvgString {
         type = "svg",
         attributes = {
             add("xmlns", "http://www.w3.org/2000/svg")
-            add("width", width.toString())
-            add("height", height.toString())
+            add("width", width)
+            add("height", height)
         }
     ) {
         layers.forEach { layer ->
@@ -43,13 +43,13 @@ public fun Viz.toSVG(): String = buildSvgString {
     }
 }
 
-private fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildString {
+internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildString {
     val svgStringBuilder = object : SvgStringBuilder {
         override val builder: StringBuilder = this@buildString
         override val gradients: MutableList<Any> get() = TODO("Not yet implemented")
     }
     svgStringBuilder.apply {
-        builder.append("""<?xml version="1.0"?>""")
+        builder.append("<?xml version=\"1.0\"?>\n")
         build()
     }
 }
@@ -103,6 +103,11 @@ internal object AttributesBuilder {
         builder.append("$key=\"$value\" ")
     }
 
+    // adds simple attribute like width="100.0"
+    fun SvgStringBuilder.add(key: String, value: Number) {
+        builder.append("$key=\"$value\" ")
+    }
+
     // adds style="" attribute and starts style builder to add styles to it
     fun SvgStringBuilder.addStyle(stylesBuilder: StylesBuilder.() -> Unit) {
         builder.apply {
@@ -149,7 +154,12 @@ internal object AttributesBuilder {
 
 // calling add() adds a new style
 internal object StylesBuilder {
+
     fun SvgStringBuilder.add(key: String, value: String) {
+        builder.append("$key:$value;")
+    }
+
+    fun SvgStringBuilder.add(key: String, value: Number) {
         builder.append("$key:$value;")
     }
 
@@ -172,7 +182,7 @@ internal object StylesBuilder {
                 }
             }
             node.strokeWidth?.let {
-                add("stroke-width", it.toString())
+                add("stroke-width", it)
             }
             node.dashedLine?.let {
                 add("stroke-dasharray", it.joinToString(","))
@@ -183,6 +193,7 @@ internal object StylesBuilder {
 
 // calling add() adds a new transformation
 internal object TransformBuilder {
+
     fun SvgStringBuilder.add(transformType: String, vararg values: Number) {
         builder.append("$transformType(${values.joinToString(" ")}) ")
     }
@@ -225,10 +236,10 @@ private fun SvgStringBuilder.add(rectNode: RectNode) {
         add(
             type = "rect",
             attributes = {
-                add("x", x.toString())
-                add("y", y.toString())
-                add("width", width.toString())
-                add("height", height.toString())
+                add("x", x)
+                add("y", y)
+                add("width", width)
+                add("height", height)
                 addStylesIfAvailableFor(rectNode)
             },
         )
@@ -240,10 +251,10 @@ private fun SvgStringBuilder.add(lineNode: LineNode) {
         add(
             type = "line",
             attributes = {
-                add("x1", x1.toString())
-                add("y1", y1.toString())
-                add("x2", x2.toString())
-                add("y2", y2.toString())
+                add("x1", x1)
+                add("y1", y1)
+                add("x2", x2)
+                add("y2", y2)
                 addStylesIfAvailableFor(lineNode)
                 addTransformsIfAvailableFor(lineNode)
             }
@@ -256,9 +267,9 @@ private fun SvgStringBuilder.add(circleNode: CircleNode) {
         add(
             type = "circle",
             attributes = {
-                add("cx", circle.x.toString())
-                add("cy", circle.y.toString())
-                add("r", circle.radius.toString())
+                add("cx", circle.x)
+                add("cy", circle.y)
+                add("r", circle.radius)
                 addStylesIfAvailableFor(circleNode)
                 addTransformsIfAvailableFor(circleNode)
             }
@@ -280,10 +291,10 @@ private fun SvgStringBuilder.add(textNode: TextNode) {
             attributes = {
                 val textRect = measureText()
 
-                add("x", x.toString())
-                add("y", (textRect.y + textRect.height).toString()) // TODO fix aligning
+                add("x", x)
+                add("y", textRect.y + textRect.height) // TODO fix aligning
                 add("text-anchor", hAlign.svg)
-                add("font-size", fontSize.toString())
+                add("font-size", fontSize)
                 add("font-family", fontFamily.name)
                 add("font-weight", fontWeight.name)
                 add("font-style", fontStyle.name)
@@ -302,11 +313,11 @@ private fun SvgStringBuilder.add(textNode: TextNode) {
 //        add(
 //            type = "image",
 //            attributes = {
-//                add("x", x.toString())
-//                add("y", y.toString())
+//                add("x", x)
+//                add("y", y)
 //                size?.let {
-//                    add("width", it.width.toString())
-//                    add("height", it.height.toString())
+//                    add("width", it.width)
+//                    add("height", it.height)
 //                }
 //
 //            }
