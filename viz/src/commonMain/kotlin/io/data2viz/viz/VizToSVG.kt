@@ -18,11 +18,13 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Color
+import io.data2viz.color.Colors
 import io.data2viz.color.Gradient
 import io.data2viz.geom.*
 import io.data2viz.math.EPSILON
 import io.data2viz.math.TAU
 import io.data2viz.math.TAU_EPSILON
+import io.data2viz.math.pct
 import kotlin.math.*
 
 
@@ -41,6 +43,25 @@ public fun Viz.toSVG(): String = buildSvgString {
     }
 }
 
+private fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildString {
+    val svgStringBuilder = object : SvgStringBuilder {
+        override val builder: StringBuilder = this@buildString
+        override val gradients: MutableList<Any> get() = TODO("Not yet implemented")
+    }
+    svgStringBuilder.apply {
+        builder.append("""<?xml version="1.0"?>""")
+        build()
+    }
+}
+
+internal val Node.hasStyles
+    get() = when (this) {
+        is HasStroke -> stroke != null || strokeColor != null || strokeWidth != null || dashedLine != null
+        is HasFill -> fill != null
+        else -> false
+    }
+
+// calling add() adds a new Svg component
 internal interface SvgStringBuilder {
     val builder: StringBuilder
 
@@ -60,11 +81,11 @@ internal interface SvgStringBuilder {
             }
 
             if (renderChildren == null) {
-                append("/>")
+                append("/>\n")
             } else {
-                append(">")
+                append(">\n")
                 renderChildren()
-                append("</$type>")
+                append("</$type>\n")
             }
         }
     }
@@ -74,23 +95,15 @@ internal interface SvgStringBuilder {
     }
 }
 
-
-private fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildString {
-    val svgStringBuilder = object : SvgStringBuilder {
-        override val builder: StringBuilder = this@buildString
-        override val gradients: MutableList<Any> get() = TODO("Not yet implemented")
-    }
-    svgStringBuilder.apply {
-        builder.append("""<?xml version="1.0"?>""")
-        build()
-    }
-}
-
+// calling add() adds a new attribute
 internal object AttributesBuilder {
+
+    // adds simple attribute like width="100.0"
     fun SvgStringBuilder.add(key: String, value: String) {
         builder.append("$key=\"$value\" ")
     }
 
+    // adds style="" attribute and starts style builder to add styles to it
     fun SvgStringBuilder.addStyle(stylesBuilder: StylesBuilder.() -> Unit) {
         builder.apply {
             append("style=\"")
@@ -100,15 +113,17 @@ internal object AttributesBuilder {
         }
     }
 
+    // adds transform="" attribute and starts transform builder to add transformations to it
     fun SvgStringBuilder.addTransform(transformBuilder: TransformBuilder.() -> Unit) {
         builder.apply {
             append("transform=\"")
             transformBuilder(TransformBuilder)
-            if (builder.takeLast(1) == "\n") deleteAt(lastIndex)
+            if (builder.takeLast(1) == " ") deleteAt(lastIndex)
             append("\" ")
         }
     }
 
+    // adds d="" attribute and starts simple string builder to add the path to it
     fun SvgStringBuilder.addPath(pathBuilder: StringBuilder.() -> Unit) {
         builder.apply {
             append("d=\"")
@@ -117,12 +132,14 @@ internal object AttributesBuilder {
         }
     }
 
+    // adds style="" attribute if node has any styles and fills it in
     fun SvgStringBuilder.addStylesIfAvailableFor(node: Node) {
         if (node.hasStyles) addStyle {
             addStylesFor(node)
         }
     }
 
+    // adds transform="" attribute if node has any transforamtions and fills it in
     fun SvgStringBuilder.addTransformsIfAvailableFor(node: HasTransform) {
         if (node.transform != null) addTransform {
             addTransformsFor(node)
@@ -130,6 +147,7 @@ internal object AttributesBuilder {
     }
 }
 
+// calling add() adds a new style
 internal object StylesBuilder {
     fun SvgStringBuilder.add(key: String, value: String) {
         builder.append("$key:$value;")
@@ -163,16 +181,17 @@ internal object StylesBuilder {
     }
 }
 
+// calling add() adds a new transformation
 internal object TransformBuilder {
     fun SvgStringBuilder.add(transformType: String, vararg values: Number) {
-        builder.append("$transformType(${values.joinToString(" ")})\n")
+        builder.append("$transformType(${values.joinToString(" ")}) ")
     }
 
     fun SvgStringBuilder.addTransformsFor(node: HasTransform) {
         node.transform!!.transformations.forEach {
             when (it) {
                 is Translation -> add("translate", it.x, it.y)
-                is Rotation -> add("rotate", it.delta)
+                is Rotation -> add("rotate", it.delta * 180 / PI)
                 else -> error("unsupported transformation")
             }
         }
@@ -180,7 +199,12 @@ internal object TransformBuilder {
 }
 
 internal fun SvgStringBuilder.add(groupNode: GroupNode) {
-    add(type = "g") {
+    add(
+        type = "g",
+        attributes = {
+            addTransformsIfAvailableFor(groupNode)
+        },
+    ) {
         groupNode.children.forEach { node ->
             when (node) {
                 is RectNode -> add(node)
@@ -195,13 +219,6 @@ internal fun SvgStringBuilder.add(groupNode: GroupNode) {
         }
     }
 }
-
-internal val Node.hasStyles
-    get() = when (this) {
-        is HasStroke -> stroke != null || strokeColor != null || strokeWidth != null || dashedLine != null
-        is HasFill -> fill != null
-        else -> false
-    }
 
 private fun SvgStringBuilder.add(rectNode: RectNode) {
     with(rectNode) {
@@ -249,13 +266,23 @@ private fun SvgStringBuilder.add(circleNode: CircleNode) {
     }
 }
 
+internal val TextHAlign.svg
+    get() = when (this) {
+        TextHAlign.LEFT, TextHAlign.START -> "start"
+        TextHAlign.MIDDLE -> "middle"
+        TextHAlign.RIGHT, TextHAlign.END -> "end"
+    }
+
 private fun SvgStringBuilder.add(textNode: TextNode) {
     with(textNode) {
         add(
             type = "text",
             attributes = {
+                val textRect = measureText()
+
                 add("x", x.toString())
-                add("y", y.toString())
+                add("y", (textRect.y + textRect.height).toString()) // TODO fix aligning
+                add("text-anchor", hAlign.svg)
                 add("font-size", fontSize.toString())
                 add("font-family", fontFamily.name)
                 add("font-weight", fontWeight.name)
@@ -289,6 +316,9 @@ private fun SvgStringBuilder.add(textNode: TextNode) {
 
 private fun SvgStringBuilder.add(pathNode: PathNode) {
     with(pathNode) {
+        if (fill == null) fill = Colors.rgb(0, 0, 0, 0.pct)
+        if (strokeColor == null) strokeColor = Colors.rgb(0, 0, 0, 0.pct)
+
         add(
             type = "path",
             attributes = {
@@ -307,27 +337,27 @@ private fun SvgStringBuilder.add(pathNode: PathNode) {
                                 tempY0 = cmd.y
                                 tempX1 = cmd.x
                                 tempY1 = cmd.y
-                                append("M${cmd.x},${cmd.y}")
+                                append("M ${cmd.x} ${cmd.y} ")
                             }
 
                             is LineTo -> {
                                 tempX1 = cmd.x
                                 tempY1 = cmd.y
-                                append("L${cmd.x},${cmd.y}")
+                                append("L ${cmd.x} ${cmd.y} ")
                             }
 
                             is ClosePath -> {
                                 if (tempX1 != null) {
                                     tempX1 = tempX0
                                     tempY1 = tempY0
-                                    append("Z")
+                                    append("Z ")
                                 }
                             }
 
                             is QuadraticCurveTo -> {
                                 tempX1 = cmd.x
                                 tempY1 = cmd.y
-                                append("Q${cmd.cpx},${cmd.cpy},${cmd.x},${cmd.y}")
+                                append("Q ${cmd.cpx} ${cmd.cpy}, ${cmd.x} ${cmd.y} ")
                             }
 
                             is RectCmd -> {
@@ -335,13 +365,13 @@ private fun SvgStringBuilder.add(pathNode: PathNode) {
                                 tempX1 = cmd.x
                                 tempY0 = cmd.y
                                 tempY1 = cmd.y
-                                append("M${cmd.x},${cmd.y}h${cmd.w}v${cmd.h}h${-cmd.w}Z")
+                                append("M ${cmd.x} ${cmd.y} h ${cmd.w} v ${cmd.h} h ${-cmd.w} Z ")
                             }
 
                             is BezierCurveTo -> {
                                 tempX1 = cmd.x
                                 tempY1 = cmd.y
-                                append("C${cmd.cpx1},${cmd.cpy1},${cmd.cpx2},${cmd.cpy2},${cmd.x},${cmd.y}")
+                                append("C ${cmd.cpx1} ${cmd.cpy1}, ${cmd.cpx2} ${cmd.cpy2}, ${cmd.x} ${cmd.y} ")
 
                             }
 
@@ -373,7 +403,7 @@ private fun SvgStringBuilder.add(pathNode: PathNode) {
                                     else if (abs(y01 * x21 - y21 * x01) <= EPSILON || cmd.radius == .0) {
                                         tempX1 = cmd.fromX
                                         tempY1 = cmd.fromY
-                                        append("L${cmd.fromX},${cmd.fromY}")
+                                        append("L ${cmd.fromX} ${cmd.fromY} ")
                                     }
 
                                     // Otherwise, draw an arc!
@@ -391,13 +421,13 @@ private fun SvgStringBuilder.add(pathNode: PathNode) {
 
                                         // If the start tangent is not coincident with (x0,y0), line to.
                                         if (abs(t01 - 1) > EPSILON) {
-                                            append("L${cmd.fromX + t01 * x01},${cmd.fromY + t01 * y01}")
+                                            append("L ${cmd.fromX + t01 * x01} ${cmd.fromY + t01 * y01} ")
                                         }
 
                                         tempX1 = cmd.fromX + t21 * x21
                                         tempY1 = cmd.fromY + t21 * y21
                                         val yes = if (y01 * x20 > x01 * y20) 1 else 0
-                                        append("A${cmd.radius},${cmd.radius},0,0,$yes,${tempX1},${tempY1}")
+                                        append("A ${cmd.radius} ${cmd.radius} 0 0 $yes ${tempX1} ${tempY1} ")
                                     }
                                 }
                             }
@@ -415,12 +445,12 @@ private fun SvgStringBuilder.add(pathNode: PathNode) {
 
                                     //path is empty, introduce private function?
                                     if (this == null) {
-                                        append("M$x0,$y0")
+                                        append("M $x0 $y0 ")
                                     } else if (abs(this.toDouble() - x0) > EPSILON || abs(
                                             tempY1!!.toDouble() - y0
                                         ) > EPSILON
                                     ) {
-                                        append("L$x0,$y0")
+                                        append("L $x0 $y0 ")
                                     } else {
                                     }
                                 }
@@ -433,18 +463,17 @@ private fun SvgStringBuilder.add(pathNode: PathNode) {
                                 if (da > TAU_EPSILON) {
                                     tempX1 = x0
                                     tempY1 = y0
-                                    append("A${cmd.radius},${cmd.radius},0,1,$cw,${cmd.centerX - dx},${cmd.centerY - dy}A${cmd.radius},${cmd.radius},0,1,$cw,$x0,$y0")
+                                    append("A ${cmd.radius} ${cmd.radius} 0 1 $cw ${cmd.centerX - dx} ${cmd.centerY - dy} A ${cmd.radius} ${cmd.radius} 0 1 $cw $x0 $y0 ")
                                 }
 
                                 // Is this arc non-empty? Draw an arc!
                                 else if (da > EPSILON) {
                                     tempX1 = cmd.centerX + cmd.radius * cos(cmd.endAngle)
                                     tempY1 = cmd.centerY + cmd.radius * sin(cmd.endAngle)
-                                    append("A${cmd.radius},${cmd.radius},0,${if (da >= PI) 1 else 0},$cw,$tempX1,$tempY1")
+                                    append("A ${cmd.radius} ${cmd.radius} 0 ${if (da >= PI) 1 else 0} $cw $tempX1 $tempY1 ")
                                 }
                             }
                         }
-
                     }
                 }
             }
