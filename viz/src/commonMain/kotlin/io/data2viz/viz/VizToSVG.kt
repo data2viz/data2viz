@@ -17,16 +17,13 @@
 
 package io.data2viz.viz
 
-import io.data2viz.color.Color
-import io.data2viz.color.Colors
-import io.data2viz.color.Gradient
+import io.data2viz.color.*
 import io.data2viz.geom.*
 import io.data2viz.math.EPSILON
 import io.data2viz.math.TAU
 import io.data2viz.math.TAU_EPSILON
 import io.data2viz.math.pct
 import kotlin.math.*
-
 
 public fun Viz.toSVG(): String = buildSvgString {
     add(
@@ -40,13 +37,21 @@ public fun Viz.toSVG(): String = buildSvgString {
         layers.forEach { layer ->
             add(layer)
         }
+
+        if (gradients.isNotEmpty()) add("defs") {
+            gradients.forEach { gradient ->
+                gradient(width, height)
+            }
+        }
     }
 }
+
+internal typealias GradientsRenderer = SvgStringBuilder.(width: Double, height: Double) -> Unit
 
 internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildString {
     val svgStringBuilder = object : SvgStringBuilder {
         override val builder: StringBuilder = this@buildString
-        override val gradients: MutableList<Any> get() = TODO("Not yet implemented")
+        override val gradients: MutableList<GradientsRenderer> = mutableListOf()
     }
     svgStringBuilder.apply {
         builder.append("<?xml version=\"1.0\"?>\n")
@@ -64,8 +69,7 @@ internal val Node.hasStyles
 // calling add() adds a new Svg component
 internal interface SvgStringBuilder {
     val builder: StringBuilder
-
-    val gradients: MutableList<Any> // TODO
+    val gradients: MutableList<GradientsRenderer>
 
     fun add(
         type: String,
@@ -152,6 +156,48 @@ internal object AttributesBuilder {
     }
 }
 
+internal fun gradientRendererOf(gradient: Gradient, id: String): GradientsRenderer = { width, height ->
+    with(gradient) {
+
+        val addStops: SvgStringBuilder.() -> Unit = {
+            colorStops.forEach {
+                add(
+                    type = "stop",
+                    attributes = {
+                        add("offset", it.percent.toString())
+                        addStyle {
+                            add("stop-color", it.color.rgba)
+                        }
+                    },
+                )
+            }
+        }
+
+        when (this) {
+            is LinearGradient -> add(
+                type = "linearGradient",
+                attributes = {
+                    add("id", id)
+                    add("x1", "${x1 / width * 100.0}%"); add("y1", "${y1 / height * 100.0}%")
+                    add("x2", "${x2 / width * 100.0}%"); add("y2", "${y2 / height * 100.0}%")
+                },
+                renderChildren = addStops,
+            )
+            is RadialGradient -> add(
+                type = "radialGradient",
+                attributes = {
+                    add("id", id)
+                    add("cx", "${cx / width * 100.0}%"); add("cy", "${cy / height * 100.0}%")
+                    add("r", "${radius / minOf(width, height) * 100.0}%") // TODO check how to properly scale this
+                },
+                renderChildren = addStops,
+            )
+            else -> error("Gradient must be either LinearGradient or RadialGradient")
+        }
+    }
+
+}
+
 // calling add() adds a new style
 internal object StylesBuilder {
 
@@ -167,7 +213,11 @@ internal object StylesBuilder {
         if (node is HasFill) {
             node.fill?.let {
                 when (it) {
-                    is Gradient -> error("Gradients are not yet supported") // TODO
+                    is Gradient -> {
+                        val id = "grad${gradients.size + 1}"
+                        gradients += gradientRendererOf(it, id)
+                        add("fill", "url('#$id')")
+                    }
                     is Color -> add("fill", it.rgba)
                     else -> error("")
                 }
@@ -176,7 +226,11 @@ internal object StylesBuilder {
         if (node is HasStroke) {
             node.strokeColor?.let {
                 when (it) {
-                    is Gradient -> error("Gradients are not yet supported") // TODO
+                    is Gradient -> {
+                        val id = "grad${gradients.size + 1}"
+                        gradients += gradientRendererOf(it, id) // TODO
+                        add("stroke", "url('#$id')")
+                    }
                     is Color -> add("stroke", it.rgba)
                     else -> error("")
                 }
@@ -208,6 +262,7 @@ internal object TransformBuilder {
         }
     }
 }
+
 
 internal fun SvgStringBuilder.add(groupNode: GroupNode) {
     add(
@@ -307,23 +362,6 @@ private fun SvgStringBuilder.add(textNode: TextNode) {
         }
     }
 }
-
-//private fun SvgStringBuilder.add(imageNode: ImageNode) {
-//    with(imageNode) {
-//        add(
-//            type = "image",
-//            attributes = {
-//                add("x", x)
-//                add("y", y)
-//                size?.let {
-//                    add("width", it.width)
-//                    add("height", it.height)
-//                }
-//
-//            }
-//        )
-//    }
-//}
 
 private fun SvgStringBuilder.add(pathNode: PathNode) {
     with(pathNode) {
