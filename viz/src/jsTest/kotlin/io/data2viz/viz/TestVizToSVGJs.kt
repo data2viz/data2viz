@@ -69,8 +69,55 @@ class TestVizToSVGJs : TestBase() {
             <rect x="10" y="10" width="30" height="30" style="stroke:red;fill:transparent;stroke-width:5" transform="rotate(45 25 25)"/>
             <rect x="60" y="10" rx="10" ry="5" width="30" height="30" style="stroke:black;fill:transparent;stroke-width:5"/>
             </svg>
-            
+
             """.trimIndent()
+    }
+
+    @Test
+    fun testText() {
+        val svg = viz {
+            width = 100.0
+            height = 100.0
+
+            text {
+                x = 10.0; y = 10.0
+                textAlign(TextHAlign.MIDDLE, TextVAlign.MIDDLE)
+                textContent = "O"
+            }
+            text {
+                x = 90.0; y = 10.0
+                textAlign(TextHAlign.MIDDLE, TextVAlign.MIDDLE)
+                textContent = "O"
+            }
+            text {
+                x = 10.0; y = 90.0
+                textAlign(TextHAlign.MIDDLE, TextVAlign.MIDDLE)
+                textContent = "O"
+            }
+            text {
+                x = 90.0; y = 90.0
+                textAlign(TextHAlign.MIDDLE, TextVAlign.MIDDLE)
+                textContent = "O"
+            }
+        }.toSVG()
+
+        val target = """
+            <?xml version="1"?>
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+            <g>
+            <text x="10" y="5.845703125" font-size="12" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:1">
+            O</text>
+            <text x="90" y="5.845703125" font-size="12" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:1">
+            O</text>
+            <text x="10" y="85.845703125" font-size="12" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:1">
+            O</text>
+            <text x="90" y="85.845703125" font-size="12" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:1">
+            O</text>
+            </g>
+            </svg>
+        """.trimIndent()
+
+        assertEquals(target, svg)
     }
 
     @Test
@@ -86,7 +133,7 @@ class TestVizToSVGJs : TestBase() {
             <g>
             </g>
             </svg>
-            
+
             """.trimIndent()
 
         assertEquals(target, svg)
@@ -114,7 +161,7 @@ class TestVizToSVGJs : TestBase() {
             <rect x="10" y="10" width="100" height="100" style="stroke-width:1"/>
             </g>
             </svg>
-            
+
             """.trimIndent()
         assertEquals(expected, actual)
 
@@ -141,7 +188,7 @@ class TestVizToSVGJs : TestBase() {
             <line x1="1" y1="1" x2="70" y2="70" style="stroke:rgba(173, 255, 47, 1);stroke-width:1"/>
             </g>
             </svg>
-            
+
             """.trimIndent()
         assertEquals(expected,actual)
     }
@@ -168,7 +215,7 @@ class TestVizToSVGJs : TestBase() {
             <circle cx="50" cy="50" r="30" style="fill:rgba(0, 128, 0, 1);stroke:rgba(255, 0, 0, 1);stroke-width:5"/>
             </g>
             </svg>
-            
+
             """.trimIndent()
         assertEquals(actual, expected)
     }
@@ -254,7 +301,7 @@ class TestVizToSVGJs : TestBase() {
             </linearGradient>
             </defs>
             </svg>
-            
+
             """
             .trimIndent()
     }
