@@ -346,9 +346,8 @@ private fun SvgStringBuilder.add(textNode: TextNode) {
             attributes = {
                 val textRect = measureText()
 
-                add("x", x)
-                add("y", textRect.y + textRect.height) // TODO fix aligning
-                add("text-anchor", hAlign.svg)
+                add("x", textRect.x)
+                add("y", textRect.y + 0.5 * textRect.height)
                 add("font-size", fontSize)
                 add("font-family", fontFamily.name)
                 add("font-weight", fontWeight.name)
