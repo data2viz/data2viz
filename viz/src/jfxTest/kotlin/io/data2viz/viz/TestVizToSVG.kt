@@ -222,7 +222,7 @@ class TestVizToSVG : TestBase() {
 
     @Test
     fun testLinearGradientLogo() {
-        viz {
+        val actual = viz {
             size = size(400, 400)
 
             val gradient =
@@ -273,37 +273,38 @@ class TestVizToSVG : TestBase() {
                 strokeWidth = 30.0
             }
 
-        }.toSVG() shouldBe """
-            <?xml version="1.0"?>
-            <svg xmlns="http://www.w3.org/2000/svg" width="400.0" height="400.0">
-            <g>
-            <rect x="0.0" y="0.0" width="400.0" height="400.0" style="fill:url('#grad1');stroke-width:1.0"/>
-            <rect x="30.0" y="30.0" width="340.0" height="340.0" style="fill:rgba(255, 255, 255, 1.0);stroke-width:1.0"/>
-            <rect x="60.0" y="60.0" width="280.0" height="280.0" style="fill:url('#grad2');stroke-width:1.0"/>
-            <path style="fill:rgba(255, 255, 255, 1.0);stroke:rgba(0, 0, 0, 0.0);stroke-width:1.0" d="M 200.0 340.0 L 340.0 60.0 L 360.0 360.0 "/>
-            <path style="fill:rgba(0, 0, 0, 0.0);stroke:rgba(255, 255, 255, 1.0);stroke-width:30.0" d="M 220.0 360.0 L 55.0 37.5 "/>
-            <path style="fill:rgba(0, 0, 0, 0.0);stroke:rgba(255, 255, 255, 1.0);stroke-width:30.0" d="M 340.0 300.0 L 215.0 37.5 "/>
-            </g>
-            <defs>
-            <linearGradient id="grad1" x1="0.0%" y1="100.0%" x2="100.0%" y2="0.0%">
-            <stop offset="0.0%" style="stop-color:rgba(65, 63, 222, 1.0)"/>
-            <stop offset="25.0%" style="stop-color:rgba(68, 61, 226, 1.0)"/>
-            <stop offset="50.0%" style="stop-color:rgba(118, 65, 223, 1.0)"/>
-            <stop offset="75.0%" style="stop-color:rgba(185, 69, 206, 1.0)"/>
-            <stop offset="100.0%" style="stop-color:rgba(222, 61, 130, 1.0)"/>
-            </linearGradient>
-            <linearGradient id="grad2" x1="0.0%" y1="100.0%" x2="100.0%" y2="0.0%">
-            <stop offset="0.0%" style="stop-color:rgba(65, 63, 222, 1.0)"/>
-            <stop offset="25.0%" style="stop-color:rgba(68, 61, 226, 1.0)"/>
-            <stop offset="50.0%" style="stop-color:rgba(118, 65, 223, 1.0)"/>
-            <stop offset="75.0%" style="stop-color:rgba(185, 69, 206, 1.0)"/>
-            <stop offset="100.0%" style="stop-color:rgba(222, 61, 130, 1.0)"/>
-            </linearGradient>
-            </defs>
-            </svg>
+        }.toSVG()
 
-            """
-            .trimIndent()
+        val expect = """<?xml version="1.0"?>
+            |<svg xmlns="http://www.w3.org/2000/svg" width="400.0" height="400.0">
+            |<g>
+            |<rect x="0.0" y="0.0" width="400.0" height="400.0" style="fill:url('#grad1');stroke-width:1.0"/>
+            |<rect x="30.0" y="30.0" width="340.0" height="340.0" style="fill:rgba(255, 255, 255, 1.0);stroke-width:1.0"/>
+            |<rect x="60.0" y="60.0" width="280.0" height="280.0" style="fill:url('#grad2');stroke-width:1.0"/>
+            |<path style="fill:rgba(255, 255, 255, 1.0);stroke:rgba(0, 0, 0, 0.0);stroke-width:1.0" d="M 200.0 340.0 L 340.0 60.0 L 360.0 360.0 "/>
+            |<path style="fill:rgba(0, 0, 0, 0.0);stroke:rgba(255, 255, 255, 1.0);stroke-width:30.0" d="M 220.0 360.0 L 55.0 37.5 "/>
+            |<path style="fill:rgba(0, 0, 0, 0.0);stroke:rgba(255, 255, 255, 1.0);stroke-width:30.0" d="M 340.0 300.0 L 215.0 37.5 "/>
+            |</g>
+            |<defs>
+            |<linearGradient id="grad1" x1="0.0 px" y1="400.0 px" x2="400.0 px" y2="0.0 px">
+            |<stop offset="0.0%" style="stop-color:rgba(65, 63, 222, 1.0)"/>
+            |<stop offset="25.0%" style="stop-color:rgba(68, 61, 226, 1.0)"/>
+            |<stop offset="50.0%" style="stop-color:rgba(118, 65, 223, 1.0)"/>
+            |<stop offset="75.0%" style="stop-color:rgba(185, 69, 206, 1.0)"/>
+            |<stop offset="100.0%" style="stop-color:rgba(222, 61, 130, 1.0)"/>
+            |</linearGradient>
+            |<linearGradient id="grad2" x1="0.0 px" y1="400.0 px" x2="400.0 px" y2="0.0 px">
+            |<stop offset="0.0%" style="stop-color:rgba(65, 63, 222, 1.0)"/>
+            |<stop offset="25.0%" style="stop-color:rgba(68, 61, 226, 1.0)"/>
+            |<stop offset="50.0%" style="stop-color:rgba(118, 65, 223, 1.0)"/>
+            |<stop offset="75.0%" style="stop-color:rgba(185, 69, 206, 1.0)"/>
+            |<stop offset="100.0%" style="stop-color:rgba(222, 61, 130, 1.0)"/>
+            |</linearGradient>
+            |</defs>
+            |</svg>
+            |""".trimMargin()
+
+        assertEquals(actual, expect)
     }
 
     @Test
@@ -334,8 +335,6 @@ class TestVizToSVG : TestBase() {
 
 
         }.toSVG()
-
-        println(actual)
 
         val expect = """<?xml version="1.0"?>
                 |<svg xmlns="http://www.w3.org/2000/svg" width="800.0" height="200.0">
