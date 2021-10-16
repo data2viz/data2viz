@@ -24,8 +24,6 @@ import io.data2viz.geom.point
 import io.data2viz.geom.size
 import io.data2viz.math.pct
 import io.data2viz.test.TestBase
-import java.awt.Desktop
-import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -192,7 +190,7 @@ class TestVizToSVG : TestBase() {
             </svg>
 
             """.trimIndent()
-        assertEquals(expected,actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -308,5 +306,57 @@ class TestVizToSVG : TestBase() {
             .trimIndent()
     }
 
+    @Test
+    fun testRadialGradient() {
+        val radialGradient = Colors.Gradient.radial(point(400, 100), 100.0)
+            .withColor(Colors.Web.hotpink, 0.pct)       // gradient center is "hot pink"
+            .andColor(Colors.Web.skyblue, 100.pct)      // gradient end "is sky blue"
 
+        val radialGradient2 = Colors.Gradient.radial(point(200, 100), 120.0)
+            .withColor(Colors.Web.red, 0.pct)       // gradient center is "hot pink"
+            .andColor(Colors.Web.orange, 50.pct)       // gradient center is "hot pink"
+            .andColor(Colors.Web.purple, 100.pct)      // gradient end "is sky blue"
+
+        val actual = viz {
+            size = size(800, 200)
+            circle {
+                x = 400.0
+                y = 100.0
+                radius = 100.0
+                fill = radialGradient
+            }
+            circle {
+                x = 200.0
+                y = 100.0
+                radius = 120.0
+                fill = radialGradient2
+            }
+
+
+        }.toSVG()
+
+        println(actual)
+
+        val expect = """<?xml version="1.0"?>
+                |<svg xmlns="http://www.w3.org/2000/svg" width="800.0" height="200.0">
+                |<g>
+                |<circle cx="400.0" cy="100.0" r="100.0" style="fill:url('#grad1');stroke-width:1.0"/>
+                |<circle cx="200.0" cy="100.0" r="120.0" style="fill:url('#grad2');stroke-width:1.0"/>
+                |</g>
+                |<defs>
+                |<radialGradient id="grad1" cx="400.0 px" cy="100.0 px" r="100.0 px">
+                |<stop offset="0.0%" style="stop-color:rgba(255, 105, 180, 1.0)"/>
+                |<stop offset="100.0%" style="stop-color:rgba(135, 206, 235, 1.0)"/>
+                |</radialGradient>
+                |<radialGradient id="grad2" cx="200.0 px" cy="100.0 px" r="120.0 px">
+                |<stop offset="0.0%" style="stop-color:rgba(255, 0, 0, 1.0)"/>
+                |<stop offset="50.0%" style="stop-color:rgba(255, 165, 0, 1.0)"/>
+                |<stop offset="100.0%" style="stop-color:rgba(128, 0, 128, 1.0)"/>
+                |</radialGradient>
+                |</defs>
+                |</svg>
+                |""".trimMargin()
+
+        assertEquals(expect, actual)
+    }
 }

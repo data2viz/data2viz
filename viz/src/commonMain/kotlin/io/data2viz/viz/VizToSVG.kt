@@ -30,8 +30,7 @@ public fun Viz.toSVG(): String = buildSvgString {
         type = "svg",
         attributes = {
             add("xmlns", "http://www.w3.org/2000/svg")
-            add("width", width)
-            add("height", height)
+            add("width", width); add("height", height)
         }
     ) {
         layers.forEach { layer ->
@@ -40,13 +39,13 @@ public fun Viz.toSVG(): String = buildSvgString {
 
         if (gradients.isNotEmpty()) add("defs") {
             gradients.forEach { gradient ->
-                gradient(width, height)
+                gradient()
             }
         }
     }
 }
 
-internal typealias GradientsRenderer = SvgStringBuilder.(width: Double, height: Double) -> Unit
+internal typealias GradientsRenderer = SvgStringBuilder.() -> Unit
 
 internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildString {
     val svgStringBuilder = object : SvgStringBuilder {
@@ -156,7 +155,10 @@ internal object AttributesBuilder {
     }
 }
 
-internal fun gradientRendererOf(gradient: Gradient, id: String): GradientsRenderer = { width, height ->
+internal fun gradientRendererOf(
+    gradient: Gradient,
+    id: String,
+): GradientsRenderer = {
     with(gradient) {
 
         val addStops: SvgStringBuilder.() -> Unit = {
@@ -178,8 +180,8 @@ internal fun gradientRendererOf(gradient: Gradient, id: String): GradientsRender
                 type = "linearGradient",
                 attributes = {
                     add("id", id)
-                    add("x1", "${x1 / width * 100.0}%"); add("y1", "${y1 / height * 100.0}%")
-                    add("x2", "${x2 / width * 100.0}%"); add("y2", "${y2 / height * 100.0}%")
+                    add("x1", "$x1 px"); add("y1", "$y1 px")
+                    add("x2", "$x2 px"); add("y2", "$y2 px")
                 },
                 renderChildren = addStops,
             )
@@ -187,15 +189,14 @@ internal fun gradientRendererOf(gradient: Gradient, id: String): GradientsRender
                 type = "radialGradient",
                 attributes = {
                     add("id", id)
-                    add("cx", "${cx / width * 100.0}%"); add("cy", "${cy / height * 100.0}%")
-                    add("r", "${radius / minOf(width, height) * 100.0}%") // TODO check how to properly scale this
+                    add("cx", "$cx px"); add("cy", "$cy px")
+                    add("r", "$radius px")
                 },
                 renderChildren = addStops,
             )
             else -> error("Gradient must be either LinearGradient or RadialGradient")
         }
     }
-
 }
 
 // calling add() adds a new style
@@ -228,7 +229,7 @@ internal object StylesBuilder {
                 when (it) {
                     is Gradient -> {
                         val id = "grad${gradients.size + 1}"
-                        gradients += gradientRendererOf(it, id) // TODO
+                        gradients += gradientRendererOf(it, id)
                         add("stroke", "url('#$id')")
                     }
                     is Color -> add("stroke", it.rgba)
@@ -322,9 +323,9 @@ private fun SvgStringBuilder.add(circleNode: CircleNode) {
         add(
             type = "circle",
             attributes = {
-                add("cx", circle.x)
-                add("cy", circle.y)
-                add("r", circle.radius)
+                add("cx", x)
+                add("cy", y)
+                add("r", radius)
                 addStylesIfAvailableFor(circleNode)
                 addTransformsIfAvailableFor(circleNode)
             }
