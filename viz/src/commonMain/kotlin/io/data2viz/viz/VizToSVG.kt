@@ -53,7 +53,7 @@ internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildS
         override val gradients: MutableList<GradientsRenderer> = mutableListOf()
     }
     svgStringBuilder.apply {
-        builder.append("<?xml version=\"1.0\"?>\n")
+        builder.append("<?xml version=\"${1.0}\"?>\n")
         build()
     }
 }
