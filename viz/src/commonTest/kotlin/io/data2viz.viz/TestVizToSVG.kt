@@ -32,7 +32,7 @@ class TestVizToSVG : TestBase() {
 
     @Test
     fun testSvgFunctionality() {
-        val simpleSvg = buildSvgString {
+        val actual = buildSvgString {
             add("svg", {
                 add("width", 200); add("height", 200)
                 add("version", 1.0)
@@ -63,14 +63,19 @@ class TestVizToSVG : TestBase() {
             }
         }
 
-        simpleSvg shouldBe """
-            <?xml version="${1.0}"?>
-            <svg width="${200}" height="${200}" version="${1.0}" xmlns="http://www.w3.org/2000/svg">
-            <rect x="${10}" y="${10}" width="${30}" height="${30}" style="stroke:red;fill:transparent;stroke-width:${5}" transform="rotate(${45} ${25} ${25})"/>
-            <rect x="${60}" y="${10}" rx="${10}" ry="${5}" width="${30}" height="${30}" style="stroke:black;fill:transparent;stroke-width:${5}"/>
+        val expect = buildString {
+            append("""
+            <?xml version="${1.0 as Number}"?>
+            <svg width="${200 as Number}" height="${200 as Number}" version="${1.0 as Number}" xmlns="http://www.w3.org/2000/svg">
+            <rect x="${10 as Number}" y="${10 as Number}" width="${30 as Number}" height="${30 as Number}" style="stroke:red;fill:transparent;stroke-width:${5 as Number}" transform="rotate(${45 as Number} ${25 as Number} ${25 as Number})"/>
+            <rect x="${60 as Number}" y="${10 as Number}" rx="${10 as Number}" ry="${5 as Number}" width="${30 as Number}" height="${30 as Number}" style="stroke:black;fill:transparent;stroke-width:${5 as Number}"/>
             </svg>
 
             """.trimIndent()
+            )
+        }
+
+        actual shouldBe expect
     }
 
     @Test
@@ -102,16 +107,16 @@ class TestVizToSVG : TestBase() {
         }.toSVG()
 
         val target = """
-            <?xml version="${1.0}"?>
-            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0}" height="${100.0}">
+            <?xml version="${1.0 as Number}"?>
+            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
-            <text x="${10.0}" y="${5.845703125}" font-size="${12.0}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0}">
+            <text x="${10.0 as Number}" y="${5.845703125 as Number}" font-size="${12.0 as Number}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0 as Number}">
             O</text>
-            <text x="${90.0}" y="${5.845703125}" font-size="${12.0}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0}">
+            <text x="${90.0 as Number}" y="${5.845703125 as Number}" font-size="${12.0 as Number}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0 as Number}">
             O</text>
-            <text x="${10.0}" y="${85.845703125}" font-size="${12.0}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0}">
+            <text x="${10.0 as Number}" y="${85.845703125 as Number}" font-size="${12.0 as Number}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0 as Number}">
             O</text>
-            <text x="${90.0}" y="${85.845703125}" font-size="${12.0}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0}">
+            <text x="${90.0 as Number}" y="${85.845703125 as Number}" font-size="${12.0 as Number}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0 as Number}">
             O</text>
             </g>
             </svg>
@@ -129,8 +134,8 @@ class TestVizToSVG : TestBase() {
         }.toSVG()
 
         val target = """
-            <?xml version="${1.0}"?>
-            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0}" height="${100.0}">
+            <?xml version="${1.0 as Number}"?>
+            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
             </g>
             </svg>
@@ -156,10 +161,10 @@ class TestVizToSVG : TestBase() {
 
         }.toSVG()
         val expected = """
-            <?xml version="${1.0}"?>
-            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0}" height="${100.0}">
+            <?xml version="${1.0 as Number}"?>
+            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
-            <rect x="${10.0}" y="${10.0}" width="${100.0}" height="${100.0}" style="stroke-width:${1.0}"/>
+            <rect x="${10.0 as Number}" y="${10.0 as Number}" width="${100.0 as Number}" height="${100.0 as Number}" style="stroke-width:${1.0 as Number}"/>
             </g>
             </svg>
 
@@ -183,10 +188,10 @@ class TestVizToSVG : TestBase() {
             }
         }.toSVG()
         val expected = """
-            <?xml version="${1.0}"?>
-            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0}" height="${100.0}">
+            <?xml version="${1.0 as Number}"?>
+            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
-            <line x1="${1.0}" y1="${1.0}" x2="${70.0}" y2="${70.0}" style="stroke:rgba(${173}, ${255}, ${47}, ${1.0});stroke-width:${1.0}"/>
+            <line x1="${1.0 as Number}" y1="${1.0 as Number}" x2="${70.0 as Number}" y2="${70.0 as Number}" style="stroke:rgba(${173 as Number}, ${255 as Number}, ${47 as Number}, ${1.0 as Number});stroke-width:${1.0 as Number}"/>
             </g>
             </svg>
 
@@ -210,10 +215,10 @@ class TestVizToSVG : TestBase() {
             }
         }.toSVG()
         val expected = """
-            <?xml version="${1.0}"?>
-            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0}" height="${100.0}">
+            <?xml version="${1.0 as Number}"?>
+            <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
-            <circle cx="${50.0}" cy="${50.0}" r="${30.0}" style="fill:rgba(${0}, ${128}, ${0}, ${1.0});stroke:rgba(${255}, ${0}, ${0}, ${1.0});stroke-width:${5.0}"/>
+            <circle cx="${50.0 as Number}" cy="${50.0 as Number}" r="${30.0 as Number}" style="fill:rgba(${0 as Number}, ${128 as Number}, ${0 as Number}, ${1.0 as Number});stroke:rgba(${255 as Number}, ${0 as Number}, ${0 as Number}, ${1.0 as Number});stroke-width:${5.0 as Number}"/>
             </g>
             </svg>
 
@@ -276,30 +281,30 @@ class TestVizToSVG : TestBase() {
 
         }.toSVG()
 
-        val expect = """<?xml version="${1.0}"?>
-            |<svg xmlns="http://www.w3.org/2000/svg" width="${400.0}" height="${400.0}">
+        val expect = """<?xml version="${1.0 as Number}"?>
+            |<svg xmlns="http://www.w3.org/2000/svg" width="${400.0 as Number}" height="${400.0 as Number}">
             |<g>
-            |<rect x="${0.0}" y="${0.0}" width="${400.0}" height="${400.0}" style="fill:url('#grad1');stroke-width:${1.0}"/>
-            |<rect x="${30.0}" y="${30.0}" width="${340.0}" height="${340.0}" style="fill:rgba(${255}, ${255}, ${255}, ${1.0});stroke-width:${1.0}"/>
-            |<rect x="${60.0}" y="${60.0}" width="${280.0}" height="${280.0}" style="fill:url('#grad2');stroke-width:${1.0}"/>
-            |<path style="fill:rgba(${255}, ${255}, ${255}, ${1.0});stroke:rgba(${0}, ${0}, ${0}, ${0.0});stroke-width:${1.0}" d="M 200.0 340.0 L 340.0 60.0 L 360.0 360.0 "/>
-            |<path style="fill:rgba(${0}, ${0}, ${0}, ${0.0});stroke:rgba(${255}, ${255}, ${255}, ${1.0});stroke-width:${30.0}" d="M 220.0 360.0 L 55.0 37.5 "/>
-            |<path style="fill:rgba(${0}, ${0}, ${0}, ${0.0});stroke:rgba(${255}, ${255}, ${255}, ${1.0});stroke-width:${30.0}" d="M 340.0 300.0 L 215.0 37.5 "/>
+            |<rect x="${0.0 as Number}" y="${0.0 as Number}" width="${400.0 as Number}" height="${400.0 as Number}" style="fill:url('#grad1');stroke-width:${1.0 as Number}"/>
+            |<rect x="${30.0 as Number}" y="${30.0 as Number}" width="${340.0 as Number}" height="${340.0 as Number}" style="fill:rgba(${255 as Number}, ${255 as Number}, ${255 as Number}, ${1.0 as Number});stroke-width:${1.0 as Number}"/>
+            |<rect x="${60.0 as Number}" y="${60.0 as Number}" width="${280.0 as Number}" height="${280.0 as Number}" style="fill:url('#grad2');stroke-width:${1.0 as Number}"/>
+            |<path style="fill:rgba(${255 as Number}, ${255 as Number}, ${255 as Number}, ${1.0 as Number});stroke:rgba(${0 as Number}, ${0 as Number}, ${0 as Number}, ${0.0 as Number});stroke-width:${1.0 as Number}" d="M 200.0 340.0 L 340.0 60.0 L 360.0 360.0 "/>
+            |<path style="fill:rgba(${0 as Number}, ${0 as Number}, ${0 as Number}, ${0.0 as Number});stroke:rgba(${255 as Number}, ${255 as Number}, ${255 as Number}, ${1.0 as Number});stroke-width:${30.0 as Number}" d="M 220.0 360.0 L 55.0 37.5 "/>
+            |<path style="fill:rgba(${0 as Number}, ${0 as Number}, ${0 as Number}, ${0.0 as Number});stroke:rgba(${255 as Number}, ${255 as Number}, ${255 as Number}, ${1.0 as Number});stroke-width:${30.0 as Number}" d="M 340.0 300.0 L 215.0 37.5 "/>
             |</g>
             |<defs>
-            |<linearGradient id="grad1" x1="${0.0} px" y1="${400.0} px" x2="${400.0} px" y2="${0.0} px">
-            |<stop offset="${0.0}%" style="stop-color:rgba(${65}, ${63}, ${222}, ${1.0})"/>
-            |<stop offset="${25.0}%" style="stop-color:rgba(${68}, ${61}, ${226}, ${1.0})"/>
-            |<stop offset="${50.0}%" style="stop-color:rgba(${118}, ${65}, ${223}, ${1.0})"/>
-            |<stop offset="${75.0}%" style="stop-color:rgba(${185}, ${69}, ${206}, ${1.0})"/>
-            |<stop offset="${100.0}%" style="stop-color:rgba(${222}, ${61}, ${130}, ${1.0})"/>
+            |<linearGradient id="grad1" x1="${0.0 as Number} px" y1="${400.0 as Number} px" x2="${400.0 as Number} px" y2="${0.0 as Number} px">
+            |<stop offset="${0.0 as Number}%" style="stop-color:rgba(${65 as Number}, ${63 as Number}, ${222 as Number}, ${1.0 as Number})"/>
+            |<stop offset="${25.0 as Number}%" style="stop-color:rgba(${68 as Number}, ${61 as Number}, ${226 as Number}, ${1.0 as Number})"/>
+            |<stop offset="${50.0 as Number}%" style="stop-color:rgba(${118 as Number}, ${65 as Number}, ${223 as Number}, ${1.0 as Number})"/>
+            |<stop offset="${75.0 as Number}%" style="stop-color:rgba(${185 as Number}, ${69 as Number}, ${206 as Number}, ${1.0 as Number})"/>
+            |<stop offset="${100.0 as Number}%" style="stop-color:rgba(${222 as Number}, ${61 as Number}, ${130 as Number}, ${1.0 as Number})"/>
             |</linearGradient>
-            |<linearGradient id="grad2" x1="${0.0} px" y1="${400.0} px" x2="${400.0} px" y2="${0.0} px">
-            |<stop offset="${0.0}%" style="stop-color:rgba(${65}, ${63}, ${222}, ${1.0})"/>
-            |<stop offset="${25.0}%" style="stop-color:rgba(${68}, ${61}, ${226}, ${1.0})"/>
-            |<stop offset="${50.0}%" style="stop-color:rgba(${118}, ${65}, ${223}, ${1.0})"/>
-            |<stop offset="${75.0}%" style="stop-color:rgba(${185}, ${69}, ${206}, ${1.0})"/>
-            |<stop offset="${100.0}%" style="stop-color:rgba(${222}, ${61}, ${130}, ${1.0})"/>
+            |<linearGradient id="grad2" x1="${0.0 as Number} px" y1="${400.0 as Number} px" x2="${400.0 as Number} px" y2="${0.0 as Number} px">
+            |<stop offset="${0.0 as Number}%" style="stop-color:rgba(${65 as Number}, ${63 as Number}, ${222 as Number}, ${1.0 as Number})"/>
+            |<stop offset="${25.0 as Number}%" style="stop-color:rgba(${68 as Number}, ${61 as Number}, ${226 as Number}, ${1.0 as Number})"/>
+            |<stop offset="${50.0 as Number}%" style="stop-color:rgba(${118 as Number}, ${65 as Number}, ${223 as Number}, ${1.0 as Number})"/>
+            |<stop offset="${75.0 as Number}%" style="stop-color:rgba(${185 as Number}, ${69 as Number}, ${206 as Number}, ${1.0 as Number})"/>
+            |<stop offset="${100.0 as Number}%" style="stop-color:rgba(${222 as Number}, ${61 as Number}, ${130 as Number}, ${1.0 as Number})"/>
             |</linearGradient>
             |</defs>
             |</svg>
@@ -337,21 +342,21 @@ class TestVizToSVG : TestBase() {
 
         }.toSVG()
 
-        val expect = """<?xml version="${1.0}"?>
-                |<svg xmlns="http://www.w3.org/2000/svg" width="${800.0}" height="${200.0}">
+        val expect = """<?xml version="${1.0 as Number}"?>
+                |<svg xmlns="http://www.w3.org/2000/svg" width="${800.0 as Number}" height="${200.0 as Number}">
                 |<g>
-                |<circle cx="${400.0}" cy="${100.0}" r="${100.0}" style="fill:url('#grad1');stroke-width:${1.0}"/>
-                |<circle cx="${200.0}" cy="${100.0}" r="${120.0}" style="fill:url('#grad2');stroke-width:${1.0}"/>
+                |<circle cx="${400.0 as Number}" cy="${100.0 as Number}" r="${100.0 as Number}" style="fill:url('#grad1');stroke-width:${1.0 as Number}"/>
+                |<circle cx="${200.0 as Number}" cy="${100.0 as Number}" r="${120.0 as Number}" style="fill:url('#grad2');stroke-width:${1.0 as Number}"/>
                 |</g>
                 |<defs>
-                |<radialGradient id="grad1" cx="${400.0} px" cy="${100.0} px" r="${100.0} px">
-                |<stop offset="${0.0}%" style="stop-color:rgba(${255}, ${105}, ${180}, ${1.0})"/>
-                |<stop offset="${100.0}%" style="stop-color:rgba(${135}, ${206}, ${235}, ${1.0})"/>
+                |<radialGradient id="grad1" cx="${400.0 as Number} px" cy="${100.0 as Number} px" r="${100.0 as Number} px">
+                |<stop offset="${0.0 as Number}%" style="stop-color:rgba(${255 as Number}, ${105 as Number}, ${180 as Number}, ${1.0 as Number})"/>
+                |<stop offset="${100.0 as Number}%" style="stop-color:rgba(${135 as Number}, ${206 as Number}, ${235 as Number}, ${1.0 as Number})"/>
                 |</radialGradient>
-                |<radialGradient id="grad2" cx="${200.0} px" cy="${100.0} px" r="${120.0} px">
-                |<stop offset="${0.0}%" style="stop-color:rgba(${255}, ${0}, ${0}, ${1.0})"/>
-                |<stop offset="${50.0}%" style="stop-color:rgba(${255}, ${165}, ${0}, ${1.0})"/>
-                |<stop offset="${100.0}%" style="stop-color:rgba(${128}, ${0}, ${128}, ${1.0})"/>
+                |<radialGradient id="grad2" cx="${200.0 as Number} px" cy="${100.0 as Number} px" r="${120.0 as Number} px">
+                |<stop offset="${0.0 as Number}%" style="stop-color:rgba(${255 as Number}, ${0 as Number}, ${0 as Number}, ${1.0 as Number})"/>
+                |<stop offset="${50.0 as Number}%" style="stop-color:rgba(${255 as Number}, ${165 as Number}, ${0 as Number}, ${1.0 as Number})"/>
+                |<stop offset="${100.0 as Number}%" style="stop-color:rgba(${128 as Number}, ${0 as Number}, ${128 as Number}, ${1.0 as Number})"/>
                 |</radialGradient>
                 |</defs>
                 |</svg>
