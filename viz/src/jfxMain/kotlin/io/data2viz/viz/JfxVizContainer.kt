@@ -41,6 +41,9 @@ internal class JfxVizContainer(
 
     private val allViz = mutableListOf<Viz>()
 
+    override val vizList: List<Viz>
+        get() = allViz
+
     public override val density: Double = 1.0
 
     override fun newViz(init: Viz.() -> Unit): Viz {

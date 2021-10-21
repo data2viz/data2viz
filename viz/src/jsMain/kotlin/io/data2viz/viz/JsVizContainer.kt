@@ -48,6 +48,9 @@ internal class JsVizContainer(
 
     private val allViz = mutableListOf<Viz>()
 
+    override val vizList: List<Viz>
+        get() = allViz
+
     public override val density: Double = 1.0
 
     override var size: Size = Size(100.0, 100.0)
@@ -90,6 +93,8 @@ internal class JsVizContainer(
         viz.render()
         return viz
     }
+
+
 }
 
 

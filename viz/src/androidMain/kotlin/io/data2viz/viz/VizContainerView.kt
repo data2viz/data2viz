@@ -40,7 +40,10 @@ public open class VizContainerView(
     Resizable by resizableSupport {
 
 
-    private val vizs = mutableListOf<Viz>()
+    override val vizList: List<Viz>
+        get() = allViz
+
+    private val allViz = mutableListOf<Viz>()
     private val renderers = mutableListOf<AndroidCanvasRenderer>()
 
     public override val density: Double
@@ -51,7 +54,7 @@ public open class VizContainerView(
             size = size(this@VizContainerView.size.width, this@VizContainerView.size.height)
             init()
         }
-        vizs += viz
+        allViz += viz
 
         val renderer = AndroidCanvasRenderer(context, viz) {
             //todo stocker la viz à render.
@@ -67,7 +70,7 @@ public open class VizContainerView(
         set(value) {
             field = value
             updateScale()
-            vizs.forEach { viz: Viz ->
+            allViz.forEach { viz: Viz ->
                 viz.size = value
             }
             resizableSupport.notifyNewSize(value)
@@ -101,7 +104,7 @@ public open class VizContainerView(
             drawCount = -1
         }
 
-        for (i in vizs.indices) {
+        for (i in allViz.indices) {
             val renderer = renderers[i]
             renderer.canvas = canvas
             renderer.draw()

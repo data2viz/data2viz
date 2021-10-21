@@ -46,6 +46,11 @@ public interface VizContainer: Resizable {
     public fun newViz(init: Viz.() -> Unit = {}): Viz
 
     /**
+     * All the viz created with [newViz].
+     */
+    public val vizList: List<Viz>
+
+    /**
      * The size of this [VizContainer], on change updates the underlying platform element and the existing canvas.
      */
     public var size: Size
