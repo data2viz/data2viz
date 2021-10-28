@@ -1,15 +1,47 @@
+public final class io/data2viz/timer/JavaFxTimer : javafx/animation/AnimationTimer {
+	public fun <init> ()V
+	public final fun callInNextFrame$timer (Lkotlin/jvm/functions/Function0;)V
+	public fun handle (J)V
+}
+
 public final class io/data2viz/timer/Timer {
 	public fun <init> ()V
+	public final fun get_call$timer ()Lkotlin/jvm/functions/Function2;
+	public final fun get_next$timer ()Lio/data2viz/timer/Timer;
+	public final fun get_time$timer ()D
 	public final fun restart (DDLkotlin/jvm/functions/Function2;)V
 	public static synthetic fun restart$default (Lio/data2viz/timer/Timer;DDLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun set_call$timer (Lkotlin/jvm/functions/Function2;)V
+	public final fun set_next$timer (Lio/data2viz/timer/Timer;)V
+	public final fun set_time$timer (D)V
 	public final fun stop ()V
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/data2viz/timer/TimerJVMKt {
+	public static final fun callInNextFrame (Lkotlin/jvm/functions/Function0;)V
+	public static final fun clearInterval (Ljava/lang/Object;)V
+	public static final fun clearTimeout (Ljava/lang/Object;)V
+	public static final fun delegateNow ()D
+	public static final fun getFxTimer ()Lio/data2viz/timer/JavaFxTimer;
+	public static final fun setInterval (Lkotlin/jvm/functions/Function0;I)Ljava/lang/Object;
+	public static final fun setTimeout (Lkotlin/jvm/functions/Function0;I)Ljava/lang/Object;
+}
+
 public final class io/data2viz/timer/TimerKt {
+	public static final fun getClockNow ()D
+	public static final fun getClockSkew ()D
+	public static final fun getFrame ()I
+	public static final fun getPokeHandle ()Ljava/lang/Object;
+	public static final fun getTimeoutHandle ()Ljava/lang/Object;
 	public static final fun interval (DDLkotlin/jvm/functions/Function2;)Lio/data2viz/timer/Timer;
 	public static synthetic fun interval$default (DDLkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/data2viz/timer/Timer;
 	public static final fun now ()D
+	public static final fun setClockNow (D)V
+	public static final fun setClockSkew (D)V
+	public static final fun setFrame (I)V
+	public static final fun setPokeHandle (Ljava/lang/Object;)V
+	public static final fun setTimeoutHandle (Ljava/lang/Object;)V
 	public static final fun timeout (DDLkotlin/jvm/functions/Function2;)Lio/data2viz/timer/Timer;
 	public static synthetic fun timeout$default (DDLkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/data2viz/timer/Timer;
 	public static final fun timer (DDLkotlin/jvm/functions/Function2;)Lio/data2viz/timer/Timer;

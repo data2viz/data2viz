@@ -16,6 +16,15 @@ public final class io/data2viz/viz/CircleNode : io/data2viz/viz/Node, io/data2vi
 	public fun setY (D)V
 }
 
+public final class io/data2viz/viz/CompositeDisposable : io/data2viz/viz/Disposable {
+	public fun <init> ()V
+	public fun <init> (Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun add (Lio/data2viz/viz/Disposable;)V
+	public fun dispose ()V
+	public final fun getDisposables ()Ljava/util/List;
+}
+
 public abstract interface class io/data2viz/viz/Disposable {
 	public abstract fun dispose ()V
 }
@@ -29,6 +38,8 @@ public final class io/data2viz/viz/DslExtensionsKt {
 
 public final class io/data2viz/viz/EventsKt {
 	public static final fun KMouseEvent (Lio/data2viz/geom/Point;ZZZZ)Lio/data2viz/viz/KMouseEvent;
+	public static final fun addEventHandle (Lio/data2viz/viz/VizRenderer;Lio/data2viz/viz/KEventHandle;)V
+	public static final fun removeEventHandle (Lio/data2viz/viz/VizRenderer;Lio/data2viz/viz/KEventHandle;)V
 }
 
 public abstract interface annotation class io/data2viz/viz/ExperimentalKEvent : java/lang/annotation/Annotation {
@@ -116,6 +127,9 @@ public abstract interface class io/data2viz/viz/HasStroke {
 	public abstract fun setStrokeWidth (Ljava/lang/Double;)V
 }
 
+public final class io/data2viz/viz/HasStroke$DefaultImpls {
+}
+
 public abstract interface class io/data2viz/viz/HasTransform {
 	public abstract fun getTransform ()Lio/data2viz/viz/Transform;
 }
@@ -170,6 +184,11 @@ public final class io/data2viz/viz/JFxVizRenderer : io/data2viz/viz/VizRenderer 
 	public fun stopAnimations ()V
 }
 
+public final class io/data2viz/viz/JFxVizRendererKt {
+	public static final fun addTransform (Ljavafx/scene/canvas/GraphicsContext;Lio/data2viz/viz/Transform;)V
+	public static final fun removeTransform (Ljavafx/scene/canvas/GraphicsContext;Lio/data2viz/viz/Transform;)V
+}
+
 public final class io/data2viz/viz/JfxCircleRendererKt {
 	public static final fun render (Lio/data2viz/viz/CircleNode;Ljavafx/scene/canvas/GraphicsContext;)V
 }
@@ -179,6 +198,10 @@ public final class io/data2viz/viz/JfxColorOrGradientRendererKt {
 	public static final fun toLinearGradientJFX (Lio/data2viz/color/LinearGradient;)Ljavafx/scene/paint/LinearGradient;
 	public static final fun toPaint (Lio/data2viz/color/ColorOrGradient;)Ljavafx/scene/paint/Paint;
 	public static final fun toRadialGradientJFX (Lio/data2viz/color/RadialGradient;)Ljavafx/scene/paint/RadialGradient;
+}
+
+public final class io/data2viz/viz/JfxEventsKt {
+	public static final fun addNativeEventListenerFromHandle (Lio/data2viz/viz/VizRenderer;Lio/data2viz/viz/KEventHandle;)Lio/data2viz/viz/Disposable;
 }
 
 public final class io/data2viz/viz/JfxGroupRendererKt {
@@ -202,6 +225,22 @@ public final class io/data2viz/viz/JfxPathRendererKt {
 
 public final class io/data2viz/viz/JfxRectRendererKt {
 	public static final fun render (Lio/data2viz/viz/RectNode;Ljavafx/scene/canvas/GraphicsContext;)V
+}
+
+public final class io/data2viz/viz/JfxTextRendererKt {
+	public static final fun render (Lio/data2viz/viz/TextNode;Ljavafx/scene/canvas/GraphicsContext;)V
+}
+
+public final class io/data2viz/viz/JfxTextUtilsKt {
+	public static final fun textMeasure (Ljava/lang/String;DLio/data2viz/viz/FontFamily;Lio/data2viz/viz/FontWeight;Lio/data2viz/viz/FontPosture;)Lio/data2viz/geom/Rect;
+}
+
+public final class io/data2viz/viz/JfxVizContainer : io/data2viz/viz/VizContainer {
+	public fun <init> (Ljavafx/scene/layout/Pane;)V
+	public fun getDensity ()D
+	public fun getSize ()Lio/data2viz/geom/Size;
+	public fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
+	public fun setSize (Lio/data2viz/geom/Size;)V
 }
 
 public final class io/data2viz/viz/JfxVizContainerKt {
@@ -259,6 +298,18 @@ public final class io/data2viz/viz/KDragEvent$KDragAction : java/lang/Enum {
 }
 
 public abstract interface class io/data2viz/viz/KEvent {
+}
+
+public final class io/data2viz/viz/KEventHandle : io/data2viz/viz/Disposable {
+	public fun <init> (Lio/data2viz/viz/KEventListener;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public fun dispose ()V
+	public final fun getDisposable ()Lio/data2viz/viz/Disposable;
+	public final fun getEventListener ()Lio/data2viz/viz/KEventListener;
+	public final fun getListener ()Lkotlin/jvm/functions/Function1;
+	public final fun getOnDispose ()Lkotlin/jvm/functions/Function1;
+	public final fun isAddedToRenderer ()Z
+	public final fun setDisposable (Lio/data2viz/viz/Disposable;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class io/data2viz/viz/KEventListener {
@@ -441,6 +492,7 @@ public final class io/data2viz/viz/KZoomEvent : io/data2viz/viz/HasMetaKeys, io/
 	public fun getCtrlKey ()Z
 	public final fun getDeltaX ()D
 	public final fun getDeltaY ()D
+	public final fun getHasMetaKeys$viz ()Lio/data2viz/viz/HasMetaKeys;
 	public fun getMetaKey ()Z
 	public fun getShiftKey ()Z
 	public final fun getStartZoomPos ()Lio/data2viz/geom/Point;
@@ -636,7 +688,38 @@ public abstract interface class io/data2viz/viz/Style {
 	public abstract fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
 }
 
+public final class io/data2viz/viz/Style$DefaultImpls {
+}
+
+public final class io/data2viz/viz/StyleImpl : io/data2viz/viz/Style {
+	public fun <init> ()V
+	public fun getAnchor ()Lio/data2viz/viz/TextHAlign;
+	public fun getBaseline ()Lio/data2viz/viz/TextVAlign;
+	public fun getDashedLine ()[D
+	public fun getFill ()Lio/data2viz/color/ColorOrGradient;
+	public fun getHAlign ()Lio/data2viz/viz/TextHAlign;
+	public fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeWidth ()Ljava/lang/Double;
+	public fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
+	public fun getVAlign ()Lio/data2viz/viz/TextVAlign;
+	public fun setAnchor (Lio/data2viz/viz/TextHAlign;)V
+	public fun setBaseline (Lio/data2viz/viz/TextVAlign;)V
+	public fun setDashedLine ([D)V
+	public fun setFill (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
+	public fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeWidth (Ljava/lang/Double;)V
+	public fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
+}
+
+public final class io/data2viz/viz/StyleKt {
+}
+
 public final class io/data2viz/viz/TextAlign {
+	public fun <init> (Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;)V
 	public final fun component1 ()Lio/data2viz/viz/TextHAlign;
 	public final fun component2 ()Lio/data2viz/viz/TextVAlign;
 	public final fun copy (Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;)Lio/data2viz/viz/TextAlign;
@@ -676,6 +759,9 @@ public final class io/data2viz/viz/TextNode : io/data2viz/viz/Node, io/data2viz/
 	public fun setTransform (Lio/data2viz/viz/Transform;)V
 	public final fun setX (D)V
 	public final fun setY (D)V
+}
+
+public final class io/data2viz/viz/TextNodeKt {
 }
 
 public final class io/data2viz/viz/TextUtilsKt {
@@ -727,6 +813,7 @@ public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/v
 	public fun clear ()V
 	public final fun getActiveLayer ()Lio/data2viz/viz/Layer;
 	public fun getAnchor ()Lio/data2viz/viz/TextHAlign;
+	public final fun getAnimationTimers$viz ()Ljava/util/List;
 	public fun getBaseline ()Lio/data2viz/viz/TextVAlign;
 	public final fun getConfig ()Lio/data2viz/viz/VizConfig;
 	public fun getDashedLine ()[D

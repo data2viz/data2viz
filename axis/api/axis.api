@@ -5,6 +5,7 @@ public final class io/data2viz/axis/AxisCommonKt {
 
 public final class io/data2viz/axis/AxisElement {
 	public fun <init> (Lio/data2viz/axis/Orient;Lio/data2viz/scale/FirstLastRange;)V
+	public final fun build$axis (Lio/data2viz/viz/GroupNode;)V
 	public final fun getAxisStroke ()Lio/data2viz/color/ColorOrGradient;
 	public final fun getAxisStrokeWidth ()Ljava/lang/Double;
 	public final fun getFontColor ()Lio/data2viz/color/ColorOrGradient;
