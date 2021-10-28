@@ -38,6 +38,18 @@ kotlin {
                 implementation kotlin("test-junit")
             }
         }
+
+        if (include_ios.toBoolean()){
+            println "include_ios"
+            ios {
+                binaries {
+                    framework {
+                        baseName = "d2v-$project.name"
+                    }
+                }
+            }
+        }
+
         if (include_js.toBoolean()) {
             jsMain {
                 dependencies {
