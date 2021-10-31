@@ -17,25 +17,33 @@
 
 package io.data2viz.format
 
+import platform.Foundation.*
 
+import kotlin.math.roundToLong
 import kotlin.math.abs
 import kotlin.math.roundToLong
 
 
-internal actual fun Double.toStringDigits(radix: Int): String = ""
-
-
-internal actual fun Double.toFixed(digits: Int): String =""
-
 internal actual fun Double.toExponential(digits: Int): String = ""
 
-internal actual fun Double.toExponential(): String =""
 
-internal actual fun Double.toPrecision(digits: Int): String = ""
+internal actual fun Double.toPrecision(digits: Int): String =
+    NSString.stringWithFormat("%.${digits}g", this)
 
 
+internal actual fun Double.toStringDigits(radix:Int): String =
+    if (this > Long.MAX_VALUE || this < Long.MIN_VALUE)
+        this.toExponential()
+    else this.roundToLong().toString(radix)
 
-// TODO keep this, it will avoid errors when asking for high precision numbers (see FormatTests@check_platform_dependent_formatters_toFixed)
-/*private fun Double.toFixedJVM(digits: Int): String {
-    return BigDecimal(this.toString()).setScale(digits, BigDecimal.ROUND_HALF_UP).toString()
-}*/
+internal actual fun Double.toFixed(digits: Int): String = NSString.stringWithFormat("%.${digits}f", this)
+
+
+internal actual fun Double.toExponential(): String {
+    val formatter = NSNumberFormatter()
+    formatter.numberStyle = NSNumberFormatterScientificStyle
+    formatter.locale = NSLocale.localeWithLocaleIdentifier("en_US")
+    formatter.positiveFormat = "0.###E+0"
+    formatter.exponentSymbol = "e"
+    return formatter.stringFromNumber(NSNumber(this)) ?: this.toString()
+}
