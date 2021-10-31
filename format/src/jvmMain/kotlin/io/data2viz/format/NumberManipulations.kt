@@ -35,6 +35,11 @@ internal actual fun Double.toFixed(digits: Int): String =
         .setScale(digits, BigDecimal.ROUND_HALF_UP)
         .toString()
 
+internal actual fun Double.toPrecision(digits: Int): String =
+    String.format(Locale.US, "%." + digits + "g", this)
+        .replace("e+0", "e+")
+        .replace("e-0", "e-")
+
 internal actual fun Double.toExponential(digits: Int): String =
     String.format(Locale.US, "%." + digits + "e", this)
         .replace("e+0", "e+")
@@ -56,14 +61,6 @@ internal actual fun Double.toExponential(): String {
         .replace("e+0", "e+")
         .replace("e-0", "e-")
 }
-
-
-internal actual fun Double.toPrecision(digits: Int): String =
-    String.format(Locale.US, "%." + digits + "g", this)
-        .replace("e+0", "e+")
-        .replace("e-0", "e-")
-
-
 
 // TODO keep this, it will avoid errors when asking for high precision numbers (see FormatTests@check_platform_dependent_formatters_toFixed)
 /*private fun Double.toFixedJVM(digits: Int): String {

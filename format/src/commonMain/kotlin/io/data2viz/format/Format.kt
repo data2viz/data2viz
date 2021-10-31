@@ -243,7 +243,7 @@ private fun formatTypes(type: Type): (Double, Int) -> String =
             Type.EXPONENT               -> { x: Double, p: Int -> x.toExponential(p) }
             Type.BINARY                 -> { x: Double, _: Int -> x.toStringDigits(2) }
             Type.OCTAL                  -> { x: Double, _: Int -> x.toStringDigits(8) }
-            Type.HEX_UPPERCASE          -> { x: Double, _: Int -> x.toStringDigits(16).toUpperCase() }
+            Type.HEX_UPPERCASE          -> { x: Double, _: Int -> x.toStringDigits(16).uppercase() }
             Type.HEX_LOWERCASE          -> { x: Double, _: Int -> x.toStringDigits(16) }
             Type.NONE                   -> { x: Double, p: Int -> formatDefault(x,p)}
         }
