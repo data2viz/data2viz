@@ -55,10 +55,8 @@ class ScaleLogTests : TestBase() {
         scale.domain = listOf(1.0, 2.0)
         scale(.5) shouldBeClose -1.0000000
         scale(1.0) shouldBeClose 0.0000000
-        scale(1) shouldBeClose 0.0000000
         scale(1.5) shouldBeClose 0.5849625
         scale(2.0) shouldBeClose 1.0000000
-        scale(2) shouldBeClose 1.0000000
         scale(2.5) shouldBeClose 1.3219282
         scale.base shouldBeClose 10.0
     }
@@ -142,7 +140,7 @@ class ScaleLogTests : TestBase() {
             90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0,
             9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
 
-        scale(50) shouldBeClose 0.150515
+        scale(50.0) shouldBeClose 0.150515
     }
 
     @Test
@@ -156,7 +154,7 @@ class ScaleLogTests : TestBase() {
 //            -90.0, -80.0, -70.0, -60.0, -50.0, -40.0, -30.0, -20.0, -10.0,
 //            -9.0, -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0)
 
-        scale(-50) shouldBeClose 0.150515
+        scale(-50.0) shouldBeClose 0.150515
     }
 
     @Test

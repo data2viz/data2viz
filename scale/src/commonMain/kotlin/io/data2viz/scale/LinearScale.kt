@@ -43,6 +43,7 @@ public open class LinearScale<R>
         uninterpolateNumber(from, to)
     override fun domainComparator(): Comparator<Double> = comparator
 
+    @Deprecated("Convert the domainValue to Double before calling the scale.")
     public operator fun invoke(domainValue: Int): R {
         return this(domainValue.toDouble())
     }
