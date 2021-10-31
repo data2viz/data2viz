@@ -26,7 +26,8 @@ import kotlin.test.Test
 
 class FormatTypeDecimalTests : TestBase() {
 
-    @Test fun format_r_can_round_to_significant_digits () {
+    @Test
+    fun format_r_can_round_to_significant_digits () {
         formatter(".2r")        (0.0)               shouldBe "0.0"
         formatter(".1r")        (0.049)             shouldBe "0.05"
         formatter(".1r")        (-0.049)            shouldBe "-0.05"

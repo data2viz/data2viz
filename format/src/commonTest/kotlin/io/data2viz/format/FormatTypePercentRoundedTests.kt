@@ -26,7 +26,8 @@ import kotlin.test.Test
 
 class FormatTypePercentRoundedTests : TestBase() {
 
-    @Test fun format_p_can_output_a_percentage () {
+    @Test
+    fun format_p_can_output_a_percentage () {
         val f = formatter("p")
         f(.00123)   shouldBe "0.123000%"
         f(.0123)    shouldBe "1.23000%"
@@ -39,7 +40,8 @@ class FormatTypePercentRoundedTests : TestBase() {
         f(-1.23)    shouldBe "-123.000%"
     }
 
-    @Test fun format_p_typed_can_output_a_percentage () {
+    @Test
+    fun format_p_typed_can_output_a_percentage () {
         val f = formatter(Type.PERCENT_ROUNDED)
         f(.00123)   shouldBe "0.123000%"
         f(.0123)    shouldBe "1.23000%"
@@ -52,7 +54,8 @@ class FormatTypePercentRoundedTests : TestBase() {
         f(-1.23)    shouldBe "-123.000%"
     }
 
-    @Test fun format_p_can_output_a_percentage_with_rounding_and_sign () {
+    @Test
+    fun format_p_can_output_a_percentage_with_rounding_and_sign () {
         val f = formatter("+.2p")
         f(.00123)   shouldBe "+0.12%"
         f(.0123)    shouldBe "+1.2%"

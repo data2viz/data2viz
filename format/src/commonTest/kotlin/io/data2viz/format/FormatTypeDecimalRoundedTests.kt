@@ -18,6 +18,7 @@
 package io.data2viz.format
 
 import io.data2viz.test.TestBase
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class FormatTypeDecimalRoundedTests : TestBase() {
