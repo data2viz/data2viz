@@ -1,0 +1,29 @@
+
+
+if (include_ios.toBoolean()) {
+
+    apply plugin: 'org.jetbrains.kotlin.multiplatform'
+
+    kotlin {
+
+        ios {
+            binaries {
+                framework {
+                    baseName = "d2v-$project.name"
+                }
+            }
+        }
+        sourceSets {
+            iosTest {
+                dependencies {
+                    if (project.name != "tests") {
+                        implementation project(":tests")
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
