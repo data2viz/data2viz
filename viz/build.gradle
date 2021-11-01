@@ -1,5 +1,6 @@
 apply from: rootProject.file("gradle/mpp-android.gradle")
 apply from: rootProject.file("gradle/mpp-common.gradle")
+apply from: rootProject.file("gradle/mpp-ios.gradle")
 apply from: rootProject.file("gradle/mpp-jfx.gradle")
 apply from: rootProject.file("gradle/mpp-js.gradle")
 
@@ -13,5 +14,20 @@ kotlin {
             }
         }
 
+    }
+
+    if (include_ios.toBoolean()) {
+        ios { // Replace with a target you need.
+            compilations.main {
+                cinterops {
+                    uikit {
+                        //https://discuss.kotlinlang.org/t/library-from-swift-cinterop-doesnt-compile-with-xcode-13/23021
+//                    extraOpts = ["-compiler-option", "-DNS_FORMAT_ARGUMENT(A)="]
+                        compilerOpts '-DNS_FORMAT_ARGUMENT(A)='
+                    }
+
+                }
+            }
+        }
     }
 }
