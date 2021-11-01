@@ -17,7 +17,6 @@
 
 package io.data2viz.delaunay
 
-
 public actual fun typedIntArray(size: Int): TypedIntArray = TypedIntArrayDelegate(IntArray(size))
 
 public class TypedIntArrayDelegate(val array:IntArray): TypedIntArray {
