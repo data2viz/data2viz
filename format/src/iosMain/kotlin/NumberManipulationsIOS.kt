@@ -24,11 +24,26 @@ import kotlin.math.abs
 import kotlin.math.roundToLong
 
 
-internal actual fun Double.toExponential(digits: Int): String = ""
+internal actual fun Double.toExponential(digits: Int): String =
+    NSString.stringWithFormat("%.${digits}e", this).fixScientificExponent()
+
+
+private val SCIENTIFIC: Regex = """(.+)(e[+-])([0]+)(.+)""".toRegex()
+
+
+/**
+ * As defined by the IEEE's printf specification (https://pubs.opengroup.org/onlinepubs/009695399/functions/printf.html)
+ * , the exponent should contains at least two digits (123e+02) but we "prefer" a shorter version (123e+2)
+ */
+private fun String.fixScientificExponent(): String =
+    when(val result = SCIENTIFIC.find(this)) {
+        null -> this
+        else -> result.groupValues[1] + result.groupValues[2] + result.groupValues[4]
+    }
 
 
 internal actual fun Double.toPrecision(digits: Int): String =
-    NSString.stringWithFormat("%.${digits}g", this)
+    NSString.stringWithFormat("%.${digits}g", this).fixScientificExponent()
 
 
 internal actual fun Double.toStringDigits(radix:Int): String =
@@ -36,7 +51,8 @@ internal actual fun Double.toStringDigits(radix:Int): String =
         this.toExponential()
     else this.roundToLong().toString(radix)
 
-internal actual fun Double.toFixed(digits: Int): String = NSString.stringWithFormat("%.${digits}f", this)
+internal actual fun Double.toFixed(digits: Int): String =
+    NSString.stringWithFormat("%.${digits}f", this)
 
 
 internal actual fun Double.toExponential(): String {
