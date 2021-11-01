@@ -16,4 +16,4 @@ jobs:
           java-package: jdk+fx # (jre, jdk, or jdk+fx)
 
       - name: Build with Gradle
-        run: ./gradlew check -Pinclude_android=true -Pinclude_js=false -Pinclude_jfx=false
+        run: ./gradlew check -Pinclude_ios=false -Pinclude_android=true -Pinclude_js=false -Pinclude_jfx=false

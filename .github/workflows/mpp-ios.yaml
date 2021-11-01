@@ -1,10 +1,10 @@
-name: MPP JS build
+name: MPP iOS build
 
 on: [push]
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-11
 
     steps:
       - uses: actions/checkout@v2
@@ -13,6 +13,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+          java-package: jdk # (jre, jdk, or jdk+fx)
 
       - name: Build with Gradle
-        run: ./gradlew check -Pinclude_ios=false -Pinclude_android=false -Pinclude_js=true -Pinclude_jfx=false
+        run: ./gradlew check -Pinclude_ios=true -Pinclude_android=false -Pinclude_js=false -Pinclude_jfx=false
