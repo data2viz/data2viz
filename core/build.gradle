@@ -2,9 +2,9 @@ plugins {
     id "org.jetbrains.kotlin.multiplatform"
 }
 apply from: rootProject.file("gradle/mpp-common.gradle")
+apply from: rootProject.file("gradle/mpp-ios.gradle")
 apply from: rootProject.file("gradle/mpp-jvm.gradle")
 apply from: rootProject.file("gradle/mpp-js.gradle")
-apply from: rootProject.file("gradle/mpp-ios.gradle")
 kotlin {
     sourceSets {
         all {

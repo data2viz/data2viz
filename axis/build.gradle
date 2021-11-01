@@ -1,6 +1,7 @@
 
 apply from: rootProject.file("gradle/mpp-android.gradle")
 apply from: rootProject.file("gradle/mpp-common.gradle")
+apply from: rootProject.file("gradle/mpp-ios.gradle")
 apply from: rootProject.file("gradle/mpp-js.gradle")
 apply from: rootProject.file("gradle/mpp-jfx.gradle")
 
