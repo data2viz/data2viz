@@ -19,20 +19,21 @@ package io.data2viz.viz
 
 import io.data2viz.viz.cinterop.UIViewWithOverridesProtocol
 import io.data2viz.viz.Viz
-import kotlinx.cinterop.CValue
-import kotlinx.cinterop.ExportObjCClass
-import platform.CoreGraphics.CGRect
-import platform.CoreGraphics.CGRectMake
-import platform.UIKit.UIView
-import platform.UIKit.setNeedsDisplay
+import kotlinx.cinterop.*
+import platform.CoreGraphics.*
+import platform.UIKit.*
 
 @ExportObjCClass
-class IOSCanvasView(val viz: Viz) : UIView(frame = CGRectMake(.0, .0, .0, .0)), UIViewWithOverridesProtocol {
+class IOSCanvasView(val viz: Viz, frame: CValue<CGRect> = CGRectMake(.0, .0, .0, .0)) :
+    UIView(frame = frame),
+    UIViewWithOverridesProtocol {
 
     private val renderer = IOSCanvasRenderer(viz, this)
 
     init {
         renderer.render()
+        viz.renderer = renderer
+        backgroundColor = UIColor(white = 1.0, alpha = 0.0)
     }
 
     override fun layoutSubviews() {

@@ -20,21 +20,22 @@ package io.data2viz.viz
 import cnames.structs.CGContext
 import io.data2viz.color.Color
 import io.data2viz.color.Colors
+import io.data2viz.timer.Timer
+import io.data2viz.timer.timer
 import io.data2viz.viz.Viz
 import io.data2viz.viz.VizRenderer
 import kotlinx.cinterop.*
 import platform.CoreGraphics.*
-import platform.UIKit.UIGraphicsGetCurrentContext
-import platform.UIKit.setNeedsDisplay
+import platform.UIKit.*
 
 public class IOSCanvasRenderer(
     override val viz: Viz,
     val iosCanvasView: IOSCanvasView
 ): VizRenderer {
 
-	init {
-	    viz.renderer = this
-	}
+    init {
+        viz.renderer = this
+    }
 
     var context: CPointer<CGContext>? = null
 
@@ -42,19 +43,29 @@ public class IOSCanvasRenderer(
         iosCanvasView.setNeedsDisplay()
     }
 
+    private val animationTimers = mutableListOf<Timer>()
+
     override fun startAnimations() {
-        TODO("Not yet implemented")
+        if (viz.animationTimers.isNotEmpty()) {
+            viz.animationTimers.forEach { anim ->
+                animationTimers += timer { time ->
+                    anim(time)
+                }
+            }
+            animationTimers += timer {
+                render()
+            }
+        }
     }
 
     override fun stopAnimations() {
-        TODO("Not yet implemented")
+        animationTimers.forEach { it.stop() }
     }
 
     /**
      * The real rendering
      */
     internal fun draw(aRect: CValue<CGRect>) {
-//		println("IOSCanvasRenderer.draw")
         updateContext()
         clear(aRect)
         viz.layers.forEach { layer ->
@@ -68,8 +79,7 @@ public class IOSCanvasRenderer(
     }
 
     private fun clear(aRect: CValue<CGRect>) {
-        CGContextSetFillColor(context, Colors.Web.white.toColor())
-        CGContextFillRect(context, aRect)
+        CGContextClearRect(context, iosCanvasView.bounds)
     }
 
 
