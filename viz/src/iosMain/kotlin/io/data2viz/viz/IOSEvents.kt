@@ -22,10 +22,17 @@ import io.data2viz.viz.KMouseEvent
 import io.data2viz.viz.KPointerEvent
 import io.data2viz.viz.KTouchEvent
 
+
+internal object FakeDisposable: Disposable {
+    override fun dispose() {
+//        TODO("Not yet implemented")
+    }
+}
+
 public actual class KMouseMove {
     public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -33,7 +40,7 @@ public actual class KMouseMove {
 public actual class KMouseDown {
     public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -41,7 +48,7 @@ public actual class KMouseDown {
 public actual class KMouseUp {
     public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -49,7 +56,7 @@ public actual class KMouseUp {
 public actual class KTouch {
     public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
         override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -57,7 +64,7 @@ public actual class KTouch {
 public actual class KTouchStart {
     public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -65,7 +72,7 @@ public actual class KTouchStart {
 public actual class KTouchEnd {
     public actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -73,7 +80,7 @@ public actual class KTouchEnd {
 public actual class KTouchMove {
     public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -81,7 +88,7 @@ public actual class KTouchMove {
 public actual class KPointerEnter {
     public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -89,7 +96,7 @@ public actual class KPointerEnter {
 public actual class KPointerLeave {
     public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -97,7 +104,7 @@ public actual class KPointerLeave {
 public actual class KPointerClick {
     public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -105,7 +112,7 @@ public actual class KPointerClick {
 public actual class KPointerDoubleClick {
     public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }
@@ -114,7 +121,7 @@ public actual class KPointerDoubleClick {
 public actual class KZoom {
     public actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
         override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
-            TODO("Not yet implemented")
+            return FakeDisposable
         }
     }
 }

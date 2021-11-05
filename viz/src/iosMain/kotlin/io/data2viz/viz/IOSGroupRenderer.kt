@@ -18,7 +18,7 @@
 package io.data2viz.viz
 
 import io.data2viz.viz.*
-import platform.CoreGraphics.CGContextSetLineWidth
+import platform.CoreGraphics.*
 import kotlin.math.*
 
 
@@ -31,14 +31,14 @@ public fun GroupNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
         children.forEach { node ->
 
-//            if (node is HasTransform && node.transform != null) {
-//                node.transform!!.transformations.forEach {
-//                    when (it) {
-//                        is Translation -> canvas.translate(it.x.dp, it.y.dp)
-//                        is Rotation -> canvas.rotate(+(it.delta * 180 / PI).toFloat())
-//                    }
-//                }
-//            }
+            if (node is HasTransform) {
+                node.transform?.transformations?.forEach {
+                    when (it) {
+                        is Translation  -> CGContextTranslateCTM(context, it.x, it.y)
+                        is Rotation     -> CGContextRotateCTM(context, it.delta)
+                    }
+                }
+            }
 //
 //            var dashedSet = false
 //
@@ -54,13 +54,13 @@ public fun GroupNode.render(renderer: IOSCanvasRenderer) {
 
             if (node.visible)
                 when (node) {
-                    is CircleNode -> node.render(renderer)
-                    is RectNode -> node.render(renderer)
-                    is GroupNode -> node.render(renderer)
-                    is PathNode -> node.render(renderer)
-//                    is TextNode -> node.render(renderer)
-//                    is LineNode -> node.render(renderer)
-//                    is ImageNode -> node.render(renderer)
+                    is CircleNode   -> node.render(renderer)
+                    is RectNode     -> node.render(renderer)
+                    is GroupNode    -> node.render(renderer)
+                    is PathNode     -> node.render(renderer)
+                    is TextNode     -> node.render(renderer)
+                    is LineNode     -> node.render(renderer)
+//                    is ImageNode    -> node.render(renderer)
                     else -> error("Unknow type ${node::class}")
                 }
 
@@ -68,14 +68,21 @@ public fun GroupNode.render(renderer: IOSCanvasRenderer) {
 //                paint.pathEffect = null
 //            }
 //
-//            if (node is HasTransform && node.transform != null) {
-//                node.transform!!.transformations.reversed().forEach {
-//                    when (it) {
-//                        is Translation -> canvas.translate(-it.x.dp, -it.y.dp)
-//                        is Rotation -> canvas.rotate(-(it.delta * 180 / PI).toFloat())
-//                    }
-//                }
-//            }
+            if (node is HasTransform) {
+                node.transform?.transformations?.forEach {
+                    when (it) {
+                    }
+                }
+            }
+
+            if (node is HasTransform) {
+                node.transform?.transformations?.reversed()?.forEach {
+                    when (it) {
+                        is Translation  -> CGContextTranslateCTM(context, -it.x, -it.y)
+                        is Rotation     -> CGContextRotateCTM(context, -it.delta)
+                    }
+                }
+            }
 
         }
     }
