@@ -353,6 +353,7 @@ private fun SvgStringBuilder.add(textNode: TextNode) {
                 add("font-family", fontFamily.name)
                 add("font-weight", fontWeight.name)
                 add("font-style", fontStyle.name)
+                add("xml:space", "preserve")
 
                 addStylesIfAvailableFor(textNode)
                 addTransformsIfAvailableFor(textNode)
