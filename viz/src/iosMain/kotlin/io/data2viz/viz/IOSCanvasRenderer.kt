@@ -85,6 +85,13 @@ public class IOSCanvasRenderer(
 
 }
 
+internal fun Color.toUIColor():UIColor {
+    return UIColor (
+        red = this.r/255.0,
+        green = this.g/255.0,
+        blue = this.b/255.0,
+        alpha = this.alpha.value)
+}
 internal fun Color.toColor(): CValues<DoubleVar> {
     return cValuesOf (this.r/255.0, this.g/255.0, this.b/255.0, this.alpha.value)
 }
