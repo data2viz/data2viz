@@ -99,15 +99,15 @@ public class Viz(
 
 
     public fun render() {
-        renderer!!.render()
+        renderer?.render()
     }
 
     public fun startAnimations() {
-        renderer!!.startAnimations()
+        renderer?.startAnimations()
     }
 
     public fun stopAnimations() {
-        renderer!!.stopAnimations()
+        renderer?.stopAnimations()
     }
 
     internal val animationTimers = mutableListOf<Timer.(Double) -> Unit>()
