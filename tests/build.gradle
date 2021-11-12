@@ -41,12 +41,28 @@ kotlin {
 
         if (include_ios.toBoolean()){
             println "include_ios"
+            targets {
+                fromPreset(presets.iosArm64, 'iosArm64')
+                fromPreset(presets.iosX64, 'iosX64')
+                fromPreset(presets.iosSimulatorArm64, 'iosSimulatorArm64')
+            }
+
             ios {
                 binaries {
                     framework {
                         baseName = "d2v-$project.name"
                     }
                 }
+            }
+
+            sourceSets {
+
+                iosMain { dependsOn commonMain }
+
+                configure([iosArm64Main, iosX64Main, iosSimulatorArm64Main]) {
+                    dependsOn iosMain
+                }
+
             }
         }
 
