@@ -6,12 +6,6 @@ if (include_ios.toBoolean()) {
 
     kotlin {
 
-        targets {
-            fromPreset(presets.iosArm64, 'iosArm64')
-            fromPreset(presets.iosX64, 'iosX64')
-            fromPreset(presets.iosSimulatorArm64, 'iosSimulatorArm64')
-        }
-
         ios {
             binaries {
                 framework {
@@ -19,24 +13,24 @@ if (include_ios.toBoolean()) {
                 }
             }
         }
+
+        iosSimulatorArm64()
+
         sourceSets {
 
-            iosMain { dependsOn commonMain }
-
-            configure([iosArm64Main, iosX64Main, iosSimulatorArm64Main]) {
-                dependsOn iosMain
+            iosSimulatorArm64Main {
+                dependsOn(iosMain)
             }
 
+            iosSimulatorArm64Test {
+                dependsOn(iosTest)
+            }
             iosTest {
                 dependencies {
                     if (project.name != "tests") {
                         implementation project(":tests")
                     }
                 }
-            }
-
-            configure([iosArm32Test, iosArm64Test, iosX64Test, iosSimulatorArm64Test]) {
-                dependsOn iosTest
             }
         }
     }
