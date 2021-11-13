@@ -18,7 +18,7 @@ public final class io/data2viz/timer/Timer {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/data2viz/timer/TimerJVMKt {
+public final class io/data2viz/timer/TimerJfxKt {
 	public static final fun callInNextFrame (Lkotlin/jvm/functions/Function0;)V
 	public static final fun clearInterval (Ljava/lang/Object;)V
 	public static final fun clearTimeout (Ljava/lang/Object;)V
