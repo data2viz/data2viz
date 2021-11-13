@@ -1,4 +1,7 @@
 
+def javaFXPlatform = getJavaFXPlatform()
+def javaFXVersion = "11.0.2"
+
 if (include_jfx.toBoolean()) {
     kotlin {
 
@@ -7,6 +10,11 @@ if (include_jfx.toBoolean()) {
         jvm("jfx") {}
         sourceSets {
             jfxMain {
+                dependencies {
+                    implementation "org.openjfx:javafx-base:${javaFXVersion}:${javaFXPlatform}"
+                    implementation "org.openjfx:javafx-controls:${javaFXVersion}:${javaFXPlatform}"
+                    implementation "org.openjfx:javafx-graphics:${javaFXVersion}:${javaFXPlatform}"
+                }
             }
             jfxTest {
                 dependencies {
@@ -15,10 +23,25 @@ if (include_jfx.toBoolean()) {
                     implementation kotlin('test-junit')
                     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
                     api "org.jetbrains.kotlinx:kotlinx-coroutines-javafx:$coroutines_version"
+                    implementation "org.openjfx:javafx-swing:${javaFXVersion}:${javaFXPlatform}"
                     api "org.testfx:testfx-core:$textfx_version"
                     api "org.testfx:testfx-junit:$textfx_version"
                 }
             }
         }
     }
+}
+
+
+// Based on this StackOverflow answer: https://stackoverflow.com/a/65209664/653519
+private static String getJavaFXPlatform() {
+    def currentOS = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.currentOperatingSystem;
+    if (currentOS.isWindows()) {
+        return 'win'
+    } else if (currentOS.isLinux()) {
+        return 'linux'
+    } else if (currentOS.isMacOsX()) {
+        return 'mac'
+    }
+    return null
 }

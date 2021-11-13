@@ -17,13 +17,14 @@
 
 package io.data2viz.timer
 
-import com.sun.javafx.application.PlatformImpl
 import javafx.animation.Animation
 import javafx.animation.AnimationTimer
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
+import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.util.Duration
+import java.lang.IllegalStateException
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.TimeUnit
 
@@ -63,7 +64,11 @@ internal actual fun delegateNow(): Double = TimeUnit.NANOSECONDS.toMillis(System
 internal class JavaFxTimer : AnimationTimer() {
 
     init {
-        PlatformImpl.startup {}
+        try {
+            Platform.startup {}
+        } catch (ex: IllegalStateException){
+            //May throw an IllegalStateException if Platfor is already started.
+        }
     }
 
     private val blocks = CopyOnWriteArrayList<() -> Unit>()
