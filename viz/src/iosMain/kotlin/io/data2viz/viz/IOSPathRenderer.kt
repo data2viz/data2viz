@@ -42,15 +42,18 @@ public fun PathNode.render(renderer: IOSCanvasRenderer) {
             }
         }
 
-        if (fill != null && strokeColor != null && strokeWidth != null) {
+        val hasStroke = (strokeColor != null) && (strokeWidth != null)
+        val hasFill = fill != null
+
+        if (hasFill && hasStroke) {
             CGContextSetFillColor(context, (fill as Color).toColor()) //todo manage gradient
             CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
             CGContextSetLineWidth(context, strokeWidth!!)
             CGContextDrawPath(context, CGPathDrawingMode.kCGPathFillStroke)
-        } else if (fill != null) {
+        } else if (hasFill) {
             CGContextSetFillColor(context, (fill as Color).toColor()) //todo manage gradient
             CGContextFillPath(context)
-        } else if (strokeColor != null && strokeWidth != null) {
+        } else if (hasStroke) {
             CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
             CGContextSetLineWidth(context, strokeWidth!!)
             CGContextStrokePath(context)
