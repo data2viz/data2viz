@@ -48,7 +48,6 @@ public class VizContainerView():
             view.removeFromSuperview()
         }
 
-        println("${vizContainer.vizList.size} subview(s)")
         vizContainer.vizList.forEach {
             addSubview(IOSCanvasView(it, bounds))
         }
@@ -57,9 +56,6 @@ public class VizContainerView():
 
     override fun drawRect(aRect: CValue<CGRect>) {
 //        println("VizContainerView.drawRect...")
-//		val context = UIGraphicsGetCurrentContext()
-//		CGContextSetFillColor(context, color(150,0,0) )
-//		CGContextFillRect(context, aRect)
     }
 }
 

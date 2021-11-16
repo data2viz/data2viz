@@ -29,37 +29,33 @@ internal object FakeDisposable: Disposable {
     }
 }
 
-public actual class KMouseMove {
-    public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
-            return FakeDisposable
-        }
-    }
-}
-
-public actual class KMouseDown {
-    public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
-            return FakeDisposable
-        }
-    }
-}
-
-public actual class KMouseUp {
-    public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
-            return FakeDisposable
-        }
-    }
-}
 
 public actual class KTouch {
     public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
         override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable {
+            addTouchAndroidEventHandle(target, listener)
             return FakeDisposable
         }
     }
 }
+
+private fun addTouchAndroidEventHandle(target: Any, listener: (KTouchEvent) -> Unit):
+        Disposable {
+
+    val renderer = target as IOSCanvasRenderer
+
+    val handler = object : VizTouchListener {
+        override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
+            if (event != null) {
+                listener(event.toKTouchEvent())
+            }
+            return true
+        }
+    }
+
+    return FakeDisposable
+}
+
 
 public actual class KTouchStart {
     public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
@@ -84,6 +80,32 @@ public actual class KTouchMove {
         }
     }
 }
+
+
+public actual class KMouseMove {
+    public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
+            return FakeDisposable
+        }
+    }
+}
+
+public actual class KMouseDown {
+    public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
+            return FakeDisposable
+        }
+    }
+}
+
+public actual class KMouseUp {
+    public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
+            return FakeDisposable
+        }
+    }
+}
+
 
 public actual class KPointerEnter {
     public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
