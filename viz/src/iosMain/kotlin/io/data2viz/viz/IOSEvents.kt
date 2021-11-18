@@ -44,14 +44,14 @@ private fun addTouchAndroidEventHandle(target: Any, listener: (KTouchEvent) -> U
 
     val renderer = target as IOSCanvasRenderer
 
-    val handler = object : VizTouchListener {
-        override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
-            if (event != null) {
-                listener(event.toKTouchEvent())
-            }
-            return true
-        }
-    }
+//    val handler = object : VizTouchListener {
+//        override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
+//            if (event != null) {
+//                listener(event.toKTouchEvent())
+//            }
+//            return true
+//        }
+//    }
 
     return FakeDisposable
 }
