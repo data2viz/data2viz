@@ -41,7 +41,10 @@ public fun newVizContainer(): VizContainer {
 }
 
 
-internal class JsVizContainer(private val div: HTMLDivElement) : VizContainer {
+internal class JsVizContainer(
+    private val div: HTMLDivElement,
+    private val resizableSupport: ResizableSupport = ResizableSupport()
+) : VizContainer, Resizable by resizableSupport {
 
     private val allViz = mutableListOf<Viz>()
 
@@ -55,6 +58,7 @@ internal class JsVizContainer(private val div: HTMLDivElement) : VizContainer {
                 it.size = value
                 it.updatePlatformSize()
             }
+            resizableSupport.notifyNewSize(value)
         }
 
 

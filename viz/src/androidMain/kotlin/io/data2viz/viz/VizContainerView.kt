@@ -32,9 +32,12 @@ import io.data2viz.timer.Timer
  */
 @SuppressLint("ViewConstructor")
 public open class VizContainerView(
-    context: Context
+    context: Context,
+    private val resizableSupport: ResizableSupport = ResizableSupport()
 )
-    : View(context), VizContainer {
+    : View(context),
+    VizContainer,
+    Resizable by resizableSupport {
 
 
     private val vizs = mutableListOf<Viz>()
@@ -67,6 +70,7 @@ public open class VizContainerView(
             vizs.forEach { viz: Viz ->
                 viz.size = value
             }
+            resizableSupport.notifyNewSize(value)
         }
 
     //    private var _scale: Float = 1f

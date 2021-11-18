@@ -31,7 +31,13 @@ public fun Pane.newVizContainer(): VizContainer = JfxVizContainer(this)
 
 
 
-internal class JfxVizContainer(private val pane: Pane) : VizContainer {
+internal class JfxVizContainer(
+    private val pane: Pane,
+    private val resizableSupport: ResizableSupport = ResizableSupport()
+    ) :
+    VizContainer,
+    Resizable by resizableSupport
+{
 
     private val allViz = mutableListOf<Viz>()
 
@@ -59,6 +65,7 @@ internal class JfxVizContainer(private val pane: Pane) : VizContainer {
                 it.size = value
                 it.updatePlatformSize()
             }
+            resizableSupport.notifyNewSize(value)
         }
 }
 

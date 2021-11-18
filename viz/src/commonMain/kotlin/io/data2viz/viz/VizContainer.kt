@@ -39,7 +39,7 @@ import io.data2viz.ExperimentalD2V
  *
  * Linked to a platform element that can hold multiple canvas.
  */
-public interface VizContainer {
+public interface VizContainer: Resizable {
 
     /**
      * Creates a new [Viz] inside the platform element.
@@ -52,4 +52,42 @@ public interface VizContainer {
     public var size: Size
 
     public val density: Double
+
+
+}
+
+/**
+ * Resizable allow to be notified of the new size.
+ */
+public interface Resizable {
+
+    /**
+     * Add a resize listener that will be notified in case of
+     * new size.
+     */
+    public fun addResizeListener(resizeListener: (Size) -> Unit): Unit
+//    public fun removeResizeListener( resizeListener:(Size)->Unit):Unit
+
+}
+
+/**
+ * Resizable implementation to simplify the implementation
+ * by delegation for all VizContainer.
+ */
+public class ResizableSupport: Resizable {
+
+    private val resizeListeners = mutableListOf<(Size) -> Unit>()
+
+    override fun addResizeListener(resizeListener: (Size) -> Unit) {
+        resizeListeners.add(resizeListener)
+    }
+
+    /**
+     * Notify the listeners of the new size.
+     */
+    public fun notifyNewSize(value: Size) {
+        resizeListeners.forEach {
+            it(value)
+        }
+    }
 }

@@ -235,8 +235,10 @@ public final class io/data2viz/viz/JfxTextUtilsKt {
 	public static final fun textMeasure (Ljava/lang/String;DLio/data2viz/viz/FontFamily;Lio/data2viz/viz/FontWeight;Lio/data2viz/viz/FontPosture;)Lio/data2viz/geom/Rect;
 }
 
-public final class io/data2viz/viz/JfxVizContainer : io/data2viz/viz/VizContainer {
-	public fun <init> (Ljavafx/scene/layout/Pane;)V
+public final class io/data2viz/viz/JfxVizContainer : io/data2viz/viz/Resizable, io/data2viz/viz/VizContainer {
+	public fun <init> (Ljavafx/scene/layout/Pane;Lio/data2viz/viz/ResizableSupport;)V
+	public synthetic fun <init> (Ljavafx/scene/layout/Pane;Lio/data2viz/viz/ResizableSupport;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addResizeListener (Lkotlin/jvm/functions/Function1;)V
 	public fun getDensity ()D
 	public fun getSize ()Lio/data2viz/geom/Size;
 	public fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
@@ -625,6 +627,16 @@ public final class io/data2viz/viz/RectNode : io/data2viz/viz/Node, io/data2viz/
 	public fun setY (D)V
 }
 
+public abstract interface class io/data2viz/viz/Resizable {
+	public abstract fun addResizeListener (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/viz/ResizableSupport : io/data2viz/viz/Resizable {
+	public fun <init> ()V
+	public fun addResizeListener (Lkotlin/jvm/functions/Function1;)V
+	public final fun notifyNewSize (Lio/data2viz/geom/Size;)V
+}
+
 public final class io/data2viz/viz/Rotation : io/data2viz/viz/AtomicTransformation {
 	public fun <init> ()V
 	public fun <init> (D)V
@@ -867,7 +879,7 @@ public final class io/data2viz/viz/VizConfig {
 	public final fun setAutoUpdate (Z)V
 }
 
-public abstract interface class io/data2viz/viz/VizContainer {
+public abstract interface class io/data2viz/viz/VizContainer : io/data2viz/viz/Resizable {
 	public abstract fun getDensity ()D
 	public abstract fun getSize ()Lio/data2viz/geom/Size;
 	public abstract fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
