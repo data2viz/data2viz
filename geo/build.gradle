@@ -27,7 +27,6 @@ kotlin {
             jsMain {
                 dependencies {
                     api "io.data2viz.geojson:core:$geojson_version"
-                    implementation kotlin("stdlib-js")
                 }
             }
         }

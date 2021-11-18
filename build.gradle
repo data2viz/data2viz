@@ -31,6 +31,10 @@ allprojects {
         mavenCentral()
         jcenter()
         maven {
+            url "https://maven.pkg.jetbrains.space/data2viz/p/maven/public"
+        }
+
+        maven {
             url "https://kotlin.bintray.com/kotlinx/"
         }
     }
