@@ -22,10 +22,14 @@ import android.graphics.*
 public fun LineNode.render(renderer: AndroidCanvasRenderer) {
     strokeColor?.let {
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = strokeWidth?.toFloat() ?: 1f
+        setStrokeWidth(strokeWidth)
         it.updatePaint(paint, renderer)
         with(renderer) {
             canvas.drawLine(x1.dp, y1.dp, x2.dp, y2.dp, paint)
         }
     }
+}
+
+internal fun setStrokeWidth(width: Double?) {
+    paint.strokeWidth = width?.dp?.toFloat() ?: 1f
 }

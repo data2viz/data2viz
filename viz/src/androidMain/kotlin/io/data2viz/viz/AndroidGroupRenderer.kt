@@ -42,7 +42,7 @@ public fun GroupNode.render(renderer: AndroidCanvasRenderer) {
             var dashedSet = false
 
             if (node is HasStroke) {
-                paint.strokeWidth = (node.strokeWidth ?: 1.0).toFloat()
+                setStrokeWidth(node.strokeWidth)
                 node.dashedLine?.let {
                     paint.pathEffect = DashPathEffect(it.toFloat(), 0f)
                     dashedSet = true

@@ -121,9 +121,10 @@ public fun PathNode.render(renderer: AndroidCanvasRenderer) {
         canvas.drawPath(path, paint)
     }
 
-    strokeColor?.let {
+    if (strokeColor != null && strokeWidth != null) {
         paint.style = Paint.Style.STROKE
-        it.updatePaint(paint, renderer)
+        setStrokeWidth(strokeWidth)
+        strokeColor?.updatePaint(paint, renderer)
         canvas.drawPath(path, paint)
     }
 }
