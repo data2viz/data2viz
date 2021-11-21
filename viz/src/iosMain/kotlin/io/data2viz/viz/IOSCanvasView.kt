@@ -30,6 +30,8 @@ class IOSCanvasView(val viz: Viz, frame: CValue<CGRect> = CGRectMake(.0, .0, .0,
 
     private val renderer = IOSCanvasRenderer(viz, this)
 
+    internal var uiTouchesHandler: UITouchesHandler? = null
+
     init {
         renderer.render()
         viz.renderer = renderer
@@ -45,6 +47,14 @@ class IOSCanvasView(val viz: Viz, frame: CValue<CGRect> = CGRectMake(.0, .0, .0,
 //		println("IOSCanvasView.drawRect")
         renderer.draw(aRect)
     }
+
+
+    override fun touchesBegan(touches: Set<*>, withEvent: UIEvent?) 	{ uiTouchesHandler?.touchesBegan(touches, withEvent) }
+    override fun touchesMoved(touches: Set<*>, withEvent: UIEvent?) 	{ uiTouchesHandler?.touchesMoved(touches, withEvent) }
+    override fun touchesEnded(touches: Set<*>, withEvent: UIEvent?) 	{ uiTouchesHandler?.touchesEnded(touches, withEvent) }
+    override fun touchesCancelled(touches: Set<*>, withEvent: UIEvent?) { uiTouchesHandler?.touchesCancelled(touches, withEvent) }
+
+
 
 }
 

@@ -33,6 +33,8 @@ public class IOSCanvasRenderer(
     val iosCanvasView: IOSCanvasView
 ): VizRenderer {
 
+    internal val uiTouchesHandler = UITouchesHandler(iosCanvasView)
+
     init {
         viz.renderer = this
     }

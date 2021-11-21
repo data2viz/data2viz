@@ -82,7 +82,9 @@ internal open class KPointerEventImpl(
 }
 
 /**
- *
+ * MultiPlatform Touch Event
+ * [pointers]: the list of all current pointers including the one at the origin of the current event
+ * [pointer]: the specific pointer at the source of the current event.
  */
 public data class KTouchEvent(
     public val type: KTouchEventType,

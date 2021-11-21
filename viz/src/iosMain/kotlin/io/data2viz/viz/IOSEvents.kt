@@ -17,10 +17,10 @@
 
 package io.data2viz.viz
 
-import io.data2viz.viz.KEventListener
-import io.data2viz.viz.KMouseEvent
-import io.data2viz.viz.KPointerEvent
-import io.data2viz.viz.KTouchEvent
+import io.data2viz.geom.Point
+import kotlinx.cinterop.*
+import platform.CoreGraphics.*
+import platform.UIKit.*
 
 
 internal object FakeDisposable: Disposable {
@@ -33,27 +33,15 @@ internal object FakeDisposable: Disposable {
 public actual class KTouch {
     public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
         override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable {
-            addTouchAndroidEventHandle(target, listener)
-            return FakeDisposable
+            return addTouchIOSEventHandle(target, listener)
         }
     }
 }
 
-private fun addTouchAndroidEventHandle(target: Any, listener: (KTouchEvent) -> Unit):
+private fun addTouchIOSEventHandle(target: Any, listener: (KTouchEvent) -> Unit):
         Disposable {
-
     val renderer = target as IOSCanvasRenderer
-
-//    val handler = object : VizTouchListener {
-//        override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
-//            if (event != null) {
-//                listener(event.toKTouchEvent())
-//            }
-//            return true
-//        }
-//    }
-
-    return FakeDisposable
+    return renderer.uiTouchesHandler.addListener(listener)
 }
 
 
@@ -149,9 +137,108 @@ public actual class KZoom {
 }
 
 
+
 internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
-    return object : Disposable { // for the test
-        override fun dispose() {
+    val iosCanvasRenderer = this as IOSCanvasRenderer
+    return handle.eventListener.addNativeListener(iosCanvasRenderer, handle.listener)
+}
+
+
+internal class IOSTouchDisposable(
+    val uiTouchesHandler: UITouchesHandler,
+    val listener: (KTouchEvent) -> Unit): Disposable {
+
+    override fun dispose() {
+        uiTouchesHandler.listeners.remove(this)
+    }
+
+}
+
+
+internal class UITouchesHandler(private val view:IOSCanvasView) {
+
+
+    init {
+        (view as UIView).multipleTouchEnabled = true
+        view.uiTouchesHandler = this
+    }
+
+
+    /**
+     * La liste de toutes les touches en cours.
+     */
+    internal val currentTouches: MutableMap<UITouch, KPointer> = mutableMapOf()
+
+    internal val listeners = mutableListOf<IOSTouchDisposable>()
+
+
+
+    fun addListener(listener: (KTouchEvent) -> Unit): Disposable {
+        val disposable = IOSTouchDisposable(this, listener)
+        listeners.add(disposable)
+        return disposable
+    }
+
+
+    private fun allPointers(): List<KPointer> = currentTouches.values.sortedBy { it.id }
+
+    private var touchId = 0
+
+
+    /**
+     * On
+     */
+    fun touchesBegan(touches: Set<*>, withEvent: UIEvent?) {
+        touches.touchList().forEach {
+            val newPointer = KPointer(touchId++, it.toPosition())
+            currentTouches[it] = newPointer
+            val touchEvent = KTouchEvent(KTouchEventType.DOWN, allPointers(), newPointer)
+            notifyListeners(touchEvent)
         }
     }
+
+    fun touchesMoved(touches: Set<*>, withEvent: UIEvent?) {
+        touches.touchList().forEach {
+            val pointer = currentTouches[it]!!
+            val updatedPointer = KPointer(pointer.id, it.toPosition())
+            currentTouches[it] = updatedPointer
+            val touchEvent = KTouchEvent(KTouchEventType.MOVE, allPointers(), updatedPointer)
+            notifyListeners(touchEvent)
+        }
+    }
+
+
+    fun touchesEnded(touches: Set<*>, withEvent: UIEvent?) {
+        touches.touchList().forEach {
+            val pointer = currentTouches[it]!!
+            currentTouches.remove(it)
+            val touchEvent = KTouchEvent(KTouchEventType.UP, allPointers(), pointer)
+            notifyListeners(touchEvent)
+        }
+    }
+
+    fun touchesCancelled(touches: Set<*>, withEvent: UIEvent?) {
+        touches.touchList().forEach {
+            val pointer = currentTouches[it]!!
+            currentTouches.remove(it)
+            val touchEvent = KTouchEvent(KTouchEventType.CANCEL, allPointers(), pointer)
+            notifyListeners(touchEvent)
+        }
+    }
+
+    private fun notifyListeners(touchEvent: KTouchEvent) {
+        listeners.forEach {
+            it.listener(touchEvent)
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun Set<*>.touchList() = toList() as List<UITouch>
+
+    private fun UITouch.toPosition(): Point =
+        this.locationInView(view).useContents { Point(this.x, this.y) }
+
+
 }
+
+
