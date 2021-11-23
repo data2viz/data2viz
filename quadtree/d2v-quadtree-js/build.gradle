@@ -2,4 +2,3 @@ dependencies {
     expectedBy project(":quadtree:quadtree-common")
     compile project(":core:core-js")
 }
-apply from: rootProject.file("gradle/test-js.gradle")
