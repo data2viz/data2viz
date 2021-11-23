@@ -17,7 +17,6 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation kotlin("stdlib-common")
             }
         }
         commonTest {
@@ -29,7 +28,6 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation kotlin("reflect")
-                implementation kotlin("stdlib")
             }
         }
         jvmTest {

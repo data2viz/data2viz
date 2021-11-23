@@ -32,9 +32,6 @@ kotlin {
             }
         }
         commonMain {
-            dependencies {
-                implementation kotlin('stdlib-common')
-            }
         }
         commonTest {
             dependencies {

@@ -7,9 +7,6 @@ if (include_jfx.toBoolean()) {
         jvm("jfx") {}
         sourceSets {
             jfxMain {
-                dependencies {
-                    implementation kotlin('stdlib')
-                }
             }
             jfxTest {
                 dependencies {

@@ -31,8 +31,6 @@ if (include_android.toBoolean()) {
         }
         sourceSets {
             main {
-                dependencies {
-                }
             }
             test {
                 dependencies {
