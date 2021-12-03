@@ -63,7 +63,7 @@ public class Cross : Symbol {
 public class Diamond : Symbol {
 
     private val tan30 = sqrt(1 / 3.0)
-    private val tan30_2 = tan30 * 2;
+    private val tan30_2 = tan30 * 2
 
     override fun <C : Path> render(path: C, size: Double, position: Point): C {
         val y = sqrt(size / tan30_2)
@@ -83,6 +83,7 @@ public class Square : Symbol {
     override fun <C : Path> render(path: C, size: Double, position: Point): C {
         val w = sqrt(size)
         val x = -w / 2.0
+
         path.rect(position.x + x, position.y + x, w, w)
         return path
     }
@@ -99,8 +100,8 @@ public class Star : Symbol {
         val r = sqrt(size * ka)
         val x = kx * r
         val y = ky * r
-        path.moveTo(.0, -r)
-        path.lineTo(x, y)
+        path.moveTo(position.x, position.y-r)
+        path.lineTo(position.x + x, position.y + y)
         for (i in 1 until 5) {
             val a = tau * i / 5.0
             val c = cos(a)
@@ -108,12 +109,12 @@ public class Star : Symbol {
             path.lineTo(position.x + (s * r), position.y - (c * r))
             path.lineTo(position.x + (c * x) - (s * y), position.y + (s * x) + (c * y))
         }
-        path.closePath();
+        path.closePath()
         return path
     }
 }
 
-class Triangle : Symbol {
+public class Triangle : Symbol {
 
     private val sqrt3 = sqrt(3.0)
 
@@ -130,7 +131,8 @@ class Triangle : Symbol {
 }
 
 
-class Wye : Symbol {
+
+public class Wye : Symbol {
 
     private val c = -0.5
     private val s = sqrt(3.0) / 2
