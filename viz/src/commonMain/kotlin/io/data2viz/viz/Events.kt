@@ -89,14 +89,14 @@ internal open class KPointerEventImpl(
 public data class KTouchEvent(
     public val type: KTouchEventType,
     public val pointers: List<KPointer>,
-    public val actionPointer: KPointer
+    public val actionPointers: Set<KPointer>
 ) : KEvent
 
 public enum class KTouchEventType {
     DOWN, UP, MOVE, CANCEL
 }
 
-public class KPointer(
+public data class KPointer(
     public val id: Int,
     public val pos: Point
 )

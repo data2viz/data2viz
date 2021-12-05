@@ -12,7 +12,7 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *  
+ *
  */
 
 package io.data2viz.viz
@@ -189,41 +189,58 @@ internal class UITouchesHandler(private val view:IOSCanvasView) {
      * On
      */
     fun touchesBegan(touches: Set<*>, withEvent: UIEvent?) {
-        touches.touchList().forEach {
-            val newPointer = KPointer(touchId++, it.toPosition())
-            currentTouches[it] = newPointer
-            val touchEvent = KTouchEvent(KTouchEventType.DOWN, allPointers(), newPointer)
-            notifyListeners(touchEvent)
-        }
+        val pointers = (touches as Set<UITouch>)
+            .map {
+                val kPointer = KPointer(touchId++, it.toPosition())
+                currentTouches[it] = kPointer
+                kPointer
+            }.toSet()
+
+        val touchEvent = KTouchEvent(KTouchEventType.DOWN, allPointers(), pointers)
+        notifyListeners(touchEvent)
     }
 
     fun touchesMoved(touches: Set<*>, withEvent: UIEvent?) {
-        touches.touchList().forEach {
-            val pointer = currentTouches[it]!!
-            val updatedPointer = KPointer(pointer.id, it.toPosition())
-            currentTouches[it] = updatedPointer
-            val touchEvent = KTouchEvent(KTouchEventType.MOVE, allPointers(), updatedPointer)
-            notifyListeners(touchEvent)
-        }
+
+		val uiTouches = touches as Set<UITouch>
+		val pointers = uiTouches
+            .map {
+				val pointer = currentTouches[it]!!
+				val updatedPointer = pointer.copy(pos = it.toPosition())
+				currentTouches[it] = updatedPointer
+				updatedPointer
+            }
+            .toSet()
+
+        val touchEvent = KTouchEvent(KTouchEventType.MOVE, allPointers(), pointers)
+        notifyListeners(touchEvent)
     }
 
 
     fun touchesEnded(touches: Set<*>, withEvent: UIEvent?) {
-        touches.touchList().forEach {
-            val pointer = currentTouches[it]!!
-            currentTouches.remove(it)
-            val touchEvent = KTouchEvent(KTouchEventType.UP, allPointers(), pointer)
-            notifyListeners(touchEvent)
-        }
+        val pointers = (touches as Set<UITouch>)
+            .map {
+                val pointer = currentTouches[it]!!
+                currentTouches.remove(it)
+                pointer
+            }
+            .toSet()
+
+        val touchEvent = KTouchEvent(KTouchEventType.UP, allPointers(), pointers)
+        notifyListeners(touchEvent)
     }
 
     fun touchesCancelled(touches: Set<*>, withEvent: UIEvent?) {
-        touches.touchList().forEach {
-            val pointer = currentTouches[it]!!
-            currentTouches.remove(it)
-            val touchEvent = KTouchEvent(KTouchEventType.CANCEL, allPointers(), pointer)
-            notifyListeners(touchEvent)
-        }
+        val pointers = (touches as Set<UITouch>)
+            .map {
+                val pointer = currentTouches[it]!!
+                currentTouches.remove(it)
+                pointer
+            }
+            .toSet()
+
+        val touchEvent = KTouchEvent(KTouchEventType.CANCEL, allPointers(), pointers)
+        notifyListeners(touchEvent)
     }
 
     private fun notifyListeners(touchEvent: KTouchEvent) {
@@ -232,12 +249,8 @@ internal class UITouchesHandler(private val view:IOSCanvasView) {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
-    private fun Set<*>.touchList() = toList() as List<UITouch>
-
     private fun UITouch.toPosition(): Point =
         this.locationInView(view).useContents { Point(this.x, this.y) }
-
 
 }
 

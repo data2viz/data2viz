@@ -367,7 +367,7 @@ private fun MotionEvent.toKTouchEvent(): KTouchEvent {
     val pointers = (0 until pointerCount).map { index ->
         KPointer(getPointerId(index), Point(getX(index).toDouble(), getY(index).toDouble()))
     }
-    return  KTouchEvent(type, pointers, pointers[actionIndex])
+    return  KTouchEvent(type, pointers, setOf(pointers[actionIndex]))
 }
 
 private fun Int.actionMaskToType() = when(this) {
