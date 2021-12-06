@@ -18,7 +18,6 @@
 package io.data2viz.viz
 
 import io.data2viz.geom.Size
-import io.data2viz.ExperimentalD2V
 
 /**
  * A VizContainer allows to create superposed Viz with the sames size through the [newViz] function.
