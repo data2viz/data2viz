@@ -3,6 +3,7 @@ package io.data2viz.timer
 import kotlinx.cinterop.*
 import platform.Foundation.*
 import platform.QuartzCore.CADisplayLink
+import kotlin.native.concurrent.ThreadLocal
 
 /*
  * Copyright (c) 2018-2021. data2viz sàrl.
@@ -65,12 +66,12 @@ internal actual fun clearInterval(handle:Any){
 @ThreadLocal
 public object FrameExecutor {
 
-    val selector = NSSelectorFromString("frame")
-    val displayLink = CADisplayLink.displayLinkWithTarget(this, selector)
+    private val selector = NSSelectorFromString("frame")
+    private val displayLink = CADisplayLink.displayLinkWithTarget(this, selector)
 
-    val blocks = mutableListOf<()->Unit>()
+    private val blocks = mutableListOf<()->Unit>()
 
-    fun callInNextFrame(block: () -> Unit) {
+    internal fun callInNextFrame(block: () -> Unit) {
 //        println("callInNextFrame")
         if (blocks.isEmpty()) {
             displayLink.addToRunLoop(NSRunLoop.currentRunLoop, NSRunLoop.currentRunLoop.currentMode)
@@ -105,19 +106,3 @@ internal actual fun callInNextFrame(block: () -> Unit) {
  */
 internal actual fun delegateNow(): Double = NSDate().timeIntervalSince1970 * 1000.0
 
-
-
-@ThreadLocal
-object DependantAppTimer {
-
-    fun start(){
-        val selector = NSSelectorFromString("execution")
-        val displayLink = CADisplayLink.displayLinkWithTarget(this, selector)
-        displayLink.addToRunLoop(NSRunLoop.currentRunLoop, NSRunLoop.currentRunLoop.currentMode)
-    }
-
-    @ObjCAction
-    fun execution(){
-        NSLog("DependantAppTimer:: Execution through CADisplayLink")
-    }
-}
