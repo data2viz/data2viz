@@ -350,8 +350,15 @@ public final class io/data2viz/viz/KMouseUp$PointerUpEventListener : io/data2viz
 
 public final class io/data2viz/viz/KPointer {
 	public fun <init> (ILio/data2viz/geom/Point;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/data2viz/geom/Point;
+	public final fun copy (ILio/data2viz/geom/Point;)Lio/data2viz/viz/KPointer;
+	public static synthetic fun copy$default (Lio/data2viz/viz/KPointer;ILio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/viz/KPointer;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getId ()I
 	public final fun getPos ()Lio/data2viz/geom/Point;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/data2viz/viz/KPointerClick {
@@ -422,14 +429,14 @@ public final class io/data2viz/viz/KTouchEnd$TouchEndEventListener : io/data2viz
 }
 
 public final class io/data2viz/viz/KTouchEvent : io/data2viz/viz/KEvent {
-	public fun <init> (Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Lio/data2viz/viz/KPointer;)V
+	public fun <init> (Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Ljava/util/Set;)V
 	public final fun component1 ()Lio/data2viz/viz/KTouchEventType;
 	public final fun component2 ()Ljava/util/List;
-	public final fun component3 ()Lio/data2viz/viz/KPointer;
-	public final fun copy (Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Lio/data2viz/viz/KPointer;)Lio/data2viz/viz/KTouchEvent;
-	public static synthetic fun copy$default (Lio/data2viz/viz/KTouchEvent;Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Lio/data2viz/viz/KPointer;ILjava/lang/Object;)Lio/data2viz/viz/KTouchEvent;
+	public final fun component3 ()Ljava/util/Set;
+	public final fun copy (Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Ljava/util/Set;)Lio/data2viz/viz/KTouchEvent;
+	public static synthetic fun copy$default (Lio/data2viz/viz/KTouchEvent;Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Ljava/util/Set;ILjava/lang/Object;)Lio/data2viz/viz/KTouchEvent;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getActionPointer ()Lio/data2viz/viz/KPointer;
+	public final fun getActionPointers ()Ljava/util/Set;
 	public final fun getPointers ()Ljava/util/List;
 	public final fun getType ()Lio/data2viz/viz/KTouchEventType;
 	public fun hashCode ()I
