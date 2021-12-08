@@ -134,6 +134,18 @@ public abstract interface class io/data2viz/viz/HasTransform {
 	public abstract fun getTransform ()Lio/data2viz/viz/Transform;
 }
 
+public final class io/data2viz/viz/HeadlessVizContainer : io/data2viz/viz/Resizable, io/data2viz/viz/VizContainer {
+	public fun <init> ()V
+	public fun <init> (DLio/data2viz/viz/ResizableSupport;)V
+	public synthetic fun <init> (DLio/data2viz/viz/ResizableSupport;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addResizeListener (Lkotlin/jvm/functions/Function1;)V
+	public fun getDensity ()D
+	public fun getSize ()Lio/data2viz/geom/Size;
+	public final fun getVizList ()Ljava/util/List;
+	public fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
+	public fun setSize (Lio/data2viz/geom/Size;)V
+}
+
 public final class io/data2viz/viz/HierarchicalStyle : io/data2viz/viz/Style {
 	public fun <init> (Lio/data2viz/viz/Style;)V
 	public fun getAnchor ()Lio/data2viz/viz/TextHAlign;
