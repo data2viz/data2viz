@@ -365,7 +365,7 @@ private fun MotionEvent.toKTouchEvent(): KTouchEvent {
     val type  = actionMasked.actionMaskToType()
     //todo get meta state
     val pointers = (0 until pointerCount).map { index ->
-        KPointer(getPointerId(index), Point(getX(index).toDouble(), getY(index).toDouble()))
+        KPointer(getPointerId(index), Point(getX(index).toDouble() / scale, getY(index).toDouble() / scale))
     }
     return  KTouchEvent(type, pointers, setOf(pointers[actionIndex]))
 }
