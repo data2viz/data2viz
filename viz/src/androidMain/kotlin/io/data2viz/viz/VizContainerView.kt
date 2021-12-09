@@ -46,8 +46,11 @@ public open class VizContainerView(
     private val allViz = mutableListOf<Viz>()
     private val renderers = mutableListOf<AndroidCanvasRenderer>()
 
-    public override val density: Double
-        get() = context.resources.displayMetrics.density.toDouble()
+    public override val density: Double= context.resources.displayMetrics.density.toDouble()
+
+    init {
+        scale = density.toFloat()
+    }
 
     override fun newViz(init: Viz.() -> Unit): Viz {
         val viz = Viz().apply {
@@ -65,16 +68,21 @@ public open class VizContainerView(
     }
 
 
-    override var size: Size = size(500.0, 300.0)
+    override var size: Size = size(100.0, 100.0)
         get() = field
         set(value) {
             field = value
-            updateScale()
-            allViz.forEach { viz: Viz ->
+            vizs.forEach { viz: Viz ->
                 viz.size = value
             }
             resizableSupport.notifyNewSize(value)
         }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        size = size(w.toDouble()/ scale,h.toDouble()/ scale)
+    }
+
 
     //    private var _scale: Float = 1f
 //
@@ -83,17 +91,7 @@ public open class VizContainerView(
 //
     private val timers = mutableListOf<Timer>()
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        updateScale()
-    }
 
-    /**
-     * Update the scale
-     */
-    private fun updateScale() {
-        scale = (width / size.width).toFloat()
-    }
 
     override fun onDraw(canvas: Canvas) {
         drawCount++
