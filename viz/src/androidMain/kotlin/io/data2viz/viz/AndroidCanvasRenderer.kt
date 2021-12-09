@@ -38,7 +38,7 @@ internal val paint = Paint().apply {
 
 internal var scale = 1f
 
-public val Double.dp: Float
+internal val Double.dp: Float
     get() = (this * scale).toFloat()
 
 
