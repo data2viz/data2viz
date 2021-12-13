@@ -21,11 +21,16 @@ package io.data2viz.math
 
 public const val EPSILON        :Double = 1e-6
 public const val EPSILON2       :Double = EPSILON * EPSILON
+
+@Deprecated("Use directly kotlin.math.PI",
+    replaceWith = ReplaceWith("kotlin.math.PI"),
+    level = DeprecationLevel.ERROR)
 public const val PI             :Double = kotlin.math.PI
-public const val HALFPI         :Double = PI / 2.0
-public const val THIRDPI        :Double = PI / 3.0
-public const val QUARTERPI      :Double = PI / 4.0
-public const val TAU            :Double = PI * 2.0
+
+public const val HALFPI         :Double = kotlin.math.PI / 2.0
+public const val THIRDPI        :Double = kotlin.math.PI / 3.0
+public const val QUARTERPI      :Double = kotlin.math.PI / 4.0
+public const val TAU            :Double = kotlin.math.PI * 2.0
 public const val TAU_EPSILON    :Double = TAU - EPSILON
 public const val DEG_TO_RAD     :Double = kotlin.math.PI / 180
 public const val RAD_TO_DEG     :Double = 180 / kotlin.math.PI

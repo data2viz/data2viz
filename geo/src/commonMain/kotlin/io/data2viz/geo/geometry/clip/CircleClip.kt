@@ -21,8 +21,8 @@ import io.data2viz.geo.stream.Stream
 import io.data2viz.geo.geometry.*
 import io.data2viz.geo.geojson.path.geoCircle
 import io.data2viz.math.EPSILON
-import io.data2viz.math.PI
 import io.data2viz.math.toRadians
+import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sqrt

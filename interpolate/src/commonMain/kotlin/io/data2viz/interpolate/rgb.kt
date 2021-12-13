@@ -18,8 +18,8 @@
 package io.data2viz.interpolate
 
 import io.data2viz.color.*
-import io.data2viz.math.PI
 import io.data2viz.math.Percent
+import kotlin.math.PI
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt

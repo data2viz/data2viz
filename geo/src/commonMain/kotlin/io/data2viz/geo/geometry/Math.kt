@@ -18,7 +18,7 @@
 package io.data2viz.geo.geometry
 
 import io.data2viz.math.HALFPI
-import io.data2viz.math.PI
+import kotlin.math.PI
 import kotlin.math.acos
 import kotlin.math.asin
 

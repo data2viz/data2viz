@@ -19,8 +19,9 @@ package io.data2viz.viz
 
 import io.data2viz.color.Colors
 import io.data2viz.color.col
-import io.data2viz.math.PI
 import io.data2viz.math.pct
+
+import kotlin.math.PI
 
 
 data class RenderingTest(val name: String, val viz: Viz)

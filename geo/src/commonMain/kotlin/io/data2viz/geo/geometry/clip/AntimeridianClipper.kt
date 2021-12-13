@@ -20,19 +20,14 @@ package io.data2viz.geo.geometry.clip
 import io.data2viz.geo.stream.Stream
 import io.data2viz.math.EPSILON
 import io.data2viz.math.HALFPI
-import io.data2viz.math.PI
-import kotlin.math.abs
-import kotlin.math.atan
-import kotlin.math.cos
-import kotlin.math.sin
-
+import kotlin.math.*
 
 
 /**
  * A clipping function which transforms a stream such that geometries (lines or polygons)
  * that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.
  */
-public val antimeridianPreClip = object : ClipStreamBuilder {
+public val antimeridianPreClip: ClipStreamBuilder = object : ClipStreamBuilder {
     val antimeridianClip = AntimeridianClipper()
 
     override fun bindTo(downstream: Stream): Stream {

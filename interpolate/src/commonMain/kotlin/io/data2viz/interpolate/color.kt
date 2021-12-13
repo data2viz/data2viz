@@ -18,9 +18,9 @@
 package io.data2viz.interpolate
 
 import io.data2viz.math.Angle
-import io.data2viz.math.PI
 import io.data2viz.math.Percent
 import io.data2viz.math.TAU
+import kotlin.math.PI
 import kotlin.math.pow
 
 // TODO no more constant needed ?

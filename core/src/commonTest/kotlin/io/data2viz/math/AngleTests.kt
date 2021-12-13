@@ -19,6 +19,7 @@ package io.data2viz.math
 
 
 import io.data2viz.test.TestBase
+import kotlin.math.PI
 import kotlin.test.Test
 
 
