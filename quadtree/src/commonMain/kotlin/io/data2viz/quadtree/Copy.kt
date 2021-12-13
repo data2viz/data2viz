@@ -21,7 +21,7 @@ package io.data2viz.quadtree
  * Returns a copy of the quadtree. All nodes in the returned quadtree are identical copies of the corresponding
  * node in the quadtree; however, any data in the quadtree is shared by reference and not copied.
  */
-fun <D> Quadtree<D>.copy(): Quadtree<D> {
+public fun <D> Quadtree<D>.copy(): Quadtree<D> {
 
     val copy = Quadtree(x, y)
     copy.extent = extent.copy()

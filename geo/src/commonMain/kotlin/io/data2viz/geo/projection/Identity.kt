@@ -19,7 +19,7 @@ package io.data2viz.geo.projection
 
 import io.data2viz.geo.geometry.clip.NoClip
 import io.data2viz.geo.projection.common.*
-import io.data2viz.math.PI
+import kotlin.math.PI
 
 
 /**

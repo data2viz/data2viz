@@ -31,30 +31,30 @@ public interface Curve {
 
 // TODO maybe give an alias name for a "(Path) -> Curve" object
 public object curves {
-    public val basis                   = {path: Path -> Basis(path) }
-    public val basisClosed             = {path: Path -> BasisClosed(path) }
-    public val basisOpen               = {path: Path -> BasisOpen(path) }
-    public val bundle                  = {path: Path -> Bundle(path) }
-    public val cardinal                = {path: Path -> Cardinal(path) }
-    public val cardinalClosed          = {path: Path -> CardinalClosed(path) }
-    public val cardinalOpen            = {path: Path -> CardinalOpen(path) }
-    public val catmullRom              = {path: Path -> CatmullRom(path) }
-    public val catmullRomClosed        = {path: Path -> CatmullRomClosed(path) }
-    public val catmullRomOpen          = {path: Path -> CatmullRomOpen(path) }
-    public val linear                  = {path: Path -> Linear(path) }
-    public val linearClosed            = {path: Path -> LinearClosed(path) }
-    public val monotoneX               = {path: Path -> MonotoneX(path) }
-    public val monotoneY               = {path: Path -> MonotoneY(path) }
-    public val natural                 = {path: Path -> Natural(path) }
+    public val basis: (Path) -> Basis                       = { path: Path -> Basis(path) }
+    public val basisClosed: (Path) -> BasisClosed           = { path: Path -> BasisClosed(path) }
+    public val basisOpen: (Path) -> BasisOpen               = { path: Path -> BasisOpen(path) }
+    public val bundle: (Path) -> Bundle                     = { path: Path -> Bundle(path) }
+    public val cardinal: (Path) -> Cardinal                 = { path: Path -> Cardinal(path) }
+    public val cardinalClosed: (Path) -> CardinalClosed     = { path: Path -> CardinalClosed(path) }
+    public val cardinalOpen: (Path) -> CardinalOpen         = { path: Path -> CardinalOpen(path) }
+    public val catmullRom: (Path) -> CatmullRom             = { path: Path -> CatmullRom(path) }
+    public val catmullRomClosed: (Path) -> CatmullRomClosed = { path: Path -> CatmullRomClosed(path) }
+    public val catmullRomOpen: (Path) -> CatmullRomOpen     = { path: Path -> CatmullRomOpen(path) }
+    public val linear: (Path) -> Linear                     = { path: Path -> Linear(path) }
+    public val linearClosed: (Path) -> LinearClosed         = { path: Path -> LinearClosed(path) }
+    public val monotoneX: (Path) -> MonotoneX               = { path: Path -> MonotoneX(path) }
+    public val monotoneY: (Path) -> MonotoneY               = { path: Path -> MonotoneY(path) }
+    public val natural: (Path) -> Natural                   = { path: Path -> Natural(path) }
 //    val radialLinear            = {path: Path -> RadialLinear(path) }
 //    val radialBasis             = {path: Path -> Radial(path, Basis(path)) }
 //    val radialLinearClosed      = {path: Path -> Radial(path, LinearClosed(path)) }
-    public val step                    = {path: Path -> Step(path) }
-    public val stepBefore              = {path: Path -> StepBefore(path) }
-    public val stepAfter               = {path: Path -> StepAfter(path) }
+    public val step: (Path) -> Step                         = { path: Path -> Step(path) }
+    public val stepBefore: (Path) -> StepBefore             = { path: Path -> StepBefore(path) }
+    public val stepAfter: (Path) -> StepAfter               = { path: Path -> StepAfter(path) }
 }
 
 public object areas {
-    public val default                 = { path: Path -> Linear(path) }
-    public val basis                   = { path: Path -> Basis(path) }
+    public val default: (Path) -> Linear                    = { path: Path -> Linear(path) }
+    public val basis: (Path) -> Basis                       = { path: Path -> Basis(path) }
 }

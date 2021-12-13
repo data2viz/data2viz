@@ -19,5 +19,5 @@ package io.data2viz.viz
 
 public class VizConfig {
 
-    public var autoUpdate = true
+    public var autoUpdate: Boolean = true
 }

@@ -28,7 +28,7 @@ public open class GroupNode : Node(),
         transform = Transform().apply(init)
     }
 
-    public val children = mutableListOf<Node>()
+    public val children: MutableList<Node> = mutableListOf<Node>()
 
     override fun add(node: Node) {
         children.add(node)

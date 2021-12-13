@@ -61,7 +61,7 @@ public fun <D> Quadtree<D>.visit(callback: (QuadtreeNode<D>, Double, Double, Dou
  * is the top-left corner and ⟨x1, y1⟩ is the lower-right corner; however, the coordinate system is arbitrary,
  * so more formally x0 <= x1 and y0 <= y1.) Returns root.
  */
-fun <D> Quadtree<D>.visitAfter(callback: (QuadtreeNode<D>, Double, Double, Double, Double) -> Unit) {
+public fun <D> Quadtree<D>.visitAfter(callback: (QuadtreeNode<D>, Double, Double, Double, Double) -> Unit) {
     val quads = mutableListOf<Quad<D>>()
     val next = mutableListOf<Quad<D>>()
     if (root != null) quads.add(Quad(root, extent.x0, extent.y0, extent.x1, extent.y1))

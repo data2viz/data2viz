@@ -32,7 +32,7 @@ import kotlin.math.*
  */
 
 @Deprecated("Deprecated", ReplaceWith("forceSimulation { forceNBody { } }", " io.data2viz.force.ForceSimulation"))
-public fun <D> forceNBody(init: ForceNBody<D>.() -> Unit) = ForceNBody<D>().apply(init)
+public fun <D> forceNBody(init: ForceNBody<D>.() -> Unit): ForceNBody<D> = ForceNBody<D>().apply(init)
 
 public class ForceNBody<D> internal constructor(): Force<D> {
 

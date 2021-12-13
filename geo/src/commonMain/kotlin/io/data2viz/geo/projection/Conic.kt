@@ -20,8 +20,8 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.projection.common.Projector
 import io.data2viz.geo.projection.common.ProjectorProjection
 import io.data2viz.math.Angle
-import io.data2viz.math.PI
 import io.data2viz.math.rad
+import kotlin.math.PI
 
 public fun conicProjection(projection: ConicProjector, init: ConicProjection.() -> Unit = {}): ConicProjection =
     ConicProjection(projection).apply(init)

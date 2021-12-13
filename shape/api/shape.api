@@ -165,8 +165,6 @@ public class io/data2viz/shape/curve/AbstractMonotone : io/data2viz/shape/Curve 
 	public fun lineEnd ()V
 	public fun lineStart ()V
 	public fun point (DD)V
-	public final fun slope2 (D)D
-	public final fun slope3 (DD)D
 }
 
 public abstract class io/data2viz/shape/curve/AbstractRadial : io/data2viz/shape/Curve {

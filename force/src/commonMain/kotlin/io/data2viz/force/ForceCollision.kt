@@ -23,7 +23,7 @@ import io.data2viz.quadtree.*
 import kotlin.math.*
 
 @Deprecated("Deprecated", ReplaceWith("forceSimulation { forceCollision { } }", " io.data2viz.force.ForceSimulation"))
-fun <D> forceCollision(init: ForceCollision<D>.() -> Unit) = ForceCollision<D>().apply(init)
+public fun <D> forceCollision(init: ForceCollision<D>.() -> Unit): ForceCollision<D> = ForceCollision<D>().apply(init)
 
 /**
  * The collision force treats _nodes as circles with a given radius, rather than points, and prevents _nodes from
@@ -93,7 +93,7 @@ public class ForceCollision<D> internal constructor(): Force<D> {
         (0 until iterations).forEach {
             val tree = quadtree(x, y, _nodes)
             tree.visitAfter(::prepare)
-            _nodes.forEachIndexed { index, node ->
+            _nodes.forEachIndexed { _, node ->
                 currentNode = node
                 ri = _radiuses[node.index]
                 ri2 = ri * ri

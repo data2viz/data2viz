@@ -73,7 +73,7 @@ public data class SankeyLink<D>(
  * y0 - the node’s minimum vertical position
  * y1 - the node’s maximum vertical position (node.y1 - node.y0 is proportional to node.value)
  */
-data class SankeyNode<D>(
+public data class SankeyNode<D>(
     val data: D,
     var index: Int,
     val sourceLinks: MutableList<SankeyLink<D>> = mutableListOf(),
@@ -87,12 +87,12 @@ data class SankeyNode<D>(
     var y1: Double = .0
 )
 
-data class SankeyGraph<D>(
+public data class SankeyGraph<D>(
     val nodes:List<SankeyNode<D>>,
     val links: List<SankeyLink<D>>
 )
 
-class SankeyLayout<D> {
+public class SankeyLayout<D> {
 
     // extent
     private var x0 = .0
@@ -231,8 +231,8 @@ class SankeyLayout<D> {
             val nodeList = columns.get(nodeKey)!!
             nodeList.forEach { node ->
                 if (node.sourceLinks.isNotEmpty()) {
-                    val sum1 = node.sourceLinks.sumByDouble(::weightedTarget)
-                    val sum2 = node.sourceLinks.sumByDouble { it.value }
+                    val sum1 = node.sourceLinks.sumOf(::weightedTarget)
+                    val sum2 = node.sourceLinks.sumOf { it.value }
                     val nodeCenter = nodeCenter(node)
                     val dy = (sum1 / sum2 - nodeCenter) * alpha
                     node.y0 += dy
@@ -348,8 +348,8 @@ class SankeyLayout<D> {
 
     private fun initializeNodeBreadth(columns: Map<Double, List<SankeyNode<D>>>) {
         val ky = columns.map { nodes ->
-                (height - (nodes.value.size - 1) * nodePadding) / nodes.value.sumByDouble { it.value }
-            }.minOrNull()!!
+                (height - (nodes.value.size - 1) * nodePadding) / nodes.value.sumOf { it.value }
+        }.minOrNull()!!
 
         columns.forEach { nodes ->
             nodes.value.forEachIndexed { i, node ->
@@ -368,7 +368,7 @@ class SankeyLayout<D> {
      */
     private fun computeNodeValues() {
         nodes.forEach { node ->
-            node.value = max(node.sourceLinks.sumByDouble { it.value }, node.targetLinks.sumByDouble { it.value })
+            node.value = max(node.sourceLinks.sumOf { it.value }, node.targetLinks.sumOf { it.value })
         }
     }
 

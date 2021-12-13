@@ -38,21 +38,21 @@ public actual class KMouseDown {
 
 public actual class KMouseUp {
     public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit) =
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
             createMouseJsListener(target, listener, "mouseup")
     }
 }
 
 public actual class KPointerEnter {
     public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createMouseJsListener(target, listener, "mouseenter")
     }
 }
 
 public actual class KMouseMove {
     public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit) =
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
             createMouseJsListener(target, listener, "mousemove")
     }
 }
@@ -68,21 +68,21 @@ public actual class KTouch {
 
 public actual class KTouchStart {
     public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createTouchJsListener(target, listener, "touchstart")
     }
 }
 
 public actual class KTouchEnd {
     public actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createTouchJsListener(target, listener, "touchend")
     }
 }
 
 public actual class KTouchMove {
     public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit) =
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createTouchJsListener(target, listener, "touchmove")
     }
 }
@@ -115,14 +115,14 @@ public actual class KPointerClick {
 public actual class KZoom {
     public actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
 
-        const val minGestureZoomDeltaValue = -10.0
-        const val maxGestureZoomDeltaValue = 10.0
+        private const val minGestureZoomDeltaValue = -10.0
+        private const val maxGestureZoomDeltaValue = 10.0
 
-        const val minWheelZoomDeltaValue = -100.0
-        const val maxWheelZoomDeltaValue = 100.0
+        private const val minWheelZoomDeltaValue = -100.0
+        private const val maxWheelZoomDeltaValue = 100.0
 
-        var lastZoomTime: Double? = null
-        lateinit var zoomStartPoint: Point
+        private var lastZoomTime: Double? = null
+        private lateinit var zoomStartPoint: Point
 
         override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
             val htmlElement = target.unsafeCast<HTMLCanvasElement>()
@@ -266,7 +266,7 @@ private fun Event.toKMouseEvent(canvas: HTMLCanvasElement): KMouseEvent = unsafe
     )
 }
 
-fun Event.toKTouchEvent(canvas: HTMLCanvasElement): KPointerEvent? = unsafeCast<TouchEvent>().run {
+private fun Event.toKTouchEvent(canvas: HTMLCanvasElement): KPointerEvent? = unsafeCast<TouchEvent>().run {
     val bounds = canvas.getBoundingClientRect()
 
     if (touches.length > 1)

@@ -131,7 +131,7 @@ public open class AbstractMonotone(
      * Interpolation in One Dimension. Astronomy and Astrophysics, Vol. 239, NO.
      * NOV(II), P. 443, 1990.
      */
-    fun slope3(x2: Double, y2: Double): Double {
+    private fun slope3(x2: Double, y2: Double): Double {
         fun sign(num: Double): Double {
             return if (num < 0) -1.0 else 1.0
         }
@@ -153,14 +153,14 @@ public open class AbstractMonotone(
     /**
      * Calculate a one-sided slope.
      */
-    fun slope2(t: Double): Double {
+    private fun slope2(t: Double): Double {
         val h = x1 - x0;
         return if (h != 0.0) ((3 * (y1 - y0) / h - t) / 2) else t
     }
 }
 
-class MonotoneX(path: Path) : AbstractMonotone(path)
-class MonotoneY(path: Path) : AbstractMonotone(ReflectContext(path)) {
+public class MonotoneX(path: Path) : AbstractMonotone(path)
+public class MonotoneY(path: Path) : AbstractMonotone(ReflectContext(path)) {
 
     override fun point(x: Double, y: Double) {
         super.point(y, x)

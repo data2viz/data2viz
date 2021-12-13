@@ -51,5 +51,5 @@ public abstract class AbstractRadial(
     }
 }
 
-class RadialLinear(path: Path) : AbstractRadial(path, Linear(path))
-class Radial(path: Path, curve: Curve) : AbstractRadial(path, curve)
+public class RadialLinear(path: Path) : AbstractRadial(path, Linear(path))
+public class Radial(path: Path, curve: Curve) : AbstractRadial(path, curve)

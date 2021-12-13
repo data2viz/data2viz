@@ -22,7 +22,6 @@ import io.data2viz.geo.projection.common.*
 import io.data2viz.geom.Extent
 import io.data2viz.math.Angle
 import io.data2viz.math.HALFPI
-import io.data2viz.math.PI
 import io.data2viz.math.TAU
 import kotlin.math.*
 

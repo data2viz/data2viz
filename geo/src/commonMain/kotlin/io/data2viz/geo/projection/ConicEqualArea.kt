@@ -70,7 +70,7 @@ public class ConicEqualAreaProjector : ConicProjector, Projector {
             field = value
             recalculate()
         }
-    override var phi1: Double = io.data2viz.math.PI / 3.0
+    override var phi1: Double = PI / 3.0
         set(value) {
             field = value
             recalculate()

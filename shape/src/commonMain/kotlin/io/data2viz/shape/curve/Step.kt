@@ -84,6 +84,6 @@ public abstract class AbstractStep(
     }
 }
 
-class Step(override val path: Path) : AbstractStep(path, 0.5)
-class StepBefore(override val path: Path) : AbstractStep(path, 0.0)
-class StepAfter(override val path: Path) : AbstractStep(path, 1.0)
+public class Step(override val path: Path) : AbstractStep(path, 0.5)
+public class StepBefore(override val path: Path) : AbstractStep(path, 0.0)
+public class StepAfter(override val path: Path) : AbstractStep(path, 1.0)

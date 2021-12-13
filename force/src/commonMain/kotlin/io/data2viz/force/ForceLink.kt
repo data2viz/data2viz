@@ -36,7 +36,7 @@ public data class Link<D>(
 )
 
 @Deprecated("Deprecated", ReplaceWith("forceSimulation { forceLink { } }", " io.data2viz.force.ForceSimulation"))
-public fun <D> forceLink(init: ForceLink<D>.() -> Unit) = ForceLink<D>().apply(init)
+public fun <D> forceLink(init: ForceLink<D>.() -> Unit): ForceLink<D> = ForceLink<D>().apply(init)
 
 /**
  * The link force pushes linked nodes together or apart according to the desired link distance.
