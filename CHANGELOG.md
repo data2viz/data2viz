@@ -5,6 +5,10 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.16
+> Published 15 Dec 2021
+* Introduce iOS version (with missing features, like gradient, geo)
+
 ## 0.8.15
 > Published 4 Oct 2021
 * Upgrade to Kotlin 1.5.31 and Kotlinx.datetime 0.3.0
