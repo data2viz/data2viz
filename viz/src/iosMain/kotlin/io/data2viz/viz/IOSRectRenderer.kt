@@ -18,8 +18,11 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Color
-import io.data2viz.viz.RectNode
+import io.data2viz.color.LinearGradient
+import io.data2viz.color.RadialGradient
+import kotlinx.cinterop.*
 import platform.CoreGraphics.*
+import platform.UIKit.UIBezierPath
 
 
 public fun RectNode.render(renderer: IOSCanvasRenderer) {
@@ -27,15 +30,37 @@ public fun RectNode.render(renderer: IOSCanvasRenderer) {
 
         val rect = CGRectMake(x, y, width, height)
 
-        fill?.let {
-            CGContextSetFillColor(context, (fill as Color).toColor()) //todo manage gradient
-            CGContextFillRect(context, rect)
-        }
+		when(val fillColor = fill) {
+			is Color -> {
+				CGContextSetFillColor(context, fillColor.toColor())
+				CGContextFillRect(context, rect)
+			}
+			is LinearGradient -> {
+				val path = UIBezierPath.bezierPathWithRect(rect)
+				drawLinearGradient(path, fillColor)
+			}
+			is RadialGradient -> {
+				val path = UIBezierPath.bezierPathWithRect(rect)
+				drawRadialGradient(path, fillColor)
+			}
+			null -> {}
+			else -> error("Only color and gradient are accepted as fillColor")
+
+		}
 
         if (strokeColor != null && strokeWidth != null) {
-            CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
-            CGContextSetLineWidth(context, strokeWidth!!)
-            CGContextStrokeRect(context, rect)
+        	when (strokeColor) {
+        		is Color -> {
+					CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
+					CGContextSetLineWidth(context, strokeWidth!!)
+					CGContextStrokeRect(context, rect)
+        		}
+				else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
+        	}
+
         }
     }
 }
+
+
+

@@ -18,46 +18,98 @@
 package io.data2viz.viz
 
 import io.data2viz.color.Color
+import io.data2viz.color.LinearGradient
+import io.data2viz.color.RadialGradient
 import io.data2viz.geom.*
+import kotlinx.cinterop.CPointer
 import platform.CoreGraphics.*
+import platform.UIKit.UIBezierPath
 
 
 public fun PathNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
 
 
-        CGContextBeginPath(context);
+		val path: CPointer<CGPath>? = CGPathCreateMutable()
 
-        this@render.path.commands.forEachIndexed { index, cmd ->
-            when (cmd) {
-                is MoveTo -> CGContextMoveToPoint(context, cmd.x, cmd.y)
-                is LineTo -> CGContextAddLineToPoint(context, cmd.x, cmd.y)
-                is QuadraticCurveTo -> CGContextAddQuadCurveToPoint(context, cmd.cpx, cmd.cpy, cmd.x, cmd.y)
-                is BezierCurveTo -> CGContextAddCurveToPoint(context, cmd.cpx1, cmd.cpy1, cmd.cpx2, cmd.cpy2, cmd.x, cmd.y)
-                is ArcTo -> CGContextAddArcToPoint(context, cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
-                is Arc -> CGContextAddArc(context, cmd.centerX, cmd.centerY, cmd.radius, cmd.startAngle, cmd.endAngle, if(cmd.counterClockWise) 1 else 0 )
-                is Rect -> CGContextAddRect(context, CGRectMake(cmd.x, cmd.y, cmd.width, cmd.height))
-                is ClosePath -> CGContextClosePath(context)
-                else -> error("Unknown path command:: ${cmd::class}")
-            }
-        }
+		this@render.path.commands.forEachIndexed { index, cmd ->
+			when (cmd) {
+				is MoveTo -> CGPathMoveToPoint(path, null, cmd.x, cmd.y)
+				is LineTo -> CGPathAddLineToPoint(path, null, cmd.x, cmd.y)
+				is QuadraticCurveTo -> CGPathAddQuadCurveToPoint(
+					path,
+					null,
+					cmd.cpx,
+					cmd.cpy,
+					cmd.x,
+					cmd.y
+				)
+				is BezierCurveTo -> CGPathAddCurveToPoint(
+					path,
+					null,
+					cmd.cpx1,
+					cmd.cpy1,
+					cmd.cpx2,
+					cmd.cpy2,
+					cmd.x,
+					cmd.y
+				)
+				is ArcTo -> CGPathAddArcToPoint(
+					path,
+					null,
+					cmd.fromX,
+					cmd.fromY,
+					cmd.x,
+					cmd.y,
+					cmd.radius
+				)
+				is Arc -> CGPathAddArc(
+					path,
+					null,
+					cmd.centerX,
+					cmd.centerY,
+					cmd.radius,
+					cmd.startAngle,
+					cmd.endAngle,
+					cmd.counterClockWise.not()
+				)
+				is Rect -> CGPathAddRect(
+					path,
+					null,
+					CGRectMake(cmd.x, cmd.y, cmd.width, cmd.height)
+				)
+				is ClosePath -> CGPathCloseSubpath(path)
+				else -> error("Unknown path command:: ${cmd::class}")
+			}
+		}
+		CGContextAddPath(context, path)
 
-        val hasStroke = (strokeColor != null) && (strokeWidth != null)
-        val hasFill = fill != null
+		when (val fillColor = fill) {
+			is Color -> {
+				CGContextSetFillColor(context, fillColor.toColor())
+				CGContextFillPath(context)
+			}
+			is LinearGradient -> {
+				val uiBezierPath = UIBezierPath.bezierPathWithCGPath(path)
+				drawLinearGradient(uiBezierPath, fillColor)
+			}
+			is RadialGradient -> {
+				val uiBezierPath = UIBezierPath.bezierPathWithCGPath(path)
+				drawRadialGradient(uiBezierPath, fillColor)
+			}
+		}
 
-        if (hasFill && hasStroke) {
-            CGContextSetFillColor(context, (fill as Color).toColor()) //todo manage gradient
-            CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
-            CGContextSetLineWidth(context, strokeWidth!!)
-            CGContextDrawPath(context, CGPathDrawingMode.kCGPathFillStroke)
-        } else if (hasFill) {
-            CGContextSetFillColor(context, (fill as Color).toColor()) //todo manage gradient
-            CGContextFillPath(context)
-        } else if (hasStroke) {
-            CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
-            CGContextSetLineWidth(context, strokeWidth!!)
-            CGContextStrokePath(context)
-        }
+		if ((strokeColor != null) && (strokeWidth != null)) {
+			when (strokeColor) {
+				is Color -> {
+					CGContextAddPath(context, path)
+					CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
+					CGContextSetLineWidth(context, strokeWidth!!)
+					CGContextStrokePath(context)
+				}
+				else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
+			}
+		}
 
     }
 }

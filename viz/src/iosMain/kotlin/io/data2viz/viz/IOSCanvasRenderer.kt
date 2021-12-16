@@ -19,11 +19,10 @@ package io.data2viz.viz
 
 import cnames.structs.CGContext
 import io.data2viz.color.Color
-import io.data2viz.color.Colors
+import io.data2viz.color.LinearGradient
+import io.data2viz.color.RadialGradient
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
-import io.data2viz.viz.Viz
-import io.data2viz.viz.VizRenderer
 import kotlinx.cinterop.*
 import platform.CoreGraphics.*
 import platform.UIKit.*
@@ -33,13 +32,17 @@ public class IOSCanvasRenderer(
     val iosCanvasView: IOSCanvasView
 ): VizRenderer {
 
-    internal val uiTouchesHandler = UITouchesHandler(iosCanvasView)
-
     init {
         viz.renderer = this
     }
 
+	internal val uiTouchesHandler = UITouchesHandler(iosCanvasView)
+
+
     var context: CPointer<CGContext>? = null
+
+	internal var colorSpace: CPointer<CGColorSpace>? = null
+
 
     override fun render() {
         iosCanvasView.setNeedsDisplay()
@@ -68,7 +71,7 @@ public class IOSCanvasRenderer(
      * The real rendering
      */
     internal fun draw(aRect: CValue<CGRect>) {
-        updateContext()
+        updateContextAndColorSpace()
         clear(aRect)
         viz.layers.forEach { layer ->
             if (layer.visible)
@@ -76,16 +79,134 @@ public class IOSCanvasRenderer(
         }
     }
 
-    private fun updateContext() {
+    private fun updateContextAndColorSpace() {
         context = UIGraphicsGetCurrentContext()
+		colorSpace = CGColorSpaceCreateDeviceRGB()
     }
 
     private fun clear(aRect: CValue<CGRect>) {
         CGContextClearRect(context, iosCanvasView.bounds)
     }
 
-
 }
+
+
+internal fun IOSCanvasRenderer.drawLinearGradient(
+	path: UIBezierPath,
+	fillColor: LinearGradient
+) {
+	CGContextSaveGState(context)
+	path.addClip()
+	memScoped {
+		val gradientSize = fillColor.colorStops.size
+		val locations: CPointer<DoubleVarOf<CGFloat /* = kotlin.Double */>> =
+			allocArray<CGFloatVar>(gradientSize)
+
+		fillColor.colorStops.forEachIndexed { index, colorStop ->
+			locations[index] = colorStop.percent.value
+			locations[index] = colorStop.percent.value
+		}
+
+		val options = kCGGradientDrawsBeforeStartLocation or kCGGradientDrawsAfterEndLocation
+		val colorComponents = if (gradientSize == 2)
+			cValuesOf(
+				fillColor.colorStops[0].color.r / 255.0,
+				fillColor.colorStops[0].color.g / 255.0,
+				fillColor.colorStops[0].color.b / 255.0,
+				fillColor.colorStops[0].color.alpha.value,
+				fillColor.colorStops[1].color.r / 255.0,
+				fillColor.colorStops[1].color.g / 255.0,
+				fillColor.colorStops[1].color.b / 255.0,
+				fillColor.colorStops[1].color.alpha.value
+			)
+		else cValuesOf(*fillColor.colorStops.flatMap {  //<-spread operator
+			listOf(
+				it.color.r / 255.0,
+				it.color.g / 255.0,
+				it.color.b / 255.0,
+				it.color.alpha.value
+			)
+		}.toDoubleArray())
+
+		val gradient = CGGradientCreateWithColorComponents(
+			colorSpace,
+			colorComponents,
+			locations,
+			gradientSize.toULong()
+		)
+
+		CGContextDrawLinearGradient(
+			context,
+			gradient,
+			CGPointMake(fillColor.x1, fillColor.y1),
+			CGPointMake(fillColor.x2, fillColor.y2),
+			options
+		)
+		CGGradientRelease(gradient)
+	}
+	CGContextRestoreGState(context)
+}
+
+internal fun IOSCanvasRenderer.drawRadialGradient(
+	path: UIBezierPath,
+	fillColor: RadialGradient
+) {
+	CGContextSaveGState(context)
+	path.addClip()
+	memScoped {
+		val gradientSize = fillColor.colorStops.size
+		val locations: CPointer<DoubleVarOf<CGFloat /* = kotlin.Double */>> =
+			allocArray<CGFloatVar>(gradientSize)
+
+		fillColor.colorStops.forEachIndexed { index, colorStop ->
+			locations[index] = colorStop.percent.value
+			locations[index] = colorStop.percent.value
+		}
+
+		val options = kCGGradientDrawsBeforeStartLocation or kCGGradientDrawsAfterEndLocation
+		val colorComponents = if (gradientSize == 2)
+			cValuesOf(
+				fillColor.colorStops[0].color.r / 255.0,
+				fillColor.colorStops[0].color.g / 255.0,
+				fillColor.colorStops[0].color.b / 255.0,
+				fillColor.colorStops[0].color.alpha.value,
+				fillColor.colorStops[1].color.r / 255.0,
+				fillColor.colorStops[1].color.g / 255.0,
+				fillColor.colorStops[1].color.b / 255.0,
+				fillColor.colorStops[1].color.alpha.value
+			)
+		else cValuesOf(*fillColor.colorStops.flatMap {  //<-spread operator
+			listOf(
+				it.color.r / 255.0,
+				it.color.g / 255.0,
+				it.color.b / 255.0,
+				it.color.alpha.value
+			)
+		}.toDoubleArray())
+
+		val gradient = CGGradientCreateWithColorComponents(
+			colorSpace,
+			colorComponents,
+			locations,
+			gradientSize.toULong()
+		)
+
+		CGContextDrawRadialGradient(
+			context,
+			gradient,
+			CGPointMake(fillColor.cx, fillColor.cy),
+			0.0,
+			CGPointMake(fillColor.cx, fillColor.cy),
+			fillColor.radius,
+			options
+		)
+		CGGradientRelease(gradient)
+	}
+	CGContextRestoreGState(context)
+}
+
+
+
 
 internal fun Color.toUIColor():UIColor {
     return UIColor (

@@ -24,7 +24,7 @@ import platform.CoreGraphics.*
 import platform.UIKit.*
 
 @ExportObjCClass
-public class IOSCanvasView(val viz: Viz, frame: CValue<CGRect> = CGRectMake(.0, .0, .0, .0)) :
+class IOSCanvasView(val viz: Viz, frame: CValue<CGRect> = CGRectMake(.0, .0, .0, .0)) :
     UIView(frame = frame),
     UIViewWithOverridesProtocol {
 

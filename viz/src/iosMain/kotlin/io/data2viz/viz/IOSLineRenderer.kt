@@ -23,20 +23,28 @@ import platform.CoreGraphics.*
 
 
 public fun LineNode.render(renderer: IOSCanvasRenderer) {
-    with(renderer) {
-        CGContextMoveToPoint(context,
-            this@render.x1,
-            this@render.y1
-        )
-        CGContextAddLineToPoint(context,
-            this@render.x2,
-            this@render.y2
-        )
+	with(renderer) {
+		CGContextMoveToPoint(
+			context,
+			this@render.x1,
+			this@render.y1
+		)
+		CGContextAddLineToPoint(
+			context,
+			this@render.x2,
+			this@render.y2
+		)
 
-        if (strokeColor != null && strokeWidth != null) {
-            CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
-            CGContextSetLineWidth(context, strokeWidth!!)
-        }
-        CGContextStrokePath(context)
-    }
+		if ((strokeColor != null) && (strokeWidth != null)) {
+			when (strokeColor) {
+				is Color -> {
+
+					CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
+					CGContextSetLineWidth(context, strokeWidth!!)
+					CGContextStrokePath(context)
+				}
+				else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
+			}
+		}
+	}
 }

@@ -28,6 +28,9 @@ import platform.UIKit.*
 public fun TextNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
 
+		if (this@render.textColor as? Color == null)
+			return
+
         val textFontAttributes = mapOf(
             NSFontAttributeName to UIFont.fontWithName("Helvetica", this@render.fontSize),
             NSForegroundColorAttributeName to (this@render.textColor as Color).toUIColor()
