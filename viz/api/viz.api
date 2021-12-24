@@ -241,6 +241,7 @@ public final class io/data2viz/viz/JfxVizContainer : io/data2viz/viz/Resizable, 
 	public fun addResizeListener (Lkotlin/jvm/functions/Function1;)V
 	public fun getDensity ()D
 	public fun getSize ()Lio/data2viz/geom/Size;
+	public fun getVizList ()Ljava/util/List;
 	public fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
 	public fun setSize (Lio/data2viz/geom/Size;)V
 }
@@ -737,6 +738,10 @@ public final class io/data2viz/viz/StyleImpl : io/data2viz/viz/Style {
 public final class io/data2viz/viz/StyleKt {
 }
 
+public final class io/data2viz/viz/SvgStringBuilder$DefaultImpls {
+	public static synthetic fun add$default (Lio/data2viz/viz/SvgStringBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
 public final class io/data2viz/viz/TextAlign {
 	public fun <init> (Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;)V
 	public final fun component1 ()Lio/data2viz/viz/TextHAlign;
@@ -910,6 +915,8 @@ public abstract interface class io/data2viz/viz/VizRenderer {
 }
 
 public final class io/data2viz/viz/VizToSVGKt {
+	public static final fun getHasStyles (Lio/data2viz/viz/Node;)Z
+	public static final fun getSvg (Lio/data2viz/viz/TextHAlign;)Ljava/lang/String;
 	public static final fun toSVG (Lio/data2viz/viz/Viz;)Ljava/lang/String;
 }
 

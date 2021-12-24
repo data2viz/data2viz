@@ -17,6 +17,7 @@
 
 package io.data2viz.viz
 
+import io.data2viz.InternalAPI
 import io.data2viz.color.*
 import io.data2viz.geom.*
 import io.data2viz.math.EPSILON
@@ -47,6 +48,7 @@ public fun Viz.toSVG(): String = buildSvgString {
 
 internal typealias GradientsRenderer = SvgStringBuilder.() -> Unit
 
+@InternalAPI
 internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildString {
     val svgStringBuilder = object : SvgStringBuilder {
         override val builder: StringBuilder = this@buildString
@@ -58,6 +60,7 @@ internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildS
     }
 }
 
+@InternalAPI
 internal val Node.hasStyles
     get() = when (this) {
         is HasStroke -> stroke != null || strokeColor != null || strokeWidth != null || dashedLine != null
@@ -66,10 +69,12 @@ internal val Node.hasStyles
     }
 
 // calling add() adds a new Svg component
+@InternalAPI
 internal interface SvgStringBuilder {
     val builder: StringBuilder
     val gradients: MutableList<GradientsRenderer>
 
+    @InternalAPI
     fun add(
         type: String,
         attributes: (AttributesBuilder.() -> Unit)? = null,
@@ -93,12 +98,14 @@ internal interface SvgStringBuilder {
         }
     }
 
+    @InternalAPI
     operator fun String.unaryPlus() {
         builder.append(this)
     }
 }
 
 // calling add() adds a new attribute
+@InternalAPI
 internal object AttributesBuilder {
 
     // adds simple attribute like width="100.0"
@@ -155,6 +162,7 @@ internal object AttributesBuilder {
     }
 }
 
+@InternalAPI
 internal fun gradientRendererOf(
     gradient: Gradient,
     id: String,
@@ -200,6 +208,7 @@ internal fun gradientRendererOf(
 }
 
 // calling add() adds a new style
+@InternalAPI
 internal object StylesBuilder {
 
     fun SvgStringBuilder.add(key: String, value: String) {
@@ -247,6 +256,7 @@ internal object StylesBuilder {
 }
 
 // calling add() adds a new transformation
+@InternalAPI
 internal object TransformBuilder {
 
     fun SvgStringBuilder.add(transformType: String, vararg values: Number) {
@@ -264,7 +274,7 @@ internal object TransformBuilder {
     }
 }
 
-
+@InternalAPI
 internal fun SvgStringBuilder.add(groupNode: GroupNode) {
     add(
         type = "g",
@@ -333,12 +343,14 @@ private fun SvgStringBuilder.add(circleNode: CircleNode) {
     }
 }
 
+@InternalAPI
 internal val TextHAlign.svg
     get() = when (this) {
         TextHAlign.LEFT, TextHAlign.START -> "start"
         TextHAlign.MIDDLE -> "middle"
         TextHAlign.RIGHT, TextHAlign.END -> "end"
     }
+
 
 private fun SvgStringBuilder.add(textNode: TextNode) {
     with(textNode) {
