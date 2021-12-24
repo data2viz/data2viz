@@ -36,7 +36,8 @@ public class HeadlessVizContainer(
         }
 
     private val _vizList = mutableListOf<Viz>()
-    public val vizList: List<Viz>
+
+    public override val vizList: List<Viz>
         get() = _vizList
 
     override fun newViz(init: Viz.() -> Unit): Viz {

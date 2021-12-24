@@ -72,7 +72,7 @@ public open class VizContainerView(
         get() = field
         set(value) {
             field = value
-            vizs.forEach { viz: Viz ->
+            vizList.forEach { viz: Viz ->
                 viz.size = value
             }
             resizableSupport.notifyNewSize(value)
