@@ -79,7 +79,7 @@ internal class IosVizContainer(
 
     override var density: Double = 1.0
 
-    var vizList = mutableListOf<Viz>()
+    override var vizList = mutableListOf<Viz>()
 
     public override fun newViz(init: Viz.() -> Unit): Viz{
         val viz = Viz().apply(init)
