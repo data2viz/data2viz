@@ -1,8 +1,14 @@
 <img src="http://data2viz.io/images/identity/d2v-logo-no-gradient-lg-no-marge@2.png" alt="Data2viz" width="604" style="max-width:100%;">
 
+![Build Status](https://img.shields.io/badge/version-0.8.17-blueviolet)
+[![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
-[![Build Status](https://travis-ci.org/data2viz/data2viz.svg?branch=master)](https://travis-ci.org/data2viz/data2viz)
-[![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) 
+
+[![Build JS](https://img.shields.io/github/workflow/status/data2viz/data2viz/MPP%20Android%20build?label=Android)](https://github.com/data2viz/data2viz/actions/workflows/mpp-android.yaml)
+[![Build JS](https://img.shields.io/github/workflow/status/data2viz/data2viz/MPP%20iOS%20build?label=iOS)](https://github.com/data2viz/data2viz/actions/workflows/mpp-ios.yaml)
+[![Build JS](https://img.shields.io/github/workflow/status/data2viz/data2viz/MPP%20JS%20build?label=JS)](https://github.com/data2viz/data2viz/actions/workflows/mpp-js.yaml)
+[![Build JS](https://img.shields.io/github/workflow/status/data2viz/data2viz/MPP%20JavaFx%20build?label=JavaFX)](https://github.com/data2viz/data2viz/actions/workflows/mpp-javafx.yaml)
+
 # Isomorphic dataviz
 
 Data2viz is a data visualization toolbox for Kotlin Multiplatform.
@@ -127,26 +133,26 @@ kotlin {
     sourceSets {
         commonMain {
              dependencies {
-                 implementation("io.data2viz.d2v:axis:0.8.14")
-                 implementation("io.data2viz.d2v:chord:0.8.14")
-                 implementation("io.data2viz.d2v:color:0.8.14")
-                 implementation("io.data2viz.d2v:contour:0.8.14")
-                 implementation("io.data2viz.d2v:delaunay:0.8.14")
-                 implementation("io.data2viz.d2v:dsv:0.8.14")
-                 implementation("io.data2viz.d2v:ease:0.8.14")
-                 implementation("io.data2viz.d2v:force:0.8.14")
-                 implementation("io.data2viz.d2v:format:0.8.14")
-                 implementation("io.data2viz.d2v:geo:0.8.14")
-                 implementation("io.data2viz.d2v:hexbin:0.8.14")
-                 implementation("io.data2viz.d2v:hierarchy:0.8.14")
-                 implementation("io.data2viz.d2v:quadtree:0.8.14")
-                 implementation("io.data2viz.d2v:random:0.8.14")
-                 implementation("io.data2viz.d2v:scale:0.8.14")
-                 implementation("io.data2viz.d2v:shape:0.8.14")
-                 implementation("io.data2viz.d2v:tile:0.8.14")
-                 implementation("io.data2viz.d2v:time:0.8.14")
-                 implementation("io.data2viz.d2v:timer:0.8.14")
-                 implementation("io.data2viz.d2v:viz:0.8.14")
+                 implementation("io.data2viz.d2v:axis:0.8.17")
+                 implementation("io.data2viz.d2v:chord:0.8.17")
+                 implementation("io.data2viz.d2v:color:0.8.17")
+                 implementation("io.data2viz.d2v:contour:0.8.17")
+                 implementation("io.data2viz.d2v:delaunay:0.8.17")
+                 implementation("io.data2viz.d2v:dsv:0.8.17")
+                 implementation("io.data2viz.d2v:ease:0.8.17")
+                 implementation("io.data2viz.d2v:force:0.8.17")
+                 implementation("io.data2viz.d2v:format:0.8.17")
+                 implementation("io.data2viz.d2v:geo:0.8.17")
+                 implementation("io.data2viz.d2v:hexbin:0.8.17")
+                 implementation("io.data2viz.d2v:hierarchy:0.8.17")
+                 implementation("io.data2viz.d2v:quadtree:0.8.17")
+                 implementation("io.data2viz.d2v:random:0.8.17")
+                 implementation("io.data2viz.d2v:scale:0.8.17")
+                 implementation("io.data2viz.d2v:shape:0.8.17")
+                 implementation("io.data2viz.d2v:tile:0.8.17")
+                 implementation("io.data2viz.d2v:time:0.8.17")
+                 implementation("io.data2viz.d2v:timer:0.8.17")
+                 implementation("io.data2viz.d2v:viz:0.8.17")
              }
         }
     }
@@ -157,26 +163,26 @@ kotlin {
 
 ```groovy
 dependencies {
-    implementation("io.data2viz.d2v:axis:0.8.14")
-    implementation("io.data2viz.d2v:chord:0.8.14")
-    implementation("io.data2viz.d2v:color:0.8.14")
-    implementation("io.data2viz.d2v:contour:0.8.14")
-    implementation("io.data2viz.d2v:delaunay:0.8.14")
-    implementation("io.data2viz.d2v:dsv:0.8.14")
-    implementation("io.data2viz.d2v:ease:0.8.14")
-    implementation("io.data2viz.d2v:force:0.8.14")
-    implementation("io.data2viz.d2v:format:0.8.14")
-    implementation("io.data2viz.d2v:geo:0.8.14")
-    implementation("io.data2viz.d2v:hexbin:0.8.14")
-    implementation("io.data2viz.d2v:hierarchy:0.8.14")
-    implementation("io.data2viz.d2v:quadtree:0.8.14")
-    implementation("io.data2viz.d2v:random:0.8.14")
-    implementation("io.data2viz.d2v:scale:0.8.14")
-    implementation("io.data2viz.d2v:shape:0.8.14")
-    implementation("io.data2viz.d2v:tile:0.8.14")
-    implementation("io.data2viz.d2v:time:0.8.14")
-    implementation("io.data2viz.d2v:timer:0.8.14")
-    implementation("io.data2viz.d2v:viz:0.8.14")
+    implementation("io.data2viz.d2v:axis:0.8.17")
+    implementation("io.data2viz.d2v:chord:0.8.17")
+    implementation("io.data2viz.d2v:color:0.8.17")
+    implementation("io.data2viz.d2v:contour:0.8.17")
+    implementation("io.data2viz.d2v:delaunay:0.8.17")
+    implementation("io.data2viz.d2v:dsv:0.8.17")
+    implementation("io.data2viz.d2v:ease:0.8.17")
+    implementation("io.data2viz.d2v:force:0.8.17")
+    implementation("io.data2viz.d2v:format:0.8.17")
+    implementation("io.data2viz.d2v:geo:0.8.17")
+    implementation("io.data2viz.d2v:hexbin:0.8.17")
+    implementation("io.data2viz.d2v:hierarchy:0.8.17")
+    implementation("io.data2viz.d2v:quadtree:0.8.17")
+    implementation("io.data2viz.d2v:random:0.8.17")
+    implementation("io.data2viz.d2v:scale:0.8.17")
+    implementation("io.data2viz.d2v:shape:0.8.17")
+    implementation("io.data2viz.d2v:tile:0.8.17")
+    implementation("io.data2viz.d2v:time:0.8.17")
+    implementation("io.data2viz.d2v:timer:0.8.17")
+    implementation("io.data2viz.d2v:viz:0.8.17")
 }
 ```
 
