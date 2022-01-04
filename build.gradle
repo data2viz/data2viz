@@ -6,6 +6,7 @@ buildscript {
 plugins {
     id 'com.android.library' apply(false)
     id "org.jetbrains.kotlin.multiplatform" version "1.5.31" apply(false)
+    id 'org.jetbrains.dokka' version "1.6.0"
 }
 
 apply plugin: "binary-compatibility-validator"
@@ -34,6 +35,11 @@ allprojects {
             url "https://maven.pkg.jetbrains.space/data2viz/p/maven/public"
         }
     }
+}
+
+
+tasks.getByName("dokkaHtmlMultiModule").configure {
+//    outputDirectory.set(File("documentation"))
 }
 
 
