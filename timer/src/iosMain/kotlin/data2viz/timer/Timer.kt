@@ -63,6 +63,11 @@ internal actual fun clearInterval(handle:Any){
     timer.invalidate()
 }
 
+/**
+ * This class is responsible for the execution in the next frame.
+ * It's a technical class that shouldn't be use directly. It has to
+ * be public in order to called by the iOS framework.
+ */
 @ThreadLocal
 public object FrameExecutor {
 
@@ -72,16 +77,17 @@ public object FrameExecutor {
     private val blocks = mutableListOf<()->Unit>()
 
     internal fun callInNextFrame(block: () -> Unit) {
-//        println("callInNextFrame")
         if (blocks.isEmpty()) {
             displayLink.addToRunLoop(NSRunLoop.currentRunLoop, NSRunLoop.currentRunLoop.currentMode)
         }
         blocks.add(block)
     }
 
+    /**
+     * The function that will be call repeatedly through CADisplayLink
+     */
     @ObjCAction
     fun frame() {
-//        println("frame blockSize[${blocks.size}]")
         val currBlocks = blocks.toTypedArray()
         blocks.clear()
         displayLink.removeFromRunLoop(NSRunLoop.currentRunLoop, NSRunLoop.currentRunLoop.currentMode)
