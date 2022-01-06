@@ -645,6 +645,26 @@ public final class io/data2viz/viz/ResizableSupport : io/data2viz/viz/Resizable 
 	public final fun notifyNewSize (Lio/data2viz/geom/Size;)V
 }
 
+public final class io/data2viz/viz/RichTextBuilder {
+	public fun <init> ()V
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun buildGroup ()Lio/data2viz/viz/GroupNode;
+	public final fun computeSize ()Lio/data2viz/geom/Size;
+	public final fun getFontSize ()D
+	public final fun getFontStyle ()Lio/data2viz/viz/FontPosture;
+	public final fun getFontWeight ()Lio/data2viz/viz/FontWeight;
+	public final fun getInit$viz ()Lkotlin/jvm/functions/Function1;
+	public final fun getLineSize ()D
+	public final fun newLine ()V
+	public final fun setFontSize (D)V
+	public final fun setFontStyle (Lio/data2viz/viz/FontPosture;)V
+	public final fun setFontWeight (Lio/data2viz/viz/FontWeight;)V
+	public final fun setLineSize (D)V
+	public final fun text (Ljava/lang/String;Ljava/lang/Double;Ljava/lang/Boolean;Ljava/lang/Boolean;)V
+	public static synthetic fun text$default (Lio/data2viz/viz/RichTextBuilder;Ljava/lang/String;Ljava/lang/Double;Ljava/lang/Boolean;Ljava/lang/Boolean;ILjava/lang/Object;)V
+}
+
 public final class io/data2viz/viz/Rotation : io/data2viz/viz/AtomicTransformation {
 	public fun <init> ()V
 	public fun <init> (D)V
