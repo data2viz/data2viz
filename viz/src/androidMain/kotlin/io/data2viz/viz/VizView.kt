@@ -26,6 +26,7 @@ import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 
 @SuppressLint("ViewConstructor")
+@Deprecated("Use VizContainerView instead")
 public class VizView(
     public val viz: Viz, context: Context
 )
@@ -54,11 +55,9 @@ public class VizView(
 
     /**
      * Resize viz,
-     * Update the Scale
      */
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         viz.resize(w.toDouble(), h.toDouble())
-        updateScale()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -100,9 +99,6 @@ public class VizView(
         timers.clear()
     }
 
-    public fun updateScale() {
-        scale = (width / viz.width).toFloat()
-    }
 
     public var drawCount: Int = -1
     private var startTime = System.currentTimeMillis()
