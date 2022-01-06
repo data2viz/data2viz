@@ -36,10 +36,16 @@ internal val paint = Paint().apply {
     isAntiAlias = true
 }
 
-internal var scale = 1f
+/**
+ * The screen density. Used internaly to convert all the sizes from CSS pixels to device pixels.
+ */
+internal var density = 1f
 
+/**
+ * Converts the viz pixel value (CSS pixel) to device pixel.
+ */
 internal val Double.dp: Float
-    get() = (this * scale).toFloat()
+    get() = (this * density).toFloat()
 
 
 internal actual fun textMeasure(

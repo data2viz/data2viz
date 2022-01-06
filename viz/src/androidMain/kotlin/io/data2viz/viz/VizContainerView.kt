@@ -49,7 +49,7 @@ public open class VizContainerView(
     public override val density: Double= context.resources.displayMetrics.density.toDouble()
 
     init {
-        scale = density.toFloat()
+        io.data2viz.viz.density = density.toFloat()
     }
 
     override fun newViz(init: Viz.() -> Unit): Viz {
@@ -80,7 +80,7 @@ public open class VizContainerView(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        size = size(w.toDouble()/ scale,h.toDouble()/ scale)
+        size = size(w.toDouble()/ io.data2viz.viz.density,h.toDouble()/ io.data2viz.viz.density)
     }
 
 
