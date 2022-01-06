@@ -213,7 +213,6 @@ public class RichTextBuilder(internal val init: RichTextBuilder.() -> Unit = {})
 
     }
 
-    private var currentBaseLine = fontSize
     private var currentLine = Line(lineSize)
     private val lines = mutableListOf(currentLine)
 
