@@ -27,8 +27,14 @@ import javafx.scene.layout.Pane
  * Attach a new [VizContainer] to a [Pane].
  */
 @ExperimentalD2V
-public fun Pane.newVizContainer(): VizContainer = JfxVizContainer(this)
+public fun Pane.newVizContainer(): VizContainer = JfxVizContainer(this).also {
 
+    this.widthProperty().addListener { _, _, newValue ->
+        it.size = it.size.copy(width = newValue.toDouble())
+    }
+    this.heightProperty().addListener { _, _, newValue ->
+        it.size = it.size.copy(height = newValue.toDouble())}
+}
 
 
 internal class JfxVizContainer(
@@ -62,11 +68,13 @@ internal class JfxVizContainer(
 
     override var size: Size = Size(pane.width, pane.height)
         set(value) {
+            if (value == field) return
             field = value
             pane.setPrefSize(value.width, value.height)
             allViz.forEach {
                 it.size = value
                 it.updatePlatformSize()
+                it.render()
             }
             resizableSupport.notifyNewSize(value)
         }
