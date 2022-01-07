@@ -42,10 +42,13 @@ internal actual fun textMeasure(
     fontStyle: FontPosture): Rect {
 
     context.font = "${fontStyle.js} ${fontWeight.js} ${fontSize}px ${fontFamily.name}"
-    val metrics: TextMetrics = context.measureText(text)
+    val metrics: TextMetrics = context.measureText("x${text}x")
+    val xxMetrics: TextMetrics = context.measureText("xx")
     return RectGeom(
-        Point(metrics.actualBoundingBoxLeft, -metrics.actualBoundingBoxAscent),
-        Point(metrics.actualBoundingBoxRight, metrics.actualBoundingBoxDescent)
+        width = metrics.actualBoundingBoxRight - metrics.actualBoundingBoxLeft -
+                (xxMetrics.actualBoundingBoxRight - xxMetrics.actualBoundingBoxLeft),
+        height = metrics.actualBoundingBoxDescent - metrics.actualBoundingBoxAscent -
+                (xxMetrics.actualBoundingBoxDescent - xxMetrics.actualBoundingBoxAscent)
     )
 }
 
