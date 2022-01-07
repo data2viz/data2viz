@@ -51,12 +51,13 @@ internal actual fun textMeasure(
 ): Rect {
 
     val bounds = AndroidRect()
+    val xxBounds = AndroidRect()
     paint.textSize = fontSize.toFloat()
     paint.typeface = Typeface.create(fontFamily.name, getAndroidStyle(fontWeight, fontStyle))
-    paint.getTextBounds(text, 0, text.length, bounds)
-    //todo implementation
+    paint.getTextBounds("x${text}x", 0, text.length + 2, bounds)
+    paint.getTextBounds("xx", 0, 2, xxBounds)
     return RectGeom(
-        width = bounds.width().toDouble(),
+        width = bounds.width().toDouble() - xxBounds.width().toDouble(),
         height = bounds.height().toDouble()
     )
 }
