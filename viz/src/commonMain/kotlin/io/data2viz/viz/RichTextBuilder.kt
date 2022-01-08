@@ -17,6 +17,9 @@
 
 package io.data2viz.viz
 
+import io.data2viz.color.Color
+import io.data2viz.color.ColorOrGradient
+import io.data2viz.color.Colors
 import io.data2viz.geom.Size
 
 /**
@@ -107,9 +110,19 @@ public class RichTextBuilder(internal val init: RichTextBuilder.() -> Unit = {})
         }
 
     /**
-     * The current font size, used for the nexd addet text node.
+     * The current font size, used for the nexd added text node.
      */
     public var fontSize: Double = 12.0
+
+    /**
+     * The current text color, used for the nexd added text node.
+     */
+    public var textColor: Color = Colors.Web.black
+
+    /**
+     * The current font family, used for the nexd added text node.
+     */
+    public var fontFamily: FontFamily = FontFamily.SANS_SERIF
 
     /**
      * The current fontWeight, used for the next added text node.
@@ -141,11 +154,19 @@ public class RichTextBuilder(internal val init: RichTextBuilder.() -> Unit = {})
      * uses the weight defined by [RichTextBuilder.fontWeight], unless overriden by the [bold] parameter.
      *
      *     text("hello ")
-     *     text("world!!", fontSize = 20.0, bold = true, italic = true)
+     *     text("world!!", fontSize = 20.0, bold = true, italic = true, textColor = Colors.Web.red)
      */
-    public fun text(textContent: String, fontSize: Double? = null, bold: Boolean? = null, italic: Boolean? = null){
+    public fun text(textContent: String,
+                    fontSize: Double? = null,
+                    bold: Boolean? = null,
+                    italic: Boolean? = null,
+                    textColor: Color? = null,
+                    fontFamily: FontFamily? = null,
+    ){
         val textNode = TextNode()
         textNode.textContent = textContent
+        textNode.textColor = if (textColor != null) textColor else this.textColor
+        textNode.fontFamily = if (fontFamily != null) fontFamily else this.fontFamily
         textNode.hAlign = TextHAlign.LEFT
         textNode.vAlign = TextVAlign.BASELINE
         textNode.fontSize = if (fontSize != null) fontSize else this.fontSize
