@@ -31,11 +31,15 @@ public fun TextNode.render(renderer: IOSCanvasRenderer) {
 		if (this@render.textColor as? Color == null)
 			return
 
-        val textFontAttributes = mapOf(
-            NSFontAttributeName to UIFont.fontWithName("Helvetica", this@render.fontSize),
-            NSForegroundColorAttributeName to (this@render.textColor as Color).toUIColor()
-        ) as Map<Any?, *>?
+        if (this@render.textColor as? Color == null)
+            return
 
+        val uiFont: UIFont = UIFont.fontWithName("Helvetica", this@render.fontSize)!!
+
+        val textFontAttributes = mapOf(
+            NSFontAttributeName to uiFont,
+            NSForegroundColorAttributeName to (this@render.textColor as Color).toUIColor(),
+        ) as Map<Any?, *>?
 
         val nsStringText:NSString = this@render.textContent as NSString
 
@@ -52,7 +56,7 @@ public fun TextNode.render(renderer: IOSCanvasRenderer) {
         val textY = when (vAlign) {
             TextVAlign.HANGING -> y
             TextVAlign.MIDDLE -> y - textHeight / 2
-            TextVAlign.BASELINE -> y - textHeight
+            TextVAlign.BASELINE -> y - uiFont.ascender
         }
 
         val textRect = CGRectMake(textX, textY, textWidth, textHeight)
