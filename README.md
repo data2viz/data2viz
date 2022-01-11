@@ -1,6 +1,6 @@
 <img src="http://data2viz.io/images/identity/d2v-logo-no-gradient-lg-no-marge@2.png" alt="Data2viz" width="604" style="max-width:100%;">
 
-![Build Status](https://img.shields.io/badge/version-0.8.17-blueviolet)
+![Build Status](https://img.shields.io/badge/version-0.8.18-blueviolet)
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
 
