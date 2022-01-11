@@ -5,6 +5,10 @@ a visualization and retrieve position during different events: move, click, doub
 
 This version also includes some major internal modifications on the Geo module.
 
+## 0.8.18
+> Published 11 Jan 2022
+* Add RichText builder ([#242](https://github.com/data2viz/data2viz/issues/242))
+
 ## 0.8.17
 > Published 24 Dec 2021
 * Add viz SVG export ([#239](https://github.com/data2viz/data2viz/issues/239))
