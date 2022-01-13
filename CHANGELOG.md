@@ -1,3 +1,9 @@
+
+# Version v0.9
+
+This version makes the multiplatform usable for JS, JavaFx, AND mobile (Android + iOS).
+It upgrades JavaFx version to Java 11. 
+
 # Version v0.8
 
 This version brings multiplatform events to the library. It is now possible to add pointer events to
