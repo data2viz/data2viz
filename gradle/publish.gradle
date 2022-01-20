@@ -1,9 +1,30 @@
 apply plugin: 'base'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+}
 
 afterEvaluate {
     publishing {
+        repositories {
+            maven {
+                name="oss"
+                if (version.toString().endsWith("SNAPSHOT"))
+                    url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                else
+                    url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+
+                credentials {
+                    username = sonatypeUsername
+                    password = sonatypePassword
+                }
+            }
+        }
+
         if (project.hasProperty("d2v_service_app_id")) {
             repositories {
                 maven {
@@ -30,26 +51,30 @@ afterEvaluate {
         publications {
             all { publication ->
                 pom.withXml(configureMavenCentralMetadata)
-
+                artifact javadocJar
                 def type = publication.name
                 switch (type) {
                     case 'kotlinMultiplatform':
-                        publication.artifactId = "$project.name"
+                        publication.artifactId = "d2v-$project.name"
                         break
                     case 'metadata':
-                        publication.artifactId = "$project.name-common"
+                        publication.artifactId = "d2v-$project.name-common"
                         break
                     case 'androidRelease':
-                        publication.artifactId = "$project.name-android"
+                        publication.artifactId = "d2v-$project.name-android"
                         break
                     case 'androidDebug':
-                        publication.artifactId = "$project.name-android-debug"
+                        publication.artifactId = "d2v-$project.name-android-debug"
                         break
                     default:
-                        publication.artifactId = "$project.name-$type"
+                        publication.artifactId = "d2v-$project.name-$type"
                         break
                 }
             }
+        }
+
+        signing {
+            sign(publishing.publications)
         }
     }
 }
