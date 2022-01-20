@@ -1,10 +1,10 @@
 
-# Version v0.9
+# Version v0.9.x
 
 This version makes the multiplatform usable for JS, JavaFx, AND mobile (Android + iOS).
 It upgrades JavaFx version to Java 11. 
 
-# Version v0.8
+# Version v0.8.x
 
 This version brings multiplatform events to the library. It is now possible to add pointer events to
 a visualization and retrieve position during different events: move, click, double-click, ...
