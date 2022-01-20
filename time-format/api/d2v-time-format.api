@@ -99,7 +99,7 @@ public final class io/data2viz/timeFormat/Locales {
 }
 
 public final class io/data2viz/timeFormat/Locales$Companion {
-	public final fun defaultTimeLocale$time_format ()Lio/data2viz/timeFormat/TimeLocale;
+	public final fun defaultTimeLocale$d2v_time_format ()Lio/data2viz/timeFormat/TimeLocale;
 	public final fun getAr_EG ()Lio/data2viz/timeFormat/Locale;
 	public final fun getCa_ES ()Lio/data2viz/timeFormat/Locale;
 	public final fun getCs_CZ ()Lio/data2viz/timeFormat/Locale;

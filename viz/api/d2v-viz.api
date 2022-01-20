@@ -514,7 +514,7 @@ public final class io/data2viz/viz/KZoomEvent : io/data2viz/viz/HasMetaKeys, io/
 	public fun getCtrlKey ()Z
 	public final fun getDeltaX ()D
 	public final fun getDeltaY ()D
-	public final fun getHasMetaKeys$viz ()Lio/data2viz/viz/HasMetaKeys;
+	public final fun getHasMetaKeys$d2v_viz ()Lio/data2viz/viz/HasMetaKeys;
 	public fun getMetaKey ()Z
 	public fun getShiftKey ()Z
 	public final fun getStartZoomPos ()Lio/data2viz/geom/Point;
@@ -667,7 +667,7 @@ public final class io/data2viz/viz/RichTextBuilder {
 	public final fun getFontSize ()D
 	public final fun getFontStyle ()Lio/data2viz/viz/FontPosture;
 	public final fun getFontWeight ()Lio/data2viz/viz/FontWeight;
-	public final fun getInit$viz ()Lkotlin/jvm/functions/Function1;
+	public final fun getInit$d2v_viz ()Lkotlin/jvm/functions/Function1;
 	public final fun getLineSize ()D
 	public final fun getTextColor ()Lio/data2viz/color/Color;
 	public final fun newLine ()V
@@ -873,7 +873,7 @@ public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/v
 	public fun clear ()V
 	public final fun getActiveLayer ()Lio/data2viz/viz/Layer;
 	public fun getAnchor ()Lio/data2viz/viz/TextHAlign;
-	public final fun getAnimationTimers$viz ()Ljava/util/List;
+	public final fun getAnimationTimers$d2v_viz ()Ljava/util/List;
 	public fun getBaseline ()Lio/data2viz/viz/TextVAlign;
 	public final fun getConfig ()Lio/data2viz/viz/VizConfig;
 	public fun getDashedLine ()[D

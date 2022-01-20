@@ -7,7 +7,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api project(":core")
+                api project(":d2v-core")
                 api ("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinx_datetime_version")
             }
         }

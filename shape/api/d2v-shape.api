@@ -386,8 +386,8 @@ public final class io/data2viz/shape/curves {
 
 public final class io/data2viz/shape/link/LinkBuilder {
 	public fun <init> ()V
-	public final fun curveHorizontal$shape (Lio/data2viz/geom/Path;DDDD)V
-	public final fun curveVertical$shape (Lio/data2viz/geom/Path;DDDD)V
+	public final fun curveHorizontal$d2v_shape (Lio/data2viz/geom/Path;DDDD)V
+	public final fun curveVertical$d2v_shape (Lio/data2viz/geom/Path;DDDD)V
 	public final fun getCurve ()Lkotlin/jvm/functions/Function5;
 	public final fun getX0 ()Lkotlin/jvm/functions/Function1;
 	public final fun getX1 ()Lkotlin/jvm/functions/Function1;
@@ -440,7 +440,7 @@ public final class io/data2viz/shape/stack/StackOffset : java/lang/Enum {
 	public static final field NONE Lio/data2viz/shape/stack/StackOffset;
 	public static final field SILHOUETTE Lio/data2viz/shape/stack/StackOffset;
 	public static final field WIGGLE Lio/data2viz/shape/stack/StackOffset;
-	public final fun offset$shape (Ljava/util/List;)V
+	public final fun offset$d2v_shape (Ljava/util/List;)V
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/stack/StackOffset;
 	public static fun values ()[Lio/data2viz/shape/stack/StackOffset;
 }
@@ -454,7 +454,7 @@ public final class io/data2viz/shape/stack/StackOrder : java/lang/Enum {
 	public static final field INSIDEOUT Lio/data2viz/shape/stack/StackOrder;
 	public static final field NONE Lio/data2viz/shape/stack/StackOrder;
 	public static final field REVERSE Lio/data2viz/shape/stack/StackOrder;
-	public final fun sort$shape (Ljava/util/List;)Ljava/util/List;
+	public final fun sort$d2v_shape (Ljava/util/List;)Ljava/util/List;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/stack/StackOrder;
 	public static fun values ()[Lio/data2viz/shape/stack/StackOrder;
 }

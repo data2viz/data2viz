@@ -1,19 +1,19 @@
 public final class io/data2viz/timer/JavaFxTimer : javafx/animation/AnimationTimer {
 	public fun <init> ()V
-	public final fun callInNextFrame$timer (Lkotlin/jvm/functions/Function0;)V
+	public final fun callInNextFrame$d2v_timer (Lkotlin/jvm/functions/Function0;)V
 	public fun handle (J)V
 }
 
 public final class io/data2viz/timer/Timer {
 	public fun <init> ()V
-	public final fun get_call$timer ()Lkotlin/jvm/functions/Function2;
-	public final fun get_next$timer ()Lio/data2viz/timer/Timer;
-	public final fun get_time$timer ()D
+	public final fun get_call$d2v_timer ()Lkotlin/jvm/functions/Function2;
+	public final fun get_next$d2v_timer ()Lio/data2viz/timer/Timer;
+	public final fun get_time$d2v_timer ()D
 	public final fun restart (DDLkotlin/jvm/functions/Function2;)V
 	public static synthetic fun restart$default (Lio/data2viz/timer/Timer;DDLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
-	public final fun set_call$timer (Lkotlin/jvm/functions/Function2;)V
-	public final fun set_next$timer (Lio/data2viz/timer/Timer;)V
-	public final fun set_time$timer (D)V
+	public final fun set_call$d2v_timer (Lkotlin/jvm/functions/Function2;)V
+	public final fun set_next$d2v_timer (Lio/data2viz/timer/Timer;)V
+	public final fun set_time$d2v_timer (D)V
 	public final fun stop ()V
 	public fun toString ()Ljava/lang/String;
 }

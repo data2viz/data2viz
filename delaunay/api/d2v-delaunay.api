@@ -2,9 +2,9 @@ public final class io/data2viz/delaunay/Delaunator {
 	public fun <init> ([[Ljava/lang/Double;)V
 	public final fun getGetX ()Lkotlin/jvm/functions/Function1;
 	public final fun getGetY ()Lkotlin/jvm/functions/Function1;
-	public final fun getHull$delaunay ()Lio/data2viz/delaunay/Node;
+	public final fun getHull$d2v_delaunay ()Lio/data2viz/delaunay/Node;
 	public final fun getTriangles ()Lio/data2viz/delaunay/TypedIntArray;
-	public final fun setHull$delaunay (Lio/data2viz/delaunay/Node;)V
+	public final fun setHull$d2v_delaunay (Lio/data2viz/delaunay/Node;)V
 	public final fun setTriangles (Lio/data2viz/delaunay/TypedIntArray;)V
 }
 

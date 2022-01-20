@@ -9,7 +9,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api project(":color")
+                api project(":d2v-color")
                 api ("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinx_datetime_version")
             }
         }

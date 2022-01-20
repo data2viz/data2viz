@@ -8,12 +8,12 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api project(":core")
+                api project(":d2v-core")
             }
         }
         commonTest {
             dependencies {
-                implementation project(":format")
+                implementation project(":d2v-format")
             }
         }
     }

@@ -9,9 +9,9 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api project(":color")
-                api project(":core")
-                api project(":timer")
+                api project(":d2v-color")
+                api project(":d2v-core")
+                api project(":d2v-timer")
             }
         }
 

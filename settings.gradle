@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         google()
-        jcenter()
+//        jcenter()
         gradlePluginPortal()
         mavenCentral()
     }
@@ -16,51 +16,45 @@ pluginManagement {
 
 def d2v = [
 
-        ":axis",
-        ":chord",
-        ":color",
-//        ":contour",
-        ":core",
-        ":delaunay",
-        ":dsv",
-        ":ease",
-        ":force",
-        ":format",
-        ":geo",
-        ":hexbin",
-        ":hierarchy",
-        ":interpolate",
-        ":quadtree",
-        ":random",
-        ":sankey",
-        ":scale",
-        ":shape",
-        ":tests",
-        ":tile",
-        ":time",
-        ":time-format",
-        ":timer",
-        ":transition",
-        ":viz",
-        ":voronoi"
-
-//        ":request:request-common",
-//        ":request:request-js",
-//        ":request:request-jvm",
-//
+        "axis",
+        "chord",
+        "color",
+        "contour",
+        "core",
+        "delaunay",
+        "dsv",
+        "ease",
+        "force",
+        "format",
+        "geo",
+        "hexbin",
+        "hierarchy",
+        "interpolate",
+        "quadtree",
+        "random",
+        "sankey",
+        "scale",
+        "shape",
+        "tests",
+        "tile",
+        "time",
+        "time-format",
+        "timer",
+        "transition",
+        "viz",
+        "voronoi"
 
 ]
 
 System.setProperty("all_d2v", d2v.join(","))
 d2v.forEach {
-    includeAndFilter(it)
+    println it
+    def included = includeAndFilter(it)
+    if (included)
+        project(":$it").name = "d2v-${it}"
+
 }
 
-//[":data2viz:data2viz-common",
-// ":data2viz:data2viz-js",
-// ":data2viz:data2viz-jfx"].forEach{includeAndFilter(it)}
-
-//includeAndFilter(":viz:rendering-app")
 
 //if (include_js.toBoolean()) {
 //    include ":site"
@@ -69,51 +63,8 @@ d2v.forEach {
 def examples = [
 //        ":app",
 //
-//        ":ex-chord",
-//        ":ex-chord:ex-chord-common",
-//        ":ex-chord:ex-chord-js",
-//        ":ex-chord:ex-chord-jfx",
-//
-//        ":ex-events",
-//        ":ex-events:ex-events-common",
-//        ":ex-events:ex-events-js",
-//        ":ex-events:ex-events-jfx",
-//
 //        ":ex-delaunay",
-//        ":ex-delaunay:ex-delaunay-js",
 //
-//        ":ex-lets-make-a-barchart",
-//        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-common",
-//        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-js",
-//        ":ex-lets-make-a-barchart:ex-lets-make-a-barchart-jfx",
-//
-//        ":ex-force",
-//        ":ex-force:ex-force-common",
-//        ":ex-force:ex-force-js",
-//        ":ex-force:ex-force-jfx",
-//
-//        ":ex-full",
-//        ":ex-full:ex-full-js",
-//
-//        ":ex-geo",
-//        ":ex-geo:ex-geo-common",
-//        ":ex-geo:ex-geo-js",
-//        ":ex-geo:ex-geo-jfx",
-//
-//        ":ex-line-of-sight",
-//        ":ex-line-of-sight:ex-line-of-sight-common",
-//        ":ex-line-of-sight:ex-line-of-sight-js",
-//        ":ex-line-of-sight:ex-line-of-sight-jfx",
-//
-//        ":ex-sankey",
-//        ":ex-sankey:ex-sankey-common",
-//        ":ex-sankey:ex-sankey-js",
-//        ":ex-sankey:ex-sankey-jfx",
-//
-//        ":ex-streamGraph",
-//        ":ex-streamGraph:ex-streamGraph-common",
-//        ":ex-streamGraph:ex-streamGraph-js",
-//        ":ex-streamGraph:ex-streamGraph-jfx",
 //
 ]
 
@@ -129,26 +80,25 @@ examples.forEach{
 def includeAndFilter(project){
     if (project.endsWith("-android") || (project.endsWith("app"))) {
         if (include_android.toBoolean()) {
-            include(project)
+            include(":$project")
             return true
         }
         return false
     } else if (project.endsWith("-js")) {
         if (include_js.toBoolean()) {
-            include(project)
+            include(":$project")
             return true
         }
         return false
     } else if (project.endsWith("-jfx")) {
         if (include_jfx.toBoolean()) {
-            include(project)
+            include(":$project")
             return true
         }
         return false
     } else {
-        include(project)
+        include(":$project")
         return true
     }
 }
 
-enableFeaturePreview('GRADLE_METADATA')

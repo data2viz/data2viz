@@ -34,7 +34,7 @@ if (include_android.toBoolean()) {
             }
             test {
                 dependencies {
-                    implementation project(":tests")
+                    implementation project(":d2v-tests")
                     implementation kotlin('test-junit')
                 }
             }

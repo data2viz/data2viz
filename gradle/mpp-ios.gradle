@@ -28,7 +28,7 @@ if (include_ios.toBoolean()) {
             iosTest {
                 dependencies {
                     if (project.name != "tests") {
-                        implementation project(":tests")
+                        implementation project(":d2v-tests")
                     }
                 }
             }

@@ -18,7 +18,7 @@ if (include_jfx.toBoolean()) {
             }
             jfxTest {
                 dependencies {
-                    implementation project(":tests")
+                    implementation project(":d2v-tests")
                     implementation kotlin('test')
                     implementation kotlin('test-junit')
                     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"

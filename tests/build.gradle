@@ -2,10 +2,6 @@ plugins {
     id "org.jetbrains.kotlin.multiplatform"
 }
 
-apply plugin: "maven"
-apply plugin: "maven-publish"
-
-
 kotlin {
     if (include_js.toBoolean()) {
         js {

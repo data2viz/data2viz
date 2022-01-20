@@ -36,7 +36,7 @@ kotlin {
         commonTest {
             dependencies {
                 if (project.name != "tests") {
-                    implementation project(":tests")
+                    implementation project(":d2v-tests")
                 }
                 implementation kotlin('test-common')
                 implementation kotlin('test-annotations-common')

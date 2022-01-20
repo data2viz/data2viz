@@ -13,7 +13,7 @@ if (include_jfx.toBoolean() || include_android.toBoolean()) {
             jvmTest {
                 dependencies {
                     if (project.name != "tests") {
-                        implementation project(":tests")
+                        implementation project(":d2v-tests")
                     }
                     implementation kotlin('test')
                     implementation kotlin('test-junit')

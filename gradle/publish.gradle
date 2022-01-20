@@ -1,5 +1,4 @@
 apply plugin: 'base'
-apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
@@ -55,19 +54,10 @@ afterEvaluate {
                 def type = publication.name
                 switch (type) {
                     case 'kotlinMultiplatform':
-                        publication.artifactId = "d2v-$project.name"
-                        break
-                    case 'metadata':
-                        publication.artifactId = "d2v-$project.name-common"
-                        break
-                    case 'androidRelease':
-                        publication.artifactId = "d2v-$project.name-android"
-                        break
-                    case 'androidDebug':
-                        publication.artifactId = "d2v-$project.name-android-debug"
+                        publication.artifactId = "$project.name"
                         break
                     default:
-                        publication.artifactId = "d2v-$project.name-$type"
+                        publication.artifactId = "$project.name-$type"
                         break
                 }
             }

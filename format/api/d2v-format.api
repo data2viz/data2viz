@@ -4,7 +4,7 @@ public final class io/data2viz/format/Align : java/lang/Enum {
 	public static final field RIGHT Lio/data2viz/format/Align;
 	public static final field RIGHT_WITHOUT_SIGN Lio/data2viz/format/Align;
 	public static final field RIGTH Lio/data2viz/format/Align;
-	public final fun getC$format ()Ljava/lang/String;
+	public final fun getC$d2v_format ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/format/Align;
 	public static fun values ()[Lio/data2viz/format/Align;
@@ -190,7 +190,7 @@ public final class io/data2viz/format/Sign : java/lang/Enum {
 	public static final field PARENTHESES Lio/data2viz/format/Sign;
 	public static final field PLUS Lio/data2viz/format/Sign;
 	public static final field SPACE Lio/data2viz/format/Sign;
-	public final fun getC$format ()Ljava/lang/String;
+	public final fun getC$d2v_format ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/format/Sign;
 	public static fun values ()[Lio/data2viz/format/Sign;
@@ -199,7 +199,7 @@ public final class io/data2viz/format/Sign : java/lang/Enum {
 public final class io/data2viz/format/Symbol : java/lang/Enum {
 	public static final field CURRENCY Lio/data2viz/format/Symbol;
 	public static final field NUMBER_BASE Lio/data2viz/format/Symbol;
-	public final fun getC$format ()Ljava/lang/String;
+	public final fun getC$d2v_format ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/format/Symbol;
 	public static fun values ()[Lio/data2viz/format/Symbol;
@@ -219,7 +219,7 @@ public final class io/data2viz/format/Type : java/lang/Enum {
 	public static final field OCTAL Lio/data2viz/format/Type;
 	public static final field PERCENT Lio/data2viz/format/Type;
 	public static final field PERCENT_ROUNDED Lio/data2viz/format/Type;
-	public final fun getC$format ()Ljava/lang/String;
+	public final fun getC$d2v_format ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/format/Type;
 	public static fun values ()[Lio/data2viz/format/Type;

@@ -10,14 +10,14 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api project(":color")
-                api project(":scale")
-                api project(":viz")
+                api project(":d2v-color")
+                api project(":d2v-scale")
+                api project(":d2v-viz")
             }
         }
         commonTest {
             dependencies {
-                api project(":format")
+                api project(":d2v-format")
             }
         }
 

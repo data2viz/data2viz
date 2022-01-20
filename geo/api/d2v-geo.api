@@ -99,14 +99,14 @@ public final class io/data2viz/geo/geojson/Sphere : io/data2viz/geojson/Geometry
 
 public final class io/data2viz/geo/geojson/path/GeoAreaStream : io/data2viz/geo/stream/Stream {
 	public fun <init> ()V
-	public final fun getAreaRingSum$geo ()D
+	public final fun getAreaRingSum$d2v_geo ()D
 	public fun lineEnd ()V
 	public fun lineStart ()V
 	public fun point (DDD)V
 	public fun polygonEnd ()V
 	public fun polygonStart ()V
 	public final fun result (Lio/data2viz/geojson/GeoJsonObject;)D
-	public final fun setAreaRingSum$geo (D)V
+	public final fun setAreaRingSum$d2v_geo (D)V
 	public fun sphere ()V
 }
 
@@ -285,18 +285,18 @@ public abstract interface class io/data2viz/geo/geometry/clip/ClipStreamBuilder 
 
 public final class io/data2viz/geo/geometry/clip/ClippableStream : io/data2viz/geo/stream/Stream {
 	public fun <init> (Lio/data2viz/geo/geometry/clip/ClipperWithStart;Lio/data2viz/geo/stream/Stream;)V
-	public final fun getClipStream$geo ()Lio/data2viz/geo/geometry/clip/ClipStream;
+	public final fun getClipStream$d2v_geo ()Lio/data2viz/geo/geometry/clip/ClipStream;
 	public final fun getClipper ()Lio/data2viz/geo/geometry/clip/ClipperWithStart;
 	public final fun getDownstream ()Lio/data2viz/geo/stream/Stream;
 	public final fun getLineEndContext ()Lio/data2viz/geo/geometry/clip/ClippableStream$LineEndContext;
 	public final fun getLineStartContext ()Lio/data2viz/geo/geometry/clip/ClippableStream$LineStartContext;
 	public final fun getPointContext ()Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;
-	public final fun getPolygon$geo ()Ljava/util/List;
-	public final fun getPolygonStarted$geo ()Z
-	public final fun getRing$geo ()Ljava/util/List;
-	public final fun getRingBuffer$geo ()Lio/data2viz/geo/geometry/clip/BufferStream;
-	public final fun getRingSink$geo ()Lio/data2viz/geo/geometry/clip/ClipStream;
-	public final fun getSegments$geo ()Ljava/util/List;
+	public final fun getPolygon$d2v_geo ()Ljava/util/List;
+	public final fun getPolygonStarted$d2v_geo ()Z
+	public final fun getRing$d2v_geo ()Ljava/util/List;
+	public final fun getRingBuffer$d2v_geo ()Lio/data2viz/geo/geometry/clip/BufferStream;
+	public final fun getRingSink$d2v_geo ()Lio/data2viz/geo/geometry/clip/ClipStream;
+	public final fun getSegments$d2v_geo ()Ljava/util/List;
 	public fun lineEnd ()V
 	public fun lineStart ()V
 	public fun point (DDD)V
@@ -305,8 +305,8 @@ public final class io/data2viz/geo/geometry/clip/ClippableStream : io/data2viz/g
 	public final fun setLineEndContext (Lio/data2viz/geo/geometry/clip/ClippableStream$LineEndContext;)V
 	public final fun setLineStartContext (Lio/data2viz/geo/geometry/clip/ClippableStream$LineStartContext;)V
 	public final fun setPointContext (Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;)V
-	public final fun setPolygonStarted$geo (Z)V
-	public final fun setRing$geo (Ljava/util/List;)V
+	public final fun setPolygonStarted$d2v_geo (Z)V
+	public final fun setRing$d2v_geo (Ljava/util/List;)V
 	public fun sphere ()V
 }
 
@@ -442,7 +442,7 @@ public final class io/data2viz/geo/geometry/path/CentroidStream : io/data2viz/ge
 	public fun point (DDD)V
 	public fun polygonEnd ()V
 	public fun polygonStart ()V
-	public final fun result$geo ()[D
+	public final fun result$d2v_geo ()[D
 	public fun sphere ()V
 }
 
@@ -1046,9 +1046,9 @@ public final class io/data2viz/geo/stream/Stream$DefaultImpls {
 
 public final class io/data2viz/geo/stream/StreamCache {
 	public fun <init> ()V
-	public final fun cache$geo (Lio/data2viz/geo/stream/Stream;Lio/data2viz/geo/stream/Stream;)V
-	public final fun getCachedResultStream$geo ()Lio/data2viz/geo/stream/Stream;
-	public final fun getOriginalSourceStream$geo ()Lio/data2viz/geo/stream/Stream;
+	public final fun cache$d2v_geo (Lio/data2viz/geo/stream/Stream;Lio/data2viz/geo/stream/Stream;)V
+	public final fun getCachedResultStream$d2v_geo ()Lio/data2viz/geo/stream/Stream;
+	public final fun getOriginalSourceStream$d2v_geo ()Lio/data2viz/geo/stream/Stream;
 	public final fun isCacheValidFor (Lio/data2viz/geo/stream/Stream;)Z
 	public final fun reset ()V
 }
