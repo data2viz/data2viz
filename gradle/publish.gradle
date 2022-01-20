@@ -9,17 +9,21 @@ task javadocJar(type: Jar) {
 
 afterEvaluate {
     publishing {
-        repositories {
-            maven {
-                name="oss"
-                if (version.toString().endsWith("SNAPSHOT"))
-                    url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-                else
-                    url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
 
-                credentials {
-                    username = sonatypeUsername
-                    password = sonatypePassword
+        //Maven central deployment
+        if (project.hasProperty("sonatypeUsername")) {
+            repositories {
+                maven {
+                    name = "oss"
+                    if (version.toString().endsWith("SNAPSHOT"))
+                        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                    else
+                        url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+
+                    credentials {
+                        username = sonatypeUsername
+                        password = sonatypePassword
+                    }
                 }
             }
         }
