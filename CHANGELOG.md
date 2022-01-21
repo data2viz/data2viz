@@ -4,6 +4,15 @@
 This version makes the multiplatform usable for JS, JavaFx, AND mobile (Android + iOS).
 It upgrades JavaFx version to Java 11. 
 
+## 0.9.1
+> Published 21 Jan 2022
+* Fix text measure height on viz-js ([#246](https://github.com/data2viz/data2viz/issues/246))
+
+## 0.9.0
+> Published 20 Jan 2022
+
+
+
 # Version v0.8.x
 
 This version brings multiplatform events to the library. It is now possible to add pointer events to
