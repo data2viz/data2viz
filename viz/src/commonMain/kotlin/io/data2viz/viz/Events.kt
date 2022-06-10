@@ -41,11 +41,45 @@ public interface KPointerEvent: KEvent {
 }
 
 /**
+ * Description of the MouseEvent type
+ */
+public enum class MouseEventType {
+    Down,
+    Up,
+    Enter,
+    Move,
+    Leave,
+    Click,
+    DblClick,
+    Unknown
+}
+
+/**
+ * Description of the Mouse button pressed if applicable.
+ */
+public enum class MouseButtonPressed {
+    NotApplicable,
+    Left,
+    Middle,
+    Right,
+    Fourth,
+    Fifth
+}
+
+/**
  * Pointer events for platform with Mouse input device.
  * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
- * Used in JFX & JS implementations. Android implementation use common KPointerEvent
+ * Used in JFX & JS implementations. Android implementation use common KPointerEvent.
+ *
+ * @property type the mouse event type
+ * @property type the mouse burron pressed
+ * @see [MouseEventType]
+ * @see [MouseButtonPressed]
  */
-public interface KMouseEvent: KPointerEvent, HasMetaKeys
+public interface KMouseEvent: KPointerEvent, HasMetaKeys {
+    public val type: MouseEventType
+    public val buttonPressed: MouseButtonPressed
+}
 
 /**
  * Allow the access to the ALT, CTRL, META, SHIFT key during an event
@@ -102,16 +136,20 @@ public data class KPointer(
 )
 
 
-public fun KMouseEvent(    pos: Point,
-                           altKey: Boolean,
-                           ctrlKey: Boolean,
-                           shiftKey: Boolean,
-                           metaKey: Boolean): KMouseEvent = KMouseEventImpl(pos, altKey, ctrlKey, shiftKey, metaKey)
+public fun KMouseEvent(pos: Point,
+                       type: MouseEventType,
+                       buttonPressed: MouseButtonPressed,
+                       altKey: Boolean,
+                       ctrlKey: Boolean,
+                       shiftKey: Boolean,
+                       metaKey: Boolean): KMouseEvent = KMouseEventImpl(pos, type, buttonPressed, altKey, ctrlKey, shiftKey, metaKey)
 
 
 @InternalAPI
 internal class KMouseEventImpl(
     pos: Point,
+    public override val type: MouseEventType,
+    public override val buttonPressed: MouseButtonPressed,
     public override val altKey: Boolean,
     public override val ctrlKey: Boolean,
     public override val shiftKey: Boolean,
@@ -145,6 +183,10 @@ public expect class KMouseDown {
 
 public expect class KMouseUp {
     public companion object PointerUpEventListener : KEventListener<KMouseEvent>
+}
+
+public expect class KMouseLeave {
+    public companion object PointerLeaveEventListener : KEventListener<KMouseEvent>
 }
 
 public expect class KTouch {

@@ -28,32 +28,48 @@ import org.w3c.dom.events.WheelEvent
 import kotlinx.browser.window
 import kotlin.js.Date
 
+private fun jsMouseButtonToMBP(jsMouseButton: Short): MouseButtonPressed {
+    return when(jsMouseButton) {
+        1.toShort()         -> MouseButtonPressed.Middle
+        2.toShort()         -> MouseButtonPressed.Right
+        3.toShort()         -> MouseButtonPressed.Fourth
+        4.toShort()         -> MouseButtonPressed.Fifth
+        else                -> MouseButtonPressed.Left
+    }
+}
 
 public actual class KMouseDown {
     public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "mousedown")
+            createMouseJsListener(target, listener, "mousedown", MouseEventType.Down, )
     }
 }
 
 public actual class KMouseUp {
     public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "mouseup")
+            createMouseJsListener(target, listener, "mouseup", MouseEventType.Up)
+    }
+}
+
+public actual class KMouseLeave {
+    public actual companion object PointerLeaveEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+            createMouseJsListener(target, listener, "mouseleave", MouseEventType.Leave)
     }
 }
 
 public actual class KPointerEnter {
     public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "mouseenter")
+            createMouseJsListener(target, listener, "mouseenter", MouseEventType.Enter)
     }
 }
 
 public actual class KMouseMove {
     public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "mousemove")
+            createMouseJsListener(target, listener, "mousemove", MouseEventType.Move)
     }
 }
 
@@ -91,7 +107,7 @@ public actual class KTouchMove {
 public actual class KPointerLeave {
     public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "mouseleave")
+            createMouseJsListener(target, listener, "mouseleave", MouseEventType.Leave)
     }
 }
 
@@ -99,7 +115,7 @@ public actual class KPointerLeave {
 public actual class KPointerDoubleClick {
     public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "dblclick")
+            createMouseJsListener(target, listener, "dblclick", MouseEventType.DblClick)
     }
 }
 
@@ -107,7 +123,7 @@ public actual class KPointerDoubleClick {
 public actual class KPointerClick {
     public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "click")
+            createMouseJsListener(target, listener, "click", MouseEventType.Click)
     }
 }
 
@@ -170,12 +186,17 @@ public actual class KZoom {
 private fun createMouseJsListener(
     target: Any,
     kListener: (KMouseEvent) -> Unit,
-    jsEventName: String
+    jsEventName: String,
+    type: MouseEventType
 ): Disposable {
     val htmlElement = target.unsafeCast<HTMLCanvasElement>()
     val nativeListener = object : EventListener {
         override fun handleEvent(event: Event) {
-            val nativeEvent = event.toKMouseEvent(htmlElement)
+            val nativeEvent = event.toKMouseEvent(
+                htmlElement,
+                type,
+                jsMouseButtonToMBP(event.unsafeCast<MouseEvent>().button)
+            )
             kListener(nativeEvent)
         }
     }
@@ -256,9 +277,11 @@ private fun MouseEvent.pointOnCanvas(canvas: HTMLCanvasElement): Point {
 }
 
 
-private fun Event.toKMouseEvent(canvas: HTMLCanvasElement): KMouseEvent = unsafeCast<MouseEvent>().run {
+private fun Event.toKMouseEvent(canvas: HTMLCanvasElement, type: MouseEventType, button: MouseButtonPressed): KMouseEvent = unsafeCast<MouseEvent>().run {
     KMouseEvent(
         this.pointOnCanvas(canvas),
+        type,
+        button,
         altKey,
         ctrlKey,
         shiftKey,

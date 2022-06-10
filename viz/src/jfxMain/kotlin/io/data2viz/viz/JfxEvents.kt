@@ -23,6 +23,7 @@ import javafx.event.Event
 import javafx.event.EventHandler
 import javafx.event.EventType
 import javafx.scene.canvas.Canvas
+import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 import javafx.scene.input.ScrollEvent
 import javafx.scene.input.ZoomEvent
@@ -30,6 +31,26 @@ import kotlin.math.abs
 
 private val emptyDisposable = object : Disposable { override fun dispose() {} }
 
+private fun mouseButtonToMBP(mouseButton: MouseButton): MouseButtonPressed =
+    when (mouseButton) {
+        MouseButton.PRIMARY         -> MouseButtonPressed.Left
+        MouseButton.MIDDLE          -> MouseButtonPressed.Middle
+        MouseButton.SECONDARY       -> MouseButtonPressed.Right
+        else                        -> MouseButtonPressed.NotApplicable
+    }
+
+private fun mouseEventToMET(mouseEvent: MouseEvent): MouseEventType =
+    when (mouseEvent.eventType) {
+        MouseEvent.MOUSE_CLICKED    -> MouseEventType.Click
+        MouseEvent.MOUSE_RELEASED   -> MouseEventType.Up
+        MouseEvent.MOUSE_PRESSED    -> MouseEventType.Down
+        MouseEvent.MOUSE_ENTERED    -> MouseEventType.Enter
+        MouseEvent.MOUSE_MOVED      -> MouseEventType.Move
+        MouseEvent.MOUSE_DRAGGED    -> MouseEventType.Move
+        MouseEvent.MOUSE_EXITED     -> MouseEventType.Leave
+        MouseEvent.MOUSE_CLICKED    -> MouseEventType.DblClick
+        else                        -> MouseEventType.Unknown
+    }
 
 public actual class KTouch {
     public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
@@ -70,6 +91,13 @@ public actual class KMouseUp {
     }
 }
 
+public actual class KMouseLeave {
+    public actual companion object PointerLeaveEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+            createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_EXITED)
+    }
+}
+
 public actual class KMouseMove {
     public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
@@ -100,7 +128,7 @@ public actual class KPointerLeave {
 public actual class KPointerDoubleClick {
     public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createJvmClickEventHandle(target, listener, eventClickCount = 2)
+            createJvmDblClickEventHandle(target, listener)
     }
 }
 
@@ -205,7 +233,7 @@ private fun createSimpleJvmEventHandle(
 ): JvmEventHandle<MouseEvent> {
 
     val eventHandler = EventHandler<MouseEvent> { event ->
-        val kMouseEvent = event.toKMouseEvent()
+        val kMouseEvent = event.toKMouseEvent(mouseEventToMET(event))
         listener(kMouseEvent)
     }
     val canvas = target as Canvas
@@ -258,17 +286,14 @@ data class JvmZoomHandle(
     }
 }
 
-private fun createJvmClickEventHandle(
+private fun createJvmDblClickEventHandle(
     target: Any,
-    listener: (KPointerEvent) -> Unit,
-    eventClickCount: Int
+    listener: (KPointerEvent) -> Unit
 ): JvmEventHandle<MouseEvent> {
     val jfxEvent = MouseEvent.MOUSE_CLICKED
-
     val eventHandler = EventHandler<MouseEvent> { event ->
-        if (event.clickCount == eventClickCount) {
-            val kevent = event.toKMouseEvent()
-            listener(kevent)
+        if (event.clickCount == 2) {
+            listener(event.toKMouseEvent(MouseEventType.DblClick))
         }
     }
     val canvas = target as Canvas
@@ -288,8 +313,10 @@ internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
 }
 
 
-private fun MouseEvent.toKMouseEvent(): KMouseEvent = KMouseEvent(
+private fun MouseEvent.toKMouseEvent(mouseEventType: MouseEventType): KMouseEvent = KMouseEvent(
     Point(x, y),
+    mouseEventType,
+    mouseButtonToMBP(button),
     isAltDown,
     isControlDown,
     isShiftDown,
