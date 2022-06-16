@@ -59,95 +59,126 @@ public actual class KTouchMove {
     }
 }
 
+public actual class KTouchCancel {
+    public actual companion object TouchCancelEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
+            addSingleTouchAndroidEventHandle(target, listener, MotionEvent.ACTION_CANCEL)
+    }
+}
+
 public actual class KMouseMove {
-    public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
+    public actual companion object MouseMoveEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
 public actual class KMouseDown {
-    public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
+    public actual companion object MouseDownEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
 public actual class KMouseUp {
-    public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
+    public actual companion object MouseUpEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
-public actual class KPointerEnter {
-    public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-
-            val renderer = target as AndroidCanvasRenderer
-            val handler = object : DetectInBoundsVizTouchListener() {
-                override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
-                    if (newInBoundsValue) {
-                        val kevent = event.toKMouseEvent()
-                        listener(kevent)
-                    }
-                }
-            }
-            return AndroidActionEventHandle(renderer, MotionEvent.ACTION_MOVE, handler).also { it.init() }
-        }
+public actual class KMouseLeave {
+    public actual companion object MouseLeaveEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
-public actual class KPointerLeave {
-    public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
-
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-
-            val renderer = target as AndroidCanvasRenderer
-            val handler = object : DetectInBoundsVizTouchListener() {
-                override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
-                    if (!newInBoundsValue) {
-                        val kevent = event.toKMouseEvent()
-                        listener(kevent)
-                    }
-                }
-            }
-            return AndroidActionEventHandle(renderer, MotionEvent.ACTION_MOVE, handler).also { it.init() }
-        }
+public actual class KMouseEnter {
+    public actual companion object MouseEnterEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
-public actual class KPointerClick {
-    public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            AndroidActionEventHandle(
-                target as AndroidCanvasRenderer,
-                MotionEvent.ACTION_UP,
-                object : DetectClickVizTouchListener() {
-                    override fun onClick(event: MotionEvent) {
-                        val kEvent = event.toKMouseEvent()
-                        listener(kEvent)
-                    }
-
-                }
-            ).also { it.init() }
+public actual class KMouseClick {
+    public actual companion object MouseClickEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
-
-public actual class KPointerDoubleClick {
-    public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
-
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            AndroidActionEventHandle(
-                target as AndroidCanvasRenderer,
-                MotionEvent.ACTION_UP,
-                object : DetectDoubleClickVizTouchListener() {
-                    override fun onDoubleClick(event: MotionEvent) {
-                        val kevent = event.toKMouseEvent()
-                        listener(kevent)
-                    }
-                }
-            ).also { it.init() }
+public actual class KMouseDoubleClick {
+    public actual companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable = emptyDisposable
     }
 }
+
+//public actual class KPointerEnter {
+//    public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
+//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
+//
+//            val renderer = target as AndroidCanvasRenderer
+//            val handler = object : DetectInBoundsVizTouchListener() {
+//                override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
+//                    if (newInBoundsValue) {
+//                        val kevent = event.toKMouseEvent()
+//                        listener(kevent)
+//                    }
+//                }
+//            }
+//            return AndroidActionEventHandle(renderer, MotionEvent.ACTION_MOVE, handler).also { it.init() }
+//        }
+//    }
+//}
+//
+//public actual class KPointerLeave {
+//    public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
+//
+//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
+//
+//            val renderer = target as AndroidCanvasRenderer
+//            val handler = object : DetectInBoundsVizTouchListener() {
+//                override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
+//                    if (!newInBoundsValue) {
+//                        val kevent = event.toKMouseEvent()
+//                        listener(kevent)
+//                    }
+//                }
+//            }
+//            return AndroidActionEventHandle(renderer, MotionEvent.ACTION_MOVE, handler).also { it.init() }
+//        }
+//    }
+//}
+//
+//public actual class KPointerClick {
+//    public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
+//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
+//            AndroidActionEventHandle(
+//                target as AndroidCanvasRenderer,
+//                MotionEvent.ACTION_UP,
+//                object : DetectClickVizTouchListener() {
+//                    override fun onClick(event: MotionEvent) {
+//                        val kEvent = event.toKMouseEvent()
+//                        listener(kEvent)
+//                    }
+//
+//                }
+//            ).also { it.init() }
+//    }
+//}
+//
+//
+//public actual class KPointerDoubleClick {
+//    public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
+//
+//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
+//            AndroidActionEventHandle(
+//                target as AndroidCanvasRenderer,
+//                MotionEvent.ACTION_UP,
+//                object : DetectDoubleClickVizTouchListener() {
+//                    override fun onDoubleClick(event: MotionEvent) {
+//                        val kevent = event.toKMouseEvent()
+//                        listener(kevent)
+//                    }
+//                }
+//            ).also { it.init() }
+//    }
+//}
 
 @ExperimentalKEvent
 public actual class KZoom {

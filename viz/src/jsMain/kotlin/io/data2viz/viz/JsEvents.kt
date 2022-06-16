@@ -39,37 +39,51 @@ private fun jsMouseButtonToMBP(jsMouseButton: Short): MouseButtonPressed {
 }
 
 public actual class KMouseDown {
-    public actual companion object PointerDownEventListener : KEventListener<KMouseEvent> {
+    public actual companion object MouseDownEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
             createMouseJsListener(target, listener, "mousedown", MouseEventType.Down, )
     }
 }
 
 public actual class KMouseUp {
-    public actual companion object PointerUpEventListener : KEventListener<KMouseEvent> {
+    public actual companion object MouseUpEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
             createMouseJsListener(target, listener, "mouseup", MouseEventType.Up)
     }
 }
 
+public actual class KMouseMove {
+    public actual companion object MouseMoveEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+            createMouseJsListener(target, listener, "mousemove", MouseEventType.Move)
+    }
+}
+
+public actual class KMouseEnter {
+    public actual companion object MouseEnterEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+            createMouseJsListener(target, listener, "mouseenter", MouseEventType.Enter)
+    }
+}
+
 public actual class KMouseLeave {
-    public actual companion object PointerLeaveEventListener : KEventListener<KMouseEvent> {
+    public actual companion object MouseLeaveEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
             createMouseJsListener(target, listener, "mouseleave", MouseEventType.Leave)
     }
 }
 
-public actual class KPointerEnter {
-    public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "mouseenter", MouseEventType.Enter)
+public actual class KMouseClick {
+    public actual companion object MouseClickEventListener : KEventListener<KMouseEvent> {
+        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+            createMouseJsListener(target, listener, "click", MouseEventType.Click)
     }
 }
 
-public actual class KMouseMove {
-    public actual companion object PointerMoveEventListener : KEventListener<KMouseEvent> {
+public actual class KMouseDoubleClick {
+    public actual companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent> {
         override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "mousemove", MouseEventType.Move)
+            createMouseJsListener(target, listener, "dblclick", MouseEventType.DoubleClick)
     }
 }
 
@@ -103,27 +117,10 @@ public actual class KTouchMove {
     }
 }
 
-
-public actual class KPointerLeave {
-    public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
+public actual class KTouchCancel {
+    public actual companion object TouchCancelEventListener : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "mouseleave", MouseEventType.Leave)
-    }
-}
-
-
-public actual class KPointerDoubleClick {
-    public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "dblclick", MouseEventType.DblClick)
-    }
-}
-
-
-public actual class KPointerClick {
-    public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createMouseJsListener(target, listener, "click", MouseEventType.Click)
+            createTouchJsListener(target, listener, "touchcancel")
     }
 }
 
@@ -145,8 +142,10 @@ public actual class KZoom {
             val nativeListener = object : EventListener {
                 override fun handleEvent(event: Event) {
                     (event as WheelEvent).apply {
+
                         // don't actually zoom/scroll in browser
                         event.preventDefault()
+
                         // invert value to work as Android & JFX
                         val invertedDelta = deltaY * -1
 
@@ -192,6 +191,7 @@ private fun createMouseJsListener(
     val htmlElement = target.unsafeCast<HTMLCanvasElement>()
     val nativeListener = object : EventListener {
         override fun handleEvent(event: Event) {
+            event.preventDefault()
             val nativeEvent = event.toKMouseEvent(
                 htmlElement,
                 type,
@@ -212,6 +212,7 @@ private fun createTouchJsListener(
     val htmlElement = target.unsafeCast<HTMLCanvasElement>()
     val nativeListener = object : EventListener {
         override fun handleEvent(event: Event) {
+            event.preventDefault()
             val nativeEvent = event.toKTouchEvent(htmlElement)
             if(nativeEvent != null)
                 kListener(nativeEvent)

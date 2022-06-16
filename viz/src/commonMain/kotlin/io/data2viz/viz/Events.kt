@@ -46,11 +46,11 @@ public interface KPointerEvent: KEvent {
 public enum class MouseEventType {
     Down,
     Up,
-    Enter,
     Move,
+    Enter,
     Leave,
     Click,
-    DblClick,
+    DoubleClick,
     Unknown
 }
 
@@ -173,20 +173,33 @@ public interface KEventListener<T> where  T : KEvent {
     public fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
 }
 
-public expect class KMouseMove {
-    public companion object PointerMoveEventListener : KEventListener<KMouseEvent>
-}
 
 public expect class KMouseDown {
-    public companion object PointerDownEventListener : KEventListener<KMouseEvent>
+    public companion object MouseDownEventListener : KEventListener<KMouseEvent>
 }
 
 public expect class KMouseUp {
-    public companion object PointerUpEventListener : KEventListener<KMouseEvent>
+    public companion object MouseUpEventListener : KEventListener<KMouseEvent>
+}
+
+public expect class KMouseMove {
+    public companion object MouseMoveEventListener : KEventListener<KMouseEvent>
+}
+
+public expect class KMouseEnter {
+    public companion object MouseEnterEventListener : KEventListener<KMouseEvent>
 }
 
 public expect class KMouseLeave {
-    public companion object PointerLeaveEventListener : KEventListener<KMouseEvent>
+    public companion object MouseLeaveEventListener : KEventListener<KMouseEvent>
+}
+
+public expect class KMouseClick {
+    public companion object MouseClickEventListener : KEventListener<KMouseEvent>
+}
+
+public expect class KMouseDoubleClick {
+    public companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent>
 }
 
 public expect class KTouch {
@@ -205,20 +218,8 @@ public expect class KTouchMove {
     public companion object TouchMoveEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KPointerEnter {
-    public companion object PointerEnterEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerLeave {
-    public companion object PointerLeaveEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerClick {
-    public companion object PointerClickEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerDoubleClick {
-    public companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
+public expect class KTouchCancel {
+    public companion object TouchCancelEventListener : KEventListener<KPointerEvent>
 }
 
 public class KDragEvent(
@@ -324,7 +325,7 @@ public class KPointerDrag {
                 }
             })
 
-            compositeDisposable.add(KPointerLeave.addNativeListener(target) {
+            compositeDisposable.add(KMouseLeave.addNativeListener(target) {
                 onDragNotPossible(listener, it)
             })
 

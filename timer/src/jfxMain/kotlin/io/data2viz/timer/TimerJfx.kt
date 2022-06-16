@@ -67,7 +67,7 @@ internal class JavaFxTimer : AnimationTimer() {
         try {
             Platform.startup {}
         } catch (ex: IllegalStateException){
-            //May throw an IllegalStateException if Platfor is already started.
+            //May throw an IllegalStateException if Platform is already started.
         }
     }
 
