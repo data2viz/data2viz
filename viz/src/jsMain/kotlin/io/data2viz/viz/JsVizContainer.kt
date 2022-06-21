@@ -79,11 +79,11 @@ internal class JsVizContainer(
         allViz.add(viz)
 
         val canvas = div.appendElement("canvas") {} as HTMLCanvasElement
-        canvas.style.position = "absolute"
-        canvas.style.left = "0"
-        canvas.style.top = "0"
-        canvas.style.zIndex = "${allViz.size}"
 
+        // Cancel all "browser touch behaviors" so the library can handle them and not the browser
+        // Use the setAttribute function because the "touch-action" is not a property of the [CSSStyleDeclaration]
+        canvas.setAttribute("style",
+            "position: absolute; left: 0; top: 0; z-index: ${allViz.size}; touch-action: none")
 
         init(viz)
         viz.size = size
