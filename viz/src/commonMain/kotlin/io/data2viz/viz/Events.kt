@@ -34,23 +34,106 @@ public interface KEvent
 
 
 /**
- * A KPointerEvent has a position.
+ * The Pointer Event interface.
+ * Extends [HasMetaKeys]
+ *
+ * @property pos The position of the pointer
+ * @property eventType The type of the event as an [EventType]
+ * @property pointerType The type of the pointer as a [PointerType]
+ * @property buttonPressed The button pressed when using a mouse, else MouseButtonPressed.NotApplicable
+ * @property activePointerIndex The index of the pointer that triggers the event, in case of a multitouch
+ * @property pointers The index-ordered list of all pointers (including this one) as [KPointer], useful for multitouch
  */
-public interface KPointerEvent: KEvent {
+public interface KPointerEvent: KEvent, HasMetaKeys {
     public val pos: Point
+    public val eventType: EventType
+    public val pointerType: PointerType
+    public val buttonPressed: MouseButtonPressed
+    public val activePointerIndex: Int
+    public val pointers: List<KPointer>
 }
 
 /**
- * Description of the MouseEvent type
+ * Description of the PointerEvent type
  */
-public enum class MouseEventType {
+public enum class EventType {
+
+    /**
+     * The pointer is "pressed down" could be a touch or a mouse down action
+     */
     Down,
+
+    /**
+     * The pointer is "released" could be a touch release or a mouse up action
+     */
     Up,
+
+    /**
+     * The pointer is moved
+     */
     Move,
+
+    /**
+     * The pointer enters the [Viz]
+     */
     Enter,
+
+    /**
+     * The pointer leaves the [Viz]
+     */
     Leave,
+
+    /**
+     * A click event is a quick press and release of the same pointer.
+     * Note that you'll receive 3 events: Down, [Up + Click] if they are done fast enough.
+     */
     Click,
+
+    /**
+     * A double click event is a quick double press and release of the same pointer
+     * Note that you'll receive 7 events: Down, [Up + Click], Down, [Up + Click + DoubleClick] if they are
+     * done fast enough.
+     */
     DoubleClick,
+
+    /**
+     * A "cancel" event is fired when the device cancel the current operation (for example in case of a tablet
+     * rotation or if the device has been disabled during the event...)
+     */
+    Cancel,
+
+    /**
+     * An unknown event is triggered, this should not happen :)
+     */
+    Unknown;
+
+    internal val toBeRemoved
+        get() = this == Cancel || this == Leave || this == Up || this == Unknown
+}
+
+/**
+ * Defines the device that triggers a [KPointerEvent]
+ */
+public enum class PointerType {
+
+    /**
+     * A standard Mouse device.
+     */
+    Mouse,
+
+    /**
+     * A touch device
+     */
+    Touch,
+
+    /**
+     * A stylus or pen, note that the [KPointerEvent] does not handle pen specificities like angle and pressure...
+     */
+    Pen,
+
+    /**
+     * Unknown device, this should not happen :)
+     */
     Unknown
 }
 
@@ -58,28 +141,47 @@ public enum class MouseEventType {
  * Description of the Mouse button pressed if applicable.
  */
 public enum class MouseButtonPressed {
+
+    /**
+     * The mouse button is not applicable (ie. it is a pen or a touch device)
+     */
     NotApplicable,
+
+    /**
+     * Left mouse button (index 0)
+     */
     Left,
+
+    /**
+     * Middle mouse button (index 1)
+     */
     Middle,
+
+    /**
+     * Right mouse button (index 2)
+     */
     Right,
+
+    /**
+     * Fourth mouse button (index 3)
+     */
     Fourth,
+
+    /**
+     * Fifth mouse button (index 4)
+     */
     Fifth
 }
 
-/**
- * Pointer events for platform with Mouse input device.
- * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
- * Used in JFX & JS implementations. Android implementation use common KPointerEvent.
- *
- * @property type the mouse event type
- * @property type the mouse burron pressed
- * @see [MouseEventType]
- * @see [MouseButtonPressed]
- */
-public interface KMouseEvent: KPointerEvent, HasMetaKeys {
-    public val type: MouseEventType
-    public val buttonPressed: MouseButtonPressed
-}
+///**
+// * Pointer events for platform with Mouse input device.
+// * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
+// * Used in JFX & JS implementations. Android implementation use common KPointerEvent.
+// *
+// * @property eventType the [PointerEventType]
+// * @property buttonPressed the [MouseButtonPressed]
+// */
+//public interface KMouseEvent: KPointerEvent, HasMetaKeys
 
 /**
  * Allow the access to the ALT, CTRL, META, SHIFT key during an event
@@ -89,6 +191,11 @@ public interface HasMetaKeys{
     public val ctrlKey: Boolean
     public val shiftKey: Boolean
     public val metaKey: Boolean
+
+    /**
+     * No "meta key" is pressed (not CTRL, SHIFT, ALT or META)
+     */
+    public fun noKey(): Boolean
 }
 
 /**
@@ -105,13 +212,22 @@ public interface Disposable {
 
 
 /**
- * Common Pointer event. Can be subclassed into more specific events.
- * Gives access to the position of the event.
+ * Common Pointer event.
  */
 @InternalAPI
 internal open class KPointerEventImpl(
-    public override val pos: Point
-) : KPointerEvent {
+    public override val pos: Point,
+    public override val eventType: EventType,
+    public override val pointerType: PointerType,
+    public override val buttonPressed: MouseButtonPressed,
+    public override val activePointerIndex: Int,
+    public override val pointers: List<KPointer>,
+    altKey: Boolean,
+    ctrlKey: Boolean,
+    shiftKey: Boolean,
+    metaKey: Boolean
+) : KPointerEvent, HasMetaKeys by HasMetaKeysImpl(altKey, ctrlKey, shiftKey, metaKey) {
+
     override fun toString(): String = "KPointerEvent(pos=$pos)"
 }
 
@@ -136,36 +252,38 @@ public data class KPointer(
 )
 
 
-public fun KMouseEvent(pos: Point,
-                       type: MouseEventType,
-                       buttonPressed: MouseButtonPressed,
-                       altKey: Boolean,
-                       ctrlKey: Boolean,
-                       shiftKey: Boolean,
-                       metaKey: Boolean): KMouseEvent = KMouseEventImpl(pos, type, buttonPressed, altKey, ctrlKey, shiftKey, metaKey)
+//public fun KMouseEvent(pos: Point,
+//                       type: PointerEventType,
+//                       buttonPressed: MouseButtonPressed,
+//                       altKey: Boolean,
+//                       ctrlKey: Boolean,
+//                       shiftKey: Boolean,
+//                       metaKey: Boolean): KMouseEvent = KMouseEventImpl(pos, type, buttonPressed, altKey, ctrlKey, shiftKey, metaKey)
+
+
+//@InternalAPI
+//internal class KMouseEventImpl(
+//    pos: Point,
+//    public override val eventType: PointerEventType,
+//    public override val buttonPressed: MouseButtonPressed,
+//    public override val altKey: Boolean,
+//    public override val ctrlKey: Boolean,
+//    public override val shiftKey: Boolean,
+//    public override val metaKey: Boolean
+//) : KPointerEventImpl(pos, eventType, PointerType.Mouse, buttonPressed, 0, altKey, ctrlKey, shiftKey, metaKey), KMouseEvent {
+//    override fun toString(): String = "KMouseEvent(pos=$pos)"
+//}
 
 
 @InternalAPI
-internal class KMouseEventImpl(
-    pos: Point,
-    public override val type: MouseEventType,
-    public override val buttonPressed: MouseButtonPressed,
-    public override val altKey: Boolean,
-    public override val ctrlKey: Boolean,
-    public override val shiftKey: Boolean,
-    public override val metaKey: Boolean
-) : KPointerEventImpl(pos), KMouseEvent {
-    override fun toString(): String = "KMouseEvent(pos=$pos)"
-}
-
-
-@InternalAPI
-internal data class HasMetaKeysImpl (
+internal data class HasMetaKeysImpl(
     public override val altKey: Boolean = false,
     public override val ctrlKey: Boolean = false,
     public override val shiftKey: Boolean = false,
     public override val metaKey: Boolean = false
-        ): HasMetaKeys
+) : HasMetaKeys {
+    public override fun noKey(): Boolean = (!altKey && !ctrlKey && !shiftKey && !metaKey)
+}
 
 // TODO : manage "velocity" and "drag event"
 
@@ -174,53 +292,57 @@ public interface KEventListener<T> where  T : KEvent {
 }
 
 
-public expect class KMouseDown {
-    public companion object MouseDownEventListener : KEventListener<KMouseEvent>
+public expect class KPointerDown {
+    public companion object PointerDownEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KMouseUp {
-    public companion object MouseUpEventListener : KEventListener<KMouseEvent>
+public expect class KPointerUp {
+    public companion object PointerUpEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KMouseMove {
-    public companion object MouseMoveEventListener : KEventListener<KMouseEvent>
+public expect class KPointerMove {
+    public companion object PointerMoveEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KMouseEnter {
-    public companion object MouseEnterEventListener : KEventListener<KMouseEvent>
+public expect class KPointerEnter {
+    public companion object PointerEnterEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KMouseLeave {
-    public companion object MouseLeaveEventListener : KEventListener<KMouseEvent>
+public expect class KPointerLeave {
+    public companion object PointerLeaveEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KMouseClick {
-    public companion object MouseClickEventListener : KEventListener<KMouseEvent>
+public expect class KPointerClick {
+    public companion object PointerClickEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KMouseDoubleClick {
-    public companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent>
+public expect class KPointerDoubleClick {
+    public companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KTouch {
-    public companion object TouchEventListener : KEventListener<KTouchEvent>
+public expect class KPointerCancel {
+    public companion object PointerCancelEventListener : KEventListener<KPointerEvent>
 }
 
-public expect class KTouchStart {
-    public companion object TouchStartEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KTouchEnd {
-    public companion object TouchEndEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KTouchMove {
-    public companion object TouchMoveEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KTouchCancel {
-    public companion object TouchCancelEventListener : KEventListener<KPointerEvent>
-}
+//public expect class KTouch {
+//    public companion object TouchEventListener : KEventListener<KTouchEvent>
+//}
+//
+//public expect class KTouchStart {
+//    public companion object TouchStartEventListener : KEventListener<KPointerEvent>
+//}
+//
+//public expect class KTouchEnd {
+//    public companion object TouchEndEventListener : KEventListener<KPointerEvent>
+//}
+//
+//public expect class KTouchMove {
+//    public companion object TouchMoveEventListener : KEventListener<KPointerEvent>
+//}
+//
+//public expect class KTouchCancel {
+//    public companion object TouchCancelEventListener : KEventListener<KPointerEvent>
+//}
 
 public class KDragEvent(
     public val action: KDragAction,
@@ -313,7 +435,7 @@ public class KPointerDrag {
 
             val compositeDisposable = CompositeDisposable()
 
-            compositeDisposable.add(KMouseMove.addNativeListener(target) {
+            compositeDisposable.add(KPointerMove.addNativeListener(target) {
                 if (dragInProgress) {
                     listener(KDragEvent(KDragEvent.KDragAction.Dragging, it))
                 } else {
@@ -325,15 +447,15 @@ public class KPointerDrag {
                 }
             })
 
-            compositeDisposable.add(KMouseLeave.addNativeListener(target) {
+            compositeDisposable.add(KPointerLeave.addNativeListener(target) {
                 onDragNotPossible(listener, it)
             })
 
-            compositeDisposable.add(KMouseDown.addNativeListener(target) {
+            compositeDisposable.add(KPointerDown.addNativeListener(target) {
                 downActionPos = it.pos
             })
 
-            compositeDisposable.add(KMouseUp.addNativeListener(target) {
+            compositeDisposable.add(KPointerUp.addNativeListener(target) {
                 onDragNotPossible(listener, it)
             })
 

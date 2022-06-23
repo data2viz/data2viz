@@ -39,66 +39,66 @@ private fun mouseButtonToMBP(mouseButton: MouseButton): MouseButtonPressed =
         else                        -> MouseButtonPressed.NotApplicable
     }
 
-private fun mouseEventToMET(mouseEvent: MouseEvent): MouseEventType =
+private fun mouseEventToEventType(mouseEvent: MouseEvent): io.data2viz.viz.EventType =
     when (mouseEvent.eventType) {
-        MouseEvent.MOUSE_CLICKED    -> MouseEventType.Click
-        MouseEvent.MOUSE_RELEASED   -> MouseEventType.Up
-        MouseEvent.MOUSE_PRESSED    -> MouseEventType.Down
-        MouseEvent.MOUSE_ENTERED    -> MouseEventType.Enter
-        MouseEvent.MOUSE_MOVED      -> MouseEventType.Move
-        MouseEvent.MOUSE_DRAGGED    -> MouseEventType.Move
-        MouseEvent.MOUSE_EXITED     -> MouseEventType.Leave
-        else                        -> MouseEventType.Unknown
+        MouseEvent.MOUSE_CLICKED    -> io.data2viz.viz.EventType.Click
+        MouseEvent.MOUSE_RELEASED   -> io.data2viz.viz.EventType.Up
+        MouseEvent.MOUSE_PRESSED    -> io.data2viz.viz.EventType.Down
+        MouseEvent.MOUSE_ENTERED    -> io.data2viz.viz.EventType.Enter
+        MouseEvent.MOUSE_MOVED      -> io.data2viz.viz.EventType.Move
+        MouseEvent.MOUSE_DRAGGED    -> io.data2viz.viz.EventType.Move
+        MouseEvent.MOUSE_EXITED     -> io.data2viz.viz.EventType.Leave
+        else                        -> io.data2viz.viz.EventType.Unknown
     }
 
-public actual class KTouch {
-    public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
-        override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable = emptyDisposable
-    }
-}
+//public actual class KTouch {
+//    public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
+//        override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable = emptyDisposable
+//    }
+//}
+//
+//public actual class KTouchStart {
+//    public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
+//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
+//    }
+//}
+//
+//public actual class KTouchEnd {
+//    public actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
+//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
+//    }
+//}
+//
+//public actual class KTouchMove {
+//    public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
+//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
+//    }
+//}
+//
+//public actual class KTouchCancel {
+//    public actual companion object TouchCancelEventListener : KEventListener<KPointerEvent> {
+//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
+//    }
+//}
 
-public actual class KTouchStart {
-    public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
-    }
-}
 
-public actual class KTouchEnd {
-    public actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
-    }
-}
-
-public actual class KTouchMove {
-    public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
-    }
-}
-
-public actual class KTouchCancel {
-    public actual companion object TouchCancelEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
-    }
-}
-
-
-public actual class KMouseDown {
-    public actual companion object MouseDownEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+public actual class KPointerDown {
+    public actual companion object PointerDownEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_PRESSED)
     }
 }
 
-public actual class KMouseUp {
-    public actual companion object MouseUpEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+public actual class KPointerUp {
+    public actual companion object PointerUpEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_RELEASED)
     }
 }
 
-public actual class KMouseMove {
-    public actual companion object MouseMoveEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable {
+public actual class KPointerMove {
+    public actual companion object PointerMoveEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
 
             // Add listeners for both events MOVED & DRAGGED, because MOVED not fires when any button pressed
             // but JS behaviour is different
@@ -108,32 +108,38 @@ public actual class KMouseMove {
     }
 }
 
-public actual class KMouseEnter {
-    public actual companion object MouseEnterEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+public actual class KPointerEnter {
+    public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_ENTERED)
     }
 }
 
-public actual class KMouseLeave {
+public actual class KPointerLeave {
 
-    public actual companion object MouseLeaveEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+    public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_EXITED)
     }
 }
 
-public actual class KMouseClick {
-    public actual companion object MouseClickEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+public actual class KPointerClick {
+    public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_CLICKED)
     }
 }
 
-public actual class KMouseDoubleClick {
-    public actual companion object MouseDoubleClickEventListener : KEventListener<KMouseEvent> {
-        override fun addNativeListener(target: Any, listener: (KMouseEvent) -> Unit): Disposable =
+public actual class KPointerDoubleClick {
+    public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
             createJvmDblClickEventHandle(target, listener)
+    }
+}
+
+public actual class KPointerCancel {
+    public actual companion object PointerCancelEventListener : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
@@ -218,20 +224,20 @@ public actual class KZoom {
 
 
 private fun createSimpleJvmEventHandle(
-    listener: (KMouseEvent) -> Unit,
+    listener: (KPointerEvent) -> Unit,
     target: Any,
     jfxEvent: EventType<MouseEvent>
 ): JvmEventHandle<MouseEvent> =
     createSimpleJvmEventHandle(listener, target, listOf(jfxEvent))
 
 private fun createSimpleJvmEventHandle(
-    listener: (KMouseEvent) -> Unit,
+    listener: (KPointerEvent) -> Unit,
     target: Any,
     jfxEvents: List<EventType<MouseEvent>>
 ): JvmEventHandle<MouseEvent> {
 
     val eventHandler = EventHandler<MouseEvent> { event ->
-        val kMouseEvent = event.toKMouseEvent(mouseEventToMET(event))
+        val kMouseEvent = event.toKMouseEvent(mouseEventToEventType(event))
         listener(kMouseEvent)
     }
     val canvas = target as Canvas
@@ -286,12 +292,12 @@ data class JvmZoomHandle(
 
 private fun createJvmDblClickEventHandle(
     target: Any,
-    listener: (KMouseEvent) -> Unit
+    listener: (KPointerEvent) -> Unit
 ): JvmEventHandle<MouseEvent> {
     val jfxEvent = MouseEvent.MOUSE_CLICKED
     val eventHandler = EventHandler<MouseEvent> { event ->
         if (event.clickCount == 2) {
-            listener(event.toKMouseEvent(MouseEventType.DoubleClick))
+            listener(event.toKMouseEvent(io.data2viz.viz.EventType.DoubleClick))
         }
     }
     val canvas = target as Canvas
@@ -311,13 +317,20 @@ internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
 }
 
 
-private fun MouseEvent.toKMouseEvent(mouseEventType: MouseEventType): KMouseEvent = KMouseEvent(
-    Point(x, y),
-    mouseEventType,
-    mouseButtonToMBP(button),
-    isAltDown,
-    isControlDown,
-    isShiftDown,
-    isMetaDown
-)
+private fun MouseEvent.toKMouseEvent(eventType: io.data2viz.viz.EventType): KPointerEvent {
+    val index = 0
+    val pos = Point(x, y)
+    return KPointerEventImpl(
+        pos,
+        eventType,
+        PointerType.Mouse,
+        mouseButtonToMBP(button),
+        index,
+        listOf(KPointer(index, pos)),
+        isAltDown,
+        isControlDown,
+        isShiftDown,
+        isMetaDown
+    )
+}
 
