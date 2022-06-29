@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021. data2viz sàrl.
+ * Copyright (c) 2018-2022. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,17 +25,13 @@ import platform.UIKit.*
 
 
 @ExportObjCClass
-public class VizContainerView():
-
-    UIView(frame = CGRectMake(.0, .0, .0, .0)),
-    UIViewWithOverridesProtocol{
+public class VizContainerView(): UIView(frame = CGRectMake(.0, .0, .0, .0)), UIViewWithOverridesProtocol {
 
     internal val vizContainer:IosVizContainer = IosVizContainer().apply {
         size = bounds.useContents { Size(this.size.width, this.size.height) }
     }
 
-    val container:VizContainer
-        get() = vizContainer
+    public val container: VizContainer get() = vizContainer
 
     override fun layoutSubviews() {
 //        println("VizContainerView.layoutSubviews... " + this.bounds.toDescription())
@@ -62,10 +58,7 @@ public class VizContainerView():
 
 internal class IosVizContainer(
     internal val resizableSupport: ResizableSupport = ResizableSupport()
-) :
-    VizContainer,
-    Resizable by resizableSupport
-{
+) : VizContainer, Resizable by resizableSupport {
 
     override var size: Size = Size(100.0, 100.0)
         set(value) {
@@ -81,7 +74,7 @@ internal class IosVizContainer(
 
     override var vizList = mutableListOf<Viz>()
 
-    public override fun newViz(init: Viz.() -> Unit): Viz{
+    override fun newViz(init: Viz.() -> Unit): Viz{
         val viz = Viz().apply(init)
         vizList.add(viz)
         return viz

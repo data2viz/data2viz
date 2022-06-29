@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021. data2viz sàrl.
+ * Copyright (c) 2018-2022. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,15 +18,15 @@
 package io.data2viz.viz
 
 import io.data2viz.viz.cinterop.UIViewWithOverridesProtocol
-import io.data2viz.viz.Viz
 import kotlinx.cinterop.*
 import platform.CoreGraphics.*
 import platform.UIKit.*
 
 @ExportObjCClass
-class IOSCanvasView(val viz: Viz, frame: CValue<CGRect> = CGRectMake(.0, .0, .0, .0)) :
-    UIView(frame = frame),
-    UIViewWithOverridesProtocol {
+public class IOSCanvasView(
+    public val viz: Viz,
+    frame: CValue<CGRect> = CGRectMake(.0, .0, .0, .0)
+) : UIView(frame = frame), UIViewWithOverridesProtocol {
 
     private val renderer = IOSCanvasRenderer(viz, this)
 
@@ -49,13 +49,25 @@ class IOSCanvasView(val viz: Viz, frame: CValue<CGRect> = CGRectMake(.0, .0, .0,
     }
 
 
-    override fun touchesBegan(touches: Set<*>, withEvent: UIEvent?) 	{ uiTouchesHandler?.touchesBegan(touches, withEvent) }
-    override fun touchesMoved(touches: Set<*>, withEvent: UIEvent?) 	{ uiTouchesHandler?.touchesMoved(touches, withEvent) }
-    override fun touchesEnded(touches: Set<*>, withEvent: UIEvent?) 	{ uiTouchesHandler?.touchesEnded(touches, withEvent) }
-    override fun touchesCancelled(touches: Set<*>, withEvent: UIEvent?) { uiTouchesHandler?.touchesCancelled(touches, withEvent) }
+    @Suppress("unchecked_cast")
+    override fun touchesBegan(touches: Set<*>, withEvent: UIEvent?) {
+        uiTouchesHandler?.touchesBegan(touches as Set<UITouch>, withEvent)
+    }
 
+    @Suppress("unchecked_cast")
+    override fun touchesMoved(touches: Set<*>, withEvent: UIEvent?) {
+        uiTouchesHandler?.touchesMoved(touches as Set<UITouch>, withEvent)
+    }
 
+    @Suppress("unchecked_cast")
+    override fun touchesEnded(touches: Set<*>, withEvent: UIEvent?) {
+        uiTouchesHandler?.touchesEnded(touches as Set<UITouch>, withEvent)
+    }
 
+    @Suppress("unchecked_cast")
+    override fun touchesCancelled(touches: Set<*>, withEvent: UIEvent?) {
+        uiTouchesHandler?.touchesCancelled(touches as Set<UITouch>, withEvent)
+    }
 }
 
 

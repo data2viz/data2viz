@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021. data2viz sàrl.
+ * Copyright (c) 2018-2022. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,21 +30,21 @@ import org.w3c.dom.pointerevents.PointerEvent
 import kotlin.js.Date
 
 private fun translateMBT(jsMouseButton: Short): MouseButtonPressed {
-    return when(jsMouseButton) {
-        1.toShort()         -> MouseButtonPressed.Middle
-        2.toShort()         -> MouseButtonPressed.Right
-        3.toShort()         -> MouseButtonPressed.Fourth
-        4.toShort()         -> MouseButtonPressed.Fifth
-        else                -> MouseButtonPressed.Left
+    return when (jsMouseButton) {
+        1.toShort() -> MouseButtonPressed.Middle
+        2.toShort() -> MouseButtonPressed.Right
+        3.toShort() -> MouseButtonPressed.Fourth
+        4.toShort() -> MouseButtonPressed.Fifth
+        else -> MouseButtonPressed.Left
     }
 }
 
 private fun translatePT(jsPointerType: String): PointerType {
-    return when(jsPointerType) {
-        "mouse"         -> PointerType.Mouse
-        "pen"           -> PointerType.Pen
-        "touch"         -> PointerType.Touch
-        else            -> PointerType.Unknown
+    return when (jsPointerType) {
+        "mouse" -> PointerType.Mouse
+        "pen" -> PointerType.Pen
+        "touch" -> PointerType.Touch
+        else -> PointerType.Unknown
     }
 }
 
@@ -60,156 +60,102 @@ private val pointersMap: MutableMap<Int, KPointer> = mutableMapOf()
 private val allPointers
     get() = pointersMap.values.sortedBy { it.id }.mapIndexed { index, kPointer -> KPointer(index, kPointer.pos) }
 
-public actual class KPointerDown {
-    public actual companion object PointerDownEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createPointerJSListener(target, listener, "pointerdown", EventType.Down)
-    }
-}
-
-public actual class KPointerUp {
-    public actual companion object PointerUpEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createPointerJSListener(target, listener, "pointerup", EventType.Up)
-    }
-}
-
-public actual class KPointerMove {
-    public actual companion object PointerMoveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createPointerJSListener(target, listener, "pointermove", EventType.Move)
-    }
-}
-
-public actual class KPointerEnter {
-    public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createPointerJSListener(target, listener, "pointerenter", EventType.Enter)
-    }
-}
-
-public actual class KPointerLeave {
-    public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createPointerJSListener(target, listener, "pointerleave", EventType.Leave)
-    }
-}
-
-public actual class KPointerClick {
-    public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createPointerJSListener(target, listener, "click", EventType.Click)
-    }
-}
-
-public actual class KPointerDoubleClick {
-    public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createPointerJSListener(target, listener, "dblclick", EventType.DoubleClick)
-    }
-}
-
-public actual class KPointerCancel {
-    public actual companion object PointerCancelEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createPointerJSListener(target, listener, "pointercancel", EventType.Cancel)
-    }
-}
-
-//private val emptyDisposable = object : Disposable { override fun dispose() {} }
-
-
-//public actual class KTouch {
-//    public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
-//        override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable = emptyDisposable
-//    }
-//}
-//
-//public actual class KTouchStart {
-//    public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
-//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-//            createTouchJsListener(target, listener, "touchstart")
-//    }
-//}
-//
-//public actual class KTouchEnd {
-//    public actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
-//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-//            createTouchJsListener(target, listener, "touchend")
-//    }
-//}
-//
-//public actual class KTouchMove {
-//    public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
-//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-//            createTouchJsListener(target, listener, "touchmove")
-//    }
-//}
-//
-//public actual class KTouchCancel {
-//    public actual companion object TouchCancelEventListener : KEventListener<KPointerEvent> {
-//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-//            createTouchJsListener(target, listener, "touchcancel")
-//    }
-//}
-
-@ExperimentalKEvent
-public actual class KZoom {
-    public actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
-
-        private const val minGestureZoomDeltaValue = -10.0
-        private const val maxGestureZoomDeltaValue = 10.0
-
-        private const val minWheelZoomDeltaValue = -100.0
-        private const val maxWheelZoomDeltaValue = 100.0
-
-        private var lastZoomTime: Double? = null
-        private lateinit var zoomStartPoint: Point
-
-        override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
-            val htmlElement = target.unsafeCast<HTMLCanvasElement>()
-            val nativeListener = object : EventListener {
-                override fun handleEvent(event: Event) {
-                    (event as WheelEvent).apply {
-
-                        // don't actually zoom/scroll in browser
-                        event.preventDefault()
-
-                        // invert value to work as Android & JFX
-                        val invertedDelta = deltaY * -1
-
-                        val currentTime = Date.now()
-                        if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
-                            zoomStartPoint = pointOnCanvas(htmlElement)
-                        }
-                        if (event.ctrlKey) {
-                            // wheel
-                            listener(
-                                KZoomEvent(
-                                    zoomStartPoint,
-                                    KZoomEvent.scaleDelta(invertedDelta, minWheelZoomDeltaValue, maxWheelZoomDeltaValue),
-                                    hasMetaKeys = HasMetaKeysImpl(event.altKey, event.ctrlKey, event.shiftKey, event.metaKey)
-                                )
-                            )
-                        } else {
-                            // gesture
-                            listener(
-                                KZoomEvent(
-                                    zoomStartPoint,
-                                    KZoomEvent.scaleDelta(invertedDelta, minGestureZoomDeltaValue, maxGestureZoomDeltaValue),
-                                    hasMetaKeys = HasMetaKeysImpl(event.altKey, event.ctrlKey, event.shiftKey, event.metaKey)
-                                )
-                            )
-                        }
-                        lastZoomTime = currentTime
-                    }
-                }
-            }
-            return DisposableJsListener(htmlElement, "wheel", nativeListener).also { it.init() }
+internal actual fun pointerEventsListener(type: EventType): KEventListener<KPointerEvent> {
+    require(type != EventType.Unknown)
+    return object : KEventListener<KPointerEvent> {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
+            return createPointerJSListener(
+                target = target,
+                kListener = listener,
+                jsEventName = when (type) {
+                    EventType.Down -> "pointerdown"
+                    EventType.Up -> "pointerup"
+                    EventType.Move -> "pointermove"
+                    EventType.Enter -> "pointerenter"
+                    EventType.Leave -> "pointerleave"
+                    EventType.Click -> "click"
+                    EventType.DoubleClick -> "dblclick"
+                    EventType.Cancel -> "pointercancel"
+                    EventType.Unknown -> error("Impossible")
+                },
+                type = type
+            )
         }
     }
 }
 
+@ExperimentalKEvent
+internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : KEventListener<KZoomEvent> {
+
+    private val minGestureZoomDeltaValue = -10.0
+    private val maxGestureZoomDeltaValue = 10.0
+
+    private val minWheelZoomDeltaValue = -100.0
+    private val maxWheelZoomDeltaValue = 100.0
+
+    private var lastZoomTime: Double? = null
+    private lateinit var zoomStartPoint: Point
+
+    override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
+        val htmlElement = target.unsafeCast<HTMLCanvasElement>()
+        val nativeListener = object : EventListener {
+            override fun handleEvent(event: Event) {
+                (event as WheelEvent).apply {
+
+                    // don't actually zoom/scroll in browser
+                    event.preventDefault()
+
+                    // invert value to work as Android & JFX
+                    val invertedDelta = deltaY * -1
+
+                    val currentTime = Date.now()
+                    if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
+                        zoomStartPoint = pointOnCanvas(htmlElement)
+                    }
+                    if (event.ctrlKey) {
+                        // wheel
+                        listener(
+                            KZoomEvent(
+                                zoomStartPoint,
+                                KZoomEvent.scaleDelta(
+                                    invertedDelta,
+                                    minWheelZoomDeltaValue,
+                                    maxWheelZoomDeltaValue
+                                ),
+                                hasMetaKeys = HasMetaKeysImpl(
+                                    event.altKey,
+                                    event.ctrlKey,
+                                    event.shiftKey,
+                                    event.metaKey
+                                )
+                            )
+                        )
+                    } else {
+                        // gesture
+                        listener(
+                            KZoomEvent(
+                                zoomStartPoint,
+                                KZoomEvent.scaleDelta(
+                                    invertedDelta,
+                                    minGestureZoomDeltaValue,
+                                    maxGestureZoomDeltaValue
+                                ),
+                                hasMetaKeys = HasMetaKeysImpl(
+                                    event.altKey,
+                                    event.ctrlKey,
+                                    event.shiftKey,
+                                    event.metaKey
+                                )
+                            )
+                        )
+                    }
+                    lastZoomTime = currentTime
+                }
+            }
+        }
+        return DisposableJsListener(htmlElement, "wheel", nativeListener).also { it.init() }
+    }
+}
 
 private fun createPointerJSListener(
     target: Any,
@@ -303,19 +249,21 @@ private fun MouseEvent.pointOnCanvas(canvas: HTMLCanvasElement): Point {
 }
 
 
-private fun PointerEvent.toKPointerEvent(kPointer: KPointer, type: EventType): KPointerEvent =
-    KPointerEventImpl(
-        kPointer.pos,
-        type,
-        translatePT(pointerType),
-        translateMBT(button),
-        kPointer.id,
-        allPointers,
-        altKey,
-        ctrlKey,
-        shiftKey,
-        metaKey
-    )
+private fun PointerEvent.toKPointerEvent(
+    kPointer: KPointer,
+    type: EventType
+): KPointerEvent = KPointerEventImpl(
+    pos = kPointer.pos,
+    eventType = type,
+    pointerType = translatePT(pointerType),
+    buttonPressed = translateMBT(button),
+    activePointerIndex = kPointer.id,
+    pointers = allPointers,
+    altKey = altKey,
+    ctrlKey = ctrlKey,
+    shiftKey = shiftKey,
+    metaKey = metaKey
+)
 
 //private fun Event.toKTouchEvent(canvas: HTMLCanvasElement): KPointerEvent? = unsafeCast<TouchEvent>().run {
 //    val bounds = canvas.getBoundingClientRect()

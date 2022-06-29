@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021. data2viz sàrl.
+ * Copyright (c) 2018-2022. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@ package io.data2viz.viz
 import io.data2viz.geom.Point
 import javafx.event.Event
 import javafx.event.EventHandler
-import javafx.event.EventType
 import javafx.scene.canvas.Canvas
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 import javafx.scene.input.ScrollEvent
 import javafx.scene.input.ZoomEvent
 import kotlin.math.abs
+import javafx.event.EventType as JfxEventType
 
 private val emptyDisposable = object : Disposable { override fun dispose() {} }
 
@@ -39,201 +39,133 @@ private fun mouseButtonToMBP(mouseButton: MouseButton): MouseButtonPressed =
         else                        -> MouseButtonPressed.NotApplicable
     }
 
-private fun mouseEventToEventType(mouseEvent: MouseEvent): io.data2viz.viz.EventType =
+private fun mouseEventToEventType(mouseEvent: MouseEvent): EventType =
     when (mouseEvent.eventType) {
-        MouseEvent.MOUSE_CLICKED    -> io.data2viz.viz.EventType.Click
-        MouseEvent.MOUSE_RELEASED   -> io.data2viz.viz.EventType.Up
-        MouseEvent.MOUSE_PRESSED    -> io.data2viz.viz.EventType.Down
-        MouseEvent.MOUSE_ENTERED    -> io.data2viz.viz.EventType.Enter
-        MouseEvent.MOUSE_MOVED      -> io.data2viz.viz.EventType.Move
-        MouseEvent.MOUSE_DRAGGED    -> io.data2viz.viz.EventType.Move
-        MouseEvent.MOUSE_EXITED     -> io.data2viz.viz.EventType.Leave
-        else                        -> io.data2viz.viz.EventType.Unknown
+        MouseEvent.MOUSE_CLICKED    -> EventType.Click
+        MouseEvent.MOUSE_RELEASED   -> EventType.Up
+        MouseEvent.MOUSE_PRESSED    -> EventType.Down
+        MouseEvent.MOUSE_ENTERED    -> EventType.Enter
+        MouseEvent.MOUSE_MOVED      -> EventType.Move
+        MouseEvent.MOUSE_DRAGGED    -> EventType.Move
+        MouseEvent.MOUSE_EXITED     -> EventType.Leave
+        else                        -> EventType.Unknown
     }
 
-//public actual class KTouch {
-//    public actual companion object TouchEventListener : KEventListener<KTouchEvent> {
-//        override fun addNativeListener(target: Any, listener: (KTouchEvent) -> Unit): Disposable = emptyDisposable
-//    }
-//}
-//
-//public actual class KTouchStart {
-//    public actual companion object TouchStartEventListener : KEventListener<KPointerEvent> {
-//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
-//    }
-//}
-//
-//public actual class KTouchEnd {
-//    public actual companion object TouchEndEventListener : KEventListener<KPointerEvent> {
-//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
-//    }
-//}
-//
-//public actual class KTouchMove {
-//    public actual companion object TouchMoveEventListener : KEventListener<KPointerEvent> {
-//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
-//    }
-//}
-//
-//public actual class KTouchCancel {
-//    public actual companion object TouchCancelEventListener : KEventListener<KPointerEvent> {
-//        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
-//    }
-//}
-
-
-public actual class KPointerDown {
-    public actual companion object PointerDownEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_PRESSED)
-    }
-}
-
-public actual class KPointerUp {
-    public actual companion object PointerUpEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_RELEASED)
-    }
-}
-
-public actual class KPointerMove {
-    public actual companion object PointerMoveEventListener : KEventListener<KPointerEvent> {
+internal actual fun pointerEventsListener(type: EventType): KEventListener<KPointerEvent> {
+    require(type != EventType.Unknown)
+    return object : KEventListener<KPointerEvent> {
         override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
-
-            // Add listeners for both events MOVED & DRAGGED, because MOVED not fires when any button pressed
-            // but JS behaviour is different
-            val jfxEvents = listOf(MouseEvent.MOUSE_MOVED, MouseEvent.MOUSE_DRAGGED)
-            return createSimpleJvmEventHandle(listener, target, jfxEvents)
+            return createSimpleJvmEventHandle(
+                listener = listener,
+                target = target,
+                jfxEvent = when (type) {
+                    EventType.Down -> MouseEvent.MOUSE_PRESSED
+                    EventType.Up -> MouseEvent.MOUSE_RELEASED
+                    EventType.Move -> {
+                        val jfxEvents = listOf(MouseEvent.MOUSE_MOVED, MouseEvent.MOUSE_DRAGGED)
+                        return createSimpleJvmEventHandle(listener, target, jfxEvents)
+                    }
+                    EventType.Enter -> MouseEvent.MOUSE_ENTERED
+                    EventType.Leave -> MouseEvent.MOUSE_EXITED
+                    EventType.Click -> MouseEvent.MOUSE_CLICKED
+                    EventType.DoubleClick -> return createJvmDblClickEventHandle(target, listener)
+                    EventType.Cancel -> return emptyDisposable
+                    EventType.Unknown -> error("Impossible")
+                }
+            )
         }
-    }
-}
 
-public actual class KPointerEnter {
-    public actual companion object PointerEnterEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_ENTERED)
-    }
-}
-
-public actual class KPointerLeave {
-
-    public actual companion object PointerLeaveEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_EXITED)
-    }
-}
-
-public actual class KPointerClick {
-    public actual companion object PointerClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createSimpleJvmEventHandle(listener, target, MouseEvent.MOUSE_CLICKED)
-    }
-}
-
-public actual class KPointerDoubleClick {
-    public actual companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable =
-            createJvmDblClickEventHandle(target, listener)
-    }
-}
-
-public actual class KPointerCancel {
-    public actual companion object PointerCancelEventListener : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable = emptyDisposable
     }
 }
 
 @ExperimentalKEvent
-public actual class KZoom {
-    public actual companion object ZoomEventListener : KEventListener<KZoomEvent> {
-        const val minGestureZoomDeltaValue = 0.8
-        const val maxGestureZoomDeltaValue = 1.2
+internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : KEventListener<KZoomEvent> {
 
-        const val minWheelZoomDeltaValue = -100.0
-        const val maxWheelZoomDeltaValue = 100.0
+    private val minGestureZoomDeltaValue = 0.8
+    private val maxGestureZoomDeltaValue = 1.2
 
-        var lastZoomTime: Long? = null
-        lateinit var zoomStartPoint: Point
+    private val minWheelZoomDeltaValue = -100.0
+    private val maxWheelZoomDeltaValue = 100.0
 
-        override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
+    var lastZoomTime: Long? = null
+    lateinit var zoomStartPoint: Point
 
-            val canvas = target as Canvas
+    override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
+        val canvas = target as Canvas
 
-            val zoomHandler = EventHandler<ZoomEvent> { event ->
-                // GESTURE
-                val currentDelta = event.zoomFactor
-                listener(
-                    onZoom(
-                        event.x, event.y,
-                        currentDelta,
-                        minGestureZoomDeltaValue,
-                        maxGestureZoomDeltaValue,
-                        HasMetaKeysImpl(event.isAltDown, event.isControlDown, event.isShiftDown, event.isMetaDown)
-                    )
-                )
-            }
-
-
-            val scrollHandler = EventHandler<ScrollEvent> { event ->
-                // WHEEL
-                var currentDelta = event.deltaY
-
-                // BUG if shift key is down, on windows, then the "scroll" switch from vertical to horizontal
-                // https://bugs.openjdk.java.net/browse/JDK-8097935
-                // to avoid this, check the deltaX value and switch to if needed
-                if (event.isShiftDown && abs(currentDelta) < 1e-3) currentDelta = event.deltaX
-
-                listener(
-                    onZoom(
-                        event.x, event.y,
-                        currentDelta,
-                        minWheelZoomDeltaValue,
-                        maxWheelZoomDeltaValue,
-                        HasMetaKeysImpl(event.isAltDown, event.isControlDown, event.isShiftDown, event.isMetaDown)
-                    )
-                )
-            }
-
-            return JvmZoomHandle(canvas, scrollHandler, zoomHandler).also { it.init() }
-        }
-
-        private fun onZoom(
-            x: Double, y: Double, currentDelta: Double,
-            minDelta: Double,
-            maxDelta: Double,
-            hasMetaKeys: HasMetaKeys,
-        ): KZoomEvent {
-
-            val currentTime = System.currentTimeMillis()
-            if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
-                zoomStartPoint = Point(x, y)
-            }
-            lastZoomTime = currentTime
-            return KZoomEvent(
-                zoomStartPoint,
-                KZoomEvent.scaleDelta(
+        val zoomHandler = EventHandler<ZoomEvent> { event ->
+            // GESTURE
+            val currentDelta = event.zoomFactor
+            listener(
+                onZoom(
+                    event.x, event.y,
                     currentDelta,
-                    minDelta,
-                    maxDelta
-                ),
-                hasMetaKeys
+                    minGestureZoomDeltaValue,
+                    maxGestureZoomDeltaValue,
+                    HasMetaKeysImpl(event.isAltDown, event.isControlDown, event.isShiftDown, event.isMetaDown)
+                )
             )
         }
+
+
+        val scrollHandler = EventHandler<ScrollEvent> { event ->
+            // WHEEL
+            var currentDelta = event.deltaY
+
+            // BUG if shift key is down, on windows, then the "scroll" switch from vertical to horizontal
+            // https://bugs.openjdk.java.net/browse/JDK-8097935
+            // to avoid this, check the deltaX value and switch to if needed
+            if (event.isShiftDown && abs(currentDelta) < 1e-3) currentDelta = event.deltaX
+
+            listener(
+                onZoom(
+                    event.x, event.y,
+                    currentDelta,
+                    minWheelZoomDeltaValue,
+                    maxWheelZoomDeltaValue,
+                    HasMetaKeysImpl(event.isAltDown, event.isControlDown, event.isShiftDown, event.isMetaDown)
+                )
+            )
+        }
+
+        return JvmZoomHandle(canvas, scrollHandler, zoomHandler).also { it.init() }
+    }
+
+    private fun onZoom(
+        x: Double, y: Double, currentDelta: Double,
+        minDelta: Double,
+        maxDelta: Double,
+        hasMetaKeys: HasMetaKeys,
+    ): KZoomEvent {
+
+        val currentTime = System.currentTimeMillis()
+        if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
+            zoomStartPoint = Point(x, y)
+        }
+        lastZoomTime = currentTime
+        return KZoomEvent(
+            zoomStartPoint,
+            KZoomEvent.scaleDelta(
+                currentDelta,
+                minDelta,
+                maxDelta
+            ),
+            hasMetaKeys
+        )
     }
 }
-
 
 private fun createSimpleJvmEventHandle(
     listener: (KPointerEvent) -> Unit,
     target: Any,
-    jfxEvent: EventType<MouseEvent>
+    jfxEvent: JfxEventType<MouseEvent>
 ): JvmEventHandle<MouseEvent> =
     createSimpleJvmEventHandle(listener, target, listOf(jfxEvent))
 
 private fun createSimpleJvmEventHandle(
     listener: (KPointerEvent) -> Unit,
     target: Any,
-    jfxEvents: List<EventType<MouseEvent>>
+    jfxEvents: List<JfxEventType<MouseEvent>>
 ): JvmEventHandle<MouseEvent> {
 
     val eventHandler = EventHandler<MouseEvent> { event ->
@@ -248,25 +180,25 @@ private fun createSimpleJvmEventHandle(
 
 data class JvmEventHandle<T : Event?>(
     val canvas: Canvas,
-    val types: List<EventType<T>>,
+    val types: List<JfxEventType<T>>,
     val eventHandler: EventHandler<T>
 ) : Disposable {
 
-    constructor(canvas: Canvas, type: EventType<T>, eventHandler: EventHandler<T>) : this(
+    constructor(canvas: Canvas, type: JfxEventType<T>, eventHandler: EventHandler<T>) : this(
         canvas,
         listOf(type),
         eventHandler
     )
 
     fun init() {
-        types.forEach { jfxEvent: EventType<T> ->
+        types.forEach { jfxEvent: JfxEventType<T> ->
             canvas.addEventHandler(jfxEvent, eventHandler)
         }
     }
 
     override fun dispose() {
 
-        types.forEach { jfxEvent: EventType<T> ->
+        types.forEach { jfxEvent: JfxEventType<T> ->
 
             canvas.removeEventHandler(jfxEvent, eventHandler)
         }
@@ -297,7 +229,7 @@ private fun createJvmDblClickEventHandle(
     val jfxEvent = MouseEvent.MOUSE_CLICKED
     val eventHandler = EventHandler<MouseEvent> { event ->
         if (event.clickCount == 2) {
-            listener(event.toKMouseEvent(io.data2viz.viz.EventType.DoubleClick))
+            listener(event.toKMouseEvent(EventType.DoubleClick))
         }
     }
     val canvas = target as Canvas
@@ -317,7 +249,7 @@ internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
 }
 
 
-private fun MouseEvent.toKMouseEvent(eventType: io.data2viz.viz.EventType): KPointerEvent {
+private fun MouseEvent.toKMouseEvent(eventType: EventType): KPointerEvent {
     val index = 0
     val pos = Point(x, y)
     return KPointerEventImpl(

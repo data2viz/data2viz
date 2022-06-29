@@ -20,12 +20,23 @@ package io.data2viz.viz
 import io.data2viz.InternalAPI
 import io.data2viz.geom.Point
 
-
-@Experimental
+@RequiresOptIn
 @Retention(AnnotationRetention.BINARY)
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class ExperimentalKEvent
 
+public object KPointerEvents {
+    public val down: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Down)
+    public val move: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Move)
+    public val up: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Up)
+
+    public val enter: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Enter)
+    public val leave: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Leave)
+
+    public val drag: KEventListener<KDragEvent> = dragEventsListener()
+
+    @ExperimentalKEvent
+    public val zoom: KEventListener<KZoomEvent> get() = zoomEventsListener()
+}
 
 /**
  * Marker interface on events.
@@ -173,16 +184,6 @@ public enum class MouseButtonPressed {
     Fifth
 }
 
-///**
-// * Pointer events for platform with Mouse input device.
-// * Somebody may want use KMouseEvent by casting KPointerEvent to more specific type
-// * Used in JFX & JS implementations. Android implementation use common KPointerEvent.
-// *
-// * @property eventType the [PointerEventType]
-// * @property buttonPressed the [MouseButtonPressed]
-// */
-//public interface KMouseEvent: KPointerEvent, HasMetaKeys
-
 /**
  * Allow the access to the ALT, CTRL, META, SHIFT key during an event
  */
@@ -231,48 +232,15 @@ internal open class KPointerEventImpl(
     override fun toString(): String = "KPointerEvent(pos=$pos)"
 }
 
-/**
- * MultiPlatform Touch Event
- * [pointers]: the list of all current pointers including the one at the origin of the current event
- * [pointer]: the specific pointer at the source of the current event.
- */
-public data class KTouchEvent(
-    public val type: KTouchEventType,
-    public val pointers: List<KPointer>,
-    public val actionPointers: Set<KPointer>
-) : KEvent
+internal expect fun pointerEventsListener(type: EventType): KEventListener<KPointerEvent>
 
-public enum class KTouchEventType {
-    DOWN, UP, MOVE, CANCEL
-}
+@ExperimentalKEvent
+internal expect fun zoomEventsListener(): KEventListener<KZoomEvent>
 
 public data class KPointer(
     public val id: Int,
     public val pos: Point
 )
-
-
-//public fun KMouseEvent(pos: Point,
-//                       type: PointerEventType,
-//                       buttonPressed: MouseButtonPressed,
-//                       altKey: Boolean,
-//                       ctrlKey: Boolean,
-//                       shiftKey: Boolean,
-//                       metaKey: Boolean): KMouseEvent = KMouseEventImpl(pos, type, buttonPressed, altKey, ctrlKey, shiftKey, metaKey)
-
-
-//@InternalAPI
-//internal class KMouseEventImpl(
-//    pos: Point,
-//    public override val eventType: PointerEventType,
-//    public override val buttonPressed: MouseButtonPressed,
-//    public override val altKey: Boolean,
-//    public override val ctrlKey: Boolean,
-//    public override val shiftKey: Boolean,
-//    public override val metaKey: Boolean
-//) : KPointerEventImpl(pos, eventType, PointerType.Mouse, buttonPressed, 0, altKey, ctrlKey, shiftKey, metaKey), KMouseEvent {
-//    override fun toString(): String = "KMouseEvent(pos=$pos)"
-//}
 
 
 @InternalAPI
@@ -291,59 +259,6 @@ public interface KEventListener<T> where  T : KEvent {
     public fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
 }
 
-
-public expect class KPointerDown {
-    public companion object PointerDownEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerUp {
-    public companion object PointerUpEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerMove {
-    public companion object PointerMoveEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerEnter {
-    public companion object PointerEnterEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerLeave {
-    public companion object PointerLeaveEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerClick {
-    public companion object PointerClickEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerDoubleClick {
-    public companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
-}
-
-public expect class KPointerCancel {
-    public companion object PointerCancelEventListener : KEventListener<KPointerEvent>
-}
-
-//public expect class KTouch {
-//    public companion object TouchEventListener : KEventListener<KTouchEvent>
-//}
-//
-//public expect class KTouchStart {
-//    public companion object TouchStartEventListener : KEventListener<KPointerEvent>
-//}
-//
-//public expect class KTouchEnd {
-//    public companion object TouchEndEventListener : KEventListener<KPointerEvent>
-//}
-//
-//public expect class KTouchMove {
-//    public companion object TouchMoveEventListener : KEventListener<KPointerEvent>
-//}
-//
-//public expect class KTouchCancel {
-//    public companion object TouchCancelEventListener : KEventListener<KPointerEvent>
-//}
-
 public class KDragEvent(
     public val action: KDragAction,
     public val pointerEvent: KPointerEvent
@@ -354,12 +269,6 @@ public class KDragEvent(
     public enum class KDragAction {
         Start, Dragging, Finish
     }
-}
-
-
-@ExperimentalKEvent
-public expect class KZoom {
-    public companion object ZoomEventListener : KEventListener<KZoomEvent>
 }
 
 @ExperimentalKEvent
@@ -424,53 +333,50 @@ public class KZoomEvent(
 
 }
 
-public class KPointerDrag {
+private fun dragEventsListener(): KEventListener<KDragEvent> = object : KEventListener<KDragEvent> {
 
-    public companion object PointerDragEventListener : KEventListener<KDragEvent> {
+    private var downActionPos: Point? = null
+    private var dragInProgress: Boolean = false
 
-        private var downActionPos: Point? = null
-        private var dragInProgress: Boolean = false
+    override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit): Disposable {
 
-        override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit): Disposable {
+        val compositeDisposable = CompositeDisposable()
 
-            val compositeDisposable = CompositeDisposable()
-
-            compositeDisposable.add(KPointerMove.addNativeListener(target) {
-                if (dragInProgress) {
-                    listener(KDragEvent(KDragEvent.KDragAction.Dragging, it))
-                } else {
-                    val startPos = downActionPos
-                    if (startPos != null) {
-                        dragInProgress = true
-                        listener(KDragEvent(KDragEvent.KDragAction.Start, it))
-                    }
-                }
-            })
-
-            compositeDisposable.add(KPointerLeave.addNativeListener(target) {
-                onDragNotPossible(listener, it)
-            })
-
-            compositeDisposable.add(KPointerDown.addNativeListener(target) {
-                downActionPos = it.pos
-            })
-
-            compositeDisposable.add(KPointerUp.addNativeListener(target) {
-                onDragNotPossible(listener, it)
-            })
-
-            return compositeDisposable
-        }
-
-        private fun onDragNotPossible(listener: (KDragEvent) -> Unit, motionEvent: KPointerEvent) {
-            downActionPos = null
+        compositeDisposable.add(KPointerEvents.move.addNativeListener(target) {
             if (dragInProgress) {
-                dragInProgress = false
-                listener(KDragEvent(KDragEvent.KDragAction.Finish, motionEvent))
+                listener(KDragEvent(KDragEvent.KDragAction.Dragging, it))
+            } else {
+                val startPos = downActionPos
+                if (startPos != null) {
+                    dragInProgress = true
+                    listener(KDragEvent(KDragEvent.KDragAction.Start, it))
+                }
             }
-        }
+        })
 
+        compositeDisposable.add(KPointerEvents.leave.addNativeListener(target) {
+            onDragNotPossible(listener, it)
+        })
+
+        compositeDisposable.add(KPointerEvents.down.addNativeListener(target) {
+            downActionPos = it.pos
+        })
+
+        compositeDisposable.add(KPointerEvents.up.addNativeListener(target) {
+            onDragNotPossible(listener, it)
+        })
+
+        return compositeDisposable
     }
+
+    private fun onDragNotPossible(listener: (KDragEvent) -> Unit, motionEvent: KPointerEvent) {
+        downActionPos = null
+        if (dragInProgress) {
+            dragInProgress = false
+            listener(KDragEvent(KDragEvent.KDragAction.Finish, motionEvent))
+        }
+    }
+
 }
 
 internal fun <T> VizRenderer.addEventHandle(handle: KEventHandle<T>) where T : KEvent {
