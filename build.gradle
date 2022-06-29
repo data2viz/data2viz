@@ -11,12 +11,6 @@ plugins {
 
 apply plugin: "binary-compatibility-validator"
 
-
-repositories {
-    google()
-    jcenter()
-}
-
 apiValidation {
     nonPublicMarkers += ["io.data2viz.ExperimentalD2V",     "io.data2viz.InternalAPI"]
 }
@@ -30,7 +24,6 @@ allprojects {
         mavenLocal()
         google()
         mavenCentral()
-        jcenter()
         maven {
             url "https://maven.pkg.jetbrains.space/data2viz/p/maven/public"
         }
