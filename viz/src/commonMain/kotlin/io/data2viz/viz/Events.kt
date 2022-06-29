@@ -31,6 +31,7 @@ public object KPointerEvents {
 
     public val enter: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Enter)
     public val leave: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Leave)
+    public val cancel: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Cancel)
 
     public val drag: KEventListener<KDragEvent> = dragEventsListener()
 
