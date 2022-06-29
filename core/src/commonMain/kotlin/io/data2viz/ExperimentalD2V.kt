@@ -27,7 +27,6 @@ package io.data2viz
  * or by using the compiler argument `-Xopt-in=io.data2viz.ExperimentalD2V`.
  */
 @Suppress("DEPRECATION")
-@Experimental(level = Experimental.Level.WARNING)
 @RequiresOptIn(level = RequiresOptIn.Level.WARNING)
 @MustBeDocumented
 @Target(
