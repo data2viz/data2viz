@@ -260,6 +260,41 @@ public interface KEventListener<T> where  T : KEvent {
     public fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
 }
 
+@Deprecated("Use KPointerEvents.move instead.", ReplaceWith("KPointerEvents.move"))
+public class KMouseMove
+
+@Deprecated("Use KPointerEvents.down instead.", ReplaceWith("KPointerEvents.down"))
+public class KMouseDown
+
+@Deprecated("Use KPointerEvents.up instead.", ReplaceWith("KPointerEvents.up"))
+public class KMouseUp
+
+@Deprecated("Use KPointerEvents instead.")
+public class KTouch
+
+@Deprecated("Use KPointerEvents.down instead.", ReplaceWith("KPointerEvents.down"))
+public class KTouchStart
+
+@Deprecated("Use KPointerEvents.up instead.", ReplaceWith("KPointerEvents.up"))
+public class KTouchEnd
+
+@Deprecated("Use KPointerEvents.move instead.", ReplaceWith("KPointerEvents.move"))
+public class KTouchMove
+
+@Deprecated("Use KPointerEvents.enter instead.", ReplaceWith("KPointerEvents.enter"))
+public class KPointerEnter
+
+@Deprecated("Use KPointerEvents.leave instead.", ReplaceWith("KPointerEvents.leave"))
+public class KPointerLeave
+
+//public class KPointerClick {
+//    public companion object PointerClickEventListener : KEventListener<KPointerEvent>
+//}
+//
+//public class KPointerDoubleClick {
+//    public companion object PointerDoubleClickEventListener : KEventListener<KPointerEvent>
+//}
+
 public class KDragEvent(
     public val action: KDragAction,
     public val pointerEvent: KPointerEvent
@@ -271,6 +306,11 @@ public class KDragEvent(
         Start, Dragging, Finish
     }
 }
+
+
+@ExperimentalKEvent
+@Deprecated("Use KPointerEvents.zoom instead.", ReplaceWith("KPointerEvents.zoom"))
+public class KZoom
 
 @ExperimentalKEvent
 public class KZoomEvent(
