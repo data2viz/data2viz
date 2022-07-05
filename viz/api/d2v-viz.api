@@ -36,8 +36,22 @@ public final class io/data2viz/viz/DslExtensionsKt {
 	public static synthetic fun textAlign$default (Lio/data2viz/viz/TextNode;Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;ILjava/lang/Object;)Lio/data2viz/viz/TextAlign;
 }
 
+public final class io/data2viz/viz/EventType : java/lang/Enum {
+	public static final field Cancel Lio/data2viz/viz/EventType;
+	public static final field Click Lio/data2viz/viz/EventType;
+	public static final field DoubleClick Lio/data2viz/viz/EventType;
+	public static final field Down Lio/data2viz/viz/EventType;
+	public static final field Enter Lio/data2viz/viz/EventType;
+	public static final field Leave Lio/data2viz/viz/EventType;
+	public static final field Move Lio/data2viz/viz/EventType;
+	public static final field Unknown Lio/data2viz/viz/EventType;
+	public static final field Up Lio/data2viz/viz/EventType;
+	public final fun getToBeRemoved$d2v_viz ()Z
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/EventType;
+	public static fun values ()[Lio/data2viz/viz/EventType;
+}
+
 public final class io/data2viz/viz/EventsKt {
-	public static final fun KMouseEvent (Lio/data2viz/geom/Point;ZZZZ)Lio/data2viz/viz/KMouseEvent;
 	public static final fun addEventHandle (Lio/data2viz/viz/VizRenderer;Lio/data2viz/viz/KEventHandle;)V
 	public static final fun removeEventHandle (Lio/data2viz/viz/VizRenderer;Lio/data2viz/viz/KEventHandle;)V
 }
@@ -114,6 +128,7 @@ public abstract interface class io/data2viz/viz/HasMetaKeys {
 	public abstract fun getCtrlKey ()Z
 	public abstract fun getMetaKey ()Z
 	public abstract fun getShiftKey ()Z
+	public abstract fun noKey ()Z
 }
 
 public abstract interface class io/data2viz/viz/HasStroke {
@@ -214,6 +229,8 @@ public final class io/data2viz/viz/JfxColorOrGradientRendererKt {
 
 public final class io/data2viz/viz/JfxEventsKt {
 	public static final fun addNativeEventListenerFromHandle (Lio/data2viz/viz/VizRenderer;Lio/data2viz/viz/KEventHandle;)Lio/data2viz/viz/Disposable;
+	public static final fun pointerEventsListener (Lio/data2viz/viz/EventType;)Lio/data2viz/viz/KEventListener;
+	public static final fun zoomEventsListener ()Lio/data2viz/viz/KEventListener;
 }
 
 public final class io/data2viz/viz/JfxGroupRendererKt {
@@ -332,33 +349,15 @@ public abstract interface class io/data2viz/viz/KEventListener {
 }
 
 public final class io/data2viz/viz/KMouseDown {
-	public static final field PointerDownEventListener Lio/data2viz/viz/KMouseDown$PointerDownEventListener;
 	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KMouseDown$PointerDownEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
-}
-
-public abstract interface class io/data2viz/viz/KMouseEvent : io/data2viz/viz/HasMetaKeys, io/data2viz/viz/KPointerEvent {
 }
 
 public final class io/data2viz/viz/KMouseMove {
-	public static final field PointerMoveEventListener Lio/data2viz/viz/KMouseMove$PointerMoveEventListener;
 	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KMouseMove$PointerMoveEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
 }
 
 public final class io/data2viz/viz/KMouseUp {
-	public static final field PointerUpEventListener Lio/data2viz/viz/KMouseUp$PointerUpEventListener;
 	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KMouseUp$PointerUpEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
 }
 
 public final class io/data2viz/viz/KPointer {
@@ -374,131 +373,53 @@ public final class io/data2viz/viz/KPointer {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/data2viz/viz/KPointerClick {
-	public static final field PointerClickEventListener Lio/data2viz/viz/KPointerClick$PointerClickEventListener;
-	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KPointerClick$PointerClickEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
-}
-
-public final class io/data2viz/viz/KPointerDoubleClick {
-	public static final field PointerDoubleClickEventListener Lio/data2viz/viz/KPointerDoubleClick$PointerDoubleClickEventListener;
-	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KPointerDoubleClick$PointerDoubleClickEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
-}
-
-public final class io/data2viz/viz/KPointerDrag {
-	public static final field PointerDragEventListener Lio/data2viz/viz/KPointerDrag$PointerDragEventListener;
-	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KPointerDrag$PointerDragEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
-}
-
 public final class io/data2viz/viz/KPointerEnter {
-	public static final field PointerEnterEventListener Lio/data2viz/viz/KPointerEnter$PointerEnterEventListener;
 	public fun <init> ()V
 }
 
-public final class io/data2viz/viz/KPointerEnter$PointerEnterEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
-}
-
-public abstract interface class io/data2viz/viz/KPointerEvent : io/data2viz/viz/KEvent {
+public abstract interface class io/data2viz/viz/KPointerEvent : io/data2viz/viz/HasMetaKeys, io/data2viz/viz/KEvent {
+	public abstract fun getActivePointerIndex ()I
+	public abstract fun getButtonPressed ()Lio/data2viz/viz/MouseButtonPressed;
+	public abstract fun getEventType ()Lio/data2viz/viz/EventType;
+	public abstract fun getPointerType ()Lio/data2viz/viz/PointerType;
+	public abstract fun getPointers ()Ljava/util/List;
 	public abstract fun getPos ()Lio/data2viz/geom/Point;
 }
 
-public final class io/data2viz/viz/KPointerLeave {
-	public static final field PointerLeaveEventListener Lio/data2viz/viz/KPointerLeave$PointerLeaveEventListener;
-	public fun <init> ()V
+public final class io/data2viz/viz/KPointerEvents {
+	public static final field INSTANCE Lio/data2viz/viz/KPointerEvents;
+	public final fun getCancel ()Lio/data2viz/viz/KEventListener;
+	public final fun getDown ()Lio/data2viz/viz/KEventListener;
+	public final fun getDrag ()Lio/data2viz/viz/KEventListener;
+	public final fun getEnter ()Lio/data2viz/viz/KEventListener;
+	public final fun getLeave ()Lio/data2viz/viz/KEventListener;
+	public final fun getMove ()Lio/data2viz/viz/KEventListener;
+	public final fun getUp ()Lio/data2viz/viz/KEventListener;
+	public final fun getZoom ()Lio/data2viz/viz/KEventListener;
 }
 
-public final class io/data2viz/viz/KPointerLeave$PointerLeaveEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
+public final class io/data2viz/viz/KPointerLeave {
+	public fun <init> ()V
 }
 
 public final class io/data2viz/viz/KTouch {
-	public static final field TouchEventListener Lio/data2viz/viz/KTouch$TouchEventListener;
 	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KTouch$TouchEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
 }
 
 public final class io/data2viz/viz/KTouchEnd {
-	public static final field TouchEndEventListener Lio/data2viz/viz/KTouchEnd$TouchEndEventListener;
 	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KTouchEnd$TouchEndEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
-}
-
-public final class io/data2viz/viz/KTouchEvent : io/data2viz/viz/KEvent {
-	public fun <init> (Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Ljava/util/Set;)V
-	public final fun component1 ()Lio/data2viz/viz/KTouchEventType;
-	public final fun component2 ()Ljava/util/List;
-	public final fun component3 ()Ljava/util/Set;
-	public final fun copy (Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Ljava/util/Set;)Lio/data2viz/viz/KTouchEvent;
-	public static synthetic fun copy$default (Lio/data2viz/viz/KTouchEvent;Lio/data2viz/viz/KTouchEventType;Ljava/util/List;Ljava/util/Set;ILjava/lang/Object;)Lio/data2viz/viz/KTouchEvent;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getActionPointers ()Ljava/util/Set;
-	public final fun getPointers ()Ljava/util/List;
-	public final fun getType ()Lio/data2viz/viz/KTouchEventType;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/data2viz/viz/KTouchEventType : java/lang/Enum {
-	public static final field CANCEL Lio/data2viz/viz/KTouchEventType;
-	public static final field DOWN Lio/data2viz/viz/KTouchEventType;
-	public static final field MOVE Lio/data2viz/viz/KTouchEventType;
-	public static final field UP Lio/data2viz/viz/KTouchEventType;
-	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/KTouchEventType;
-	public static fun values ()[Lio/data2viz/viz/KTouchEventType;
 }
 
 public final class io/data2viz/viz/KTouchMove {
-	public static final field TouchMoveEventListener Lio/data2viz/viz/KTouchMove$TouchMoveEventListener;
 	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KTouchMove$TouchMoveEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
 }
 
 public final class io/data2viz/viz/KTouchStart {
-	public static final field TouchStartEventListener Lio/data2viz/viz/KTouchStart$TouchStartEventListener;
 	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KTouchStart$TouchStartEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
 }
 
 public final class io/data2viz/viz/KZoom {
-	public static final field ZoomEventListener Lio/data2viz/viz/KZoom$ZoomEventListener;
-	public static final field maxGestureZoomDeltaValue D
-	public static final field maxWheelZoomDeltaValue D
-	public static final field minGestureZoomDeltaValue D
-	public static final field minWheelZoomDeltaValue D
-	public static field zoomStartPoint Lio/data2viz/geom/Point;
 	public fun <init> ()V
-}
-
-public final class io/data2viz/viz/KZoom$ZoomEventListener : io/data2viz/viz/KEventListener {
-	public fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
-	public final fun getLastZoomTime ()Ljava/lang/Long;
-	public final fun getZoomStartPoint ()Lio/data2viz/geom/Point;
-	public final fun setLastZoomTime (Ljava/lang/Long;)V
-	public final fun setZoomStartPoint (Lio/data2viz/geom/Point;)V
 }
 
 public final class io/data2viz/viz/KZoomEvent : io/data2viz/viz/HasMetaKeys, io/data2viz/viz/KEvent {
@@ -518,6 +439,7 @@ public final class io/data2viz/viz/KZoomEvent : io/data2viz/viz/HasMetaKeys, io/
 	public fun getMetaKey ()Z
 	public fun getShiftKey ()Z
 	public final fun getStartZoomPos ()Lio/data2viz/geom/Point;
+	public fun noKey ()Z
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -571,6 +493,17 @@ public final class io/data2viz/viz/Margins {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/data2viz/viz/MouseButtonPressed : java/lang/Enum {
+	public static final field Fifth Lio/data2viz/viz/MouseButtonPressed;
+	public static final field Fourth Lio/data2viz/viz/MouseButtonPressed;
+	public static final field Left Lio/data2viz/viz/MouseButtonPressed;
+	public static final field Middle Lio/data2viz/viz/MouseButtonPressed;
+	public static final field NotApplicable Lio/data2viz/viz/MouseButtonPressed;
+	public static final field Right Lio/data2viz/viz/MouseButtonPressed;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/MouseButtonPressed;
+	public static fun values ()[Lio/data2viz/viz/MouseButtonPressed;
+}
+
 public abstract class io/data2viz/viz/Node : io/data2viz/viz/Style {
 	public fun <init> ()V
 	public fun getAnchor ()Lio/data2viz/viz/TextHAlign;
@@ -618,6 +551,15 @@ public class io/data2viz/viz/PathNode : io/data2viz/viz/Node, io/data2viz/geom/P
 	public fun quadraticCurveTo (DDDD)V
 	public fun rect (DDDD)V
 	public fun setTransform (Lio/data2viz/viz/Transform;)V
+}
+
+public final class io/data2viz/viz/PointerType : java/lang/Enum {
+	public static final field Mouse Lio/data2viz/viz/PointerType;
+	public static final field Pen Lio/data2viz/viz/PointerType;
+	public static final field Touch Lio/data2viz/viz/PointerType;
+	public static final field Unknown Lio/data2viz/viz/PointerType;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/PointerType;
+	public static fun values ()[Lio/data2viz/viz/PointerType;
 }
 
 public final class io/data2viz/viz/RectNode : io/data2viz/viz/Node, io/data2viz/geom/Rect, io/data2viz/viz/HasFill, io/data2viz/viz/HasStroke {
