@@ -1,3 +1,12 @@
+# Version v0.10.x
+
+This version upgrade Kotlin version to 1.6.21.
+This version introduces breaking changes in the event system.
+
+## 0.10.0
+> Published 05 July 2022
+* Major refactoring of the Viz events, introduce the unified KPointerEvent interface for mouse and touch events
+
 
 # Version v0.9.x
 
@@ -10,8 +19,6 @@ It upgrades JavaFx version to Java 11.
 
 ## 0.9.0
 > Published 20 Jan 2022
-
-
 
 # Version v0.8.x
 
