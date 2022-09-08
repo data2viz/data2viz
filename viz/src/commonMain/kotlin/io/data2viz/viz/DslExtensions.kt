@@ -21,7 +21,7 @@ package io.data2viz.viz
 /**
  * Handle both horizontal and vertical alignments.
  */
-public data class TextAlign internal constructor(val horizontal: TextHAlign, val vertical: TextVAlign)
+public data class TextAlign(val horizontal: TextHAlign, val vertical: TextVAlign)
 
 
 /**
