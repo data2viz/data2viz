@@ -83,7 +83,7 @@ public class Viz(
      *
      * 	A disposable handle is returned, allowing the caller to remove the listener.
      */
-    public fun <T : KEvent> on(eventListener: KEventListener<T>, listener: (T) -> Unit): Disposable {
+    public fun <T : KEvent> on(eventListener: KEventListener<T>, listener: (T) -> EventPropagation): Disposable {
         val eventHandle = KEventHandle(eventListener, listener) {
             eventListeners.remove(it) //todo why?
 

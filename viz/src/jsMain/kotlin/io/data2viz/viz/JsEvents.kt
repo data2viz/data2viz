@@ -63,7 +63,7 @@ private val allPointers
 internal actual fun pointerEventsListener(type: EventType): KEventListener<KPointerEvent> {
     require(type != EventType.Unknown)
     return object : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> EventPropagation): Disposable {
             return createPointerJSListener(
                 target = target,
                 kListener = listener,
@@ -96,14 +96,11 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : 
     private var lastZoomTime: Double? = null
     private lateinit var zoomStartPoint: Point
 
-    override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
+    override fun addNativeListener(target: Any, listener: (KZoomEvent) -> EventPropagation): Disposable {
         val htmlElement = target.unsafeCast<HTMLCanvasElement>()
         val nativeListener = object : EventListener {
             override fun handleEvent(event: Event) {
                 (event as WheelEvent).apply {
-
-                    // don't actually zoom/scroll in browser
-                    event.preventDefault()
 
                     // invert value to work as Android & JFX
                     val invertedDelta = deltaY * -1
@@ -112,7 +109,7 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : 
                     if (KZoomEvent.isNewZoom(currentTime, lastZoomTime)) {
                         zoomStartPoint = pointOnCanvas(htmlElement)
                     }
-                    if (event.ctrlKey) {
+                    val eventPropagation = if (event.ctrlKey) {
                         // wheel
                         listener(
                             KZoomEvent(
@@ -150,6 +147,11 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : 
                         )
                     }
                     lastZoomTime = currentTime
+
+                    if (eventPropagation.stop) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
                 }
             }
         }
@@ -159,14 +161,14 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : 
 
 private fun createPointerJSListener(
     target: Any,
-    kListener: (KPointerEvent) -> Unit,
+    kListener: (KPointerEvent) -> EventPropagation,
     jsEventName: String,
     type: EventType
 ): Disposable {
     val canvas = target.unsafeCast<HTMLCanvasElement>()
     val nativeListener = object : EventListener {
         override fun handleEvent(event: Event) {
-            event.preventDefault()
+
             val pe = event.unsafeCast<PointerEvent>()
 
             val pos = pe.pointOnCanvas(canvas)

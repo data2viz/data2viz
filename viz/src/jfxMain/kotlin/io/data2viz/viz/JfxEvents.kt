@@ -54,7 +54,7 @@ private fun mouseEventToEventType(mouseEvent: MouseEvent): EventType =
 internal actual fun pointerEventsListener(type: EventType): KEventListener<KPointerEvent> {
     require(type != EventType.Unknown)
     return object : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> EventPropagation): Disposable {
             return createSimpleJvmEventHandle(
                 listener = listener,
                 target = target,
@@ -90,7 +90,7 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : 
     var lastZoomTime: Long? = null
     lateinit var zoomStartPoint: Point
 
-    override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
+    override fun addNativeListener(target: Any, listener: (KZoomEvent) -> EventPropagation): Disposable {
         val canvas = target as Canvas
 
         val zoomHandler = EventHandler<ZoomEvent> { event ->
@@ -156,21 +156,23 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : 
 }
 
 private fun createSimpleJvmEventHandle(
-    listener: (KPointerEvent) -> Unit,
+    listener: (KPointerEvent) -> EventPropagation,
     target: Any,
     jfxEvent: JfxEventType<MouseEvent>
 ): JvmEventHandle<MouseEvent> =
     createSimpleJvmEventHandle(listener, target, listOf(jfxEvent))
 
 private fun createSimpleJvmEventHandle(
-    listener: (KPointerEvent) -> Unit,
+    listener: (KPointerEvent) -> EventPropagation,
     target: Any,
     jfxEvents: List<JfxEventType<MouseEvent>>
 ): JvmEventHandle<MouseEvent> {
 
     val eventHandler = EventHandler<MouseEvent> { event ->
         val kMouseEvent = event.toKMouseEvent(mouseEventToEventType(event))
-        listener(kMouseEvent)
+        val eventPropagation = listener(kMouseEvent)
+
+        if (eventPropagation.stop) event.consume()
     }
     val canvas = target as Canvas
     val jvmEventHandle = JvmEventHandle(canvas, jfxEvents, eventHandler)
@@ -224,7 +226,7 @@ data class JvmZoomHandle(
 
 private fun createJvmDblClickEventHandle(
     target: Any,
-    listener: (KPointerEvent) -> Unit
+    listener: (KPointerEvent) -> EventPropagation
 ): JvmEventHandle<MouseEvent> {
     val jfxEvent = MouseEvent.MOUSE_CLICKED
     val eventHandler = EventHandler<MouseEvent> { event ->

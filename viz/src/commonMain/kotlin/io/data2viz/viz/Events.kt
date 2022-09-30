@@ -233,6 +233,9 @@ internal open class KPointerEventImpl(
     override fun toString(): String = "KPointerEvent(pos=$pos)"
 }
 
+/**
+ * Create a new listener for a given [EventType].
+ **/
 internal expect fun pointerEventsListener(type: EventType): KEventListener<KPointerEvent>
 
 @ExperimentalKEvent
@@ -256,8 +259,37 @@ internal data class HasMetaKeysImpl(
 
 // TODO : manage "velocity" and "drag event"
 
+/**
+ * Manage the propagation of the original platform event.
+ */
+public enum class EventPropagation {
+
+    /**
+     * Base event should be propagated back.
+     */
+    Continue,
+
+    /**
+     * Base event should not be propagated back to the platform.
+     * Similar to event.stopPropagation() or event.consume()...
+     */
+    Stop;
+
+    public val stop: Boolean
+        get() = this == Stop
+}
+
+/**
+ * A [KEventListener] is an interface for handling a <T> KEvent on any given target.
+ */
 public interface KEventListener<T> where  T : KEvent {
-    public fun addNativeListener(target: Any, listener: (T) -> Unit): Disposable
+
+    /**
+     * Add a listener on any target for a given <T> KEvent.
+     * In return the listener must return a [EventPropagation] to indicate if the base event continues back
+     * to the platform or stops here and is not propagated.
+     */
+    public fun addNativeListener(target: Any, listener: (T) -> EventPropagation): Disposable
 }
 
 @Deprecated("Use KPointerEvents.move instead.", ReplaceWith("KPointerEvents.move"))
@@ -379,7 +411,7 @@ private fun dragEventsListener(): KEventListener<KDragEvent> = object : KEventLi
     private var downActionPos: Point? = null
     private var dragInProgress: Boolean = false
 
-    override fun addNativeListener(target: Any, listener: (KDragEvent) -> Unit): Disposable {
+    override fun addNativeListener(target: Any, listener: (KDragEvent) -> EventPropagation): Disposable {
 
         val compositeDisposable = CompositeDisposable()
 
@@ -392,6 +424,7 @@ private fun dragEventsListener(): KEventListener<KDragEvent> = object : KEventLi
                     dragInProgress = true
                     listener(KDragEvent(KDragEvent.KDragAction.Start, it))
                 }
+                EventPropagation.Continue
             }
         })
 
@@ -401,6 +434,7 @@ private fun dragEventsListener(): KEventListener<KDragEvent> = object : KEventLi
 
         compositeDisposable.add(KPointerEvents.down.addNativeListener(target) {
             downActionPos = it.pos
+            EventPropagation.Continue
         })
 
         compositeDisposable.add(KPointerEvents.up.addNativeListener(target) {
@@ -410,11 +444,13 @@ private fun dragEventsListener(): KEventListener<KDragEvent> = object : KEventLi
         return compositeDisposable
     }
 
-    private fun onDragNotPossible(listener: (KDragEvent) -> Unit, motionEvent: KPointerEvent) {
+    private fun onDragNotPossible(listener: (KDragEvent) -> EventPropagation, motionEvent: KPointerEvent): EventPropagation {
         downActionPos = null
-        if (dragInProgress) {
+        return if (dragInProgress) {
             dragInProgress = false
             listener(KDragEvent(KDragEvent.KDragAction.Finish, motionEvent))
+        } else {
+            EventPropagation.Continue
         }
     }
 
@@ -431,7 +467,7 @@ internal expect fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
 
 internal class KEventHandle<T>(
     val eventListener: KEventListener<T>,
-    val listener: (T) -> Unit,
+    val listener: (T) -> EventPropagation,
     val onDispose: (KEventHandle<T>) -> Unit
 ) : Disposable where T : KEvent {
 
