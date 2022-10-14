@@ -231,8 +231,6 @@ internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEv
 
 //private val pointer = PointerData()
 
-private val pixelRatio by lazy { getPixelRatio() }
-
 /**
  * The canvas can have styling with modifies its size. KEvent uses position of the Viz.
  * So we need to convert the current mouse position to the mouse position with Canvas
@@ -242,6 +240,7 @@ private val pixelRatio by lazy { getPixelRatio() }
  */
 private fun MouseEvent.pointOnCanvas(canvas: HTMLCanvasElement): Point {
     val bounds = canvas.getBoundingClientRect()
+    val pixelRatio = window.devicePixelRatio
     return Point(
         (pageX - bounds.left - window.scrollX) * canvas.width / bounds.width / pixelRatio,
         (pageY - bounds.top - window.scrollY) * canvas.height / bounds.height / pixelRatio
