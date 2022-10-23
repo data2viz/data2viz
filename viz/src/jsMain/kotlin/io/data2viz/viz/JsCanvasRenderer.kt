@@ -63,20 +63,15 @@ public fun Viz.bindRendererOnNewCanvas() {
  */
 public fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
     val context = canvas.getContext("2d") as CanvasRenderingContext2D
-    context.canvas.width = width.toInt()
-    context.canvas.height = height.toInt()
-
-    val pixelRatio = getPixelRatio()
-    //manage HDPi screens
-    if (pixelRatio > 1.0) {
-        canvas.style.width = "${canvas.width}px"
-        canvas.style.height = "${canvas.height}px"
-        canvas.width = (canvas.width * pixelRatio).toInt()
-        canvas.height = (canvas.height * pixelRatio).toInt()
-        context.scale(pixelRatio, pixelRatio)
-    }
+    updatePlatformSize(context)
 
     this.renderer = JsCanvasRenderer(context, this)
+
+    pixelRatioChangeListener = { // Keep a strong reference to the listener in the Viz object.
+        updatePlatformSize()
+        render()
+    }
+    PixelRatioUpdater.onChange(pixelRatioChangeListener)
 
     if (config.autoUpdate) {
         render()
@@ -84,18 +79,6 @@ public fun Viz.bindRendererOn(canvas: HTMLCanvasElement) {
     }
 
 }
-
-internal fun getPixelRatio(): Double{
-    var pixelRatio = 1.0
-    js("""
-        if((typeof window.devicePixelRatio) !== 'undefined') {
-            pixelRatio = window.devicePixelRatio
-    }
-    """)
-
-    return pixelRatio
-}
-
 
 public class JsCanvasRenderer(
     public val context: CanvasRenderingContext2D,

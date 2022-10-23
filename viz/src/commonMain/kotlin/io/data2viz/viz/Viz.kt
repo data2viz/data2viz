@@ -142,6 +142,11 @@ public class Viz(
         return layer
     }
 
+    /**
+     * Used to keep a strong reference to the listener, so it doesn't get garbage collected
+     * until this object is.
+     */
+    internal lateinit var pixelRatioChangeListener: () -> Unit
 }
 
 

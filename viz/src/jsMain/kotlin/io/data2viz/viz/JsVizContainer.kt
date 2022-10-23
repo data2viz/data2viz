@@ -20,7 +20,9 @@ package io.data2viz.viz
 import io.data2viz.ExperimentalD2V
 import io.data2viz.geom.Size
 import kotlinx.browser.document
+import kotlinx.browser.window
 import kotlinx.dom.appendElement
+import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 
@@ -51,7 +53,7 @@ internal class JsVizContainer(
     override val vizList: List<Viz>
         get() = allViz
 
-    public override val density: Double = 1.0
+    override val density: Double = 1.0
 
     override var size: Size = Size(100.0, 100.0)
         set(value) {
@@ -98,25 +100,20 @@ internal class JsVizContainer(
 }
 
 
-private fun Viz.updatePlatformSize() {
+internal fun Viz.updatePlatformSize(
+    context: CanvasRenderingContext2D? = (renderer as? JsCanvasRenderer)?.context
+) {
+    if (context == null) return
 
-    val jsRenderer = renderer as? JsCanvasRenderer
+    context.canvas.width = width.toInt()
+    context.canvas.height = height.toInt()
+    val canvas = context.canvas
 
-    jsRenderer?.run {
-        context.canvas.width = width.toInt()
-        context.canvas.height = height.toInt()
-        val canvas = context.canvas
-
-        val pixelRatio = getPixelRatio()
-        //manage HDPi screens
-        if (pixelRatio > 1.0) {
-            canvas.style.width = "${canvas.width}px"
-            canvas.style.height = "${canvas.height}px"
-            canvas.width = (canvas.width * pixelRatio).toInt()
-            canvas.height = (canvas.height * pixelRatio).toInt()
-            context.scale(pixelRatio, pixelRatio)
-        }
-
-    }
-
+    val pixelRatio = window.devicePixelRatio
+    //manage HDPi screens
+    canvas.style.width = "${canvas.width}px"
+    canvas.style.height = "${canvas.height}px"
+    canvas.width = (canvas.width * pixelRatio).toInt()
+    canvas.height = (canvas.height * pixelRatio).toInt()
+    context.scale(pixelRatio, pixelRatio)
 }
