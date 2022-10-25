@@ -28,7 +28,7 @@ import io.data2viz.timer.Timer
  * It is associated with a renderer which is used to perform the rendering depending on
  * the current platform.
  *
- * It has at least one layer (the activeLayer). Layers provides a way of managing what is
+ * It has at least one layer (the activeLayer). Layers provide a way of managing what is
  * drawn on the background and what is drawn on frontend. The rendering process start with
  * the layer with the lower index.
  *
