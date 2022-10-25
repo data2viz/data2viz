@@ -46,7 +46,7 @@ public data class Size(val width: Double, val height: Double = width) {
 }
 
 /**
- * Indicates a class that has a width and a height. Adds an size property to
+ * Indicates a class that has a width and a height. Adds a size property to
  * set and get width and height in a single line.
  */
 public interface HasSize {
