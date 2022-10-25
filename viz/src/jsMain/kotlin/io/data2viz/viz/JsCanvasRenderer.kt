@@ -17,12 +17,10 @@
 
 package io.data2viz.viz
 
-import io.data2viz.color.*
 import io.data2viz.timer.Timer
 import io.data2viz.timer.timer
 import org.w3c.dom.*
 import kotlinx.browser.document
-import kotlin.math.PI
 
 
 /**
