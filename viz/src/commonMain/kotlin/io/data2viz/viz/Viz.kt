@@ -36,9 +36,9 @@ import io.data2viz.timer.Timer
  * function on its context. The created element are then added to the active layer. It provides
  * a very easy way to start a visualization.
  *
- * Viz width and height can be seen as the target size of the visualisation on a standard
+ * Viz width and height can be seen as the target size of the visualization on a standard
  * screen (no hi resolution) for a web rendering. These sizes will then be used during the
- * rendering process on each platform to adapt the visualisation to the target device, taking
+ * rendering process on each platform to adapt the visualization to the target device, taking
  * in account the resolution of the screen, and the configuration of the viz.
  */
 public class Viz(
