@@ -36,6 +36,14 @@ public final class io/data2viz/viz/DslExtensionsKt {
 	public static synthetic fun textAlign$default (Lio/data2viz/viz/TextNode;Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;ILjava/lang/Object;)Lio/data2viz/viz/TextAlign;
 }
 
+public final class io/data2viz/viz/EventPropagation : java/lang/Enum {
+	public static final field Continue Lio/data2viz/viz/EventPropagation;
+	public static final field Stop Lio/data2viz/viz/EventPropagation;
+	public final fun getStop ()Z
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/EventPropagation;
+	public static fun values ()[Lio/data2viz/viz/EventPropagation;
+}
+
 public final class io/data2viz/viz/EventType : java/lang/Enum {
 	public static final field Cancel Lio/data2viz/viz/EventType;
 	public static final field Click Lio/data2viz/viz/EventType;
@@ -806,6 +814,7 @@ public final class io/data2viz/viz/Translation : io/data2viz/viz/AtomicTransform
 }
 
 public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/viz/HasChildren, io/data2viz/viz/Style {
+	public field pixelRatioChangeListener Lkotlin/jvm/functions/Function0;
 	public fun <init> ()V
 	public fun <init> (Lio/data2viz/viz/Layer;Lio/data2viz/viz/Style;)V
 	public synthetic fun <init> (Lio/data2viz/viz/Layer;Lio/data2viz/viz/Style;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -823,6 +832,7 @@ public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/v
 	public fun getHAlign ()Lio/data2viz/viz/TextHAlign;
 	public fun getHeight ()D
 	public final fun getLayers ()Ljava/util/List;
+	public final fun getPixelRatioChangeListener$d2v_viz ()Lkotlin/jvm/functions/Function0;
 	public final fun getRenderer ()Lio/data2viz/viz/VizRenderer;
 	public fun getSize ()Lio/data2viz/geom/Size;
 	public fun getStroke ()Lio/data2viz/color/ColorOrGradient;
@@ -850,6 +860,7 @@ public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/v
 	public fun setFill (Lio/data2viz/color/ColorOrGradient;)V
 	public fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
 	public fun setHeight (D)V
+	public final fun setPixelRatioChangeListener$d2v_viz (Lkotlin/jvm/functions/Function0;)V
 	public final fun setRenderer (Lio/data2viz/viz/VizRenderer;)V
 	public fun setSize (Lio/data2viz/geom/Size;)V
 	public fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
