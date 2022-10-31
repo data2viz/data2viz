@@ -3,6 +3,11 @@
 This version upgrade Kotlin version to 1.6.21.
 This version introduces breaking changes in the event system.
 
+## 0.10.1
+> Published 01 November 2022
+* Fix the screen density reading and update rendering when it changes
+* Event listener now returns an EventPropagation result
+
 ## 0.10.0
 > Published 05 July 2022
 * Major refactoring of the Viz events, introduce the unified KPointerEvent interface for mouse and touch events
