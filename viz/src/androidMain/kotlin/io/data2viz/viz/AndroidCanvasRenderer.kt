@@ -72,7 +72,7 @@ internal actual fun textMeasure(
 public fun Viz.toView(context: Context): VizView = VizView(this, context)
 
 public interface VizTouchListener {
-    public fun onTouchEvent(view: View, event: MotionEvent?): Boolean
+    public fun onTouchEvent(view: View, event: MotionEvent?): EventPropagation
 }
 
 internal fun Paint.getNumberHeight(): Int {

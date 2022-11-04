@@ -32,7 +32,7 @@ internal object FakeDisposable : Disposable {
 internal actual fun pointerEventsListener(type: EventType): KEventListener<KPointerEvent> {
     require(type != EventType.Unknown)
     return object : KEventListener<KPointerEvent> {
-        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> Unit): Disposable {
+        override fun addNativeListener(target: Any, listener: (KPointerEvent) -> EventPropagation): Disposable {
             return addTouchIOSEventHandle(target, listener, type)
         }
     }
@@ -41,7 +41,7 @@ internal actual fun pointerEventsListener(type: EventType): KEventListener<KPoin
 @ExperimentalKEvent
 internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> {
     return object : KEventListener<KZoomEvent> {
-        override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
+        override fun addNativeListener(target: Any, listener: (KZoomEvent) -> EventPropagation): Disposable {
             return FakeDisposable
         }
     }
@@ -49,7 +49,7 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> {
 
 private fun addTouchIOSEventHandle(
     target: Any,
-    listener: (KPointerEvent) -> Unit,
+    listener: (KPointerEvent) -> EventPropagation,
     type: EventType
 ): Disposable {
     val renderer = target as IOSCanvasRenderer
@@ -58,8 +58,8 @@ private fun addTouchIOSEventHandle(
 
 internal class Listener(
     val type: EventType,
-    listener: (KPointerEvent) -> Unit
-) : (KPointerEvent) -> Unit by listener
+    listener: (KPointerEvent) -> EventPropagation
+) : (KPointerEvent) -> EventPropagation by listener
 
 internal actual fun <T> VizRenderer.addNativeEventListenerFromHandle(handle: KEventHandle<T>): Disposable where T : KEvent {
     val iosCanvasRenderer = this as IOSCanvasRenderer

@@ -64,16 +64,11 @@ public class VizView(
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 //        Log.d(AndroidCanvasRenderer::class.java.simpleName, "onTouchEvent $event")
 
-        var handled = super.onTouchEvent(event)
-        if (!handled) {
-            renderer.onTouchListeners.forEach {
-                it.onTouchEvent(this, event)
-            }
+        if (super.onTouchEvent(event)) return true
+        val handlingListenersCount = renderer.onTouchListeners.count {
+            it.onTouchEvent(this, event) == EventPropagation.Stop
         }
-
-        handled = true
-        return handled
-
+        return handlingListenersCount > 0
     }
 
     /**

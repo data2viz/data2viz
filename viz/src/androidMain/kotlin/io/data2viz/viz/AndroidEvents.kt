@@ -34,7 +34,7 @@ internal actual fun pointerEventsListener(type: EventType): KEventListener<KPoin
     return object : KEventListener<KPointerEvent> {
         override fun addNativeListener(
             target: Any,
-            listener: (KPointerEvent) -> Unit
+            listener: (KPointerEvent) -> EventPropagation
         ): Disposable {
             return addSingleTouchAndroidEventHandle(
                 target = target,
@@ -56,7 +56,11 @@ internal actual fun pointerEventsListener(type: EventType): KEventListener<KPoin
     }
 }
 
-private fun enterLeaveEventHandler(enter: Boolean, target: Any, listener: (KPointerEvent) -> Unit): AndroidActionEventHandle {
+private fun enterLeaveEventHandler(
+    enter: Boolean,
+    target: Any,
+    listener: (KPointerEvent) -> EventPropagation
+): AndroidActionEventHandle {
     val renderer = target as AndroidCanvasRenderer
     val handler = object : DetectInBoundsVizTouchListener() {
         override fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean) {
@@ -69,7 +73,10 @@ private fun enterLeaveEventHandler(enter: Boolean, target: Any, listener: (KPoin
     return AndroidActionEventHandle(renderer, MotionEvent.ACTION_MOVE, handler).also { it.init() }
 }
 
-private fun clickEventHandler(target: Any, listener: (KPointerEvent) -> Unit): AndroidActionEventHandle {
+private fun clickEventHandler(
+    target: Any,
+    listener: (KPointerEvent) -> EventPropagation
+): AndroidActionEventHandle {
     return AndroidActionEventHandle(
         renderer = target as AndroidCanvasRenderer,
         type = MotionEvent.ACTION_UP,
@@ -83,7 +90,10 @@ private fun clickEventHandler(target: Any, listener: (KPointerEvent) -> Unit): A
     ).also { it.init() }
 }
 
-private fun doubleClickEventHandler(target: Any, listener: (KPointerEvent) -> Unit): AndroidActionEventHandle {
+private fun doubleClickEventHandler(
+    target: Any,
+    listener: (KPointerEvent) -> EventPropagation
+): AndroidActionEventHandle {
     return AndroidActionEventHandle(
         target as AndroidCanvasRenderer,
         MotionEvent.ACTION_UP,
@@ -99,7 +109,10 @@ private fun doubleClickEventHandler(target: Any, listener: (KPointerEvent) -> Un
 @ExperimentalKEvent
 internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : KEventListener<KZoomEvent> {
 
-    override fun addNativeListener(target: Any, listener: (KZoomEvent) -> Unit): Disposable {
+    override fun addNativeListener(
+        target: Any,
+        listener: (KZoomEvent) -> EventPropagation
+    ): Disposable {
 
         val androidCanvasRenderer = target as AndroidCanvasRenderer
         val gestureDetector = ScaleGestureDetector(
@@ -137,8 +150,12 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : 
 
 
         val gestureDetectorVizTouchListener = object : VizTouchListener {
-            override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
-                return gestureDetector.onTouchEvent(event)
+            override fun onTouchEvent(
+                view: View,
+                event: MotionEvent?
+            ): EventPropagation = when (gestureDetector.onTouchEvent(event)) {
+                true -> EventPropagation.Stop
+                false -> EventPropagation.Continue
             }
         }
 
@@ -165,7 +182,7 @@ private fun checkIsViewInBounds(
 
 private fun addSingleTouchAndroidEventHandle(
     target: Any,
-    listener: (KPointerEvent) -> Unit,
+    listener: (KPointerEvent) -> EventPropagation,
     type: EventType,
     action: Int
 ): AndroidActionEventHandle {
@@ -173,17 +190,17 @@ private fun addSingleTouchAndroidEventHandle(
     val renderer = target as AndroidCanvasRenderer
 
     val handler = object : VizTouchListener {
-        override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
+        override fun onTouchEvent(view: View, event: MotionEvent?): EventPropagation {
 
             // Simple events only for single touch
             if (event?.pointerCount == 1) {
                 if (event.action == action) {
                     val kevent = event.toKPointerEvent(type)
-                    listener(kevent)
+                    return listener(kevent)
                 }
             }
 
-            return true
+            return EventPropagation.Continue
         }
     }
     return AndroidActionEventHandle(renderer, action, handler).also { it.init() }
@@ -214,10 +231,10 @@ public abstract class DetectInBoundsVizTouchListener : VizTouchListener {
 
     public var isLastMoveInBounds: Boolean = false
 
-    override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
+    override fun onTouchEvent(view: View, event: MotionEvent?): EventPropagation {
 
         if (event?.action != MotionEvent.ACTION_MOVE) {
-            return false
+            return EventPropagation.Continue
         }
 
         val currentMoveInBounds = checkIsViewInBounds(view, event.x, event.y)
@@ -228,7 +245,7 @@ public abstract class DetectInBoundsVizTouchListener : VizTouchListener {
         isLastMoveInBounds = currentMoveInBounds
 
 
-        return false
+        return EventPropagation.Continue
     }
 
     public abstract fun onBoundsChanged(event: MotionEvent, oldInBoundsValue: Boolean, newInBoundsValue: Boolean)
@@ -240,7 +257,7 @@ public abstract class DetectClickVizTouchListener : VizTouchListener {
     }
 
     public var lastTimeActionDown: Long? = null
-    override fun onTouchEvent(view: View, event: MotionEvent?): Boolean {
+    override fun onTouchEvent(view: View, event: MotionEvent?): EventPropagation {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> lastTimeActionDown = System.currentTimeMillis()
             MotionEvent.ACTION_UP -> {
@@ -253,7 +270,7 @@ public abstract class DetectClickVizTouchListener : VizTouchListener {
                 }
             }
         }
-        return false
+        return EventPropagation.Continue
     }
 
     public abstract fun onClick(event: MotionEvent)

@@ -114,18 +114,13 @@ public open class VizContainerView(
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 //        Log.d(AndroidCanvasRenderer::class.java.simpleName, "onTouchEvent $event")
 
-        var handled = super.onTouchEvent(event)
-        if (!handled) {
-            renderers.forEach{ renderer ->
-                renderer.onTouchListeners.forEach {
-                    it.onTouchEvent(this, event)
-                }
+        if (super.onTouchEvent(event)) return true
+        val handlingListenersCount = renderers.sumOf { renderer ->
+            renderer.onTouchListeners.count {
+                it.onTouchEvent(this, event) == EventPropagation.Stop
             }
         }
-
-        handled = true
-        return handled
-
+        return handlingListenersCount > 0
     }
 
     /**
