@@ -119,10 +119,14 @@ public final class io/data2viz/shape/PieKt {
 
 public abstract interface class io/data2viz/shape/Symbol {
 	public abstract fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public abstract fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public abstract fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/Symbol$DefaultImpls {
 	public static synthetic fun render$default (Lio/data2viz/shape/Symbol;Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/geom/Path;
+	public static synthetic fun renderArea$default (Lio/data2viz/shape/Symbol;Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/geom/Path;
+	public static synthetic fun renderRadius$default (Lio/data2viz/shape/Symbol;Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/SymbolGenerator {
@@ -499,35 +503,49 @@ public final class io/data2viz/shape/stack/StackSpace {
 public final class io/data2viz/shape/symbol/Circle : io/data2viz/shape/Symbol {
 	public fun <init> ()V
 	public fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/symbol/Cross : io/data2viz/shape/Symbol {
 	public fun <init> ()V
 	public fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/symbol/Diamond : io/data2viz/shape/Symbol {
 	public fun <init> ()V
 	public fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/symbol/Square : io/data2viz/shape/Symbol {
 	public fun <init> ()V
 	public fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/symbol/Star : io/data2viz/shape/Symbol {
 	public fun <init> ()V
 	public fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/symbol/Triangle : io/data2viz/shape/Symbol {
 	public fun <init> ()V
 	public fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/symbol/Wye : io/data2viz/shape/Symbol {
 	public fun <init> ()V
 	public fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
 }
 
