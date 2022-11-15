@@ -27,33 +27,43 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 public class Circle : Symbol {
-    override fun <C : Path> render(path: C, size: Double, position: Point): C {
-        val r = sqrt(size / pi)
+    override fun <C : Path> render(path: C, size: Double, position: Point): C =
+        renderArea(path, size, position)
+
+    override fun <C : Path> renderArea(path: C, area: Double, position: Point): C =
+        renderRadius(path, sqrt(area / pi), position)
+
+    override fun <C : Path> renderRadius(path: C, radius: Double, position: Point): C {
         with(path) {
-            moveTo(position.x + r, position.y)
-            arc(position.x, position.y, r, .0, tau)
+            moveTo(position.x + radius, position.y)
+            arc(position.x, position.y, radius, .0, tau)
         }
         return path
     }
 }
 
 public class Cross : Symbol {
-    override fun <C : Path> render(path: C, size: Double, position: Point): C {
-        val r = sqrt(size / 5) / 2
-        val r3 = 3 * r
+    override fun <C : Path> render(path: C, size: Double, position: Point): C =
+        renderArea(path, size, position)
+
+    override fun <C : Path> renderArea(path: C, area: Double, position: Point): C =
+        renderRadius(path, sqrt(area / 5) / 2, position)
+
+    override fun <C : Path> renderRadius(path: C, radius: Double, position: Point): C {
+        val r3 = 3 * radius
         with(path) {
-            moveTo(position.x - r3, position.y - r )
-            lineTo(position.x - r , position.y - r )
-            lineTo(position.x - r , position.y - r3)
-            lineTo(position.x + r , position.y - r3)
-            lineTo(position.x + r , position.y - r )
-            lineTo(position.x + r3, position.y - r )
-            lineTo(position.x + r3, position.y + r )
-            lineTo(position.x + r , position.y + r )
-            lineTo(position.x + r , position.y + r3)
-            lineTo(position.x - r , position.y + r3)
-            lineTo(position.x - r , position.y + r )
-            lineTo(position.x - r3, position.y + r )
+            moveTo(position.x - r3, position.y - radius )
+            lineTo(position.x - radius , position.y - radius )
+            lineTo(position.x - radius , position.y - r3)
+            lineTo(position.x + radius , position.y - r3)
+            lineTo(position.x + radius , position.y - radius )
+            lineTo(position.x + r3, position.y - radius )
+            lineTo(position.x + r3, position.y + radius )
+            lineTo(position.x + radius , position.y + radius )
+            lineTo(position.x + radius , position.y + r3)
+            lineTo(position.x - radius , position.y + r3)
+            lineTo(position.x - radius , position.y + radius )
+            lineTo(position.x - r3, position.y + radius )
             closePath()
         }
         return path
@@ -65,13 +75,18 @@ public class Diamond : Symbol {
     private val tan30 = sqrt(1 / 3.0)
     private val tan30_2 = tan30 * 2
 
-    override fun <C : Path> render(path: C, size: Double, position: Point): C {
-        val y = sqrt(size / tan30_2)
-        val x = y * tan30
+    override fun <C : Path> render(path: C, size: Double, position: Point): C =
+        renderArea(path, size, position)
+
+    override fun <C : Path> renderArea(path: C, area: Double, position: Point): C =
+        renderRadius(path, sqrt(area / tan30_2), position)
+
+    override fun <C : Path> renderRadius(path: C, radius: Double, position: Point): C {
+        val x = radius * tan30
         with(path) {
-            moveTo(position.x, position.y - y)
+            moveTo(position.x, position.y - radius)
             lineTo(position.x + x, position.y)
-            lineTo(position.x, position.y + y)
+            lineTo(position.x, position.y + radius)
             lineTo(position.x - x, position.y)
             closePath()
         }
@@ -80,11 +95,16 @@ public class Diamond : Symbol {
 }
 
 public class Square : Symbol {
-    override fun <C : Path> render(path: C, size: Double, position: Point): C {
-        val w = sqrt(size)
-        val x = -w / 2.0
+    override fun <C : Path> render(path: C, size: Double, position: Point): C =
+        renderArea(path, size, position)
 
-        path.rect(position.x + x, position.y + x, w, w)
+    override fun <C : Path> renderArea(path: C, area: Double, position: Point): C =
+        renderRadius(path, sqrt(area), position)
+
+    override fun <C : Path> renderRadius(path: C, radius: Double, position: Point): C {
+        val x = -radius / 2.0
+
+        path.rect(position.x + x, position.y + x, radius, radius)
         return path
     }
 }
@@ -96,17 +116,22 @@ public class Star : Symbol {
     private val kx = sin(tau / 10) * kr
     private val ky = -cos(tau / 10) * kr
 
-    override fun <C : Path> render(path: C, size: Double, position: Point): C {
-        val r = sqrt(size * ka)
-        val x = kx * r
-        val y = ky * r
-        path.moveTo(position.x, position.y-r)
+    override fun <C : Path> render(path: C, size: Double, position: Point): C =
+        renderArea(path, size, position)
+
+    override fun <C : Path> renderArea(path: C, area: Double, position: Point): C =
+        renderRadius(path, sqrt(area * ka), position)
+
+    override fun <C : Path> renderRadius(path: C, radius: Double, position: Point): C {
+        val x = kx * radius
+        val y = ky * radius
+        path.moveTo(position.x, position.y - radius)
         path.lineTo(position.x + x, position.y + y)
         for (i in 1 until 5) {
             val a = tau * i / 5.0
             val c = cos(a)
             val s = sin(a)
-            path.lineTo(position.x + (s * r), position.y - (c * r))
+            path.lineTo(position.x + (s * radius), position.y - (c * radius))
             path.lineTo(position.x + (c * x) - (s * y), position.y + (s * x) + (c * y))
         }
         path.closePath()
@@ -118,12 +143,17 @@ public class Triangle : Symbol {
 
     private val sqrt3 = sqrt(3.0)
 
-    override fun <C : Path> render(path: C, size: Double, position: Point): C {
-        val y = -sqrt(size / (sqrt3 * 3))
+    override fun <C : Path> render(path: C, size: Double, position: Point): C =
+        renderArea(path, size, position)
+
+    override fun <C : Path> renderArea(path: C, area: Double, position: Point): C =
+        renderRadius(path, -sqrt(area / (sqrt3 * 3)), position)
+
+    override fun <C : Path> renderRadius(path: C, radius: Double, position: Point): C {
         with(path) {
-            moveTo(position.x, position.y + (y * 2))
-            lineTo(position.x - (sqrt3 * y), position.y - y)
-            lineTo(position.x + (sqrt3 * y), position.y - y)
+            moveTo(position.x, position.y + (radius * 2))
+            lineTo(position.x - (sqrt3 * radius), position.y - radius)
+            lineTo(position.x + (sqrt3 * radius), position.y - radius)
             closePath()
         }
         return path
@@ -139,12 +169,17 @@ public class Wye : Symbol {
     private val k = 1 / sqrt(12.0)
     private val a = (k / 2 + 1) * 3
 
-    override fun <C : Path> render(path: C, size: Double, position: Point): C {
-        val r = sqrt(size / a)
-        val x0 = r / 2
-        val y0 = r * k
+    override fun <C : Path> render(path: C, size: Double, position: Point): C =
+        renderArea(path, size, position)
+
+    override fun <C : Path> renderArea(path: C, area: Double, position: Point): C =
+        renderRadius(path, sqrt(area / a), position)
+
+    override fun <C : Path> renderRadius(path: C, radius: Double, position: Point): C {
+        val x0 = radius / 2
+        val y0 = radius * k
         val x1 = x0
-        val y1 = r * k + r
+        val y1 = radius * k + radius
         val x2 = -x1
         val y2 = y1
         with(path) {

@@ -21,8 +21,22 @@ import io.data2viz.geom.Path
 import io.data2viz.geom.Point
 import io.data2viz.shape.symbol.*
 
-public interface Symbol {
+/**
+ * A Symbol is a shape you can render based on whether its radius or its area.
+ */
+public interface  Symbol {
+    @Deprecated("Use renderArea or renderRadius instead (defaults to renderArea).", ReplaceWith("renderArea(path, size, position)"))
     public fun <C : Path> render(path: C, size: Double, position: Point = Point.origin): C
+
+    /**
+     * Render the [Symbol] based on the size of its area.
+     */
+    public fun <C : Path> renderArea(path: C, area: Double, position: Point = Point.origin): C
+
+    /**
+     * Render the [Symbol] based on the size of its radius.
+     */
+    public fun <C : Path> renderRadius(path: C, radius: Double, position: Point = Point.origin): C
 }
 
 public enum class Symbols {
