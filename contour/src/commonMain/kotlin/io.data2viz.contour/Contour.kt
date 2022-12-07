@@ -144,26 +144,31 @@ public class Contour {
         require(values.size == (dx * dy))
         { "Invalid values size, the array should contains precisely (size.width x size.height) elements." }
 
-        val tz = thresholds(values).sortedArray()
+        val sortedThresholds = thresholds(values).sortedArray()
 
         // TODO Convert number of thresholds (if not array, see d3.js) into uniform thresholds.
 
-        val layers = tz.map { threshold ->
+        val geoJsons = sortedThresholds.map { threshold ->
             val rings = mutableListOf<MutableList<List<RingPoint>>>()
             val holes = mutableListOf<List<RingPoint>>()
 
-            isoRings(values, threshold) { ring: MutableList<RingPoint> ->
-//                smoothLinear(ring, values, threshold)
-                if (doubleArea(ring.toTypedArray()) > 0)
-                    rings.add(mutableListOf(ring))
+            isoRings(values, threshold) { currentRing: MutableList<RingPoint> ->
+//                smoothLinear(currentRing, values, threshold)
+                if (doubleArea(currentRing.toTypedArray()) > 0)
+                    rings.add(mutableListOf(currentRing))
                 else
-                    holes.add(ring)
+                    holes.add(currentRing)
             }
 
+            // Adding found "holes" to their corresponding MultiRing container
             holes.forEach { hole ->
                 for (i in (0 until rings.size)) {
                     val ring = rings[i]
-                    if (contains(ring[0], hole) != -1) {
+
+                    // The "container ring" (or external ring), is always the first in the array
+                    val container = ring[0]
+
+                    if (contains(container, hole) != -1) {
                         ring.add(hole)
                         return@forEach
                     }
@@ -172,28 +177,25 @@ public class Contour {
             rings
         }
 
-        return layers.mapIndexed { index, layer ->
-            val coordinates = Array(layer.size) { layerIndex ->
-                Array(layer[layerIndex].size) { rindex ->
-                    Array(layer[layerIndex][rindex].size) { lindex ->
-                        val pt = layer[layerIndex][rindex][lindex]
+        // Mapping "geoJson coordinates" to the expected format:
+        // First build an array for each threshold
+        return geoJsons.mapIndexed { thresholdIndex, geoJson ->
+
+            // Then build an array for each multiRing
+            val coordinates = Array(geoJson.size) { multiRingIndex ->
+
+                // Then an array for each ring of this multiRing
+                Array(geoJson[multiRingIndex].size) { ringIndex ->
+
+                    // then an array for each point
+                    Array(geoJson[multiRingIndex][ringIndex].size) { pointIndex ->
+                        val pt = geoJson[multiRingIndex][ringIndex][pointIndex]
                         RingPoint(pt.x, pt.y)
                     }
                 }
             }
-            GeoJson(tz[index], coordinates)
+            GeoJson(sortedThresholds[thresholdIndex], coordinates)
         }
-    }
-
-    private fun contains(ring: List<RingPoint>, hole: List<RingPoint>): Int {
-        var i = -1
-        val n = hole.size
-        while (++i < n) {
-            val c = ringContains(ring, hole[i])
-            if (c != 0)
-                return c
-        }
-        return 0
     }
 
     private class Fragment(var start: Int, var end: Int, val ring: MutableList<RingPoint>)
@@ -343,7 +345,22 @@ internal fun doubleArea(ring: Array<RingPoint>): Double {
     return area
 }
 
-
+/**
+ * Check if a "hole" is contained in a "ring".
+ * If any point of hole is inside the ring returns 1
+ * If any point of hole is outside the ring returns -1
+ * Else returns 0 (all points are on the ring)
+ */
+internal fun contains(ring: List<RingPoint>, hole: List<RingPoint>): Int {
+    var i = -1
+    val n = hole.size
+    while (++i < n) {
+        val c = ringContains(ring, hole[i])
+        if (c != 0)
+            return c
+    }
+    return 0
+}
 
 /**
  * If point inside ring returns 1

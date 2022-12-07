@@ -80,6 +80,33 @@ class ContourTests : Matchers {
     }
 
     @Test
+    fun `check contains`() {
+        // container is a 10x10 ring
+        val container = listOf(pt(0, 0), pt(10, 0), pt(10, 10), pt(0, 10), pt(0, 0))
+
+        // totally inside, no common points
+        val ringInside = listOf(pt(5, 5), pt(5, 6), pt(6, 6), pt(6, 5), pt(5, 5))
+
+        // totally outside, no common points
+        val ringOutside = listOf(pt(11, 11), pt(11, 12), pt(12, 12), pt(12, 11), pt(11, 11))
+
+        // partially inside, partially outside
+        // this should NEVER happen due to the "contour" algorithm, there can't be contours (or holes) that intersect
+        // val ringAcross = listOf(pt(5, 5), pt(15, 5), pt(15, 15), pt(5, 15), pt(5, 5))
+
+        // totally inside, some common points
+        val ringInsideOnBorder = listOf(pt(0, 0), pt(5, 0), pt(5, 5), pt(0, 5), pt(0, 0))
+
+        // totally outside, some common points
+        val ringOutsideOnBorder = listOf(pt(10, 10), pt(5, 10), pt(5, 15), pt(10, 15), pt(10, 10))
+
+        contains(container, ringInside) shouldBe 1
+        contains(container, ringOutside) shouldBe -1
+        contains(container, ringInsideOnBorder) shouldBe 1
+        contains(container, ringOutsideOnBorder) shouldBe -1
+    }
+
+    @Test
     fun `contours 1111`() {
 
         val result = simpleContour(2).contours(
@@ -783,6 +810,46 @@ class ContourTests : Matchers {
 
         result[1].coordinates.size shouldBe 1
         checkValues(expected2, result[1].coordinates[0][0])
+    }
+
+    @Test
+    fun `simplexNoise random values and contours check 8x8 single threshold`(){
+        val result = contour {
+            size(8, 8)
+            thresholds = { arrayOf(0.6) }
+        }.contours(
+            arrayOf(0.5,0.5,0.502882857873381,0.5369738211385282,0.6145285171827292,0.6916987091024387,
+                0.7055875470024386,0.6267084570553255,0.298231965,0.31414124838151636,0.352946215063879,
+                0.4087580838147531,0.49253044713935457,0.5804077946413501,0.623738882352182,0.5944719607436638,
+                0.18264707670631303,0.20790016590953952,0.25384837253172887,0.30978339761371565,0.387258607824023,
+                0.4829003513397903,0.5623467876635349,0.5928593312107928,0.14811944248851577,0.18654648967979914,
+                0.21898072984398076,0.250528547816806,0.31377329638934737,0.4170486516903804,0.5364127119953963,
+                0.6276103167100674,0.12615730455516466,0.17909028479861383,0.2079219129425514,0.2151328088569393,
+                0.2587354813542429,0.3751744054325384,0.5384865537339909,0.6819691706491647,0.08301200079400378,
+                0.13860657290602874,0.1721708071991646,0.17849411149835193,0.21456921302763649,0.3464217431863919,
+                0.5470211812965052,0.7258833743115971,0.041957514008907515,0.08392907699949159,0.12364437040208481,
+                0.14880172556635185,0.20024862788349523,0.33941967958255137,0.5491408521483306,0.7364335418278741,
+                0.0683235356681905,0.08545783009160524,0.1277604260082677,0.17143459477691753,0.23263601258720573,
+                0.3575225014136292,0.5436621919458642,0.7084281809582962
+            )
+        )
+
+        // 1 thresholds > 1 geoJson
+        result.size shouldBe 1
+
+        val geoJson = result[0]
+        val multiRings = geoJson.coordinates
+
+        // 2 contour lines...
+        multiRings.size shouldBe 2
+
+        // .. each without hole..
+        multiRings[0].size shouldBe 1
+        multiRings[1].size shouldBe 1
+
+        // .. each made of 13 points
+        multiRings[0][0].size shouldBe 13
+        multiRings[1][0].size shouldBe 13
     }
 
     @Test
