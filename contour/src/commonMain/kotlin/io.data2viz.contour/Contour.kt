@@ -37,6 +37,8 @@ public typealias Ring = Array<RingPoint>
  */
 public data class RingPoint(val x: Double, val y: Double) {
     internal constructor(x: Int, y: Int): this(x.toDouble(), y.toDouble())
+
+    override fun toString(): String = "$x,$y"
 }
 
 /**
@@ -131,7 +133,7 @@ public class Contour {
 
 
     public fun size(width: Int, height: Int) {
-        require (width > 0 && height > 0) { "Invalid size, width and height must be positive integer values." }
+        require(width > 0 && height > 0) { "Invalid size, width and height must be positive integer values." }
         dx = width
         dy = height
     }
@@ -153,6 +155,7 @@ public class Contour {
             val holes = mutableListOf<List<RingPoint>>()
 
             isoRings(values, threshold) { currentRing: MutableList<RingPoint> ->
+//                println("CALLBACK")
 //                smoothLinear(currentRing, values, threshold)
                 if (doubleArea(currentRing.toTypedArray()) > 0)
                     rings.add(mutableListOf(currentRing))
@@ -205,6 +208,8 @@ public class Contour {
         var t1: Boolean
         var t2: Boolean
         var t3: Boolean
+        var x = 0
+        var y = 0
 
         fun index(point: RingPoint): Int = (point.x * 2 + point.y * (dx + 1) * 4).toInt()
         fun threshold(index: Int) = values[index] >= threshold
@@ -214,18 +219,16 @@ public class Contour {
         val fragmentByStart: Array<Fragment?> = arrayOfNulls(maxSize)
         val fragmentByEnd: Array<Fragment?> = arrayOfNulls(maxSize)
 
-        var x = -1
-        var y = -1
-
         fun stitch(stitch: Stitch) {
             val start = rp(stitch.first.x + x, stitch.first.y + y)
             val end = rp(stitch.second.x + x, stitch.second.y + y)
             val startIndex = index(start)
             val endIndex = index(end)
-
             var f = fragmentByEnd[startIndex]
-            var g = fragmentByStart[endIndex]
+            val g: Fragment?
+
             if (f != null) {
+                g = fragmentByStart[endIndex]
                 if (g != null) {
                     fragmentByEnd[f.end] = null
                     fragmentByStart[g.start] = null
@@ -235,7 +238,7 @@ public class Contour {
                     } else {
                         val startEnd = Fragment(f.start, g.end, (f.ring + g.ring).toMutableList())
                         fragmentByStart[f.start] = startEnd
-                        fragmentByStart[g.end] = startEnd
+                        fragmentByEnd[g.end] = startEnd
                     }
                 } else {
                     fragmentByEnd[f.end] = null
@@ -243,70 +246,78 @@ public class Contour {
                     f.end = endIndex
                     fragmentByEnd[endIndex] = f
                 }
-            } else if (fragmentByStart[endIndex]?.let { f = it;true } == true) {
-                if (fragmentByEnd[startIndex]?.let { g = it; true } == true) {
-                    fragmentByStart[f!!.start] = null
-                    fragmentByEnd[g!!.start] = null
-                    if (f == g) {
-                        f!!.ring.add(end)
-                        callback(f!!.ring)
+            } else {
+                f = fragmentByStart[endIndex]
+                if (f != null) {
+                    g = fragmentByEnd[startIndex]
+                    if (g != null) {
+                        fragmentByStart[f.start] = null
+                        fragmentByEnd[g.end] = null
+                        if (f == g) {
+                            f.ring.add(end)
+                            callback(f.ring)
+                        } else {
+                            val startEnd = Fragment(g.start, f.end, (g.ring + f.ring).toMutableList())
+                            fragmentByStart[g.start] = startEnd
+                            fragmentByEnd[f.end] = startEnd
+                        }
                     } else {
-                        val startEnd = Fragment(g!!.start, f!!.end, (g!!.ring + f!!.ring).toMutableList())
-                        fragmentByStart[g!!.start] = startEnd
-                        fragmentByEnd[f!!.end] = startEnd
+                        fragmentByStart[f.start] = null
+                        f.ring.add(0, start)
+                        f.start = startIndex
+                        fragmentByStart[f.start] = f
                     }
                 } else {
-                    fragmentByStart[f!!.start] = null
-                    f!!.ring.add(0, start)
-                    f!!.start = startIndex
-                    fragmentByStart[startIndex] = f!!
+                    val startEnd = Fragment(startIndex, endIndex, mutableListOf(start, end))
+                    fragmentByStart[startIndex] = startEnd
+                    fragmentByEnd[endIndex] = startEnd
                 }
-            } else {
-                val startEnd = Fragment(startIndex, endIndex, mutableListOf(start, end))
-                fragmentByStart[startIndex] = startEnd
-                fragmentByEnd[endIndex] = startEnd
             }
         }
 
+
         // Special case for the first row (y = -1, t2 = t3 = 0).
+        x = -1
+        y = -1
         t1 = threshold(0)
         cases[t1.shl(1)].forEach(::stitch)
-        while (++x < dx - 1) {
+        while (++x < (dx - 1)) {
             t0 = t1
             t1 = threshold(x + 1)
-            cases[(t0.shl() or t1.shl(1))].forEach(::stitch)
+            cases[(t0.shl()) or (t1.shl(1))].forEach(::stitch)
         }
         cases[t1.shl()].forEach(::stitch)
 
+
         // General case for the intermediate rows.
-        while (++y < dy - 1) {
+        while (++y < (dy - 1)) {
             x = -1
             t1 = threshold(y * dx + dx)
             t2 = threshold(y * dx)
-            cases[t1.shl(1) or t2.shl(2)].forEach(::stitch)
-            while (++x < dx - 1) {
+            cases[(t1.shl(1)) or (t2.shl(2))].forEach(::stitch)
+            while (++x < (dx - 1)) {
                 t0 = t1
                 t1 = threshold(y * dx + dx + x + 1)
                 t3 = t2
                 t2 = threshold(y * dx + x + 1)
-                cases[t0.shl() or t1.shl(1) or t2.shl(2) or t3.shl(3)].forEach(::stitch)
+                cases[(t0.shl()) or (t1.shl(1)) or (t2.shl(2)) or (t3.shl(3))].forEach(::stitch)
             }
-            cases[t1.shl() or t2.shl(3)].forEach(::stitch)
+            cases[(t1.shl()) or (t2.shl(3))].forEach(::stitch)
         }
+
 
         // Special case for the last row (y = dy - 1, t0 = t1 = 0).
         x = -1
         t2 = threshold(y * dx)
         cases[t2.shl(2)].forEach(::stitch)
-        while (++x < dx - 1) {
+        while (++x < (dx - 1)) {
             t3 = t2
             t2 = threshold(y * dx + x + 1)
-            cases[t2.shl(2) or t3.shl(3)].forEach(::stitch)
+            cases[(t2.shl(2)) or (t3.shl(3))].forEach(::stitch)
         }
         cases[t2.shl(3)].forEach(::stitch)
-
-
     }
+}
 
     // TODO partial port, problem on v1 = values[yt * dx + xt]
 //    fun smoothLinear(ring: MutableList<Array<Double>>, values: Array<Double>, value: Double) {
@@ -329,7 +340,6 @@ public class Contour {
 //        }
 //    }
 
-}
 
 
 /**
@@ -403,5 +413,3 @@ internal fun within(from: Double, within: Double, to: Double) = within in from..
 
 internal fun collinear(a: RingPoint, b: RingPoint, c: RingPoint) =
         (b.x - a.x) * (c.y - a.y) == (c.x - a.x) * (b.y - a.y)
-
-

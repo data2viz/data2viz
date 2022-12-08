@@ -90,7 +90,7 @@ class ContourTests : Matchers {
         // totally outside, no common points
         val ringOutside = listOf(pt(11, 11), pt(11, 12), pt(12, 12), pt(12, 11), pt(11, 11))
 
-        // partially inside, partially outside
+        // ring "across" the container: partially inside, partially outside
         // this should NEVER happen due to the "contour" algorithm, there can't be contours (or holes) that intersect
         // val ringAcross = listOf(pt(5, 5), pt(15, 5), pt(15, 15), pt(5, 15), pt(5, 5))
 
