@@ -35,10 +35,14 @@ public typealias Ring = Array<RingPoint>
 /**
  * Simple class to store coordinates of the points of a [Ring].
  */
-public data class RingPoint(val x: Double, val y: Double) {
+public data class RingPoint(internal var xPos: Double, internal var yPos: Double) {
     internal constructor(x: Int, y: Int): this(x.toDouble(), y.toDouble())
 
-    override fun toString(): String = "$x,$y"
+    val x: Double
+        get() = xPos
+
+    val y: Double
+        get() = yPos
 }
 
 /**
@@ -131,6 +135,10 @@ public class Contour {
     private var dx: Int = 1
     private var dy: Int = 1
 
+    /**
+     * Activate contour smoothing (linear interpolation)
+     */
+    public var smoothing: Boolean = true
 
     public fun size(width: Int, height: Int) {
         require(width > 0 && height > 0) { "Invalid size, width and height must be positive integer values." }
@@ -155,8 +163,8 @@ public class Contour {
             val holes = mutableListOf<List<RingPoint>>()
 
             isoRings(values, threshold) { currentRing: MutableList<RingPoint> ->
-//                println("CALLBACK")
-//                smoothLinear(currentRing, values, threshold)
+
+                if (smoothing) smoothLinear(currentRing, values, threshold)
                 if (doubleArea(currentRing.toTypedArray()) > 0)
                     rings.add(mutableListOf(currentRing))
                 else
@@ -317,30 +325,32 @@ public class Contour {
         }
         cases[t2.shl(3)].forEach(::stitch)
     }
+
+    /**
+     * Linear smoothing of the point of a ring
+     */
+    private fun smoothLinear(ring: MutableList<RingPoint>, values: Array<Double>, value: Double) {
+        ring.forEach { pt ->
+            val x = pt.x
+            val y = pt.y
+            val xt = x.toInt()
+            val yt = y.toInt()
+
+            if (x > 0 && x < dx && (xt.toDouble() == x)) {
+                val pointIndex = yt * dx + xt
+                val v0 = values[pointIndex - 1]
+                val v1 = values[pointIndex]
+                pt.xPos = x + (value - v0) / (v1 - v0) - 0.5
+            }
+
+            if (y > 0 && y < dy && (yt.toDouble() == y)) {
+                val v0 = values[(yt - 1) * dx + xt]
+                val v1 = values[yt * dx + xt]
+                pt.yPos = y + (value - v0) / (v1 - v0) - 0.5
+            }
+        }
+    }
 }
-
-    // TODO partial port, problem on v1 = values[yt * dx + xt]
-//    fun smoothLinear(ring: MutableList<Array<Double>>, values: Array<Double>, value: Double) {
-//        ring.forEach { pt ->
-//            val x = pt[0]
-//            val y = pt[1]
-//            val xt = x.toInt()
-//            val yt = y.toInt()
-//            var v0 = .0
-//            val v1 = values[yt * dx + xt]
-//            if (x > 0 && x < dx && (xt.toDouble() == x)) {
-//                v0 = values[yt * dx + xt - 1]
-//                pt[0] = x + (value - v0) / (v1 - v0) - 0.5
-//            }
-//
-//            if (y > 0 && y < dy && (yt.toDouble() == y)) {
-//                v0 = values[(yt - 1) * dx + xt]
-//                pt[1] = y + (value - v0) / (v1 - v0) - 0.5
-//            }
-//        }
-//    }
-
-
 
 /**
  * return the double of the area of the ring. Positive if points are

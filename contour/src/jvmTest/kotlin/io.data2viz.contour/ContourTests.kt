@@ -210,6 +210,7 @@ class ContourTests : Matchers {
     fun `contours(values) with different thresholds returns the expected result for a simple polygon`() {
         val contours = contour {
             size(10, 10)
+            smoothing = false
             thresholds = { arrayOf(0.2, 0.4, 0.6, 0.8) }
         }.contours(
             values(
@@ -333,8 +334,10 @@ class ContourTests : Matchers {
     }
 
     @Test
-    fun `contours smooth(false)(values) returns the expected result for a simple polygon`() {
-        val contours = simpleContour(10).contours(
+    fun `contours smooth(false) returns the expected result for a simple polygon`() {
+        val simpleContour = simpleContour(10)
+        simpleContour.smoothing = false
+        val contours = simpleContour.contours(
                 values(
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -757,9 +760,10 @@ class ContourTests : Matchers {
 //    }
 
     @Test
-    fun `simplexNoise random values and contours check 6x6`(){
+    fun `simplexNoise random values and contours check 6x6 without smoothing`(){
         val result = contour {
             size(6, 6)
+            smoothing = false
             thresholds = { arrayOf(0.4, 0.6) }
         }.contours(
             arrayOf(0.5,0.5,0.502882857873381,0.5369738211385282,0.6145285171827292,0.6916987091024387,0.298231965,
@@ -802,6 +806,63 @@ class ContourTests : Matchers {
             pt(4.0, 0.5),
             pt(4.5, 1.0),
             pt(5.5, 1.0),
+            pt(6.0, 0.5)
+        )
+
+        result[0].coordinates.size shouldBe 1
+        checkValues(expected1, result[0].coordinates[0][0])
+
+        result[1].coordinates.size shouldBe 1
+        checkValues(expected2, result[1].coordinates[0][0])
+    }
+
+    @Test
+    fun `simplexNoise random values and contours check 6x6 with smoothing`(){
+        val result = contour {
+            size(6, 6)
+            // smoothing = true             // enabled by default
+            thresholds = { arrayOf(0.4, 0.6) }
+        }.contours(
+            arrayOf(0.5,0.5,0.502882857873381,0.5369738211385282,0.6145285171827292,0.6916987091024387,0.298231965,
+                0.31414124838151636,0.352946215063879,0.4087580838147531,0.49253044713935457,0.5804077946413501,
+                0.18264707670631303,0.20790016590953952,0.25384837253172887,0.30978339761371565,0.387258607824023,
+                0.4829003513397903,0.14811944248851577,0.18654648967979914,0.21898072984398076,0.250528547816806,
+                0.31377329638934737,0.4170486516903804,0.12615730455516466,0.17909028479861383,0.2079219129425514,
+                0.2151328088569393,0.2587354813542429,0.3751744054325384,0.08301200079400378,0.13860657290602874,
+                0.1721708071991646,0.17849411149835193,0.21456921302763649,0.3464217431863919
+            )
+        )
+
+        val expected1 = arrayOf(
+            pt(6.0, 3.5),
+            pt(6.0, 2.5),
+            pt(6.0, 1.5),
+            pt(6.0, 0.5),
+            pt(5.5, 0.0),
+            pt(4.5, 0.0),
+            pt(3.5, 0.0),
+            pt(2.5, 0.0),
+            pt(1.5, 0.0),
+            pt(0.5, 0.0),
+            pt(0.0, 0.5),
+            pt(0.5, 0.995618644449801),
+            pt(1.5, 1.0380429984016688),
+            pt(2.5, 1.1861755468547877),
+            pt(3.3430784703904775, 1.5),
+            pt(3.5, 1.5884881190425162),
+            pt(4.5, 2.3789667563629107),
+            pt(4.633219990640138, 2.5),
+            pt(5.334920425684463, 3.5),
+            pt(5.5, 3.9071393090971185),
+            pt(6.0, 3.5)
+        )
+        val expected2 = arrayOf(
+            pt(6.0, 0.5),
+            pt(5.5, 0.0),
+            pt(4.5, 0.0),
+            pt(4.312667473102481, 0.5),
+            pt(4.5, 0.6190880903080171),
+            pt(5.5, 1.3239550330453969),
             pt(6.0, 0.5)
         )
 
