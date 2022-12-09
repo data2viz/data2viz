@@ -38,10 +38,10 @@ public typealias Ring = Array<RingPoint>
 public data class RingPoint(internal var xPos: Double, internal var yPos: Double) {
     internal constructor(x: Int, y: Int): this(x.toDouble(), y.toDouble())
 
-    val x: Double
+    public val x: Double
         get() = xPos
 
-    val y: Double
+    public val y: Double
         get() = yPos
 }
 
@@ -100,9 +100,6 @@ public fun MultiRing.ring(index: Int): Ring = this[index]
  */
 public fun Ring.point(index: Int): RingPoint = this[index]
 
-
-public fun contour(init: Contour.() -> Unit): Contour = Contour().apply(init)
-
 private typealias Stitch = Pair<RingPoint, RingPoint>
 
 /**
@@ -129,42 +126,63 @@ private val cases: Array<Array<Stitch>> = arrayOf(
 
 private fun rp(x: Double, y: Double) = RingPoint(x, y)
 
-public class Contour {
+public fun contour(init: Contour.() -> Unit): Contour = Contour().apply(init)
 
-    public var thresholds: (Array<Double>) -> Array<Double> = { arrayOf() }
-    private var dx: Int = 1
-    private var dy: Int = 1
+/**
+ * This library computes contour polygons by applying marching squares to a rectangular array of
+ * numeric values.
+ *
+ * For each threshold value, the contour generator constructs a GeoJSON MultiPolygon geometry
+ * object representing the area where the input values are greater than or equal to the threshold value.
+ * The geometry is in planar coordinates, where ⟨i + 0.5, j + 0.5⟩ corresponds to element i + jn in
+ * the input values array.
+ *
+ * To instantiate a Contour object, call the contour(init: Contour.() -> Unit) function.
+ * To compute contours call Contour.contours(values).
+ */
+public class Contour internal constructor() {
 
     /**
-     * Activate contour smoothing (linear interpolation)
+     * Thresholds are defined as an array of values [x0, x1, …], default value is an empty Array.
+     *
+     * The first generated contour corresponds to the area where the input values are greater than
+     * or equal to x0; the second contour corresponds to the area where the input values are greater
+     * than or equal to x1, and so on.
+     * Thus, there is exactly one generated MultiPolygon geometry for each specified threshold
+     * value; the threshold value is exposed as a [GeoJson] object.
+     */
+    public var thresholds: Array<Double> = emptyArray()
+
+    /**
+     * Sets whether the generated contour polygons are smoothed using linear interpolation.
      */
     public var smoothing: Boolean = true
 
-    public fun size(width: Int, height: Int) {
-        require(width > 0 && height > 0) { "Invalid size, width and height must be positive integer values." }
-        dx = width
-        dy = height
-    }
+    @Deprecated("Pass values Array size in the contours() function call.")
+    public fun size(width: Int, height: Int) {}
 
     /**
-     * Return all contours as a [List<GeoJson>], one for each threshold value.
+     * Compute all contours for the given values array.
+     *
+     * @param values: the values array from which to draw the contours
+     * @param width: the width of the array
+     * @param height: the height of the array
+     * @return a [List] of [GeoJson] objects, one for each threshold value.
      */
-    public fun contours(values: Array<Double>): List<GeoJson> {
+    public fun contours(values: Array<Double>, width: Int, height: Int): List<GeoJson> {
 
-        require(values.size == (dx * dy))
-        { "Invalid values size, the array should contains precisely (size.width x size.height) elements." }
+        require(values.size == (width * height))
+        { "Invalid values size, the array should contains precisely (width x height) elements." }
 
-        val sortedThresholds = thresholds(values).sortedArray()
-
-        // TODO Convert number of thresholds (if not array, see d3.js) into uniform thresholds.
+        val sortedThresholds = thresholds.sortedArray()
 
         val geoJsons = sortedThresholds.map { threshold ->
             val rings = mutableListOf<MutableList<List<RingPoint>>>()
             val holes = mutableListOf<List<RingPoint>>()
 
-            isoRings(values, threshold) { currentRing: MutableList<RingPoint> ->
+            isoRings(values, width, height, threshold) { currentRing: MutableList<RingPoint> ->
 
-                if (smoothing) smoothLinear(currentRing, values, threshold)
+                if (smoothing) smoothLinear(currentRing, values, width, height, threshold)
                 if (doubleArea(currentRing.toTypedArray()) > 0)
                     rings.add(mutableListOf(currentRing))
                 else
@@ -211,7 +229,7 @@ public class Contour {
 
     private class Fragment(var start: Int, var end: Int, val ring: MutableList<RingPoint>)
 
-    private fun isoRings(values: Array<Double>, threshold: Double, callback: (MutableList<RingPoint>) -> Unit) {
+    private fun isoRings(values: Array<Double>, width: Int, height: Int, threshold: Double, callback: (MutableList<RingPoint>) -> Unit) {
         var t0: Boolean
         var t1: Boolean
         var t2: Boolean
@@ -219,11 +237,11 @@ public class Contour {
         var x = 0
         var y = 0
 
-        fun index(point: RingPoint): Int = (point.x * 2 + point.y * (dx + 1) * 4).toInt()
+        fun index(point: RingPoint): Int = (point.x * 2 + point.y * (width + 1) * 4).toInt()
         fun threshold(index: Int) = values[index] >= threshold
         fun Boolean.shl(bitCount: Int = 0) = (if (this) 1 else 0) shl bitCount
 
-        val maxSize = index(RingPoint(dx, dy))
+        val maxSize = index(RingPoint(width, height))
         val fragmentByStart: Array<Fragment?> = arrayOfNulls(maxSize)
         val fragmentByEnd: Array<Fragment?> = arrayOfNulls(maxSize)
 
@@ -289,7 +307,7 @@ public class Contour {
         y = -1
         t1 = threshold(0)
         cases[t1.shl(1)].forEach(::stitch)
-        while (++x < (dx - 1)) {
+        while (++x < (width - 1)) {
             t0 = t1
             t1 = threshold(x + 1)
             cases[(t0.shl()) or (t1.shl(1))].forEach(::stitch)
@@ -298,16 +316,16 @@ public class Contour {
 
 
         // General case for the intermediate rows.
-        while (++y < (dy - 1)) {
+        while (++y < (height - 1)) {
             x = -1
-            t1 = threshold(y * dx + dx)
-            t2 = threshold(y * dx)
+            t1 = threshold(y * width + width)
+            t2 = threshold(y * width)
             cases[(t1.shl(1)) or (t2.shl(2))].forEach(::stitch)
-            while (++x < (dx - 1)) {
+            while (++x < (width - 1)) {
                 t0 = t1
-                t1 = threshold(y * dx + dx + x + 1)
+                t1 = threshold(y * width + width + x + 1)
                 t3 = t2
-                t2 = threshold(y * dx + x + 1)
+                t2 = threshold(y * width + x + 1)
                 cases[(t0.shl()) or (t1.shl(1)) or (t2.shl(2)) or (t3.shl(3))].forEach(::stitch)
             }
             cases[(t1.shl()) or (t2.shl(3))].forEach(::stitch)
@@ -316,11 +334,11 @@ public class Contour {
 
         // Special case for the last row (y = dy - 1, t0 = t1 = 0).
         x = -1
-        t2 = threshold(y * dx)
+        t2 = threshold(y * width)
         cases[t2.shl(2)].forEach(::stitch)
-        while (++x < (dx - 1)) {
+        while (++x < (width - 1)) {
             t3 = t2
-            t2 = threshold(y * dx + x + 1)
+            t2 = threshold(y * width + x + 1)
             cases[(t2.shl(2)) or (t3.shl(3))].forEach(::stitch)
         }
         cases[t2.shl(3)].forEach(::stitch)
@@ -329,23 +347,23 @@ public class Contour {
     /**
      * Linear smoothing of the point of a ring
      */
-    private fun smoothLinear(ring: MutableList<RingPoint>, values: Array<Double>, value: Double) {
+    private fun smoothLinear(ring: MutableList<RingPoint>, values: Array<Double>, width: Int, height: Int, value: Double) {
         ring.forEach { pt ->
             val x = pt.x
             val y = pt.y
             val xt = x.toInt()
             val yt = y.toInt()
 
-            if (x > 0 && x < dx && (xt.toDouble() == x)) {
-                val pointIndex = yt * dx + xt
+            if (x > 0 && x < width && (xt.toDouble() == x)) {
+                val pointIndex = yt * width + xt
                 val v0 = values[pointIndex - 1]
                 val v1 = values[pointIndex]
                 pt.xPos = x + (value - v0) / (v1 - v0) - 0.5
             }
 
-            if (y > 0 && y < dy && (yt.toDouble() == y)) {
-                val v0 = values[(yt - 1) * dx + xt]
-                val v1 = values[yt * dx + xt]
+            if (y > 0 && y < height && (yt.toDouble() == y)) {
+                val v0 = values[(yt - 1) * width + xt]
+                val v1 = values[yt * width + xt]
                 pt.yPos = y + (value - v0) / (v1 - v0) - 0.5
             }
         }
@@ -416,10 +434,10 @@ internal fun segmentContains(start: RingPoint, end: RingPoint, point: RingPoint)
     return collinear(start, end, point) && (
         if (start.x == end.x)   within(start.y, point.y, end.y)
         else                    within(start.x, point.x, end.x)
-    )
+        )
 }
 
 internal fun within(from: Double, within: Double, to: Double) = within in from..to || within in to..from
 
 internal fun collinear(a: RingPoint, b: RingPoint, c: RingPoint) =
-        (b.x - a.x) * (c.y - a.y) == (c.x - a.x) * (b.y - a.y)
+    (b.x - a.x) * (c.y - a.y) == (c.x - a.x) * (b.y - a.y)

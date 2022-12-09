@@ -109,11 +109,11 @@ class ContourTests : Matchers {
     @Test
     fun `contours 1111`() {
 
-        val result = simpleContour(2).contours(
+        val result = simpleContour().contours(
             values(
                 1, 1,
                 1, 1
-            )
+            ), 2, 2
         )
 
         val expected = arrayOf(
@@ -146,11 +146,11 @@ class ContourTests : Matchers {
     @Test
     fun `contours(values) returns the expected result for an empty polygon`() {
 
-        val result = simpleContour(2).contours(
+        val result = simpleContour().contours(
                 values(
                         0, 1,
                         0, 1
-                ))[0].coordinates[0][0]
+                ), 2, 2)[0].coordinates[0][0]
 
 
         val expected = arrayOf(
@@ -168,7 +168,7 @@ class ContourTests : Matchers {
 
     @Test
     fun `contours(values) returns the expected result for a simple polygon`() {
-        val contours = simpleContour(10).contours(
+        val contours = simpleContour().contours(
                 values(
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -180,7 +180,7 @@ class ContourTests : Matchers {
                         0, 0, 0, 1, 1, 1, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                ))
+                ), 10, 10)
 
         val result = contours[0].coordinates[0][0]
 
@@ -207,11 +207,50 @@ class ContourTests : Matchers {
     }
 
     @Test
+    fun `contours(values) returns the expected result for a 7x10 values array`() {
+        val contours = simpleContour().contours(
+            values(
+                0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1, 1, 1, 0,
+                0, 0, 0, 1, 1, 1, 0,
+                0, 0, 0, 1, 1, 1, 0,
+                0, 0, 0, 1, 1, 1, 0,
+                0, 0, 0, 1, 1, 1, 0,
+                0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0
+            ), 7, 10)
+
+        val result = contours[0].coordinates[0][0]
+
+        val expected = arrayOf(
+            pt(6.0, 7.5),
+            pt(6.0, 6.5),
+            pt(6.0, 5.5),
+            pt(6.0, 4.5),
+            pt(6.0, 3.5),
+            pt(5.5, 3.0),
+            pt(4.5, 3.0),
+            pt(3.5, 3.0),
+            pt(3.0, 3.5),
+            pt(3.0, 4.5),
+            pt(3.0, 5.5),
+            pt(3.0, 6.5),
+            pt(3.0, 7.5),
+            pt(3.5, 8.0),
+            pt(4.5, 8.0),
+            pt(5.5, 8.0),
+            pt(6.0, 7.5)
+        )
+        checkValues(expected, result)
+    }
+
+    @Test
     fun `contours(values) with different thresholds returns the expected result for a simple polygon`() {
         val contours = contour {
-            size(10, 10)
             smoothing = false
-            thresholds = { arrayOf(0.2, 0.4, 0.6, 0.8) }
+            thresholds = arrayOf(0.2, 0.4, 0.6, 0.8)
         }.contours(
             values(
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -224,7 +263,7 @@ class ContourTests : Matchers {
                 0, 0, 0, 1, 1, 1, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            ))
+            ), 10, 10)
 
         val expected = arrayOf(
             pt(6.0, 7.5),
@@ -255,13 +294,12 @@ class ContourTests : Matchers {
     @Test
     fun `contours(values) should draw the external contour if all values are superior to threshold`() {
         val contours = contour {
-            size(2, 2)
-            thresholds = { arrayOf(.0) }
+            thresholds = arrayOf(.0)
         }.contours(
             arrayOf(
                 .1, .1,
                 .1, .1,
-            )
+            ), 2, 2
         )
 
         val expected = arrayOf(
@@ -285,8 +323,7 @@ class ContourTests : Matchers {
     @Test
     fun `contours(values) with different thresholds returns the expected results`() {
         val contours = contour {
-            size(5, 5)
-            thresholds = { arrayOf(0.2, 0.4, 0.6) }
+            thresholds = arrayOf(0.2, 0.4, 0.6)
         }.contours(
             arrayOf(
                 .1, .1, .1, .1, .1,
@@ -294,7 +331,7 @@ class ContourTests : Matchers {
                 .1, .3, .5, .3, .1,
                 .1, .3, .3, .3, .1,
                 .1, .1, .1, .1, .1
-            )
+            ), 5, 5
         )
 
         val expected02 = arrayOf(
@@ -335,7 +372,7 @@ class ContourTests : Matchers {
 
     @Test
     fun `contours smooth(false) returns the expected result for a simple polygon`() {
-        val simpleContour = simpleContour(10)
+        val simpleContour = simpleContour()
         simpleContour.smoothing = false
         val contours = simpleContour.contours(
                 values(
@@ -349,7 +386,7 @@ class ContourTests : Matchers {
                         0, 0, 0, 2, 1, 2, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                ))
+                ), 10, 10)
 
         val result = contours[0].coordinates[0][0]
 
@@ -378,7 +415,7 @@ class ContourTests : Matchers {
 
     @Test
     fun `contours(values) returns the expected result for a polygon with a hole`() {
-        val contours = simpleContour(10).contours(
+        val contours = simpleContour().contours(
                 values(
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -390,7 +427,7 @@ class ContourTests : Matchers {
                         0, 0, 0, 1, 1, 1, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                ))
+                ), 10, 10)
 
         val extern = contours[0].coordinates[0][0]
         val hole = contours[0].coordinates[0][1]
@@ -431,7 +468,7 @@ class ContourTests : Matchers {
 
     @Test
     fun `contours(values) returns the expected results for the inverted previous test`() {
-        val contours = simpleContour(10).contours(
+        val contours = simpleContour().contours(
             values(
                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -443,7 +480,7 @@ class ContourTests : Matchers {
                 1, 1, 1, 0, 0, 0, 1, 1, 1, 1,
                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-            ))
+            ), 10, 10)
 
         val extern = contours[0].coordinates[0][0]
         val exp2 = contours[0].coordinates[1][0]
@@ -530,7 +567,7 @@ class ContourTests : Matchers {
 
     @Test
     fun `contours(values) returns the expected result for a multipolygon`() {
-        val contours = simpleContour(10).contours(
+        val contours = simpleContour().contours(
                 values(
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -542,7 +579,7 @@ class ContourTests : Matchers {
                         0, 0, 0, 1, 1, 0, 1, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                ))
+                ), 10, 10)
 
         val extern1 = contours[0].coordinates[0][0]
         val extern2 = contours[0].coordinates[1][0]
@@ -586,7 +623,7 @@ class ContourTests : Matchers {
 
     @Test
     fun `contours(values) returns the expected result for a multipolygon with 4 holes`() {
-        val contours = simpleContour(7).contours(
+        val contours = simpleContour().contours(
             values(
                 0, 0, 0, 0, 0, 0, 0,
                 0, 1, 1, 1, 1, 1, 0,
@@ -595,7 +632,7 @@ class ContourTests : Matchers {
                 0, 1, 0, 1, 0, 1, 0,
                 0, 1, 1, 1, 1, 1, 0,
                 0, 0, 0, 0, 0, 0, 0
-            )
+            ), 7, 7
         )
 
         // 1 threshold means 1 contour
@@ -621,7 +658,7 @@ class ContourTests : Matchers {
 
     @Test
     fun `contours(values) returns the expected result for a multipolygon with holes`() {
-        val contours = simpleContour(10).contours(
+        val contours = simpleContour().contours(
                 values(
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -633,7 +670,7 @@ class ContourTests : Matchers {
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                ))
+                ), 10, 10)
 
         val expected1 = arrayOf(
               pt(4.0, 5.5),
@@ -730,10 +767,7 @@ class ContourTests : Matchers {
 //    }
 
 
-    private fun simpleContour(size: Int) = contour {
-        size(size, size)
-        thresholds = { arrayOf(0.5) }
-    }
+    private fun simpleContour() = contour { thresholds = arrayOf(0.5) }
 
 
 //    @Test
@@ -762,9 +796,8 @@ class ContourTests : Matchers {
     @Test
     fun `simplexNoise random values and contours check 6x6 without smoothing`(){
         val result = contour {
-            size(6, 6)
             smoothing = false
-            thresholds = { arrayOf(0.4, 0.6) }
+            thresholds = arrayOf(0.4, 0.6)
         }.contours(
             arrayOf(0.5,0.5,0.502882857873381,0.5369738211385282,0.6145285171827292,0.6916987091024387,0.298231965,
                 0.31414124838151636,0.352946215063879,0.4087580838147531,0.49253044713935457,0.5804077946413501,
@@ -773,7 +806,7 @@ class ContourTests : Matchers {
                 0.31377329638934737,0.4170486516903804,0.12615730455516466,0.17909028479861383,0.2079219129425514,
                 0.2151328088569393,0.2587354813542429,0.3751744054325384,0.08301200079400378,0.13860657290602874,
                 0.1721708071991646,0.17849411149835193,0.21456921302763649,0.3464217431863919
-            )
+            ), 6, 6
         )
 
         val expected1 = arrayOf(
@@ -819,9 +852,8 @@ class ContourTests : Matchers {
     @Test
     fun `simplexNoise random values and contours check 6x6 with smoothing`(){
         val result = contour {
-            size(6, 6)
             // smoothing = true             // enabled by default
-            thresholds = { arrayOf(0.4, 0.6) }
+            thresholds = arrayOf(0.4, 0.6)
         }.contours(
             arrayOf(0.5,0.5,0.502882857873381,0.5369738211385282,0.6145285171827292,0.6916987091024387,0.298231965,
                 0.31414124838151636,0.352946215063879,0.4087580838147531,0.49253044713935457,0.5804077946413501,
@@ -830,7 +862,7 @@ class ContourTests : Matchers {
                 0.31377329638934737,0.4170486516903804,0.12615730455516466,0.17909028479861383,0.2079219129425514,
                 0.2151328088569393,0.2587354813542429,0.3751744054325384,0.08301200079400378,0.13860657290602874,
                 0.1721708071991646,0.17849411149835193,0.21456921302763649,0.3464217431863919
-            )
+            ), 6, 6
         )
 
         val expected1 = arrayOf(
@@ -876,8 +908,7 @@ class ContourTests : Matchers {
     @Test
     fun `simplexNoise random values and contours check 8x8 single threshold`(){
         val result = contour {
-            size(8, 8)
-            thresholds = { arrayOf(0.6) }
+            thresholds = arrayOf(0.6)
         }.contours(
             arrayOf(0.5,0.5,0.502882857873381,0.5369738211385282,0.6145285171827292,0.6916987091024387,
                 0.7055875470024386,0.6267084570553255,0.298231965,0.31414124838151636,0.352946215063879,
@@ -892,7 +923,7 @@ class ContourTests : Matchers {
                 0.14880172556635185,0.20024862788349523,0.33941967958255137,0.5491408521483306,0.7364335418278741,
                 0.0683235356681905,0.08545783009160524,0.1277604260082677,0.17143459477691753,0.23263601258720573,
                 0.3575225014136292,0.5436621919458642,0.7084281809582962
-            )
+            ), 8, 8
         )
 
         // 1 thresholds > 1 geoJson
@@ -916,8 +947,7 @@ class ContourTests : Matchers {
     @Test
     fun `simplexNoise random values and contours check 8x8`(){
         val result = contour {
-            size(8, 8)
-            thresholds = { arrayOf(0.4, 0.6) }
+            thresholds = arrayOf(0.4, 0.6)
         }.contours(
             arrayOf(0.5,0.5,0.502882857873381,0.5369738211385282,0.6145285171827292,0.6916987091024387,
                 0.7055875470024386,0.6267084570553255,0.298231965,0.31414124838151636,0.352946215063879,
@@ -932,7 +962,7 @@ class ContourTests : Matchers {
                 0.14880172556635185,0.20024862788349523,0.33941967958255137,0.5491408521483306,0.7364335418278741,
                 0.0683235356681905,0.08545783009160524,0.1277604260082677,0.17143459477691753,0.23263601258720573,
                 0.3575225014136292,0.5436621919458642,0.7084281809582962
-            )
+            ), 8, 8
         )
 
         // 2 thresholds > 2 geoJson
@@ -973,8 +1003,7 @@ class ContourTests : Matchers {
     @Test
     fun `simplexNoise random values and contours check 10x10`(){
         val result = contour {
-            size(10, 10)
-            thresholds = { arrayOf(0.4, 0.6) }
+            thresholds = arrayOf(0.4, 0.6)
         }.contours(
             arrayOf(0.5,0.5,0.502882857873381,0.5369738211385282,0.6145285171827292,0.6916987091024387,
                 0.7055875470024386,0.6267084570553255,0.4843589070441124,0.3421730266587188,0.298231965,
@@ -996,7 +1025,7 @@ class ContourTests : Matchers {
                 0.5342308565617573,0.6447440577915102,0.6539580462355488,0.5475132518102512,0.3586669580092629,
                 0.3047753929591012,0.31284658231568624,0.3489948708052999,0.39503799727255773,0.46050394267823463,
                 0.5391818365729534,0.5761286316652915,0.5317124409236006,0.41433258621516855
-            )
+            ), 10, 10
         )
 
         result[0].coordinates.size shouldBe 1
@@ -1010,8 +1039,7 @@ class ContourTests : Matchers {
     @Test
     fun `simplexNoise random values and contours check 20x20`(){
         val result = contour {
-            size(20, 20)
-            thresholds = { arrayOf(0.4, 0.6) }
+            thresholds = arrayOf(0.4, 0.6)
         }.contours(
             arrayOf(0.5, 0.5, 0.500000106608248, 0.5011044833077226, 0.5107925371211025, 0.5369738211385282,
                 0.5800701506675079, 0.632093467807453, 0.679503269481029, 0.7077092115737081, 0.7055875470024389,
@@ -1101,7 +1129,7 @@ class ContourTests : Matchers {
                 0.3076191723771946, 0.3046689837130988, 0.3415011669349397, 0.40751208238446235, 0.4887729678963568,
                 0.5712566581235438, 0.640928212755287, 0.6854929504068683, 0.6978674011968546, 0.6782874223832931,
                 0.6346078224769208, 0.5802965513858991, 0.5302662918546365, 0.4954875529257055, 0.4783833039247575,
-                0.47231673496412274, 0.46930798949047675, 0.46795361872591235)
+                0.47231673496412274, 0.46930798949047675, 0.46795361872591235), 20, 20
         )
 
         result[0].coordinates.size shouldBe 2
