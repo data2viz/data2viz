@@ -3,6 +3,15 @@
 This version upgrade Kotlin version to 1.6.21.
 This version introduces breaking changes in the event system.
 
+## [Unreleased] 0.10.2
+> To be published
+* Add a new experimental [ImageHandler]: BitmapImage, currently implemented on JFX and JS
+* Reduce time to check if a zoom event is a new one or still the current one ([#DV-150](https://youtrack.data2viz.io/issue/DV-150))
+* The Color built-in utility functions (brighten, saturate...) are now also available for Gradient
+* Add linear smoothing to [Contour]
+* Rework the [Contour] module: improvements, bugfixes, more tests
+* Symbols can now be explicitly rendered using their radius
+
 ## 0.10.1
 > Published 01 November 2022
 * Fix the screen density reading and update rendering when it changes
