@@ -1,7 +1,4 @@
-# Version v0.10.x
-
-This version upgrade Kotlin version to 1.6.21.
-This version introduces breaking changes in the event system.
+# Changelog
 
 ## [Unreleased] 0.10.2
 > To be published
@@ -19,7 +16,9 @@ This version introduces breaking changes in the event system.
 
 ## 0.10.0
 > Published 05 July 2022
-* Major refactoring of the Viz events, introduce the unified KPointerEvent interface for mouse and touch events
+* This version upgrades Kotlin version to 1.6.21.
+* This version introduces breaking changes in the event system.
+  * Major refactoring of the Viz events, introduce the unified KPointerEvent interface for mouse and touch events
 
 
 # Version v0.9.x
