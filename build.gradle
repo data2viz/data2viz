@@ -15,10 +15,12 @@ apiValidation {
     nonPublicMarkers += ["io.data2viz.ExperimentalD2V",     "io.data2viz.InternalAPI"]
 }
 
+final String thisLibraryVersion = file("libraries_version.txt").readLines().first()
+
 allprojects {
 
     group = "io.data2viz.d2v"
-    version = "$version"
+    version = thisLibraryVersion
 
     repositories {
         mavenLocal()

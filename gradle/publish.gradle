@@ -3,33 +3,45 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
+tasks.register('javadocJar', Jar) {
+    archiveClassifier.set('javadoc')
+}
+
+static String propertyOrEnvOrNull(Project project, String key) {
+    final String property = project.findProperty(key)
+    if (property == null) return System.getenv(key)
+    return property
 }
 
 afterEvaluate {
     publishing {
 
-        //Maven central deployment
-        if (project.hasProperty("sonatypeUsername")) {
-            repositories {
-                maven {
-                    name = "oss"
-                    if (version.toString().endsWith("SNAPSHOT"))
-                        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-                    else
-                        url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+        String sonatypeUsername = propertyOrEnvOrNull(project, "sonatype_username")
+        String sonatypePassword = propertyOrEnvOrNull(project, "sonatype_password")
+        String repositoryId = System.getenv("sonatype_staging_repo_id")
 
-                    credentials {
-                        username = sonatypeUsername
-                        password = sonatypePassword
-                    }
+        repositories {
+            maven {
+                name = "MavenCentralStaging"
+                if (repositoryId == null) {
+                    url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                } else {
+                    url = uri("https://oss.sonatype.org/service/local/staging/deployByRepositoryId/$repositoryId/")
+                }
+                credentials {
+                    username = sonatypeUsername
+                    password = sonatypePassword
                 }
             }
-        }
-
-        if (project.hasProperty("d2v_service_app_id")) {
-            repositories {
+            maven {
+                name = "SonatypeSnapshots"
+                url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                credentials {
+                    username = sonatypeUsername
+                    password = sonatypePassword
+                }
+            }
+            if (project.hasProperty("d2v_service_app_id")) {
                 maven {
                     name = "data2viz-public"
                     url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public")
@@ -38,8 +50,6 @@ afterEvaluate {
                         password = d2v_service_app_secret
                     }
                 }
-            }
-            repositories {
                 maven {
                     name = "data2viz-dev"
                     url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/dev")
@@ -54,7 +64,7 @@ afterEvaluate {
         publications {
             all { publication ->
                 pom.withXml(configureMavenCentralMetadata)
-                artifact javadocJar
+                artifact(javadocJar)
                 def type = publication.name
                 switch (type) {
                     case 'kotlinMultiplatform':
@@ -68,7 +78,16 @@ afterEvaluate {
         }
 
         signing {
-            sign(publishing.publications)
+            String keyId = propertyOrEnvOrNull(project, "GPG_key_id")
+            String privateKey = propertyOrEnvOrNull(project, "GPG_private_key")
+            if (privateKey != null) {
+                useInMemoryPgpKeys(
+                    keyId,
+                    privateKey,
+                    propertyOrEnvOrNull(project, "GPG_private_password")
+                )
+                sign(publishing.publications)
+            }
         }
     }
 }
@@ -84,21 +103,21 @@ project.ext.configureMavenCentralMetadata = { pom ->
 project.ext.pomConfig = {
     licenses {
         license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution "repo"
+            name = "The Apache Software License, Version 2.0"
+            url "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution = "repo"
         }
     }
     developers {
         developer {
-            id "Data2viz"
-            name "Data2viz team"
-            organization "Data2viz"
-            organizationUrl "https://data2viz.io"
+            id = "Data2viz"
+            name = "Data2viz team"
+            organization = "Data2viz"
+            organizationUrl = "https://data2viz.io"
         }
     }
 
     scm {
-        url "https://github.com/data2viz/data2viz"
+        url = "https://github.com/data2viz/data2viz"
     }
 }
