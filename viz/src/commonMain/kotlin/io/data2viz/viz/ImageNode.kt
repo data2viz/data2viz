@@ -17,13 +17,15 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
+import io.data2viz.color.Color
 import io.data2viz.geom.Size
 
 
 /**
  * Links an image that needs to be rendered in the viz.
  */
-public class ImageNode() : Node() {
+public class ImageNode : Node() {
 
     public var image: ImageHandler? = null
 
@@ -38,17 +40,35 @@ public class ImageNode() : Node() {
     public var y: Double = .0
 
     /**
-     * The targe size of the image
+     * The target size of the image
      */
     public var size: Size? = null
-}
 
+    /**
+     * Image smoothing when scaled.
+     * Warning: currently unsupported on JFX.
+     */
+    @ExperimentalD2V
+    public var smoothing: Boolean = true
+}
 
 /**
  * Represents an image in the specific platform. The loading
- * of the image is outside of the common code.
+ * of the image is outside the common code.
  *
  * Depending on the platform, it can rely on Image Element (like HTMLImageElement) or
- * on class loading mechanisms
+ * on class loading mechanisms.
  */
 public interface ImageHandler
+
+/**
+ * Instantiate an [ImageHandler] from an array of (width x height) [Color]s, useful for generating heatmaps.
+ * Then the generated [ImageNode] can be stretched with [ImageNode.size] allowing to use the GPU
+ * and [ImageNode.smoothing] to handle high performance colors interpolation.
+ *
+ * @param pixels: the array of [Color], one for each pixel drawn, its size must be (width x height)
+ * @param width: the width of the array (unrelated to [ImageNode].size)
+ * @param height: the height of the array (unrelated to [ImageNode].size)
+ */
+@ExperimentalD2V
+public expect class BitmapImage(pixels: Array<Color>, width: Int, height: Int): ImageHandler

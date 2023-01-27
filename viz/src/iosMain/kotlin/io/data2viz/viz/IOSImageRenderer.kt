@@ -17,37 +17,7 @@
 
 package io.data2viz.viz
 
-import android.graphics.*
-
-
-public fun ImageNode.render(renderer: AndroidCanvasRenderer) {
-
-    image?.let { img ->
-
-        val bitmap = when (img){
-            is LocalImage -> img.image
-            else -> error("Unknown image type:: $img")
-        }
-
-        with(renderer) {
-
-            val rect = when (val s = size) {
-                null -> RectF(x.dp, y.dp, s.width.dp, s.height.dp)
-                else -> RectF(x.dp, y.dp, bitmap.width.toFloat(), bitmap.height.toFloat())
-            }
-
-            canvas.drawBitmap(bitmap, null, rect  ,null)
-        }
-
-    }
-
-}
-
-
-public fun Bitmap.toLocalImage(): LocalImage = LocalImage(this)
-
-
-public class LocalImage(public val image: Bitmap): ImageHandler
+import io.data2viz.color.Color
 
 //TODO @LouisCAD :) DV-158
 public actual class BitmapImage actual constructor(

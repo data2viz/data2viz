@@ -17,21 +17,28 @@
 
 package io.data2viz.viz
 
+import io.data2viz.color.Color
 import javafx.scene.canvas.*
 import javafx.scene.image.Image
+import javafx.scene.image.WritableImage
+import javafx.scene.paint.Color.rgb
+import java.io.InputStream
+import java.io.InputStreamReader
 
 public fun ImageNode.render(gc: GraphicsContext) {
 
+//    TODO: manage smoothing (seems only available during Image instantiation)
+
     image?.let { img ->
-        val canvasImageSource = when (img){
+        val imageSource = when (img){
             is LocalImage -> img.image
+            is BitmapImage -> img.buildImage()
             else -> error("Unknown image type:: $img")
         }
 
-        size?.let { s ->
-            gc.drawImage(canvasImageSource, x, y, s.width, s.height)
-        } ?: {
-            gc.drawImage(canvasImageSource, x, y)
+        when (val s = size) {
+            null -> gc.drawImage(imageSource, x, y)
+            else -> gc.drawImage(imageSource, x, y, s.width, s.height)
         }
 
     }
@@ -42,6 +49,30 @@ public fun ImageNode.render(gc: GraphicsContext) {
 public fun Image.toLocalImage(): LocalImage = LocalImage(this)
 
 
-public class LocalImage(
-    public val image: Image): ImageHandler
+public class LocalImage(public val image: Image): ImageHandler
+
+public actual class BitmapImage actual constructor(
+    private val pixels: Array<Color>,
+    private val width: Int,
+    private val height: Int
+) : ImageHandler {
+
+    init {
+        require(pixels.size == (width * height)) {
+            "The pixel array (pixels) size must be equal to (width x height)."
+        }
+    }
+    public fun buildImage(): Image {
+        val wImage = WritableImage(width, height)
+        val pixelWriter = wImage.pixelWriter
+        pixels.forEachIndexed { index, color ->
+            pixelWriter.setColor(
+                index % width,
+                height / width,
+                rgb(color.r, color.g, color.b, color.alpha.value)
+            )
+        }
+        return wImage
+    }
+}
 

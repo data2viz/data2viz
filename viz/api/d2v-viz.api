@@ -1,6 +1,11 @@
 public abstract interface class io/data2viz/viz/AtomicTransformation {
 }
 
+public final class io/data2viz/viz/BitmapImage : io/data2viz/viz/ImageHandler {
+	public fun <init> ([Lio/data2viz/color/Color;II)V
+	public final fun buildImage ()Ljavafx/scene/image/Image;
+}
+
 public final class io/data2viz/viz/CircleNode : io/data2viz/viz/Node, io/data2viz/geom/Circle, io/data2viz/viz/HasFill, io/data2viz/viz/HasStroke, io/data2viz/viz/HasTransform {
 	public fun <init> ()V
 	public fun <init> (Lio/data2viz/geom/Circle;)V
@@ -202,10 +207,12 @@ public final class io/data2viz/viz/ImageNode : io/data2viz/viz/Node {
 	public fun <init> ()V
 	public final fun getImage ()Lio/data2viz/viz/ImageHandler;
 	public final fun getSize ()Lio/data2viz/geom/Size;
+	public final fun getSmoothing ()Z
 	public final fun getX ()D
 	public final fun getY ()D
 	public final fun setImage (Lio/data2viz/viz/ImageHandler;)V
 	public final fun setSize (Lio/data2viz/geom/Size;)V
+	public final fun setSmoothing (Z)V
 	public final fun setX (D)V
 	public final fun setY (D)V
 }

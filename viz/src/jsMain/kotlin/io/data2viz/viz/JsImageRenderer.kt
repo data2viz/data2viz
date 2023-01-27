@@ -17,36 +17,73 @@
 
 package io.data2viz.viz
 
-import org.w3c.dom.CanvasImageSource
-import org.w3c.dom.CanvasRenderingContext2D
-import org.w3c.dom.HTMLImageElement
+import io.data2viz.color.Color
+import kotlinx.browser.document
+import org.w3c.dom.*
 
 public fun ImageNode.render(context: CanvasRenderingContext2D) {
 
     image?.let { img ->
-        val canvasImageSource = when (img){
+
+        val canvasImageSource = when (img) {
             is LocalImage -> img.toCanvasImageSource()
+            is BitmapImage -> img.toCanvasImageSource()
             else -> error("Unknown image type:: $img")
         }
 
-        size?.let { s ->
-            context.drawImage(canvasImageSource, x, y, s.width, s.height)
-        } ?: {
-            context.drawImage(canvasImageSource, x, y)
-        }
+        context.imageSmoothingEnabled = smoothing
+        if (smoothing) context.imageSmoothingQuality = ImageSmoothingQuality.HIGH
 
+        when (val s = size) {
+            null -> context.drawImage(canvasImageSource, x, y)
+            else -> context.drawImage(canvasImageSource, x, y, s.width, s.height)
+        }
     }
 
 }
 
 /**
- * Instanciate a LocalImage from an HTML Image.
+ * Instantiate a LocalImage from an HTML Image.
  */
 public fun HTMLImageElement.toLocalImage(): LocalImage = LocalImage(this)
 
-public class LocalImage(
-    public val image: HTMLImageElement): ImageHandler {
+/**
+ * [ImageHandler] from a locally loaded image, use HTMLImageElement.toLocalImage() to instantiate one.
+ */
+public class LocalImage(private val image: HTMLImageElement): ImageHandler {
     public fun toCanvasImageSource(): CanvasImageSource = image
 
 }
 
+public actual class BitmapImage actual constructor(
+    private val pixels: Array<Color>,
+    private val width: Int,
+    private val height: Int
+): ImageHandler {
+
+    init {
+        require(pixels.size == (width * height)) {
+            "The pixel list (pixels) size must be equal to (width x height) of the BitmapImage."
+        }
+    }
+    public fun toCanvasImageSource(): CanvasImageSource {
+        val canvas = document.createElement("canvas") as HTMLCanvasElement
+        canvas.width = width
+        canvas.height = height
+
+        val context = canvas.getContext("2d") as CanvasRenderingContext2D
+        val imgData = context.createImageData(canvas.width.toDouble(), canvas.height.toDouble())
+
+        for (i in pixels.indices) {
+            val index = i*4
+            val color = pixels[i]
+            imgData.asDynamic().data[index] = color.r
+            imgData.asDynamic().data[index + 1] = color.g
+            imgData.asDynamic().data[index + 2] = color.b
+            imgData.asDynamic().data[index + 3] = (color.alpha.value * 255).toInt()
+        }
+
+        context.putImageData(imgData, .0, .0)
+        return context.canvas
+    }
+}
