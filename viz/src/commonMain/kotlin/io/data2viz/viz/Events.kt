@@ -356,7 +356,7 @@ public class KZoomEvent(
 
     public companion object {
 
-        public const val diffTimeBetweenZoomEventsToDetectRestart: Int = 500
+        public const val diffTimeBetweenZoomEventsToDetectRestart: Int = 200
 
         public fun isNewZoom(currentTime: Double, lastTime: Double?): Boolean =
             if (lastTime == null) {
