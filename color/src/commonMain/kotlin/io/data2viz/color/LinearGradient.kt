@@ -67,14 +67,15 @@ internal constructor(val builder: LinearGradientFirstColorBuilder, val firstColo
 
 public class LinearGradient
 @Deprecated("Deprecated", ReplaceWith("Colors.Gradient.linear()", "io.data2viz.colors.Colors"))
-internal constructor() : Gradient, HasStartAndEnd {
+internal constructor(
+    override var x1: Double = .0,
+    override var x2: Double = .0,
+    override var y1: Double = .0,
+    override var y2: Double = .0,
+    initialColors: List<ColorStop> = emptyList()
+) : Gradient, HasStartAndEnd {
 
-    override var x1: Double = .0
-    override var y1: Double = .0
-    override var x2: Double = .0
-    override var y2: Double = .0
-
-    private val colors = mutableListOf<ColorStop>()
+    private val colors = initialColors.toMutableList()
     override val colorStops: List<ColorStop>
         get() = colors.toList()
 
@@ -82,4 +83,7 @@ internal constructor() : Gradient, HasStartAndEnd {
         colors.add(ColorStop(percent.coerceToDefault(), color))
         return this
     }
+
+    public override fun changeColors(changedColors: List<ColorStop>): LinearGradient =
+        LinearGradient(x1, x2, y1, y2, changedColors)
 }

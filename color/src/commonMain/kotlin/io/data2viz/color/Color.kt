@@ -22,14 +22,119 @@ import io.data2viz.math.Percent
 
 public data class ColorStop(val percent:Percent, val color: Color)
 
-public interface ColorOrGradient
+public interface ColorOrGradient {
 
-public interface Gradient : ColorOrGradient {
-    public val colorStops:List<ColorStop>
+    /**
+     * Brighten the colors (or all colors of the gradient) by a given strength.
+     */
+    public fun brighten(strength: Double = 1.0):ColorOrGradient
+
+    /**
+     * Darken the colors (or all colors of the gradient) by a given strength.
+     */
+    public fun darken(strength: Double = 1.0):ColorOrGradient
+
+    /**
+     * Saturate the colors (or all colors of the gradient) by a given strength.
+     */
+    public fun saturate(strength: Double = 1.0):ColorOrGradient
+
+    /**
+     * Desaturate the colors (or all colors of the gradient) by a given strength.
+     */
+    public fun desaturate(strength: Double = 1.0):ColorOrGradient
+
+    /**
+     * Make a color more (strength > 1.0) or less (strength < 1.0) transparent.
+     * Note that a fully transparent color (alpha = 0%) will remain transparent.
+     * Applied to a gradient, change the opacity of all the gradient colors.
+     */
+    public fun opacify(strength: Double = 1.0):ColorOrGradient
+
+    /**
+     * Apply an alpha value to a [Color], or to ALL colors of a [Gradient].
+     */
+    public fun withAlpha(alpha: Percent):ColorOrGradient
+
+    /**
+     * Change the perceived lightness of the color and return a new Color.
+     * TODO : when luminance() & contrast()  VS  darken() & brighten()   behavior will be simplified (seems to do the same thing now but produce different results)
+     */
+//    fun withLuminance(luminance: Percent):Color
+
+    /**
+     * Change the perceived hue of the color and return a new [Color].
+     * Applied to a gradient, change the hue of all the gradient colors.
+     * Based on the value of the hue in the HCL colorspace (red = 40.deg, green = 136.deg, blue = 306.deg)
+     */
+    public fun withHue(hue: Angle):ColorOrGradient
 }
 
-public interface Color : ColorOrGradient {
+public interface Gradient : ColorOrGradient {
+
+    /**
+     * Instantiate a new [ColorOrGradient] with a new list of [ColorStop].
+     */
+    public fun changeColors(changedColors: List<ColorStop>): Gradient
+
+    /**
+     * The list of each colors at each relative point of the gradient.
+     */
+    public val colorStops:List<ColorStop>
+
+    override fun brighten(strength: Double): Gradient {
+        return changeColors(colorStops.map {
+            ColorStop(it.percent, it.color.brighten(strength))
+        })
+    }
+
+    override fun darken(strength: Double): Gradient {
+        return changeColors(colorStops.map {
+            ColorStop(it.percent, it.color.darken(strength))
+        })
+    }
+
+    override fun saturate(strength: Double): Gradient {
+        return changeColors(colorStops.map {
+            ColorStop(it.percent, it.color.saturate(strength))
+        })
+    }
+
+    override fun desaturate(strength: Double): Gradient {
+        return changeColors(colorStops.map {
+            ColorStop(it.percent, it.color.desaturate(strength))
+        })
+    }
+
+    override fun opacify(strength: Double): Gradient {
+        return changeColors(colorStops.map {
+            ColorStop(it.percent, it.color.opacify(strength))
+        })
+    }
+
+    override fun withAlpha(alpha: Percent): Gradient {
+        return changeColors(colorStops.map {
+            ColorStop(it.percent, it.color.withAlpha(alpha))
+        })
+    }
+
+    override fun withHue(hue: Angle): Gradient {
+        return changeColors(colorStops.map {
+            ColorStop(it.percent, it.color.withHue(hue))
+        })
+    }
+}
+
+public interface  Color : ColorOrGradient {
     public val rgb:Int
+
+    override fun brighten(strength: Double): Color
+    override fun darken(strength: Double): Color
+    override fun saturate(strength: Double): Color
+    override fun desaturate(strength: Double): Color
+    override fun opacify(strength: Double): Color
+    override fun withAlpha(alpha: Percent): Color
+    override fun withHue(hue: Angle): Color
 
     /**
      * rgba string conforming to CSS specification `rgba(R, G, B, A)`
@@ -61,7 +166,7 @@ public interface Color : ColorOrGradient {
 
     /**
      * The value of the hue in the HCL colorspace (red = 40.deg, green = 136.deg, blue = 306.deg)
-     * HCL is designed to accord with human perception of color, so this colorspace provides better transition in term
+     * HCL is designed to accord with human perception of color, so this colorspace provides better transition in terms
      * of "hue perception".
      */
     //val hue: Angle
@@ -70,28 +175,4 @@ public interface Color : ColorOrGradient {
     public fun toLab():LabColor
     public fun toHcl():HclColor
     public fun toHsl():HslColor
-
-    public fun brighten(strength: Double = 1.0):Color
-    public fun darken(strength: Double = 1.0):Color
-    public fun saturate(strength: Double = 1.0):Color
-    public fun desaturate(strength: Double = 1.0):Color
-
-    /**
-     * Make a color more (strength > 1.0) or less (strength < 1.0) transparent.
-     * Note that a fully transparent color (alpha = 0%) will remain transparent.
-     */
-    public fun opacify(strength: Double = 1.0):Color
-    public fun withAlpha(alpha: Percent):Color
-
-    /**
-     * Change the perceived lightness of the color and return a new Color.
-     * TODO : when luminance() & contrast()  VS  darken() & brighten()   behavior will be simplified (seems to do the same thing now but produce different results)
-     */
-//    fun withLuminance(luminance: Percent):Color
-
-    /**
-     * Change the perceived hue of the color and return a new Color.
-     * Based on the value of the hue in the HCL colorspace (red = 40.deg, green = 136.deg, blue = 306.deg)
-     */
-    public fun withHue(hue: Angle):Color
 }

@@ -21,14 +21,6 @@ public abstract interface class io/data2viz/color/Color : io/data2viz/color/Colo
 	public abstract fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
 }
 
-public final class io/data2viz/color/Color$DefaultImpls {
-	public static synthetic fun brighten$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
-	public static synthetic fun darken$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
-	public static synthetic fun desaturate$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
-	public static synthetic fun opacify$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
-	public static synthetic fun saturate$default (Lio/data2viz/color/Color;DILjava/lang/Object;)Lio/data2viz/color/Color;
-}
-
 public final class io/data2viz/color/ColorConversionsKt {
 	public static final field Kn F
 	public static final field Xn F
@@ -51,6 +43,21 @@ public final class io/data2viz/color/ColorConversionsKt {
 }
 
 public abstract interface class io/data2viz/color/ColorOrGradient {
+	public abstract fun brighten (D)Lio/data2viz/color/ColorOrGradient;
+	public abstract fun darken (D)Lio/data2viz/color/ColorOrGradient;
+	public abstract fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
+	public abstract fun opacify (D)Lio/data2viz/color/ColorOrGradient;
+	public abstract fun saturate (D)Lio/data2viz/color/ColorOrGradient;
+	public abstract fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
+	public abstract fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
+}
+
+public final class io/data2viz/color/ColorOrGradient$DefaultImpls {
+	public static synthetic fun brighten$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun darken$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun desaturate$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun opacify$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun saturate$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
 }
 
 public final class io/data2viz/color/ColorStop {
@@ -495,7 +502,25 @@ public final class io/data2viz/color/EncodedColorsKt {
 }
 
 public abstract interface class io/data2viz/color/Gradient : io/data2viz/color/ColorOrGradient {
+	public abstract fun brighten (D)Lio/data2viz/color/Gradient;
+	public abstract fun changeColors (Ljava/util/List;)Lio/data2viz/color/Gradient;
+	public abstract fun darken (D)Lio/data2viz/color/Gradient;
+	public abstract fun desaturate (D)Lio/data2viz/color/Gradient;
 	public abstract fun getColorStops ()Ljava/util/List;
+	public abstract fun opacify (D)Lio/data2viz/color/Gradient;
+	public abstract fun saturate (D)Lio/data2viz/color/Gradient;
+	public abstract fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Gradient;
+	public abstract fun withHue-I1OF4x4 (D)Lio/data2viz/color/Gradient;
+}
+
+public final class io/data2viz/color/Gradient$DefaultImpls {
+	public static fun brighten (Lio/data2viz/color/Gradient;D)Lio/data2viz/color/Gradient;
+	public static fun darken (Lio/data2viz/color/Gradient;D)Lio/data2viz/color/Gradient;
+	public static fun desaturate (Lio/data2viz/color/Gradient;D)Lio/data2viz/color/Gradient;
+	public static fun opacify (Lio/data2viz/color/Gradient;D)Lio/data2viz/color/Gradient;
+	public static fun saturate (Lio/data2viz/color/Gradient;D)Lio/data2viz/color/Gradient;
+	public static fun withAlpha-wJQ8TTM (Lio/data2viz/color/Gradient;D)Lio/data2viz/color/Gradient;
+	public static fun withHue-I1OF4x4 (Lio/data2viz/color/Gradient;D)Lio/data2viz/color/Gradient;
 }
 
 public abstract interface class io/data2viz/color/HasCenter {
@@ -538,9 +563,12 @@ public final class io/data2viz/color/HclColor : io/data2viz/color/Color {
 	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (DDDDLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun brighten (D)Lio/data2viz/color/Color;
+	public synthetic fun brighten (D)Lio/data2viz/color/ColorOrGradient;
 	public fun contrast (Lio/data2viz/color/Color;)D
 	public fun darken (D)Lio/data2viz/color/Color;
+	public synthetic fun darken (D)Lio/data2viz/color/ColorOrGradient;
 	public fun desaturate (D)Lio/data2viz/color/Color;
+	public synthetic fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getAlpha-P6MNtoY ()D
 	public fun getB ()I
@@ -556,15 +584,19 @@ public final class io/data2viz/color/HclColor : io/data2viz/color/Color {
 	public final fun isAchromatic ()Z
 	public fun luminance-P6MNtoY ()D
 	public fun opacify (D)Lio/data2viz/color/Color;
+	public synthetic fun opacify (D)Lio/data2viz/color/ColorOrGradient;
 	public fun saturate (D)Lio/data2viz/color/Color;
+	public synthetic fun saturate (D)Lio/data2viz/color/ColorOrGradient;
 	public fun toHcl ()Lio/data2viz/color/HclColor;
 	public fun toHsl ()Lio/data2viz/color/HslColor;
 	public fun toLab ()Lio/data2viz/color/LabColor;
 	public fun toRgb ()Lio/data2viz/color/RgbColor;
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
 	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/HclColor;
 	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
 	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/HclColor;
 }
 
@@ -572,9 +604,12 @@ public final class io/data2viz/color/HslColor : io/data2viz/color/Color {
 	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (DDDDLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun brighten (D)Lio/data2viz/color/Color;
+	public synthetic fun brighten (D)Lio/data2viz/color/ColorOrGradient;
 	public fun contrast (Lio/data2viz/color/Color;)D
 	public fun darken (D)Lio/data2viz/color/Color;
+	public synthetic fun darken (D)Lio/data2viz/color/ColorOrGradient;
 	public fun desaturate (D)Lio/data2viz/color/Color;
+	public synthetic fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getAlpha-P6MNtoY ()D
 	public fun getB ()I
@@ -590,15 +625,19 @@ public final class io/data2viz/color/HslColor : io/data2viz/color/Color {
 	public final fun isAchromatic ()Z
 	public fun luminance-P6MNtoY ()D
 	public fun opacify (D)Lio/data2viz/color/Color;
+	public synthetic fun opacify (D)Lio/data2viz/color/ColorOrGradient;
 	public fun saturate (D)Lio/data2viz/color/Color;
+	public synthetic fun saturate (D)Lio/data2viz/color/ColorOrGradient;
 	public fun toHcl ()Lio/data2viz/color/HclColor;
 	public fun toHsl ()Lio/data2viz/color/HslColor;
 	public fun toLab ()Lio/data2viz/color/LabColor;
 	public fun toRgb ()Lio/data2viz/color/RgbColor;
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
 	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/HslColor;
 	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
 	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/HclColor;
 }
 
@@ -606,9 +645,12 @@ public final class io/data2viz/color/LabColor : io/data2viz/color/Color {
 	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (DDDDLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun brighten (D)Lio/data2viz/color/Color;
+	public synthetic fun brighten (D)Lio/data2viz/color/ColorOrGradient;
 	public fun contrast (Lio/data2viz/color/Color;)D
 	public fun darken (D)Lio/data2viz/color/Color;
+	public synthetic fun darken (D)Lio/data2viz/color/ColorOrGradient;
 	public fun desaturate (D)Lio/data2viz/color/Color;
+	public synthetic fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getAlpha-P6MNtoY ()D
 	public fun getB ()I
@@ -623,21 +665,35 @@ public final class io/data2viz/color/LabColor : io/data2viz/color/Color {
 	public fun hashCode ()I
 	public fun luminance-P6MNtoY ()D
 	public fun opacify (D)Lio/data2viz/color/Color;
+	public synthetic fun opacify (D)Lio/data2viz/color/ColorOrGradient;
 	public fun saturate (D)Lio/data2viz/color/Color;
+	public synthetic fun saturate (D)Lio/data2viz/color/ColorOrGradient;
 	public fun toHcl ()Lio/data2viz/color/HclColor;
 	public fun toHsl ()Lio/data2viz/color/HslColor;
 	public fun toLab ()Lio/data2viz/color/LabColor;
 	public fun toRgb ()Lio/data2viz/color/RgbColor;
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
 	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/LabColor;
 	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
 	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/HclColor;
 }
 
 public final class io/data2viz/color/LinearGradient : io/data2viz/color/Gradient, io/data2viz/color/HasStartAndEnd {
 	public fun <init> ()V
+	public fun <init> (DDDDLjava/util/List;)V
+	public synthetic fun <init> (DDDDLjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun andColor-2gujUFI (Lio/data2viz/color/Color;D)Lio/data2viz/color/LinearGradient;
+	public synthetic fun brighten (D)Lio/data2viz/color/ColorOrGradient;
+	public fun brighten (D)Lio/data2viz/color/Gradient;
+	public synthetic fun changeColors (Ljava/util/List;)Lio/data2viz/color/Gradient;
+	public fun changeColors (Ljava/util/List;)Lio/data2viz/color/LinearGradient;
+	public synthetic fun darken (D)Lio/data2viz/color/ColorOrGradient;
+	public fun darken (D)Lio/data2viz/color/Gradient;
+	public synthetic fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
+	public fun desaturate (D)Lio/data2viz/color/Gradient;
 	public fun getColorStops ()Ljava/util/List;
 	public fun getEnd ()Lio/data2viz/geom/Point;
 	public fun getStart ()Lio/data2viz/geom/Point;
@@ -645,12 +701,20 @@ public final class io/data2viz/color/LinearGradient : io/data2viz/color/Gradient
 	public fun getX2 ()D
 	public fun getY1 ()D
 	public fun getY2 ()D
+	public synthetic fun opacify (D)Lio/data2viz/color/ColorOrGradient;
+	public fun opacify (D)Lio/data2viz/color/Gradient;
+	public synthetic fun saturate (D)Lio/data2viz/color/ColorOrGradient;
+	public fun saturate (D)Lio/data2viz/color/Gradient;
 	public fun setEnd (Lio/data2viz/geom/Point;)V
 	public fun setStart (Lio/data2viz/geom/Point;)V
 	public fun setX1 (D)V
 	public fun setX2 (D)V
 	public fun setY1 (D)V
 	public fun setY2 (D)V
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
+	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Gradient;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
+	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/Gradient;
 }
 
 public final class io/data2viz/color/LinearGradientFirstColorBuilder {
@@ -685,16 +749,34 @@ public final class io/data2viz/color/LinearGradientSecondColorBuilder {
 
 public final class io/data2viz/color/RadialGradient : io/data2viz/color/Gradient, io/data2viz/color/HasCenter {
 	public fun <init> ()V
+	public fun <init> (DDDLjava/util/List;)V
+	public synthetic fun <init> (DDDLjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun andColor-2gujUFI (Lio/data2viz/color/Color;D)Lio/data2viz/color/RadialGradient;
+	public synthetic fun brighten (D)Lio/data2viz/color/ColorOrGradient;
+	public fun brighten (D)Lio/data2viz/color/Gradient;
+	public synthetic fun changeColors (Ljava/util/List;)Lio/data2viz/color/Gradient;
+	public fun changeColors (Ljava/util/List;)Lio/data2viz/color/RadialGradient;
+	public synthetic fun darken (D)Lio/data2viz/color/ColorOrGradient;
+	public fun darken (D)Lio/data2viz/color/Gradient;
+	public synthetic fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
+	public fun desaturate (D)Lio/data2viz/color/Gradient;
 	public fun getCenter ()Lio/data2viz/geom/Point;
 	public fun getColorStops ()Ljava/util/List;
 	public fun getCx ()D
 	public fun getCy ()D
 	public final fun getRadius ()D
+	public synthetic fun opacify (D)Lio/data2viz/color/ColorOrGradient;
+	public fun opacify (D)Lio/data2viz/color/Gradient;
+	public synthetic fun saturate (D)Lio/data2viz/color/ColorOrGradient;
+	public fun saturate (D)Lio/data2viz/color/Gradient;
 	public fun setCenter (Lio/data2viz/geom/Point;)V
 	public fun setCx (D)V
 	public fun setCy (D)V
 	public final fun setRadius (D)V
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
+	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Gradient;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
+	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/Gradient;
 }
 
 public final class io/data2viz/color/RadialGradientFirstColorBuilder {
@@ -731,9 +813,12 @@ public final class io/data2viz/color/RgbColor : io/data2viz/color/Color {
 	public synthetic fun <init> (IDILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (IDLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun brighten (D)Lio/data2viz/color/Color;
+	public synthetic fun brighten (D)Lio/data2viz/color/ColorOrGradient;
 	public fun contrast (Lio/data2viz/color/Color;)D
 	public fun darken (D)Lio/data2viz/color/Color;
+	public synthetic fun darken (D)Lio/data2viz/color/ColorOrGradient;
 	public fun desaturate (D)Lio/data2viz/color/Color;
+	public synthetic fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getAlpha-P6MNtoY ()D
 	public fun getB ()I
@@ -745,17 +830,21 @@ public final class io/data2viz/color/RgbColor : io/data2viz/color/Color {
 	public fun hashCode ()I
 	public fun luminance-P6MNtoY ()D
 	public fun opacify (D)Lio/data2viz/color/Color;
+	public synthetic fun opacify (D)Lio/data2viz/color/ColorOrGradient;
 	public fun saturate (D)Lio/data2viz/color/Color;
+	public synthetic fun saturate (D)Lio/data2viz/color/ColorOrGradient;
 	public fun toHcl ()Lio/data2viz/color/HclColor;
 	public fun toHsl ()Lio/data2viz/color/HslColor;
 	public fun toLab ()Lio/data2viz/color/LabColor;
 	public fun toRgb ()Lio/data2viz/color/RgbColor;
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Color;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
 	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/RgbColor;
 	public final fun withBlue (I)Lio/data2viz/color/RgbColor;
 	public final fun withGreen (I)Lio/data2viz/color/RgbColor;
 	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/Color;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
 	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/HclColor;
 	public final fun withRed (I)Lio/data2viz/color/RgbColor;
 }

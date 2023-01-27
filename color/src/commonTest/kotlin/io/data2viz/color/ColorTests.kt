@@ -330,18 +330,18 @@ class ColorTests : TestBase() {
         color4.alpha shouldBe 30.pct
 
         val color5 = Colors.rgb(0x6a6a6a, 20.pct).toLab().toHcl()
-        //round(color5.h.deg) shouldBe 267                     // achromatic, hue value irrelevant
+        //round(color5.h.deg) shouldBe 267                              // achromatic, hue value irrelevant
         round(color5.c) shouldBeClose 0.0
         round(color5.l.value * 100) shouldBe 45.0
         color5.alpha shouldBe 20.pct
 
         val color6 = white.toLab().toHcl()
-        //round(color6.h.deg) shouldBeClose 267                     // achromatic, hue value irrelevant
+        //round(color6.h.deg) shouldBeClose 267                         // achromatic, hue value irrelevant
         round(color6.c) shouldBeClose 0.0
         round(color6.l.value * 100) shouldBe 100.0
 
         val color7 = black.toLab().toHcl()
-        //round(color7.h.deg) shouldBe 0                       // achromatic, hue value irrelevant
+        //round(color7.h.deg) shouldBe 0                                // achromatic, hue value irrelevant
         round(color7.c) shouldBeClose 0.0
         round(color7.l.value * 100) shouldBe 0.0
     }
@@ -393,6 +393,30 @@ class ColorTests : TestBase() {
     }
 
     @Test
+    fun brighten_Gradient() {
+        val linearGradient = Colors.Gradient.linear(Point.origin, Point.origin)
+            .withColor(hotpink)
+            .andColor(darkseagreen, 50.pct)
+            .andColor(teal, 100.pct)
+
+        val brighten1 = linearGradient.brighten()
+        val brighten2 = linearGradient.brighten(2.0)
+        val brighten3 = linearGradient.brighten(3.0)
+
+        brighten1.colorStops[0].color.rgbHex shouldBe "#ff9ce6"
+        brighten2.colorStops[0].color.rgbHex shouldBe "#ffd1ff"
+        brighten3.colorStops[0].color.rgbHex shouldBe "#ffffff"
+
+        brighten1.colorStops[1].color.rgbHex shouldBe "#c0efbf"
+        brighten2.colorStops[1].color.rgbHex shouldBe "#f3fff2"
+        brighten3.colorStops[1].color.rgbHex shouldBe "#ffffff"
+
+        brighten1.colorStops[2].color.rgbHex shouldBe "#4cb0af"
+        brighten2.colorStops[2].color.rgbHex shouldBe "#81e2e1"
+        brighten3.colorStops[2].color.rgbHex shouldBe "#b5ffff"
+    }
+
+    @Test
     fun brighten_HCL() {
         hotpink.toLab().toHcl().brighten().rgbHex shouldBe "#ff9ce6"
         hotpink.toLab().toHcl().brighten(2.0).rgbHex shouldBe "#ffd1ff"
@@ -420,6 +444,30 @@ class ColorTests : TestBase() {
         teal.darken().rgbHex shouldBe "#005354"
         teal.darken(2.0).rgbHex shouldBe "#00292b"
         teal.darken(2.6).rgbHex shouldBe "#001715"
+    }
+
+    @Test
+    fun darken_Gradient() {
+        val linearGradient = Colors.Gradient.linear(Point.origin, Point.origin)
+            .withColor(hotpink)
+            .andColor(darkseagreen, 50.pct)
+            .andColor(teal, 100.pct)
+
+        val darken1 = linearGradient.darken()
+        val darken2 = linearGradient.darken(2.0)
+        val darken3 = linearGradient.darken(2.6)
+
+        darken1.colorStops[0].color.rgbHex shouldBe "#c93384"
+        darken2.colorStops[0].color.rgbHex shouldBe "#930058"
+        darken3.colorStops[0].color.rgbHex shouldBe "#74003f"
+
+        darken1.colorStops[1].color.rgbHex shouldBe "#608c61"
+        darken2.colorStops[1].color.rgbHex shouldBe "#345e37"
+        darken3.colorStops[1].color.rgbHex shouldBe "#1b441f"
+
+        darken1.colorStops[2].color.rgbHex shouldBe "#005354"
+        darken2.colorStops[2].color.rgbHex shouldBe "#00292b"
+        darken3.colorStops[2].color.rgbHex shouldBe "#001715"
     }
 
     @Test

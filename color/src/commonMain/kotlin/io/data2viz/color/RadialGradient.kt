@@ -58,13 +58,14 @@ internal constructor(val builder: RadialGradientFirstColorBuilder, val firstColo
 public class RadialGradient
 
 @Deprecated("Deprecated", ReplaceWith("Colors.Gradient.radial()", "io.data2viz.colors.Colors"))
-constructor(): Gradient, HasCenter {
+constructor(
+    override var cx: Double = .0,
+    override var cy: Double = .0,
+    public var radius: Double = .0,
+    initialColors: List<ColorStop> = emptyList()
+) : Gradient, HasCenter {
 
-    override var cx:Double = .0
-    override var cy:Double = .0
-    public var radius:Double = .0
-
-    private val colors = mutableListOf<ColorStop>()
+    private val colors = initialColors.toMutableList()
     override val colorStops: List<ColorStop>
         get() = colors.toList()
 
@@ -72,4 +73,7 @@ constructor(): Gradient, HasCenter {
         colors.add(ColorStop(percent.coerceToDefault(), color))
         return this
     }
+
+    public override fun changeColors(changedColors: List<ColorStop>): RadialGradient =
+        RadialGradient(cx, cy, radius, changedColors)
 }
