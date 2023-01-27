@@ -13,7 +13,7 @@
 
 Data2viz is a data visualization toolbox for Kotlin Multiplatform.
 
-You can pick what you need in the different modules and use them independently in the following environments: Android, JavaScript(IR and Legacy), and JavaFX (iOs to come). 
+You can pick what you need in the different modules and use them independently in the following environments: Android, JavaScript(IR and Legacy), and JavaFX (iOS to come). 
 
 Your code produces the same results and rendering on each platform.
 
