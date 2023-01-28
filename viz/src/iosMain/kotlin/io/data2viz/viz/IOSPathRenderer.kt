@@ -73,10 +73,10 @@ public fun PathNode.render(renderer: IOSCanvasRenderer) {
 					cmd.endAngle,
 					cmd.counterClockWise.not()
 				)
-				is Rect -> CGPathAddRect(
+				is RectCmd -> CGPathAddRect(
 					path,
 					null,
-					CGRectMake(cmd.x, cmd.y, cmd.width, cmd.height)
+					CGRectMake(cmd.x, cmd.y, cmd.w, cmd.h)
 				)
 				is ClosePath -> CGPathCloseSubpath(path)
 				else -> error("Unknown path command:: ${cmd::class}")
