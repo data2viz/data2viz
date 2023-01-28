@@ -71,10 +71,10 @@ private fun <T> List<StackParam<T>>.sortInsideOut(): List<Int> {
         val stackParam = this.get(index)
         if (topSum < bottomSum) {
             top.add(stackParam.index)
-            topSum += stackParam.stackedValues.sumByDouble { it.to }
+            topSum += stackParam.stackedValues.sumOf { it.to }
         } else {
             bottom.add(stackParam.index)
-            bottomSum += stackParam.stackedValues.sumByDouble { it.to }
+            bottomSum += stackParam.stackedValues.sumOf { it.to }
         }
     }
     return bottom.reversed() + top
@@ -101,7 +101,7 @@ private fun <T> List<StackParam<T>>.sortReverse(): List<Int> =
 
 internal fun <T> List<StackParam<T>>.sumSeries(): List<SeriesSum> =
         map { serie ->
-            SeriesSum(serie.index, serie.stackedValues.sumByDouble { it.to - it.from })
+            SeriesSum(serie.index, serie.stackedValues.sumOf { it.to - it.from })
         }
 
 internal data class SeriesSum(

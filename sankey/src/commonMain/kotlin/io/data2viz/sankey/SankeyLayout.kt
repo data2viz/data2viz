@@ -216,7 +216,7 @@ public class SankeyLayout<D> {
             nodeList.value.forEach { node ->
                 if (node.targetLinks.isNotEmpty()) {
                     val dy =
-                        (node.targetLinks.sumByDouble(::weightedSource) / node.targetLinks.sumByDouble { it.value } - nodeCenter(
+                        (node.targetLinks.sumOf(::weightedSource) / node.targetLinks.sumOf { it.value } - nodeCenter(
                             node
                         )) * alpha;
                     node.y0 += dy

@@ -58,7 +58,7 @@ public class ClusterLayout {
         rootCluster.eachAfter({ node: ClusterNode<D> ->
             val children = node.children
             if (children.isNotEmpty()) {
-                node.x = children.sumByDouble { it.x } / children.size
+                node.x = children.sumOf { it.x } / children.size
                 node.y = children.maxByOrNull { it.y }!!.y + 1
             } else {
                 if (previousNode != null) {
