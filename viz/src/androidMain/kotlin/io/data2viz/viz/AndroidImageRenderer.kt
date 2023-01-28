@@ -17,7 +17,10 @@
 
 package io.data2viz.viz
 
-import android.graphics.*
+import android.graphics.RectF
+import android.graphics.Bitmap
+import io.data2viz.color.Color
+import io.data2viz.ExperimentalD2V
 
 
 public fun ImageNode.render(renderer: AndroidCanvasRenderer) {
@@ -32,8 +35,8 @@ public fun ImageNode.render(renderer: AndroidCanvasRenderer) {
         with(renderer) {
 
             val rect = when (val s = size) {
-                null -> RectF(x.dp, y.dp, s.width.dp, s.height.dp)
-                else -> RectF(x.dp, y.dp, bitmap.width.toFloat(), bitmap.height.toFloat())
+                null -> RectF(x.dp, y.dp, bitmap.width.toFloat(), bitmap.height.toFloat())
+                else -> RectF(x.dp, y.dp, s.width.dp, s.height.dp)
             }
 
             canvas.drawBitmap(bitmap, null, rect  ,null)
