@@ -76,38 +76,6 @@ public final class io/data2viz/quadtree/LeafNode : io/data2viz/quadtree/Quadtree
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/data2viz/quadtree/NodePair {
-	public fun <init> (Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;)V
-	public final fun component1 ()Lio/data2viz/quadtree/QuadtreeNode;
-	public final fun component2 ()Lio/data2viz/quadtree/QuadtreeNode;
-	public final fun copy (Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;)Lio/data2viz/quadtree/NodePair;
-	public static synthetic fun copy$default (Lio/data2viz/quadtree/NodePair;Lio/data2viz/quadtree/QuadtreeNode;Lio/data2viz/quadtree/QuadtreeNode;ILjava/lang/Object;)Lio/data2viz/quadtree/NodePair;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getSource ()Lio/data2viz/quadtree/QuadtreeNode;
-	public final fun getTarget ()Lio/data2viz/quadtree/QuadtreeNode;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/data2viz/quadtree/Quad {
-	public fun <init> (Lio/data2viz/quadtree/QuadtreeNode;DDDD)V
-	public final fun component1 ()Lio/data2viz/quadtree/QuadtreeNode;
-	public final fun component2 ()D
-	public final fun component3 ()D
-	public final fun component4 ()D
-	public final fun component5 ()D
-	public final fun copy (Lio/data2viz/quadtree/QuadtreeNode;DDDD)Lio/data2viz/quadtree/Quad;
-	public static synthetic fun copy$default (Lio/data2viz/quadtree/Quad;Lio/data2viz/quadtree/QuadtreeNode;DDDDILjava/lang/Object;)Lio/data2viz/quadtree/Quad;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getNode ()Lio/data2viz/quadtree/QuadtreeNode;
-	public final fun getX0 ()D
-	public final fun getX1 ()D
-	public final fun getY0 ()D
-	public final fun getY1 ()D
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/data2viz/quadtree/Quadtree {
 	public fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
 	public final fun getExtent ()Lio/data2viz/geom/Extent;
@@ -119,11 +87,8 @@ public final class io/data2viz/quadtree/Quadtree {
 }
 
 public final class io/data2viz/quadtree/QuadtreeKt {
-	public static final fun getNodeFromIndex (Lio/data2viz/quadtree/InternalNode;I)Lio/data2viz/quadtree/QuadtreeNode;
 	public static final fun quadtree (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/data2viz/quadtree/Quadtree;
 	public static final fun quadtree (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/util/List;)Lio/data2viz/quadtree/Quadtree;
-	public static final fun setNodeFromIndex (Lio/data2viz/quadtree/InternalNode;ILio/data2viz/quadtree/QuadtreeNode;)V
-	public static final fun toInt (Z)I
 	public static final fun toList (Lio/data2viz/quadtree/InternalNode;)Ljava/util/List;
 }
 

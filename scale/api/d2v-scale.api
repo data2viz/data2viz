@@ -1,5 +1,4 @@
 public final class io/data2viz/scale/BandScale : io/data2viz/scale/BandedScale {
-	public fun <init> ()V
 	public fun copy ()Lio/data2viz/scale/BandScale;
 	public synthetic fun copy ()Lio/data2viz/scale/Scale;
 	public fun getPadding-P6MNtoY ()D
@@ -110,8 +109,6 @@ public abstract interface class io/data2viz/scale/FirstLastRange : io/data2viz/s
 public final class io/data2viz/scale/IndexableDomain : io/data2viz/scale/DiscreteDomain {
 	public fun <init> ()V
 	public fun getDomain ()Ljava/util/List;
-	public final fun getIndex$d2v_scale ()Ljava/util/Map;
-	public final fun get_domain$d2v_scale ()Ljava/util/List;
 	public fun setDomain (Ljava/util/List;)V
 }
 
@@ -163,8 +160,6 @@ public final class io/data2viz/scale/NiceableScale$DefaultImpls {
 
 public class io/data2viz/scale/OrdinalScale : io/data2viz/scale/DiscreteDomain, io/data2viz/scale/FirstLastRange, io/data2viz/scale/Scale {
 	public fun <init> ()V
-	public fun <init> (Ljava/util/List;Lio/data2viz/scale/IndexableDomain;)V
-	public synthetic fun <init> (Ljava/util/List;Lio/data2viz/scale/IndexableDomain;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun copy ()Lio/data2viz/scale/OrdinalScale;
 	public synthetic fun copy ()Lio/data2viz/scale/Scale;
 	public fun end ()Ljava/lang/Object;
@@ -189,8 +184,6 @@ public final class io/data2viz/scale/PointScale : io/data2viz/scale/BandedScale 
 }
 
 public final class io/data2viz/scale/PowerScale : io/data2viz/scale/LinearScale {
-	public fun <init> (DLkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;)V
-	public synthetic fun <init> (DLkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun copy ()Lio/data2viz/scale/ContinuousScale;
 	public synthetic fun copy ()Lio/data2viz/scale/Scale;
 	public final fun getExponent ()D
@@ -207,7 +200,6 @@ public final class io/data2viz/scale/QuantileKt {
 }
 
 public final class io/data2viz/scale/QuantileScale : io/data2viz/scale/DiscreteDomain, io/data2viz/scale/DiscreteRange, io/data2viz/scale/Scale {
-	public fun <init> ()V
 	public fun copy ()Lio/data2viz/scale/Scale;
 	public fun getDomain ()Ljava/util/List;
 	public final fun getQuantiles ()Ljava/util/List;
@@ -220,7 +212,6 @@ public final class io/data2viz/scale/QuantileScale : io/data2viz/scale/DiscreteD
 }
 
 public final class io/data2viz/scale/QuantizeScale : io/data2viz/scale/DiscreteRange, io/data2viz/scale/Scale, io/data2viz/scale/StrictlyContinuousDomain {
-	public fun <init> ()V
 	public fun copy ()Lio/data2viz/scale/QuantizeScale;
 	public synthetic fun copy ()Lio/data2viz/scale/Scale;
 	public fun getDomain ()Lio/data2viz/scale/StrictlyContinuous;
@@ -430,7 +421,6 @@ public final class io/data2viz/scale/ScalesChromatic$Sequential$SingleHue {
 }
 
 public final class io/data2viz/scale/SequentialScale : io/data2viz/scale/ClampableScale, io/data2viz/scale/StrictlyContinuousDomain, io/data2viz/scale/Tickable {
-	public fun <init> (Lkotlin/jvm/functions/Function1;)V
 	public fun getClamp ()Z
 	public fun getDomain ()Lio/data2viz/scale/StrictlyContinuous;
 	public final fun getInterpolator ()Lkotlin/jvm/functions/Function1;
@@ -473,7 +463,6 @@ public final class io/data2viz/scale/StrictlyContinuousRange$DefaultImpls {
 }
 
 public final class io/data2viz/scale/ThresholdScale : io/data2viz/scale/DiscreteDomain, io/data2viz/scale/DiscreteRange, io/data2viz/scale/Scale {
-	public fun <init> ()V
 	public fun copy ()Lio/data2viz/scale/Scale;
 	public fun getDomain ()Ljava/util/List;
 	public fun getRange ()Ljava/util/List;
@@ -497,12 +486,7 @@ public final class io/data2viz/scale/Tickable$DefaultImpls {
 	public static synthetic fun ticks$default (Lio/data2viz/scale/Tickable;IILjava/lang/Object;)Ljava/util/List;
 }
 
-public final class io/data2viz/scale/TimeKt {
-}
-
 public final class io/data2viz/scale/TimeScale : io/data2viz/scale/ContinuousScale, io/data2viz/scale/NiceableScale, io/data2viz/scale/Tickable {
-	public fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Comparator;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun copy ()Lio/data2viz/scale/ContinuousScale;
 	public synthetic fun copy ()Lio/data2viz/scale/Scale;
 	public fun domainComparator ()Ljava/util/Comparator;
@@ -512,75 +496,5 @@ public final class io/data2viz/scale/TimeScale : io/data2viz/scale/ContinuousSca
 	public fun ticks (I)Ljava/util/List;
 	public synthetic fun uninterpolateDomain (Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/jvm/functions/Function1;
 	public fun uninterpolateDomain (Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;)Lkotlin/jvm/functions/Function1;
-}
-
-public final class io/data2viz/scale/intervals/Day : io/data2viz/scale/intervals/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/scale/intervals/Hour : io/data2viz/scale/intervals/Interval {
-	public fun <init> ()V
-}
-
-public class io/data2viz/scale/intervals/Interval {
-	public fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function2;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun ceil (Lkotlinx/datetime/TimeZone;Lkotlinx/datetime/Instant;)Lkotlinx/datetime/Instant;
-	public final fun count (Lkotlinx/datetime/TimeZone;Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;)J
-	public final fun every (Lkotlinx/datetime/TimeZone;I)Lio/data2viz/scale/intervals/Interval;
-	public final fun filter (Lkotlinx/datetime/TimeZone;Lkotlin/jvm/functions/Function1;)Lio/data2viz/scale/intervals/Interval;
-	public final fun getCount ()Lkotlin/jvm/functions/Function3;
-	public final fun getFloor ()Lkotlin/jvm/functions/Function2;
-	public final fun getOffset ()Lkotlin/jvm/functions/Function3;
-	public final fun range (Lkotlinx/datetime/TimeZone;Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;I)Ljava/util/List;
-	public static synthetic fun range$default (Lio/data2viz/scale/intervals/Interval;Lkotlinx/datetime/TimeZone;Lkotlinx/datetime/Instant;Lkotlinx/datetime/Instant;IILjava/lang/Object;)Ljava/util/List;
-	public final fun round (Lkotlinx/datetime/TimeZone;Lkotlinx/datetime/Instant;)Lkotlinx/datetime/Instant;
-}
-
-public final class io/data2viz/scale/intervals/IntervalKt {
-	public static final fun minus (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/LocalDateTime;)Lkotlinx/datetime/DateTimePeriod;
-	public static final fun plus (Lkotlinx/datetime/LocalDateTime;Lkotlinx/datetime/DateTimePeriod;)Lkotlinx/datetime/LocalDateTime;
-}
-
-public final class io/data2viz/scale/intervals/Intervals {
-	public static final field INSTANCE Lio/data2viz/scale/intervals/Intervals;
-	public final fun getTimeDay$d2v_scale ()Lio/data2viz/scale/intervals/Day;
-	public final fun getTimeFriday$d2v_scale ()Lio/data2viz/scale/intervals/Weekday;
-	public final fun getTimeHour$d2v_scale ()Lio/data2viz/scale/intervals/Hour;
-	public final fun getTimeMillisecond$d2v_scale ()Lio/data2viz/scale/intervals/Millisecond;
-	public final fun getTimeMinute$d2v_scale ()Lio/data2viz/scale/intervals/Minute;
-	public final fun getTimeMonday$d2v_scale ()Lio/data2viz/scale/intervals/Weekday;
-	public final fun getTimeMonth$d2v_scale ()Lio/data2viz/scale/intervals/Month;
-	public final fun getTimeSaturday$d2v_scale ()Lio/data2viz/scale/intervals/Weekday;
-	public final fun getTimeSecond$d2v_scale ()Lio/data2viz/scale/intervals/Second;
-	public final fun getTimeSunday$d2v_scale ()Lio/data2viz/scale/intervals/Weekday;
-	public final fun getTimeThursday$d2v_scale ()Lio/data2viz/scale/intervals/Weekday;
-	public final fun getTimeTuesday$d2v_scale ()Lio/data2viz/scale/intervals/Weekday;
-	public final fun getTimeWednesday$d2v_scale ()Lio/data2viz/scale/intervals/Weekday;
-	public final fun getTimeYear$d2v_scale ()Lio/data2viz/scale/intervals/Year;
-}
-
-public final class io/data2viz/scale/intervals/Millisecond : io/data2viz/scale/intervals/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/scale/intervals/Minute : io/data2viz/scale/intervals/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/scale/intervals/Month : io/data2viz/scale/intervals/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/scale/intervals/Second : io/data2viz/scale/intervals/Interval {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/scale/intervals/Weekday : io/data2viz/scale/intervals/Interval {
-	public fun <init> (I)V
-}
-
-public final class io/data2viz/scale/intervals/Year : io/data2viz/scale/intervals/Interval {
-	public fun <init> ()V
 }
 

@@ -5,19 +5,3 @@ public final class io/data2viz/dsv/Dsv {
 	public final fun parseRows (Ljava/lang/String;)Ljava/util/List;
 }
 
-public abstract class io/data2viz/dsv/Dsv$Token {
-}
-
-public final class io/data2viz/dsv/Dsv$Token$EOF : io/data2viz/dsv/Dsv$Token {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/dsv/Dsv$Token$EOL : io/data2viz/dsv/Dsv$Token {
-	public fun <init> ()V
-}
-
-public final class io/data2viz/dsv/Dsv$Token$TextToken : io/data2viz/dsv/Dsv$Token {
-	public fun <init> (Ljava/lang/String;)V
-	public final fun getContent ()Ljava/lang/String;
-}
-

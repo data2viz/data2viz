@@ -2,9 +2,7 @@ public final class io/data2viz/delaunay/Delaunator {
 	public fun <init> ([[Ljava/lang/Double;)V
 	public final fun getGetX ()Lkotlin/jvm/functions/Function1;
 	public final fun getGetY ()Lkotlin/jvm/functions/Function1;
-	public final fun getHull$d2v_delaunay ()Lio/data2viz/delaunay/Node;
 	public final fun getTriangles ()Lio/data2viz/delaunay/TypedIntArray;
-	public final fun setHull$d2v_delaunay (Lio/data2viz/delaunay/Node;)V
 	public final fun setTriangles (Lio/data2viz/delaunay/TypedIntArray;)V
 }
 
@@ -13,28 +11,10 @@ public final class io/data2viz/delaunay/DelaunayCommonKt {
 	public static final fun circumcenter (DDDDDD)Lio/data2viz/delaunay/Point;
 	public static final fun circumradius (DDDDDD)D
 	public static final fun inCircle (DDDDDDDD)Z
-	public static final fun insertNode ([Ljava/lang/Double;ILio/data2viz/delaunay/Node;)Lio/data2viz/delaunay/Node;
-	public static synthetic fun insertNode$default ([Ljava/lang/Double;ILio/data2viz/delaunay/Node;ILjava/lang/Object;)Lio/data2viz/delaunay/Node;
 }
 
 public final class io/data2viz/delaunay/DelaunayJVMKt {
 	public static final fun typedIntArray (I)Lio/data2viz/delaunay/TypedIntArray;
-}
-
-public final class io/data2viz/delaunay/Node {
-	public fun <init> (IDDILio/data2viz/delaunay/Node;Lio/data2viz/delaunay/Node;Z)V
-	public final fun getI ()I
-	public final fun getNext ()Lio/data2viz/delaunay/Node;
-	public final fun getPrev ()Lio/data2viz/delaunay/Node;
-	public final fun getRemoved ()Z
-	public final fun getT ()I
-	public final fun getX ()D
-	public final fun getY ()D
-	public final fun removeNode ()Lio/data2viz/delaunay/Node;
-	public final fun setNext (Lio/data2viz/delaunay/Node;)V
-	public final fun setPrev (Lio/data2viz/delaunay/Node;)V
-	public final fun setRemoved (Z)V
-	public final fun setT (I)V
 }
 
 public final class io/data2viz/delaunay/Point {

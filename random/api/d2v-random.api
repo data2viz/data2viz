@@ -1,8 +1,6 @@
 public final class io/data2viz/random/RandomDistribution {
 	public static final field Default Lio/data2viz/random/RandomDistribution$Default;
 	public fun <init> ()V
-	public fun <init> (Lkotlin/random/Random;)V
-	public synthetic fun <init> (Lkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun bates (D)Lkotlin/jvm/functions/Function0;
 	public static synthetic fun bates$default (Lio/data2viz/random/RandomDistribution;DILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
 	public final fun exponential (D)Lkotlin/jvm/functions/Function0;

@@ -56,9 +56,6 @@ public final class io/data2viz/geo/geojson/GeoJsonExtensionsKt {
 	public static final fun contains (Lio/data2viz/geojson/GeoJsonObject;[D)Z
 	public static final fun getLines (Lio/data2viz/geojson/MultiLineString;)[[[D
 	public static final fun getLines (Lio/data2viz/geojson/Polygon;)[[[D
-	public static final fun getNoop ()Lkotlin/jvm/functions/Function0;
-	public static final fun getNoop2 ()Lkotlin/jvm/functions/Function2;
-	public static final fun getNoop3 ()Lkotlin/jvm/functions/Function3;
 	public static final fun getPos (Lio/data2viz/geojson/Point;)[D
 	public static final fun getPositions (Lio/data2viz/geojson/LineString;)[[D
 	public static final fun getPositions (Lio/data2viz/geojson/MultiPoint;)[[D
@@ -99,14 +96,12 @@ public final class io/data2viz/geo/geojson/Sphere : io/data2viz/geojson/Geometry
 
 public final class io/data2viz/geo/geojson/path/GeoAreaStream : io/data2viz/geo/stream/Stream {
 	public fun <init> ()V
-	public final fun getAreaRingSum$d2v_geo ()D
 	public fun lineEnd ()V
 	public fun lineStart ()V
 	public fun point (DDD)V
 	public fun polygonEnd ()V
 	public fun polygonStart ()V
 	public final fun result (Lio/data2viz/geojson/GeoJsonObject;)D
-	public final fun setAreaRingSum$d2v_geo (D)V
 	public fun sphere ()V
 }
 
@@ -233,18 +228,6 @@ public final class io/data2viz/geo/geometry/clip/AntimeridianClipperKt {
 	public static final fun getAntimeridianPreClip ()Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;
 }
 
-public final class io/data2viz/geo/geometry/clip/BufferStream : io/data2viz/geo/stream/Stream {
-	public fun <init> ()V
-	public fun lineEnd ()V
-	public fun lineStart ()V
-	public fun point (DDD)V
-	public fun polygonEnd ()V
-	public fun polygonStart ()V
-	public final fun rejoin ()V
-	public final fun result ()Ljava/util/List;
-	public fun sphere ()V
-}
-
 public final class io/data2viz/geo/geometry/clip/CircleClipper : io/data2viz/geo/geometry/clip/ClipperWithStart {
 	public fun <init> (D)V
 	public fun clipLine (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/geometry/clip/ClipStream;
@@ -283,63 +266,10 @@ public abstract interface class io/data2viz/geo/geometry/clip/ClipStreamBuilder 
 	public abstract fun bindTo (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/stream/Stream;
 }
 
-public final class io/data2viz/geo/geometry/clip/ClippableStream : io/data2viz/geo/stream/Stream {
-	public fun <init> (Lio/data2viz/geo/geometry/clip/ClipperWithStart;Lio/data2viz/geo/stream/Stream;)V
-	public final fun getClipStream$d2v_geo ()Lio/data2viz/geo/geometry/clip/ClipStream;
-	public final fun getClipper ()Lio/data2viz/geo/geometry/clip/ClipperWithStart;
-	public final fun getDownstream ()Lio/data2viz/geo/stream/Stream;
-	public final fun getLineEndContext ()Lio/data2viz/geo/geometry/clip/ClippableStream$LineEndContext;
-	public final fun getLineStartContext ()Lio/data2viz/geo/geometry/clip/ClippableStream$LineStartContext;
-	public final fun getPointContext ()Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;
-	public final fun getPolygon$d2v_geo ()Ljava/util/List;
-	public final fun getPolygonStarted$d2v_geo ()Z
-	public final fun getRing$d2v_geo ()Ljava/util/List;
-	public final fun getRingBuffer$d2v_geo ()Lio/data2viz/geo/geometry/clip/BufferStream;
-	public final fun getRingSink$d2v_geo ()Lio/data2viz/geo/geometry/clip/ClipStream;
-	public final fun getSegments$d2v_geo ()Ljava/util/List;
-	public fun lineEnd ()V
-	public fun lineStart ()V
-	public fun point (DDD)V
-	public fun polygonEnd ()V
-	public fun polygonStart ()V
-	public final fun setLineEndContext (Lio/data2viz/geo/geometry/clip/ClippableStream$LineEndContext;)V
-	public final fun setLineStartContext (Lio/data2viz/geo/geometry/clip/ClippableStream$LineStartContext;)V
-	public final fun setPointContext (Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;)V
-	public final fun setPolygonStarted$d2v_geo (Z)V
-	public final fun setRing$d2v_geo (Ljava/util/List;)V
-	public fun sphere ()V
-}
-
-public final class io/data2viz/geo/geometry/clip/ClippableStream$LineEndContext : java/lang/Enum {
-	public static final field DEFAULT Lio/data2viz/geo/geometry/clip/ClippableStream$LineEndContext;
-	public static final field RING Lio/data2viz/geo/geometry/clip/ClippableStream$LineEndContext;
-	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/geo/geometry/clip/ClippableStream$LineEndContext;
-	public static fun values ()[Lio/data2viz/geo/geometry/clip/ClippableStream$LineEndContext;
-}
-
-public final class io/data2viz/geo/geometry/clip/ClippableStream$LineStartContext : java/lang/Enum {
-	public static final field DEFAULT Lio/data2viz/geo/geometry/clip/ClippableStream$LineStartContext;
-	public static final field RING Lio/data2viz/geo/geometry/clip/ClippableStream$LineStartContext;
-	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/geo/geometry/clip/ClippableStream$LineStartContext;
-	public static fun values ()[Lio/data2viz/geo/geometry/clip/ClippableStream$LineStartContext;
-}
-
-public final class io/data2viz/geo/geometry/clip/ClippableStream$PointContext : java/lang/Enum {
-	public static final field DEFAULT Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;
-	public static final field LINE Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;
-	public static final field RING Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;
-	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;
-	public static fun values ()[Lio/data2viz/geo/geometry/clip/ClippableStream$PointContext;
-}
-
 public abstract interface class io/data2viz/geo/geometry/clip/Clipper {
 	public abstract fun clipLine (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/geometry/clip/ClipStream;
 	public abstract fun interpolate ([D[DILio/data2viz/geo/stream/Stream;)V
 	public abstract fun pointVisible (DD)Z
-}
-
-public abstract interface class io/data2viz/geo/geometry/clip/ClipperWithStart : io/data2viz/geo/geometry/clip/Clipper {
-	public abstract fun getStart ()[D
 }
 
 public final class io/data2viz/geo/geometry/clip/ExtentClip : io/data2viz/geo/geometry/clip/ClipStreamBuilder {
@@ -389,9 +319,6 @@ public final class io/data2viz/geo/geometry/clip/RectangleClip : io/data2viz/geo
 	public final fun getClipRectangle ()Lio/data2viz/geo/geometry/clip/RectangleClipper;
 }
 
-public final class io/data2viz/geo/geometry/clip/RectangleClipKt {
-}
-
 public final class io/data2viz/geo/geometry/clip/RectangleClipper : io/data2viz/geo/geometry/clip/Clipper {
 	public fun <init> (Lio/data2viz/geom/Extent;)V
 	public fun clipLine (Lio/data2viz/geo/stream/Stream;)Lio/data2viz/geo/geometry/clip/ClipStream;
@@ -409,72 +336,7 @@ public final class io/data2viz/geo/geometry/clip/RectangleClipper$PointContext :
 
 public final class io/data2viz/geo/geometry/clip/RejoinKt {
 	public static final fun link (Ljava/util/List;)V
-	public static final fun pointEqual ([D[D)Z
 	public static final fun rejoin (Ljava/util/List;Ljava/util/Comparator;ZLio/data2viz/geo/geometry/clip/Clipper;Lio/data2viz/geo/stream/Stream;)V
-}
-
-public final class io/data2viz/geo/geometry/path/AreaStream : io/data2viz/geo/stream/Stream {
-	public fun <init> ()V
-	public fun lineEnd ()V
-	public fun lineStart ()V
-	public fun point (DDD)V
-	public fun polygonEnd ()V
-	public fun polygonStart ()V
-	public final fun result ()D
-	public fun sphere ()V
-}
-
-public final class io/data2viz/geo/geometry/path/BoundsStream : io/data2viz/geo/stream/Stream {
-	public fun <init> ()V
-	public fun lineEnd ()V
-	public fun lineStart ()V
-	public fun point (DDD)V
-	public fun polygonEnd ()V
-	public fun polygonStart ()V
-	public final fun result ()Lio/data2viz/geom/Extent;
-	public fun sphere ()V
-}
-
-public final class io/data2viz/geo/geometry/path/CentroidStream : io/data2viz/geo/stream/Stream {
-	public fun <init> ()V
-	public fun lineEnd ()V
-	public fun lineStart ()V
-	public fun point (DDD)V
-	public fun polygonEnd ()V
-	public fun polygonStart ()V
-	public final fun result$d2v_geo ()[D
-	public fun sphere ()V
-}
-
-public final class io/data2viz/geo/geometry/path/MeasureStream : io/data2viz/geo/stream/Stream {
-	public fun <init> ()V
-	public fun lineEnd ()V
-	public fun lineStart ()V
-	public fun point (DDD)V
-	public fun polygonEnd ()V
-	public fun polygonStart ()V
-	public final fun result ()D
-	public fun sphere ()V
-}
-
-public final class io/data2viz/geo/geometry/path/PathStream : io/data2viz/geo/stream/Stream {
-	public fun <init> (Lio/data2viz/geom/Path;)V
-	public final fun getPointRadius ()D
-	public fun lineEnd ()V
-	public fun lineStart ()V
-	public fun point (DDD)V
-	public fun polygonEnd ()V
-	public fun polygonStart ()V
-	public final fun setPointRadius (D)V
-	public fun sphere ()V
-}
-
-public final class io/data2viz/geo/geometry/path/PathStream$PathCmd : java/lang/Enum {
-	public static final field LINE Lio/data2viz/geo/geometry/path/PathStream$PathCmd;
-	public static final field MOVE Lio/data2viz/geo/geometry/path/PathStream$PathCmd;
-	public static final field POINT Lio/data2viz/geo/geometry/path/PathStream$PathCmd;
-	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/geo/geometry/path/PathStream$PathCmd;
-	public static fun values ()[Lio/data2viz/geo/geometry/path/PathStream$PathCmd;
 }
 
 public final class io/data2viz/geo/projection/AlbersKt {
@@ -534,31 +396,13 @@ public final class io/data2viz/geo/projection/AzimuthalEquidistantKt {
 	public static synthetic fun azimuthalEquidistant$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
 }
 
-public final class io/data2viz/geo/projection/AzimuthalEquidistantProjection : io/data2viz/geo/projection/Azimuthal {
-	public fun <init> ()V
-}
-
 public final class io/data2viz/geo/projection/AzimuthalKt {
 	public static final fun azimuthalInvert (Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function2;
-}
-
-public final class io/data2viz/geo/projection/ConicConformalBaseConditionalProjector : io/data2viz/geo/projection/common/BaseConditionalProjector, io/data2viz/geo/projection/ConicProjector {
-	public fun <init> ()V
-	public fun <init> (Lio/data2viz/geo/projection/ConicConformalProjector;Lio/data2viz/geo/projection/MercatorProjector;)V
-	public synthetic fun <init> (Lio/data2viz/geo/projection/ConicConformalProjector;Lio/data2viz/geo/projection/MercatorProjector;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getBaseProjector ()Lio/data2viz/geo/projection/common/Projector;
-	public fun getNestedProjector ()Lio/data2viz/geo/projection/common/Projector;
-	public fun getPhi0 ()D
-	public fun getPhi1 ()D
-	public fun isNeedUseBaseProjector ()Z
-	public fun setPhi0 (D)V
-	public fun setPhi1 (D)V
 }
 
 public final class io/data2viz/geo/projection/ConicConformalKt {
 	public static final fun conicConformalProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/ConicProjection;
 	public static synthetic fun conicConformalProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/ConicProjection;
-	public static final fun tany (D)D
 }
 
 public final class io/data2viz/geo/projection/ConicConformalProjector : io/data2viz/geo/projection/ConicProjector, io/data2viz/geo/projection/common/Projector {
@@ -568,19 +412,6 @@ public final class io/data2viz/geo/projection/ConicConformalProjector : io/data2
 	public fun invert (DD)[D
 	public final fun isPossibleToUseProjector ()Z
 	public fun project (DD)[D
-	public fun setPhi0 (D)V
-	public fun setPhi1 (D)V
-}
-
-public final class io/data2viz/geo/projection/ConicEqualAreaBaseConditionalProjector : io/data2viz/geo/projection/common/BaseConditionalProjector, io/data2viz/geo/projection/ConicProjector {
-	public fun <init> ()V
-	public fun <init> (Lio/data2viz/geo/projection/ConicEqualAreaProjector;Lio/data2viz/geo/projection/CylindricalEqualAreaProjector;)V
-	public synthetic fun <init> (Lio/data2viz/geo/projection/ConicEqualAreaProjector;Lio/data2viz/geo/projection/CylindricalEqualAreaProjector;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getBaseProjector ()Lio/data2viz/geo/projection/common/Projector;
-	public fun getNestedProjector ()Lio/data2viz/geo/projection/common/Projector;
-	public fun getPhi0 ()D
-	public fun getPhi1 ()D
-	public fun isNeedUseBaseProjector ()Z
 	public fun setPhi0 (D)V
 	public fun setPhi1 (D)V
 }
@@ -597,19 +428,6 @@ public final class io/data2viz/geo/projection/ConicEqualAreaProjector : io/data2
 	public fun invert (DD)[D
 	public final fun isPossibleToUseProjector ()Z
 	public fun project (DD)[D
-	public fun setPhi0 (D)V
-	public fun setPhi1 (D)V
-}
-
-public final class io/data2viz/geo/projection/ConicEquidistantBaseConditionalProjector : io/data2viz/geo/projection/common/BaseConditionalProjector, io/data2viz/geo/projection/ConicProjector {
-	public fun <init> ()V
-	public fun <init> (Lio/data2viz/geo/projection/ConicEquidistantProjector;Lio/data2viz/geo/projection/EquirectangularProjector;)V
-	public synthetic fun <init> (Lio/data2viz/geo/projection/ConicEquidistantProjector;Lio/data2viz/geo/projection/EquirectangularProjector;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getBaseProjector ()Lio/data2viz/geo/projection/common/Projector;
-	public fun getNestedProjector ()Lio/data2viz/geo/projection/common/Projector;
-	public fun getPhi0 ()D
-	public fun getPhi1 ()D
-	public fun isNeedUseBaseProjector ()Z
 	public fun setPhi0 (D)V
 	public fun setPhi1 (D)V
 }
@@ -664,14 +482,8 @@ public final class io/data2viz/geo/projection/CylindricalEqualAreaProjector : io
 }
 
 public final class io/data2viz/geo/projection/EqualEarthKt {
-	public static final field A1 D
-	public static final field A2 D
-	public static final field A3 D
-	public static final field A4 D
-	public static final field iterations I
 	public static final fun equalEarthProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
 	public static synthetic fun equalEarthProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
-	public static final fun getM ()D
 }
 
 public final class io/data2viz/geo/projection/EqualEarthProjector : io/data2viz/geo/projection/common/Projector {
@@ -683,12 +495,6 @@ public final class io/data2viz/geo/projection/EqualEarthProjector : io/data2viz/
 public final class io/data2viz/geo/projection/EquirectangularKt {
 	public static final fun equirectangularProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
 	public static synthetic fun equirectangularProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
-}
-
-public final class io/data2viz/geo/projection/EquirectangularProjector : io/data2viz/geo/projection/common/Projector {
-	public fun <init> ()V
-	public fun invert (DD)[D
-	public fun project (DD)[D
 }
 
 public final class io/data2viz/geo/projection/GnomonicKt {
@@ -705,12 +511,6 @@ public final class io/data2viz/geo/projection/GnomonicProjector : io/data2viz/ge
 public final class io/data2viz/geo/projection/IdentityKt {
 	public static final fun identityProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
 	public static synthetic fun identityProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
-}
-
-public final class io/data2viz/geo/projection/IdentityProjection : io/data2viz/geo/projection/common/Projector {
-	public fun <init> ()V
-	public fun invert (DD)[D
-	public fun project (DD)[D
 }
 
 public final class io/data2viz/geo/projection/MercatorKt {
@@ -756,12 +556,6 @@ public final class io/data2viz/geo/projection/NaturalEarthProjection : io/data2v
 public final class io/data2viz/geo/projection/OrthographicKt {
 	public static final fun orthographicProjection (Lkotlin/jvm/functions/Function1;)Lio/data2viz/geo/projection/common/Projection;
 	public static synthetic fun orthographicProjection$default (Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/geo/projection/common/Projection;
-}
-
-public final class io/data2viz/geo/projection/OrthographicProjector : io/data2viz/geo/projection/common/Projector {
-	public fun <init> ()V
-	public fun invert (DD)[D
-	public fun project (DD)[D
 }
 
 public final class io/data2viz/geo/projection/StereographicKt {
@@ -857,12 +651,6 @@ public final class io/data2viz/geo/projection/common/ComposedProjector : io/data
 public abstract class io/data2viz/geo/projection/common/ConditionalProjector : io/data2viz/geo/projection/common/Projector {
 	public fun <init> ()V
 	public abstract fun getActiveProjector ()Lio/data2viz/geo/projection/common/Projector;
-	public fun invert (DD)[D
-	public fun project (DD)[D
-}
-
-public final class io/data2viz/geo/projection/common/IdentityRotationProjector : io/data2viz/geo/projection/common/Projector {
-	public static final field INSTANCE Lio/data2viz/geo/projection/common/IdentityRotationProjector;
 	public fun invert (DD)[D
 	public fun project (DD)[D
 }
@@ -967,29 +755,12 @@ public final class io/data2viz/geo/projection/common/ResampleKt {
 	public static final fun resample (Lio/data2viz/geo/projection/common/Projector;D)Lkotlin/jvm/functions/Function1;
 }
 
-public final class io/data2viz/geo/projection/common/RotationLambdaProjector : io/data2viz/geo/projection/common/Projector {
-	public fun <init> (D)V
-	public final fun getDeltaLambda ()D
-	public fun invert (DD)[D
-	public fun project (DD)[D
-}
-
-public final class io/data2viz/geo/projection/common/RotationPhiGammaProjector : io/data2viz/geo/projection/common/Projector {
-	public fun <init> (DD)V
-	public fun invert (DD)[D
-	public fun project (DD)[D
-}
-
 public final class io/data2viz/geo/projection/common/RotationProjector : io/data2viz/geo/projection/common/Projector {
 	public synthetic fun <init> (DDLio/data2viz/math/Angle;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (DDLio/data2viz/math/Angle;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getRotator ()Lio/data2viz/geo/projection/common/Projector;
 	public fun invert (DD)[D
 	public fun project (DD)[D
-}
-
-public final class io/data2viz/geo/projection/common/RotationProjectorKt {
-	public static final fun createRotateRadiansProjector (DDD)Lio/data2viz/geo/projection/common/Projector;
 }
 
 public final class io/data2viz/geo/projection/common/TranslateAndScaleProjector : io/data2viz/geo/projection/common/Projector {
@@ -1046,9 +817,6 @@ public final class io/data2viz/geo/stream/Stream$DefaultImpls {
 
 public final class io/data2viz/geo/stream/StreamCache {
 	public fun <init> ()V
-	public final fun cache$d2v_geo (Lio/data2viz/geo/stream/Stream;Lio/data2viz/geo/stream/Stream;)V
-	public final fun getCachedResultStream$d2v_geo ()Lio/data2viz/geo/stream/Stream;
-	public final fun getOriginalSourceStream$d2v_geo ()Lio/data2viz/geo/stream/Stream;
 	public final fun isCacheValidFor (Lio/data2viz/geo/stream/Stream;)Z
 	public final fun reset ()V
 }

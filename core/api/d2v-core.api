@@ -244,19 +244,6 @@ public final class io/data2viz/geom/PolygonKt {
 	public static final fun polygonHull (Ljava/util/List;)Lio/data2viz/geom/Polygon;
 }
 
-public final class io/data2viz/geom/PolygonKt$polygonHull$PointIndex {
-	public fun <init> (Lio/data2viz/geom/Point;I)V
-	public final fun component1 ()Lio/data2viz/geom/Point;
-	public final fun component2 ()I
-	public final fun copy (Lio/data2viz/geom/Point;I)Lio/data2viz/geom/PolygonKt$polygonHull$PointIndex;
-	public static synthetic fun copy$default (Lio/data2viz/geom/PolygonKt$polygonHull$PointIndex;Lio/data2viz/geom/Point;IILjava/lang/Object;)Lio/data2viz/geom/PolygonKt$polygonHull$PointIndex;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getIndex ()I
-	public final fun getPoint ()Lio/data2viz/geom/Point;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/data2viz/geom/QuadraticCurveTo : io/data2viz/geom/PathCommand {
 	public fun <init> (DDDD)V
 	public final fun component1 ()D
@@ -468,25 +455,12 @@ public final class io/data2viz/math/Matrix {
 	public fun <init> (DDDDDD)V
 	public synthetic fun <init> (DDDDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun append (Lio/data2viz/math/Matrix;)Lio/data2viz/math/Matrix;
-	public final fun component1$d2v_core ()D
-	public final fun component2$d2v_core ()D
-	public final fun component3$d2v_core ()D
-	public final fun component4$d2v_core ()D
-	public final fun component5$d2v_core ()D
-	public final fun component6$d2v_core ()D
 	public final fun copy (DDDDDD)Lio/data2viz/math/Matrix;
 	public static synthetic fun copy$default (Lio/data2viz/math/Matrix;DDDDDDILjava/lang/Object;)Lio/data2viz/math/Matrix;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getA$d2v_core ()D
-	public final fun getB$d2v_core ()D
-	public final fun getC$d2v_core ()D
-	public final fun getD$d2v_core ()D
-	public final fun getTx$d2v_core ()D
-	public final fun getTy$d2v_core ()D
 	public fun hashCode ()I
 	public final fun inverseTransform (Lio/data2viz/geom/Point;)Lio/data2viz/geom/Point;
 	public final fun isIdentity ()Z
-	public final fun isInvertible$d2v_core ()Z
 	public final fun prepend (Lio/data2viz/math/Matrix;)Lio/data2viz/math/Matrix;
 	public final fun reset ()Lio/data2viz/math/Matrix;
 	public final fun rotate-WIjCnew (DLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
@@ -495,12 +469,6 @@ public final class io/data2viz/math/Matrix {
 	public final fun scale (DLio/data2viz/geom/Point;)Lio/data2viz/math/Matrix;
 	public static synthetic fun scale$default (Lio/data2viz/math/Matrix;DDLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/math/Matrix;
 	public static synthetic fun scale$default (Lio/data2viz/math/Matrix;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/math/Matrix;
-	public final fun setA$d2v_core (D)V
-	public final fun setB$d2v_core (D)V
-	public final fun setC$d2v_core (D)V
-	public final fun setD$d2v_core (D)V
-	public final fun setTx$d2v_core (D)V
-	public final fun setTy$d2v_core (D)V
 	public fun toString ()Ljava/lang/String;
 	public final fun transform (Lio/data2viz/geom/Point;)Lio/data2viz/geom/Point;
 	public final fun translate (DD)Lio/data2viz/math/Matrix;

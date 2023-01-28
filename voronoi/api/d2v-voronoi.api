@@ -14,14 +14,9 @@ public final class io/data2viz/voronoi/BeachKt {
 	public static final fun addBeach (Lio/data2viz/voronoi/Site;)V
 	public static final fun createBeach (Lio/data2viz/voronoi/Site;)Lio/data2viz/voronoi/RedBlackNode;
 	public static final fun detachBeach (Lio/data2viz/voronoi/RedBlackNode;)V
-	public static final fun getBeachPool ()Ljava/util/List;
-	public static final fun getBeaches ()Lio/data2viz/voronoi/RedBlackTree;
 	public static final fun getCircle (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/Circle;
-	public static final fun getEpsilon ()D
-	public static final fun getEpsilon2 ()D
 	public static final fun getSite (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/Site;
 	public static final fun leftBreakPoint (Lio/data2viz/voronoi/RedBlackNode;D)D
-	public static final fun redBlackNode (Ljava/lang/Object;)Lio/data2viz/voronoi/RedBlackNode;
 	public static final fun removeBeach (Lio/data2viz/voronoi/RedBlackNode;)V
 	public static final fun rightBreakPoint (Lio/data2viz/voronoi/RedBlackNode;D)D
 }
@@ -43,8 +38,6 @@ public final class io/data2viz/voronoi/Cell$Companion {
 }
 
 public final class io/data2viz/voronoi/CellKt {
-	public static final fun getWCells ()[Lio/data2viz/voronoi/Cell;
-	public static final fun setWCells ([Lio/data2viz/voronoi/Cell;)V
 	public static final fun sortCellHalfedges ()V
 }
 
@@ -66,15 +59,11 @@ public final class io/data2viz/voronoi/Circle {
 public final class io/data2viz/voronoi/CircleKt {
 	public static final fun attachCircle (Lio/data2viz/voronoi/RedBlackNode;)V
 	public static final fun detachCircle (Lio/data2viz/voronoi/RedBlackNode;)V
-	public static final fun getCirclePool ()Ljava/util/List;
-	public static final fun getCircles ()Lio/data2viz/voronoi/RedBlackTree;
 	public static final fun getCy (Lio/data2viz/voronoi/RedBlackNode;)D
-	public static final fun getFirstCircle ()Lio/data2viz/voronoi/RedBlackNode;
 	public static final fun getSite (Lio/data2viz/voronoi/RedBlackNode;)Lio/data2viz/voronoi/Site;
 	public static final fun getX (Lio/data2viz/voronoi/RedBlackNode;)D
 	public static final fun getY (Lio/data2viz/voronoi/RedBlackNode;)D
 	public static final fun setCy (Lio/data2viz/voronoi/RedBlackNode;D)V
-	public static final fun setFirstCircle (Lio/data2viz/voronoi/RedBlackNode;)V
 	public static final fun setSite (Lio/data2viz/voronoi/RedBlackNode;Lio/data2viz/voronoi/Site;)V
 	public static final fun setX (Lio/data2viz/voronoi/RedBlackNode;D)V
 	public static final fun setY (Lio/data2viz/voronoi/RedBlackNode;D)V
@@ -137,8 +126,6 @@ public final class io/data2viz/voronoi/Edge$Companion {
 
 public final class io/data2viz/voronoi/EdgeKt {
 	public static final fun createBorderEdge (Lio/data2viz/voronoi/Site;Lio/data2viz/geom/Point;Lio/data2viz/geom/Point;)Lio/data2viz/voronoi/Edge;
-	public static final fun getWEdges ()Ljava/util/List;
-	public static final fun setWEdges (Ljava/util/List;)V
 }
 
 public final class io/data2viz/voronoi/RedBlackColor : java/lang/Enum {
