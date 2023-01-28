@@ -75,17 +75,17 @@ public class ease {
         public val sinInOut: EaseFun   = { (1 - cos(PI * it)) / 2 }
         
         //configurable easing functions (implemented as class with invoke operator)
-        public val backIn      = BackIn()
-        public val backOut     = BackOut()
-        public val backInOut   = BackInOut()
+        public val backIn:       BackIn = BackIn()
+        public val backOut:     BackOut = BackOut()
+        public val backInOut: BackInOut = BackInOut()
 
-        public val elasticIn   = ElasticIn()
-        public val elasticOut  = ElasticOut()
-        public val elasticInOut = ElasticInOut()
+        public val elasticIn:       ElasticIn = ElasticIn()
+        public val elasticOut:     ElasticOut = ElasticOut()
+        public val elasticInOut: ElasticInOut = ElasticInOut()
 
-        public val polyIn      = PolyIn()
-        public val polyOut     = PolyOut()
-        public val polyInOut   = PolyInOut()
+        public val polyIn:       PolyIn = PolyIn()
+        public val polyOut:     PolyOut = PolyOut()
+        public val polyInOut: PolyInOut = PolyInOut()
     }
 }
 

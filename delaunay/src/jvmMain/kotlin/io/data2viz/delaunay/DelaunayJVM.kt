@@ -20,7 +20,7 @@ package io.data2viz.delaunay
 
 public actual fun typedIntArray(size: Int): TypedIntArray = TypedIntArrayDelegate(IntArray(size))
 
-public class TypedIntArrayDelegate(val array:IntArray): TypedIntArray {
+public class TypedIntArrayDelegate(public val array: IntArray): TypedIntArray {
     override fun set(i: Int, value: Int) {
         array[i] = value
     }

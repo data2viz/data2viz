@@ -22,7 +22,7 @@ import io.data2viz.geom.Point
 
 @RequiresOptIn
 @Retention(AnnotationRetention.BINARY)
-annotation class ExperimentalKEvent
+public annotation class ExperimentalKEvent
 
 public object KPointerEvents {
     public val down: KEventListener<KPointerEvent> = pointerEventsListener(type = EventType.Down)

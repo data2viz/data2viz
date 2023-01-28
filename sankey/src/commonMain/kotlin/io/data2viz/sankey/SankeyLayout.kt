@@ -100,39 +100,39 @@ public class SankeyLayout<D> {
     private var x1 = 1.0
     private var y1 = 1.0
 
-    var height
+    public var height: Double
         get() = y1 - y0
         set(value) {
             y0 = .0
             y1 = value
         }
 
-    var width
+    public var width: Double
         get() = x1 - x0
         set(value) {
             x0 = .0
             x1 = value
         }
 
-    fun extent(x0:Double, x1: Double, y0:Double, y1:Double) {
+    public fun extent(x0: Double, x1: Double, y0: Double, y1: Double) {
         this.x0 = x0
         this.x1 = x1
         this.y0 = y0
         this.y1 = y1
     }
 
-    var nodeWidth = 24.0
-    var nodePadding = 8.0
+    public var nodeWidth: Double = 24.0
+    public var nodePadding: Double = 8.0
 
-    var align: SankeyAlignment = SankeyAlignment.JUSTIFY
+    public var align: SankeyAlignment = SankeyAlignment.JUSTIFY
 
     // the number of relaxation iterations when generating the layout
-    var iterations = 32
+    public var iterations: Int = 32
 
-    val nodes = mutableListOf<SankeyNode<D>>()
-    val links = mutableListOf<SankeyLink<D>>()
+    public val nodes: MutableList<SankeyNode<D>> = mutableListOf<SankeyNode<D>>()
+    public val links: MutableList<SankeyLink<D>> = mutableListOf<SankeyLink<D>>()
 
-    fun sankey(data: List<D>, flow: (from: D, to: D) -> Double?): SankeyGraph<D> {
+    public fun sankey(data: List<D>, flow: (from: D, to: D) -> Double?): SankeyGraph<D> {
         nodes.clear()
         links.clear()
         computeNodeLinks(data, flow)

@@ -87,7 +87,7 @@ public object FrameExecutor {
      * The function that will be call repeatedly through CADisplayLink
      */
     @ObjCAction
-    fun frame() {
+    public fun frame() {
         val currBlocks = blocks.toTypedArray()
         blocks.clear()
         displayLink.removeFromRunLoop(NSRunLoop.currentRunLoop, NSRunLoop.currentRunLoop.currentMode)
