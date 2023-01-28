@@ -19,7 +19,7 @@ package io.data2viz.quadtree
 
 import io.data2viz.geom.Extent
 
-inline internal fun Boolean.toInt() = if (this) 1 else 0
+internal inline fun Boolean.toInt() = if (this) 1 else 0
 
 internal data class NodePair<D>(
     val source: QuadtreeNode<D>,
