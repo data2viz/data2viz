@@ -6,6 +6,6 @@ language = Objective-C
 #import <UIKit/UIView.h>
 
 @protocol UIViewWithOverrides
-- (void) drawRect:(CGRect)aRect;
+- (void) drawRect:(CGRect)rect;
 - (void) layoutSubviews;
 @end

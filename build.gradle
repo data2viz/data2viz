@@ -1,12 +1,12 @@
 buildscript {
     dependencies {
-        classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.2.4"
+        classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.12.1"
     }
 }
 plugins {
     id 'com.android.library' apply(false)
-    id "org.jetbrains.kotlin.multiplatform" version "1.6.21" apply(false)
-    id 'org.jetbrains.dokka' version "1.6.0"
+    id "org.jetbrains.kotlin.multiplatform" version "1.8.0" apply(false)
+    id 'org.jetbrains.dokka' version "1.7.20"
 }
 
 apply plugin: "binary-compatibility-validator"

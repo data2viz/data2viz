@@ -43,9 +43,9 @@ public class IOSCanvasView(
         setNeedsDisplay()
     }
 
-    override fun drawRect(aRect: CValue<CGRect>) {
+    override fun drawRect(rect: CValue<CGRect>) {
 //		println("IOSCanvasView.drawRect")
-        renderer.draw(aRect)
+        renderer.draw(rect)
     }
 
 

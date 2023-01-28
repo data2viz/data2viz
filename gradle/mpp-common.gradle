@@ -8,29 +8,10 @@ kotlin {
 
     explicitApiWarning()
 
-    targets.all {
-        compilations.all {
-            kotlinOptions {
-                freeCompilerArgs += [
-                        "-Xuse-experimental=kotlin.time.ExperimentalTime",
-                        "-Xopt-in=kotlin.time.ExperimentalTime"
-                ]
-
-
-            }
-        }
-    }
-
-
     metadata {
     }
 
     sourceSets {
-        all {
-            languageSettings {
-                useExperimentalAnnotation 'kotlin.time.ExperimentalTime'
-            }
-        }
         commonMain {
         }
         commonTest {
