@@ -155,14 +155,14 @@ public fun Locale.numerals(valueAsString: String): String =
         if (numerals == null)
             valueAsString
         else valueAsString
-                .fold(StringBuilder(), { acc, c ->
-                    val intValue = c.toInt()
+                .fold(StringBuilder()) { acc, c ->
+                    val intValue = c.code
                     if (intValue in 48..57)
                         acc.append(numerals!![intValue - 48])
                     else
                         acc.append(c)
-                })
-                .toString()
+                }
+            .toString()
 
 
 public fun formatPrefix(specifier: String, fixedPrefix: Double): (Double) -> String = Locale().formatPrefix(specifier, fixedPrefix)
