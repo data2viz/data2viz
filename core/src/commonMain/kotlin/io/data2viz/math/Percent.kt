@@ -17,6 +17,8 @@
 
 package io.data2viz.math
 
+import kotlin.jvm.JvmInline
+
 
 /**
  * Utility class used to represent a percentage value.
@@ -26,7 +28,8 @@ package io.data2viz.math
  *  But it is easier to do so using the extension value ".pct":
  *  - val p = 15.pct                    //15%
  */
-public inline class Percent(
+@JvmInline
+public value class Percent(
     public val value:Double) {
 
     public operator fun plus(other: Percent)       :Percent = Percent(value + other.value)
