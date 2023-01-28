@@ -183,7 +183,7 @@ public class TreeLayout<D> {
                 sim += vim.m
                 sip += vip.m
                 if (vom != null) som += vom.m
-                if (vop != null) sop += vop.m
+                sop += vop.m
 
                 vim = nextRight(vim)
                 vip = nextLeft(vip)
