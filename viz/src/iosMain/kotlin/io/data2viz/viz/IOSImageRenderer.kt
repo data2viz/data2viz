@@ -17,9 +17,11 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
 import io.data2viz.color.Color
 
-//TODO @LouisCAD :) DV-158
+//TODO: Complete BitmapImage support: https://youtrack.data2viz.io/issue/DV-158
+@ExperimentalD2V
 public actual class BitmapImage actual constructor(
     private val pixels: Array<Color>,
     private val width: Int,

@@ -49,7 +49,8 @@ public fun Bitmap.toLocalImage(): LocalImage = LocalImage(this)
 
 public class LocalImage(public val image: Bitmap): ImageHandler
 
-//TODO @LouisCAD :) DV-158
+@ExperimentalD2V
+//TODO: Complete BitmapImage support: https://youtrack.data2viz.io/issue/DV-158
 public actual class BitmapImage actual constructor(
     private val pixels: Array<Color>,
     private val width: Int,

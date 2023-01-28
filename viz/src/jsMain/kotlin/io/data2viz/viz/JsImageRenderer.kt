@@ -17,10 +17,12 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
 import io.data2viz.color.Color
 import kotlinx.browser.document
 import org.w3c.dom.*
 
+@OptIn(ExperimentalD2V::class)
 public fun ImageNode.render(context: CanvasRenderingContext2D) {
 
     image?.let { img ->

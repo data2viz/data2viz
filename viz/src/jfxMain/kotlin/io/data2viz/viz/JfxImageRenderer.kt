@@ -17,6 +17,7 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
 import io.data2viz.color.Color
 import javafx.scene.canvas.*
 import javafx.scene.image.Image
@@ -25,6 +26,7 @@ import javafx.scene.paint.Color.rgb
 import java.io.InputStream
 import java.io.InputStreamReader
 
+@OptIn(ExperimentalD2V::class)
 public fun ImageNode.render(gc: GraphicsContext) {
 
 //    TODO: manage smoothing (seems only available during Image instantiation)
@@ -51,6 +53,7 @@ public fun Image.toLocalImage(): LocalImage = LocalImage(this)
 
 public class LocalImage(public val image: Image): ImageHandler
 
+@ExperimentalD2V
 public actual class BitmapImage actual constructor(
     private val pixels: Array<Color>,
     private val width: Int,
