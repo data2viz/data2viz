@@ -203,7 +203,7 @@ public fun Locale.formatPrefix(specifier: String, fixedPrefix: Double): (Double)
 
 private fun exponent(value: Double): Int {
     val x = formatDecimal(abs(value))
-    return if (x != null) x.exponent else 0
+    return x?.exponent ?: 0
 }
 
 private fun formatGroup(group: List<Int>, groupSeparator: String): (String, Int) -> String {
@@ -308,9 +308,8 @@ public fun formatDecimal(x: Double, p: Int = 0): CoefficientExponent? {
     val decimal: String = if (coefficient.length > 1) coefficient[0] + coefficient.slice(2 until coefficient.length) else coefficient
 
     val parsePrecision = newX.slice(index + 1 until newX.length).toIntOrNull()
-    val precision = if (parsePrecision != null) parsePrecision else 0
 
-    return CoefficientExponent(decimal, precision)
+    return CoefficientExponent(decimal, parsePrecision ?: 0)
 }
 
 private fun formatPrefixAuto(x: Double, p: Int = 0): String {
