@@ -63,7 +63,7 @@ public class SymbolGenerator<T> {
     public var type: (T) -> Symbol = { Circle() }
 
     public fun <C : Path> render(args: T, path: C): C {
-        type(args).render(path, size(args))
+        type(args).renderArea(path, size(args))
         return path
     }
 }
