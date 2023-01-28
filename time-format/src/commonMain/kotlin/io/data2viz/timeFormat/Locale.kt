@@ -325,7 +325,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultTimeLocale()) {
     public fun parsePeriod(d: ParseDate, string: String, i: Int): Int {
         val n = periodRe.find(string.substring(i))
         return if (n != null) {
-            val period = periodLookup[n.groupValues[0].filter { it != ' ' }.toLowerCase()]
+            val period = periodLookup[n.groupValues[0].filter { it != ' ' }.lowercase()]
             d.period = if (period != null) period else 0
             i + n.groupValues[0].length
         } else -1
@@ -334,7 +334,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultTimeLocale()) {
     public fun parseShortWeekday(d: ParseDate, string: String, i: Int): Int {
         val n = shortWeekdayRe.find(string.substring(i))
         return if (n != null) {
-            val weekDay = shortWeekdayLookup[n.groupValues[0].filter { it != ' ' }.toLowerCase()]
+            val weekDay = shortWeekdayLookup[n.groupValues[0].filter { it != ' ' }.lowercase()]
             d.weekDay = if (weekDay != null) weekDay else 0
             i + n.groupValues[0].length
         } else -1
@@ -343,7 +343,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultTimeLocale()) {
     public fun parseWeekday(d: ParseDate, string: String, i: Int): Int {
         val n = weekdayRe.find(string.substring(i))
         return if (n != null) {
-            val weekDay = weekdayLookup[n.groupValues[0].filter { it != ' ' }.toLowerCase()]
+            val weekDay = weekdayLookup[n.groupValues[0].filter { it != ' ' }.lowercase()]
             d.weekDay = if (weekDay != null) weekDay else 0
             i + n.groupValues[0].length
         } else -1
@@ -352,7 +352,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultTimeLocale()) {
     public fun parseShortMonth(d: ParseDate, string: String, i: Int): Int {
         val n = shortMonthRe.find(string.substring(i))
         return if (n != null) {
-            val month = shortMonthLookup[n.groupValues[0].filter { it != ' ' }.toLowerCase()]
+            val month = shortMonthLookup[n.groupValues[0].filter { it != ' ' }.lowercase()]
             d.month = if (month != null) month + 1 else 0
             i + n.groupValues[0].length
         } else -1
@@ -361,7 +361,7 @@ public class Locale(timeLocale: TimeLocale = Locales.defaultTimeLocale()) {
     public fun parseMonth(d: ParseDate, string: String, i: Int): Int {
         val n = monthRe.find(string.substring(i))
         return if (n != null) {
-            val month = monthLookup[n.groupValues[0].filter { it != ' ' }.toLowerCase()]
+            val month = monthLookup[n.groupValues[0].filter { it != ' ' }.lowercase()]
             d.month = if (month != null) month + 1 else 0
             i + n.groupValues[0].length
         } else -1
@@ -632,6 +632,6 @@ private fun formatLookup(names: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     var i = -1
     val n = names.size
-    while (++i < n) map.set(names[i].toLowerCase(), i)
+    while (++i < n) map[names[i].lowercase()] = i
     return map.toMap()
 }

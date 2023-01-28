@@ -61,7 +61,7 @@ private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
     // For SI-prefix, the suffix is lazily computed.
     val prefix = if (spec.symbol == Symbol.CURRENCY)
         currency[0]
-        else if (spec.symbol == Symbol.NUMBER_BASE && spec.type.isNumberBase) "0" + spec.type.c.toLowerCase() else ""
+        else if (spec.symbol == Symbol.NUMBER_BASE && spec.type.isNumberBase) "0" + spec.type.c.lowercase() else ""
 
     val suffix = if (spec.symbol == Symbol.CURRENCY) currency[1] else if (spec.type.isPercent) "%" else ""
 
