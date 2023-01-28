@@ -69,8 +69,10 @@ internal class StyleImpl: Style {
     override var textColor: ColorOrGradient? = null
     override var strokeWidth: Double? = 1.0
     override var hAlign: TextHAlign = TextHAlign.LEFT
+    @Deprecated("Use hAlign", replaceWith = ReplaceWith("hAlign"))
     override var anchor: TextHAlign = hAlign
     override var vAlign: TextVAlign = TextVAlign.BASELINE
+    @Deprecated("Use vAlign", replaceWith = ReplaceWith("vAlign"))
     override var baseline: TextVAlign = vAlign
 }
 
@@ -154,6 +156,7 @@ public class HierarchicalStyle(
             hAlignSet = true
             style?.hAlign = value
         }
+    @Deprecated("Use hAlign", replaceWith = ReplaceWith("hAlign"))
     override var anchor: TextHAlign
         get() = hAlign
         set(value) {

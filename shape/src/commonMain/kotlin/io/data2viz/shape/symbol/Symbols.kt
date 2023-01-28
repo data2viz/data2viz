@@ -27,6 +27,10 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 public class Circle : Symbol {
+    @Deprecated(
+        "Use renderArea or renderRadius instead (defaults to renderArea).",
+        replaceWith = ReplaceWith("renderArea(path, size, position)")
+    )
     override fun <C : Path> render(path: C, size: Double, position: Point): C =
         renderArea(path, size, position)
 
@@ -43,6 +47,10 @@ public class Circle : Symbol {
 }
 
 public class Cross : Symbol {
+    @Deprecated(
+        "Use renderArea or renderRadius instead (defaults to renderArea).",
+        replaceWith = ReplaceWith("renderArea(path, size, position)")
+    )
     override fun <C : Path> render(path: C, size: Double, position: Point): C =
         renderArea(path, size, position)
 
@@ -75,6 +83,10 @@ public class Diamond : Symbol {
     private val tan30 = sqrt(1 / 3.0)
     private val tan30_2 = tan30 * 2
 
+    @Deprecated(
+        "Use renderArea or renderRadius instead (defaults to renderArea).",
+        replaceWith = ReplaceWith("renderArea(path, size, position)")
+    )
     override fun <C : Path> render(path: C, size: Double, position: Point): C =
         renderArea(path, size, position)
 
@@ -95,6 +107,10 @@ public class Diamond : Symbol {
 }
 
 public class Square : Symbol {
+    @Deprecated(
+        "Use renderArea or renderRadius instead (defaults to renderArea).",
+        replaceWith = ReplaceWith("renderArea(path, size, position)")
+    )
     override fun <C : Path> render(path: C, size: Double, position: Point): C =
         renderArea(path, size, position)
 
@@ -116,6 +132,10 @@ public class Star : Symbol {
     private val kx = sin(tau / 10) * kr
     private val ky = -cos(tau / 10) * kr
 
+    @Deprecated(
+        "Use renderArea or renderRadius instead (defaults to renderArea).",
+        replaceWith = ReplaceWith("renderArea(path, size, position)")
+    )
     override fun <C : Path> render(path: C, size: Double, position: Point): C =
         renderArea(path, size, position)
 
@@ -143,6 +163,10 @@ public class Triangle : Symbol {
 
     private val sqrt3 = sqrt(3.0)
 
+    @Deprecated(
+        "Use renderArea or renderRadius instead (defaults to renderArea).",
+        replaceWith = ReplaceWith("renderArea(path, size, position)")
+    )
     override fun <C : Path> render(path: C, size: Double, position: Point): C =
         renderArea(path, size, position)
 
@@ -169,6 +193,10 @@ public class Wye : Symbol {
     private val k = 1 / sqrt(12.0)
     private val a = (k / 2 + 1) * 3
 
+    @Deprecated(
+        "Use renderArea or renderRadius instead (defaults to renderArea).",
+        replaceWith = ReplaceWith("renderArea(path, size, position)")
+    )
     override fun <C : Path> render(path: C, size: Double, position: Point): C =
         renderArea(path, size, position)
 
