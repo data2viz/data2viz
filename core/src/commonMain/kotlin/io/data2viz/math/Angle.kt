@@ -17,6 +17,7 @@
 
 package io.data2viz.math
 
+import kotlin.jvm.JvmInline
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
@@ -24,7 +25,8 @@ import kotlin.math.tan
 /**
  * Abstraction of an angle to have some more typesafe angle manipulations.
  */
-public inline class Angle(
+@JvmInline
+public value class Angle(
     public val rad: Double
 ){
     public val cos:Double get() = cos(rad)
