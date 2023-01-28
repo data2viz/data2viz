@@ -103,21 +103,21 @@ project.ext.configureMavenCentralMetadata = { pom ->
 project.ext.pomConfig = {
     licenses {
         license {
-            name = "The Apache Software License, Version 2.0"
+            name "The Apache Software License, Version 2.0"
             url "https://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution = "repo"
+            distribution "repo"
         }
     }
     developers {
         developer {
-            id = "Data2viz"
-            name = "Data2viz team"
-            organization = "Data2viz"
-            organizationUrl = "https://data2viz.io"
+            id "Data2viz"
+            name "Data2viz team"
+            organization "Data2viz"
+            organizationUrl "https://data2viz.io"
         }
     }
 
     scm {
-        url = "https://github.com/data2viz/data2viz"
+        url "https://github.com/data2viz/data2viz"
     }
 }
