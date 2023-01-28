@@ -19,7 +19,7 @@ package io.data2viz.timeFormat
 
 import kotlinx.datetime.*
 import kotlin.math.abs
-import kotlin.time.days
+import kotlin.time.Duration.Companion.days
 
 public data class ParseDate(
         var year: Int? = null,

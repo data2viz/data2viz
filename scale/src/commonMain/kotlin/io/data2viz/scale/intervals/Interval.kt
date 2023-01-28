@@ -18,7 +18,7 @@
 package io.data2viz.scale.intervals
 
 import kotlinx.datetime.*
-import kotlin.time.milliseconds
+import kotlin.time.Duration.Companion.milliseconds
 
 private val utc: TimeZone = TimeZone.UTC
 

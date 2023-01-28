@@ -1,7 +1,11 @@
 package io.data2viz.scale.intervals
 
 import kotlinx.datetime.*
-import kotlin.time.*
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 internal class Day : Interval(
     floor = fun TimeZone.(date: Instant): Instant {
@@ -24,7 +28,7 @@ internal class Hour : Interval(
 internal class Millisecond : Interval(
     floor = fun TimeZone.(date: Instant): Instant = date,
     offset = fun TimeZone.(date: Instant, step: Int): Instant = date + step.milliseconds,
-    count = fun TimeZone.(start: Instant, end: Instant): Long = (end - start).toLongMilliseconds(),
+    count = fun TimeZone.(start: Instant, end: Instant): Long = (end - start).inWholeMilliseconds,
     field = fun TimeZone.(date: Instant): Int = date.nanosecondsOfSecond / 1_000_000
 )
 internal class Minute : Interval(
@@ -65,7 +69,7 @@ internal class Weekday(day: Int) : Interval(
             LocalDateTime(d.year, d.month, weekFlooredDay, 0, 0).toInstant(this)
     },
     offset = fun TimeZone.(date: Instant, step: Int): Instant = date + (step*7).days,
-    count = fun TimeZone.(start: Instant, end: Instant): Long = (end - start).inDays.toLong() / 7
+    count = fun TimeZone.(start: Instant, end: Instant): Long = (end - start).inWholeDays / 7
 )
 internal class Year : Interval(
     floor = fun TimeZone.(date: Instant): Instant {

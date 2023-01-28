@@ -25,7 +25,8 @@ import io.data2viz.math.tickStep
 import io.data2viz.scale.intervals.*
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlin.time.milliseconds
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.DurationUnit
 
 private val dateComparator = Comparator<Instant> { a, b -> a.compareTo(b) }
 
@@ -123,7 +124,7 @@ public class TimeScale<R> internal constructor(
     }
 
     private fun tickInterval(count: Int, start: Instant, end: Instant): Interval {
-        val diff = (end - start).inMilliseconds
+        val diff = (end - start).toDouble(DurationUnit.MILLISECONDS)
         val targetDuration = diff / count.toDouble()
         val intervalIndex = bisectRight(tickIntervals.map { it.duration }, targetDuration.toLong(), naturalOrder())
         val step: Int?
