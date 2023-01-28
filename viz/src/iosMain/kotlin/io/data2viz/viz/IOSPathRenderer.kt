@@ -20,9 +20,32 @@ package io.data2viz.viz
 import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RadialGradient
-import io.data2viz.geom.*
+import io.data2viz.geom.Arc
+import io.data2viz.geom.ArcTo
+import io.data2viz.geom.BezierCurveTo
+import io.data2viz.geom.ClosePath
+import io.data2viz.geom.LineTo
+import io.data2viz.geom.MoveTo
+import io.data2viz.geom.QuadraticCurveTo
+import io.data2viz.geom.RectCmd
 import kotlinx.cinterop.CPointer
-import platform.CoreGraphics.*
+import platform.CoreGraphics.CGContextAddPath
+import platform.CoreGraphics.CGContextFillPath
+import platform.CoreGraphics.CGContextSetFillColor
+import platform.CoreGraphics.CGContextSetLineWidth
+import platform.CoreGraphics.CGContextSetStrokeColor
+import platform.CoreGraphics.CGContextStrokePath
+import platform.CoreGraphics.CGPath
+import platform.CoreGraphics.CGPathAddArc
+import platform.CoreGraphics.CGPathAddArcToPoint
+import platform.CoreGraphics.CGPathAddCurveToPoint
+import platform.CoreGraphics.CGPathAddLineToPoint
+import platform.CoreGraphics.CGPathAddQuadCurveToPoint
+import platform.CoreGraphics.CGPathAddRect
+import platform.CoreGraphics.CGPathCloseSubpath
+import platform.CoreGraphics.CGPathCreateMutable
+import platform.CoreGraphics.CGPathMoveToPoint
+import platform.CoreGraphics.CGRectMake
 import platform.UIKit.UIBezierPath
 
 
