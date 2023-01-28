@@ -91,7 +91,7 @@ public fun attachCircle(arcNode: RedBlackNode<Beach>) {
     var node = circles.root
 
     while (node != null) {
-        if (circle.y < node.y || (circle.y === node.y && circle.x <= node.x)) {
+        if (circle.y < node.y || (circle.y == node.y && circle.x <= node.x)) {
             if (node.L != null) node = node.L
             else {
                 before = node.P; break; }
