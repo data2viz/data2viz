@@ -79,7 +79,7 @@ public class PathGeom : Path {
 /**
  * Common interface of PathCommand
  */
-public interface PathCommand {
+public sealed interface PathCommand {
     public val x: Double
     public val y: Double
 }
