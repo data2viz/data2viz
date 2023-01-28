@@ -68,7 +68,7 @@ private fun <T> List<StackParam<T>>.sortInsideOut(): List<Int> {
     val top = mutableListOf<Int>()
     val bottom = mutableListOf<Int>()
     ascendingIndexes.forEach { index ->
-        val stackParam = this.get(index)
+        val stackParam = this[index]
         if (topSum < bottomSum) {
             top.add(stackParam.index)
             topSum += stackParam.stackedValues.sumOf { it.to }
