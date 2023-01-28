@@ -46,7 +46,7 @@ private fun date(d: ParseDate): Instant {
 //        else date
 //    }
     if (d.day != null) {
-        date = date + (d.day!! - 1).days
+        date += (d.day!! - 1).days
     }
 
     return date
