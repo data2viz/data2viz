@@ -1,0 +1,217 @@
+public abstract interface class io/data2viz/force/Force {
+	public abstract fun applyForceToNodes (D)V
+	public abstract fun assignNodes (Ljava/util/List;)V
+}
+
+public final class io/data2viz/force/ForceCenter : io/data2viz/force/Force {
+	public fun applyForceToNodes (D)V
+	public fun assignNodes (Ljava/util/List;)V
+	public final fun getCenter ()Lio/data2viz/geom/Point;
+	public final fun setCenter (Lio/data2viz/geom/Point;)V
+}
+
+public final class io/data2viz/force/ForceCenterKt {
+	public static final fun forceCenter (Lio/data2viz/geom/Point;)Lio/data2viz/force/ForceCenter;
+}
+
+public final class io/data2viz/force/ForceCollision : io/data2viz/force/Force {
+	public fun applyForceToNodes (D)V
+	public fun assignNodes (Ljava/util/List;)V
+	public final fun getIterations ()I
+	public final fun getRadiusGet ()Lkotlin/jvm/functions/Function1;
+	public final fun getStrength-P6MNtoY ()D
+	public final fun setIterations (I)V
+	public final fun setRadiusGet (Lkotlin/jvm/functions/Function1;)V
+	public final fun setStrength-wJQ8TTM (D)V
+}
+
+public final class io/data2viz/force/ForceCollisionKt {
+	public static final fun forceCollision (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceCollision;
+}
+
+public final class io/data2viz/force/ForceKt {
+	public static final fun forceSimulation (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceSimulation;
+}
+
+public final class io/data2viz/force/ForceLink : io/data2viz/force/Force {
+	public fun applyForceToNodes (D)V
+	public fun assignNodes (Ljava/util/List;)V
+	public final fun getIterations ()I
+	public final fun getLinkGet ()Lkotlin/jvm/functions/Function1;
+	public final fun getLinks ()Ljava/util/List;
+	public final fun setIterations (I)V
+	public final fun setLinkGet (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/force/ForceLinkKt {
+	public static final fun forceLink (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceLink;
+}
+
+public final class io/data2viz/force/ForceNBody : io/data2viz/force/Force {
+	public fun applyForceToNodes (D)V
+	public fun assignNodes (Ljava/util/List;)V
+	public final fun getDistanceMax ()D
+	public final fun getDistanceMin ()D
+	public final fun getStrengthGet ()Lkotlin/jvm/functions/Function1;
+	public final fun getTheta ()D
+	public final fun setDistanceMax (D)V
+	public final fun setDistanceMin (D)V
+	public final fun setStrengthGet (Lkotlin/jvm/functions/Function1;)V
+	public final fun setTheta (D)V
+}
+
+public final class io/data2viz/force/ForceNBodyKt {
+	public static final fun forceNBody (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceNBody;
+}
+
+public final class io/data2viz/force/ForceNode {
+	public fun <init> (ILjava/lang/Object;DDDDLjava/lang/Double;Ljava/lang/Double;)V
+	public synthetic fun <init> (ILjava/lang/Object;DDDDLjava/lang/Double;Ljava/lang/Double;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/lang/Object;
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun component6 ()D
+	public final fun component7 ()Ljava/lang/Double;
+	public final fun component8 ()Ljava/lang/Double;
+	public final fun copy (ILjava/lang/Object;DDDDLjava/lang/Double;Ljava/lang/Double;)Lio/data2viz/force/ForceNode;
+	public static synthetic fun copy$default (Lio/data2viz/force/ForceNode;ILjava/lang/Object;DDDDLjava/lang/Double;Ljava/lang/Double;ILjava/lang/Object;)Lio/data2viz/force/ForceNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDomain ()Ljava/lang/Object;
+	public final fun getFixedX ()Ljava/lang/Double;
+	public final fun getFixedY ()Ljava/lang/Double;
+	public final fun getIndex ()I
+	public final fun getPosition ()Lio/data2viz/geom/Point;
+	public final fun getVelocity ()Lio/data2viz/geom/Vector;
+	public final fun getVx ()D
+	public final fun getVy ()D
+	public final fun getX ()D
+	public final fun getY ()D
+	public fun hashCode ()I
+	public final fun setFixedX (Ljava/lang/Double;)V
+	public final fun setFixedY (Ljava/lang/Double;)V
+	public final fun setPosition (Lio/data2viz/geom/Point;)V
+	public final fun setVelocity (Lio/data2viz/geom/Vector;)V
+	public final fun setVx (D)V
+	public final fun setVy (D)V
+	public final fun setX (D)V
+	public final fun setY (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/force/ForcePoint : io/data2viz/force/Force {
+	public fun applyForceToNodes (D)V
+	public fun assignNodes (Ljava/util/List;)V
+	public final fun getPointGet ()Lkotlin/jvm/functions/Function1;
+	public final fun getStrengthGet ()Lkotlin/jvm/functions/Function1;
+	public final fun setPointGet (Lkotlin/jvm/functions/Function1;)V
+	public final fun setStrengthGet (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/force/ForceRadial : io/data2viz/force/Force {
+	public fun applyForceToNodes (D)V
+	public fun assignNodes (Ljava/util/List;)V
+	public final fun getCenterGet ()Lkotlin/jvm/functions/Function1;
+	public final fun getRadiusGet ()Lkotlin/jvm/functions/Function1;
+	public final fun getStrengthGet ()Lkotlin/jvm/functions/Function1;
+	public final fun setCenterGet (Lkotlin/jvm/functions/Function1;)V
+	public final fun setRadiusGet (Lkotlin/jvm/functions/Function1;)V
+	public final fun setStrengthGet (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/force/ForceRadialKt {
+	public static final fun forceRadial (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceRadial;
+}
+
+public final class io/data2viz/force/ForceSimulation {
+	public final fun find (Lio/data2viz/geom/Point;D)Lio/data2viz/force/ForceNode;
+	public static synthetic fun find$default (Lio/data2viz/force/ForceSimulation;Lio/data2viz/geom/Point;DILjava/lang/Object;)Lio/data2viz/force/ForceNode;
+	public final fun forceCenter (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceCenter;
+	public final fun forceCollision (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceCollision;
+	public final fun forceLink (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceLink;
+	public static synthetic fun forceLink$default (Lio/data2viz/force/ForceSimulation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/force/ForceLink;
+	public final fun forceNBody (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceNBody;
+	public static synthetic fun forceNBody$default (Lio/data2viz/force/ForceSimulation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/force/ForceNBody;
+	public final fun forcePoint (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForcePoint;
+	public static synthetic fun forcePoint$default (Lio/data2viz/force/ForceSimulation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/force/ForcePoint;
+	public final fun forceRadial (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceRadial;
+	public final fun forceX (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceX;
+	public static synthetic fun forceX$default (Lio/data2viz/force/ForceSimulation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/force/ForceX;
+	public final fun forceY (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceY;
+	public static synthetic fun forceY$default (Lio/data2viz/force/ForceSimulation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/force/ForceY;
+	public final fun getDomainObjects ()Ljava/util/List;
+	public final fun getForces ()Ljava/util/List;
+	public final fun getFriction-P6MNtoY ()D
+	public final fun getInitForceNode ()Lkotlin/jvm/functions/Function1;
+	public final fun getIntensity-P6MNtoY ()D
+	public final fun getIntensityDecay-P6MNtoY ()D
+	public final fun getIntensityMin-P6MNtoY ()D
+	public final fun getIntensityTarget-P6MNtoY ()D
+	public final fun getNodes ()Ljava/util/List;
+	public final fun on (Lio/data2viz/force/SimulationEvent;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public final fun play ()V
+	public final fun removeForce (Lio/data2viz/force/Force;)V
+	public final fun setDomainObjects (Ljava/util/List;)V
+	public final fun setFriction-wJQ8TTM (D)V
+	public final fun setInitForceNode (Lkotlin/jvm/functions/Function1;)V
+	public final fun setIntensity-wJQ8TTM (D)V
+	public final fun setIntensityDecay-wJQ8TTM (D)V
+	public final fun setIntensityMin-wJQ8TTM (D)V
+	public final fun setIntensityTarget-wJQ8TTM (D)V
+	public final fun stop ()V
+	public final fun tick ()V
+}
+
+public final class io/data2viz/force/ForceX : io/data2viz/force/Force {
+	public fun applyForceToNodes (D)V
+	public fun assignNodes (Ljava/util/List;)V
+	public final fun getStrengthGet ()Lkotlin/jvm/functions/Function1;
+	public final fun getXGet ()Lkotlin/jvm/functions/Function1;
+	public final fun setStrengthGet (Lkotlin/jvm/functions/Function1;)V
+	public final fun setXGet (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/force/ForceXKt {
+	public static final fun forceX (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceX;
+}
+
+public final class io/data2viz/force/ForceY : io/data2viz/force/Force {
+	public fun applyForceToNodes (D)V
+	public fun assignNodes (Ljava/util/List;)V
+	public final fun getStrengthGet ()Lkotlin/jvm/functions/Function1;
+	public final fun getYGet ()Lkotlin/jvm/functions/Function1;
+	public final fun setStrengthGet (Lkotlin/jvm/functions/Function1;)V
+	public final fun setYGet (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/force/ForceYKt {
+	public static final fun forceY (Lkotlin/jvm/functions/Function1;)Lio/data2viz/force/ForceY;
+}
+
+public final class io/data2viz/force/Link {
+	public fun <init> (Lio/data2viz/force/ForceNode;Lio/data2viz/force/ForceNode;DD)V
+	public synthetic fun <init> (Lio/data2viz/force/ForceNode;Lio/data2viz/force/ForceNode;DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/data2viz/force/ForceNode;
+	public final fun component2 ()Lio/data2viz/force/ForceNode;
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun copy (Lio/data2viz/force/ForceNode;Lio/data2viz/force/ForceNode;DD)Lio/data2viz/force/Link;
+	public static synthetic fun copy$default (Lio/data2viz/force/Link;Lio/data2viz/force/ForceNode;Lio/data2viz/force/ForceNode;DDILjava/lang/Object;)Lio/data2viz/force/Link;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDistance ()D
+	public final fun getSource ()Lio/data2viz/force/ForceNode;
+	public final fun getStrength ()D
+	public final fun getTarget ()Lio/data2viz/force/ForceNode;
+	public fun hashCode ()I
+	public final fun setStrength (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/force/SimulationEvent : java/lang/Enum {
+	public static final field END Lio/data2viz/force/SimulationEvent;
+	public static final field TICK Lio/data2viz/force/SimulationEvent;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/force/SimulationEvent;
+	public static fun values ()[Lio/data2viz/force/SimulationEvent;
+}
+

@@ -1,0 +1,804 @@
+public abstract interface class io/data2viz/viz/AtomicTransformation {
+}
+
+public final class io/data2viz/viz/CircleNode : io/data2viz/viz/Node, io/data2viz/geom/Circle, io/data2viz/viz/HasFill, io/data2viz/viz/HasStroke, io/data2viz/viz/HasTransform {
+	public fun <init> ()V
+	public fun <init> (Lio/data2viz/geom/Circle;)V
+	public synthetic fun <init> (Lio/data2viz/geom/Circle;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getCircle ()Lio/data2viz/geom/Circle;
+	public fun getRadius ()D
+	public fun getTransform ()Lio/data2viz/viz/Transform;
+	public fun getX ()D
+	public fun getY ()D
+	public fun setRadius (D)V
+	public fun setTransform (Lio/data2viz/viz/Transform;)V
+	public fun setX (D)V
+	public fun setY (D)V
+}
+
+public abstract interface class io/data2viz/viz/Disposable {
+	public abstract fun dispose ()V
+}
+
+public final class io/data2viz/viz/DslExtensionsKt {
+	public static final fun getTextAlign (Lio/data2viz/viz/TextNode;)Lio/data2viz/viz/TextAlign;
+	public static final fun setTextAlign (Lio/data2viz/viz/TextNode;Lio/data2viz/viz/TextAlign;)V
+	public static final fun textAlign (Lio/data2viz/viz/TextNode;Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;)Lio/data2viz/viz/TextAlign;
+	public static synthetic fun textAlign$default (Lio/data2viz/viz/TextNode;Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;ILjava/lang/Object;)Lio/data2viz/viz/TextAlign;
+}
+
+public final class io/data2viz/viz/EventPropagation : java/lang/Enum {
+	public static final field Continue Lio/data2viz/viz/EventPropagation;
+	public static final field Stop Lio/data2viz/viz/EventPropagation;
+	public final fun getStop ()Z
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/EventPropagation;
+	public static fun values ()[Lio/data2viz/viz/EventPropagation;
+}
+
+public final class io/data2viz/viz/EventType : java/lang/Enum {
+	public static final field Cancel Lio/data2viz/viz/EventType;
+	public static final field Click Lio/data2viz/viz/EventType;
+	public static final field DoubleClick Lio/data2viz/viz/EventType;
+	public static final field Down Lio/data2viz/viz/EventType;
+	public static final field Enter Lio/data2viz/viz/EventType;
+	public static final field Leave Lio/data2viz/viz/EventType;
+	public static final field Move Lio/data2viz/viz/EventType;
+	public static final field Unknown Lio/data2viz/viz/EventType;
+	public static final field Up Lio/data2viz/viz/EventType;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/EventType;
+	public static fun values ()[Lio/data2viz/viz/EventType;
+}
+
+public abstract interface annotation class io/data2viz/viz/ExperimentalKEvent : java/lang/annotation/Annotation {
+}
+
+public final class io/data2viz/viz/FontFamily {
+	public static final field Companion Lio/data2viz/viz/FontFamily$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getName ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/FontFamily$Companion {
+	public final fun getMONOSPACE ()Lio/data2viz/viz/FontFamily;
+	public final fun getSANS_SERIF ()Lio/data2viz/viz/FontFamily;
+	public final fun getSERIF ()Lio/data2viz/viz/FontFamily;
+	public final fun specifiedFont (Ljava/lang/String;)Lio/data2viz/viz/FontFamily;
+}
+
+public final class io/data2viz/viz/FontPosture : java/lang/Enum {
+	public static final field ITALIC Lio/data2viz/viz/FontPosture;
+	public static final field NORMAL Lio/data2viz/viz/FontPosture;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/FontPosture;
+	public static fun values ()[Lio/data2viz/viz/FontPosture;
+}
+
+public final class io/data2viz/viz/FontWeight : java/lang/Enum {
+	public static final field BOLD Lio/data2viz/viz/FontWeight;
+	public static final field NORMAL Lio/data2viz/viz/FontWeight;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/FontWeight;
+	public static fun values ()[Lio/data2viz/viz/FontWeight;
+}
+
+public class io/data2viz/viz/GroupNode : io/data2viz/viz/Node, io/data2viz/viz/HasChildren, io/data2viz/viz/HasTransform {
+	public fun <init> ()V
+	public fun add (Lio/data2viz/viz/Node;)V
+	public fun circle (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/CircleNode;
+	public fun clear ()V
+	public final fun getChildren ()Ljava/util/List;
+	public fun getTransform ()Lio/data2viz/viz/Transform;
+	public fun group (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/GroupNode;
+	public fun image (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/ImageNode;
+	public fun line (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/LineNode;
+	public fun path (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/PathNode;
+	public fun rect (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/RectNode;
+	public fun remove (Lio/data2viz/viz/Node;)V
+	public fun setTransform (Lio/data2viz/viz/Transform;)V
+	public fun text (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/TextNode;
+	public final fun transform (Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract interface class io/data2viz/viz/HasChildren {
+	public abstract fun add (Lio/data2viz/viz/Node;)V
+	public abstract fun circle (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/CircleNode;
+	public abstract fun clear ()V
+	public abstract fun group (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/GroupNode;
+	public abstract fun image (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/ImageNode;
+	public abstract fun line (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/LineNode;
+	public abstract fun path (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/PathNode;
+	public abstract fun rect (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/RectNode;
+	public abstract fun remove (Lio/data2viz/viz/Node;)V
+	public abstract fun text (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/TextNode;
+}
+
+public abstract interface class io/data2viz/viz/HasFill {
+	public abstract fun getFill ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun setFill (Lio/data2viz/color/ColorOrGradient;)V
+}
+
+public abstract interface class io/data2viz/viz/HasMetaKeys {
+	public abstract fun getAltKey ()Z
+	public abstract fun getCtrlKey ()Z
+	public abstract fun getMetaKey ()Z
+	public abstract fun getShiftKey ()Z
+	public abstract fun noKey ()Z
+}
+
+public abstract interface class io/data2viz/viz/HasStroke {
+	public abstract fun getDashedLine ()[D
+	public abstract fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun getStrokeWidth ()Ljava/lang/Double;
+	public abstract fun setDashedLine ([D)V
+	public abstract fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public abstract fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
+	public abstract fun setStrokeWidth (Ljava/lang/Double;)V
+}
+
+public abstract interface class io/data2viz/viz/HasTransform {
+	public abstract fun getTransform ()Lio/data2viz/viz/Transform;
+}
+
+public final class io/data2viz/viz/HeadlessVizContainer : io/data2viz/viz/Resizable, io/data2viz/viz/VizContainer {
+	public fun <init> ()V
+	public fun <init> (DLio/data2viz/viz/ResizableSupport;)V
+	public synthetic fun <init> (DLio/data2viz/viz/ResizableSupport;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun addResizeListener (Lkotlin/jvm/functions/Function1;)V
+	public fun getDensity ()D
+	public fun getSize ()Lio/data2viz/geom/Size;
+	public fun getVizList ()Ljava/util/List;
+	public fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
+	public fun setSize (Lio/data2viz/geom/Size;)V
+}
+
+public final class io/data2viz/viz/HierarchicalStyle : io/data2viz/viz/Style {
+	public fun <init> (Lio/data2viz/viz/Style;)V
+	public fun getAnchor ()Lio/data2viz/viz/TextHAlign;
+	public fun getBaseline ()Lio/data2viz/viz/TextVAlign;
+	public fun getDashedLine ()[D
+	public fun getFill ()Lio/data2viz/color/ColorOrGradient;
+	public fun getHAlign ()Lio/data2viz/viz/TextHAlign;
+	public final fun getParent ()Lio/data2viz/viz/Style;
+	public fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeWidth ()Ljava/lang/Double;
+	public fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
+	public fun getVAlign ()Lio/data2viz/viz/TextVAlign;
+	public fun setAnchor (Lio/data2viz/viz/TextHAlign;)V
+	public fun setBaseline (Lio/data2viz/viz/TextVAlign;)V
+	public fun setDashedLine ([D)V
+	public fun setFill (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
+	public final fun setParent (Lio/data2viz/viz/Style;)V
+	public fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeWidth (Ljava/lang/Double;)V
+	public fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
+}
+
+public abstract interface class io/data2viz/viz/ImageHandler {
+}
+
+public final class io/data2viz/viz/ImageNode : io/data2viz/viz/Node {
+	public fun <init> ()V
+	public final fun getImage ()Lio/data2viz/viz/ImageHandler;
+	public final fun getSize ()Lio/data2viz/geom/Size;
+	public final fun getX ()D
+	public final fun getY ()D
+	public final fun setImage (Lio/data2viz/viz/ImageHandler;)V
+	public final fun setSize (Lio/data2viz/geom/Size;)V
+	public final fun setX (D)V
+	public final fun setY (D)V
+}
+
+public final class io/data2viz/viz/JFxVizRenderer : io/data2viz/viz/VizRenderer {
+	public fun <init> (Ljavafx/scene/canvas/Canvas;Lio/data2viz/viz/Viz;)V
+	public final fun getCanvas ()Ljavafx/scene/canvas/Canvas;
+	public fun getViz ()Lio/data2viz/viz/Viz;
+	public fun render ()V
+	public fun startAnimations ()V
+	public fun stopAnimations ()V
+}
+
+public final class io/data2viz/viz/JfxCircleRendererKt {
+	public static final fun render (Lio/data2viz/viz/CircleNode;Ljavafx/scene/canvas/GraphicsContext;)V
+}
+
+public final class io/data2viz/viz/JfxColorOrGradientRendererKt {
+	public static final fun getJfxColor (Lio/data2viz/color/Color;)Ljavafx/scene/paint/Color;
+	public static final fun toLinearGradientJFX (Lio/data2viz/color/LinearGradient;)Ljavafx/scene/paint/LinearGradient;
+	public static final fun toPaint (Lio/data2viz/color/ColorOrGradient;)Ljavafx/scene/paint/Paint;
+	public static final fun toRadialGradientJFX (Lio/data2viz/color/RadialGradient;)Ljavafx/scene/paint/RadialGradient;
+}
+
+public final class io/data2viz/viz/JfxGroupRendererKt {
+	public static final fun render (Lio/data2viz/viz/GroupNode;Ljavafx/scene/canvas/GraphicsContext;)V
+}
+
+public final class io/data2viz/viz/JfxImageRendererKt {
+	public static final fun render (Lio/data2viz/viz/ImageNode;Ljavafx/scene/canvas/GraphicsContext;)V
+	public static final fun toLocalImage (Ljavafx/scene/image/Image;)Lio/data2viz/viz/LocalImage;
+}
+
+public final class io/data2viz/viz/JfxLineRendererKt {
+	public static final fun render (Lio/data2viz/viz/LineNode;Ljavafx/scene/canvas/GraphicsContext;)V
+}
+
+public final class io/data2viz/viz/JfxPathRendererKt {
+	public static final fun getLength (Lio/data2viz/geom/Arc;)D
+	public static final fun getStart (Lio/data2viz/geom/Arc;)D
+	public static final fun render (Lio/data2viz/viz/PathNode;Ljavafx/scene/canvas/GraphicsContext;)V
+}
+
+public final class io/data2viz/viz/JfxRectRendererKt {
+	public static final fun render (Lio/data2viz/viz/RectNode;Ljavafx/scene/canvas/GraphicsContext;)V
+}
+
+public final class io/data2viz/viz/JfxVizContainerKt {
+}
+
+public final class io/data2viz/viz/JvmEventHandle : io/data2viz/viz/Disposable {
+	public fun <init> (Ljavafx/scene/canvas/Canvas;Ljava/util/List;Ljavafx/event/EventHandler;)V
+	public fun <init> (Ljavafx/scene/canvas/Canvas;Ljavafx/event/EventType;Ljavafx/event/EventHandler;)V
+	public final fun component1 ()Ljavafx/scene/canvas/Canvas;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljavafx/event/EventHandler;
+	public final fun copy (Ljavafx/scene/canvas/Canvas;Ljava/util/List;Ljavafx/event/EventHandler;)Lio/data2viz/viz/JvmEventHandle;
+	public static synthetic fun copy$default (Lio/data2viz/viz/JvmEventHandle;Ljavafx/scene/canvas/Canvas;Ljava/util/List;Ljavafx/event/EventHandler;ILjava/lang/Object;)Lio/data2viz/viz/JvmEventHandle;
+	public fun dispose ()V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCanvas ()Ljavafx/scene/canvas/Canvas;
+	public final fun getEventHandler ()Ljavafx/event/EventHandler;
+	public final fun getTypes ()Ljava/util/List;
+	public fun hashCode ()I
+	public final fun init ()V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/JvmZoomHandle : io/data2viz/viz/Disposable {
+	public fun <init> (Ljavafx/scene/canvas/Canvas;Ljavafx/event/EventHandler;Ljavafx/event/EventHandler;)V
+	public final fun component1 ()Ljavafx/scene/canvas/Canvas;
+	public final fun component2 ()Ljavafx/event/EventHandler;
+	public final fun component3 ()Ljavafx/event/EventHandler;
+	public final fun copy (Ljavafx/scene/canvas/Canvas;Ljavafx/event/EventHandler;Ljavafx/event/EventHandler;)Lio/data2viz/viz/JvmZoomHandle;
+	public static synthetic fun copy$default (Lio/data2viz/viz/JvmZoomHandle;Ljavafx/scene/canvas/Canvas;Ljavafx/event/EventHandler;Ljavafx/event/EventHandler;ILjava/lang/Object;)Lio/data2viz/viz/JvmZoomHandle;
+	public fun dispose ()V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCanvas ()Ljavafx/scene/canvas/Canvas;
+	public final fun getScrollHandler ()Ljavafx/event/EventHandler;
+	public final fun getZoomHandler ()Ljavafx/event/EventHandler;
+	public fun hashCode ()I
+	public final fun init ()V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/KDragEvent : io/data2viz/viz/KEvent {
+	public fun <init> (Lio/data2viz/viz/KDragEvent$KDragAction;Lio/data2viz/viz/KPointerEvent;)V
+	public final fun getAction ()Lio/data2viz/viz/KDragEvent$KDragAction;
+	public final fun getPointerEvent ()Lio/data2viz/viz/KPointerEvent;
+	public final fun getPos ()Lio/data2viz/geom/Point;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/KDragEvent$KDragAction : java/lang/Enum {
+	public static final field Dragging Lio/data2viz/viz/KDragEvent$KDragAction;
+	public static final field Finish Lio/data2viz/viz/KDragEvent$KDragAction;
+	public static final field Start Lio/data2viz/viz/KDragEvent$KDragAction;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/KDragEvent$KDragAction;
+	public static fun values ()[Lio/data2viz/viz/KDragEvent$KDragAction;
+}
+
+public abstract interface class io/data2viz/viz/KEvent {
+}
+
+public abstract interface class io/data2viz/viz/KEventListener {
+	public abstract fun addNativeListener (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
+}
+
+public final class io/data2viz/viz/KMouseDown {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KMouseMove {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KMouseUp {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KPointer {
+	public fun <init> (ILio/data2viz/geom/Point;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/data2viz/geom/Point;
+	public final fun copy (ILio/data2viz/geom/Point;)Lio/data2viz/viz/KPointer;
+	public static synthetic fun copy$default (Lio/data2viz/viz/KPointer;ILio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/viz/KPointer;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()I
+	public final fun getPos ()Lio/data2viz/geom/Point;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/KPointerEnter {
+	public fun <init> ()V
+}
+
+public abstract interface class io/data2viz/viz/KPointerEvent : io/data2viz/viz/HasMetaKeys, io/data2viz/viz/KEvent {
+	public abstract fun getActivePointerIndex ()I
+	public abstract fun getButtonPressed ()Lio/data2viz/viz/MouseButtonPressed;
+	public abstract fun getEventType ()Lio/data2viz/viz/EventType;
+	public abstract fun getPointerType ()Lio/data2viz/viz/PointerType;
+	public abstract fun getPointers ()Ljava/util/List;
+	public abstract fun getPos ()Lio/data2viz/geom/Point;
+}
+
+public final class io/data2viz/viz/KPointerEvents {
+	public static final field INSTANCE Lio/data2viz/viz/KPointerEvents;
+	public final fun getCancel ()Lio/data2viz/viz/KEventListener;
+	public final fun getDown ()Lio/data2viz/viz/KEventListener;
+	public final fun getDrag ()Lio/data2viz/viz/KEventListener;
+	public final fun getEnter ()Lio/data2viz/viz/KEventListener;
+	public final fun getLeave ()Lio/data2viz/viz/KEventListener;
+	public final fun getMove ()Lio/data2viz/viz/KEventListener;
+	public final fun getUp ()Lio/data2viz/viz/KEventListener;
+	public final fun getZoom ()Lio/data2viz/viz/KEventListener;
+}
+
+public final class io/data2viz/viz/KPointerLeave {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KTouch {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KTouchEnd {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KTouchMove {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KTouchStart {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KZoom {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/KZoomEvent : io/data2viz/viz/HasMetaKeys, io/data2viz/viz/KEvent {
+	public static final field Companion Lio/data2viz/viz/KZoomEvent$Companion;
+	public static final field diffTimeBetweenZoomEventsToDetectRestart I
+	public static final field maxDelta D
+	public static final field minDelta D
+	public fun <init> (Lio/data2viz/geom/Point;DDLio/data2viz/viz/HasMetaKeys;)V
+	public synthetic fun <init> (Lio/data2viz/geom/Point;DDLio/data2viz/viz/HasMetaKeys;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lio/data2viz/geom/Point;DLio/data2viz/viz/HasMetaKeys;)V
+	public synthetic fun <init> (Lio/data2viz/geom/Point;DLio/data2viz/viz/HasMetaKeys;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getAltKey ()Z
+	public fun getCtrlKey ()Z
+	public final fun getDeltaX ()D
+	public final fun getDeltaY ()D
+	public fun getMetaKey ()Z
+	public fun getShiftKey ()Z
+	public final fun getStartZoomPos ()Lio/data2viz/geom/Point;
+	public fun noKey ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/KZoomEvent$Companion {
+	public final fun isNewZoom (DLjava/lang/Double;)Z
+	public final fun isNewZoom (JLjava/lang/Long;)Z
+	public final fun scaleDelta (DDDDD)D
+	public static synthetic fun scaleDelta$default (Lio/data2viz/viz/KZoomEvent$Companion;DDDDDILjava/lang/Object;)D
+}
+
+public final class io/data2viz/viz/Layer : io/data2viz/viz/GroupNode {
+	public fun <init> ()V
+}
+
+public final class io/data2viz/viz/LineNode : io/data2viz/viz/Node, io/data2viz/viz/HasStroke, io/data2viz/viz/HasTransform {
+	public fun <init> ()V
+	public fun getTransform ()Lio/data2viz/viz/Transform;
+	public final fun getX1 ()D
+	public final fun getX2 ()D
+	public final fun getY1 ()D
+	public final fun getY2 ()D
+	public fun setTransform (Lio/data2viz/viz/Transform;)V
+	public final fun setX1 (D)V
+	public final fun setX2 (D)V
+	public final fun setY1 (D)V
+	public final fun setY2 (D)V
+}
+
+public final class io/data2viz/viz/LocalImage : io/data2viz/viz/ImageHandler {
+	public fun <init> (Ljavafx/scene/image/Image;)V
+	public final fun getImage ()Ljavafx/scene/image/Image;
+}
+
+public final class io/data2viz/viz/Margins {
+	public fun <init> (DDDD)V
+	public synthetic fun <init> (DDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun copy (DDDD)Lio/data2viz/viz/Margins;
+	public static synthetic fun copy$default (Lio/data2viz/viz/Margins;DDDDILjava/lang/Object;)Lio/data2viz/viz/Margins;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBottom ()D
+	public final fun getHMargins ()D
+	public final fun getLeft ()D
+	public final fun getRight ()D
+	public final fun getTop ()D
+	public final fun getVMargins ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/MouseButtonPressed : java/lang/Enum {
+	public static final field Fifth Lio/data2viz/viz/MouseButtonPressed;
+	public static final field Fourth Lio/data2viz/viz/MouseButtonPressed;
+	public static final field Left Lio/data2viz/viz/MouseButtonPressed;
+	public static final field Middle Lio/data2viz/viz/MouseButtonPressed;
+	public static final field NotApplicable Lio/data2viz/viz/MouseButtonPressed;
+	public static final field Right Lio/data2viz/viz/MouseButtonPressed;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/MouseButtonPressed;
+	public static fun values ()[Lio/data2viz/viz/MouseButtonPressed;
+}
+
+public abstract class io/data2viz/viz/Node : io/data2viz/viz/Style {
+	public fun <init> ()V
+	public fun getAnchor ()Lio/data2viz/viz/TextHAlign;
+	public fun getBaseline ()Lio/data2viz/viz/TextVAlign;
+	public fun getDashedLine ()[D
+	public fun getFill ()Lio/data2viz/color/ColorOrGradient;
+	public fun getHAlign ()Lio/data2viz/viz/TextHAlign;
+	public final fun getParent ()Lio/data2viz/viz/HasChildren;
+	public fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeWidth ()Ljava/lang/Double;
+	public fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
+	public fun getVAlign ()Lio/data2viz/viz/TextVAlign;
+	public final fun getVisible ()Z
+	public final fun remove ()V
+	public fun setAnchor (Lio/data2viz/viz/TextHAlign;)V
+	public fun setBaseline (Lio/data2viz/viz/TextVAlign;)V
+	public fun setDashedLine ([D)V
+	public fun setFill (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
+	public final fun setParent (Lio/data2viz/viz/HasChildren;)V
+	public fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeWidth (Ljava/lang/Double;)V
+	public fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
+	public final fun setVisible (Z)V
+}
+
+public class io/data2viz/viz/PathNode : io/data2viz/viz/Node, io/data2viz/geom/Path, io/data2viz/viz/HasFill, io/data2viz/viz/HasStroke, io/data2viz/viz/HasTransform {
+	public fun <init> ()V
+	public fun <init> (Lio/data2viz/geom/PathGeom;)V
+	public synthetic fun <init> (Lio/data2viz/geom/PathGeom;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun arc (DDDDDZ)V
+	public fun arcTo (DDDDD)V
+	public fun bezierCurveTo (DDDDDD)V
+	public final fun clearPath ()V
+	public fun closePath ()V
+	public final fun getPath ()Lio/data2viz/geom/PathGeom;
+	public fun getTransform ()Lio/data2viz/viz/Transform;
+	public fun lineTo (DD)V
+	public fun moveTo (DD)V
+	public fun quadraticCurveTo (DDDD)V
+	public fun rect (DDDD)V
+	public fun setTransform (Lio/data2viz/viz/Transform;)V
+}
+
+public final class io/data2viz/viz/PointerType : java/lang/Enum {
+	public static final field Mouse Lio/data2viz/viz/PointerType;
+	public static final field Pen Lio/data2viz/viz/PointerType;
+	public static final field Touch Lio/data2viz/viz/PointerType;
+	public static final field Unknown Lio/data2viz/viz/PointerType;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/PointerType;
+	public static fun values ()[Lio/data2viz/viz/PointerType;
+}
+
+public final class io/data2viz/viz/RectNode : io/data2viz/viz/Node, io/data2viz/geom/Rect, io/data2viz/viz/HasFill, io/data2viz/viz/HasStroke {
+	public fun <init> ()V
+	public fun <init> (Lio/data2viz/geom/Rect;)V
+	public synthetic fun <init> (Lio/data2viz/geom/Rect;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun contains (Lio/data2viz/geom/Point;)Z
+	public fun contains (Lio/data2viz/geom/Rect;)Z
+	public fun getBottom ()D
+	public fun getBottomLeft ()Lio/data2viz/geom/Point;
+	public fun getBottomRight ()Lio/data2viz/geom/Point;
+	public fun getCenter ()Lio/data2viz/geom/Point;
+	public fun getHeight ()D
+	public fun getLeft ()D
+	public fun getRight ()D
+	public fun getSize ()Lio/data2viz/geom/Size;
+	public fun getTop ()D
+	public fun getTopLeft ()Lio/data2viz/geom/Point;
+	public fun getTopRight ()Lio/data2viz/geom/Point;
+	public fun getWidth ()D
+	public fun getX ()D
+	public fun getY ()D
+	public fun setHeight (D)V
+	public fun setSize (Lio/data2viz/geom/Size;)V
+	public fun setWidth (D)V
+	public fun setX (D)V
+	public fun setY (D)V
+}
+
+public abstract interface class io/data2viz/viz/Resizable {
+	public abstract fun addResizeListener (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/data2viz/viz/ResizableSupport : io/data2viz/viz/Resizable {
+	public fun <init> ()V
+	public fun addResizeListener (Lkotlin/jvm/functions/Function1;)V
+	public final fun notifyNewSize (Lio/data2viz/geom/Size;)V
+}
+
+public final class io/data2viz/viz/RichTextBuilder {
+	public fun <init> ()V
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun buildGroup ()Lio/data2viz/viz/GroupNode;
+	public final fun computeSize ()Lio/data2viz/geom/Size;
+	public final fun getFontFamily ()Lio/data2viz/viz/FontFamily;
+	public final fun getFontSize ()D
+	public final fun getFontStyle ()Lio/data2viz/viz/FontPosture;
+	public final fun getFontWeight ()Lio/data2viz/viz/FontWeight;
+	public final fun getLineSize ()D
+	public final fun getTextColor ()Lio/data2viz/color/Color;
+	public final fun newLine ()V
+	public final fun setFontFamily (Lio/data2viz/viz/FontFamily;)V
+	public final fun setFontSize (D)V
+	public final fun setFontStyle (Lio/data2viz/viz/FontPosture;)V
+	public final fun setFontWeight (Lio/data2viz/viz/FontWeight;)V
+	public final fun setLineSize (D)V
+	public final fun setTextColor (Lio/data2viz/color/Color;)V
+	public final fun text (Ljava/lang/String;Ljava/lang/Double;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/data2viz/color/Color;Lio/data2viz/viz/FontFamily;)V
+	public static synthetic fun text$default (Lio/data2viz/viz/RichTextBuilder;Ljava/lang/String;Ljava/lang/Double;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/data2viz/color/Color;Lio/data2viz/viz/FontFamily;ILjava/lang/Object;)V
+}
+
+public final class io/data2viz/viz/Rotation : io/data2viz/viz/AtomicTransformation {
+	public fun <init> ()V
+	public fun <init> (D)V
+	public synthetic fun <init> (DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun copy (D)Lio/data2viz/viz/Rotation;
+	public static synthetic fun copy$default (Lio/data2viz/viz/Rotation;DILjava/lang/Object;)Lio/data2viz/viz/Rotation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDelta ()D
+	public fun hashCode ()I
+	public final fun setDelta (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/StateManager {
+	public fun <init> ()V
+	public final fun addStateProperty (Lio/data2viz/viz/StateProperty;)V
+	public final fun getProperties ()Ljava/util/List;
+	public final fun getStatus ()Lio/data2viz/viz/StateManagerStatus;
+	public final fun percentToState (D)V
+	public final fun setStatus (Lio/data2viz/viz/StateManagerStatus;)V
+}
+
+public final class io/data2viz/viz/StateManagerStatus : java/lang/Enum {
+	public static final field RECORD Lio/data2viz/viz/StateManagerStatus;
+	public static final field REST Lio/data2viz/viz/StateManagerStatus;
+	public static final field UPDATE_PROPERTIES Lio/data2viz/viz/StateManagerStatus;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/StateManagerStatus;
+	public static fun values ()[Lio/data2viz/viz/StateManagerStatus;
+}
+
+public abstract interface class io/data2viz/viz/StateProperty {
+	public abstract fun setPercent (D)V
+}
+
+public abstract interface class io/data2viz/viz/StateableElement {
+	public abstract fun getStateManager ()Lio/data2viz/viz/StateManager;
+	public abstract fun setStateManager (Lio/data2viz/viz/StateManager;)V
+}
+
+public abstract interface class io/data2viz/viz/Style {
+	public abstract fun getAnchor ()Lio/data2viz/viz/TextHAlign;
+	public abstract fun getBaseline ()Lio/data2viz/viz/TextVAlign;
+	public abstract fun getDashedLine ()[D
+	public abstract fun getFill ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun getHAlign ()Lio/data2viz/viz/TextHAlign;
+	public abstract fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun getStrokeWidth ()Ljava/lang/Double;
+	public abstract fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
+	public abstract fun getVAlign ()Lio/data2viz/viz/TextVAlign;
+	public abstract fun setAnchor (Lio/data2viz/viz/TextHAlign;)V
+	public abstract fun setBaseline (Lio/data2viz/viz/TextVAlign;)V
+	public abstract fun setDashedLine ([D)V
+	public abstract fun setFill (Lio/data2viz/color/ColorOrGradient;)V
+	public abstract fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
+	public abstract fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public abstract fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
+	public abstract fun setStrokeWidth (Ljava/lang/Double;)V
+	public abstract fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
+	public abstract fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
+}
+
+public final class io/data2viz/viz/TextAlign {
+	public fun <init> (Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;)V
+	public final fun component1 ()Lio/data2viz/viz/TextHAlign;
+	public final fun component2 ()Lio/data2viz/viz/TextVAlign;
+	public final fun copy (Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;)Lio/data2viz/viz/TextAlign;
+	public static synthetic fun copy$default (Lio/data2viz/viz/TextAlign;Lio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;ILjava/lang/Object;)Lio/data2viz/viz/TextAlign;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHorizontal ()Lio/data2viz/viz/TextHAlign;
+	public final fun getVertical ()Lio/data2viz/viz/TextVAlign;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/TextHAlign : java/lang/Enum {
+	public static final field END Lio/data2viz/viz/TextHAlign;
+	public static final field LEFT Lio/data2viz/viz/TextHAlign;
+	public static final field MIDDLE Lio/data2viz/viz/TextHAlign;
+	public static final field RIGHT Lio/data2viz/viz/TextHAlign;
+	public static final field START Lio/data2viz/viz/TextHAlign;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/TextHAlign;
+	public static fun values ()[Lio/data2viz/viz/TextHAlign;
+}
+
+public final class io/data2viz/viz/TextNode : io/data2viz/viz/Node, io/data2viz/viz/HasFill, io/data2viz/viz/HasStroke, io/data2viz/viz/HasTransform {
+	public fun <init> ()V
+	public final fun getFontFamily ()Lio/data2viz/viz/FontFamily;
+	public final fun getFontSize ()D
+	public final fun getFontStyle ()Lio/data2viz/viz/FontPosture;
+	public final fun getFontWeight ()Lio/data2viz/viz/FontWeight;
+	public final fun getTextContent ()Ljava/lang/String;
+	public fun getTransform ()Lio/data2viz/viz/Transform;
+	public final fun getX ()D
+	public final fun getY ()D
+	public final fun setFontFamily (Lio/data2viz/viz/FontFamily;)V
+	public final fun setFontSize (D)V
+	public final fun setFontStyle (Lio/data2viz/viz/FontPosture;)V
+	public final fun setFontWeight (Lio/data2viz/viz/FontWeight;)V
+	public final fun setTextContent (Ljava/lang/String;)V
+	public fun setTransform (Lio/data2viz/viz/Transform;)V
+	public final fun setX (D)V
+	public final fun setY (D)V
+}
+
+public final class io/data2viz/viz/TextUtilsKt {
+	public static final fun measureText (Lio/data2viz/viz/TextNode;)Lio/data2viz/geom/Rect;
+	public static final fun measureText (Ljava/lang/String;DLio/data2viz/viz/FontFamily;Lio/data2viz/viz/FontWeight;Lio/data2viz/viz/FontPosture;DDLio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;)Lio/data2viz/geom/Rect;
+	public static synthetic fun measureText$default (Ljava/lang/String;DLio/data2viz/viz/FontFamily;Lio/data2viz/viz/FontWeight;Lio/data2viz/viz/FontPosture;DDLio/data2viz/viz/TextHAlign;Lio/data2viz/viz/TextVAlign;ILjava/lang/Object;)Lio/data2viz/geom/Rect;
+}
+
+public final class io/data2viz/viz/TextVAlign : java/lang/Enum {
+	public static final field BASELINE Lio/data2viz/viz/TextVAlign;
+	public static final field HANGING Lio/data2viz/viz/TextVAlign;
+	public static final field MIDDLE Lio/data2viz/viz/TextVAlign;
+	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/TextVAlign;
+	public static fun values ()[Lio/data2viz/viz/TextVAlign;
+}
+
+public final class io/data2viz/viz/Transform {
+	public fun <init> ()V
+	public final fun getTransformations ()Ljava/util/List;
+	public final fun rotate (D)V
+	public final fun translate (DD)V
+	public static synthetic fun translate$default (Lio/data2viz/viz/Transform;DDILjava/lang/Object;)V
+}
+
+public final class io/data2viz/viz/Translation : io/data2viz/viz/AtomicTransformation {
+	public fun <init> ()V
+	public fun <init> (DD)V
+	public synthetic fun <init> (DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun copy (DD)Lio/data2viz/viz/Translation;
+	public static synthetic fun copy$default (Lio/data2viz/viz/Translation;DDILjava/lang/Object;)Lio/data2viz/viz/Translation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()D
+	public final fun getY ()D
+	public fun hashCode ()I
+	public final fun setX (D)V
+	public final fun setY (D)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/viz/Viz : io/data2viz/geom/HasSize, io/data2viz/viz/HasChildren, io/data2viz/viz/Style {
+	public fun <init> ()V
+	public fun <init> (Lio/data2viz/viz/Layer;Lio/data2viz/viz/Style;)V
+	public synthetic fun <init> (Lio/data2viz/viz/Layer;Lio/data2viz/viz/Style;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun add (Lio/data2viz/viz/Node;)V
+	public final fun animation (Lkotlin/jvm/functions/Function2;)V
+	public fun circle (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/CircleNode;
+	public fun clear ()V
+	public final fun getActiveLayer ()Lio/data2viz/viz/Layer;
+	public fun getAnchor ()Lio/data2viz/viz/TextHAlign;
+	public fun getBaseline ()Lio/data2viz/viz/TextVAlign;
+	public final fun getConfig ()Lio/data2viz/viz/VizConfig;
+	public fun getDashedLine ()[D
+	public fun getFill ()Lio/data2viz/color/ColorOrGradient;
+	public fun getHAlign ()Lio/data2viz/viz/TextHAlign;
+	public fun getHeight ()D
+	public final fun getLayers ()Ljava/util/List;
+	public final fun getRenderer ()Lio/data2viz/viz/VizRenderer;
+	public fun getSize ()Lio/data2viz/geom/Size;
+	public fun getStroke ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeColor ()Lio/data2viz/color/ColorOrGradient;
+	public fun getStrokeWidth ()Ljava/lang/Double;
+	public fun getTextColor ()Lio/data2viz/color/ColorOrGradient;
+	public fun getVAlign ()Lio/data2viz/viz/TextVAlign;
+	public fun getWidth ()D
+	public fun group (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/GroupNode;
+	public fun image (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/ImageNode;
+	public final fun layer ()Lio/data2viz/viz/Layer;
+	public fun line (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/LineNode;
+	public final fun on (Lio/data2viz/viz/KEventListener;Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Disposable;
+	public final fun onFrame (Lkotlin/jvm/functions/Function1;)V
+	public final fun onResize (Lkotlin/jvm/functions/Function2;)V
+	public fun path (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/PathNode;
+	public fun rect (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/RectNode;
+	public fun remove (Lio/data2viz/viz/Node;)V
+	public final fun render ()V
+	public final fun resize (DD)V
+	public final fun setActiveLayer (Lio/data2viz/viz/Layer;)V
+	public fun setAnchor (Lio/data2viz/viz/TextHAlign;)V
+	public fun setBaseline (Lio/data2viz/viz/TextVAlign;)V
+	public fun setDashedLine ([D)V
+	public fun setFill (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setHAlign (Lio/data2viz/viz/TextHAlign;)V
+	public fun setHeight (D)V
+	public final fun setRenderer (Lio/data2viz/viz/VizRenderer;)V
+	public fun setSize (Lio/data2viz/geom/Size;)V
+	public fun setStroke (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeColor (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setStrokeWidth (Ljava/lang/Double;)V
+	public fun setTextColor (Lio/data2viz/color/ColorOrGradient;)V
+	public fun setVAlign (Lio/data2viz/viz/TextVAlign;)V
+	public fun setWidth (D)V
+	public final fun startAnimations ()V
+	public final fun stopAnimations ()V
+	public fun text (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/TextNode;
+}
+
+public final class io/data2viz/viz/VizConfig {
+	public fun <init> ()V
+	public final fun getAutoUpdate ()Z
+	public final fun setAutoUpdate (Z)V
+}
+
+public abstract interface class io/data2viz/viz/VizContainer : io/data2viz/viz/Resizable {
+	public abstract fun getDensity ()D
+	public abstract fun getSize ()Lio/data2viz/geom/Size;
+	public abstract fun getVizList ()Ljava/util/List;
+	public abstract fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
+	public abstract fun setSize (Lio/data2viz/geom/Size;)V
+}
+
+public final class io/data2viz/viz/VizContainer$DefaultImpls {
+	public static synthetic fun newViz$default (Lio/data2viz/viz/VizContainer;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/viz/Viz;
+}
+
+public final class io/data2viz/viz/VizKt {
+	public static final fun viz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
+}
+
+public abstract interface class io/data2viz/viz/VizRenderer {
+	public abstract fun getViz ()Lio/data2viz/viz/Viz;
+	public abstract fun render ()V
+	public abstract fun startAnimations ()V
+	public abstract fun stopAnimations ()V
+}
+
+public final class io/data2viz/viz/VizToSVGKt {
+	public static final fun toSVG (Lio/data2viz/viz/Viz;)Ljava/lang/String;
+}
+

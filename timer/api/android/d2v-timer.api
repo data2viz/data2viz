@@ -1,0 +1,26 @@
+public final class io/data2viz/timer/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+
+public final class io/data2viz/timer/Timer {
+	public fun <init> ()V
+	public final fun restart (DDLkotlin/jvm/functions/Function2;)V
+	public static synthetic fun restart$default (Lio/data2viz/timer/Timer;DDLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun stop ()V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/timer/TimerKt {
+	public static final fun interval (DDLkotlin/jvm/functions/Function2;)Lio/data2viz/timer/Timer;
+	public static synthetic fun interval$default (DDLkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/data2viz/timer/Timer;
+	public static final fun now ()D
+	public static final fun timeout (DDLkotlin/jvm/functions/Function2;)Lio/data2viz/timer/Timer;
+	public static synthetic fun timeout$default (DDLkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/data2viz/timer/Timer;
+	public static final fun timer (DDLkotlin/jvm/functions/Function2;)Lio/data2viz/timer/Timer;
+	public static synthetic fun timer$default (DDLkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/data2viz/timer/Timer;
+	public static final fun timerFlush ()V
+}
+

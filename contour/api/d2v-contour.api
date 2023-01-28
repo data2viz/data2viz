@@ -1,0 +1,41 @@
+public final class io/data2viz/contour/Contour {
+	public final fun contours ([Ljava/lang/Double;II)Ljava/util/List;
+	public final fun getSmoothing ()Z
+	public final fun getThresholds ()[Ljava/lang/Double;
+	public final fun setSmoothing (Z)V
+	public final fun setThresholds ([Ljava/lang/Double;)V
+	public final fun size (II)V
+}
+
+public final class io/data2viz/contour/ContourKt {
+	public static final fun contour (Lkotlin/jvm/functions/Function1;)Lio/data2viz/contour/Contour;
+	public static final fun multiRing (Lio/data2viz/contour/GeoJson;I)[[Lio/data2viz/contour/RingPoint;
+	public static final fun point ([Lio/data2viz/contour/RingPoint;I)Lio/data2viz/contour/RingPoint;
+	public static final fun ring ([[Lio/data2viz/contour/RingPoint;I)[Lio/data2viz/contour/RingPoint;
+}
+
+public final class io/data2viz/contour/GeoJson {
+	public fun <init> (D[[[Lio/data2viz/contour/RingPoint;)V
+	public final fun component1 ()D
+	public final fun component2 ()[[[Lio/data2viz/contour/RingPoint;
+	public final fun copy (D[[[Lio/data2viz/contour/RingPoint;)Lio/data2viz/contour/GeoJson;
+	public static synthetic fun copy$default (Lio/data2viz/contour/GeoJson;D[[[Lio/data2viz/contour/RingPoint;ILjava/lang/Object;)Lio/data2viz/contour/GeoJson;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCoordinates ()[[[Lio/data2viz/contour/RingPoint;
+	public final fun getType ()Ljava/lang/String;
+	public final fun getValue ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/data2viz/contour/RingPoint {
+	public fun <init> (DD)V
+	public final fun copy (DD)Lio/data2viz/contour/RingPoint;
+	public static synthetic fun copy$default (Lio/data2viz/contour/RingPoint;DDILjava/lang/Object;)Lio/data2viz/contour/RingPoint;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()D
+	public final fun getY ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
