@@ -470,7 +470,7 @@ private inline fun Double?.orNull(): Double? = if (this.isFalsy()) null else thi
 private inline fun compare(coords: Array<Double>, i: Int, j: Int, cx: Double, cy: Double): Double {
     val d1: Double = dist(coords[2 * i], coords[2 * i + 1], cx, cy)
     val d2: Double = dist(coords[2 * j], coords[2 * j + 1], cx, cy)
-    return (d1 - d2).orNull() ?: (coords[2 * i] - coords[2 * j]) ?: (coords[2 * i + 1] - coords[2 * j + 1])
+    return (d1 - d2).orNull() ?: (coords[2 * i] - coords[2 * j]).orNull() ?: (coords[2 * i + 1] - coords[2 * j + 1])
 }
 
 private fun quicksort(ids: TypedIntArray, coords: Array<Double>, left: Int, right: Int, cx: Double, cy: Double) {
