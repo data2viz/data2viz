@@ -67,6 +67,5 @@ public interface Path {
         counterClockWise: Boolean = false
     )
 
-    @Deprecated("To be discussed: should it be available in addition to Rect class?")
     public fun rect(x: Double, y: Double, w: Double, h: Double)
 }
