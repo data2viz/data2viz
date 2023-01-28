@@ -65,15 +65,15 @@ public class ease {
 
         public val quadIn: EaseFun = { it * it }
         public val quadOut: EaseFun = { it * (2 - it) }
-        public val quadInOut: EaseFun = { (it * 2).let {
-            if (it <= 1) it * it 
-            else (it - 1) * (3 - it) + 1 } / 2 }
+        public val quadInOut: EaseFun = {
+            (it * 2).let { if (it <= 1) it * it else (it - 1) * (3 - it) + 1 } / 2
+        }
 
 
         public val sinIn: EaseFun      = { 1 - cos(it * halfPi) }
         public val sinOut: EaseFun     = { sin(it * halfPi) }
         public val sinInOut: EaseFun   = { (1 - cos(PI * it)) / 2 }
-        
+
         //configurable easing functions (implemented as class with invoke operator)
         public val backIn:       BackIn = BackIn()
         public val backOut:     BackOut = BackOut()
@@ -97,10 +97,10 @@ public class ElasticIn(
     private val a = amplitude.coerceAtLeast(1.0)
     private val p = period / tau
     private val s = asin(1 / a) * p
-    
+
     public fun amplitude(amplitude: Double): ElasticIn = ElasticIn(amplitude, period)
     public fun period(period: Double): ElasticIn = ElasticIn(amplitude, period)
-    
+
     public operator fun invoke(t: Double): Double = a * 2.0.pow(10 * (t-1)) * sin((s -t + 1)/p)
 }
 
