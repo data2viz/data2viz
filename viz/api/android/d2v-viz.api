@@ -63,13 +63,6 @@ public final class io/data2viz/viz/AndroidRectRendererKt {
 public abstract interface class io/data2viz/viz/AtomicTransformation {
 }
 
-public final class io/data2viz/viz/BuildConfig {
-	public static final field BUILD_TYPE Ljava/lang/String;
-	public static final field DEBUG Z
-	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
-	public fun <init> ()V
-}
-
 public final class io/data2viz/viz/CircleNode : io/data2viz/viz/Node, io/data2viz/geom/Circle, io/data2viz/viz/HasFill, io/data2viz/viz/HasStroke, io/data2viz/viz/HasTransform {
 	public fun <init> ()V
 	public fun <init> (Lio/data2viz/geom/Circle;)V
