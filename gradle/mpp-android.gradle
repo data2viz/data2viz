@@ -25,7 +25,6 @@ if (include_android.toBoolean()) {
     }
 
     kotlin {
-        explicitApiWarning()
         android {
             publishLibraryVariants("debug", "release")
         }

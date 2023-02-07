@@ -2,9 +2,6 @@
 
 if (include_jfx.toBoolean() || include_android.toBoolean()) {
     kotlin {
-
-        explicitApiWarning()
-
         jvm()
         sourceSets {
 

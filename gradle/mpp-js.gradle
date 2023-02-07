@@ -2,9 +2,6 @@
 
 if (include_js.toBoolean()) {
     kotlin {
-
-        explicitApiWarning()
-
         js {
             moduleName = "d2v-$project.name"
             browser {
