@@ -46,17 +46,10 @@ class DiagramTests : Matchers {
         triangles.size shouldBe 4
 
         val polygons = diagram.polygons()
-        polygons.filterNotNull().size shouldBe polygons.size
+        polygons.size shouldBe polygons.size
         polygons.size shouldBe 5
 
         diagram.find(pt(14, 10)) shouldBe diagram.cells!![0]?.site
-
-        polygons.all { polygon ->
-            polygon.all { point ->
-                point != null
-            }
-        } shouldBe true
-
     }
 
     @Test
