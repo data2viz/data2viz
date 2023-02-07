@@ -478,7 +478,7 @@ class PathTests : TestBase() {
     @Test
     @Ignore
     fun closePathShouldComeBackToFirstPoint() {
-        var lastCommand: ClosePath = ClosePath()
+        var lastCommand: ClosePath
         with(path()){
             moveTo(10.0, 10.0)
             lineTo(20.0, 20.0)
