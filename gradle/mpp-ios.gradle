@@ -14,7 +14,13 @@ if (include_ios.toBoolean()) {
             }
         }
 
-        iosSimulatorArm64()
+        iosSimulatorArm64 {
+            binaries {
+                framework {
+                    baseName = "d2v-$project.name"
+                }
+            }
+        }
 
         sourceSets {
 
@@ -22,15 +28,15 @@ if (include_ios.toBoolean()) {
                 dependsOn(iosMain)
             }
 
-            iosSimulatorArm64Test {
-                dependsOn(iosTest)
-            }
             iosTest {
                 dependencies {
                     if (project.name != "tests") {
                         implementation project(":d2v-tests")
                     }
                 }
+            }
+            iosSimulatorArm64Test {
+                dependsOn(iosTest)
             }
         }
     }
