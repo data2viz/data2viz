@@ -441,3 +441,6 @@ internal fun within(from: Double, within: Double, to: Double) = within in from..
 
 internal fun collinear(a: RingPoint, b: RingPoint, c: RingPoint) =
     (b.x - a.x) * (c.y - a.y) == (c.x - a.x) * (b.y - a.y)
+
+internal fun collinear(a: Array<Double>, b: Array<Double>, c: Array<Double>) =
+    (b[0] - a[0]) * (c[1] - a[1]) == (c[0] - a[0]) * (b[1] - a[1])
