@@ -5,7 +5,7 @@ plugins {
 kotlin {
     if (include_js.toBoolean()) {
         js {
-            browser {}
+            browser()
         }
     }
     jvm()
