@@ -19,9 +19,8 @@ package io.data2viz.scale.intervals
 
 import kotlinx.datetime.*
 import kotlin.test.Test
-import kotlin.time.hours
+import kotlin.time.Duration.Companion.hours
 
-@Suppress("DEPRECATION")
 class IntervalTests : TestDate() {
 
     @Test
