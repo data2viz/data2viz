@@ -78,7 +78,7 @@ jobs:
           password: ${{ secrets.SONATYPE_PASSWORD }}
           staging_repository_id: ${{ needs.create-staging-repository.outputs.repository_id }}
 env:
-  GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx5g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx5g -XX:+UseParallelGC -Dfile.encoding=UTF-8"
   sonatype_username: ${{ secrets.SONATYPE_USERNAME }}
   sonatype_password: ${{ secrets.SONATYPE_PASSWORD }}
   GPG_key_id: ${{ secrets.GPG_KEY_ID }}
