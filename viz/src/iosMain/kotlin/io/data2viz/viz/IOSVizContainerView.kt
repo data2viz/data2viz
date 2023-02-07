@@ -50,7 +50,7 @@ public class VizContainerView : UIView(frame = CGRectMake(.0, .0, .0, .0)), UIVi
         setNeedsDisplay()
     }
 
-    override fun drawRect(aRect: CValue<CGRect>) {
+    override fun drawRect(rect: CValue<CGRect>) {
 //        println("VizContainerView.drawRect...")
     }
 }
