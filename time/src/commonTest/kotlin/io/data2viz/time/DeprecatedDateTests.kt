@@ -20,6 +20,7 @@ package io.data2viz.time
 import kotlinx.datetime.LocalDateTime
 import kotlin.test.Test
 
+@Suppress("DEPRECATION")
 class DeprecatedDateTests : TestDate() {
 
     @Test
