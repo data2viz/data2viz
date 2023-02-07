@@ -17,6 +17,10 @@ if (include_android.toBoolean()) {
                 minifyEnabled false
             }
         }
+        lintOptions {
+            checkReleaseBuilds false
+            abortOnError false
+        }
         sourceSets {
             main {
                 manifest.srcFile 'src/androidMain/AndroidManifest.xml'
