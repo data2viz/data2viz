@@ -15,7 +15,6 @@ if (include_jfx.toBoolean() || include_android.toBoolean()) {
                     if (project.name != "tests") {
                         implementation project(":d2v-tests")
                     }
-                    implementation kotlin('test')
                     implementation kotlin('test-junit')
                 }
             }

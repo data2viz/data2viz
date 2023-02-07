@@ -17,8 +17,7 @@ kotlin {
         }
         commonTest {
             dependencies {
-                implementation kotlin("test-common")
-                implementation kotlin("test-annotations-common")
+                implementation kotlin("test")
             }
         }
         jvmMain {
@@ -28,7 +27,6 @@ kotlin {
         }
         jvmTest {
             dependencies {
-                implementation kotlin("test")
                 implementation kotlin("test-junit")
             }
         }
@@ -53,19 +51,6 @@ kotlin {
                     dependsOn(iosTest)
                 }
 
-            }
-        }
-
-        if (include_js.toBoolean()) {
-            jsMain {
-                dependencies {
-                    implementation kotlin("stdlib-js")
-                }
-            }
-            jsTest {
-                dependencies {
-                    implementation kotlin("test-js")
-                }
             }
         }
     }

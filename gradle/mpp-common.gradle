@@ -19,8 +19,7 @@ kotlin {
                 if (project.name != "tests") {
                     implementation project(":d2v-tests")
                 }
-                implementation kotlin('test-common')
-                implementation kotlin('test-annotations-common')
+                implementation kotlin('test')
             }
         }
     }
