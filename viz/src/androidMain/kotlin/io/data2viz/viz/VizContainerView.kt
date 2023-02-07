@@ -111,7 +111,7 @@ public open class VizContainerView(
 
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
 //        Log.d(AndroidCanvasRenderer::class.java.simpleName, "onTouchEvent $event")
 
         if (super.onTouchEvent(event)) return true

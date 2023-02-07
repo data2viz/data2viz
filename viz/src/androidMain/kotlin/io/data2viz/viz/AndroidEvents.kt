@@ -152,7 +152,7 @@ internal actual fun zoomEventsListener(): KEventListener<KZoomEvent> = object : 
         val gestureDetectorVizTouchListener = object : VizTouchListener {
             override fun onTouchEvent(
                 view: View,
-                event: MotionEvent?
+                event: MotionEvent
             ): EventPropagation = when (gestureDetector.onTouchEvent(event)) {
                 true -> EventPropagation.Stop
                 false -> EventPropagation.Continue
@@ -190,10 +190,10 @@ private fun addSingleTouchAndroidEventHandle(
     val renderer = target as AndroidCanvasRenderer
 
     val handler = object : VizTouchListener {
-        override fun onTouchEvent(view: View, event: MotionEvent?): EventPropagation {
+        override fun onTouchEvent(view: View, event: MotionEvent): EventPropagation {
 
             // Simple events only for single touch
-            if (event?.pointerCount == 1) {
+            if (event.pointerCount == 1) {
                 if (event.action == action) {
                     val kevent = event.toKPointerEvent(type)
                     return listener(kevent)
@@ -231,9 +231,9 @@ public abstract class DetectInBoundsVizTouchListener : VizTouchListener {
 
     public var isLastMoveInBounds: Boolean = false
 
-    override fun onTouchEvent(view: View, event: MotionEvent?): EventPropagation {
+    override fun onTouchEvent(view: View, event: MotionEvent): EventPropagation {
 
-        if (event?.action != MotionEvent.ACTION_MOVE) {
+        if (event.action != MotionEvent.ACTION_MOVE) {
             return EventPropagation.Continue
         }
 
@@ -257,8 +257,8 @@ public abstract class DetectClickVizTouchListener : VizTouchListener {
     }
 
     public var lastTimeActionDown: Long? = null
-    override fun onTouchEvent(view: View, event: MotionEvent?): EventPropagation {
-        when (event?.action) {
+    override fun onTouchEvent(view: View, event: MotionEvent): EventPropagation {
+        when (event.action) {
             MotionEvent.ACTION_DOWN -> lastTimeActionDown = System.currentTimeMillis()
             MotionEvent.ACTION_UP -> {
                 val timeActionDown = lastTimeActionDown
