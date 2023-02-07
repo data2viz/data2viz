@@ -25,7 +25,7 @@ import kotlin.test.Test
 
 class DiagramTests : Matchers {
 
-    fun List<Point>.sites() = mapIndexed { index, point -> Site(point, index) }.toTypedArray()
+    private fun List<Point>.sites() = mapIndexed { index, point -> Site(point, index) }.toTypedArray()
 
     @Test
     fun diagram1Site() {
