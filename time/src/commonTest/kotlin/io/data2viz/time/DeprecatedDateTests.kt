@@ -27,21 +27,21 @@ class DeprecatedDateTests : TestDate() {
         date(2020) shouldBe LocalDateTime(2020, 1, 1, 0, 0)
         date(2020, 1, 1) shouldBe LocalDateTime(2020, 1, 1, 0, 0)
 
-        var catchedExceptionMonth = false
-        var catchedExceptionDay = false
+        var caughtExceptionMonth = false
+        var caughtExceptionDay = false
         try {
             date(2020, 0, 1)
         } catch (e:IllegalArgumentException) {
-            catchedExceptionMonth = true
+            caughtExceptionMonth = true
         }
-        catchedExceptionMonth shouldBe true
+        caughtExceptionMonth shouldBe true
 
         try {
             date(2020, 1, 0)
         } catch (e:IllegalArgumentException) {
-            catchedExceptionDay = true
+            caughtExceptionDay = true
         }
-        catchedExceptionDay shouldBe true
+        caughtExceptionDay shouldBe true
 
         date(2020, 12, 10, 11, 9, 8) shouldBe LocalDateTime(2020, 12, 10, 11, 9, 8)
     }
