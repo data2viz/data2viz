@@ -15,8 +15,6 @@
  *
  */
 
-@file:Suppress("NOTHING_TO_INLINE")
-
 package io.data2viz.delaunay
 
 import org.khronos.webgl.Int32Array
