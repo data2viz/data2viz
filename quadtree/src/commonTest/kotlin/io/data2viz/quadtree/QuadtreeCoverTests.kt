@@ -25,7 +25,7 @@ class QuadtreeCoverTests : TestBase() {
 
     @Test
     @JsName("quadtree_cover_1")
-    fun `quadtree cover(x, y) sets a trivial extent if the extent was undefined`() {
+    fun `quadtree cover sets a trivial extent if the extent was undefined`() {
         val quadtree = buildQuadtree()
         quadtree.cover(1.0, 2.0)
 
@@ -34,7 +34,7 @@ class QuadtreeCoverTests : TestBase() {
 
     @Test
     @JsName("quadtree_cover_2")
-    fun `quadtree cover(x, y) sets a non-trivial squarified and centered extent if the extent was trivial`() {
+    fun `quadtree cover sets a non-trivial squarified and centered extent if the extent was trivial`() {
         val quadtree = buildQuadtree()
         quadtree.cover(.0, .0)
         quadtree.cover(1.0, 2.0)
@@ -44,7 +44,7 @@ class QuadtreeCoverTests : TestBase() {
 
     @Test
     @JsName("quadtree_cover_3")
-    fun `quadtree cover(x, y) ignores invalid points`() {
+    fun `quadtree cover ignores invalid points`() {
         val quadtree = buildQuadtree()
         quadtree.cover(.0, .0)
         quadtree.cover(Double.NaN, 12.0)
@@ -55,7 +55,7 @@ class QuadtreeCoverTests : TestBase() {
 
     @Test
     @JsName("quadtree_cover_5")
-    fun `quadtree cover(x, y) repeatedly doubles the existing extent if the extent was non-trivial`() {
+    fun `quadtree cover repeatedly doubles the existing extent if the extent was non-trivial`() {
         var quadtree = buildQuadtree {
             cover(.0, .0)
             cover(2.0, 2.0)
@@ -165,7 +165,7 @@ class QuadtreeCoverTests : TestBase() {
     @Test
     @JsName("quadtree_cover_6")
     @Suppress("UNCHECKED_CAST")
-    fun `quadtree cover(x, y) repeatedly wraps the root node if it has children`() {
+    fun `quadtree cover repeatedly wraps the root node if it has children`() {
         var quadtree = buildQuadtree {
             add(arrayOf(0, 0))
             add(arrayOf(2, 2))
@@ -226,7 +226,7 @@ tape("quadtree.cover(x, y) repeatedly wraps the root node if it has children", f
 
     @Test
     @JsName("quadtree_cover_7")
-    fun `quadtree cover(x, y) does not wrap the root node if it is a leaf`() {
+    fun `quadtree cover does not wrap the root node if it is a leaf`() {
         val quadtree = buildQuadtree {
             cover(.0, .0)
             add(arrayOf(2, 2))
@@ -269,7 +269,7 @@ tape("quadtree.cover(x, y) repeatedly wraps the root node if it has children", f
 
     @Test
     @JsName("quadtree_cover_8")
-    fun `quadtree cover(x, y) does not wrap the root node if it is undefined`() {
+    fun `quadtree cover does not wrap the root node if it is undefined`() {
         val quadtree = buildQuadtree {
             cover(.0, .0)
             cover(2.0, 2.0)

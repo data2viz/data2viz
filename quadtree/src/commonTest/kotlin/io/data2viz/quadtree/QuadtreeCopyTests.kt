@@ -26,7 +26,7 @@ class QuadtreeCopyTests : TestBase() {
 
     @Test
     @JsName("quadtree_copy_1")
-    fun `quadtree copy() returns a copy of this quadtree`() {
+    fun `quadtree copy returns a copy of this quadtree`() {
         val quadtree = buildQuadtree {
             add(arrayOf(0, 0))
             add(arrayOf(1, 0))
@@ -45,7 +45,7 @@ class QuadtreeCopyTests : TestBase() {
 
     @Test
     @JsName("quadtree_copy_2")
-    fun `quadtree copy() isolates changes to the extent`() {
+    fun `quadtree copy isolates changes to the extent`() {
         val quadtree = buildQuadtree {
             extent = Extent(.0, .0, 1.0, 1.0)
         }
@@ -60,7 +60,7 @@ class QuadtreeCopyTests : TestBase() {
 
     @Test
     @JsName("quadtree_copy_3")
-    fun `quadtree copy() isolates changes to the root when a leaf`() {
+    fun `quadtree copy isolates changes to the root when a leaf`() {
         val quadtree = buildQuadtree {
             extent = Extent(.0, .0, 1.0, 1.0)
         }
@@ -81,7 +81,7 @@ class QuadtreeCopyTests : TestBase() {
 
     @Test
     @JsName("quadtree_copy_4")
-    fun `quadtree copy() isolates changes to the root when not a leaf`() {
+    fun `quadtree copy isolates changes to the root when not a leaf`() {
         val p0 = arrayOf(1, 1)
         val p1 = arrayOf(2, 2)
         val p2 = arrayOf(3, 3)

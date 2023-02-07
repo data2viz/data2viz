@@ -27,7 +27,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest1")
-    fun `polygonArea(polygon) returns the expected value for closed counterclockwise polygons`() {
+    fun `polygonArea returns the expected value for closed counterclockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(.0, 1.0), Point(1.0, 1.0), Point(1.0, .0), Point(.0, .0)))
 
         poly.area shouldBeClose 1.0
@@ -35,7 +35,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest2")
-    fun `polygonArea(polygon) returns the expected value for closed clockwise polygons`() {
+    fun `polygonArea returns the expected value for closed clockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(1.0, .0), Point(1.0, 1.0), Point(.0, 1.0), Point(.0, .0)))
         poly.area shouldBeClose -1.0
 
@@ -45,14 +45,14 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest3")
-    fun `polygonArea(polygon) returns the expected value for open counterclockwise polygons`() {
+    fun `polygonArea returns the expected value for open counterclockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(.0, 1.0), Point(1.0, 1.0), Point(1.0, .0)))
         poly.area shouldBeClose 1.0
     }
 
     @Test
     @JsName("PolygonTest4")
-    fun `polygonArea(polygon) returns the expected value for open clockwise polygons`() {
+    fun `polygonArea returns the expected value for open clockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(1.0, .0), Point(1.0, 1.0), Point(.0, 1.0)))
         poly.area shouldBeClose -1.0
 
@@ -62,7 +62,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest5")
-    fun `polygonArea(polygon) returns the expected value for a very large polygon`() {
+    fun `polygonArea returns the expected value for a very large polygon`() {
         val stop = 1e8.toInt()
         val step = 1e4.toInt()
         val points = mutableListOf<Point>()
@@ -78,7 +78,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest6")
-    fun `polygonCentroid(points) returns the expected value for closed counterclockwise polygons`() {
+    fun `polygonCentroid returns the expected value for closed counterclockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(.0, 1.0), Point(1.0, 1.0), Point(1.0, .0), Point(.0, .0)))
 
         poly.centroid.x shouldBeClose .5
@@ -87,7 +87,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest7")
-    fun `polygonCentroid(points) returns the expected value for closed clockwise polygons`() {
+    fun `polygonCentroid returns the expected value for closed clockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(1.0, .0), Point(1.0, 1.0), Point(.0, 1.0), Point(.0, .0)))
         poly.centroid.x shouldBeClose .5
         poly.centroid.y shouldBeClose .5
@@ -99,7 +99,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest8")
-    fun `polygonCentroid(points) returns the expected value for open counterclockwise polygons`() {
+    fun `polygonCentroid returns the expected value for open counterclockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(.0, 1.0), Point(1.0, 1.0), Point(1.0, .0)))
         poly.centroid.x shouldBeClose .5
         poly.centroid.y shouldBeClose .5
@@ -107,7 +107,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest9")
-    fun `polygonCentroid(points) returns the expected value for open clockwise polygons`() {
+    fun `polygonCentroid returns the expected value for open clockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(1.0, .0), Point(1.0, 1.0), Point(.0, 1.0)))
         poly.centroid.x shouldBeClose .5
         poly.centroid.y shouldBeClose .5
@@ -119,7 +119,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest10")
-    fun `polygonCentroid(polygon) returns the expected value for a very large polygon`() {
+    fun `polygonCentroid returns the expected value for a very large polygon`() {
         val stop = 1e8.toInt()
         val step = 1e4.toInt()
         val points = mutableListOf<Point>()
@@ -136,7 +136,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest11")
-    fun `polygonContains(polygon, point) returns the expected value for closed counterclockwise polygons`() {
+    fun `polygonContains returns the expected value for closed counterclockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(.0, 1.0), Point(1.0, 1.0), Point(1.0, .0), Point(.0, .0)))
 
         poly.contains(Point(.5, .5)) shouldBe true
@@ -148,7 +148,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest12")
-    fun `polygonContains(polygon, point) returns the expected value for closed clockwise polygons`() {
+    fun `polygonContains returns the expected value for closed clockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(1.0, .0), Point(1.0, 1.0), Point(.0, 1.0), Point(.0, .0)))
         poly.contains(Point(.5, .5)) shouldBe true
 
@@ -158,14 +158,14 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest13")
-    fun `polygonContains(polygon, point) returns the expected value for open counterclockwise polygons`() {
+    fun `polygonContains returns the expected value for open counterclockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(.0, 1.0), Point(1.0, 1.0), Point(1.0, .0)))
         poly.contains(Point(.5, .5)) shouldBe true
     }
 
     @Test
     @JsName("PolygonTest14")
-    fun `polygonContains(polygon, point) returns the expected value for open clockwise polygons`() {
+    fun `polygonContains returns the expected value for open clockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(1.0, .0), Point(1.0, 1.0), Point(.0, 1.0)))
         poly.contains(Point(.5, .5)) shouldBe true
 
@@ -175,7 +175,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest15")
-    fun `polygonHull(points) raise IllegalArgumentException if points has fewer than three elements`() {
+    fun `polygonHull raise IllegalArgumentException if points has fewer than three elements`() {
         shouldThrow<IllegalArgumentException>{ polygonHull(listOf()) }
         shouldThrow<IllegalArgumentException>{ polygonHull(listOf(Point(1.0, .0))) }
         shouldThrow<IllegalArgumentException>{ polygonHull(listOf(Point(1.0, .0), Point(.0, 1.0))) }
@@ -183,7 +183,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest16")
-    fun `polygonHull(points) returns the convex hull of the specified points`() {
+    fun `polygonHull returns the convex hull of the specified points`() {
         val polygon = polygonHull(
             listOf(
                 Point(200.0, 200.0),
@@ -210,7 +210,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest17")
-    fun `polygonHull(points) handles points with duplicate ordinates`() {
+    fun `polygonHull handles points with duplicate ordinates`() {
         val polygon = polygonHull(
             listOf(
                 Point(-10.0, -10.0),
@@ -227,7 +227,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest18")
-    fun `polygonHull(points) handles overlapping upper and lower hulls`() {
+    fun `polygonHull handles overlapping upper and lower hulls`() {
         val polygon = polygonHull(
             listOf(
                 Point(.0, -10.0),
@@ -246,7 +246,7 @@ class PolygonTests : TestBase() {
     @Test
     @JsName("PolygonTest19")
     // Cases below taken from http://uva.onlinejudge.org/external/6/681.html
-    fun `polygonHull(points) handles various non-trivial hulls`() {
+    fun `polygonHull handles various non-trivial hulls`() {
         val polygon = polygonHull(
             listOf(
                 Point(60.0, 20.0),
@@ -315,7 +315,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest20")
-    fun `polygonLength(polygon) returns the expected value for closed counterclockwise polygons`() {
+    fun `polygonLength returns the expected value for closed counterclockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(.0, 1.0), Point(1.0, 1.0), Point(1.0, .0), Point(.0, .0)))
 
         poly.length shouldBeClose 4.0
@@ -323,7 +323,7 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest21")
-    fun `polygonLength(polygon) returns the expected value for closed clockwise polygons`() {
+    fun `polygonLength returns the expected value for closed clockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(1.0, .0), Point(1.0, 1.0), Point(.0, 1.0), Point(.0, .0)))
         poly.length shouldBeClose 4.0
 
@@ -333,14 +333,14 @@ class PolygonTests : TestBase() {
 
     @Test
     @JsName("PolygonTest22")
-    fun `polygonLength(polygon) returns the expected value for open counterclockwise polygons`() {
+    fun `polygonLength returns the expected value for open counterclockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(.0, 1.0), Point(1.0, 1.0), Point(1.0, .0)))
         poly.length shouldBeClose 4.0
     }
 
     @Test
     @JsName("PolygonTest23")
-    fun `polygonLength(polygon) returns the expected value for open clockwise polygons`() {
+    fun `polygonLength returns the expected value for open clockwise polygons`() {
         val poly = Polygon(listOf(Point(.0, .0), Point(1.0, .0), Point(1.0, 1.0), Point(.0, 1.0)))
         poly.length shouldBeClose 4.0
 

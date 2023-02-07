@@ -10,7 +10,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeLinear")
-    fun `easeLinear(t) returns the expected results`() {
+    fun `easeLinear returns the expected results`() {
         ease.linear(.0) shouldBeClose .0
         ease.linear(.0) shouldBeClose .0
         ease.linear(.1) shouldBeClose .1
@@ -27,7 +27,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeBounceIn")
-    fun `easeBounceIn(t) returns the expected results`() {
+    fun `easeBounceIn returns the expected results`() {
         ease.bounceIn(0.0) shouldBeClose 0.000000
         ease.bounceIn(0.1) shouldBeClose 0.011875
         ease.bounceIn(0.2) shouldBeClose 0.060000
@@ -43,7 +43,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeBounceInOut")
-    fun `easeBounceInOut(t) returns the expected results`() {
+    fun `easeBounceInOut returns the expected results`() {
         val intOut = ease.bounceIn::invoke.inOut
         ease.bounceInOut(0.0) shouldBeClose intOut(0.0)
         ease.bounceInOut(0.1) shouldBeClose intOut(0.1)
@@ -61,7 +61,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeCircleIn")
-    fun `easeCircleIn(t) returns the expected results`() {
+    fun `easeCircleIn returns the expected results`() {
         ease.circleIn(0.0) shouldBeClose 0.000000
         ease.circleIn(0.1) shouldBeClose 0.005013
         ease.circleIn(0.2) shouldBeClose 0.020204
@@ -78,7 +78,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeCircleOut")
-    fun `easeCircleOut(t) returns the expected results`() {
+    fun `easeCircleOut returns the expected results`() {
         val out = ease.circleIn::invoke.out
         ease.circleOut(0.0) shouldBeClose out(0.0)
         ease.circleOut(0.1) shouldBeClose out(0.1)
@@ -95,7 +95,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeCircleInOut")
-    fun `easeCircleInOut(t) returns the expected results`() {
+    fun `easeCircleInOut returns the expected results`() {
         val inOut = ease.circleIn::invoke.inOut
         ease.circleInOut(0.0) shouldBeClose inOut(0.0)
         ease.circleInOut(0.1) shouldBeClose inOut(0.1)
@@ -114,7 +114,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeCubicIn")
-    fun `easeCubicIn(t) returns the expected results`() {
+    fun `easeCubicIn returns the expected results`() {
         ease.cubicIn(0.0) shouldBeClose 0.000
         ease.cubicIn(0.1) shouldBeClose 0.001
         ease.cubicIn(0.2) shouldBeClose 0.008
@@ -131,7 +131,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("cubicOut")
-    fun `cubicOut(t) returns the expected results`() {
+    fun `cubicOut returns the expected results`() {
         val out = ease.cubicIn::invoke.out
         ease.cubicOut(0.0) shouldBeClose out(0.0)
         ease.cubicOut(0.1) shouldBeClose out(0.1)
@@ -148,7 +148,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("cubicInOut")
-    fun `cubicInOut(t) returns the expected results`() {
+    fun `cubicInOut returns the expected results`() {
         val inOut = ease.cubicIn::invoke.inOut
         ease.cubicInOut(0.0) shouldBeClose inOut(0.0)
         ease.cubicInOut(0.1) shouldBeClose inOut(0.1)
@@ -167,7 +167,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeQuadIn")
-    fun `easeQuadIn(t) returns the expected results`() {
+    fun `easeQuadIn returns the expected results`() {
         ease.quadIn(0.0) shouldBeClose 0.00
         ease.quadIn(0.1) shouldBeClose 0.01
         ease.quadIn(0.2) shouldBeClose 0.04
@@ -183,7 +183,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeQuadOut")
-    fun `easeQuadOut(t) returns the expected results`() {
+    fun `easeQuadOut returns the expected results`() {
         val out = ease.quadIn::invoke.out
         ease.quadOut(0.0) shouldBeClose out(0.0)
         ease.quadOut(0.1) shouldBeClose out(0.1)
@@ -200,7 +200,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeQuadInOut")
-    fun `easeQuadInOut(t) returns the expected results`() {
+    fun `easeQuadInOut returns the expected results`() {
         val inOut = ease.quadIn::invoke.inOut
         ease.quadInOut(0.0) shouldBeClose inOut(0.0)
         ease.quadInOut(0.1) shouldBeClose inOut(0.1)
@@ -213,12 +213,12 @@ class EaseTestsCommon : TestBase() {
         ease.quadInOut(0.8) shouldBeClose inOut(0.8)
         ease.quadInOut(0.9) shouldBeClose inOut(0.9)
         ease.quadInOut(1.0) shouldBeClose inOut(1.0)
-    } 
-    
-    
+    }
+
+
     @Test
     @JsName("easeExpOut")
-    fun `easeExpOut(t) returns the expected results`() {
+    fun `easeExpOut returns the expected results`() {
         val expOut = ease.expIn::invoke.out
         ease.expOut(0.0) shouldBeClose expOut(0.0)
         ease.expOut(0.1) shouldBeClose expOut(0.1)
@@ -235,7 +235,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeExpInOut")
-    fun `easeExpInOut(t) returns the expected results`() {
+    fun `easeExpInOut returns the expected results`() {
         val expInOut = ease.expIn::invoke.inOut
         ease.expInOut(0.0) shouldBeClose expInOut(0.0)
         ease.expInOut(0.1) shouldBeClose expInOut(0.1)
@@ -252,7 +252,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeBackIn")
-    fun `easeBackIn(t) returns the expected results`() {
+    fun `easeBackIn returns the expected results`() {
         ease.backIn(0.0) shouldBeClose  0.000000
         ease.backIn(0.1) shouldBeClose -0.014314
         ease.backIn(0.2) shouldBeClose -0.046451
@@ -268,7 +268,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeBackOut")
-    fun `easeBackOut(t) returns the expected results`() {
+    fun `easeBackOut returns the expected results`() {
         val out = ease.backIn::invoke.out
         ease.backOut(0.0) shouldBeClose out(0.0)
         ease.backOut(0.1) shouldBeClose out(0.1)
@@ -285,7 +285,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeBackInOut")
-    fun `easeBackInOut(t) returns the expected results`() {
+    fun `easeBackInOut returns the expected results`() {
         val inOut = ease.backIn::invoke.inOut
         ease.backInOut(0.0) shouldBeClose inOut(0.0)
         ease.backInOut(0.1) shouldBeClose inOut(0.1)
@@ -302,7 +302,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("sinIn")
-    fun `sinIn(t) returns the expected results`() {
+    fun `sinIn returns the expected results`() {
         ease.sinIn(0.0) shouldBeClose 0.000000
         ease.sinIn(0.1) shouldBeClose 0.012312
         ease.sinIn(0.2) shouldBeClose 0.048943
@@ -318,7 +318,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("sinOut")
-    fun `sinOut(t) returns the expected results`() {
+    fun `sinOut returns the expected results`() {
         val out = ease.sinIn::invoke.out
         ease.sinOut(0.0) shouldBeClose out(0.0)
         ease.sinOut(0.1) shouldBeClose out(0.1)
@@ -335,7 +335,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("sinInOut")
-    fun `sinInOut(t) returns the expected results`() {
+    fun `sinInOut returns the expected results`() {
         val inOut = ease.sinIn::invoke.inOut
         ease.sinInOut(0.0) shouldBeClose inOut(0.0)
         ease.sinInOut(0.1) shouldBeClose inOut(0.1)
@@ -353,7 +353,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeElasticIn")
-    fun `easeElasticIn(t) returns the expected results`() {
+    fun `easeElasticIn returns the expected results`() {
         ease.elasticIn(0.0) shouldBeClose -0.000488
         ease.elasticIn(0.1) shouldBeClose  0.001953
         ease.elasticIn(0.2) shouldBeClose -0.001953
@@ -369,7 +369,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeElasticInAmpPer")
-    fun `easeElasticIn amplitude(1,5) period(1)(t) returns the expected results`() {
+    fun `easeElasticIn amplitude period returns the expected results`() {
         ease.elasticIn.amplitude(1.5).period(1.0)(0.0) shouldBeClose  0.000977
         ease.elasticIn.amplitude(1.5).period(1.0)(0.1) shouldBeClose  0.000297
         ease.elasticIn.amplitude(1.5).period(1.0)(0.2) shouldBeClose -0.002946
@@ -385,7 +385,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeElasticOut")
-    fun `easeElasticOut(t) returns the expected results`() {
+    fun `easeElasticOut returns the expected results`() {
         val out = ease.elasticIn::invoke.out
         ease.elasticOut(0.0) shouldBeClose out(0.0)
         ease.elasticOut(0.1) shouldBeClose out(0.1)
@@ -402,7 +402,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easeElasticInOut")
-    fun `easeElasticInOut(t) returns the expected results`() {
+    fun `easeElasticInOut returns the expected results`() {
         val inOut = ease.elasticIn::invoke.inOut
         ease.elasticInOut(0.0) shouldBeClose inOut(0.0)
         ease.elasticInOut(0.1) shouldBeClose inOut(0.1)
@@ -419,7 +419,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easePolyInt")
-    fun `easePolyIn(t) returns the expected results`() {
+    fun `easePolyIn returns the expected results`() {
         ease.polyIn(0.0) shouldBeClose 0.000
         ease.polyIn(0.1) shouldBeClose 0.001
         ease.polyIn(0.2) shouldBeClose 0.008
@@ -435,7 +435,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easePolyIntExp")
-    fun `easePolyIn exponent(2,5)(t) returns the expected results`() {
+    fun `easePolyIn exponent returns the expected results`() {
         ease.polyIn.exponent(2.5)(0.0) shouldBeClose 0.000000
         ease.polyIn.exponent(2.5)(0.1) shouldBeClose 0.003162
         ease.polyIn.exponent(2.5)(0.2) shouldBeClose 0.017889
@@ -451,7 +451,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easePolyOutExp")
-    fun `easePolyOut exponent(2,5)(t) returns the expected results`() {
+    fun `easePolyOut exponent returns the expected results`() {
         val polyOut = ease.polyIn.exponent(2.5)::invoke.out
         ease.polyOut.exponent(2.5)(0.0) shouldBeClose polyOut(0.0)
         ease.polyOut.exponent(2.5)(0.1) shouldBeClose polyOut(0.1)
@@ -468,7 +468,7 @@ class EaseTestsCommon : TestBase() {
 
     @Test
     @JsName("easePolyInOutExp")
-    fun `easePolyInOut exponent(2,5)(t) returns the expected results`() {
+    fun `easePolyInOut exponent returns the expected results`() {
         val polyInOut = ease.polyIn.exponent(2.5)::invoke.inOut
         ease.polyInOut.exponent(2.5)(0.0) shouldBeClose polyInOut(0.0)
         ease.polyInOut.exponent(2.5)(0.1) shouldBeClose polyInOut(0.1)

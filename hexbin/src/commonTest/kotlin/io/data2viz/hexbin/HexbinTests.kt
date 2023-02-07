@@ -53,7 +53,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_2")
-    fun `hexbin (points) bins the specified points into hexagonal bins`() {
+    fun `hexbin bins the specified points into hexagonal bins`() {
         val hexbin = hexbinGenerator()
         val bins = hexbin(points)
 
@@ -74,7 +74,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_3")
-    fun `hexbin (points) observes the current radius`() {
+    fun `hexbin observes the current radius`() {
         val hexbin = hexbinGenerator {
             radius = 2.0
         }
@@ -123,7 +123,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_6")
-    fun `hexbin hexagon() returns the expected path`() {
+    fun `hexbin hexagon returns the expected path`() {
         val hexbin = hexbinGenerator ()
 
         val path = path()
@@ -134,7 +134,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_7")
-    fun `hexbin hexagon() observes the current bin radius`() {
+    fun `hexbin hexagon observes the current bin radius`() {
         val hexbin = hexbinGenerator {
             radius = 2.0
         }
@@ -151,7 +151,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_8")
-    fun `hexbin hexagon() observes the specified bin radius`() {
+    fun `hexbin hexagon observes the specified bin radius`() {
         val hexbin = hexbinGenerator()
 
         val path = path()
@@ -165,7 +165,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_9")
-    fun `hexbin centers() returns an array of bin centers`() {
+    fun `hexbin centers returns an array of bin centers`() {
         val hexbin = hexbinGenerator()
 
         val centers = hexbin.centers()
@@ -177,7 +177,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_10")
-    fun `hexbin centers() observes the current bin radius`() {
+    fun `hexbin centers observes the current bin radius`() {
         val hexbin = hexbinGenerator {
             radius = .5
         }
@@ -192,7 +192,7 @@ class HexbinTests : TestBase() {
 
     @Test
     @JsName("hexbin_test_11")
-    fun `hexbin centers() observes the current extent`() {
+    fun `hexbin centers observes the current extent`() {
         val hexbin = hexbinGenerator {
             radius = .5
             extent = Extent(-1.1, -1.1, 1.1, 1.1)

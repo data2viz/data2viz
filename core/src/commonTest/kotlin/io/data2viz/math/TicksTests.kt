@@ -29,7 +29,7 @@ class TicksTests : TestBase() {
 
     @Test
     @JsName("TicksTests1")
-    fun `ticks(start, stop, count) returns the empty array if any argument is NaN`() {
+    fun `ticks returns the empty array if any argument is NaN`() {
         ticks(Double.NaN, 1.0, 1) shouldBe listOf()
         ticks(0.0, Double.NaN, 1) shouldBe listOf()
         ticks(Double.NaN, Double.NaN, 1) shouldBe listOf()
@@ -37,7 +37,7 @@ class TicksTests : TestBase() {
 
     @Test
     @JsName("TicksTests2")
-    fun `ticks(start, stop, count) returns the start value if start == stop`() {
+    fun `ticks returns the start value if start == stop`() {
         ticks(1.0, 1.0, -1) shouldBe listOf()
         ticks(1.0, 1.0, 0) shouldBe listOf()
         ticks(1.0, 1.0, 1) shouldBe listOf(1.0)
@@ -46,14 +46,14 @@ class TicksTests : TestBase() {
 
     @Test
     @JsName("TicksTests3")
-    fun `ticks(start, stop, count) returns the empty array if count is not positive`() {
+    fun `ticks returns the empty array if count is not positive`() {
         ticks(0.0, 1.0, 0) shouldBe listOf()
         ticks(0.0, 1.0, -1) shouldBe listOf()
     }
 
     @Test
     @JsName("TicksTests4")
-    fun `ticks(start, stop, count) returns approximately count + 1 ticks when start lt stop`() {
+    fun `ticks returns approximately count + 1 ticks when start lt stop`() {
         ticks(  0.0,  1.0, 10) shouldBe listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
         ticks(  0.0,  1.0,  9) shouldBe listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
         ticks(  0.0,  1.0,  8) shouldBe listOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
@@ -88,7 +88,7 @@ class TicksTests : TestBase() {
 
     @Test
     @JsName("TicksTests5")
-    fun `ticks(start, stop, count) returns the reverse of ticks(stop, start, count)`() {
+    fun `ticks returns the reverse of ticks`() {
         ticks( 1.0,   0.0, 10) shouldBe ticks(  0.0,  1.0, 10).reversed()
         ticks( 1.0,   0.0,  9) shouldBe ticks(  0.0,  1.0,  9).reversed()
         ticks( 1.0,   0.0,  8) shouldBe ticks(  0.0,  1.0,  8).reversed()

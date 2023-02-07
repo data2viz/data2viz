@@ -26,7 +26,7 @@ class QuadtreeAddAllTests : TestBase() {
 
     @Test
     @JsName("quadtree_addall_1")
-    fun `quadtree addAll(data) ignores points with NaN coordinates`() {
+    fun `quadtree addAll ignores points with NaN coordinates`() {
         val quadtree = quadtree<Point>({ point -> point.x }, { point -> point.y })
 
         quadtree.addAll(listOf(Point(Double.NaN, .0), Point(.0, Double.NaN)))
@@ -42,7 +42,7 @@ class QuadtreeAddAllTests : TestBase() {
 
     @Test
     @JsName("quadtree_addall_2")
-    fun `quadtree addAll(data) correctly handles the empty array`() {
+    fun `quadtree addAll correctly handles the empty array`() {
         val quadtree = buildQuadtree()
 
         quadtree.addAll(listOf())
@@ -58,7 +58,7 @@ class QuadtreeAddAllTests : TestBase() {
 
     @Test
     @JsName("quadtree_addall_3")
-    fun `quadtree addAll(data) computes the extent of the data before adding`() {
+    fun `quadtree addAll computes the extent of the data before adding`() {
         val quadtree = buildQuadtree()
         quadtree.addAll(listOf(arrayOf(4, 4), arrayOf(0, 0), arrayOf(10, 10)))
 

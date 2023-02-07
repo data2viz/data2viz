@@ -26,7 +26,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_1")
-    fun `quadtree visit(callback) visits each node in a quadtree`() {
+    fun `quadtree visit visits each node in a quadtree`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             addAll(listOf(arrayOf(0, 0), arrayOf(1, 0), arrayOf(0, 1), arrayOf(1, 1)))
@@ -45,7 +45,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_2")
-    fun `quadtree visit(callback) applies pre-order traversal`() {
+    fun `quadtree visit applies pre-order traversal`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 960.0, 960.0)
@@ -66,7 +66,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_3")
-    fun `quadtree visit(callback) does not recurse if the callback returns true`() {
+    fun `quadtree visit does not recurse if the callback returns true`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 960.0, 960.0)
@@ -84,7 +84,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_4")
-    fun `quadtree visit(callback) on an empty quadtree with no bounds does nothing`() {
+    fun `quadtree visit on an empty quadtree with no bounds does nothing`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 960.0, 960.0)
@@ -99,7 +99,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visit_5")
-    fun `quadtree visit(callback) on an empty quadtree with bounds does nothing`() {
+    fun `quadtree visit on an empty quadtree with bounds does nothing`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree()
 
@@ -112,7 +112,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visitafter_1")
-    fun `quadtree visitafter(callback) pass through each node`() {
+    fun `quadtree visitafter pass through each node`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             addAll(listOf(arrayOf(0, 0), arrayOf(1, 0), arrayOf(0, 1), arrayOf(1, 1)))
@@ -130,7 +130,7 @@ class QuadtreeVisitTests : TestBase() {
 
     @Test
     @JsName("quadtree_visitafter_2")
-    fun `quadtree visitafter(callback) pass in order`() {
+    fun `quadtree visitafter pass in order`() {
         val results = mutableListOf<List<Double>>()
         val quadtree = buildQuadtree() {
             extent = Extent(.0, .0, 960.0, 960.0)

@@ -26,7 +26,7 @@ class QuadtreeTests : TestBase() {
 
     @Test
     @JsName("quadtree_test_1")
-    fun `quadtree() creates an empty quadtree`() {
+    fun `quadtree creates an empty quadtree`() {
         val quadtree = buildQuadtree()
 
         quadtree.visit({ _, _, _, _, _ ->
@@ -40,7 +40,7 @@ class QuadtreeTests : TestBase() {
 
     @Test
     @JsName("quadtree_test_2")
-    fun `quadtree(nodes) is equivalent to quadtree() addAll(nodes)`() {
+    fun `quadtree is equivalent to quadtree addAll`() {
         val quadtree = quadtree(xAccessor, yAccessor, listOf(arrayOf(0, 0), arrayOf(1, 1)))
 
         val root = quadtree.root as InternalNode
