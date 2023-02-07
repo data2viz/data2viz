@@ -18,6 +18,7 @@
 package io.data2viz.format
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToLong
@@ -32,7 +33,7 @@ internal actual fun Double.toStringDigits(radix: Int): String =
 
 internal actual fun Double.toFixed(digits: Int): String =
     BigDecimal(this)
-        .setScale(digits, BigDecimal.ROUND_HALF_UP)
+        .setScale(digits, RoundingMode.HALF_UP)
         .toString()
 
 internal actual fun Double.toPrecision(digits: Int): String =
