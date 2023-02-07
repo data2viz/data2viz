@@ -3,7 +3,7 @@ package io.data2viz.test
 import io.data2viz.test.matchers.Matchers
 import io.data2viz.test.matchers.be
 import io.data2viz.test.matchers.have
-
+import kotlin.js.JsName
 import kotlin.test.Test
 
 

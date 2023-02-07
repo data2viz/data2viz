@@ -1,7 +1,7 @@
 package io.data2viz.ease
 
-import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
+import kotlin.js.JsName
 import kotlin.test.Test
 
 

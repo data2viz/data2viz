@@ -17,11 +17,11 @@
 
 package io.data2viz.math
 
-import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
 import io.data2viz.test.matchers.Matchers
 import io.data2viz.test.shouldThrow
 import kotlin.math.sqrt
+import kotlin.js.JsName
 import kotlin.test.Test
 
 @Suppress("FunctionName", "NonAsciiCharacters")

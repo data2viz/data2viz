@@ -18,8 +18,8 @@
 package io.data2viz.quadtree
 
 import io.data2viz.geom.Point
-import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
+import kotlin.js.JsName
 import kotlin.test.Test
 
 class QuadtreeAccessorsTests : TestBase() {

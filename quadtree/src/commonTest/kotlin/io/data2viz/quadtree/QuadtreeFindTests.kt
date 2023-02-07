@@ -18,8 +18,8 @@
 package io.data2viz.quadtree
 
 import io.data2viz.math.EPSILON
-import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
+import kotlin.js.JsName
 import kotlin.math.sqrt
 import kotlin.test.Test
 

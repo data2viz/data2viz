@@ -1,10 +1,6 @@
 public abstract interface class io/data2viz/test/ExecutionContext {
 }
 
-public abstract interface annotation class io/data2viz/test/JsName : java/lang/annotation/Annotation {
-	public abstract fun name ()Ljava/lang/String;
-}
-
 public abstract class io/data2viz/test/TestBase : io/data2viz/test/matchers/Matchers {
 	public fun <init> ()V
 	public fun a (Lio/data2viz/test/matchers/BeWrapper;Lkotlin/reflect/KClass;)V

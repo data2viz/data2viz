@@ -13,6 +13,3 @@ actual fun Double.toFixed(): String {
     else NSString.stringWithFormat("%.6f", this )
 
 }
-
-
-actual annotation class JsName actual constructor(actual val name: String)

@@ -17,9 +17,9 @@
 
 package io.data2viz.geom
 
-import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
 import io.data2viz.test.shouldThrow
+import kotlin.js.JsName
 import kotlin.math.sqrt
 import kotlin.test.Test
 

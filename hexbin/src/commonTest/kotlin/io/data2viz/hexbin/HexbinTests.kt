@@ -21,8 +21,8 @@ import io.data2viz.geom.Extent
 import io.data2viz.geom.Point
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.svgPath
-import io.data2viz.test.JsName
 import io.data2viz.test.TestBase
+import kotlin.js.JsName
 import kotlin.test.Test
 
 private fun Extent.toArray() = arrayOf(this.x0, this.y0, this.x1, this.y1)
