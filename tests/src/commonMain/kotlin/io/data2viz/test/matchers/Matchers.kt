@@ -96,6 +96,7 @@ interface Matchers : StringMatchers,
     }
     infix fun <T> T.shouldBe(any: T?): Unit = shouldEqual(any)
     infix fun <T> T.shouldEqual(any: Any?) {
+        if (this == any) return
         @Suppress("UNCHECKED_CAST")
         when (any) {
             is Matcher<*> -> (any as Matcher<T>).test(this)
