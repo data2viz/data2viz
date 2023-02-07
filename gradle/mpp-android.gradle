@@ -4,10 +4,10 @@ if (include_android.toBoolean()) {
     apply plugin: 'com.android.library'
     apply plugin: 'org.jetbrains.kotlin.multiplatform'
     android {
-        compileSdkVersion 30
+        compileSdkVersion 33
         defaultConfig {
             minSdkVersion 17
-            targetSdkVersion 30
+            targetSdkVersion 31
             versionCode 1
             versionName "$version"
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
