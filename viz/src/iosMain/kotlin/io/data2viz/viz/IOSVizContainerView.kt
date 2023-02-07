@@ -25,7 +25,7 @@ import platform.UIKit.*
 
 
 @ExportObjCClass
-public class VizContainerView(): UIView(frame = CGRectMake(.0, .0, .0, .0)), UIViewWithOverridesProtocol {
+public class VizContainerView : UIView(frame = CGRectMake(.0, .0, .0, .0)), UIViewWithOverridesProtocol {
 
     internal val vizContainer:IosVizContainer = IosVizContainer().apply {
         size = bounds.useContents { Size(this.size.width, this.size.height) }
