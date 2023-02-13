@@ -44,7 +44,7 @@ public fun polygonContains(polygon: List<List<DoubleArray>>, point: DoubleArray)
 
         var point0 = ring.last()
         var lambda0 = point0[0]
-        var phi0 = point0[1] / 2 + QUARTERPI
+        val phi0 = point0[1] / 2 + QUARTERPI
 
         var sinPhi0 = sin(phi0)
         var cosPhi0 = cos(phi0)
