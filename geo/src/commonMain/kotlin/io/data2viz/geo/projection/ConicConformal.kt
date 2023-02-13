@@ -98,7 +98,7 @@ public class ConicConformalProjector : ConicProjector, Projector {
         isPossibleToUseProjector = isPossibleToUse()
     }
 
-    private fun isPossibleToUse() = (n == 0.0 || n == Double.NaN)
+    private fun isPossibleToUse() = (n == 0.0 || n.isNaN())
 
     private fun f() = cy0 * (tany(phi0).pow(n)) / n
 
