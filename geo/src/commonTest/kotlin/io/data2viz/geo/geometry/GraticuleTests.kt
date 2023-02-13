@@ -177,14 +177,14 @@ class GraticuleTests : TestBase() {
         }
         val lines = graticule.lines()
 
-        lines[0].coordinates[0] shouldBeClose arrayOf(-90.0, -45.0)
-        lines[0].coordinates[1] shouldBeClose arrayOf(-90.0, 45.0)         // meridian
-        lines[1].coordinates[0] shouldBeClose arrayOf(-45.0, -45.0)
-        lines[1].coordinates[1] shouldBeClose arrayOf(-45.0, 45.0)         // meridian
-        lines[2].coordinates[0] shouldBeClose arrayOf(.0, -45.0)
-        lines[2].coordinates[1] shouldBeClose arrayOf(.0, 45.0)            // meridian
-        lines[3].coordinates[0] shouldBeClose arrayOf(45.0, -45.0)
-        lines[3].coordinates[1] shouldBeClose arrayOf(45.0, 45.0)          // meridian
+        lines[0].coordinates[0] shouldBeClose doubleArrayOf(-90.0, -45.0)
+        lines[0].coordinates[1] shouldBeClose doubleArrayOf(-90.0, 45.0)         // meridian
+        lines[1].coordinates[0] shouldBeClose doubleArrayOf(-45.0, -45.0)
+        lines[1].coordinates[1] shouldBeClose doubleArrayOf(-45.0, 45.0)         // meridian
+        lines[2].coordinates[0] shouldBeClose doubleArrayOf(.0, -45.0)
+        lines[2].coordinates[1] shouldBeClose doubleArrayOf(.0, 45.0)            // meridian
+        lines[3].coordinates[0] shouldBeClose doubleArrayOf(45.0, -45.0)
+        lines[3].coordinates[1] shouldBeClose doubleArrayOf(45.0, 45.0)          // meridian
         //{type: "LineString", coordinates: [[-90,-45],[-87,-45],[-84,-45],[-81,-45],[-78,-45],[-75,-45],[-72,-45],[-69,-45],[-66,-45],[-63,-45],[-60,-45],[-57,-45],[-54,-45],[-51,-45],[-48,-45],[-45,-45],[-42,-45],[-39,-45],[-36,-45],[-33,-45],[-30,-45],[-27,-45],[-24,-45],[-21,-45],[-18,-45],[-15,-45],[-12,-45],[-9,-45],[-6,-45],[-3,-45],[0,-45],[3,-45],[6,-45],[9,-45],[12,-45],[15,-45],[18,-45],[21,-45],[24,-45],[27,-45],[30,-45],[33,-45],[36,-45],[39,-45],[42,-45],[45,-45],[48,-45],[51,-45],[54,-45],[57,-45],[60,-45],[63,-45],[66,-45],[69,-45],[72,-45],[75,-45],[78,-45],[81,-45],[84,-45],[87,-45],[90,-45]]},
         //{type: "LineString", coordinates: [[-90,0],[-87,0],[-84,0],[-81,0],[-78,0],[-75,0],[-72,0],[-69,0],[-66,0],[-63,0],[-60,0],[-57,0],[-54,0],[-51,0],[-48,0],[-45,0],[-42,0],[-39,0],[-36,0],[-33,0],[-30,0],[-27,0],[-24,0],[-21,0],[-18,0],[-15,0],[-12,0],[-9,0],[-6,0],[-3,0],[0,0],[3,0],[6,0],[9,0],[12,0],[15,0],[18,0],[21,0],[24,0],[27,0],[30,0],[33,0],[36,0],[39,0],[42,0],[45,0],[48,0],[51,0],[54,0],[57,0],[60,0],[63,0],[66,0],[69,0],[72,0],[75,0],[78,0],[81,0],[84,0],[87,0],[90,0]]}
     }
@@ -198,14 +198,14 @@ class GraticuleTests : TestBase() {
         }
         val lines = g.graticule()
 
-        lines.coordinates[0][0] shouldBeClose arrayOf(-90.0, -45.0)
-        lines.coordinates[0][1] shouldBeClose arrayOf(-90.0, 45.0)         // meridian
-        lines.coordinates[1][0] shouldBeClose arrayOf(-45.0, -45.0)
-        lines.coordinates[1][1] shouldBeClose arrayOf(-45.0, 45.0)         // meridian
-        lines.coordinates[2][0] shouldBeClose arrayOf(.0, -45.0)
-        lines.coordinates[2][1] shouldBeClose arrayOf(.0, 45.0)            // meridian
-        lines.coordinates[3][0] shouldBeClose arrayOf(45.0, -45.0)
-        lines.coordinates[3][1] shouldBeClose arrayOf(45.0, 45.0)          // meridian
+        lines.coordinates[0][0] shouldBeClose doubleArrayOf(-90.0, -45.0)
+        lines.coordinates[0][1] shouldBeClose doubleArrayOf(-90.0, 45.0)         // meridian
+        lines.coordinates[1][0] shouldBeClose doubleArrayOf(-45.0, -45.0)
+        lines.coordinates[1][1] shouldBeClose doubleArrayOf(-45.0, 45.0)         // meridian
+        lines.coordinates[2][0] shouldBeClose doubleArrayOf(.0, -45.0)
+        lines.coordinates[2][1] shouldBeClose doubleArrayOf(.0, 45.0)            // meridian
+        lines.coordinates[3][0] shouldBeClose doubleArrayOf(45.0, -45.0)
+        lines.coordinates[3][1] shouldBeClose doubleArrayOf(45.0, 45.0)          // meridian
     }
 
     @Test
@@ -217,13 +217,13 @@ class GraticuleTests : TestBase() {
         val outline = g.outline()
 
         val coords = outline.coordinates[0]
-        coords[0] shouldBeClose arrayOf(-90.0, -45.0)
-        coords[1] shouldBeClose arrayOf(-90.0, 45.0)         // meridian
-        coords[2] shouldBeClose arrayOf(-87.0, 45.0)
-        coords[3] shouldBeClose arrayOf(-84.0, 45.0)
-        coords[4] shouldBeClose arrayOf(-81.0, 45.0)
-        coords[5] shouldBeClose arrayOf(-78.0, 45.0)
-        coords[6] shouldBeClose arrayOf(-75.0, 45.0)
-        coords[7] shouldBeClose arrayOf(-72.0, 45.0)
+        coords[0] shouldBeClose doubleArrayOf(-90.0, -45.0)
+        coords[1] shouldBeClose doubleArrayOf(-90.0, 45.0)         // meridian
+        coords[2] shouldBeClose doubleArrayOf(-87.0, 45.0)
+        coords[3] shouldBeClose doubleArrayOf(-84.0, 45.0)
+        coords[4] shouldBeClose doubleArrayOf(-81.0, 45.0)
+        coords[5] shouldBeClose doubleArrayOf(-78.0, 45.0)
+        coords[6] shouldBeClose doubleArrayOf(-75.0, 45.0)
+        coords[7] shouldBeClose doubleArrayOf(-72.0, 45.0)
     }
 }

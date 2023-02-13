@@ -59,9 +59,9 @@ class ContainsTests : TestBase() {
 
         val interpolateFunction = geoInterpolate(doubleArrayOf(0.0, 0.0), doubleArrayOf(1.0, 2.0))
 
-        lineString.contains(interpolateFunction.interpolate(0.3).toTypedArray()) shouldBe true
-        lineString.contains(interpolateFunction.interpolate(1.3).toTypedArray()) shouldBe false
-        lineString.contains(interpolateFunction.interpolate(-0.3).toTypedArray()) shouldBe false
+        lineString.contains(interpolateFunction.interpolate(0.3)) shouldBe true
+        lineString.contains(interpolateFunction.interpolate(1.3)) shouldBe false
+        lineString.contains(interpolateFunction.interpolate(-0.3)) shouldBe false
 
     }
 

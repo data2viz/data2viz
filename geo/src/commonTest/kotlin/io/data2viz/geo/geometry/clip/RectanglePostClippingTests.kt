@@ -42,13 +42,13 @@ class RectanglePostClippingTests : TestBase() {
         arrayOf(
             arrayOf(
                 arrayOf(
-                    arrayOf(5.0, 5.0),
-                    arrayOf(2.50, 7.5),
-                    arrayOf(5.0, 10.0),
-                    arrayOf(10.0, 10.0),
-                    arrayOf(12.5, 7.5),
-                    arrayOf(10.0, 5.0),
-                    arrayOf(5.0, 5.0)
+                    doubleArrayOf(5.0, 5.0),
+                    doubleArrayOf(2.50, 7.5),
+                    doubleArrayOf(5.0, 10.0),
+                    doubleArrayOf(10.0, 10.0),
+                    doubleArrayOf(12.5, 7.5),
+                    doubleArrayOf(10.0, 5.0),
+                    doubleArrayOf(5.0, 5.0)
                 )
             )
         )

@@ -19,8 +19,8 @@ package io.data2viz.geo.geometry
 
 import io.data2viz.geo.geojson.path.GeoCircle
 import io.data2viz.geojson.Polygon
-import io.data2viz.math.PI
 import io.data2viz.test.TestBase
+import kotlin.math.PI
 import kotlin.test.Test
 
 class PolygonContainsTests : TestBase() {

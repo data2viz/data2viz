@@ -24,7 +24,7 @@ import io.data2viz.geo.projection.pt
 import io.data2viz.geojson.*
 import io.data2viz.geom.PathGeom
 import io.data2viz.geom.svgPath
-import io.data2viz.math.PI
+import kotlin.math.PI
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
