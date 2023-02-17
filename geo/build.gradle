@@ -12,21 +12,5 @@ kotlin {
                 api "io.data2viz.geojson:core:$geojson_version"
             }
         }
-
-        if (include_jfx.toBoolean() || include_android.toBoolean()) {
-            jvmMain {
-                dependencies {
-                    api "io.data2viz.geojson:core:$geojson_version"
-                }
-            }
-        }
-        if (include_js.toBoolean()) {
-            jsMain {
-                dependencies {
-                    api "io.data2viz.geojson:core:$geojson_version"
-                }
-            }
-        }
-
     }
 }
