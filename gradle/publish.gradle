@@ -65,13 +65,14 @@ afterEvaluate {
             all { publication ->
                 pom.withXml(configureMavenCentralMetadata)
                 artifact(javadocJar)
-                def type = publication.name
+                final String type = publication.name
                 switch (type) {
                     case 'kotlinMultiplatform':
                         publication.artifactId = "$project.name"
                         break
                     default:
-                        publication.artifactId = "$project.name-$type"
+                        String typeLowercase = type.toLowerCase(Locale.ROOT)
+                        publication.artifactId = "$project.name-$typeLowercase"
                         break
                 }
             }
