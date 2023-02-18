@@ -16,7 +16,7 @@ jobs:
       repository_id: ${{ steps.create.outputs.repository_id }}
     steps:
       - id: create
-        uses: nexus-actions/create-nexus-staging-repo@v1.1
+        uses: nexus-actions/create-nexus-staging-repo@v1.2
         with:
           username: ${{ secrets.SONATYPE_USERNAME }}
           password: ${{ secrets.SONATYPE_PASSWORD }}
@@ -27,9 +27,9 @@ jobs:
     needs: [create-staging-repository]
     steps:
       - name: Checkout the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Configure JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
@@ -44,9 +44,9 @@ jobs:
     needs: [create-staging-repository]
     steps:
       - name: Checkout the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Configure JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
@@ -72,7 +72,7 @@ jobs:
           staging_repository_id: ${{ needs.create-staging-repository.outputs.repository_id }}
       - name: Release
         if: ${{ needs.macos-upload.result == 'success' && needs.linux-upload.result == 'success' }}
-        uses: nexus-actions/release-nexus-staging-repo@v1.1
+        uses: nexus-actions/release-nexus-staging-repo@v1.2
         with:
           username: ${{ secrets.SONATYPE_USERNAME }}
           password: ${{ secrets.SONATYPE_PASSWORD }}
