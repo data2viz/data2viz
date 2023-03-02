@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
 jobs:
-  linux-upload:
+  linux-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
@@ -18,7 +18,7 @@ jobs:
         run: >-
           ./gradlew --console=plain
           check
-  macos-upload:
+  macos-check:
     runs-on: macos-latest
     steps:
       - name: Checkout the repo
