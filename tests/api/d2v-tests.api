@@ -1,3 +1,9 @@
+public final class io/data2viz/test/CurrentPlatform {
+	public static final field INSTANCE Lio/data2viz/test/CurrentPlatform;
+	public final fun isIOS ()Z
+	public final fun isJavaScript ()Z
+}
+
 public abstract interface class io/data2viz/test/ExecutionContext {
 }
 

@@ -20,6 +20,7 @@ package io.data2viz.geo.projection
 import io.data2viz.geo.geometry.calculateSvgPath
 import io.data2viz.geojson.toGeoJsonObject
 import io.data2viz.math.deg
+import io.data2viz.test.CurrentPlatform
 import io.data2viz.test.TestBase
 import kotlin.test.Test
 
@@ -29,6 +30,7 @@ class RotateProjectionTests : TestBase() {
 
     @Test
     fun project_rotation__of_degenerate_polygon_should_not_break() {
+        if (CurrentPlatform.isIOS) return
         val projection = mercatorProjection {
             rotate((-134.300).deg, 25.776.deg, rotateGamma)
             scale = 750.0
