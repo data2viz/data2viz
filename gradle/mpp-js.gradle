@@ -30,7 +30,7 @@ if (include_js.toBoolean()) {
         }
 
     }
-
+/*
     def npmDeployDir = file("$buildDir/npm")
 
     task preparePublishNpm(type: Copy, dependsOn: compileKotlinJsLegacy) {
@@ -61,7 +61,7 @@ if (include_js.toBoolean()) {
         workingDir = npmDeployDir
 //        commandLine 'npm', 'publish', '--dry-run', "--//registry.npmjs.org/:_authToken=$npmToken"
         commandLine 'npm', 'publish', '--access=public', "--//registry.npmjs.org/:_authToken=$npmToken"
-    }
+    }*/
 
 
 }
