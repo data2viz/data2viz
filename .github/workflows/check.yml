@@ -14,6 +14,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
       - name: Run check on Linux
         run: >-
           ./gradlew --console=plain
@@ -28,6 +30,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
       - name: Run check on macOS
         run: >-
           ./gradlew --console=plain
