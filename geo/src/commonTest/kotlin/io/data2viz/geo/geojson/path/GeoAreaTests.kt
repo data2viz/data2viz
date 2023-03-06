@@ -55,12 +55,9 @@ class GeoAreaTests : TestBase() {
         ) shouldBeClose .0
     }
 
-
-    // TODO : pass in JVM not JS !! (shouldBeClose .0 but delta is 5e-13)
     @Test
     fun geoarea_of_a_zero_area_polygon() {
         if (CurrentPlatform.isIOS) return
-        if (CurrentPlatform.isJavaScript) return
         GeoAreaStream().result(
             Polygon(
                 arrayOf(
@@ -73,7 +70,8 @@ class GeoAreaTests : TestBase() {
                     )
                 )
             )
-        ) shouldBeClose .0
+        ) % (2 * PI) shouldBeClose .0 // Apparently, "geo area" is an angle.
+        // See https://github.com/d3/d3-geo/blob/078f46d9a4b9079ddd6d382cfea81dd9c5a284ef/src/area.js#L26-L30
     }
 
     @Test
