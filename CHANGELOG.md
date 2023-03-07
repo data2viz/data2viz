@@ -1,7 +1,7 @@
 # Changelog
 
-## [Unreleased] 0.10.2
-> To be published
+## 0.10.2
+> Published 07 March 2023
 * Add a new experimental [ImageHandler]: BitmapImage, currently implemented on JFX and JS
 * Reduce time to check if a zoom event is a new one or still the current one ([#DV-150](https://youtrack.data2viz.io/issue/DV-150))
 * The Color built-in utility functions (brighten, saturate...) are now also available for Gradient
