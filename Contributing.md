@@ -2,7 +2,7 @@
 
 ## Performances optimization
 
-Performance is critical in datavisualization. It allows fluid animations, 
+Performance is critical in data visualization. It allows fluid animations, 
 a significant volume of data, etc.
 
 However, optimizing the performance in Data2viz project is challenging, 
