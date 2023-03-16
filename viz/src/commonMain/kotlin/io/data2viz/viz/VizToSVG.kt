@@ -17,6 +17,7 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
 import io.data2viz.InternalAPI
 import io.data2viz.color.*
 import io.data2viz.geom.*
@@ -25,6 +26,30 @@ import io.data2viz.math.TAU
 import io.data2viz.math.TAU_EPSILON
 import io.data2viz.math.pct
 import kotlin.math.*
+
+@ExperimentalD2V
+public fun VizContainer.toSvg(
+    width: Double = vizList.firstOrNull()?.width ?: .0,
+    height: Double = vizList.firstOrNull()?.height ?: .0
+): String = buildSvgString {
+    add(
+        type = "svg",
+        attributes = {
+            add("xmlns", "http://www.w3.org/2000/svg")
+            add("width", width); add("height", height)
+        }
+    ) {
+        for (viz in vizList) viz.layers.forEach { layer ->
+            add(layer)
+        }
+
+        if (gradients.isNotEmpty()) add("defs") {
+            gradients.forEach { gradient ->
+                gradient()
+            }
+        }
+    }
+}
 
 public fun Viz.toSVG(): String = buildSvgString {
     add(
@@ -55,7 +80,7 @@ internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildS
         override val gradients: MutableList<GradientsRenderer> = mutableListOf()
     }
     svgStringBuilder.apply {
-        builder.append("<?xml version=\"${1.0 as Number}\"?>\n")
+        builder.appendLine("""<?xml version="1.0" encoding="UTF-8"?>""")
         build()
     }
 }
@@ -63,7 +88,7 @@ internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildS
 @InternalAPI
 internal val Node.hasStyles
     get() = when (this) {
-        is HasStroke -> stroke != null || strokeColor != null || strokeWidth != null || dashedLine != null
+        is HasStroke -> strokeColor != null || strokeWidth != null || dashedLine != null
         is HasFill -> fill != null
         else -> false
     }
@@ -343,28 +368,40 @@ private fun SvgStringBuilder.add(circleNode: CircleNode) {
     }
 }
 
-@InternalAPI
-internal val TextHAlign.svg
-    get() = when (this) {
-        TextHAlign.LEFT, TextHAlign.START -> "start"
-        TextHAlign.MIDDLE -> "middle"
-        TextHAlign.RIGHT, TextHAlign.END -> "end"
-    }
-
-
 private fun SvgStringBuilder.add(textNode: TextNode) {
     with(textNode) {
         add(
             type = "text",
             attributes = {
-                val textRect = measureText()
-
-                add("x", textRect.x)
-                add("y", textRect.y + 0.5 * textRect.height)
+                add("x", x)
+                add("y", y)
+                @Suppress("DEPRECATION")
+                add("text-anchor", when (hAlign) {
+                    TextHAlign.LEFT -> "start"
+                    TextHAlign.START -> "start"
+                    TextHAlign.MIDDLE -> "middle"
+                    TextHAlign.RIGHT -> "end"
+                    TextHAlign.END -> "end"
+                })
+                add("alignment-baseline", when (vAlign) {
+                    TextVAlign.HANGING -> "hanging"
+                    TextVAlign.MIDDLE -> "middle"
+                    TextVAlign.BASELINE -> "alphabetic" // We only have "alphabetic" in HTML/Web Canvas,
+                    // but here in SVG "baseline" would also work.
+                    // That said, we've yet to see any difference in practice, so we're keeping it like that.
+                })
+                //TODO: Use textColor
+                //TODO: Transform strokeColor into stroke SVG attribute (https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke)
                 add("font-size", fontSize)
                 add("font-family", fontFamily.name)
-                add("font-weight", fontWeight.name)
-                add("font-style", fontStyle.name)
+                add("font-weight", when (fontWeight) {
+                    FontWeight.NORMAL -> "normal"
+                    FontWeight.BOLD     -> "bold"
+                })
+                add("font-style", when (fontStyle) {
+                    FontPosture.ITALIC -> "italic"
+                    FontPosture.NORMAL -> "normal"
+                })
                 add("xml:space", "preserve")
 
                 addStylesIfAvailableFor(textNode)

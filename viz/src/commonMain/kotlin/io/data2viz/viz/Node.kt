@@ -65,9 +65,7 @@ public abstract class Node : Style {
         set(value) { style.fill = value }
 
     @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
-    override var stroke: ColorOrGradient?
-        get() = style.strokeColor
-        set(value) { style.strokeColor = value }
+    override var stroke: ColorOrGradient? by ::strokeColor
 
     override var strokeColor: ColorOrGradient?
         get() = style.strokeColor
