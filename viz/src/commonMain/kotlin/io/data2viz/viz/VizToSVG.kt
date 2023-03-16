@@ -17,6 +17,7 @@
 
 package io.data2viz.viz
 
+import io.data2viz.ExperimentalD2V
 import io.data2viz.InternalAPI
 import io.data2viz.color.*
 import io.data2viz.geom.*
@@ -25,6 +26,30 @@ import io.data2viz.math.TAU
 import io.data2viz.math.TAU_EPSILON
 import io.data2viz.math.pct
 import kotlin.math.*
+
+@ExperimentalD2V
+public fun VizContainer.toSvg(
+    width: Double = vizList.firstOrNull()?.width ?: .0,
+    height: Double = vizList.firstOrNull()?.height ?: .0
+): String = buildSvgString {
+    add(
+        type = "svg",
+        attributes = {
+            add("xmlns", "http://www.w3.org/2000/svg")
+            add("width", width); add("height", height)
+        }
+    ) {
+        for (viz in vizList) viz.layers.forEach { layer ->
+            add(layer)
+        }
+
+        if (gradients.isNotEmpty()) add("defs") {
+            gradients.forEach { gradient ->
+                gradient()
+            }
+        }
+    }
+}
 
 public fun Viz.toSVG(): String = buildSvgString {
     add(
