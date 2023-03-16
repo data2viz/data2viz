@@ -343,28 +343,40 @@ private fun SvgStringBuilder.add(circleNode: CircleNode) {
     }
 }
 
-@InternalAPI
-internal val TextHAlign.svg
-    get() = when (this) {
-        TextHAlign.LEFT, TextHAlign.START -> "start"
-        TextHAlign.MIDDLE -> "middle"
-        TextHAlign.RIGHT, TextHAlign.END -> "end"
-    }
-
-
 private fun SvgStringBuilder.add(textNode: TextNode) {
     with(textNode) {
         add(
             type = "text",
             attributes = {
-                val textRect = measureText()
-
-                add("x", textRect.x)
-                add("y", textRect.y + 0.5 * textRect.height)
+                add("x", x)
+                add("y", y)
+                @Suppress("DEPRECATION")
+                add("text-anchor", when (hAlign) {
+                    TextHAlign.LEFT -> "start"
+                    TextHAlign.START -> "start"
+                    TextHAlign.MIDDLE -> "middle"
+                    TextHAlign.RIGHT -> "end"
+                    TextHAlign.END -> "end"
+                })
+                add("alignment-baseline", when (vAlign) {
+                    TextVAlign.HANGING -> "hanging"
+                    TextVAlign.MIDDLE -> "middle"
+                    TextVAlign.BASELINE -> "alphabetic" // We only have "alphabetic" in HTML/Web Canvas,
+                    // but here in SVG "baseline" would also work.
+                    // That said, we've yet to see any difference in practice, so we're keeping it like that.
+                })
+                //TODO: Use textColor
+                //TODO: Transform strokeColor into stroke SVG attribute (https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke)
                 add("font-size", fontSize)
                 add("font-family", fontFamily.name)
-                add("font-weight", fontWeight.name)
-                add("font-style", fontStyle.name)
+                add("font-weight", when (fontWeight) {
+                    FontWeight.NORMAL -> "normal"
+                    FontWeight.BOLD     -> "bold"
+                })
+                add("font-style", when (fontStyle) {
+                    FontPosture.ITALIC -> "italic"
+                    FontPosture.NORMAL -> "normal"
+                })
                 add("xml:space", "preserve")
 
                 addStylesIfAvailableFor(textNode)
