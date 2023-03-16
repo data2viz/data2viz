@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.3
+> Published 07 March 2023
+* Improve text alignment of the output of `Viz.toSVG()`.
+* Introduce experimental `toSvg` extension for `VizContainer`.
+
 ## 0.10.2
 > Published 07 March 2023
 * Add a new experimental [ImageHandler]: BitmapImage, currently implemented on JFX and JS
