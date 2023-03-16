@@ -66,7 +66,7 @@ class TestVizToSVG : TestBase() {
 
         val expect = buildString {
             append("""
-            <?xml version="${1.0 as Number}"?>
+            <?xml version="1.0" encoding="UTF-8"?>
             <svg width="${200 as Number}" height="${200 as Number}" version="${1.0 as Number}" xmlns="http://www.w3.org/2000/svg">
             <rect x="${10 as Number}" y="${10 as Number}" width="${30 as Number}" height="${30 as Number}" style="stroke:red;fill:transparent;stroke-width:${5 as Number}" transform="rotate(${45 as Number} ${25 as Number} ${25 as Number})"/>
             <rect x="${60 as Number}" y="${10 as Number}" rx="${10 as Number}" ry="${5 as Number}" width="${30 as Number}" height="${30 as Number}" style="stroke:black;fill:transparent;stroke-width:${5 as Number}"/>
@@ -76,7 +76,7 @@ class TestVizToSVG : TestBase() {
             )
         }
 
-        actual shouldBe expect
+        assertEquals(expected = expect, actual = actual)
     }
 
     @Test
@@ -109,7 +109,7 @@ class TestVizToSVG : TestBase() {
         }.toSVG()
 
         val target = """
-            <?xml version="${1.0 as Number}"?>
+            <?xml version="1.0" encoding="UTF-8"?>
             <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
             <text x="${10.0 as Number}" y="${5.845703125 as Number}" font-size="${12.0 as Number}" font-family="sans-serif" font-weight="NORMAL" font-style="NORMAL" style="stroke-width:${1.0 as Number}">
@@ -136,7 +136,7 @@ class TestVizToSVG : TestBase() {
         }.toSVG()
 
         val target = """
-            <?xml version="${1.0 as Number}"?>
+            <?xml version="1.0" encoding="UTF-8"?>
             <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
             </g>
@@ -163,7 +163,7 @@ class TestVizToSVG : TestBase() {
 
         }.toSVG()
         val expected = """
-            <?xml version="${1.0 as Number}"?>
+            <?xml version="1.0" encoding="UTF-8"?>
             <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
             <rect x="${10.0 as Number}" y="${10.0 as Number}" width="${100.0 as Number}" height="${100.0 as Number}" style="stroke-width:${1.0 as Number}"/>
@@ -190,7 +190,7 @@ class TestVizToSVG : TestBase() {
             }
         }.toSVG()
         val expected = """
-            <?xml version="${1.0 as Number}"?>
+            <?xml version="1.0" encoding="UTF-8"?>
             <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
             <line x1="${1.0 as Number}" y1="${1.0 as Number}" x2="${70.0 as Number}" y2="${70.0 as Number}" style="stroke:rgba(${173 as Number}, ${255 as Number}, ${47 as Number}, ${1.0 as Number});stroke-width:${1.0 as Number}"/>
@@ -217,7 +217,7 @@ class TestVizToSVG : TestBase() {
             }
         }.toSVG()
         val expected = """
-            <?xml version="${1.0 as Number}"?>
+            <?xml version="1.0" encoding="UTF-8"?>
             <svg xmlns="http://www.w3.org/2000/svg" width="${100.0 as Number}" height="${100.0 as Number}">
             <g>
             <circle cx="${50.0 as Number}" cy="${50.0 as Number}" r="${30.0 as Number}" style="fill:rgba(${0 as Number}, ${128 as Number}, ${0 as Number}, ${1.0 as Number});stroke:rgba(${255 as Number}, ${0 as Number}, ${0 as Number}, ${1.0 as Number});stroke-width:${5.0 as Number}"/>
@@ -225,7 +225,7 @@ class TestVizToSVG : TestBase() {
             </svg>
 
             """.trimIndent()
-        assertEquals(actual, expected)
+        assertEquals(expected = expected, actual = actual)
     }
 
     @Test
@@ -283,7 +283,7 @@ class TestVizToSVG : TestBase() {
 
         }.toSVG()
 
-        val expect = """<?xml version="${1.0 as Number}"?>
+        val expect = """<?xml version="1.0" encoding="UTF-8"?>
             |<svg xmlns="http://www.w3.org/2000/svg" width="${400.0 as Number}" height="${400.0 as Number}">
             |<g>
             |<rect x="${0.0 as Number}" y="${0.0 as Number}" width="${400.0 as Number}" height="${400.0 as Number}" style="fill:url('#grad1');stroke-width:${1.0 as Number}"/>
@@ -344,7 +344,7 @@ class TestVizToSVG : TestBase() {
 
         }.toSVG()
 
-        val expect = """<?xml version="${1.0 as Number}"?>
+        val expect = """<?xml version="1.0" encoding="UTF-8"?>
                 |<svg xmlns="http://www.w3.org/2000/svg" width="${800.0 as Number}" height="${200.0 as Number}">
                 |<g>
                 |<circle cx="${400.0 as Number}" cy="${100.0 as Number}" r="${100.0 as Number}" style="fill:url('#grad1');stroke-width:${1.0 as Number}"/>
