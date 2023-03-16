@@ -88,7 +88,7 @@ internal fun buildSvgString(build: SvgStringBuilder.() -> Unit): String = buildS
 @InternalAPI
 internal val Node.hasStyles
     get() = when (this) {
-        is HasStroke -> stroke != null || strokeColor != null || strokeWidth != null || dashedLine != null
+        is HasStroke -> strokeColor != null || strokeWidth != null || dashedLine != null
         is HasFill -> fill != null
         else -> false
     }
