@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.10.3
-> Published 07 March 2023
+> Published 16 March 2023
 * Improve text alignment of the output of `Viz.toSVG()`.
 * Introduce experimental `toSvg` extension for `VizContainer`.
 
