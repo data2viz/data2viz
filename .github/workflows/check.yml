@@ -3,6 +3,10 @@ name: Run Gradle check
 on:
   workflow_dispatch:
   push:
+    paths:
+      - '!CHANGELOG.md'
+      - '!README.md'
+      - '!libraries_version.txt'
 jobs:
   linux-check:
     runs-on: ubuntu-latest
