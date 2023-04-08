@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021. data2viz sàrl.
+ * Copyright (c) 2018-2023. data2viz sàrl.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -41,7 +41,10 @@ public class HeadlessVizContainer(
         get() = _vizList
 
     override fun newViz(init: Viz.() -> Unit): Viz {
-        val viz = Viz().apply(init)
+        val viz = Viz().also {
+            it.size = size
+            it.init()
+        }
         _vizList.add(viz)
         return viz
     }
