@@ -1,11 +1,8 @@
 # Changelog
 
-## 0.10.4
-> Published 8 April 2023
-* Fix `HeadlessVizContainer` to apply its size to child `Viz` objects created with `newViz`. 
-
 ## 0.10.3
-> Published 16 March 2023
+> Published 05 May 2023
+* Fix `HeadlessVizContainer` to apply its size to child `Viz` objects created with `newViz`. 
 * Improve text alignment of the output of `Viz.toSVG()`.
 * Introduce experimental `toSvg` extension for `VizContainer`.
 
