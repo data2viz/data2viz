@@ -3,7 +3,7 @@
 @file:Repository("https://repo.maven.apache.org/maven2/")
 //@file:Repository("https://oss.sonatype.org/content/repositories/snapshots")
 //@file:Repository("file:///Users/me/.m2/repository")
-@file:DependsOn("com.louiscad.incubator:lib-publishing-helpers:0.2.3")
+@file:DependsOn("com.louiscad.incubator:lib-publishing-helpers:0.2.5")
 
 import Releasing_main.CiReleaseFailureCause.*
 import java.io.File
@@ -15,7 +15,7 @@ import lib_publisher_tools.vcs.*
 import lib_publisher_tools.versioning.StabilityLevel
 import lib_publisher_tools.versioning.Version
 import lib_publisher_tools.versioning.checkIsValidVersionString
-import lib_publisher_tools.versioning.stabilityLevel
+import kotlin.math.absoluteValue
 
 val gitHubRepoUrl = "https://github.com/data2viz/data2viz"
 
@@ -105,34 +105,101 @@ if (ongoingReleaseFile.exists()) {
     checkOnMainBranch()
     with(OngoingRelease) {
         versionBeforeRelease = versionsFile.bufferedReader().use { it.readLine() }.also {
-            check(it.contains("-dev-") || it.endsWith("-SNAPSHOT")) {
-                "The current version needs to be a SNAPSHOT or a dev version, but we got: $it"
+            check(it.endsWith("-SNAPSHOT")) {
+                "The current version needs to be a SNAPSHOT version, but we got: $it"
             }
         }
         newVersion = askNewVersionInput(
-            currentVersion = versionBeforeRelease,
+            currentSnapshotVersion = versionBeforeRelease,
             tagPrefix = versionTagPrefix
         )
     }
     startAtStep = ReleaseStep.values().first()
 }
 
+fun checkVersionBumps(
+    newVersion: Version,
+    existingVersionTags: Set<String>,
+    tagPrefix: String
+) {
+    fun Version.major(): Int = value.substringBefore('.').toInt()
+    fun Version.minor(): Int = value.substringAfter('.').substringBefore('.').toInt()
+
+    val existingVersions = existingVersionTags.map { Version(it.substringAfter(tagPrefix)) }.sorted()
+    val lastVersion = existingVersions.lastOrNull()
+    if (lastVersion != null) {
+        val majorBumpedBy = newVersion.major() - lastVersion.major()
+        if (majorBumpedBy < 0) {
+            cliUi.warn("WARNING!")
+            cliUi.warn("The version you entered is ${majorBumpedBy.absoluteValue} major versions behind the latest one (${lastVersion.value}).")
+            cliUi.requestUserConfirmation("Are you sure you want to proceed with it?")
+        } else if (majorBumpedBy == 0) {
+            val minorBumpedBy = newVersion.minor() - lastVersion.minor()
+            if (minorBumpedBy < 0) {
+                cliUi.warn("WARNING!")
+                cliUi.warn("The version you entered is ${minorBumpedBy.absoluteValue} minor versions behind the latest one (${lastVersion.value}).")
+                cliUi.requestUserConfirmation("Are you sure you want to proceed with it?")
+            } else if (minorBumpedBy > 1) {
+                cliUi.warn("WARNING!")
+                cliUi.warn("The version you entered is jumping $minorBumpedBy minor versions above the latest one (${lastVersion.value})!")
+                cliUi.requestUserConfirmation("Are you sure you want to proceed with it?")
+            }
+        } else {
+            val newMinor = newVersion.minor()
+            check(newMinor == 0) {
+                "Your are publishing a new major version, so the minor number should be 0, not $newMinor."
+            }
+            if (majorBumpedBy == 1) {
+                cliUi.printInfo("You are bumping the major version by one.")
+                cliUi.requestUserConfirmation("Intended?")
+            } else {
+                cliUi.warn("WARNING!")
+                cliUi.warn("The version you entered is jumping $majorBumpedBy major versions above the latest one (${lastVersion.value})!")
+                cliUi.requestUserConfirmation("Are you sure you want to proceed with it?")
+            }
+        }
+    } else if (newVersion.major() > 1 || newVersion.minor() > 1) {
+        cliUi.warn("WARNING!")
+        cliUi.warn("This seems to be the first release, it should probably be a 1.0.0 or 0.1.0 version.")
+        cliUi.requestUserConfirmation("Are you sure you want to proceed with ${newVersion.value}?")
+    }
+}
+
 fun askNewVersionInput(
-    currentVersion: String,
+    currentSnapshotVersion: String,
     tagPrefix: String
 ): String = cliUi.runUntilSuccessWithErrorPrintingOrCancel {
-    cliUi.printInfo("Current version: $currentVersion")
-    cliUi.printQuestion("Please enter the name of the new version you want to release:")
-    val input = readLine()?.trimEnd() ?: error("Empty input!")
+    cliUi.printInfo("Current version: $currentSnapshotVersion")
+    cliUi.printQuestion("Which version do you want to release?")
+    val potentialTargetVersion = currentSnapshotVersion.substringBefore("-SNAPSHOT")
+    val input = cliUi.askChoice(
+        listOf(
+            potentialTargetVersion.let { it to it },
+            "Another version" to null
+        )
+    ) ?: run {
+        cliUi.printQuestion("Please enter it:")
+        readln().trimEnd()
+    }
     input.checkIsValidVersionString()
     when {
         "-dev-" in input -> error("Dev versions not allowed")
         "-SNAPSHOT" in input -> error("Snapshots not allowed")
     }
-    val existingVersions = git.getTags().filter {
+    val existingVersionTags = git.getTags().filter {
         it.startsWith(tagPrefix) && it.getOrElse(tagPrefix.length) { ' ' }.isDigit()
-    }.sorted().toList()
-    check("$tagPrefix$input" !in existingVersions) { "This version already exists!" }
+    }.toSet()
+    check("$tagPrefix$input" !in existingVersionTags) {
+        if (input == potentialTargetVersion) buildString {
+            appendLine("This version already exists!")
+            appendLine("Also, the SNAPSHOT version hasn't been bumped at it should have previously.")
+        } else "This version already exists!"
+    }
+    checkVersionBumps(
+        newVersion = Version(input),
+        existingVersionTags = existingVersionTags,
+        tagPrefix = tagPrefix
+    )
     input
 }
 
@@ -303,12 +370,7 @@ fun CliUi.runReleaseStep(step: ReleaseStep): Unit = when (step) {
     `Change this library version back to a SNAPSHOT` -> {
         val newVersion = Version(OngoingRelease.newVersion)
 
-        val isNewVersionStable: Boolean = newVersion.stabilityLevel().let { level ->
-            if (level == StabilityLevel.Stable) true
-            else level == StabilityLevel.Unknown && askIfYes(
-                yesNoQuestion = "The stabilityLevel of the new release is unknown. Is it a stable one?"
-            )
-        }
+        val isNewVersionStable: Boolean = newVersion.stabilityLevel == StabilityLevel.Stable
         val nextDevVersion: String = if (isNewVersionStable) {
             printInfo("Congratulations for this new stable release!")
             printInfo("Let's update the library for next development version.")
@@ -316,8 +378,8 @@ fun CliUi.runReleaseStep(step: ReleaseStep): Unit = when (step) {
                 printInfo("Enter the name of the next target version (`-SNAPSHOT` will be added automatically)")
                 val input = readLine()
                 input.checkIsValidVersionString()
-                when (Version(input).stabilityLevel()) {
-                    StabilityLevel.Unknown, StabilityLevel.Stable -> Unit
+                when (Version(input).stabilityLevel) {
+                    StabilityLevel.Stable -> Unit
                     else -> error("You need to enter a stable target version")
                 }
                 "$input-SNAPSHOT"
