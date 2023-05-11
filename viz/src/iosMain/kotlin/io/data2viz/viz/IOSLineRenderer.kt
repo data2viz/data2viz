@@ -33,16 +33,14 @@ internal fun LineNode.render(renderer: IOSCanvasRenderer): Unit = with(renderer)
         this@render.y2
     )
 
-		if ((strokeColor != null) && (strokeWidth != null)) {
-			when (strokeColor) {
-				is Color -> {
-
-					CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
-					CGContextSetLineWidth(context, strokeWidth!!)
-					CGContextStrokePath(context)
-				}
-				else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
-			}
-		}
-	}
+    if ((strokeColor != null) && (strokeWidth != null)) {
+        when (strokeColor) {
+            is Color -> {
+                CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
+                CGContextSetLineWidth(context, strokeWidth!!)
+                CGContextStrokePath(context)
+            }
+            else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
+        }
+    }
 }

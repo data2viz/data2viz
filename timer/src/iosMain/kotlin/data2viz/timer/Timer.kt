@@ -31,17 +31,19 @@ import kotlin.native.concurrent.ThreadLocal
  *
  * There can be only one pending timeout handler.
  */
-internal actual fun setTimeout(handler: () -> Unit, timeout: Int):Any {
-    val timeoutTime = NSDate(NSDate().timeIntervalSince1970 + (timeout.toDouble()/1000))
-    val timer = NSTimer(timeoutTime, 0.0, false) { handler() }
-    NSRunLoop.currentRunLoop().addTimer(timer, NSRunLoopCommonModes)
-    return timer
-}
+internal actual fun setTimeout(
+    handler: () -> Unit,
+    timeout: Int
+): Any = NSTimer(
+    fireDate = NSDate(NSDate().timeIntervalSince1970 + (timeout.toDouble() / 1000)),
+    interval = 0.0,
+    repeats = false
+) { handler() }.also { NSRunLoop.currentRunLoop().addTimer(it, NSRunLoopCommonModes) }
 
 /**
  * clears the previous timeout
  */
-internal actual fun clearTimeout(handle:Any) {
+internal actual fun clearTimeout(handle: Any) {
     val timer = handle as NSTimer
     timer.invalidate()
 }
@@ -49,16 +51,19 @@ internal actual fun clearTimeout(handle:Any) {
 /**
  * Only used to launch the update skew task every second
  */
-internal actual fun setInterval(handler: () -> Unit, interval: Int):Any{
-    val timer = NSTimer(NSDate(), interval.toDouble() / 1000, true) { handler() }
-    NSRunLoop.currentRunLoop().addTimer(timer, NSRunLoopCommonModes)
-    return timer
-}
+internal actual fun setInterval(
+    handler: () -> Unit,
+    interval: Int
+): Any = NSTimer(
+    fireDate = NSDate(),
+    interval = interval.toDouble() / 1000,
+    repeats = true
+) { handler() }.also { NSRunLoop.currentRunLoop().addTimer(it, NSRunLoopCommonModes) }
 
 /**
  * remove the potential `updateSkew` task
  */
-internal actual fun clearInterval(handle:Any){
+internal actual fun clearInterval(handle:Any) {
     val timer = handle as NSTimer
     timer.invalidate()
 }
@@ -74,7 +79,7 @@ public object FrameExecutor {
     private val selector = NSSelectorFromString("frame")
     private val displayLink = CADisplayLink.displayLinkWithTarget(this, selector)
 
-    private val blocks = mutableListOf<()->Unit>()
+    private val blocks = mutableListOf<() -> Unit>()
 
     internal fun callInNextFrame(block: () -> Unit) {
         if (blocks.isEmpty()) {
