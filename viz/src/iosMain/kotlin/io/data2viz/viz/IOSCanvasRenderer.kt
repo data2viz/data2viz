@@ -27,9 +27,9 @@ import kotlinx.cinterop.*
 import platform.CoreGraphics.*
 import platform.UIKit.*
 
-public class IOSCanvasRenderer(
+internal class IOSCanvasRenderer(
     override val viz: Viz,
-    val iosCanvasView: IOSCanvasView
+    private val iosCanvasView: IOSCanvasView
 ): VizRenderer {
 
     init {

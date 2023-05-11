@@ -17,17 +17,11 @@
 
 package io.data2viz.viz
 
-import io.data2viz.viz.*
-import platform.CoreGraphics.*
-import kotlin.math.*
+import platform.CoreGraphics.CGContextRotateCTM
+import platform.CoreGraphics.CGContextSetLineWidth
+import platform.CoreGraphics.CGContextTranslateCTM
 
-
-private fun DoubleArray.toFloat(): FloatArray = FloatArray(size) { this[it].toFloat()}
-
-public fun GroupNode.render(renderer: IOSCanvasRenderer) {
-
-//    val canvas = renderer.canvas
-
+internal fun GroupNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
         children.forEach { node ->
 

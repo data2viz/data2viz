@@ -25,7 +25,7 @@ import platform.CoreGraphics.*
 import platform.UIKit.UIBezierPath
 
 
-public fun CircleNode.render(renderer: IOSCanvasRenderer) {
+internal fun CircleNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
 
         val rect = CGRectMake(x - radius, y - radius, 2 * radius, 2 * radius)

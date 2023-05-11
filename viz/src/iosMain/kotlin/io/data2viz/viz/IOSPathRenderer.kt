@@ -48,8 +48,7 @@ import platform.CoreGraphics.CGPathMoveToPoint
 import platform.CoreGraphics.CGRectMake
 import platform.UIKit.UIBezierPath
 
-
-public fun PathNode.render(renderer: IOSCanvasRenderer) {
+internal fun PathNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
 
 

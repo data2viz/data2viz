@@ -21,7 +21,7 @@ import android.view.Choreographer
 import java.util.concurrent.TimeUnit
 
 
-internal val choreographer:Choreographer by lazy { Choreographer.getInstance() }
+private val choreographer: Choreographer by lazy { Choreographer.getInstance() }
 
 internal actual fun setTimeout(handler: () -> Unit, timeout: Int): Any {
     val callback = Choreographer.FrameCallback {handler()}

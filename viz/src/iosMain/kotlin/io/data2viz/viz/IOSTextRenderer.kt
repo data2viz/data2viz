@@ -25,7 +25,7 @@ import platform.Foundation.NSString
 import platform.UIKit.*
 
 
-public fun TextNode.render(renderer: IOSCanvasRenderer) {
+internal fun TextNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
 
 		if (this@render.textColor as? Color == null)

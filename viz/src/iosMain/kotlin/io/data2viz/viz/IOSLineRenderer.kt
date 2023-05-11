@@ -21,19 +21,17 @@ import io.data2viz.color.Color
 import io.data2viz.geom.*
 import platform.CoreGraphics.*
 
-
-public fun LineNode.render(renderer: IOSCanvasRenderer) {
-	with(renderer) {
-		CGContextMoveToPoint(
-			context,
-			this@render.x1,
-			this@render.y1
-		)
-		CGContextAddLineToPoint(
-			context,
-			this@render.x2,
-			this@render.y2
-		)
+internal fun LineNode.render(renderer: IOSCanvasRenderer): Unit = with(renderer) {
+    CGContextMoveToPoint(
+        context,
+        this@render.x1,
+        this@render.y1
+    )
+    CGContextAddLineToPoint(
+        context,
+        this@render.x2,
+        this@render.y2
+    )
 
 		if ((strokeColor != null) && (strokeWidth != null)) {
 			when (strokeColor) {
