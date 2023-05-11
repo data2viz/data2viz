@@ -53,9 +53,9 @@ public open class VizContainerView(
     }
 
     override fun newViz(init: Viz.() -> Unit): Viz {
-        val viz = Viz().apply {
-            size = size(this@VizContainerView.size.width, this@VizContainerView.size.height)
-            init()
+        val viz = Viz().also {
+            it.size = size
+            it.init()
         }
         allViz += viz
 
