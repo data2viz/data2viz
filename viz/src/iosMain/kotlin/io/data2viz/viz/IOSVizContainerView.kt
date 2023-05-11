@@ -17,71 +17,64 @@
 
 package io.data2viz.viz
 
-import io.data2viz.viz.cinterop.UIViewWithOverridesProtocol
 import io.data2viz.geom.Size
-import kotlinx.cinterop.*
-import platform.CoreGraphics.*
+import io.data2viz.viz.cinterop.UIViewWithOverridesProtocol
+import kotlinx.cinterop.CValue
+import kotlinx.cinterop.ExportObjCClass
+import kotlinx.cinterop.copy
+import kotlinx.cinterop.useContents
+import platform.CoreGraphics.CGRect
+import platform.CoreGraphics.CGRectMake
 import platform.UIKit.*
 
-
 @ExportObjCClass
-public class VizContainerView : UIView(frame = CGRectMake(.0, .0, .0, .0)), UIViewWithOverridesProtocol {
+public class VizContainerView(
+    frame: CValue<CGRect> = CGRectMake(.0, .0, .0, .0),
+    private val resizableSupport: ResizableSupport = ResizableSupport()
+) : UIView(
+    frame = frame,
+), UIViewWithOverridesProtocol {
 
-    internal val vizContainer:IosVizContainer = IosVizContainer().apply {
-        size = bounds.useContents { Size(this.size.width, this.size.height) }
-    }
+    public val container: VizContainer get() = _container
+    private val _container = object : VizContainer, Resizable by resizableSupport {
 
-    public val container: VizContainer get() = vizContainer
-
-    override fun layoutSubviews() {
-//        println("VizContainerView.layoutSubviews... " + this.bounds.toDescription())
-        vizContainer.size = bounds.useContents { Size(this.size.width, this.size.height) }
-        vizContainer.density = UIScreen.mainScreen.scale
-//        println(vizContainer.toString())
-
-        subviews.forEach {
-            val view = it as UIView
-            view.removeFromSuperview()
+        override fun newViz(init: Viz.() -> Unit): Viz = Viz().also {
+            it.size = size
+            it.init()
+            addSubview(IOSCanvasView(it, frame))
+            _vizList.add(it)
         }
 
-        vizContainer.vizList.forEach {
-            addSubview(IOSCanvasView(it, bounds))
+        override val vizList: List<Viz> get() = _vizList
+
+        private val _vizList = mutableListOf<Viz>()
+
+        override var size: Size = bounds.useContents { Size(this.size.width, this.size.height) }
+            set(value) {
+                setBounds(bounds.copy {
+                    size.width = value.width
+                    size.height = value.height
+                })
+                field = value
+                vizList.forEach { it.size = value }
+                resizableSupport.notifyNewSize(value)
+            }
+
+        override var density: Double = UIScreen.mainScreen.scale
+    }
+
+    override fun layoutSubviews() {
+        _container.size = bounds.useContents {
+            Size(this.size.width, this.size.height)
+        }
+        _container.density = UIScreen.mainScreen.scale
+
+        subviews.forEach {
+            val view = it as IOSCanvasView
+            view.setFrame(frame)
         }
         setNeedsDisplay()
     }
 
-    override fun drawRect(rect: CValue<CGRect>) {
-//        println("VizContainerView.drawRect...")
-    }
-}
-
-
-internal class IosVizContainer(
-    internal val resizableSupport: ResizableSupport = ResizableSupport()
-) : VizContainer, Resizable by resizableSupport {
-
-    override var size: Size = Size(100.0, 100.0)
-        set(value) {
-            field = value
-            vizList.forEach {
-                it.size = value
-            }
-            resizableSupport.notifyNewSize(value)
-        }
-
-
-    override var density: Double = 1.0
-
-    override var vizList = mutableListOf<Viz>()
-
-    override fun newViz(init: Viz.() -> Unit): Viz{
-        val viz = Viz().apply(init)
-        vizList.add(viz)
-        return viz
-    }
-
-    override fun toString(): String {
-        return "IosVizContainer(size=$size, density=$density)"
-    }
-
+    override fun drawRect(rect: CValue<CGRect>) {}
 }
