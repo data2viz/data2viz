@@ -68,7 +68,7 @@ internal actual fun clearInterval(handle:Any){
  * It's a technical class that shouldn't be use directly. It has to
  * be public in order to called by the iOS framework.
  */
-@ThreadLocal
+@ExportObjCClass
 public object FrameExecutor {
 
     private val selector = NSSelectorFromString("frame")
