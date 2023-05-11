@@ -43,7 +43,7 @@ public class PathGeom : Path {
     }
 
     override fun closePath() {
-        commands += ClosePath()
+        commands += ClosePath
     }
 
     override fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double) {
@@ -123,11 +123,9 @@ public data class ArcTo(
 ) :
     PathCommand
 
-public class ClosePath : PathCommand {
-    override val x: Double
-        get() = .0
-    override val y: Double
-        get() = .0
+public object ClosePath : PathCommand {
+    override val x: Double get() = .0
+    override val y: Double get() = .0
 }
 
 
@@ -159,7 +157,7 @@ public val PathGeom.svgPath: String
                     sb.append("L${cmd.x},${cmd.y}")
                 }
 
-                is ClosePath -> {
+                ClosePath -> {
                     if (tempX1 != null) {
                         tempX1 = tempX0
                         tempY1 = tempY0

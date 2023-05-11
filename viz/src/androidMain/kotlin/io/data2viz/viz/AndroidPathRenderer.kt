@@ -85,7 +85,7 @@ public fun PathNode.render(renderer: AndroidCanvasRenderer) {
                     arcTo(last.x, last.y, cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
                 }
                 is RectCmd -> path.addRect(cmd.x.dp, cmd.y.dp, (cmd.x + cmd.w).dp, (cmd.y + cmd.h).dp, android.graphics.Path.Direction.CW)
-                is ClosePath -> path.close()
+                ClosePath -> path.close()
                 is Arc -> {
                     val r = cmd.radius
 
@@ -110,7 +110,6 @@ public fun PathNode.render(renderer: AndroidCanvasRenderer) {
 
                     path.arcTo(rect, startAngle, sweepAngle)
                 }
-                else -> error("Unknown path command:: ${cmd::class}")
             }
         }
     }

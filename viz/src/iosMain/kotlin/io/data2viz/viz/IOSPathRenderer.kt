@@ -101,8 +101,7 @@ public fun PathNode.render(renderer: IOSCanvasRenderer) {
 					null,
 					CGRectMake(cmd.x, cmd.y, cmd.w, cmd.h)
 				)
-				is ClosePath -> CGPathCloseSubpath(path)
-				else -> error("Unknown path command:: ${cmd::class}")
+				ClosePath -> CGPathCloseSubpath(path)
 			}
 		}
 		CGContextAddPath(context, path)
