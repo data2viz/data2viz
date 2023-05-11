@@ -24,7 +24,6 @@ import platform.CoreGraphics.CGContextTranslateCTM
 internal fun GroupNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
         children.forEach { node ->
-
             if (node is HasTransform) {
                 node.transform?.transformations?.forEach {
                     when (it) {
@@ -43,7 +42,6 @@ internal fun GroupNode.render(renderer: IOSCanvasRenderer) {
 //                    paint.pathEffect = DashPathEffect(it.toFloat(), 0f)
 //                    dashedSet = true
 //                }
-
             }
 
             if (node.visible)
@@ -77,7 +75,6 @@ internal fun GroupNode.render(renderer: IOSCanvasRenderer) {
                     }
                 }
             }
-
         }
     }
 }

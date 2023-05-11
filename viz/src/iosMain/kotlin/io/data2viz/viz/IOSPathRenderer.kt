@@ -128,6 +128,5 @@ internal fun PathNode.render(renderer: IOSCanvasRenderer) {
 				else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
 			}
 		}
-
     }
 }
