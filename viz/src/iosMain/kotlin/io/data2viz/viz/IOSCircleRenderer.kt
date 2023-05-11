@@ -31,7 +31,7 @@ internal fun CircleNode.render(renderer: IOSCanvasRenderer) {
 
 		when(val fillColor = fill) {
 			is Color -> {
-				CGContextSetFillColor(context, (fillColor as Color).toColor()) //todo manage gradient
+				CGContextSetFillColor(context, fillColor.toColor())
 				CGContextFillEllipseInRect(context, rect)
 			}
 			is LinearGradient -> {
