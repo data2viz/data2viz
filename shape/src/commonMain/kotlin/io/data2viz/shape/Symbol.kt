@@ -51,7 +51,7 @@ public val Symbols.symbol: Symbol
         Symbols.Star -> Star()
         Symbols.Triangle -> Triangle()
         Symbols.Wye -> Wye()
-        else -> Circle()
+        Symbols.Circle -> Circle()
     }
 
 public fun <T> render(init: SymbolGenerator<T>.() -> Unit): SymbolGenerator<T> = SymbolGenerator<T>().apply(init)
