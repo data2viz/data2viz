@@ -20,7 +20,6 @@ package io.data2viz.viz
 import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RadialGradient
-import io.data2viz.viz.CircleNode
 import platform.CoreGraphics.*
 import platform.UIKit.UIBezierPath
 
