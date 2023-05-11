@@ -60,12 +60,6 @@ internal fun GroupNode.render(renderer: IOSCanvasRenderer) {
 //                paint.pathEffect = null
 //            }
 //
-            if (node is HasTransform) {
-                node.transform?.transformations?.forEach {
-                    when (it) {
-                    }
-                }
-            }
 
             if (node is HasTransform) {
                 node.transform?.transformations?.reversed()?.forEach {
