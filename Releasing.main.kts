@@ -165,6 +165,10 @@ fun checkVersionBumps(
     }
 }
 
+fun Vcs.existingVersionTags(tagPrefix: String) = getTags().filter {
+    it.startsWith(tagPrefix) && it.getOrElse(tagPrefix.length) { ' ' }.isDigit()
+}.toSet()
+
 fun askNewVersionInput(
     currentSnapshotVersion: String,
     tagPrefix: String
@@ -186,9 +190,7 @@ fun askNewVersionInput(
         "-dev-" in input -> error("Dev versions not allowed")
         "-SNAPSHOT" in input -> error("Snapshots not allowed")
     }
-    val existingVersionTags = git.getTags().filter {
-        it.startsWith(tagPrefix) && it.getOrElse(tagPrefix.length) { ' ' }.isDigit()
-    }.toSet()
+    val existingVersionTags = git.existingVersionTags(tagPrefix)
     check("$tagPrefix$input" !in existingVersionTags) {
         if (input == potentialTargetVersion) buildString {
             appendLine("This version already exists!")
@@ -378,10 +380,16 @@ fun CliUi.runReleaseStep(step: ReleaseStep): Unit = when (step) {
                 printInfo("Enter the name of the next target version (`-SNAPSHOT` will be added automatically)")
                 val input = readLine()
                 input.checkIsValidVersionString()
-                when (Version(input).stabilityLevel) {
+                val targetVersion = Version(input)
+                when (targetVersion.stabilityLevel) {
                     StabilityLevel.Stable -> Unit
                     else -> error("You need to enter a stable target version")
                 }
+                checkVersionBumps(
+                    newVersion = targetVersion,
+                    existingVersionTags = git.existingVersionTags(versionTagPrefix),
+                    tagPrefix = versionTagPrefix
+                )
                 "$input-SNAPSHOT"
             }
         } else OngoingRelease.versionBeforeRelease.let {
