@@ -17,27 +17,28 @@
 
 package io.data2viz.viz
 
-
 /**
  * Handle both horizontal and vertical alignments.
  */
-public data class TextAlign(val horizontal: TextHAlign, val vertical: TextVAlign)
-
+public data class TextAlign(
+    val horizontal: TextHAlign,
+    val vertical: TextVAlign
+)
 
 /**
  * Extension property to get and set all text alignments properties in one expression.
  */
-public var TextNode.textAlign:TextAlign
+public var TextNode.textAlign: TextAlign
     get() = textAlign(hAlign, vAlign)
     set(value) {
         hAlign = value.horizontal
         vAlign = value.vertical
     }
 
-
 /**
  * Extension function to facilitate the alignment setting in a TextNode
  */
-public fun TextNode.textAlign(horizontal: TextHAlign = TextHAlign.LEFT, vertical: TextVAlign = TextVAlign.BASELINE): TextAlign =
-    TextAlign(horizontal, vertical)
-
+public fun TextNode.textAlign(
+    horizontal: TextHAlign = TextHAlign.LEFT,
+    vertical: TextVAlign = TextVAlign.BASELINE
+): TextAlign = TextAlign(horizontal = horizontal, vertical = vertical)

@@ -20,19 +20,18 @@ package io.data2viz.viz
 import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
 import io.data2viz.color.RadialGradient
-import io.data2viz.viz.CircleNode
 import platform.CoreGraphics.*
 import platform.UIKit.UIBezierPath
 
 
-public fun CircleNode.render(renderer: IOSCanvasRenderer) {
+internal fun CircleNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
 
         val rect = CGRectMake(x - radius, y - radius, 2 * radius, 2 * radius)
 
 		when(val fillColor = fill) {
 			is Color -> {
-				CGContextSetFillColor(context, (fillColor as Color).toColor()) //todo manage gradient
+				CGContextSetFillColor(context, fillColor.toColor())
 				CGContextFillEllipseInRect(context, rect)
 			}
 			is LinearGradient -> {

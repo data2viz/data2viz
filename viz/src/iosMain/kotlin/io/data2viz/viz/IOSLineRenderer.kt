@@ -21,30 +21,26 @@ import io.data2viz.color.Color
 import io.data2viz.geom.*
 import platform.CoreGraphics.*
 
+internal fun LineNode.render(renderer: IOSCanvasRenderer): Unit = with(renderer) {
+    CGContextMoveToPoint(
+        context,
+        this@render.x1,
+        this@render.y1
+    )
+    CGContextAddLineToPoint(
+        context,
+        this@render.x2,
+        this@render.y2
+    )
 
-public fun LineNode.render(renderer: IOSCanvasRenderer) {
-	with(renderer) {
-		CGContextMoveToPoint(
-			context,
-			this@render.x1,
-			this@render.y1
-		)
-		CGContextAddLineToPoint(
-			context,
-			this@render.x2,
-			this@render.y2
-		)
-
-		if ((strokeColor != null) && (strokeWidth != null)) {
-			when (strokeColor) {
-				is Color -> {
-
-					CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
-					CGContextSetLineWidth(context, strokeWidth!!)
-					CGContextStrokePath(context)
-				}
-				else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
-			}
-		}
-	}
+    if ((strokeColor != null) && (strokeWidth != null)) {
+        when (strokeColor) {
+            is Color -> {
+                CGContextSetStrokeColor(context, (strokeColor as Color).toColor())
+                CGContextSetLineWidth(context, strokeWidth!!)
+                CGContextStrokePath(context)
+            }
+            else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
+        }
+    }
 }

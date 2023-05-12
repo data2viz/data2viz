@@ -21,10 +21,10 @@ import android.view.Choreographer
 import java.util.concurrent.TimeUnit
 
 
-internal val choreographer:Choreographer by lazy { Choreographer.getInstance() }
+private val choreographer: Choreographer by lazy { Choreographer.getInstance() }
 
 internal actual fun setTimeout(handler: () -> Unit, timeout: Int): Any {
-    val callback = Choreographer.FrameCallback {handler()}
+    val callback = Choreographer.FrameCallback { handler() }
     choreographer.postFrameCallbackDelayed(callback, timeout.toLong())
     return callback
 }
@@ -39,7 +39,10 @@ internal actual fun setInterval(handler: () -> Unit, interval: Int): Any {
     return callback
 }
 
-internal class IntervalCallBack(var delay: Int, val block: () -> Unit): Choreographer.FrameCallback {
+private class IntervalCallBack(
+    var delay: Int,
+    val block: () -> Unit
+): Choreographer.FrameCallback {
     override fun doFrame(p0: Long) {
         block()
         intervalWithCB(this, delay)

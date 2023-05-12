@@ -25,7 +25,7 @@ import platform.CoreGraphics.*
 import platform.UIKit.UIBezierPath
 
 
-public fun RectNode.render(renderer: IOSCanvasRenderer) {
+internal fun RectNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
 
         val rect = CGRectMake(x, y, width, height)

@@ -17,20 +17,13 @@
 
 package io.data2viz.viz
 
-import io.data2viz.viz.*
-import platform.CoreGraphics.*
-import kotlin.math.*
+import platform.CoreGraphics.CGContextRotateCTM
+import platform.CoreGraphics.CGContextSetLineWidth
+import platform.CoreGraphics.CGContextTranslateCTM
 
-
-private fun DoubleArray.toFloat(): FloatArray = FloatArray(size) { this[it].toFloat()}
-
-public fun GroupNode.render(renderer: IOSCanvasRenderer) {
-
-//    val canvas = renderer.canvas
-
+internal fun GroupNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
         children.forEach { node ->
-
             if (node is HasTransform) {
                 node.transform?.transformations?.forEach {
                     when (it) {
@@ -49,7 +42,6 @@ public fun GroupNode.render(renderer: IOSCanvasRenderer) {
 //                    paint.pathEffect = DashPathEffect(it.toFloat(), 0f)
 //                    dashedSet = true
 //                }
-
             }
 
             if (node.visible)
@@ -68,12 +60,6 @@ public fun GroupNode.render(renderer: IOSCanvasRenderer) {
 //                paint.pathEffect = null
 //            }
 //
-            if (node is HasTransform) {
-                node.transform?.transformations?.forEach {
-                    when (it) {
-                    }
-                }
-            }
 
             if (node is HasTransform) {
                 node.transform?.transformations?.reversed()?.forEach {
@@ -83,7 +69,6 @@ public fun GroupNode.render(renderer: IOSCanvasRenderer) {
                     }
                 }
             }
-
         }
     }
 }

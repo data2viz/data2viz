@@ -48,61 +48,56 @@ import platform.CoreGraphics.CGPathMoveToPoint
 import platform.CoreGraphics.CGRectMake
 import platform.UIKit.UIBezierPath
 
-
-public fun PathNode.render(renderer: IOSCanvasRenderer) {
+internal fun PathNode.render(renderer: IOSCanvasRenderer) {
     with(renderer) {
-
-
 		val path: CPointer<CGPath>? = CGPathCreateMutable()
-
 		this@render.path.commands.forEachIndexed { index, cmd ->
 			when (cmd) {
-				is MoveTo -> CGPathMoveToPoint(path, null, cmd.x, cmd.y)
-				is LineTo -> CGPathAddLineToPoint(path, null, cmd.x, cmd.y)
+				is MoveTo -> CGPathMoveToPoint(path = path, m = null, x = cmd.x, y = cmd.y)
+				is LineTo -> CGPathAddLineToPoint(path = path, m = null, x = cmd.x, y = cmd.y)
 				is QuadraticCurveTo -> CGPathAddQuadCurveToPoint(
-					path,
-					null,
-					cmd.cpx,
-					cmd.cpy,
-					cmd.x,
-					cmd.y
+                    path = path,
+                    m = null,
+                    cpx = cmd.cpx,
+                    cpy = cmd.cpy,
+                    x = cmd.x,
+                    y = cmd.y
 				)
 				is BezierCurveTo -> CGPathAddCurveToPoint(
-					path,
-					null,
-					cmd.cpx1,
-					cmd.cpy1,
-					cmd.cpx2,
-					cmd.cpy2,
-					cmd.x,
-					cmd.y
+                    path = path,
+                    m = null,
+                    cp1x = cmd.cpx1,
+                    cp1y = cmd.cpy1,
+                    cp2x = cmd.cpx2,
+                    cp2y = cmd.cpy2,
+                    x = cmd.x,
+                    y = cmd.y
 				)
 				is ArcTo -> CGPathAddArcToPoint(
-					path,
-					null,
-					cmd.fromX,
-					cmd.fromY,
-					cmd.x,
-					cmd.y,
-					cmd.radius
+                    path = path,
+                    m = null,
+                    x1 = cmd.fromX,
+                    y1 = cmd.fromY,
+                    x2 = cmd.x,
+                    y2 = cmd.y,
+                    radius = cmd.radius
 				)
 				is Arc -> CGPathAddArc(
-					path,
-					null,
-					cmd.centerX,
-					cmd.centerY,
-					cmd.radius,
-					cmd.startAngle,
-					cmd.endAngle,
-					cmd.counterClockWise.not()
-				)
+                    path = path,
+                    m = null,
+                    x = cmd.centerX,
+                    y = cmd.centerY,
+                    radius = cmd.radius,
+                    startAngle = cmd.startAngle,
+                    endAngle = cmd.endAngle,
+                    clockwise = cmd.counterClockWise.not()
+                )
 				is RectCmd -> CGPathAddRect(
-					path,
-					null,
-					CGRectMake(cmd.x, cmd.y, cmd.w, cmd.h)
+                    path = path,
+                    m = null,
+                    rect = CGRectMake(cmd.x, cmd.y, cmd.w, cmd.h)
 				)
-				is ClosePath -> CGPathCloseSubpath(path)
-				else -> error("Unknown path command:: ${cmd::class}")
+				ClosePath -> CGPathCloseSubpath(path)
 			}
 		}
 		CGContextAddPath(context, path)
@@ -133,6 +128,5 @@ public fun PathNode.render(renderer: IOSCanvasRenderer) {
 				else -> error("Only true color is accepted for strokeColor attribute (not gradient)")
 			}
 		}
-
     }
 }

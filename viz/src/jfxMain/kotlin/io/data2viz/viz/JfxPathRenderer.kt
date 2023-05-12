@@ -34,9 +34,8 @@ public fun PathNode.render(gc: GraphicsContext) {
             is BezierCurveTo -> gc.bezierCurveTo(cmd.cpx1, cmd.cpy1, cmd.cpx2, cmd.cpy2, cmd.x, cmd.y)
             is Arc -> gc.arc(cmd.centerX, cmd.centerY, cmd.radius, cmd.radius, cmd.start, cmd.length)
             is ArcTo -> gc.arcTo(cmd.fromX, cmd.fromY, cmd.x, cmd.y, cmd.radius)
-            is ClosePath -> gc.closePath()
+            ClosePath -> gc.closePath()
             is RectCmd -> gc.rect(cmd.x, cmd.y, cmd.w, cmd.h)
-            else -> error("Unknown canvas command: ${cmd::class}")
         }
     }
 

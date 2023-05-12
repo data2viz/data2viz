@@ -43,7 +43,7 @@ public class PathGeom : Path {
     }
 
     override fun closePath() {
-        commands += ClosePath()
+        commands += ClosePath
     }
 
     override fun quadraticCurveTo(cpx: Double, cpy: Double, x: Double, y: Double) {
@@ -68,7 +68,14 @@ public class PathGeom : Path {
         counterClockWise: Boolean
     ) {
         require(radius >= .0) { "Negative radius:$radius" }
-        commands += Arc(centerX, centerY, radius, startAngle, endAngle, counterClockWise)
+        commands += Arc(
+            centerX = centerX,
+            centerY = centerY,
+            radius = radius,
+            startAngle = startAngle,
+            endAngle = endAngle,
+            counterClockWise = counterClockWise
+        )
     }
 
     override fun rect(x: Double, y: Double, w: Double, h: Double) {
@@ -84,11 +91,29 @@ public sealed interface PathCommand {
     public val y: Double
 }
 
-public data class MoveTo(override val x: Double, override val y: Double) : PathCommand
-public data class LineTo(override val x: Double, override val y: Double) : PathCommand
-public data class RectCmd(override val x: Double, override val y: Double, val w: Double, val h: Double) : PathCommand
-public data class QuadraticCurveTo(val cpx: Double, val cpy: Double, override val x: Double, override val y: Double) :
-    PathCommand
+public data class MoveTo(
+    override val x: Double,
+    override val y: Double
+) : PathCommand
+
+public data class LineTo(
+    override val x: Double,
+    override val y: Double
+) : PathCommand
+
+public data class RectCmd(
+    override val x: Double,
+    override val y: Double,
+    val w: Double,
+    val h: Double
+) : PathCommand
+
+public data class QuadraticCurveTo(
+    val cpx: Double,
+    val cpy: Double,
+    override val x: Double,
+    override val y: Double
+) : PathCommand
 
 public data class BezierCurveTo(
     val cpx1: Double,
@@ -97,8 +122,7 @@ public data class BezierCurveTo(
     val cpy2: Double,
     override val x: Double,
     override val y: Double
-) :
-    PathCommand
+) : PathCommand
 
 public data class Arc(
     val centerX: Double,
@@ -120,14 +144,11 @@ public data class ArcTo(
     override val x: Double,
     override val y: Double,
     val radius: Double
-) :
-    PathCommand
+) : PathCommand
 
-public class ClosePath : PathCommand {
-    override val x: Double
-        get() = .0
-    override val y: Double
-        get() = .0
+public object ClosePath : PathCommand {
+    override val x: Double get() = .0
+    override val y: Double get() = .0
 }
 
 
@@ -159,7 +180,7 @@ public val PathGeom.svgPath: String
                     sb.append("L${cmd.x},${cmd.y}")
                 }
 
-                is ClosePath -> {
+                ClosePath -> {
                     if (tempX1 != null) {
                         tempX1 = tempX0
                         tempY1 = tempY0

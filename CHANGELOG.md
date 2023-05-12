@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.4
+> Published 12 May 2023
+* Fix drawing of `Symbols.Circle` on iOS.
+* Fix crash when releasing fingers on iOS.
+* Fix sizing of VizContainerView on iOS.
+* Optimize resize (e.g. when rotating the device) by reusing internal UIViews.
+* Ensure calls implying the renderer like `startAnimations()` work immediately after `newViz` completes on iOS.
+
 ## 0.10.3
 > Published 05 May 2023
 * Fix `HeadlessVizContainer` to apply its size to child `Viz` objects created with `newViz`. 

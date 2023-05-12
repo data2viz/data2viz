@@ -40,7 +40,21 @@ public class Circle : Symbol {
     override fun <C : Path> renderRadius(path: C, radius: Double, position: Point): C {
         with(path) {
             moveTo(position.x + radius, position.y)
-            arc(position.x, position.y, radius, .0, tau)
+            arc(
+                centerX = position.x,
+                centerY = position.y,
+                radius = radius,
+                startAngle = .0,
+                endAngle = pi
+            )
+            arc(
+                centerX = position.x,
+                centerY = position.y,
+                radius = radius,
+                startAngle = pi,
+                endAngle = tau
+            )
+            closePath()
         }
         return path
     }

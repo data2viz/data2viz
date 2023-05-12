@@ -34,8 +34,7 @@ import io.data2viz.timer.Timer
 public open class VizContainerView(
     context: Context,
     private val resizableSupport: ResizableSupport = ResizableSupport()
-)
-    : View(context),
+) : View(context),
     VizContainer,
     Resizable by resizableSupport {
 
@@ -46,16 +45,16 @@ public open class VizContainerView(
     private val allViz = mutableListOf<Viz>()
     private val renderers = mutableListOf<AndroidCanvasRenderer>()
 
-    public override val density: Double= context.resources.displayMetrics.density.toDouble()
+    public override val density: Double = context.resources.displayMetrics.density.toDouble()
 
     init {
         io.data2viz.viz.density = density.toFloat()
     }
 
     override fun newViz(init: Viz.() -> Unit): Viz {
-        val viz = Viz().apply {
-            size = size(this@VizContainerView.size.width, this@VizContainerView.size.height)
-            init()
+        val viz = Viz().also {
+            it.size = size
+            it.init()
         }
         allViz += viz
 
