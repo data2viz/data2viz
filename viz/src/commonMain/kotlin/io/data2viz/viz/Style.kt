@@ -77,84 +77,71 @@ internal class StyleImpl: Style {
 }
 
 public class HierarchicalStyle(
-    public var parent:Style?): Style {
-    private var style:Style? = null
+    public var parent: Style?
+): Style {
+    private val style: Style = StyleImpl()
 
     private var fillSet = false
     override var fill: ColorOrGradient?
-        get() = if (fillSet) style!!.fill else parent?.fill
+        get() = if (fillSet) style.fill else parent?.fill
         set(value) {
-            if (style == null)
-                style = StyleImpl()
             fillSet = true
-            style?.fill = value
+            style.fill = value
         }
 
     private var dashedLineSet = false
     override var dashedLine: DoubleArray?
         get() =
             if (dashedLineSet)
-                style!!.dashedLine
+                style.dashedLine
             else
                 parent?.dashedLine
 
         set(value) {
-            if (style == null)
-                style = StyleImpl()
             dashedLineSet = true
-            style?.dashedLine = value
+            style.dashedLine = value
         }
 
     private var strokeSet = false
 
     @Deprecated("Use strokeColor instead.", ReplaceWith("strokeColor"))
     override var stroke: ColorOrGradient?
-        get() = if (strokeSet) style!!.strokeColor else parent?.strokeColor
+        get() = if (strokeSet) style.strokeColor else parent?.strokeColor
         set(value) {
-            if (style == null)
-                style = StyleImpl()
             strokeSet = true
-            style?.strokeColor = value
+            style.strokeColor = value
         }
 
     override var strokeColor: ColorOrGradient?
-        get() = if (strokeSet) style!!.strokeColor else parent?.strokeColor
+        get() = if (strokeSet) style.strokeColor else parent?.strokeColor
         set(value) {
-            if (style == null)
-                style = StyleImpl()
             strokeSet = true
-            style?.strokeColor = value
+            style.strokeColor = value
         }
 
     private var strokeWidthSet = false
     override var strokeWidth: Double?
-        get() = if (strokeWidthSet) style?.strokeWidth else parent?.strokeWidth
+        get() = if (strokeWidthSet) style.strokeWidth else parent?.strokeWidth
         set(value) {
-            if (style == null)
-                style = StyleImpl()
             strokeWidthSet = true
-            style?.strokeWidth = value
+            style.strokeWidth = value
         }
 
     private var textColorSet = false
     override var textColor: ColorOrGradient?
-        get() = if (textColorSet) style?.textColor else parent?.textColor
+        get() = if (textColorSet) style.textColor else parent?.textColor
         set(value) {
-            if (style == null)
-                style = StyleImpl()
             textColorSet = true
-            style?.textColor = value
+            style.textColor = value
         }
 
 
     private var hAlignSet = false
     override var hAlign: TextHAlign
-        get() = if (hAlignSet) style?.hAlign!! else parent?.hAlign!!
+        get() = if (hAlignSet) style.hAlign else parent?.hAlign!!
         set(value) {
-            if (style == null)
-                style = StyleImpl()
             hAlignSet = true
-            style?.hAlign = value
+            style.hAlign = value
         }
     @Deprecated("Use hAlign", replaceWith = ReplaceWith("hAlign"))
     override var anchor: TextHAlign
@@ -165,12 +152,10 @@ public class HierarchicalStyle(
 
     private var vAlignSet = false
     override var vAlign: TextVAlign
-        get() = if (vAlignSet) style?.vAlign!! else parent?.vAlign!!
+        get() = if (vAlignSet) style.vAlign else parent?.vAlign!!
         set(value) {
-            if (style == null)
-                style = StyleImpl()
             vAlignSet = true
-            style?.vAlign = value
+            style.vAlign = value
         }
     @Deprecated("Use vAlign", ReplaceWith("vAlign"))
     override var baseline: TextVAlign
