@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.5
+> Published 14 June 2023
+* Don't require consumer projects to `export` the timer module on iOS.
+* Enable back multitouch gestures on Android.
+* Fix potential NullPointerException in `HierarchicalStyle`.
+
 ## 0.10.4
 > Published 12 May 2023
 * Fix drawing of `Symbols.Circle` on iOS.
