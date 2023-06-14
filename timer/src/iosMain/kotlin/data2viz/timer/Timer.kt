@@ -3,6 +3,7 @@ package io.data2viz.timer
 import kotlinx.cinterop.*
 import platform.Foundation.*
 import platform.QuartzCore.CADisplayLink
+import platform.darwin.NSObject
 import kotlin.native.concurrent.ThreadLocal
 
 /*
@@ -73,8 +74,7 @@ internal actual fun clearInterval(handle:Any) {
  * It's a technical class that shouldn't be use directly. It has to
  * be public in order to called by the iOS framework.
  */
-@ExportObjCClass
-public object FrameExecutor {
+public class FrameExecutor internal constructor() : NSObject() {
 
     private val selector = NSSelectorFromString("frame")
     private val displayLink = CADisplayLink.displayLinkWithTarget(this, selector)
@@ -104,11 +104,13 @@ public object FrameExecutor {
 
 }
 
+private val frameExecutor = FrameExecutor()
+
 /**
  * Used to call clearNow() and wake()
  */
 internal actual fun callInNextFrame(block: () -> Unit) {
-    FrameExecutor.callInNextFrame(block)
+    frameExecutor.callInNextFrame(block)
 }
 
 
