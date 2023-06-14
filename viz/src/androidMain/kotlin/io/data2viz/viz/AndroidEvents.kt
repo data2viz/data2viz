@@ -192,12 +192,9 @@ private fun addSingleTouchAndroidEventHandle(
     val handler = object : VizTouchListener {
         override fun onTouchEvent(view: View, event: MotionEvent): EventPropagation {
 
-            // Simple events only for single touch
-            if (event.pointerCount == 1) {
-                if (event.action == action) {
-                    val kevent = event.toKPointerEvent(type)
-                    return listener(kevent)
-                }
+            if (event.action == action) {
+                val kevent = event.toKPointerEvent(type)
+                return listener(kevent)
             }
 
             return EventPropagation.Continue

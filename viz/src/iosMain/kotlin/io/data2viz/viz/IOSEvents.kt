@@ -136,7 +136,6 @@ internal class UITouchesHandler(private val view: IOSCanvasView) {
 
 
     fun touchesEnded(touches: Set<UITouch>, withEvent: UIEvent?) {
-
         val touchEvent = pointerEvent(EventType.Up, touches, withEvent)
         notifyListeners(touchEvent)
         val pointers = touches.map {
@@ -147,7 +146,6 @@ internal class UITouchesHandler(private val view: IOSCanvasView) {
     }
 
     fun touchesCancelled(touches: Set<UITouch>, withEvent: UIEvent?) {
-
         val touchEvent = pointerEvent(EventType.Cancel, touches, withEvent)
         notifyListeners(touchEvent)
         val pointers = touches.map {
