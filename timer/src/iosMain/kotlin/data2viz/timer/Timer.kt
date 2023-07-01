@@ -64,7 +64,7 @@ internal actual fun setInterval(
 /**
  * remove the potential `updateSkew` task
  */
-internal actual fun clearInterval(handle:Any) {
+internal actual fun clearInterval(handle: Any) {
     val timer = handle as NSTimer
     timer.invalidate()
 }
@@ -83,7 +83,7 @@ public class FrameExecutor internal constructor() : NSObject() {
 
     internal fun callInNextFrame(block: () -> Unit) {
         if (blocks.isEmpty()) {
-            displayLink.addToRunLoop(NSRunLoop.currentRunLoop, NSRunLoop.currentRunLoop.currentMode)
+            displayLink.addToRunLoop(NSRunLoop.mainRunLoop, NSRunLoopCommonModes)
         }
         blocks.add(block)
     }
@@ -95,7 +95,7 @@ public class FrameExecutor internal constructor() : NSObject() {
     public fun frame() {
         val currBlocks = blocks.toTypedArray()
         blocks.clear()
-        displayLink.removeFromRunLoop(NSRunLoop.currentRunLoop, NSRunLoop.currentRunLoop.currentMode)
+        displayLink.removeFromRunLoop(NSRunLoop.mainRunLoop, NSRunLoopCommonModes)
         currBlocks.forEach {
             it()
         }
