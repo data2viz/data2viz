@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.6
+> Published 1 July 2023
+* Fix crash when resizing the window within an iPad app running on macOS
+* Update JS dependencies
+
 ## 0.10.5
 > Published 14 June 2023
 * Don't require consumer projects to `export` the timer module on iOS.
