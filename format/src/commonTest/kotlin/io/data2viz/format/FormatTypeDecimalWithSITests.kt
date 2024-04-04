@@ -172,6 +172,10 @@ class FormatTypeDecimalWithSITests : TestBase() {
         f(1e+4) shouldBe "10k"
         f(1e+5) shouldBe "100k"
 
+        f(100000.0) shouldBe "100k"
+        f(200000.0) shouldBe "200k"
+        f(255000.0) shouldBe "300k"
+
         f = formatter(Type.DECIMAL_WITH_SI, precision = 4)
         f(1e-5) shouldBe "10.00µ"
         f(1e-4) shouldBe "100.0µ"
@@ -197,5 +201,21 @@ class FormatTypeDecimalWithSITests : TestBase() {
         f(42e30) shouldBe "42,000,000Y"
     }
 
+
+    @Test fun format_precision_round_with_computed_precision () {
+        var p = precisionRound(0.01, 1.01)
+        var f = formatter(".${p}r")
+        f(0.99)     shouldBe "0.990"
+        f(1.0)      shouldBe "1.00"
+        f(1.01)     shouldBe "1.01"
+
+        p = precisionRound(500000.0, 40e6)
+        f = formatter(".${p}s")
+        f(56e9)     shouldBe "56.0G"
+        f(40e6)     shouldBe "40.0M"
+        f(2.5e6)    shouldBe "2.50M"
+        f(0.5e6)    shouldBe "500k"
+        //f(.0)       shouldBe "0"
+    }
 
 }
