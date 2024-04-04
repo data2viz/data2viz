@@ -51,7 +51,7 @@ public fun Locale.formatter(
     precision: Int? = null
 ): (Double) -> String = formatter(specify(type, fill, align, sign, symbol, zero, width, groupSeparation, precision))
 
-private fun Locale.formatter( spec: FormatSpec): (Double) -> String {
+private fun Locale.formatter(spec: FormatSpec): (Double) -> String {
 
     val width = spec.width
 
