@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.10.6
+## 0.10.7
+> Published 10 April 2024
+* Rework the Sankey algorithm based on D3 improvements
+
+* ## 0.10.6
 > Published 1 July 2023
 * Fix crash when resizing the window within an iPad app running on macOS
 * Update JS dependencies
