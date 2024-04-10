@@ -206,31 +206,6 @@ public class SankeyLayout<D> {
     private val ascendingTargetComparator = compareBy<SankeyLink<D>>({ it.target.y0 }, { it.index })
     private val ascendingSourceComparator = compareBy<SankeyLink<D>>({ it.source.y0 }, { it.index })
 
-    private var defaultAscendingNodeComparator: Comparator<SankeyNode<D>> = compareBy { it.y0 }
-
-//    /**
-//     * Default layout sort method for nodes
-//     */
-//    private var ascendingBreadth: (SankeyNode<D>, SankeyNode<D>) -> Double = { node1, node2 ->
-//        node1.y0 - node2.y0
-//    }
-//
-//    /**
-//     * Default ascending sort based on link target
-//     */
-//    private var ascendingTargetBreadth: (SankeyLink<D>, SankeyLink<D>) -> Double = { link1, link2 ->
-//        val d = ascendingBreadth(link1.target, link2.target)
-//        if (d == .0) (link1.index - link2.index).toDouble() else d
-//    }
-//
-//    /**
-//     * Default ascending sort based on link source
-//     */
-//    private var ascendingSourceBreadth: (SankeyLink<D>, SankeyLink<D>) -> Double = { link1, link2 ->
-//        val d = ascendingBreadth(link1.source, link2.source)
-//        if (d == .0) (link1.index - link2.index).toDouble() else d
-//    }
-
     public val nodes: MutableList<SankeyNode<D>> = mutableListOf()
     public val links: MutableList<SankeyLink<D>> = mutableListOf()
 
@@ -284,7 +259,7 @@ public class SankeyLayout<D> {
             }
             nodeDepth++
 
-            // TODO
+            // TODO manage circular links
             //if (++x > n) throw new Error("circular link");
 
             current = next.toList()
@@ -308,7 +283,7 @@ public class SankeyLayout<D> {
             }
             nodeHeight++
 
-            // TODO
+            // TODO manage circular links
             // if (++x > n) throw new Error("circular link");
 
             current = next.toList()
@@ -331,28 +306,6 @@ public class SankeyLayout<D> {
             node.layer = x
         }
     }
-
-//    function relaxLeftToRight(columns, alpha, beta) {
-//        for (let i = 1, n = columns.length; i < n; ++i) {
-//            const column = columns[i];
-//            for (const target of column) {
-//            let y = 0;
-//            let w = 0;
-//            for (const {source, value} of target.targetLinks) {
-//            let v = value * (target.layer - source.layer);
-//            y += targetTop(source, target) * v;
-//            w += v;
-//        }
-//            if (!(w > 0)) continue;
-//            let dy = (y / w - target.y0) * alpha;
-//            target.y0 += dy;
-//            target.y1 += dy;
-//            reorderNodeLinks(target);
-//        }
-//            if (sort === undefined) column.sort(ascendingBreadth);
-//            resolveCollisions(column, beta);
-//        }
-//    }
 
     private fun relaxLeftToRight(columns: Map<Int, List<SankeyNode<D>>>, alpha: Double, beta: Double) {
         columns.keys.forEach { nodeKey ->
@@ -381,26 +334,6 @@ public class SankeyLayout<D> {
         }
     }
 
-//    for (let n = columns.length, i = n - 2; i >= 0; --i) {
-//        const column = columns[i];
-//        for (const source of column) {
-//            let y = 0;
-//            let w = 0;
-//            for (const {target, value} of source.sourceLinks) {
-    //            let v = value * (target.layer - source.layer);
-    //            y += sourceTop(source, target) * v;
-    //            w += v;
-    //        }
-//            if (!(w > 0)) continue;
-//            let dy = (y / w - source.y0) * alpha;
-//            source.y0 += dy;
-//            source.y1 += dy;
-//            reorderNodeLinks(source);
-//        }
-//        if (sort === undefined) column.sort(ascendingBreadth);
-//        resolveCollisions(column, beta);
-//    }
-
     private fun relaxRightToLeft(columns: Map<Int, List<SankeyNode<D>>>, alpha: Double, beta: Double) {
         val max = columns.keys.max()
         columns.keys.reversed().forEach { nodeKey ->
@@ -421,12 +354,6 @@ public class SankeyLayout<D> {
                             node.y1 += dy
                             reorderNodeLinks(node)
                         }
-//                    val sum1 = node.sourceLinks.sumOf(::weightedTarget)
-//                    val sum2 = node.sourceLinks.sumOf { it.value }
-//                    val nodeCenter = nodeCenter(node)
-//                    val dy = (sum1 / sum2 - nodeCenter) * alpha
-//                    node.y0 += dy
-//                    node.y1 += dy
                     }
                 }
                 //column = column?.sortedWith(defaultAscendingNodeComparator)
@@ -435,16 +362,6 @@ public class SankeyLayout<D> {
         }
     }
 
-//    function reorderNodeLinks({sourceLinks, targetLinks}) {
-//        if (linkSort === undefined) {
-//            for (const {source: {sourceLinks}} of targetLinks) {
-//                sourceLinks.sort(ascendingTargetBreadth);
-//            }
-//            for (const {target: {targetLinks}} of sourceLinks) {
-//                targetLinks.sort(ascendingSourceBreadth);
-//            }
-//        }
-//    }
     private fun reorderNodeLinks(node: SankeyNode<D>) {
         node.targetLinks.forEach { link ->
             link.source.sourceLinks.sortWith(ascendingTargetComparator)
@@ -485,18 +402,6 @@ public class SankeyLayout<D> {
         }
         return y
     }
-
-//    private fun weightedTarget(link: SankeyLink<D>): Double {
-//        return nodeCenter(link.target) * link.value
-//    }
-
-//    private fun weightedSource(link: SankeyLink<D>): Double {
-//        return nodeCenter(link.source) * link.value
-//    }
-
-//    private fun nodeCenter(node: SankeyNode<D>): Double {
-//        return (node.y0 + node.y1) / 2.0
-//    }
 
     private fun resolveCollisions(column: List<SankeyNode<D>>, beta: Double) {
         val index = column.size.shr(1)
@@ -548,6 +453,8 @@ public class SankeyLayout<D> {
         (1..iterations).forEach {
             alpha *= 0.9999
             val beta = max(1.0 - alpha, (it + 1.0) / iterations)
+
+            // TODO re-activate relaxing and collisions management
             //relaxRightToLeft(columns, alpha, beta)
             //resolveCollisions(columns, beta)
             //relaxLeftToRight(columns, alpha, beta)
@@ -565,22 +472,7 @@ public class SankeyLayout<D> {
                 )
             }.sortedBy { it.first }
         }
-
-//        columns.forEach { (nodeKey, nodeList) ->
-//            val columnTargets = nodeList.map { it.sourceLinks.map { it.target } }.flatten().toSet()
-//            nodeList.toMutableList().sor
-//        }
     }
-
-//    private fun resolveCollisions(columns: Map<Int, List<SankeyNode<D>>>, beta: Double) {
-//        columns.forEach { (currentIndex, currentColumn) ->
-//            val nextColumn = columns.get(currentIndex + 1)
-//            if (nextColumn == null) return
-//            currentColumn.forEach {
-//
-//            }
-//        }
-//    }
 
     private fun initializeNodeBreadth(columns: Map<Int, List<SankeyNode<D>>>) {
 
@@ -651,27 +543,6 @@ public class SankeyLayout<D> {
                 }
             }
         }
-
-//        for (const [i, node] of nodes.entries()) {
-//            node.index = i;
-//            node.sourceLinks = [];
-//            node.targetLinks = [];
-//        }
-//        const nodeById = new Map(nodes.map((d, i) => [id(d, i, nodes), d]));
-//        for (const [i, link] of links.entries()) {
-//            link.index = i;
-//            let {source, target} = link;
-//            if (typeof source !== "object") source = link.source = find(nodeById, source);
-//            if (typeof target !== "object") target = link.target = find(nodeById, target);
-//            source.sourceLinks.push(link);
-//            target.targetLinks.push(link);
-//        }
-//        if (linkSort != null) {
-//            for (const {sourceLinks, targetLinks} of nodes) {
-//                sourceLinks.sort(linkSort);
-//                targetLinks.sort(linkSort);
-//            }
-//        }
     }
 
     ///// ALIGNMENTS
