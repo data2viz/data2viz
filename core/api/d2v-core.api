@@ -94,7 +94,7 @@ public final class io/data2viz/geom/CircleGeom : io/data2viz/geom/Circle {
 }
 
 public final class io/data2viz/geom/ClosePath : io/data2viz/geom/PathCommand {
-	public fun <init> ()V
+	public static final field INSTANCE Lio/data2viz/geom/ClosePath;
 	public fun getX ()D
 	public fun getY ()D
 }
