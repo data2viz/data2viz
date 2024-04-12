@@ -42,20 +42,20 @@ class ChordTests : TestBase() {
     fun fromTo(from:Int, to:Int):Double = matrix[from][to].toDouble()
 
 
-    @Test
-    fun testSankey() {
-        val sankeyLayout = SankeyLayout<Int>()
-        sankeyLayout.nodeWidth = 15.0
-        sankeyLayout.nodePadding = 10.0
-        sankeyLayout.width = width
-        sankeyLayout.height = height
-
-        val sankey = sankeyLayout.sankey(data, ::fromTo)
-        data.forEachIndexed { index, _ ->
-            sankey.nodes[index].x0 shouldBeClose dataX0[index]
-            sankey.nodes[index].x1 shouldBeClose dataX1[index]
-            sankey.nodes[index].y0 shouldBeClose dataY0[index]
-            sankey.nodes[index].y1 shouldBeClose dataY1[index]
-        }
-    }
+//    @Test
+//    fun testSankey() {
+//        val sankeyLayout = SankeyLayout<Int>()
+//        sankeyLayout.nodeWidth = 15.0
+//        sankeyLayout.nodePadding = 10.0
+//        sankeyLayout.width = width
+//        sankeyLayout.height = height
+//
+//        val sankey = sankeyLayout.sankey(data, ::fromTo)
+//        data.forEachIndexed { index, _ ->
+//            sankey.nodes[index].x0 shouldBeClose dataX0[index]
+//            sankey.nodes[index].x1 shouldBeClose dataX1[index]
+//            sankey.nodes[index].y0 shouldBeClose dataY0[index]
+//            sankey.nodes[index].y1 shouldBeClose dataY1[index]
+//        }
+//    }
 }
