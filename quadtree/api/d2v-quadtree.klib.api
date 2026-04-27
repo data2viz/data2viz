@@ -1,5 +1,5 @@
 // Klib ABI Dump
-// Targets: [js]
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
 // Rendering settings:
 // - Signature version: 2
 // - Show manifest properties: true
@@ -116,4 +116,6 @@ final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quad
 final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/visitAfter(kotlin/Function5<io.data2viz.quadtree/QuadtreeNode<#A>, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Unit>) // io.data2viz.quadtree/visitAfter|visitAfter@io.data2viz.quadtree.Quadtree<0:0>(kotlin.Function5<io.data2viz.quadtree.QuadtreeNode<0:0>,kotlin.Double,kotlin.Double,kotlin.Double,kotlin.Double,kotlin.Unit>){0§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?> io.data2viz.quadtree/quadtree(kotlin/Function1<#A, kotlin/Double>, kotlin/Function1<#A, kotlin/Double>): io.data2viz.quadtree/Quadtree<#A> // io.data2viz.quadtree/quadtree|quadtree(kotlin.Function1<0:0,kotlin.Double>;kotlin.Function1<0:0,kotlin.Double>){0§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?> io.data2viz.quadtree/quadtree(kotlin/Function1<#A, kotlin/Double>, kotlin/Function1<#A, kotlin/Double>, kotlin.collections/List<#A>): io.data2viz.quadtree/Quadtree<#A> // io.data2viz.quadtree/quadtree|quadtree(kotlin.Function1<0:0,kotlin.Double>;kotlin.Function1<0:0,kotlin.Double>;kotlin.collections.List<0:0>){0§<kotlin.Any?>}[0]
+
+// Targets: [js]
 final fun io.data2viz.quadtree/quadtree(kotlin/Array<kotlin/Array<kotlin/Double>>): io.data2viz.quadtree/Quadtree<kotlin/Array<kotlin/Double>> // io.data2viz.quadtree/quadtree|quadtree(kotlin.Array<kotlin.Array<kotlin.Double>>){}[0]

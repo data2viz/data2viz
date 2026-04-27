@@ -1,5 +1,6 @@
 // Klib ABI Dump
-// Targets: [js]
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Alias: ios => [iosArm64, iosSimulatorArm64, iosX64]
 // Rendering settings:
 // - Signature version: 2
 // - Show manifest properties: true
@@ -54,18 +55,35 @@ final class io.data2viz.delaunay/Point { // io.data2viz.delaunay/Point|null[0]
 }
 
 final class io.data2viz.delaunay/TypedIntArrayDelegate : io.data2viz.delaunay/TypedIntArray { // io.data2viz.delaunay/TypedIntArrayDelegate|null[0]
-    constructor <init>(org.khronos.webgl/Int32Array) // io.data2viz.delaunay/TypedIntArrayDelegate.<init>|<init>(org.khronos.webgl.Int32Array){}[0]
-
-    final val delegate // io.data2viz.delaunay/TypedIntArrayDelegate.delegate|{}delegate[0]
-        final fun <get-delegate>(): org.khronos.webgl/Int32Array // io.data2viz.delaunay/TypedIntArrayDelegate.delegate.<get-delegate>|<get-delegate>(){}[0]
     final val length // io.data2viz.delaunay/TypedIntArrayDelegate.length|{}length[0]
         final fun <get-length>(): kotlin/Int // io.data2viz.delaunay/TypedIntArrayDelegate.length.<get-length>|<get-length>(){}[0]
 
     final fun get(kotlin/Int): kotlin/Int // io.data2viz.delaunay/TypedIntArrayDelegate.get|get(kotlin.Int){}[0]
     final fun set(kotlin/Int, kotlin/Int) // io.data2viz.delaunay/TypedIntArrayDelegate.set|set(kotlin.Int;kotlin.Int){}[0]
     final fun subarray(kotlin/Int, kotlin/Int): io.data2viz.delaunay/TypedIntArray // io.data2viz.delaunay/TypedIntArrayDelegate.subarray|subarray(kotlin.Int;kotlin.Int){}[0]
+
+    // Targets: [ios]
+    constructor <init>(kotlin/IntArray) // io.data2viz.delaunay/TypedIntArrayDelegate.<init>|<init>(kotlin.IntArray){}[0]
+
+    // Targets: [ios]
+    final val array // io.data2viz.delaunay/TypedIntArrayDelegate.array|{}array[0]
+        final fun <get-array>(): kotlin/IntArray // io.data2viz.delaunay/TypedIntArrayDelegate.array.<get-array>|<get-array>(){}[0]
+
+    // Targets: [js]
+    constructor <init>(org.khronos.webgl/Int32Array) // io.data2viz.delaunay/TypedIntArrayDelegate.<init>|<init>(org.khronos.webgl.Int32Array){}[0]
+
+    // Targets: [js]
+    final val delegate // io.data2viz.delaunay/TypedIntArrayDelegate.delegate|{}delegate[0]
+        final fun <get-delegate>(): org.khronos.webgl/Int32Array // io.data2viz.delaunay/TypedIntArrayDelegate.delegate.<get-delegate>|<get-delegate>(){}[0]
 }
 
+final fun io.data2viz.delaunay/area(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Double // io.data2viz.delaunay/area|area(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.delaunay/circumcenter(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): io.data2viz.delaunay/Point // io.data2viz.delaunay/circumcenter|circumcenter(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.delaunay/circumradius(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Double // io.data2viz.delaunay/circumradius|circumradius(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.delaunay/inCircle(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Boolean // io.data2viz.delaunay/inCircle|inCircle(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.delaunay/typedIntArray(kotlin/Int): io.data2viz.delaunay/TypedIntArray // io.data2viz.delaunay/typedIntArray|typedIntArray(kotlin.Int){}[0]
+
+// Targets: [js]
 final class io.data2viz.delaunay/TypedUIntArrayDelegate : io.data2viz.delaunay/TypedUIntArray { // io.data2viz.delaunay/TypedUIntArrayDelegate|null[0]
     constructor <init>(org.khronos.webgl/Uint32Array) // io.data2viz.delaunay/TypedUIntArrayDelegate.<init>|<init>(org.khronos.webgl.Uint32Array){}[0]
 
@@ -79,9 +97,5 @@ final class io.data2viz.delaunay/TypedUIntArrayDelegate : io.data2viz.delaunay/T
     final fun subarray(kotlin/Int, kotlin/Int): io.data2viz.delaunay/TypedUIntArray // io.data2viz.delaunay/TypedUIntArrayDelegate.subarray|subarray(kotlin.Int;kotlin.Int){}[0]
 }
 
-final fun io.data2viz.delaunay/area(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Double // io.data2viz.delaunay/area|area(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
-final fun io.data2viz.delaunay/circumcenter(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): io.data2viz.delaunay/Point // io.data2viz.delaunay/circumcenter|circumcenter(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
-final fun io.data2viz.delaunay/circumradius(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Double // io.data2viz.delaunay/circumradius|circumradius(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+// Targets: [js]
 final fun io.data2viz.delaunay/delaunautor(kotlin/Array<kotlin/Array<kotlin/Double>>): io.data2viz.delaunay/Delaunator // io.data2viz.delaunay/delaunautor|delaunautor(kotlin.Array<kotlin.Array<kotlin.Double>>){}[0]
-final fun io.data2viz.delaunay/inCircle(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Boolean // io.data2viz.delaunay/inCircle|inCircle(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
-final fun io.data2viz.delaunay/typedIntArray(kotlin/Int): io.data2viz.delaunay/TypedIntArray // io.data2viz.delaunay/typedIntArray|typedIntArray(kotlin.Int){}[0]

@@ -17,6 +17,7 @@
 
 package io.data2viz.viz
 
+import cnames.structs.CGColorSpace
 import cnames.structs.CGContext
 import io.data2viz.color.Color
 import io.data2viz.color.LinearGradient
