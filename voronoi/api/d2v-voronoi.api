@@ -131,6 +131,7 @@ public final class io/data2viz/voronoi/EdgeKt {
 public final class io/data2viz/voronoi/RedBlackColor : java/lang/Enum {
 	public static final field BLACK Lio/data2viz/voronoi/RedBlackColor;
 	public static final field RED Lio/data2viz/voronoi/RedBlackColor;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/voronoi/RedBlackColor;
 	public static fun values ()[Lio/data2viz/voronoi/RedBlackColor;
 }

@@ -1,0 +1,13 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-dsv>
+final class io.data2viz.dsv/Dsv { // io.data2viz.dsv/Dsv|null[0]
+    constructor <init>(kotlin/Char = ...) // io.data2viz.dsv/Dsv.<init>|<init>(kotlin.Char){}[0]
+
+    final fun parseRows(kotlin/String): kotlin.collections/List<kotlin.collections/List<kotlin/String>> // io.data2viz.dsv/Dsv.parseRows|parseRows(kotlin.String){}[0]
+}

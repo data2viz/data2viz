@@ -1,0 +1,255 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-force>
+final enum class io.data2viz.force/SimulationEvent : kotlin/Enum<io.data2viz.force/SimulationEvent> { // io.data2viz.force/SimulationEvent|null[0]
+    enum entry END // io.data2viz.force/SimulationEvent.END|null[0]
+    enum entry TICK // io.data2viz.force/SimulationEvent.TICK|null[0]
+
+    final val entries // io.data2viz.force/SimulationEvent.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.force/SimulationEvent> // io.data2viz.force/SimulationEvent.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.force/SimulationEvent // io.data2viz.force/SimulationEvent.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.force/SimulationEvent> // io.data2viz.force/SimulationEvent.values|values#static(){}[0]
+}
+
+abstract interface <#A: kotlin/Any?> io.data2viz.force/Force { // io.data2viz.force/Force|null[0]
+    abstract fun applyForceToNodes(kotlin/Double) // io.data2viz.force/Force.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    abstract fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/Force.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceCenter : io.data2viz.force/Force<#A> { // io.data2viz.force/ForceCenter|null[0]
+    final var center // io.data2viz.force/ForceCenter.center|{}center[0]
+        final fun <get-center>(): io.data2viz.geom/Point // io.data2viz.force/ForceCenter.center.<get-center>|<get-center>(){}[0]
+        final fun <set-center>(io.data2viz.geom/Point) // io.data2viz.force/ForceCenter.center.<set-center>|<set-center>(io.data2viz.geom.Point){}[0]
+
+    final fun applyForceToNodes(kotlin/Double) // io.data2viz.force/ForceCenter.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    final fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/ForceCenter.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceCollision : io.data2viz.force/Force<#A> { // io.data2viz.force/ForceCollision|null[0]
+    final var iterations // io.data2viz.force/ForceCollision.iterations|{}iterations[0]
+        final fun <get-iterations>(): kotlin/Int // io.data2viz.force/ForceCollision.iterations.<get-iterations>|<get-iterations>(){}[0]
+        final fun <set-iterations>(kotlin/Int) // io.data2viz.force/ForceCollision.iterations.<set-iterations>|<set-iterations>(kotlin.Int){}[0]
+    final var radiusGet // io.data2viz.force/ForceCollision.radiusGet|{}radiusGet[0]
+        final fun <get-radiusGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double> // io.data2viz.force/ForceCollision.radiusGet.<get-radiusGet>|<get-radiusGet>(){}[0]
+        final fun <set-radiusGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double>) // io.data2viz.force/ForceCollision.radiusGet.<set-radiusGet>|<set-radiusGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,kotlin.Double>){}[0]
+    final var strength // io.data2viz.force/ForceCollision.strength|{}strength[0]
+        final fun <get-strength>(): io.data2viz.math/Percent // io.data2viz.force/ForceCollision.strength.<get-strength>|<get-strength>(){}[0]
+        final fun <set-strength>(io.data2viz.math/Percent) // io.data2viz.force/ForceCollision.strength.<set-strength>|<set-strength>(io.data2viz.math.Percent){}[0]
+
+    final fun applyForceToNodes(kotlin/Double) // io.data2viz.force/ForceCollision.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    final fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/ForceCollision.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceLink : io.data2viz.force/Force<#A> { // io.data2viz.force/ForceLink|null[0]
+    final val links // io.data2viz.force/ForceLink.links|{}links[0]
+        final fun <get-links>(): kotlin.collections/List<io.data2viz.force/Link<#A>> // io.data2viz.force/ForceLink.links.<get-links>|<get-links>(){}[0]
+
+    final var iterations // io.data2viz.force/ForceLink.iterations|{}iterations[0]
+        final fun <get-iterations>(): kotlin/Int // io.data2viz.force/ForceLink.iterations.<get-iterations>|<get-iterations>(){}[0]
+        final fun <set-iterations>(kotlin/Int) // io.data2viz.force/ForceLink.iterations.<set-iterations>|<set-iterations>(kotlin.Int){}[0]
+    final var linkGet // io.data2viz.force/ForceLink.linkGet|{}linkGet[0]
+        final fun <get-linkGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin.collections/List<io.data2viz.force/Link<#A>>?> // io.data2viz.force/ForceLink.linkGet.<get-linkGet>|<get-linkGet>(){}[0]
+        final fun <set-linkGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin.collections/List<io.data2viz.force/Link<#A>>?>) // io.data2viz.force/ForceLink.linkGet.<set-linkGet>|<set-linkGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,kotlin.collections.List<io.data2viz.force.Link<1:0>>?>){}[0]
+
+    final fun applyForceToNodes(kotlin/Double) // io.data2viz.force/ForceLink.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    final fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/ForceLink.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceNBody : io.data2viz.force/Force<#A> { // io.data2viz.force/ForceNBody|null[0]
+    final var distanceMax // io.data2viz.force/ForceNBody.distanceMax|{}distanceMax[0]
+        final fun <get-distanceMax>(): kotlin/Double // io.data2viz.force/ForceNBody.distanceMax.<get-distanceMax>|<get-distanceMax>(){}[0]
+        final fun <set-distanceMax>(kotlin/Double) // io.data2viz.force/ForceNBody.distanceMax.<set-distanceMax>|<set-distanceMax>(kotlin.Double){}[0]
+    final var distanceMin // io.data2viz.force/ForceNBody.distanceMin|{}distanceMin[0]
+        final fun <get-distanceMin>(): kotlin/Double // io.data2viz.force/ForceNBody.distanceMin.<get-distanceMin>|<get-distanceMin>(){}[0]
+        final fun <set-distanceMin>(kotlin/Double) // io.data2viz.force/ForceNBody.distanceMin.<set-distanceMin>|<set-distanceMin>(kotlin.Double){}[0]
+    final var strengthGet // io.data2viz.force/ForceNBody.strengthGet|{}strengthGet[0]
+        final fun <get-strengthGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double> // io.data2viz.force/ForceNBody.strengthGet.<get-strengthGet>|<get-strengthGet>(){}[0]
+        final fun <set-strengthGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double>) // io.data2viz.force/ForceNBody.strengthGet.<set-strengthGet>|<set-strengthGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,kotlin.Double>){}[0]
+    final var theta // io.data2viz.force/ForceNBody.theta|{}theta[0]
+        final fun <get-theta>(): kotlin/Double // io.data2viz.force/ForceNBody.theta.<get-theta>|<get-theta>(){}[0]
+        final fun <set-theta>(kotlin/Double) // io.data2viz.force/ForceNBody.theta.<set-theta>|<set-theta>(kotlin.Double){}[0]
+
+    final fun applyForceToNodes(kotlin/Double) // io.data2viz.force/ForceNBody.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    final fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/ForceNBody.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceNode { // io.data2viz.force/ForceNode|null[0]
+    constructor <init>(kotlin/Int, #A, kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double? = ..., kotlin/Double? = ...) // io.data2viz.force/ForceNode.<init>|<init>(kotlin.Int;1:0;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double?;kotlin.Double?){}[0]
+
+    final val domain // io.data2viz.force/ForceNode.domain|{}domain[0]
+        final fun <get-domain>(): #A // io.data2viz.force/ForceNode.domain.<get-domain>|<get-domain>(){}[0]
+    final val index // io.data2viz.force/ForceNode.index|{}index[0]
+        final fun <get-index>(): kotlin/Int // io.data2viz.force/ForceNode.index.<get-index>|<get-index>(){}[0]
+
+    final var fixedX // io.data2viz.force/ForceNode.fixedX|{}fixedX[0]
+        final fun <get-fixedX>(): kotlin/Double? // io.data2viz.force/ForceNode.fixedX.<get-fixedX>|<get-fixedX>(){}[0]
+        final fun <set-fixedX>(kotlin/Double?) // io.data2viz.force/ForceNode.fixedX.<set-fixedX>|<set-fixedX>(kotlin.Double?){}[0]
+    final var fixedY // io.data2viz.force/ForceNode.fixedY|{}fixedY[0]
+        final fun <get-fixedY>(): kotlin/Double? // io.data2viz.force/ForceNode.fixedY.<get-fixedY>|<get-fixedY>(){}[0]
+        final fun <set-fixedY>(kotlin/Double?) // io.data2viz.force/ForceNode.fixedY.<set-fixedY>|<set-fixedY>(kotlin.Double?){}[0]
+    final var position // io.data2viz.force/ForceNode.position|{}position[0]
+        final fun <get-position>(): io.data2viz.geom/Point // io.data2viz.force/ForceNode.position.<get-position>|<get-position>(){}[0]
+        final fun <set-position>(io.data2viz.geom/Point) // io.data2viz.force/ForceNode.position.<set-position>|<set-position>(io.data2viz.geom.Point){}[0]
+    final var velocity // io.data2viz.force/ForceNode.velocity|{}velocity[0]
+        final fun <get-velocity>(): io.data2viz.geom/Vector // io.data2viz.force/ForceNode.velocity.<get-velocity>|<get-velocity>(){}[0]
+        final fun <set-velocity>(io.data2viz.geom/Vector) // io.data2viz.force/ForceNode.velocity.<set-velocity>|<set-velocity>(io.data2viz.geom.Vector){}[0]
+    final var vx // io.data2viz.force/ForceNode.vx|{}vx[0]
+        final fun <get-vx>(): kotlin/Double // io.data2viz.force/ForceNode.vx.<get-vx>|<get-vx>(){}[0]
+        final fun <set-vx>(kotlin/Double) // io.data2viz.force/ForceNode.vx.<set-vx>|<set-vx>(kotlin.Double){}[0]
+    final var vy // io.data2viz.force/ForceNode.vy|{}vy[0]
+        final fun <get-vy>(): kotlin/Double // io.data2viz.force/ForceNode.vy.<get-vy>|<get-vy>(){}[0]
+        final fun <set-vy>(kotlin/Double) // io.data2viz.force/ForceNode.vy.<set-vy>|<set-vy>(kotlin.Double){}[0]
+    final var x // io.data2viz.force/ForceNode.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.force/ForceNode.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.force/ForceNode.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.force/ForceNode.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.force/ForceNode.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.force/ForceNode.y.<set-y>|<set-y>(kotlin.Double){}[0]
+
+    final fun component1(): kotlin/Int // io.data2viz.force/ForceNode.component1|component1(){}[0]
+    final fun component2(): #A // io.data2viz.force/ForceNode.component2|component2(){}[0]
+    final fun component3(): kotlin/Double // io.data2viz.force/ForceNode.component3|component3(){}[0]
+    final fun component4(): kotlin/Double // io.data2viz.force/ForceNode.component4|component4(){}[0]
+    final fun component5(): kotlin/Double // io.data2viz.force/ForceNode.component5|component5(){}[0]
+    final fun component6(): kotlin/Double // io.data2viz.force/ForceNode.component6|component6(){}[0]
+    final fun component7(): kotlin/Double? // io.data2viz.force/ForceNode.component7|component7(){}[0]
+    final fun component8(): kotlin/Double? // io.data2viz.force/ForceNode.component8|component8(){}[0]
+    final fun copy(kotlin/Int = ..., #A = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double? = ..., kotlin/Double? = ...): io.data2viz.force/ForceNode<#A> // io.data2viz.force/ForceNode.copy|copy(kotlin.Int;1:0;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double?;kotlin.Double?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.force/ForceNode.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.force/ForceNode.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.force/ForceNode.toString|toString(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForcePoint : io.data2viz.force/Force<#A> { // io.data2viz.force/ForcePoint|null[0]
+    final var pointGet // io.data2viz.force/ForcePoint.pointGet|{}pointGet[0]
+        final fun <get-pointGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.geom/Point> // io.data2viz.force/ForcePoint.pointGet.<get-pointGet>|<get-pointGet>(){}[0]
+        final fun <set-pointGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.geom/Point>) // io.data2viz.force/ForcePoint.pointGet.<set-pointGet>|<set-pointGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,io.data2viz.geom.Point>){}[0]
+    final var strengthGet // io.data2viz.force/ForcePoint.strengthGet|{}strengthGet[0]
+        final fun <get-strengthGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.math/Percent> // io.data2viz.force/ForcePoint.strengthGet.<get-strengthGet>|<get-strengthGet>(){}[0]
+        final fun <set-strengthGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.math/Percent>) // io.data2viz.force/ForcePoint.strengthGet.<set-strengthGet>|<set-strengthGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,io.data2viz.math.Percent>){}[0]
+
+    final fun applyForceToNodes(kotlin/Double) // io.data2viz.force/ForcePoint.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    final fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/ForcePoint.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceRadial : io.data2viz.force/Force<#A> { // io.data2viz.force/ForceRadial|null[0]
+    final var centerGet // io.data2viz.force/ForceRadial.centerGet|{}centerGet[0]
+        final fun <get-centerGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.geom/Point> // io.data2viz.force/ForceRadial.centerGet.<get-centerGet>|<get-centerGet>(){}[0]
+        final fun <set-centerGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.geom/Point>) // io.data2viz.force/ForceRadial.centerGet.<set-centerGet>|<set-centerGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,io.data2viz.geom.Point>){}[0]
+    final var radiusGet // io.data2viz.force/ForceRadial.radiusGet|{}radiusGet[0]
+        final fun <get-radiusGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double> // io.data2viz.force/ForceRadial.radiusGet.<get-radiusGet>|<get-radiusGet>(){}[0]
+        final fun <set-radiusGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double>) // io.data2viz.force/ForceRadial.radiusGet.<set-radiusGet>|<set-radiusGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,kotlin.Double>){}[0]
+    final var strengthGet // io.data2viz.force/ForceRadial.strengthGet|{}strengthGet[0]
+        final fun <get-strengthGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.math/Percent> // io.data2viz.force/ForceRadial.strengthGet.<get-strengthGet>|<get-strengthGet>(){}[0]
+        final fun <set-strengthGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.math/Percent>) // io.data2viz.force/ForceRadial.strengthGet.<set-strengthGet>|<set-strengthGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,io.data2viz.math.Percent>){}[0]
+
+    final fun applyForceToNodes(kotlin/Double) // io.data2viz.force/ForceRadial.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    final fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/ForceRadial.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceSimulation { // io.data2viz.force/ForceSimulation|null[0]
+    final val forces // io.data2viz.force/ForceSimulation.forces|{}forces[0]
+        final fun <get-forces>(): kotlin.collections/List<io.data2viz.force/Force<#A>> // io.data2viz.force/ForceSimulation.forces.<get-forces>|<get-forces>(){}[0]
+    final val nodes // io.data2viz.force/ForceSimulation.nodes|{}nodes[0]
+        final fun <get-nodes>(): kotlin.collections/List<io.data2viz.force/ForceNode<#A>> // io.data2viz.force/ForceSimulation.nodes.<get-nodes>|<get-nodes>(){}[0]
+
+    final var domainObjects // io.data2viz.force/ForceSimulation.domainObjects|{}domainObjects[0]
+        final fun <get-domainObjects>(): kotlin.collections/List<#A> // io.data2viz.force/ForceSimulation.domainObjects.<get-domainObjects>|<get-domainObjects>(){}[0]
+        final fun <set-domainObjects>(kotlin.collections/List<#A>) // io.data2viz.force/ForceSimulation.domainObjects.<set-domainObjects>|<set-domainObjects>(kotlin.collections.List<1:0>){}[0]
+    final var friction // io.data2viz.force/ForceSimulation.friction|{}friction[0]
+        final fun <get-friction>(): io.data2viz.math/Percent // io.data2viz.force/ForceSimulation.friction.<get-friction>|<get-friction>(){}[0]
+        final fun <set-friction>(io.data2viz.math/Percent) // io.data2viz.force/ForceSimulation.friction.<set-friction>|<set-friction>(io.data2viz.math.Percent){}[0]
+    final var initForceNode // io.data2viz.force/ForceSimulation.initForceNode|{}initForceNode[0]
+        final fun <get-initForceNode>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Unit> // io.data2viz.force/ForceSimulation.initForceNode.<get-initForceNode>|<get-initForceNode>(){}[0]
+        final fun <set-initForceNode>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Unit>) // io.data2viz.force/ForceSimulation.initForceNode.<set-initForceNode>|<set-initForceNode>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,kotlin.Unit>){}[0]
+    final var intensity // io.data2viz.force/ForceSimulation.intensity|{}intensity[0]
+        final fun <get-intensity>(): io.data2viz.math/Percent // io.data2viz.force/ForceSimulation.intensity.<get-intensity>|<get-intensity>(){}[0]
+        final fun <set-intensity>(io.data2viz.math/Percent) // io.data2viz.force/ForceSimulation.intensity.<set-intensity>|<set-intensity>(io.data2viz.math.Percent){}[0]
+    final var intensityDecay // io.data2viz.force/ForceSimulation.intensityDecay|{}intensityDecay[0]
+        final fun <get-intensityDecay>(): io.data2viz.math/Percent // io.data2viz.force/ForceSimulation.intensityDecay.<get-intensityDecay>|<get-intensityDecay>(){}[0]
+        final fun <set-intensityDecay>(io.data2viz.math/Percent) // io.data2viz.force/ForceSimulation.intensityDecay.<set-intensityDecay>|<set-intensityDecay>(io.data2viz.math.Percent){}[0]
+    final var intensityMin // io.data2viz.force/ForceSimulation.intensityMin|{}intensityMin[0]
+        final fun <get-intensityMin>(): io.data2viz.math/Percent // io.data2viz.force/ForceSimulation.intensityMin.<get-intensityMin>|<get-intensityMin>(){}[0]
+        final fun <set-intensityMin>(io.data2viz.math/Percent) // io.data2viz.force/ForceSimulation.intensityMin.<set-intensityMin>|<set-intensityMin>(io.data2viz.math.Percent){}[0]
+    final var intensityTarget // io.data2viz.force/ForceSimulation.intensityTarget|{}intensityTarget[0]
+        final fun <get-intensityTarget>(): io.data2viz.math/Percent // io.data2viz.force/ForceSimulation.intensityTarget.<get-intensityTarget>|<get-intensityTarget>(){}[0]
+        final fun <set-intensityTarget>(io.data2viz.math/Percent) // io.data2viz.force/ForceSimulation.intensityTarget.<set-intensityTarget>|<set-intensityTarget>(io.data2viz.math.Percent){}[0]
+
+    final fun find(io.data2viz.geom/Point, kotlin/Double = ...): io.data2viz.force/ForceNode<#A>? // io.data2viz.force/ForceSimulation.find|find(io.data2viz.geom.Point;kotlin.Double){}[0]
+    final fun forceCenter(kotlin/Function1<io.data2viz.force/ForceCenter<#A>, kotlin/Unit>): io.data2viz.force/ForceCenter<#A> // io.data2viz.force/ForceSimulation.forceCenter|forceCenter(kotlin.Function1<io.data2viz.force.ForceCenter<1:0>,kotlin.Unit>){}[0]
+    final fun forceCollision(kotlin/Function1<io.data2viz.force/ForceCollision<#A>, kotlin/Unit>): io.data2viz.force/ForceCollision<#A> // io.data2viz.force/ForceSimulation.forceCollision|forceCollision(kotlin.Function1<io.data2viz.force.ForceCollision<1:0>,kotlin.Unit>){}[0]
+    final fun forceLink(kotlin/Function1<io.data2viz.force/ForceLink<#A>, kotlin/Unit> = ...): io.data2viz.force/ForceLink<#A> // io.data2viz.force/ForceSimulation.forceLink|forceLink(kotlin.Function1<io.data2viz.force.ForceLink<1:0>,kotlin.Unit>){}[0]
+    final fun forceNBody(kotlin/Function1<io.data2viz.force/ForceNBody<#A>, kotlin/Unit> = ...): io.data2viz.force/ForceNBody<#A> // io.data2viz.force/ForceSimulation.forceNBody|forceNBody(kotlin.Function1<io.data2viz.force.ForceNBody<1:0>,kotlin.Unit>){}[0]
+    final fun forcePoint(kotlin/Function1<io.data2viz.force/ForcePoint<#A>, kotlin/Unit> = ...): io.data2viz.force/ForcePoint<#A> // io.data2viz.force/ForceSimulation.forcePoint|forcePoint(kotlin.Function1<io.data2viz.force.ForcePoint<1:0>,kotlin.Unit>){}[0]
+    final fun forceRadial(kotlin/Function1<io.data2viz.force/ForceRadial<#A>, kotlin/Unit>): io.data2viz.force/ForceRadial<#A> // io.data2viz.force/ForceSimulation.forceRadial|forceRadial(kotlin.Function1<io.data2viz.force.ForceRadial<1:0>,kotlin.Unit>){}[0]
+    final fun forceX(kotlin/Function1<io.data2viz.force/ForceX<#A>, kotlin/Unit> = ...): io.data2viz.force/ForceX<#A> // io.data2viz.force/ForceSimulation.forceX|forceX(kotlin.Function1<io.data2viz.force.ForceX<1:0>,kotlin.Unit>){}[0]
+    final fun forceY(kotlin/Function1<io.data2viz.force/ForceY<#A>, kotlin/Unit> = ...): io.data2viz.force/ForceY<#A> // io.data2viz.force/ForceSimulation.forceY|forceY(kotlin.Function1<io.data2viz.force.ForceY<1:0>,kotlin.Unit>){}[0]
+    final fun on(io.data2viz.force/SimulationEvent, kotlin/String, kotlin/Function1<io.data2viz.force/ForceSimulation<#A>, kotlin/Unit>) // io.data2viz.force/ForceSimulation.on|on(io.data2viz.force.SimulationEvent;kotlin.String;kotlin.Function1<io.data2viz.force.ForceSimulation<1:0>,kotlin.Unit>){}[0]
+    final fun play() // io.data2viz.force/ForceSimulation.play|play(){}[0]
+    final fun removeForce(io.data2viz.force/Force<#A>) // io.data2viz.force/ForceSimulation.removeForce|removeForce(io.data2viz.force.Force<1:0>){}[0]
+    final fun stop() // io.data2viz.force/ForceSimulation.stop|stop(){}[0]
+    final fun tick() // io.data2viz.force/ForceSimulation.tick|tick(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceX : io.data2viz.force/Force<#A> { // io.data2viz.force/ForceX|null[0]
+    final var strengthGet // io.data2viz.force/ForceX.strengthGet|{}strengthGet[0]
+        final fun <get-strengthGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.math/Percent> // io.data2viz.force/ForceX.strengthGet.<get-strengthGet>|<get-strengthGet>(){}[0]
+        final fun <set-strengthGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.math/Percent>) // io.data2viz.force/ForceX.strengthGet.<set-strengthGet>|<set-strengthGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,io.data2viz.math.Percent>){}[0]
+    final var xGet // io.data2viz.force/ForceX.xGet|{}xGet[0]
+        final fun <get-xGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double> // io.data2viz.force/ForceX.xGet.<get-xGet>|<get-xGet>(){}[0]
+        final fun <set-xGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double>) // io.data2viz.force/ForceX.xGet.<set-xGet>|<set-xGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,kotlin.Double>){}[0]
+
+    final fun applyForceToNodes(kotlin/Double) // io.data2viz.force/ForceX.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    final fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/ForceX.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/ForceY : io.data2viz.force/Force<#A> { // io.data2viz.force/ForceY|null[0]
+    final var strengthGet // io.data2viz.force/ForceY.strengthGet|{}strengthGet[0]
+        final fun <get-strengthGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.math/Percent> // io.data2viz.force/ForceY.strengthGet.<get-strengthGet>|<get-strengthGet>(){}[0]
+        final fun <set-strengthGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, io.data2viz.math/Percent>) // io.data2viz.force/ForceY.strengthGet.<set-strengthGet>|<set-strengthGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,io.data2viz.math.Percent>){}[0]
+    final var yGet // io.data2viz.force/ForceY.yGet|{}yGet[0]
+        final fun <get-yGet>(): kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double> // io.data2viz.force/ForceY.yGet.<get-yGet>|<get-yGet>(){}[0]
+        final fun <set-yGet>(kotlin/Function1<io.data2viz.force/ForceNode<#A>, kotlin/Double>) // io.data2viz.force/ForceY.yGet.<set-yGet>|<set-yGet>(kotlin.Function1<io.data2viz.force.ForceNode<1:0>,kotlin.Double>){}[0]
+
+    final fun applyForceToNodes(kotlin/Double) // io.data2viz.force/ForceY.applyForceToNodes|applyForceToNodes(kotlin.Double){}[0]
+    final fun assignNodes(kotlin.collections/List<io.data2viz.force/ForceNode<#A>>) // io.data2viz.force/ForceY.assignNodes|assignNodes(kotlin.collections.List<io.data2viz.force.ForceNode<1:0>>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.force/Link { // io.data2viz.force/Link|null[0]
+    constructor <init>(io.data2viz.force/ForceNode<#A>, io.data2viz.force/ForceNode<#A>, kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.force/Link.<init>|<init>(io.data2viz.force.ForceNode<1:0>;io.data2viz.force.ForceNode<1:0>;kotlin.Double;kotlin.Double){}[0]
+
+    final val distance // io.data2viz.force/Link.distance|{}distance[0]
+        final fun <get-distance>(): kotlin/Double // io.data2viz.force/Link.distance.<get-distance>|<get-distance>(){}[0]
+    final val source // io.data2viz.force/Link.source|{}source[0]
+        final fun <get-source>(): io.data2viz.force/ForceNode<#A> // io.data2viz.force/Link.source.<get-source>|<get-source>(){}[0]
+    final val target // io.data2viz.force/Link.target|{}target[0]
+        final fun <get-target>(): io.data2viz.force/ForceNode<#A> // io.data2viz.force/Link.target.<get-target>|<get-target>(){}[0]
+
+    final var strength // io.data2viz.force/Link.strength|{}strength[0]
+        final fun <get-strength>(): kotlin/Double // io.data2viz.force/Link.strength.<get-strength>|<get-strength>(){}[0]
+        final fun <set-strength>(kotlin/Double) // io.data2viz.force/Link.strength.<set-strength>|<set-strength>(kotlin.Double){}[0]
+
+    final fun component1(): io.data2viz.force/ForceNode<#A> // io.data2viz.force/Link.component1|component1(){}[0]
+    final fun component2(): io.data2viz.force/ForceNode<#A> // io.data2viz.force/Link.component2|component2(){}[0]
+    final fun component3(): kotlin/Double // io.data2viz.force/Link.component3|component3(){}[0]
+    final fun component4(): kotlin/Double // io.data2viz.force/Link.component4|component4(){}[0]
+    final fun copy(io.data2viz.force/ForceNode<#A> = ..., io.data2viz.force/ForceNode<#A> = ..., kotlin/Double = ..., kotlin/Double = ...): io.data2viz.force/Link<#A> // io.data2viz.force/Link.copy|copy(io.data2viz.force.ForceNode<1:0>;io.data2viz.force.ForceNode<1:0>;kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.force/Link.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.force/Link.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.force/Link.toString|toString(){}[0]
+}
+
+final fun <#A: kotlin/Any?> io.data2viz.force/forceCenter(io.data2viz.geom/Point): io.data2viz.force/ForceCenter<#A> // io.data2viz.force/forceCenter|forceCenter(io.data2viz.geom.Point){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.force/forceCollision(kotlin/Function1<io.data2viz.force/ForceCollision<#A>, kotlin/Unit>): io.data2viz.force/ForceCollision<#A> // io.data2viz.force/forceCollision|forceCollision(kotlin.Function1<io.data2viz.force.ForceCollision<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.force/forceLink(kotlin/Function1<io.data2viz.force/ForceLink<#A>, kotlin/Unit>): io.data2viz.force/ForceLink<#A> // io.data2viz.force/forceLink|forceLink(kotlin.Function1<io.data2viz.force.ForceLink<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.force/forceNBody(kotlin/Function1<io.data2viz.force/ForceNBody<#A>, kotlin/Unit>): io.data2viz.force/ForceNBody<#A> // io.data2viz.force/forceNBody|forceNBody(kotlin.Function1<io.data2viz.force.ForceNBody<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.force/forceRadial(kotlin/Function1<io.data2viz.force/ForceRadial<#A>, kotlin/Unit>): io.data2viz.force/ForceRadial<#A> // io.data2viz.force/forceRadial|forceRadial(kotlin.Function1<io.data2viz.force.ForceRadial<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.force/forceSimulation(kotlin/Function1<io.data2viz.force/ForceSimulation<#A>, kotlin/Unit>): io.data2viz.force/ForceSimulation<#A> // io.data2viz.force/forceSimulation|forceSimulation(kotlin.Function1<io.data2viz.force.ForceSimulation<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.force/forceX(kotlin/Function1<io.data2viz.force/ForceX<#A>, kotlin/Unit>): io.data2viz.force/ForceX<#A> // io.data2viz.force/forceX|forceX(kotlin.Function1<io.data2viz.force.ForceX<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.force/forceY(kotlin/Function1<io.data2viz.force/ForceY<#A>, kotlin/Unit>): io.data2viz.force/ForceY<#A> // io.data2viz.force/forceY|forceY(kotlin.Function1<io.data2viz.force.ForceY<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]

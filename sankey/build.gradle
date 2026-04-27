@@ -4,7 +4,9 @@ apply from: rootProject.file("gradle/mpp-jvm.gradle")
 apply from: rootProject.file("gradle/mpp-js.gradle")
 apply from: rootProject.file("gradle/dokka.gradle")
 
-
+// All tests are commented out which causes an error in Gradle 9
+tasks.withType(Test).configureEach { failOnNoDiscoveredTests = false }
+tasks.withType(org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest).configureEach { failOnNoDiscoveredTests = false }
 
 kotlin {
     sourceSets {

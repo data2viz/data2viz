@@ -1,0 +1,862 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-geo>
+abstract interface io.data2viz.geo.geometry.clip/ClipStream : io.data2viz.geo.stream/Stream { // io.data2viz.geo.geometry.clip/ClipStream|null[0]
+    abstract var clean // io.data2viz.geo.geometry.clip/ClipStream.clean|{}clean[0]
+        abstract fun <get-clean>(): kotlin/Int // io.data2viz.geo.geometry.clip/ClipStream.clean.<get-clean>|<get-clean>(){}[0]
+        abstract fun <set-clean>(kotlin/Int) // io.data2viz.geo.geometry.clip/ClipStream.clean.<set-clean>|<set-clean>(kotlin.Int){}[0]
+}
+
+abstract interface io.data2viz.geo.geometry.clip/ClipStreamBuilder { // io.data2viz.geo.geometry.clip/ClipStreamBuilder|null[0]
+    abstract fun bindTo(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.geometry.clip/ClipStreamBuilder.bindTo|bindTo(io.data2viz.geo.stream.Stream){}[0]
+}
+
+abstract interface io.data2viz.geo.geometry.clip/Clipper { // io.data2viz.geo.geometry.clip/Clipper|null[0]
+    abstract fun clipLine(io.data2viz.geo.stream/Stream): io.data2viz.geo.geometry.clip/ClipStream // io.data2viz.geo.geometry.clip/Clipper.clipLine|clipLine(io.data2viz.geo.stream.Stream){}[0]
+    abstract fun interpolate(kotlin/DoubleArray?, kotlin/DoubleArray?, kotlin/Int, io.data2viz.geo.stream/Stream) // io.data2viz.geo.geometry.clip/Clipper.interpolate|interpolate(kotlin.DoubleArray?;kotlin.DoubleArray?;kotlin.Int;io.data2viz.geo.stream.Stream){}[0]
+    abstract fun pointVisible(kotlin/Double, kotlin/Double): kotlin/Boolean // io.data2viz.geo.geometry.clip/Clipper.pointVisible|pointVisible(kotlin.Double;kotlin.Double){}[0]
+}
+
+abstract interface io.data2viz.geo.projection.common/Invertable { // io.data2viz.geo.projection.common/Invertable|null[0]
+    abstract fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/Invertable.invert|invert(kotlin.Double;kotlin.Double){}[0]
+}
+
+abstract interface io.data2viz.geo.projection.common/Projectable { // io.data2viz.geo.projection.common/Projectable|null[0]
+    abstract fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/Projectable.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+abstract interface io.data2viz.geo.projection.common/Projection : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection.common/Projection|null[0]
+    abstract var centerLat // io.data2viz.geo.projection.common/Projection.centerLat|{}centerLat[0]
+        abstract fun <get-centerLat>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/Projection.centerLat.<get-centerLat>|<get-centerLat>(){}[0]
+        abstract fun <set-centerLat>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/Projection.centerLat.<set-centerLat>|<set-centerLat>(io.data2viz.math.Angle){}[0]
+    abstract var centerLon // io.data2viz.geo.projection.common/Projection.centerLon|{}centerLon[0]
+        abstract fun <get-centerLon>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/Projection.centerLon.<get-centerLon>|<get-centerLon>(){}[0]
+        abstract fun <set-centerLon>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/Projection.centerLon.<set-centerLon>|<set-centerLon>(io.data2viz.math.Angle){}[0]
+    abstract var postClip // io.data2viz.geo.projection.common/Projection.postClip|{}postClip[0]
+        abstract fun <get-postClip>(): io.data2viz.geo.geometry.clip/ClipStreamBuilder // io.data2viz.geo.projection.common/Projection.postClip.<get-postClip>|<get-postClip>(){}[0]
+        abstract fun <set-postClip>(io.data2viz.geo.geometry.clip/ClipStreamBuilder) // io.data2viz.geo.projection.common/Projection.postClip.<set-postClip>|<set-postClip>(io.data2viz.geo.geometry.clip.ClipStreamBuilder){}[0]
+    abstract var preClip // io.data2viz.geo.projection.common/Projection.preClip|{}preClip[0]
+        abstract fun <get-preClip>(): io.data2viz.geo.geometry.clip/ClipStreamBuilder // io.data2viz.geo.projection.common/Projection.preClip.<get-preClip>|<get-preClip>(){}[0]
+        abstract fun <set-preClip>(io.data2viz.geo.geometry.clip/ClipStreamBuilder) // io.data2viz.geo.projection.common/Projection.preClip.<set-preClip>|<set-preClip>(io.data2viz.geo.geometry.clip.ClipStreamBuilder){}[0]
+    abstract var precision // io.data2viz.geo.projection.common/Projection.precision|{}precision[0]
+        abstract fun <get-precision>(): kotlin/Double // io.data2viz.geo.projection.common/Projection.precision.<get-precision>|<get-precision>(){}[0]
+        abstract fun <set-precision>(kotlin/Double) // io.data2viz.geo.projection.common/Projection.precision.<set-precision>|<set-precision>(kotlin.Double){}[0]
+    abstract var rotateGamma // io.data2viz.geo.projection.common/Projection.rotateGamma|{}rotateGamma[0]
+        abstract fun <get-rotateGamma>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/Projection.rotateGamma.<get-rotateGamma>|<get-rotateGamma>(){}[0]
+        abstract fun <set-rotateGamma>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/Projection.rotateGamma.<set-rotateGamma>|<set-rotateGamma>(io.data2viz.math.Angle){}[0]
+    abstract var rotateLambda // io.data2viz.geo.projection.common/Projection.rotateLambda|{}rotateLambda[0]
+        abstract fun <get-rotateLambda>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/Projection.rotateLambda.<get-rotateLambda>|<get-rotateLambda>(){}[0]
+        abstract fun <set-rotateLambda>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/Projection.rotateLambda.<set-rotateLambda>|<set-rotateLambda>(io.data2viz.math.Angle){}[0]
+    abstract var rotatePhi // io.data2viz.geo.projection.common/Projection.rotatePhi|{}rotatePhi[0]
+        abstract fun <get-rotatePhi>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/Projection.rotatePhi.<get-rotatePhi>|<get-rotatePhi>(){}[0]
+        abstract fun <set-rotatePhi>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/Projection.rotatePhi.<set-rotatePhi>|<set-rotatePhi>(io.data2viz.math.Angle){}[0]
+    abstract var scale // io.data2viz.geo.projection.common/Projection.scale|{}scale[0]
+        abstract fun <get-scale>(): kotlin/Double // io.data2viz.geo.projection.common/Projection.scale.<get-scale>|<get-scale>(){}[0]
+        abstract fun <set-scale>(kotlin/Double) // io.data2viz.geo.projection.common/Projection.scale.<set-scale>|<set-scale>(kotlin.Double){}[0]
+    abstract var translateX // io.data2viz.geo.projection.common/Projection.translateX|{}translateX[0]
+        abstract fun <get-translateX>(): kotlin/Double // io.data2viz.geo.projection.common/Projection.translateX.<get-translateX>|<get-translateX>(){}[0]
+        abstract fun <set-translateX>(kotlin/Double) // io.data2viz.geo.projection.common/Projection.translateX.<set-translateX>|<set-translateX>(kotlin.Double){}[0]
+    abstract var translateY // io.data2viz.geo.projection.common/Projection.translateY|{}translateY[0]
+        abstract fun <get-translateY>(): kotlin/Double // io.data2viz.geo.projection.common/Projection.translateY.<get-translateY>|<get-translateY>(){}[0]
+        abstract fun <set-translateY>(kotlin/Double) // io.data2viz.geo.projection.common/Projection.translateY.<set-translateY>|<set-translateY>(kotlin.Double){}[0]
+
+    abstract fun bindTo(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection.common/Projection.bindTo|bindTo(io.data2viz.geo.stream.Stream){}[0]
+    abstract fun center(io.data2viz.math/Angle, io.data2viz.math/Angle) // io.data2viz.geo.projection.common/Projection.center|center(io.data2viz.math.Angle;io.data2viz.math.Angle){}[0]
+    abstract fun rotate(io.data2viz.math/Angle, io.data2viz.math/Angle, io.data2viz.math/Angle? = ...) // io.data2viz.geo.projection.common/Projection.rotate|rotate(io.data2viz.math.Angle;io.data2viz.math.Angle;io.data2viz.math.Angle?){}[0]
+    abstract fun translate(kotlin/Double, kotlin/Double) // io.data2viz.geo.projection.common/Projection.translate|translate(kotlin.Double;kotlin.Double){}[0]
+}
+
+abstract interface io.data2viz.geo.projection.common/Projector : io.data2viz.geo.projection.common/Invertable, io.data2viz.geo.projection.common/Projectable // io.data2viz.geo.projection.common/Projector|null[0]
+
+abstract interface io.data2viz.geo.projection/ConicProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/ConicProjector|null[0]
+    abstract var phi0 // io.data2viz.geo.projection/ConicProjector.phi0|{}phi0[0]
+        abstract fun <get-phi0>(): kotlin/Double // io.data2viz.geo.projection/ConicProjector.phi0.<get-phi0>|<get-phi0>(){}[0]
+        abstract fun <set-phi0>(kotlin/Double) // io.data2viz.geo.projection/ConicProjector.phi0.<set-phi0>|<set-phi0>(kotlin.Double){}[0]
+    abstract var phi1 // io.data2viz.geo.projection/ConicProjector.phi1|{}phi1[0]
+        abstract fun <get-phi1>(): kotlin/Double // io.data2viz.geo.projection/ConicProjector.phi1.<get-phi1>|<get-phi1>(){}[0]
+        abstract fun <set-phi1>(kotlin/Double) // io.data2viz.geo.projection/ConicProjector.phi1.<set-phi1>|<set-phi1>(kotlin.Double){}[0]
+}
+
+abstract interface io.data2viz.geo.stream/Stream { // io.data2viz.geo.stream/Stream|null[0]
+    open fun lineEnd() // io.data2viz.geo.stream/Stream.lineEnd|lineEnd(){}[0]
+    open fun lineStart() // io.data2viz.geo.stream/Stream.lineStart|lineStart(){}[0]
+    open fun point(kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.stream/Stream.point|point(kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    open fun polygonEnd() // io.data2viz.geo.stream/Stream.polygonEnd|polygonEnd(){}[0]
+    open fun polygonStart() // io.data2viz.geo.stream/Stream.polygonStart|polygonStart(){}[0]
+    open fun sphere() // io.data2viz.geo.stream/Stream.sphere|sphere(){}[0]
+}
+
+abstract class io.data2viz.geo.projection.common/BaseConditionalProjector : io.data2viz.geo.projection.common/ConditionalProjector { // io.data2viz.geo.projection.common/BaseConditionalProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection.common/BaseConditionalProjector.<init>|<init>(){}[0]
+
+    abstract val baseProjector // io.data2viz.geo.projection.common/BaseConditionalProjector.baseProjector|{}baseProjector[0]
+        abstract fun <get-baseProjector>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/BaseConditionalProjector.baseProjector.<get-baseProjector>|<get-baseProjector>(){}[0]
+    abstract val isNeedUseBaseProjector // io.data2viz.geo.projection.common/BaseConditionalProjector.isNeedUseBaseProjector|{}isNeedUseBaseProjector[0]
+        abstract fun <get-isNeedUseBaseProjector>(): kotlin/Boolean // io.data2viz.geo.projection.common/BaseConditionalProjector.isNeedUseBaseProjector.<get-isNeedUseBaseProjector>|<get-isNeedUseBaseProjector>(){}[0]
+    abstract val nestedProjector // io.data2viz.geo.projection.common/BaseConditionalProjector.nestedProjector|{}nestedProjector[0]
+        abstract fun <get-nestedProjector>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/BaseConditionalProjector.nestedProjector.<get-nestedProjector>|<get-nestedProjector>(){}[0]
+    open val activeProjector // io.data2viz.geo.projection.common/BaseConditionalProjector.activeProjector|{}activeProjector[0]
+        open fun <get-activeProjector>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/BaseConditionalProjector.activeProjector.<get-activeProjector>|<get-activeProjector>(){}[0]
+}
+
+abstract class io.data2viz.geo.projection.common/CachedProjection : io.data2viz.geo.projection.common/Projection { // io.data2viz.geo.projection.common/CachedProjection|null[0]
+    constructor <init>() // io.data2viz.geo.projection.common/CachedProjection.<init>|<init>(){}[0]
+
+    final val streamCache // io.data2viz.geo.projection.common/CachedProjection.streamCache|{}streamCache[0]
+        final fun <get-streamCache>(): io.data2viz.geo.stream/StreamCache // io.data2viz.geo.projection.common/CachedProjection.streamCache.<get-streamCache>|<get-streamCache>(){}[0]
+
+    abstract fun fullCycleStream(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection.common/CachedProjection.fullCycleStream|fullCycleStream(io.data2viz.geo.stream.Stream){}[0]
+    final fun reset() // io.data2viz.geo.projection.common/CachedProjection.reset|reset(){}[0]
+    open fun bindTo(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection.common/CachedProjection.bindTo|bindTo(io.data2viz.geo.stream.Stream){}[0]
+}
+
+abstract class io.data2viz.geo.projection.common/ComposedProjection : io.data2viz.geo.projection.common/Projection { // io.data2viz.geo.projection.common/ComposedProjection|null[0]
+    constructor <init>() // io.data2viz.geo.projection.common/ComposedProjection.<init>|<init>(){}[0]
+
+    abstract val allProjections // io.data2viz.geo.projection.common/ComposedProjection.allProjections|{}allProjections[0]
+        abstract fun <get-allProjections>(): kotlin.collections/Collection<io.data2viz.geo.projection.common/Projection> // io.data2viz.geo.projection.common/ComposedProjection.allProjections.<get-allProjections>|<get-allProjections>(){}[0]
+    abstract val mainProjection // io.data2viz.geo.projection.common/ComposedProjection.mainProjection|{}mainProjection[0]
+        abstract fun <get-mainProjection>(): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection.common/ComposedProjection.mainProjection.<get-mainProjection>|<get-mainProjection>(){}[0]
+
+    open var centerLat // io.data2viz.geo.projection.common/ComposedProjection.centerLat|{}centerLat[0]
+        open fun <get-centerLat>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ComposedProjection.centerLat.<get-centerLat>|<get-centerLat>(){}[0]
+        open fun <set-centerLat>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ComposedProjection.centerLat.<set-centerLat>|<set-centerLat>(io.data2viz.math.Angle){}[0]
+    open var centerLon // io.data2viz.geo.projection.common/ComposedProjection.centerLon|{}centerLon[0]
+        open fun <get-centerLon>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ComposedProjection.centerLon.<get-centerLon>|<get-centerLon>(){}[0]
+        open fun <set-centerLon>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ComposedProjection.centerLon.<set-centerLon>|<set-centerLon>(io.data2viz.math.Angle){}[0]
+    open var postClip // io.data2viz.geo.projection.common/ComposedProjection.postClip|{}postClip[0]
+        open fun <get-postClip>(): io.data2viz.geo.geometry.clip/ClipStreamBuilder // io.data2viz.geo.projection.common/ComposedProjection.postClip.<get-postClip>|<get-postClip>(){}[0]
+        open fun <set-postClip>(io.data2viz.geo.geometry.clip/ClipStreamBuilder) // io.data2viz.geo.projection.common/ComposedProjection.postClip.<set-postClip>|<set-postClip>(io.data2viz.geo.geometry.clip.ClipStreamBuilder){}[0]
+    open var preClip // io.data2viz.geo.projection.common/ComposedProjection.preClip|{}preClip[0]
+        open fun <get-preClip>(): io.data2viz.geo.geometry.clip/ClipStreamBuilder // io.data2viz.geo.projection.common/ComposedProjection.preClip.<get-preClip>|<get-preClip>(){}[0]
+        open fun <set-preClip>(io.data2viz.geo.geometry.clip/ClipStreamBuilder) // io.data2viz.geo.projection.common/ComposedProjection.preClip.<set-preClip>|<set-preClip>(io.data2viz.geo.geometry.clip.ClipStreamBuilder){}[0]
+    open var precision // io.data2viz.geo.projection.common/ComposedProjection.precision|{}precision[0]
+        open fun <get-precision>(): kotlin/Double // io.data2viz.geo.projection.common/ComposedProjection.precision.<get-precision>|<get-precision>(){}[0]
+        open fun <set-precision>(kotlin/Double) // io.data2viz.geo.projection.common/ComposedProjection.precision.<set-precision>|<set-precision>(kotlin.Double){}[0]
+    open var rotateGamma // io.data2viz.geo.projection.common/ComposedProjection.rotateGamma|{}rotateGamma[0]
+        open fun <get-rotateGamma>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ComposedProjection.rotateGamma.<get-rotateGamma>|<get-rotateGamma>(){}[0]
+        open fun <set-rotateGamma>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ComposedProjection.rotateGamma.<set-rotateGamma>|<set-rotateGamma>(io.data2viz.math.Angle){}[0]
+    open var rotateLambda // io.data2viz.geo.projection.common/ComposedProjection.rotateLambda|{}rotateLambda[0]
+        open fun <get-rotateLambda>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ComposedProjection.rotateLambda.<get-rotateLambda>|<get-rotateLambda>(){}[0]
+        open fun <set-rotateLambda>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ComposedProjection.rotateLambda.<set-rotateLambda>|<set-rotateLambda>(io.data2viz.math.Angle){}[0]
+    open var rotatePhi // io.data2viz.geo.projection.common/ComposedProjection.rotatePhi|{}rotatePhi[0]
+        open fun <get-rotatePhi>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ComposedProjection.rotatePhi.<get-rotatePhi>|<get-rotatePhi>(){}[0]
+        open fun <set-rotatePhi>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ComposedProjection.rotatePhi.<set-rotatePhi>|<set-rotatePhi>(io.data2viz.math.Angle){}[0]
+    open var scale // io.data2viz.geo.projection.common/ComposedProjection.scale|{}scale[0]
+        open fun <get-scale>(): kotlin/Double // io.data2viz.geo.projection.common/ComposedProjection.scale.<get-scale>|<get-scale>(){}[0]
+        open fun <set-scale>(kotlin/Double) // io.data2viz.geo.projection.common/ComposedProjection.scale.<set-scale>|<set-scale>(kotlin.Double){}[0]
+    open var translateX // io.data2viz.geo.projection.common/ComposedProjection.translateX|{}translateX[0]
+        open fun <get-translateX>(): kotlin/Double // io.data2viz.geo.projection.common/ComposedProjection.translateX.<get-translateX>|<get-translateX>(){}[0]
+        open fun <set-translateX>(kotlin/Double) // io.data2viz.geo.projection.common/ComposedProjection.translateX.<set-translateX>|<set-translateX>(kotlin.Double){}[0]
+    open var translateY // io.data2viz.geo.projection.common/ComposedProjection.translateY|{}translateY[0]
+        open fun <get-translateY>(): kotlin/Double // io.data2viz.geo.projection.common/ComposedProjection.translateY.<get-translateY>|<get-translateY>(){}[0]
+        open fun <set-translateY>(kotlin/Double) // io.data2viz.geo.projection.common/ComposedProjection.translateY.<set-translateY>|<set-translateY>(kotlin.Double){}[0]
+
+    open fun bindTo(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection.common/ComposedProjection.bindTo|bindTo(io.data2viz.geo.stream.Stream){}[0]
+    open fun center(io.data2viz.math/Angle, io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ComposedProjection.center|center(io.data2viz.math.Angle;io.data2viz.math.Angle){}[0]
+    open fun rotate(io.data2viz.math/Angle, io.data2viz.math/Angle, io.data2viz.math/Angle?) // io.data2viz.geo.projection.common/ComposedProjection.rotate|rotate(io.data2viz.math.Angle;io.data2viz.math.Angle;io.data2viz.math.Angle?){}[0]
+    open fun translate(kotlin/Double, kotlin/Double) // io.data2viz.geo.projection.common/ComposedProjection.translate|translate(kotlin.Double;kotlin.Double){}[0]
+}
+
+abstract class io.data2viz.geo.projection.common/ConditionalProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection.common/ConditionalProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection.common/ConditionalProjector.<init>|<init>(){}[0]
+
+    abstract val activeProjector // io.data2viz.geo.projection.common/ConditionalProjector.activeProjector|{}activeProjector[0]
+        abstract fun <get-activeProjector>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/ConditionalProjector.activeProjector.<get-activeProjector>|<get-activeProjector>(){}[0]
+
+    open fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/ConditionalProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    open fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/ConditionalProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.geo.geojson.path/GeoCircle { // io.data2viz.geo.geojson.path/GeoCircle|null[0]
+    constructor <init>() // io.data2viz.geo.geojson.path/GeoCircle.<init>|<init>(){}[0]
+
+    final var center // io.data2viz.geo.geojson.path/GeoCircle.center|{}center[0]
+        final fun <get-center>(): kotlin/Function1<#A?, kotlin/DoubleArray> // io.data2viz.geo.geojson.path/GeoCircle.center.<get-center>|<get-center>(){}[0]
+        final fun <set-center>(kotlin/Function1<#A?, kotlin/DoubleArray>) // io.data2viz.geo.geojson.path/GeoCircle.center.<set-center>|<set-center>(kotlin.Function1<1:0?,kotlin.DoubleArray>){}[0]
+    final var precision // io.data2viz.geo.geojson.path/GeoCircle.precision|{}precision[0]
+        final fun <get-precision>(): kotlin/Function1<#A?, kotlin/Double> // io.data2viz.geo.geojson.path/GeoCircle.precision.<get-precision>|<get-precision>(){}[0]
+        final fun <set-precision>(kotlin/Function1<#A?, kotlin/Double>) // io.data2viz.geo.geojson.path/GeoCircle.precision.<set-precision>|<set-precision>(kotlin.Function1<1:0?,kotlin.Double>){}[0]
+    final var radius // io.data2viz.geo.geojson.path/GeoCircle.radius|{}radius[0]
+        final fun <get-radius>(): kotlin/Function1<#A?, kotlin/Double> // io.data2viz.geo.geojson.path/GeoCircle.radius.<get-radius>|<get-radius>(){}[0]
+        final fun <set-radius>(kotlin/Function1<#A?, kotlin/Double>) // io.data2viz.geo.geojson.path/GeoCircle.radius.<set-radius>|<set-radius>(kotlin.Function1<1:0?,kotlin.Double>){}[0]
+
+    final fun circle(#A? = ...): io.data2viz.geojson/Polygon // io.data2viz.geo.geojson.path/GeoCircle.circle|circle(1:0?){}[0]
+}
+
+final class io.data2viz.geo.geojson.path/GeoAreaStream : io.data2viz.geo.stream/Stream { // io.data2viz.geo.geojson.path/GeoAreaStream|null[0]
+    constructor <init>() // io.data2viz.geo.geojson.path/GeoAreaStream.<init>|<init>(){}[0]
+
+    final fun lineEnd() // io.data2viz.geo.geojson.path/GeoAreaStream.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.geo.geojson.path/GeoAreaStream.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.geojson.path/GeoAreaStream.point|point(kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    final fun polygonEnd() // io.data2viz.geo.geojson.path/GeoAreaStream.polygonEnd|polygonEnd(){}[0]
+    final fun polygonStart() // io.data2viz.geo.geojson.path/GeoAreaStream.polygonStart|polygonStart(){}[0]
+    final fun result(io.data2viz.geojson/GeoJsonObject): kotlin/Double // io.data2viz.geo.geojson.path/GeoAreaStream.result|result(io.data2viz.geojson.GeoJsonObject){}[0]
+    final fun sphere() // io.data2viz.geo.geojson.path/GeoAreaStream.sphere|sphere(){}[0]
+}
+
+final class io.data2viz.geo.geojson.path/GeoBoundsStream : io.data2viz.geo.stream/Stream { // io.data2viz.geo.geojson.path/GeoBoundsStream|null[0]
+    constructor <init>() // io.data2viz.geo.geojson.path/GeoBoundsStream.<init>|<init>(){}[0]
+
+    final fun lineEnd() // io.data2viz.geo.geojson.path/GeoBoundsStream.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.geo.geojson.path/GeoBoundsStream.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.geojson.path/GeoBoundsStream.point|point(kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    final fun polygonEnd() // io.data2viz.geo.geojson.path/GeoBoundsStream.polygonEnd|polygonEnd(){}[0]
+    final fun polygonStart() // io.data2viz.geo.geojson.path/GeoBoundsStream.polygonStart|polygonStart(){}[0]
+    final fun result(io.data2viz.geojson/GeoJsonObject): io.data2viz.geom/Extent // io.data2viz.geo.geojson.path/GeoBoundsStream.result|result(io.data2viz.geojson.GeoJsonObject){}[0]
+}
+
+final class io.data2viz.geo.geojson.path/GeoCentroidStream : io.data2viz.geo.stream/Stream { // io.data2viz.geo.geojson.path/GeoCentroidStream|null[0]
+    constructor <init>() // io.data2viz.geo.geojson.path/GeoCentroidStream.<init>|<init>(){}[0]
+
+    final fun lineEnd() // io.data2viz.geo.geojson.path/GeoCentroidStream.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.geo.geojson.path/GeoCentroidStream.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.geojson.path/GeoCentroidStream.point|point(kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    final fun polygonEnd() // io.data2viz.geo.geojson.path/GeoCentroidStream.polygonEnd|polygonEnd(){}[0]
+    final fun polygonStart() // io.data2viz.geo.geojson.path/GeoCentroidStream.polygonStart|polygonStart(){}[0]
+    final fun result(io.data2viz.geojson/GeoJsonObject): kotlin/DoubleArray // io.data2viz.geo.geojson.path/GeoCentroidStream.result|result(io.data2viz.geojson.GeoJsonObject){}[0]
+}
+
+final class io.data2viz.geo.geojson.path/GeoLengthStream : io.data2viz.geo.stream/Stream { // io.data2viz.geo.geojson.path/GeoLengthStream|null[0]
+    constructor <init>() // io.data2viz.geo.geojson.path/GeoLengthStream.<init>|<init>(){}[0]
+
+    final fun lineEnd() // io.data2viz.geo.geojson.path/GeoLengthStream.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.geo.geojson.path/GeoLengthStream.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.geojson.path/GeoLengthStream.point|point(kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    final fun result(io.data2viz.geojson/GeoJsonObject): kotlin/Double // io.data2viz.geo.geojson.path/GeoLengthStream.result|result(io.data2viz.geojson.GeoJsonObject){}[0]
+}
+
+final class io.data2viz.geo.geojson/GeoInterpolate { // io.data2viz.geo.geojson/GeoInterpolate|null[0]
+    constructor <init>(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.geojson/GeoInterpolate.<init>|<init>(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+
+    final val distance // io.data2viz.geo.geojson/GeoInterpolate.distance|{}distance[0]
+        final fun <get-distance>(): kotlin/Double // io.data2viz.geo.geojson/GeoInterpolate.distance.<get-distance>|<get-distance>(){}[0]
+    final val interpolate // io.data2viz.geo.geojson/GeoInterpolate.interpolate|{}interpolate[0]
+        final fun <get-interpolate>(): kotlin/Function1<kotlin/Double, kotlin/DoubleArray> // io.data2viz.geo.geojson/GeoInterpolate.interpolate.<get-interpolate>|<get-interpolate>(){}[0]
+
+    final fun invoke(kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.geojson/GeoInterpolate.invoke|invoke(kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.geojson/GeoPath { // io.data2viz.geo.geojson/GeoPath|null[0]
+    constructor <init>(io.data2viz.geo.projection.common/Projection = ..., io.data2viz.geom/Path?) // io.data2viz.geo.geojson/GeoPath.<init>|<init>(io.data2viz.geo.projection.common.Projection;io.data2viz.geom.Path?){}[0]
+
+    final val path // io.data2viz.geo.geojson/GeoPath.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path? // io.data2viz.geo.geojson/GeoPath.path.<get-path>|<get-path>(){}[0]
+    final val projection // io.data2viz.geo.geojson/GeoPath.projection|{}projection[0]
+        final fun <get-projection>(): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.geojson/GeoPath.projection.<get-projection>|<get-projection>(){}[0]
+
+    final var pointRadius // io.data2viz.geo.geojson/GeoPath.pointRadius|{}pointRadius[0]
+        final fun <get-pointRadius>(): kotlin/Double // io.data2viz.geo.geojson/GeoPath.pointRadius.<get-pointRadius>|<get-pointRadius>(){}[0]
+        final fun <set-pointRadius>(kotlin/Double) // io.data2viz.geo.geojson/GeoPath.pointRadius.<set-pointRadius>|<set-pointRadius>(kotlin.Double){}[0]
+
+    final fun area(io.data2viz.geojson/GeoJsonObject): kotlin/Double // io.data2viz.geo.geojson/GeoPath.area|area(io.data2viz.geojson.GeoJsonObject){}[0]
+    final fun bounds(io.data2viz.geojson/GeoJsonObject): io.data2viz.geom/Extent // io.data2viz.geo.geojson/GeoPath.bounds|bounds(io.data2viz.geojson.GeoJsonObject){}[0]
+    final fun centroid(io.data2viz.geojson/GeoJsonObject): kotlin/DoubleArray // io.data2viz.geo.geojson/GeoPath.centroid|centroid(io.data2viz.geojson.GeoJsonObject){}[0]
+    final fun measure(io.data2viz.geojson/GeoJsonObject): kotlin/Double // io.data2viz.geo.geojson/GeoPath.measure|measure(io.data2viz.geojson.GeoJsonObject){}[0]
+    final fun project(io.data2viz.geojson/GeoJsonObject) // io.data2viz.geo.geojson/GeoPath.project|project(io.data2viz.geojson.GeoJsonObject){}[0]
+}
+
+final class io.data2viz.geo.geojson/Sphere : io.data2viz.geojson/Geometry { // io.data2viz.geo.geojson/Sphere|null[0]
+    constructor <init>() // io.data2viz.geo.geojson/Sphere.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.geo.geometry.clip/CircleClipper : io.data2viz.geo.geometry.clip/ClipperWithStart { // io.data2viz.geo.geometry.clip/CircleClipper|null[0]
+    constructor <init>(kotlin/Double) // io.data2viz.geo.geometry.clip/CircleClipper.<init>|<init>(kotlin.Double){}[0]
+
+    final val radius // io.data2viz.geo.geometry.clip/CircleClipper.radius|{}radius[0]
+        final fun <get-radius>(): kotlin/Double // io.data2viz.geo.geometry.clip/CircleClipper.radius.<get-radius>|<get-radius>(){}[0]
+    final val start // io.data2viz.geo.geometry.clip/CircleClipper.start|{}start[0]
+        final fun <get-start>(): kotlin/DoubleArray // io.data2viz.geo.geometry.clip/CircleClipper.start.<get-start>|<get-start>(){}[0]
+
+    final fun clipLine(io.data2viz.geo.stream/Stream): io.data2viz.geo.geometry.clip/ClipStream // io.data2viz.geo.geometry.clip/CircleClipper.clipLine|clipLine(io.data2viz.geo.stream.Stream){}[0]
+    final fun code(kotlin/Double, kotlin/Double): kotlin/Int // io.data2viz.geo.geometry.clip/CircleClipper.code|code(kotlin.Double;kotlin.Double){}[0]
+    final fun interpolate(kotlin/DoubleArray?, kotlin/DoubleArray?, kotlin/Int, io.data2viz.geo.stream/Stream) // io.data2viz.geo.geometry.clip/CircleClipper.interpolate|interpolate(kotlin.DoubleArray?;kotlin.DoubleArray?;kotlin.Int;io.data2viz.geo.stream.Stream){}[0]
+    final fun pointVisible(kotlin/Double, kotlin/Double): kotlin/Boolean // io.data2viz.geo.geometry.clip/CircleClipper.pointVisible|pointVisible(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.geometry.clip/CirclePreClip : io.data2viz.geo.geometry.clip/ClipStreamBuilder { // io.data2viz.geo.geometry.clip/CirclePreClip|null[0]
+    constructor <init>(kotlin/Double) // io.data2viz.geo.geometry.clip/CirclePreClip.<init>|<init>(kotlin.Double){}[0]
+
+    final val radius // io.data2viz.geo.geometry.clip/CirclePreClip.radius|{}radius[0]
+        final fun <get-radius>(): kotlin/Double // io.data2viz.geo.geometry.clip/CirclePreClip.radius.<get-radius>|<get-radius>(){}[0]
+
+    final fun bindTo(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.geometry.clip/CirclePreClip.bindTo|bindTo(io.data2viz.geo.stream.Stream){}[0]
+}
+
+final class io.data2viz.geo.geometry.clip/ExtentClip : io.data2viz.geo.geometry.clip/ClipStreamBuilder { // io.data2viz.geo.geometry.clip/ExtentClip|null[0]
+    constructor <init>(io.data2viz.geom/Extent) // io.data2viz.geo.geometry.clip/ExtentClip.<init>|<init>(io.data2viz.geom.Extent){}[0]
+
+    final val clipRectangle // io.data2viz.geo.geometry.clip/ExtentClip.clipRectangle|{}clipRectangle[0]
+        final fun <get-clipRectangle>(): io.data2viz.geo.geometry.clip/RectangleClipper // io.data2viz.geo.geometry.clip/ExtentClip.clipRectangle.<get-clipRectangle>|<get-clipRectangle>(){}[0]
+    final val extent // io.data2viz.geo.geometry.clip/ExtentClip.extent|{}extent[0]
+        final fun <get-extent>(): io.data2viz.geom/Extent // io.data2viz.geo.geometry.clip/ExtentClip.extent.<get-extent>|<get-extent>(){}[0]
+
+    final fun bindTo(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.geometry.clip/ExtentClip.bindTo|bindTo(io.data2viz.geo.stream.Stream){}[0]
+}
+
+final class io.data2viz.geo.geometry.clip/Intersection { // io.data2viz.geo.geometry.clip/Intersection|null[0]
+    constructor <init>(kotlin/DoubleArray, kotlin.collections/List<kotlin/DoubleArray>?, io.data2viz.geo.geometry.clip/Intersection?, kotlin/Boolean, kotlin/Boolean = ..., io.data2viz.geo.geometry.clip/Intersection? = ..., io.data2viz.geo.geometry.clip/Intersection? = ...) // io.data2viz.geo.geometry.clip/Intersection.<init>|<init>(kotlin.DoubleArray;kotlin.collections.List<kotlin.DoubleArray>?;io.data2viz.geo.geometry.clip.Intersection?;kotlin.Boolean;kotlin.Boolean;io.data2viz.geo.geometry.clip.Intersection?;io.data2viz.geo.geometry.clip.Intersection?){}[0]
+
+    final val point // io.data2viz.geo.geometry.clip/Intersection.point|{}point[0]
+        final fun <get-point>(): kotlin/DoubleArray // io.data2viz.geo.geometry.clip/Intersection.point.<get-point>|<get-point>(){}[0]
+    final val points // io.data2viz.geo.geometry.clip/Intersection.points|{}points[0]
+        final fun <get-points>(): kotlin.collections/List<kotlin/DoubleArray>? // io.data2viz.geo.geometry.clip/Intersection.points.<get-points>|<get-points>(){}[0]
+
+    final var entry // io.data2viz.geo.geometry.clip/Intersection.entry|{}entry[0]
+        final fun <get-entry>(): kotlin/Boolean // io.data2viz.geo.geometry.clip/Intersection.entry.<get-entry>|<get-entry>(){}[0]
+        final fun <set-entry>(kotlin/Boolean) // io.data2viz.geo.geometry.clip/Intersection.entry.<set-entry>|<set-entry>(kotlin.Boolean){}[0]
+    final var next // io.data2viz.geo.geometry.clip/Intersection.next|{}next[0]
+        final fun <get-next>(): io.data2viz.geo.geometry.clip/Intersection? // io.data2viz.geo.geometry.clip/Intersection.next.<get-next>|<get-next>(){}[0]
+        final fun <set-next>(io.data2viz.geo.geometry.clip/Intersection?) // io.data2viz.geo.geometry.clip/Intersection.next.<set-next>|<set-next>(io.data2viz.geo.geometry.clip.Intersection?){}[0]
+    final var other // io.data2viz.geo.geometry.clip/Intersection.other|{}other[0]
+        final fun <get-other>(): io.data2viz.geo.geometry.clip/Intersection? // io.data2viz.geo.geometry.clip/Intersection.other.<get-other>|<get-other>(){}[0]
+        final fun <set-other>(io.data2viz.geo.geometry.clip/Intersection?) // io.data2viz.geo.geometry.clip/Intersection.other.<set-other>|<set-other>(io.data2viz.geo.geometry.clip.Intersection?){}[0]
+    final var previous // io.data2viz.geo.geometry.clip/Intersection.previous|{}previous[0]
+        final fun <get-previous>(): io.data2viz.geo.geometry.clip/Intersection? // io.data2viz.geo.geometry.clip/Intersection.previous.<get-previous>|<get-previous>(){}[0]
+        final fun <set-previous>(io.data2viz.geo.geometry.clip/Intersection?) // io.data2viz.geo.geometry.clip/Intersection.previous.<set-previous>|<set-previous>(io.data2viz.geo.geometry.clip.Intersection?){}[0]
+    final var visited // io.data2viz.geo.geometry.clip/Intersection.visited|{}visited[0]
+        final fun <get-visited>(): kotlin/Boolean // io.data2viz.geo.geometry.clip/Intersection.visited.<get-visited>|<get-visited>(){}[0]
+        final fun <set-visited>(kotlin/Boolean) // io.data2viz.geo.geometry.clip/Intersection.visited.<set-visited>|<set-visited>(kotlin.Boolean){}[0]
+
+    final fun component1(): kotlin/DoubleArray // io.data2viz.geo.geometry.clip/Intersection.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<kotlin/DoubleArray>? // io.data2viz.geo.geometry.clip/Intersection.component2|component2(){}[0]
+    final fun component3(): io.data2viz.geo.geometry.clip/Intersection? // io.data2viz.geo.geometry.clip/Intersection.component3|component3(){}[0]
+    final fun component4(): kotlin/Boolean // io.data2viz.geo.geometry.clip/Intersection.component4|component4(){}[0]
+    final fun component5(): kotlin/Boolean // io.data2viz.geo.geometry.clip/Intersection.component5|component5(){}[0]
+    final fun component6(): io.data2viz.geo.geometry.clip/Intersection? // io.data2viz.geo.geometry.clip/Intersection.component6|component6(){}[0]
+    final fun component7(): io.data2viz.geo.geometry.clip/Intersection? // io.data2viz.geo.geometry.clip/Intersection.component7|component7(){}[0]
+    final fun copy(kotlin/DoubleArray = ..., kotlin.collections/List<kotlin/DoubleArray>? = ..., io.data2viz.geo.geometry.clip/Intersection? = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., io.data2viz.geo.geometry.clip/Intersection? = ..., io.data2viz.geo.geometry.clip/Intersection? = ...): io.data2viz.geo.geometry.clip/Intersection // io.data2viz.geo.geometry.clip/Intersection.copy|copy(kotlin.DoubleArray;kotlin.collections.List<kotlin.DoubleArray>?;io.data2viz.geo.geometry.clip.Intersection?;kotlin.Boolean;kotlin.Boolean;io.data2viz.geo.geometry.clip.Intersection?;io.data2viz.geo.geometry.clip.Intersection?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.geo.geometry.clip/Intersection.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.geo.geometry.clip/Intersection.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.geo.geometry.clip/Intersection.toString|toString(){}[0]
+}
+
+final class io.data2viz.geo.geometry.clip/RectangleClip : io.data2viz.geo.geometry.clip/ClipStreamBuilder { // io.data2viz.geo.geometry.clip/RectangleClip|null[0]
+    constructor <init>(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.geometry.clip/RectangleClip.<init>|<init>(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+
+    final val clipRectangle // io.data2viz.geo.geometry.clip/RectangleClip.clipRectangle|{}clipRectangle[0]
+        final fun <get-clipRectangle>(): io.data2viz.geo.geometry.clip/RectangleClipper // io.data2viz.geo.geometry.clip/RectangleClip.clipRectangle.<get-clipRectangle>|<get-clipRectangle>(){}[0]
+
+    final fun bindTo(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.geometry.clip/RectangleClip.bindTo|bindTo(io.data2viz.geo.stream.Stream){}[0]
+}
+
+final class io.data2viz.geo.geometry.clip/RectangleClipper : io.data2viz.geo.geometry.clip/Clipper { // io.data2viz.geo.geometry.clip/RectangleClipper|null[0]
+    constructor <init>(io.data2viz.geom/Extent) // io.data2viz.geo.geometry.clip/RectangleClipper.<init>|<init>(io.data2viz.geom.Extent){}[0]
+
+    final val extent // io.data2viz.geo.geometry.clip/RectangleClipper.extent|{}extent[0]
+        final fun <get-extent>(): io.data2viz.geom/Extent // io.data2viz.geo.geometry.clip/RectangleClipper.extent.<get-extent>|<get-extent>(){}[0]
+
+    final fun clipLine(io.data2viz.geo.stream/Stream): io.data2viz.geo.geometry.clip/ClipStream // io.data2viz.geo.geometry.clip/RectangleClipper.clipLine|clipLine(io.data2viz.geo.stream.Stream){}[0]
+    final fun interpolate(kotlin/DoubleArray?, kotlin/DoubleArray?, kotlin/Int, io.data2viz.geo.stream/Stream) // io.data2viz.geo.geometry.clip/RectangleClipper.interpolate|interpolate(kotlin.DoubleArray?;kotlin.DoubleArray?;kotlin.Int;io.data2viz.geo.stream.Stream){}[0]
+    final fun pointVisible(kotlin/Double, kotlin/Double): kotlin/Boolean // io.data2viz.geo.geometry.clip/RectangleClipper.pointVisible|pointVisible(kotlin.Double;kotlin.Double){}[0]
+
+    final enum class PointContext : kotlin/Enum<io.data2viz.geo.geometry.clip/RectangleClipper.PointContext> { // io.data2viz.geo.geometry.clip/RectangleClipper.PointContext|null[0]
+        enum entry DEFAULT // io.data2viz.geo.geometry.clip/RectangleClipper.PointContext.DEFAULT|null[0]
+        enum entry LINE // io.data2viz.geo.geometry.clip/RectangleClipper.PointContext.LINE|null[0]
+
+        final val entries // io.data2viz.geo.geometry.clip/RectangleClipper.PointContext.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.geo.geometry.clip/RectangleClipper.PointContext> // io.data2viz.geo.geometry.clip/RectangleClipper.PointContext.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): io.data2viz.geo.geometry.clip/RectangleClipper.PointContext // io.data2viz.geo.geometry.clip/RectangleClipper.PointContext.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<io.data2viz.geo.geometry.clip/RectangleClipper.PointContext> // io.data2viz.geo.geometry.clip/RectangleClipper.PointContext.values|values#static(){}[0]
+    }
+}
+
+final class io.data2viz.geo.geometry/Graticule { // io.data2viz.geo.geometry/Graticule|null[0]
+    constructor <init>() // io.data2viz.geo.geometry/Graticule.<init>|<init>(){}[0]
+
+    final var extent // io.data2viz.geo.geometry/Graticule.extent|{}extent[0]
+        final fun <get-extent>(): io.data2viz.geom/Extent // io.data2viz.geo.geometry/Graticule.extent.<get-extent>|<get-extent>(){}[0]
+        final fun <set-extent>(io.data2viz.geom/Extent) // io.data2viz.geo.geometry/Graticule.extent.<set-extent>|<set-extent>(io.data2viz.geom.Extent){}[0]
+    final var extentMajor // io.data2viz.geo.geometry/Graticule.extentMajor|{}extentMajor[0]
+        final fun <get-extentMajor>(): io.data2viz.geom/Extent // io.data2viz.geo.geometry/Graticule.extentMajor.<get-extentMajor>|<get-extentMajor>(){}[0]
+        final fun <set-extentMajor>(io.data2viz.geom/Extent) // io.data2viz.geo.geometry/Graticule.extentMajor.<set-extentMajor>|<set-extentMajor>(io.data2viz.geom.Extent){}[0]
+    final var extentMinor // io.data2viz.geo.geometry/Graticule.extentMinor|{}extentMinor[0]
+        final fun <get-extentMinor>(): io.data2viz.geom/Extent // io.data2viz.geo.geometry/Graticule.extentMinor.<get-extentMinor>|<get-extentMinor>(){}[0]
+        final fun <set-extentMinor>(io.data2viz.geom/Extent) // io.data2viz.geo.geometry/Graticule.extentMinor.<set-extentMinor>|<set-extentMinor>(io.data2viz.geom.Extent){}[0]
+    final var precision // io.data2viz.geo.geometry/Graticule.precision|{}precision[0]
+        final fun <get-precision>(): kotlin/Double // io.data2viz.geo.geometry/Graticule.precision.<get-precision>|<get-precision>(){}[0]
+        final fun <set-precision>(kotlin/Double) // io.data2viz.geo.geometry/Graticule.precision.<set-precision>|<set-precision>(kotlin.Double){}[0]
+    final var step // io.data2viz.geo.geometry/Graticule.step|{}step[0]
+        final fun <get-step>(): kotlin/DoubleArray // io.data2viz.geo.geometry/Graticule.step.<get-step>|<get-step>(){}[0]
+        final fun <set-step>(kotlin/DoubleArray) // io.data2viz.geo.geometry/Graticule.step.<set-step>|<set-step>(kotlin.DoubleArray){}[0]
+    final var stepMajor // io.data2viz.geo.geometry/Graticule.stepMajor|{}stepMajor[0]
+        final fun <get-stepMajor>(): kotlin/DoubleArray // io.data2viz.geo.geometry/Graticule.stepMajor.<get-stepMajor>|<get-stepMajor>(){}[0]
+        final fun <set-stepMajor>(kotlin/DoubleArray) // io.data2viz.geo.geometry/Graticule.stepMajor.<set-stepMajor>|<set-stepMajor>(kotlin.DoubleArray){}[0]
+    final var stepMinor // io.data2viz.geo.geometry/Graticule.stepMinor|{}stepMinor[0]
+        final fun <get-stepMinor>(): kotlin/DoubleArray // io.data2viz.geo.geometry/Graticule.stepMinor.<get-stepMinor>|<get-stepMinor>(){}[0]
+        final fun <set-stepMinor>(kotlin/DoubleArray) // io.data2viz.geo.geometry/Graticule.stepMinor.<set-stepMinor>|<set-stepMinor>(kotlin.DoubleArray){}[0]
+
+    final fun graticule(): io.data2viz.geojson/MultiLineString // io.data2viz.geo.geometry/Graticule.graticule|graticule(){}[0]
+    final fun lines(): kotlin.collections/List<io.data2viz.geojson/LineString> // io.data2viz.geo.geometry/Graticule.lines|lines(){}[0]
+    final fun outline(): io.data2viz.geojson/Polygon // io.data2viz.geo.geometry/Graticule.outline|outline(){}[0]
+}
+
+final class io.data2viz.geo.projection.common/ComposedProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection.common/ComposedProjector|null[0]
+    constructor <init>(io.data2viz.geo.projection.common/Projector, io.data2viz.geo.projection.common/Projector) // io.data2viz.geo.projection.common/ComposedProjector.<init>|<init>(io.data2viz.geo.projection.common.Projector;io.data2viz.geo.projection.common.Projector){}[0]
+
+    final val a // io.data2viz.geo.projection.common/ComposedProjector.a|{}a[0]
+        final fun <get-a>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/ComposedProjector.a.<get-a>|<get-a>(){}[0]
+    final val b // io.data2viz.geo.projection.common/ComposedProjector.b|{}b[0]
+        final fun <get-b>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/ComposedProjector.b.<get-b>|<get-b>(){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/ComposedProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/ComposedProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection.common/RotationProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection.common/RotationProjector|null[0]
+    constructor <init>(io.data2viz.math/Angle, io.data2viz.math/Angle, io.data2viz.math/Angle? = ...) // io.data2viz.geo.projection.common/RotationProjector.<init>|<init>(io.data2viz.math.Angle;io.data2viz.math.Angle;io.data2viz.math.Angle?){}[0]
+
+    final val rotator // io.data2viz.geo.projection.common/RotationProjector.rotator|{}rotator[0]
+        final fun <get-rotator>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/RotationProjector.rotator.<get-rotator>|<get-rotator>(){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/RotationProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/RotationProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection.common/TranslateAndScaleProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection.common/TranslateAndScaleProjector|null[0]
+    constructor <init>(io.data2viz.geo.projection.common/Projector, kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.projection.common/TranslateAndScaleProjector.<init>|<init>(io.data2viz.geo.projection.common.Projector;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+
+    final val projector // io.data2viz.geo.projection.common/TranslateAndScaleProjector.projector|{}projector[0]
+        final fun <get-projector>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/TranslateAndScaleProjector.projector.<get-projector>|<get-projector>(){}[0]
+
+    final var recenterDx // io.data2viz.geo.projection.common/TranslateAndScaleProjector.recenterDx|{}recenterDx[0]
+        final fun <get-recenterDx>(): kotlin/Double // io.data2viz.geo.projection.common/TranslateAndScaleProjector.recenterDx.<get-recenterDx>|<get-recenterDx>(){}[0]
+        final fun <set-recenterDx>(kotlin/Double) // io.data2viz.geo.projection.common/TranslateAndScaleProjector.recenterDx.<set-recenterDx>|<set-recenterDx>(kotlin.Double){}[0]
+    final var recenterDy // io.data2viz.geo.projection.common/TranslateAndScaleProjector.recenterDy|{}recenterDy[0]
+        final fun <get-recenterDy>(): kotlin/Double // io.data2viz.geo.projection.common/TranslateAndScaleProjector.recenterDy.<get-recenterDy>|<get-recenterDy>(){}[0]
+        final fun <set-recenterDy>(kotlin/Double) // io.data2viz.geo.projection.common/TranslateAndScaleProjector.recenterDy.<set-recenterDy>|<set-recenterDy>(kotlin.Double){}[0]
+    final var scale // io.data2viz.geo.projection.common/TranslateAndScaleProjector.scale|{}scale[0]
+        final fun <get-scale>(): kotlin/Double // io.data2viz.geo.projection.common/TranslateAndScaleProjector.scale.<get-scale>|<get-scale>(){}[0]
+        final fun <set-scale>(kotlin/Double) // io.data2viz.geo.projection.common/TranslateAndScaleProjector.scale.<set-scale>|<set-scale>(kotlin.Double){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/TranslateAndScaleProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/TranslateAndScaleProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/AlbersUSAProjection : io.data2viz.geo.projection.common/ComposedProjection { // io.data2viz.geo.projection/AlbersUSAProjection|null[0]
+    constructor <init>() // io.data2viz.geo.projection/AlbersUSAProjection.<init>|<init>(){}[0]
+
+    final val allProjections // io.data2viz.geo.projection/AlbersUSAProjection.allProjections|{}allProjections[0]
+        final fun <get-allProjections>(): kotlin.collections/Collection<io.data2viz.geo.projection.common/Projection> // io.data2viz.geo.projection/AlbersUSAProjection.allProjections.<get-allProjections>|<get-allProjections>(){}[0]
+    final val mainProjection // io.data2viz.geo.projection/AlbersUSAProjection.mainProjection|{}mainProjection[0]
+        final fun <get-mainProjection>(): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/AlbersUSAProjection.mainProjection.<get-mainProjection>|<get-mainProjection>(){}[0]
+    final val pointStream // io.data2viz.geo.projection/AlbersUSAProjection.pointStream|{}pointStream[0]
+        final fun <get-pointStream>(): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection/AlbersUSAProjection.pointStream.<get-pointStream>|<get-pointStream>(){}[0]
+
+    final var alaskaPoint // io.data2viz.geo.projection/AlbersUSAProjection.alaskaPoint|{}alaskaPoint[0]
+        final fun <get-alaskaPoint>(): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection/AlbersUSAProjection.alaskaPoint.<get-alaskaPoint>|<get-alaskaPoint>(){}[0]
+        final fun <set-alaskaPoint>(io.data2viz.geo.stream/Stream) // io.data2viz.geo.projection/AlbersUSAProjection.alaskaPoint.<set-alaskaPoint>|<set-alaskaPoint>(io.data2viz.geo.stream.Stream){}[0]
+    final var hawaiiPoint // io.data2viz.geo.projection/AlbersUSAProjection.hawaiiPoint|{}hawaiiPoint[0]
+        final fun <get-hawaiiPoint>(): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection/AlbersUSAProjection.hawaiiPoint.<get-hawaiiPoint>|<get-hawaiiPoint>(){}[0]
+        final fun <set-hawaiiPoint>(io.data2viz.geo.stream/Stream) // io.data2viz.geo.projection/AlbersUSAProjection.hawaiiPoint.<set-hawaiiPoint>|<set-hawaiiPoint>(io.data2viz.geo.stream.Stream){}[0]
+    final var lower48Point // io.data2viz.geo.projection/AlbersUSAProjection.lower48Point|{}lower48Point[0]
+        final fun <get-lower48Point>(): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection/AlbersUSAProjection.lower48Point.<get-lower48Point>|<get-lower48Point>(){}[0]
+        final fun <set-lower48Point>(io.data2viz.geo.stream/Stream) // io.data2viz.geo.projection/AlbersUSAProjection.lower48Point.<set-lower48Point>|<set-lower48Point>(io.data2viz.geo.stream.Stream){}[0]
+    final var point // io.data2viz.geo.projection/AlbersUSAProjection.point|{}point[0]
+        final fun <get-point>(): kotlin/DoubleArray // io.data2viz.geo.projection/AlbersUSAProjection.point.<get-point>|<get-point>(){}[0]
+        final fun <set-point>(kotlin/DoubleArray) // io.data2viz.geo.projection/AlbersUSAProjection.point.<set-point>|<set-point>(kotlin.DoubleArray){}[0]
+    final var precision // io.data2viz.geo.projection/AlbersUSAProjection.precision|{}precision[0]
+        final fun <get-precision>(): kotlin/Double // io.data2viz.geo.projection/AlbersUSAProjection.precision.<get-precision>|<get-precision>(){}[0]
+        final fun <set-precision>(kotlin/Double) // io.data2viz.geo.projection/AlbersUSAProjection.precision.<set-precision>|<set-precision>(kotlin.Double){}[0]
+    final var scale // io.data2viz.geo.projection/AlbersUSAProjection.scale|{}scale[0]
+        final fun <get-scale>(): kotlin/Double // io.data2viz.geo.projection/AlbersUSAProjection.scale.<get-scale>|<get-scale>(){}[0]
+        final fun <set-scale>(kotlin/Double) // io.data2viz.geo.projection/AlbersUSAProjection.scale.<set-scale>|<set-scale>(kotlin.Double){}[0]
+    final var translateX // io.data2viz.geo.projection/AlbersUSAProjection.translateX|{}translateX[0]
+        final fun <get-translateX>(): kotlin/Double // io.data2viz.geo.projection/AlbersUSAProjection.translateX.<get-translateX>|<get-translateX>(){}[0]
+        final fun <set-translateX>(kotlin/Double) // io.data2viz.geo.projection/AlbersUSAProjection.translateX.<set-translateX>|<set-translateX>(kotlin.Double){}[0]
+    final var translateY // io.data2viz.geo.projection/AlbersUSAProjection.translateY|{}translateY[0]
+        final fun <get-translateY>(): kotlin/Double // io.data2viz.geo.projection/AlbersUSAProjection.translateY.<get-translateY>|<get-translateY>(){}[0]
+        final fun <set-translateY>(kotlin/Double) // io.data2viz.geo.projection/AlbersUSAProjection.translateY.<set-translateY>|<set-translateY>(kotlin.Double){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/AlbersUSAProjection.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/AlbersUSAProjection.project|project(kotlin.Double;kotlin.Double){}[0]
+    final fun translate(kotlin/Double, kotlin/Double) // io.data2viz.geo.projection/AlbersUSAProjection.translate|translate(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/ConicConformalProjector : io.data2viz.geo.projection.common/Projector, io.data2viz.geo.projection/ConicProjector { // io.data2viz.geo.projection/ConicConformalProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/ConicConformalProjector.<init>|<init>(){}[0]
+
+    final var isPossibleToUseProjector // io.data2viz.geo.projection/ConicConformalProjector.isPossibleToUseProjector|{}isPossibleToUseProjector[0]
+        final fun <get-isPossibleToUseProjector>(): kotlin/Boolean // io.data2viz.geo.projection/ConicConformalProjector.isPossibleToUseProjector.<get-isPossibleToUseProjector>|<get-isPossibleToUseProjector>(){}[0]
+    final var phi0 // io.data2viz.geo.projection/ConicConformalProjector.phi0|{}phi0[0]
+        final fun <get-phi0>(): kotlin/Double // io.data2viz.geo.projection/ConicConformalProjector.phi0.<get-phi0>|<get-phi0>(){}[0]
+        final fun <set-phi0>(kotlin/Double) // io.data2viz.geo.projection/ConicConformalProjector.phi0.<set-phi0>|<set-phi0>(kotlin.Double){}[0]
+    final var phi1 // io.data2viz.geo.projection/ConicConformalProjector.phi1|{}phi1[0]
+        final fun <get-phi1>(): kotlin/Double // io.data2viz.geo.projection/ConicConformalProjector.phi1.<get-phi1>|<get-phi1>(){}[0]
+        final fun <set-phi1>(kotlin/Double) // io.data2viz.geo.projection/ConicConformalProjector.phi1.<set-phi1>|<set-phi1>(kotlin.Double){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/ConicConformalProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/ConicConformalProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/ConicEqualAreaProjector : io.data2viz.geo.projection.common/Projector, io.data2viz.geo.projection/ConicProjector { // io.data2viz.geo.projection/ConicEqualAreaProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/ConicEqualAreaProjector.<init>|<init>(){}[0]
+
+    final var isPossibleToUseProjector // io.data2viz.geo.projection/ConicEqualAreaProjector.isPossibleToUseProjector|{}isPossibleToUseProjector[0]
+        final fun <get-isPossibleToUseProjector>(): kotlin/Boolean // io.data2viz.geo.projection/ConicEqualAreaProjector.isPossibleToUseProjector.<get-isPossibleToUseProjector>|<get-isPossibleToUseProjector>(){}[0]
+    final var phi0 // io.data2viz.geo.projection/ConicEqualAreaProjector.phi0|{}phi0[0]
+        final fun <get-phi0>(): kotlin/Double // io.data2viz.geo.projection/ConicEqualAreaProjector.phi0.<get-phi0>|<get-phi0>(){}[0]
+        final fun <set-phi0>(kotlin/Double) // io.data2viz.geo.projection/ConicEqualAreaProjector.phi0.<set-phi0>|<set-phi0>(kotlin.Double){}[0]
+    final var phi1 // io.data2viz.geo.projection/ConicEqualAreaProjector.phi1|{}phi1[0]
+        final fun <get-phi1>(): kotlin/Double // io.data2viz.geo.projection/ConicEqualAreaProjector.phi1.<get-phi1>|<get-phi1>(){}[0]
+        final fun <set-phi1>(kotlin/Double) // io.data2viz.geo.projection/ConicEqualAreaProjector.phi1.<set-phi1>|<set-phi1>(kotlin.Double){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/ConicEqualAreaProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/ConicEqualAreaProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/ConicEquidistantProjector : io.data2viz.geo.projection.common/Projector, io.data2viz.geo.projection/ConicProjector { // io.data2viz.geo.projection/ConicEquidistantProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/ConicEquidistantProjector.<init>|<init>(){}[0]
+
+    final var isPossibleToUseProjector // io.data2viz.geo.projection/ConicEquidistantProjector.isPossibleToUseProjector|{}isPossibleToUseProjector[0]
+        final fun <get-isPossibleToUseProjector>(): kotlin/Boolean // io.data2viz.geo.projection/ConicEquidistantProjector.isPossibleToUseProjector.<get-isPossibleToUseProjector>|<get-isPossibleToUseProjector>(){}[0]
+    final var phi0 // io.data2viz.geo.projection/ConicEquidistantProjector.phi0|{}phi0[0]
+        final fun <get-phi0>(): kotlin/Double // io.data2viz.geo.projection/ConicEquidistantProjector.phi0.<get-phi0>|<get-phi0>(){}[0]
+        final fun <set-phi0>(kotlin/Double) // io.data2viz.geo.projection/ConicEquidistantProjector.phi0.<set-phi0>|<set-phi0>(kotlin.Double){}[0]
+    final var phi1 // io.data2viz.geo.projection/ConicEquidistantProjector.phi1|{}phi1[0]
+        final fun <get-phi1>(): kotlin/Double // io.data2viz.geo.projection/ConicEquidistantProjector.phi1.<get-phi1>|<get-phi1>(){}[0]
+        final fun <set-phi1>(kotlin/Double) // io.data2viz.geo.projection/ConicEquidistantProjector.phi1.<set-phi1>|<set-phi1>(kotlin.Double){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/ConicEquidistantProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/ConicEquidistantProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/ConicProjection : io.data2viz.geo.projection.common/ProjectorProjection { // io.data2viz.geo.projection/ConicProjection|null[0]
+    constructor <init>(io.data2viz.geo.projection/ConicProjector) // io.data2viz.geo.projection/ConicProjection.<init>|<init>(io.data2viz.geo.projection.ConicProjector){}[0]
+
+    final val conicProjector // io.data2viz.geo.projection/ConicProjection.conicProjector|{}conicProjector[0]
+        final fun <get-conicProjector>(): io.data2viz.geo.projection/ConicProjector // io.data2viz.geo.projection/ConicProjection.conicProjector.<get-conicProjector>|<get-conicProjector>(){}[0]
+
+    final var parallelsMax // io.data2viz.geo.projection/ConicProjection.parallelsMax|{}parallelsMax[0]
+        final fun <get-parallelsMax>(): io.data2viz.math/Angle // io.data2viz.geo.projection/ConicProjection.parallelsMax.<get-parallelsMax>|<get-parallelsMax>(){}[0]
+        final fun <set-parallelsMax>(io.data2viz.math/Angle) // io.data2viz.geo.projection/ConicProjection.parallelsMax.<set-parallelsMax>|<set-parallelsMax>(io.data2viz.math.Angle){}[0]
+    final var parallelsMin // io.data2viz.geo.projection/ConicProjection.parallelsMin|{}parallelsMin[0]
+        final fun <get-parallelsMin>(): io.data2viz.math/Angle // io.data2viz.geo.projection/ConicProjection.parallelsMin.<get-parallelsMin>|<get-parallelsMin>(){}[0]
+        final fun <set-parallelsMin>(io.data2viz.math/Angle) // io.data2viz.geo.projection/ConicProjection.parallelsMin.<set-parallelsMin>|<set-parallelsMin>(io.data2viz.math.Angle){}[0]
+
+    final fun parallels(io.data2viz.math/Angle, io.data2viz.math/Angle) // io.data2viz.geo.projection/ConicProjection.parallels|parallels(io.data2viz.math.Angle;io.data2viz.math.Angle){}[0]
+}
+
+final class io.data2viz.geo.projection/CylindricalEqualAreaProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/CylindricalEqualAreaProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/CylindricalEqualAreaProjector.<init>|<init>(){}[0]
+    constructor <init>(kotlin/Double) // io.data2viz.geo.projection/CylindricalEqualAreaProjector.<init>|<init>(kotlin.Double){}[0]
+
+    final var cosPhi0 // io.data2viz.geo.projection/CylindricalEqualAreaProjector.cosPhi0|{}cosPhi0[0]
+        final fun <get-cosPhi0>(): kotlin/Double // io.data2viz.geo.projection/CylindricalEqualAreaProjector.cosPhi0.<get-cosPhi0>|<get-cosPhi0>(){}[0]
+        final fun <set-cosPhi0>(kotlin/Double) // io.data2viz.geo.projection/CylindricalEqualAreaProjector.cosPhi0.<set-cosPhi0>|<set-cosPhi0>(kotlin.Double){}[0]
+    final var phi0 // io.data2viz.geo.projection/CylindricalEqualAreaProjector.phi0|{}phi0[0]
+        final fun <get-phi0>(): kotlin/Double // io.data2viz.geo.projection/CylindricalEqualAreaProjector.phi0.<get-phi0>|<get-phi0>(){}[0]
+        final fun <set-phi0>(kotlin/Double) // io.data2viz.geo.projection/CylindricalEqualAreaProjector.phi0.<set-phi0>|<set-phi0>(kotlin.Double){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/CylindricalEqualAreaProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/CylindricalEqualAreaProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/EqualEarthProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/EqualEarthProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/EqualEarthProjector.<init>|<init>(){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/EqualEarthProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/EqualEarthProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/GnomonicProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/GnomonicProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/GnomonicProjector.<init>|<init>(){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/GnomonicProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/GnomonicProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/MercatorProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/MercatorProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/MercatorProjector.<init>|<init>(){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/MercatorProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/MercatorProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/NaturalEarthProjection : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/NaturalEarthProjection|null[0]
+    constructor <init>() // io.data2viz.geo.projection/NaturalEarthProjection.<init>|<init>(){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/NaturalEarthProjection.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/NaturalEarthProjection.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/StereographicProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/StereographicProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/StereographicProjector.<init>|<init>(){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/StereographicProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/StereographicProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.projection/TransverseMercatorProjection : io.data2viz.geo.projection/MercatorProjection { // io.data2viz.geo.projection/TransverseMercatorProjection|null[0]
+    constructor <init>() // io.data2viz.geo.projection/TransverseMercatorProjection.<init>|<init>(){}[0]
+
+    final var centerLat // io.data2viz.geo.projection/TransverseMercatorProjection.centerLat|{}centerLat[0]
+        final fun <get-centerLat>(): io.data2viz.math/Angle // io.data2viz.geo.projection/TransverseMercatorProjection.centerLat.<get-centerLat>|<get-centerLat>(){}[0]
+        final fun <set-centerLat>(io.data2viz.math/Angle) // io.data2viz.geo.projection/TransverseMercatorProjection.centerLat.<set-centerLat>|<set-centerLat>(io.data2viz.math.Angle){}[0]
+    final var centerLon // io.data2viz.geo.projection/TransverseMercatorProjection.centerLon|{}centerLon[0]
+        final fun <get-centerLon>(): io.data2viz.math/Angle // io.data2viz.geo.projection/TransverseMercatorProjection.centerLon.<get-centerLon>|<get-centerLon>(){}[0]
+        final fun <set-centerLon>(io.data2viz.math/Angle) // io.data2viz.geo.projection/TransverseMercatorProjection.centerLon.<set-centerLon>|<set-centerLon>(io.data2viz.math.Angle){}[0]
+    final var rotateGamma // io.data2viz.geo.projection/TransverseMercatorProjection.rotateGamma|{}rotateGamma[0]
+        final fun <get-rotateGamma>(): io.data2viz.math/Angle // io.data2viz.geo.projection/TransverseMercatorProjection.rotateGamma.<get-rotateGamma>|<get-rotateGamma>(){}[0]
+        final fun <set-rotateGamma>(io.data2viz.math/Angle) // io.data2viz.geo.projection/TransverseMercatorProjection.rotateGamma.<set-rotateGamma>|<set-rotateGamma>(io.data2viz.math.Angle){}[0]
+
+    final fun center(io.data2viz.math/Angle, io.data2viz.math/Angle) // io.data2viz.geo.projection/TransverseMercatorProjection.center|center(io.data2viz.math.Angle;io.data2viz.math.Angle){}[0]
+    final fun rotate(io.data2viz.math/Angle, io.data2viz.math/Angle, io.data2viz.math/Angle?) // io.data2viz.geo.projection/TransverseMercatorProjection.rotate|rotate(io.data2viz.math.Angle;io.data2viz.math.Angle;io.data2viz.math.Angle?){}[0]
+}
+
+final class io.data2viz.geo.projection/TransverseMercatorProjector : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/TransverseMercatorProjector|null[0]
+    constructor <init>() // io.data2viz.geo.projection/TransverseMercatorProjector.<init>|<init>(){}[0]
+
+    final fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/TransverseMercatorProjector.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    final fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/TransverseMercatorProjector.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.geo.stream/MultiplexStream : io.data2viz.geo.stream/Stream { // io.data2viz.geo.stream/MultiplexStream|null[0]
+    constructor <init>(kotlin.collections/Collection<io.data2viz.geo.stream/Stream>) // io.data2viz.geo.stream/MultiplexStream.<init>|<init>(kotlin.collections.Collection<io.data2viz.geo.stream.Stream>){}[0]
+
+    final fun lineEnd() // io.data2viz.geo.stream/MultiplexStream.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.geo.stream/MultiplexStream.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.stream/MultiplexStream.point|point(kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    final fun polygonEnd() // io.data2viz.geo.stream/MultiplexStream.polygonEnd|polygonEnd(){}[0]
+    final fun polygonStart() // io.data2viz.geo.stream/MultiplexStream.polygonStart|polygonStart(){}[0]
+    final fun sphere() // io.data2viz.geo.stream/MultiplexStream.sphere|sphere(){}[0]
+}
+
+final class io.data2viz.geo.stream/StreamCache { // io.data2viz.geo.stream/StreamCache|null[0]
+    constructor <init>() // io.data2viz.geo.stream/StreamCache.<init>|<init>(){}[0]
+
+    final fun isCacheValidFor(io.data2viz.geo.stream/Stream): kotlin/Boolean // io.data2viz.geo.stream/StreamCache.isCacheValidFor|isCacheValidFor(io.data2viz.geo.stream.Stream){}[0]
+    final fun reset() // io.data2viz.geo.stream/StreamCache.reset|reset(){}[0]
+}
+
+open class io.data2viz.geo.projection.common/ProjectorProjection : io.data2viz.geo.projection.common/Projection { // io.data2viz.geo.projection.common/ProjectorProjection|null[0]
+    constructor <init>(io.data2viz.geo.projection.common/Projector) // io.data2viz.geo.projection.common/ProjectorProjection.<init>|<init>(io.data2viz.geo.projection.common.Projector){}[0]
+
+    final val projector // io.data2viz.geo.projection.common/ProjectorProjection.projector|{}projector[0]
+        final fun <get-projector>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/ProjectorProjection.projector.<get-projector>|<get-projector>(){}[0]
+    final val translateAndScaleProjector // io.data2viz.geo.projection.common/ProjectorProjection.translateAndScaleProjector|{}translateAndScaleProjector[0]
+        final fun <get-translateAndScaleProjector>(): io.data2viz.geo.projection.common/TranslateAndScaleProjector // io.data2viz.geo.projection.common/ProjectorProjection.translateAndScaleProjector.<get-translateAndScaleProjector>|<get-translateAndScaleProjector>(){}[0]
+
+    final var _rotationGamma // io.data2viz.geo.projection.common/ProjectorProjection._rotationGamma|{}_rotationGamma[0]
+        final fun <get-_rotationGamma>(): kotlin/Double // io.data2viz.geo.projection.common/ProjectorProjection._rotationGamma.<get-_rotationGamma>|<get-_rotationGamma>(){}[0]
+        final fun <set-_rotationGamma>(kotlin/Double) // io.data2viz.geo.projection.common/ProjectorProjection._rotationGamma.<set-_rotationGamma>|<set-_rotationGamma>(kotlin.Double){}[0]
+    final var _rotationLambda // io.data2viz.geo.projection.common/ProjectorProjection._rotationLambda|{}_rotationLambda[0]
+        final fun <get-_rotationLambda>(): kotlin/Double // io.data2viz.geo.projection.common/ProjectorProjection._rotationLambda.<get-_rotationLambda>|<get-_rotationLambda>(){}[0]
+        final fun <set-_rotationLambda>(kotlin/Double) // io.data2viz.geo.projection.common/ProjectorProjection._rotationLambda.<set-_rotationLambda>|<set-_rotationLambda>(kotlin.Double){}[0]
+    final var _rotationPhi // io.data2viz.geo.projection.common/ProjectorProjection._rotationPhi|{}_rotationPhi[0]
+        final fun <get-_rotationPhi>(): kotlin/Double // io.data2viz.geo.projection.common/ProjectorProjection._rotationPhi.<get-_rotationPhi>|<get-_rotationPhi>(){}[0]
+        final fun <set-_rotationPhi>(kotlin/Double) // io.data2viz.geo.projection.common/ProjectorProjection._rotationPhi.<set-_rotationPhi>|<set-_rotationPhi>(kotlin.Double){}[0]
+    final var composedTransformationsProjector // io.data2viz.geo.projection.common/ProjectorProjection.composedTransformationsProjector|{}composedTransformationsProjector[0]
+        final fun <get-composedTransformationsProjector>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/ProjectorProjection.composedTransformationsProjector.<get-composedTransformationsProjector>|<get-composedTransformationsProjector>(){}[0]
+        final fun <set-composedTransformationsProjector>(io.data2viz.geo.projection.common/Projector) // io.data2viz.geo.projection.common/ProjectorProjection.composedTransformationsProjector.<set-composedTransformationsProjector>|<set-composedTransformationsProjector>(io.data2viz.geo.projection.common.Projector){}[0]
+    final var rotator // io.data2viz.geo.projection.common/ProjectorProjection.rotator|{}rotator[0]
+        final fun <get-rotator>(): io.data2viz.geo.projection.common/Projector // io.data2viz.geo.projection.common/ProjectorProjection.rotator.<get-rotator>|<get-rotator>(){}[0]
+        final fun <set-rotator>(io.data2viz.geo.projection.common/Projector) // io.data2viz.geo.projection.common/ProjectorProjection.rotator.<set-rotator>|<set-rotator>(io.data2viz.geo.projection.common.Projector){}[0]
+    open var centerLat // io.data2viz.geo.projection.common/ProjectorProjection.centerLat|{}centerLat[0]
+        open fun <get-centerLat>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ProjectorProjection.centerLat.<get-centerLat>|<get-centerLat>(){}[0]
+        open fun <set-centerLat>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ProjectorProjection.centerLat.<set-centerLat>|<set-centerLat>(io.data2viz.math.Angle){}[0]
+    open var centerLon // io.data2viz.geo.projection.common/ProjectorProjection.centerLon|{}centerLon[0]
+        open fun <get-centerLon>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ProjectorProjection.centerLon.<get-centerLon>|<get-centerLon>(){}[0]
+        open fun <set-centerLon>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ProjectorProjection.centerLon.<set-centerLon>|<set-centerLon>(io.data2viz.math.Angle){}[0]
+    open var postClip // io.data2viz.geo.projection.common/ProjectorProjection.postClip|{}postClip[0]
+        open fun <get-postClip>(): io.data2viz.geo.geometry.clip/ClipStreamBuilder // io.data2viz.geo.projection.common/ProjectorProjection.postClip.<get-postClip>|<get-postClip>(){}[0]
+        open fun <set-postClip>(io.data2viz.geo.geometry.clip/ClipStreamBuilder) // io.data2viz.geo.projection.common/ProjectorProjection.postClip.<set-postClip>|<set-postClip>(io.data2viz.geo.geometry.clip.ClipStreamBuilder){}[0]
+    open var preClip // io.data2viz.geo.projection.common/ProjectorProjection.preClip|{}preClip[0]
+        open fun <get-preClip>(): io.data2viz.geo.geometry.clip/ClipStreamBuilder // io.data2viz.geo.projection.common/ProjectorProjection.preClip.<get-preClip>|<get-preClip>(){}[0]
+        open fun <set-preClip>(io.data2viz.geo.geometry.clip/ClipStreamBuilder) // io.data2viz.geo.projection.common/ProjectorProjection.preClip.<set-preClip>|<set-preClip>(io.data2viz.geo.geometry.clip.ClipStreamBuilder){}[0]
+    open var precision // io.data2viz.geo.projection.common/ProjectorProjection.precision|{}precision[0]
+        open fun <get-precision>(): kotlin/Double // io.data2viz.geo.projection.common/ProjectorProjection.precision.<get-precision>|<get-precision>(){}[0]
+        open fun <set-precision>(kotlin/Double) // io.data2viz.geo.projection.common/ProjectorProjection.precision.<set-precision>|<set-precision>(kotlin.Double){}[0]
+    open var rotateGamma // io.data2viz.geo.projection.common/ProjectorProjection.rotateGamma|{}rotateGamma[0]
+        open fun <get-rotateGamma>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ProjectorProjection.rotateGamma.<get-rotateGamma>|<get-rotateGamma>(){}[0]
+        open fun <set-rotateGamma>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ProjectorProjection.rotateGamma.<set-rotateGamma>|<set-rotateGamma>(io.data2viz.math.Angle){}[0]
+    open var rotateLambda // io.data2viz.geo.projection.common/ProjectorProjection.rotateLambda|{}rotateLambda[0]
+        open fun <get-rotateLambda>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ProjectorProjection.rotateLambda.<get-rotateLambda>|<get-rotateLambda>(){}[0]
+        open fun <set-rotateLambda>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ProjectorProjection.rotateLambda.<set-rotateLambda>|<set-rotateLambda>(io.data2viz.math.Angle){}[0]
+    open var rotatePhi // io.data2viz.geo.projection.common/ProjectorProjection.rotatePhi|{}rotatePhi[0]
+        open fun <get-rotatePhi>(): io.data2viz.math/Angle // io.data2viz.geo.projection.common/ProjectorProjection.rotatePhi.<get-rotatePhi>|<get-rotatePhi>(){}[0]
+        open fun <set-rotatePhi>(io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ProjectorProjection.rotatePhi.<set-rotatePhi>|<set-rotatePhi>(io.data2viz.math.Angle){}[0]
+    open var scale // io.data2viz.geo.projection.common/ProjectorProjection.scale|{}scale[0]
+        open fun <get-scale>(): kotlin/Double // io.data2viz.geo.projection.common/ProjectorProjection.scale.<get-scale>|<get-scale>(){}[0]
+        open fun <set-scale>(kotlin/Double) // io.data2viz.geo.projection.common/ProjectorProjection.scale.<set-scale>|<set-scale>(kotlin.Double){}[0]
+    open var translateX // io.data2viz.geo.projection.common/ProjectorProjection.translateX|{}translateX[0]
+        open fun <get-translateX>(): kotlin/Double // io.data2viz.geo.projection.common/ProjectorProjection.translateX.<get-translateX>|<get-translateX>(){}[0]
+        open fun <set-translateX>(kotlin/Double) // io.data2viz.geo.projection.common/ProjectorProjection.translateX.<set-translateX>|<set-translateX>(kotlin.Double){}[0]
+    open var translateY // io.data2viz.geo.projection.common/ProjectorProjection.translateY|{}translateY[0]
+        open fun <get-translateY>(): kotlin/Double // io.data2viz.geo.projection.common/ProjectorProjection.translateY.<get-translateY>|<get-translateY>(){}[0]
+        open fun <set-translateY>(kotlin/Double) // io.data2viz.geo.projection.common/ProjectorProjection.translateY.<set-translateY>|<set-translateY>(kotlin.Double){}[0]
+
+    open fun bindTo(io.data2viz.geo.stream/Stream): io.data2viz.geo.stream/Stream // io.data2viz.geo.projection.common/ProjectorProjection.bindTo|bindTo(io.data2viz.geo.stream.Stream){}[0]
+    open fun center(io.data2viz.math/Angle, io.data2viz.math/Angle) // io.data2viz.geo.projection.common/ProjectorProjection.center|center(io.data2viz.math.Angle;io.data2viz.math.Angle){}[0]
+    open fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/ProjectorProjection.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    open fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection.common/ProjectorProjection.project|project(kotlin.Double;kotlin.Double){}[0]
+    open fun rotate(io.data2viz.math/Angle, io.data2viz.math/Angle, io.data2viz.math/Angle?) // io.data2viz.geo.projection.common/ProjectorProjection.rotate|rotate(io.data2viz.math.Angle;io.data2viz.math.Angle;io.data2viz.math.Angle?){}[0]
+    open fun translate(kotlin/Double, kotlin/Double) // io.data2viz.geo.projection.common/ProjectorProjection.translate|translate(kotlin.Double;kotlin.Double){}[0]
+}
+
+open class io.data2viz.geo.projection/Azimuthal : io.data2viz.geo.projection.common/Projector { // io.data2viz.geo.projection/Azimuthal|null[0]
+    constructor <init>(kotlin/Function1<kotlin/Double, kotlin/Double>, kotlin/Function1<kotlin/Double, kotlin/Double>) // io.data2viz.geo.projection/Azimuthal.<init>|<init>(kotlin.Function1<kotlin.Double,kotlin.Double>;kotlin.Function1<kotlin.Double,kotlin.Double>){}[0]
+
+    final val angle // io.data2viz.geo.projection/Azimuthal.angle|{}angle[0]
+        final fun <get-angle>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.geo.projection/Azimuthal.angle.<get-angle>|<get-angle>(){}[0]
+    final val scale // io.data2viz.geo.projection/Azimuthal.scale|{}scale[0]
+        final fun <get-scale>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.geo.projection/Azimuthal.scale.<get-scale>|<get-scale>(){}[0]
+
+    open fun invert(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/Azimuthal.invert|invert(kotlin.Double;kotlin.Double){}[0]
+    open fun project(kotlin/Double, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.projection/Azimuthal.project|project(kotlin.Double;kotlin.Double){}[0]
+}
+
+open class io.data2viz.geo.projection/MercatorProjection : io.data2viz.geo.projection.common/ProjectorProjection { // io.data2viz.geo.projection/MercatorProjection|null[0]
+    constructor <init>(io.data2viz.geo.projection.common/Projector = ...) // io.data2viz.geo.projection/MercatorProjection.<init>|<init>(io.data2viz.geo.projection.common.Projector){}[0]
+
+    open var centerLat // io.data2viz.geo.projection/MercatorProjection.centerLat|{}centerLat[0]
+        open fun <get-centerLat>(): io.data2viz.math/Angle // io.data2viz.geo.projection/MercatorProjection.centerLat.<get-centerLat>|<get-centerLat>(){}[0]
+        open fun <set-centerLat>(io.data2viz.math/Angle) // io.data2viz.geo.projection/MercatorProjection.centerLat.<set-centerLat>|<set-centerLat>(io.data2viz.math.Angle){}[0]
+    open var centerLon // io.data2viz.geo.projection/MercatorProjection.centerLon|{}centerLon[0]
+        open fun <get-centerLon>(): io.data2viz.math/Angle // io.data2viz.geo.projection/MercatorProjection.centerLon.<get-centerLon>|<get-centerLon>(){}[0]
+        open fun <set-centerLon>(io.data2viz.math/Angle) // io.data2viz.geo.projection/MercatorProjection.centerLon.<set-centerLon>|<set-centerLon>(io.data2viz.math.Angle){}[0]
+    open var scale // io.data2viz.geo.projection/MercatorProjection.scale|{}scale[0]
+        open fun <get-scale>(): kotlin/Double // io.data2viz.geo.projection/MercatorProjection.scale.<get-scale>|<get-scale>(){}[0]
+        open fun <set-scale>(kotlin/Double) // io.data2viz.geo.projection/MercatorProjection.scale.<set-scale>|<set-scale>(kotlin.Double){}[0]
+    open var translateX // io.data2viz.geo.projection/MercatorProjection.translateX|{}translateX[0]
+        open fun <get-translateX>(): kotlin/Double // io.data2viz.geo.projection/MercatorProjection.translateX.<get-translateX>|<get-translateX>(){}[0]
+        open fun <set-translateX>(kotlin/Double) // io.data2viz.geo.projection/MercatorProjection.translateX.<set-translateX>|<set-translateX>(kotlin.Double){}[0]
+    open var translateY // io.data2viz.geo.projection/MercatorProjection.translateY|{}translateY[0]
+        open fun <get-translateY>(): kotlin/Double // io.data2viz.geo.projection/MercatorProjection.translateY.<get-translateY>|<get-translateY>(){}[0]
+        open fun <set-translateY>(kotlin/Double) // io.data2viz.geo.projection/MercatorProjection.translateY.<set-translateY>|<set-translateY>(kotlin.Double){}[0]
+
+    open fun center(io.data2viz.math/Angle, io.data2viz.math/Angle) // io.data2viz.geo.projection/MercatorProjection.center|center(io.data2viz.math.Angle;io.data2viz.math.Angle){}[0]
+    open fun translate(kotlin/Double, kotlin/Double) // io.data2viz.geo.projection/MercatorProjection.translate|translate(kotlin.Double;kotlin.Double){}[0]
+}
+
+open class io.data2viz.geo.stream/DelegateStreamAdapter : io.data2viz.geo.stream/Stream { // io.data2viz.geo.stream/DelegateStreamAdapter|null[0]
+    constructor <init>(io.data2viz.geo.stream/Stream) // io.data2viz.geo.stream/DelegateStreamAdapter.<init>|<init>(io.data2viz.geo.stream.Stream){}[0]
+
+    final val delegate // io.data2viz.geo.stream/DelegateStreamAdapter.delegate|{}delegate[0]
+        final fun <get-delegate>(): io.data2viz.geo.stream/Stream // io.data2viz.geo.stream/DelegateStreamAdapter.delegate.<get-delegate>|<get-delegate>(){}[0]
+
+    open fun lineEnd() // io.data2viz.geo.stream/DelegateStreamAdapter.lineEnd|lineEnd(){}[0]
+    open fun lineStart() // io.data2viz.geo.stream/DelegateStreamAdapter.lineStart|lineStart(){}[0]
+    open fun point(kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.geo.stream/DelegateStreamAdapter.point|point(kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    open fun polygonEnd() // io.data2viz.geo.stream/DelegateStreamAdapter.polygonEnd|polygonEnd(){}[0]
+    open fun polygonStart() // io.data2viz.geo.stream/DelegateStreamAdapter.polygonStart|polygonStart(){}[0]
+    open fun sphere() // io.data2viz.geo.stream/DelegateStreamAdapter.sphere|sphere(){}[0]
+}
+
+final object io.data2viz.geo/Geo { // io.data2viz.geo/Geo|null[0]
+    final object Projections { // io.data2viz.geo/Geo.Projections|null[0]
+        final fun Albers(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection/ConicProjection // io.data2viz.geo/Geo.Projections.Albers|Albers(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun AlbersUSA(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection/AlbersUSAProjection // io.data2viz.geo/Geo.Projections.AlbersUSA|AlbersUSA(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun AzimuthalEqualArea(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo/Geo.Projections.AzimuthalEqualArea|AzimuthalEqualArea(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun AzimuthalEquidistant(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo/Geo.Projections.AzimuthalEquidistant|AzimuthalEquidistant(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun EqualEarth(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo/Geo.Projections.EqualEarth|EqualEarth(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun Equirectangular(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo/Geo.Projections.Equirectangular|Equirectangular(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun Identity(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo/Geo.Projections.Identity|Identity(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun Mercator(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection/MercatorProjection // io.data2viz.geo/Geo.Projections.Mercator|Mercator(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun NaturalEarth(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo/Geo.Projections.NaturalEarth|NaturalEarth(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun Orthographic(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo/Geo.Projections.Orthographic|Orthographic(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun Stereographic(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo/Geo.Projections.Stereographic|Stereographic(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+        final fun TransverseMercator(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection/TransverseMercatorProjection // io.data2viz.geo/Geo.Projections.TransverseMercator|TransverseMercator(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+    }
+}
+
+final const val io.data2viz.geo.projection.common/MAX_DEPTH // io.data2viz.geo.projection.common/MAX_DEPTH|{}MAX_DEPTH[0]
+    final fun <get-MAX_DEPTH>(): kotlin/Int // io.data2viz.geo.projection.common/MAX_DEPTH.<get-MAX_DEPTH>|<get-MAX_DEPTH>(){}[0]
+
+final val io.data2viz.geo.geojson/lines // io.data2viz.geo.geojson/lines|@io.data2viz.geojson.MultiLineString{}lines[0]
+    final fun (io.data2viz.geojson/MultiLineString).<get-lines>(): kotlin/Array<kotlin/Array<kotlin/DoubleArray>> // io.data2viz.geo.geojson/lines.<get-lines>|<get-lines>@io.data2viz.geojson.MultiLineString(){}[0]
+final val io.data2viz.geo.geojson/lines // io.data2viz.geo.geojson/lines|@io.data2viz.geojson.Polygon{}lines[0]
+    final fun (io.data2viz.geojson/Polygon).<get-lines>(): kotlin/Array<kotlin/Array<kotlin/DoubleArray>> // io.data2viz.geo.geojson/lines.<get-lines>|<get-lines>@io.data2viz.geojson.Polygon(){}[0]
+final val io.data2viz.geo.geojson/pos // io.data2viz.geo.geojson/pos|@io.data2viz.geojson.Point{}pos[0]
+    final fun (io.data2viz.geojson/Point).<get-pos>(): kotlin/DoubleArray // io.data2viz.geo.geojson/pos.<get-pos>|<get-pos>@io.data2viz.geojson.Point(){}[0]
+final val io.data2viz.geo.geojson/positions // io.data2viz.geo.geojson/positions|@io.data2viz.geojson.LineString{}positions[0]
+    final fun (io.data2viz.geojson/LineString).<get-positions>(): kotlin/Array<kotlin/DoubleArray> // io.data2viz.geo.geojson/positions.<get-positions>|<get-positions>@io.data2viz.geojson.LineString(){}[0]
+final val io.data2viz.geo.geojson/positions // io.data2viz.geo.geojson/positions|@io.data2viz.geojson.MultiPoint{}positions[0]
+    final fun (io.data2viz.geojson/MultiPoint).<get-positions>(): kotlin/Array<kotlin/DoubleArray> // io.data2viz.geo.geojson/positions.<get-positions>|<get-positions>@io.data2viz.geojson.MultiPoint(){}[0]
+final val io.data2viz.geo.geojson/surface // io.data2viz.geo.geojson/surface|@io.data2viz.geojson.MultiPolygon{}surface[0]
+    final fun (io.data2viz.geojson/MultiPolygon).<get-surface>(): kotlin/Array<kotlin/Array<kotlin/Array<kotlin/DoubleArray>>> // io.data2viz.geo.geojson/surface.<get-surface>|<get-surface>@io.data2viz.geojson.MultiPolygon(){}[0]
+final val io.data2viz.geo.geometry.clip/NoClip // io.data2viz.geo.geometry.clip/NoClip|{}NoClip[0]
+    final fun <get-NoClip>(): io.data2viz.geo.geometry.clip/ClipStreamBuilder // io.data2viz.geo.geometry.clip/NoClip.<get-NoClip>|<get-NoClip>(){}[0]
+final val io.data2viz.geo.geometry.clip/antimeridianPreClip // io.data2viz.geo.geometry.clip/antimeridianPreClip|{}antimeridianPreClip[0]
+    final fun <get-antimeridianPreClip>(): io.data2viz.geo.geometry.clip/ClipStreamBuilder // io.data2viz.geo.geometry.clip/antimeridianPreClip.<get-antimeridianPreClip>|<get-antimeridianPreClip>(){}[0]
+final val io.data2viz.geo.geometry/acos // io.data2viz.geo.geometry/acos|@kotlin.Double{}acos[0]
+    final fun (kotlin/Double).<get-acos>(): kotlin/Double // io.data2viz.geo.geometry/acos.<get-acos>|<get-acos>@kotlin.Double(){}[0]
+final val io.data2viz.geo.geometry/asin // io.data2viz.geo.geometry/asin|@kotlin.Double{}asin[0]
+    final fun (kotlin/Double).<get-asin>(): kotlin/Double // io.data2viz.geo.geometry/asin.<get-asin>|<get-asin>@kotlin.Double(){}[0]
+final val io.data2viz.geo.geometry/limitedAcos // io.data2viz.geo.geometry/limitedAcos|@kotlin.Double{}limitedAcos[0]
+    final fun (kotlin/Double).<get-limitedAcos>(): kotlin/Double // io.data2viz.geo.geometry/limitedAcos.<get-limitedAcos>|<get-limitedAcos>@kotlin.Double(){}[0]
+final val io.data2viz.geo.geometry/limitedAsin // io.data2viz.geo.geometry/limitedAsin|@kotlin.Double{}limitedAsin[0]
+    final fun (kotlin/Double).<get-limitedAsin>(): kotlin/Double // io.data2viz.geo.geometry/limitedAsin.<get-limitedAsin>|<get-limitedAsin>@kotlin.Double(){}[0]
+final val io.data2viz.geo.projection.common/COS_MIN_DISTANCE // io.data2viz.geo.projection.common/COS_MIN_DISTANCE|{}COS_MIN_DISTANCE[0]
+    final fun <get-COS_MIN_DISTANCE>(): kotlin/Double // io.data2viz.geo.projection.common/COS_MIN_DISTANCE.<get-COS_MIN_DISTANCE>|<get-COS_MIN_DISTANCE>(){}[0]
+final val io.data2viz.geo/alt // io.data2viz.geo/alt|@kotlin.DoubleArray{}alt[0]
+    final fun (kotlin/DoubleArray).<get-alt>(): kotlin/Double? // io.data2viz.geo/alt.<get-alt>|<get-alt>@kotlin.DoubleArray(){}[0]
+final val io.data2viz.geo/lambda // io.data2viz.geo/lambda|@kotlin.DoubleArray{}lambda[0]
+    final fun (kotlin/DoubleArray).<get-lambda>(): kotlin/Double // io.data2viz.geo/lambda.<get-lambda>|<get-lambda>@kotlin.DoubleArray(){}[0]
+final val io.data2viz.geo/phi // io.data2viz.geo/phi|@kotlin.DoubleArray{}phi[0]
+    final fun (kotlin/DoubleArray).<get-phi>(): kotlin/Double // io.data2viz.geo/phi.<get-phi>|<get-phi>@kotlin.DoubleArray(){}[0]
+
+final var io.data2viz.geo.geometry.clip/anglePreClip // io.data2viz.geo.geometry.clip/anglePreClip|@io.data2viz.geo.projection.common.Projection{}anglePreClip[0]
+    final fun (io.data2viz.geo.projection.common/Projection).<get-anglePreClip>(): io.data2viz.math/Angle? // io.data2viz.geo.geometry.clip/anglePreClip.<get-anglePreClip>|<get-anglePreClip>@io.data2viz.geo.projection.common.Projection(){}[0]
+    final fun (io.data2viz.geo.projection.common/Projection).<set-anglePreClip>(io.data2viz.math/Angle?) // io.data2viz.geo.geometry.clip/anglePreClip.<set-anglePreClip>|<set-anglePreClip>@io.data2viz.geo.projection.common.Projection(io.data2viz.math.Angle?){}[0]
+final var io.data2viz.geo.geometry.clip/extentPostClip // io.data2viz.geo.geometry.clip/extentPostClip|@io.data2viz.geo.projection.common.Projection{}extentPostClip[0]
+    final fun (io.data2viz.geo.projection.common/Projection).<get-extentPostClip>(): io.data2viz.geom/Extent? // io.data2viz.geo.geometry.clip/extentPostClip.<get-extentPostClip>|<get-extentPostClip>@io.data2viz.geo.projection.common.Projection(){}[0]
+    final fun (io.data2viz.geo.projection.common/Projection).<set-extentPostClip>(io.data2viz.geom/Extent?) // io.data2viz.geo.geometry.clip/extentPostClip.<set-extentPostClip>|<set-extentPostClip>@io.data2viz.geo.projection.common.Projection(io.data2viz.geom.Extent?){}[0]
+
+final fun (io.data2viz.geo.projection.common/Projection).io.data2viz.geo.geojson/fitExtent(io.data2viz.geom/Extent, io.data2viz.geojson/GeoJsonObject): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.geojson/fitExtent|fitExtent@io.data2viz.geo.projection.common.Projection(io.data2viz.geom.Extent;io.data2viz.geojson.GeoJsonObject){}[0]
+final fun (io.data2viz.geo.projection.common/Projection).io.data2viz.geo.geojson/fitHeight(kotlin/Double, io.data2viz.geojson/GeoJsonObject): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.geojson/fitHeight|fitHeight@io.data2viz.geo.projection.common.Projection(kotlin.Double;io.data2viz.geojson.GeoJsonObject){}[0]
+final fun (io.data2viz.geo.projection.common/Projection).io.data2viz.geo.geojson/fitSize(kotlin/Double, kotlin/Double, io.data2viz.geojson/GeoJsonObject): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.geojson/fitSize|fitSize@io.data2viz.geo.projection.common.Projection(kotlin.Double;kotlin.Double;io.data2viz.geojson.GeoJsonObject){}[0]
+final fun (io.data2viz.geo.projection.common/Projection).io.data2viz.geo.geojson/fitWidth(kotlin/Double, io.data2viz.geojson/GeoJsonObject): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.geojson/fitWidth|fitWidth@io.data2viz.geo.projection.common.Projection(kotlin.Double;io.data2viz.geojson.GeoJsonObject){}[0]
+final fun (io.data2viz.geojson/GeoJsonObject).io.data2viz.geo.geojson/contains(kotlin/DoubleArray): kotlin/Boolean // io.data2viz.geo.geojson/contains|contains@io.data2viz.geojson.GeoJsonObject(kotlin.DoubleArray){}[0]
+final fun (io.data2viz.geojson/GeoJsonObject).io.data2viz.geo.geojson/stream(io.data2viz.geo.stream/Stream) // io.data2viz.geo.geojson/stream|stream@io.data2viz.geojson.GeoJsonObject(io.data2viz.geo.stream.Stream){}[0]
+final fun (kotlin/DoubleArray).io.data2viz.geo/component1(): kotlin/Double // io.data2viz.geo/component1|component1@kotlin.DoubleArray(){}[0]
+final fun (kotlin/DoubleArray).io.data2viz.geo/component2(): kotlin/Double // io.data2viz.geo/component2|component2@kotlin.DoubleArray(){}[0]
+final fun (kotlin/DoubleArray).io.data2viz.geo/component3(): kotlin/Double? // io.data2viz.geo/component3|component3@kotlin.DoubleArray(){}[0]
+final fun io.data2viz.geo.geojson.path/geoArea(io.data2viz.geojson/GeoJsonObject): kotlin/Double // io.data2viz.geo.geojson.path/geoArea|geoArea(io.data2viz.geojson.GeoJsonObject){}[0]
+final fun io.data2viz.geo.geojson.path/geoBounds(io.data2viz.geojson/GeoJsonObject): io.data2viz.geom/Extent // io.data2viz.geo.geojson.path/geoBounds|geoBounds(io.data2viz.geojson.GeoJsonObject){}[0]
+final fun io.data2viz.geo.geojson.path/geoCentroid(io.data2viz.geojson/GeoJsonObject): kotlin/DoubleArray // io.data2viz.geo.geojson.path/geoCentroid|geoCentroid(io.data2viz.geojson.GeoJsonObject){}[0]
+final fun io.data2viz.geo.geojson.path/geoCircle(io.data2viz.geo.stream/Stream, kotlin/Double, kotlin/Double, kotlin/Int, kotlin/DoubleArray? = ..., kotlin/DoubleArray? = ...) // io.data2viz.geo.geojson.path/geoCircle|geoCircle(io.data2viz.geo.stream.Stream;kotlin.Double;kotlin.Double;kotlin.Int;kotlin.DoubleArray?;kotlin.DoubleArray?){}[0]
+final fun io.data2viz.geo.geojson.path/geoDistance(kotlin/DoubleArray, kotlin/DoubleArray): kotlin/Double // io.data2viz.geo.geojson.path/geoDistance|geoDistance(kotlin.DoubleArray;kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geojson.path/geoLength(io.data2viz.geojson/GeoJsonObject): kotlin/Double // io.data2viz.geo.geojson.path/geoLength|geoLength(io.data2viz.geojson.GeoJsonObject){}[0]
+final fun io.data2viz.geo.geojson/geoInterpolate(kotlin/DoubleArray, kotlin/DoubleArray): io.data2viz.geo.geojson/GeoInterpolate // io.data2viz.geo.geojson/geoInterpolate|geoInterpolate(kotlin.DoubleArray;kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geojson/geoPath(io.data2viz.geo.projection.common/Projection = ..., io.data2viz.geom/Path? = ...): io.data2viz.geo.geojson/GeoPath // io.data2viz.geo.geojson/geoPath|geoPath(io.data2viz.geo.projection.common.Projection;io.data2viz.geom.Path?){}[0]
+final fun io.data2viz.geo.geojson/toRadians(kotlin/DoubleArray): kotlin/DoubleArray // io.data2viz.geo.geojson/toRadians|toRadians(kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geometry.clip/link(kotlin.collections/List<io.data2viz.geo.geometry.clip/Intersection>) // io.data2viz.geo.geometry.clip/link|link(kotlin.collections.List<io.data2viz.geo.geometry.clip.Intersection>){}[0]
+final fun io.data2viz.geo.geometry.clip/rejoin(kotlin.collections/List<kotlin.collections/List<kotlin/DoubleArray>>, kotlin/Comparator<io.data2viz.geo.geometry.clip/Intersection>, kotlin/Boolean, io.data2viz.geo.geometry.clip/Clipper, io.data2viz.geo.stream/Stream) // io.data2viz.geo.geometry.clip/rejoin|rejoin(kotlin.collections.List<kotlin.collections.List<kotlin.DoubleArray>>;kotlin.Comparator<io.data2viz.geo.geometry.clip.Intersection>;kotlin.Boolean;io.data2viz.geo.geometry.clip.Clipper;io.data2viz.geo.stream.Stream){}[0]
+final fun io.data2viz.geo.geometry/cartesian(kotlin/DoubleArray): kotlin/DoubleArray // io.data2viz.geo.geometry/cartesian|cartesian(kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geometry/cartesianAdd(kotlin/DoubleArray, kotlin/DoubleArray): kotlin/DoubleArray // io.data2viz.geo.geometry/cartesianAdd|cartesianAdd(kotlin.DoubleArray;kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geometry/cartesianCross(kotlin/DoubleArray, kotlin/DoubleArray): kotlin/DoubleArray // io.data2viz.geo.geometry/cartesianCross|cartesianCross(kotlin.DoubleArray;kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geometry/cartesianDot(kotlin/DoubleArray, kotlin/DoubleArray): kotlin/Double // io.data2viz.geo.geometry/cartesianDot|cartesianDot(kotlin.DoubleArray;kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geometry/cartesianNormalize(kotlin/DoubleArray): kotlin/DoubleArray // io.data2viz.geo.geometry/cartesianNormalize|cartesianNormalize(kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geometry/cartesianScale(kotlin/DoubleArray, kotlin/Double): kotlin/DoubleArray // io.data2viz.geo.geometry/cartesianScale|cartesianScale(kotlin.DoubleArray;kotlin.Double){}[0]
+final fun io.data2viz.geo.geometry/geoGraticule(kotlin/Function1<io.data2viz.geo.geometry/Graticule, kotlin/Unit> = ...): io.data2viz.geo.geometry/Graticule // io.data2viz.geo.geometry/geoGraticule|geoGraticule(kotlin.Function1<io.data2viz.geo.geometry.Graticule,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.geometry/polygonContains(kotlin.collections/List<kotlin.collections/List<kotlin/DoubleArray>>, kotlin/DoubleArray): kotlin/Boolean // io.data2viz.geo.geometry/polygonContains|polygonContains(kotlin.collections.List<kotlin.collections.List<kotlin.DoubleArray>>;kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.geometry/spherical(kotlin/DoubleArray): kotlin/DoubleArray // io.data2viz.geo.geometry/spherical|spherical(kotlin.DoubleArray){}[0]
+final fun io.data2viz.geo.projection.common/projection(io.data2viz.geo.projection.common/Projector, kotlin/Function1<io.data2viz.geo.projection.common/ProjectorProjection, kotlin/Unit>): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection.common/projection|projection(io.data2viz.geo.projection.common.Projector;kotlin.Function1<io.data2viz.geo.projection.common.ProjectorProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection.common/resample(io.data2viz.geo.projection.common/Projector, kotlin/Double): kotlin/Function1<io.data2viz.geo.stream/Stream, io.data2viz.geo.stream/Stream> // io.data2viz.geo.projection.common/resample|resample(io.data2viz.geo.projection.common.Projector;kotlin.Double){}[0]
+final fun io.data2viz.geo.projection/albersProjection(kotlin/Function1<io.data2viz.geo.projection/ConicProjection, kotlin/Unit> = ...): io.data2viz.geo.projection/ConicProjection // io.data2viz.geo.projection/albersProjection|albersProjection(kotlin.Function1<io.data2viz.geo.projection.ConicProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/albersUSAProjection(kotlin/Function1<io.data2viz.geo.projection/AlbersUSAProjection, kotlin/Unit> = ...): io.data2viz.geo.projection/AlbersUSAProjection // io.data2viz.geo.projection/albersUSAProjection|albersUSAProjection(kotlin.Function1<io.data2viz.geo.projection.AlbersUSAProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/azimuthalEqualAreaProjection(kotlin/Function1<io.data2viz.geo.projection.common/ProjectorProjection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/azimuthalEqualAreaProjection|azimuthalEqualAreaProjection(kotlin.Function1<io.data2viz.geo.projection.common.ProjectorProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/azimuthalEquidistant(kotlin/Function1<io.data2viz.geo.projection.common/ProjectorProjection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/azimuthalEquidistant|azimuthalEquidistant(kotlin.Function1<io.data2viz.geo.projection.common.ProjectorProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/azimuthalInvert(kotlin/Function1<kotlin/Double, kotlin/Double>): kotlin/Function2<kotlin/Double, kotlin/Double, kotlin/DoubleArray> // io.data2viz.geo.projection/azimuthalInvert|azimuthalInvert(kotlin.Function1<kotlin.Double,kotlin.Double>){}[0]
+final fun io.data2viz.geo.projection/conicConformalProjection(kotlin/Function1<io.data2viz.geo.projection/ConicProjection, kotlin/Unit> = ...): io.data2viz.geo.projection/ConicProjection // io.data2viz.geo.projection/conicConformalProjection|conicConformalProjection(kotlin.Function1<io.data2viz.geo.projection.ConicProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/conicEqualAreaProjection(kotlin/Function1<io.data2viz.geo.projection/ConicProjection, kotlin/Unit> = ...): io.data2viz.geo.projection/ConicProjection // io.data2viz.geo.projection/conicEqualAreaProjection|conicEqualAreaProjection(kotlin.Function1<io.data2viz.geo.projection.ConicProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/conicEquidistantProjection(kotlin/Function1<io.data2viz.geo.projection/ConicProjection, kotlin/Unit> = ...): io.data2viz.geo.projection/ConicProjection // io.data2viz.geo.projection/conicEquidistantProjection|conicEquidistantProjection(kotlin.Function1<io.data2viz.geo.projection.ConicProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/conicProjection(io.data2viz.geo.projection/ConicProjector, kotlin/Function1<io.data2viz.geo.projection/ConicProjection, kotlin/Unit> = ...): io.data2viz.geo.projection/ConicProjection // io.data2viz.geo.projection/conicProjection|conicProjection(io.data2viz.geo.projection.ConicProjector;kotlin.Function1<io.data2viz.geo.projection.ConicProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/equalEarthProjection(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/equalEarthProjection|equalEarthProjection(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/equirectangularProjection(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/equirectangularProjection|equirectangularProjection(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/gnomonicProjection(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/gnomonicProjection|gnomonicProjection(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/identityProjection(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/identityProjection|identityProjection(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/mercatorProjection(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection/MercatorProjection // io.data2viz.geo.projection/mercatorProjection|mercatorProjection(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/naturalEarthProjection(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/naturalEarthProjection|naturalEarthProjection(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/orthographicProjection(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/orthographicProjection|orthographicProjection(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/stereographicProjection(kotlin/Function1<io.data2viz.geo.projection.common/Projection, kotlin/Unit> = ...): io.data2viz.geo.projection.common/Projection // io.data2viz.geo.projection/stereographicProjection|stereographicProjection(kotlin.Function1<io.data2viz.geo.projection.common.Projection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo.projection/transverseMercatorProjection(kotlin/Function1<io.data2viz.geo.projection/TransverseMercatorProjection, kotlin/Unit> = ...): io.data2viz.geo.projection/TransverseMercatorProjection // io.data2viz.geo.projection/transverseMercatorProjection|transverseMercatorProjection(kotlin.Function1<io.data2viz.geo.projection.TransverseMercatorProjection,kotlin.Unit>){}[0]
+final fun io.data2viz.geo/GeoPoint(kotlin/Double, kotlin/Double, kotlin/Double? = ...): kotlin/DoubleArray // io.data2viz.geo/GeoPoint|GeoPoint(kotlin.Double;kotlin.Double;kotlin.Double?){}[0]

@@ -1,0 +1,21 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-timer>
+final class io.data2viz.timer/Timer { // io.data2viz.timer/Timer|null[0]
+    constructor <init>() // io.data2viz.timer/Timer.<init>|<init>(){}[0]
+
+    final fun restart(kotlin/Double = ..., kotlin/Double = ..., kotlin/Function2<io.data2viz.timer/Timer, kotlin/Double, kotlin/Unit>) // io.data2viz.timer/Timer.restart|restart(kotlin.Double;kotlin.Double;kotlin.Function2<io.data2viz.timer.Timer,kotlin.Double,kotlin.Unit>){}[0]
+    final fun stop() // io.data2viz.timer/Timer.stop|stop(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.timer/Timer.toString|toString(){}[0]
+}
+
+final fun io.data2viz.timer/interval(kotlin/Double = ..., kotlin/Double = ..., kotlin/Function2<io.data2viz.timer/Timer, kotlin/Double, kotlin/Unit>): io.data2viz.timer/Timer // io.data2viz.timer/interval|interval(kotlin.Double;kotlin.Double;kotlin.Function2<io.data2viz.timer.Timer,kotlin.Double,kotlin.Unit>){}[0]
+final fun io.data2viz.timer/now(): kotlin/Double // io.data2viz.timer/now|now(){}[0]
+final fun io.data2viz.timer/timeout(kotlin/Double = ..., kotlin/Double = ..., kotlin/Function2<io.data2viz.timer/Timer, kotlin/Double, kotlin/Unit>): io.data2viz.timer/Timer // io.data2viz.timer/timeout|timeout(kotlin.Double;kotlin.Double;kotlin.Function2<io.data2viz.timer.Timer,kotlin.Double,kotlin.Unit>){}[0]
+final fun io.data2viz.timer/timer(kotlin/Double = ..., kotlin/Double = ..., kotlin/Function2<io.data2viz.timer/Timer, kotlin/Double, kotlin/Unit>): io.data2viz.timer/Timer // io.data2viz.timer/timer|timer(kotlin.Double;kotlin.Double;kotlin.Function2<io.data2viz.timer.Timer,kotlin.Double,kotlin.Unit>){}[0]
+final fun io.data2viz.timer/timerFlush() // io.data2viz.timer/timerFlush|timerFlush(){}[0]

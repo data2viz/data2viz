@@ -1,0 +1,27 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-time>
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/dayOfMonth(): kotlin/Int // io.data2viz.time/dayOfMonth|dayOfMonth@kotlinx.datetime.LocalDateTime(){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/dayOfWeek(): kotlin/Int // io.data2viz.time/dayOfWeek|dayOfWeek@kotlinx.datetime.LocalDateTime(){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/dayOfYear(): kotlin/Int // io.data2viz.time/dayOfYear|dayOfYear@kotlinx.datetime.LocalDateTime(){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/hour(): kotlin/Int // io.data2viz.time/hour|hour@kotlinx.datetime.LocalDateTime(){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/isBefore(kotlinx.datetime/LocalDateTime): kotlin/Boolean // io.data2viz.time/isBefore|isBefore@kotlinx.datetime.LocalDateTime(kotlinx.datetime.LocalDateTime){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/millisecond(): kotlin/Int // io.data2viz.time/millisecond|millisecond@kotlinx.datetime.LocalDateTime(){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/minute(): kotlin/Int // io.data2viz.time/minute|minute@kotlinx.datetime.LocalDateTime(){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/month(): kotlin/Int // io.data2viz.time/month|month@kotlinx.datetime.LocalDateTime(){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/second(): kotlin/Int // io.data2viz.time/second|second@kotlinx.datetime.LocalDateTime(){}[0]
+final fun (kotlinx.datetime/LocalDateTime).io.data2viz.time/year(): kotlin/Int // io.data2viz.time/year|year@kotlinx.datetime.LocalDateTime(){}[0]
+final fun io.data2viz.time/currentDay(): kotlin/Int // io.data2viz.time/currentDay|currentDay(){}[0]
+final fun io.data2viz.time/currentHour(): kotlin/Int // io.data2viz.time/currentHour|currentHour(){}[0]
+final fun io.data2viz.time/currentMinute(): kotlin/Int // io.data2viz.time/currentMinute|currentMinute(){}[0]
+final fun io.data2viz.time/currentMonth(): kotlin/Int // io.data2viz.time/currentMonth|currentMonth(){}[0]
+final fun io.data2viz.time/currentSecond(): kotlin/Int // io.data2viz.time/currentSecond|currentSecond(){}[0]
+final fun io.data2viz.time/currentYear(): kotlin/Int // io.data2viz.time/currentYear|currentYear(){}[0]
+final fun io.data2viz.time/date(): kotlinx.datetime/LocalDateTime // io.data2viz.time/date|date(){}[0]
+final fun io.data2viz.time/date(kotlin/Int = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin/Int = ...): kotlinx.datetime/LocalDateTime // io.data2viz.time/date|date(kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun io.data2viz.time/date(kotlinx.datetime/LocalDateTime): kotlinx.datetime/LocalDateTime // io.data2viz.time/date|date(kotlinx.datetime.LocalDateTime){}[0]

@@ -1,0 +1,76 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-axis>
+final enum class io.data2viz.axis/Orient : kotlin/Enum<io.data2viz.axis/Orient> { // io.data2viz.axis/Orient|null[0]
+    enum entry BOTTOM // io.data2viz.axis/Orient.BOTTOM|null[0]
+    enum entry LEFT // io.data2viz.axis/Orient.LEFT|null[0]
+    enum entry RIGHT // io.data2viz.axis/Orient.RIGHT|null[0]
+    enum entry TOP // io.data2viz.axis/Orient.TOP|null[0]
+
+    final val entries // io.data2viz.axis/Orient.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.axis/Orient> // io.data2viz.axis/Orient.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun isHorizontal(): kotlin/Boolean // io.data2viz.axis/Orient.isHorizontal|isHorizontal(){}[0]
+    final fun isVertical(): kotlin/Boolean // io.data2viz.axis/Orient.isVertical|isVertical(){}[0]
+    final fun valueOf(kotlin/String): io.data2viz.axis/Orient // io.data2viz.axis/Orient.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.axis/Orient> // io.data2viz.axis/Orient.values|values#static(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.axis/AxisElement { // io.data2viz.axis/AxisElement|null[0]
+    constructor <init>(io.data2viz.axis/Orient, io.data2viz.scale/FirstLastRange<#A, kotlin/Double>) // io.data2viz.axis/AxisElement.<init>|<init>(io.data2viz.axis.Orient;io.data2viz.scale.FirstLastRange<1:0,kotlin.Double>){}[0]
+
+    final val orient // io.data2viz.axis/AxisElement.orient|{}orient[0]
+        final fun <get-orient>(): io.data2viz.axis/Orient // io.data2viz.axis/AxisElement.orient.<get-orient>|<get-orient>(){}[0]
+    final val scale // io.data2viz.axis/AxisElement.scale|{}scale[0]
+        final fun <get-scale>(): io.data2viz.scale/FirstLastRange<#A, kotlin/Double> // io.data2viz.axis/AxisElement.scale.<get-scale>|<get-scale>(){}[0]
+
+    final var axisStroke // io.data2viz.axis/AxisElement.axisStroke|{}axisStroke[0]
+        final fun <get-axisStroke>(): io.data2viz.color/ColorOrGradient? // io.data2viz.axis/AxisElement.axisStroke.<get-axisStroke>|<get-axisStroke>(){}[0]
+        final fun <set-axisStroke>(io.data2viz.color/ColorOrGradient?) // io.data2viz.axis/AxisElement.axisStroke.<set-axisStroke>|<set-axisStroke>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var axisStrokeWidth // io.data2viz.axis/AxisElement.axisStrokeWidth|{}axisStrokeWidth[0]
+        final fun <get-axisStrokeWidth>(): kotlin/Double? // io.data2viz.axis/AxisElement.axisStrokeWidth.<get-axisStrokeWidth>|<get-axisStrokeWidth>(){}[0]
+        final fun <set-axisStrokeWidth>(kotlin/Double?) // io.data2viz.axis/AxisElement.axisStrokeWidth.<set-axisStrokeWidth>|<set-axisStrokeWidth>(kotlin.Double?){}[0]
+    final var fontColor // io.data2viz.axis/AxisElement.fontColor|{}fontColor[0]
+        final fun <get-fontColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.axis/AxisElement.fontColor.<get-fontColor>|<get-fontColor>(){}[0]
+        final fun <set-fontColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.axis/AxisElement.fontColor.<set-fontColor>|<set-fontColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var fontFamily // io.data2viz.axis/AxisElement.fontFamily|{}fontFamily[0]
+        final fun <get-fontFamily>(): io.data2viz.viz/FontFamily // io.data2viz.axis/AxisElement.fontFamily.<get-fontFamily>|<get-fontFamily>(){}[0]
+        final fun <set-fontFamily>(io.data2viz.viz/FontFamily) // io.data2viz.axis/AxisElement.fontFamily.<set-fontFamily>|<set-fontFamily>(io.data2viz.viz.FontFamily){}[0]
+    final var fontSize // io.data2viz.axis/AxisElement.fontSize|{}fontSize[0]
+        final fun <get-fontSize>(): kotlin/Double // io.data2viz.axis/AxisElement.fontSize.<get-fontSize>|<get-fontSize>(){}[0]
+        final fun <set-fontSize>(kotlin/Double) // io.data2viz.axis/AxisElement.fontSize.<set-fontSize>|<set-fontSize>(kotlin.Double){}[0]
+    final var fontStyle // io.data2viz.axis/AxisElement.fontStyle|{}fontStyle[0]
+        final fun <get-fontStyle>(): io.data2viz.viz/FontPosture // io.data2viz.axis/AxisElement.fontStyle.<get-fontStyle>|<get-fontStyle>(){}[0]
+        final fun <set-fontStyle>(io.data2viz.viz/FontPosture) // io.data2viz.axis/AxisElement.fontStyle.<set-fontStyle>|<set-fontStyle>(io.data2viz.viz.FontPosture){}[0]
+    final var fontWeight // io.data2viz.axis/AxisElement.fontWeight|{}fontWeight[0]
+        final fun <get-fontWeight>(): io.data2viz.viz/FontWeight // io.data2viz.axis/AxisElement.fontWeight.<get-fontWeight>|<get-fontWeight>(){}[0]
+        final fun <set-fontWeight>(io.data2viz.viz/FontWeight) // io.data2viz.axis/AxisElement.fontWeight.<set-fontWeight>|<set-fontWeight>(io.data2viz.viz.FontWeight){}[0]
+    final var tickFormat // io.data2viz.axis/AxisElement.tickFormat|{}tickFormat[0]
+        final fun <get-tickFormat>(): kotlin/Function1<#A, kotlin/String> // io.data2viz.axis/AxisElement.tickFormat.<get-tickFormat>|<get-tickFormat>(){}[0]
+        final fun <set-tickFormat>(kotlin/Function1<#A, kotlin/String>) // io.data2viz.axis/AxisElement.tickFormat.<set-tickFormat>|<set-tickFormat>(kotlin.Function1<1:0,kotlin.String>){}[0]
+    final var tickPadding // io.data2viz.axis/AxisElement.tickPadding|{}tickPadding[0]
+        final fun <get-tickPadding>(): kotlin/Double // io.data2viz.axis/AxisElement.tickPadding.<get-tickPadding>|<get-tickPadding>(){}[0]
+        final fun <set-tickPadding>(kotlin/Double) // io.data2viz.axis/AxisElement.tickPadding.<set-tickPadding>|<set-tickPadding>(kotlin.Double){}[0]
+    final var tickSizeInner // io.data2viz.axis/AxisElement.tickSizeInner|{}tickSizeInner[0]
+        final fun <get-tickSizeInner>(): kotlin/Double // io.data2viz.axis/AxisElement.tickSizeInner.<get-tickSizeInner>|<get-tickSizeInner>(){}[0]
+        final fun <set-tickSizeInner>(kotlin/Double) // io.data2viz.axis/AxisElement.tickSizeInner.<set-tickSizeInner>|<set-tickSizeInner>(kotlin.Double){}[0]
+    final var tickSizeOuter // io.data2viz.axis/AxisElement.tickSizeOuter|{}tickSizeOuter[0]
+        final fun <get-tickSizeOuter>(): kotlin/Double // io.data2viz.axis/AxisElement.tickSizeOuter.<get-tickSizeOuter>|<get-tickSizeOuter>(){}[0]
+        final fun <set-tickSizeOuter>(kotlin/Double) // io.data2viz.axis/AxisElement.tickSizeOuter.<set-tickSizeOuter>|<set-tickSizeOuter>(kotlin.Double){}[0]
+    final var tickStroke // io.data2viz.axis/AxisElement.tickStroke|{}tickStroke[0]
+        final fun <get-tickStroke>(): io.data2viz.color/ColorOrGradient? // io.data2viz.axis/AxisElement.tickStroke.<get-tickStroke>|<get-tickStroke>(){}[0]
+        final fun <set-tickStroke>(io.data2viz.color/ColorOrGradient?) // io.data2viz.axis/AxisElement.tickStroke.<set-tickStroke>|<set-tickStroke>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var tickStrokeWidth // io.data2viz.axis/AxisElement.tickStrokeWidth|{}tickStrokeWidth[0]
+        final fun <get-tickStrokeWidth>(): kotlin/Double? // io.data2viz.axis/AxisElement.tickStrokeWidth.<get-tickStrokeWidth>|<get-tickStrokeWidth>(){}[0]
+        final fun <set-tickStrokeWidth>(kotlin/Double?) // io.data2viz.axis/AxisElement.tickStrokeWidth.<set-tickStrokeWidth>|<set-tickStrokeWidth>(kotlin.Double?){}[0]
+    final var tickValues // io.data2viz.axis/AxisElement.tickValues|{}tickValues[0]
+        final fun <get-tickValues>(): kotlin.collections/List<#A> // io.data2viz.axis/AxisElement.tickValues.<get-tickValues>|<get-tickValues>(){}[0]
+        final fun <set-tickValues>(kotlin.collections/List<#A>) // io.data2viz.axis/AxisElement.tickValues.<set-tickValues>|<set-tickValues>(kotlin.collections.List<1:0>){}[0]
+}
+
+final fun <#A: kotlin/Any?> (io.data2viz.viz/GroupNode).io.data2viz.axis/axis(io.data2viz.axis/Orient, io.data2viz.scale/FirstLastRange<#A, kotlin/Double>, kotlin/Function1<io.data2viz.axis/AxisElement<#A>, kotlin/Unit> = ...): io.data2viz.axis/AxisElement<#A> // io.data2viz.axis/axis|axis@io.data2viz.viz.GroupNode(io.data2viz.axis.Orient;io.data2viz.scale.FirstLastRange<0:0,kotlin.Double>;kotlin.Function1<io.data2viz.axis.AxisElement<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]

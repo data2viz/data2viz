@@ -110,8 +110,11 @@ public final class io/data2viz/shape/PieKt {
 
 public abstract interface class io/data2viz/shape/Symbol {
 	public abstract fun render (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public static synthetic fun render$default (Lio/data2viz/shape/Symbol;Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/geom/Path;
 	public abstract fun renderArea (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public static synthetic fun renderArea$default (Lio/data2viz/shape/Symbol;Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/geom/Path;
 	public abstract fun renderRadius (Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;)Lio/data2viz/geom/Path;
+	public static synthetic fun renderRadius$default (Lio/data2viz/shape/Symbol;Lio/data2viz/geom/Path;DLio/data2viz/geom/Point;ILjava/lang/Object;)Lio/data2viz/geom/Path;
 }
 
 public final class io/data2viz/shape/Symbol$DefaultImpls {
@@ -142,6 +145,7 @@ public final class io/data2viz/shape/Symbols : java/lang/Enum {
 	public static final field Star Lio/data2viz/shape/Symbols;
 	public static final field Triangle Lio/data2viz/shape/Symbols;
 	public static final field Wye Lio/data2viz/shape/Symbols;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/Symbols;
 	public static fun values ()[Lio/data2viz/shape/Symbols;
 }
@@ -420,6 +424,7 @@ public final class io/data2viz/shape/stack/StackOffset : java/lang/Enum {
 	public static final field NONE Lio/data2viz/shape/stack/StackOffset;
 	public static final field SILHOUETTE Lio/data2viz/shape/stack/StackOffset;
 	public static final field WIGGLE Lio/data2viz/shape/stack/StackOffset;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/stack/StackOffset;
 	public static fun values ()[Lio/data2viz/shape/stack/StackOffset;
 }
@@ -430,6 +435,7 @@ public final class io/data2viz/shape/stack/StackOrder : java/lang/Enum {
 	public static final field INSIDEOUT Lio/data2viz/shape/stack/StackOrder;
 	public static final field NONE Lio/data2viz/shape/stack/StackOrder;
 	public static final field REVERSE Lio/data2viz/shape/stack/StackOrder;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/shape/stack/StackOrder;
 	public static fun values ()[Lio/data2viz/shape/stack/StackOrder;
 }

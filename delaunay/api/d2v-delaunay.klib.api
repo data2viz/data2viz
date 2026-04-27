@@ -1,0 +1,87 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-delaunay>
+abstract interface io.data2viz.delaunay/TypedIntArray { // io.data2viz.delaunay/TypedIntArray|null[0]
+    abstract val length // io.data2viz.delaunay/TypedIntArray.length|{}length[0]
+        abstract fun <get-length>(): kotlin/Int // io.data2viz.delaunay/TypedIntArray.length.<get-length>|<get-length>(){}[0]
+
+    abstract fun get(kotlin/Int): kotlin/Int // io.data2viz.delaunay/TypedIntArray.get|get(kotlin.Int){}[0]
+    abstract fun set(kotlin/Int, kotlin/Int) // io.data2viz.delaunay/TypedIntArray.set|set(kotlin.Int;kotlin.Int){}[0]
+    abstract fun subarray(kotlin/Int, kotlin/Int): io.data2viz.delaunay/TypedIntArray // io.data2viz.delaunay/TypedIntArray.subarray|subarray(kotlin.Int;kotlin.Int){}[0]
+}
+
+abstract interface io.data2viz.delaunay/TypedUIntArray { // io.data2viz.delaunay/TypedUIntArray|null[0]
+    abstract val length // io.data2viz.delaunay/TypedUIntArray.length|{}length[0]
+        abstract fun <get-length>(): kotlin/Int // io.data2viz.delaunay/TypedUIntArray.length.<get-length>|<get-length>(){}[0]
+
+    abstract fun get(kotlin/Int): kotlin/Int // io.data2viz.delaunay/TypedUIntArray.get|get(kotlin.Int){}[0]
+    abstract fun set(kotlin/Int, kotlin/Int) // io.data2viz.delaunay/TypedUIntArray.set|set(kotlin.Int;kotlin.Int){}[0]
+    abstract fun subarray(kotlin/Int, kotlin/Int): io.data2viz.delaunay/TypedUIntArray // io.data2viz.delaunay/TypedUIntArray.subarray|subarray(kotlin.Int;kotlin.Int){}[0]
+}
+
+final class io.data2viz.delaunay/Delaunator { // io.data2viz.delaunay/Delaunator|null[0]
+    constructor <init>(kotlin/Array<kotlin/Array<kotlin/Double>>) // io.data2viz.delaunay/Delaunator.<init>|<init>(kotlin.Array<kotlin.Array<kotlin.Double>>){}[0]
+
+    final val getX // io.data2viz.delaunay/Delaunator.getX|{}getX[0]
+        final fun <get-getX>(): kotlin/Function1<kotlin/Array<kotlin/Double>, kotlin/Double> // io.data2viz.delaunay/Delaunator.getX.<get-getX>|<get-getX>(){}[0]
+    final val getY // io.data2viz.delaunay/Delaunator.getY|{}getY[0]
+        final fun <get-getY>(): kotlin/Function1<kotlin/Array<kotlin/Double>, kotlin/Double> // io.data2viz.delaunay/Delaunator.getY.<get-getY>|<get-getY>(){}[0]
+
+    final var triangles // io.data2viz.delaunay/Delaunator.triangles|{}triangles[0]
+        final fun <get-triangles>(): io.data2viz.delaunay/TypedIntArray // io.data2viz.delaunay/Delaunator.triangles.<get-triangles>|<get-triangles>(){}[0]
+        final fun <set-triangles>(io.data2viz.delaunay/TypedIntArray) // io.data2viz.delaunay/Delaunator.triangles.<set-triangles>|<set-triangles>(io.data2viz.delaunay.TypedIntArray){}[0]
+}
+
+final class io.data2viz.delaunay/Point { // io.data2viz.delaunay/Point|null[0]
+    constructor <init>(kotlin/Double, kotlin/Double) // io.data2viz.delaunay/Point.<init>|<init>(kotlin.Double;kotlin.Double){}[0]
+
+    final val x // io.data2viz.delaunay/Point.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.delaunay/Point.x.<get-x>|<get-x>(){}[0]
+    final val y // io.data2viz.delaunay/Point.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.delaunay/Point.y.<get-y>|<get-y>(){}[0]
+
+    final fun component1(): kotlin/Double // io.data2viz.delaunay/Point.component1|component1(){}[0]
+    final fun component2(): kotlin/Double // io.data2viz.delaunay/Point.component2|component2(){}[0]
+    final fun copy(kotlin/Double = ..., kotlin/Double = ...): io.data2viz.delaunay/Point // io.data2viz.delaunay/Point.copy|copy(kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.delaunay/Point.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.delaunay/Point.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.delaunay/Point.toString|toString(){}[0]
+}
+
+final class io.data2viz.delaunay/TypedIntArrayDelegate : io.data2viz.delaunay/TypedIntArray { // io.data2viz.delaunay/TypedIntArrayDelegate|null[0]
+    constructor <init>(org.khronos.webgl/Int32Array) // io.data2viz.delaunay/TypedIntArrayDelegate.<init>|<init>(org.khronos.webgl.Int32Array){}[0]
+
+    final val delegate // io.data2viz.delaunay/TypedIntArrayDelegate.delegate|{}delegate[0]
+        final fun <get-delegate>(): org.khronos.webgl/Int32Array // io.data2viz.delaunay/TypedIntArrayDelegate.delegate.<get-delegate>|<get-delegate>(){}[0]
+    final val length // io.data2viz.delaunay/TypedIntArrayDelegate.length|{}length[0]
+        final fun <get-length>(): kotlin/Int // io.data2viz.delaunay/TypedIntArrayDelegate.length.<get-length>|<get-length>(){}[0]
+
+    final fun get(kotlin/Int): kotlin/Int // io.data2viz.delaunay/TypedIntArrayDelegate.get|get(kotlin.Int){}[0]
+    final fun set(kotlin/Int, kotlin/Int) // io.data2viz.delaunay/TypedIntArrayDelegate.set|set(kotlin.Int;kotlin.Int){}[0]
+    final fun subarray(kotlin/Int, kotlin/Int): io.data2viz.delaunay/TypedIntArray // io.data2viz.delaunay/TypedIntArrayDelegate.subarray|subarray(kotlin.Int;kotlin.Int){}[0]
+}
+
+final class io.data2viz.delaunay/TypedUIntArrayDelegate : io.data2viz.delaunay/TypedUIntArray { // io.data2viz.delaunay/TypedUIntArrayDelegate|null[0]
+    constructor <init>(org.khronos.webgl/Uint32Array) // io.data2viz.delaunay/TypedUIntArrayDelegate.<init>|<init>(org.khronos.webgl.Uint32Array){}[0]
+
+    final val delegate // io.data2viz.delaunay/TypedUIntArrayDelegate.delegate|{}delegate[0]
+        final fun <get-delegate>(): org.khronos.webgl/Uint32Array // io.data2viz.delaunay/TypedUIntArrayDelegate.delegate.<get-delegate>|<get-delegate>(){}[0]
+    final val length // io.data2viz.delaunay/TypedUIntArrayDelegate.length|{}length[0]
+        final fun <get-length>(): kotlin/Int // io.data2viz.delaunay/TypedUIntArrayDelegate.length.<get-length>|<get-length>(){}[0]
+
+    final fun get(kotlin/Int): kotlin/Int // io.data2viz.delaunay/TypedUIntArrayDelegate.get|get(kotlin.Int){}[0]
+    final fun set(kotlin/Int, kotlin/Int) // io.data2viz.delaunay/TypedUIntArrayDelegate.set|set(kotlin.Int;kotlin.Int){}[0]
+    final fun subarray(kotlin/Int, kotlin/Int): io.data2viz.delaunay/TypedUIntArray // io.data2viz.delaunay/TypedUIntArrayDelegate.subarray|subarray(kotlin.Int;kotlin.Int){}[0]
+}
+
+final fun io.data2viz.delaunay/area(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Double // io.data2viz.delaunay/area|area(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.delaunay/circumcenter(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): io.data2viz.delaunay/Point // io.data2viz.delaunay/circumcenter|circumcenter(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.delaunay/circumradius(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Double // io.data2viz.delaunay/circumradius|circumradius(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.delaunay/delaunautor(kotlin/Array<kotlin/Array<kotlin/Double>>): io.data2viz.delaunay/Delaunator // io.data2viz.delaunay/delaunautor|delaunautor(kotlin.Array<kotlin.Array<kotlin.Double>>){}[0]
+final fun io.data2viz.delaunay/inCircle(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double): kotlin/Boolean // io.data2viz.delaunay/inCircle|inCircle(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.delaunay/typedIntArray(kotlin/Int): io.data2viz.delaunay/TypedIntArray // io.data2viz.delaunay/typedIntArray|typedIntArray(kotlin.Int){}[0]

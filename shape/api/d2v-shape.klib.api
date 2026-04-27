@@ -1,0 +1,654 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-shape>
+final enum class io.data2viz.shape.stack/StackOffset : kotlin/Enum<io.data2viz.shape.stack/StackOffset> { // io.data2viz.shape.stack/StackOffset|null[0]
+    enum entry DIVERGING // io.data2viz.shape.stack/StackOffset.DIVERGING|null[0]
+    enum entry EXPAND // io.data2viz.shape.stack/StackOffset.EXPAND|null[0]
+    enum entry NONE // io.data2viz.shape.stack/StackOffset.NONE|null[0]
+    enum entry SILHOUETTE // io.data2viz.shape.stack/StackOffset.SILHOUETTE|null[0]
+    enum entry WIGGLE // io.data2viz.shape.stack/StackOffset.WIGGLE|null[0]
+
+    final val entries // io.data2viz.shape.stack/StackOffset.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.shape.stack/StackOffset> // io.data2viz.shape.stack/StackOffset.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.shape.stack/StackOffset // io.data2viz.shape.stack/StackOffset.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.shape.stack/StackOffset> // io.data2viz.shape.stack/StackOffset.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.shape.stack/StackOrder : kotlin/Enum<io.data2viz.shape.stack/StackOrder> { // io.data2viz.shape.stack/StackOrder|null[0]
+    enum entry ASCENDING // io.data2viz.shape.stack/StackOrder.ASCENDING|null[0]
+    enum entry DESCENDING // io.data2viz.shape.stack/StackOrder.DESCENDING|null[0]
+    enum entry INSIDEOUT // io.data2viz.shape.stack/StackOrder.INSIDEOUT|null[0]
+    enum entry NONE // io.data2viz.shape.stack/StackOrder.NONE|null[0]
+    enum entry REVERSE // io.data2viz.shape.stack/StackOrder.REVERSE|null[0]
+
+    final val entries // io.data2viz.shape.stack/StackOrder.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.shape.stack/StackOrder> // io.data2viz.shape.stack/StackOrder.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.shape.stack/StackOrder // io.data2viz.shape.stack/StackOrder.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.shape.stack/StackOrder> // io.data2viz.shape.stack/StackOrder.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.shape/Symbols : kotlin/Enum<io.data2viz.shape/Symbols> { // io.data2viz.shape/Symbols|null[0]
+    enum entry Circle // io.data2viz.shape/Symbols.Circle|null[0]
+    enum entry Cross // io.data2viz.shape/Symbols.Cross|null[0]
+    enum entry Diamond // io.data2viz.shape/Symbols.Diamond|null[0]
+    enum entry Square // io.data2viz.shape/Symbols.Square|null[0]
+    enum entry Star // io.data2viz.shape/Symbols.Star|null[0]
+    enum entry Triangle // io.data2viz.shape/Symbols.Triangle|null[0]
+    enum entry Wye // io.data2viz.shape/Symbols.Wye|null[0]
+
+    final val entries // io.data2viz.shape/Symbols.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.shape/Symbols> // io.data2viz.shape/Symbols.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.shape/Symbols // io.data2viz.shape/Symbols.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.shape/Symbols> // io.data2viz.shape/Symbols.values|values#static(){}[0]
+}
+
+abstract interface io.data2viz.shape/Curve { // io.data2viz.shape/Curve|null[0]
+    abstract val path // io.data2viz.shape/Curve.path|{}path[0]
+        abstract fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape/Curve.path.<get-path>|<get-path>(){}[0]
+
+    abstract fun areaEnd() // io.data2viz.shape/Curve.areaEnd|areaEnd(){}[0]
+    abstract fun areaStart() // io.data2viz.shape/Curve.areaStart|areaStart(){}[0]
+    abstract fun lineEnd() // io.data2viz.shape/Curve.lineEnd|lineEnd(){}[0]
+    abstract fun lineStart() // io.data2viz.shape/Curve.lineStart|lineStart(){}[0]
+    abstract fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape/Curve.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+abstract interface io.data2viz.shape/Symbol { // io.data2viz.shape/Symbol|null[0]
+    abstract fun <#A1: io.data2viz.geom/Path> render(#A1, kotlin/Double, io.data2viz.geom/Point = ...): #A1 // io.data2viz.shape/Symbol.render|render(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    abstract fun <#A1: io.data2viz.geom/Path> renderArea(#A1, kotlin/Double, io.data2viz.geom/Point = ...): #A1 // io.data2viz.shape/Symbol.renderArea|renderArea(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    abstract fun <#A1: io.data2viz.geom/Path> renderRadius(#A1, kotlin/Double, io.data2viz.geom/Point = ...): #A1 // io.data2viz.shape/Symbol.renderRadius|renderRadius(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+}
+
+abstract class io.data2viz.shape.curve/AbstractRadial : io.data2viz.shape/Curve { // io.data2viz.shape.curve/AbstractRadial|null[0]
+    constructor <init>(io.data2viz.geom/Path, io.data2viz.shape/Curve) // io.data2viz.shape.curve/AbstractRadial.<init>|<init>(io.data2viz.geom.Path;io.data2viz.shape.Curve){}[0]
+
+    final val curve // io.data2viz.shape.curve/AbstractRadial.curve|{}curve[0]
+        final fun <get-curve>(): io.data2viz.shape/Curve // io.data2viz.shape.curve/AbstractRadial.curve.<get-curve>|<get-curve>(){}[0]
+    open val path // io.data2viz.shape.curve/AbstractRadial.path|{}path[0]
+        open fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/AbstractRadial.path.<get-path>|<get-path>(){}[0]
+
+    open fun areaEnd() // io.data2viz.shape.curve/AbstractRadial.areaEnd|areaEnd(){}[0]
+    open fun areaStart() // io.data2viz.shape.curve/AbstractRadial.areaStart|areaStart(){}[0]
+    open fun lineEnd() // io.data2viz.shape.curve/AbstractRadial.lineEnd|lineEnd(){}[0]
+    open fun lineStart() // io.data2viz.shape.curve/AbstractRadial.lineStart|lineStart(){}[0]
+    open fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/AbstractRadial.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+abstract class io.data2viz.shape.curve/AbstractStep : io.data2viz.shape/Curve { // io.data2viz.shape.curve/AbstractStep|null[0]
+    constructor <init>(io.data2viz.geom/Path, kotlin/Double = ...) // io.data2viz.shape.curve/AbstractStep.<init>|<init>(io.data2viz.geom.Path;kotlin.Double){}[0]
+
+    open val path // io.data2viz.shape.curve/AbstractStep.path|{}path[0]
+        open fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/AbstractStep.path.<get-path>|<get-path>(){}[0]
+
+    open fun areaEnd() // io.data2viz.shape.curve/AbstractStep.areaEnd|areaEnd(){}[0]
+    open fun areaStart() // io.data2viz.shape.curve/AbstractStep.areaStart|areaStart(){}[0]
+    open fun lineEnd() // io.data2viz.shape.curve/AbstractStep.lineEnd|lineEnd(){}[0]
+    open fun lineStart() // io.data2viz.shape.curve/AbstractStep.lineStart|lineStart(){}[0]
+    open fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/AbstractStep.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape.link/LinkBuilder { // io.data2viz.shape.link/LinkBuilder|null[0]
+    constructor <init>() // io.data2viz.shape.link/LinkBuilder.<init>|<init>(){}[0]
+
+    final var curve // io.data2viz.shape.link/LinkBuilder.curve|{}curve[0]
+        final fun <get-curve>(): kotlin/Function5<io.data2viz.geom/Path, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Unit> // io.data2viz.shape.link/LinkBuilder.curve.<get-curve>|<get-curve>(){}[0]
+        final fun <set-curve>(kotlin/Function5<io.data2viz.geom/Path, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Unit>) // io.data2viz.shape.link/LinkBuilder.curve.<set-curve>|<set-curve>(kotlin.Function5<io.data2viz.geom.Path,kotlin.Double,kotlin.Double,kotlin.Double,kotlin.Double,kotlin.Unit>){}[0]
+    final var x0 // io.data2viz.shape.link/LinkBuilder.x0|{}x0[0]
+        final fun <get-x0>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape.link/LinkBuilder.x0.<get-x0>|<get-x0>(){}[0]
+        final fun <set-x0>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape.link/LinkBuilder.x0.<set-x0>|<set-x0>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var x1 // io.data2viz.shape.link/LinkBuilder.x1|{}x1[0]
+        final fun <get-x1>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape.link/LinkBuilder.x1.<get-x1>|<get-x1>(){}[0]
+        final fun <set-x1>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape.link/LinkBuilder.x1.<set-x1>|<set-x1>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var y0 // io.data2viz.shape.link/LinkBuilder.y0|{}y0[0]
+        final fun <get-y0>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape.link/LinkBuilder.y0.<get-y0>|<get-y0>(){}[0]
+        final fun <set-y0>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape.link/LinkBuilder.y0.<set-y0>|<set-y0>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var y1 // io.data2viz.shape.link/LinkBuilder.y1|{}y1[0]
+        final fun <get-y1>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape.link/LinkBuilder.y1.<get-y1>|<get-y1>(){}[0]
+        final fun <set-y1>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape.link/LinkBuilder.y1.<set-y1>|<set-y1>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> link(#A, #A1) // io.data2viz.shape.link/LinkBuilder.link|link(1:0;0:0){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape.stack/StackGenerator { // io.data2viz.shape.stack/StackGenerator|null[0]
+    constructor <init>() // io.data2viz.shape.stack/StackGenerator.<init>|<init>(){}[0]
+
+    final var offset // io.data2viz.shape.stack/StackGenerator.offset|{}offset[0]
+        final fun <get-offset>(): io.data2viz.shape.stack/StackOffset // io.data2viz.shape.stack/StackGenerator.offset.<get-offset>|<get-offset>(){}[0]
+        final fun <set-offset>(io.data2viz.shape.stack/StackOffset) // io.data2viz.shape.stack/StackGenerator.offset.<set-offset>|<set-offset>(io.data2viz.shape.stack.StackOffset){}[0]
+    final var order // io.data2viz.shape.stack/StackGenerator.order|{}order[0]
+        final fun <get-order>(): io.data2viz.shape.stack/StackOrder // io.data2viz.shape.stack/StackGenerator.order.<get-order>|<get-order>(){}[0]
+        final fun <set-order>(io.data2viz.shape.stack/StackOrder) // io.data2viz.shape.stack/StackGenerator.order.<set-order>|<set-order>(io.data2viz.shape.stack.StackOrder){}[0]
+    final var series // io.data2viz.shape.stack/StackGenerator.series|{}series[0]
+        final fun <get-series>(): kotlin/Function1<#A, kotlin/Array<kotlin/Double>> // io.data2viz.shape.stack/StackGenerator.series.<get-series>|<get-series>(){}[0]
+        final fun <set-series>(kotlin/Function1<#A, kotlin/Array<kotlin/Double>>) // io.data2viz.shape.stack/StackGenerator.series.<set-series>|<set-series>(kotlin.Function1<1:0,kotlin.Array<kotlin.Double>>){}[0]
+
+    final fun stack(kotlin.collections/List<#A>): kotlin/Array<io.data2viz.shape.stack/StackParam<#A>> // io.data2viz.shape.stack/StackGenerator.stack|stack(kotlin.collections.List<1:0>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape.stack/StackParam { // io.data2viz.shape.stack/StackParam|null[0]
+    constructor <init>(kotlin.collections/MutableList<io.data2viz.shape.stack/StackSpace<#A>>, kotlin/Int) // io.data2viz.shape.stack/StackParam.<init>|<init>(kotlin.collections.MutableList<io.data2viz.shape.stack.StackSpace<1:0>>;kotlin.Int){}[0]
+
+    final val stackedValues // io.data2viz.shape.stack/StackParam.stackedValues|{}stackedValues[0]
+        final fun <get-stackedValues>(): kotlin.collections/MutableList<io.data2viz.shape.stack/StackSpace<#A>> // io.data2viz.shape.stack/StackParam.stackedValues.<get-stackedValues>|<get-stackedValues>(){}[0]
+
+    final var index // io.data2viz.shape.stack/StackParam.index|{}index[0]
+        final fun <get-index>(): kotlin/Int // io.data2viz.shape.stack/StackParam.index.<get-index>|<get-index>(){}[0]
+        final fun <set-index>(kotlin/Int) // io.data2viz.shape.stack/StackParam.index.<set-index>|<set-index>(kotlin.Int){}[0]
+
+    final fun component1(): kotlin.collections/MutableList<io.data2viz.shape.stack/StackSpace<#A>> // io.data2viz.shape.stack/StackParam.component1|component1(){}[0]
+    final fun component2(): kotlin/Int // io.data2viz.shape.stack/StackParam.component2|component2(){}[0]
+    final fun copy(kotlin.collections/MutableList<io.data2viz.shape.stack/StackSpace<#A>> = ..., kotlin/Int = ...): io.data2viz.shape.stack/StackParam<#A> // io.data2viz.shape.stack/StackParam.copy|copy(kotlin.collections.MutableList<io.data2viz.shape.stack.StackSpace<1:0>>;kotlin.Int){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.shape.stack/StackParam.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.shape.stack/StackParam.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.shape.stack/StackParam.toString|toString(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape.stack/StackSpace { // io.data2viz.shape.stack/StackSpace|null[0]
+    constructor <init>(kotlin/Double, kotlin/Double, kotlin/Int, #A) // io.data2viz.shape.stack/StackSpace.<init>|<init>(kotlin.Double;kotlin.Double;kotlin.Int;1:0){}[0]
+
+    final val data // io.data2viz.shape.stack/StackSpace.data|{}data[0]
+        final fun <get-data>(): #A // io.data2viz.shape.stack/StackSpace.data.<get-data>|<get-data>(){}[0]
+    final val paramIndex // io.data2viz.shape.stack/StackSpace.paramIndex|{}paramIndex[0]
+        final fun <get-paramIndex>(): kotlin/Int // io.data2viz.shape.stack/StackSpace.paramIndex.<get-paramIndex>|<get-paramIndex>(){}[0]
+
+    final var from // io.data2viz.shape.stack/StackSpace.from|{}from[0]
+        final fun <get-from>(): kotlin/Double // io.data2viz.shape.stack/StackSpace.from.<get-from>|<get-from>(){}[0]
+        final fun <set-from>(kotlin/Double) // io.data2viz.shape.stack/StackSpace.from.<set-from>|<set-from>(kotlin.Double){}[0]
+    final var to // io.data2viz.shape.stack/StackSpace.to|{}to[0]
+        final fun <get-to>(): kotlin/Double // io.data2viz.shape.stack/StackSpace.to.<get-to>|<get-to>(){}[0]
+        final fun <set-to>(kotlin/Double) // io.data2viz.shape.stack/StackSpace.to.<set-to>|<set-to>(kotlin.Double){}[0]
+
+    final fun component1(): kotlin/Double // io.data2viz.shape.stack/StackSpace.component1|component1(){}[0]
+    final fun component2(): kotlin/Double // io.data2viz.shape.stack/StackSpace.component2|component2(){}[0]
+    final fun component3(): kotlin/Int // io.data2viz.shape.stack/StackSpace.component3|component3(){}[0]
+    final fun component4(): #A // io.data2viz.shape.stack/StackSpace.component4|component4(){}[0]
+    final fun copy(kotlin/Double = ..., kotlin/Double = ..., kotlin/Int = ..., #A = ...): io.data2viz.shape.stack/StackSpace<#A> // io.data2viz.shape.stack/StackSpace.copy|copy(kotlin.Double;kotlin.Double;kotlin.Int;1:0){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.shape.stack/StackSpace.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.shape.stack/StackSpace.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.shape.stack/StackSpace.toString|toString(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape/ArcBuilder { // io.data2viz.shape/ArcBuilder|null[0]
+    constructor <init>() // io.data2viz.shape/ArcBuilder.<init>|<init>(){}[0]
+
+    final var cornerRadius // io.data2viz.shape/ArcBuilder.cornerRadius|{}cornerRadius[0]
+        final fun <get-cornerRadius>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/ArcBuilder.cornerRadius.<get-cornerRadius>|<get-cornerRadius>(){}[0]
+        final fun <set-cornerRadius>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/ArcBuilder.cornerRadius.<set-cornerRadius>|<set-cornerRadius>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var endAngle // io.data2viz.shape/ArcBuilder.endAngle|{}endAngle[0]
+        final fun <get-endAngle>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/ArcBuilder.endAngle.<get-endAngle>|<get-endAngle>(){}[0]
+        final fun <set-endAngle>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/ArcBuilder.endAngle.<set-endAngle>|<set-endAngle>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var innerRadius // io.data2viz.shape/ArcBuilder.innerRadius|{}innerRadius[0]
+        final fun <get-innerRadius>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/ArcBuilder.innerRadius.<get-innerRadius>|<get-innerRadius>(){}[0]
+        final fun <set-innerRadius>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/ArcBuilder.innerRadius.<set-innerRadius>|<set-innerRadius>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var outerRadius // io.data2viz.shape/ArcBuilder.outerRadius|{}outerRadius[0]
+        final fun <get-outerRadius>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/ArcBuilder.outerRadius.<get-outerRadius>|<get-outerRadius>(){}[0]
+        final fun <set-outerRadius>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/ArcBuilder.outerRadius.<set-outerRadius>|<set-outerRadius>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var padAngle // io.data2viz.shape/ArcBuilder.padAngle|{}padAngle[0]
+        final fun <get-padAngle>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/ArcBuilder.padAngle.<get-padAngle>|<get-padAngle>(){}[0]
+        final fun <set-padAngle>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/ArcBuilder.padAngle.<set-padAngle>|<set-padAngle>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var padRadius // io.data2viz.shape/ArcBuilder.padRadius|{}padRadius[0]
+        final fun <get-padRadius>(): kotlin/Function1<#A, kotlin/Double>? // io.data2viz.shape/ArcBuilder.padRadius.<get-padRadius>|<get-padRadius>(){}[0]
+        final fun <set-padRadius>(kotlin/Function1<#A, kotlin/Double>?) // io.data2viz.shape/ArcBuilder.padRadius.<set-padRadius>|<set-padRadius>(kotlin.Function1<1:0,kotlin.Double>?){}[0]
+    final var startAngle // io.data2viz.shape/ArcBuilder.startAngle|{}startAngle[0]
+        final fun <get-startAngle>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/ArcBuilder.startAngle.<get-startAngle>|<get-startAngle>(){}[0]
+        final fun <set-startAngle>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/ArcBuilder.startAngle.<set-startAngle>|<set-startAngle>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> buildArcForDatum(#A, #A1): #A1 // io.data2viz.shape/ArcBuilder.buildArcForDatum|buildArcForDatum(1:0;0:0){0§<io.data2viz.geom.Path>}[0]
+    final fun centroid(#A): kotlin/Array<kotlin/Double> // io.data2viz.shape/ArcBuilder.centroid|centroid(1:0){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape/ArcParams { // io.data2viz.shape/ArcParams|null[0]
+    constructor <init>(kotlin/Double, kotlin/Double, kotlin/Double?, kotlin/Double?, kotlin/Int?, #A?) // io.data2viz.shape/ArcParams.<init>|<init>(kotlin.Double;kotlin.Double;kotlin.Double?;kotlin.Double?;kotlin.Int?;1:0?){}[0]
+
+    final val data // io.data2viz.shape/ArcParams.data|{}data[0]
+        final fun <get-data>(): #A? // io.data2viz.shape/ArcParams.data.<get-data>|<get-data>(){}[0]
+    final val endAngle // io.data2viz.shape/ArcParams.endAngle|{}endAngle[0]
+        final fun <get-endAngle>(): kotlin/Double // io.data2viz.shape/ArcParams.endAngle.<get-endAngle>|<get-endAngle>(){}[0]
+    final val index // io.data2viz.shape/ArcParams.index|{}index[0]
+        final fun <get-index>(): kotlin/Int? // io.data2viz.shape/ArcParams.index.<get-index>|<get-index>(){}[0]
+    final val padAngle // io.data2viz.shape/ArcParams.padAngle|{}padAngle[0]
+        final fun <get-padAngle>(): kotlin/Double? // io.data2viz.shape/ArcParams.padAngle.<get-padAngle>|<get-padAngle>(){}[0]
+    final val startAngle // io.data2viz.shape/ArcParams.startAngle|{}startAngle[0]
+        final fun <get-startAngle>(): kotlin/Double // io.data2viz.shape/ArcParams.startAngle.<get-startAngle>|<get-startAngle>(){}[0]
+    final val value // io.data2viz.shape/ArcParams.value|{}value[0]
+        final fun <get-value>(): kotlin/Double? // io.data2viz.shape/ArcParams.value.<get-value>|<get-value>(){}[0]
+
+    final fun component1(): kotlin/Double // io.data2viz.shape/ArcParams.component1|component1(){}[0]
+    final fun component2(): kotlin/Double // io.data2viz.shape/ArcParams.component2|component2(){}[0]
+    final fun component3(): kotlin/Double? // io.data2viz.shape/ArcParams.component3|component3(){}[0]
+    final fun component4(): kotlin/Double? // io.data2viz.shape/ArcParams.component4|component4(){}[0]
+    final fun component5(): kotlin/Int? // io.data2viz.shape/ArcParams.component5|component5(){}[0]
+    final fun component6(): #A? // io.data2viz.shape/ArcParams.component6|component6(){}[0]
+    final fun copy(kotlin/Double = ..., kotlin/Double = ..., kotlin/Double? = ..., kotlin/Double? = ..., kotlin/Int? = ..., #A? = ...): io.data2viz.shape/ArcParams<#A> // io.data2viz.shape/ArcParams.copy|copy(kotlin.Double;kotlin.Double;kotlin.Double?;kotlin.Double?;kotlin.Int?;1:0?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.shape/ArcParams.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.shape/ArcParams.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.shape/ArcParams.toString|toString(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape/AreaBuilder { // io.data2viz.shape/AreaBuilder|null[0]
+    constructor <init>() // io.data2viz.shape/AreaBuilder.<init>|<init>(){}[0]
+
+    final var curve // io.data2viz.shape/AreaBuilder.curve|{}curve[0]
+        final fun <get-curve>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape/Curve> // io.data2viz.shape/AreaBuilder.curve.<get-curve>|<get-curve>(){}[0]
+        final fun <set-curve>(kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape/Curve>) // io.data2viz.shape/AreaBuilder.curve.<set-curve>|<set-curve>(kotlin.Function1<io.data2viz.geom.Path,io.data2viz.shape.Curve>){}[0]
+    final var defined // io.data2viz.shape/AreaBuilder.defined|{}defined[0]
+        final fun <get-defined>(): kotlin/Function1<#A, kotlin/Boolean> // io.data2viz.shape/AreaBuilder.defined.<get-defined>|<get-defined>(){}[0]
+        final fun <set-defined>(kotlin/Function1<#A, kotlin/Boolean>) // io.data2viz.shape/AreaBuilder.defined.<set-defined>|<set-defined>(kotlin.Function1<1:0,kotlin.Boolean>){}[0]
+    final var xBaseline // io.data2viz.shape/AreaBuilder.xBaseline|{}xBaseline[0]
+        final fun <get-xBaseline>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/AreaBuilder.xBaseline.<get-xBaseline>|<get-xBaseline>(){}[0]
+        final fun <set-xBaseline>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/AreaBuilder.xBaseline.<set-xBaseline>|<set-xBaseline>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var xTopline // io.data2viz.shape/AreaBuilder.xTopline|{}xTopline[0]
+        final fun <get-xTopline>(): kotlin/Function1<#A, kotlin/Double>? // io.data2viz.shape/AreaBuilder.xTopline.<get-xTopline>|<get-xTopline>(){}[0]
+        final fun <set-xTopline>(kotlin/Function1<#A, kotlin/Double>?) // io.data2viz.shape/AreaBuilder.xTopline.<set-xTopline>|<set-xTopline>(kotlin.Function1<1:0,kotlin.Double>?){}[0]
+    final var yBaseline // io.data2viz.shape/AreaBuilder.yBaseline|{}yBaseline[0]
+        final fun <get-yBaseline>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/AreaBuilder.yBaseline.<get-yBaseline>|<get-yBaseline>(){}[0]
+        final fun <set-yBaseline>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/AreaBuilder.yBaseline.<set-yBaseline>|<set-yBaseline>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var yTopline // io.data2viz.shape/AreaBuilder.yTopline|{}yTopline[0]
+        final fun <get-yTopline>(): kotlin/Function1<#A, kotlin/Double>? // io.data2viz.shape/AreaBuilder.yTopline.<get-yTopline>|<get-yTopline>(){}[0]
+        final fun <set-yTopline>(kotlin/Function1<#A, kotlin/Double>?) // io.data2viz.shape/AreaBuilder.yTopline.<set-yTopline>|<set-yTopline>(kotlin.Function1<1:0,kotlin.Double>?){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(kotlin.collections/List<#A>, #A1): #A1 // io.data2viz.shape/AreaBuilder.render|render(kotlin.collections.List<1:0>;0:0){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape/LineBuilder { // io.data2viz.shape/LineBuilder|null[0]
+    constructor <init>() // io.data2viz.shape/LineBuilder.<init>|<init>(){}[0]
+
+    final var curve // io.data2viz.shape/LineBuilder.curve|{}curve[0]
+        final fun <get-curve>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape/Curve> // io.data2viz.shape/LineBuilder.curve.<get-curve>|<get-curve>(){}[0]
+        final fun <set-curve>(kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape/Curve>) // io.data2viz.shape/LineBuilder.curve.<set-curve>|<set-curve>(kotlin.Function1<io.data2viz.geom.Path,io.data2viz.shape.Curve>){}[0]
+    final var defined // io.data2viz.shape/LineBuilder.defined|{}defined[0]
+        final fun <get-defined>(): kotlin/Function1<#A, kotlin/Boolean> // io.data2viz.shape/LineBuilder.defined.<get-defined>|<get-defined>(){}[0]
+        final fun <set-defined>(kotlin/Function1<#A, kotlin/Boolean>) // io.data2viz.shape/LineBuilder.defined.<set-defined>|<set-defined>(kotlin.Function1<1:0,kotlin.Boolean>){}[0]
+    final var x // io.data2viz.shape/LineBuilder.x|{}x[0]
+        final fun <get-x>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/LineBuilder.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/LineBuilder.x.<set-x>|<set-x>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var y // io.data2viz.shape/LineBuilder.y|{}y[0]
+        final fun <get-y>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/LineBuilder.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/LineBuilder.y.<set-y>|<set-y>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> buildLine(kotlin.collections/List<#A>, #A1): #A1 // io.data2viz.shape/LineBuilder.buildLine|buildLine(kotlin.collections.List<1:0>;0:0){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape/PieGenerator { // io.data2viz.shape/PieGenerator|null[0]
+    constructor <init>() // io.data2viz.shape/PieGenerator.<init>|<init>(){}[0]
+
+    final var endAngle // io.data2viz.shape/PieGenerator.endAngle|{}endAngle[0]
+        final fun <get-endAngle>(): kotlin/Function1<kotlin/Array<#A>, kotlin/Double> // io.data2viz.shape/PieGenerator.endAngle.<get-endAngle>|<get-endAngle>(){}[0]
+        final fun <set-endAngle>(kotlin/Function1<kotlin/Array<#A>, kotlin/Double>) // io.data2viz.shape/PieGenerator.endAngle.<set-endAngle>|<set-endAngle>(kotlin.Function1<kotlin.Array<1:0>,kotlin.Double>){}[0]
+    final var padAngle // io.data2viz.shape/PieGenerator.padAngle|{}padAngle[0]
+        final fun <get-padAngle>(): kotlin/Function1<kotlin/Array<#A>, kotlin/Double> // io.data2viz.shape/PieGenerator.padAngle.<get-padAngle>|<get-padAngle>(){}[0]
+        final fun <set-padAngle>(kotlin/Function1<kotlin/Array<#A>, kotlin/Double>) // io.data2viz.shape/PieGenerator.padAngle.<set-padAngle>|<set-padAngle>(kotlin.Function1<kotlin.Array<1:0>,kotlin.Double>){}[0]
+    final var startAngle // io.data2viz.shape/PieGenerator.startAngle|{}startAngle[0]
+        final fun <get-startAngle>(): kotlin/Function1<kotlin/Array<#A>, kotlin/Double> // io.data2viz.shape/PieGenerator.startAngle.<get-startAngle>|<get-startAngle>(){}[0]
+        final fun <set-startAngle>(kotlin/Function1<kotlin/Array<#A>, kotlin/Double>) // io.data2viz.shape/PieGenerator.startAngle.<set-startAngle>|<set-startAngle>(kotlin.Function1<kotlin.Array<1:0>,kotlin.Double>){}[0]
+    final var value // io.data2viz.shape/PieGenerator.value|{}value[0]
+        final fun <get-value>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/PieGenerator.value.<get-value>|<get-value>(){}[0]
+        final fun <set-value>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/PieGenerator.value.<set-value>|<set-value>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+
+    final fun render(kotlin/Array<#A>): kotlin/Array<io.data2viz.shape/ArcParams<#A>> // io.data2viz.shape/PieGenerator.render|render(kotlin.Array<1:0>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.shape/SymbolGenerator { // io.data2viz.shape/SymbolGenerator|null[0]
+    constructor <init>() // io.data2viz.shape/SymbolGenerator.<init>|<init>(){}[0]
+
+    final var size // io.data2viz.shape/SymbolGenerator.size|{}size[0]
+        final fun <get-size>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.shape/SymbolGenerator.size.<get-size>|<get-size>(){}[0]
+        final fun <set-size>(kotlin/Function1<#A, kotlin/Double>) // io.data2viz.shape/SymbolGenerator.size.<set-size>|<set-size>(kotlin.Function1<1:0,kotlin.Double>){}[0]
+    final var type // io.data2viz.shape/SymbolGenerator.type|{}type[0]
+        final fun <get-type>(): kotlin/Function1<#A, io.data2viz.shape/Symbol> // io.data2viz.shape/SymbolGenerator.type.<get-type>|<get-type>(){}[0]
+        final fun <set-type>(kotlin/Function1<#A, io.data2viz.shape/Symbol>) // io.data2viz.shape/SymbolGenerator.type.<set-type>|<set-type>(kotlin.Function1<1:0,io.data2viz.shape.Symbol>){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(#A, #A1): #A1 // io.data2viz.shape/SymbolGenerator.render|render(1:0;0:0){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class io.data2viz.shape.curve/Basis : io.data2viz.shape/Curve { // io.data2viz.shape.curve/Basis|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/Basis.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/Basis.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/Basis.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/Basis.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/Basis.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/Basis.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/Basis.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/Basis.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/BasisClosed : io.data2viz.shape/Curve { // io.data2viz.shape.curve/BasisClosed|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/BasisClosed.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/BasisClosed.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/BasisClosed.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/BasisClosed.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/BasisClosed.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/BasisClosed.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/BasisClosed.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/BasisClosed.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/BasisOpen : io.data2viz.shape/Curve { // io.data2viz.shape.curve/BasisOpen|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/BasisOpen.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/BasisOpen.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/BasisOpen.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/BasisOpen.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/BasisOpen.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/BasisOpen.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/BasisOpen.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/BasisOpen.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/Bundle : io.data2viz.shape/Curve { // io.data2viz.shape.curve/Bundle|null[0]
+    constructor <init>(io.data2viz.geom/Path, kotlin/Double = ...) // io.data2viz.shape.curve/Bundle.<init>|<init>(io.data2viz.geom.Path;kotlin.Double){}[0]
+
+    final val beta // io.data2viz.shape.curve/Bundle.beta|{}beta[0]
+        final fun <get-beta>(): kotlin/Double // io.data2viz.shape.curve/Bundle.beta.<get-beta>|<get-beta>(){}[0]
+    final val path // io.data2viz.shape.curve/Bundle.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/Bundle.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/Bundle.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/Bundle.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/Bundle.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/Bundle.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/Bundle.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/Cardinal : io.data2viz.shape/Curve { // io.data2viz.shape.curve/Cardinal|null[0]
+    constructor <init>(io.data2viz.geom/Path, kotlin/Double = ...) // io.data2viz.shape.curve/Cardinal.<init>|<init>(io.data2viz.geom.Path;kotlin.Double){}[0]
+
+    final val path // io.data2viz.shape.curve/Cardinal.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/Cardinal.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/Cardinal.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/Cardinal.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/Cardinal.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/Cardinal.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/Cardinal.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/CardinalClosed : io.data2viz.shape/Curve { // io.data2viz.shape.curve/CardinalClosed|null[0]
+    constructor <init>(io.data2viz.geom/Path, kotlin/Double = ...) // io.data2viz.shape.curve/CardinalClosed.<init>|<init>(io.data2viz.geom.Path;kotlin.Double){}[0]
+
+    final val path // io.data2viz.shape.curve/CardinalClosed.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/CardinalClosed.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/CardinalClosed.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/CardinalClosed.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/CardinalClosed.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/CardinalClosed.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/CardinalClosed.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/CardinalOpen : io.data2viz.shape/Curve { // io.data2viz.shape.curve/CardinalOpen|null[0]
+    constructor <init>(io.data2viz.geom/Path, kotlin/Double = ...) // io.data2viz.shape.curve/CardinalOpen.<init>|<init>(io.data2viz.geom.Path;kotlin.Double){}[0]
+
+    final val path // io.data2viz.shape.curve/CardinalOpen.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/CardinalOpen.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/CardinalOpen.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/CardinalOpen.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/CardinalOpen.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/CardinalOpen.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/CardinalOpen.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/CatmullRom : io.data2viz.shape/Curve { // io.data2viz.shape.curve/CatmullRom|null[0]
+    constructor <init>(io.data2viz.geom/Path, kotlin/Double = ...) // io.data2viz.shape.curve/CatmullRom.<init>|<init>(io.data2viz.geom.Path;kotlin.Double){}[0]
+
+    final val alpha // io.data2viz.shape.curve/CatmullRom.alpha|{}alpha[0]
+        final fun <get-alpha>(): kotlin/Double // io.data2viz.shape.curve/CatmullRom.alpha.<get-alpha>|<get-alpha>(){}[0]
+    final val path // io.data2viz.shape.curve/CatmullRom.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/CatmullRom.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/CatmullRom.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/CatmullRom.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/CatmullRom.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/CatmullRom.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/CatmullRom.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/CatmullRomClosed : io.data2viz.shape/Curve { // io.data2viz.shape.curve/CatmullRomClosed|null[0]
+    constructor <init>(io.data2viz.geom/Path, kotlin/Double = ...) // io.data2viz.shape.curve/CatmullRomClosed.<init>|<init>(io.data2viz.geom.Path;kotlin.Double){}[0]
+
+    final val alpha // io.data2viz.shape.curve/CatmullRomClosed.alpha|{}alpha[0]
+        final fun <get-alpha>(): kotlin/Double // io.data2viz.shape.curve/CatmullRomClosed.alpha.<get-alpha>|<get-alpha>(){}[0]
+    final val path // io.data2viz.shape.curve/CatmullRomClosed.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/CatmullRomClosed.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/CatmullRomClosed.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/CatmullRomClosed.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/CatmullRomClosed.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/CatmullRomClosed.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/CatmullRomClosed.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/CatmullRomOpen : io.data2viz.shape/Curve { // io.data2viz.shape.curve/CatmullRomOpen|null[0]
+    constructor <init>(io.data2viz.geom/Path, kotlin/Double = ...) // io.data2viz.shape.curve/CatmullRomOpen.<init>|<init>(io.data2viz.geom.Path;kotlin.Double){}[0]
+
+    final val alpha // io.data2viz.shape.curve/CatmullRomOpen.alpha|{}alpha[0]
+        final fun <get-alpha>(): kotlin/Double // io.data2viz.shape.curve/CatmullRomOpen.alpha.<get-alpha>|<get-alpha>(){}[0]
+    final val path // io.data2viz.shape.curve/CatmullRomOpen.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/CatmullRomOpen.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/CatmullRomOpen.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/CatmullRomOpen.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/CatmullRomOpen.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/CatmullRomOpen.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/CatmullRomOpen.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/Linear : io.data2viz.shape/Curve { // io.data2viz.shape.curve/Linear|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/Linear.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/Linear.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/Linear.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/Linear.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/Linear.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/Linear.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/Linear.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/Linear.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/LinearClosed : io.data2viz.shape/Curve { // io.data2viz.shape.curve/LinearClosed|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/LinearClosed.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/LinearClosed.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/LinearClosed.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/LinearClosed.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/LinearClosed.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/LinearClosed.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/LinearClosed.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/LinearClosed.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/MonotoneX : io.data2viz.shape.curve/AbstractMonotone { // io.data2viz.shape.curve/MonotoneX|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/MonotoneX.<init>|<init>(io.data2viz.geom.Path){}[0]
+}
+
+final class io.data2viz.shape.curve/MonotoneY : io.data2viz.shape.curve/AbstractMonotone { // io.data2viz.shape.curve/MonotoneY|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/MonotoneY.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/MonotoneY.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/Natural : io.data2viz.shape/Curve { // io.data2viz.shape.curve/Natural|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/Natural.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/Natural.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/Natural.path.<get-path>|<get-path>(){}[0]
+
+    final fun areaEnd() // io.data2viz.shape.curve/Natural.areaEnd|areaEnd(){}[0]
+    final fun areaStart() // io.data2viz.shape.curve/Natural.areaStart|areaStart(){}[0]
+    final fun lineEnd() // io.data2viz.shape.curve/Natural.lineEnd|lineEnd(){}[0]
+    final fun lineStart() // io.data2viz.shape.curve/Natural.lineStart|lineStart(){}[0]
+    final fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/Natural.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.shape.curve/Radial : io.data2viz.shape.curve/AbstractRadial { // io.data2viz.shape.curve/Radial|null[0]
+    constructor <init>(io.data2viz.geom/Path, io.data2viz.shape/Curve) // io.data2viz.shape.curve/Radial.<init>|<init>(io.data2viz.geom.Path;io.data2viz.shape.Curve){}[0]
+}
+
+final class io.data2viz.shape.curve/RadialLinear : io.data2viz.shape.curve/AbstractRadial { // io.data2viz.shape.curve/RadialLinear|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/RadialLinear.<init>|<init>(io.data2viz.geom.Path){}[0]
+}
+
+final class io.data2viz.shape.curve/Step : io.data2viz.shape.curve/AbstractStep { // io.data2viz.shape.curve/Step|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/Step.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/Step.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/Step.path.<get-path>|<get-path>(){}[0]
+}
+
+final class io.data2viz.shape.curve/StepAfter : io.data2viz.shape.curve/AbstractStep { // io.data2viz.shape.curve/StepAfter|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/StepAfter.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/StepAfter.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/StepAfter.path.<get-path>|<get-path>(){}[0]
+}
+
+final class io.data2viz.shape.curve/StepBefore : io.data2viz.shape.curve/AbstractStep { // io.data2viz.shape.curve/StepBefore|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/StepBefore.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    final val path // io.data2viz.shape.curve/StepBefore.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/StepBefore.path.<get-path>|<get-path>(){}[0]
+}
+
+final class io.data2viz.shape.symbol/Circle : io.data2viz.shape/Symbol { // io.data2viz.shape.symbol/Circle|null[0]
+    constructor <init>() // io.data2viz.shape.symbol/Circle.<init>|<init>(){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Circle.render|render(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderArea(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Circle.renderArea|renderArea(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderRadius(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Circle.renderRadius|renderRadius(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class io.data2viz.shape.symbol/Cross : io.data2viz.shape/Symbol { // io.data2viz.shape.symbol/Cross|null[0]
+    constructor <init>() // io.data2viz.shape.symbol/Cross.<init>|<init>(){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Cross.render|render(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderArea(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Cross.renderArea|renderArea(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderRadius(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Cross.renderRadius|renderRadius(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class io.data2viz.shape.symbol/Diamond : io.data2viz.shape/Symbol { // io.data2viz.shape.symbol/Diamond|null[0]
+    constructor <init>() // io.data2viz.shape.symbol/Diamond.<init>|<init>(){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Diamond.render|render(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderArea(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Diamond.renderArea|renderArea(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderRadius(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Diamond.renderRadius|renderRadius(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class io.data2viz.shape.symbol/Square : io.data2viz.shape/Symbol { // io.data2viz.shape.symbol/Square|null[0]
+    constructor <init>() // io.data2viz.shape.symbol/Square.<init>|<init>(){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Square.render|render(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderArea(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Square.renderArea|renderArea(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderRadius(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Square.renderRadius|renderRadius(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class io.data2viz.shape.symbol/Star : io.data2viz.shape/Symbol { // io.data2viz.shape.symbol/Star|null[0]
+    constructor <init>() // io.data2viz.shape.symbol/Star.<init>|<init>(){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Star.render|render(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderArea(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Star.renderArea|renderArea(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderRadius(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Star.renderRadius|renderRadius(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class io.data2viz.shape.symbol/Triangle : io.data2viz.shape/Symbol { // io.data2viz.shape.symbol/Triangle|null[0]
+    constructor <init>() // io.data2viz.shape.symbol/Triangle.<init>|<init>(){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Triangle.render|render(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderArea(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Triangle.renderArea|renderArea(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderRadius(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Triangle.renderRadius|renderRadius(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+}
+
+final class io.data2viz.shape.symbol/Wye : io.data2viz.shape/Symbol { // io.data2viz.shape.symbol/Wye|null[0]
+    constructor <init>() // io.data2viz.shape.symbol/Wye.<init>|<init>(){}[0]
+
+    final fun <#A1: io.data2viz.geom/Path> render(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Wye.render|render(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderArea(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Wye.renderArea|renderArea(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+    final fun <#A1: io.data2viz.geom/Path> renderRadius(#A1, kotlin/Double, io.data2viz.geom/Point): #A1 // io.data2viz.shape.symbol/Wye.renderRadius|renderRadius(0:0;kotlin.Double;io.data2viz.geom.Point){0§<io.data2viz.geom.Path>}[0]
+}
+
+open class io.data2viz.shape.curve/AbstractMonotone : io.data2viz.shape/Curve { // io.data2viz.shape.curve/AbstractMonotone|null[0]
+    constructor <init>(io.data2viz.geom/Path) // io.data2viz.shape.curve/AbstractMonotone.<init>|<init>(io.data2viz.geom.Path){}[0]
+
+    open val path // io.data2viz.shape.curve/AbstractMonotone.path|{}path[0]
+        open fun <get-path>(): io.data2viz.geom/Path // io.data2viz.shape.curve/AbstractMonotone.path.<get-path>|<get-path>(){}[0]
+
+    open fun areaEnd() // io.data2viz.shape.curve/AbstractMonotone.areaEnd|areaEnd(){}[0]
+    open fun areaStart() // io.data2viz.shape.curve/AbstractMonotone.areaStart|areaStart(){}[0]
+    open fun lineEnd() // io.data2viz.shape.curve/AbstractMonotone.lineEnd|lineEnd(){}[0]
+    open fun lineStart() // io.data2viz.shape.curve/AbstractMonotone.lineStart|lineStart(){}[0]
+    open fun point(kotlin/Double, kotlin/Double) // io.data2viz.shape.curve/AbstractMonotone.point|point(kotlin.Double;kotlin.Double){}[0]
+}
+
+final object io.data2viz.shape/areas { // io.data2viz.shape/areas|null[0]
+    final val basis // io.data2viz.shape/areas.basis|{}basis[0]
+        final fun <get-basis>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/Basis> // io.data2viz.shape/areas.basis.<get-basis>|<get-basis>(){}[0]
+    final val default // io.data2viz.shape/areas.default|{}default[0]
+        final fun <get-default>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/Linear> // io.data2viz.shape/areas.default.<get-default>|<get-default>(){}[0]
+}
+
+final object io.data2viz.shape/curves { // io.data2viz.shape/curves|null[0]
+    final val basis // io.data2viz.shape/curves.basis|{}basis[0]
+        final fun <get-basis>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/Basis> // io.data2viz.shape/curves.basis.<get-basis>|<get-basis>(){}[0]
+    final val basisClosed // io.data2viz.shape/curves.basisClosed|{}basisClosed[0]
+        final fun <get-basisClosed>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/BasisClosed> // io.data2viz.shape/curves.basisClosed.<get-basisClosed>|<get-basisClosed>(){}[0]
+    final val basisOpen // io.data2viz.shape/curves.basisOpen|{}basisOpen[0]
+        final fun <get-basisOpen>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/BasisOpen> // io.data2viz.shape/curves.basisOpen.<get-basisOpen>|<get-basisOpen>(){}[0]
+    final val bundle // io.data2viz.shape/curves.bundle|{}bundle[0]
+        final fun <get-bundle>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/Bundle> // io.data2viz.shape/curves.bundle.<get-bundle>|<get-bundle>(){}[0]
+    final val cardinal // io.data2viz.shape/curves.cardinal|{}cardinal[0]
+        final fun <get-cardinal>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/Cardinal> // io.data2viz.shape/curves.cardinal.<get-cardinal>|<get-cardinal>(){}[0]
+    final val cardinalClosed // io.data2viz.shape/curves.cardinalClosed|{}cardinalClosed[0]
+        final fun <get-cardinalClosed>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/CardinalClosed> // io.data2viz.shape/curves.cardinalClosed.<get-cardinalClosed>|<get-cardinalClosed>(){}[0]
+    final val cardinalOpen // io.data2viz.shape/curves.cardinalOpen|{}cardinalOpen[0]
+        final fun <get-cardinalOpen>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/CardinalOpen> // io.data2viz.shape/curves.cardinalOpen.<get-cardinalOpen>|<get-cardinalOpen>(){}[0]
+    final val catmullRom // io.data2viz.shape/curves.catmullRom|{}catmullRom[0]
+        final fun <get-catmullRom>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/CatmullRom> // io.data2viz.shape/curves.catmullRom.<get-catmullRom>|<get-catmullRom>(){}[0]
+    final val catmullRomClosed // io.data2viz.shape/curves.catmullRomClosed|{}catmullRomClosed[0]
+        final fun <get-catmullRomClosed>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/CatmullRomClosed> // io.data2viz.shape/curves.catmullRomClosed.<get-catmullRomClosed>|<get-catmullRomClosed>(){}[0]
+    final val catmullRomOpen // io.data2viz.shape/curves.catmullRomOpen|{}catmullRomOpen[0]
+        final fun <get-catmullRomOpen>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/CatmullRomOpen> // io.data2viz.shape/curves.catmullRomOpen.<get-catmullRomOpen>|<get-catmullRomOpen>(){}[0]
+    final val linear // io.data2viz.shape/curves.linear|{}linear[0]
+        final fun <get-linear>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/Linear> // io.data2viz.shape/curves.linear.<get-linear>|<get-linear>(){}[0]
+    final val linearClosed // io.data2viz.shape/curves.linearClosed|{}linearClosed[0]
+        final fun <get-linearClosed>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/LinearClosed> // io.data2viz.shape/curves.linearClosed.<get-linearClosed>|<get-linearClosed>(){}[0]
+    final val monotoneX // io.data2viz.shape/curves.monotoneX|{}monotoneX[0]
+        final fun <get-monotoneX>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/MonotoneX> // io.data2viz.shape/curves.monotoneX.<get-monotoneX>|<get-monotoneX>(){}[0]
+    final val monotoneY // io.data2viz.shape/curves.monotoneY|{}monotoneY[0]
+        final fun <get-monotoneY>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/MonotoneY> // io.data2viz.shape/curves.monotoneY.<get-monotoneY>|<get-monotoneY>(){}[0]
+    final val natural // io.data2viz.shape/curves.natural|{}natural[0]
+        final fun <get-natural>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/Natural> // io.data2viz.shape/curves.natural.<get-natural>|<get-natural>(){}[0]
+    final val step // io.data2viz.shape/curves.step|{}step[0]
+        final fun <get-step>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/Step> // io.data2viz.shape/curves.step.<get-step>|<get-step>(){}[0]
+    final val stepAfter // io.data2viz.shape/curves.stepAfter|{}stepAfter[0]
+        final fun <get-stepAfter>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/StepAfter> // io.data2viz.shape/curves.stepAfter.<get-stepAfter>|<get-stepAfter>(){}[0]
+    final val stepBefore // io.data2viz.shape/curves.stepBefore|{}stepBefore[0]
+        final fun <get-stepBefore>(): kotlin/Function1<io.data2viz.geom/Path, io.data2viz.shape.curve/StepBefore> // io.data2viz.shape/curves.stepBefore.<get-stepBefore>|<get-stepBefore>(){}[0]
+}
+
+final val io.data2viz.shape/symbol // io.data2viz.shape/symbol|@io.data2viz.shape.Symbols{}symbol[0]
+    final fun (io.data2viz.shape/Symbols).<get-symbol>(): io.data2viz.shape/Symbol // io.data2viz.shape/symbol.<get-symbol>|<get-symbol>@io.data2viz.shape.Symbols(){}[0]
+
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> io.data2viz.shape/const(#A): kotlin/Function1<#B, #A> // io.data2viz.shape/const|const(0:0){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.shape.link/linkBuilderH(kotlin/Function1<io.data2viz.shape.link/LinkBuilder<#A>, kotlin/Unit>): io.data2viz.shape.link/LinkBuilder<#A> // io.data2viz.shape.link/linkBuilderH|linkBuilderH(kotlin.Function1<io.data2viz.shape.link.LinkBuilder<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.shape.link/linkBuilderV(kotlin/Function1<io.data2viz.shape.link/LinkBuilder<#A>, kotlin/Unit>): io.data2viz.shape.link/LinkBuilder<#A> // io.data2viz.shape.link/linkBuilderV|linkBuilderV(kotlin.Function1<io.data2viz.shape.link.LinkBuilder<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.shape.stack/stack(kotlin/Function1<io.data2viz.shape.stack/StackGenerator<#A>, kotlin/Unit>): io.data2viz.shape.stack/StackGenerator<#A> // io.data2viz.shape.stack/stack|stack(kotlin.Function1<io.data2viz.shape.stack.StackGenerator<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.shape/arcBuilder(kotlin/Function1<io.data2viz.shape/ArcBuilder<#A>, kotlin/Unit>): io.data2viz.shape/ArcBuilder<#A> // io.data2viz.shape/arcBuilder|arcBuilder(kotlin.Function1<io.data2viz.shape.ArcBuilder<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.shape/areaBuilder(kotlin/Function1<io.data2viz.shape/AreaBuilder<#A>, kotlin/Unit>): io.data2viz.shape/AreaBuilder<#A> // io.data2viz.shape/areaBuilder|areaBuilder(kotlin.Function1<io.data2viz.shape.AreaBuilder<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.shape/line(kotlin/Function1<io.data2viz.shape/LineBuilder<#A>, kotlin/Unit>): io.data2viz.shape/LineBuilder<#A> // io.data2viz.shape/line|line(kotlin.Function1<io.data2viz.shape.LineBuilder<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.shape/pie(kotlin/Function1<io.data2viz.shape/PieGenerator<#A>, kotlin/Unit>): io.data2viz.shape/PieGenerator<#A> // io.data2viz.shape/pie|pie(kotlin.Function1<io.data2viz.shape.PieGenerator<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.shape/render(kotlin/Function1<io.data2viz.shape/SymbolGenerator<#A>, kotlin/Unit>): io.data2viz.shape/SymbolGenerator<#A> // io.data2viz.shape/render|render(kotlin.Function1<io.data2viz.shape.SymbolGenerator<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]

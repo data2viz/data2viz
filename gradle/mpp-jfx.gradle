@@ -1,10 +1,16 @@
 
 def javaFXPlatform = getJavaFXPlatform()
-def javaFXVersion = "11.0.2"
+def javaFXVersion = "24.0.1"
 
 if (include_jfx.toBoolean()) {
     kotlin {
-        jvm("jfx") {}
+        jvm("jfx") {
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = '21'
+                }
+            }
+        }
         sourceSets {
             jfxMain {
                 dependencies {

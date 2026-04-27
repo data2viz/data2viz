@@ -2,9 +2,17 @@
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'maven-publish'
 
-sourceCompatibility = 1.8
-
 kotlin {
+
+    abiValidation {
+        enabled = true
+        filters {
+            excluded {
+                annotatedWith.add("io.data2viz.ExperimentalD2V")
+                annotatedWith.add("io.data2viz.InternalAPI")
+            }
+        }
+    }
 
     explicitApiWarning()
 

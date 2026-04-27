@@ -42,6 +42,7 @@ public final class io/data2viz/axis/Orient : java/lang/Enum {
 	public static final field LEFT Lio/data2viz/axis/Orient;
 	public static final field RIGHT Lio/data2viz/axis/Orient;
 	public static final field TOP Lio/data2viz/axis/Orient;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun isHorizontal ()Z
 	public final fun isVertical ()Z
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/axis/Orient;

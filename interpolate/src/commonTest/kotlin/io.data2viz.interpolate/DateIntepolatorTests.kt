@@ -19,7 +19,7 @@ package io.data2viz.interpolate
 
 import io.data2viz.math.*
 import io.data2viz.test.TestBase
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlin.test.Test
 import kotlin.time.Duration
 import kotlin.time.DurationUnit

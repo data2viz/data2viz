@@ -1,0 +1,1074 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-viz>
+open annotation class io.data2viz.viz/ExperimentalKEvent : kotlin/Annotation { // io.data2viz.viz/ExperimentalKEvent|null[0]
+    constructor <init>() // io.data2viz.viz/ExperimentalKEvent.<init>|<init>(){}[0]
+}
+
+final enum class io.data2viz.viz/EventPropagation : kotlin/Enum<io.data2viz.viz/EventPropagation> { // io.data2viz.viz/EventPropagation|null[0]
+    enum entry Continue // io.data2viz.viz/EventPropagation.Continue|null[0]
+    enum entry Stop // io.data2viz.viz/EventPropagation.Stop|null[0]
+
+    final val entries // io.data2viz.viz/EventPropagation.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/EventPropagation> // io.data2viz.viz/EventPropagation.entries.<get-entries>|<get-entries>#static(){}[0]
+    final val stop // io.data2viz.viz/EventPropagation.stop|{}stop[0]
+        final fun <get-stop>(): kotlin/Boolean // io.data2viz.viz/EventPropagation.stop.<get-stop>|<get-stop>(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/EventPropagation // io.data2viz.viz/EventPropagation.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/EventPropagation> // io.data2viz.viz/EventPropagation.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.viz/EventType : kotlin/Enum<io.data2viz.viz/EventType> { // io.data2viz.viz/EventType|null[0]
+    enum entry Cancel // io.data2viz.viz/EventType.Cancel|null[0]
+    enum entry Click // io.data2viz.viz/EventType.Click|null[0]
+    enum entry DoubleClick // io.data2viz.viz/EventType.DoubleClick|null[0]
+    enum entry Down // io.data2viz.viz/EventType.Down|null[0]
+    enum entry Enter // io.data2viz.viz/EventType.Enter|null[0]
+    enum entry Leave // io.data2viz.viz/EventType.Leave|null[0]
+    enum entry Move // io.data2viz.viz/EventType.Move|null[0]
+    enum entry Unknown // io.data2viz.viz/EventType.Unknown|null[0]
+    enum entry Up // io.data2viz.viz/EventType.Up|null[0]
+
+    final val entries // io.data2viz.viz/EventType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/EventType> // io.data2viz.viz/EventType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/EventType // io.data2viz.viz/EventType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/EventType> // io.data2viz.viz/EventType.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.viz/FontPosture : kotlin/Enum<io.data2viz.viz/FontPosture> { // io.data2viz.viz/FontPosture|null[0]
+    enum entry ITALIC // io.data2viz.viz/FontPosture.ITALIC|null[0]
+    enum entry NORMAL // io.data2viz.viz/FontPosture.NORMAL|null[0]
+
+    final val entries // io.data2viz.viz/FontPosture.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/FontPosture> // io.data2viz.viz/FontPosture.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/FontPosture // io.data2viz.viz/FontPosture.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/FontPosture> // io.data2viz.viz/FontPosture.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.viz/FontWeight : kotlin/Enum<io.data2viz.viz/FontWeight> { // io.data2viz.viz/FontWeight|null[0]
+    enum entry BOLD // io.data2viz.viz/FontWeight.BOLD|null[0]
+    enum entry NORMAL // io.data2viz.viz/FontWeight.NORMAL|null[0]
+
+    final val entries // io.data2viz.viz/FontWeight.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/FontWeight> // io.data2viz.viz/FontWeight.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/FontWeight // io.data2viz.viz/FontWeight.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/FontWeight> // io.data2viz.viz/FontWeight.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.viz/MouseButtonPressed : kotlin/Enum<io.data2viz.viz/MouseButtonPressed> { // io.data2viz.viz/MouseButtonPressed|null[0]
+    enum entry Fifth // io.data2viz.viz/MouseButtonPressed.Fifth|null[0]
+    enum entry Fourth // io.data2viz.viz/MouseButtonPressed.Fourth|null[0]
+    enum entry Left // io.data2viz.viz/MouseButtonPressed.Left|null[0]
+    enum entry Middle // io.data2viz.viz/MouseButtonPressed.Middle|null[0]
+    enum entry NotApplicable // io.data2viz.viz/MouseButtonPressed.NotApplicable|null[0]
+    enum entry Right // io.data2viz.viz/MouseButtonPressed.Right|null[0]
+
+    final val entries // io.data2viz.viz/MouseButtonPressed.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/MouseButtonPressed> // io.data2viz.viz/MouseButtonPressed.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/MouseButtonPressed // io.data2viz.viz/MouseButtonPressed.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/MouseButtonPressed> // io.data2viz.viz/MouseButtonPressed.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.viz/PointerType : kotlin/Enum<io.data2viz.viz/PointerType> { // io.data2viz.viz/PointerType|null[0]
+    enum entry Mouse // io.data2viz.viz/PointerType.Mouse|null[0]
+    enum entry Pen // io.data2viz.viz/PointerType.Pen|null[0]
+    enum entry Touch // io.data2viz.viz/PointerType.Touch|null[0]
+    enum entry Unknown // io.data2viz.viz/PointerType.Unknown|null[0]
+
+    final val entries // io.data2viz.viz/PointerType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/PointerType> // io.data2viz.viz/PointerType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/PointerType // io.data2viz.viz/PointerType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/PointerType> // io.data2viz.viz/PointerType.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.viz/StateManagerStatus : kotlin/Enum<io.data2viz.viz/StateManagerStatus> { // io.data2viz.viz/StateManagerStatus|null[0]
+    enum entry RECORD // io.data2viz.viz/StateManagerStatus.RECORD|null[0]
+    enum entry REST // io.data2viz.viz/StateManagerStatus.REST|null[0]
+    enum entry UPDATE_PROPERTIES // io.data2viz.viz/StateManagerStatus.UPDATE_PROPERTIES|null[0]
+
+    final val entries // io.data2viz.viz/StateManagerStatus.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/StateManagerStatus> // io.data2viz.viz/StateManagerStatus.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/StateManagerStatus // io.data2viz.viz/StateManagerStatus.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/StateManagerStatus> // io.data2viz.viz/StateManagerStatus.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.viz/TextHAlign : kotlin/Enum<io.data2viz.viz/TextHAlign> { // io.data2viz.viz/TextHAlign|null[0]
+    enum entry END // io.data2viz.viz/TextHAlign.END|null[0]
+    enum entry LEFT // io.data2viz.viz/TextHAlign.LEFT|null[0]
+    enum entry MIDDLE // io.data2viz.viz/TextHAlign.MIDDLE|null[0]
+    enum entry RIGHT // io.data2viz.viz/TextHAlign.RIGHT|null[0]
+    enum entry START // io.data2viz.viz/TextHAlign.START|null[0]
+
+    final val entries // io.data2viz.viz/TextHAlign.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/TextHAlign> // io.data2viz.viz/TextHAlign.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/TextHAlign // io.data2viz.viz/TextHAlign.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/TextHAlign> // io.data2viz.viz/TextHAlign.values|values#static(){}[0]
+}
+
+final enum class io.data2viz.viz/TextVAlign : kotlin/Enum<io.data2viz.viz/TextVAlign> { // io.data2viz.viz/TextVAlign|null[0]
+    enum entry BASELINE // io.data2viz.viz/TextVAlign.BASELINE|null[0]
+    enum entry HANGING // io.data2viz.viz/TextVAlign.HANGING|null[0]
+    enum entry MIDDLE // io.data2viz.viz/TextVAlign.MIDDLE|null[0]
+
+    final val entries // io.data2viz.viz/TextVAlign.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/TextVAlign> // io.data2viz.viz/TextVAlign.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.viz/TextVAlign // io.data2viz.viz/TextVAlign.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.viz/TextVAlign> // io.data2viz.viz/TextVAlign.values|values#static(){}[0]
+}
+
+abstract interface <#A: io.data2viz.viz/KEvent> io.data2viz.viz/KEventListener { // io.data2viz.viz/KEventListener|null[0]
+    abstract fun addNativeListener(kotlin/Any, kotlin/Function1<#A, io.data2viz.viz/EventPropagation>): io.data2viz.viz/Disposable // io.data2viz.viz/KEventListener.addNativeListener|addNativeListener(kotlin.Any;kotlin.Function1<1:0,io.data2viz.viz.EventPropagation>){}[0]
+}
+
+abstract interface io.data2viz.viz/AtomicTransformation // io.data2viz.viz/AtomicTransformation|null[0]
+
+abstract interface io.data2viz.viz/Disposable { // io.data2viz.viz/Disposable|null[0]
+    abstract fun dispose() // io.data2viz.viz/Disposable.dispose|dispose(){}[0]
+}
+
+abstract interface io.data2viz.viz/HasChildren { // io.data2viz.viz/HasChildren|null[0]
+    abstract fun add(io.data2viz.viz/Node) // io.data2viz.viz/HasChildren.add|add(io.data2viz.viz.Node){}[0]
+    abstract fun circle(kotlin/Function1<io.data2viz.viz/CircleNode, kotlin/Unit>): io.data2viz.viz/CircleNode // io.data2viz.viz/HasChildren.circle|circle(kotlin.Function1<io.data2viz.viz.CircleNode,kotlin.Unit>){}[0]
+    abstract fun clear() // io.data2viz.viz/HasChildren.clear|clear(){}[0]
+    abstract fun group(kotlin/Function1<io.data2viz.viz/GroupNode, kotlin/Unit>): io.data2viz.viz/GroupNode // io.data2viz.viz/HasChildren.group|group(kotlin.Function1<io.data2viz.viz.GroupNode,kotlin.Unit>){}[0]
+    abstract fun image(kotlin/Function1<io.data2viz.viz/ImageNode, kotlin/Unit>): io.data2viz.viz/ImageNode // io.data2viz.viz/HasChildren.image|image(kotlin.Function1<io.data2viz.viz.ImageNode,kotlin.Unit>){}[0]
+    abstract fun line(kotlin/Function1<io.data2viz.viz/LineNode, kotlin/Unit>): io.data2viz.viz/LineNode // io.data2viz.viz/HasChildren.line|line(kotlin.Function1<io.data2viz.viz.LineNode,kotlin.Unit>){}[0]
+    abstract fun path(kotlin/Function1<io.data2viz.viz/PathNode, kotlin/Unit>): io.data2viz.viz/PathNode // io.data2viz.viz/HasChildren.path|path(kotlin.Function1<io.data2viz.viz.PathNode,kotlin.Unit>){}[0]
+    abstract fun rect(kotlin/Function1<io.data2viz.viz/RectNode, kotlin/Unit>): io.data2viz.viz/RectNode // io.data2viz.viz/HasChildren.rect|rect(kotlin.Function1<io.data2viz.viz.RectNode,kotlin.Unit>){}[0]
+    abstract fun remove(io.data2viz.viz/Node) // io.data2viz.viz/HasChildren.remove|remove(io.data2viz.viz.Node){}[0]
+    abstract fun text(kotlin/Function1<io.data2viz.viz/TextNode, kotlin/Unit>): io.data2viz.viz/TextNode // io.data2viz.viz/HasChildren.text|text(kotlin.Function1<io.data2viz.viz.TextNode,kotlin.Unit>){}[0]
+}
+
+abstract interface io.data2viz.viz/HasFill { // io.data2viz.viz/HasFill|null[0]
+    abstract var fill // io.data2viz.viz/HasFill.fill|{}fill[0]
+        abstract fun <get-fill>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/HasFill.fill.<get-fill>|<get-fill>(){}[0]
+        abstract fun <set-fill>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/HasFill.fill.<set-fill>|<set-fill>(io.data2viz.color.ColorOrGradient?){}[0]
+}
+
+abstract interface io.data2viz.viz/HasMetaKeys { // io.data2viz.viz/HasMetaKeys|null[0]
+    abstract val altKey // io.data2viz.viz/HasMetaKeys.altKey|{}altKey[0]
+        abstract fun <get-altKey>(): kotlin/Boolean // io.data2viz.viz/HasMetaKeys.altKey.<get-altKey>|<get-altKey>(){}[0]
+    abstract val ctrlKey // io.data2viz.viz/HasMetaKeys.ctrlKey|{}ctrlKey[0]
+        abstract fun <get-ctrlKey>(): kotlin/Boolean // io.data2viz.viz/HasMetaKeys.ctrlKey.<get-ctrlKey>|<get-ctrlKey>(){}[0]
+    abstract val metaKey // io.data2viz.viz/HasMetaKeys.metaKey|{}metaKey[0]
+        abstract fun <get-metaKey>(): kotlin/Boolean // io.data2viz.viz/HasMetaKeys.metaKey.<get-metaKey>|<get-metaKey>(){}[0]
+    abstract val shiftKey // io.data2viz.viz/HasMetaKeys.shiftKey|{}shiftKey[0]
+        abstract fun <get-shiftKey>(): kotlin/Boolean // io.data2viz.viz/HasMetaKeys.shiftKey.<get-shiftKey>|<get-shiftKey>(){}[0]
+
+    abstract fun noKey(): kotlin/Boolean // io.data2viz.viz/HasMetaKeys.noKey|noKey(){}[0]
+}
+
+abstract interface io.data2viz.viz/HasStroke { // io.data2viz.viz/HasStroke|null[0]
+    abstract var dashedLine // io.data2viz.viz/HasStroke.dashedLine|{}dashedLine[0]
+        abstract fun <get-dashedLine>(): kotlin/DoubleArray? // io.data2viz.viz/HasStroke.dashedLine.<get-dashedLine>|<get-dashedLine>(){}[0]
+        abstract fun <set-dashedLine>(kotlin/DoubleArray?) // io.data2viz.viz/HasStroke.dashedLine.<set-dashedLine>|<set-dashedLine>(kotlin.DoubleArray?){}[0]
+    abstract var stroke // io.data2viz.viz/HasStroke.stroke|{}stroke[0]
+        abstract fun <get-stroke>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/HasStroke.stroke.<get-stroke>|<get-stroke>(){}[0]
+        abstract fun <set-stroke>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/HasStroke.stroke.<set-stroke>|<set-stroke>(io.data2viz.color.ColorOrGradient?){}[0]
+    abstract var strokeColor // io.data2viz.viz/HasStroke.strokeColor|{}strokeColor[0]
+        abstract fun <get-strokeColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/HasStroke.strokeColor.<get-strokeColor>|<get-strokeColor>(){}[0]
+        abstract fun <set-strokeColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/HasStroke.strokeColor.<set-strokeColor>|<set-strokeColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    abstract var strokeWidth // io.data2viz.viz/HasStroke.strokeWidth|{}strokeWidth[0]
+        abstract fun <get-strokeWidth>(): kotlin/Double? // io.data2viz.viz/HasStroke.strokeWidth.<get-strokeWidth>|<get-strokeWidth>(){}[0]
+        abstract fun <set-strokeWidth>(kotlin/Double?) // io.data2viz.viz/HasStroke.strokeWidth.<set-strokeWidth>|<set-strokeWidth>(kotlin.Double?){}[0]
+}
+
+abstract interface io.data2viz.viz/HasTransform { // io.data2viz.viz/HasTransform|null[0]
+    abstract val transform // io.data2viz.viz/HasTransform.transform|{}transform[0]
+        abstract fun <get-transform>(): io.data2viz.viz/Transform? // io.data2viz.viz/HasTransform.transform.<get-transform>|<get-transform>(){}[0]
+}
+
+abstract interface io.data2viz.viz/ImageHandler // io.data2viz.viz/ImageHandler|null[0]
+
+abstract interface io.data2viz.viz/KEvent // io.data2viz.viz/KEvent|null[0]
+
+abstract interface io.data2viz.viz/KPointerEvent : io.data2viz.viz/HasMetaKeys, io.data2viz.viz/KEvent { // io.data2viz.viz/KPointerEvent|null[0]
+    abstract val activePointerIndex // io.data2viz.viz/KPointerEvent.activePointerIndex|{}activePointerIndex[0]
+        abstract fun <get-activePointerIndex>(): kotlin/Int // io.data2viz.viz/KPointerEvent.activePointerIndex.<get-activePointerIndex>|<get-activePointerIndex>(){}[0]
+    abstract val buttonPressed // io.data2viz.viz/KPointerEvent.buttonPressed|{}buttonPressed[0]
+        abstract fun <get-buttonPressed>(): io.data2viz.viz/MouseButtonPressed // io.data2viz.viz/KPointerEvent.buttonPressed.<get-buttonPressed>|<get-buttonPressed>(){}[0]
+    abstract val eventType // io.data2viz.viz/KPointerEvent.eventType|{}eventType[0]
+        abstract fun <get-eventType>(): io.data2viz.viz/EventType // io.data2viz.viz/KPointerEvent.eventType.<get-eventType>|<get-eventType>(){}[0]
+    abstract val pointerType // io.data2viz.viz/KPointerEvent.pointerType|{}pointerType[0]
+        abstract fun <get-pointerType>(): io.data2viz.viz/PointerType // io.data2viz.viz/KPointerEvent.pointerType.<get-pointerType>|<get-pointerType>(){}[0]
+    abstract val pointers // io.data2viz.viz/KPointerEvent.pointers|{}pointers[0]
+        abstract fun <get-pointers>(): kotlin.collections/List<io.data2viz.viz/KPointer> // io.data2viz.viz/KPointerEvent.pointers.<get-pointers>|<get-pointers>(){}[0]
+    abstract val pos // io.data2viz.viz/KPointerEvent.pos|{}pos[0]
+        abstract fun <get-pos>(): io.data2viz.geom/Point // io.data2viz.viz/KPointerEvent.pos.<get-pos>|<get-pos>(){}[0]
+}
+
+abstract interface io.data2viz.viz/Resizable { // io.data2viz.viz/Resizable|null[0]
+    abstract fun addResizeListener(kotlin/Function1<io.data2viz.geom/Size, kotlin/Unit>) // io.data2viz.viz/Resizable.addResizeListener|addResizeListener(kotlin.Function1<io.data2viz.geom.Size,kotlin.Unit>){}[0]
+}
+
+abstract interface io.data2viz.viz/StateProperty { // io.data2viz.viz/StateProperty|null[0]
+    abstract fun setPercent(kotlin/Double) // io.data2viz.viz/StateProperty.setPercent|setPercent(kotlin.Double){}[0]
+}
+
+abstract interface io.data2viz.viz/StateableElement { // io.data2viz.viz/StateableElement|null[0]
+    abstract var stateManager // io.data2viz.viz/StateableElement.stateManager|{}stateManager[0]
+        abstract fun <get-stateManager>(): io.data2viz.viz/StateManager? // io.data2viz.viz/StateableElement.stateManager.<get-stateManager>|<get-stateManager>(){}[0]
+        abstract fun <set-stateManager>(io.data2viz.viz/StateManager?) // io.data2viz.viz/StateableElement.stateManager.<set-stateManager>|<set-stateManager>(io.data2viz.viz.StateManager?){}[0]
+}
+
+abstract interface io.data2viz.viz/Style { // io.data2viz.viz/Style|null[0]
+    abstract var anchor // io.data2viz.viz/Style.anchor|{}anchor[0]
+        abstract fun <get-anchor>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/Style.anchor.<get-anchor>|<get-anchor>(){}[0]
+        abstract fun <set-anchor>(io.data2viz.viz/TextHAlign) // io.data2viz.viz/Style.anchor.<set-anchor>|<set-anchor>(io.data2viz.viz.TextHAlign){}[0]
+    abstract var baseline // io.data2viz.viz/Style.baseline|{}baseline[0]
+        abstract fun <get-baseline>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/Style.baseline.<get-baseline>|<get-baseline>(){}[0]
+        abstract fun <set-baseline>(io.data2viz.viz/TextVAlign) // io.data2viz.viz/Style.baseline.<set-baseline>|<set-baseline>(io.data2viz.viz.TextVAlign){}[0]
+    abstract var dashedLine // io.data2viz.viz/Style.dashedLine|{}dashedLine[0]
+        abstract fun <get-dashedLine>(): kotlin/DoubleArray? // io.data2viz.viz/Style.dashedLine.<get-dashedLine>|<get-dashedLine>(){}[0]
+        abstract fun <set-dashedLine>(kotlin/DoubleArray?) // io.data2viz.viz/Style.dashedLine.<set-dashedLine>|<set-dashedLine>(kotlin.DoubleArray?){}[0]
+    abstract var fill // io.data2viz.viz/Style.fill|{}fill[0]
+        abstract fun <get-fill>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Style.fill.<get-fill>|<get-fill>(){}[0]
+        abstract fun <set-fill>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Style.fill.<set-fill>|<set-fill>(io.data2viz.color.ColorOrGradient?){}[0]
+    abstract var hAlign // io.data2viz.viz/Style.hAlign|{}hAlign[0]
+        abstract fun <get-hAlign>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/Style.hAlign.<get-hAlign>|<get-hAlign>(){}[0]
+        abstract fun <set-hAlign>(io.data2viz.viz/TextHAlign) // io.data2viz.viz/Style.hAlign.<set-hAlign>|<set-hAlign>(io.data2viz.viz.TextHAlign){}[0]
+    abstract var stroke // io.data2viz.viz/Style.stroke|{}stroke[0]
+        abstract fun <get-stroke>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Style.stroke.<get-stroke>|<get-stroke>(){}[0]
+        abstract fun <set-stroke>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Style.stroke.<set-stroke>|<set-stroke>(io.data2viz.color.ColorOrGradient?){}[0]
+    abstract var strokeColor // io.data2viz.viz/Style.strokeColor|{}strokeColor[0]
+        abstract fun <get-strokeColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Style.strokeColor.<get-strokeColor>|<get-strokeColor>(){}[0]
+        abstract fun <set-strokeColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Style.strokeColor.<set-strokeColor>|<set-strokeColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    abstract var strokeWidth // io.data2viz.viz/Style.strokeWidth|{}strokeWidth[0]
+        abstract fun <get-strokeWidth>(): kotlin/Double? // io.data2viz.viz/Style.strokeWidth.<get-strokeWidth>|<get-strokeWidth>(){}[0]
+        abstract fun <set-strokeWidth>(kotlin/Double?) // io.data2viz.viz/Style.strokeWidth.<set-strokeWidth>|<set-strokeWidth>(kotlin.Double?){}[0]
+    abstract var textColor // io.data2viz.viz/Style.textColor|{}textColor[0]
+        abstract fun <get-textColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Style.textColor.<get-textColor>|<get-textColor>(){}[0]
+        abstract fun <set-textColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Style.textColor.<set-textColor>|<set-textColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    abstract var vAlign // io.data2viz.viz/Style.vAlign|{}vAlign[0]
+        abstract fun <get-vAlign>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/Style.vAlign.<get-vAlign>|<get-vAlign>(){}[0]
+        abstract fun <set-vAlign>(io.data2viz.viz/TextVAlign) // io.data2viz.viz/Style.vAlign.<set-vAlign>|<set-vAlign>(io.data2viz.viz.TextVAlign){}[0]
+}
+
+abstract interface io.data2viz.viz/SyntheticEvent { // io.data2viz.viz/SyntheticEvent|null[0]
+    abstract val nativeEvent // io.data2viz.viz/SyntheticEvent.nativeEvent|{}nativeEvent[0]
+        abstract fun <get-nativeEvent>(): org.w3c.dom.events/Event // io.data2viz.viz/SyntheticEvent.nativeEvent.<get-nativeEvent>|<get-nativeEvent>(){}[0]
+
+    abstract var bubbles // io.data2viz.viz/SyntheticEvent.bubbles|{}bubbles[0]
+        abstract fun <get-bubbles>(): kotlin/Boolean // io.data2viz.viz/SyntheticEvent.bubbles.<get-bubbles>|<get-bubbles>(){}[0]
+        abstract fun <set-bubbles>(kotlin/Boolean) // io.data2viz.viz/SyntheticEvent.bubbles.<set-bubbles>|<set-bubbles>(kotlin.Boolean){}[0]
+    abstract var cancelable // io.data2viz.viz/SyntheticEvent.cancelable|{}cancelable[0]
+        abstract fun <get-cancelable>(): kotlin/Boolean // io.data2viz.viz/SyntheticEvent.cancelable.<get-cancelable>|<get-cancelable>(){}[0]
+        abstract fun <set-cancelable>(kotlin/Boolean) // io.data2viz.viz/SyntheticEvent.cancelable.<set-cancelable>|<set-cancelable>(kotlin.Boolean){}[0]
+    abstract var currentTarget // io.data2viz.viz/SyntheticEvent.currentTarget|{}currentTarget[0]
+        abstract fun <get-currentTarget>(): org.w3c.dom.events/EventTarget // io.data2viz.viz/SyntheticEvent.currentTarget.<get-currentTarget>|<get-currentTarget>(){}[0]
+        abstract fun <set-currentTarget>(org.w3c.dom.events/EventTarget) // io.data2viz.viz/SyntheticEvent.currentTarget.<set-currentTarget>|<set-currentTarget>(org.w3c.dom.events.EventTarget){}[0]
+    abstract var defaultPrevented // io.data2viz.viz/SyntheticEvent.defaultPrevented|{}defaultPrevented[0]
+        abstract fun <get-defaultPrevented>(): kotlin/Boolean // io.data2viz.viz/SyntheticEvent.defaultPrevented.<get-defaultPrevented>|<get-defaultPrevented>(){}[0]
+        abstract fun <set-defaultPrevented>(kotlin/Boolean) // io.data2viz.viz/SyntheticEvent.defaultPrevented.<set-defaultPrevented>|<set-defaultPrevented>(kotlin.Boolean){}[0]
+    abstract var eventPhase // io.data2viz.viz/SyntheticEvent.eventPhase|{}eventPhase[0]
+        abstract fun <get-eventPhase>(): kotlin/Number // io.data2viz.viz/SyntheticEvent.eventPhase.<get-eventPhase>|<get-eventPhase>(){}[0]
+        abstract fun <set-eventPhase>(kotlin/Number) // io.data2viz.viz/SyntheticEvent.eventPhase.<set-eventPhase>|<set-eventPhase>(kotlin.Number){}[0]
+    abstract var isTrusted // io.data2viz.viz/SyntheticEvent.isTrusted|{}isTrusted[0]
+        abstract fun <get-isTrusted>(): kotlin/Boolean // io.data2viz.viz/SyntheticEvent.isTrusted.<get-isTrusted>|<get-isTrusted>(){}[0]
+        abstract fun <set-isTrusted>(kotlin/Boolean) // io.data2viz.viz/SyntheticEvent.isTrusted.<set-isTrusted>|<set-isTrusted>(kotlin.Boolean){}[0]
+    abstract var target // io.data2viz.viz/SyntheticEvent.target|{}target[0]
+        abstract fun <get-target>(): org.w3c.dom.events/EventTarget // io.data2viz.viz/SyntheticEvent.target.<get-target>|<get-target>(){}[0]
+        abstract fun <set-target>(org.w3c.dom.events/EventTarget) // io.data2viz.viz/SyntheticEvent.target.<set-target>|<set-target>(org.w3c.dom.events.EventTarget){}[0]
+    abstract var timeStamp // io.data2viz.viz/SyntheticEvent.timeStamp|{}timeStamp[0]
+        abstract fun <get-timeStamp>(): kotlin/Number // io.data2viz.viz/SyntheticEvent.timeStamp.<get-timeStamp>|<get-timeStamp>(){}[0]
+        abstract fun <set-timeStamp>(kotlin/Number) // io.data2viz.viz/SyntheticEvent.timeStamp.<set-timeStamp>|<set-timeStamp>(kotlin.Number){}[0]
+    abstract var type // io.data2viz.viz/SyntheticEvent.type|{}type[0]
+        abstract fun <get-type>(): kotlin/String // io.data2viz.viz/SyntheticEvent.type.<get-type>|<get-type>(){}[0]
+        abstract fun <set-type>(kotlin/String) // io.data2viz.viz/SyntheticEvent.type.<set-type>|<set-type>(kotlin.String){}[0]
+
+    abstract fun isDefaultPrevented(): kotlin/Boolean // io.data2viz.viz/SyntheticEvent.isDefaultPrevented|isDefaultPrevented(){}[0]
+    abstract fun isPropagationStopped(): kotlin/Boolean // io.data2viz.viz/SyntheticEvent.isPropagationStopped|isPropagationStopped(){}[0]
+    abstract fun persist() // io.data2viz.viz/SyntheticEvent.persist|persist(){}[0]
+    abstract fun preventDefault() // io.data2viz.viz/SyntheticEvent.preventDefault|preventDefault(){}[0]
+    abstract fun stopPropagation() // io.data2viz.viz/SyntheticEvent.stopPropagation|stopPropagation(){}[0]
+}
+
+abstract interface io.data2viz.viz/Touch { // io.data2viz.viz/Touch|null[0]
+    abstract var clientX // io.data2viz.viz/Touch.clientX|{}clientX[0]
+        abstract fun <get-clientX>(): kotlin/Number // io.data2viz.viz/Touch.clientX.<get-clientX>|<get-clientX>(){}[0]
+        abstract fun <set-clientX>(kotlin/Number) // io.data2viz.viz/Touch.clientX.<set-clientX>|<set-clientX>(kotlin.Number){}[0]
+    abstract var clientY // io.data2viz.viz/Touch.clientY|{}clientY[0]
+        abstract fun <get-clientY>(): kotlin/Number // io.data2viz.viz/Touch.clientY.<get-clientY>|<get-clientY>(){}[0]
+        abstract fun <set-clientY>(kotlin/Number) // io.data2viz.viz/Touch.clientY.<set-clientY>|<set-clientY>(kotlin.Number){}[0]
+    abstract var identifier // io.data2viz.viz/Touch.identifier|{}identifier[0]
+        abstract fun <get-identifier>(): kotlin/Number // io.data2viz.viz/Touch.identifier.<get-identifier>|<get-identifier>(){}[0]
+        abstract fun <set-identifier>(kotlin/Number) // io.data2viz.viz/Touch.identifier.<set-identifier>|<set-identifier>(kotlin.Number){}[0]
+    abstract var pageX // io.data2viz.viz/Touch.pageX|{}pageX[0]
+        abstract fun <get-pageX>(): kotlin/Number // io.data2viz.viz/Touch.pageX.<get-pageX>|<get-pageX>(){}[0]
+        abstract fun <set-pageX>(kotlin/Number) // io.data2viz.viz/Touch.pageX.<set-pageX>|<set-pageX>(kotlin.Number){}[0]
+    abstract var pageY // io.data2viz.viz/Touch.pageY|{}pageY[0]
+        abstract fun <get-pageY>(): kotlin/Number // io.data2viz.viz/Touch.pageY.<get-pageY>|<get-pageY>(){}[0]
+        abstract fun <set-pageY>(kotlin/Number) // io.data2viz.viz/Touch.pageY.<set-pageY>|<set-pageY>(kotlin.Number){}[0]
+    abstract var screenX // io.data2viz.viz/Touch.screenX|{}screenX[0]
+        abstract fun <get-screenX>(): kotlin/Number // io.data2viz.viz/Touch.screenX.<get-screenX>|<get-screenX>(){}[0]
+        abstract fun <set-screenX>(kotlin/Number) // io.data2viz.viz/Touch.screenX.<set-screenX>|<set-screenX>(kotlin.Number){}[0]
+    abstract var screenY // io.data2viz.viz/Touch.screenY|{}screenY[0]
+        abstract fun <get-screenY>(): kotlin/Number // io.data2viz.viz/Touch.screenY.<get-screenY>|<get-screenY>(){}[0]
+        abstract fun <set-screenY>(kotlin/Number) // io.data2viz.viz/Touch.screenY.<set-screenY>|<set-screenY>(kotlin.Number){}[0]
+    abstract var target // io.data2viz.viz/Touch.target|{}target[0]
+        abstract fun <get-target>(): org.w3c.dom.events/EventTarget // io.data2viz.viz/Touch.target.<get-target>|<get-target>(){}[0]
+        abstract fun <set-target>(org.w3c.dom.events/EventTarget) // io.data2viz.viz/Touch.target.<set-target>|<set-target>(org.w3c.dom.events.EventTarget){}[0]
+}
+
+abstract interface io.data2viz.viz/TouchEvent : io.data2viz.viz/SyntheticEvent { // io.data2viz.viz/TouchEvent|null[0]
+    abstract val nativeEvent // io.data2viz.viz/TouchEvent.nativeEvent|{}nativeEvent[0]
+        abstract fun <get-nativeEvent>(): org.w3c.dom.events/Event // io.data2viz.viz/TouchEvent.nativeEvent.<get-nativeEvent>|<get-nativeEvent>(){}[0]
+
+    abstract var altKey // io.data2viz.viz/TouchEvent.altKey|{}altKey[0]
+        abstract fun <get-altKey>(): kotlin/Boolean // io.data2viz.viz/TouchEvent.altKey.<get-altKey>|<get-altKey>(){}[0]
+        abstract fun <set-altKey>(kotlin/Boolean) // io.data2viz.viz/TouchEvent.altKey.<set-altKey>|<set-altKey>(kotlin.Boolean){}[0]
+    abstract var changedTouches // io.data2viz.viz/TouchEvent.changedTouches|{}changedTouches[0]
+        abstract fun <get-changedTouches>(): io.data2viz.viz/TouchList // io.data2viz.viz/TouchEvent.changedTouches.<get-changedTouches>|<get-changedTouches>(){}[0]
+        abstract fun <set-changedTouches>(io.data2viz.viz/TouchList) // io.data2viz.viz/TouchEvent.changedTouches.<set-changedTouches>|<set-changedTouches>(io.data2viz.viz.TouchList){}[0]
+    abstract var ctrlKey // io.data2viz.viz/TouchEvent.ctrlKey|{}ctrlKey[0]
+        abstract fun <get-ctrlKey>(): kotlin/Boolean // io.data2viz.viz/TouchEvent.ctrlKey.<get-ctrlKey>|<get-ctrlKey>(){}[0]
+        abstract fun <set-ctrlKey>(kotlin/Boolean) // io.data2viz.viz/TouchEvent.ctrlKey.<set-ctrlKey>|<set-ctrlKey>(kotlin.Boolean){}[0]
+    abstract var metaKey // io.data2viz.viz/TouchEvent.metaKey|{}metaKey[0]
+        abstract fun <get-metaKey>(): kotlin/Boolean // io.data2viz.viz/TouchEvent.metaKey.<get-metaKey>|<get-metaKey>(){}[0]
+        abstract fun <set-metaKey>(kotlin/Boolean) // io.data2viz.viz/TouchEvent.metaKey.<set-metaKey>|<set-metaKey>(kotlin.Boolean){}[0]
+    abstract var shiftKey // io.data2viz.viz/TouchEvent.shiftKey|{}shiftKey[0]
+        abstract fun <get-shiftKey>(): kotlin/Boolean // io.data2viz.viz/TouchEvent.shiftKey.<get-shiftKey>|<get-shiftKey>(){}[0]
+        abstract fun <set-shiftKey>(kotlin/Boolean) // io.data2viz.viz/TouchEvent.shiftKey.<set-shiftKey>|<set-shiftKey>(kotlin.Boolean){}[0]
+    abstract var targetTouches // io.data2viz.viz/TouchEvent.targetTouches|{}targetTouches[0]
+        abstract fun <get-targetTouches>(): io.data2viz.viz/TouchList // io.data2viz.viz/TouchEvent.targetTouches.<get-targetTouches>|<get-targetTouches>(){}[0]
+        abstract fun <set-targetTouches>(io.data2viz.viz/TouchList) // io.data2viz.viz/TouchEvent.targetTouches.<set-targetTouches>|<set-targetTouches>(io.data2viz.viz.TouchList){}[0]
+    abstract var touches // io.data2viz.viz/TouchEvent.touches|{}touches[0]
+        abstract fun <get-touches>(): io.data2viz.viz/TouchList // io.data2viz.viz/TouchEvent.touches.<get-touches>|<get-touches>(){}[0]
+        abstract fun <set-touches>(io.data2viz.viz/TouchList) // io.data2viz.viz/TouchEvent.touches.<set-touches>|<set-touches>(io.data2viz.viz.TouchList){}[0]
+
+    abstract fun getModifierState(kotlin/String): kotlin/Boolean // io.data2viz.viz/TouchEvent.getModifierState|getModifierState(kotlin.String){}[0]
+}
+
+abstract interface io.data2viz.viz/TouchList { // io.data2viz.viz/TouchList|null[0]
+    abstract var length // io.data2viz.viz/TouchList.length|{}length[0]
+        abstract fun <get-length>(): kotlin/Int // io.data2viz.viz/TouchList.length.<get-length>|<get-length>(){}[0]
+        abstract fun <set-length>(kotlin/Int) // io.data2viz.viz/TouchList.length.<set-length>|<set-length>(kotlin.Int){}[0]
+
+    abstract fun get(kotlin/Number): io.data2viz.viz/Touch? // io.data2viz.viz/TouchList.get|get(kotlin.Number){}[0]
+    abstract fun identifiedTouch(kotlin/Number): io.data2viz.viz/Touch // io.data2viz.viz/TouchList.identifiedTouch|identifiedTouch(kotlin.Number){}[0]
+    abstract fun item(kotlin/Int): io.data2viz.viz/Touch // io.data2viz.viz/TouchList.item|item(kotlin.Int){}[0]
+    abstract fun set(kotlin/Number, io.data2viz.viz/Touch) // io.data2viz.viz/TouchList.set|set(kotlin.Number;io.data2viz.viz.Touch){}[0]
+}
+
+abstract interface io.data2viz.viz/VizContainer : io.data2viz.viz/Resizable { // io.data2viz.viz/VizContainer|null[0]
+    abstract val density // io.data2viz.viz/VizContainer.density|{}density[0]
+        abstract fun <get-density>(): kotlin/Double // io.data2viz.viz/VizContainer.density.<get-density>|<get-density>(){}[0]
+    abstract val vizList // io.data2viz.viz/VizContainer.vizList|{}vizList[0]
+        abstract fun <get-vizList>(): kotlin.collections/List<io.data2viz.viz/Viz> // io.data2viz.viz/VizContainer.vizList.<get-vizList>|<get-vizList>(){}[0]
+
+    abstract var size // io.data2viz.viz/VizContainer.size|{}size[0]
+        abstract fun <get-size>(): io.data2viz.geom/Size // io.data2viz.viz/VizContainer.size.<get-size>|<get-size>(){}[0]
+        abstract fun <set-size>(io.data2viz.geom/Size) // io.data2viz.viz/VizContainer.size.<set-size>|<set-size>(io.data2viz.geom.Size){}[0]
+
+    abstract fun newViz(kotlin/Function1<io.data2viz.viz/Viz, kotlin/Unit> = ...): io.data2viz.viz/Viz // io.data2viz.viz/VizContainer.newViz|newViz(kotlin.Function1<io.data2viz.viz.Viz,kotlin.Unit>){}[0]
+}
+
+abstract interface io.data2viz.viz/VizRenderer { // io.data2viz.viz/VizRenderer|null[0]
+    abstract val viz // io.data2viz.viz/VizRenderer.viz|{}viz[0]
+        abstract fun <get-viz>(): io.data2viz.viz/Viz // io.data2viz.viz/VizRenderer.viz.<get-viz>|<get-viz>(){}[0]
+
+    abstract fun render() // io.data2viz.viz/VizRenderer.render|render(){}[0]
+    abstract fun startAnimations() // io.data2viz.viz/VizRenderer.startAnimations|startAnimations(){}[0]
+    abstract fun stopAnimations() // io.data2viz.viz/VizRenderer.stopAnimations|stopAnimations(){}[0]
+}
+
+abstract class io.data2viz.viz/Node : io.data2viz.viz/Style { // io.data2viz.viz/Node|null[0]
+    constructor <init>() // io.data2viz.viz/Node.<init>|<init>(){}[0]
+
+    final var parent // io.data2viz.viz/Node.parent|{}parent[0]
+        final fun <get-parent>(): io.data2viz.viz/HasChildren? // io.data2viz.viz/Node.parent.<get-parent>|<get-parent>(){}[0]
+        final fun <set-parent>(io.data2viz.viz/HasChildren?) // io.data2viz.viz/Node.parent.<set-parent>|<set-parent>(io.data2viz.viz.HasChildren?){}[0]
+    final var visible // io.data2viz.viz/Node.visible|{}visible[0]
+        final fun <get-visible>(): kotlin/Boolean // io.data2viz.viz/Node.visible.<get-visible>|<get-visible>(){}[0]
+        final fun <set-visible>(kotlin/Boolean) // io.data2viz.viz/Node.visible.<set-visible>|<set-visible>(kotlin.Boolean){}[0]
+    open var anchor // io.data2viz.viz/Node.anchor|{}anchor[0]
+        open fun <get-anchor>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/Node.anchor.<get-anchor>|<get-anchor>(){}[0]
+        open fun <set-anchor>(io.data2viz.viz/TextHAlign) // io.data2viz.viz/Node.anchor.<set-anchor>|<set-anchor>(io.data2viz.viz.TextHAlign){}[0]
+    open var baseline // io.data2viz.viz/Node.baseline|{}baseline[0]
+        open fun <get-baseline>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/Node.baseline.<get-baseline>|<get-baseline>(){}[0]
+        open fun <set-baseline>(io.data2viz.viz/TextVAlign) // io.data2viz.viz/Node.baseline.<set-baseline>|<set-baseline>(io.data2viz.viz.TextVAlign){}[0]
+    open var dashedLine // io.data2viz.viz/Node.dashedLine|{}dashedLine[0]
+        open fun <get-dashedLine>(): kotlin/DoubleArray? // io.data2viz.viz/Node.dashedLine.<get-dashedLine>|<get-dashedLine>(){}[0]
+        open fun <set-dashedLine>(kotlin/DoubleArray?) // io.data2viz.viz/Node.dashedLine.<set-dashedLine>|<set-dashedLine>(kotlin.DoubleArray?){}[0]
+    open var fill // io.data2viz.viz/Node.fill|{}fill[0]
+        open fun <get-fill>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Node.fill.<get-fill>|<get-fill>(){}[0]
+        open fun <set-fill>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Node.fill.<set-fill>|<set-fill>(io.data2viz.color.ColorOrGradient?){}[0]
+    open var hAlign // io.data2viz.viz/Node.hAlign|{}hAlign[0]
+        open fun <get-hAlign>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/Node.hAlign.<get-hAlign>|<get-hAlign>(){}[0]
+        open fun <set-hAlign>(io.data2viz.viz/TextHAlign) // io.data2viz.viz/Node.hAlign.<set-hAlign>|<set-hAlign>(io.data2viz.viz.TextHAlign){}[0]
+    open var stroke // io.data2viz.viz/Node.stroke|{}stroke[0]
+        open fun <get-stroke>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Node.stroke.<get-stroke>|<get-stroke>(){}[0]
+        open fun <set-stroke>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Node.stroke.<set-stroke>|<set-stroke>(io.data2viz.color.ColorOrGradient?){}[0]
+    open var strokeColor // io.data2viz.viz/Node.strokeColor|{}strokeColor[0]
+        open fun <get-strokeColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Node.strokeColor.<get-strokeColor>|<get-strokeColor>(){}[0]
+        open fun <set-strokeColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Node.strokeColor.<set-strokeColor>|<set-strokeColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    open var strokeWidth // io.data2viz.viz/Node.strokeWidth|{}strokeWidth[0]
+        open fun <get-strokeWidth>(): kotlin/Double? // io.data2viz.viz/Node.strokeWidth.<get-strokeWidth>|<get-strokeWidth>(){}[0]
+        open fun <set-strokeWidth>(kotlin/Double?) // io.data2viz.viz/Node.strokeWidth.<set-strokeWidth>|<set-strokeWidth>(kotlin.Double?){}[0]
+    open var textColor // io.data2viz.viz/Node.textColor|{}textColor[0]
+        open fun <get-textColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Node.textColor.<get-textColor>|<get-textColor>(){}[0]
+        open fun <set-textColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Node.textColor.<set-textColor>|<set-textColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    open var vAlign // io.data2viz.viz/Node.vAlign|{}vAlign[0]
+        open fun <get-vAlign>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/Node.vAlign.<get-vAlign>|<get-vAlign>(){}[0]
+        open fun <set-vAlign>(io.data2viz.viz/TextVAlign) // io.data2viz.viz/Node.vAlign.<set-vAlign>|<set-vAlign>(io.data2viz.viz.TextVAlign){}[0]
+
+    final fun remove() // io.data2viz.viz/Node.remove|remove(){}[0]
+}
+
+final class io.data2viz.viz/BitmapImage : io.data2viz.viz/ImageHandler { // io.data2viz.viz/BitmapImage|null[0]
+    constructor <init>(kotlin/Array<io.data2viz.color/Color>, kotlin/Int, kotlin/Int) // io.data2viz.viz/BitmapImage.<init>|<init>(kotlin.Array<io.data2viz.color.Color>;kotlin.Int;kotlin.Int){}[0]
+
+    final fun toCanvasImageSource(): org.w3c.dom/CanvasImageSource // io.data2viz.viz/BitmapImage.toCanvasImageSource|toCanvasImageSource(){}[0]
+}
+
+final class io.data2viz.viz/CircleNode : io.data2viz.geom/Circle, io.data2viz.viz/HasFill, io.data2viz.viz/HasStroke, io.data2viz.viz/HasTransform, io.data2viz.viz/Node { // io.data2viz.viz/CircleNode|null[0]
+    constructor <init>(io.data2viz.geom/Circle = ...) // io.data2viz.viz/CircleNode.<init>|<init>(io.data2viz.geom.Circle){}[0]
+
+    final val circle // io.data2viz.viz/CircleNode.circle|{}circle[0]
+        final fun <get-circle>(): io.data2viz.geom/Circle // io.data2viz.viz/CircleNode.circle.<get-circle>|<get-circle>(){}[0]
+
+    final var radius // io.data2viz.viz/CircleNode.radius|{}radius[0]
+        final fun <get-radius>(): kotlin/Double // io.data2viz.viz/CircleNode.radius.<get-radius>|<get-radius>(){}[0]
+        final fun <set-radius>(kotlin/Double) // io.data2viz.viz/CircleNode.radius.<set-radius>|<set-radius>(kotlin.Double){}[0]
+    final var transform // io.data2viz.viz/CircleNode.transform|{}transform[0]
+        final fun <get-transform>(): io.data2viz.viz/Transform? // io.data2viz.viz/CircleNode.transform.<get-transform>|<get-transform>(){}[0]
+        final fun <set-transform>(io.data2viz.viz/Transform?) // io.data2viz.viz/CircleNode.transform.<set-transform>|<set-transform>(io.data2viz.viz.Transform?){}[0]
+    final var x // io.data2viz.viz/CircleNode.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.viz/CircleNode.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.viz/CircleNode.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.viz/CircleNode.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.viz/CircleNode.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.viz/CircleNode.y.<set-y>|<set-y>(kotlin.Double){}[0]
+}
+
+final class io.data2viz.viz/FontFamily { // io.data2viz.viz/FontFamily|null[0]
+    final val name // io.data2viz.viz/FontFamily.name|{}name[0]
+        final fun <get-name>(): kotlin/String // io.data2viz.viz/FontFamily.name.<get-name>|<get-name>(){}[0]
+
+    final fun toString(): kotlin/String // io.data2viz.viz/FontFamily.toString|toString(){}[0]
+
+    final object Companion { // io.data2viz.viz/FontFamily.Companion|null[0]
+        final val MONOSPACE // io.data2viz.viz/FontFamily.Companion.MONOSPACE|{}MONOSPACE[0]
+            final fun <get-MONOSPACE>(): io.data2viz.viz/FontFamily // io.data2viz.viz/FontFamily.Companion.MONOSPACE.<get-MONOSPACE>|<get-MONOSPACE>(){}[0]
+        final val SANS_SERIF // io.data2viz.viz/FontFamily.Companion.SANS_SERIF|{}SANS_SERIF[0]
+            final fun <get-SANS_SERIF>(): io.data2viz.viz/FontFamily // io.data2viz.viz/FontFamily.Companion.SANS_SERIF.<get-SANS_SERIF>|<get-SANS_SERIF>(){}[0]
+        final val SERIF // io.data2viz.viz/FontFamily.Companion.SERIF|{}SERIF[0]
+            final fun <get-SERIF>(): io.data2viz.viz/FontFamily // io.data2viz.viz/FontFamily.Companion.SERIF.<get-SERIF>|<get-SERIF>(){}[0]
+
+        final fun specifiedFont(kotlin/String): io.data2viz.viz/FontFamily // io.data2viz.viz/FontFamily.Companion.specifiedFont|specifiedFont(kotlin.String){}[0]
+    }
+}
+
+final class io.data2viz.viz/HeadlessVizContainer : io.data2viz.viz/Resizable, io.data2viz.viz/VizContainer { // io.data2viz.viz/HeadlessVizContainer|null[0]
+    constructor <init>(kotlin/Double = ..., io.data2viz.viz/ResizableSupport = ...) // io.data2viz.viz/HeadlessVizContainer.<init>|<init>(kotlin.Double;io.data2viz.viz.ResizableSupport){}[0]
+
+    final val density // io.data2viz.viz/HeadlessVizContainer.density|{}density[0]
+        final fun <get-density>(): kotlin/Double // io.data2viz.viz/HeadlessVizContainer.density.<get-density>|<get-density>(){}[0]
+    final val vizList // io.data2viz.viz/HeadlessVizContainer.vizList|{}vizList[0]
+        final fun <get-vizList>(): kotlin.collections/List<io.data2viz.viz/Viz> // io.data2viz.viz/HeadlessVizContainer.vizList.<get-vizList>|<get-vizList>(){}[0]
+
+    final var size // io.data2viz.viz/HeadlessVizContainer.size|{}size[0]
+        final fun <get-size>(): io.data2viz.geom/Size // io.data2viz.viz/HeadlessVizContainer.size.<get-size>|<get-size>(){}[0]
+        final fun <set-size>(io.data2viz.geom/Size) // io.data2viz.viz/HeadlessVizContainer.size.<set-size>|<set-size>(io.data2viz.geom.Size){}[0]
+
+    final fun addResizeListener(kotlin/Function1<io.data2viz.geom/Size, kotlin/Unit>) // io.data2viz.viz/HeadlessVizContainer.addResizeListener|addResizeListener(kotlin.Function1<io.data2viz.geom.Size,kotlin.Unit>){}[0]
+    final fun newViz(kotlin/Function1<io.data2viz.viz/Viz, kotlin/Unit>): io.data2viz.viz/Viz // io.data2viz.viz/HeadlessVizContainer.newViz|newViz(kotlin.Function1<io.data2viz.viz.Viz,kotlin.Unit>){}[0]
+}
+
+final class io.data2viz.viz/HierarchicalStyle : io.data2viz.viz/Style { // io.data2viz.viz/HierarchicalStyle|null[0]
+    constructor <init>(io.data2viz.viz/Style?) // io.data2viz.viz/HierarchicalStyle.<init>|<init>(io.data2viz.viz.Style?){}[0]
+
+    final var anchor // io.data2viz.viz/HierarchicalStyle.anchor|{}anchor[0]
+        final fun <get-anchor>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/HierarchicalStyle.anchor.<get-anchor>|<get-anchor>(){}[0]
+        final fun <set-anchor>(io.data2viz.viz/TextHAlign) // io.data2viz.viz/HierarchicalStyle.anchor.<set-anchor>|<set-anchor>(io.data2viz.viz.TextHAlign){}[0]
+    final var baseline // io.data2viz.viz/HierarchicalStyle.baseline|{}baseline[0]
+        final fun <get-baseline>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/HierarchicalStyle.baseline.<get-baseline>|<get-baseline>(){}[0]
+        final fun <set-baseline>(io.data2viz.viz/TextVAlign) // io.data2viz.viz/HierarchicalStyle.baseline.<set-baseline>|<set-baseline>(io.data2viz.viz.TextVAlign){}[0]
+    final var dashedLine // io.data2viz.viz/HierarchicalStyle.dashedLine|{}dashedLine[0]
+        final fun <get-dashedLine>(): kotlin/DoubleArray? // io.data2viz.viz/HierarchicalStyle.dashedLine.<get-dashedLine>|<get-dashedLine>(){}[0]
+        final fun <set-dashedLine>(kotlin/DoubleArray?) // io.data2viz.viz/HierarchicalStyle.dashedLine.<set-dashedLine>|<set-dashedLine>(kotlin.DoubleArray?){}[0]
+    final var fill // io.data2viz.viz/HierarchicalStyle.fill|{}fill[0]
+        final fun <get-fill>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/HierarchicalStyle.fill.<get-fill>|<get-fill>(){}[0]
+        final fun <set-fill>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/HierarchicalStyle.fill.<set-fill>|<set-fill>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var hAlign // io.data2viz.viz/HierarchicalStyle.hAlign|{}hAlign[0]
+        final fun <get-hAlign>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/HierarchicalStyle.hAlign.<get-hAlign>|<get-hAlign>(){}[0]
+        final fun <set-hAlign>(io.data2viz.viz/TextHAlign) // io.data2viz.viz/HierarchicalStyle.hAlign.<set-hAlign>|<set-hAlign>(io.data2viz.viz.TextHAlign){}[0]
+    final var parent // io.data2viz.viz/HierarchicalStyle.parent|{}parent[0]
+        final fun <get-parent>(): io.data2viz.viz/Style? // io.data2viz.viz/HierarchicalStyle.parent.<get-parent>|<get-parent>(){}[0]
+        final fun <set-parent>(io.data2viz.viz/Style?) // io.data2viz.viz/HierarchicalStyle.parent.<set-parent>|<set-parent>(io.data2viz.viz.Style?){}[0]
+    final var stroke // io.data2viz.viz/HierarchicalStyle.stroke|{}stroke[0]
+        final fun <get-stroke>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/HierarchicalStyle.stroke.<get-stroke>|<get-stroke>(){}[0]
+        final fun <set-stroke>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/HierarchicalStyle.stroke.<set-stroke>|<set-stroke>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var strokeColor // io.data2viz.viz/HierarchicalStyle.strokeColor|{}strokeColor[0]
+        final fun <get-strokeColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/HierarchicalStyle.strokeColor.<get-strokeColor>|<get-strokeColor>(){}[0]
+        final fun <set-strokeColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/HierarchicalStyle.strokeColor.<set-strokeColor>|<set-strokeColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var strokeWidth // io.data2viz.viz/HierarchicalStyle.strokeWidth|{}strokeWidth[0]
+        final fun <get-strokeWidth>(): kotlin/Double? // io.data2viz.viz/HierarchicalStyle.strokeWidth.<get-strokeWidth>|<get-strokeWidth>(){}[0]
+        final fun <set-strokeWidth>(kotlin/Double?) // io.data2viz.viz/HierarchicalStyle.strokeWidth.<set-strokeWidth>|<set-strokeWidth>(kotlin.Double?){}[0]
+    final var textColor // io.data2viz.viz/HierarchicalStyle.textColor|{}textColor[0]
+        final fun <get-textColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/HierarchicalStyle.textColor.<get-textColor>|<get-textColor>(){}[0]
+        final fun <set-textColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/HierarchicalStyle.textColor.<set-textColor>|<set-textColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var vAlign // io.data2viz.viz/HierarchicalStyle.vAlign|{}vAlign[0]
+        final fun <get-vAlign>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/HierarchicalStyle.vAlign.<get-vAlign>|<get-vAlign>(){}[0]
+        final fun <set-vAlign>(io.data2viz.viz/TextVAlign) // io.data2viz.viz/HierarchicalStyle.vAlign.<set-vAlign>|<set-vAlign>(io.data2viz.viz.TextVAlign){}[0]
+}
+
+final class io.data2viz.viz/ImageNode : io.data2viz.viz/Node { // io.data2viz.viz/ImageNode|null[0]
+    constructor <init>() // io.data2viz.viz/ImageNode.<init>|<init>(){}[0]
+
+    final var image // io.data2viz.viz/ImageNode.image|{}image[0]
+        final fun <get-image>(): io.data2viz.viz/ImageHandler? // io.data2viz.viz/ImageNode.image.<get-image>|<get-image>(){}[0]
+        final fun <set-image>(io.data2viz.viz/ImageHandler?) // io.data2viz.viz/ImageNode.image.<set-image>|<set-image>(io.data2viz.viz.ImageHandler?){}[0]
+    final var size // io.data2viz.viz/ImageNode.size|{}size[0]
+        final fun <get-size>(): io.data2viz.geom/Size? // io.data2viz.viz/ImageNode.size.<get-size>|<get-size>(){}[0]
+        final fun <set-size>(io.data2viz.geom/Size?) // io.data2viz.viz/ImageNode.size.<set-size>|<set-size>(io.data2viz.geom.Size?){}[0]
+    final var x // io.data2viz.viz/ImageNode.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.viz/ImageNode.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.viz/ImageNode.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.viz/ImageNode.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.viz/ImageNode.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.viz/ImageNode.y.<set-y>|<set-y>(kotlin.Double){}[0]
+}
+
+final class io.data2viz.viz/JsCanvasRenderer : io.data2viz.viz/VizRenderer { // io.data2viz.viz/JsCanvasRenderer|null[0]
+    constructor <init>(org.w3c.dom/CanvasRenderingContext2D, io.data2viz.viz/Viz) // io.data2viz.viz/JsCanvasRenderer.<init>|<init>(org.w3c.dom.CanvasRenderingContext2D;io.data2viz.viz.Viz){}[0]
+
+    final val context // io.data2viz.viz/JsCanvasRenderer.context|{}context[0]
+        final fun <get-context>(): org.w3c.dom/CanvasRenderingContext2D // io.data2viz.viz/JsCanvasRenderer.context.<get-context>|<get-context>(){}[0]
+    final val viz // io.data2viz.viz/JsCanvasRenderer.viz|{}viz[0]
+        final fun <get-viz>(): io.data2viz.viz/Viz // io.data2viz.viz/JsCanvasRenderer.viz.<get-viz>|<get-viz>(){}[0]
+
+    final fun render() // io.data2viz.viz/JsCanvasRenderer.render|render(){}[0]
+    final fun startAnimations() // io.data2viz.viz/JsCanvasRenderer.startAnimations|startAnimations(){}[0]
+    final fun stopAnimations() // io.data2viz.viz/JsCanvasRenderer.stopAnimations|stopAnimations(){}[0]
+}
+
+final class io.data2viz.viz/KDragEvent : io.data2viz.viz/KEvent { // io.data2viz.viz/KDragEvent|null[0]
+    constructor <init>(io.data2viz.viz/KDragEvent.KDragAction, io.data2viz.viz/KPointerEvent) // io.data2viz.viz/KDragEvent.<init>|<init>(io.data2viz.viz.KDragEvent.KDragAction;io.data2viz.viz.KPointerEvent){}[0]
+
+    final val action // io.data2viz.viz/KDragEvent.action|{}action[0]
+        final fun <get-action>(): io.data2viz.viz/KDragEvent.KDragAction // io.data2viz.viz/KDragEvent.action.<get-action>|<get-action>(){}[0]
+    final val pointerEvent // io.data2viz.viz/KDragEvent.pointerEvent|{}pointerEvent[0]
+        final fun <get-pointerEvent>(): io.data2viz.viz/KPointerEvent // io.data2viz.viz/KDragEvent.pointerEvent.<get-pointerEvent>|<get-pointerEvent>(){}[0]
+    final val pos // io.data2viz.viz/KDragEvent.pos|{}pos[0]
+        final fun <get-pos>(): io.data2viz.geom/Point // io.data2viz.viz/KDragEvent.pos.<get-pos>|<get-pos>(){}[0]
+
+    final fun toString(): kotlin/String // io.data2viz.viz/KDragEvent.toString|toString(){}[0]
+
+    final enum class KDragAction : kotlin/Enum<io.data2viz.viz/KDragEvent.KDragAction> { // io.data2viz.viz/KDragEvent.KDragAction|null[0]
+        enum entry Dragging // io.data2viz.viz/KDragEvent.KDragAction.Dragging|null[0]
+        enum entry Finish // io.data2viz.viz/KDragEvent.KDragAction.Finish|null[0]
+        enum entry Start // io.data2viz.viz/KDragEvent.KDragAction.Start|null[0]
+
+        final val entries // io.data2viz.viz/KDragEvent.KDragAction.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.viz/KDragEvent.KDragAction> // io.data2viz.viz/KDragEvent.KDragAction.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): io.data2viz.viz/KDragEvent.KDragAction // io.data2viz.viz/KDragEvent.KDragAction.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<io.data2viz.viz/KDragEvent.KDragAction> // io.data2viz.viz/KDragEvent.KDragAction.values|values#static(){}[0]
+    }
+}
+
+final class io.data2viz.viz/KMouseDown { // io.data2viz.viz/KMouseDown|null[0]
+    constructor <init>() // io.data2viz.viz/KMouseDown.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KMouseMove { // io.data2viz.viz/KMouseMove|null[0]
+    constructor <init>() // io.data2viz.viz/KMouseMove.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KMouseUp { // io.data2viz.viz/KMouseUp|null[0]
+    constructor <init>() // io.data2viz.viz/KMouseUp.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KPointer { // io.data2viz.viz/KPointer|null[0]
+    constructor <init>(kotlin/Int, io.data2viz.geom/Point) // io.data2viz.viz/KPointer.<init>|<init>(kotlin.Int;io.data2viz.geom.Point){}[0]
+
+    final val id // io.data2viz.viz/KPointer.id|{}id[0]
+        final fun <get-id>(): kotlin/Int // io.data2viz.viz/KPointer.id.<get-id>|<get-id>(){}[0]
+    final val pos // io.data2viz.viz/KPointer.pos|{}pos[0]
+        final fun <get-pos>(): io.data2viz.geom/Point // io.data2viz.viz/KPointer.pos.<get-pos>|<get-pos>(){}[0]
+
+    final fun component1(): kotlin/Int // io.data2viz.viz/KPointer.component1|component1(){}[0]
+    final fun component2(): io.data2viz.geom/Point // io.data2viz.viz/KPointer.component2|component2(){}[0]
+    final fun copy(kotlin/Int = ..., io.data2viz.geom/Point = ...): io.data2viz.viz/KPointer // io.data2viz.viz/KPointer.copy|copy(kotlin.Int;io.data2viz.geom.Point){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.viz/KPointer.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.viz/KPointer.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.viz/KPointer.toString|toString(){}[0]
+}
+
+final class io.data2viz.viz/KPointerEnter { // io.data2viz.viz/KPointerEnter|null[0]
+    constructor <init>() // io.data2viz.viz/KPointerEnter.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KPointerLeave { // io.data2viz.viz/KPointerLeave|null[0]
+    constructor <init>() // io.data2viz.viz/KPointerLeave.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KTouch { // io.data2viz.viz/KTouch|null[0]
+    constructor <init>() // io.data2viz.viz/KTouch.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KTouchEnd { // io.data2viz.viz/KTouchEnd|null[0]
+    constructor <init>() // io.data2viz.viz/KTouchEnd.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KTouchMove { // io.data2viz.viz/KTouchMove|null[0]
+    constructor <init>() // io.data2viz.viz/KTouchMove.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KTouchStart { // io.data2viz.viz/KTouchStart|null[0]
+    constructor <init>() // io.data2viz.viz/KTouchStart.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KZoom { // io.data2viz.viz/KZoom|null[0]
+    constructor <init>() // io.data2viz.viz/KZoom.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/KZoomEvent : io.data2viz.viz/HasMetaKeys, io.data2viz.viz/KEvent { // io.data2viz.viz/KZoomEvent|null[0]
+    constructor <init>(io.data2viz.geom/Point, kotlin/Double, io.data2viz.viz/HasMetaKeys = ...) // io.data2viz.viz/KZoomEvent.<init>|<init>(io.data2viz.geom.Point;kotlin.Double;io.data2viz.viz.HasMetaKeys){}[0]
+    constructor <init>(io.data2viz.geom/Point, kotlin/Double, kotlin/Double, io.data2viz.viz/HasMetaKeys = ...) // io.data2viz.viz/KZoomEvent.<init>|<init>(io.data2viz.geom.Point;kotlin.Double;kotlin.Double;io.data2viz.viz.HasMetaKeys){}[0]
+
+    final val altKey // io.data2viz.viz/KZoomEvent.altKey|{}altKey[0]
+        final fun <get-altKey>(): kotlin/Boolean // io.data2viz.viz/KZoomEvent.altKey.<get-altKey>|<get-altKey>(){}[0]
+    final val ctrlKey // io.data2viz.viz/KZoomEvent.ctrlKey|{}ctrlKey[0]
+        final fun <get-ctrlKey>(): kotlin/Boolean // io.data2viz.viz/KZoomEvent.ctrlKey.<get-ctrlKey>|<get-ctrlKey>(){}[0]
+    final val deltaX // io.data2viz.viz/KZoomEvent.deltaX|{}deltaX[0]
+        final fun <get-deltaX>(): kotlin/Double // io.data2viz.viz/KZoomEvent.deltaX.<get-deltaX>|<get-deltaX>(){}[0]
+    final val deltaY // io.data2viz.viz/KZoomEvent.deltaY|{}deltaY[0]
+        final fun <get-deltaY>(): kotlin/Double // io.data2viz.viz/KZoomEvent.deltaY.<get-deltaY>|<get-deltaY>(){}[0]
+    final val metaKey // io.data2viz.viz/KZoomEvent.metaKey|{}metaKey[0]
+        final fun <get-metaKey>(): kotlin/Boolean // io.data2viz.viz/KZoomEvent.metaKey.<get-metaKey>|<get-metaKey>(){}[0]
+    final val shiftKey // io.data2viz.viz/KZoomEvent.shiftKey|{}shiftKey[0]
+        final fun <get-shiftKey>(): kotlin/Boolean // io.data2viz.viz/KZoomEvent.shiftKey.<get-shiftKey>|<get-shiftKey>(){}[0]
+    final val startZoomPos // io.data2viz.viz/KZoomEvent.startZoomPos|{}startZoomPos[0]
+        final fun <get-startZoomPos>(): io.data2viz.geom/Point // io.data2viz.viz/KZoomEvent.startZoomPos.<get-startZoomPos>|<get-startZoomPos>(){}[0]
+
+    final fun noKey(): kotlin/Boolean // io.data2viz.viz/KZoomEvent.noKey|noKey(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.viz/KZoomEvent.toString|toString(){}[0]
+
+    final object Companion { // io.data2viz.viz/KZoomEvent.Companion|null[0]
+        final const val diffTimeBetweenZoomEventsToDetectRestart // io.data2viz.viz/KZoomEvent.Companion.diffTimeBetweenZoomEventsToDetectRestart|{}diffTimeBetweenZoomEventsToDetectRestart[0]
+            final fun <get-diffTimeBetweenZoomEventsToDetectRestart>(): kotlin/Int // io.data2viz.viz/KZoomEvent.Companion.diffTimeBetweenZoomEventsToDetectRestart.<get-diffTimeBetweenZoomEventsToDetectRestart>|<get-diffTimeBetweenZoomEventsToDetectRestart>(){}[0]
+        final const val maxDelta // io.data2viz.viz/KZoomEvent.Companion.maxDelta|{}maxDelta[0]
+            final fun <get-maxDelta>(): kotlin/Double // io.data2viz.viz/KZoomEvent.Companion.maxDelta.<get-maxDelta>|<get-maxDelta>(){}[0]
+        final const val minDelta // io.data2viz.viz/KZoomEvent.Companion.minDelta|{}minDelta[0]
+            final fun <get-minDelta>(): kotlin/Double // io.data2viz.viz/KZoomEvent.Companion.minDelta.<get-minDelta>|<get-minDelta>(){}[0]
+
+        final fun isNewZoom(kotlin/Double, kotlin/Double?): kotlin/Boolean // io.data2viz.viz/KZoomEvent.Companion.isNewZoom|isNewZoom(kotlin.Double;kotlin.Double?){}[0]
+        final fun isNewZoom(kotlin/Long, kotlin/Long?): kotlin/Boolean // io.data2viz.viz/KZoomEvent.Companion.isNewZoom|isNewZoom(kotlin.Long;kotlin.Long?){}[0]
+        final fun scaleDelta(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double = ..., kotlin/Double = ...): kotlin/Double // io.data2viz.viz/KZoomEvent.Companion.scaleDelta|scaleDelta(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    }
+}
+
+final class io.data2viz.viz/Layer : io.data2viz.viz/GroupNode { // io.data2viz.viz/Layer|null[0]
+    constructor <init>() // io.data2viz.viz/Layer.<init>|<init>(){}[0]
+}
+
+final class io.data2viz.viz/LineNode : io.data2viz.viz/HasStroke, io.data2viz.viz/HasTransform, io.data2viz.viz/Node { // io.data2viz.viz/LineNode|null[0]
+    constructor <init>() // io.data2viz.viz/LineNode.<init>|<init>(){}[0]
+
+    final var transform // io.data2viz.viz/LineNode.transform|{}transform[0]
+        final fun <get-transform>(): io.data2viz.viz/Transform? // io.data2viz.viz/LineNode.transform.<get-transform>|<get-transform>(){}[0]
+        final fun <set-transform>(io.data2viz.viz/Transform?) // io.data2viz.viz/LineNode.transform.<set-transform>|<set-transform>(io.data2viz.viz.Transform?){}[0]
+    final var x1 // io.data2viz.viz/LineNode.x1|{}x1[0]
+        final fun <get-x1>(): kotlin/Double // io.data2viz.viz/LineNode.x1.<get-x1>|<get-x1>(){}[0]
+        final fun <set-x1>(kotlin/Double) // io.data2viz.viz/LineNode.x1.<set-x1>|<set-x1>(kotlin.Double){}[0]
+    final var x2 // io.data2viz.viz/LineNode.x2|{}x2[0]
+        final fun <get-x2>(): kotlin/Double // io.data2viz.viz/LineNode.x2.<get-x2>|<get-x2>(){}[0]
+        final fun <set-x2>(kotlin/Double) // io.data2viz.viz/LineNode.x2.<set-x2>|<set-x2>(kotlin.Double){}[0]
+    final var y1 // io.data2viz.viz/LineNode.y1|{}y1[0]
+        final fun <get-y1>(): kotlin/Double // io.data2viz.viz/LineNode.y1.<get-y1>|<get-y1>(){}[0]
+        final fun <set-y1>(kotlin/Double) // io.data2viz.viz/LineNode.y1.<set-y1>|<set-y1>(kotlin.Double){}[0]
+    final var y2 // io.data2viz.viz/LineNode.y2|{}y2[0]
+        final fun <get-y2>(): kotlin/Double // io.data2viz.viz/LineNode.y2.<get-y2>|<get-y2>(){}[0]
+        final fun <set-y2>(kotlin/Double) // io.data2viz.viz/LineNode.y2.<set-y2>|<set-y2>(kotlin.Double){}[0]
+}
+
+final class io.data2viz.viz/LocalImage : io.data2viz.viz/ImageHandler { // io.data2viz.viz/LocalImage|null[0]
+    constructor <init>(org.w3c.dom/HTMLImageElement) // io.data2viz.viz/LocalImage.<init>|<init>(org.w3c.dom.HTMLImageElement){}[0]
+
+    final fun toCanvasImageSource(): org.w3c.dom/CanvasImageSource // io.data2viz.viz/LocalImage.toCanvasImageSource|toCanvasImageSource(){}[0]
+}
+
+final class io.data2viz.viz/Margins { // io.data2viz.viz/Margins|null[0]
+    constructor <init>(kotlin/Double, kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.viz/Margins.<init>|<init>(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+
+    final val bottom // io.data2viz.viz/Margins.bottom|{}bottom[0]
+        final fun <get-bottom>(): kotlin/Double // io.data2viz.viz/Margins.bottom.<get-bottom>|<get-bottom>(){}[0]
+    final val hMargins // io.data2viz.viz/Margins.hMargins|{}hMargins[0]
+        final fun <get-hMargins>(): kotlin/Double // io.data2viz.viz/Margins.hMargins.<get-hMargins>|<get-hMargins>(){}[0]
+    final val left // io.data2viz.viz/Margins.left|{}left[0]
+        final fun <get-left>(): kotlin/Double // io.data2viz.viz/Margins.left.<get-left>|<get-left>(){}[0]
+    final val right // io.data2viz.viz/Margins.right|{}right[0]
+        final fun <get-right>(): kotlin/Double // io.data2viz.viz/Margins.right.<get-right>|<get-right>(){}[0]
+    final val top // io.data2viz.viz/Margins.top|{}top[0]
+        final fun <get-top>(): kotlin/Double // io.data2viz.viz/Margins.top.<get-top>|<get-top>(){}[0]
+    final val vMargins // io.data2viz.viz/Margins.vMargins|{}vMargins[0]
+        final fun <get-vMargins>(): kotlin/Double // io.data2viz.viz/Margins.vMargins.<get-vMargins>|<get-vMargins>(){}[0]
+
+    final fun component1(): kotlin/Double // io.data2viz.viz/Margins.component1|component1(){}[0]
+    final fun component2(): kotlin/Double // io.data2viz.viz/Margins.component2|component2(){}[0]
+    final fun component3(): kotlin/Double // io.data2viz.viz/Margins.component3|component3(){}[0]
+    final fun component4(): kotlin/Double // io.data2viz.viz/Margins.component4|component4(){}[0]
+    final fun copy(kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ...): io.data2viz.viz/Margins // io.data2viz.viz/Margins.copy|copy(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.viz/Margins.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.viz/Margins.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.viz/Margins.toString|toString(){}[0]
+}
+
+final class io.data2viz.viz/RectNode : io.data2viz.geom/Rect, io.data2viz.viz/HasFill, io.data2viz.viz/HasStroke, io.data2viz.viz/Node { // io.data2viz.viz/RectNode|null[0]
+    constructor <init>(io.data2viz.geom/Rect = ...) // io.data2viz.viz/RectNode.<init>|<init>(io.data2viz.geom.Rect){}[0]
+
+    final val bottom // io.data2viz.viz/RectNode.bottom|{}bottom[0]
+        final fun <get-bottom>(): kotlin/Double // io.data2viz.viz/RectNode.bottom.<get-bottom>|<get-bottom>(){}[0]
+    final val bottomLeft // io.data2viz.viz/RectNode.bottomLeft|{}bottomLeft[0]
+        final fun <get-bottomLeft>(): io.data2viz.geom/Point // io.data2viz.viz/RectNode.bottomLeft.<get-bottomLeft>|<get-bottomLeft>(){}[0]
+    final val bottomRight // io.data2viz.viz/RectNode.bottomRight|{}bottomRight[0]
+        final fun <get-bottomRight>(): io.data2viz.geom/Point // io.data2viz.viz/RectNode.bottomRight.<get-bottomRight>|<get-bottomRight>(){}[0]
+    final val center // io.data2viz.viz/RectNode.center|{}center[0]
+        final fun <get-center>(): io.data2viz.geom/Point // io.data2viz.viz/RectNode.center.<get-center>|<get-center>(){}[0]
+    final val left // io.data2viz.viz/RectNode.left|{}left[0]
+        final fun <get-left>(): kotlin/Double // io.data2viz.viz/RectNode.left.<get-left>|<get-left>(){}[0]
+    final val right // io.data2viz.viz/RectNode.right|{}right[0]
+        final fun <get-right>(): kotlin/Double // io.data2viz.viz/RectNode.right.<get-right>|<get-right>(){}[0]
+    final val top // io.data2viz.viz/RectNode.top|{}top[0]
+        final fun <get-top>(): kotlin/Double // io.data2viz.viz/RectNode.top.<get-top>|<get-top>(){}[0]
+    final val topLeft // io.data2viz.viz/RectNode.topLeft|{}topLeft[0]
+        final fun <get-topLeft>(): io.data2viz.geom/Point // io.data2viz.viz/RectNode.topLeft.<get-topLeft>|<get-topLeft>(){}[0]
+    final val topRight // io.data2viz.viz/RectNode.topRight|{}topRight[0]
+        final fun <get-topRight>(): io.data2viz.geom/Point // io.data2viz.viz/RectNode.topRight.<get-topRight>|<get-topRight>(){}[0]
+
+    final var height // io.data2viz.viz/RectNode.height|{}height[0]
+        final fun <get-height>(): kotlin/Double // io.data2viz.viz/RectNode.height.<get-height>|<get-height>(){}[0]
+        final fun <set-height>(kotlin/Double) // io.data2viz.viz/RectNode.height.<set-height>|<set-height>(kotlin.Double){}[0]
+    final var size // io.data2viz.viz/RectNode.size|{}size[0]
+        final fun <get-size>(): io.data2viz.geom/Size // io.data2viz.viz/RectNode.size.<get-size>|<get-size>(){}[0]
+        final fun <set-size>(io.data2viz.geom/Size) // io.data2viz.viz/RectNode.size.<set-size>|<set-size>(io.data2viz.geom.Size){}[0]
+    final var width // io.data2viz.viz/RectNode.width|{}width[0]
+        final fun <get-width>(): kotlin/Double // io.data2viz.viz/RectNode.width.<get-width>|<get-width>(){}[0]
+        final fun <set-width>(kotlin/Double) // io.data2viz.viz/RectNode.width.<set-width>|<set-width>(kotlin.Double){}[0]
+    final var x // io.data2viz.viz/RectNode.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.viz/RectNode.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.viz/RectNode.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.viz/RectNode.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.viz/RectNode.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.viz/RectNode.y.<set-y>|<set-y>(kotlin.Double){}[0]
+
+    final fun contains(io.data2viz.geom/Point): kotlin/Boolean // io.data2viz.viz/RectNode.contains|contains(io.data2viz.geom.Point){}[0]
+    final fun contains(io.data2viz.geom/Rect): kotlin/Boolean // io.data2viz.viz/RectNode.contains|contains(io.data2viz.geom.Rect){}[0]
+}
+
+final class io.data2viz.viz/ResizableSupport : io.data2viz.viz/Resizable { // io.data2viz.viz/ResizableSupport|null[0]
+    constructor <init>() // io.data2viz.viz/ResizableSupport.<init>|<init>(){}[0]
+
+    final fun addResizeListener(kotlin/Function1<io.data2viz.geom/Size, kotlin/Unit>) // io.data2viz.viz/ResizableSupport.addResizeListener|addResizeListener(kotlin.Function1<io.data2viz.geom.Size,kotlin.Unit>){}[0]
+    final fun notifyNewSize(io.data2viz.geom/Size) // io.data2viz.viz/ResizableSupport.notifyNewSize|notifyNewSize(io.data2viz.geom.Size){}[0]
+}
+
+final class io.data2viz.viz/RichTextBuilder { // io.data2viz.viz/RichTextBuilder|null[0]
+    constructor <init>(kotlin/Function1<io.data2viz.viz/RichTextBuilder, kotlin/Unit> = ...) // io.data2viz.viz/RichTextBuilder.<init>|<init>(kotlin.Function1<io.data2viz.viz.RichTextBuilder,kotlin.Unit>){}[0]
+
+    final var fontFamily // io.data2viz.viz/RichTextBuilder.fontFamily|{}fontFamily[0]
+        final fun <get-fontFamily>(): io.data2viz.viz/FontFamily // io.data2viz.viz/RichTextBuilder.fontFamily.<get-fontFamily>|<get-fontFamily>(){}[0]
+        final fun <set-fontFamily>(io.data2viz.viz/FontFamily) // io.data2viz.viz/RichTextBuilder.fontFamily.<set-fontFamily>|<set-fontFamily>(io.data2viz.viz.FontFamily){}[0]
+    final var fontSize // io.data2viz.viz/RichTextBuilder.fontSize|{}fontSize[0]
+        final fun <get-fontSize>(): kotlin/Double // io.data2viz.viz/RichTextBuilder.fontSize.<get-fontSize>|<get-fontSize>(){}[0]
+        final fun <set-fontSize>(kotlin/Double) // io.data2viz.viz/RichTextBuilder.fontSize.<set-fontSize>|<set-fontSize>(kotlin.Double){}[0]
+    final var fontStyle // io.data2viz.viz/RichTextBuilder.fontStyle|{}fontStyle[0]
+        final fun <get-fontStyle>(): io.data2viz.viz/FontPosture // io.data2viz.viz/RichTextBuilder.fontStyle.<get-fontStyle>|<get-fontStyle>(){}[0]
+        final fun <set-fontStyle>(io.data2viz.viz/FontPosture) // io.data2viz.viz/RichTextBuilder.fontStyle.<set-fontStyle>|<set-fontStyle>(io.data2viz.viz.FontPosture){}[0]
+    final var fontWeight // io.data2viz.viz/RichTextBuilder.fontWeight|{}fontWeight[0]
+        final fun <get-fontWeight>(): io.data2viz.viz/FontWeight // io.data2viz.viz/RichTextBuilder.fontWeight.<get-fontWeight>|<get-fontWeight>(){}[0]
+        final fun <set-fontWeight>(io.data2viz.viz/FontWeight) // io.data2viz.viz/RichTextBuilder.fontWeight.<set-fontWeight>|<set-fontWeight>(io.data2viz.viz.FontWeight){}[0]
+    final var lineSize // io.data2viz.viz/RichTextBuilder.lineSize|{}lineSize[0]
+        final fun <get-lineSize>(): kotlin/Double // io.data2viz.viz/RichTextBuilder.lineSize.<get-lineSize>|<get-lineSize>(){}[0]
+        final fun <set-lineSize>(kotlin/Double) // io.data2viz.viz/RichTextBuilder.lineSize.<set-lineSize>|<set-lineSize>(kotlin.Double){}[0]
+    final var textColor // io.data2viz.viz/RichTextBuilder.textColor|{}textColor[0]
+        final fun <get-textColor>(): io.data2viz.color/Color // io.data2viz.viz/RichTextBuilder.textColor.<get-textColor>|<get-textColor>(){}[0]
+        final fun <set-textColor>(io.data2viz.color/Color) // io.data2viz.viz/RichTextBuilder.textColor.<set-textColor>|<set-textColor>(io.data2viz.color.Color){}[0]
+
+    final fun buildGroup(): io.data2viz.viz/GroupNode // io.data2viz.viz/RichTextBuilder.buildGroup|buildGroup(){}[0]
+    final fun computeSize(): io.data2viz.geom/Size // io.data2viz.viz/RichTextBuilder.computeSize|computeSize(){}[0]
+    final fun newLine() // io.data2viz.viz/RichTextBuilder.newLine|newLine(){}[0]
+    final fun text(kotlin/String, kotlin/Double? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., io.data2viz.color/Color? = ..., io.data2viz.viz/FontFamily? = ...) // io.data2viz.viz/RichTextBuilder.text|text(kotlin.String;kotlin.Double?;kotlin.Boolean?;kotlin.Boolean?;io.data2viz.color.Color?;io.data2viz.viz.FontFamily?){}[0]
+}
+
+final class io.data2viz.viz/Rotation : io.data2viz.viz/AtomicTransformation { // io.data2viz.viz/Rotation|null[0]
+    constructor <init>(kotlin/Double = ...) // io.data2viz.viz/Rotation.<init>|<init>(kotlin.Double){}[0]
+
+    final var delta // io.data2viz.viz/Rotation.delta|{}delta[0]
+        final fun <get-delta>(): kotlin/Double // io.data2viz.viz/Rotation.delta.<get-delta>|<get-delta>(){}[0]
+        final fun <set-delta>(kotlin/Double) // io.data2viz.viz/Rotation.delta.<set-delta>|<set-delta>(kotlin.Double){}[0]
+
+    final fun component1(): kotlin/Double // io.data2viz.viz/Rotation.component1|component1(){}[0]
+    final fun copy(kotlin/Double = ...): io.data2viz.viz/Rotation // io.data2viz.viz/Rotation.copy|copy(kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.viz/Rotation.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.viz/Rotation.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.viz/Rotation.toString|toString(){}[0]
+}
+
+final class io.data2viz.viz/StateManager { // io.data2viz.viz/StateManager|null[0]
+    constructor <init>() // io.data2viz.viz/StateManager.<init>|<init>(){}[0]
+
+    final val properties // io.data2viz.viz/StateManager.properties|{}properties[0]
+        final fun <get-properties>(): kotlin.collections/MutableList<io.data2viz.viz/StateProperty> // io.data2viz.viz/StateManager.properties.<get-properties>|<get-properties>(){}[0]
+
+    final var status // io.data2viz.viz/StateManager.status|{}status[0]
+        final fun <get-status>(): io.data2viz.viz/StateManagerStatus // io.data2viz.viz/StateManager.status.<get-status>|<get-status>(){}[0]
+        final fun <set-status>(io.data2viz.viz/StateManagerStatus) // io.data2viz.viz/StateManager.status.<set-status>|<set-status>(io.data2viz.viz.StateManagerStatus){}[0]
+
+    final fun addStateProperty(io.data2viz.viz/StateProperty) // io.data2viz.viz/StateManager.addStateProperty|addStateProperty(io.data2viz.viz.StateProperty){}[0]
+    final fun percentToState(kotlin/Double) // io.data2viz.viz/StateManager.percentToState|percentToState(kotlin.Double){}[0]
+}
+
+final class io.data2viz.viz/TextAlign { // io.data2viz.viz/TextAlign|null[0]
+    constructor <init>(io.data2viz.viz/TextHAlign, io.data2viz.viz/TextVAlign) // io.data2viz.viz/TextAlign.<init>|<init>(io.data2viz.viz.TextHAlign;io.data2viz.viz.TextVAlign){}[0]
+
+    final val horizontal // io.data2viz.viz/TextAlign.horizontal|{}horizontal[0]
+        final fun <get-horizontal>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/TextAlign.horizontal.<get-horizontal>|<get-horizontal>(){}[0]
+    final val vertical // io.data2viz.viz/TextAlign.vertical|{}vertical[0]
+        final fun <get-vertical>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/TextAlign.vertical.<get-vertical>|<get-vertical>(){}[0]
+
+    final fun component1(): io.data2viz.viz/TextHAlign // io.data2viz.viz/TextAlign.component1|component1(){}[0]
+    final fun component2(): io.data2viz.viz/TextVAlign // io.data2viz.viz/TextAlign.component2|component2(){}[0]
+    final fun copy(io.data2viz.viz/TextHAlign = ..., io.data2viz.viz/TextVAlign = ...): io.data2viz.viz/TextAlign // io.data2viz.viz/TextAlign.copy|copy(io.data2viz.viz.TextHAlign;io.data2viz.viz.TextVAlign){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.viz/TextAlign.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.viz/TextAlign.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.viz/TextAlign.toString|toString(){}[0]
+}
+
+final class io.data2viz.viz/TextNode : io.data2viz.viz/HasFill, io.data2viz.viz/HasStroke, io.data2viz.viz/HasTransform, io.data2viz.viz/Node { // io.data2viz.viz/TextNode|null[0]
+    constructor <init>() // io.data2viz.viz/TextNode.<init>|<init>(){}[0]
+
+    final var fontFamily // io.data2viz.viz/TextNode.fontFamily|{}fontFamily[0]
+        final fun <get-fontFamily>(): io.data2viz.viz/FontFamily // io.data2viz.viz/TextNode.fontFamily.<get-fontFamily>|<get-fontFamily>(){}[0]
+        final fun <set-fontFamily>(io.data2viz.viz/FontFamily) // io.data2viz.viz/TextNode.fontFamily.<set-fontFamily>|<set-fontFamily>(io.data2viz.viz.FontFamily){}[0]
+    final var fontSize // io.data2viz.viz/TextNode.fontSize|{}fontSize[0]
+        final fun <get-fontSize>(): kotlin/Double // io.data2viz.viz/TextNode.fontSize.<get-fontSize>|<get-fontSize>(){}[0]
+        final fun <set-fontSize>(kotlin/Double) // io.data2viz.viz/TextNode.fontSize.<set-fontSize>|<set-fontSize>(kotlin.Double){}[0]
+    final var fontStyle // io.data2viz.viz/TextNode.fontStyle|{}fontStyle[0]
+        final fun <get-fontStyle>(): io.data2viz.viz/FontPosture // io.data2viz.viz/TextNode.fontStyle.<get-fontStyle>|<get-fontStyle>(){}[0]
+        final fun <set-fontStyle>(io.data2viz.viz/FontPosture) // io.data2viz.viz/TextNode.fontStyle.<set-fontStyle>|<set-fontStyle>(io.data2viz.viz.FontPosture){}[0]
+    final var fontWeight // io.data2viz.viz/TextNode.fontWeight|{}fontWeight[0]
+        final fun <get-fontWeight>(): io.data2viz.viz/FontWeight // io.data2viz.viz/TextNode.fontWeight.<get-fontWeight>|<get-fontWeight>(){}[0]
+        final fun <set-fontWeight>(io.data2viz.viz/FontWeight) // io.data2viz.viz/TextNode.fontWeight.<set-fontWeight>|<set-fontWeight>(io.data2viz.viz.FontWeight){}[0]
+    final var textContent // io.data2viz.viz/TextNode.textContent|{}textContent[0]
+        final fun <get-textContent>(): kotlin/String // io.data2viz.viz/TextNode.textContent.<get-textContent>|<get-textContent>(){}[0]
+        final fun <set-textContent>(kotlin/String) // io.data2viz.viz/TextNode.textContent.<set-textContent>|<set-textContent>(kotlin.String){}[0]
+    final var transform // io.data2viz.viz/TextNode.transform|{}transform[0]
+        final fun <get-transform>(): io.data2viz.viz/Transform? // io.data2viz.viz/TextNode.transform.<get-transform>|<get-transform>(){}[0]
+        final fun <set-transform>(io.data2viz.viz/Transform?) // io.data2viz.viz/TextNode.transform.<set-transform>|<set-transform>(io.data2viz.viz.Transform?){}[0]
+    final var x // io.data2viz.viz/TextNode.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.viz/TextNode.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.viz/TextNode.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.viz/TextNode.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.viz/TextNode.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.viz/TextNode.y.<set-y>|<set-y>(kotlin.Double){}[0]
+}
+
+final class io.data2viz.viz/Transform { // io.data2viz.viz/Transform|null[0]
+    constructor <init>() // io.data2viz.viz/Transform.<init>|<init>(){}[0]
+
+    final val transformations // io.data2viz.viz/Transform.transformations|{}transformations[0]
+        final fun <get-transformations>(): kotlin.collections/List<io.data2viz.viz/AtomicTransformation> // io.data2viz.viz/Transform.transformations.<get-transformations>|<get-transformations>(){}[0]
+
+    final fun rotate(kotlin/Double) // io.data2viz.viz/Transform.rotate|rotate(kotlin.Double){}[0]
+    final fun translate(kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.viz/Transform.translate|translate(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class io.data2viz.viz/Translation : io.data2viz.viz/AtomicTransformation { // io.data2viz.viz/Translation|null[0]
+    constructor <init>(kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.viz/Translation.<init>|<init>(kotlin.Double;kotlin.Double){}[0]
+
+    final var x // io.data2viz.viz/Translation.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.viz/Translation.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.viz/Translation.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.viz/Translation.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.viz/Translation.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.viz/Translation.y.<set-y>|<set-y>(kotlin.Double){}[0]
+
+    final fun component1(): kotlin/Double // io.data2viz.viz/Translation.component1|component1(){}[0]
+    final fun component2(): kotlin/Double // io.data2viz.viz/Translation.component2|component2(){}[0]
+    final fun copy(kotlin/Double = ..., kotlin/Double = ...): io.data2viz.viz/Translation // io.data2viz.viz/Translation.copy|copy(kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.viz/Translation.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.viz/Translation.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.viz/Translation.toString|toString(){}[0]
+}
+
+final class io.data2viz.viz/Viz : io.data2viz.geom/HasSize, io.data2viz.viz/HasChildren, io.data2viz.viz/Style { // io.data2viz.viz/Viz|null[0]
+    constructor <init>(io.data2viz.viz/Layer = ..., io.data2viz.viz/Style = ...) // io.data2viz.viz/Viz.<init>|<init>(io.data2viz.viz.Layer;io.data2viz.viz.Style){}[0]
+
+    final val config // io.data2viz.viz/Viz.config|{}config[0]
+        final fun <get-config>(): io.data2viz.viz/VizConfig // io.data2viz.viz/Viz.config.<get-config>|<get-config>(){}[0]
+    final val layers // io.data2viz.viz/Viz.layers|{}layers[0]
+        final fun <get-layers>(): kotlin.collections/MutableList<io.data2viz.viz/Layer> // io.data2viz.viz/Viz.layers.<get-layers>|<get-layers>(){}[0]
+
+    final var activeLayer // io.data2viz.viz/Viz.activeLayer|{}activeLayer[0]
+        final fun <get-activeLayer>(): io.data2viz.viz/Layer // io.data2viz.viz/Viz.activeLayer.<get-activeLayer>|<get-activeLayer>(){}[0]
+        final fun <set-activeLayer>(io.data2viz.viz/Layer) // io.data2viz.viz/Viz.activeLayer.<set-activeLayer>|<set-activeLayer>(io.data2viz.viz.Layer){}[0]
+    final var anchor // io.data2viz.viz/Viz.anchor|{}anchor[0]
+        final fun <get-anchor>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/Viz.anchor.<get-anchor>|<get-anchor>(){}[0]
+        final fun <set-anchor>(io.data2viz.viz/TextHAlign) // io.data2viz.viz/Viz.anchor.<set-anchor>|<set-anchor>(io.data2viz.viz.TextHAlign){}[0]
+    final var baseline // io.data2viz.viz/Viz.baseline|{}baseline[0]
+        final fun <get-baseline>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/Viz.baseline.<get-baseline>|<get-baseline>(){}[0]
+        final fun <set-baseline>(io.data2viz.viz/TextVAlign) // io.data2viz.viz/Viz.baseline.<set-baseline>|<set-baseline>(io.data2viz.viz.TextVAlign){}[0]
+    final var dashedLine // io.data2viz.viz/Viz.dashedLine|{}dashedLine[0]
+        final fun <get-dashedLine>(): kotlin/DoubleArray? // io.data2viz.viz/Viz.dashedLine.<get-dashedLine>|<get-dashedLine>(){}[0]
+        final fun <set-dashedLine>(kotlin/DoubleArray?) // io.data2viz.viz/Viz.dashedLine.<set-dashedLine>|<set-dashedLine>(kotlin.DoubleArray?){}[0]
+    final var fill // io.data2viz.viz/Viz.fill|{}fill[0]
+        final fun <get-fill>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Viz.fill.<get-fill>|<get-fill>(){}[0]
+        final fun <set-fill>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Viz.fill.<set-fill>|<set-fill>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var hAlign // io.data2viz.viz/Viz.hAlign|{}hAlign[0]
+        final fun <get-hAlign>(): io.data2viz.viz/TextHAlign // io.data2viz.viz/Viz.hAlign.<get-hAlign>|<get-hAlign>(){}[0]
+        final fun <set-hAlign>(io.data2viz.viz/TextHAlign) // io.data2viz.viz/Viz.hAlign.<set-hAlign>|<set-hAlign>(io.data2viz.viz.TextHAlign){}[0]
+    final var height // io.data2viz.viz/Viz.height|{}height[0]
+        final fun <get-height>(): kotlin/Double // io.data2viz.viz/Viz.height.<get-height>|<get-height>(){}[0]
+        final fun <set-height>(kotlin/Double) // io.data2viz.viz/Viz.height.<set-height>|<set-height>(kotlin.Double){}[0]
+    final var renderer // io.data2viz.viz/Viz.renderer|{}renderer[0]
+        final fun <get-renderer>(): io.data2viz.viz/VizRenderer? // io.data2viz.viz/Viz.renderer.<get-renderer>|<get-renderer>(){}[0]
+        final fun <set-renderer>(io.data2viz.viz/VizRenderer?) // io.data2viz.viz/Viz.renderer.<set-renderer>|<set-renderer>(io.data2viz.viz.VizRenderer?){}[0]
+    final var stroke // io.data2viz.viz/Viz.stroke|{}stroke[0]
+        final fun <get-stroke>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Viz.stroke.<get-stroke>|<get-stroke>(){}[0]
+        final fun <set-stroke>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Viz.stroke.<set-stroke>|<set-stroke>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var strokeColor // io.data2viz.viz/Viz.strokeColor|{}strokeColor[0]
+        final fun <get-strokeColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Viz.strokeColor.<get-strokeColor>|<get-strokeColor>(){}[0]
+        final fun <set-strokeColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Viz.strokeColor.<set-strokeColor>|<set-strokeColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var strokeWidth // io.data2viz.viz/Viz.strokeWidth|{}strokeWidth[0]
+        final fun <get-strokeWidth>(): kotlin/Double? // io.data2viz.viz/Viz.strokeWidth.<get-strokeWidth>|<get-strokeWidth>(){}[0]
+        final fun <set-strokeWidth>(kotlin/Double?) // io.data2viz.viz/Viz.strokeWidth.<set-strokeWidth>|<set-strokeWidth>(kotlin.Double?){}[0]
+    final var textColor // io.data2viz.viz/Viz.textColor|{}textColor[0]
+        final fun <get-textColor>(): io.data2viz.color/ColorOrGradient? // io.data2viz.viz/Viz.textColor.<get-textColor>|<get-textColor>(){}[0]
+        final fun <set-textColor>(io.data2viz.color/ColorOrGradient?) // io.data2viz.viz/Viz.textColor.<set-textColor>|<set-textColor>(io.data2viz.color.ColorOrGradient?){}[0]
+    final var vAlign // io.data2viz.viz/Viz.vAlign|{}vAlign[0]
+        final fun <get-vAlign>(): io.data2viz.viz/TextVAlign // io.data2viz.viz/Viz.vAlign.<get-vAlign>|<get-vAlign>(){}[0]
+        final fun <set-vAlign>(io.data2viz.viz/TextVAlign) // io.data2viz.viz/Viz.vAlign.<set-vAlign>|<set-vAlign>(io.data2viz.viz.TextVAlign){}[0]
+    final var width // io.data2viz.viz/Viz.width|{}width[0]
+        final fun <get-width>(): kotlin/Double // io.data2viz.viz/Viz.width.<get-width>|<get-width>(){}[0]
+        final fun <set-width>(kotlin/Double) // io.data2viz.viz/Viz.width.<set-width>|<set-width>(kotlin.Double){}[0]
+
+    final fun <#A1: io.data2viz.viz/KEvent> on(io.data2viz.viz/KEventListener<#A1>, kotlin/Function1<#A1, io.data2viz.viz/EventPropagation>): io.data2viz.viz/Disposable // io.data2viz.viz/Viz.on|on(io.data2viz.viz.KEventListener<0:0>;kotlin.Function1<0:0,io.data2viz.viz.EventPropagation>){0§<io.data2viz.viz.KEvent>}[0]
+    final fun add(io.data2viz.viz/Node) // io.data2viz.viz/Viz.add|add(io.data2viz.viz.Node){}[0]
+    final fun animation(kotlin/Function2<io.data2viz.timer/Timer, kotlin/Double, kotlin/Unit>) // io.data2viz.viz/Viz.animation|animation(kotlin.Function2<io.data2viz.timer.Timer,kotlin.Double,kotlin.Unit>){}[0]
+    final fun circle(kotlin/Function1<io.data2viz.viz/CircleNode, kotlin/Unit>): io.data2viz.viz/CircleNode // io.data2viz.viz/Viz.circle|circle(kotlin.Function1<io.data2viz.viz.CircleNode,kotlin.Unit>){}[0]
+    final fun clear() // io.data2viz.viz/Viz.clear|clear(){}[0]
+    final fun group(kotlin/Function1<io.data2viz.viz/GroupNode, kotlin/Unit>): io.data2viz.viz/GroupNode // io.data2viz.viz/Viz.group|group(kotlin.Function1<io.data2viz.viz.GroupNode,kotlin.Unit>){}[0]
+    final fun image(kotlin/Function1<io.data2viz.viz/ImageNode, kotlin/Unit>): io.data2viz.viz/ImageNode // io.data2viz.viz/Viz.image|image(kotlin.Function1<io.data2viz.viz.ImageNode,kotlin.Unit>){}[0]
+    final fun layer(): io.data2viz.viz/Layer // io.data2viz.viz/Viz.layer|layer(){}[0]
+    final fun line(kotlin/Function1<io.data2viz.viz/LineNode, kotlin/Unit>): io.data2viz.viz/LineNode // io.data2viz.viz/Viz.line|line(kotlin.Function1<io.data2viz.viz.LineNode,kotlin.Unit>){}[0]
+    final fun onFrame(kotlin/Function1<kotlin/Double, kotlin/Unit>) // io.data2viz.viz/Viz.onFrame|onFrame(kotlin.Function1<kotlin.Double,kotlin.Unit>){}[0]
+    final fun onResize(kotlin/Function2<kotlin/Double, kotlin/Double, kotlin/Unit>) // io.data2viz.viz/Viz.onResize|onResize(kotlin.Function2<kotlin.Double,kotlin.Double,kotlin.Unit>){}[0]
+    final fun path(kotlin/Function1<io.data2viz.viz/PathNode, kotlin/Unit>): io.data2viz.viz/PathNode // io.data2viz.viz/Viz.path|path(kotlin.Function1<io.data2viz.viz.PathNode,kotlin.Unit>){}[0]
+    final fun rect(kotlin/Function1<io.data2viz.viz/RectNode, kotlin/Unit>): io.data2viz.viz/RectNode // io.data2viz.viz/Viz.rect|rect(kotlin.Function1<io.data2viz.viz.RectNode,kotlin.Unit>){}[0]
+    final fun remove(io.data2viz.viz/Node) // io.data2viz.viz/Viz.remove|remove(io.data2viz.viz.Node){}[0]
+    final fun render() // io.data2viz.viz/Viz.render|render(){}[0]
+    final fun resize(kotlin/Double, kotlin/Double) // io.data2viz.viz/Viz.resize|resize(kotlin.Double;kotlin.Double){}[0]
+    final fun startAnimations() // io.data2viz.viz/Viz.startAnimations|startAnimations(){}[0]
+    final fun stopAnimations() // io.data2viz.viz/Viz.stopAnimations|stopAnimations(){}[0]
+    final fun text(kotlin/Function1<io.data2viz.viz/TextNode, kotlin/Unit>): io.data2viz.viz/TextNode // io.data2viz.viz/Viz.text|text(kotlin.Function1<io.data2viz.viz.TextNode,kotlin.Unit>){}[0]
+}
+
+final class io.data2viz.viz/VizConfig { // io.data2viz.viz/VizConfig|null[0]
+    constructor <init>() // io.data2viz.viz/VizConfig.<init>|<init>(){}[0]
+
+    final var autoUpdate // io.data2viz.viz/VizConfig.autoUpdate|{}autoUpdate[0]
+        final fun <get-autoUpdate>(): kotlin/Boolean // io.data2viz.viz/VizConfig.autoUpdate.<get-autoUpdate>|<get-autoUpdate>(){}[0]
+        final fun <set-autoUpdate>(kotlin/Boolean) // io.data2viz.viz/VizConfig.autoUpdate.<set-autoUpdate>|<set-autoUpdate>(kotlin.Boolean){}[0]
+}
+
+open class io.data2viz.viz/GroupNode : io.data2viz.viz/HasChildren, io.data2viz.viz/HasTransform, io.data2viz.viz/Node { // io.data2viz.viz/GroupNode|null[0]
+    constructor <init>() // io.data2viz.viz/GroupNode.<init>|<init>(){}[0]
+
+    final val children // io.data2viz.viz/GroupNode.children|{}children[0]
+        final fun <get-children>(): kotlin.collections/MutableList<io.data2viz.viz/Node> // io.data2viz.viz/GroupNode.children.<get-children>|<get-children>(){}[0]
+
+    open var transform // io.data2viz.viz/GroupNode.transform|{}transform[0]
+        open fun <get-transform>(): io.data2viz.viz/Transform? // io.data2viz.viz/GroupNode.transform.<get-transform>|<get-transform>(){}[0]
+        open fun <set-transform>(io.data2viz.viz/Transform?) // io.data2viz.viz/GroupNode.transform.<set-transform>|<set-transform>(io.data2viz.viz.Transform?){}[0]
+
+    final fun transform(kotlin/Function1<io.data2viz.viz/Transform, kotlin/Unit>) // io.data2viz.viz/GroupNode.transform|transform(kotlin.Function1<io.data2viz.viz.Transform,kotlin.Unit>){}[0]
+    open fun add(io.data2viz.viz/Node) // io.data2viz.viz/GroupNode.add|add(io.data2viz.viz.Node){}[0]
+    open fun circle(kotlin/Function1<io.data2viz.viz/CircleNode, kotlin/Unit>): io.data2viz.viz/CircleNode // io.data2viz.viz/GroupNode.circle|circle(kotlin.Function1<io.data2viz.viz.CircleNode,kotlin.Unit>){}[0]
+    open fun clear() // io.data2viz.viz/GroupNode.clear|clear(){}[0]
+    open fun group(kotlin/Function1<io.data2viz.viz/GroupNode, kotlin/Unit>): io.data2viz.viz/GroupNode // io.data2viz.viz/GroupNode.group|group(kotlin.Function1<io.data2viz.viz.GroupNode,kotlin.Unit>){}[0]
+    open fun image(kotlin/Function1<io.data2viz.viz/ImageNode, kotlin/Unit>): io.data2viz.viz/ImageNode // io.data2viz.viz/GroupNode.image|image(kotlin.Function1<io.data2viz.viz.ImageNode,kotlin.Unit>){}[0]
+    open fun line(kotlin/Function1<io.data2viz.viz/LineNode, kotlin/Unit>): io.data2viz.viz/LineNode // io.data2viz.viz/GroupNode.line|line(kotlin.Function1<io.data2viz.viz.LineNode,kotlin.Unit>){}[0]
+    open fun path(kotlin/Function1<io.data2viz.viz/PathNode, kotlin/Unit>): io.data2viz.viz/PathNode // io.data2viz.viz/GroupNode.path|path(kotlin.Function1<io.data2viz.viz.PathNode,kotlin.Unit>){}[0]
+    open fun rect(kotlin/Function1<io.data2viz.viz/RectNode, kotlin/Unit>): io.data2viz.viz/RectNode // io.data2viz.viz/GroupNode.rect|rect(kotlin.Function1<io.data2viz.viz.RectNode,kotlin.Unit>){}[0]
+    open fun remove(io.data2viz.viz/Node) // io.data2viz.viz/GroupNode.remove|remove(io.data2viz.viz.Node){}[0]
+    open fun text(kotlin/Function1<io.data2viz.viz/TextNode, kotlin/Unit>): io.data2viz.viz/TextNode // io.data2viz.viz/GroupNode.text|text(kotlin.Function1<io.data2viz.viz.TextNode,kotlin.Unit>){}[0]
+}
+
+open class io.data2viz.viz/PathNode : io.data2viz.geom/Path, io.data2viz.viz/HasFill, io.data2viz.viz/HasStroke, io.data2viz.viz/HasTransform, io.data2viz.viz/Node { // io.data2viz.viz/PathNode|null[0]
+    constructor <init>(io.data2viz.geom/PathGeom = ...) // io.data2viz.viz/PathNode.<init>|<init>(io.data2viz.geom.PathGeom){}[0]
+
+    final val path // io.data2viz.viz/PathNode.path|{}path[0]
+        final fun <get-path>(): io.data2viz.geom/PathGeom // io.data2viz.viz/PathNode.path.<get-path>|<get-path>(){}[0]
+
+    open var transform // io.data2viz.viz/PathNode.transform|{}transform[0]
+        open fun <get-transform>(): io.data2viz.viz/Transform? // io.data2viz.viz/PathNode.transform.<get-transform>|<get-transform>(){}[0]
+        open fun <set-transform>(io.data2viz.viz/Transform?) // io.data2viz.viz/PathNode.transform.<set-transform>|<set-transform>(io.data2viz.viz.Transform?){}[0]
+
+    final fun clearPath() // io.data2viz.viz/PathNode.clearPath|clearPath(){}[0]
+    open fun arc(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Boolean) // io.data2viz.viz/PathNode.arc|arc(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Boolean){}[0]
+    open fun arcTo(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.viz/PathNode.arcTo|arcTo(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    open fun bezierCurveTo(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.viz/PathNode.bezierCurveTo|bezierCurveTo(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    open fun closePath() // io.data2viz.viz/PathNode.closePath|closePath(){}[0]
+    open fun lineTo(kotlin/Double, kotlin/Double) // io.data2viz.viz/PathNode.lineTo|lineTo(kotlin.Double;kotlin.Double){}[0]
+    open fun moveTo(kotlin/Double, kotlin/Double) // io.data2viz.viz/PathNode.moveTo|moveTo(kotlin.Double;kotlin.Double){}[0]
+    open fun quadraticCurveTo(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.viz/PathNode.quadraticCurveTo|quadraticCurveTo(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    open fun rect(kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double) // io.data2viz.viz/PathNode.rect|rect(kotlin.Double;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+}
+
+final object io.data2viz.viz/KPointerEvents { // io.data2viz.viz/KPointerEvents|null[0]
+    final val cancel // io.data2viz.viz/KPointerEvents.cancel|{}cancel[0]
+        final fun <get-cancel>(): io.data2viz.viz/KEventListener<io.data2viz.viz/KPointerEvent> // io.data2viz.viz/KPointerEvents.cancel.<get-cancel>|<get-cancel>(){}[0]
+    final val down // io.data2viz.viz/KPointerEvents.down|{}down[0]
+        final fun <get-down>(): io.data2viz.viz/KEventListener<io.data2viz.viz/KPointerEvent> // io.data2viz.viz/KPointerEvents.down.<get-down>|<get-down>(){}[0]
+    final val drag // io.data2viz.viz/KPointerEvents.drag|{}drag[0]
+        final fun <get-drag>(): io.data2viz.viz/KEventListener<io.data2viz.viz/KDragEvent> // io.data2viz.viz/KPointerEvents.drag.<get-drag>|<get-drag>(){}[0]
+    final val enter // io.data2viz.viz/KPointerEvents.enter|{}enter[0]
+        final fun <get-enter>(): io.data2viz.viz/KEventListener<io.data2viz.viz/KPointerEvent> // io.data2viz.viz/KPointerEvents.enter.<get-enter>|<get-enter>(){}[0]
+    final val leave // io.data2viz.viz/KPointerEvents.leave|{}leave[0]
+        final fun <get-leave>(): io.data2viz.viz/KEventListener<io.data2viz.viz/KPointerEvent> // io.data2viz.viz/KPointerEvents.leave.<get-leave>|<get-leave>(){}[0]
+    final val move // io.data2viz.viz/KPointerEvents.move|{}move[0]
+        final fun <get-move>(): io.data2viz.viz/KEventListener<io.data2viz.viz/KPointerEvent> // io.data2viz.viz/KPointerEvents.move.<get-move>|<get-move>(){}[0]
+    final val up // io.data2viz.viz/KPointerEvents.up|{}up[0]
+        final fun <get-up>(): io.data2viz.viz/KEventListener<io.data2viz.viz/KPointerEvent> // io.data2viz.viz/KPointerEvents.up.<get-up>|<get-up>(){}[0]
+    final val zoom // io.data2viz.viz/KPointerEvents.zoom|{}zoom[0]
+        final fun <get-zoom>(): io.data2viz.viz/KEventListener<io.data2viz.viz/KZoomEvent> // io.data2viz.viz/KPointerEvents.zoom.<get-zoom>|<get-zoom>(){}[0]
+}
+
+final var io.data2viz.viz/textAlign // io.data2viz.viz/textAlign|@io.data2viz.viz.TextNode{}textAlign[0]
+    final fun (io.data2viz.viz/TextNode).<get-textAlign>(): io.data2viz.viz/TextAlign // io.data2viz.viz/textAlign.<get-textAlign>|<get-textAlign>@io.data2viz.viz.TextNode(){}[0]
+    final fun (io.data2viz.viz/TextNode).<set-textAlign>(io.data2viz.viz/TextAlign) // io.data2viz.viz/textAlign.<set-textAlign>|<set-textAlign>@io.data2viz.viz.TextNode(io.data2viz.viz.TextAlign){}[0]
+
+final fun (io.data2viz.color/ColorOrGradient).io.data2viz.viz/toCanvasPaint(org.w3c.dom/CanvasRenderingContext2D): kotlin/Any // io.data2viz.viz/toCanvasPaint|toCanvasPaint@io.data2viz.color.ColorOrGradient(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.color/LinearGradient).io.data2viz.viz/toCanvasGradient(org.w3c.dom/CanvasRenderingContext2D): org.w3c.dom/CanvasGradient // io.data2viz.viz/toCanvasGradient|toCanvasGradient@io.data2viz.color.LinearGradient(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.color/RadialGradient).io.data2viz.viz/toCanvasGradient(org.w3c.dom/CanvasRenderingContext2D): org.w3c.dom/CanvasGradient // io.data2viz.viz/toCanvasGradient|toCanvasGradient@io.data2viz.color.RadialGradient(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.viz/CircleNode).io.data2viz.viz/render(org.w3c.dom/CanvasRenderingContext2D) // io.data2viz.viz/render|render@io.data2viz.viz.CircleNode(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.viz/GroupNode).io.data2viz.viz/render(org.w3c.dom/CanvasRenderingContext2D) // io.data2viz.viz/render|render@io.data2viz.viz.GroupNode(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.viz/ImageNode).io.data2viz.viz/render(org.w3c.dom/CanvasRenderingContext2D) // io.data2viz.viz/render|render@io.data2viz.viz.ImageNode(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.viz/LineNode).io.data2viz.viz/render(org.w3c.dom/CanvasRenderingContext2D) // io.data2viz.viz/render|render@io.data2viz.viz.LineNode(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.viz/PathNode).io.data2viz.viz/render(org.w3c.dom/CanvasRenderingContext2D) // io.data2viz.viz/render|render@io.data2viz.viz.PathNode(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.viz/RectNode).io.data2viz.viz/render(org.w3c.dom/CanvasRenderingContext2D) // io.data2viz.viz/render|render@io.data2viz.viz.RectNode(org.w3c.dom.CanvasRenderingContext2D){}[0]
+final fun (io.data2viz.viz/TextNode).io.data2viz.viz/measureText(): io.data2viz.geom/Rect // io.data2viz.viz/measureText|measureText@io.data2viz.viz.TextNode(){}[0]
+final fun (io.data2viz.viz/TextNode).io.data2viz.viz/textAlign(io.data2viz.viz/TextHAlign = ..., io.data2viz.viz/TextVAlign = ...): io.data2viz.viz/TextAlign // io.data2viz.viz/textAlign|textAlign@io.data2viz.viz.TextNode(io.data2viz.viz.TextHAlign;io.data2viz.viz.TextVAlign){}[0]
+final fun (io.data2viz.viz/Viz).io.data2viz.viz/bindRendererOn(kotlin/String) // io.data2viz.viz/bindRendererOn|bindRendererOn@io.data2viz.viz.Viz(kotlin.String){}[0]
+final fun (io.data2viz.viz/Viz).io.data2viz.viz/bindRendererOn(org.w3c.dom/HTMLCanvasElement) // io.data2viz.viz/bindRendererOn|bindRendererOn@io.data2viz.viz.Viz(org.w3c.dom.HTMLCanvasElement){}[0]
+final fun (io.data2viz.viz/Viz).io.data2viz.viz/bindRendererOnNewCanvas() // io.data2viz.viz/bindRendererOnNewCanvas|bindRendererOnNewCanvas@io.data2viz.viz.Viz(){}[0]
+final fun (io.data2viz.viz/Viz).io.data2viz.viz/toSVG(): kotlin/String // io.data2viz.viz/toSVG|toSVG@io.data2viz.viz.Viz(){}[0]
+final fun (org.w3c.dom/HTMLImageElement).io.data2viz.viz/toLocalImage(): io.data2viz.viz/LocalImage // io.data2viz.viz/toLocalImage|toLocalImage@org.w3c.dom.HTMLImageElement(){}[0]
+final fun io.data2viz.viz/measureText(kotlin/String, kotlin/Double, io.data2viz.viz/FontFamily, io.data2viz.viz/FontWeight, io.data2viz.viz/FontPosture, kotlin/Double = ..., kotlin/Double = ..., io.data2viz.viz/TextHAlign = ..., io.data2viz.viz/TextVAlign = ...): io.data2viz.geom/Rect // io.data2viz.viz/measureText|measureText(kotlin.String;kotlin.Double;io.data2viz.viz.FontFamily;io.data2viz.viz.FontWeight;io.data2viz.viz.FontPosture;kotlin.Double;kotlin.Double;io.data2viz.viz.TextHAlign;io.data2viz.viz.TextVAlign){}[0]
+final fun io.data2viz.viz/viz(kotlin/Function1<io.data2viz.viz/Viz, kotlin/Unit>): io.data2viz.viz/Viz // io.data2viz.viz/viz|viz(kotlin.Function1<io.data2viz.viz.Viz,kotlin.Unit>){}[0]

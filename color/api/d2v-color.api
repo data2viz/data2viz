@@ -23,10 +23,15 @@ public abstract interface class io/data2viz/color/Color : io/data2viz/color/Colo
 
 public abstract interface class io/data2viz/color/ColorOrGradient {
 	public abstract fun brighten (D)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun brighten$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
 	public abstract fun darken (D)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun darken$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
 	public abstract fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun desaturate$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
 	public abstract fun opacify (D)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun opacify$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
 	public abstract fun saturate (D)Lio/data2viz/color/ColorOrGradient;
+	public static synthetic fun saturate$default (Lio/data2viz/color/ColorOrGradient;DILjava/lang/Object;)Lio/data2viz/color/ColorOrGradient;
 	public abstract fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
 	public abstract fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
 }
@@ -481,15 +486,22 @@ public final class io/data2viz/color/EncodedColorsKt {
 }
 
 public abstract interface class io/data2viz/color/Gradient : io/data2viz/color/ColorOrGradient {
-	public abstract fun brighten (D)Lio/data2viz/color/Gradient;
+	public synthetic fun brighten (D)Lio/data2viz/color/ColorOrGradient;
+	public fun brighten (D)Lio/data2viz/color/Gradient;
 	public abstract fun changeColors (Ljava/util/List;)Lio/data2viz/color/Gradient;
-	public abstract fun darken (D)Lio/data2viz/color/Gradient;
-	public abstract fun desaturate (D)Lio/data2viz/color/Gradient;
+	public synthetic fun darken (D)Lio/data2viz/color/ColorOrGradient;
+	public fun darken (D)Lio/data2viz/color/Gradient;
+	public synthetic fun desaturate (D)Lio/data2viz/color/ColorOrGradient;
+	public fun desaturate (D)Lio/data2viz/color/Gradient;
 	public abstract fun getColorStops ()Ljava/util/List;
-	public abstract fun opacify (D)Lio/data2viz/color/Gradient;
-	public abstract fun saturate (D)Lio/data2viz/color/Gradient;
-	public abstract fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Gradient;
-	public abstract fun withHue-I1OF4x4 (D)Lio/data2viz/color/Gradient;
+	public synthetic fun opacify (D)Lio/data2viz/color/ColorOrGradient;
+	public fun opacify (D)Lio/data2viz/color/Gradient;
+	public synthetic fun saturate (D)Lio/data2viz/color/ColorOrGradient;
+	public fun saturate (D)Lio/data2viz/color/Gradient;
+	public synthetic fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/ColorOrGradient;
+	public fun withAlpha-wJQ8TTM (D)Lio/data2viz/color/Gradient;
+	public synthetic fun withHue-I1OF4x4 (D)Lio/data2viz/color/ColorOrGradient;
+	public fun withHue-I1OF4x4 (D)Lio/data2viz/color/Gradient;
 }
 
 public final class io/data2viz/color/Gradient$DefaultImpls {
@@ -503,10 +515,10 @@ public final class io/data2viz/color/Gradient$DefaultImpls {
 }
 
 public abstract interface class io/data2viz/color/HasCenter {
-	public abstract fun getCenter ()Lio/data2viz/geom/Point;
+	public fun getCenter ()Lio/data2viz/geom/Point;
 	public abstract fun getCx ()D
 	public abstract fun getCy ()D
-	public abstract fun setCenter (Lio/data2viz/geom/Point;)V
+	public fun setCenter (Lio/data2viz/geom/Point;)V
 	public abstract fun setCx (D)V
 	public abstract fun setCy (D)V
 }
@@ -517,14 +529,14 @@ public final class io/data2viz/color/HasCenter$DefaultImpls {
 }
 
 public abstract interface class io/data2viz/color/HasStartAndEnd {
-	public abstract fun getEnd ()Lio/data2viz/geom/Point;
-	public abstract fun getStart ()Lio/data2viz/geom/Point;
+	public fun getEnd ()Lio/data2viz/geom/Point;
+	public fun getStart ()Lio/data2viz/geom/Point;
 	public abstract fun getX1 ()D
 	public abstract fun getX2 ()D
 	public abstract fun getY1 ()D
 	public abstract fun getY2 ()D
-	public abstract fun setEnd (Lio/data2viz/geom/Point;)V
-	public abstract fun setStart (Lio/data2viz/geom/Point;)V
+	public fun setEnd (Lio/data2viz/geom/Point;)V
+	public fun setStart (Lio/data2viz/geom/Point;)V
 	public abstract fun setX1 (D)V
 	public abstract fun setX2 (D)V
 	public abstract fun setY1 (D)V

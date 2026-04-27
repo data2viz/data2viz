@@ -1,0 +1,50 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-interpolate>
+final class io.data2viz.interpolate/PointComparatorX : kotlin/Comparator<io.data2viz.geom/Point> { // io.data2viz.interpolate/PointComparatorX|null[0]
+    constructor <init>() // io.data2viz.interpolate/PointComparatorX.<init>|<init>(){}[0]
+
+    final fun compare(io.data2viz.geom/Point, io.data2viz.geom/Point): kotlin/Int // io.data2viz.interpolate/PointComparatorX.compare|compare(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+}
+
+final class io.data2viz.interpolate/PointComparatorY : kotlin/Comparator<io.data2viz.geom/Point> { // io.data2viz.interpolate/PointComparatorY|null[0]
+    constructor <init>() // io.data2viz.interpolate/PointComparatorY.<init>|<init>(){}[0]
+
+    final fun compare(io.data2viz.geom/Point, io.data2viz.geom/Point): kotlin/Int // io.data2viz.interpolate/PointComparatorY.compare|compare(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+}
+
+final fun io.data2viz.interpolate/basis(kotlin.collections/List<kotlin/Int>): kotlin/Function1<io.data2viz.math/Percent, kotlin/Double> // io.data2viz.interpolate/basis|basis(kotlin.collections.List<kotlin.Int>){}[0]
+final fun io.data2viz.interpolate/basisClosed(kotlin.collections/List<kotlin/Int>): kotlin/Function1<io.data2viz.math/Percent, kotlin/Double> // io.data2viz.interpolate/basisClosed|basisClosed(kotlin.collections.List<kotlin.Int>){}[0]
+final fun io.data2viz.interpolate/circleIn(kotlin/Double): kotlin/Double // io.data2viz.interpolate/circleIn|circleIn(kotlin.Double){}[0]
+final fun io.data2viz.interpolate/circleOut(kotlin/Double): kotlin/Double // io.data2viz.interpolate/circleOut|circleOut(kotlin.Double){}[0]
+final fun io.data2viz.interpolate/computeSpline(kotlin/Double, kotlin/Int, kotlin/Int, kotlin/Int, kotlin/Int): kotlin/Double // io.data2viz.interpolate/computeSpline|computeSpline(kotlin.Double;kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun io.data2viz.interpolate/cubicIn(kotlin/Double): kotlin/Double // io.data2viz.interpolate/cubicIn|cubicIn(kotlin.Double){}[0]
+final fun io.data2viz.interpolate/cubicInOut(kotlin/Double): kotlin/Double // io.data2viz.interpolate/cubicInOut|cubicInOut(kotlin.Double){}[0]
+final fun io.data2viz.interpolate/cubicOut(kotlin/Double): kotlin/Double // io.data2viz.interpolate/cubicOut|cubicOut(kotlin.Double){}[0]
+final fun io.data2viz.interpolate/hclInterpolator(io.data2viz.color/Color, io.data2viz.color/Color): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/hclInterpolator|hclInterpolator(io.data2viz.color.Color;io.data2viz.color.Color){}[0]
+final fun io.data2viz.interpolate/hclLongInterpolator(io.data2viz.color/Color, io.data2viz.color/Color): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/hclLongInterpolator|hclLongInterpolator(io.data2viz.color.Color;io.data2viz.color.Color){}[0]
+final fun io.data2viz.interpolate/hslInterpolator(io.data2viz.color/Color, io.data2viz.color/Color): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/hslInterpolator|hslInterpolator(io.data2viz.color.Color;io.data2viz.color.Color){}[0]
+final fun io.data2viz.interpolate/hslLongInterpolator(io.data2viz.color/Color, io.data2viz.color/Color): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/hslLongInterpolator|hslLongInterpolator(io.data2viz.color.Color;io.data2viz.color.Color){}[0]
+final fun io.data2viz.interpolate/identity(io.data2viz.math/Percent): kotlin/Double // io.data2viz.interpolate/identity|identity(io.data2viz.math.Percent){}[0]
+final fun io.data2viz.interpolate/interpolateDate(kotlin.time/Instant, kotlin.time/Instant): kotlin/Function1<io.data2viz.math/Percent, kotlin.time/Instant> // io.data2viz.interpolate/interpolateDate|interpolateDate(kotlin.time.Instant;kotlin.time.Instant){}[0]
+final fun io.data2viz.interpolate/interpolateNumber(kotlin/Double, kotlin/Double): kotlin/Function1<io.data2viz.math/Percent, kotlin/Double> // io.data2viz.interpolate/interpolateNumber|interpolateNumber(kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.interpolate/interpolatePoint(io.data2viz.geom/Point, io.data2viz.geom/Point): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.geom/Point> // io.data2viz.interpolate/interpolatePoint|interpolatePoint(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+final fun io.data2viz.interpolate/interpolateRound(kotlin/Double, kotlin/Double): kotlin/Function1<io.data2viz.math/Percent, kotlin/Double> // io.data2viz.interpolate/interpolateRound|interpolateRound(kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.interpolate/labInterpolator(io.data2viz.color/Color, io.data2viz.color/Color): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/labInterpolator|labInterpolator(io.data2viz.color.Color;io.data2viz.color.Color){}[0]
+final fun io.data2viz.interpolate/poly(kotlin/Double): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.interpolate/poly|poly(kotlin.Double){}[0]
+final fun io.data2viz.interpolate/quad(kotlin/Double): kotlin/Double // io.data2viz.interpolate/quad|quad(kotlin.Double){}[0]
+final fun io.data2viz.interpolate/rgbBasisClosedInterpolator(kotlin.collections/List<io.data2viz.color/Color>): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/rgbBasisClosedInterpolator|rgbBasisClosedInterpolator(kotlin.collections.List<io.data2viz.color.Color>){}[0]
+final fun io.data2viz.interpolate/rgbBasisInterpolator(kotlin.collections/List<io.data2viz.color/Color>): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/rgbBasisInterpolator|rgbBasisInterpolator(kotlin.collections.List<io.data2viz.color.Color>){}[0]
+final fun io.data2viz.interpolate/rgbDefaultInterpolator(io.data2viz.color/Color, io.data2viz.color/Color): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/rgbDefaultInterpolator|rgbDefaultInterpolator(io.data2viz.color.Color;io.data2viz.color.Color){}[0]
+final fun io.data2viz.interpolate/rgbLinearInterpolator(io.data2viz.color/Color, io.data2viz.color/Color): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/rgbLinearInterpolator|rgbLinearInterpolator(io.data2viz.color.Color;io.data2viz.color.Color){}[0]
+final fun io.data2viz.interpolate/rgbSineBowInterpolator(): kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color> // io.data2viz.interpolate/rgbSineBowInterpolator|rgbSineBowInterpolator(){}[0]
+final fun io.data2viz.interpolate/sin(kotlin/Double): kotlin/Double // io.data2viz.interpolate/sin|sin(kotlin.Double){}[0]
+final fun io.data2viz.interpolate/uninterpolateDate(kotlin.time/Instant, kotlin.time/Instant): kotlin/Function1<kotlin.time/Instant, io.data2viz.math/Percent> // io.data2viz.interpolate/uninterpolateDate|uninterpolateDate(kotlin.time.Instant;kotlin.time.Instant){}[0]
+final fun io.data2viz.interpolate/uninterpolateNumber(kotlin/Double, kotlin/Double): kotlin/Function1<kotlin/Double, io.data2viz.math/Percent> // io.data2viz.interpolate/uninterpolateNumber|uninterpolateNumber(kotlin.Double;kotlin.Double){}[0]
+final fun io.data2viz.interpolate/uninterpolatePointOnX(io.data2viz.geom/Point, io.data2viz.geom/Point): kotlin/Function1<io.data2viz.geom/Point, io.data2viz.math/Percent> // io.data2viz.interpolate/uninterpolatePointOnX|uninterpolatePointOnX(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+final fun io.data2viz.interpolate/uninterpolatePointOnY(io.data2viz.geom/Point, io.data2viz.geom/Point): kotlin/Function1<io.data2viz.geom/Point, io.data2viz.math/Percent> // io.data2viz.interpolate/uninterpolatePointOnY|uninterpolatePointOnY(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]

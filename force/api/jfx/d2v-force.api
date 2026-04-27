@@ -211,6 +211,7 @@ public final class io/data2viz/force/Link {
 public final class io/data2viz/force/SimulationEvent : java/lang/Enum {
 	public static final field END Lio/data2viz/force/SimulationEvent;
 	public static final field TICK Lio/data2viz/force/SimulationEvent;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/force/SimulationEvent;
 	public static fun values ()[Lio/data2viz/force/SimulationEvent;
 }

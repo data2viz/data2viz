@@ -30,6 +30,7 @@ public final class io/data2viz/viz/DslExtensionsKt {
 public final class io/data2viz/viz/EventPropagation : java/lang/Enum {
 	public static final field Continue Lio/data2viz/viz/EventPropagation;
 	public static final field Stop Lio/data2viz/viz/EventPropagation;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun getStop ()Z
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/EventPropagation;
 	public static fun values ()[Lio/data2viz/viz/EventPropagation;
@@ -45,6 +46,7 @@ public final class io/data2viz/viz/EventType : java/lang/Enum {
 	public static final field Move Lio/data2viz/viz/EventType;
 	public static final field Unknown Lio/data2viz/viz/EventType;
 	public static final field Up Lio/data2viz/viz/EventType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/EventType;
 	public static fun values ()[Lio/data2viz/viz/EventType;
 }
@@ -69,6 +71,7 @@ public final class io/data2viz/viz/FontFamily$Companion {
 public final class io/data2viz/viz/FontPosture : java/lang/Enum {
 	public static final field ITALIC Lio/data2viz/viz/FontPosture;
 	public static final field NORMAL Lio/data2viz/viz/FontPosture;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/FontPosture;
 	public static fun values ()[Lio/data2viz/viz/FontPosture;
 }
@@ -76,6 +79,7 @@ public final class io/data2viz/viz/FontPosture : java/lang/Enum {
 public final class io/data2viz/viz/FontWeight : java/lang/Enum {
 	public static final field BOLD Lio/data2viz/viz/FontWeight;
 	public static final field NORMAL Lio/data2viz/viz/FontWeight;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/FontWeight;
 	public static fun values ()[Lio/data2viz/viz/FontWeight;
 }
@@ -235,9 +239,6 @@ public final class io/data2viz/viz/JfxRectRendererKt {
 	public static final fun render (Lio/data2viz/viz/RectNode;Ljavafx/scene/canvas/GraphicsContext;)V
 }
 
-public final class io/data2viz/viz/JfxVizContainerKt {
-}
-
 public final class io/data2viz/viz/JvmEventHandle : io/data2viz/viz/Disposable {
 	public fun <init> (Ljavafx/scene/canvas/Canvas;Ljava/util/List;Ljavafx/event/EventHandler;)V
 	public fun <init> (Ljavafx/scene/canvas/Canvas;Ljavafx/event/EventType;Ljavafx/event/EventHandler;)V
@@ -285,6 +286,7 @@ public final class io/data2viz/viz/KDragEvent$KDragAction : java/lang/Enum {
 	public static final field Dragging Lio/data2viz/viz/KDragEvent$KDragAction;
 	public static final field Finish Lio/data2viz/viz/KDragEvent$KDragAction;
 	public static final field Start Lio/data2viz/viz/KDragEvent$KDragAction;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/KDragEvent$KDragAction;
 	public static fun values ()[Lio/data2viz/viz/KDragEvent$KDragAction;
 }
@@ -447,6 +449,7 @@ public final class io/data2viz/viz/MouseButtonPressed : java/lang/Enum {
 	public static final field Middle Lio/data2viz/viz/MouseButtonPressed;
 	public static final field NotApplicable Lio/data2viz/viz/MouseButtonPressed;
 	public static final field Right Lio/data2viz/viz/MouseButtonPressed;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/MouseButtonPressed;
 	public static fun values ()[Lio/data2viz/viz/MouseButtonPressed;
 }
@@ -503,6 +506,7 @@ public final class io/data2viz/viz/PointerType : java/lang/Enum {
 	public static final field Pen Lio/data2viz/viz/PointerType;
 	public static final field Touch Lio/data2viz/viz/PointerType;
 	public static final field Unknown Lio/data2viz/viz/PointerType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/PointerType;
 	public static fun values ()[Lio/data2viz/viz/PointerType;
 }
@@ -594,6 +598,7 @@ public final class io/data2viz/viz/StateManagerStatus : java/lang/Enum {
 	public static final field RECORD Lio/data2viz/viz/StateManagerStatus;
 	public static final field REST Lio/data2viz/viz/StateManagerStatus;
 	public static final field UPDATE_PROPERTIES Lio/data2viz/viz/StateManagerStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/StateManagerStatus;
 	public static fun values ()[Lio/data2viz/viz/StateManagerStatus;
 }
@@ -649,6 +654,7 @@ public final class io/data2viz/viz/TextHAlign : java/lang/Enum {
 	public static final field MIDDLE Lio/data2viz/viz/TextHAlign;
 	public static final field RIGHT Lio/data2viz/viz/TextHAlign;
 	public static final field START Lio/data2viz/viz/TextHAlign;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/TextHAlign;
 	public static fun values ()[Lio/data2viz/viz/TextHAlign;
 }
@@ -683,6 +689,7 @@ public final class io/data2viz/viz/TextVAlign : java/lang/Enum {
 	public static final field BASELINE Lio/data2viz/viz/TextVAlign;
 	public static final field HANGING Lio/data2viz/viz/TextVAlign;
 	public static final field MIDDLE Lio/data2viz/viz/TextVAlign;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/viz/TextVAlign;
 	public static fun values ()[Lio/data2viz/viz/TextVAlign;
 }
@@ -780,6 +787,7 @@ public abstract interface class io/data2viz/viz/VizContainer : io/data2viz/viz/R
 	public abstract fun getSize ()Lio/data2viz/geom/Size;
 	public abstract fun getVizList ()Ljava/util/List;
 	public abstract fun newViz (Lkotlin/jvm/functions/Function1;)Lio/data2viz/viz/Viz;
+	public static synthetic fun newViz$default (Lio/data2viz/viz/VizContainer;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/data2viz/viz/Viz;
 	public abstract fun setSize (Lio/data2viz/geom/Size;)V
 }
 

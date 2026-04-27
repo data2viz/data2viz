@@ -1,0 +1,65 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-tile>
+final class io.data2viz.tile/Tile { // io.data2viz.tile/Tile|null[0]
+    constructor <init>(io.data2viz.tile/TilesLayout, kotlin/Int, kotlin/Int) // io.data2viz.tile/Tile.<init>|<init>(io.data2viz.tile.TilesLayout;kotlin.Int;kotlin.Int){}[0]
+
+    final val layout // io.data2viz.tile/Tile.layout|{}layout[0]
+        final fun <get-layout>(): io.data2viz.tile/TilesLayout // io.data2viz.tile/Tile.layout.<get-layout>|<get-layout>(){}[0]
+    final val tileX // io.data2viz.tile/Tile.tileX|{}tileX[0]
+        final fun <get-tileX>(): kotlin/Int // io.data2viz.tile/Tile.tileX.<get-tileX>|<get-tileX>(){}[0]
+    final val tileY // io.data2viz.tile/Tile.tileY|{}tileY[0]
+        final fun <get-tileY>(): kotlin/Int // io.data2viz.tile/Tile.tileY.<get-tileY>|<get-tileY>(){}[0]
+    final val x // io.data2viz.tile/Tile.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.tile/Tile.x.<get-x>|<get-x>(){}[0]
+    final val y // io.data2viz.tile/Tile.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.tile/Tile.y.<get-y>|<get-y>(){}[0]
+    final val zoom // io.data2viz.tile/Tile.zoom|{}zoom[0]
+        final fun <get-zoom>(): kotlin/Int // io.data2viz.tile/Tile.zoom.<get-zoom>|<get-zoom>(){}[0]
+
+    final fun component1(): io.data2viz.tile/TilesLayout // io.data2viz.tile/Tile.component1|component1(){}[0]
+    final fun component2(): kotlin/Int // io.data2viz.tile/Tile.component2|component2(){}[0]
+    final fun component3(): kotlin/Int // io.data2viz.tile/Tile.component3|component3(){}[0]
+    final fun copy(io.data2viz.tile/TilesLayout = ..., kotlin/Int = ..., kotlin/Int = ...): io.data2viz.tile/Tile // io.data2viz.tile/Tile.copy|copy(io.data2viz.tile.TilesLayout;kotlin.Int;kotlin.Int){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.tile/Tile.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.tile/Tile.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.tile/Tile.toString|toString(){}[0]
+}
+
+final class io.data2viz.tile/TilesLayout { // io.data2viz.tile/TilesLayout|null[0]
+    constructor <init>() // io.data2viz.tile/TilesLayout.<init>|<init>(){}[0]
+
+    final val tileSize // io.data2viz.tile/TilesLayout.tileSize|{}tileSize[0]
+        final fun <get-tileSize>(): kotlin/Double // io.data2viz.tile/TilesLayout.tileSize.<get-tileSize>|<get-tileSize>(){}[0]
+
+    final var height // io.data2viz.tile/TilesLayout.height|{}height[0]
+        final fun <get-height>(): kotlin/Double // io.data2viz.tile/TilesLayout.height.<get-height>|<get-height>(){}[0]
+        final fun <set-height>(kotlin/Double) // io.data2viz.tile/TilesLayout.height.<set-height>|<set-height>(kotlin.Double){}[0]
+    final var tilesCount // io.data2viz.tile/TilesLayout.tilesCount|{}tilesCount[0]
+        final fun <get-tilesCount>(): kotlin/Double // io.data2viz.tile/TilesLayout.tilesCount.<get-tilesCount>|<get-tilesCount>(){}[0]
+        final fun <set-tilesCount>(kotlin/Double) // io.data2viz.tile/TilesLayout.tilesCount.<set-tilesCount>|<set-tilesCount>(kotlin.Double){}[0]
+    final var translate // io.data2viz.tile/TilesLayout.translate|{}translate[0]
+        final fun <get-translate>(): io.data2viz.geom/Point? // io.data2viz.tile/TilesLayout.translate.<get-translate>|<get-translate>(){}[0]
+        final fun <set-translate>(io.data2viz.geom/Point?) // io.data2viz.tile/TilesLayout.translate.<set-translate>|<set-translate>(io.data2viz.geom.Point?){}[0]
+    final var translation // io.data2viz.tile/TilesLayout.translation|{}translation[0]
+        final fun <get-translation>(): io.data2viz.geom/Point // io.data2viz.tile/TilesLayout.translation.<get-translation>|<get-translation>(){}[0]
+        final fun <set-translation>(io.data2viz.geom/Point) // io.data2viz.tile/TilesLayout.translation.<set-translation>|<set-translation>(io.data2viz.geom.Point){}[0]
+    final var width // io.data2viz.tile/TilesLayout.width|{}width[0]
+        final fun <get-width>(): kotlin/Double // io.data2viz.tile/TilesLayout.width.<get-width>|<get-width>(){}[0]
+        final fun <set-width>(kotlin/Double) // io.data2viz.tile/TilesLayout.width.<set-width>|<set-width>(kotlin.Double){}[0]
+    final var zoom // io.data2viz.tile/TilesLayout.zoom|{}zoom[0]
+        final fun <get-zoom>(): kotlin/Int // io.data2viz.tile/TilesLayout.zoom.<get-zoom>|<get-zoom>(){}[0]
+        final fun <set-zoom>(kotlin/Int) // io.data2viz.tile/TilesLayout.zoom.<set-zoom>|<set-zoom>(kotlin.Int){}[0]
+    final var zoomDelta // io.data2viz.tile/TilesLayout.zoomDelta|{}zoomDelta[0]
+        final fun <get-zoomDelta>(): kotlin/Double // io.data2viz.tile/TilesLayout.zoomDelta.<get-zoomDelta>|<get-zoomDelta>(){}[0]
+        final fun <set-zoomDelta>(kotlin/Double) // io.data2viz.tile/TilesLayout.zoomDelta.<set-zoomDelta>|<set-zoomDelta>(kotlin.Double){}[0]
+
+    final fun tiles(): kotlin.collections/List<io.data2viz.tile/Tile> // io.data2viz.tile/TilesLayout.tiles|tiles(){}[0]
+}
+
+final fun io.data2viz.tile/tilesLayout(kotlin/Function1<io.data2viz.tile/TilesLayout, kotlin/Unit>): io.data2viz.tile/TilesLayout // io.data2viz.tile/tilesLayout|tilesLayout(kotlin.Function1<io.data2viz.tile.TilesLayout,kotlin.Unit>){}[0]

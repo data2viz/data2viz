@@ -1,0 +1,57 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-hexbin>
+final class io.data2viz.hexbin/Bin { // io.data2viz.hexbin/Bin|null[0]
+    constructor <init>(kotlin.collections/MutableList<io.data2viz.geom/Point> = ..., kotlin/Double, kotlin/Double) // io.data2viz.hexbin/Bin.<init>|<init>(kotlin.collections.MutableList<io.data2viz.geom.Point>;kotlin.Double;kotlin.Double){}[0]
+
+    final val points // io.data2viz.hexbin/Bin.points|{}points[0]
+        final fun <get-points>(): kotlin.collections/MutableList<io.data2viz.geom/Point> // io.data2viz.hexbin/Bin.points.<get-points>|<get-points>(){}[0]
+    final val x // io.data2viz.hexbin/Bin.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.hexbin/Bin.x.<get-x>|<get-x>(){}[0]
+    final val y // io.data2viz.hexbin/Bin.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.hexbin/Bin.y.<get-y>|<get-y>(){}[0]
+
+    final fun component1(): kotlin.collections/MutableList<io.data2viz.geom/Point> // io.data2viz.hexbin/Bin.component1|component1(){}[0]
+    final fun component2(): kotlin/Double // io.data2viz.hexbin/Bin.component2|component2(){}[0]
+    final fun component3(): kotlin/Double // io.data2viz.hexbin/Bin.component3|component3(){}[0]
+    final fun copy(kotlin.collections/MutableList<io.data2viz.geom/Point> = ..., kotlin/Double = ..., kotlin/Double = ...): io.data2viz.hexbin/Bin // io.data2viz.hexbin/Bin.copy|copy(kotlin.collections.MutableList<io.data2viz.geom.Point>;kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.hexbin/Bin.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.hexbin/Bin.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.hexbin/Bin.toString|toString(){}[0]
+}
+
+final class io.data2viz.hexbin/HexbinGenerator { // io.data2viz.hexbin/HexbinGenerator|null[0]
+    constructor <init>() // io.data2viz.hexbin/HexbinGenerator.<init>|<init>(){}[0]
+
+    final var extent // io.data2viz.hexbin/HexbinGenerator.extent|{}extent[0]
+        final fun <get-extent>(): io.data2viz.geom/Extent // io.data2viz.hexbin/HexbinGenerator.extent.<get-extent>|<get-extent>(){}[0]
+        final fun <set-extent>(io.data2viz.geom/Extent) // io.data2viz.hexbin/HexbinGenerator.extent.<set-extent>|<set-extent>(io.data2viz.geom.Extent){}[0]
+    final var height // io.data2viz.hexbin/HexbinGenerator.height|{}height[0]
+        final fun <get-height>(): kotlin/Double // io.data2viz.hexbin/HexbinGenerator.height.<get-height>|<get-height>(){}[0]
+        final fun <set-height>(kotlin/Double) // io.data2viz.hexbin/HexbinGenerator.height.<set-height>|<set-height>(kotlin.Double){}[0]
+    final var radius // io.data2viz.hexbin/HexbinGenerator.radius|{}radius[0]
+        final fun <get-radius>(): kotlin/Double // io.data2viz.hexbin/HexbinGenerator.radius.<get-radius>|<get-radius>(){}[0]
+        final fun <set-radius>(kotlin/Double) // io.data2viz.hexbin/HexbinGenerator.radius.<set-radius>|<set-radius>(kotlin.Double){}[0]
+    final var width // io.data2viz.hexbin/HexbinGenerator.width|{}width[0]
+        final fun <get-width>(): kotlin/Double // io.data2viz.hexbin/HexbinGenerator.width.<get-width>|<get-width>(){}[0]
+        final fun <set-width>(kotlin/Double) // io.data2viz.hexbin/HexbinGenerator.width.<set-width>|<set-width>(kotlin.Double){}[0]
+    final var x // io.data2viz.hexbin/HexbinGenerator.x|{}x[0]
+        final fun <get-x>(): kotlin/Function3<io.data2viz.geom/Point, kotlin/Int, kotlin.collections/List<io.data2viz.geom/Point>, kotlin/Double> // io.data2viz.hexbin/HexbinGenerator.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Function3<io.data2viz.geom/Point, kotlin/Int, kotlin.collections/List<io.data2viz.geom/Point>, kotlin/Double>) // io.data2viz.hexbin/HexbinGenerator.x.<set-x>|<set-x>(kotlin.Function3<io.data2viz.geom.Point,kotlin.Int,kotlin.collections.List<io.data2viz.geom.Point>,kotlin.Double>){}[0]
+    final var y // io.data2viz.hexbin/HexbinGenerator.y|{}y[0]
+        final fun <get-y>(): kotlin/Function3<io.data2viz.geom/Point, kotlin/Int, kotlin.collections/List<io.data2viz.geom/Point>, kotlin/Double> // io.data2viz.hexbin/HexbinGenerator.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Function3<io.data2viz.geom/Point, kotlin/Int, kotlin.collections/List<io.data2viz.geom/Point>, kotlin/Double>) // io.data2viz.hexbin/HexbinGenerator.y.<set-y>|<set-y>(kotlin.Function3<io.data2viz.geom.Point,kotlin.Int,kotlin.collections.List<io.data2viz.geom.Point>,kotlin.Double>){}[0]
+
+    final fun centers(): kotlin.collections/MutableList<io.data2viz.geom/Point> // io.data2viz.hexbin/HexbinGenerator.centers|centers(){}[0]
+    final fun hexagon(io.data2viz.geom/Path, io.data2viz.geom/Point, kotlin/Double? = ...) // io.data2viz.hexbin/HexbinGenerator.hexagon|hexagon(io.data2viz.geom.Path;io.data2viz.geom.Point;kotlin.Double?){}[0]
+    final fun invoke(kotlin.collections/List<io.data2viz.geom/Point>): kotlin.collections/MutableList<io.data2viz.hexbin/Bin> // io.data2viz.hexbin/HexbinGenerator.invoke|invoke(kotlin.collections.List<io.data2viz.geom.Point>){}[0]
+    final fun mesh(io.data2viz.geom/Path) // io.data2viz.hexbin/HexbinGenerator.mesh|mesh(io.data2viz.geom.Path){}[0]
+}
+
+final fun io.data2viz.hexbin/hexbinGenerator(): io.data2viz.hexbin/HexbinGenerator // io.data2viz.hexbin/hexbinGenerator|hexbinGenerator(){}[0]
+final fun io.data2viz.hexbin/hexbinGenerator(kotlin/Function1<io.data2viz.hexbin/HexbinGenerator, kotlin/Unit>): io.data2viz.hexbin/HexbinGenerator // io.data2viz.hexbin/hexbinGenerator|hexbinGenerator(kotlin.Function1<io.data2viz.hexbin.HexbinGenerator,kotlin.Unit>){}[0]

@@ -1,0 +1,56 @@
+// Klib ABI Dump
+// Targets: [js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-contour>
+final class io.data2viz.contour/Contour { // io.data2viz.contour/Contour|null[0]
+    final var smoothing // io.data2viz.contour/Contour.smoothing|{}smoothing[0]
+        final fun <get-smoothing>(): kotlin/Boolean // io.data2viz.contour/Contour.smoothing.<get-smoothing>|<get-smoothing>(){}[0]
+        final fun <set-smoothing>(kotlin/Boolean) // io.data2viz.contour/Contour.smoothing.<set-smoothing>|<set-smoothing>(kotlin.Boolean){}[0]
+    final var thresholds // io.data2viz.contour/Contour.thresholds|{}thresholds[0]
+        final fun <get-thresholds>(): kotlin/Array<kotlin/Double> // io.data2viz.contour/Contour.thresholds.<get-thresholds>|<get-thresholds>(){}[0]
+        final fun <set-thresholds>(kotlin/Array<kotlin/Double>) // io.data2viz.contour/Contour.thresholds.<set-thresholds>|<set-thresholds>(kotlin.Array<kotlin.Double>){}[0]
+
+    final fun contours(kotlin/Array<kotlin/Double>, kotlin/Int, kotlin/Int): kotlin.collections/List<io.data2viz.contour/GeoJson> // io.data2viz.contour/Contour.contours|contours(kotlin.Array<kotlin.Double>;kotlin.Int;kotlin.Int){}[0]
+    final fun size(kotlin/Int, kotlin/Int) // io.data2viz.contour/Contour.size|size(kotlin.Int;kotlin.Int){}[0]
+}
+
+final class io.data2viz.contour/GeoJson { // io.data2viz.contour/GeoJson|null[0]
+    constructor <init>(kotlin/Double, kotlin/Array<kotlin/Array<kotlin/Array<io.data2viz.contour/RingPoint>>>) // io.data2viz.contour/GeoJson.<init>|<init>(kotlin.Double;kotlin.Array<kotlin.Array<kotlin.Array<io.data2viz.contour.RingPoint>>>){}[0]
+
+    final val coordinates // io.data2viz.contour/GeoJson.coordinates|{}coordinates[0]
+        final fun <get-coordinates>(): kotlin/Array<kotlin/Array<kotlin/Array<io.data2viz.contour/RingPoint>>> // io.data2viz.contour/GeoJson.coordinates.<get-coordinates>|<get-coordinates>(){}[0]
+    final val type // io.data2viz.contour/GeoJson.type|{}type[0]
+        final fun <get-type>(): kotlin/String // io.data2viz.contour/GeoJson.type.<get-type>|<get-type>(){}[0]
+    final val value // io.data2viz.contour/GeoJson.value|{}value[0]
+        final fun <get-value>(): kotlin/Double // io.data2viz.contour/GeoJson.value.<get-value>|<get-value>(){}[0]
+
+    final fun component1(): kotlin/Double // io.data2viz.contour/GeoJson.component1|component1(){}[0]
+    final fun component2(): kotlin/Array<kotlin/Array<kotlin/Array<io.data2viz.contour/RingPoint>>> // io.data2viz.contour/GeoJson.component2|component2(){}[0]
+    final fun copy(kotlin/Double = ..., kotlin/Array<kotlin/Array<kotlin/Array<io.data2viz.contour/RingPoint>>> = ...): io.data2viz.contour/GeoJson // io.data2viz.contour/GeoJson.copy|copy(kotlin.Double;kotlin.Array<kotlin.Array<kotlin.Array<io.data2viz.contour.RingPoint>>>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.contour/GeoJson.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.contour/GeoJson.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.contour/GeoJson.toString|toString(){}[0]
+}
+
+final class io.data2viz.contour/RingPoint { // io.data2viz.contour/RingPoint|null[0]
+    constructor <init>(kotlin/Double, kotlin/Double) // io.data2viz.contour/RingPoint.<init>|<init>(kotlin.Double;kotlin.Double){}[0]
+
+    final val x // io.data2viz.contour/RingPoint.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.contour/RingPoint.x.<get-x>|<get-x>(){}[0]
+    final val y // io.data2viz.contour/RingPoint.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.contour/RingPoint.y.<get-y>|<get-y>(){}[0]
+
+    final fun copy(kotlin/Double = ..., kotlin/Double = ...): io.data2viz.contour/RingPoint // io.data2viz.contour/RingPoint.copy|copy(kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.contour/RingPoint.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.contour/RingPoint.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.contour/RingPoint.toString|toString(){}[0]
+}
+
+final fun (io.data2viz.contour/GeoJson).io.data2viz.contour/multiRing(kotlin/Int): kotlin/Array<kotlin/Array<io.data2viz.contour/RingPoint>> // io.data2viz.contour/multiRing|multiRing@io.data2viz.contour.GeoJson(kotlin.Int){}[0]
+final fun (kotlin/Array<io.data2viz.contour/RingPoint>).io.data2viz.contour/point(kotlin/Int): io.data2viz.contour/RingPoint // io.data2viz.contour/point|point@kotlin.Array<io.data2viz.contour.RingPoint>(kotlin.Int){}[0]
+final fun (kotlin/Array<kotlin/Array<io.data2viz.contour/RingPoint>>).io.data2viz.contour/ring(kotlin/Int): kotlin/Array<io.data2viz.contour/RingPoint> // io.data2viz.contour/ring|ring@kotlin.Array<kotlin.Array<io.data2viz.contour.RingPoint>>(kotlin.Int){}[0]
+final fun io.data2viz.contour/contour(kotlin/Function1<io.data2viz.contour/Contour, kotlin/Unit>): io.data2viz.contour/Contour // io.data2viz.contour/contour|contour(kotlin.Function1<io.data2viz.contour.Contour,kotlin.Unit>){}[0]
