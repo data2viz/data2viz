@@ -8,3 +8,4 @@ build/
 .gradle/
 *.iml
 local.properties
+.kotlin

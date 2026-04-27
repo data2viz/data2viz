@@ -2,18 +2,22 @@
 
 if (include_ios.toBoolean()) {
 
-    apply plugin: 'org.jetbrains.kotlin.multiplatform'
-
     kotlin {
 
-        ios {
+        iosArm64 {
             binaries {
                 framework {
                     baseName = "d2v-$project.name"
                 }
             }
         }
-
+        iosX64 {
+            binaries {
+                framework {
+                    baseName = "d2v-$project.name"
+                }
+            }
+        }
         iosSimulatorArm64 {
             binaries {
                 framework {
@@ -22,12 +26,17 @@ if (include_ios.toBoolean()) {
             }
         }
 
-        sourceSets {
+        applyDefaultHierarchyTemplate()
 
-            iosSimulatorArm64Main {
-                dependsOn(iosMain)
+        targets.matching { it.name.startsWith('ios') }.configureEach {
+            compilations.configureEach {
+                kotlinOptions {
+                    freeCompilerArgs += ['-opt-in=kotlinx.cinterop.ExperimentalForeignApi']
+                }
             }
+        }
 
+        sourceSets {
             iosTest {
                 dependencies {
                     if (project.name != "tests") {
@@ -35,12 +44,8 @@ if (include_ios.toBoolean()) {
                     }
                 }
             }
-            iosSimulatorArm64Test {
-                dependsOn(iosTest)
-            }
         }
     }
-
 
 }
 

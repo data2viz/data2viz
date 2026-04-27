@@ -3,6 +3,7 @@ public final class io/data2viz/sankey/SankeyAlignment : java/lang/Enum {
 	public static final field JUSTIFY Lio/data2viz/sankey/SankeyAlignment;
 	public static final field LEFT Lio/data2viz/sankey/SankeyAlignment;
 	public static final field RIGHT Lio/data2viz/sankey/SankeyAlignment;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/sankey/SankeyAlignment;
 	public static fun values ()[Lio/data2viz/sankey/SankeyAlignment;
 }

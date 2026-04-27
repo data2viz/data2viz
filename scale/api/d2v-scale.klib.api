@@ -1,0 +1,439 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-scale>
+abstract interface <#A: kotlin/Any?, #B: kotlin/Any?> io.data2viz.scale/ContinuousRangeScale : io.data2viz.scale/FirstLastRange<#A, #B>, io.data2viz.scale/Scale<#A, #B> { // io.data2viz.scale/ContinuousRangeScale|null[0]
+    abstract var range // io.data2viz.scale/ContinuousRangeScale.range|{}range[0]
+        abstract fun <get-range>(): kotlin.collections/List<#B> // io.data2viz.scale/ContinuousRangeScale.range.<get-range>|<get-range>(){}[0]
+        abstract fun <set-range>(kotlin.collections/List<#B>) // io.data2viz.scale/ContinuousRangeScale.range.<set-range>|<set-range>(kotlin.collections.List<1:1>){}[0]
+
+    open fun end(): #B // io.data2viz.scale/ContinuousRangeScale.end|end(){}[0]
+    open fun start(): #B // io.data2viz.scale/ContinuousRangeScale.start|start(){}[0]
+}
+
+abstract interface <#A: kotlin/Any?, #B: kotlin/Any?> io.data2viz.scale/FirstLastRange : io.data2viz.scale/Scale<#A, #B> { // io.data2viz.scale/FirstLastRange|null[0]
+    abstract fun end(): #B // io.data2viz.scale/FirstLastRange.end|end(){}[0]
+    abstract fun start(): #B // io.data2viz.scale/FirstLastRange.start|start(){}[0]
+}
+
+abstract interface <#A: kotlin/Any?, #B: kotlin/Any?> io.data2viz.scale/InvertableScale : io.data2viz.scale/Scale<#A, #B> { // io.data2viz.scale/InvertableScale|null[0]
+    abstract fun invert(#B): #A // io.data2viz.scale/InvertableScale.invert|invert(1:1){}[0]
+}
+
+abstract interface <#A: kotlin/Any?, #B: kotlin/Any?> io.data2viz.scale/StrictlyContinuousRange : io.data2viz.scale/FirstLastRange<#A, #B> { // io.data2viz.scale/StrictlyContinuousRange|null[0]
+    abstract var range // io.data2viz.scale/StrictlyContinuousRange.range|{}range[0]
+        abstract fun <get-range>(): io.data2viz.scale/StrictlyContinuous<#B> // io.data2viz.scale/StrictlyContinuousRange.range.<get-range>|<get-range>(){}[0]
+        abstract fun <set-range>(io.data2viz.scale/StrictlyContinuous<#B>) // io.data2viz.scale/StrictlyContinuousRange.range.<set-range>|<set-range>(io.data2viz.scale.StrictlyContinuous<1:1>){}[0]
+
+    open fun end(): #B // io.data2viz.scale/StrictlyContinuousRange.end|end(){}[0]
+    open fun start(): #B // io.data2viz.scale/StrictlyContinuousRange.start|start(){}[0]
+}
+
+abstract interface <#A: kotlin/Any?, #B: out kotlin/Any?> io.data2viz.scale/Scale { // io.data2viz.scale/Scale|null[0]
+    abstract fun copy(): io.data2viz.scale/Scale<#A, #B> // io.data2viz.scale/Scale.copy|copy(){}[0]
+    abstract fun invoke(#A): #B // io.data2viz.scale/Scale.invoke|invoke(1:0){}[0]
+}
+
+abstract interface <#A: kotlin/Any?> io.data2viz.scale/ContinuousDomain { // io.data2viz.scale/ContinuousDomain|null[0]
+    abstract var domain // io.data2viz.scale/ContinuousDomain.domain|{}domain[0]
+        abstract fun <get-domain>(): kotlin.collections/List<#A> // io.data2viz.scale/ContinuousDomain.domain.<get-domain>|<get-domain>(){}[0]
+        abstract fun <set-domain>(kotlin.collections/List<#A>) // io.data2viz.scale/ContinuousDomain.domain.<set-domain>|<set-domain>(kotlin.collections.List<1:0>){}[0]
+}
+
+abstract interface <#A: kotlin/Any?> io.data2viz.scale/DiscreteDomain { // io.data2viz.scale/DiscreteDomain|null[0]
+    abstract var domain // io.data2viz.scale/DiscreteDomain.domain|{}domain[0]
+        abstract fun <get-domain>(): kotlin.collections/List<#A> // io.data2viz.scale/DiscreteDomain.domain.<get-domain>|<get-domain>(){}[0]
+        abstract fun <set-domain>(kotlin.collections/List<#A>) // io.data2viz.scale/DiscreteDomain.domain.<set-domain>|<set-domain>(kotlin.collections.List<1:0>){}[0]
+}
+
+abstract interface <#A: kotlin/Any?> io.data2viz.scale/DiscreteRange { // io.data2viz.scale/DiscreteRange|null[0]
+    abstract var range // io.data2viz.scale/DiscreteRange.range|{}range[0]
+        abstract fun <get-range>(): kotlin.collections/List<#A> // io.data2viz.scale/DiscreteRange.range.<get-range>|<get-range>(){}[0]
+        abstract fun <set-range>(kotlin.collections/List<#A>) // io.data2viz.scale/DiscreteRange.range.<set-range>|<set-range>(kotlin.collections.List<1:0>){}[0]
+}
+
+abstract interface <#A: kotlin/Any?> io.data2viz.scale/NiceableScale : io.data2viz.scale/ContinuousDomain<#A> { // io.data2viz.scale/NiceableScale|null[0]
+    abstract fun nice(kotlin/Int = ...) // io.data2viz.scale/NiceableScale.nice|nice(kotlin.Int){}[0]
+}
+
+abstract interface <#A: kotlin/Any?> io.data2viz.scale/StrictlyContinuousDomain { // io.data2viz.scale/StrictlyContinuousDomain|null[0]
+    abstract var domain // io.data2viz.scale/StrictlyContinuousDomain.domain|{}domain[0]
+        abstract fun <get-domain>(): io.data2viz.scale/StrictlyContinuous<#A> // io.data2viz.scale/StrictlyContinuousDomain.domain.<get-domain>|<get-domain>(){}[0]
+        abstract fun <set-domain>(io.data2viz.scale/StrictlyContinuous<#A>) // io.data2viz.scale/StrictlyContinuousDomain.domain.<set-domain>|<set-domain>(io.data2viz.scale.StrictlyContinuous<1:0>){}[0]
+}
+
+abstract interface <#A: kotlin/Any?> io.data2viz.scale/Tickable { // io.data2viz.scale/Tickable|null[0]
+    abstract fun ticks(kotlin/Int = ...): kotlin.collections/List<#A> // io.data2viz.scale/Tickable.ticks|ticks(kotlin.Int){}[0]
+}
+
+abstract interface io.data2viz.scale/ClampableScale { // io.data2viz.scale/ClampableScale|null[0]
+    abstract val clamp // io.data2viz.scale/ClampableScale.clamp|{}clamp[0]
+        abstract fun <get-clamp>(): kotlin/Boolean // io.data2viz.scale/ClampableScale.clamp.<get-clamp>|<get-clamp>(){}[0]
+}
+
+abstract class <#A: kotlin/Any?, #B: kotlin/Any?> io.data2viz.scale/ContinuousScale : io.data2viz.scale/ClampableScale, io.data2viz.scale/ContinuousDomain<#A>, io.data2viz.scale/ContinuousRangeScale<#A, #B>, io.data2viz.scale/InvertableScale<#A, #B> { // io.data2viz.scale/ContinuousScale|null[0]
+    constructor <init>(kotlin/Function2<#B, #B, kotlin/Function1<io.data2viz.math/Percent, #B>>, kotlin/Function2<#B, #B, kotlin/Function1<#B, io.data2viz.math/Percent>>? = ..., kotlin/Comparator<#B>? = ...) // io.data2viz.scale/ContinuousScale.<init>|<init>(kotlin.Function2<1:1,1:1,kotlin.Function1<io.data2viz.math.Percent,1:1>>;kotlin.Function2<1:1,1:1,kotlin.Function1<1:1,io.data2viz.math.Percent>>?;kotlin.Comparator<1:1>?){}[0]
+
+    final val _domain // io.data2viz.scale/ContinuousScale._domain|{}_domain[0]
+        final fun <get-_domain>(): kotlin.collections/MutableList<#A> // io.data2viz.scale/ContinuousScale._domain.<get-_domain>|<get-_domain>(){}[0]
+    final val _range // io.data2viz.scale/ContinuousScale._range|{}_range[0]
+        final fun <get-_range>(): kotlin.collections/MutableList<#B> // io.data2viz.scale/ContinuousScale._range.<get-_range>|<get-_range>(){}[0]
+    final val interpolateRange // io.data2viz.scale/ContinuousScale.interpolateRange|{}interpolateRange[0]
+        final fun <get-interpolateRange>(): kotlin/Function2<#B, #B, kotlin/Function1<io.data2viz.math/Percent, #B>> // io.data2viz.scale/ContinuousScale.interpolateRange.<get-interpolateRange>|<get-interpolateRange>(){}[0]
+    final val rangeComparator // io.data2viz.scale/ContinuousScale.rangeComparator|{}rangeComparator[0]
+        final fun <get-rangeComparator>(): kotlin/Comparator<#B>? // io.data2viz.scale/ContinuousScale.rangeComparator.<get-rangeComparator>|<get-rangeComparator>(){}[0]
+    final val uninterpolateRange // io.data2viz.scale/ContinuousScale.uninterpolateRange|{}uninterpolateRange[0]
+        final fun <get-uninterpolateRange>(): kotlin/Function2<#B, #B, kotlin/Function1<#B, io.data2viz.math/Percent>>? // io.data2viz.scale/ContinuousScale.uninterpolateRange.<get-uninterpolateRange>|<get-uninterpolateRange>(){}[0]
+
+    open var clamp // io.data2viz.scale/ContinuousScale.clamp|{}clamp[0]
+        open fun <get-clamp>(): kotlin/Boolean // io.data2viz.scale/ContinuousScale.clamp.<get-clamp>|<get-clamp>(){}[0]
+        open fun <set-clamp>(kotlin/Boolean) // io.data2viz.scale/ContinuousScale.clamp.<set-clamp>|<set-clamp>(kotlin.Boolean){}[0]
+    open var domain // io.data2viz.scale/ContinuousScale.domain|{}domain[0]
+        open fun <get-domain>(): kotlin.collections/List<#A> // io.data2viz.scale/ContinuousScale.domain.<get-domain>|<get-domain>(){}[0]
+        open fun <set-domain>(kotlin.collections/List<#A>) // io.data2viz.scale/ContinuousScale.domain.<set-domain>|<set-domain>(kotlin.collections.List<1:0>){}[0]
+    open var range // io.data2viz.scale/ContinuousScale.range|{}range[0]
+        open fun <get-range>(): kotlin.collections/List<#B> // io.data2viz.scale/ContinuousScale.range.<get-range>|<get-range>(){}[0]
+        open fun <set-range>(kotlin.collections/List<#B>) // io.data2viz.scale/ContinuousScale.range.<set-range>|<set-range>(kotlin.collections.List<1:1>){}[0]
+
+    abstract fun domainComparator(): kotlin/Comparator<#A> // io.data2viz.scale/ContinuousScale.domainComparator|domainComparator(){}[0]
+    abstract fun interpolateDomain(#A, #A): kotlin/Function1<io.data2viz.math/Percent, #A> // io.data2viz.scale/ContinuousScale.interpolateDomain|interpolateDomain(1:0;1:0){}[0]
+    abstract fun uninterpolateDomain(#A, #A): kotlin/Function1<#A, io.data2viz.math/Percent> // io.data2viz.scale/ContinuousScale.uninterpolateDomain|uninterpolateDomain(1:0;1:0){}[0]
+    open fun invert(#B): #A // io.data2viz.scale/ContinuousScale.invert|invert(1:1){}[0]
+    open fun invoke(#A): #B // io.data2viz.scale/ContinuousScale.invoke|invoke(1:0){}[0]
+    open fun rescale() // io.data2viz.scale/ContinuousScale.rescale|rescale(){}[0]
+}
+
+abstract class <#A: kotlin/Any?> io.data2viz.scale/BandedScale : io.data2viz.scale/DiscreteDomain<#A>, io.data2viz.scale/Scale<#A, kotlin/Double>, io.data2viz.scale/StrictlyContinuousRange<#A, kotlin/Double>, io.data2viz.scale/Tickable<#A> { // io.data2viz.scale/BandedScale|null[0]
+    constructor <init>(io.data2viz.scale/IndexableDomain<#A> = ...) // io.data2viz.scale/BandedScale.<init>|<init>(io.data2viz.scale.IndexableDomain<1:0>){}[0]
+
+    abstract var padding // io.data2viz.scale/BandedScale.padding|{}padding[0]
+        abstract fun <get-padding>(): io.data2viz.math/Percent // io.data2viz.scale/BandedScale.padding.<get-padding>|<get-padding>(){}[0]
+        abstract fun <set-padding>(io.data2viz.math/Percent) // io.data2viz.scale/BandedScale.padding.<set-padding>|<set-padding>(io.data2viz.math.Percent){}[0]
+    final var _paddingInner // io.data2viz.scale/BandedScale._paddingInner|{}_paddingInner[0]
+        final fun <get-_paddingInner>(): kotlin/Double // io.data2viz.scale/BandedScale._paddingInner.<get-_paddingInner>|<get-_paddingInner>(){}[0]
+        final fun <set-_paddingInner>(kotlin/Double) // io.data2viz.scale/BandedScale._paddingInner.<set-_paddingInner>|<set-_paddingInner>(kotlin.Double){}[0]
+    final var _paddingOuter // io.data2viz.scale/BandedScale._paddingOuter|{}_paddingOuter[0]
+        final fun <get-_paddingOuter>(): kotlin/Double // io.data2viz.scale/BandedScale._paddingOuter.<get-_paddingOuter>|<get-_paddingOuter>(){}[0]
+        final fun <set-_paddingOuter>(kotlin/Double) // io.data2viz.scale/BandedScale._paddingOuter.<set-_paddingOuter>|<set-_paddingOuter>(kotlin.Double){}[0]
+    final var align // io.data2viz.scale/BandedScale.align|{}align[0]
+        final fun <get-align>(): io.data2viz.math/Percent // io.data2viz.scale/BandedScale.align.<get-align>|<get-align>(){}[0]
+        final fun <set-align>(io.data2viz.math/Percent) // io.data2viz.scale/BandedScale.align.<set-align>|<set-align>(io.data2viz.math.Percent){}[0]
+    final var bandwidth // io.data2viz.scale/BandedScale.bandwidth|{}bandwidth[0]
+        final fun <get-bandwidth>(): kotlin/Double // io.data2viz.scale/BandedScale.bandwidth.<get-bandwidth>|<get-bandwidth>(){}[0]
+    final var round // io.data2viz.scale/BandedScale.round|{}round[0]
+        final fun <get-round>(): kotlin/Boolean // io.data2viz.scale/BandedScale.round.<get-round>|<get-round>(){}[0]
+        final fun <set-round>(kotlin/Boolean) // io.data2viz.scale/BandedScale.round.<set-round>|<set-round>(kotlin.Boolean){}[0]
+    final var step // io.data2viz.scale/BandedScale.step|{}step[0]
+        final fun <get-step>(): kotlin/Double // io.data2viz.scale/BandedScale.step.<get-step>|<get-step>(){}[0]
+    open var domain // io.data2viz.scale/BandedScale.domain|{}domain[0]
+        open fun <get-domain>(): kotlin.collections/List<#A> // io.data2viz.scale/BandedScale.domain.<get-domain>|<get-domain>(){}[0]
+        open fun <set-domain>(kotlin.collections/List<#A>) // io.data2viz.scale/BandedScale.domain.<set-domain>|<set-domain>(kotlin.collections.List<1:0>){}[0]
+    open var range // io.data2viz.scale/BandedScale.range|{}range[0]
+        open fun <get-range>(): io.data2viz.scale/StrictlyContinuous<kotlin/Double> // io.data2viz.scale/BandedScale.range.<get-range>|<get-range>(){}[0]
+        open fun <set-range>(io.data2viz.scale/StrictlyContinuous<kotlin/Double>) // io.data2viz.scale/BandedScale.range.<set-range>|<set-range>(io.data2viz.scale.StrictlyContinuous<kotlin.Double>){}[0]
+
+    final fun rescale() // io.data2viz.scale/BandedScale.rescale|rescale(){}[0]
+    open fun invoke(#A): kotlin/Double // io.data2viz.scale/BandedScale.invoke|invoke(1:0){}[0]
+    open fun ticks(kotlin/Int): kotlin.collections/List<#A> // io.data2viz.scale/BandedScale.ticks|ticks(kotlin.Int){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/BandScale : io.data2viz.scale/BandedScale<#A> { // io.data2viz.scale/BandScale|null[0]
+    final var padding // io.data2viz.scale/BandScale.padding|{}padding[0]
+        final fun <get-padding>(): io.data2viz.math/Percent // io.data2viz.scale/BandScale.padding.<get-padding>|<get-padding>(){}[0]
+        final fun <set-padding>(io.data2viz.math/Percent) // io.data2viz.scale/BandScale.padding.<set-padding>|<set-padding>(io.data2viz.math.Percent){}[0]
+    final var paddingInner // io.data2viz.scale/BandScale.paddingInner|{}paddingInner[0]
+        final fun <get-paddingInner>(): io.data2viz.math/Percent // io.data2viz.scale/BandScale.paddingInner.<get-paddingInner>|<get-paddingInner>(){}[0]
+        final fun <set-paddingInner>(io.data2viz.math/Percent) // io.data2viz.scale/BandScale.paddingInner.<set-paddingInner>|<set-paddingInner>(io.data2viz.math.Percent){}[0]
+    final var paddingOuter // io.data2viz.scale/BandScale.paddingOuter|{}paddingOuter[0]
+        final fun <get-paddingOuter>(): io.data2viz.math/Percent // io.data2viz.scale/BandScale.paddingOuter.<get-paddingOuter>|<get-paddingOuter>(){}[0]
+        final fun <set-paddingOuter>(io.data2viz.math/Percent) // io.data2viz.scale/BandScale.paddingOuter.<set-paddingOuter>|<set-paddingOuter>(io.data2viz.math.Percent){}[0]
+
+    final fun copy(): io.data2viz.scale/BandScale<#A> // io.data2viz.scale/BandScale.copy|copy(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/IndexableDomain : io.data2viz.scale/DiscreteDomain<#A> { // io.data2viz.scale/IndexableDomain|null[0]
+    constructor <init>() // io.data2viz.scale/IndexableDomain.<init>|<init>(){}[0]
+
+    final var domain // io.data2viz.scale/IndexableDomain.domain|{}domain[0]
+        final fun <get-domain>(): kotlin.collections/List<#A> // io.data2viz.scale/IndexableDomain.domain.<get-domain>|<get-domain>(){}[0]
+        final fun <set-domain>(kotlin.collections/List<#A>) // io.data2viz.scale/IndexableDomain.domain.<set-domain>|<set-domain>(kotlin.collections.List<1:0>){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/PointScale : io.data2viz.scale/BandedScale<#A> { // io.data2viz.scale/PointScale|null[0]
+    constructor <init>() // io.data2viz.scale/PointScale.<init>|<init>(){}[0]
+
+    final var padding // io.data2viz.scale/PointScale.padding|{}padding[0]
+        final fun <get-padding>(): io.data2viz.math/Percent // io.data2viz.scale/PointScale.padding.<get-padding>|<get-padding>(){}[0]
+        final fun <set-padding>(io.data2viz.math/Percent) // io.data2viz.scale/PointScale.padding.<set-padding>|<set-padding>(io.data2viz.math.Percent){}[0]
+
+    final fun copy(): io.data2viz.scale/PointScale<#A> // io.data2viz.scale/PointScale.copy|copy(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/PowerScale : io.data2viz.scale/LinearScale<#A> { // io.data2viz.scale/PowerScale|null[0]
+    final var exponent // io.data2viz.scale/PowerScale.exponent|{}exponent[0]
+        final fun <get-exponent>(): kotlin/Double // io.data2viz.scale/PowerScale.exponent.<get-exponent>|<get-exponent>(){}[0]
+        final fun <set-exponent>(kotlin/Double) // io.data2viz.scale/PowerScale.exponent.<set-exponent>|<set-exponent>(kotlin.Double){}[0]
+
+    final fun copy(): io.data2viz.scale/ContinuousScale<kotlin/Double, #A> // io.data2viz.scale/PowerScale.copy|copy(){}[0]
+    final fun interpolateDomain(kotlin/Double, kotlin/Double): kotlin/Function1<io.data2viz.math/Percent, kotlin/Double> // io.data2viz.scale/PowerScale.interpolateDomain|interpolateDomain(kotlin.Double;kotlin.Double){}[0]
+    final fun uninterpolateDomain(kotlin/Double, kotlin/Double): kotlin/Function1<kotlin/Double, io.data2viz.math/Percent> // io.data2viz.scale/PowerScale.uninterpolateDomain|uninterpolateDomain(kotlin.Double;kotlin.Double){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/QuantileScale : io.data2viz.scale/DiscreteDomain<kotlin/Double>, io.data2viz.scale/DiscreteRange<#A>, io.data2viz.scale/Scale<kotlin/Double, #A> { // io.data2viz.scale/QuantileScale|null[0]
+    final val quantiles // io.data2viz.scale/QuantileScale.quantiles|{}quantiles[0]
+        final fun <get-quantiles>(): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/QuantileScale.quantiles.<get-quantiles>|<get-quantiles>(){}[0]
+
+    final var domain // io.data2viz.scale/QuantileScale.domain|{}domain[0]
+        final fun <get-domain>(): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/QuantileScale.domain.<get-domain>|<get-domain>(){}[0]
+        final fun <set-domain>(kotlin.collections/List<kotlin/Double>) // io.data2viz.scale/QuantileScale.domain.<set-domain>|<set-domain>(kotlin.collections.List<kotlin.Double>){}[0]
+    final var range // io.data2viz.scale/QuantileScale.range|{}range[0]
+        final fun <get-range>(): kotlin.collections/List<#A> // io.data2viz.scale/QuantileScale.range.<get-range>|<get-range>(){}[0]
+        final fun <set-range>(kotlin.collections/List<#A>) // io.data2viz.scale/QuantileScale.range.<set-range>|<set-range>(kotlin.collections.List<1:0>){}[0]
+
+    final fun copy(): io.data2viz.scale/Scale<kotlin/Double, #A> // io.data2viz.scale/QuantileScale.copy|copy(){}[0]
+    final fun invertExtent(#A): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/QuantileScale.invertExtent|invertExtent(1:0){}[0]
+    final fun invoke(kotlin/Double): #A // io.data2viz.scale/QuantileScale.invoke|invoke(kotlin.Double){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/QuantizeScale : io.data2viz.scale/DiscreteRange<#A>, io.data2viz.scale/Scale<kotlin/Double, #A>, io.data2viz.scale/StrictlyContinuousDomain<kotlin/Double> { // io.data2viz.scale/QuantizeScale|null[0]
+    final var domain // io.data2viz.scale/QuantizeScale.domain|{}domain[0]
+        final fun <get-domain>(): io.data2viz.scale/StrictlyContinuous<kotlin/Double> // io.data2viz.scale/QuantizeScale.domain.<get-domain>|<get-domain>(){}[0]
+        final fun <set-domain>(io.data2viz.scale/StrictlyContinuous<kotlin/Double>) // io.data2viz.scale/QuantizeScale.domain.<set-domain>|<set-domain>(io.data2viz.scale.StrictlyContinuous<kotlin.Double>){}[0]
+    final var range // io.data2viz.scale/QuantizeScale.range|{}range[0]
+        final fun <get-range>(): kotlin.collections/List<#A> // io.data2viz.scale/QuantizeScale.range.<get-range>|<get-range>(){}[0]
+        final fun <set-range>(kotlin.collections/List<#A>) // io.data2viz.scale/QuantizeScale.range.<set-range>|<set-range>(kotlin.collections.List<1:0>){}[0]
+
+    final fun copy(): io.data2viz.scale/QuantizeScale<#A> // io.data2viz.scale/QuantizeScale.copy|copy(){}[0]
+    final fun invertExtent(#A): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/QuantizeScale.invertExtent|invertExtent(1:0){}[0]
+    final fun invoke(kotlin/Double): #A // io.data2viz.scale/QuantizeScale.invoke|invoke(kotlin.Double){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/SequentialScale : io.data2viz.scale/ClampableScale, io.data2viz.scale/StrictlyContinuousDomain<kotlin/Double>, io.data2viz.scale/Tickable<kotlin/Double> { // io.data2viz.scale/SequentialScale|null[0]
+    final var clamp // io.data2viz.scale/SequentialScale.clamp|{}clamp[0]
+        final fun <get-clamp>(): kotlin/Boolean // io.data2viz.scale/SequentialScale.clamp.<get-clamp>|<get-clamp>(){}[0]
+        final fun <set-clamp>(kotlin/Boolean) // io.data2viz.scale/SequentialScale.clamp.<set-clamp>|<set-clamp>(kotlin.Boolean){}[0]
+    final var domain // io.data2viz.scale/SequentialScale.domain|{}domain[0]
+        final fun <get-domain>(): io.data2viz.scale/StrictlyContinuous<kotlin/Double> // io.data2viz.scale/SequentialScale.domain.<get-domain>|<get-domain>(){}[0]
+        final fun <set-domain>(io.data2viz.scale/StrictlyContinuous<kotlin/Double>) // io.data2viz.scale/SequentialScale.domain.<set-domain>|<set-domain>(io.data2viz.scale.StrictlyContinuous<kotlin.Double>){}[0]
+    final var interpolator // io.data2viz.scale/SequentialScale.interpolator|{}interpolator[0]
+        final fun <get-interpolator>(): kotlin/Function1<io.data2viz.math/Percent, #A> // io.data2viz.scale/SequentialScale.interpolator.<get-interpolator>|<get-interpolator>(){}[0]
+        final fun <set-interpolator>(kotlin/Function1<io.data2viz.math/Percent, #A>) // io.data2viz.scale/SequentialScale.interpolator.<set-interpolator>|<set-interpolator>(kotlin.Function1<io.data2viz.math.Percent,1:0>){}[0]
+
+    final fun invoke(kotlin/Double): #A // io.data2viz.scale/SequentialScale.invoke|invoke(kotlin.Double){}[0]
+    final fun invoke(kotlin/Int): #A // io.data2viz.scale/SequentialScale.invoke|invoke(kotlin.Int){}[0]
+    final fun ticks(kotlin/Int): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/SequentialScale.ticks|ticks(kotlin.Int){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/StrictlyContinuous { // io.data2viz.scale/StrictlyContinuous|null[0]
+    constructor <init>(#A, #A) // io.data2viz.scale/StrictlyContinuous.<init>|<init>(1:0;1:0){}[0]
+
+    final val end // io.data2viz.scale/StrictlyContinuous.end|{}end[0]
+        final fun <get-end>(): #A // io.data2viz.scale/StrictlyContinuous.end.<get-end>|<get-end>(){}[0]
+    final val start // io.data2viz.scale/StrictlyContinuous.start|{}start[0]
+        final fun <get-start>(): #A // io.data2viz.scale/StrictlyContinuous.start.<get-start>|<get-start>(){}[0]
+
+    final fun component1(): #A // io.data2viz.scale/StrictlyContinuous.component1|component1(){}[0]
+    final fun component2(): #A // io.data2viz.scale/StrictlyContinuous.component2|component2(){}[0]
+    final fun copy(#A = ..., #A = ...): io.data2viz.scale/StrictlyContinuous<#A> // io.data2viz.scale/StrictlyContinuous.copy|copy(1:0;1:0){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.scale/StrictlyContinuous.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.scale/StrictlyContinuous.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.scale/StrictlyContinuous.toString|toString(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/ThresholdScale : io.data2viz.scale/DiscreteDomain<kotlin/Double>, io.data2viz.scale/DiscreteRange<#A>, io.data2viz.scale/Scale<kotlin/Double, #A> { // io.data2viz.scale/ThresholdScale|null[0]
+    final var _domain // io.data2viz.scale/ThresholdScale._domain|{}_domain[0]
+        final fun <get-_domain>(): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/ThresholdScale._domain.<get-_domain>|<get-_domain>(){}[0]
+        final fun <set-_domain>(kotlin.collections/List<kotlin/Double>) // io.data2viz.scale/ThresholdScale._domain.<set-_domain>|<set-_domain>(kotlin.collections.List<kotlin.Double>){}[0]
+    final var _range // io.data2viz.scale/ThresholdScale._range|{}_range[0]
+        final fun <get-_range>(): kotlin.collections/List<#A> // io.data2viz.scale/ThresholdScale._range.<get-_range>|<get-_range>(){}[0]
+        final fun <set-_range>(kotlin.collections/List<#A>) // io.data2viz.scale/ThresholdScale._range.<set-_range>|<set-_range>(kotlin.collections.List<1:0>){}[0]
+    final var domain // io.data2viz.scale/ThresholdScale.domain|{}domain[0]
+        final fun <get-domain>(): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/ThresholdScale.domain.<get-domain>|<get-domain>(){}[0]
+        final fun <set-domain>(kotlin.collections/List<kotlin/Double>) // io.data2viz.scale/ThresholdScale.domain.<set-domain>|<set-domain>(kotlin.collections.List<kotlin.Double>){}[0]
+    final var range // io.data2viz.scale/ThresholdScale.range|{}range[0]
+        final fun <get-range>(): kotlin.collections/List<#A> // io.data2viz.scale/ThresholdScale.range.<get-range>|<get-range>(){}[0]
+        final fun <set-range>(kotlin.collections/List<#A>) // io.data2viz.scale/ThresholdScale.range.<set-range>|<set-range>(kotlin.collections.List<1:0>){}[0]
+
+    final fun copy(): io.data2viz.scale/Scale<kotlin/Double, #A> // io.data2viz.scale/ThresholdScale.copy|copy(){}[0]
+    final fun invertExtent(#A): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/ThresholdScale.invertExtent|invertExtent(1:0){}[0]
+    final fun invoke(kotlin/Double): #A // io.data2viz.scale/ThresholdScale.invoke|invoke(kotlin.Double){}[0]
+    final fun invoke(kotlin/Int): #A // io.data2viz.scale/ThresholdScale.invoke|invoke(kotlin.Int){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.scale/TimeScale : io.data2viz.scale/ContinuousScale<kotlin.time/Instant, #A>, io.data2viz.scale/NiceableScale<kotlin.time/Instant>, io.data2viz.scale/Tickable<kotlin.time/Instant> { // io.data2viz.scale/TimeScale|null[0]
+    final fun copy(): io.data2viz.scale/ContinuousScale<kotlin.time/Instant, #A> // io.data2viz.scale/TimeScale.copy|copy(){}[0]
+    final fun domainComparator(): kotlin/Comparator<kotlin.time/Instant> // io.data2viz.scale/TimeScale.domainComparator|domainComparator(){}[0]
+    final fun interpolateDomain(kotlin.time/Instant, kotlin.time/Instant): kotlin/Function1<io.data2viz.math/Percent, kotlin.time/Instant> // io.data2viz.scale/TimeScale.interpolateDomain|interpolateDomain(kotlin.time.Instant;kotlin.time.Instant){}[0]
+    final fun nice(kotlin/Int) // io.data2viz.scale/TimeScale.nice|nice(kotlin.Int){}[0]
+    final fun ticks(kotlin/Int): kotlin.collections/List<kotlin.time/Instant> // io.data2viz.scale/TimeScale.ticks|ticks(kotlin.Int){}[0]
+    final fun uninterpolateDomain(kotlin.time/Instant, kotlin.time/Instant): kotlin/Function1<kotlin.time/Instant, io.data2viz.math/Percent> // io.data2viz.scale/TimeScale.uninterpolateDomain|uninterpolateDomain(kotlin.time.Instant;kotlin.time.Instant){}[0]
+}
+
+open class <#A: kotlin/Any?, #B: kotlin/Any?> io.data2viz.scale/OrdinalScale : io.data2viz.scale/DiscreteDomain<#A>, io.data2viz.scale/FirstLastRange<#A, #B>, io.data2viz.scale/Scale<#A, #B> { // io.data2viz.scale/OrdinalScale|null[0]
+    final val _range // io.data2viz.scale/OrdinalScale._range|{}_range[0]
+        final fun <get-_range>(): kotlin.collections/MutableList<#B> // io.data2viz.scale/OrdinalScale._range.<get-_range>|<get-_range>(){}[0]
+    final val indexableDomain // io.data2viz.scale/OrdinalScale.indexableDomain|{}indexableDomain[0]
+        final fun <get-indexableDomain>(): io.data2viz.scale/IndexableDomain<#A> // io.data2viz.scale/OrdinalScale.indexableDomain.<get-indexableDomain>|<get-indexableDomain>(){}[0]
+
+    final var range // io.data2viz.scale/OrdinalScale.range|{}range[0]
+        final fun <get-range>(): kotlin.collections/List<#B> // io.data2viz.scale/OrdinalScale.range.<get-range>|<get-range>(){}[0]
+        final fun <set-range>(kotlin.collections/List<#B>) // io.data2viz.scale/OrdinalScale.range.<set-range>|<set-range>(kotlin.collections.List<1:1>){}[0]
+    final var unknown // io.data2viz.scale/OrdinalScale.unknown|{}unknown[0]
+        final fun <get-unknown>(): #B? // io.data2viz.scale/OrdinalScale.unknown.<get-unknown>|<get-unknown>(){}[0]
+        final fun <set-unknown>(#B?) // io.data2viz.scale/OrdinalScale.unknown.<set-unknown>|<set-unknown>(1:1?){}[0]
+    open var domain // io.data2viz.scale/OrdinalScale.domain|{}domain[0]
+        open fun <get-domain>(): kotlin.collections/List<#A> // io.data2viz.scale/OrdinalScale.domain.<get-domain>|<get-domain>(){}[0]
+        open fun <set-domain>(kotlin.collections/List<#A>) // io.data2viz.scale/OrdinalScale.domain.<set-domain>|<set-domain>(kotlin.collections.List<1:0>){}[0]
+
+    open fun copy(): io.data2viz.scale/OrdinalScale<#A, #B> // io.data2viz.scale/OrdinalScale.copy|copy(){}[0]
+    open fun end(): #B // io.data2viz.scale/OrdinalScale.end|end(){}[0]
+    open fun invoke(#A): #B // io.data2viz.scale/OrdinalScale.invoke|invoke(1:0){}[0]
+    open fun start(): #B // io.data2viz.scale/OrdinalScale.start|start(){}[0]
+}
+
+open class <#A: kotlin/Any?> io.data2viz.scale/LinearScale : io.data2viz.scale/ContinuousScale<kotlin/Double, #A>, io.data2viz.scale/NiceableScale<kotlin/Double>, io.data2viz.scale/Tickable<kotlin/Double> { // io.data2viz.scale/LinearScale|null[0]
+    constructor <init>(kotlin/Function2<#A, #A, kotlin/Function1<io.data2viz.math/Percent, #A>>, kotlin/Function2<#A, #A, kotlin/Function1<#A, io.data2viz.math/Percent>>? = ..., kotlin/Comparator<#A>? = ...) // io.data2viz.scale/LinearScale.<init>|<init>(kotlin.Function2<1:0,1:0,kotlin.Function1<io.data2viz.math.Percent,1:0>>;kotlin.Function2<1:0,1:0,kotlin.Function1<1:0,io.data2viz.math.Percent>>?;kotlin.Comparator<1:0>?){}[0]
+
+    final val comparator // io.data2viz.scale/LinearScale.comparator|{}comparator[0]
+        final fun <get-comparator>(): kotlin/Comparator<kotlin/Double> // io.data2viz.scale/LinearScale.comparator.<get-comparator>|<get-comparator>(){}[0]
+
+    final fun invoke(kotlin/Int): #A // io.data2viz.scale/LinearScale.invoke|invoke(kotlin.Int){}[0]
+    open fun copy(): io.data2viz.scale/ContinuousScale<kotlin/Double, #A> // io.data2viz.scale/LinearScale.copy|copy(){}[0]
+    open fun domainComparator(): kotlin/Comparator<kotlin/Double> // io.data2viz.scale/LinearScale.domainComparator|domainComparator(){}[0]
+    open fun interpolateDomain(kotlin/Double, kotlin/Double): kotlin/Function1<io.data2viz.math/Percent, kotlin/Double> // io.data2viz.scale/LinearScale.interpolateDomain|interpolateDomain(kotlin.Double;kotlin.Double){}[0]
+    open fun nice(kotlin/Int) // io.data2viz.scale/LinearScale.nice|nice(kotlin.Int){}[0]
+    open fun ticks(kotlin/Int): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/LinearScale.ticks|ticks(kotlin.Int){}[0]
+    open fun uninterpolateDomain(kotlin/Double, kotlin/Double): kotlin/Function1<kotlin/Double, io.data2viz.math/Percent> // io.data2viz.scale/LinearScale.uninterpolateDomain|uninterpolateDomain(kotlin.Double;kotlin.Double){}[0]
+}
+
+open class io.data2viz.scale/LogScale : io.data2viz.scale/LinearScale<kotlin/Double> { // io.data2viz.scale/LogScale|null[0]
+    constructor <init>(kotlin/Double = ..., kotlin/Function2<kotlin/Double, kotlin/Double, kotlin/Function1<io.data2viz.math/Percent, kotlin/Double>>, kotlin/Function2<kotlin/Double, kotlin/Double, kotlin/Function1<kotlin/Double, io.data2viz.math/Percent>>? = ..., kotlin/Comparator<kotlin/Double>? = ...) // io.data2viz.scale/LogScale.<init>|<init>(kotlin.Double;kotlin.Function2<kotlin.Double,kotlin.Double,kotlin.Function1<io.data2viz.math.Percent,kotlin.Double>>;kotlin.Function2<kotlin.Double,kotlin.Double,kotlin.Function1<kotlin.Double,io.data2viz.math.Percent>>?;kotlin.Comparator<kotlin.Double>?){}[0]
+
+    final var base // io.data2viz.scale/LogScale.base|{}base[0]
+        final fun <get-base>(): kotlin/Double // io.data2viz.scale/LogScale.base.<get-base>|<get-base>(){}[0]
+        final fun <set-base>(kotlin/Double) // io.data2viz.scale/LogScale.base.<set-base>|<set-base>(kotlin.Double){}[0]
+    open var domain // io.data2viz.scale/LogScale.domain|{}domain[0]
+        open fun <get-domain>(): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/LogScale.domain.<get-domain>|<get-domain>(){}[0]
+        open fun <set-domain>(kotlin.collections/List<kotlin/Double>) // io.data2viz.scale/LogScale.domain.<set-domain>|<set-domain>(kotlin.collections.List<kotlin.Double>){}[0]
+
+    open fun copy(): io.data2viz.scale/ContinuousScale<kotlin/Double, kotlin/Double> // io.data2viz.scale/LogScale.copy|copy(){}[0]
+    open fun interpolateDomain(kotlin/Double, kotlin/Double): kotlin/Function1<io.data2viz.math/Percent, kotlin/Double> // io.data2viz.scale/LogScale.interpolateDomain|interpolateDomain(kotlin.Double;kotlin.Double){}[0]
+    open fun nice(kotlin/Int) // io.data2viz.scale/LogScale.nice|nice(kotlin.Int){}[0]
+    open fun rescale() // io.data2viz.scale/LogScale.rescale|rescale(){}[0]
+    open fun ticks(kotlin/Int): kotlin.collections/List<kotlin/Double> // io.data2viz.scale/LogScale.ticks|ticks(kotlin.Int){}[0]
+    open fun uninterpolateDomain(kotlin/Double, kotlin/Double): kotlin/Function1<kotlin/Double, io.data2viz.math/Percent> // io.data2viz.scale/LogScale.uninterpolateDomain|uninterpolateDomain(kotlin.Double;kotlin.Double){}[0]
+}
+
+final object io.data2viz.scale/Scales { // io.data2viz.scale/Scales|null[0]
+    final object Continuous { // io.data2viz.scale/Scales.Continuous|null[0]
+        final fun identity(): io.data2viz.scale/LinearScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.identity|identity(){}[0]
+        final fun linear(kotlin/Function1<io.data2viz.scale/LinearScale<kotlin/Double>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.linear|linear(kotlin.Function1<io.data2viz.scale.LinearScale<kotlin.Double>,kotlin.Unit>){}[0]
+        final fun linearRound(kotlin/Function1<io.data2viz.scale/LinearScale<kotlin/Double>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.linearRound|linearRound(kotlin.Function1<io.data2viz.scale.LinearScale<kotlin.Double>,kotlin.Unit>){}[0]
+        final fun log(kotlin/Double = ..., kotlin/Function1<io.data2viz.scale/ContinuousScale<kotlin/Double, kotlin/Double>, kotlin/Unit> = ...): io.data2viz.scale/LogScale // io.data2viz.scale/Scales.Continuous.log|log(kotlin.Double;kotlin.Function1<io.data2viz.scale.ContinuousScale<kotlin.Double,kotlin.Double>,kotlin.Unit>){}[0]
+        final fun logRound(kotlin/Double = ...): io.data2viz.scale/LogScale // io.data2viz.scale/Scales.Continuous.logRound|logRound(kotlin.Double){}[0]
+        final fun pow(kotlin/Double = ..., kotlin/Function1<io.data2viz.scale/PowerScale<kotlin/Double>, kotlin/Unit> = ...): io.data2viz.scale/PowerScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.pow|pow(kotlin.Double;kotlin.Function1<io.data2viz.scale.PowerScale<kotlin.Double>,kotlin.Unit>){}[0]
+        final fun powRound(kotlin/Double = ..., kotlin/Function1<io.data2viz.scale/PowerScale<kotlin/Double>, kotlin/Unit> = ...): io.data2viz.scale/PowerScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.powRound|powRound(kotlin.Double;kotlin.Function1<io.data2viz.scale.PowerScale<kotlin.Double>,kotlin.Unit>){}[0]
+        final fun sequential(kotlin/Function1<io.data2viz.math/Percent, io.data2viz.color/Color>): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/Scales.Continuous.sequential|sequential(kotlin.Function1<io.data2viz.math.Percent,io.data2viz.color.Color>){}[0]
+        final fun sequential(kotlin/Function1<io.data2viz.math/Percent, kotlin/Double>): io.data2viz.scale/SequentialScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.sequential|sequential(kotlin.Function1<io.data2viz.math.Percent,kotlin.Double>){}[0]
+        final fun sqrt(kotlin/Function1<io.data2viz.scale/PowerScale<kotlin/Double>, kotlin/Unit> = ...): io.data2viz.scale/PowerScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.sqrt|sqrt(kotlin.Function1<io.data2viz.scale.PowerScale<kotlin.Double>,kotlin.Unit>){}[0]
+        final fun sqrtRound(kotlin/Function1<io.data2viz.scale/PowerScale<kotlin/Double>, kotlin/Unit> = ...): io.data2viz.scale/PowerScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.sqrtRound|sqrtRound(kotlin.Function1<io.data2viz.scale.PowerScale<kotlin.Double>,kotlin.Unit>){}[0]
+        final fun time(kotlin/Function1<io.data2viz.scale/TimeScale<kotlin/Double>, kotlin/Unit> = ...): io.data2viz.scale/TimeScale<kotlin/Double> // io.data2viz.scale/Scales.Continuous.time|time(kotlin.Function1<io.data2viz.scale.TimeScale<kotlin.Double>,kotlin.Unit>){}[0]
+        final fun vector(kotlin/Function1<io.data2viz.scale/LinearScale<io.data2viz.geom/Point>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<io.data2viz.geom/Point> // io.data2viz.scale/Scales.Continuous.vector|vector(kotlin.Function1<io.data2viz.scale.LinearScale<io.data2viz.geom.Point>,kotlin.Unit>){}[0]
+    }
+
+    final object Discrete { // io.data2viz.scale/Scales.Discrete|null[0]
+        final fun <#A2: kotlin/Any?, #B2: kotlin/Any?> ordinal(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, #B2>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, #B2> // io.data2viz.scale/Scales.Discrete.ordinal|ordinal(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,0:1>,kotlin.Unit>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> band(kotlin/Function1<io.data2viz.scale/BandScale<#A2>, kotlin/Unit> = ...): io.data2viz.scale/BandScale<#A2> // io.data2viz.scale/Scales.Discrete.band|band(kotlin.Function1<io.data2viz.scale.BandScale<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> point(kotlin/Function1<io.data2viz.scale/PointScale<#A2>, kotlin/Unit> = ...): io.data2viz.scale/PointScale<#A2> // io.data2viz.scale/Scales.Discrete.point|point(kotlin.Function1<io.data2viz.scale.PointScale<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+    }
+
+    final object Quantized { // io.data2viz.scale/Scales.Quantized|null[0]
+        final fun <#A2: kotlin/Any?> quantile(kotlin/Function1<io.data2viz.scale/QuantileScale<#A2>, kotlin/Unit> = ...): io.data2viz.scale/QuantileScale<#A2> // io.data2viz.scale/Scales.Quantized.quantile|quantile(kotlin.Function1<io.data2viz.scale.QuantileScale<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> quantize(kotlin/Function1<io.data2viz.scale/QuantizeScale<#A2>, kotlin/Unit> = ...): io.data2viz.scale/QuantizeScale<#A2> // io.data2viz.scale/Scales.Quantized.quantize|quantize(kotlin.Function1<io.data2viz.scale.QuantizeScale<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> threshold(kotlin/Function1<io.data2viz.scale/ThresholdScale<#A2>, kotlin/Unit> = ...): io.data2viz.scale/ThresholdScale<#A2> // io.data2viz.scale/Scales.Quantized.threshold|threshold(kotlin.Function1<io.data2viz.scale.ThresholdScale<0:0>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+    }
+}
+
+final object io.data2viz.scale/ScalesChromatic { // io.data2viz.scale/ScalesChromatic|null[0]
+    final object Continuous { // io.data2viz.scale/ScalesChromatic.Continuous|null[0]
+        final fun defaultRGB(kotlin/Function1<io.data2viz.scale/LinearScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Continuous.defaultRGB|defaultRGB(kotlin.Function1<io.data2viz.scale.LinearScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        final fun linearHCL(kotlin/Function1<io.data2viz.scale/LinearScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Continuous.linearHCL|linearHCL(kotlin.Function1<io.data2viz.scale.LinearScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        final fun linearHCLLong(kotlin/Function1<io.data2viz.scale/LinearScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Continuous.linearHCLLong|linearHCLLong(kotlin.Function1<io.data2viz.scale.LinearScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        final fun linearHSL(kotlin/Function1<io.data2viz.scale/LinearScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Continuous.linearHSL|linearHSL(kotlin.Function1<io.data2viz.scale.LinearScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        final fun linearHSLLong(kotlin/Function1<io.data2viz.scale/LinearScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Continuous.linearHSLLong|linearHSLLong(kotlin.Function1<io.data2viz.scale.LinearScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        final fun linearLAB(kotlin/Function1<io.data2viz.scale/LinearScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Continuous.linearLAB|linearLAB(kotlin.Function1<io.data2viz.scale.LinearScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        final fun linearRGB(kotlin/Function1<io.data2viz.scale/LinearScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/LinearScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Continuous.linearRGB|linearRGB(kotlin.Function1<io.data2viz.scale.LinearScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+    }
+
+    final object Discrete { // io.data2viz.scale/ScalesChromatic.Discrete|null[0]
+        final fun <#A2: kotlin/Any?> accent8(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.accent8|accent8(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> category10(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.category10|category10(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> categoryA20(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.categoryA20|categoryA20(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> categoryB20(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.categoryB20|categoryB20(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> categoryC20(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.categoryC20|categoryC20(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> dark8(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.dark8|dark8(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> paired12(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.paired12|paired12(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> pale12(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.pale12|pale12(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> pastel8(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.pastel8|pastel8(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> pastel9(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.pastel9|pastel9(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> vivid8(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.vivid8|vivid8(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> vivid9(kotlin/Function1<io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/OrdinalScale<#A2, io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Discrete.vivid9|vivid9(kotlin.Function1<io.data2viz.scale.OrdinalScale<0:0,io.data2viz.color.Color>,kotlin.Unit>){0§<kotlin.Any?>}[0]
+    }
+
+    final object Sequential { // io.data2viz.scale/ScalesChromatic.Sequential|null[0]
+        final object Cyclical { // io.data2viz.scale/ScalesChromatic.Sequential.Cyclical|null[0]
+            final fun sineBow(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Cyclical.sineBow|sineBow(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        }
+
+        final object Diverging { // io.data2viz.scale/ScalesChromatic.Sequential.Diverging|null[0]
+            final fun blue_yellow_red(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.blue_yellow_red|blue_yellow_red(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun brown_blueGreen(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.brown_blueGreen|brown_blueGreen(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun pink_green(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.pink_green|pink_green(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun purple_green(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.purple_green|purple_green(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun purple_orange(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.purple_orange|purple_orange(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun red_blue(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.red_blue|red_blue(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun red_grey(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.red_grey|red_grey(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun red_yellow_blue(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.red_yellow_blue|red_yellow_blue(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun red_yellow_green(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.red_yellow_green|red_yellow_green(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun spectral(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.Diverging.spectral|spectral(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        }
+
+        final object MultiHue { // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue|null[0]
+            final fun blue_green(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.blue_green|blue_green(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun blue_purple(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.blue_purple|blue_purple(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun green_blue(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.green_blue|green_blue(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun inferno(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.inferno|inferno(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun magma(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.magma|magma(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun orange_red(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.orange_red|orange_red(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun plasma(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.plasma|plasma(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun purple_blue(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.purple_blue|purple_blue(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun purple_blue_green(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.purple_blue_green|purple_blue_green(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun purple_red(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.purple_red|purple_red(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun red_purple(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.red_purple|red_purple(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun viridis(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.viridis|viridis(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun yellow_green(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.yellow_green|yellow_green(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun yellow_green_blue(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.yellow_green_blue|yellow_green_blue(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun yellow_green_brown(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.yellow_green_brown|yellow_green_brown(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun yellow_green_red(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.MultiHue.yellow_green_red|yellow_green_red(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        }
+
+        final object SingleHue { // io.data2viz.scale/ScalesChromatic.Sequential.SingleHue|null[0]
+            final fun blues(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.SingleHue.blues|blues(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun greens(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.SingleHue.greens|greens(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun greys(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.SingleHue.greys|greys(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun oranges(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.SingleHue.oranges|oranges(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun purples(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.SingleHue.purples|purples(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+            final fun reds(kotlin/Function1<io.data2viz.scale/SequentialScale<io.data2viz.color/Color>, kotlin/Unit> = ...): io.data2viz.scale/SequentialScale<io.data2viz.color/Color> // io.data2viz.scale/ScalesChromatic.Sequential.SingleHue.reds|reds(kotlin.Function1<io.data2viz.scale.SequentialScale<io.data2viz.color.Color>,kotlin.Unit>){}[0]
+        }
+    }
+}
+
+final fun <#A: kotlin/Any?> io.data2viz.scale/bisectLeft(kotlin.collections/List<#A>, #A, kotlin/Comparator<#A>, kotlin/Int = ..., kotlin/Int = ...): kotlin/Int // io.data2viz.scale/bisectLeft|bisectLeft(kotlin.collections.List<0:0>;0:0;kotlin.Comparator<0:0>;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.scale/bisectRight(kotlin.collections/List<#A>, #A, kotlin/Comparator<#A>, kotlin/Int = ..., kotlin/Int = ...): kotlin/Int // io.data2viz.scale/bisectRight|bisectRight(kotlin.collections.List<0:0>;0:0;kotlin.Comparator<0:0>;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.scale/intervalOf(#A, #A): io.data2viz.scale/StrictlyContinuous<#A> // io.data2viz.scale/intervalOf|intervalOf(0:0;0:0){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.scale/intervalOf(kotlin/Array<out #A>...): io.data2viz.scale/StrictlyContinuous<#A> // io.data2viz.scale/intervalOf|intervalOf(kotlin.Array<out|0:0>...){0§<kotlin.Any?>}[0]
+final fun io.data2viz.scale/quantile(kotlin.collections/List<kotlin/Double>, kotlin/Double, kotlin/Function3<kotlin/Double, kotlin/Int, kotlin.collections/List<kotlin/Double>, kotlin/Double> = ...): kotlin/Double // io.data2viz.scale/quantile|quantile(kotlin.collections.List<kotlin.Double>;kotlin.Double;kotlin.Function3<kotlin.Double,kotlin.Int,kotlin.collections.List<kotlin.Double>,kotlin.Double>){}[0]

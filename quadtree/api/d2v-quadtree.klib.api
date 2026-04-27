@@ -1,0 +1,121 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-quadtree>
+abstract interface <#A: kotlin/Any?> io.data2viz.quadtree/QuadtreeNode { // io.data2viz.quadtree/QuadtreeNode|null[0]
+    abstract var value // io.data2viz.quadtree/QuadtreeNode.value|{}value[0]
+        abstract fun <get-value>(): kotlin/Double? // io.data2viz.quadtree/QuadtreeNode.value.<get-value>|<get-value>(){}[0]
+        abstract fun <set-value>(kotlin/Double?) // io.data2viz.quadtree/QuadtreeNode.value.<set-value>|<set-value>(kotlin.Double?){}[0]
+    abstract var x // io.data2viz.quadtree/QuadtreeNode.x|{}x[0]
+        abstract fun <get-x>(): kotlin/Double // io.data2viz.quadtree/QuadtreeNode.x.<get-x>|<get-x>(){}[0]
+        abstract fun <set-x>(kotlin/Double) // io.data2viz.quadtree/QuadtreeNode.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    abstract var y // io.data2viz.quadtree/QuadtreeNode.y|{}y[0]
+        abstract fun <get-y>(): kotlin/Double // io.data2viz.quadtree/QuadtreeNode.y.<get-y>|<get-y>(){}[0]
+        abstract fun <set-y>(kotlin/Double) // io.data2viz.quadtree/QuadtreeNode.y.<set-y>|<set-y>(kotlin.Double){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.quadtree/InternalNode : io.data2viz.quadtree/QuadtreeNode<#A> { // io.data2viz.quadtree/InternalNode|null[0]
+    constructor <init>(io.data2viz.quadtree/QuadtreeNode<#A>? = ..., io.data2viz.quadtree/QuadtreeNode<#A>? = ..., io.data2viz.quadtree/QuadtreeNode<#A>? = ..., io.data2viz.quadtree/QuadtreeNode<#A>? = ..., kotlin/Double? = ..., kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.quadtree/InternalNode.<init>|<init>(io.data2viz.quadtree.QuadtreeNode<1:0>?;io.data2viz.quadtree.QuadtreeNode<1:0>?;io.data2viz.quadtree.QuadtreeNode<1:0>?;io.data2viz.quadtree.QuadtreeNode<1:0>?;kotlin.Double?;kotlin.Double;kotlin.Double){}[0]
+
+    final var NE_0 // io.data2viz.quadtree/InternalNode.NE_0|{}NE_0[0]
+        final fun <get-NE_0>(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/InternalNode.NE_0.<get-NE_0>|<get-NE_0>(){}[0]
+        final fun <set-NE_0>(io.data2viz.quadtree/QuadtreeNode<#A>?) // io.data2viz.quadtree/InternalNode.NE_0.<set-NE_0>|<set-NE_0>(io.data2viz.quadtree.QuadtreeNode<1:0>?){}[0]
+    final var NW_1 // io.data2viz.quadtree/InternalNode.NW_1|{}NW_1[0]
+        final fun <get-NW_1>(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/InternalNode.NW_1.<get-NW_1>|<get-NW_1>(){}[0]
+        final fun <set-NW_1>(io.data2viz.quadtree/QuadtreeNode<#A>?) // io.data2viz.quadtree/InternalNode.NW_1.<set-NW_1>|<set-NW_1>(io.data2viz.quadtree.QuadtreeNode<1:0>?){}[0]
+    final var SE_2 // io.data2viz.quadtree/InternalNode.SE_2|{}SE_2[0]
+        final fun <get-SE_2>(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/InternalNode.SE_2.<get-SE_2>|<get-SE_2>(){}[0]
+        final fun <set-SE_2>(io.data2viz.quadtree/QuadtreeNode<#A>?) // io.data2viz.quadtree/InternalNode.SE_2.<set-SE_2>|<set-SE_2>(io.data2viz.quadtree.QuadtreeNode<1:0>?){}[0]
+    final var SW_3 // io.data2viz.quadtree/InternalNode.SW_3|{}SW_3[0]
+        final fun <get-SW_3>(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/InternalNode.SW_3.<get-SW_3>|<get-SW_3>(){}[0]
+        final fun <set-SW_3>(io.data2viz.quadtree/QuadtreeNode<#A>?) // io.data2viz.quadtree/InternalNode.SW_3.<set-SW_3>|<set-SW_3>(io.data2viz.quadtree.QuadtreeNode<1:0>?){}[0]
+    final var value // io.data2viz.quadtree/InternalNode.value|{}value[0]
+        final fun <get-value>(): kotlin/Double? // io.data2viz.quadtree/InternalNode.value.<get-value>|<get-value>(){}[0]
+        final fun <set-value>(kotlin/Double?) // io.data2viz.quadtree/InternalNode.value.<set-value>|<set-value>(kotlin.Double?){}[0]
+    final var x // io.data2viz.quadtree/InternalNode.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.quadtree/InternalNode.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.quadtree/InternalNode.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.quadtree/InternalNode.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.quadtree/InternalNode.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.quadtree/InternalNode.y.<set-y>|<set-y>(kotlin.Double){}[0]
+
+    final fun component1(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/InternalNode.component1|component1(){}[0]
+    final fun component2(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/InternalNode.component2|component2(){}[0]
+    final fun component3(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/InternalNode.component3|component3(){}[0]
+    final fun component4(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/InternalNode.component4|component4(){}[0]
+    final fun component5(): kotlin/Double? // io.data2viz.quadtree/InternalNode.component5|component5(){}[0]
+    final fun component6(): kotlin/Double // io.data2viz.quadtree/InternalNode.component6|component6(){}[0]
+    final fun component7(): kotlin/Double // io.data2viz.quadtree/InternalNode.component7|component7(){}[0]
+    final fun copy(io.data2viz.quadtree/QuadtreeNode<#A>? = ..., io.data2viz.quadtree/QuadtreeNode<#A>? = ..., io.data2viz.quadtree/QuadtreeNode<#A>? = ..., io.data2viz.quadtree/QuadtreeNode<#A>? = ..., kotlin/Double? = ..., kotlin/Double = ..., kotlin/Double = ...): io.data2viz.quadtree/InternalNode<#A> // io.data2viz.quadtree/InternalNode.copy|copy(io.data2viz.quadtree.QuadtreeNode<1:0>?;io.data2viz.quadtree.QuadtreeNode<1:0>?;io.data2viz.quadtree.QuadtreeNode<1:0>?;io.data2viz.quadtree.QuadtreeNode<1:0>?;kotlin.Double?;kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.quadtree/InternalNode.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.quadtree/InternalNode.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.quadtree/InternalNode.toString|toString(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.quadtree/LeafNode : io.data2viz.quadtree/QuadtreeNode<#A> { // io.data2viz.quadtree/LeafNode|null[0]
+    constructor <init>(#A, io.data2viz.quadtree/LeafNode<#A>?, kotlin/Double? = ..., kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.quadtree/LeafNode.<init>|<init>(1:0;io.data2viz.quadtree.LeafNode<1:0>?;kotlin.Double?;kotlin.Double;kotlin.Double){}[0]
+
+    final val data // io.data2viz.quadtree/LeafNode.data|{}data[0]
+        final fun <get-data>(): #A // io.data2viz.quadtree/LeafNode.data.<get-data>|<get-data>(){}[0]
+
+    final var next // io.data2viz.quadtree/LeafNode.next|{}next[0]
+        final fun <get-next>(): io.data2viz.quadtree/LeafNode<#A>? // io.data2viz.quadtree/LeafNode.next.<get-next>|<get-next>(){}[0]
+        final fun <set-next>(io.data2viz.quadtree/LeafNode<#A>?) // io.data2viz.quadtree/LeafNode.next.<set-next>|<set-next>(io.data2viz.quadtree.LeafNode<1:0>?){}[0]
+    final var value // io.data2viz.quadtree/LeafNode.value|{}value[0]
+        final fun <get-value>(): kotlin/Double? // io.data2viz.quadtree/LeafNode.value.<get-value>|<get-value>(){}[0]
+        final fun <set-value>(kotlin/Double?) // io.data2viz.quadtree/LeafNode.value.<set-value>|<set-value>(kotlin.Double?){}[0]
+    final var x // io.data2viz.quadtree/LeafNode.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.quadtree/LeafNode.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.quadtree/LeafNode.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.quadtree/LeafNode.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.quadtree/LeafNode.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.quadtree/LeafNode.y.<set-y>|<set-y>(kotlin.Double){}[0]
+
+    final fun component1(): #A // io.data2viz.quadtree/LeafNode.component1|component1(){}[0]
+    final fun component2(): io.data2viz.quadtree/LeafNode<#A>? // io.data2viz.quadtree/LeafNode.component2|component2(){}[0]
+    final fun component3(): kotlin/Double? // io.data2viz.quadtree/LeafNode.component3|component3(){}[0]
+    final fun component4(): kotlin/Double // io.data2viz.quadtree/LeafNode.component4|component4(){}[0]
+    final fun component5(): kotlin/Double // io.data2viz.quadtree/LeafNode.component5|component5(){}[0]
+    final fun copy(#A = ..., io.data2viz.quadtree/LeafNode<#A>? = ..., kotlin/Double? = ..., kotlin/Double = ..., kotlin/Double = ...): io.data2viz.quadtree/LeafNode<#A> // io.data2viz.quadtree/LeafNode.copy|copy(1:0;io.data2viz.quadtree.LeafNode<1:0>?;kotlin.Double?;kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.quadtree/LeafNode.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.quadtree/LeafNode.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.quadtree/LeafNode.toString|toString(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.quadtree/Quadtree { // io.data2viz.quadtree/Quadtree|null[0]
+    constructor <init>(kotlin/Function1<#A, kotlin/Double>, kotlin/Function1<#A, kotlin/Double>) // io.data2viz.quadtree/Quadtree.<init>|<init>(kotlin.Function1<1:0,kotlin.Double>;kotlin.Function1<1:0,kotlin.Double>){}[0]
+
+    final val x // io.data2viz.quadtree/Quadtree.x|{}x[0]
+        final fun <get-x>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.quadtree/Quadtree.x.<get-x>|<get-x>(){}[0]
+    final val y // io.data2viz.quadtree/Quadtree.y|{}y[0]
+        final fun <get-y>(): kotlin/Function1<#A, kotlin/Double> // io.data2viz.quadtree/Quadtree.y.<get-y>|<get-y>(){}[0]
+
+    final var extent // io.data2viz.quadtree/Quadtree.extent|{}extent[0]
+        final fun <get-extent>(): io.data2viz.geom/Extent // io.data2viz.quadtree/Quadtree.extent.<get-extent>|<get-extent>(){}[0]
+        final fun <set-extent>(io.data2viz.geom/Extent) // io.data2viz.quadtree/Quadtree.extent.<set-extent>|<set-extent>(io.data2viz.geom.Extent){}[0]
+    final var root // io.data2viz.quadtree/Quadtree.root|{}root[0]
+        final fun <get-root>(): io.data2viz.quadtree/QuadtreeNode<#A>? // io.data2viz.quadtree/Quadtree.root.<get-root>|<get-root>(){}[0]
+        final fun <set-root>(io.data2viz.quadtree/QuadtreeNode<#A>?) // io.data2viz.quadtree/Quadtree.root.<set-root>|<set-root>(io.data2viz.quadtree.QuadtreeNode<1:0>?){}[0]
+}
+
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/InternalNode<#A>).io.data2viz.quadtree/toList(): kotlin.collections/List<io.data2viz.quadtree/QuadtreeNode<#A>?> // io.data2viz.quadtree/toList|toList@io.data2viz.quadtree.InternalNode<0:0>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/add(#A) // io.data2viz.quadtree/add|add@io.data2viz.quadtree.Quadtree<0:0>(0:0){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/addAll(kotlin.collections/List<#A>) // io.data2viz.quadtree/addAll|addAll@io.data2viz.quadtree.Quadtree<0:0>(kotlin.collections.List<0:0>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/copy(): io.data2viz.quadtree/Quadtree<#A> // io.data2viz.quadtree/copy|copy@io.data2viz.quadtree.Quadtree<0:0>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/cover(kotlin/Double, kotlin/Double) // io.data2viz.quadtree/cover|cover@io.data2viz.quadtree.Quadtree<0:0>(kotlin.Double;kotlin.Double){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/data(): kotlin.collections/List<#A> // io.data2viz.quadtree/data|data@io.data2viz.quadtree.Quadtree<0:0>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/find(kotlin/Double, kotlin/Double, kotlin/Double = ...): #A? // io.data2viz.quadtree/find|find@io.data2viz.quadtree.Quadtree<0:0>(kotlin.Double;kotlin.Double;kotlin.Double){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/remove(#A) // io.data2viz.quadtree/remove|remove@io.data2viz.quadtree.Quadtree<0:0>(0:0){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/removeAll(kotlin.collections/List<#A>) // io.data2viz.quadtree/removeAll|removeAll@io.data2viz.quadtree.Quadtree<0:0>(kotlin.collections.List<0:0>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/size(): kotlin/Int // io.data2viz.quadtree/size|size@io.data2viz.quadtree.Quadtree<0:0>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/visit(kotlin/Function5<io.data2viz.quadtree/QuadtreeNode<#A>, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Boolean>) // io.data2viz.quadtree/visit|visit@io.data2viz.quadtree.Quadtree<0:0>(kotlin.Function5<io.data2viz.quadtree.QuadtreeNode<0:0>,kotlin.Double,kotlin.Double,kotlin.Double,kotlin.Double,kotlin.Boolean>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.data2viz.quadtree/Quadtree<#A>).io.data2viz.quadtree/visitAfter(kotlin/Function5<io.data2viz.quadtree/QuadtreeNode<#A>, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Double, kotlin/Unit>) // io.data2viz.quadtree/visitAfter|visitAfter@io.data2viz.quadtree.Quadtree<0:0>(kotlin.Function5<io.data2viz.quadtree.QuadtreeNode<0:0>,kotlin.Double,kotlin.Double,kotlin.Double,kotlin.Double,kotlin.Unit>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.quadtree/quadtree(kotlin/Function1<#A, kotlin/Double>, kotlin/Function1<#A, kotlin/Double>): io.data2viz.quadtree/Quadtree<#A> // io.data2viz.quadtree/quadtree|quadtree(kotlin.Function1<0:0,kotlin.Double>;kotlin.Function1<0:0,kotlin.Double>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.data2viz.quadtree/quadtree(kotlin/Function1<#A, kotlin/Double>, kotlin/Function1<#A, kotlin/Double>, kotlin.collections/List<#A>): io.data2viz.quadtree/Quadtree<#A> // io.data2viz.quadtree/quadtree|quadtree(kotlin.Function1<0:0,kotlin.Double>;kotlin.Function1<0:0,kotlin.Double>;kotlin.collections.List<0:0>){0§<kotlin.Any?>}[0]
+
+// Targets: [js]
+final fun io.data2viz.quadtree/quadtree(kotlin/Array<kotlin/Array<kotlin/Double>>): io.data2viz.quadtree/Quadtree<kotlin/Array<kotlin/Double>> // io.data2viz.quadtree/quadtree|quadtree(kotlin.Array<kotlin.Array<kotlin.Double>>){}[0]

@@ -1,0 +1,240 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-voronoi>
+final enum class io.data2viz.voronoi/RedBlackColor : kotlin/Enum<io.data2viz.voronoi/RedBlackColor> { // io.data2viz.voronoi/RedBlackColor|null[0]
+    enum entry BLACK // io.data2viz.voronoi/RedBlackColor.BLACK|null[0]
+    enum entry RED // io.data2viz.voronoi/RedBlackColor.RED|null[0]
+
+    final val entries // io.data2viz.voronoi/RedBlackColor.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.data2viz.voronoi/RedBlackColor> // io.data2viz.voronoi/RedBlackColor.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.data2viz.voronoi/RedBlackColor // io.data2viz.voronoi/RedBlackColor.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.data2viz.voronoi/RedBlackColor> // io.data2viz.voronoi/RedBlackColor.values|values#static(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.voronoi/RedBlackNode { // io.data2viz.voronoi/RedBlackNode|null[0]
+    constructor <init>(#A) // io.data2viz.voronoi/RedBlackNode.<init>|<init>(1:0){}[0]
+
+    final val node // io.data2viz.voronoi/RedBlackNode.node|{}node[0]
+        final fun <get-node>(): #A // io.data2viz.voronoi/RedBlackNode.node.<get-node>|<get-node>(){}[0]
+
+    final var C // io.data2viz.voronoi/RedBlackNode.C|{}C[0]
+        final fun <get-C>(): io.data2viz.voronoi/RedBlackColor // io.data2viz.voronoi/RedBlackNode.C.<get-C>|<get-C>(){}[0]
+        final fun <set-C>(io.data2viz.voronoi/RedBlackColor) // io.data2viz.voronoi/RedBlackNode.C.<set-C>|<set-C>(io.data2viz.voronoi.RedBlackColor){}[0]
+    final var L // io.data2viz.voronoi/RedBlackNode.L|{}L[0]
+        final fun <get-L>(): io.data2viz.voronoi/RedBlackNode<#A>? // io.data2viz.voronoi/RedBlackNode.L.<get-L>|<get-L>(){}[0]
+        final fun <set-L>(io.data2viz.voronoi/RedBlackNode<#A>?) // io.data2viz.voronoi/RedBlackNode.L.<set-L>|<set-L>(io.data2viz.voronoi.RedBlackNode<1:0>?){}[0]
+    final var N // io.data2viz.voronoi/RedBlackNode.N|{}N[0]
+        final fun <get-N>(): io.data2viz.voronoi/RedBlackNode<#A>? // io.data2viz.voronoi/RedBlackNode.N.<get-N>|<get-N>(){}[0]
+        final fun <set-N>(io.data2viz.voronoi/RedBlackNode<#A>?) // io.data2viz.voronoi/RedBlackNode.N.<set-N>|<set-N>(io.data2viz.voronoi.RedBlackNode<1:0>?){}[0]
+    final var P // io.data2viz.voronoi/RedBlackNode.P|{}P[0]
+        final fun <get-P>(): io.data2viz.voronoi/RedBlackNode<#A>? // io.data2viz.voronoi/RedBlackNode.P.<get-P>|<get-P>(){}[0]
+        final fun <set-P>(io.data2viz.voronoi/RedBlackNode<#A>?) // io.data2viz.voronoi/RedBlackNode.P.<set-P>|<set-P>(io.data2viz.voronoi.RedBlackNode<1:0>?){}[0]
+    final var R // io.data2viz.voronoi/RedBlackNode.R|{}R[0]
+        final fun <get-R>(): io.data2viz.voronoi/RedBlackNode<#A>? // io.data2viz.voronoi/RedBlackNode.R.<get-R>|<get-R>(){}[0]
+        final fun <set-R>(io.data2viz.voronoi/RedBlackNode<#A>?) // io.data2viz.voronoi/RedBlackNode.R.<set-R>|<set-R>(io.data2viz.voronoi.RedBlackNode<1:0>?){}[0]
+    final var U // io.data2viz.voronoi/RedBlackNode.U|{}U[0]
+        final fun <get-U>(): io.data2viz.voronoi/RedBlackNode<#A>? // io.data2viz.voronoi/RedBlackNode.U.<get-U>|<get-U>(){}[0]
+        final fun <set-U>(io.data2viz.voronoi/RedBlackNode<#A>?) // io.data2viz.voronoi/RedBlackNode.U.<set-U>|<set-U>(io.data2viz.voronoi.RedBlackNode<1:0>?){}[0]
+
+    final fun clean() // io.data2viz.voronoi/RedBlackNode.clean|clean(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.data2viz.voronoi/RedBlackTree { // io.data2viz.voronoi/RedBlackTree|null[0]
+    constructor <init>() // io.data2viz.voronoi/RedBlackTree.<init>|<init>(){}[0]
+
+    final var root // io.data2viz.voronoi/RedBlackTree.root|{}root[0]
+        final fun <get-root>(): io.data2viz.voronoi/RedBlackNode<#A>? // io.data2viz.voronoi/RedBlackTree.root.<get-root>|<get-root>(){}[0]
+        final fun <set-root>(io.data2viz.voronoi/RedBlackNode<#A>?) // io.data2viz.voronoi/RedBlackTree.root.<set-root>|<set-root>(io.data2viz.voronoi.RedBlackNode<1:0>?){}[0]
+
+    final fun insert(io.data2viz.voronoi/RedBlackNode<#A>, io.data2viz.voronoi/RedBlackNode<#A>? = ...): io.data2viz.voronoi/RedBlackNode<#A> // io.data2viz.voronoi/RedBlackTree.insert|insert(io.data2viz.voronoi.RedBlackNode<1:0>;io.data2viz.voronoi.RedBlackNode<1:0>?){}[0]
+    final fun remove(io.data2viz.voronoi/RedBlackNode<#A>) // io.data2viz.voronoi/RedBlackTree.remove|remove(io.data2viz.voronoi.RedBlackNode<1:0>){}[0]
+    final fun rotateLeft(io.data2viz.voronoi/RedBlackNode<#A>) // io.data2viz.voronoi/RedBlackTree.rotateLeft|rotateLeft(io.data2viz.voronoi.RedBlackNode<1:0>){}[0]
+    final fun rotateRight(io.data2viz.voronoi/RedBlackNode<#A>) // io.data2viz.voronoi/RedBlackTree.rotateRight|rotateRight(io.data2viz.voronoi.RedBlackNode<1:0>){}[0]
+}
+
+final class io.data2viz.voronoi/Beach { // io.data2viz.voronoi/Beach|null[0]
+    constructor <init>() // io.data2viz.voronoi/Beach.<init>|<init>(){}[0]
+
+    final val circle // io.data2viz.voronoi/Beach.circle|{}circle[0]
+        final fun <get-circle>(): io.data2viz.voronoi/Circle? // io.data2viz.voronoi/Beach.circle.<get-circle>|<get-circle>(){}[0]
+
+    final var circleNode // io.data2viz.voronoi/Beach.circleNode|{}circleNode[0]
+        final fun <get-circleNode>(): io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>? // io.data2viz.voronoi/Beach.circleNode.<get-circleNode>|<get-circleNode>(){}[0]
+        final fun <set-circleNode>(io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>?) // io.data2viz.voronoi/Beach.circleNode.<set-circleNode>|<set-circleNode>(io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>?){}[0]
+    final var edge // io.data2viz.voronoi/Beach.edge|{}edge[0]
+        final fun <get-edge>(): io.data2viz.voronoi/Edge? // io.data2viz.voronoi/Beach.edge.<get-edge>|<get-edge>(){}[0]
+        final fun <set-edge>(io.data2viz.voronoi/Edge?) // io.data2viz.voronoi/Beach.edge.<set-edge>|<set-edge>(io.data2viz.voronoi.Edge?){}[0]
+    final var site // io.data2viz.voronoi/Beach.site|{}site[0]
+        final fun <get-site>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Beach.site.<get-site>|<get-site>(){}[0]
+        final fun <set-site>(io.data2viz.voronoi/Site) // io.data2viz.voronoi/Beach.site.<set-site>|<set-site>(io.data2viz.voronoi.Site){}[0]
+}
+
+final class io.data2viz.voronoi/Cell { // io.data2viz.voronoi/Cell|null[0]
+    constructor <init>(io.data2viz.voronoi/Site) // io.data2viz.voronoi/Cell.<init>|<init>(io.data2viz.voronoi.Site){}[0]
+
+    final val halfedges // io.data2viz.voronoi/Cell.halfedges|{}halfedges[0]
+        final fun <get-halfedges>(): kotlin.collections/MutableList<kotlin/Int> // io.data2viz.voronoi/Cell.halfedges.<get-halfedges>|<get-halfedges>(){}[0]
+    final val site // io.data2viz.voronoi/Cell.site|{}site[0]
+        final fun <get-site>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Cell.site.<get-site>|<get-site>(){}[0]
+
+    final fun cellHalfedgeEnd(io.data2viz.voronoi/Edge): io.data2viz.geom/Point? // io.data2viz.voronoi/Cell.cellHalfedgeEnd|cellHalfedgeEnd(io.data2viz.voronoi.Edge){}[0]
+    final fun cellHalfedgeStart(io.data2viz.voronoi/Edge): io.data2viz.geom/Point? // io.data2viz.voronoi/Cell.cellHalfedgeStart|cellHalfedgeStart(io.data2viz.voronoi.Edge){}[0]
+    final fun halfedgeAngle(io.data2viz.voronoi/Edge): kotlin/Double // io.data2viz.voronoi/Cell.halfedgeAngle|halfedgeAngle(io.data2viz.voronoi.Edge){}[0]
+    final fun halfedgeEnd(io.data2viz.voronoi/Edge): io.data2viz.geom/Point? // io.data2viz.voronoi/Cell.halfedgeEnd|halfedgeEnd(io.data2viz.voronoi.Edge){}[0]
+    final fun halfedgeStart(io.data2viz.voronoi/Edge): io.data2viz.geom/Point? // io.data2viz.voronoi/Cell.halfedgeStart|halfedgeStart(io.data2viz.voronoi.Edge){}[0]
+
+    final object Companion { // io.data2viz.voronoi/Cell.Companion|null[0]
+        final fun createCell(io.data2viz.voronoi/Site) // io.data2viz.voronoi/Cell.Companion.createCell|createCell(io.data2viz.voronoi.Site){}[0]
+    }
+}
+
+final class io.data2viz.voronoi/Circle { // io.data2viz.voronoi/Circle|null[0]
+    constructor <init>() // io.data2viz.voronoi/Circle.<init>|<init>(){}[0]
+
+    final var arcNode // io.data2viz.voronoi/Circle.arcNode|{}arcNode[0]
+        final fun <get-arcNode>(): io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>? // io.data2viz.voronoi/Circle.arcNode.<get-arcNode>|<get-arcNode>(){}[0]
+        final fun <set-arcNode>(io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>?) // io.data2viz.voronoi/Circle.arcNode.<set-arcNode>|<set-arcNode>(io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>?){}[0]
+    final var cy // io.data2viz.voronoi/Circle.cy|{}cy[0]
+        final fun <get-cy>(): kotlin/Double // io.data2viz.voronoi/Circle.cy.<get-cy>|<get-cy>(){}[0]
+        final fun <set-cy>(kotlin/Double) // io.data2viz.voronoi/Circle.cy.<set-cy>|<set-cy>(kotlin.Double){}[0]
+    final var site // io.data2viz.voronoi/Circle.site|{}site[0]
+        final fun <get-site>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Circle.site.<get-site>|<get-site>(){}[0]
+        final fun <set-site>(io.data2viz.voronoi/Site) // io.data2viz.voronoi/Circle.site.<set-site>|<set-site>(io.data2viz.voronoi.Site){}[0]
+    final var x // io.data2viz.voronoi/Circle.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.voronoi/Circle.x.<get-x>|<get-x>(){}[0]
+        final fun <set-x>(kotlin/Double) // io.data2viz.voronoi/Circle.x.<set-x>|<set-x>(kotlin.Double){}[0]
+    final var y // io.data2viz.voronoi/Circle.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.voronoi/Circle.y.<get-y>|<get-y>(){}[0]
+        final fun <set-y>(kotlin/Double) // io.data2viz.voronoi/Circle.y.<set-y>|<set-y>(kotlin.Double){}[0]
+}
+
+final class io.data2viz.voronoi/Diagram { // io.data2viz.voronoi/Diagram|null[0]
+    constructor <init>(kotlin/Array<io.data2viz.voronoi/Site>, io.data2viz.geom/Point = ..., io.data2viz.geom/Point? = ...) // io.data2viz.voronoi/Diagram.<init>|<init>(kotlin.Array<io.data2viz.voronoi.Site>;io.data2viz.geom.Point;io.data2viz.geom.Point?){}[0]
+
+    final var cells // io.data2viz.voronoi/Diagram.cells|{}cells[0]
+        final fun <get-cells>(): kotlin/Array<io.data2viz.voronoi/Cell?>? // io.data2viz.voronoi/Diagram.cells.<get-cells>|<get-cells>(){}[0]
+        final fun <set-cells>(kotlin/Array<io.data2viz.voronoi/Cell?>?) // io.data2viz.voronoi/Diagram.cells.<set-cells>|<set-cells>(kotlin.Array<io.data2viz.voronoi.Cell?>?){}[0]
+    final var edges // io.data2viz.voronoi/Diagram.edges|{}edges[0]
+        final fun <get-edges>(): kotlin.collections/MutableList<io.data2viz.voronoi/Edge?> // io.data2viz.voronoi/Diagram.edges.<get-edges>|<get-edges>(){}[0]
+        final fun <set-edges>(kotlin.collections/MutableList<io.data2viz.voronoi/Edge?>) // io.data2viz.voronoi/Diagram.edges.<set-edges>|<set-edges>(kotlin.collections.MutableList<io.data2viz.voronoi.Edge?>){}[0]
+
+    final fun (io.data2viz.geom/Point).squareDistance(io.data2viz.geom/Point): kotlin/Double // io.data2viz.voronoi/Diagram.squareDistance|squareDistance@io.data2viz.geom.Point(io.data2viz.geom.Point){}[0]
+    final fun find(io.data2viz.geom/Point, kotlin/Double? = ...): io.data2viz.voronoi/Site? // io.data2viz.voronoi/Diagram.find|find(io.data2viz.geom.Point;kotlin.Double?){}[0]
+    final fun links(): kotlin.collections/List<io.data2viz.voronoi/Diagram.Link> // io.data2viz.voronoi/Diagram.links|links(){}[0]
+    final fun polygons(): kotlin.collections/List<kotlin.collections/List<io.data2viz.geom/Point>> // io.data2viz.voronoi/Diagram.polygons|polygons(){}[0]
+    final fun triangleArea(io.data2viz.geom/Point, io.data2viz.geom/Point, io.data2viz.geom/Point): kotlin/Double // io.data2viz.voronoi/Diagram.triangleArea|triangleArea(io.data2viz.geom.Point;io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+    final fun triangles(): kotlin.collections/MutableList<io.data2viz.voronoi/Triangle> // io.data2viz.voronoi/Diagram.triangles|triangles(){}[0]
+
+    final class Link { // io.data2viz.voronoi/Diagram.Link|null[0]
+        constructor <init>(io.data2viz.geom/Point, io.data2viz.geom/Point) // io.data2viz.voronoi/Diagram.Link.<init>|<init>(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+
+        final val source // io.data2viz.voronoi/Diagram.Link.source|{}source[0]
+            final fun <get-source>(): io.data2viz.geom/Point // io.data2viz.voronoi/Diagram.Link.source.<get-source>|<get-source>(){}[0]
+        final val target // io.data2viz.voronoi/Diagram.Link.target|{}target[0]
+            final fun <get-target>(): io.data2viz.geom/Point // io.data2viz.voronoi/Diagram.Link.target.<get-target>|<get-target>(){}[0]
+
+        final fun component1(): io.data2viz.geom/Point // io.data2viz.voronoi/Diagram.Link.component1|component1(){}[0]
+        final fun component2(): io.data2viz.geom/Point // io.data2viz.voronoi/Diagram.Link.component2|component2(){}[0]
+        final fun copy(io.data2viz.geom/Point = ..., io.data2viz.geom/Point = ...): io.data2viz.voronoi/Diagram.Link // io.data2viz.voronoi/Diagram.Link.copy|copy(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.voronoi/Diagram.Link.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.data2viz.voronoi/Diagram.Link.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.data2viz.voronoi/Diagram.Link.toString|toString(){}[0]
+    }
+}
+
+final class io.data2viz.voronoi/Edge { // io.data2viz.voronoi/Edge|null[0]
+    constructor <init>(io.data2viz.voronoi/Site, io.data2viz.voronoi/Site? = ...) // io.data2viz.voronoi/Edge.<init>|<init>(io.data2viz.voronoi.Site;io.data2viz.voronoi.Site?){}[0]
+
+    final var end // io.data2viz.voronoi/Edge.end|{}end[0]
+        final fun <get-end>(): io.data2viz.geom/Point? // io.data2viz.voronoi/Edge.end.<get-end>|<get-end>(){}[0]
+        final fun <set-end>(io.data2viz.geom/Point?) // io.data2viz.voronoi/Edge.end.<set-end>|<set-end>(io.data2viz.geom.Point?){}[0]
+    final var left // io.data2viz.voronoi/Edge.left|{}left[0]
+        final fun <get-left>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Edge.left.<get-left>|<get-left>(){}[0]
+        final fun <set-left>(io.data2viz.voronoi/Site) // io.data2viz.voronoi/Edge.left.<set-left>|<set-left>(io.data2viz.voronoi.Site){}[0]
+    final var right // io.data2viz.voronoi/Edge.right|{}right[0]
+        final fun <get-right>(): io.data2viz.voronoi/Site? // io.data2viz.voronoi/Edge.right.<get-right>|<get-right>(){}[0]
+        final fun <set-right>(io.data2viz.voronoi/Site?) // io.data2viz.voronoi/Edge.right.<set-right>|<set-right>(io.data2viz.voronoi.Site?){}[0]
+    final var start // io.data2viz.voronoi/Edge.start|{}start[0]
+        final fun <get-start>(): io.data2viz.geom/Point? // io.data2viz.voronoi/Edge.start.<get-start>|<get-start>(){}[0]
+        final fun <set-start>(io.data2viz.geom/Point?) // io.data2viz.voronoi/Edge.start.<set-start>|<set-start>(io.data2viz.geom.Point?){}[0]
+
+    final fun clip(io.data2viz.geom/Point, io.data2viz.geom/Point): kotlin/Boolean // io.data2viz.voronoi/Edge.clip|clip(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+    final fun connect(io.data2viz.geom/Point, io.data2viz.geom/Point): kotlin/Boolean // io.data2viz.voronoi/Edge.connect|connect(io.data2viz.geom.Point;io.data2viz.geom.Point){}[0]
+
+    final object Companion { // io.data2viz.voronoi/Edge.Companion|null[0]
+        final fun createEdge(io.data2viz.voronoi/Site, io.data2viz.voronoi/Site, io.data2viz.geom/Point? = ..., io.data2viz.geom/Point? = ...): io.data2viz.voronoi/Edge // io.data2viz.voronoi/Edge.Companion.createEdge|createEdge(io.data2viz.voronoi.Site;io.data2viz.voronoi.Site;io.data2viz.geom.Point?;io.data2viz.geom.Point?){}[0]
+        final fun setEdgeEnd(io.data2viz.voronoi/Edge, io.data2viz.voronoi/Site, io.data2viz.voronoi/Site, io.data2viz.geom/Point) // io.data2viz.voronoi/Edge.Companion.setEdgeEnd|setEdgeEnd(io.data2viz.voronoi.Edge;io.data2viz.voronoi.Site;io.data2viz.voronoi.Site;io.data2viz.geom.Point){}[0]
+    }
+}
+
+final class io.data2viz.voronoi/Site : kotlin/Comparable<io.data2viz.voronoi/Site> { // io.data2viz.voronoi/Site|null[0]
+    constructor <init>(io.data2viz.geom/Point, kotlin/Int) // io.data2viz.voronoi/Site.<init>|<init>(io.data2viz.geom.Point;kotlin.Int){}[0]
+
+    final val index // io.data2viz.voronoi/Site.index|{}index[0]
+        final fun <get-index>(): kotlin/Int // io.data2viz.voronoi/Site.index.<get-index>|<get-index>(){}[0]
+    final val pos // io.data2viz.voronoi/Site.pos|{}pos[0]
+        final fun <get-pos>(): io.data2viz.geom/Point // io.data2viz.voronoi/Site.pos.<get-pos>|<get-pos>(){}[0]
+    final val x // io.data2viz.voronoi/Site.x|{}x[0]
+        final fun <get-x>(): kotlin/Double // io.data2viz.voronoi/Site.x.<get-x>|<get-x>(){}[0]
+    final val y // io.data2viz.voronoi/Site.y|{}y[0]
+        final fun <get-y>(): kotlin/Double // io.data2viz.voronoi/Site.y.<get-y>|<get-y>(){}[0]
+
+    final fun compareTo(io.data2viz.voronoi/Site): kotlin/Int // io.data2viz.voronoi/Site.compareTo|compareTo(io.data2viz.voronoi.Site){}[0]
+    final fun toString(): kotlin/String // io.data2viz.voronoi/Site.toString|toString(){}[0]
+}
+
+final class io.data2viz.voronoi/Triangle { // io.data2viz.voronoi/Triangle|null[0]
+    constructor <init>(io.data2viz.voronoi/Site, io.data2viz.voronoi/Site, io.data2viz.voronoi/Site) // io.data2viz.voronoi/Triangle.<init>|<init>(io.data2viz.voronoi.Site;io.data2viz.voronoi.Site;io.data2viz.voronoi.Site){}[0]
+
+    final val a // io.data2viz.voronoi/Triangle.a|{}a[0]
+        final fun <get-a>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Triangle.a.<get-a>|<get-a>(){}[0]
+    final val b // io.data2viz.voronoi/Triangle.b|{}b[0]
+        final fun <get-b>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Triangle.b.<get-b>|<get-b>(){}[0]
+    final val c // io.data2viz.voronoi/Triangle.c|{}c[0]
+        final fun <get-c>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Triangle.c.<get-c>|<get-c>(){}[0]
+
+    final fun component1(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Triangle.component1|component1(){}[0]
+    final fun component2(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Triangle.component2|component2(){}[0]
+    final fun component3(): io.data2viz.voronoi/Site // io.data2viz.voronoi/Triangle.component3|component3(){}[0]
+    final fun copy(io.data2viz.voronoi/Site = ..., io.data2viz.voronoi/Site = ..., io.data2viz.voronoi/Site = ...): io.data2viz.voronoi/Triangle // io.data2viz.voronoi/Triangle.copy|copy(io.data2viz.voronoi.Site;io.data2viz.voronoi.Site;io.data2viz.voronoi.Site){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.voronoi/Triangle.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.voronoi/Triangle.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.voronoi/Triangle.toString|toString(){}[0]
+}
+
+final val io.data2viz.voronoi/circle // io.data2viz.voronoi/circle|@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>{}circle[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>).<get-circle>(): io.data2viz.voronoi/Circle? // io.data2viz.voronoi/circle.<get-circle>|<get-circle>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>(){}[0]
+final val io.data2viz.voronoi/site // io.data2viz.voronoi/site|@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>{}site[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>).<get-site>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/site.<get-site>|<get-site>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>(){}[0]
+
+final var io.data2viz.voronoi/cy // io.data2viz.voronoi/cy|@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>{}cy[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>).<get-cy>(): kotlin/Double // io.data2viz.voronoi/cy.<get-cy>|<get-cy>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>(){}[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>).<set-cy>(kotlin/Double) // io.data2viz.voronoi/cy.<set-cy>|<set-cy>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>(kotlin.Double){}[0]
+final var io.data2viz.voronoi/site // io.data2viz.voronoi/site|@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>{}site[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>).<get-site>(): io.data2viz.voronoi/Site // io.data2viz.voronoi/site.<get-site>|<get-site>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>(){}[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>).<set-site>(io.data2viz.voronoi/Site) // io.data2viz.voronoi/site.<set-site>|<set-site>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>(io.data2viz.voronoi.Site){}[0]
+final var io.data2viz.voronoi/x // io.data2viz.voronoi/x|@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>{}x[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>).<get-x>(): kotlin/Double // io.data2viz.voronoi/x.<get-x>|<get-x>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>(){}[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>).<set-x>(kotlin/Double) // io.data2viz.voronoi/x.<set-x>|<set-x>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>(kotlin.Double){}[0]
+final var io.data2viz.voronoi/y // io.data2viz.voronoi/y|@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>{}y[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>).<get-y>(): kotlin/Double // io.data2viz.voronoi/y.<get-y>|<get-y>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>(){}[0]
+    final fun (io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>).<set-y>(kotlin/Double) // io.data2viz.voronoi/y.<set-y>|<set-y>@io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>(kotlin.Double){}[0]
+
+final fun <#A: kotlin/Any?> (io.data2viz.voronoi/RedBlackNode<#A>).io.data2viz.voronoi/first(): io.data2viz.voronoi/RedBlackNode<#A> // io.data2viz.voronoi/first|first@io.data2viz.voronoi.RedBlackNode<0:0>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (kotlin.collections/MutableList<#A>).io.data2viz.voronoi/pop(): #A? // io.data2viz.voronoi/pop|pop@kotlin.collections.MutableList<0:0>(){0§<kotlin.Any?>}[0]
+final fun io.data2viz.voronoi/addBeach(io.data2viz.voronoi/Site) // io.data2viz.voronoi/addBeach|addBeach(io.data2viz.voronoi.Site){}[0]
+final fun io.data2viz.voronoi/attachCircle(io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>) // io.data2viz.voronoi/attachCircle|attachCircle(io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>){}[0]
+final fun io.data2viz.voronoi/createBeach(io.data2viz.voronoi/Site): io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach> // io.data2viz.voronoi/createBeach|createBeach(io.data2viz.voronoi.Site){}[0]
+final fun io.data2viz.voronoi/createBorderEdge(io.data2viz.voronoi/Site, io.data2viz.geom/Point, io.data2viz.geom/Point?): io.data2viz.voronoi/Edge // io.data2viz.voronoi/createBorderEdge|createBorderEdge(io.data2viz.voronoi.Site;io.data2viz.geom.Point;io.data2viz.geom.Point?){}[0]
+final fun io.data2viz.voronoi/detachBeach(io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>) // io.data2viz.voronoi/detachBeach|detachBeach(io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>){}[0]
+final fun io.data2viz.voronoi/detachCircle(io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>) // io.data2viz.voronoi/detachCircle|detachCircle(io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>){}[0]
+final fun io.data2viz.voronoi/leftBreakPoint(io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>, kotlin/Double): kotlin/Double // io.data2viz.voronoi/leftBreakPoint|leftBreakPoint(io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>;kotlin.Double){}[0]
+final fun io.data2viz.voronoi/removeBeach(io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Circle>) // io.data2viz.voronoi/removeBeach|removeBeach(io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Circle>){}[0]
+final fun io.data2viz.voronoi/rightBreakPoint(io.data2viz.voronoi/RedBlackNode<io.data2viz.voronoi/Beach>, kotlin/Double): kotlin/Double // io.data2viz.voronoi/rightBreakPoint|rightBreakPoint(io.data2viz.voronoi.RedBlackNode<io.data2viz.voronoi.Beach>;kotlin.Double){}[0]
+final fun io.data2viz.voronoi/sortCellHalfedges() // io.data2viz.voronoi/sortCellHalfedges|sortCellHalfedges(){}[0]

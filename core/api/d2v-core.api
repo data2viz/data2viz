@@ -118,10 +118,10 @@ public final class io/data2viz/geom/Extent {
 
 public abstract interface class io/data2viz/geom/HasSize {
 	public abstract fun getHeight ()D
-	public abstract fun getSize ()Lio/data2viz/geom/Size;
+	public fun getSize ()Lio/data2viz/geom/Size;
 	public abstract fun getWidth ()D
 	public abstract fun setHeight (D)V
-	public abstract fun setSize (Lio/data2viz/geom/Size;)V
+	public fun setSize (Lio/data2viz/geom/Size;)V
 	public abstract fun setWidth (D)V
 }
 
@@ -158,6 +158,7 @@ public final class io/data2viz/geom/MoveTo : io/data2viz/geom/PathCommand {
 
 public abstract interface class io/data2viz/geom/Path {
 	public abstract fun arc (DDDDDZ)V
+	public static synthetic fun arc$default (Lio/data2viz/geom/Path;DDDDDZILjava/lang/Object;)V
 	public abstract fun arcTo (DDDDD)V
 	public abstract fun bezierCurveTo (DDDDDD)V
 	public abstract fun closePath ()V
@@ -262,17 +263,17 @@ public final class io/data2viz/geom/QuadraticCurveTo : io/data2viz/geom/PathComm
 }
 
 public abstract interface class io/data2viz/geom/Rect : io/data2viz/geom/HasSize {
-	public abstract fun contains (Lio/data2viz/geom/Point;)Z
-	public abstract fun contains (Lio/data2viz/geom/Rect;)Z
-	public abstract fun getBottom ()D
-	public abstract fun getBottomLeft ()Lio/data2viz/geom/Point;
-	public abstract fun getBottomRight ()Lio/data2viz/geom/Point;
-	public abstract fun getCenter ()Lio/data2viz/geom/Point;
-	public abstract fun getLeft ()D
-	public abstract fun getRight ()D
-	public abstract fun getTop ()D
-	public abstract fun getTopLeft ()Lio/data2viz/geom/Point;
-	public abstract fun getTopRight ()Lio/data2viz/geom/Point;
+	public fun contains (Lio/data2viz/geom/Point;)Z
+	public fun contains (Lio/data2viz/geom/Rect;)Z
+	public fun getBottom ()D
+	public fun getBottomLeft ()Lio/data2viz/geom/Point;
+	public fun getBottomRight ()Lio/data2viz/geom/Point;
+	public fun getCenter ()Lio/data2viz/geom/Point;
+	public fun getLeft ()D
+	public fun getRight ()D
+	public fun getTop ()D
+	public fun getTopLeft ()Lio/data2viz/geom/Point;
+	public fun getTopRight ()Lio/data2viz/geom/Point;
 	public abstract fun getX ()D
 	public abstract fun getY ()D
 	public abstract fun setX (D)V

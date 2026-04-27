@@ -1,41 +1,18 @@
 
 
 if (include_android.toBoolean()) {
-    apply plugin: 'com.android.library'
-    apply plugin: 'org.jetbrains.kotlin.multiplatform'
-    android {
-        compileSdkVersion 33
-        defaultConfig {
-            minSdkVersion 17
-            targetSdkVersion 31
-            versionCode 1
-            versionName "$version"
-            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        }
-        buildTypes {
-            release {
-                minifyEnabled false
-            }
-        }
-        lintOptions {
-            checkReleaseBuilds false
-            abortOnError false
-        }
-        sourceSets {
-            main {
-                manifest.srcFile 'src/androidMain/AndroidManifest.xml'
-            }
-        }
-    }
-
+    apply plugin: 'com.android.kotlin.multiplatform.library'
     kotlin {
         android {
-            publishLibraryVariants("debug", "release")
+            // e.g. d2v-axis -> io.data2viz.axis
+            namespace = "io.data2viz.${project.name.replace('d2v-', '').replace('-', '.')}"
+            compileSdk = 36
+            minSdk = 17
         }
         sourceSets {
-            main {
+            androidMain {
             }
-            test {
+            androidUnitTest {
                 dependencies {
                     implementation project(":d2v-tests")
                     implementation kotlin('test-junit')

@@ -1,0 +1,112 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-chord>
+final class <#A: kotlin/Any?> io.data2viz.chord/ChordLayout { // io.data2viz.chord/ChordLayout|null[0]
+    constructor <init>() // io.data2viz.chord/ChordLayout.<init>|<init>(){}[0]
+
+    final var padAngle // io.data2viz.chord/ChordLayout.padAngle|{}padAngle[0]
+        final fun <get-padAngle>(): kotlin/Double // io.data2viz.chord/ChordLayout.padAngle.<get-padAngle>|<get-padAngle>(){}[0]
+        final fun <set-padAngle>(kotlin/Double) // io.data2viz.chord/ChordLayout.padAngle.<set-padAngle>|<set-padAngle>(kotlin.Double){}[0]
+    final var sortChords // io.data2viz.chord/ChordLayout.sortChords|{}sortChords[0]
+        final fun <get-sortChords>(): kotlin/Comparator<kotlin/Double>? // io.data2viz.chord/ChordLayout.sortChords.<get-sortChords>|<get-sortChords>(){}[0]
+        final fun <set-sortChords>(kotlin/Comparator<kotlin/Double>?) // io.data2viz.chord/ChordLayout.sortChords.<set-sortChords>|<set-sortChords>(kotlin.Comparator<kotlin.Double>?){}[0]
+    final var sortGroups // io.data2viz.chord/ChordLayout.sortGroups|{}sortGroups[0]
+        final fun <get-sortGroups>(): kotlin/Comparator<kotlin/Double>? // io.data2viz.chord/ChordLayout.sortGroups.<get-sortGroups>|<get-sortGroups>(){}[0]
+        final fun <set-sortGroups>(kotlin/Comparator<kotlin/Double>?) // io.data2viz.chord/ChordLayout.sortGroups.<set-sortGroups>|<set-sortGroups>(kotlin.Comparator<kotlin.Double>?){}[0]
+    final var sortSubgroups // io.data2viz.chord/ChordLayout.sortSubgroups|{}sortSubgroups[0]
+        final fun <get-sortSubgroups>(): kotlin/Comparator<kotlin/Double>? // io.data2viz.chord/ChordLayout.sortSubgroups.<get-sortSubgroups>|<get-sortSubgroups>(){}[0]
+        final fun <set-sortSubgroups>(kotlin/Comparator<kotlin/Double>?) // io.data2viz.chord/ChordLayout.sortSubgroups.<set-sortSubgroups>|<set-sortSubgroups>(kotlin.Comparator<kotlin.Double>?){}[0]
+
+    final fun chord(kotlin.collections/List<#A>, kotlin/Function2<#A, #A, kotlin/Double>): io.data2viz.chord/Chords // io.data2viz.chord/ChordLayout.chord|chord(kotlin.collections.List<1:0>;kotlin.Function2<1:0,1:0,kotlin.Double>){}[0]
+}
+
+final class io.data2viz.chord/Chord { // io.data2viz.chord/Chord|null[0]
+    constructor <init>(io.data2viz.chord/ChordSubgroup, io.data2viz.chord/ChordSubgroup) // io.data2viz.chord/Chord.<init>|<init>(io.data2viz.chord.ChordSubgroup;io.data2viz.chord.ChordSubgroup){}[0]
+
+    final val source // io.data2viz.chord/Chord.source|{}source[0]
+        final fun <get-source>(): io.data2viz.chord/ChordSubgroup // io.data2viz.chord/Chord.source.<get-source>|<get-source>(){}[0]
+    final val target // io.data2viz.chord/Chord.target|{}target[0]
+        final fun <get-target>(): io.data2viz.chord/ChordSubgroup // io.data2viz.chord/Chord.target.<get-target>|<get-target>(){}[0]
+
+    final fun component1(): io.data2viz.chord/ChordSubgroup // io.data2viz.chord/Chord.component1|component1(){}[0]
+    final fun component2(): io.data2viz.chord/ChordSubgroup // io.data2viz.chord/Chord.component2|component2(){}[0]
+    final fun copy(io.data2viz.chord/ChordSubgroup = ..., io.data2viz.chord/ChordSubgroup = ...): io.data2viz.chord/Chord // io.data2viz.chord/Chord.copy|copy(io.data2viz.chord.ChordSubgroup;io.data2viz.chord.ChordSubgroup){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.chord/Chord.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.chord/Chord.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.chord/Chord.toString|toString(){}[0]
+}
+
+final class io.data2viz.chord/ChordGroup { // io.data2viz.chord/ChordGroup|null[0]
+    constructor <init>(kotlin/Int = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.chord/ChordGroup.<init>|<init>(kotlin.Int;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+
+    final val endAngle // io.data2viz.chord/ChordGroup.endAngle|{}endAngle[0]
+        final fun <get-endAngle>(): kotlin/Double // io.data2viz.chord/ChordGroup.endAngle.<get-endAngle>|<get-endAngle>(){}[0]
+    final val index // io.data2viz.chord/ChordGroup.index|{}index[0]
+        final fun <get-index>(): kotlin/Int // io.data2viz.chord/ChordGroup.index.<get-index>|<get-index>(){}[0]
+    final val startAngle // io.data2viz.chord/ChordGroup.startAngle|{}startAngle[0]
+        final fun <get-startAngle>(): kotlin/Double // io.data2viz.chord/ChordGroup.startAngle.<get-startAngle>|<get-startAngle>(){}[0]
+    final val value // io.data2viz.chord/ChordGroup.value|{}value[0]
+        final fun <get-value>(): kotlin/Double // io.data2viz.chord/ChordGroup.value.<get-value>|<get-value>(){}[0]
+
+    final fun component1(): kotlin/Int // io.data2viz.chord/ChordGroup.component1|component1(){}[0]
+    final fun component2(): kotlin/Double // io.data2viz.chord/ChordGroup.component2|component2(){}[0]
+    final fun component3(): kotlin/Double // io.data2viz.chord/ChordGroup.component3|component3(){}[0]
+    final fun component4(): kotlin/Double // io.data2viz.chord/ChordGroup.component4|component4(){}[0]
+    final fun copy(kotlin/Int = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ...): io.data2viz.chord/ChordGroup // io.data2viz.chord/ChordGroup.copy|copy(kotlin.Int;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.chord/ChordGroup.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.chord/ChordGroup.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.chord/ChordGroup.toString|toString(){}[0]
+}
+
+final class io.data2viz.chord/ChordSubgroup { // io.data2viz.chord/ChordSubgroup|null[0]
+    constructor <init>(kotlin/Int = ..., kotlin/Int = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.chord/ChordSubgroup.<init>|<init>(kotlin.Int;kotlin.Int;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+
+    final val endAngle // io.data2viz.chord/ChordSubgroup.endAngle|{}endAngle[0]
+        final fun <get-endAngle>(): kotlin/Double // io.data2viz.chord/ChordSubgroup.endAngle.<get-endAngle>|<get-endAngle>(){}[0]
+    final val index // io.data2viz.chord/ChordSubgroup.index|{}index[0]
+        final fun <get-index>(): kotlin/Int // io.data2viz.chord/ChordSubgroup.index.<get-index>|<get-index>(){}[0]
+    final val startAngle // io.data2viz.chord/ChordSubgroup.startAngle|{}startAngle[0]
+        final fun <get-startAngle>(): kotlin/Double // io.data2viz.chord/ChordSubgroup.startAngle.<get-startAngle>|<get-startAngle>(){}[0]
+    final val subIndex // io.data2viz.chord/ChordSubgroup.subIndex|{}subIndex[0]
+        final fun <get-subIndex>(): kotlin/Int // io.data2viz.chord/ChordSubgroup.subIndex.<get-subIndex>|<get-subIndex>(){}[0]
+    final val value // io.data2viz.chord/ChordSubgroup.value|{}value[0]
+        final fun <get-value>(): kotlin/Double // io.data2viz.chord/ChordSubgroup.value.<get-value>|<get-value>(){}[0]
+
+    final fun component1(): kotlin/Int // io.data2viz.chord/ChordSubgroup.component1|component1(){}[0]
+    final fun component2(): kotlin/Int // io.data2viz.chord/ChordSubgroup.component2|component2(){}[0]
+    final fun component3(): kotlin/Double // io.data2viz.chord/ChordSubgroup.component3|component3(){}[0]
+    final fun component4(): kotlin/Double // io.data2viz.chord/ChordSubgroup.component4|component4(){}[0]
+    final fun component5(): kotlin/Double // io.data2viz.chord/ChordSubgroup.component5|component5(){}[0]
+    final fun copy(kotlin/Int = ..., kotlin/Int = ..., kotlin/Double = ..., kotlin/Double = ..., kotlin/Double = ...): io.data2viz.chord/ChordSubgroup // io.data2viz.chord/ChordSubgroup.copy|copy(kotlin.Int;kotlin.Int;kotlin.Double;kotlin.Double;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.chord/ChordSubgroup.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.chord/ChordSubgroup.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.chord/ChordSubgroup.toString|toString(){}[0]
+}
+
+final class io.data2viz.chord/Chords { // io.data2viz.chord/Chords|null[0]
+    constructor <init>(kotlin.collections/List<io.data2viz.chord/Chord>, kotlin.collections/List<io.data2viz.chord/ChordGroup>) // io.data2viz.chord/Chords.<init>|<init>(kotlin.collections.List<io.data2viz.chord.Chord>;kotlin.collections.List<io.data2viz.chord.ChordGroup>){}[0]
+
+    final val chords // io.data2viz.chord/Chords.chords|{}chords[0]
+        final fun <get-chords>(): kotlin.collections/List<io.data2viz.chord/Chord> // io.data2viz.chord/Chords.chords.<get-chords>|<get-chords>(){}[0]
+    final val groups // io.data2viz.chord/Chords.groups|{}groups[0]
+        final fun <get-groups>(): kotlin.collections/List<io.data2viz.chord/ChordGroup> // io.data2viz.chord/Chords.groups.<get-groups>|<get-groups>(){}[0]
+
+    final fun component1(): kotlin.collections/List<io.data2viz.chord/Chord> // io.data2viz.chord/Chords.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<io.data2viz.chord/ChordGroup> // io.data2viz.chord/Chords.component2|component2(){}[0]
+    final fun copy(kotlin.collections/List<io.data2viz.chord/Chord> = ..., kotlin.collections/List<io.data2viz.chord/ChordGroup> = ...): io.data2viz.chord/Chords // io.data2viz.chord/Chords.copy|copy(kotlin.collections.List<io.data2viz.chord.Chord>;kotlin.collections.List<io.data2viz.chord.ChordGroup>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.data2viz.chord/Chords.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.data2viz.chord/Chords.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.data2viz.chord/Chords.toString|toString(){}[0]
+}
+
+final val io.data2viz.chord/emptyGroup // io.data2viz.chord/emptyGroup|{}emptyGroup[0]
+    final fun <get-emptyGroup>(): io.data2viz.chord/ChordGroup // io.data2viz.chord/emptyGroup.<get-emptyGroup>|<get-emptyGroup>(){}[0]
+final val io.data2viz.chord/emptySubgroup // io.data2viz.chord/emptySubgroup|{}emptySubgroup[0]
+    final fun <get-emptySubgroup>(): io.data2viz.chord/ChordSubgroup // io.data2viz.chord/emptySubgroup.<get-emptySubgroup>|<get-emptySubgroup>(){}[0]
+
+final fun io.data2viz.chord/ribbon(kotlin/Double): kotlin/Function2<io.data2viz.chord/Chord, io.data2viz.geom/Path, kotlin/Unit> // io.data2viz.chord/ribbon|ribbon(kotlin.Double){}[0]

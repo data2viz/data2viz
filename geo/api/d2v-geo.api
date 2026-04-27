@@ -330,6 +330,7 @@ public final class io/data2viz/geo/geometry/clip/RectangleClipper : io/data2viz/
 public final class io/data2viz/geo/geometry/clip/RectangleClipper$PointContext : java/lang/Enum {
 	public static final field DEFAULT Lio/data2viz/geo/geometry/clip/RectangleClipper$PointContext;
 	public static final field LINE Lio/data2viz/geo/geometry/clip/RectangleClipper$PointContext;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/data2viz/geo/geometry/clip/RectangleClipper$PointContext;
 	public static fun values ()[Lio/data2viz/geo/geometry/clip/RectangleClipper$PointContext;
 }
@@ -678,6 +679,7 @@ public abstract interface class io/data2viz/geo/projection/common/Projection : i
 	public abstract fun getTranslateX ()D
 	public abstract fun getTranslateY ()D
 	public abstract fun rotate-s0tUE2c (DDLio/data2viz/math/Angle;)V
+	public static synthetic fun rotate-s0tUE2c$default (Lio/data2viz/geo/projection/common/Projection;DDLio/data2viz/math/Angle;ILjava/lang/Object;)V
 	public abstract fun setCenterLat-I1OF4x4 (D)V
 	public abstract fun setCenterLon-I1OF4x4 (D)V
 	public abstract fun setPostClip (Lio/data2viz/geo/geometry/clip/ClipStreamBuilder;)V
@@ -798,12 +800,12 @@ public final class io/data2viz/geo/stream/MultiplexStream : io/data2viz/geo/stre
 }
 
 public abstract interface class io/data2viz/geo/stream/Stream {
-	public abstract fun lineEnd ()V
-	public abstract fun lineStart ()V
-	public abstract fun point (DDD)V
-	public abstract fun polygonEnd ()V
-	public abstract fun polygonStart ()V
-	public abstract fun sphere ()V
+	public fun lineEnd ()V
+	public fun lineStart ()V
+	public fun point (DDD)V
+	public fun polygonEnd ()V
+	public fun polygonStart ()V
+	public fun sphere ()V
 }
 
 public final class io/data2viz/geo/stream/Stream$DefaultImpls {

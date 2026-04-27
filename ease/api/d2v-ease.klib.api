@@ -1,0 +1,136 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-ease>
+final class io.data2viz.ease/BackIn { // io.data2viz.ease/BackIn|null[0]
+    constructor <init>(kotlin/Double = ...) // io.data2viz.ease/BackIn.<init>|<init>(kotlin.Double){}[0]
+
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/BackIn.invoke|invoke(kotlin.Double){}[0]
+    final fun overshoot(kotlin/Double): io.data2viz.ease/BackIn // io.data2viz.ease/BackIn.overshoot|overshoot(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/BackInOut { // io.data2viz.ease/BackInOut|null[0]
+    constructor <init>(kotlin/Double = ...) // io.data2viz.ease/BackInOut.<init>|<init>(kotlin.Double){}[0]
+
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/BackInOut.invoke|invoke(kotlin.Double){}[0]
+    final fun overshoot(kotlin/Double): io.data2viz.ease/BackInOut // io.data2viz.ease/BackInOut.overshoot|overshoot(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/BackOut { // io.data2viz.ease/BackOut|null[0]
+    constructor <init>(kotlin/Double = ...) // io.data2viz.ease/BackOut.<init>|<init>(kotlin.Double){}[0]
+
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/BackOut.invoke|invoke(kotlin.Double){}[0]
+    final fun overshoot(kotlin/Double): io.data2viz.ease/BackOut // io.data2viz.ease/BackOut.overshoot|overshoot(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/ElasticIn { // io.data2viz.ease/ElasticIn|null[0]
+    constructor <init>(kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.ease/ElasticIn.<init>|<init>(kotlin.Double;kotlin.Double){}[0]
+
+    final fun amplitude(kotlin/Double): io.data2viz.ease/ElasticIn // io.data2viz.ease/ElasticIn.amplitude|amplitude(kotlin.Double){}[0]
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/ElasticIn.invoke|invoke(kotlin.Double){}[0]
+    final fun period(kotlin/Double): io.data2viz.ease/ElasticIn // io.data2viz.ease/ElasticIn.period|period(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/ElasticInOut { // io.data2viz.ease/ElasticInOut|null[0]
+    constructor <init>(kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.ease/ElasticInOut.<init>|<init>(kotlin.Double;kotlin.Double){}[0]
+
+    final fun amplitude(kotlin/Double): io.data2viz.ease/ElasticInOut // io.data2viz.ease/ElasticInOut.amplitude|amplitude(kotlin.Double){}[0]
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/ElasticInOut.invoke|invoke(kotlin.Double){}[0]
+    final fun period(kotlin/Double): io.data2viz.ease/ElasticInOut // io.data2viz.ease/ElasticInOut.period|period(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/ElasticOut { // io.data2viz.ease/ElasticOut|null[0]
+    constructor <init>(kotlin/Double = ..., kotlin/Double = ...) // io.data2viz.ease/ElasticOut.<init>|<init>(kotlin.Double;kotlin.Double){}[0]
+
+    final fun amplitude(kotlin/Double): io.data2viz.ease/ElasticOut // io.data2viz.ease/ElasticOut.amplitude|amplitude(kotlin.Double){}[0]
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/ElasticOut.invoke|invoke(kotlin.Double){}[0]
+    final fun period(kotlin/Double): io.data2viz.ease/ElasticOut // io.data2viz.ease/ElasticOut.period|period(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/PolyIn { // io.data2viz.ease/PolyIn|null[0]
+    constructor <init>(kotlin/Double = ...) // io.data2viz.ease/PolyIn.<init>|<init>(kotlin.Double){}[0]
+
+    final fun exponent(kotlin/Double): io.data2viz.ease/PolyIn // io.data2viz.ease/PolyIn.exponent|exponent(kotlin.Double){}[0]
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/PolyIn.invoke|invoke(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/PolyInOut { // io.data2viz.ease/PolyInOut|null[0]
+    constructor <init>(kotlin/Double = ...) // io.data2viz.ease/PolyInOut.<init>|<init>(kotlin.Double){}[0]
+
+    final fun exponent(kotlin/Double): io.data2viz.ease/PolyInOut // io.data2viz.ease/PolyInOut.exponent|exponent(kotlin.Double){}[0]
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/PolyInOut.invoke|invoke(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/PolyOut { // io.data2viz.ease/PolyOut|null[0]
+    constructor <init>(kotlin/Double = ...) // io.data2viz.ease/PolyOut.<init>|<init>(kotlin.Double){}[0]
+
+    final fun exponent(kotlin/Double): io.data2viz.ease/PolyOut // io.data2viz.ease/PolyOut.exponent|exponent(kotlin.Double){}[0]
+    final fun invoke(kotlin/Double): kotlin/Double // io.data2viz.ease/PolyOut.invoke|invoke(kotlin.Double){}[0]
+}
+
+final class io.data2viz.ease/ease { // io.data2viz.ease/ease|null[0]
+    constructor <init>() // io.data2viz.ease/ease.<init>|<init>(){}[0]
+
+    final object Companion { // io.data2viz.ease/ease.Companion|null[0]
+        final val backIn // io.data2viz.ease/ease.Companion.backIn|{}backIn[0]
+            final fun <get-backIn>(): io.data2viz.ease/BackIn // io.data2viz.ease/ease.Companion.backIn.<get-backIn>|<get-backIn>(){}[0]
+        final val backInOut // io.data2viz.ease/ease.Companion.backInOut|{}backInOut[0]
+            final fun <get-backInOut>(): io.data2viz.ease/BackInOut // io.data2viz.ease/ease.Companion.backInOut.<get-backInOut>|<get-backInOut>(){}[0]
+        final val backOut // io.data2viz.ease/ease.Companion.backOut|{}backOut[0]
+            final fun <get-backOut>(): io.data2viz.ease/BackOut // io.data2viz.ease/ease.Companion.backOut.<get-backOut>|<get-backOut>(){}[0]
+        final val bounceIn // io.data2viz.ease/ease.Companion.bounceIn|{}bounceIn[0]
+            final fun <get-bounceIn>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.bounceIn.<get-bounceIn>|<get-bounceIn>(){}[0]
+        final val bounceInOut // io.data2viz.ease/ease.Companion.bounceInOut|{}bounceInOut[0]
+            final fun <get-bounceInOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.bounceInOut.<get-bounceInOut>|<get-bounceInOut>(){}[0]
+        final val bounceOut // io.data2viz.ease/ease.Companion.bounceOut|{}bounceOut[0]
+            final fun <get-bounceOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.bounceOut.<get-bounceOut>|<get-bounceOut>(){}[0]
+        final val circleIn // io.data2viz.ease/ease.Companion.circleIn|{}circleIn[0]
+            final fun <get-circleIn>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.circleIn.<get-circleIn>|<get-circleIn>(){}[0]
+        final val circleInOut // io.data2viz.ease/ease.Companion.circleInOut|{}circleInOut[0]
+            final fun <get-circleInOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.circleInOut.<get-circleInOut>|<get-circleInOut>(){}[0]
+        final val circleOut // io.data2viz.ease/ease.Companion.circleOut|{}circleOut[0]
+            final fun <get-circleOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.circleOut.<get-circleOut>|<get-circleOut>(){}[0]
+        final val cubicIn // io.data2viz.ease/ease.Companion.cubicIn|{}cubicIn[0]
+            final fun <get-cubicIn>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.cubicIn.<get-cubicIn>|<get-cubicIn>(){}[0]
+        final val cubicInOut // io.data2viz.ease/ease.Companion.cubicInOut|{}cubicInOut[0]
+            final fun <get-cubicInOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.cubicInOut.<get-cubicInOut>|<get-cubicInOut>(){}[0]
+        final val cubicOut // io.data2viz.ease/ease.Companion.cubicOut|{}cubicOut[0]
+            final fun <get-cubicOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.cubicOut.<get-cubicOut>|<get-cubicOut>(){}[0]
+        final val elasticIn // io.data2viz.ease/ease.Companion.elasticIn|{}elasticIn[0]
+            final fun <get-elasticIn>(): io.data2viz.ease/ElasticIn // io.data2viz.ease/ease.Companion.elasticIn.<get-elasticIn>|<get-elasticIn>(){}[0]
+        final val elasticInOut // io.data2viz.ease/ease.Companion.elasticInOut|{}elasticInOut[0]
+            final fun <get-elasticInOut>(): io.data2viz.ease/ElasticInOut // io.data2viz.ease/ease.Companion.elasticInOut.<get-elasticInOut>|<get-elasticInOut>(){}[0]
+        final val elasticOut // io.data2viz.ease/ease.Companion.elasticOut|{}elasticOut[0]
+            final fun <get-elasticOut>(): io.data2viz.ease/ElasticOut // io.data2viz.ease/ease.Companion.elasticOut.<get-elasticOut>|<get-elasticOut>(){}[0]
+        final val expIn // io.data2viz.ease/ease.Companion.expIn|{}expIn[0]
+            final fun <get-expIn>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.expIn.<get-expIn>|<get-expIn>(){}[0]
+        final val expInOut // io.data2viz.ease/ease.Companion.expInOut|{}expInOut[0]
+            final fun <get-expInOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.expInOut.<get-expInOut>|<get-expInOut>(){}[0]
+        final val expOut // io.data2viz.ease/ease.Companion.expOut|{}expOut[0]
+            final fun <get-expOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.expOut.<get-expOut>|<get-expOut>(){}[0]
+        final val linear // io.data2viz.ease/ease.Companion.linear|{}linear[0]
+            final fun <get-linear>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.linear.<get-linear>|<get-linear>(){}[0]
+        final val polyIn // io.data2viz.ease/ease.Companion.polyIn|{}polyIn[0]
+            final fun <get-polyIn>(): io.data2viz.ease/PolyIn // io.data2viz.ease/ease.Companion.polyIn.<get-polyIn>|<get-polyIn>(){}[0]
+        final val polyInOut // io.data2viz.ease/ease.Companion.polyInOut|{}polyInOut[0]
+            final fun <get-polyInOut>(): io.data2viz.ease/PolyInOut // io.data2viz.ease/ease.Companion.polyInOut.<get-polyInOut>|<get-polyInOut>(){}[0]
+        final val polyOut // io.data2viz.ease/ease.Companion.polyOut|{}polyOut[0]
+            final fun <get-polyOut>(): io.data2viz.ease/PolyOut // io.data2viz.ease/ease.Companion.polyOut.<get-polyOut>|<get-polyOut>(){}[0]
+        final val quadIn // io.data2viz.ease/ease.Companion.quadIn|{}quadIn[0]
+            final fun <get-quadIn>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.quadIn.<get-quadIn>|<get-quadIn>(){}[0]
+        final val quadInOut // io.data2viz.ease/ease.Companion.quadInOut|{}quadInOut[0]
+            final fun <get-quadInOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.quadInOut.<get-quadInOut>|<get-quadInOut>(){}[0]
+        final val quadOut // io.data2viz.ease/ease.Companion.quadOut|{}quadOut[0]
+            final fun <get-quadOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.quadOut.<get-quadOut>|<get-quadOut>(){}[0]
+        final val sinIn // io.data2viz.ease/ease.Companion.sinIn|{}sinIn[0]
+            final fun <get-sinIn>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.sinIn.<get-sinIn>|<get-sinIn>(){}[0]
+        final val sinInOut // io.data2viz.ease/ease.Companion.sinInOut|{}sinInOut[0]
+            final fun <get-sinInOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.sinInOut.<get-sinInOut>|<get-sinInOut>(){}[0]
+        final val sinOut // io.data2viz.ease/ease.Companion.sinOut|{}sinOut[0]
+            final fun <get-sinOut>(): kotlin/Function1<kotlin/Double, kotlin/Double> // io.data2viz.ease/ease.Companion.sinOut.<get-sinOut>|<get-sinOut>(){}[0]
+    }
+}

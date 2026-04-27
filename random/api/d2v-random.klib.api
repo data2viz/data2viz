@@ -1,0 +1,29 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.data2viz.d2v:d2v-random>
+final class io.data2viz.random/RandomDistribution { // io.data2viz.random/RandomDistribution|null[0]
+    final fun bates(kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.bates|bates(kotlin.Double){}[0]
+    final fun exponential(kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.exponential|exponential(kotlin.Double){}[0]
+    final fun irwinHall(kotlin/Double): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.irwinHall|irwinHall(kotlin.Double){}[0]
+    final fun logNormal(kotlin/Double = ..., kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.logNormal|logNormal(kotlin.Double;kotlin.Double){}[0]
+    final fun normal(kotlin/Double = ..., kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.normal|normal(kotlin.Double;kotlin.Double){}[0]
+    final fun random(): kotlin/Double // io.data2viz.random/RandomDistribution.random|random(){}[0]
+    final fun uniform(kotlin/Double = ..., kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.uniform|uniform(kotlin.Double;kotlin.Double){}[0]
+
+    final object Default { // io.data2viz.random/RandomDistribution.Default|null[0]
+        final fun bates(kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.Default.bates|bates(kotlin.Double){}[0]
+        final fun exponential(kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.Default.exponential|exponential(kotlin.Double){}[0]
+        final fun irwinHall(kotlin/Double): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.Default.irwinHall|irwinHall(kotlin.Double){}[0]
+        final fun logNormal(kotlin/Double = ..., kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.Default.logNormal|logNormal(kotlin.Double;kotlin.Double){}[0]
+        final fun normal(kotlin/Double = ..., kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.Default.normal|normal(kotlin.Double;kotlin.Double){}[0]
+        final fun uniform(kotlin/Double = ..., kotlin/Double = ...): kotlin/Function0<kotlin/Double> // io.data2viz.random/RandomDistribution.Default.uniform|uniform(kotlin.Double;kotlin.Double){}[0]
+    }
+}
+
+final fun io.data2viz.random/RandomDistribution(kotlin/Int): io.data2viz.random/RandomDistribution // io.data2viz.random/RandomDistribution|RandomDistribution(kotlin.Int){}[0]
+final fun io.data2viz.random/RandomDistribution(kotlin/Long): io.data2viz.random/RandomDistribution // io.data2viz.random/RandomDistribution|RandomDistribution(kotlin.Long){}[0]

@@ -153,20 +153,21 @@ public fun specify(specifier: String): FormatSpec {
             groupSeparation = true
             type = Type.DECIMAL_OR_EXPONENT
         } else {
-            type = Type.values().firstOrNull { it.c == match[9] } ?: Type.NONE
+            type = Type.entries.firstOrNull { it.c == match[10] } ?: Type.NONE
         }
     }
 
     if (match[1].isNotEmpty()) fill = match[1][0]
-    if (match[2].isNotEmpty()) align = Align.values().first { it.c == match[2] }
-    if (match[3].isNotEmpty()) sign = Sign.values().first { it.c == match[3] }
-    if (match[4].isNotEmpty()) symbol = Symbol.values().first { it.c == match[4] }
-    zero = (match[5] == "0")
-    if (match[6].isNotEmpty() && match[6].toIntOrNull() != null) width = match[6].toInt()
-    groupSeparation = (match[7] == ",")
-    if (match[8].length > 1 && match[8].substring(1).toIntOrNull() != null) precision = match[8].substring(1).toInt()
+    val alignStr = match[2].ifEmpty { match[3] }
+    if (alignStr.isNotEmpty()) align = Align.entries.first { it.c == alignStr }
+    if (match[4].isNotEmpty()) sign = Sign.entries.first { it.c == match[4] }
+    if (match[5].isNotEmpty()) symbol = Symbol.entries.first { it.c == match[5] }
+    zero = (match[6] == "0")
+    if (match[7].isNotEmpty() && match[7].toIntOrNull() != null) width = match[7].toInt()
+    groupSeparation = (match[8] == ",")
+    if (match[9].length > 1 && match[9].substring(1).toIntOrNull() != null) precision = match[9].substring(1).toInt()
 
-    readType(match[9])
+    readType(match[10])
 
 
     // If zero fill is specified, padding goes after sign and before digits.
@@ -179,7 +180,7 @@ public fun specify(specifier: String): FormatSpec {
     return FormatSpec(fill, align, sign, symbol, zero, width, groupSeparation, precision, type)
 }
 
-private val formatRE: Regex = Regex("^(?:(.)?([<>=^]))?([+\\-( ])?([$#])?(0)?(\\d+)?(,)?(\\.\\d+)?([a-z%])?$", RegexOption.IGNORE_CASE)
+private val formatRE: Regex = Regex("^(?:(.)([<>=^])|([<>=^]))?([+\\-( ])?([$#])?(0)?(\\d+)?(,)?(\\.\\d+)?([a-z%])?$", RegexOption.IGNORE_CASE)
 
 
 /**

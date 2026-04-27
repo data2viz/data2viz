@@ -2,7 +2,13 @@
 
 if (include_jfx.toBoolean() || include_android.toBoolean()) {
     kotlin {
-        jvm()
+        jvm {
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = '1.8'
+                }
+            }
+        }
         sourceSets {
 
             jvmMain {

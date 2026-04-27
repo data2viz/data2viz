@@ -35,7 +35,7 @@ import platform.CoreGraphics.CGContextSetFillColor
 import platform.CoreGraphics.CGContextSetLineWidth
 import platform.CoreGraphics.CGContextSetStrokeColor
 import platform.CoreGraphics.CGContextStrokePath
-import platform.CoreGraphics.CGPath
+import cnames.structs.CGPath
 import platform.CoreGraphics.CGPathAddArc
 import platform.CoreGraphics.CGPathAddArcToPoint
 import platform.CoreGraphics.CGPathAddCurveToPoint
